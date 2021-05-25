@@ -43,7 +43,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     * Constructor
     * @access	public
     */
-    public function __construct(&$a_content_obj, &$a_tree)
+    public function __construct(ilObjLearningModule $a_content_obj, $a_tree)
     {
         global $DIC;
 
@@ -112,7 +112,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                     $this->setTabs();
                     $this->initConditionHandlerInterface();
                     $this->condHI->executeCommand();
-                } elseif (($cmd == "create") && ($_POST["new_type"] == "pg")) {
+                } elseif (($cmd == "create") && ($this->requested_new_type == "pg")) {
                     $this->setTabs();
                     $pg_gui = new ilLMPageObjectGUI($this->content_object);
                     $pg_gui->executeCommand();
@@ -129,7 +129,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     */
     public function create()
     {
-        if ($_GET["obj_id"] != "") {
+        if ($this->requested_obj_id != 0) {
             $this->setTabs();
         }
         parent::create();
@@ -166,7 +166,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         
         $ilCtrl->setParameter($this, "backcmd", "showHierarchy");
         
-        $form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $_GET["transl"]);
+        $form_gui = new ilChapterHierarchyFormGUI($this->content_object->getType(), $this->requested_transl);
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($this->obj->getTitle());
         $form_gui->setIcon(ilUtil::getImagePath("icon_st.svg"));
@@ -188,7 +188,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
         
@@ -275,7 +275,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
         
-        ilLMObject::saveTitles($this->content_object, ilUtil::stripSlashesArray($_POST["title"]), $_GET["transl"]);
+        ilLMObject::saveTitles($this->content_object, ilUtil::stripSlashesArray($_POST["title"]), $this->requested_transl);
 
         ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
         $ilCtrl->redirect($this, "showHierarchy");
@@ -309,12 +309,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 continue;
             }
             $this->tpl->setCurrentBlock("table_row");
-            // color changing
-            $css_row = ilUtil::switchColor($cnt++, "tblrow1", "tblrow2");
 
             // checkbox
             $this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
-            $this->tpl->setVariable("CSS_ROW", $css_row);
             $this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.svg"));
 
             // type
@@ -354,24 +351,18 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
         // SHOW POSSIBLE SUB OBJECTS
         $this->tpl->setVariable("NUM_COLS", 3);
-        //$this->showPossibleSubObjects("st");
         $subobj = array("st");
         $opts = ilUtil::formSelect(12, "new_type", $subobj);
-        //$this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
         $this->tpl->setCurrentBlock("add_object");
         $this->tpl->setVariable("SELECT_OBJTYPE", $opts);
-        //$this->tpl->setVariable("FORMACTION_OBJ_ADD", "adm_object.php?cmd=create&ref_id=".$_GET["ref_id"]);
         $this->tpl->setVariable("BTN_NAME", "create");
         $this->tpl->setVariable("TXT_ADD", $this->lng->txt("insert"));
         $this->tpl->parseCurrentBlock();
 
-        //$this->tpl->setVariable("NUM_COLS", 2);
-        //$this->showPossibleSubObjects("st");
-
         $this->tpl->setCurrentBlock("form");
         $this->tpl->parseCurrentBlock();
 
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
     }
 
     /**
@@ -412,7 +403,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         // check the tree
         $this->checkTree();
 
-        if (!empty($_GET["obj_id"])) {
+        if ($this->requested_obj_id > 0) {
             $this->ctrl->redirect($this, "subchap");
         }
     }
@@ -420,32 +411,33 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     /**
     * put chapter into tree
     */
-    public function putInTree()
+    public function putInTree($target = '')
     {
+        $target = $this->requested_target;
         //echo "st:putInTree";
         // chapters should be behind pages in the tree
         // so if target is first node, the target is substituted with
         // the last child of type pg
-        if ($_GET["target"] == IL_FIRST_NODE) {
+        if ($target == IL_FIRST_NODE) {
             $tree = new ilTree($this->content_object->getId());
             $tree->setTableNames('lm_tree', 'lm_data');
             $tree->setTreeTablePK("lm_id");
 
             // determine parent node id
-            $parent_id = (!empty($_GET["obj_id"]))
-                ? $_GET["obj_id"]
+            $parent_id = ($this->requested_obj_id > 0)
+                ? $this->requested_obj_id
                 : $tree->getRootId();
             // determine last child of type pg
             $childs = $tree->getChildsByType($parent_id, "pg");
             if (count($childs) != 0) {
-                $_GET["target"] = $childs[count($childs) - 1]["obj_id"];
+                $target = $childs[count($childs) - 1]["obj_id"];
             }
         }
-        if (empty($_GET["target"])) {
-            $_GET["target"] = IL_LAST_NODE;
+        if ($target == "") {
+            $target = IL_LAST_NODE;
         }
 
-        parent::putInTree();
+        parent::putInTree($target);
     }
 
     /**
@@ -585,8 +577,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     */
     public function cancel()
     {
-        if ($_GET["obj_id"] != 0) {
-            if ($_GET["new_type"] == "pg") {
+        if ($this->requested_obj_id != 0) {
+            if ($this->requested_new_type == "pg") {
                 $this->ctrl->redirect($this, "view");
             } else {
                 $this->ctrl->redirect($this, "subchap");
@@ -655,10 +647,10 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         global $DIC;
 
-        $rbacsystem = $DIC->rbac()->system();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
+        $ctrl = $DIC->ctrl();
 
         // determine learning object
         $lm_id = ilLMObject::_lookupContObjID($a_target);
@@ -675,14 +667,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         foreach ($ref_ids as $ref_id) {
             // Permission check
             if ($ilAccess->checkAccess("read", "", $ref_id)) {
-                // don't redirect anymore, just set parameters
-                // (goto.php includes  "ilias.php")
-                $_GET["baseClass"] = "ilLMPresentationGUI";
-                $_GET["obj_id"] = $a_target;
-                $_GET["ref_id"] = $ref_id;
-                include_once("ilias.php");
-                exit;
-                ;
+                $ctrl->setParameterByClass("ilLMPresentationGUI", "obj_id", $a_target);
+                $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $ref_id);
+                $ctrl->redirectByClass("ilLMPresentationGUI", "");
             }
         }
         
@@ -1019,7 +1006,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $ilCtrl->setParameter($this, "transl", $_GET["totransl"]);
+        $ilCtrl->setParameter($this, "transl", $this->requested_totransl);
         $ilCtrl->redirect($this, "showHierarchy");
     }
 

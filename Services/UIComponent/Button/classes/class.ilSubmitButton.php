@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/UIComponent/Button/classes/class.ilButtonBase.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Submit Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilTabsGUI.php 45109 2013-09-30 15:46:28Z akill $
- * @package ServicesUIComponent
  */
 class ilSubmitButton extends ilButtonBase
 {

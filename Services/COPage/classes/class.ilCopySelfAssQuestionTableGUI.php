@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Table to select self assessment questions for copying into learning resources
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesTestQuestionPool
  */
 class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 {
@@ -82,7 +77,6 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
 
         $access = $this->access;
         
-        include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
         $all_ids = array();
         foreach ($all_types as $k => $v) {
@@ -91,7 +85,6 @@ class ilCopySelfAssQuestionTableGUI extends ilTable2GUI
         
         $questions = array();
         if ($access->checkAccess("read", "", $this->pool_ref_id)) {
-            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
             $questionList = new ilAssQuestionList(
                 $DIC->database(),
                 $DIC->language(),

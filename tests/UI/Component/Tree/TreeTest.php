@@ -116,4 +116,17 @@ class TreeTest extends ILIAS_UI_TestBase
             $tree->withHighlightOnNodeClick(true)->getHighlightOnNodeClick()
         );
     }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testWithIsSubTree($tree)
+    {
+        $this->assertFalse(
+            $tree->isSubTree()
+        );
+        $this->assertTrue(
+            $tree->withIsSubTree(true)->isSubTree()
+        );
+    }
 }

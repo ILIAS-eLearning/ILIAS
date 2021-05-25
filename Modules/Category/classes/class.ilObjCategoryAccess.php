@@ -1,18 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
-* Class ilObjCategoryAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCategory
-*/
+ * Class ilObjCategoryAccess
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjCategoryAccess extends ilObjectAccess
 {
 
@@ -35,9 +30,7 @@ class ilObjCategoryAccess extends ilObjectAccess
 
 
         // BEGIN WebDAV
-        require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {
-            include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
             if (ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired()) {
                 $commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
             } else {

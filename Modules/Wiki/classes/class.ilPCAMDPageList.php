@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCAMDPageList
-*
-* Advanced MD page list content object (see ILIAS DTD)
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilPCListItem.php 22210 2009-10-26 09:46:06Z akill $
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilPCAMDPageList
+ *
+ * Advanced MD page list content object (see ILIAS DTD)
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCAMDPageList extends ilPageContent
 {
     /**
@@ -38,7 +34,10 @@ class ilPCAMDPageList extends ilPageContent
         $this->lng = $DIC->language();
         $this->setType("amdpl");
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = 0;
+        if (isset($_GET["ref_id"])) {
+            $this->ref_id = (int) $_GET["ref_id"];
+        }
     }
     
     /**
@@ -226,10 +225,6 @@ class ilPCAMDPageList extends ilPageContent
             return $a_html;
         }
                             
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-        include_once('Modules/Wiki/classes/class.ilWikiUtil.php');
-        
         $wiki_id = $this->getPage()->getWikiId();
         
         $c_pos = 0;

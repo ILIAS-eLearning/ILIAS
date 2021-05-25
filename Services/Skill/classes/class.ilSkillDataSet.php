@@ -16,16 +16,32 @@
  */
 class ilSkillDataSet extends ilDataSet
 {
-    const MODE_SKILLS = "";
-    const MODE_PROFILES = "prof";
+    public const MODE_SKILLS = "";
+    public const MODE_PROFILES = "prof";
 
     /**
      * @var ilSkillTree
      */
     protected $skill_tree;
+
+    /**
+     * @var int
+     */
+    protected $skill_tree_root_id;
+
+    /**
+     * @var int
+     */
+    protected $init_top_order_nr;
+
+    /**
+     * @var int
+     */
+    protected $init_templ_top_order_nr;
+
     protected $init_order_nr;
-    protected $selected_nodes = false;
-    protected $selected_profiles = false;
+    protected $selected_nodes = [];
+    protected $selected_profiles = [];
     protected $mode = "";
 
     /**
@@ -117,10 +133,11 @@ class ilSkillDataSet extends ilDataSet
     /**
      * Get xml namespace
      *
-     * @param
-     * @return
+     * @param string $a_entity
+     * @param string $a_schema_version
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Services/Skill/" . $a_entity;
     }
@@ -128,8 +145,9 @@ class ilSkillDataSet extends ilDataSet
     /**
      * Get field types for entity
      *
-     * @param
-     * @return
+     * @param string $a_entity
+     * @param string $a_version
+     * @return array
      */
     protected function getTypes($a_entity, $a_version)
     {
@@ -241,8 +259,10 @@ class ilSkillDataSet extends ilDataSet
     /**
      * Read data
      *
-     * @param
-     * @return
+     * @param string $a_entity
+     * @param string $a_version
+     * @param array $a_ids
+     * @param string $a_field
      */
     public function readData($a_entity, $a_version, $a_ids, $a_field = "")
     {
@@ -364,6 +384,7 @@ class ilSkillDataSet extends ilDataSet
                         $obj_ref_id = ilObject::_getAllReferences($obj_id);
                         $obj_ref_id = end($obj_ref_id);
                         $profiles = ilSkillProfile::getLocalProfiles($obj_ref_id);
+                        $profile_ids = array();
                         foreach ($profiles as $p) {
                             $profile_ids[] = $p["id"];
                         }
@@ -411,18 +432,19 @@ class ilSkillDataSet extends ilDataSet
         switch ($a_entity) {
             case "skmg":
 
+                $deps = array();
                 if ($this->getMode() == self::MODE_SKILLS) {
                     // determine top nodes of main tree to be exported and all referenced template nodes
                     $sel_nodes = $this->getSelectedNodes();
                     $exp_types = array("skll", "scat", "sctr", "sktr");
                     if (!is_array($sel_nodes)) {
                         $childs = $this->skill_tree->getChildsByTypeFilter($this->skill_tree->readRootId(), $exp_types);
-                        $deps = array();
                         $skl_subtree_deps = array();
                         foreach ($childs as $c) {
                             $skl_subtree_deps[] = $c["child"];
                         }
                     } else {
+                        $skl_subtree_deps = array();
                         foreach ($sel_nodes as $n) {
                             if (in_array(ilSkillTreeNode::_lookupType((int) $n), $exp_types)) {
                                 $skl_subtree_deps[] = $n;
@@ -477,13 +499,16 @@ class ilSkillDataSet extends ilDataSet
 
         return false;
     }
-    
-    
+
+
     /**
      * Import record
      *
-     * @param
-     * @return
+     * @param $a_entity
+     * @param $a_types
+     * @param $a_rec
+     * @param $a_mapping
+     * @param $a_schema_version
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {

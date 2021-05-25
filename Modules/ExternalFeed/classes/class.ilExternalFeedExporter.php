@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for external feeds
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesExternalFeed
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExternalFeedExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilExternalFeedExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Modules/ExternalFeed/classes/class.ilExternalFeedDataSet.php");
         $this->ds = new ilExternalFeedDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");

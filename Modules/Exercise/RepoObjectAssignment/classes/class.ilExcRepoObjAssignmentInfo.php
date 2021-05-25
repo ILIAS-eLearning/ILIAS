@@ -155,10 +155,7 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
             // @todo note: this currently only works, if submissions are assigned to the team (like team wikis)
             // get team of user
             $team = ilExAssignmentTeam::getInstanceByUserId($s["ass_id"], $a_user_id);
-            $is_user_submission = ($team->getId() > 0 && $team->getId() == $s["team_id"])
-                ? true
-                : false;
-
+            $is_user_submission = $team->getId() > 0 && $team->getId() == $s["team_id"];
 
             // determine all readable ref ids of the exercise
             $ref_ids = ilObject::_getAllReferences($s["exc_id"]);

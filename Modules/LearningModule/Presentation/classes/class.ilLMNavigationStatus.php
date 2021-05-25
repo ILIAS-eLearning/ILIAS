@@ -54,23 +54,48 @@ class ilLMNavigationStatus
     protected $requested_back_page;
 
     /**
+     * @var string
+     */
+    protected $cmd;
+
+    /**
+     * @var int
+     */
+    protected $focus_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_obj_id;
+
+    /**
      * Constructor
+     * @param ilObjUser           $user
+     * @param                     $request_obj_id
+     * @param ilLMTree            $lm_tree
+     * @param ilObjLearningModule $lm
+     * @param ilSetting           $lm_set
+     * @param string              $cmd
+     * @param int                 $focus_id
      */
     public function __construct(
         ilObjUser $user,
-        $request_obj_id,
+        int $request_obj_id,
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
         ilSetting $lm_set,
-        $requested_back_page
+        $requested_back_page,
+        string $cmd,
+        int $focus_id
     ) {
         $this->user = $user;
         $this->requested_obj_id = (int) $request_obj_id;
         $this->lm_tree = $lm_tree;
         $this->lm = $lm;
         $this->lm_set = $lm_set;
-        $this->current_page_id;
         $this->requested_back_page = (int) $requested_back_page;
+        $this->cmd = $cmd;
+        $this->focus_id = $focus_id;
 
         $this->determineStatus();
     }
@@ -119,6 +144,17 @@ class ilLMNavigationStatus
         // determine object id
         if ($this->requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
+
+            if ($this->cmd == "resume") {
+                if ($user->getId() != ANONYMOUS_USER_ID && ((int) $this->focus_id == 0)) {
+                    $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->lm->getRefId(), $user->getId());
+                    // if last accessed page was final page do nothing, start over
+                    if ($last_accessed_page &&
+                        $last_accessed_page != $this->lm_tree->getLastActivePage()) {
+                        $obj_id = $last_accessed_page;
+                    }
+                }
+            }
         } else {
             $obj_id = $this->requested_obj_id;
             $active = ilLMPage::_lookupActive(
@@ -218,7 +254,7 @@ class ilLMNavigationStatus
     /**
      * @return int
      */
-    public function getSuccessorPageId(): int
+    public function getSuccessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -239,21 +275,23 @@ class ilLMNavigationStatus
         }
         while (!$found) {
             $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-            $c_id = $succ_node["obj_id"];
+            if (is_array($succ_node)) {
+                $c_id = $succ_node["obj_id"];
 
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
+                $active = ilLMPage::_lookupActive(
+                    $c_id,
+                    $this->lm->getType(),
+                    $this->lm_set->get("time_scheduled_page_activation")
+                );
+            }
 
-            if ($succ_node["obj_id"] > 0 &&
+            if (is_array($succ_node) && $succ_node["obj_id"] > 0 &&
                 $user_id == ANONYMOUS_USER_ID &&
                 ($this->lm->getPublicAccessMode() == "selected" &&
                     !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
                 $found = false;
             } else {
-                if ($succ_node["obj_id"] > 0 && !$active) {
+                if (is_array($succ_node) && $succ_node["obj_id"] > 0 && !$active) {
                     // look, whether activation data should be shown
                     $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
                     if ($act_data["show_activation_info"] &&
@@ -278,7 +316,7 @@ class ilLMNavigationStatus
      * Get predecessor page id
      * @return int
      */
-    public function getPredecessorPageId(): int
+    public function getPredecessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -292,19 +330,21 @@ class ilLMNavigationStatus
         }
         while (!$found) {
             $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
-            $c_id = $pre_node["obj_id"];
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
-            if ($pre_node["obj_id"] > 0 &&
+            if (is_array($pre_node)) {
+                $c_id = $pre_node["obj_id"];
+                $active = ilLMPage::_lookupActive(
+                    $c_id,
+                    $this->lm->getType(),
+                    $this->lm_set->get("time_scheduled_page_activation")
+                );
+            }
+            if (is_array($pre_node) && $pre_node["obj_id"] > 0 &&
                 $user_id == ANONYMOUS_USER_ID &&
                 ($this->lm->getPublicAccessMode() == "selected" &&
                     !ilLMObject::_isPagePublic($pre_node["obj_id"]))) {
                 $found = false;
             } else {
-                if ($pre_node["obj_id"] > 0 && !$active) {
+                if (is_array($pre_node) && $pre_node["obj_id"] > 0 && !$active) {
                     // look, whether activation data should be shown
                     $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
                     if ($act_data["show_activation_info"] &&
@@ -324,5 +364,4 @@ class ilLMNavigationStatus
 
         return 0;
     }
-
 }

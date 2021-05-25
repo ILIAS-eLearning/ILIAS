@@ -13,8 +13,17 @@ require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinitio
  */
 class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBased
 {
-    protected $max_length; // [int]
-    protected $multi; // [bool]
+    const XML_SEPARATOR_TRANSLATIONS = "~|~";
+    const XML_SEPARATOR_TRANSLATION = '~+~';
+
+    /**
+     * @var int
+     */
+    protected $max_length;
+    /**
+     * @var bool
+     */
+    protected $multi;
     
     
     //
@@ -207,12 +216,36 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     
     public function getValueForXML(ilADT $element)
     {
-        return $element->getText();
+        /**
+         * @var $translations ilADTLocalizedText
+         */
+        $translations = $element->getTranslations();
+        $serialized_values = [];
+        foreach ($translations as $lang_key => $translation) {
+            $serialized_values[] = $lang_key . self::XML_SEPARATOR_TRANSLATION . $translation;
+        }
+        return implode(self::XML_SEPARATOR_TRANSLATIONS, $serialized_values);
     }
-    
+
+    /**
+     * @param string $a_cdata
+     */
     public function importValueFromXML($a_cdata)
     {
-        $this->getADT()->setText($a_cdata);
+        // an import from release < 7
+        if (strpos($a_cdata, self::XML_SEPARATOR_TRANSLATION) === false) {
+            $this->getADT()->setText($a_cdata);
+            return;
+        }
+
+        $translations = explode(self::XML_SEPARATOR_TRANSLATIONS, $a_cdata);
+        foreach ($translations as $translation) {
+            $parts = explode(self::XML_SEPARATOR_TRANSLATION, $translation);
+            if ($parts === false) {
+                continue;
+            }
+            $this->getADT()->setTranslation((string) $parts[0], (string) $parts[1]);
+        }
     }
     
     public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
@@ -244,37 +277,16 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         return false;
     }
 
-    //
-    // presentation
-    //
-    
-    public function prepareElementForEditor(ilADTFormBridge $group)
+    public function prepareElementForEditor(ilADTFormBridge $form)
     {
-        $translation = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
-
-        if (!$this->getADTDefinition() instanceof ilADTGroupDefinition) {
+        if (!$form instanceof ilADTLocalizedTextFormBridge) {
+            $this->logger->warning('Passed ' . get_class($form));
             return;
         }
-        if (!$group instanceof ilADTGroupFormBridge) {
-            return;
-        }
-
-        $group->setTitle('');
-        $group->setInfo('');
-        foreach ($group->getElements() as $name => $text) {
-            list($field_id, $language) = explode('_', $name);
-            if (!$language) {
-                $text->setTitle($this->getTitle());
-            } else {
-                $text->setTitle($translation->getTitleForLanguage($field_id, $language));
-            }
-        }
+        $form->setMulti($this->isMulti());
     }
     
     
-    //
-    // search
-    //
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
     {
         return $a_adt_search->getADT()->getText();

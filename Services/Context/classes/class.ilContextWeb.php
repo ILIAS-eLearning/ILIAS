@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Context/interfaces/interface.ilContextTemplate.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Service context for web/gui
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesContext
  */
 class ilContextWeb implements ilContextTemplate
 {

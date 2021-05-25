@@ -16,7 +16,7 @@ function with_usage_in_legacy_form()
     $item = new \ilTextInputGUI('Title', 'title');
     $item->setRequired(true);
     $form->addItem($item);
-    $item = new \ilTextareaInputGUI('Description', 'description');
+    $item = new \ilTextAreaInputGUI('Description', 'description');
     $item->setRequired(true);
     $form->addItem($item);
     $item = new \ilFileStandardDropzoneInputGUI('cancel', 'Files', 'files');
@@ -44,7 +44,7 @@ function with_usage_in_legacy_form()
                     });
                     $uploadResult = count($uploadedPDFs) == 0;
                     echo json_encode(array( 'success' => $uploadResult ));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo json_encode(array( 'success' => false ));
                 }
                 exit();

@@ -459,7 +459,6 @@ class ilConsultationHoursGUI
         $ilTabs->activateSubTab('cal_ch_app_grp');
         
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($ilCtrl->getFormAction($this));
         $confirm->setHeaderText($GLOBALS['DIC']['lng']->txt('cal_ch_grp_delete_sure'));
@@ -578,7 +577,6 @@ class ilConsultationHoursGUI
         $this->setSubTabs();
         $ilTabs->activateSubTab('cal_ch_app_bookings');
         
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -1178,8 +1176,7 @@ class ilConsultationHoursGUI
             return $this->appointmentList();
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-        
+
         
         $this->ctrl->saveParameter($this, array('seed','app_id','dt'));
 

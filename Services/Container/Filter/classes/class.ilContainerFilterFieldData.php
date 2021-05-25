@@ -36,7 +36,7 @@ class ilContainerFilterFieldData
             " WHERE ref_id = %s ",
             array("integer"),
             array($ref_id)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             if ($rec["record_set_id"] > 0 && !ilAdvancedMDFieldDefinition::exists($rec["field_id"])) {
                 continue;

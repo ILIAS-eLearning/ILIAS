@@ -362,7 +362,7 @@ class ilStudyProgrammeDashboardViewGUI
         array $properties
     ) : ILIAS\UI\Component\Item\Item {
         $title = $prg->getTitle();
-        $link = $this->getInfoLink((int) $prg->getRefId());
+        $link = $this->getDefaultTargetUrl((int) $prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
 
         $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
@@ -373,23 +373,21 @@ class ilStudyProgrammeDashboardViewGUI
         ;
     }
 
-    protected function getInfoLink(int $prg_ref_id) : string
+    protected function getDefaultTargetUrl(int $prg_ref_id) : string
     {
         $this->ctrl->setParameterByClass(
-            'ilinfoscreengui',
+            ilObjStudyProgrammeGUI::class,
             'ref_id',
             $prg_ref_id
         );
         $link = $this->ctrl->getLinkTargetByClass(
             [
-                'ilrepositorygui',
-                'ilobjstudyprogrammegui',
-                'ilinfoscreengui'
-            ],
-            'showSummary'
+                ilRepositoryGUI::class,
+                ilObjStudyProgrammeGUI::class,
+            ]
         );
         $this->ctrl->setParameterByClass(
-            'ilinfoscreengui',
+            ilObjStudyProgrammeGUI::class,
             'ref_id',
             null
         );

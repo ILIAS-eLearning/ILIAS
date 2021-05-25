@@ -137,7 +137,8 @@ class ilContainerGlobalProfiles
         $db = $this->db;
 
         $this->profiles = array();
-        $set = $db->query("SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
+        $set = $db->query(
+            "SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
             " ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id = 0 " .
             " AND role_id  = " . $db->quote($this->getMemberRoleId(), "integer")
@@ -154,7 +155,8 @@ class ilContainerGlobalProfiles
     {
         $db = $this->db;
 
-        $db->manipulate("DELETE spr FROM skl_profile_role spr INNER JOIN skl_profile sp " .
+        $db->manipulate(
+            "DELETE spr FROM skl_profile_role spr INNER JOIN skl_profile sp " .
             " ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id = 0 " .
             " AND role_id = " . $db->quote($this->getMemberRoleId(), "integer")

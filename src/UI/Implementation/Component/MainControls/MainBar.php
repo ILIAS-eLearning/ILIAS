@@ -21,12 +21,12 @@ class MainBar implements MainControls\MainBar
     use ComponentHelper;
     use JavaScriptBindable;
 
-    const ENTRY_ACTION_TRIGGER = 'trigger';
-    const ENTRY_ACTION_REMOVE = 'remove';
-    const ENTRY_ACTION_TRIGGER_MAPPED = 'trigger_mapped';
-    const ENTRY_ACTION_TOGGLE_TOOLS = 'toggle_tools';
-    const ENTRY_ACTION_DISENGAGE_ALL = 'disengage_all';
-    const NONE_ACTIVE = '_none';
+    public const ENTRY_ACTION_TRIGGER = 'trigger';
+    public const ENTRY_ACTION_REMOVE = 'remove';
+    public const ENTRY_ACTION_TRIGGER_MAPPED = 'trigger_mapped';
+    public const ENTRY_ACTION_TOGGLE_TOOLS = 'toggle_tools';
+    public const ENTRY_ACTION_DISENGAGE_ALL = 'disengage_all';
+    public const NONE_ACTIVE = '_none';
 
     /**
      * @var SignalGeneratorInterface
@@ -97,6 +97,11 @@ class MainBar implements MainControls\MainBar
      * @var string
      */
     private $mainbar_tree_position;
+
+    /**
+     * @var Signal
+     */
+    protected $toggle_tools_signal;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -323,7 +328,7 @@ class MainBar implements MainControls\MainBar
         string $action
     ) : Signal {
         if (!in_array($action, [self::ENTRY_ACTION_TRIGGER, self::ENTRY_ACTION_REMOVE])) {
-            throw new InvalidArgumentException("invalid action for mainbar entry: $action", 1);
+            throw new \InvalidArgumentException("invalid action for mainbar entry: $action", 1);
         }
         $signal = $this->signal_generator->create();
         $signal->addOption('entry_id', $entry_id);

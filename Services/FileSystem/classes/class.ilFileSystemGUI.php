@@ -784,7 +784,6 @@ class ilFileSystemGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
         $cgui->setHeaderText($lng->txt("info_delete_sure"));

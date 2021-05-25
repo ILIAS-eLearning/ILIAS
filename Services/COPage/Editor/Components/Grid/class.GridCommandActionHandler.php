@@ -37,7 +37,7 @@ class GridCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -89,16 +89,15 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         $grid = new \ilPCGrid($page);
         $grid->create($page, $hier_id, $pc_id);
         $grid->applyTemplate(
-                $post_layout_template,
-                (int) $body["number_of_cells"],
-                $body["s"],
+            $post_layout_template,
+            (int) $body["number_of_cells"],
+            $body["s"],
             $body["m"],
             $body["l"],
             $body["xl"]
         );
         $updated = $page->update();
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
-
 }

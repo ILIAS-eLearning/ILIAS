@@ -21,7 +21,7 @@ class ilMailDeliveryJob extends AbstractJob
     {
         global $DIC;
 
-        $arguments = array_map(function ($value) {
+        $arguments = array_map(static function ($value) {
             return $value->getValue();
         }, $input);
 

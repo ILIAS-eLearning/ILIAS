@@ -152,7 +152,7 @@ class ilTaxNodeAssignment
                 " AND obj_id = " . $ilDB->quote($this->getObjectId(), "integer") .
                 " AND item_type = " . $ilDB->quote($this->getItemType(), "text") .
                 " ORDER BY order_nr ASC"
-                );
+            );
         } else {
             $set = $ilDB->query(
                 "SELECT * FROM tax_node_assignment " .
@@ -162,7 +162,7 @@ class ilTaxNodeAssignment
                 " AND obj_id = " . $ilDB->quote($this->getObjectId(), "integer") .
                 " AND item_type = " . $ilDB->quote($this->getItemType(), "text") .
                 " ORDER BY order_nr ASC"
-                );
+            );
         }
         $ass = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -189,7 +189,7 @@ class ilTaxNodeAssignment
             " AND item_id = " . $ilDB->quote($a_item_id, "integer") .
             " AND obj_id = " . $ilDB->quote($this->getObjectId(), "integer") .
             " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer")
-            );
+        );
         $ass = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $ass[] = $rec;
@@ -218,7 +218,7 @@ class ilTaxNodeAssignment
         $set = $ilDB->query(
             "SELECT tax_tree_id FROM tax_tree " .
             " WHERE child = " . $ilDB->quote($a_node_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         if ($rec["tax_tree_id"] != $this->getTaxonomyId()) {
             throw new ilTaxonomyException('addAssignment: Node ID does not belong to current taxonomy.');
@@ -256,7 +256,7 @@ class ilTaxNodeAssignment
                 "tax_id" => array("integer", $this->getTaxonomyId()),
                 "order_nr" => array("integer", $a_order_nr)
                 )
-            );
+        );
     }
 
     /**
@@ -313,7 +313,7 @@ class ilTaxNodeAssignment
             " AND obj_id = " . $ilDB->quote($this->getObjectId(), "integer") .
             " AND node_id = " . $ilDB->quote($a_node_id, "integer") .
             " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         
         return (int) $rec["mnr"];
@@ -338,7 +338,7 @@ class ilTaxNodeAssignment
             " AND node_id = " . $ilDB->quote($a_node_id, "integer") .
             " AND item_id = " . $ilDB->quote($a_item_id, "integer") .
             " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer")
-            );
+        );
     }
     
     
@@ -358,7 +358,7 @@ class ilTaxNodeAssignment
             " AND obj_id = " . $ilDB->quote($this->getObjectId(), "integer") .
             " AND item_id = " . $ilDB->quote($a_item_id, "integer") .
             " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer")
-            );
+        );
     }
 
     /**
@@ -423,7 +423,7 @@ class ilTaxNodeAssignment
                 " AND node_id = " . $ilDB->quote($a_node_id, "integer") .
                 " AND tax_id = " . $ilDB->quote($this->getTaxonomyId(), "integer") .
                 " AND item_id = " . $ilDB->quote($rec["item_id"], "integer")
-                );
+            );
             $cnt += 10;
         }
     }
@@ -452,7 +452,7 @@ class ilTaxNodeAssignment
             " AND tax_id = " . $ilDB->quote($a_tax_id, "integer") .
             " AND item_type = " . $ilDB->quote($a_item_type, "text") .
             " ORDER BY order_nr ASC"
-            );
+        );
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[] = $row["obj_id"];
         }

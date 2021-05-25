@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data as D;
+use \ILIAS\Data\Color;
 
 class Tag extends Button implements C\Button\Tag
 {
@@ -70,7 +71,7 @@ class Tag extends Button implements C\Button\Tag
      */
     public function withBackgroundColor(\ILIAS\Data\Color $col)
     {
-        $this->checkArgInstanceOf('Color', $col, \ILIAS\Data\Color::class);
+        $this->checkArgInstanceOf('Color', $col, Color::class);
         $clone = clone $this;
         $clone->bgcol = $col;
         return $clone;
@@ -87,9 +88,9 @@ class Tag extends Button implements C\Button\Tag
     /**
      * @inheritdoc
      */
-    public function withForegroundColor(\ILIAS\Data\Color $col)
+    public function withForegroundColor(Color $col)
     {
-        $this->checkArgInstanceOf('Color', $col, \ILIAS\Data\Color::class);
+        $this->checkArgInstanceOf('Color', $col, Color::class);
         $clone = clone $this;
         $clone->forecol = $col;
         return $clone;

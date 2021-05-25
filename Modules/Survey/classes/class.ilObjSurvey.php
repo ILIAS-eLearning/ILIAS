@@ -253,13 +253,10 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-    * Create meta data entry
-    *
-    * @access public
+    * @inheritDoc
     */
-    public function createMetaData()
+    protected function doCreateMetaData() : void
     {
-        parent::createMetaData();
         $this->saveAuthorToMetadata();
     }
 
@@ -1061,7 +1058,7 @@ class ilObjSurvey extends ilObject
      * Set calculate sum score
      * @param bool $a_val calculate sum score
      */
-    function setCalculateSumScore(bool $a_val)
+    public function setCalculateSumScore(bool $a_val)
     {
         $this->calculate_sum_score = $a_val;
     }
@@ -1070,7 +1067,7 @@ class ilObjSurvey extends ilObject
      * Get calculate sum score
      * @return bool calculate sum score
      */
-    function getCalculateSumScore(): bool
+    public function getCalculateSumScore() : bool
     {
         return $this->calculate_sum_score;
     }
@@ -6134,17 +6131,7 @@ class ilObjSurvey extends ilObject
 
         $log = ilLoggerFactory::getLogger("svy");
         
-        include_once "./Services/Mail/classes/class.ilMail.php";
-        include_once "./Services/User/classes/class.ilObjUser.php";
-        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-        include_once "./Services/User/classes/class.ilUserUtil.php";
-        
-        include_once "./Services/Link/classes/class.ilLink.php";
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-        
-        // somehow needed in cron-calls
-        //$ilCtrl->setTargetScript("ilias.php");
-        //$ilCtrl->initBaseClass("ilobjsurveygui");
         
         // yeah, I know...
         $old_ref_id = $_GET["ref_id"];
@@ -6188,7 +6175,6 @@ class ilObjSurvey extends ilObject
         }
         
         // prepare mail attachment
-        require_once 'Services/Mail/classes/class.ilFileDataMail.php';
         $att = "survey_" . $this->getRefId() . ".pdf";
         $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
         $mail_data->copyAttachmentFile($pdf, $att);
@@ -6229,7 +6215,7 @@ class ilObjSurvey extends ilObject
      * Get max sum score
      * @return int
      */
-    public function getMaxSumScore(): int
+    public function getMaxSumScore() : int
     {
         $sum_score = 0;
         foreach (ilObjSurveyQuestionPool::_getQuestionClasses() as $c) {
@@ -6237,5 +6223,4 @@ class ilObjSurvey extends ilObject
         }
         return $sum_score;
     }
-
 } // END class.ilObjSurvey

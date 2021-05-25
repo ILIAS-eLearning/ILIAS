@@ -117,9 +117,9 @@ class ilCollectWorkspaceFilesJob extends AbstractJob
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
         if ($ilAccess->checkAccessOfUser($this->tree, $user->getId(), "read", "", $a_wsp_id)) {
             $file = new ilObjFile($this->tree->lookupObjectId($a_wsp_id), false);
-            $source_dir = $file->getDirectory($file->getVersion()) . "/" . $file->getFileName();
+            $source_dir = $file->getFile($file->getVersion());
             if (@!is_file($source_dir)) {
-                $source_dir = $file->getDirectory() . "/" . $file->getFileName();
+                $source_dir = $file->getFile();
             }
             $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
 

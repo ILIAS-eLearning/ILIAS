@@ -7,13 +7,14 @@ use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
+use \ILIAS\UI\Component\Modal\LightboxTextPage as ILightboxTextPage;
 
 /**
  * Class LightboxTextPage
  * @package ILIAS\UI\Implementation\Component\Modal
  * @author Michael Jansen <mjansen@databay.de>
  */
-class LightboxTextPage implements LightboxPage
+class LightboxTextPage implements LightboxPage, ILightboxTextPage
 {
     use ComponentHelper;
 

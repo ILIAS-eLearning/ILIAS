@@ -26,14 +26,20 @@ class ParagraphResponseFactory
      * @param string           $pcid
      * @return Server\Response
      */
-    public function getResponseObject(\ilPageObjectGUI $page_gui, $updated, string $pcid): Server\Response
+    public function getResponseObject(\ilPageObjectGUI $page_gui, $updated, string $pcid) : Server\Response
     {
         $error = null;
         $rendered_content = null;
         $last_change = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } elseif (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             $rendered_content = $this->getParagraphOutput($page_gui, $pcid);
             $last_change = $page_gui->getPageObject()->getLastChange();
@@ -59,14 +65,20 @@ class ParagraphResponseFactory
      * @param string           $pcid
      * @return Server\Response
      */
-    public function getResponseObjectMulti(\ilPageObjectGUI $page_gui, $updated, array $pcids): Server\Response
+    public function getResponseObjectMulti(\ilPageObjectGUI $page_gui, $updated, array $pcids) : Server\Response
     {
         $error = null;
         $rendered_content = null;
         $last_change = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } elseif (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             foreach ($pcids as $pcid) {
                 $rendered_content[$pcid] = $this->getParagraphOutput($page_gui, $pcid);
@@ -106,5 +118,4 @@ class ParagraphResponseFactory
 
         return $html;
     }
-
 }

@@ -1,19 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User interface class for page content map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPCImageMapEditorGUI: ilInternalLinkGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * User interface class for page content map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilPCImageMapEditorGUI: ilInternalLinkGUI
+ */
 class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 {
     /**
@@ -63,7 +58,6 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     */
     public function getImageMapTableHTML()
     {
-        include_once("./Services/COPage/classes/class.ilPCImageMapTableGUI.php");
         $image_map_table = new ilPCImageMapTableGUI(
             $this,
             "editMapAreas",

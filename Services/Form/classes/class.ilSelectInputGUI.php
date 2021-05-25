@@ -1,24 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
-include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a selection list property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a selection list property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem, ilMultiValuesItem
 {
     protected $cust_attr = array();
     protected $options = array();
     protected $value;
+    protected bool $hide_sub = false;
     
     /**
     * Constructor
@@ -87,7 +81,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }

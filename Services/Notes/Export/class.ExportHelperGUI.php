@@ -63,12 +63,10 @@ class ExportHelperGUI
                     $('#$id').closest('.modal-content').find('button.close').click();
                     $cmd_js
                 });";
-
                       });
 
         $modal = $modal->withActionButtons([$b1, $b2]);
 
         return $modal;
     }
-
 }

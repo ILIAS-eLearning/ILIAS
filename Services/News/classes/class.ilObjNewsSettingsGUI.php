@@ -353,15 +353,15 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
         $news_set->set("pd_period", $_POST["news_pd_period"]);
         $news_set->set("default_visibility", $_POST["news_default_visibility"]);
-        $news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"]);
-        $news_set->set("allow_longer_periods", $_POST["allow_longer_periods"]);
+        $news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"] ?? "");
+        $news_set->set("allow_longer_periods", $_POST["allow_longer_periods"] ?? "");
         $news_set->set("rss_period", $_POST["news_rss_period"]);
         $news_set->set("rss_title_format", $_POST["rss_title_format"]);
         
-        $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
+        $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"] ?? "");
 
         if ($_POST["enable_internal_rss"] != 0) {
-            $news_set->set("enable_private_feed", $_POST["enable_private_feed"]);
+            $news_set->set("enable_private_feed", $_POST["enable_private_feed"] ?? "");
         } else {
             $news_set->set("enable_private_feed", 0);
         }

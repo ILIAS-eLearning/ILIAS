@@ -230,7 +230,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
         $this->redirect(self::CMD_EDIT);
-
     }
 
     protected function amend()
@@ -302,11 +301,11 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             $this->data_factory,
             $this->lng,
             $this->refinery_factory,
+            $this,
             $this->getPossibleLPStates(),
             $may_be_edited,
             (bool) $this->getObject()->getSettings()->isEventTimePlaceRequired(),
-            $amend,
-            $this
+            $amend
         );
 
         $form = $this->input_factory->container()->form()->standard($form_action, [$section]);
@@ -570,7 +569,8 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return null;
         }
 
-        return end(explode('/', $path));
+        $array = explode('/', $path);
+        return end($array);
     }
 
     protected function getFilePath() : ?string

@@ -542,35 +542,55 @@ class ilMaterializedPathTree implements ilTreeImplementation
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+
+        if ($this->getTree()->__isMainTree() && $this->getTree()->getTreeId() == 1) {
+            $treeClause1 = '';
+            $treeClause2 = '';
+        } else {
+            $treeClause1 = ' AND t1.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
+            $treeClause2 = ' AND t2.' . $this->getTree()->getTreePk() . ' = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
+        }
+
+        // first query for the path of the given node
+        $query = "
+            SELECT t1." . $this->getTree()->getTreePk() . ", t1.path
+            FROM " . $this->getTree()->getTreeTable() . " t1 
+            WHERE t1.child = " . $ilDB->quote($a_endnode_id, 'integer') .
+            $treeClause1;
         
-        // This is an optimization without the temporary tables become too big for our system.
-        // The idea is to use a subquery to join and filter the trees, and only the result
-        // is joined to obj_reference and obj_data.
-        
-        $query = "SELECT t2.child child, type, t2.path path " .
-                "FROM " . $this->getTree()->getTreeTable() . " t1 " .
-                "JOIN " . $this->getTree()->getTreeTable() . " t2 ON (t2.path BETWEEN t1.path AND CONCAT(t1.path, '.Z')) " .
+        $res = $ilDB->query($query);
+        $row = $ilDB->fetchAssoc($res);
+        if ($row[$this->getTree()->getTreePk()] == $this->getTree()->getTreeId()) {
+            $path = $row['path'];
+        } else {
+            return [];
+        }
+
+        // then query for the nodes in that path
+        $query = "SELECT t2." . $this->getTree()->getTreePk() . ", t2.child child, type, t2.path path " .
+            "FROM " . $this->getTree()->getTreeTable() . " t2 " .
                 "JOIN " . $this->getTree()->getTableReference() . " obr ON t2.child = obr.ref_id " .
                 "JOIN " . $this->getTree()->getObjectDataTable() . " obd ON obr.obj_id = obd.obj_id " .
-                "WHERE t1.child = " . $ilDB->quote($a_endnode_id, 'integer') . " " .
-                "AND t1." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
-                "AND t2." . $this->getTree()->getTreePk() . " = " . $ilDB->quote($this->getTree()->getTreeId(), 'integer') . " " .
+            "WHERE t2.path BETWEEN " . $ilDB->quote($path, 'text') . " AND " . $ilDB->quote($path . '.Z', 'text') .
+            $treeClause2 . ' ' .
                 "ORDER BY t2.path";
 
         
         $res = $ilDB->query($query);
-        $nodes = array();
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            #$nodes[$row->child]['lft'] = $row->lft;
-            #$nodes[$row->child]['rgt'] = $row->rgt;
-            $nodes[$row->child]['child'] = $row->child;
-            $nodes[$row->child]['type'] = $row->type;
-            $nodes[$row->child]['path'] = $row->path;
+        $nodes = [];
+        while ($row = $ilDB->fetchAssoc($res)) {
+            // filter out deleted items if tree is repository
+            if ($row[$this->getTree()->getTreePk()] != $this->getTree()->getTreeId()) {
+                continue;
+            }
+
+            $nodes[$row['child']]['child'] = $row['child'];
+            $nodes[$row['child']]['type'] = $row['type'];
+            $nodes[$row['child']]['path'] = $row['path'];
         }
-        
-        $depth_first_compare = function ($a, $b) {
+
+        $depth_first_compare = static function ($a, $b) {
             $a_exploded = explode('.', $a['path']);
-            #ilLoggerFactory::getLogger('tree')->debug(print_r($a_exploded,TRUE));
             $b_exploded = explode('.', $b['path']);
             
             $a_padded = '';
@@ -582,15 +602,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
                 $b_padded .= (str_pad((string) $num, 14, '0', STR_PAD_LEFT));
             }
 
-            #ilLoggerFactory::getLogger('tree')->debug($a_padded);
             return strcasecmp($a_padded, $b_padded);
         };
 
-        #ilLoggerFactory::getLogger('tree')->debug(print_r($nodes,TRUE));
-        
         uasort($nodes, $depth_first_compare);
-
-        #ilLoggerFactory::getLogger('tree')->debug(print_r($nodes,TRUE));
 
         return (array) $nodes;
     }

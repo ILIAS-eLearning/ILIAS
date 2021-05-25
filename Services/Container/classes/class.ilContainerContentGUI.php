@@ -1,18 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Parent class of all container content GUIs.
-*
-* These classes are responsible for displaying the content, i.e. the
-* side column and main column and its subitems in container objects.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Parent class of all container content GUIs.
+ *
+ * These classes are responsible for displaying the content, i.e. the
+ * side column and main column and its subitems in container objects.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 abstract class ilContainerContentGUI
 {
     /**
@@ -81,6 +78,8 @@ abstract class ilContainerContentGUI
     
     public $container_gui;
     public $container_obj;
+
+    public $adminCommands = false;
 
     /**
      * @var ilLogger
@@ -194,7 +193,6 @@ abstract class ilContainerContentGUI
         }
         
         // BEGIN ChangeEvent: record read event.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         $ilUser = $this->user;
 
         $obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
@@ -206,8 +204,10 @@ abstract class ilContainerContentGUI
         );
         // END ChangeEvent: record read event.
         
-
-        $tpl->setContent($this->getCenterColumnHTML());
+        $html = $this->getCenterColumnHTML();
+        if (strlen($html)) {
+            $tpl->setContent($html);
+        }
 
         // see above, all other cases (this was the old position of setRightContent,
         // maybe the position above is ok and all ifs can be removed)
@@ -222,18 +222,14 @@ abstract class ilContainerContentGUI
     */
     protected function getRightColumnHTML()
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        $ilPluginAdmin = $this->plugin_admin;
+        $html = "";
 
         $ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
         $obj_id = ilObject::_lookupObjId($this->getContainerObject()->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
 
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
@@ -254,7 +250,6 @@ abstract class ilContainerContentGUI
                 $html = "";
                 
                 // user interface plugin slot + default rendering
-                include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
                 $uip = new ilUIHookProcessor(
                     "Services/Container",
                     "right_column",
@@ -320,12 +315,10 @@ abstract class ilContainerContentGUI
      */
     protected function initRenderer()
     {
-        include_once('./Services/Container/classes/class.ilContainerSorting.php');
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
         
-        include_once "Services/Container/classes/class.ilContainerRenderer.php";
         $this->renderer = new ilContainerRenderer(
-            ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]),
+            ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
             $this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
             ,
@@ -341,9 +334,7 @@ abstract class ilContainerContentGUI
     private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-        
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
+        $html = "";
 
         // this gets us the subitems we need in setColumnSettings()
         // todo: this should be done in ilCourseGUI->getSubItems
@@ -407,8 +398,6 @@ abstract class ilContainerContentGUI
     */
     protected function getItemGUI($item_data, $a_show_path = false)
     {
-        include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-
         // get item list gui object
         if (!isset($this->list_gui[$item_data["type"]])) {
             $item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
@@ -573,7 +562,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableIcon(true);
         }
         
-        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
+        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
@@ -627,8 +616,6 @@ abstract class ilContainerContentGUI
         ) {
             $pos = 1;
                         
-            include_once('./Services/Container/classes/class.ilContainerSorting.php');
-            include_once('./Services/Object/classes/class.ilObjectActivation.php');
             $items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
             $items = ilContainerSorting::_getInstance($this->getContainerObject()->getId())->sortSubItems('sess', $a_item_data['obj_id'], $items);
             $items = ilContainer::getCompleteDescriptions($items);
@@ -701,7 +688,6 @@ abstract class ilContainerContentGUI
             $ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
         }
                     
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         ilObjectActivation::addListGUIActivationProperty($item_list_gui, $a_item_data);
         
         $html = $item_list_gui->getListItemHTML(
@@ -868,14 +854,12 @@ abstract class ilContainerContentGUI
     /**
     * Get introduction.
     */
-    public function getIntroduction()
+    public function getIntroduction() : string
     {
-        $ilUser = $this->user;
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("rep");
-        
+
         $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
         $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
@@ -895,20 +879,20 @@ abstract class ilContainerContentGUI
      * @param
      * @return
      */
-    public function getItemGroupsHTML($a_pos = 0)
+    public function getItemGroupsHTML(int $a_pos = 0) : int
     {
-        if (is_array($this->items["itgr"])) {
+        if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
             foreach ($this->items["itgr"] as $itgr) {
                 if (!$this->renderer->hasCustomBlock($itgr["child"])) {
                     $this->renderItemGroup($itgr);
-                                        
+
                     $this->renderer->setBlockPosition($itgr["ref_id"], ++$a_pos);
                 }
             }
         }
         return $a_pos;
     }
-    
+
     /**
      * Render item group
      *
@@ -924,12 +908,10 @@ abstract class ilContainerContentGUI
         $perm_ok = ($ilAccess->checkAccess("visible", "", $a_itgr['ref_id']) &&
              $ilAccess->checkAccess("read", "", $a_itgr['ref_id']));
 
-        include_once('./Services/Container/classes/class.ilContainerSorting.php');
-        include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
 
         // get all valid ids (this is filtered)
-        $all_ids = array_map(function($i) {
+        $all_ids = array_map(function ($i) {
             return $i["child"];
         }, $this->items["_all"]);
 
@@ -961,10 +943,7 @@ abstract class ilContainerContentGUI
         $commands_html = $item_list_gui->getCommandsHTML();
 
         // determine behaviour
-        include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
-        include_once("./Services/Container/classes/class.ilContainerBlockPropertiesStorage.php");
         $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
         if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")

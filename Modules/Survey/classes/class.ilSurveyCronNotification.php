@@ -76,14 +76,11 @@ class ilSurveyCronNotification extends ilCronJob
     
     public function run()
     {
-        $tree = $this->tree;
         global $tree;
 
         $log = ilLoggerFactory::getLogger("svy");
         $log->debug("start");
 
-        include_once "Modules/Survey/classes/class.ilObjSurvey.php";
-        
         $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = array();
                 

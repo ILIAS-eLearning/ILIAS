@@ -14,8 +14,13 @@ class ilObjUseBookDBRepository
     const TABLE_NAME = 'book_obj_use_book';
 
     /**
+     * @var \ilDBInterface
+     */
+    protected $db;
+
+    /**
      * ilObjUseBookDBRepository constructor.
-     * @param \ilDBInterfacee $db
+     * @param \ilDBInterface $db
      */
     public function __construct(\ilDBInterface $db)
     {
@@ -59,7 +64,7 @@ class ilObjUseBookDBRepository
             " WHERE obj_id = %s ",
             array("integer"),
             array($obj_id)
-            );
+        );
         $book_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             $book_ids[] = $rec["book_ref_id"];

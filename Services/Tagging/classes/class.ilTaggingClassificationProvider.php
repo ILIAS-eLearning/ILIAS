@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Classification/classes/class.ilClassificationProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Tag classification provider
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTagging
  */
 class ilTaggingClassificationProvider extends ilClassificationProvider
 {
@@ -70,7 +66,6 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         
         // we currently only check for the parent object setting
         // might change later on (parent containers)
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
         $valid = ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
@@ -206,8 +201,6 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             return;
         }
         
-        include_once "Services/Tagging/classes/class.ilTagging.php";
-        
         $types = array("personal");
         if ($this->enable_all_users) {
             $types[] = "other";
@@ -282,7 +275,6 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 ? null
                 : $ilUser->getId();
             
-            include_once "Services/Tagging/classes/class.ilTagging.php";
             return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
     }

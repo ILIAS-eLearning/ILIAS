@@ -41,16 +41,13 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
 
-    /**
-     *
-     */
     private function defaultActions()
     {
         $chatSettings = new ilSetting('chatroom');

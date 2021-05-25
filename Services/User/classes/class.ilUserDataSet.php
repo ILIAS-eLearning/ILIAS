@@ -378,7 +378,10 @@ class ilUserDataSet extends ilDataSet
                     // personal picture
                     $pic_dir = $this->getImportDirectory() . "/" . str_replace("..", "", $a_rec["Picture"]);
                     if ($pic_dir != "" && is_dir($pic_dir)) {
-                        $upload_file = $pic_dir . "/upload_" . $a_rec["Id"] . "pic";
+                        $upload_file = $pic_dir . "/usr_" . $a_rec["Id"] . ".jpg";
+                        if (!is_file($upload_file)) {
+                            $upload_file = $pic_dir . "/upload_" . $a_rec["Id"] . "pic";
+                        }
                         if (is_file($upload_file)) {
                             ilObjUser::_uploadPersonalPicture($upload_file, $user->getId());
                         }

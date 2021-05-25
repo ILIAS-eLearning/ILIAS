@@ -1,39 +1,14 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-require_once("./Services/COPage/classes/class.ilPCListItem.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCFileItemGUI
-*
-* Handles user commands on items of file lists
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $I$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCFileItemGUI
+ *
+ * Handles user commands on items of file lists
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPCFileItemGUI extends ilPageContentGUI
 {
     /**
@@ -110,7 +85,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $form = $this->initAddFileForm();
         $form->checkInput();
 
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         $fileObj = new ilObjFile();
         $fileObj->setType("file");
         $fileObj->setTitle($_FILES["file"]["name"]);
@@ -207,9 +181,7 @@ break;
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $form = new ilPropertyFormGUI();
         
         // file
@@ -245,7 +217,6 @@ break;
         $ilTabs->setSubTabActive("cont_file_from_repository");
         $ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
 
-        include_once("./Services/COPage/classes/class.ilPCFileItemFileSelectorGUI.php");
         $exp = new ilPCFileItemFileSelectorGUI(
             $this,
             $a_cmd,
@@ -264,15 +235,12 @@ break;
     public function insertFromWorkspace($a_cmd = "insert")
     {
         $ilTabs = $this->tabs;
-        $tree = $this->tree;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $ilUser = $this->user;
 
         $this->setTabs($a_cmd);
         $ilTabs->setSubTabActive("cont_file_from_workspace");
         
-        include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
         $exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, $a_cmd, $this, $a_cmd, "fl_wsp_id");
         $ilCtrl->setParameter($this, "subCmd", "selectFile");
         $exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, $a_cmd));
@@ -295,16 +263,13 @@ break;
         $res = true;
         if (isset($_GET["fl_wsp_id"])) {
             // we need the object id for the instance
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
             $tree = new ilWorkspaceTree($ilUser->getId());
             $node = $tree->getNodeData($_GET["fl_wsp_id"]);
             
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
             $res = $this->newFileItem();
         } else {
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $this->file_object = new ilObjFile($a_file_ref_id);
         }
         if ($res) {
@@ -396,16 +361,13 @@ break;
         $res = true;
         if (isset($_GET["fl_wsp_id"])) {
             // we need the object id for the instance
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
             $tree = new ilWorkspaceTree($ilUser->getId());
             $node = $tree->getNodeData($_GET["fl_wsp_id"]);
             
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
             $res = $this->newFileItem();
         } else {
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $this->file_object = new ilObjFile($a_file_ref_id);
         }
         if ($res) {

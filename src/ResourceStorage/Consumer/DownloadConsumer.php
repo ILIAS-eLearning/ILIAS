@@ -13,15 +13,22 @@ class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 
     public function run() : void
     {
+
         global $DIC;
 
         $revision = $this->getRevision();
 
-        $file_name = $revision->getInformation()->getTitle();
+//        $this->file_name_policy->check($revision->getInformation()->getSuffix());
+
+        $file_name = $this->file_name_policy->prepareFileNameForConsumer($revision->getInformation()->getTitle());
         $mime_type = $revision->getInformation()->getMimeType();
 
         $response = $DIC->http()->response();
-        $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
+        if ($this->file_name_policy->isValidExtension($revision->getInformation()->getSuffix())) {
+            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, $mime_type);
+        } else {
+            $response = $response->withHeader(ResponseHeader::CONTENT_TYPE, 'application/octet-stream');
+        }
         $response = $response->withHeader(ResponseHeader::CONNECTION, 'close');
         $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $response = $response->withHeader(

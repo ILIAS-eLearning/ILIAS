@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for media casts
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesMediaCast
  */
 class ilMediaCastExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilMediaCastExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Modules/MediaCast/classes/class.ilMediaCastDataSet.php");
         $this->ds = new ilMediaCastDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -36,7 +32,6 @@ class ilMediaCastExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
-        include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
         $mc_items_ids = array();
 
         foreach ($a_ids as $id) {

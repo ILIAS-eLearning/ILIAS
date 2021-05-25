@@ -4,6 +4,7 @@
 namespace ILIAS\UI\Component\Table;
 
 use ILIAS\UI\Component\Triggerable;
+use \ILIAS\UI\Component\Signal;
 
 /**
  * This describes a Row used in Presentation Table.
@@ -65,7 +66,7 @@ interface PresentationRow extends \ILIAS\UI\Component\Component, Triggerable
     /**
      * Get a row like this with a button or a dropdown for actions in the expanded row.
      *
-     * @param ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown 	$action
+     * @param \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Dropdown\Dropdown 	$action
      * @return \ILIAS\UI\Component\Table\PresentationRow
      */
     public function withAction($action);

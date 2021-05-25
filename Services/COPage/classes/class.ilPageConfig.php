@@ -46,6 +46,11 @@ abstract class ilPageConfig
     /**
      * @var bool
      */
+    protected $use_page_container = true;
+
+    /**
+     * @var bool
+     */
     protected $enable_permission_checks = false;
 
     /**
@@ -58,6 +63,9 @@ abstract class ilPageConfig
      * @var string
      */
     protected $page_obj_key = "";
+
+    protected bool $link_filter_white_list = false;
+    protected string $localization_lang = "";
     
     /**
      * Constructor
@@ -70,7 +78,6 @@ abstract class ilPageConfig
 
         $this->lng = $DIC->language();
         // load pc_defs
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $this->pc_defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($this->pc_defs as $def) {
             $this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);
@@ -125,7 +132,7 @@ abstract class ilPageConfig
      *
      * @return boolean enable pc type true/false
      */
-    public function getEnabledTopPCTypes(): array
+    public function getEnabledTopPCTypes() : array
     {
         $types = [];
         foreach ($this->pc_defs as $def) {
@@ -282,9 +289,9 @@ abstract class ilPageConfig
     /**
      * Set internal links filter type list to white list
      *
-     * @param	boolean white list
+     * @param bool $a_white_list
      */
-    public function setIntLinkFilterWhiteList($a_white_list)
+    public function setIntLinkFilterWhiteList(bool $a_white_list)
     {
         $this->link_filter_white_list = $a_white_list;
         if ($a_white_list) {
@@ -297,7 +304,7 @@ abstract class ilPageConfig
      *
      * @return	boolean white list
      */
-    public function getIntLinkFilterWhiteList()
+    public function getIntLinkFilterWhiteList() : bool
     {
         return $this->link_filter_white_list;
     }
@@ -327,7 +334,7 @@ abstract class ilPageConfig
      *
      * @param string $a_val lang key
      */
-    public function setLocalizationLanguage($a_val)
+    public function setLocalizationLanguage(string $a_val)
     {
         $this->localization_lang = $a_val;
     }
@@ -337,7 +344,7 @@ abstract class ilPageConfig
      *
      * @return string lang key
      */
-    public function getLocalizationLanguage()
+    public function getLocalizationLanguage() : string
     {
         return $this->localization_lang;
     }
@@ -655,5 +662,23 @@ abstract class ilPageConfig
     public function getEditLockSupport()
     {
         return $this->edit_lock_support;
+    }
+
+    /**
+     * Set if page container css class should be used
+     * @param bool $a_val use page container
+     */
+    public function setUsePageContainer($a_val)
+    {
+        $this->use_page_container = $a_val;
+    }
+
+    /**
+     * Get if page container css class should be used
+     * @return bool use page container class
+     */
+    public function getUsePageContainer()
+    {
+        return $this->use_page_container;
     }
 }

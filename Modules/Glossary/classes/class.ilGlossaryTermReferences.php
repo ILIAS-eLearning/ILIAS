@@ -136,7 +136,7 @@ class ilGlossaryTermReferences
                     "term_id" => array("integer", $t),
                 ),
                 array()
-                );
+            );
         }
     }
 
@@ -148,7 +148,7 @@ class ilGlossaryTermReferences
         $this->db->manipulate(
             "DELETE FROM glo_term_reference WHERE " .
             " glo_id = " . $this->db->quote($this->getGlossaryId(), "integer")
-            );
+        );
     }
 
     /**
@@ -182,7 +182,7 @@ class ilGlossaryTermReferences
         $set = $db->query(
             "SELECT * FROM glo_term_reference  " .
             " WHERE glo_id = " . $db->quote($a_glossary_id, "integer")
-            );
+        );
         if ($rec = $db->fetchAssoc($set)) {
             return true;
         }
@@ -207,7 +207,7 @@ class ilGlossaryTermReferences
             $q = "SELECT * FROM glo_term_reference " .
             " WHERE " . $db->in("glo_id", $a_glo_id, false, "integer") .
             " AND term_id = " . $db->quote($a_term_id, "integer")
-            );
+        );
         if ($rec = $db->fetchAssoc($set)) {
             return true;
         }

@@ -5456,7 +5456,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához. 
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket és a megjegyzéseket mentettük.
@@ -6034,7 +6034,7 @@ mail#:#mail_select_group#:#Legalább egy csoportot válasszon!
 mail#:#mail_select_one_entry#:#Ki kell választania egy bejegyzést
 mail#:#mail_select_one_file#:#Ki kell választania egy fájlt
 mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href="%s">itt</a> talál.
-mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet. 
+mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
@@ -6959,8 +6959,8 @@ rbac#:#mds_visible#:#A felhasználó láthatja a Rendszerbeállítások » Metaa
 rbac#:#mds_write#:#AA felhasználó módosíthatja a Rendszerbeállítások » Metaadat beállításait
 rbac#:#msg_no_roles_of_type#:#Nincsenek elérhetők szerepek a kiválasztott szűrőbeállítással.
 rbac#:#mme_visible#:#A felhasználó láthatja a Rendszerbeállítások » Főmenü menüpontot
-rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz 
-rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait 
+rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz
+rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait
 rbac#:#mme_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü jogosultsági beállításait
 rbac#:#dshs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Műszerfal jogosultsági beállításait
 rbac#:#dshs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Műszerfal beállításaihoz
@@ -8458,7 +8458,7 @@ rbac#:#edit_permission#:#Jogosultságok módosítása
 rbac#:#edit_event#:#Naptár módosítása
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#reservation_deleted#:#A foglalást sikeresen törölte
-book#:#X_reservations_of#:#%s foglalás / 
+book#:#X_reservations_of#:#%s foglalás /
 book#:#book_set_delete#:#Törlése
 rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
@@ -11519,7 +11519,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Létező blog használata
 prtf#:#prtf_template_import_blog_ignore#:#Blogoldal eltávolítása
 prtf#:#prtf_create_template_from_portfolio#:#Portfólió
 prtf#:#prtf_create_template_from_portfolio_info#:#Válasszon egy portfóliót, hogy annak tartalma és beállításai legyen a sablon.
-prtf#:#prtf_template_import_quota_failure#:#Ezt a portfólió sablont nem tudja másolni, mert ezzel túllépné a megengedett tárhelykorlátját.
 cntr#:#prtf_create_portfolio_from_template#:#Portfólió létrehozása sablonból
 content#:#content_plugin_not_activated#:#Az oldal tartalmi elem bővítmény jelenleg nem aktív.
 administration#:#vc_information#:#SVN verzió megjelenítése
@@ -13422,7 +13421,7 @@ awrn#:#awrn_incl_offline#:#Online és offline
 adm#:#adm_support_contacts#:#Technikai segítségnyújtók
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
 adm#:#adm_support_contacts_info#:#A támogatási kapcsolatok - ami vesszővel elválasztott felhasználói fiókok felsorolása - a 'Ki van online?'-eszköz láblécébe kerülnek (ha az be van kapcsolva).
-adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása 
+adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása
 adm#:#adm_acc_ctrl_cpt_desc#:#Ha be van kapcsolva, a Hozzáférés-vezérlés koncepciója link jelenik meg a lálécben.
 adm#:#adm_accessibility_contacts#:#A kapcsolat hozzáférési pontja
 adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez, láblécben lévő link. Felhasználónevek vesszővel elválasztott felsorolása.
@@ -15597,8 +15596,6 @@ svy#:#svy_users_invited#:#A felhasználókat sikeresen meghívta.
 svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
 pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 common#:#personal_resources#:#Személyes erőforrások
-file#:#personal_resources_quota_exceeded_warning#:#Elérte személyes erőforrási lemezkorlátját.
-file#:#personal_resources_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Itt kezelheti személyes fájljait, blogjait és alkotásait.
 administration#:#adm_personal_workspace#:#Személyes munkaterület
 dash#:#dash_favourites#:#Kedvenceim
@@ -16296,6 +16293,11 @@ survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#Az URL nem ellenőrizhető. Kérem, valós külső hírforrás URL-t adjon meg.
 common#:#mainbar_more_label#:#More
+common#:#lso_admin_form_title#:#Beállítások
+common#:#lso_admin_form_byline#:#Tanulási sorok általános beállításai
+common#:#lso_admin_interval_label#:#Tanulási folyamatok lekérdezési időköze (másodpercekben)
+common#:#lso_admin_interval_byline#:#A tanulás előrehaladásának lekérdezése x másodpercekben. Legyen óvatos! Az alacsony érték növeli a szerverlekérdezések gyakoriságát, ami hatással lehet a rendszer teljesítményére. Válassza a lehető legnagyobb értéket!
+common#:#mainbar_more_label#:#Több
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.
 common#:#obj_fils#:#File Services

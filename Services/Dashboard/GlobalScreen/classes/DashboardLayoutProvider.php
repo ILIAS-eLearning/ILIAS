@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
 /**
  * Class DashboardLayoutProvider

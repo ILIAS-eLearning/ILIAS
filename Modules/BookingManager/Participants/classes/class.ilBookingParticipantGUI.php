@@ -48,6 +48,16 @@ class ilBookingParticipantGUI
     const PARTICIPANT_VIEW = 1;
 
     /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
+     * @var int
+     */
+    protected $pool_id;
+
+    /**
      * Constructor
      * @param	object	$a_parent_obj
      */

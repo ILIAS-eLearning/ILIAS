@@ -1,16 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Page multilinguality GUI class.
  * This could be generalized as an object service in the future.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageMultiLangGUI
 {
@@ -42,10 +38,7 @@ class ilPageMultiLangGUI
         //$this->ml = new ilPageMultiLang($a_parent_type, $a_parent_id);
 
         // object translation
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $this->ot = ilObjectTranslation::getInstance($a_parent_id);
-        
-        //		$this->single_page_mode = $a_single_page_mode;
     }
     
     /**

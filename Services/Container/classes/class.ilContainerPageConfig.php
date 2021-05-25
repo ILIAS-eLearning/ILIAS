@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Container page configuration
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerPageConfig extends ilPageConfig
 {
@@ -35,6 +31,7 @@ class ilContainerPageConfig extends ilPageConfig
         $this->setMultiLangSupport(true);
         $this->setSinglePageMode(true);
         $this->setEnablePermissionChecks(true);
+        $this->setUsePageContainer(false);
 
         $mset = new ilSetting("mobs");
         if ($mset->get("mep_activate_pages")) {

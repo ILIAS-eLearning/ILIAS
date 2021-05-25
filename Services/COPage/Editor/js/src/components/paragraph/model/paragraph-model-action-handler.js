@@ -34,6 +34,7 @@ export default class ParagraphModelActionHandler {
       switch (action.getType()) {
 
         case PAGE_ACTIONS.COMPONENT_SWITCH:
+          this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setAddedSection(false);
           this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
           this.pageModel.setPCModel(params.oldPcid, {
@@ -48,10 +49,16 @@ export default class ParagraphModelActionHandler {
           break;
 
         case PAGE_ACTIONS.COMPONENT_INSERT:
+          this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setAddedSection(false);
+          this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
+            text: '',
+            characteristic: 'Standard'
+          });
           break;
 
         case PAGE_ACTIONS.COMPONENT_EDIT:
+          this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setAddedSection(false);
           break;
 
@@ -85,6 +92,9 @@ export default class ParagraphModelActionHandler {
             text: params.text,
             characteristic: params.characteristic
           });
+          if (this.pageModel.getComponentState() === this.pageModel.STATE_COMPONENT_INSERT) {
+            this.pageModel.setAutoSavedPCId(this.pageModel.getCurrentPCId());
+          }
           break;
 
         // switch from insert to edit mode after auto insert being called
@@ -94,6 +104,7 @@ export default class ParagraphModelActionHandler {
 
         // switch from insert to edit mode after auto insert being called
         case ACTIONS.SPLIT_POST:
+          this.pageModel.setAutoSavedPCId(null);
           this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
           break;
 
@@ -110,7 +121,7 @@ export default class ParagraphModelActionHandler {
               splitIds.push(pcid);
               this.pageModel.setPCModel(pcid, {
                 text: params.contents[k],
-                characteristic: params.characteristic
+                characteristic: "Standard"
               });
               this.pageModel.setCurrentPageComponent("Paragraph", pcid, "");
               this.pageModel.setUndoPCModel(

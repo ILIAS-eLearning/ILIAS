@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("Services/MediaObjects/classes/class.ilImageMapTableGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for pc image map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * TableGUI class for pc image map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCImageMapTableGUI extends ilImageMapTableGUI
 {
     /**

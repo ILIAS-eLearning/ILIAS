@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* XML writer for folders
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesFolder
-*/
+ * XML writer for folders
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilFolderXmlWriter extends ilXmlWriter
 {
     private $add_header = true;
@@ -51,7 +47,6 @@ class ilFolderXmlWriter extends ilXmlWriter
         $this->xmlStartTag('Folder', array('Id' => $this->folder->getId()));
         $this->xmlElement('Title', array(), $this->folder->getTitle());
         $this->xmlElement('Description', array(), $this->folder->getDescription());
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->obj_id);
         $this->xmlEndTag('Folder');
     }
@@ -82,7 +77,6 @@ class ilFolderXmlWriter extends ilXmlWriter
         if (!$this->obj_id) {
             throw new UnexpectedValueException('No obj_id given: ');
         }
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         if (!$this->folder = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
             throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
         }

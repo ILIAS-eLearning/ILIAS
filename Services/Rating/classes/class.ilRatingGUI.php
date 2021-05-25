@@ -1,18 +1,12 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Rating/classes/class.ilRating.php");
-include_once("./Services/Rating/classes/class.ilRatingCategory.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilRatingGUI. User interface class for rating.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
- *
- * @ingroup ServicesRating
  */
 class ilRatingGUI
 {
@@ -35,6 +29,9 @@ class ilRatingGUI
     protected $export_callback;
     protected $export_subobj_title;
     protected $ctrl_path;
+
+    protected bool $enable_categories = false;
+    protected string $your_rating_text = "";
 
     /**
      * @var \ILIAS\DI\UIServices
@@ -67,7 +64,6 @@ class ilRatingGUI
         
         switch ($next_class) {
             case "ilratingcategorygui":
-                include_once("./Services/Rating/classes/class.ilRatingCategoryGUI.php");
                 $gui = new ilRatingCategoryGUI($this->obj_id, $this->export_callback, $this->export_subobj_title);
                 $ilCtrl->forwardCommand($gui);
                 break;
@@ -527,7 +523,6 @@ class ilRatingGUI
             } else {
                 $tt = sprintf($lng->txt("rat_nr_ratings"), $rating["cnt"]);
             }
-            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
             ilTooltipGUI::addTooltip($unique_id . "_tt", $tt);
 
             if ($rating["cnt"] > 0) {
@@ -539,7 +534,6 @@ class ilRatingGUI
 
         // add overlay (trigger)
         if ($has_overlay) {
-            include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
             $ov = new ilOverlayGUI($unique_id);
             $ov->setTrigger("tr_" . $unique_id, "click", "tr_" . $unique_id);
             $ov->add();

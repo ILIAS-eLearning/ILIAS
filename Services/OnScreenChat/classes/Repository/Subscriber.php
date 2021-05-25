@@ -89,7 +89,7 @@ class Subscriber
         $data = [];
 
         foreach ($usrIds as $usr_id) {
-            $publicImage = isset($publicData[$usr_id]) && isset($publicData[$usr_id]['img']) ? $publicData[$usr_id]['img'] : '';
+            $publicImage = $publicData[$usr_id]['img'] ?? '';
 
             $publicName = '';
             if (isset($publicData[$usr_id])) {

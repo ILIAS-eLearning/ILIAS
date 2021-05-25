@@ -25,7 +25,7 @@
 		]
 	},
 	"require": {
-		"php": "^7.3",
+		"php": ">=7.4",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
@@ -44,29 +44,21 @@
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.9.0",
-		"jumbojett/openid-connect-php": "^0.7.0",
-		"sabre/dav": "~3.2.2",
+		"jumbojett/openid-connect-php": "^0.9.2",
+		"sabre/dav": "^4.1",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"zendframework/zend-httphandlerrunner": "^1.1.0",
 		"simplesamlphp/simplesamlphp": "^1.18"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^9",
-		"phpunit/php-code-coverage": "^8.0",
-		"mockery/mockery": "^1.2",
-		"phpunit/php-token-stream": "^4.0",
-		"phpdocumentor/reflection-docblock": "^3.3",
+		"phpunit/phpunit": "^9.5",
+		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^2.15",
 		"sebastian/environment": "^5.0",
-		"phpunit/php-timer": "^3.0",
-		"phpspec/prophecy": "^1.8",
-		"theseer/tokenizer": "^1.1",
-		"myclabs/deep-copy": "^1.9",
 		"captainhook/captainhook": "^5.3"
 	},
 	"autoload": {
@@ -344,10 +336,10 @@
 		},
 		"jumbojett/openid-connect-php" : {
 			"source": "https://github.com/jumbojett/OpenID-Connect-PHP",
-			"used_version": "v0.7.0",
+			"used_version": "v0.9.2",
 			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"wrapped_by": null,
-			"last_update": "2018-10-20",
+			"last_update": "2021-05-10",
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de",
 			"approved_by": "Jour Fixe",
 			"approved-date": "2018-02-26"
@@ -361,16 +353,6 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
-		},
-		"zendframework/zend-httphandlerrunner" : {
-			"source": "https://github.com/zendframework/zend-httphandlerrunner",
-			"used_version": "v1.1",
-			"added_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
-			"wrapped_by": "",
-			"last_update": "2019-07-23",
-			"last_update_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
 		},
 		"friendsofphp/php-cs-fixer": {
 			"source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
@@ -420,9 +402,6 @@
 			},
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
-			},
-			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
 			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"

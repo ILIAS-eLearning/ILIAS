@@ -11,9 +11,8 @@
  */
 class ilExcRandomAssignmentGUI
 {
-
     /**
-     * @var ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $main_tpl;
 
@@ -105,10 +104,7 @@ class ilExcRandomAssignmentGUI
     }
     
     /**
-     *
-     *
-     * @param
-     * @return
+     * Start exercise
      */
     protected function startExercise()
     {

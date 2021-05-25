@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for container members / skill assignments
  *
  * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ServicesContainer
  */
 class ilContSkillMemberTableGUI extends ilTable2GUI
 {
@@ -88,7 +84,6 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
      */
     public function getMembers()
     {
-        include_once("./Modules/Course/classes/class.ilCourseParticipants.php");
         $p = ilCourseParticipants::getInstanceByObjId($this->container_skills->getId());
 
         $members = array();
@@ -116,7 +111,6 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         $ui = $this->ui;
 
         // levels
-        include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
         $mskills = new ilContainerMemberSkills($this->container_skills->getId(), $a_set["id"]);
         foreach ($mskills->getOrderedSkillLevels() as $sk) {
             $tpl->setCurrentBlock("level");

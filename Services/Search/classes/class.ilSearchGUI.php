@@ -264,6 +264,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'Services/Search');
         $this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
+        $this->tpl->setVariable("SEARCH_LABEL", $lng->txt("search"));
         include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");

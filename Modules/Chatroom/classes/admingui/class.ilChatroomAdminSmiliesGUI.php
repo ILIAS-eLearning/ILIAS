@@ -10,9 +10,9 @@
 class ilChatroomAdminSmiliesGUI extends ilChatroomGUIHandler
 {
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         global $DIC;
 

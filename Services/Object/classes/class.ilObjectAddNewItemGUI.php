@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Render add new item selector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilContainerGUI.php 43751 2013-07-30 10:07:45Z jluetzen $
- *
- * @ingroup ServicesObject
  */
 class ilObjectAddNewItemGUI
 {
@@ -180,7 +177,6 @@ class ilObjectAddNewItemGUI
 
             $grp_map = $pos_group_map = array();
             
-            include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
             $groups = ilObjRepositorySettings::getNewItemGroups();
             
             // no groups => use default
@@ -262,9 +258,8 @@ class ilObjectAddNewItemGUI
                                 $current_grp = $obj_grp_id;
                             }
                         }
-                        
-                        if ($subitem["plugin"]) {
-                            include_once("./Services/Component/classes/class.ilPlugin.php");
+
+                        if (isset($subitem["plugin"]) && $subitem["plugin"]) {
                             $title = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                         } else {
                             // #13088
@@ -302,9 +297,8 @@ class ilObjectAddNewItemGUI
             $base_url .= "&crtcb=" . $this->url_creation_callback;
         }
         
-        include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
-        $gl = new ilGroupedListGUI();
-        $gl->setAsDropDown(true, true);
+        $gl = new ilGroupedListGUI("il-add-new-item-gl");
+        $gl->setAsDropDown(true, false);
 
         foreach ($this->sub_objects as $item) {
             switch ($item["type"]) {
@@ -361,7 +355,6 @@ class ilObjectAddNewItemGUI
     public function render()
     {
         $ilToolbar = $this->toolbar;
-        $tpl = $this->tpl;
         $lng = $this->lng;
                         
         if ($this->mode == ilObjectDefinition::MODE_WORKSPACE) {
@@ -372,34 +365,12 @@ class ilObjectAddNewItemGUI
             return;
         }
                 
-        $ov_id = "il_add_new_item_ov";
-        $ov_trigger_id = $ov_id . "_tr";
-        
-
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $adv = new ilAdvancedSelectionListGUI();
+        $adv->setPullRight(false);
         $adv->setListTitle($lng->txt("cntr_add_new_item"));
         $this->getHTML();
         $adv->setGroupedList($this->gl);
         $adv->setStyle(ilAdvancedSelectionListGUI::STYLE_EMPH);
-        $tpl->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
-        //$ilToolbar->addDropDown($lng->txt("cntr_add_new_item"), $this->getHTML());
-        
-        return;
-
-        // toolbar
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-        $button = ilLinkButton::getInstance();
-        $button->setId($ov_trigger_id);
-        $button->setCaption("cntr_add_new_item");
-        $button->setPrimary(true);
-        $ilToolbar->addButtonInstance($button);
-            
-        // css?
-        $tpl->setVariable(
-            "SELECT_OBJTYPE_REPOS",
-            '<div id="' . $ov_id . '" style="display:none;" class="ilOverlay">' .
-            $this->getHTML() . '</div>'
-        );
+        $ilToolbar->addStickyItem($adv);
     }
 }

@@ -16,7 +16,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 class Legacy extends Slate implements ISlate\Legacy
 {
     /**
-     * @var Component[]
+     * @var \ILIAS\UI\Component\Component []
      */
     protected $contents = [];
 

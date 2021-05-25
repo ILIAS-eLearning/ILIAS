@@ -159,29 +159,31 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function cleanQuestiontext($text)
     {
         // fau: fixGapReplace - mask dollars for replacement
-		$text = str_replace('$','GAPMASKEDDOLLAR', $text);$text = preg_replace("/\[gap[^\]]*?\]/", "[gap]", $text);
+        $text = str_replace('$', 'GAPMASKEDDOLLAR', $text);
+        $text = preg_replace("/\[gap[^\]]*?\]/", "[gap]", $text);
         $text = preg_replace("/\<gap([^>]*?)\>/", "[gap]", $text);
-        $text = str_replace("</gap>", "[/gap]", $text);$text = str_replace('GAPMASKEDDOLLAR', '$', $text);
-// fau.
+        $text = str_replace("</gap>", "[/gap]", $text);
+        $text = str_replace('GAPMASKEDDOLLAR', '$', $text);
+        // fau.
         return $text;
     }
 
     // fau: fixGapReplace - add function replaceFirstGap()
-	/**
-	 * Replace the first gap in a string without treating backreferences
-	 * @param string $gaptext	text with gap tags
-	 * @param string $content	content for the first gap
-	 * @return string
-	 */
-	public function replaceFirstGap($gaptext, $content)
-	{
-		$content = str_replace('$','GAPMASKEDDOLLAR', $content);
-		$output = preg_replace("/\[gap\].*?\[\/gap\]/", $content, $gaptext, 1);
-		$output = str_replace('GAPMASKEDDOLLAR', '$', $output);
+    /**
+     * Replace the first gap in a string without treating backreferences
+     * @param string $gaptext	text with gap tags
+     * @param string $content	content for the first gap
+     * @return string
+     */
+    public function replaceFirstGap($gaptext, $content)
+    {
+        $content = str_replace('$', 'GAPMASKEDDOLLAR', $content);
+        $output = preg_replace("/\[gap\].*?\[\/gap\]/", $content, $gaptext, 1);
+        $output = str_replace('GAPMASKEDDOLLAR', '$', $output);
 
-		return $output;
-	}
-// fau.
+        return $output;
+    }
+    // fau.
     /**
      * Loads a assClozeTest object from a database
      *
@@ -266,7 +268,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                                 $data["answertext"],
                                 $data["points"],
                                 $data["aorder"]
-                                );
+                            );
                             $this->gaps[$data["gap_id"]]->addItem($answer);
                             break;
                         case CLOZE_NUMERIC:
@@ -570,6 +572,22 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     public function getClozeText()
     {
         return $this->cloze_text;
+    }
+
+    /**
+    * Returns the cloze text as HTML (with optional nl2br)
+    * Fix for Mantis 29987: We assume Tiny embeds any text in tags, so if no tags are present, we derive it's
+    * non-HTML content and apply nl2br.
+    *
+    * @return string The cloze text string as HTML
+    * @see $cloze_text
+    */
+    public function getClozeTextHTML() : string
+    {
+        if ($this->cloze_text !== strip_tags($this->cloze_text)) {
+            return $this->cloze_text;
+        }
+        return nl2br($this->cloze_text);
     }
 
     /**
@@ -1054,8 +1072,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 array_push($answers, str_replace(",", "\\,", $item->getAnswerText()));
             }
             // fau: fixGapReplace - use replace function
-			$output = $this->replaceFirstGap($output, "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]");
-// fau.
+            $output = $this->replaceFirstGap($output, "[_gap]" . $this->prepareTextareaOutput(join(",", $answers), true) . "[/_gap]");
+            // fau.
         }
         $output = str_replace("_gap]", "gap]", $output);
         $this->cloze_text = $output;
@@ -1103,12 +1121,12 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                 }
                 if ($replace_gap_index == $gap_index) {
                     // fau: fixGapReplace - use replace function
-					$output = $this->replaceFirstGap($output, '');
-// fau.
+                    $output = $this->replaceFirstGap($output, '');
+                // fau.
                 } else {
                     // fau: fixGapReplace - use replace function
-					$output = $this->replaceFirstGap($output, "[_gap]" . join(",", $answers) . "[/_gap]");
-// fau.
+                    $output = $this->replaceFirstGap($output, "[_gap]" . join(",", $answers) . "[/_gap]");
+                    // fau.
                 }
             }
             $output = str_replace("_gap]", "gap]", $output);
@@ -1310,7 +1328,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
                         if (!(($gap->getType() == CLOZE_SELECT) && ($value == -1))) {
                             if ($gap->getType() == CLOZE_NUMERIC && !is_numeric(str_replace(",", ".", $value))) {
                                 $value = null;
-                            } else if ($gap->getType() == CLOZE_NUMERIC) {
+                            } elseif ($gap->getType() == CLOZE_NUMERIC) {
                                 $value = str_replace(",", ".", $value);
                             }
                             $solutionSubmit[trim($matches[1])] = $value;
@@ -1953,7 +1971,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $userSolution = array();
 
         foreach ($previewSession->getParticipantsSolution() as $key => $val) {
-            $userSolution[] = array('gap_id' => $key, 'value' => $val);
+            $userSolution[$key] = array('gap_id' => $key, 'value' => $val);
         }
 
         $reachedPoints = $this->calculateReachedPointsForSolution($userSolution);
@@ -1984,7 +2002,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             return false;
         }
 
-        foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $item) {
+        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $item) {
             if ($item->getAnswertext() == $answerOptionValue) {
                 return false;
             }

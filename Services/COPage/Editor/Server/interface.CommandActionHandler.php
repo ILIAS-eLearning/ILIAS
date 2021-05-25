@@ -15,5 +15,5 @@ interface CommandActionHandler
      * @param $body
      * @return Response
      */
-    public function handle($query, $body): Response;
+    public function handle($query, $body) : Response;
 }

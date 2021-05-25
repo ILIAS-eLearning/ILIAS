@@ -1,28 +1,28 @@
 /* Services/Calendar */
 
 td.even {
-	color: #222;
-	background-color: #f7f7f7;
+	color: @il-text-color;
+	background-color: @il-main-dark-bg;
 	padding: 3px;
 }
 
 td.uneven {
-	color: #222;
-	background-color: #eee;
+	color: @il-text-color;
+	background-color: @il-content-bg;
 	padding: 3px;
 }
 
 td.today {
-	background-color: #e0e0ff;
+	background-color: @il-content-bg;
 }
 
 
 td.date {
-	background-color: #f7f7f7;
+	background-color: @il-main-dark-bg;
 }
 
 td.prevMonth {
-	background-color: #dfdfdf;
+	background-color: @il-main-dark-bg;
 }
 
 div#block_cal_sel_0 div.ilBlockContent {
@@ -59,7 +59,7 @@ ul.ilCalSel li {
 	margin: 0;
 	/* padding: 0 0 0 48px; */
 	margin: 0;
-	border-bottom: 1px solid #f0f0f0;
+	border-bottom: 1px solid @il-content-bg;
 	/* min-height: 25px; */
 }
 
@@ -98,7 +98,7 @@ table.calmini {
 	//border-spacing: 2px;
 	//border-collapse: separate;
 	border-collapse: collapse;
-	background-color: lighten(@mid-gray, 71%);
+	background-color: @il-main-dark-bg;
 	border: none;
 	tr, td, th {
 		border: none;
@@ -106,14 +106,14 @@ table.calmini {
 		@media only screen and (max-width: 991px) {padding: 5px 1px;}
 		text-align: center;
 		vertical-align: middle;
-		color: lighten(@mid-gray, 45%);
+		color: @il-text-color;
 		background-color: transparent;
 	}
 	tr:nth-child(odd) {
-		background-color: @il-secondary-container-bg;
+		background-color: @il-main-dark-bg;
 	}
 	tr:nth-child(even) {
-		background-color: @il-primary-container-bg;
+		background-color: @il-main-bg;
 	}
 	th.calmini, th.calminiweek {
 		font-weight: 600;
@@ -129,7 +129,7 @@ table.calmini {
 	}
 	td.calminiprev > .il_calmini_monthday > a,
 	td.calmininext > .il_calmini_monthday > a {
-		color: lighten(@mid-gray, 40%);
+		color: @il-text-color;
 		display:none;
 	}
 }
@@ -153,30 +153,43 @@ a.callink:hover {
 //** Moved from Services/Calendar/templates/calendar.css
 table.calstd {
 	margin-top: @padding-large-vertical;
-	color:@headings-small-color;
+	color: @il-text-color;
 	width:100%;
 	border: none;
 	font-size: 100%;
 }
 
 .calheader {
-	color:@headings-small-color;
+	color: @il-text-color;
 	font-weight: normal;
-	background-color: #F9F9F9;
+	background-color: @il-main-dark-bg;
 }
 
 
 th.calstd {
 	text-align: center;
-	border-spacing:0px;
-	background-color: @body-bg;
+	background-color: @il-main-dark-bg;
 	font-weight: normal;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
+}
+
+.calheadertime {
+	background-color: @il-main-dark-bg;
+	border-spacing:0px;
+	border-collapse:collapse;
+	border-width:1px;
+	border-style:solid;
+	border-color:@table-border-color;
 }
 
 td.calheadertime {
 	width: 6em;
 	text-align: center;
-	background-color: @body-bg;
+	background-color: @il-content-bg;
 	font-size: 90%;
 	padding: 3px;
 }
@@ -192,11 +205,11 @@ tr.calstdtime:first-of-type td{
 }
 
 td.calempty,  th.calempty{
-	background-color:#ffffff;
+	background-color:white;
 }
 
 td.calempty_border {
-	background-color:#ffffff;
+	background-color:white;
 	border-spacing:0px;
 	border-bottom-width:1px;
 	border-bottom-style:solid;
@@ -211,7 +224,7 @@ tr.calstd{
 
 table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
 table.il-cal-week  tr.calstd + tr.calstdtime td.calempty{
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-bg;
 }
 
 table.il-cal-day tr.calstd , table.il-cal-week tr.calstd {
@@ -246,7 +259,7 @@ tr.calstdtime {
 
 td.calstd {
 	vertical-align: top;
-	background-color:#ffffff;
+	background-color: @il-main-bg;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -278,7 +291,7 @@ td.calnow {
 
 td.calnext {
 	vertical-align: top;
-	background-color:#F9F9F9;
+	background-color: @il-main-dark-bg;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -288,7 +301,7 @@ td.calnext {
 
 td.calprev {
 	vertical-align: top;
-	background-color:#F9F9F9;
+	background-color: @il-main-dark-bg;
 	border-spacing:0px;
 	border-collapse:collapse;
 	border-width:1px;
@@ -353,15 +366,15 @@ table.calmini
 }
 
 .calminiheader {
-	color:#222222;
-	background-color: #F9F9F9;
+	color:@il-text-color;
+	background-color: @il-main-dark-bg;
 }
 
 th.calmini {
 	text-align: center;
 	font-size:90%;
 	font-weight:normal;
-	background-color: #FFFFFF;
+	background-color: @il-main-bg;
 }
 
 tr.calmini {
@@ -379,7 +392,7 @@ p.il_calmini_monthday, div.il_calmini_monthday {
 td.calministd {
 	vertical-align: top;
 	border-collapse:collapse;
-	background-color:#ffffff;
+	background-color:@il-main-bg;
 	border-spacing:0px;
 	border-width:1px;
 	border-style:solid;
@@ -413,7 +426,7 @@ td.calmininow {
 
 td.calmininext {
 	vertical-align: top;
-	background-color:#F9F9F9;
+	background-color: @il-main-dark-bg;
 	border-width:1px;
 	border-style:solid;
 	border-color:@table-border-color;
@@ -424,7 +437,7 @@ td.calmininext {
 
 td.calminiprev {
 	vertical-align: top;
-	background-color:#F9F9F9;
+	background-color: @il-main-dark-bg;
 	border-width:1px;
 	border-style:solid;
 	border-color:@table-border-color;
@@ -435,7 +448,7 @@ td.calminiprev {
 
 td.calminiweek, th.calminiweek {
 	vertical-align: top;
-	background-color: #FFFFFF;
+	background-color: @il-main-bg;
 	font-size:60%;
 	text-align:center;
 	vertical-align:middle;

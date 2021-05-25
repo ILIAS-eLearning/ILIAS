@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Content templates are not existing in the page. Once they are inserted into a page
  * all content elements of the template are inserted instead.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCContentTemplate extends ilPageContent
 {

@@ -445,6 +445,10 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
                 $xml_writer->xmlElement('Email', [], $value);
                 break;
 
+            case 'second_email':
+                $xml_writer->xmlElement('SecondEmail', [], $value);
+                break;
+
             case 'institution':
                 $xml_writer->xmlElement('Institution', [], $value);
                 break;

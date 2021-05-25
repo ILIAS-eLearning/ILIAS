@@ -1,17 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExternalFeedGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI, ilExportGUI
-* @ilCtrl_IsCalledBy ilObjExternalFeedGUI: ilRepositoryGUI, ilAdministrationGUI
-*/
+ * Class ilObjExternalFeedGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI, ilExportGUI
+ * @ilCtrl_IsCalledBy ilObjExternalFeedGUI: ilRepositoryGUI, ilAdministrationGUI
+ */
 class ilObjExternalFeedGUI extends ilObjectGUI
 {
     /**
@@ -23,6 +21,11 @@ class ilObjExternalFeedGUI extends ilObjectGUI
      * @var ilHelpGUI
      */
     protected $help;
+
+    /**
+     * @var
+     */
+    protected $feed_block;
 
     /**
     * Constructor
@@ -55,7 +58,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $ilTabs->activateTab("id_permissions");
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -75,11 +77,9 @@ class ilObjExternalFeedGUI extends ilObjectGUI
             case "ilexportgui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("export");
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
                 break;
 
             default:
@@ -112,15 +112,14 @@ class ilObjExternalFeedGUI extends ilObjectGUI
         $_REQUEST["new_type"] = "feed";
         $_POST["title"] = $a_feed_block->getTitle();
         $_POST["desc"] = $a_feed_block->getFeedUrl();
-        parent::saveObject($a_feed_block);
+        $this->feed_block = $a_feed_block;
+        parent::saveObject();
     }
 
-    public function afterSave(ilObject $a_new_object, $a_feed_block = null)
+    public function afterSave(ilObject $a_new_object)
     {
+        $a_feed_block = $this->feed_block;
         if ($a_feed_block != null) {
-            // saveObject() parameters are sent as array
-            $a_feed_block = $a_feed_block[0];
-
             $a_feed_block->setContextObjId($a_new_object->getId());
             $a_feed_block->setContextObjType("feed");
         }
@@ -240,7 +239,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
         $container_id = $tree->getParentId($ref_id);
 
         // #14870
-        include_once "Services/Link/classes/class.ilLink.php";
         ilUtil::redirect(ilLink::_getLink($container_id));
     }
-} // END class.ilObjExternalFeed
+}

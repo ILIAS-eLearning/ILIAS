@@ -116,11 +116,11 @@ class ilChatroomServerConnector
 
         try {
             $response = file_get_contents($url, null, stream_context_create($ctx));
-            restore_error_handler();
             return $response;
         } catch (Exception $e) {
-            restore_error_handler();
             ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
+        } finally {
+            restore_error_handler();
         }
 
         return false;

@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Online help application class
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
  */
 class ilHelp
 {
@@ -50,7 +49,7 @@ class ilHelp
             "SELECT tt_text FROM help_tooltip " .
             " WHERE tt_id = " . $ilDB->quote($a_tt_id, "text") .
             " AND module_id = " . $ilDB->quote($module_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         if (is_array($rec) && $rec["tt_text"] != "") {
             $t = $rec["tt_text"];
@@ -65,7 +64,7 @@ class ilHelp
                 "SELECT tt_text FROM help_tooltip " .
                 " WHERE tt_id = " . $ilDB->quote($gen_tt_id, "text") .
                 " AND module_id = " . $ilDB->quote($module_id, "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             if (is_array($rec) && $rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
@@ -177,7 +176,7 @@ class ilHelp
             " tt_id = " . $ilDB->quote($a_tt_id, "text") . ", " .
             " comp = " . $ilDB->quote($comp, "text") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     
@@ -219,7 +218,7 @@ class ilHelp
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     /**
@@ -237,7 +236,7 @@ class ilHelp
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " module_id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
 
     /**
@@ -258,7 +257,6 @@ class ilHelp
         } else {
             $hm = (int) $ilSetting->get("help_module");
             if ($hm > 0) {
-                include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
                 $lm_id = ilObjHelpSettings::lookupModuleLmId($hm);
             }
         }

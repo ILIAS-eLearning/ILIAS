@@ -60,11 +60,13 @@ class ilLMPresentationService
 
         $this->navigation_status = new ilLMNavigationStatus(
             $user,
-            $this->request->getRequestedObjId(),
+            (int) $this->request->getRequestedObjId(),
             $this->lm_tree,
             $this->lm,
             $this->lm_set,
-            $this->request->getRequestedBackPage()
+            $this->request->getRequestedBackPage(),
+            $this->request->getRequestedCmd(),
+            (int) $this->request->getRequestedFocusId()
         );
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());

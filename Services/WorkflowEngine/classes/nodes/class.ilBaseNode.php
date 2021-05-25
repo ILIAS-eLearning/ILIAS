@@ -63,6 +63,19 @@ abstract class ilBaseNode implements ilNode
     protected $runtime_vars;
 
     /**
+     * This holds if the node represents a forward condition.
+     *
+     * The forward condition works like this:
+     * The node itself transits to multiple nodes, which must represent intermediate events or nodes
+     * that show such characteristics. If one the forward nodes is triggered, they need to look back and
+     * instruct the node to deactivate all other outgoing forward flows so their event detectors are taken
+     * down.
+     *
+     * @var boolean
+     */
+    public $is_forward_condition_node;
+
+    /**
      * Adds a detector to the list of detectors.
      *
      * @param ilDetector $detector

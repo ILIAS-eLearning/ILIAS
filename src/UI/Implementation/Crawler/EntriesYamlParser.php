@@ -11,10 +11,10 @@ use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 
 class EntriesYamlParser implements YamlParser
 {
-    const PARSER_STATE_OUTSIDE = 1;
-    const PARSER_STATE_ENTRY = 2;
-    const PARSER_STATE_SEEKING_RETURN = 3;
-    const PARSER_STATE_SEEKING_FUNCTION_NAME = 4;
+    public const PARSER_STATE_OUTSIDE = 1;
+    public const PARSER_STATE_ENTRY = 2;
+    public const PARSER_STATE_SEEKING_RETURN = 3;
+    public const PARSER_STATE_SEEKING_FUNCTION_NAME = 4;
 
     /**
      * @var array
@@ -217,7 +217,6 @@ class EntriesYamlParser implements YamlParser
                 " in file: " . $this->file_path
             );
         } elseif ($parser_state === self::PARSER_STATE_SEEKING_FUNCTION_NAME) {
-            ;
             throw $this->ef->exception(
                 Exception\CrawlerException::ENTRY_WITHOUT_FUNCTION,
                 " in file: " . $this->file_path
@@ -236,7 +235,7 @@ class EntriesYamlParser implements YamlParser
     }
 
     /**
-     * @param	string $yaml_entries
+     * @param	array $yaml_entries
      * @return	array
      * @throws	Exception\CrawlerException
      */

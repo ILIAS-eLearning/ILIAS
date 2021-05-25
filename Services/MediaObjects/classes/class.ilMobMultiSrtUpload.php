@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Handler class for multi srt upload
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesMediaObjects
  */
 class ilMobMultiSrtUpload
 {
@@ -52,7 +50,6 @@ class ilMobMultiSrtUpload
      */
     public function uploadMultipleSubtitleFile($a_file)
     {
-        include_once("./Services/MediaObjects/exceptions/class.ilMobSrtUploadException.php");
         if (!is_file($a_file["tmp_name"])) {
             throw new ilMobSrtUploadException($this->lng->txt("cont_srt_zip_file_could_not_be_uploaded"));
         }
@@ -79,7 +76,6 @@ class ilMobMultiSrtUpload
     {
         $items = array();
 
-        include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
         $lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
 
         $dir = $this->getMultiSrtUploadDir();
@@ -100,7 +96,6 @@ class ilMobMultiSrtUpload
             }
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         foreach ($this->multi_srt->getMobIds() as $mob) {
             $m = new ilObjMediaObject($mob);
             $mi = $m->getMediaItem("Standard");
@@ -132,7 +127,6 @@ class ilMobMultiSrtUpload
     public function moveMultiSrtFiles()
     {
         $items = $this->getMultiSrtFiles();
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $cnt = 0;
         foreach ($items as $i) {
             if ($i["mob"] > 0 && $i["lang"] != "") {

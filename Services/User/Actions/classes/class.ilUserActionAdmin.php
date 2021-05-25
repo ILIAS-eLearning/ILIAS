@@ -57,6 +57,14 @@ class ilUserActionAdmin
         if (!self::$loaded) {
             self::loadData();
         }
+        if(
+            !isset(self::$data[$a_context_comp])
+        || !isset(self::$data[$a_context_comp][$a_context_id])
+        || !isset(self::$data[$a_context_comp][$a_context_id][$a_action_comp])
+        || !isset(self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type])
+        ) {
+            return false;
+        }
         return (bool) self::$data[$a_context_comp][$a_context_id][$a_action_comp][$a_action_type];
     }
 

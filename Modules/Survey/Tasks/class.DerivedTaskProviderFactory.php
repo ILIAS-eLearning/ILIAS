@@ -54,7 +54,7 @@ class DerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
                 $this->task_service,
                 $this->access,
                 $this->lng
-                )
+            )
         ];
     }
 }

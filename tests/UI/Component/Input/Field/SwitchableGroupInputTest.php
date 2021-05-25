@@ -377,7 +377,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $html = $r->render($sg);
         $expected = <<<EOT
 <div class="form-group row">
-    <label for="id_1" class="control-label col-sm-3">label</label>
+    <label class="control-label col-sm-3">label</label>
     <div class="col-sm-9">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">
@@ -422,7 +422,7 @@ EOT;
         $html = $r->render($sg->withValue('g2'));
         $expected = <<<EOT
 <div class="form-group row">
-    <label for="id_1" class="control-label col-sm-3">label</label>
+    <label class="control-label col-sm-3">label</label>
     <div class="col-sm-9">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">
@@ -478,7 +478,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="form-group row">
-    <label for="id_1" class="control-label col-sm-3">label</label>
+    <label class="control-label col-sm-3">label</label>
     <div class="col-sm-9">
         <div id="id_1" class="il-input-radio">
             <div class="form-control form-control-sm il-input-radiooption">

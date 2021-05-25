@@ -8,6 +8,7 @@ const ACTIONS = {
 
   // editor actions (things happening in the editor client side)
   SELECT_POOL: "select.pool",    // pool selection
+  OPEN_CLIPBOARD: "open.clipboard"    // pool selection
 
 };
 export default ACTIONS;

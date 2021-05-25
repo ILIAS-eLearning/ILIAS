@@ -1,17 +1,17 @@
-@avatar-colors: @avatar-letter-color-variants;
-@avatar-inner-size: (@avatar-size - (2 * @avatar-border-size));
-@avatar-inner-mobile-size: (@avatar-size / 2 );
+@il-avatar-colors: @il-avatar-letter-color-variants;
+@il-avatar-inner-size: (@il-avatar-size - (2 * @il-avatar-border-size));
+@il-avatar-inner-mobile-size: (@il-avatar-size / 2 );
 
-@zoom-small: @avatar-size-small / @avatar-size;
-@zoom-large: @avatar-size-large / @avatar-size;
+@zoom-small: @il-avatar-size-small / @il-avatar-size;
+@zoom-large: @il-avatar-size-large / @il-avatar-size;
 
 .il-avatar {
-	height: @avatar-size;
-	width: @avatar-size;
+	height: @il-avatar-size;
+	width: @il-avatar-size;
 
-	border-radius: @avatar-border-radius;
-	border-style: @avatar-border-style;
-	border-width: @avatar-border-size;
+	border-radius: @il-avatar-border-radius;
+	border-style: @il-avatar-border-style;
+	border-width: @il-avatar-border-size;
 
 	overflow: hidden;
 	line-height: 1;
@@ -20,13 +20,13 @@
 
 
 	&.il-avatar-picture {
-		border-color: @avatar-picture-border-color;
+		border-color: @il-avatar-picture-border-color;
 
 		img {
-			height: @avatar-size;
-			width: @avatar-size;
+			height: @il-avatar-size;
+			width: @il-avatar-size;
 			vertical-align: top;
-			border: @avatar-border-radius;
+			border: @il-avatar-border-radius;
 			overflow: hidden;
 			object-fit: cover;
 		}
@@ -34,23 +34,23 @@
 
 	&.il-avatar-letter {
 		span.abbreviation {
-			font-weight: @avatar-letter-abbreviation-font-weight;
-			text-transform: @avatar-letter-abbreviation-font-transform;
-			font-size: calc(@avatar-inner-size / 2);
+			font-weight: @il-avatar-letter-abbreviation-font-weight;
+			text-transform: @il-avatar-letter-abbreviation-font-transform;
+			font-size: calc(@il-avatar-inner-size / 2);
 			line-height: 1;
 			position: relative;
-			top: calc(@avatar-inner-size / 4);
+			top: calc(@il-avatar-inner-size / 4);
 		}
 
-		.avatar-color-variant(@i: length(@avatar-colors)) when (@i > 0) {
+		.avatar-color-variant(@i: length(@il-avatar-colors)) when (@i > 0) {
 			.avatar-color-variant(@i - 1);
 			@number_text: ~"@{i}";
-			@color: (extract(@avatar-colors, @i));
+			@color: (extract(@il-avatar-colors, @i));
 			&.il-avatar-letter-color-@{number_text} {
-				@contrast: contrast(@color, lighten(@color, @avatar-letter-border-color-contrast-lighten), darken(@color, @avatar-letter-border-color-contrast-darken));
+				@contrast: contrast(@color, lighten(@color, @il-avatar-letter-border-color-contrast-lighten), darken(@color, @il-avatar-letter-border-color-contrast-darken));
 				background-color: @color;
 				border-color: @contrast;
-				color: @contrast;
+				color: white;
 			}
 		}
 		.avatar-color-variant();
@@ -60,22 +60,22 @@
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	.il-avatar {
-		height: @avatar-inner-mobile-size;
-		width: @avatar-inner-mobile-size;
+		height: @il-avatar-inner-mobile-size;
+		width: @il-avatar-inner-mobile-size;
 		margin-top: auto;
-		border-width: @avatar-small-border-size;
+		border-width: @il-avatar-small-border-size;
 
 		&.il-avatar-picture {
 			img {
-				height: @avatar-inner-mobile-size;
-				width: @avatar-inner-mobile-size;
+				height: @il-avatar-inner-mobile-size;
+				width: @il-avatar-inner-mobile-size;
 			}
 		}
 
 		&.il-avatar-letter {
 			span.abbreviation {
-				font-size: calc(@avatar-inner-mobile-size / 2);
-				top: calc(@avatar-inner-mobile-size / 4);
+				font-size: calc(@il-avatar-inner-mobile-size / 2);
+				top: calc(@il-avatar-inner-mobile-size / 4);
 			}
 		}
 	}

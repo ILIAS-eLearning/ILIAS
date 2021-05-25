@@ -95,6 +95,7 @@ Consumers allow to "consume" a resource. This is the interface closest to the Fi
 - Download
 - Get Stream
 - Retrieve content
+- Get the absolute Path of the file (only for legagy purposes)
 - ...
 
 A set of Comsumers is already part of the service.
@@ -124,7 +125,7 @@ global $DIC;
 $upload_result = $DIC['upload']->getResults()['my_uploaded_file'];
 $stakeholder = new ilMyComponentResourceStakeholder();
 
-$identification = $DIC['resource_storage']->upload($upload_result, $stakeholder);
+$identification = $DIC['resource_storage']->manage()->upload($upload_result, $stakeholder);
 
 // then store the $identification whereever I need it in my component
 
@@ -159,7 +160,7 @@ $upload_result = $DIC['upload']->getResults()['my_uploaded_file'];
 $stakeholder = new ilMyComponentResourceStakeholder();
 
 if (null !== $identification) {
-    $DIC['resource_storage']->manage()->appendNewVersion($identification, $upload_result, $stakeholder);
+    $DIC['resource_storage']->manage()->appendNewRevision($identification, $upload_result, $stakeholder);
 } else {
     // there is no such resource in the storage service
 }

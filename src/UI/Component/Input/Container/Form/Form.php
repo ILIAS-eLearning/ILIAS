@@ -18,7 +18,7 @@ interface Form extends Component
     /**
      * Get the inputs contained in the form.
      *
-     * @return    array<mixed,\ILIAS\UI\Component\Input\FormInput>
+     * @return    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>
      */
     public function getInputs();
 

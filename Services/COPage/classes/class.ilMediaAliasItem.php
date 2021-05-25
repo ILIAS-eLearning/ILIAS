@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilMediaAliasItem
-*
-* Media Alias Item, component of a media object (file or reference)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilMediaAliasItem
+ *
+ * Media Alias Item, component of a media object (file or reference)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilMediaAliasItem
 {
     /**
@@ -440,7 +436,6 @@ class ilMediaAliasItem
             $par_node->unlink_node($par_node);
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
         if (is_array($a_par_array)) {
             foreach ($a_par_array as $par => $val) {
                 if (ilMediaItem::checkParameter($par, $val)) {

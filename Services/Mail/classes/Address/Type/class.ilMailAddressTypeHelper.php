@@ -72,7 +72,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
      */
     public function getGlobalMailSystemId() : int
     {
-        return (int) ilMailGlobalServices::getMailObjectRefId();
+        return ilMailGlobalServices::getMailObjectRefId();
     }
 
     /**
@@ -83,6 +83,6 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
     {
         $options = new ilMailOptions($usrId);
 
-        return (int) $options->getIncomingType() === (int) ilMailOptions::INCOMING_LOCAL;
+        return $options->getIncomingType() === ilMailOptions::INCOMING_LOCAL;
     }
 }

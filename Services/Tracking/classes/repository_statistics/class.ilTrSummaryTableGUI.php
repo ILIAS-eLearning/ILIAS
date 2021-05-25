@@ -320,7 +320,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $lng = $DIC['lng'];
         
-        include_once("./Services/Utilities/classes/class.ilCountry.php");
         $options = array();
         foreach (ilCountry::getCountryCodes() as $c) {
             $options[$c] = $lng->txt("meta_c_" . $c);
@@ -383,7 +382,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $filter,
             $this->getSelectedColumns(),
             $preselected_obj_ids
-                );
+        );
         
         // build status to image map
         include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
@@ -489,36 +488,45 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             return false;
         }
 
-        $result = array();
+        $result = [];
 
         if ($data) {
-            // if we have only 1 item more than the limit, "others" makes no sense
-            if (sizeof($data) == $limit + 1) {
-                $limit++;
+            if (is_array($data) && count($data) < $limit) {
+                $limit = count($data);
             }
-            
-            $counter = $others_counter = $others_sum = 0;
+            if (is_array($data) && (count($data) == $limit + 1)) {
+                ++$limit;
+            }
+            $counter = $others_counter = 0;
+            $others_sum = $overall;
+            $all_sum = 0;
             foreach ($data as $id => $count) {
                 $counter++;
+                $all_sum += $count;
                 if ($counter <= $limit) {
                     $caption = $id;
 
                     if ($value_map && isset($value_map[$id])) {
                         $caption = $value_map[$id];
                     }
-
                     if ($caption == "") {
                         $caption = $lng->txt("none");
                     }
-
+                    if (
+                        $counter == $limit &&
+                        $all_sum < $overall
+                    ) {
+                        ++$others_counter;
+                        continue;
+                    }
                     $perc = round($count / $overall * 100);
                     $result[] = array(
                         "caption" => $caption,
                         "absolute" => $count, // ." ".($count > 1 ? $lng->txt("users") : $lng->txt("user")),
                         "percentage" => $perc
                         );
+                    $others_sum -= $count;
                 } else {
-                    $others_sum += $count;
                     $others_counter++;
                 }
             }

@@ -160,7 +160,7 @@ class ilFileXMLWriter extends ilXmlWriter
                 $content = "";
 
                 if ($this->attachFileContents) {
-                    $filename = $this->file->getDirectory($version["version"]) . "/" . $this->file->getFileName();
+                    $filename = $this->file->getFile($version["version"]);
 
                     if (@is_file($filename)) {
                         if ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_COPY) {

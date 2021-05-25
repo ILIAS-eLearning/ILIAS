@@ -8,6 +8,7 @@ require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
+use function PHPUnit\Framework\assertNull;
 
 class WithButtonNoUIFactory extends NoUIFactory
 {
@@ -98,6 +99,56 @@ class StandardFormTest extends ILIAS_UI_TestBase
    </div>
    <div class="il-standard-form-footer clearfix">
       <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
+   </div>
+</form>
+        ');
+        $this->assertHTMLEquals($expected, $html);
+    }
+
+    public function test_submit_caption() {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [
+            $if->text("label", "byline"),
+        ]);
+
+        $this->assertNull($form->getSubmitCaption());
+
+        $caption = 'Caption';
+        $form = $form->withSubmitCaption($caption);
+
+        $this->assertEquals($caption, $form->getSubmitCaption());
+    }
+
+    public function test_submit_caption_render()
+    {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [
+            $if->text("label", "byline"),
+        ])->withSubmitCaption('create');
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($form));
+
+        $expected = $this->brutallyTrimHTML('
+<form role="form" class="il-standard-form form-horizontal" enctype="multipart/form-data" action="MY_URL" method="post" novalidate="novalidate">
+   <div class="il-standard-form-header clearfix">
+      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
+   </div>
+   <div class="form-group row">
+      <label for="id_1" class="control-label col-sm-3">label</label>
+      <div class="col-sm-9">
+         <input id="id_1" type="text" name="form_input_1" class="form-control form-control-sm"/>
+         <div class="help-block">byline</div>
+      </div>
+   </div>
+   <div class="il-standard-form-footer clearfix">
+      <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">create</button></div>
    </div>
 </form>
         ');

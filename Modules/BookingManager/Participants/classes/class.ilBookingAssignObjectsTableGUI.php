@@ -82,6 +82,7 @@ class ilBookingAssignObjectsTableGUI extends ilTable2GUI
         $this->pool_id = $a_pool_id;
         $this->pool = new ilObjBookingPool($this->pool_id, false);
 
+        $user_name = "";
         if ($_GET['bkusr']) {
             $this->user_id_to_book = (int) $_GET['bkusr'];
             if (!ilObjUser::_exists($this->user_id_to_book)) {

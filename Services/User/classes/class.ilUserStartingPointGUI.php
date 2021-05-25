@@ -424,7 +424,6 @@ class ilUserStartingPointGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget($lng->txt('back_to_starting_points_list'), $ilCtrl->getLinkTarget($this, 'startingPoints'));
 
-        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('confirm_delete_starting_point'));

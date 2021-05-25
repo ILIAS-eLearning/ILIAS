@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-require_once("./Services/Imprint/classes/class.ilImprint.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilImprintGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
-*
-* @ingroup ModulesImprint
-*/
+ * Class ilImprintGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ */
 class ilImprintGUI extends ilPageObjectGUI
 {
     /**
@@ -50,8 +46,6 @@ class ilImprintGUI extends ilPageObjectGUI
         parent::__construct("impr", 1);
         
         // content style (using system defaults)
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        
         $tpl->setCurrentBlock("SyntaxStyle");
         $tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",

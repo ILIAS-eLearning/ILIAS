@@ -3,7 +3,7 @@
 }
 
 .il-item {
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-bg;
 	position: relative;
 	padding: @il-item-padding;
 	.clearfix();
@@ -39,13 +39,22 @@
 
 	.il-item-property-name {
 		font-size: @font-size-small;
-		color: @il-light-text-color;
+		color: @il-text-light-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
 		font-size: @font-size-small;
 		overflow: hidden;
+	}
+
+	.il-chart-progressmeter-viewbox {
+		margin-left: auto;
+		margin-right: auto;
+
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			padding-top: @padding-large-vertical;
+		}
 	}
 
 	.col-sm-9 > .row {
@@ -64,7 +73,7 @@
 
 .il-item-group {
 	clear: both;
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-dark-bg;
 
 	> h3 {
 		float:left;
@@ -92,7 +101,8 @@
 .il-notification-item{
 	//To give some extra space in case for vertical scroll bar
 	padding-right: @il-item-padding + 3px;
-	.il-item-notification-title{
+
+	.il-item-notification-title {
 		display: inline-block;
 		margin: 0;
 	}
@@ -158,6 +168,12 @@
 			padding: @il-item-divider-padding;
 			margin: 0;
 			border-bottom: 0;
+		}
+	}
+
+	.panel-secondary .il-item  {
+		.media-body{
+			width: auto;
 		}
 	}
 }

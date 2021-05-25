@@ -2726,7 +2726,7 @@
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
 		</xsl:when>
@@ -2742,7 +2742,7 @@
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
 		</xsl:when>
@@ -2751,7 +2751,7 @@
 		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video class="ilPageVideo" controls="controls" preload="none">
+			<video class="ilPageVideo" controls="controls" preload="metadata">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
@@ -2760,13 +2760,13 @@
 				</xsl:if>
 				<!-- see #bug22632 -->
 				<xsl:if test="$width = '' and $height = ''">
-					<xsl:attribute name="style">max-width: 100%; width: 100%;</xsl:attribute>
+					<xsl:attribute name="style">max-width: 100%; width: 100%; max-height: 100%;</xsl:attribute>
 				</xsl:if>
 				<xsl:if test="$mode != 'edit' and
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 				<xsl:choose>
 					<xsl:when test = "$type = 'video/mp4'">
@@ -3141,7 +3141,7 @@
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
-				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
+				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>;<xsl:number count="Section" level="any" />}}}}}
 			</xsl:if>
 			<xsl:if test="(./ExtLink or ./IntLink) and not($mode = 'edit')">
 				<a style="display:block;">
@@ -3168,7 +3168,7 @@
 				</div>
 			</xsl:if>
 			<xsl:if test="@PermissionRefId">
-				{{{{{Section;Access}}}}}
+				{{{{{Section;AccessEnd;<xsl:number count="Section" level="any" />}}}}}
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
@@ -3385,8 +3385,15 @@
 		<xsl:if test="@Type = 'VerticalAccordion' and $cwidth != 'null'">
 			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /><xsl:if test="$mode='edit'"> background-color:white;</xsl:if></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="@Type = 'Carousel' and $cwidth != 'null'">
-			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
+		<xsl:if test="@Type = 'Carousel'">
+			<xsl:choose>
+				<xsl:when test="$cwidth != 'null'">
+					<xsl:attribute name="style">display: grid; width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="style">display: grid;</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 		<xsl:variable name="cheight">
 			<xsl:choose>
@@ -3420,6 +3427,7 @@
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_ca_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value"/> owl-carousel</xsl:attribute>
 			</xsl:if>
+			<xsl:attribute name="style">overflow: hidden;</xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 			<xsl:apply-templates select="Tab">
@@ -3732,6 +3740,7 @@
 				<br/>
 			</xsl:if>
 		</xsl:if>
+		<xsl:comment>Break</xsl:comment>
 	</div>
 </xsl:template>
 

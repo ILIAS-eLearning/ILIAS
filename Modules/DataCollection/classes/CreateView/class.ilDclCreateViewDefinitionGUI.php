@@ -243,8 +243,10 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 // Delete all field values associated with this id
                 $existing_values = ilDclTableViewBaseDefaultValue::findAll($data_type_id, $id);
 
-                foreach ($existing_values as $existing_value) {
-                    $existing_value->delete();
+                if (!is_null($existing_values)) {
+                    foreach ($existing_values as $existing_value) {
+                        $existing_value->delete();
+                    }
                 }
 
                 // Create fields

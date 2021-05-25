@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use ILIAS\Setup;
+use ILIAS\DI;
 
 class ilCtrlStructureStoredObjective implements Setup\Objective
 {
@@ -12,15 +13,9 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     protected $ctrl_reader;
 
-    /**
-     * @var	bool
-     */
-    protected $populate_before;
-
-    public function __construct(\ilCtrlStructureReader $ctrl_reader, bool $populate_before = true)
+    public function __construct(\ilCtrlStructureReader $ctrl_reader)
     {
         $this->ctrl_reader = $ctrl_reader;
-        $this->populate_before = $populate_before;
     }
 
     /**
@@ -71,9 +66,20 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }
 
+        // ATTENTION: This is a total abomination. It only exists to allow various
+        // sub components of the various readers to run. This is a memento to the
+        // fact, that dependency injection is something we want. Currently, every
+        // component could just service locate the whole world via the global $DIC.
+        $DIC = $GLOBALS["DIC"];
+        $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"]["ilDB"] = $db;
+
         $reader = $this->ctrl_reader->withDB($db);
         $reader->executed = false;
         $reader->readStructure(true);
+
+        $GLOBALS["DIC"] = $DIC;
+
         return $environment;
     }
 

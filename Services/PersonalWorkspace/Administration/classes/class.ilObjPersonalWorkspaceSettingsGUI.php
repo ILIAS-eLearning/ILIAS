@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Personal Workspace Settings.
@@ -151,7 +151,6 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
 
         $tabs->activateTab("settings");
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveWsp"));
         $form->setTitle($lng->txt("obj_prss"));

@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a file property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a file property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
     /**
@@ -30,7 +26,9 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     /**
      * @var array
      */
-    protected $forbidden_suffixes = array();
+    protected $forbidden_suffixes = [];
+    protected $suffixes = [];
+    protected $value;
     
     /**
     * Constructor
@@ -57,10 +55,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     */
     public function setValueByArray($a_values)
     {
-        if (!is_array($a_values[$this->getPostVar()])) {
-            $this->setValue($a_values[$this->getPostVar()]);
+        $value = $a_values[$this->getPostVar()] ?? null;
+        if (!is_array($value)) {
+            $this->setValue($value);
         }
-        $this->setFilename($a_values[$this->getFileNamePostVar()]);
+        $filenam = $a_values[$this->getFileNamePostVar()] ?? '';
+        $this->setFilename($filenam);
     }
 
     /**
@@ -264,7 +264,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         $_FILES[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"]);
 
         // remove trailing '/'
@@ -272,9 +271,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $filename = $_FILES[$this->getPostVar()]["name"];
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
-        $suffix = $filename_arr["extension"];
-        $mimetype = $_FILES[$this->getPostVar()]["type"];
-        $size_bytes = $_FILES[$this->getPostVar()]["size"];
+        $suffix = $filename_arr["extension"] ?? '';
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
         $_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
@@ -286,7 +283,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_FORM_SIZE:
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
@@ -310,7 +307,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_CANT_WRITE:
                     $this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
                     return false;
@@ -423,7 +420,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 " disabled=\"disabled\""
             );
         }
-            
+        
         $f_tpl->setVariable("POST_VAR", $this->getPostVar());
         $f_tpl->setVariable("ID", $this->getFieldId());
         $f_tpl->setVariable("SIZE", $this->getSize());

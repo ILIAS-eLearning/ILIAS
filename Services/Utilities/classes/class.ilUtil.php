@@ -1,24 +1,24 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @defgroup ServicesUtilities Services/Utilities
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
-* Util class
-* various functions, usage as namespace
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup	ServicesUtilities
-*/
+ * Util class
+ * various functions, usage as namespace
+ * @author     Sascha Hofmann <saschahofmann@gmx.de>
+ * @author     Alex Killing <alex.killing@gmx.de>
+ *
+ * @deprecated The 2021 Technical Board has decided to mark the ilUtil class as deprecated. The ilUtil is a historically
+ * grown helper class with many different UseCases and functions. The class is not under direct maintainership and the
+ * responsibilities are unclear. In this context, the class should no longer be used in the code and existing uses
+ * should be converted to their own service in the medium term. If you need ilUtil for the implementation of a new
+ * function in ILIAS > 7, please contact the Technical Board.
+ */
 class ilUtil
 {
     protected static $db_supports_distinct_umlauts;
@@ -43,7 +43,6 @@ class ilUtil
             ? "big"
             : "small";
 
-        include_once("./Services/Object/classes/class.ilObject.php");
         $filename = ilObject::_getIcon("", $size, $a_type);
 
         return "<img src=\"" . $filename . "\" alt=\"" . $lng->txt("obj_" . $a_type) . "\" title=\"" . $lng->txt("obj_" . $a_type) . "\" border=\"0\" vspace=\"0\"/>";
@@ -63,7 +62,6 @@ class ilUtil
      */
     public static function getTypeIconPath($a_type, $a_obj_id, $a_size = 'small')
     {
-        include_once("./Services/Object/classes/class.ilObject.php");
         return ilObject::_getIcon($a_obj_id, $a_size, $a_type);
     }
 
@@ -97,7 +95,6 @@ class ilUtil
         $default_img = "." . $module_path . "/templates/default/images/" . $img;
 
         // use ilStyleDefinition instead of account to get the current skin and style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         $current_skin = ilStyleDefinition::getCurrentSkin();
         $current_style = ilStyleDefinition::getCurrentStyle();
 
@@ -181,7 +178,6 @@ class ilUtil
 
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         $stylesheet_name = (strlen($a_css_name))
             ? $a_css_name
             : ilStyleDefinition::getCurrentStyle() . ".css";
@@ -191,7 +187,6 @@ class ilUtil
 
         $filename = "";
         // use ilStyleDefinition instead of account to get the current skin
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . $a_css_location . $stylesheet_name;
         }
@@ -207,70 +202,6 @@ class ilUtil
             $vers .= ($skin->getVersion() != '' ? str_replace(".", "-", '-' . $skin->getVersion()) : '');
         }
         return $filename . $vers;
-    }
-
-    /**
-    * get full javascript file name (path inclusive) of current user
-    *
-    * @param $a_js_name string The name of the js file
-    * @param $a_js_location string The location of the js file e.g. a module path
-    * @param $add_version boolean Add version information to the filename
-    * @access	public
-    * @static
-    *
-    */
-    public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = false)
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // add version as parameter to force reload for new releases
-        $js_name = $a_js_name;
-        if (strlen($a_js_location) && (strcmp(substr($a_js_location, -1), "/") != 0)) {
-            $a_js_location = $a_js_location . "/";
-        }
-
-        $filename = "";
-        // use ilStyleDefinition instead of account to get the current skin
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
-        if (ilStyleDefinition::getCurrentSkin() != "default") {
-            $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . $a_js_location . $js_name;
-        }
-        if (strlen($filename) == 0 || !file_exists($filename)) {
-            $filename = "./" . $a_js_location . "templates/default/" . $js_name;
-        }
-        $vers = "";
-        if ($add_version) {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-        return $filename . $vers;
-    }
-
-    /**
-    * Get p3p file path. (Not in use yet, see class.ilTemplate.php->show())
-    *
-    * @access	public
-    * @static
-    *
-    */
-    public static function getP3PLocation()
-    {
-        if (defined("ILIAS_MODULE")) {
-            $base = '';
-            for ($i = 0;$i < count(explode('/', ILIAS_MODULE));$i++) {
-                $base .= "../Services/Privacy/";
-            }
-        } else {
-            $base = "./Services/Privacy/";
-        }
-
-        if (is_file($base . "w3c/p3p.xml")) {
-            return ILIAS_HTTP_PATH . "w3c/p3p.xml";
-        } else {
-            return ILIAS_HTTP_PATH . "/w3c/p3p_template.xml";
-        }
     }
 
     /**
@@ -293,7 +224,6 @@ class ilUtil
         }
 
         // use ilStyleDefinition instead of account to get the current skin and style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() == "default") {
             $in_style = "./templates/" . ilStyleDefinition::getCurrentSkin() . "/"
                                     . ilStyleDefinition::getCurrentStyle() . "_cont.css";
@@ -355,6 +285,7 @@ class ilUtil
         // this is workaround the whole function should be set deprecated
         // $attributes = " style='display:inline-block;' ";
 
+        $attributes = "";
         if (is_array($attribs)) {
             foreach ($attribs as $key => $val) {
                 $attributes .= " " . $key . "=\"" . $val . "\"";
@@ -366,9 +297,9 @@ class ilUtil
 
         $size_str = "";
         if ($size > 0) {
-            $size_str = ' size="'.$size.'" ';
+            $size_str = ' size="' . $size . '" ';
         }
-        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $attributes $disabled>\n";
+        $str = "<select name=\"" . $varname . "\"" . $multiple . " $class " . $size_str . " $disabled>\n";
 
         foreach ((array) $options as $key => $val) {
             $style = "";
@@ -404,20 +335,6 @@ class ilUtil
         $str .= "</select>\n";
 
         return $str;
-    }
-
-    /**
-    * ???
-    *
-    * @access	public
-    * @param string
-    * @param string
-    * @static
-    *
-    */
-    public static function getSelectName($selected, $values)
-    {
-        return($values[$selected]);
     }
 
     /**
@@ -464,35 +381,6 @@ class ilUtil
 
         return $str;
     }
-
-    /**
-     * ???
-     * @accesspublic
-     * @paramstring
-     * @paramstring
-     * @paramstring
-     * @param        string
-     * @returnstring
-     * @static
-     *
-     */
-    public static function formDisabledRadioButton($checked, $varname, $value, $disabled)
-    {
-        if ($disabled) {
-            $str = "<input disabled type=\"radio\" name=\"" . $varname . "\"";
-        } else {
-            $str = "<input type=\"radio\" name=\"" . $varname . "\"";
-        }
-        if ($checked == 1) {
-            $str .= " checked=\"checked\"";
-        }
-
-        $str .= " value=\"" . $value . "\"";
-        $str .= " id=\"" . $value . "\" />\n";
-
-        return $str;
-    }
-
 
     /**
     * ???
@@ -554,45 +442,14 @@ class ilUtil
 
 
     /**
-    * ???
-    * @param string
-    * @static
-    *
-    */
-    public static function checkInput($vars)
-    {
-        // TO DO:
-        // Diese Funktion soll Formfeldeingaben berprfen (empty und required)
-    }
-
-    /**
-    * ???
-    * @access	public
-    * @param	string
-    * @static
-    */
-    public static function setPathStr($a_path)
-    {
-        if ("" != $a_path && "/" != substr($a_path, -1)) {
-            $a_path .= "/";
-            //$a_path = substr($a_path,1);
-        }
-
-        //return getcwd().$a_path;
-        return $a_path;
-    }
-
-    /**
     * switches style sheets for each even $a_num
     * (used for changing colors of different result rows)
     *
-    * @access	public
     * @param	integer	$a_num	the counter
     * @param	string	$a_css1	name of stylesheet 1
     * @param	string	$a_css2	name of stylesheet 2
     * @return	string	$a_css1 or $a_css2
-    * @static
-    *
+    * @deprecated
     */
     public static function switchColor($a_num, $a_css1, $a_css2)
     {
@@ -603,137 +460,6 @@ class ilUtil
         }
     }
 
-    /**
-    * ???
-    * @access	public
-    * @param	array
-    * @return	string
-    * @static
-    *
-    */
-    public static function checkFormEmpty($emptyFields)
-    {
-        $feedback = "";
-
-        foreach ($emptyFields as $key => $val) {
-            if ($val == "") {
-                if ($feedback != "") {
-                    $feedback .= ", ";
-                }
-                $feedback .= $key;
-            }
-        }
-
-        return $feedback;
-    }
-
-    /**
-    * Linkbar
-    * Diese Funktion erzeugt einen typischen Navigationsbalken mit
-    * "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
-    *
-    * die komplette LinkBar wird zur?ckgegeben
-    * der Variablenname f?r den offset ist "offset"
-    *
-    * @author Sascha Hofmann <shofmann@databay.de>
-    *
-    * @access	public
-    * @param	integer	Name der Skriptdatei (z.B. test.php)
-    * @param	integer	Anzahl der Elemente insgesamt
-    * @param	integer	Anzahl der Elemente pro Seite
-    * @param	integer	Das aktuelle erste Element in der Liste
-    * @param	array	Die zu ?bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
-    * @param	array	layout options (all optional)
-    * 					link	=> css name for <a>-tag
-    * 					prev	=> value for 'previous page' (default: '<<')
-    * 					next	=> value for 'next page' (default: '>>')
-    * @return	array	linkbar or false on error
-    * @static
-    *
-    */
-    public static function Linkbar($AScript, $AHits, $ALimit, $AOffset, $AParams = array(), $ALayout = array(), $prefix = '')
-    {
-        $LinkBar = "";
-
-        $layout_link = "";
-        $layout_prev = "&lt;&lt;";
-        $layout_next = "&gt;&gt;";
-
-        // layout options
-        if ((is_array($ALayout) && (count($ALayout) > 0))) {
-            if ($ALayout["link"]) {
-                $layout_link = " class=\"" . $ALayout["link"] . "\"";
-            }
-
-            if ($ALayout["prev"]) {
-                $layout_prev = $ALayout["prev"];
-            }
-
-            if ($ALayout["next"]) {
-                $layout_next = $ALayout["next"];
-            }
-        }
-
-        // show links, if hits greater limit
-        // or offset > 0 (can be > 0 due to former setting)
-        if ($AHits > $ALimit || $AOffset > 0) {
-            if (!empty($AParams)) {
-                foreach ($AParams as $key => $value) {
-                    $params .= $key . "=" . $value . "&";
-                }
-            }
-            // if ($params) $params = substr($params,0,-1);
-            if (strpos($AScript, '&')) {
-                $link = $AScript . "&" . $params . $prefix . "offset=";
-            } else {
-                $link = $AScript . "?" . $params . $prefix . "offset=";
-            }
-
-            // ?bergehe "zurck"-link, wenn offset 0 ist.
-            if ($AOffset >= 1) {
-                $prevoffset = $AOffset - $ALimit;
-                if ($prevoffset < 0) {
-                    $prevoffset = 0;
-                }
-                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $prevoffset . "\">" . $layout_prev . "&nbsp;</a>";
-            }
-
-            // Ben?tigte Seitenzahl kalkulieren
-            $pages = intval($AHits / $ALimit);
-
-            // Wenn ein Rest bleibt, addiere eine Seite
-            if (($AHits % $ALimit)) {
-                $pages++;
-            }
-
-            // Bei Offset = 0 keine Seitenzahlen anzeigen : DEAKTIVIERT
-            //			if ($AOffset != 0) {
-
-            // ansonsten zeige Links zu den anderen Seiten an
-            for ($i = 1 ;$i <= $pages ; $i++) {
-                $newoffset = $ALimit * ($i - 1);
-
-                if ($newoffset == $AOffset) {
-                    $LinkBar .= "[" . $i . "] ";
-                } else {
-                    $LinkBar .= '<a ' . $layout_link . ' href="' .
-                        $link . $newoffset . '">[' . $i . ']</a> ';
-                }
-            }
-            //			}
-
-            // Checken, ob letze Seite erreicht ist
-            // Wenn nicht, gebe einen "Weiter"-Link aus
-            if (!(($AOffset / $ALimit) == ($pages - 1)) && ($pages != 1)) {
-                $newoffset = $AOffset + $ALimit;
-                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $newoffset . "\">&nbsp;" . $layout_next . "</a>";
-            }
-
-            return $LinkBar;
-        } else {
-            return false;
-        }
-    }
 
     /**
     * makeClickable
@@ -772,7 +498,6 @@ class ilUtil
         // mask existing image tags
         $ret = str_replace('src="http://', '"***masked_im_start***', $ret);
 
-        include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
         $parser = new ilMWParserAdapter();
         $ret = $parser->replaceFreeExternalLinks($ret);
 
@@ -814,10 +539,9 @@ class ilUtil
      * 	$matches[1] contains href attribute
      * 	$matches[2] contains id of goto link
      * @return link containg a _self target, same href and new text content
-     * @static
-     *
+     * @deprecated
      */
-    public static function replaceLinkProperties($matches)
+    protected static function replaceLinkProperties($matches)
     {
         $link = $matches[0];
         $ref_id = $matches[2];
@@ -1106,7 +830,6 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         // check if password is empty
@@ -1151,7 +874,6 @@ class ilUtil
             }
         }
 
-        require_once 'Services/Utilities/classes/class.ilStr.php';
         if ($security->getPasswordNumberOfUppercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[A-Z]/', '', $a_passwd)) < $security->getPasswordNumberOfUppercaseChars()) {
                 $errors[] = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
@@ -1200,7 +922,6 @@ class ilUtil
      */
     public static function isPasswordValidForUserContext($clear_text_password, $user, &$error_language_variable = null)
     {
-        include_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
         $security = ilSecuritySettings::_getInstance();
 
         $login = null;
@@ -1235,7 +956,7 @@ class ilUtil
      * @param bool $a_only_special_chars
      * @return string
      */
-    public static function getPasswordValidChars($a_as_regex = true, $a_only_special_chars = false)
+    protected static function getPasswordValidChars($a_as_regex = true, $a_only_special_chars = false)
     {
         if ($a_as_regex) {
             if ($a_only_special_chars) {
@@ -1261,7 +982,6 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         $infos = array(sprintf($lng->txt('password_allow_chars'), self::getPasswordValidChars(false)));
@@ -1343,7 +1063,6 @@ class ilUtil
         $a_next_blank = false,
         $a_keep_extension = false
     ) {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         if (ilStr::strLen($a_str) > $a_len) {
             if ($a_next_blank) {
                 $len = ilStr::strPos($a_str, " ", $a_len);
@@ -1355,6 +1074,7 @@ class ilUtil
             //             Workaround for Windows WebDAV Client:
             //             Use the unicode ellipsis symbol for shortening instead of
             //             three full stop characters.
+            $p = false;
             if ($a_keep_extension) {
                 $p = strrpos($a_str, '.');	// this messes up normal shortening, see bug #6190
             }
@@ -1390,7 +1110,6 @@ class ilUtil
      */
     public static function shortenWords($a_str, $a_len = 30, $a_dots = true)
     {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         $str_arr = explode(" ", $a_str);
 
         for ($i = 0; $i < count($str_arr); $i++) {
@@ -1525,22 +1244,6 @@ class ilUtil
     {
         return CLIENT_DATA_DIR;
     }
-
-    /**
-    * reads all active sessions from db and returns users that are online
-    * OR returns only one active user if a user_id is given
-    *
-    * @param	integer	user_id (optional)
-    * @return	array
-    * @static
-    *
-    */
-    public static function getUsersOnline($a_user_id = 0)
-    {
-        include_once("./Services/User/classes/class.ilObjUser.php");
-        return ilObjUser::_getUsersOnline($a_user_id);
-    }
-
 
     /**
      * Returns a unique and non existing Path for e temporary file or directory
@@ -1685,7 +1388,6 @@ class ilUtil
 
         // if flat, get all files and move them to original directory
         if ($a_flat) {
-            include_once("./Services/Utilities/classes/class.ilFileUtils.php");
             $filearray = array();
             ilFileUtils::recursive_dirscan($tmpdir, $filearray);
             if (is_array($filearray["file"])) {
@@ -1751,33 +1453,6 @@ class ilUtil
         return true;
     }
 
-    public static function CreateIsoFromFolder($a_dir, $a_file)
-    {
-        $cdir = getcwd();
-
-        $pathinfo = pathinfo($a_dir);
-        chdir($pathinfo["dirname"]);
-
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
-        $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
-
-        $mkisofs = PATH_TO_MKISOFS;
-        if (!$mkisofs) {
-            chdir($cdir);
-            return false;
-        }
-
-        $name = basename($a_dir);
-        $source = ilUtil::escapeShellArg($name);
-
-        $zipcmd = "-r -J -o " . $a_file . " " . $source;
-        ilUtil::execQuoted($mkisofs, $zipcmd);
-        chdir($cdir);
-        return true;
-    }
-
     /**
     * get convert command
     *
@@ -1800,6 +1475,7 @@ class ilUtil
      */
     public static function execConvert($args)
     {
+        $args = self::escapeShellCmd($args);
         ilUtil::execQuoted(PATH_TO_CONVERT, $args);
     }
 
@@ -1935,8 +1611,6 @@ class ilUtil
         $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
         //		$mime = "application/octet-stream"; // or whatever the mime type is
 
-        include_once './Services/Http/classes/class.ilHTTPS.php';
-
         //if($_SERVER['HTTPS'])
         if (ilHTTPS::getInstance()->isDetected()) {
 
@@ -2018,30 +1692,6 @@ class ilUtil
 
 
     /**
-    * there are some known problems with the original readfile method, which
-    * sometimes truncates delivered files regardless of php.ini setting
-    * (see http://de.php.net/manual/en/function.readfile.php) use this
-    * method to avoid these problems.
-    *
-    * @static
-    *
-    */
-    public static function readFile($a_file)
-    {
-        $chunksize = 1 * (1024 * 1024); // how many bytes per chunk
-        $buffer = '';
-        $handle = fopen($a_file, 'rb');
-        if ($handle === false) {
-            return false;
-        }
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunksize);
-            print $buffer;
-        }
-        return fclose($handle);
-    }
-
-    /**
     * convert utf8 to ascii filename
     *
     * @param	string		$a_filename		utf8 filename
@@ -2084,47 +1734,6 @@ class ilUtil
         return $ascii_filename;
     }
 
-    /**
-    * Encodes HTML entities outside of HTML tags
-    *
-    * @static
-    *
-    */
-    public static function htmlentitiesOutsideHTMLTags($htmlText)
-    {
-        $matches = array();
-        $sep = '###HTMLTAG###';
-
-        preg_match_all("@<[^>]*>@", $htmlText, $matches);
-        $tmp = preg_replace("@(<[^>]*>)@", $sep, $htmlText);
-        $tmp = explode($sep, $tmp);
-
-        for ($i = 0; $i < count($tmp); $i++) {
-            $tmp[$i] = htmlentities($tmp[$i], ENT_COMPAT, "UTF-8");
-        }
-
-        $tmp = join($sep, $tmp);
-
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $tmp = preg_replace("@$sep@", $matches[0][$i], $tmp, 1);
-        }
-
-        return $tmp;
-    }
-
-    /**
-    * get full java path (dir + java command)
-    *
-    * @static
-    *
-    */
-    public static function getJavaPath()
-    {
-        return PATH_TO_JAVA;
-        //global $ilias;
-
-        //return $ilias->getSetting("java_path");
-    }
 
     /**
     * append URL parameter string ("par1=value1&par2=value2...")
@@ -3058,8 +2667,6 @@ class ilUtil
         $a_numeric = false,
         $a_keep_keys = false
     ) {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
-
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby, $a_array_sortorder, $a_numeric, $a_keep_keys);
         }
@@ -3450,7 +3057,6 @@ class ilUtil
         elseif ($args) {
             $cmd .= " " . $args;
         }
-
         exec($cmd, $arr);
 
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
@@ -3644,7 +3250,6 @@ class ilUtil
         $ret = array();
         srand((double) microtime() * 1000000);
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         for ($i = 1; $i <= $a_number; $i++) {
@@ -3658,8 +3263,8 @@ class ilUtil
                 $max = $max + 1;
             }
             $random = new \ilRandom();
-            $length  = $random->int($min, $max);
-            $next  = $random->int(1, 2);
+            $length = $random->int($min, $max);
+            $next = $random->int(1, 2);
             $vowels = "aeiou";
             $vowels_uc = strtoupper($vowels);
             $consonants = "bcdfghjklmnpqrstvwxyz";
@@ -3672,12 +3277,12 @@ class ilUtil
                 for ($j = 0; $j < $security->getPasswordNumberOfUppercaseChars(); $j++) {
                     switch ($next) {
                         case 1:
-                            $pw.= $consonants_uc[$random->int(0, strlen($consonants_uc) - 1)];
+                            $pw .= $consonants_uc[$random->int(0, strlen($consonants_uc) - 1)];
                             $next = 2;
                             break;
 
                         case 2:
-                            $pw.= $vowels_uc[$random->int(0, strlen($vowels_uc) - 1)];
+                            $pw .= $vowels_uc[$random->int(0, strlen($vowels_uc) - 1)];
                             $next = 1;
                             break;
                     }
@@ -3685,23 +3290,23 @@ class ilUtil
             }
 
             if ($security->isPasswordCharsAndNumbersEnabled()) {
-                $pw.= $numbers[$random->int(0, strlen($numbers) - 1)];
+                $pw .= $numbers[$random->int(0, strlen($numbers) - 1)];
             }
 
             if ($security->isPasswordSpecialCharsEnabled()) {
-                $pw.= $special[$random->int(0, strlen($special) - 1)];
+                $pw .= $special[$random->int(0, strlen($special) - 1)];
             }
 
             $num_lcase_chars = max($security->getPasswordNumberOfLowercaseChars(), $length - strlen($pw));
             for ($j = 0; $j < $num_lcase_chars; $j++) {
                 switch ($next) {
                     case 1:
-                        $pw.= $consonants[$random->int(0, strlen($consonants) - 1)];
+                        $pw .= $consonants[$random->int(0, strlen($consonants) - 1)];
                         $next = 2;
                         break;
 
                     case 2:
-                        $pw.= $vowels[$random->int(0, strlen($vowels) - 1)];
+                        $pw .= $vowels[$random->int(0, strlen($vowels) - 1)];
                         $next = 1;
                         break;
                 }
@@ -3764,7 +3369,6 @@ class ilUtil
         $lng = $DIC->language();
 
         if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_ICAP_HOST') && strlen(IL_ICAP_HOST) !== 0)) {
-            require_once("./Services/VirusScanner/classes/class.ilVirusScannerFactory.php");
             $vs = ilVirusScannerFactory::_getInstance();
             if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
                 if ($a_clean && (IL_VIRUS_CLEAN_COMMAND != "")) {
@@ -3816,7 +3420,6 @@ class ilUtil
         global $DIC;
         $target_filename = basename($a_target);
 
-        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
         $target_filename = ilFileUtils::getValidFilename($target_filename);
 
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
@@ -4112,7 +3715,6 @@ class ilUtil
      */
     public function includeMathjax($a_tpl = null)
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->includeMathJax($a_tpl);
     }
 
@@ -4122,7 +3724,6 @@ class ilUtil
     */
     public static function insertLatexImages($a_text, $a_start = '[tex]', $a_end = '[/tex]')
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         return ilMathJax::getInstance()->insertLatexImages($a_text, $a_start, $a_end);
     }
 
@@ -4132,7 +3733,6 @@ class ilUtil
     */
     public static function buildLatexImages($a_text, $a_dir)
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         return ilMathJax::getInstance()->insertLatexImages($a_text, '[tex]', '[/tex]', $a_dir . '/teximg', './teximg');
     }
 
@@ -4172,7 +3772,6 @@ class ilUtil
         // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
         // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            include_once './Services/MathJax/classes/class.ilMathJax.php';
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
         }

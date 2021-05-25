@@ -29,15 +29,15 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function hasIcon()
+    public function hasIcon() : bool
     {
         return strlen($this->icon_path) > 0;
     }
@@ -45,7 +45,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @string
      */
-    public function getIconPath()
+    public function getIconPath() : string
     {
         return $this->icon_path;
     }
@@ -53,7 +53,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param array[] $items
      */
-    public function setItems(array $items)
+    public function setItems(array $items) : void
     {
         $this->items = $items;
     }
@@ -61,7 +61,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param array $item
      */
-    public function pushItem(array $item)
+    public function pushItem(array $item) : void
     {
         $this->items[] = $item;
     }
@@ -69,7 +69,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param bool $has_icon
      */
-    public function setHasIcon($has_icon)
+    public function setHasIcon(bool $has_icon) : void
     {
         $this->has_icon = $has_icon;
     }
@@ -77,7 +77,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param string $icon_path
      */
-    public function setIconPath($icon_path)
+    public function setIconPath(string $icon_path) : void
     {
         $this->icon_path = $icon_path;
     }
@@ -85,7 +85,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @param string $label
      */
-    public function setLabel($label)
+    public function setLabel(string $label) : void
     {
         $this->label = $label;
     }
@@ -93,7 +93,7 @@ class ilPDSelectedItemsBlockGroup
     /**
      * @return array
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }

@@ -19,8 +19,8 @@ interface Image extends \ILIAS\UI\Component\Component, JavaScriptBindable, Click
     /**
      * Types of images
      */
-    const STANDARD = "standard";
-    const RESPONSIVE = "responsive";
+    public const STANDARD = "standard";
+    public const RESPONSIVE = "responsive";
 
     /**
      * Set the source (path) of the image. The complete path to the image has to be provided.

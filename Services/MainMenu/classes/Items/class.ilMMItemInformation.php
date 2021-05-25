@@ -139,22 +139,23 @@ class ilMMItemInformation implements ItemInformation
             }
 
             try {
-                $stream = $this->storage->consume()->stream($ri)->getStream();
+                $src = $this->storage->consume()->src($ri);
             } catch (FileNotFoundException $f) {
                 return $item;
             }
-            $data = 'data:' . $this->storage->manage()->getCurrentRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
 
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
-            if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
+            if ($old_symbol instanceof Glyph) {
                 $aria_label = $old_symbol->getAriaLabel();
+            } elseif ($old_symbol instanceof Icon) {
+                $aria_label = $old_symbol->getLabel();
             } elseif ($item instanceof hasTitle) {
                 $aria_label = $item->getTitle();
             } else {
                 $aria_label = 'Custom icon';
             }
 
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, $aria_label);
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($src->getSrc(), $aria_label);
 
             return $item->withSymbol($symbol);
         }

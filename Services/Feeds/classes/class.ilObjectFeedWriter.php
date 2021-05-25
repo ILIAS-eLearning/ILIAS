@@ -1,21 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/News/classes/class.ilNewsItem.php");
-include_once("./Services/Feeds/classes/class.ilFeedItem.php");
-include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
-
-/** @defgroup ServicesFeeds Services/Feeds
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Feed writer for objects.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesFeeds
-*/
+ * Feed writer for objects.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjectFeedWriter extends ilFeedWriter
 {
     /**
@@ -43,7 +34,6 @@ class ilObjectFeedWriter extends ilFeedWriter
             return;
         }
         
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
         $news_set = new ilSetting("news");
         if (!$news_set->get("enable_rss_for_internal")) {
             return;
@@ -70,8 +60,6 @@ class ilObjectFeedWriter extends ilFeedWriter
         $this->setChannelLink(ILIAS_HTTP_PATH);
         // not nice, to do: general solution
         if ($obj_type == "mcst") {
-            include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
-            
             if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                 $lng->loadLanguageModule("mcst");
                 
@@ -94,10 +82,6 @@ class ilObjectFeedWriter extends ilFeedWriter
         $news_item->setContextObjType($obj_type);
         $items = $news_item->getNewsForRefId($a_ref_id, true, false, $rss_period, true);
 
-        if ($a_purpose) {
-            include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
-        }
-        
         $i = 0;
         foreach ($items as $item) {
             $i++;
@@ -145,15 +129,12 @@ class ilObjectFeedWriter extends ilFeedWriter
                     "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
             } elseif ($item["context_obj_type"] == "wiki" && $item["context_sub_obj_type"] == "wpg"
                 && $item["context_sub_obj_id"] > 0) {
-                include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-                include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
                 $wptitle = ilWikiUtil::makeUrlTitle(ilWikiPage::lookupTitle($item["context_sub_obj_id"]));
                 $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                     "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . $wptitle);
             } elseif (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
                 && $item["context_sub_obj_id"] > 0) {
                 // frm hack, not nice
-                include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
                 $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);
                 if ($thread_id > 0) {
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
@@ -177,15 +158,12 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $item["mob_id"] > 0 && ilObject::_exists($item["mob_id"])) {
                 $go_on = true;
                 if ($obj_type == "mcst") {
-                    include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
-                    
                     if (!ilObjMediaCastAccess::_lookupPublicFiles($obj_id)) {
                         $go_on = false;
                     }
                 }
                 
                 if ($go_on) {
-                    include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                     $url = ilObjMediaObject::_lookupItemPath($item["mob_id"], true, true, $mob["purpose"]);
                     $file = ilObjMediaObject::_lookupItemPath($item["mob_id"], false, false, $mob["purpose"]);
                     if (is_file($file)) {

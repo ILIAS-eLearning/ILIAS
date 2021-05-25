@@ -69,9 +69,9 @@ class ilChatroomSetupAgent implements Setup\Agent
                 return new Setup\NullConfig();
             }
 
-            $protocol = 'http://';
+            $protocol = 'http';
             if (isset($data['https']) && count($data['https']) > 0) {
-                $protocol = 'https://';
+                $protocol = 'https';
             }
 
             $deletion_interval = false;
@@ -133,9 +133,9 @@ class ilChatroomSetupAgent implements Setup\Agent
                 $data['log_level'] ?? '',
                 $data['error_log'] ?? '',
                 $ilias_proxy,
-                $data['ilias_url'] ?? '',
+                $data['ilias_proxy']['ilias_url'] ?? '',
                 $client_proxy,
-                $data['client_url'] ?? '',
+                $data['client_proxy']['client_url'] ?? '',
                 $deletion_interval,
                 $data['deletion_interval']['deletion_unit'] ?? '',
                 (int) $data['deletion_interval']['deletion_value'] ?? 0,
@@ -185,7 +185,7 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilChatroomMetricsCollectedObjective($storage);
     }
 
     /**

@@ -81,7 +81,7 @@ class ilDatabaseUpdateStepTest extends TestCase
             ->expects($this->once())
             ->method("step_1")
             ->with($db)
-            ->willReturn($null);
+            ->willReturn(null);
 
         $this->step->achieve($env);
     }

@@ -36,7 +36,9 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
             $settings = new \ilGlobalCacheSettings();
             if (
                 $data === null ||
+                !isset($data["components"]) ||
                 !$data["components"] ||
+                !isset($data["service"]) ||
                 $data["service"] === "none" ||
                 (
                     $data["service"] === "memcached" &&
@@ -50,13 +52,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
-                    case "xcache":
-                        $settings->setService(\ilGlobalCache::TYPE_XCACHE);
-                        break;
                     case "memcached":
-                        array_map(function(array $node) use ($settings) {
+                        array_walk($data["memcached_nodes"], function (array $node) use ($settings) {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
-                        }, $data["memcached_nodes"]);
+                        });
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
                         break;
                     case "apc":

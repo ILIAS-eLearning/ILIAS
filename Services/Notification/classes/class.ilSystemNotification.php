@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wrapper classes for system notifications
@@ -9,9 +8,6 @@ include_once './Services/Mail/classes/class.ilMailNotification.php';
  * @see FeatureWiki/Guidelines/System Notification Guideline
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * $Id: class.ilObjExerciseGUI.php 24003 2010-05-26 14:35:42Z akill $
- *
- * @ingroup ServicesNotification
  */
 class ilSystemNotification extends ilMailNotification
 {
@@ -104,8 +100,6 @@ class ilSystemNotification extends ilMailNotification
     public function setChangedByUserId($a_id)
     {
         $this->changed_by = (int) $a_id;
-        
-        include_once "Services/User/classes/class.ilUserUtil.php";
     }
     
     /**

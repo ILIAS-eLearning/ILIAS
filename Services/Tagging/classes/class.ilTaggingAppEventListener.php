@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Forum listener. Listens to events of other components.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ModulesForum
-*/
+ * Forum listener. Listens to events of other components.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTaggingAppEventListener
 {
     /**
@@ -19,8 +18,6 @@ class ilTaggingAppEventListener
     */
     public static function handleEvent($a_component, $a_event, $a_parameter)
     {
-        include_once("./Services/Tagging/classes/class.ilTagging.php");
-        
         switch ($a_component) {
             case "Services/Object":
                 switch ($a_event) {

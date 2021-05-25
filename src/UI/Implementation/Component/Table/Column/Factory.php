@@ -18,7 +18,7 @@ class Factory implements I\Factory
         throw new \ILIAS\UI\NotImplementedException('NYI');
     }
 
-    public function date(string $title, \ILIAS\Data\DateFormat $format) : I\Date
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format) //:@Todo: Does not yet exit
     {
         throw new \ILIAS\UI\NotImplementedException('NYI');
     }

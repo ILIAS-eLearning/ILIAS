@@ -1837,7 +1837,6 @@ class ilObjTestGUI extends ilObjectGUI
             }
         }
                 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 

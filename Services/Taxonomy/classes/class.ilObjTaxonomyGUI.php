@@ -604,7 +604,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         //		$ilTabs->clearTargets();
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $confirmation_gui = new ilConfirmationGUI();
 
         $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
@@ -796,7 +795,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
         $tax = $this->getCurrentTaxonomy();
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
         $cgui->setHeaderText($lng->txt("tax_confirm_deletion"));

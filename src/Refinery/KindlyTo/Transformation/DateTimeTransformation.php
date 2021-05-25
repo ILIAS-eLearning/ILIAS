@@ -53,7 +53,7 @@ class DateTimeTransformation implements Transformation
         }
 
         throw new ConstraintViolationException(
-            sprintf('Value "%s" could not be transformed.', $from),
+            sprintf('Value "%s" could not be transformed.', var_export($from, true)),
             'no_valid_datetime',
             $from
         );

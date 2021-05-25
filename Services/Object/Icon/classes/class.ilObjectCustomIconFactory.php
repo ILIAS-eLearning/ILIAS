@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjectCustomIconFactory
@@ -50,12 +51,10 @@ class ilObjectCustomIconFactory
             case 'fold':
             case 'crs':
             case 'prg':
-                require_once 'Services/Object/Icon/classes/class.ilContainerCustomIconConfiguration.php';
                 $configuration = new \ilContainerCustomIconConfiguration();
                 break;
 
             default:
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfiguration.php';
                 $configuration = new \ilObjectCustomIconConfiguration();
                 break;
         }
@@ -74,7 +73,6 @@ class ilObjectCustomIconFactory
             $objType = (string) $this->objectCache->lookupType($objId);
         }
 
-        require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconImpl.php';
         return new \ilObjectCustomIconImpl(
             $this->webDirectory,
             $this->uploadService,

@@ -29,8 +29,7 @@ class SkillUserService
 
         $this->user_id = $user_id;
         $this->manager_service = ($manager_service)
-            ? $manager_service
-            : $DIC->skills()->internal()->manager();
+            ?: $DIC->skills()->internal()->manager();
     }
 
     /**

@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
  * Class for category export
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilCategoryExporter extends ilXmlExporter
 {
@@ -31,7 +30,6 @@ class ilCategoryExporter extends ilXmlExporter
         );
         
         /*
-        include_once './Services/Export/classes/class.ilExportOptions.php';
         $eo = ilExportOptions::getInstance();
 
         $obj_id = end($a_ids);
@@ -68,7 +66,6 @@ class ilCategoryExporter extends ilXmlExporter
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
         if ($a_entity == "cat") {
-            include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
             $tax_ids = array();
             foreach ($a_ids as $id) {
                 $t_ids = ilObjTaxonomy::getUsageOfObject($id);
@@ -104,7 +101,6 @@ class ilCategoryExporter extends ilXmlExporter
             return '';
         }
 
-        include_once './Modules/Category/classes/class.ilCategoryXmlWriter.php';
 
         $writer = new ilCategoryXmlWriter($category);
         $writer->setMode(ilCategoryXmlWriter::MODE_EXPORT);

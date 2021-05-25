@@ -37,7 +37,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -97,7 +97,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media->createAlias($page, $hier_id, $pc_id);
         $updated = $page->update();
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     /**
@@ -121,9 +121,8 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"]));
 
         $pc_media->getMediaObject()->update();
-        $page->update();
+        $updated = $page->update();
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
-
 }

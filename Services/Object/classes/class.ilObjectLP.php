@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Base class for object lp connectors
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
- * @package ServicesTracking
  */
 class ilObjectLP
 {
@@ -72,71 +68,57 @@ class ilObjectLP
                 // container
 
                 case "crs":
-                    include_once "Modules/Course/classes/class.ilCourseLP.php";
                     return "ilCourseLP";
 
                 case 'crsr':
                     return 'ilCourseReferenceLP';
 
                 case "grp":
-                    include_once "Modules/Group/classes/class.ilGroupLP.php";
                     return "ilGroupLP";
 
                 case "fold":
-                    include_once "Modules/Folder/classes/class.ilFolderLP.php";
                     return "ilFolderLP";
 
                 case "lso":
-                    include_once "Modules/LearningSequence/classes/LearnerProgress/class.ilLSLP.php";
                     return "ilLSLP";
 
 
                 // learning resources
 
                 case "lm":
-                    include_once "Modules/LearningModule/classes/class.ilLearningModuleLP.php";
                     return "ilLearningModuleLP";
 
                 case "htlm":
-                    include_once "Modules/HTMLLearningModule/classes/class.ilHTMLLearningModuleLP.php";
                     return "ilHTMLLearningModuleLP";
 
                 case "sahs":
-                    include_once "Modules/ScormAicc/classes/class.ilScormLP.php";
                     return "ilScormLP";
                     
 
                 // misc
 
                 case "tst":
-                    include_once "Modules/Test/classes/class.ilTestLP.php";
                     return "ilTestLP";
 
                 case "exc":
-                    include_once "Modules/Exercise/classes/class.ilExerciseLP.php";
                     return "ilExerciseLP";
                     
                 case 'file':
-                    require_once 'Modules/File/classes/class.ilFileLP.php';
                     return 'ilFileLP';
                     
                 case "mcst":
-                    require_once "Modules/MediaCast/classes/class.ilMediaCastLP.php";
                     return "ilMediaCastLP";
             
                 case "sess":
-                    include_once "Modules/Session/classes/class.ilSessionLP.php";
                     return  "ilSessionLP";
                     
                 case "svy":
                     return  "ilSurveyLP";
 
                 case "prg":
-                    include_once "Modules/StudyProgramme/classes/class.ilStudyProgrammeLP.php";
                     return "ilStudyProgrammeLP";
 
                 case "iass":
-                    include_once "Modules/IndividualAssessment/classes/class.ilIndividualAssessmentLP.php";
                     return "ilIndividualAssessmentLP";
 
                 case "copa":
@@ -150,7 +132,6 @@ class ilObjectLP
 
                 // plugin
                 case $objDefinition->isPluginTypeName($a_type):
-                    include_once "Services/Component/classes/class.ilPluginLP.php";
                     return "ilPluginLP";
             }
         }
@@ -169,7 +150,6 @@ class ilObjectLP
         }
         
         if ($objDefinition->isPluginTypeName($a_type)) {
-            include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
             return ilRepositoryObjectPluginSlot::isTypePluginWithLP($a_type);
         }
         
@@ -207,7 +187,6 @@ class ilObjectLP
     {
         if ($this->mode === null) {
             // using global type default if LP is inactive
-            include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
             if (!ilObjUserTracking::_enabledLearningProgress()) {
                 $mode = self::getTypeDefaultFromDB(ilObject::_lookupType($this->obj_id));
                 if ($mode === null) {
@@ -264,7 +243,6 @@ class ilObjectLP
     public function getCollectionInstance()
     {
         if ($this->collection_instance === null) {
-            include_once "Services/Tracking/classes/collection/class.ilLPCollection.php";
             $this->collection_instance = ilLPCollection::getInstanceByMode($this->obj_id, $this->getCurrentMode());
         }
         
@@ -327,14 +305,11 @@ class ilObjectLP
         
         $this->resetCustomLPDataForUserIds($a_user_ids, (bool) $a_recursive);
                         
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         ilLPMarks::_deleteForUsers($this->obj_id, $a_user_ids);
 
-        include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         ilChangeEvent::_deleteReadEventsForUsers($this->obj_id, $a_user_ids);
                 
         // update LP status to get collections up-to-date
-        include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
         foreach ($a_user_ids as $user_id) {
             ilLPStatusWrapper::_updateStatus($this->obj_id, $user_id);
         }
@@ -347,10 +322,8 @@ class ilObjectLP
     
     protected function gatherLPUsers()
     {
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         $user_ids = ilLPMarks::_getAllUserIds($this->obj_id);
         
-        include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         $user_ids = array_merge($user_ids, ilChangeEvent::_getAllUserIds($this->obj_id));
         
         return $user_ids;
@@ -376,8 +349,6 @@ class ilObjectLP
         array_pop($new_path);
         $new_path = implode("/", $new_path);
     
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-        
         // find collections with ref_ids
         $set = $ilDB->query("SELECT DISTINCT(ut_lp_collections.obj_id) obj_id" .
             " FROM object_reference" .
@@ -424,10 +395,8 @@ class ilObjectLP
     
     final public function handleDelete()
     {
-        include_once "Services/Tracking/classes/class.ilLPMarks.php";
         ilLPMarks::deleteObject($this->obj_id);
 
-        include_once "Services/Tracking/classes/class.ilChangeEvent.php";
         ilChangeEvent::_delete($this->obj_id);
         
         $collection = $this->getCollectionInstance();
@@ -441,8 +410,6 @@ class ilObjectLP
     final protected function updateParentCollections()
     {
         $ilDB = $this->db;
-        
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         
         // update parent collections?
         $set = $ilDB->query("SELECT ut_lp_collections.obj_id obj_id FROM " .

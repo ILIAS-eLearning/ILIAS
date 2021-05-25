@@ -33,6 +33,8 @@ This section documents the general concepts and structures of the Exercise Modul
 * [Submission](#submission)
 * [Peer Review](#peer-review)
 * [Criteria Catalog](#criteria-catalog)
+* [Calendar Appointments](#calendar-appointments)
+* [Tasks](#tasks)
 
 
 ## Exercise
@@ -45,6 +47,9 @@ This section documents the general concepts and structures of the Exercise Modul
 
 ## Team
 
+### Business Rules
+
+- Learners manage team screen will respect the privacy settings of the users (published profile).
 
 ## Assignment Member State
 
@@ -75,12 +80,34 @@ Handles everything about the state (current phase) of a user in an assignment us
 
 ### Business Rules
 - If submissions of participants are published, a participant can access submissions of others after **ED**. https://mantis.ilias.de/view.php?id=25606
+- **ID** Presentation (Learner): **DL** and **ID** are both listed. No special byline is presented if submission is done after **DL**.
+- **ID** Presentation (Tutor): Submission date and **ID** are both listed on the *Submissions and Grades* screen normally. No special byline is presented.
+- **GP** Presentation (Learner): Only **DL** is presented (not **GPD**), but handing-in is still possible. Additionally a message states that submissions are marked as "late".
+- **GP** Presentation (Tutor): Submission dates are marked as "late".
+
 
 ## Submission
 
 ## Peer Review
 
 ## Criteria Catalog
+
+## Calendar Appointments
+
+Calendar appointments are created for the **Official Deadline** and the **Peer Review Deadline**.
+
+### Business Rules
+
+- Calendar appointments are stored in an exercise calendar which is part of the aggregation of an upper course calendar: Appointmens will be visible if a user is member in an upper course (or group) of the exercise.
+
+## Tasks
+
+Tasks are created for handing-in and for providing a peer feedback..
+
+### Business Rules
+
+- Task for handing-in will only be visible during **Submission Period**.
+- Task for peer-review will only be visible during **Peer Review Period**.
 
 # Other Specs
 

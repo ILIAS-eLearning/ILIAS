@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Repository/classes/class.ilRepositoryExplorer.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-/*
+/**
  * Explorer for workspace tree (used in move action per item)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  */
 class ilWorkspaceExplorer extends ilRepositoryExplorer
 {
@@ -160,7 +158,6 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
         $lng = $this->lng;
         
         if (!isset($a_node_id) or !is_array($a_option)) {
-            require_once './Services/Exceptions/classes/class.ilException.php';
             throw new ilException("Missing parameter or wrong datatype! " .
                 "node_id: " . $a_node_id . " options:" . var_dump($a_option));
         }

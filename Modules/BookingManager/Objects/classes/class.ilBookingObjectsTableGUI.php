@@ -36,6 +36,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected $ui_renderer;
 
     /**
+     * @var ilAdvancedMDRecordGUI
+     */
+    protected $record_gui;
+
+    /**
      * @var bool
      */
     protected $active_management;
@@ -186,7 +191,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
         }
         
-        foreach ($data as $item) {
+        foreach ($data as $idx => $item) {
             $item_id = $item["booking_object_id"];
             
             // available for given period?
@@ -391,17 +396,26 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         }
 
         if ($this->may_assign && $assign_possible) {
-            if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
-                if (is_object($this->filter['period']['from'])) {
-                    $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed',
-                        $this->filter['period']['from']->get(IL_CAL_DATE));
-                }
-
-                $items[] = $this->ui_factory->button()->shy($lng->txt('book_assign_participant'),
-                    $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'assignParticipants'));
-
-                $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed', '');
+            // note: this call is currently super expensive
+            // see #26388, it has been performed even for users without edit permissions before
+            // now the call has been moved here, but still this needs improvement
+            // EDIT: deactivated for now due to performance reasons
+            //if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
+            if (is_object($this->filter['period']['from'])) {
+                $ilCtrl->setParameterByClass(
+                    "ilbookingprocessgui",
+                    'sseed',
+                    $this->filter['period']['from']->get(IL_CAL_DATE)
+                );
             }
+
+            $items[] = $this->ui_factory->button()->shy(
+                $lng->txt('book_assign_participant'),
+                $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'assignParticipants')
+            );
+
+            $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed', '');
+            //}
         }
 
         if ($a_set['info_file']) {

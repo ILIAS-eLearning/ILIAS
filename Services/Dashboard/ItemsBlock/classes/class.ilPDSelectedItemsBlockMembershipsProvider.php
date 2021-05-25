@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Membership/classes/class.ilParticipants.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPDSelectedItemsBlockMembershipsProvider
@@ -41,7 +40,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
      * @param array $types
      * @return array array of objects
      */
-    protected function getObjectsByMembership($types = array())
+    protected function getObjectsByMembership($types = array()) : array
     {
         $items = array();
 
@@ -103,7 +102,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
     /**
      * @inheritdoc
      */
-    public function getItems($object_type_white_list = array())
+    public function getItems($object_type_white_list = array()) : array
     {
         return $this->getObjectsByMembership($object_type_white_list);
     }

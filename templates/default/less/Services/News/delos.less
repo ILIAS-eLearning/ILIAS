@@ -27,8 +27,8 @@ td.il-news {
 }
 
 span.ilNewsRssIcon {
-	background-color: @badge-bg;
-	color: @badge-color;
+	background-color: @il-warning-color;
+	color: white;
 	min-width: 36px;
 	font-size: 10px;
 	text-align: center;
@@ -36,7 +36,7 @@ span.ilNewsRssIcon {
 	padding: 0 5px;
 	&:hover {
 		text-decoration: none;
-		background-color: darken(@badge-bg, 10%);
+		background-color: darken(@il-warning-color, 10%);
 	}
 }
 
@@ -52,7 +52,7 @@ span.ilNewsRssIcon {
 		position: absolute;
 		content: " ";
 		width: 3px;
-		background-color: #d0d0d0;
+		background-color: @il-main-border-dark-color;
 		left: 50%;
 		margin-left: -1.5px;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -95,7 +95,7 @@ span.ilNewsRssIcon {
 			float: left;
 			padding: 20px;
 			position: relative;
-			background: @il-primary-container-bg;
+			background: @il-main-bg;
 			@media only screen and (max-width: @grid-float-breakpoint-max) {
 				width: 80%;
 			}
@@ -105,8 +105,8 @@ span.ilNewsRssIcon {
 				right: -14px;
 				display: inline-block;
 				border-top: 14px solid transparent;
-				border-left: 14px solid @il-primary-container-bg;
-				border-right: 0 solid @il-primary-container-bg;
+				border-left: 14px solid @il-main-bg;
+				border-right: 0 solid @il-main-bg;
 				border-bottom: 14px solid transparent;
 				content: " ";
 			}
@@ -121,7 +121,7 @@ span.ilNewsRssIcon {
 			text-align: center;
 			position: absolute;
 			top: 16px;
-			background-color: #999;
+			background-color: @il-neutral-light-color;
 			z-index: 100;
 			border-radius: 50%;
 			right: 0;
@@ -178,7 +178,7 @@ span.ilNewsRssIcon {
 		margin-top: 8px;
 	}
 	div.ilNotesHeader {
-		background-color: @il-primary-container-bg;
+		background-color: @il-main-dark-bg;
 	}
 }
 

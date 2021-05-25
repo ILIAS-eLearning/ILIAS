@@ -945,7 +945,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     public function exportQuestionObject()
     {
         // export button was pressed
-        if (count($_POST["q_id"]) > 0) {
+        if (array_key_exists('q_id', $_POST) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
             include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
             $qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
             $export_file = $qpl_exp->buildExportFile();

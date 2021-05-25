@@ -120,6 +120,9 @@ class Image implements C\Image\Image
         if (is_string($action)) {
             $clone->action = $action;
         } else {
+            /**
+             * @var $action Signal;
+             */
             $clone->action = null;
             $clone->setTriggeredSignal($action, "click");
         }

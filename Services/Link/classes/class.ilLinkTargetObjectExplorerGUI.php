@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Internal Link: Repository Item Selector Explorer
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesIntLink
  */
 class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
 {

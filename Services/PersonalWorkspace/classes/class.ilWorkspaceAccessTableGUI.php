@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 2010 Leifos, GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Workspace access handler table GUI class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
- * @version $Id: class.adnCountryTableGUI.php 27876 2011-02-25 16:51:38Z jluetzen $
- *
- * @ingroup ServicesPersonalWorkspace
  */
 class ilWorkspaceAccessTableGUI extends ilTable2GUI
 {
@@ -65,8 +61,6 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
      */
     protected function importData()
     {
-        include_once("./Services/User/classes/class.ilUserUtil.php");
-        
         $data = array();
         foreach ($this->handler->getPermissions($this->node_id) as $obj_id) {
             // title is needed for proper sorting

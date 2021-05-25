@@ -182,6 +182,8 @@ class ilObjSCORMTracking
         $ilDB = $DIC['ilDB'];
         
         $b_updateStatus = false;
+        $i_score_max = 0;
+        $i_score_raw = 0;
         
         $b_messageLog = false;
         if ($ilLog->current_log_level == 30) {
@@ -255,6 +257,19 @@ class ilObjSCORMTracking
                         $ilLog->write("ScormAicc: storeJsApi Inserted - L:" . $a_data["left"] . ",R:" .
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
                     }
+                }
+                if ($a_data["left"] == 'cmi.core.score.max') {
+                    $i_score_max = $a_data["right"];
+                }
+                if ($a_data["left"] == 'cmi.core.score.raw') {
+                    $i_score_raw = $a_data["right"];
+                }
+            }
+            // mantis #30293
+            if ($i_score_max > 0 && $i_score_raw > 0) {
+                if (count(ilSCORMObject::_lookupPresentableItems($obj_id)) == 1) {
+                    ilLTIAppEventListener::handleOutcomeWithoutLP($obj_id, $user_id,
+                        ($i_score_raw / $i_score_max) * 100);
                 }
             }
         }
@@ -739,16 +754,13 @@ class ilObjSCORMTracking
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-
-        //$user_id = $ilUser->getID();
         $user_id = (int) $_GET["p"];
         $ref_id = (int) $_GET["ref_id"];
-        // $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_id = (int) $_GET["package_id"];
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited = $_POST['last_visited'];
+            $last_visited = (string) $_GET['last_visited'];
             $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
             $ilDB->manipulateF(
                 'UPDATE sahs_user 

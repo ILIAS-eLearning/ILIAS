@@ -188,7 +188,7 @@ class ilExerciseXMLParser extends ilSaxParser
                 $this->assignment->setInstruction(trim($this->cdata));
                 break;
             case 'DueDate':
-                $this->assignment->setDeadLine(trim($this->cdata));
+                $this->assignment->setDeadline(trim($this->cdata));
                 break;
             case 'Member':
                 $this->updateMember($this->usr_id, $this->usr_action);

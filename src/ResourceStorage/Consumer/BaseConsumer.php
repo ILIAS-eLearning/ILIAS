@@ -4,6 +4,7 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 
 /**
  * Class BaseConsumer
@@ -11,6 +12,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  */
 abstract class BaseConsumer implements DeliveryConsumer
 {
+    use GetRevisionTrait;
 
     /**
      * @var StorageHandler
@@ -24,36 +26,29 @@ abstract class BaseConsumer implements DeliveryConsumer
      * @var int|null
      */
     protected $revision_number = null;
+    /**
+     * @var FileNamePolicy
+     */
+    protected $file_name_policy;
 
     /**
      * DownloadConsumer constructor.
      * @param StorableResource $resource
      * @param StorageHandler   $storage_handler
+     * @param FileNamePolicy   $file_name_policy
      */
-    public function __construct(StorableResource $resource, StorageHandler $storage_handler)
+    public function __construct(
+        StorableResource $resource,
+        StorageHandler $storage_handler,
+        FileNamePolicy $file_name_policy
+    )
     {
-        $this->resource        = $resource;
+        $this->resource = $resource;
         $this->storage_handler = $storage_handler;
+        $this->file_name_policy = $file_name_policy;
     }
 
-    /**
-     * @return \ILIAS\ResourceStorage\Revision\Revision|null
-     */
-    protected function getRevision() : \ILIAS\ResourceStorage\Revision\Revision
-    {
-        if ($this->revision_number !== null) {
-            if ($this->resource->hasSpecificRevision($this->revision_number)) {
-                $revision = $this->resource->getSpecificRevision($this->revision_number);
-            } else {
-                throw new \OutOfBoundsException("there is no version $this->revision_number of resource {$this->resource->getIdentification()->serialize()}");
-            }
-        } else {
-            $revision = $this->resource->getCurrentRevision();
-        }
-        return $revision;
-    }
-
-    abstract function run() : void;
+    abstract public function run() : void;
 
     /**
      * @inheritDoc

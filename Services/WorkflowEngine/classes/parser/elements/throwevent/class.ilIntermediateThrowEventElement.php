@@ -29,11 +29,19 @@ class ilIntermediateThrowEventElement extends ilBaseElement
         $event_definition = null;
         if (count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'messageEventDefinition') {
-                    $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['messageRef'], 'message', $this->bpmn2_array);
+                if (isset($child['name']) && $child['name'] == 'messageEventDefinition') {
+                    $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+                        $child['attributes']['messageRef'] ?? '',
+                        'message',
+                        $this->bpmn2_array
+                    );
                 }
-                if ($child['name'] == 'signalEventDefinition') {
-                    $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess($child['attributes']['signalRef'], 'signal', $this->bpmn2_array);
+                if (isset($child['name']) && $child['name'] == 'signalEventDefinition') {
+                    $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
+                        $child['attributes']['signalRef'] ?? '',
+                        'signal',
+                        $this->bpmn2_array
+                    );
                 }
             }
         }

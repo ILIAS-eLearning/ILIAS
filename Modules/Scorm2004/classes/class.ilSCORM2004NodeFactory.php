@@ -1,23 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004SeqChapter.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004NodeFactory
-*
-* Factory for SCORM Editor Tree nodes (Chapters/SCOs/Pages)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Factory for SCORM Editor Tree nodes (Chapters/SCOs/Pages)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilSCORM2004NodeFactory
 {
     public static function getInstance($a_slm_object, $a_id = 0, $a_halt = true)

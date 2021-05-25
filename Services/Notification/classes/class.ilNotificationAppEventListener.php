@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once('./Services/EventHandling/interfaces/interface.ilAppEventListener.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  *
  *
  * @author Alex Killing <killing@leifos.de>
- * @version $Id$
- *
- * @ingroup ServicesNotification
  */
 class ilNotificationAppEventListener implements ilAppEventListener
 {
@@ -31,7 +26,6 @@ class ilNotificationAppEventListener implements ilAppEventListener
                 switch ($a_event) {
                     case 'delete':
                         if ($a_parameter['obj_id'] > 0) {
-                            include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
                             $set = new ilObjNotificationSettings($a_parameter['obj_id']);
                             $set->delete();
                             break;

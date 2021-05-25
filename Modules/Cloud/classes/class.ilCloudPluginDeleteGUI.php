@@ -86,7 +86,6 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        include_once("Services/Utilities/classes/class.ilConfirmationTableGUI.php");
         $this->gui = new ilConfirmationTableGUI(true);
         $this->gui->setFormName("cld_delete_item");
         $this->gui->getTemplateObject()->setVariable("ACTIONTARGET", "cld_blank_target");

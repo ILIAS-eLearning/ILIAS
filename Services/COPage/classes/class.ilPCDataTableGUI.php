@@ -1,9 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCDataTable.php");
-require_once("./Services/COPage/classes/class.ilPCTableGUI.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPCTableGUI
@@ -11,9 +8,6 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  * User Interface for Data Table Editing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
@@ -87,8 +81,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $this->displayValidationError();
         
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
-        
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata.html", "Services/COPage");
         $dtpl = $this->tpl;
         //$dtpl = new ilTemplate("tpl.tabledata.html", true, true, "Services/COPage");
@@ -97,9 +89,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
-        ilYuiUtil::initPanel(false);
         $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-        //$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
         $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
 
         // get all rows
@@ -168,7 +158,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-
                     $dtpl->setCurrentBlock("cell");
                     
                     if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
@@ -259,7 +248,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $lng = $this->lng;
 
         // handle input data
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
         $data = array();
         //var_dump($_POST["cell"]);
         //var_dump($_GET);
@@ -306,8 +294,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
 
         // handle input data
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
-        include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
         $data = array();
         foreach ($_POST as $k => $content) {
             if (substr($k, 0, 5) != "cell_") {
@@ -399,10 +385,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->pg_obj->addHierIDs();
         $ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
         $ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
-        $this->content_obj->setHierId($this->content_obj->readHierId());
-        $this->setHierId($this->content_obj->readHierId());
-        $this->content_obj->setPCId($this->content_obj->readPCId());
-        $this->editData();
+        $ilCtrl->redirect($this, "editData");
     }
     
     /**
@@ -436,7 +419,5 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $ilTabs = $this->tabs;
         
         parent::setTabs("cont_ed_edit_data");
-        
     }
-
 }

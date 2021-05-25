@@ -12,6 +12,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  */
 class FileStreamConsumer implements StreamConsumer
 {
+    use GetRevisionTrait;
 
     /**
      * @var StorageHandler
@@ -53,20 +54,4 @@ class FileStreamConsumer implements StreamConsumer
         return $this;
     }
 
-    /**
-     * @return \ILIAS\ResourceStorage\Revision\Revision|null
-     */
-    protected function getRevision() : \ILIAS\ResourceStorage\Revision\Revision
-    {
-        if ($this->revision_number !== null) {
-            if ($this->resource->hasSpecificRevision($this->revision_number)) {
-                $revision = $this->resource->getSpecificRevision($this->revision_number);
-            } else {
-                throw new \OutOfBoundsException("there is no version $this->revision_number of resource {$this->resource->getIdentification()->serialize()}");
-            }
-        } else {
-            $revision = $this->resource->getCurrentRevision();
-        }
-        return $revision;
-    }
 }

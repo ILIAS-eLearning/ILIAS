@@ -14,18 +14,23 @@ class ilLMPresentationRequest
      */
     public function __construct(array $query_params)
     {
-        $this->requested_ref_id = (int) $query_params["ref_id"];
-        $this->requested_transl = (string) $query_params["transl"];     // handled by presentation status
-        $this->requested_focus_id = (int) $query_params["focus_id"];    // handled by presentation status
-        $this->requested_obj_id = (int) $query_params["obj_id"];        // handled by navigation status
-        $this->requested_back_pg = (string) $query_params["back_pg"];
-        $this->requested_frame = (string) $query_params["frame"];
-        $this->requested_search_string = (string) $query_params["srcstring"];
-        $this->requested_focus_return = (int) $query_params["focus_return"];
-        $this->requested_from_page = (string) $query_params["from_page"];
-        $this->requested_obj_type = (string) $query_params["obj_type"];
-        $this->requested_mob_id = (int) $query_params["mob_id"];
-        $this->requested_embed_mode = (int) $query_params["embed_mode"];
+        $this->requested_ref_id = (int) ($query_params["ref_id"] ?? 0);
+        $this->requested_transl = (string) ($query_params["transl"] ?? "");     // handled by presentation status
+        $this->requested_focus_id = (int) ($query_params["focus_id"] ?? 0);    // handled by presentation status
+        $this->requested_obj_id = (int) ($query_params["obj_id"] ?? 0);        // handled by navigation status
+        $this->requested_back_pg = (string) ($query_params["back_pg"] ?? "");
+        $this->requested_frame = (string) ($query_params["frame"] ?? "");
+        $this->requested_search_string = (string) ($query_params["srcstring"] ?? "");
+        $this->requested_focus_return = (int) ($query_params["focus_return"] ?? 0);
+        $this->requested_from_page = (string) ($query_params["from_page"] ?? "");
+        $this->requested_obj_type = (string) ($query_params["obj_type"] ?? "");
+        $this->requested_mob_id = (int) ($query_params["mob_id"] ?? 0);
+        $this->requested_embed_mode = (int) ($query_params["embed_mode"] ?? 0);
+        $this->requested_cmd = (string) ($query_params["cmd"] ?? "");
+
+        $this->requested_pg_id = (int) ($query_params["pg_id"] ?? 0);
+        $this->requested_pg_type = (string) ($query_params["pg_type"] ?? "");
+        $this->requested_ntf = (int) ($query_params["ntf"] ?? 0);
     }
 
     /**
@@ -122,5 +127,37 @@ class ilLMPresentationRequest
     public function getRequestedEmbedMode() : int
     {
         return $this->requested_embed_mode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestedCmd() : string
+    {
+        return $this->requested_cmd;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRequestedPgId() : int
+    {
+        return $this->requested_pg_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestedPgType() : string
+    {
+        return $this->requested_pg_type;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRequestedNotificationSwitch() : int
+    {
+        return $this->requested_ntf;
     }
 }

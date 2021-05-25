@@ -35,6 +35,9 @@
 	<label {FOR_ID} class="col-sm-3 control-label {PROPERTY_CLASS}">{PROPERTY_TITLE}<!-- BEGIN sub_hid_title --> <span class="ilAccHeadingHidden">{SPHID_TITLE}</span><!-- END sub_hid_title --><!-- BEGIN sub_required --> <span class="asterisk">*</span><!-- END sub_required --></label>
 	<div class="col-sm-9 {PROPERTY_CLASS}">
 <!-- END sub_prop_start -->
+<!-- BEGIN alert -->
+		<div class="help-block alert alert-danger" role="alert">{TXT_ALERT}</div>
+<!-- END alert -->
 <!-- BEGIN cssrect -->
 		<label for="{ID}[top]">{TEXT_TOP}</label>
 		<input type="text" size="{SIZE}" id="{ID}[top]" name="{POST_VAR}[top]" <!-- BEGIN cssrect_value_top -->value="{CSSRECT_VALUE}" <!-- END cssrect_value_top -->{DISABLED} />
@@ -81,9 +84,6 @@
 <!-- BEGIN description -->
 		<div class="help-block">{PROPERTY_DESCRIPTION}</div>
 <!-- END description -->
-<!-- BEGIN alert -->
-		<div class="help-block alert alert-danger" role="alert"><img src="{IMG_ALERT}" alt="{ALT_ALERT}" /> {TXT_ALERT}</div>
-<!-- END alert -->
 <!-- BEGIN sub_form -->
 		<div class="ilSubForm" id="subform_{SFID}">{PROP_SUB_FORM}</div>
 		<!-- BEGIN sub_form_hide --><script>

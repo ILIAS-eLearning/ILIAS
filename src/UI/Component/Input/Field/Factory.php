@@ -154,7 +154,7 @@ interface Factory
      *      accepted by the Jour Fixe.
      *
      * ---
-     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\Input\FormInput>    $input
+     * @param    array<mixed,\ILIAS\UI\Component\Input\Field\FormInput>    $input
      * @return	\ILIAS\UI\Component\Input\Field\SwitchableGroup
      */
     public function switchableGroup(array $inputs, string $label, string $byline = null) : SwitchableGroup;

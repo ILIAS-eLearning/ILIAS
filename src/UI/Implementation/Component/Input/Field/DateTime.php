@@ -16,15 +16,15 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * This implements the date input.
  */
-class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale
+class DateTime extends Input implements C\Input\Field\DateTime
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
-    const TIME_FORMAT = 'HH:mm';
+    public const TIME_FORMAT = 'HH:mm';
 
     /**
-     * @var DateFormat
+     * @var DateFormat\DateFormat
      */
     protected $format;
 
@@ -52,11 +52,6 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale
      * @var array<string,mixed>
      */
     protected $additional_picker_config = [];
-
-    /**
-     * @var TransformationFactory
-     */
-    protected $transformation_factory;
 
     /**
      * @var string
@@ -115,9 +110,7 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale
         return $this->format;
     }
 
-    /**
-     * @inheritdoc
-     */
+
     public function withTimezone(string $tz) : C\Input\Field\DateTime
     {
         $timezone_trafo = $this->refinery->dateTime()->changeTimezone($tz);
@@ -125,7 +118,11 @@ class DateTime extends Input implements C\Input\Field\DateTime, JSBindabale
         $clone->timezone = $tz;
 
         $trafo = $this->getOptionalNullTransformation($timezone_trafo);
-        return $clone->withAdditionalTransformation($trafo);
+        /**
+         * @var $clone C\Input\Field\DateTime
+         */
+        $clone = $clone->withAdditionalTransformation($trafo);
+        return $clone;
     }
 
     /**

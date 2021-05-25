@@ -606,7 +606,6 @@ class ilLOEditorGUI
             $this->ctrl->redirect($this, 'testsOverview');
         }
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -655,7 +654,6 @@ class ilLOEditorGUI
             $this->ctrl->redirect($this, 'testOverview');
         }
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setHeaderText($this->lng->txt('crs_loc_confirm_delete_tst'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -1169,7 +1167,6 @@ class ilLOEditorGUI
     {
         $GLOBALS['DIC']['ilTabs']->activateSubTab('objectives');
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('crs_delete_objectve_sure'));

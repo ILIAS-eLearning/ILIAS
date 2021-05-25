@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* container xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesFolder
-*/
+ * container xml importer
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerImporter extends ilXmlImporter
 {
     /**
@@ -36,8 +31,6 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {
-        include_once './Services/Container/classes/class.ilContainerXmlParser.php';
-
         $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
         $this->cont_log->debug('Using id: ' . $a_id);
@@ -53,13 +46,13 @@ class ilContainerImporter extends ilXmlImporter
     {
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
-        include_once('./Services/COPage/classes/class.ilPageObject.php');
         $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
         foreach ($page_map as $old_pg_id => $new_pg_id) {
             $parts = explode(':', $old_pg_id);
             $pg_type = $parts[0];
             $old_obj_id = $parts[1];
-            $new_pg_id = array_pop(explode(':', $new_pg_id));
+            $parts = explode(':', $new_pg_id);
+            $new_pg_id = array_pop($parts);
             $new_obj_id = $a_mapping->getMapping('Services/Container', 'objs', $old_obj_id);
             // see bug #22718, this missed a check for the pg type
             if (in_array($pg_type, array("crs", "grp", "fold", "cont"))) {
@@ -71,7 +64,6 @@ class ilContainerImporter extends ilXmlImporter
         }
         
         // style
-        include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
             if (is_array(ilContainerXmlParser::$style_map[$old_sty_id])) {
@@ -130,8 +122,31 @@ class ilContainerImporter extends ilXmlImporter
                 $this->cont_log->warning('Cannot create instance for ref_id: ' . $new_ref_id);
                 continue;
             }
-            $obj->setOfflineStatus($offline == '0' ? false : true);
-            $obj->update();
+            if ($obj->supportsOfflineHandling()) {
+                if ($this->isRootNode($obj->getRefId(), $mapping)) {
+                    $obj->setOfflineStatus(true);
+                } else {
+                    $obj->setOfflineStatus(false);
+                }
+                $obj->update();
+            }
         }
+    }
+
+    /**
+     * @param int             $ref_id
+     * @param ilImportMapping $mapping
+     * @return bool
+     */
+    protected function isRootNode(int $ref_id, ilImportMapping $mapping) : bool
+    {
+        global $DIC;
+
+        $tree = $DIC->repositoryTree();
+        $parent_id = $tree->getParentId($ref_id);
+        if ($parent_id) {
+            return (int) $parent_id === (int) $mapping->getTargetId();
+        }
+        return false;
     }
 }

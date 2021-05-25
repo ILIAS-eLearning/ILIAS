@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List srt files from zip file for upload confirmation
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesMediaObjects
  */
 class ilMobMultiSrtConfirmationTable2GUI extends ilTable2GUI
 {

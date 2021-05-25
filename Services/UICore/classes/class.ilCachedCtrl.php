@@ -146,7 +146,7 @@ class ilCachedCtrl
      */
     public function lookupServiceClass($class)
     {
-        return $this->service_classes[$class];
+        return $this->service_classes[$class] ?? null;
     }
 
 
@@ -183,7 +183,7 @@ class ilCachedCtrl
      */
     public function lookupClassFile($class)
     {
-        return $this->ctrl_classfile_parent[$class];
+        return isset($this->ctrl_classfile_parent[$class])?$this->ctrl_classfile_parent[$class]:null;
     }
 
 

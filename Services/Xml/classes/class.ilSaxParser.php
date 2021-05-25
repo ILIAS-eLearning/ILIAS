@@ -212,7 +212,6 @@ class ilSaxParser
     protected function handleError($message, $code)
     {
         if ($this->throwException) {
-            require_once('./Services/Xml/exceptions/class.ilSaxParserException.php');
             throw new ilSaxParserException($message, $code);
         } else {
             if (is_object($this->ilias)) {

@@ -1,14 +1,10 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for media pool page usages listing
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesMediaPool
  */
 class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 {
@@ -120,20 +116,13 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         }
         //var_dump($usage);
 
-        include_once('./Services/Link/classes/class.ilLink.php');
-
         switch ($usage["type"]) {
             case "pg":
-                include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
                 $page_obj = $usage["page"];
                 $item = array();
 
-                //$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
                 switch ($cont_type) {
                     case "lm":
-                        require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-                        require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-                        require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                         $lm_obj = new ilObjLearningModule($page_obj->getParentId(), false);
                         $item["obj_type_txt"] = $this->lng->txt("obj_" . $cont_type);
                         $item["obj_title"] = $lm_obj->getTitle();
@@ -146,7 +135,6 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                         break;
 
                     case "wpg":
-                        require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                         $item["obj_type_txt"] = $this->lng->txt("obj_wiki");
                         $item["obj_title"] = ilObject::_lookupTitle($page_obj->getParentId());
                         $item["sub_txt"] = $this->lng->txt("pg");

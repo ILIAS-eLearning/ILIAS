@@ -392,7 +392,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
             return true;
         }
         
-        include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands

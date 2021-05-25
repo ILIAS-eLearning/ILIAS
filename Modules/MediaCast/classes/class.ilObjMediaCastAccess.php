@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjMediaCastAccess
-*
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilObjMediaCastAccess.php 12772 2006-12-07 09:34:01Z akill $
-*
-* @ingroup ModulesMediaCast
-*/
+ * Class ilObjMediaCastAccess
+ *
+ * @author 		Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjMediaCastAccess extends ilObjectAccess
 {
     /**
@@ -195,9 +189,6 @@ class ilObjMediaCastAccess extends ilObjectAccess
      */
     public static function _lookupDiskUsage($a_id)
     {
-        require_once('Modules/MediaCast/classes/class.ilObjMediaCast.php');
-        require_once("./Services/News/classes/class.ilNewsItem.php");
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $obj = new ilObjMediaCast($a_id, false);
         $obj->read();
         $items = $obj->getItemsArray();

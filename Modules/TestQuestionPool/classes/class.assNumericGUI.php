@@ -275,7 +275,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      * @return string
      */
     // hey: prevPassSolutions - pass will be always available from now on
-    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback)
+    public function getTestOutput($active_id, $pass, $is_postponed = false, $use_post_solutions = false, $inlineFeedback = false)
     // hey.
     {
         $solutions = null;

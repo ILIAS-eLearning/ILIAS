@@ -84,35 +84,49 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $r->render($this->tree);
 
-        $expected = <<<EOT
-		<ul id="id_1" class="il-tree" role="tree" aria-label="label">
-			<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
+        $expected = '<ul id="id_1" class="il-tree" role="tree" aria-label="label">' . $this->getInnerTreePart() . '</ul>';
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderingAsSubTree()
+    {
+        $r = $this->getDefaultRenderer();
+        $html = $r->render($this->tree->withIsSubTree(true));
+
+        $expected = $this->getInnerTreePart();
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    protected function getInnerTreePart()
+    {
+        return '<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
 				<span class="node-line"><span class="node-label">1</span></span>
 
 				<ul role="group">
-					<li id="" class="il-tree-node node-simple" role="none">
+					<li id="" class="il-tree-node node-simple" role="treeitem">
 						<span class="node-line"><span class="node-label">1.1</span></span>
 					</li>
 					<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
 						<span class="node-line"><span class="node-label">1.2</span></span>
 
 						<ul role="group">
-							<li id="" class="il-tree-node node-simple" role="none">
+							<li id="" class="il-tree-node node-simple" role="treeitem">
 								<span class="node-line"><span class="node-label">1.2.1</span></span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
-			<li id="" class="il-tree-node node-simple" role="none">
+			<li id="" class="il-tree-node node-simple" role="treeitem">
 				<span class="node-line"><span class="node-label">2</span></span>
-			</li>
-		</ul>
-EOT;
-
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($html)
-        );
+			</li>';
     }
 }

@@ -7,23 +7,13 @@ define("IL_PASSWD_PLAIN", "plain");
 define("IL_PASSWD_CRYPTED", "crypted");
 
 
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once './Services/User/exceptions/class.ilUserException.php';
-require_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
-require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
-
 /**
-* @defgroup ServicesUser Services/User
-*
-* User application class
-*
-* @author	Sascha Hofmann <saschahofmann@gmx.de>
-* @author	Stefan Meyer <meyer@leifos.com>
-* @author	Peter Gabriel <pgabriel@databay.de>
-* @version	$Id$
-*
-* @ingroup ServicesUser
-*/
+ * User class
+ *
+ * @author	Sascha Hofmann <saschahofmann@gmx.de>
+ * @author	Stefan Meyer <meyer@leifos.com>
+ * @author	Peter Gabriel <pgabriel@databay.de>
+ */
 class ilObjUser extends ilObject
 {
     /**
@@ -135,13 +125,6 @@ class ilObjUser extends ilObject
     */
     public $default_role;
 
-    /**
-    * ilias object
-    * @var object ilias
-    * @access private
-    */
-    public $ilias;
-
     public static $is_desktop_item_loaded;
     public static $is_desktop_item_cache;
 
@@ -183,6 +166,7 @@ class ilObjUser extends ilObject
      */
     protected $first_login;	// timestamp
 
+    protected bool $profile_incomplete = false;
 
     /**
     * Constructor
@@ -846,7 +830,7 @@ class ilObjUser extends ilObject
                 array($a_user_str)
             );
             $user_rec = $ilDB->fetchAssoc($res);
-            return $user_rec["usr_id"];
+            return $user_rec["usr_id"] ?? null;
         } else {
             $set = $ilDB->query(
                 "SELECT usr_id FROM usr_data " .
@@ -854,7 +838,7 @@ class ilObjUser extends ilObject
             );
             $ids = array();
             while ($rec = $ilDB->fetchAssoc($set)) {
-                $ids[] = $rec["usr_id"];
+                $ids[] = ($rec["usr_id"] ?? null);
             }
             return $ids;
         }
@@ -3736,7 +3720,7 @@ class ilObjUser extends ilObject
 
     public static function _getAvatar($a_usr_id) : Avatar
     {
-        $define = new ilUserAvatarResolver((int) $a_usr_id);
+        $define = new ilUserAvatarResolver((int) ($a_usr_id ? $a_usr_id : ANONYMOUS_USER_ID));
 
         return $define->getAvatar();
     }
@@ -5523,7 +5507,7 @@ class ilObjUser extends ilObject
             "SELECT * FROM usr_pref " .
                 " WHERE keyword = " . $ilDB->quote("public_profile", "text") .
                 " AND " . $ilDB->in("usr_id", $a_user_ids, false, "integer")
-            );
+        );
         $r = array(
             "global" => array(),
             "local" => array(),

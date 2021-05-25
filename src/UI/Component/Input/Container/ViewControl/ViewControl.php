@@ -15,7 +15,7 @@ interface ViewControl extends Component
     /**
      * Get the contained controls.
      *
-     * @return array<string,\ILIAS\UI\Component\Input\Control>
+     * @return array<string,\ILIAS\UI\Component\Input\Field\Input>
      */
     public function getInputs() : array;
 

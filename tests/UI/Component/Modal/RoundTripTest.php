@@ -68,7 +68,7 @@ class RoundTripTest extends ModalBase
         $expected = <<<EOT
 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1"><div class="modal-dialog" role="document" data-replace-marker="component"><div class="modal-content">
  <div class="modal-header">
- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><h4 class="modal-title">Title</h4>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><span class="modal-title">Title</span>
  </div>
  <div class="modal-body">Content</div>
  <div class="modal-footer">

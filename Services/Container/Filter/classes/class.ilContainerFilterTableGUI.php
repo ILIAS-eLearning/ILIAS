@@ -2,14 +2,10 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * Filter admin table
  *
- * @author @leifos.de
- *
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterTableGUI extends ilTable2GUI
 {

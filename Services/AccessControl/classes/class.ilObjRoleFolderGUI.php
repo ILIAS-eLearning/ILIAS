@@ -86,7 +86,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -665,7 +665,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         $question = $this->lng->txt('rbac_role_delete_qst');
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setHeaderText($question);
         $confirm->setFormAction($ilCtrl->getFormAction($this));

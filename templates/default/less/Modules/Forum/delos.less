@@ -31,7 +31,7 @@ div.ilForumQuoteHead {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-dark-bg;
 }
 
 .ilFrmPostImage {
@@ -67,7 +67,7 @@ div.ilForumQuoteHead {
 }
 
 div.ilFrmPostHeader span.small {
-	color: #909090;
+	color: @il-text-light-color;
 }
 
 .ilFrmPostContentContainer {
@@ -111,6 +111,20 @@ div.ilFrmPostHeader span.small {
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			width: 50px;
 			height: 50px;
+		}
+	}
+}
+
+@media only screen and (min-width: @screen-lg-desktop) {
+	.sort_by_posts .ilFrmPostRow {
+		&.ilFrmPost-level-2 {
+			padding-left: 50px;
+		}
+		&.ilFrmPost-level-3 {
+			padding-left: 100px;
+		}
+		&.ilFrmPost-level-4 {
+			padding-left: 150px;
 		}
 	}
 }
@@ -166,6 +180,6 @@ div.ilFrmPostHeader span.small {
 	text-decoration: none;
 	cursor: text;
 	font-size: smaller;
-	color: @text-color;
+	color: @il-text-color;
 	padding-left: 23px;
 }

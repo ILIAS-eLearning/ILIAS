@@ -1,14 +1,10 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * ilContainerStartObjectsContentTableGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesContainer
  */
 class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 {
@@ -89,9 +85,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $ilObjDataCache = $this->obj_data_cache;
         $ilAccess = $this->access;
         
-        include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-        include_once './Services/Link/classes/class.ilLink.php';
-        
         $lm_continue = new ilCourseLMHistory($this->start_object->getRefId(), $ilUser->getId());
         $continue_data = $lm_continue->getLMHistory();
     
@@ -165,7 +158,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 "actions" => $actions);
         }
         
-        include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
         foreach ($items as $item) {
             $preloader->addItem($item["obj_id"], $item["type"], $item["ref_id"]);
@@ -201,7 +193,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 return null;
             }
             $full_class = "ilObj" . $class . "ListGUI";
-            include_once($location . "/class." . $full_class . ".php");
             $item_list_gui = new $full_class();
             $this->item_list_guis[$a_type] = $item_list_gui;
         } else {
@@ -271,25 +262,6 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         
         // begin-patch lok
         $this->tpl->setVariable("TXT_TITLE", $this->getListItem($a_set));
-        /*
-        include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-        if(ilLOSettings::getInstanceByObjId($this->getParentObject()->object->getId())->isObjectiveTest($a_set['ref_id']))
-        {
-            $this->ctrl->setParameter($this->getParentObject(),'tid',$a_set['ref_id']);
-            $this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($a_set['type'], $a_set['obj_id'], 'small'));
-            $this->tpl->setVariable('TITLE_MANUAL_LINK',$this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()),'redirectLocToTest'));
-            $this->tpl->setVariable('VAL_TITLE_MANUAL',$a_set['title']);
-        }
-        else
-        {
-            $this->tpl->setVariable('TYPE_IMG',ilUtil::getTypeIconPath($a_set['type'], $a_set['obj_id'], 'small'));
-            include_once './Services/Link/classes/class.ilLink.php';
-            $this->tpl->setVariable('TITLE_MANUAL_LINK',ilLink::_getLink($a_set['ref_id']));
-            $this->tpl->setVariable('VAL_TITLE_MANUAL',$a_set['title']);
-        }
-        // end-patch lok
-        */
-        
         $this->tpl->setVariable("TXT_STATUS", $a_set["status"]);
         $this->tpl->setVariable("IMG_STATUS", $a_set["status_img"]);
         

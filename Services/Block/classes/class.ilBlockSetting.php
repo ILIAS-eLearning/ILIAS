@@ -1,33 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Block Setting class.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * Block Setting class.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilBlockSetting
 {
     public static $setting = array();
@@ -137,7 +116,7 @@ class ilBlockSetting
                 " user_id = " . $ilDB->quote($user_id, "integer") .
                 " AND " . $ilDB->in("type", $blocks, false, "text") .
                 " AND " . $ilDB->in("setting", $settings, false, "text")
-                );
+            );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $key = $rec["type"] . ":" . $rec["setting"] . ":" . $user_id . ":0";
                 self::$setting[$key] = $rec["value"];
@@ -290,7 +269,7 @@ class ilBlockSetting
             " WHERE block_id = %s AND type = %s AND user_id = %s",
             array("integer", "text", "integer"),
             array($block_id, $block_type, 0)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             self::_write($block_type, $rec["setting"], $rec["value"], 0, $new_block_id);
         }

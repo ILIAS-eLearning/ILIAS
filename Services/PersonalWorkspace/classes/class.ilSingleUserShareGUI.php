@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* @author Jesús López <lopez@leifos.com>
-* @version $Id$
-*
-* @ingroup ServicesPersonalWorkspace
-*/
+ * @author Jesús López <lopez@leifos.com>
+ */
 class ilSingleUserShareGUI
 {
     protected $tpl;
@@ -51,7 +49,6 @@ class ilSingleUserShareGUI
 
     public function getShareForm()
     {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
 
         $form->setTitle($this->lng->txt("share_content"));

@@ -133,7 +133,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 
     /**
      * Delete
-     * @global ilDB $ilDB
      * @return bool
      */
     public function delete()
@@ -181,7 +180,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 
     /**
      * Read db entry
-     * @global ilDB $ilDB
      * @return bool
      */
     public function read()

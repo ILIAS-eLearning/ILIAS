@@ -11,10 +11,6 @@
 * @extends ilObject
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
-define('USER_FOLDER_ID', 7);
-
 class ilObjUserFolder extends ilObject
 {
     public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';

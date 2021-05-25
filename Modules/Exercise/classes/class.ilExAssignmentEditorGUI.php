@@ -85,9 +85,8 @@ class ilExAssignmentEditorGUI
      * @param int $a_exercise_id
      * @param bool  $a_enable_peer_review_completion_settings
      * @param ilExAssignment $a_ass
-     * @return object
      */
-    public function __construct($a_exercise_id, $a_enable_peer_review_completion_settings, ilExAssignment $a_ass = null)
+    public function __construct(int $a_exercise_id, bool $a_enable_peer_review_completion_settings, ilExAssignment $a_ass = null)
     {
         global $DIC;
 
@@ -603,9 +602,9 @@ class ilExAssignmentEditorGUI
      * Custom form validation
      *
      * @param ilPropertyFormGUI $a_form
-     * @return array
+     * @return array|null
      */
-    protected function processForm(ilPropertyFormGUI $a_form)
+    protected function processForm(ilPropertyFormGUI $a_form) : ?array
     {
         $lng = $this->lng;
                 
@@ -787,29 +786,6 @@ class ilExAssignmentEditorGUI
                     }
                 }
 
-                // portfolio template
-                //if($a_form->getInput("template_id") && $a_form->getInput("template"))
-                //{
-                //	$res['template_id'] = $a_form->getInput("template_id");
-                //}
-
-                // text limitations
-                /*
-                if($a_form->getInput("limit_characters"))
-                {
-                    $res['limit_characters'] = $a_form->getInput("limit_characters");
-                }
-                if($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit"))
-                {
-                    $res['max_char_limit'] = $a_form->getInput("max_char_limit");
-                }
-                if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit"))
-                {
-                    $res['min_char_limit'] = $a_form->getInput("min_char_limit");
-
-                }*/
-
-
                 $res["deadline_mode"] = $a_form->getInput("deadline_mode");
 
                 if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE) {
@@ -864,6 +840,8 @@ class ilExAssignmentEditorGUI
                 ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             }
         }
+
+        return null;
     }
     
     /**
@@ -1015,7 +993,7 @@ class ilExAssignmentEditorGUI
             $ilCtrl->redirect($this, "editAssignment");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 
@@ -1225,7 +1203,7 @@ class ilExAssignmentEditorGUI
             
             $form->setValuesByPost();
             $this->handleDisabledFields($form);
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     
@@ -1600,8 +1578,12 @@ class ilExAssignmentEditorGUI
             $this->setDisabledPeerReviewFieldValues($a_form);
         }
     }
-    
-    protected function processPeerReviewForm(ilPropertyFormGUI $a_form)
+
+    /**
+     * @param ilPropertyFormGUI $a_form
+     * @return array|null
+     */
+    protected function processPeerReviewForm(ilPropertyFormGUI $a_form) : ?array
     {
         $lng = $this->lng;
         
@@ -1690,6 +1672,7 @@ class ilExAssignmentEditorGUI
                 ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             }
         }
+        return null;
     }
     
     protected function importPeerReviewFormToAssignment(ilExAssignment $a_ass, array $a_input)
@@ -1736,7 +1719,7 @@ class ilExAssignmentEditorGUI
             
             $form->setValuesByPost();
             $this->handleDisabledPeerFields($form);
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     

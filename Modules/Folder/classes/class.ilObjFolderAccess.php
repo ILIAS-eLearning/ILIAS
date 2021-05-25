@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjFileAccess
-*
-*
-* @author 	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * Class ilObjFileAccess
+ *
+ * @author 	Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjFolderAccess extends ilObjectAccess
 {
     private static $folderSettings;
@@ -49,9 +44,7 @@ class ilObjFolderAccess extends ilObjectAccess
             $commands[] = array("permission" => "read", "cmd" => "download", "lang_var" => "download"); // #18805
         }
         // BEGIN WebDAV: Mount Webfolder.
-        include_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {
-            include_once './Services/WebDAV/classes/class.ilWebDAVUtil.php';
             if (ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired()) {
                 $commands[] = array('permission' => 'read', 'cmd' => 'showPasswordInstruction', 'lang_var' => 'mount_webfolder', 'enable_anonymous' => 'false');
             } else {

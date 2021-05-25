@@ -141,18 +141,29 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
             ) ? $matches[1][count($matches[1]) - 1] : '';
         }, $logins);
 
-        $public_name = (string) $this->filter['public_name'];
-        $relations = $relations->filter(function (ilBuddySystemRelation $relation) use (
-            $public_name,
+        $public_name_query = (string) $this->filter['public_name'];
+        $relations = $relations->filter(static function (ilBuddySystemRelation $relation) use (
+            $public_name_query,
             $relations,
             $public_names,
             $logins
-        ) {
-            return (
-                !strlen($public_name) ||
-                strpos(strtolower($public_names[$relations->getKey($relation)]), strtolower($public_name)) !== false ||
-                strpos(strtolower($logins[$relations->getKey($relation)]), strtolower($public_name)) !== false
+        ) : bool {
+            $usrId = $relations->getKey($relation);
+
+            $hasMatchingName = (
+                0 === ilStr::strlen($public_name_query) ||
+                ilStr::strpos(
+                    ilStr::strtolower($public_names[$usrId]),
+                    ilStr::strtolower($public_name_query)
+                ) !== false ||
+                ilStr::strpos(ilStr::strtolower($logins[$usrId]), ilStr::strtolower($public_name_query)) !== false
             );
+
+            if (!$hasMatchingName) {
+                return false;
+            }
+
+            return ilObjUser::_lookupActive($usrId);
         });
 
         foreach ($relations->toArray() as $usr_id => $relation) {
@@ -176,7 +187,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         }
 
         $public_profile = ilObjUser::_lookupPref($a_set['usr_id'], 'public_profile');
-        if (!$this->user->isAnonymous() && $public_profile == 'y' || $public_profile == 'g') {
+        if ((!$this->user->isAnonymous() && $public_profile === 'y') || $public_profile === 'g') {
             $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $a_set['usr_id']);
             $profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
             $a_set['profile_link'] = $profile_target;

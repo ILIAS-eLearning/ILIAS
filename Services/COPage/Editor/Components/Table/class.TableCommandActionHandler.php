@@ -37,7 +37,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -141,7 +141,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     {
         $updated = $this->updateData($body["data"]["pcid"], $body["data"]["content"]);
         if ($body["data"]["redirect"]) {
-            return $this->ui_wrapper->sendPage($this->page_gui);
+            return $this->ui_wrapper->sendPage($this->page_gui, $updated);
         } else {
             return $this->sendUpdateResponse($this->page_gui, $updated, $body["data"]["pcid"]);
         }
@@ -154,19 +154,25 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      * @param string           $pcid
      * @return Server\Response
      */
-    public function sendUpdateResponse(\ilPageObjectGUI $page_gui, $updated, string $pcid): Server\Response
+    public function sendUpdateResponse(\ilPageObjectGUI $page_gui, $updated, string $pcid) : Server\Response
     {
         $error = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        $last_change = null;
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } elseif (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             $last_change = $page_gui->getPageObject()->getLastChange();
         }
 
         $data = new \stdClass();
         $data->error = $error;
-        $data->last_update = null;
         if ($last_change) {
             $lu = new \ilDateTime($last_change, IL_CAL_DATETIME);
             \ilDatePresentation::setUseRelativeDates(false);
@@ -188,22 +194,40 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $table = $page->getContentObjectForPcId($pcid);
 
         $data = [];
+        $updated = true;
         if (is_array($content)) {
             foreach ($content as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
-                        $data[$i][$j] =
-                            \ilPCParagraph::_input2xml(
-                                $cell,
-                                $table->getLanguage()
+                        $text = "<div>" . $cell . "</div>";
+                        if ($updated) {
+                            // determine cell content
+                            $text = \ilPCParagraph::handleAjaxContent($text);
+                            $data[$i][$j] = $text;
+                            $updated = ($text !== false);
+                            $text = $text["text"];
+                        }
+
+                        if ($updated) {
+                            $text = \ilPCParagraph::_input2xml(
+                                $text,
+                                $table->getLanguage(),
+                                true,
+                                false
                             );
+                            $text = \ilPCParagraph::handleAjaxContentPost($text);
+
+                            $data[$i][$j] = $text;
+                        }
                     }
                 }
             }
         }
 
-        $table->setData($data);
-        $updated = $page->update();
+        if ($updated) {
+            $table->setData($data);
+            $updated = $page->update();
+        }
 
         return $updated;
     }
@@ -294,6 +318,4 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $data->pcModel = $page_gui->getPageObject()->getPCModel();
         return new Server\Response($data);
     }
-
-
 }

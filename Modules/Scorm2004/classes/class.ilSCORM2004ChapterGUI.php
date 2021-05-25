@@ -1,21 +1,13 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004ChapterGUI
-*
-* User Interface for Scorm 2004 Chapter Nodes
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilSCORM2004ChapterGUI: ilObjectMetaDataGUI, ilNoteGUI
-*
-* @ingroup ModulesScorm2004
-*/
+ * User Interface for Scorm 2004 Chapter Nodes
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilSCORM2004ChapterGUI: ilObjectMetaDataGUI, ilNoteGUI
+ */
 class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
 {
     /**
@@ -98,7 +90,6 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
             case 'ilobjectmetadatagui':
                 $this->setTabs();
                 $this->setLocator();
-                include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI(
                     $this->slm_object,
                     $this->node_object->getType(),
@@ -134,14 +125,8 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
             "showOrganization",
             get_class($this)
         );
-        /*
-                // properties
-                $ilTabs->addTarget("sahs_properties",
-                     $ilCtrl->getLinkTarget($this,'showProperties'),
-                     "showProperties", get_class($this));
-        */
+
         // metadata
-        include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
         $mdgui = new ilObjectMetaDataGUI(
             $this->slm_object,
             $this->node_object->getType(),
@@ -168,9 +153,6 @@ class ilSCORM2004ChapterGUI extends ilSCORM2004NodeGUI
     */
     public function showProperties()
     {
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
-        
         $tpl = $this->tpl;
         
         $this->setTabs();

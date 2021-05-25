@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls\Footer;
-use ILIAS\UI\Component\MainControls\HeadInfo;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
@@ -71,7 +70,14 @@ class Standard implements Page\Standard
      * @var    bool
      */
     private $ui_demo = false;
+    /**
+     * @var array
+     */
     protected $system_infos = [];
+    /**
+     * @var string
+     */
+    protected $text_direction = "ltr";
 
     /**
      * Standard constructor.
@@ -110,7 +116,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMetabar(Metabar $meta_bar) : Page\Standard
+    public function withMetabar(MetaBar $meta_bar) : Page\Standard
     {
         $clone = clone $this;
         $clone->metabar = $meta_bar;
@@ -120,7 +126,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMainbar(Mainbar $main_bar) : Page\Standard
+    public function withMainbar(MainBar $main_bar) : Page\Standard
     {
         $clone = clone $this;
         $clone->mainbar = $main_bar;
@@ -229,9 +235,9 @@ class Standard implements Page\Standard
 
     /**
      * @param bool $use_headers
-     * @return    Page
+     * @return    Page\Standard
      */
-    public function withHeaders($use_headers) : Page
+    public function withHeaders($use_headers) : Page\Standard
     {
         $clone = clone $this;
         $clone->with_headers = $use_headers;
@@ -340,5 +346,24 @@ class Standard implements Page\Standard
     public function hasSystemInfos() : bool
     {
         return count($this->system_infos) > 0;
+    }
+
+
+    public function withTextDirection(string $text_direction) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $this->checkArgIsElement(
+            "Text Direction",
+            $text_direction,
+            [self::LTR,self::RTL],
+            implode('/', [self::LTR,self::RTL])
+        );
+        $clone = clone $this;
+        $clone->text_direction = $text_direction;
+        return $clone;
+    }
+
+    public function getTextDirection() : string
+    {
+        return $this->text_direction;
     }
 }

@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * All members of the same courses/groups as the user
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
  */
 class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
 {
@@ -91,7 +87,6 @@ class ilAwarenessUserProviderCurrentCourse extends ilAwarenessUserProvider
             $path = $tree->getPathFull($this->getRefId());
             if (is_array($path)) {
                 foreach ($path as $p) {
-                    include_once("./Modules/Course/classes/class.ilObjCourse.php");
                     if ($p["type"] == "crs" &&
                         ($ilAccess->checkAccess("write", "", $p["child"]) ||
                             (ilObjCourse::lookupShowMembersEnabled($p["obj_id"]) && $ilAccess->checkAccess("read", "", $p["child"])))) {

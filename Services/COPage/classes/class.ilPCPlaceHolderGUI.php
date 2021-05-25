@@ -1,22 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCPlaceHolder.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCPlaceHolderGUI
-*
-* User Interface for Place Holder Management
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id: class.ilPCListGUI.php 17506 2008-09-24 13:48:46Z akill $
-*
-* @ilCtrl_Calls ilPCPlaceHolderGUI: ilPCMediaObjectGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * User Interface for Place Holder Management
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ * @ilCtrl_Calls ilPCPlaceHolderGUI: ilPCMediaObjectGUI
+ */
 class ilPCPlaceHolderGUI extends ilPageContentGUI
 {
     public $pg_obj;
@@ -59,7 +50,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
 
         switch ($next_class) {
             case 'ilpcmediaobjectgui':  //special handling
-                include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
                 $media_gui = new ilPCMediaObjectGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
                 $ret = $this->ctrl->forwardCommand($media_gui);
                 break;
@@ -151,7 +141,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     {
         switch ($this->content_obj->getContentClass()) {
             case self::TYPE_MEDIA:
-                include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
                 $this->ctrl->setCmdClass("ilpcmediaobjectgui");
                 $this->ctrl->setCmd("insert");
                 $media_gui = new ilPCMediaObjectGUI($this->pg_obj, null);
@@ -163,7 +152,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
             
             case self::TYPE_QUESTION:
-                include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
                 $this->ctrl->setCmdClass("ilpcquestiongui");
                 $this->ctrl->setCmd("insert");
                 $question_gui = new ilPCQuestionGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -172,7 +160,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
             
             case self::TYPE_VERIFICATION:
-                include_once("./Services/COPage/classes/class.ilPCVerificationGUI.php");
                 $this->ctrl->setCmdClass("ilpcverificationgui");
                 $this->ctrl->setCmd("insert");
                 $cert_gui = new ilPCVerificationGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -214,7 +201,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     {
         $lng = $this->lng;
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this));
         $this->form_gui->setTitle($lng->txt("cont_ed_plachprop"));
@@ -249,7 +235,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     {
         $lng = $this->lng;
     
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($this->ctrl->getFormAction($this));
         $this->form_gui->setTitle($lng->txt("cont_ed_select_pctext"));
@@ -289,7 +274,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                     );
                 }
 
-                include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
                 $this->ctrl->setCmdClass("ilpcparagraphgui");
                 $this->ctrl->setCmd("insert");
                 $paragraph_gui = new ilPCParagraphGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -299,7 +283,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
                 
             case 1:  //DataTable
-                include_once("./Services/COPage/classes/class.ilPCDataTableGUI.php");
                 $this->ctrl->setCmdClass("ilpcdatatablegui");
                 $this->ctrl->setCmd("insert");
                 $dtable_gui = new ilPCDataTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -307,7 +290,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
                 
             case 2:  //Advanced Table
-                include_once("./Services/COPage/classes/class.ilPCTableGUI.php");
                 $this->ctrl->setCmdClass("ilpctablegui");
                 $this->ctrl->setCmd("insert");
                 $atable_gui = new ilPCTableGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -315,7 +297,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
                 
             case 3:  //Advanced List
-                include_once("./Services/COPage/classes/class.ilPCListGUI.php");
                 $this->ctrl->setCmdClass("ilpclistgui");
                 $this->ctrl->setCmd("insert");
                 $list_gui = new ilPCListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -323,7 +304,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
                 
             case 4:  //File List
-                include_once("./Services/COPage/classes/class.ilPCFileListGUI.php");
                 $this->ctrl->setCmdClass("ilpcfilelistgui");
                 $this->ctrl->setCmd("insert");
                 $file_list_gui = new ilPCFileListGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);
@@ -332,7 +312,6 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
                 break;
                 
             case 5:  //Tabs
-                include_once("./Services/COPage/classes/class.ilPCTabsGUI.php");
                 $this->ctrl->setCmdClass("ilpctabsgui");
                 $this->ctrl->setCmd("insert");
                 $tabs_gui = new ilPCTabsGUI($this->pg_obj, $this->content_obj, $this->hier_id, $this->pc_id);

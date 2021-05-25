@@ -185,7 +185,6 @@ abstract class ilDidacticTemplateFilterPattern
 
     /**
      * Create new pattern
-     * @global ilDB $ilDB
      * @return int
      */
     public function save()
@@ -210,7 +209,6 @@ abstract class ilDidacticTemplateFilterPattern
 
     /**
      * Delete pattern
-     * @global ilDB $ilDB
      * @return bool
      */
     public function delete()

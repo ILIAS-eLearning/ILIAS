@@ -9,6 +9,10 @@
  */
 class ilSkillImporter extends ilXmlImporter
 {
+    /**
+     * @var object
+     */
+    protected $ds;
 
     /**
      * Initialisation
@@ -19,12 +23,13 @@ class ilSkillImporter extends ilXmlImporter
         $this->ds->setDSPrefix("ds");
     }
 
-
     /**
      * Import XML
      *
-     * @param
-     * @return
+     * @param $a_entity
+     * @param $a_id
+     * @param $a_xml
+     * @param $a_mapping
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {

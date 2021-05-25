@@ -15,20 +15,26 @@ class ilBookingParticipant
     protected $is_new;
 
     /**
-     * ilBookingParticipant constructor.
-     * @param $a_user_id integer
-     * @param $a_booking_pool_id integer
+     * @var \ilObjUser
      */
-    public function __construct($a_user_id, $a_booking_pool_id)
+    protected $user;
+
+    /**
+     * ilBookingParticipant constructor.
+     * @param int $a_user_id
+     * @param int $a_booking_pool_id
+     */
+    public function __construct(int $a_user_id, int $a_booking_pool_id)
     {
+        global $DIC;
+
         if (!ilObjUser::_exists($a_user_id) || !ilObjBookingPool::_exists($a_booking_pool_id)) {
-            return false;
+            return null;
         }
 
-        global $DIC;
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
-        $this->il_user = $DIC->user();
+        $this->user = $DIC->user();
 
         $this->participant_id = $a_user_id;
         $this->booking_pool_id = $a_booking_pool_id;
@@ -66,7 +72,7 @@ class ilBookingParticipant
      */
     protected function save()
     {
-        $assigner_id = $this->il_user->getId();
+        $assigner_id = $this->user->getId();
         $next_id = $this->db->nextId('booking_member');
 
         $query = 'INSERT INTO booking_member' .
@@ -90,10 +96,10 @@ class ilBookingParticipant
     /**
      * Get participants who can not have a reservation for this booking pool object id.
      *
-     * @param integer $a_bp_object_id booking pool object
+     * @param int $a_bp_object_id booking pool object
      * @return array formatted data to display in gui table.
      */
-    public static function getAssignableParticipants($a_bp_object_id)
+    public static function getAssignableParticipants(int $a_bp_object_id)
     {
         $booking_object = new ilBookingObject($a_bp_object_id);
         $pool_id = $booking_object->getPoolId();
@@ -119,10 +125,8 @@ class ilBookingParticipant
                         "object_title" => array($booking_object->getTitle()),
                         "name" => $name
                     );
-                } else {
-                    if (!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
-                        array_push($res[$index]['object_title'], $booking_object->getTitle());
-                    }
+                } elseif (!in_array($booking_object->getTitle(), $res[$index]['object_title'])) {
+                    array_push($res[$index]['object_title'], $booking_object->getTitle());
                 }
             }
         }
@@ -184,67 +188,20 @@ class ilBookingParticipant
                     $res[$index]['obj_count'] = 1;
                     $res[$index]['object_ids'][] = $row['object_id'];
                 }
-            } else {
-                if ($row['title'] != "" && (!in_array(
-                    $row['title'],
-                    $res[$index]['object_title']
-                ) && $status != ilBookingReservation::STATUS_CANCELLED)) {
-                    array_push($res[$index]['object_title'], $row['title']);
-                    $res[$index]['obj_count'] = $res[$index]['obj_count'] + 1;
-                    $res[$index]['object_ids'][] = $row['object_id'];
-                }
+            } elseif ($row['title'] != "" && (!in_array(
+                $row['title'],
+                $res[$index]['object_title']
+            ) && $status != ilBookingReservation::STATUS_CANCELLED)) {
+                array_push($res[$index]['object_title'], $row['title']);
+                $res[$index]['obj_count'] = $res[$index]['obj_count'] + 1;
+                $res[$index]['object_ids'][] = $row['object_id'];
             }
             $res[$index]['user_id'] = $row['user_id'];
         }
 
-        // obsolete...?
-        $bp = new ilObjBookingPool($a_booking_pool, false);
-
         foreach ($res as $index => $val) {
-            $actions = [];
-            // action assign only if user did not booked all objects.
-            //if($res[$index]['obj_count'] < ilBookingObject::getNumberOfObjectsForPool($a_booking_pool))
-
-            // alex: this does not seem to be correct: assignments are always possible for all objects
-            $has_schedule = ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
-            $limit_reached = (!$has_schedule && $bp->getOverallLimit() <= $val['obj_count']);
-            if (!$limit_reached) {
-                $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $val['user_id']);
-                $actions[] = array(
-                    'text' => $lng->txt("book_assign_object"),
-                    'url' => $ctrl->getLinkTargetByClass(["ilobjbookingpoolgui", "ilbookingparticipantgui"], 'assignObjects')
-                );
-                $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
-            }
-
-
-            if ($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $val['obj_count'] == 1) {
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', $val['user_id']);
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', $val['object_ids'][0]);
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
-
-                $actions[] = array(
-                    'text' => $lng->txt("book_deassign"),
-                    'url' => $ctrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser')
-                );
-
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', '');
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', '');
-                $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', '');
-            } elseif ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $res[$index]['obj_count'] > 1) {
-                $ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $val['user_id']);
-                $actions[] = array(
-                    'text' => $lng->txt("book_deassign"),
-                    'url' => $ctrl->getLinkTargetByClass("ilobjbookingpoolgui", 'log')
-                );
-                $ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', '');
-            }
-
-            //add the actions
-            //$res[$index]['actions'] = $actions;
             $res[$index]['object_ids'][] = $row['object_id'];
         }
-        //echo "<pre>"; print_r($res); exit;
         return $res;
     }
 
@@ -272,10 +229,10 @@ class ilBookingParticipant
     /**
      *Get user data from db for an specific pool id.
      *
-     * @param integer $a_pool_id
+     * @param int $a_pool_id
      * @return array
      */
-    public static function getUserFilter($a_pool_id)
+    public static function getUserFilter(int $a_pool_id)
     {
         global $DIC;
 

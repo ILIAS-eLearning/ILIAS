@@ -24,7 +24,7 @@ abstract class Slate implements ISlate\Slate
     use Triggerer;
 
     // allowed ARIA roles
-    const MENU = 'menu';
+    public const MENU = 'menu';
 
     /**
      * @var string
@@ -72,6 +72,11 @@ abstract class Slate implements ISlate\Slate
     protected static $allowed_aria_roles = array(
         self::MENU
     );
+
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
     /**
      * @param string 	$name 	name of the slate, also used as label

@@ -2,105 +2,113 @@
 <!-- BEGIN back_url -->
 <div style="margin-bottom: 15px;"><a href="{HREF_BACK}" class="submit">{TXT_BACK}</a></div>
 <!-- END back_url -->
-<div style="float: right; text-align:right ">
-	<!-- BEGIN image -->
-	<img style="margin: 0px 0px 5px 20px;" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
-	<!-- END image -->
-	<!-- BEGIN link -->
-	<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
-	<!-- END link -->
-	<!-- BEGIN mail -->
-	<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
-	<!-- END mail -->
-	<!-- BEGIN vcard -->
-	<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->{TXT_DOWNLOAD_VCARD}</a>
-	<!-- END vcard -->
-</div>
-<h3 class="ilProfileName">{SALUTATION}{FIRSTNAME} {LASTNAME}</h3>
-{BUDDY_HTML}
-<!-- BEGIN bday_bl -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_BIRTHDAY}</h3>
-	{VAL_BIRTHDAY}
-</div>
-<!-- END bday_bl -->
-<!-- BEGIN address -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_ADDRESS}</h3>
-	<!-- BEGIN address_line -->
-	{TXT_ADDRESS_LINE}<br />
-	<!-- END address_line -->
-</div>
-<!-- END address -->
-<!-- BEGIN org_units -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_ORG_UNITS}</h3>
-	{ORG_UNITS}
-</div>
-<!-- END org_units -->
-<!-- BEGIN inst_dep -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_INST_DEP}</h3>
-	{INST_DEP}
-</div>
-<!-- END inst_dep -->
-<!-- BEGIN contact -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_CONTACT}</h3>
-	{CONTACT}
-</div>
-<!-- END contact -->
-<!-- BEGIN profile_data -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_DATA}</h3>
-	<!-- BEGIN im_icon -->
-	<img src="{IMG_ICON}" alt="{TXT_ICON}" title="{TXT_ICON}"/>
-	<!-- END im_icon -->
-	{DATA}
-</div>
-<!-- END profile_data -->
-<!-- BEGIN udf_data -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_UDF_DATA}</h3>
-	{UDF_DATA}
-</div>
-<!-- END udf_data -->
-<!-- BEGIN map -->
-<div class="ilProfileSection" style="clear:both;">
-	<h3 class="ilProfileSectionHead">{TXT_LOCATION}</h3>
-	{MAP_CONTENT}
-</div>
-<!-- END map -->
-<!-- BEGIN portfolios -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_PORTFOLIO}</h3>
-	<!-- BEGIN portfolio -->
-	<div><a href="{HREF_PORTFOLIO}">{TITLE_PORTFOLIO}</a></div>
-	<!-- END portfolio -->
-</div>
-<!-- END portfolios -->
-<!-- BEGIN badges_row -->
-<div class="ilProfileSection">
-	<h3 class="ilProfileSectionHead">{TXT_BADGES}</h3>
-	<div>
-		<!-- BEGIN badge_bl -->
-		<span class="ilProfileBadge">{BADGE}</span>
-		<!-- END badge_bl -->
+	<div class="row">
+
+		<div class="col-sm-6">
+
+			<h3 class="ilProfileName">{SALUTATION}{FIRSTNAME} {LASTNAME}</h3>
+			{BUDDY_HTML}
+			<!-- BEGIN bday_bl -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_BIRTHDAY}</h3>
+				{VAL_BIRTHDAY}
+			</div>
+			<!-- END bday_bl -->
+			<!-- BEGIN address -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_ADDRESS}</h3>
+				<!-- BEGIN address_line -->
+				{TXT_ADDRESS_LINE}<br />
+				<!-- END address_line -->
+			</div>
+			<!-- END address -->
+			<!-- BEGIN org_units -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_ORG_UNITS}</h3>
+				{ORG_UNITS}
+			</div>
+			<!-- END org_units -->
+			<!-- BEGIN inst_dep -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_INST_DEP}</h3>
+				{INST_DEP}
+			</div>
+			<!-- END inst_dep -->
+			<!-- BEGIN contact -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_CONTACT}</h3>
+				{CONTACT}
+			</div>
+			<!-- END contact -->
+			<!-- BEGIN profile_data -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_DATA}</h3>
+				<!-- BEGIN im_icon -->
+				<img src="{IMG_ICON}" alt="{TXT_ICON}" title="{TXT_ICON}"/>
+				<!-- END im_icon -->
+				{DATA}
+			</div>
+			<!-- END profile_data -->
+			<!-- BEGIN udf_data -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_UDF_DATA}</h3>
+				{UDF_DATA}
+			</div>
+			<!-- END udf_data -->
+			<!-- BEGIN map -->
+			<div class="ilProfileSection" style="clear:both;">
+				<h3 class="ilProfileSectionHead">{TXT_LOCATION}</h3>
+				{MAP_CONTENT}
+			</div>
+			<!-- END map -->
+			<!-- BEGIN portfolios -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_PORTFOLIO}</h3>
+				<!-- BEGIN portfolio -->
+				<div><a href="{HREF_PORTFOLIO}">{TITLE_PORTFOLIO}</a></div>
+				<!-- END portfolio -->
+			</div>
+			<!-- END portfolios -->
+			<!-- BEGIN badges_row -->
+			<div class="ilProfileSection">
+				<h3 class="ilProfileSectionHead">{TXT_BADGES}</h3>
+				<div>
+					<!-- BEGIN badge_bl -->
+					<span class="ilProfileBadge">{BADGE}</span>
+					<!-- END badge_bl -->
+				</div>
+				<!-- BEGIN badge_hidden_bl -->
+				<div id="ilbdgprfhd" style="display:none;">
+					<!-- BEGIN badge_hidden_item_bl -->
+					<span class="ilProfileBadge">{BADGE_HIDDEN}</span>
+					<!-- END badge_hidden_item_bl -->
+				</div>
+				<!-- BEGIN badge_hidden_bl -->
+				<!-- BEGIN badge_hidden_actions_bl -->
+				<a href="#" id="ilbdgprfhdm" class="btn btn-default" onclick="ilbdgprfhdtgl();">{BADGE_HIDDEN_TXT_MORE}</a>
+				<a href="#" id="ilbdgprfhdl" class="btn btn-default" onclick="ilbdgprfhdtgl();" style="display:none">{BADGE_HIDDEN_TXT_LESS}</a>
+				<!-- END badge_hidden_actions_bl -->
+			</div>
+			<!-- END badges_row -->
+		</div>
+		<div class="col-sm-6">
+			<!-- BEGIN image -->
+			<img class="ilProfileImage" src="{IMAGE_PATH}" title="{IMAGE_ALT}" alt="{IMAGE_ALT}" /><br />
+			<!-- END image -->
+			<!-- BEGIN link -->
+			<a class="il_ContainerItemCommand" href="{HREF_LINK}">{TXT_LINK}</a><br />
+			<!-- END link -->
+			<!-- BEGIN mail -->
+			<a class="il_ContainerItemCommand" href="{HREF_MAIL}">{TXT_MAIL}</a><br />
+			<!-- END mail -->
+			<!-- BEGIN vcard -->
+			<a class="il_ContainerItemCommand" href="{HREF_VCARD}"><!-- <img src="{IMG_VCARD}" alt="{TXT_DOWNLOAD_VCARD}" title="{TXT_DOWNLOAD_VCARD}" />-->{TXT_DOWNLOAD_VCARD}</a>
+			<!-- END vcard -->
+		</div>
+
+
 	</div>
-	<!-- BEGIN badge_hidden_bl -->
-	<div id="ilbdgprfhd" style="display:none;">
-		<!-- BEGIN badge_hidden_item_bl -->
-		<span class="ilProfileBadge">{BADGE_HIDDEN}</span>
-		<!-- END badge_hidden_item_bl -->	
-	</div>
-	<!-- BEGIN badge_hidden_bl -->
-	<!-- BEGIN badge_hidden_actions_bl -->
-	<a href="#" id="ilbdgprfhdm" class="btn btn-default" onclick="ilbdgprfhdtgl();">{BADGE_HIDDEN_TXT_MORE}</a>
-	<a href="#" id="ilbdgprfhdl" class="btn btn-default" onclick="ilbdgprfhdtgl();" style="display:none">{BADGE_HIDDEN_TXT_LESS}</a>
-	<!-- END badge_hidden_actions_bl -->
-</div>
-<!-- END badges_row -->
-<div style="clear:both;"></div>
+	<div style="clear:both;"></div>
 </div>
 <!-- BEGIN table_start -->
 <!-- END table_start -->

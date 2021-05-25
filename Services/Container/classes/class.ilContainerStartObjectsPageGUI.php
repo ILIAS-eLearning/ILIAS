@@ -1,9 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Container start objects page GUI class
@@ -13,8 +10,6 @@ include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
- *
- * @ingroup ServicesContainer
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
 {

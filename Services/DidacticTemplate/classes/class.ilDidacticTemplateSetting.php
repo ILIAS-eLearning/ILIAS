@@ -425,7 +425,6 @@ class ilDidacticTemplateSetting
 
     /**
      * Add one object assignment
-     * @global ilDB $ilDB
      * @param string $a_obj_type
      */
     private function saveAssignment($a_obj_type)
@@ -458,7 +457,7 @@ class ilDidacticTemplateSetting
         if (!count($this->getEffectiveFrom())) {
             return;
         }
-        
+        $values = [];
         foreach ($this->getEffectiveFrom() as $node) {
             $values[] = '( ' .
             $ilDB->quote($this->getId(), 'integer') . ', ' .
@@ -503,7 +502,6 @@ class ilDidacticTemplateSetting
 
     /**
      * Delete assignments
-     * @global ilDB $ilDB
      * @return bool
      */
     private function deleteAssignments()
@@ -524,7 +522,6 @@ class ilDidacticTemplateSetting
 
     /**
      * Update settings
-     * @global ilDB $ilDB
      * @return bool
      */
     public function update()
@@ -609,6 +606,7 @@ class ilDidacticTemplateSetting
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
+        $type = '';
         switch ($this->getType()) {
             case self::TYPE_CREATION:
                 $type = 'creation';

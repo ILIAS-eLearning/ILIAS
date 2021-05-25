@@ -220,7 +220,8 @@ class ilTrashTableGUI extends ilTable2GUI
                 ? $this->lng->txt('icon') . ' ' . \ilObjectPlugin::lookupTxtById($row['type'], 'obj_' . $row['type'])
                 : $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $row['type'])
             ;
-            $this->tpl->setVariable('IMG_TYPE', \ilUtil::img($img, $alt));
+            $this->tpl->setVariable('IMG_PATH', $img);
+            $this->tpl->setVariable('IMG_ALT', $alt);
         }
 
         $this->tpl->setVariable('VAL_DELETED_BY', $row['deleted_by']);

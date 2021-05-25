@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Object/classes/class.ilObject2.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceFolder
-*
-* @author Wolfgang Merkens <wmerkens@databay.de>
-* @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
-*
-* @extends ilObject2
-*/
+ * Class ilObjWorkspaceFolder
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjWorkspaceFolder extends ilObject2
 {
     public $folder_tree;
@@ -91,7 +86,6 @@ class ilObjWorkspaceFolder extends ilObject2
      */
     public function gotItems($node_id)
     {
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree($this->current_user->getId());
         $nodes = $tree->getChilds($node_id, "title");
 

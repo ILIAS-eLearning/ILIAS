@@ -126,10 +126,10 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         if (!$a_set->isStandardField()) {
             switch ($a_set->isUnique()) {
                 case 0:
-                    $uniq = ilUtil::getImagePath('icon_not_ok.svg');
+                    $uniq = ilUtil::getImagePath('icon_not_ok_monochrome.svg', "/Modules/DataCollection");
                     break;
                 case 1:
-                    $uniq = ilUtil::getImagePath('icon_ok.svg');
+                    $uniq = ilUtil::getImagePath('icon_ok_monochrome.svg', "/Modules/DataCollection");
                     break;
             }
             $this->tpl->setVariable('UNIQUE', $uniq);

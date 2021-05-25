@@ -30,6 +30,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected $export_material = array("js" => array(), "images" => array(), "files" => array());
     
     protected static $initialized = 0;
+
+    /**
+     * @var int
+     */
+    protected $requested_ppage;
     
     /**
      * Constructor
@@ -72,6 +77,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ilObjStyleSheet::getPlaceHolderStylePath()
         );
         $tpl->parseCurrentBlock();
+
+        $this->requested_ppage = (int) $_GET["ppage"];
     }
     
     public function getParentType()
@@ -1146,13 +1153,13 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
      * @param
      * @return
      */
-    public function getViewPageLink()
+    public function getViewPageLink() : string
     {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
 
-        $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+        $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $this->requested_ppage);
         return $ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview");
     }
 
@@ -1201,12 +1208,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
      */
     public function getCommentsHTMLExport()
     {
-        $notes_gui = new ilNoteGUI($this->portfolio_id,
-            $this->getPageObject()->getId(), "pfpg");
+        $notes_gui = new ilNoteGUI(
+            $this->portfolio_id,
+            $this->getPageObject()->getId(),
+            "pfpg"
+        );
         $notes_gui->enablePublicNotes(true);
         $notes_gui->setRepositoryMode(false);
         $notes_gui->setExportMode();
         return  $notes_gui->getNotesHTML();
     }
-
 }

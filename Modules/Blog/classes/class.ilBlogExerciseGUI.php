@@ -72,19 +72,21 @@ class ilBlogExerciseGUI
     {
         $be = new ilBlogExercise($a_node_id);
 
+        $info = [];
+
         foreach ($be->getAssignmentsOfBlog() as $ass) {
             $part = self::getExerciseInfo($ass["ass_id"]);
             if ($part) {
                 $info[] = $part;
             }
         }
-        if (sizeof($info)) {
+        if (count($info) > 0) {
             return implode("<br />", $info);
         }
         return "";
     }
 
-    protected static function getExerciseInfo($a_assignment_id)
+    protected static function getExerciseInfo(int $a_assignment_id) : string
     {
         global $DIC;
 
@@ -93,6 +95,7 @@ class ilBlogExerciseGUI
         $links = [];
         $buttons = [];
         $elements = [];
+        $items = [];
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
@@ -101,14 +104,14 @@ class ilBlogExerciseGUI
         $ass = new ilExAssignment($a_assignment_id);
         $exercise_id = $ass->getExerciseId();
         if (!$exercise_id) {
-            return;
+            return "";
         }
         
         // is the assignment still open?
         $times_up = $ass->afterDeadlineStrict();
         
         // exercise goto
-        $exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
+        $exc_ref_id = current(ilObject::_getAllReferences($exercise_id));
         $exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
 
         $text = sprintf(
@@ -261,8 +264,7 @@ class ilBlogExerciseGUI
             $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $ass_id);
             $submit_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "finalize");
             $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
-            $button = $ui->factory()->button()->primary($lng->txt("blog_finalize_blog"), $submit_link);
-            return $button;
+            return $ui->factory()->button()->primary($lng->txt("blog_finalize_blog"), $submit_link);
         }
         return null;
     }
@@ -288,8 +290,7 @@ class ilBlogExerciseGUI
                 $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $ass_id);
                 $dl_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "downloadExcSubFile");
                 $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
-                $button = $ui->factory()->button()->standard($lng->txt("blog_download_submission"), $dl_link);
-                return $button;
+                return $ui->factory()->button()->standard($lng->txt("blog_download_submission"), $dl_link);
             }
         }
         return null;

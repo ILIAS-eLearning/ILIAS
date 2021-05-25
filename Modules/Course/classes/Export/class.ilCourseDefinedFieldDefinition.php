@@ -138,10 +138,11 @@ class ilCourseDefinedFieldDefinition
      */
     public static function _getFields($a_container_id, $a_sort = IL_CDF_SORT_NAME)
     {
+        $fields = [];
         foreach (ilCourseDefinedFieldDefinition::_getFieldIds($a_container_id, IL_CDF_SORT_ID) as $field_id) {
             $fields[] = new ilCourseDefinedFieldDefinition($a_container_id, $field_id);
         }
-        return $fields ? $fields : array();
+        return $fields;
     }
     
     /**
@@ -212,10 +213,11 @@ class ilCourseDefinedFieldDefinition
             "WHERE obj_id = " . $ilDB->quote($a_container_id, 'integer') . " " .
             "ORDER BY " . IL_CDF_SORT_ID;
         $res = $ilDB->query($query);
+        $field_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $field_ids[] = $row->field_id;
         }
-        return $field_ids ? $field_ids : array();
+        return $field_ids;
     }
         
     /**

@@ -40,7 +40,7 @@ abstract class Item implements C\Item\Item
 
     /**
      * Item constructor.
-     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link|string $title
+     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Standard|string $title
      */
     public function __construct($title)
     {

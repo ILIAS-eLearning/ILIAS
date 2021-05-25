@@ -107,7 +107,7 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    public function updateMetaData()
+    protected function beforeUpdateMetaData() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -121,7 +121,7 @@ class ilObjQuestionPool extends ilObject
             $md_creator->setTitleLanguage($ilUser->getPref('language'));
             $md_creator->create();
         }
-        parent::updateMetaData();
+        return true;
     }
 
     /**
@@ -307,42 +307,6 @@ class ilObjQuestionPool extends ilObject
         } else {
             return;
         }
-    }
-
-    /**
-    * get description of content object
-    *
-    * @return	string		description
-    */
-    public function getDescription()
-    {
-        return parent::getDescription();
-    }
-
-    /**
-    * set description of content object
-    */
-    public function setDescription($a_description)
-    {
-        parent::setDescription($a_description);
-    }
-
-    /**
-    * get title of glossary object
-    *
-    * @return	string		title
-    */
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-    * set title of glossary object
-    */
-    public function setTitle($a_title)
-    {
-        parent::setTitle($a_title);
     }
 
     /**

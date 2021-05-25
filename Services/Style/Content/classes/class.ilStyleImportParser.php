@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/Xml/classes/class.ilSaxParser.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Style Import Parser
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @extends ilSaxParser
-*/
+ * Style Import Parser
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilStyleImportParser extends ilSaxParser
 {
     /**

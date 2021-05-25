@@ -10,6 +10,23 @@ require_once 'Services/Math/classes/class.ilMathBaseAdapter.php';
 class ilMathPhpAdapter extends ilMathBaseAdapter
 {
     /**
+     * @param string|null $operand
+     * @return float|int|string|null
+     */
+    private function transformToNumeric(?string $operand)
+    {
+        if (is_string($operand)) {
+            if (strpos($operand, '.') !== false) {
+                $operand = (float) $operand;
+            } else {
+                $operand = (int) $operand;
+            }
+        }
+
+        return $operand;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function add($left_operand, $right_operand, $scale = null)
@@ -35,7 +52,13 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     public function mul($left_operand, $right_operand, $scale = null)
     {
         try {
-            $res = $this->normalize($left_operand) * $this->normalize($right_operand);
+            $left_operand = $this->normalize($left_operand);
+            $right_operand = $this->normalize($right_operand);
+
+            $left_operand = $this->transformToNumeric($left_operand);
+            $right_operand = $this->transformToNumeric($right_operand);
+
+            $res = $left_operand * $right_operand;
 
             $multiplication = $this->applyScale($res, $this->normalize($scale));
         } catch (Throwable $e) {
@@ -61,7 +84,13 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
 
         // This ensures the old PHP <= 7.0.x behaviour, see: #27785 / #26361
         try {
-            $res = $this->normalize($left_operand) / $this->normalize($right_operand);
+            $left_operand = $this->normalize($left_operand);
+            $right_operand = $this->normalize($right_operand);
+
+            $left_operand = $this->transformToNumeric($left_operand);
+            $right_operand = $this->transformToNumeric($right_operand);
+
+            $res = $left_operand / $right_operand;
 
             $division = $this->applyScale($res, $this->normalize($scale));
         } catch (Throwable $e) {

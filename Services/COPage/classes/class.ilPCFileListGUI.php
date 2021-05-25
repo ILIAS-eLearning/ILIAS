@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCFileList.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCListGUI
-*
-* User Interface for LM List Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCListGUI
+ *
+ * User Interface for LM List Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCFileListGUI extends ilPageContentGUI
 {
     /**
@@ -169,7 +164,6 @@ class ilPCFileListGUI extends ilPageContentGUI
         $ilTabs->setSubTabActive("cont_file_from_repository");
         $ilCtrl->setParameter($this, "subCmd", "insertFromRepository");
 
-        include_once("./Services/COPage/classes/class.ilPCFileItemFileSelectorGUI.php");
         $exp = new ilPCFileItemFileSelectorGUI(
             $this,
             $a_cmd,
@@ -201,7 +195,6 @@ class ilPCFileListGUI extends ilPageContentGUI
 
         $ilTabs->setSubTabActive("cont_file_from_workspace");
         
-        include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
         $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, $a_cmd, $this, $a_cmd, "fl_wsp_id");
         $ilCtrl->setParameter($this, "subCmd", "selectFile");
         $exp->setCustomLinkTarget($ilCtrl->getLinkTarget($this, $a_cmd));
@@ -220,8 +213,6 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function create()
     {
         global $DIC;
-
-        include_once("./Modules/File/classes/class.ilObjFile.php");
 
         $mode = ($_POST["file_ref_id"] != "")
             ? "select_file"
@@ -308,7 +299,6 @@ class ilPCFileListGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
     
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         
         if ($a_mode != "add_file") {
@@ -319,7 +309,6 @@ class ilPCFileListGUI extends ilPageContentGUI
             $form->addItem($ti);
             
             // language
-            require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
             $lang = ilMDLanguageItem::_getLanguages();
             $si = new ilSelectInputGUI($lng->txt("language"), "flst_language");
             $si->setOptions($lang);
@@ -336,7 +325,6 @@ class ilPCFileListGUI extends ilPageContentGUI
             $ne = new ilNonEditableValueGUI($lng->txt("file"), "");
             
             if (isset($_GET["file_ref_id"])) {
-                include_once("./Modules/File/classes/class.ilObjFile.php");
                 $file_obj = new ilObjFile((int) $_GET["file_ref_id"]);
                 if (is_object($file_obj)) {
                     // ref id as hidden input
@@ -348,11 +336,9 @@ class ilPCFileListGUI extends ilPageContentGUI
                 }
             } elseif (isset($_GET["fl_wsp_id"])) {
                 // we need the object id for the instance
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                 $tree = new ilWorkspaceTree($ilUser->getId());
                 $node = $tree->getNodeData((int) $_GET["fl_wsp_id"]);
                 
-                include_once("./Modules/File/classes/class.ilObjFile.php");
                 $file_obj = new ilObjFile($node["obj_id"], false);
                 if (is_object($file_obj)) {
                     // ref id as hidden input
@@ -439,7 +425,6 @@ class ilPCFileListGUI extends ilPageContentGUI
             $ilCtrl->getLinkTarget($this, "addFileItem")
         );
         
-        include_once("./Services/COPage/classes/class.ilPCFileListTableGUI.php");
         $table_gui = new ilPCFileListTableGUI($this, "editFiles", $this->content_obj);
         $tpl->setContent($table_gui->getHTML());
     }
@@ -664,11 +649,9 @@ class ilPCFileListGUI extends ilPageContentGUI
         // from personal workspace
         if (isset($_GET["fl_wsp_id"])) {
             // we need the object id for the instance
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
             $tree = new ilWorkspaceTree($ilUser->getId());
             $node = $tree->getNodeData($_GET["fl_wsp_id"]);
             
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $file_obj = new ilObjFile($node["obj_id"], false);
         }
         // upload
@@ -677,7 +660,6 @@ class ilPCFileListGUI extends ilPageContentGUI
         }
         // from repository
         else {
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $file_obj = new ilObjFile($a_file_ref_id);
         }
         if (is_object($file_obj)) {
@@ -716,7 +698,6 @@ class ilPCFileListGUI extends ilPageContentGUI
         // see #22541
         //		$form->checkInput();
 
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         $fileObj = new ilObjFile();
         $fileObj->setType("file");
         $fileObj->setTitle($_FILES["file"]["name"]);

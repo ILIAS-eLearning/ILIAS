@@ -52,7 +52,7 @@ abstract class ilChatroomGUIHandler
     protected $rbacsystem;
 
     /**
-     * @var \ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $mainTpl;
 
@@ -77,6 +77,16 @@ abstract class ilChatroomGUIHandler
     protected $tabs;
 
     /**
+     * @var \ILIAS\UI\Factory
+     */
+    protected $uiFactory;
+
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $uiRenderer;
+
+    /**
      * @param ilChatroomObjectGUI $gui
      */
     public function __construct(ilChatroomObjectGUI $gui)
@@ -96,6 +106,8 @@ abstract class ilChatroomGUIHandler
         $this->tabs = $DIC->tabs();
         $this->navigationHistory = $DIC['ilNavigationHistory'];
         $this->tree = $DIC['tree'];
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
     }
 
     /**

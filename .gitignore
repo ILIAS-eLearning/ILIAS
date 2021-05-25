@@ -41,3 +41,5 @@ virtual-data
 /dicto/results/*
 !/dicto/results/README.md
 override.php
+captainhook.config.json
+captainhook.local.json

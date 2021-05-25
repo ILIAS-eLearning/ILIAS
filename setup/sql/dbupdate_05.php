@@ -6353,3 +6353,204 @@ foreach ($columns as $column) {
 <?php
 $ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
 ?>
+<#5777>
+<?php
+$ilDB->replace(
+    'settings',
+    [
+        'module' => ['text', 'adve'],
+        'keyword' => ['text', 'autosave']
+    ],
+    [
+        'value' => ['text', '30']
+    ]
+);
+?>
+<#5778>
+<?php
+if ($ilDB->tableColumnExists("il_poll", "online_status")) {
+    $res = $ilDB->query("SELECT id, online_status FROM il_poll");
+    $updateStatement = $ilDB->prepareManip("UPDATE object_data SET offline = ? WHERE obj_id = ?", ['status', 'id']);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        //il_poll online_status is true if online, object_data offline is true if offline
+        $row['offline'] = ($row['online_status'] == 1) ? 0 : 1;
+        $ilDB->execute($updateStatement, [$row['offline'], $row['id']]);
+    }
+
+    $ilDB->dropTableColumn("il_poll", "online_status");
+}
+?>
+<#5779>
+<?php
+$query = 'select value from settings where  module = ' . $ilDB->quote('common', ilDBConstants::T_TEXT) . ' ' .
+    'and keyword = ' . $ilDB->quote('language', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+$default = 'en';
+while ($row  = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $default = $row->value;
+}
+$query = 'update adv_md_record set lang_default = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_default = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update md_record_int
+$query = 'select record_id from adv_md_record_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select record_id from adv_md_record_int where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and record_id = ' . $ilDB->quote($row->record_id, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from adv_md_record_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and record_id = ' . $ilDB->quote($row->record_id, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_md_record_int set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update md_field_int
+$query = 'select field_id from adv_md_field_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select field_id from adv_md_field_int where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from adv_md_field_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_md_field_int set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update adv_mdf_enum
+$query = 'select field_id, lang_code, idx from adv_mdf_enum ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select field_id, lang_code, idx from  adv_mdf_enum where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+        'and idx = ' . $ilDB->quote($row->idx, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from  adv_mdf_enum where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+            'and idx = ' . $ilDB->quote($row->idx, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_mdf_enum set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+?>
+<#5780>
+<?php
+if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
+    $ilDB->addTableColumn(
+        'ldap_server_settings',
+        'escape_dn',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#5781>
+<?php
+if (!$ilDB->indexExistsByFields('exc_returned', array('filetitle'))) {
+    $ilDB->addIndex('exc_returned', array('filetitle'), 'i3');
+}
+?>
+<#5782>
+<?php
+if ($ilDB->uniqueConstraintExists('cmi_gobjective', array('user_id','objective_id','scope_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmi_gobjective', array('user_id','objective_id','scope_id'));
+}
+$query = "show index from cmi_gobjective where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+}
+?>
+<#5783>
+<?php
+if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cp_suspend', array('user_id','obj_id'));
+}
+$query = "show index from cp_suspend where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+}
+?>
+<#5784>
+<?php
+$read_learning_progress = 0;
+$read_outcomes = 0;
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_learning_progress')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_learning_progress = $row->ops_id;
+}
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_outcomes')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_outcomes = $row->ops_id;
+}
+if ($read_outcomes > 0 && $read_learning_progress > 0) {
+    $res = $ilDB->queryF(
+        "SELECT rol_id, parent, type FROM rbac_templates WHERE (type=%s OR type=%s) AND ops_id=%s",
+        array('text', 'text', 'integer'),
+        array('cmix', 'lti', $read_learning_progress)
+        );
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $resnum = $ilDB->queryF(
+            "SELECT rol_id FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
+            array('integer', 'text', 'integer', 'integer'),
+            array($row->rol_id, $row->type, $read_outcomes, $row->parent)
+        );
+        if (!$ilDB->numRows($resnum)) {
+            $ilDB->insert('rbac_templates', array(
+                    'rol_id' => array('integer', $row->rol_id),
+                    'type' => array('text', $row->type),
+                    'ops_id' => array('integer', $read_outcomes),
+                    'parent' => array('integer', $row->parent)
+                ));
+        }
+    }
+}
+?>
+<#5785>
+<?php
+$ilDB->update("rbac_operations", [
+    "op_order" => ["integer", 3900]
+], [    // where
+        "operation" => ["text", "redact"]
+    ]
+);
+?>
+<#5786>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_from'))) {
+    $ilDB->addIndex('booking_reservation', array('date_from'), 'i3');
+}
+?>
+<#5787>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
+    $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
+}
+?>

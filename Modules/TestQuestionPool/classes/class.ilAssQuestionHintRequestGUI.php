@@ -201,8 +201,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             $ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
         
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
-        
+
         $confirmation = new ilConfirmationGUI();
         
         $formAction = ilUtil::appendUrlParameterString(

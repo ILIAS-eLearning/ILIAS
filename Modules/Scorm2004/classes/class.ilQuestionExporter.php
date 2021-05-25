@@ -1,17 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Scorm 2004 Question Exporter
  *
  * @author Hendrik Holtmann <holtmann@me.com>
- *
- * @version $Id: class.ilQuestionExporter.php 12658 2006-11-29 08:51:48Z akill $
- *
- * @ingroup ModulesScormAicc
  */
 class ilQuestionExporter
 {

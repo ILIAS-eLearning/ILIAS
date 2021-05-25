@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Xml/classes/class.ilSaxParser.php");
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Export file parser
  *
  * @author Aleex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesExport
  */
 class ilExportFileParser extends ilSaxParser
 {

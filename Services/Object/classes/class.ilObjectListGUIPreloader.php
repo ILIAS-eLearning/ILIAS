@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectListGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Preloader for object list GUIs
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilObject.php 46291 2013-11-19 15:09:45Z jluetzen $
  */
 class ilObjectListGUIPreloader
 {
@@ -92,7 +90,6 @@ class ilObjectListGUIPreloader
         }
                         
         // type specific preloads
-        include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
         foreach ($this->types as $type) {
             $this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);
             
@@ -135,26 +132,20 @@ class ilObjectListGUIPreloader
                 $this->fav_manager->loadData($ilUser->getId(), $this->ref_ids);
             }
             
-            include_once("./Services/Object/classes/class.ilObjectActivation.php");
             ilObjectActivation::preloadData($this->ref_ids);
         }
                         
-        include_once("./Services/Object/classes/class.ilObjectListGUI.php");
         ilObjectListGUI::preloadCommonProperties($this->obj_ids, $this->context);
         
         if ($this->context == ilObjectListGUI::CONTEXT_REPOSITORY) {
-            include_once("./Services/Rating/classes/class.ilRating.php");
-            include_once("./Services/Rating/classes/class.ilRatingGUI.php");
             ilRating::preloadListGUIData($this->obj_ids);
             
-            include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
             ilAdvancedMDValues::preloadByObjIds($this->obj_ids);
         }
         
         if ($this->context == ilObjectListGUI::CONTEXT_REPOSITORY ||
             $this->context == ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP ||
             $this->context == ilObjectListGUI::CONTEXT_SEARCH) {
-            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
             ilLPStatus::preloadListGUIData($this->obj_ids);
         }
     }

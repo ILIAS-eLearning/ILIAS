@@ -112,18 +112,16 @@ class ilSkillTree extends ilTree
     {
         if ($a_par_id != $this->readRootId()) {
             $childs = $this->getChilds($a_par_id);
+        } elseif ($a_templates) {
+            $childs = $this->getChildsByTypeFilter(
+                $a_par_id,
+                array("skrt", "sktp", "sctp")
+            );
         } else {
-            if ($a_templates) {
-                $childs = $this->getChildsByTypeFilter(
-                    $a_par_id,
-                    array("skrt", "sktp", "sctp")
-                );
-            } else {
-                $childs = $this->getChildsByTypeFilter(
-                    $a_par_id,
-                    array("skrt", "skll", "scat", "sktr")
-                );
-            }
+            $childs = $this->getChildsByTypeFilter(
+                $a_par_id,
+                array("skrt", "skll", "scat", "sktr")
+            );
         }
 
         $max = 0;

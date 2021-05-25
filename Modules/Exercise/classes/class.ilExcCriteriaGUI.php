@@ -269,7 +269,7 @@ class ilExcCriteriaGUI
         $this->importForm($crit_obj);
     }
     
-    protected function getCurrentCritera()
+    protected function getCurrentCritera() : ?ilExcCriteria
     {
         $ilCtrl = $this->ctrl;
         
@@ -283,6 +283,8 @@ class ilExcCriteriaGUI
         }
         
         $ilCtrl->redirect($this, "view");
+
+        return null;
     }
     
     protected function edit(ilPropertyFormGUI $a_form = null)

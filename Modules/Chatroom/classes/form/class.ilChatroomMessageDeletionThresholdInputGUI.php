@@ -16,7 +16,7 @@ class ilChatroomMessageDeletionThresholdInputGUI extends ilNumberInputGUI
      * @param string           $a_postvar
      * @param ilSelectInputGUI $thresholdUnits
      */
-    public function __construct($a_title = "", $a_postvar = "", ilSelectInputGUI $thresholdUnits)
+    public function __construct($a_title, $a_postvar, ilSelectInputGUI $thresholdUnits)
     {
         parent::__construct($a_title, $a_postvar);
         $this->thresholdUnits = $thresholdUnits;

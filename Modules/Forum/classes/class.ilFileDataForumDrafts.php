@@ -16,7 +16,7 @@ class ilFileDataForumDrafts extends ilFileData
     private $lng;
     private $error;
 
-    public function __construct($obj_id = 0, $draft_id)
+    public function __construct($obj_id, $draft_id)
     {
         global $DIC;
         $this->lng = $DIC->language();

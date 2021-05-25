@@ -767,12 +767,12 @@ class ilCalendarCategories
      */
     protected function readPrivateCalendars($only_cat_ids = null)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC->user();
+        $ilDB = $DIC->database();
+        $cat_ids = [];
 
         $in = "";
         if (is_array($only_cat_ids)) {
@@ -1056,7 +1056,8 @@ class ilCalendarCategories
         
         $course_ids = array();
         foreach ($this->categories as $cat_id) {
-            if ($this->categories_info[$cat_id]['obj_type'] == 'crs' or $this->categories_info[$cat_id]['obj_type'] == 'grp') {
+            if (isset($this->categories_info[$cat_id]['obj_type']) &&
+                in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp'])) {
                 $course_ids[] = $this->categories_info[$cat_id]['obj_id'];
             }
         }
@@ -1089,8 +1090,8 @@ class ilCalendarCategories
         
         foreach ($this->categories as $cat_id) {
             if (
-                ($this->categories_info[$cat_id]['obj_type'] == 'crs' ||
-                $this->categories_info[$cat_id]['obj_type'] == 'grp') &&
+                (isset($this->categories_info[$cat_id]['obj_type']) &&
+                    in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp'])) &&
                 isset($this->categories_info[$cat_id]['obj_id']) &&
                 isset($course_sessions[$this->categories_info[$cat_id]['obj_id']]) &&
                 is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']])) {

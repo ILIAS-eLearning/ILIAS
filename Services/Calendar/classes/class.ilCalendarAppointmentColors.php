@@ -39,7 +39,7 @@ class ilCalendarAppointmentColors
             "#BFEFFF",
             "#B2DFEE",
             "#9AC0CD",
-            "#68838B",
+            "#475A5F",
             "#E0FFFF",
             "#D1EEEE",
             "#B4CDCD",

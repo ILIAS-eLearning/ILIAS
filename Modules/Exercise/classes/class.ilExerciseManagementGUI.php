@@ -91,8 +91,8 @@ class ilExerciseManagementGUI
     /**
      * Constructor
      *
-     * @param int $a_exercise_id
-     * @return object
+     * @param ilExerciseInternalService $service
+     * @param ilExAssignment|null       $a_ass
      */
     public function __construct(ilExerciseInternalService $service, ilExAssignment $a_ass = null)
     {
@@ -577,7 +577,16 @@ class ilExerciseManagementGUI
             $submission = new ilExSubmission($this->assignment, $participant_id);
 
             //submission data array
-            $file = reset($submission->getFiles());
+            $files = $submission->getFiles();
+            $file = reset($files);
+
+            if (!$file) {
+                $file = [
+                    "user_id" => $participant_id,
+                    "ts" => null,
+                    "atext" => null
+                ];
+            }
 
             $feedback_data = $this->collectFeedbackDataFromPeer($file);
 
@@ -1700,9 +1709,7 @@ class ilExerciseManagementGUI
     
     /**
      * Show multi-feedback screen
-     *
-     * @param
-     * @return
+     * @param ilPropertyFormGUI|null $a_form
      */
     public function showMultiFeedbackObject(ilPropertyFormGUI $a_form = null)
     {
@@ -1759,9 +1766,6 @@ class ilExerciseManagementGUI
     
     /**
      * Show multi feedback confirmation table
-     *
-     * @param
-     * @return
      */
     public function showMultiFeedbackConfirmationTableObject()
     {
@@ -1820,7 +1824,7 @@ class ilExerciseManagementGUI
         return $modal;
     }
     
-    protected function parseIndividualDeadlineData(array $a_data)
+    protected function parseIndividualDeadlineData(array $a_data) : array
     {
         if ($a_data) {
             $map = array();
@@ -1844,6 +1848,7 @@ class ilExerciseManagementGUI
 
             return array($map, $ass_tmp);
         }
+        return [];
     }
     
     protected function handleIndividualDeadlineCallsObject()

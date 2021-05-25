@@ -239,7 +239,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * Class ilObjCourseGUI
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
+ * \$Id$
  *
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI
@@ -294,7 +294,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * Class ilObjCourseGUI
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
+ * \$Id$
  *
  * @ilCtrl_IsCalledBy ilObjCourseGUI: ilCourseRegistrationGUI, ilCourseObjectivesGUI
  * @ilCtrl_IsCalledBy ilObjCourseGUI: ilObjCourseGroupingGUI, ilInfoScreenGUI, ilLearningProgressGUI, ilPermissionGUI

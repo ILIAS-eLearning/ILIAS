@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * All course contacts listed
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
 {
@@ -52,7 +48,6 @@ class ilAwarenessUserProviderCourseContacts extends ilAwarenessUserProvider
      */
     public function getInitialUserSet()
     {
-        include_once("./Services/Membership/classes/class.ilParticipants.php");
         $ub = array();
         $support_contacts = ilParticipants::_getAllSupportContactsOfUser($this->getUserId(), "crs");
         foreach ($support_contacts as $c) {

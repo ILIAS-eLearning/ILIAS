@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Component/classes/class.ilService.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * EventHandling Service.
  *
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesUIComponent
  */
 class ilUIComponentService extends ilService
 {

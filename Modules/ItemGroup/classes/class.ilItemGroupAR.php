@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/ActiveRecord/class.ActiveRecord.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Item group active record class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilItemGroupAR extends ActiveRecord
 {

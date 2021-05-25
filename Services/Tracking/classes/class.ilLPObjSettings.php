@@ -407,7 +407,9 @@ class ilLPObjSettings
     {
         $res = array();
         foreach (self::$map as $mode => $item) {
-            $res[$mode] = $item[0];
+            if ($item) {
+                $res[$mode] = $item[0];
+            }
         }
         return $res;
     }

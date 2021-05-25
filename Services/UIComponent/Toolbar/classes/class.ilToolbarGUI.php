@@ -1,8 +1,6 @@
 <?php
-require_once('./Services/UIComponent/Button/classes/class.ilSubmitButton.php');
-require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Toolbar. The toolbar currently only supports a list of buttons as links.
@@ -11,8 +9,6 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id$
- * @ingroup ServicesUIComponent
  */
 class ilToolbarGUI
 {
@@ -286,15 +282,22 @@ class ilToolbarGUI
         }
     }
 
-    // bs-patch start
     /**
-     * Add input item
+     * Add Dropdown
      */
     public function addDropDown($a_txt, $a_dd_html)
     {
         $this->items[] = array("type" => "dropdown", "txt" => $a_txt, "dd_html" => $a_dd_html);
     }
-    // bs-patch end
+
+    /**
+     * @param ilAdvancedSelectionListGUI $adv
+     */
+    public function addAdvancedSelectionList(ilAdvancedSelectionListGUI $adv)
+    {
+        $this->items[] = array("type" => "adv_sel_list", "list" => $adv);
+    }
+
 
     /**
      * Add separator
@@ -492,7 +495,6 @@ class ilToolbarGUI
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
                             }
                             if ($item["acc_key"] != "") {
-                                include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
                                 $tpl_items->setVariable(
                                     "BTN_ACC_KEY",
                                     ilAccessKeyGUI::getAttribute($item["acc_key"])
@@ -558,6 +560,13 @@ class ilToolbarGUI
                             $tpl_items->setVariable("COMPONENT", $this->ui->renderer()->render($item["component"]));
                             $tpl_items->touchBlock("item");
                             break;
+
+                        case "adv_sel_list":
+                            $tpl_items->setCurrentBlock("component");
+                            $tpl_items->setVariable("COMPONENT", $item["list"]->getHTML());
+                            $tpl_items->touchBlock("item");
+                            break;
+
 
                         case "spacer":
                             $tpl_items->touchBlock("spacer");

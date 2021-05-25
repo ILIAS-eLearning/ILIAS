@@ -1,14 +1,9 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * @author        Björn Heyser <bheyser@databay.de>
- * @version        $Id$
- *
- * @package        Modules/Test(QuestionPool)
  */
 abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
@@ -55,22 +50,18 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
         $this->setSize('25');
         $this->validationRegexp = "";
 
-        require_once 'Services/Form/classes/class.ilMultipleImagesAdditionalIndexLevelRemover.php';
         $manipulator = new ilMultipleImagesAdditionalIndexLevelRemover();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
 
-        require_once 'Services/Form/classes/class.ilMultipleImagesFileSubmissionDataCompletion.php';
         $manipulator = new ilMultipleImagesFileSubmissionDataCompletion();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
         
-        require_once 'Services/Form/classes/class.ilIdentifiedMultiFilesJsPositionIndexRemover.php';
         $manipulator = new ilIdentifiedMultiFilesJsPositionIndexRemover();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);
         
-        require_once 'Services/Form/classes/class.ilMultiFilesSubmitRecursiveSlashesStripper.php';
         $manipulator = new ilMultiFilesSubmitRecursiveSlashesStripper();
         $manipulator->setPostVar($this->getPostVar());
         $this->addFormValuesManipulator($manipulator);

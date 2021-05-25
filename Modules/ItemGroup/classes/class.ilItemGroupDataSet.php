@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Item group data set class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesItemGroup
  */
 class ilItemGroupDataSet extends ilDataSet
 {
@@ -156,8 +153,6 @@ class ilItemGroupDataSet extends ilDataSet
     {
         switch ($a_entity) {
             case "itgr":
-                include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
-                
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -179,7 +174,6 @@ class ilItemGroupDataSet extends ilDataSet
             case "itgr_item":
                 if ($obj_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['ItemId'])) {
                     $ref_id = current(ilObject::_getAllReferences($obj_id));
-                    include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
                     $itgri = new ilItemGroupItems();
                     $itgri->setItemGroupId($this->current_obj->getId());
                     $itgri->read();

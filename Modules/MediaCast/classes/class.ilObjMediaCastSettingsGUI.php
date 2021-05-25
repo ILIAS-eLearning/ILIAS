@@ -1,39 +1,15 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2009 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Media Cast Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjMediaCastSettingsGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjMediaCastSettingsGUI: ilAdministrationGUI
-*
-* @ingroup ModulesMediaCast
-*/
+ * Media Cast Settings.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjMediaCastSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjMediaCastSettingsGUI: ilAdministrationGUI
+ */
 class ilObjMediaCastSettingsGUI extends ilObjectGUI
 {
 
@@ -82,7 +58,6 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -178,7 +153,6 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
      */
     protected function initMediaCastSettings()
     {
-        include_once('Modules/MediaCast/classes/class.ilMediaCastSettings.php');
         $this->settings = ilMediaCastSettings::_getInstance();
     }
     
@@ -191,8 +165,6 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-        
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('settings'));

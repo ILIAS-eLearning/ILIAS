@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceFolderTableGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderListGUI.php 26089 2010-10-20 08:08:05Z smeyer $
-*
-* @extends ilTable2GUI
-*/
-
-include_once "Services/Table/classes/class.ilTable2GUI.php";
-
+ * Class ilObjWorkspaceFolderTableGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 {
     /**
@@ -65,12 +59,10 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
     {
         $ilUser = $this->user;
         
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree($ilUser->getId());
         $nodes = $tree->getChilds($this->node_id, "title");
                         
         if (sizeof($nodes)) {
-            include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
             $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_WORKSPACE);
             foreach ($nodes as $node) {
                 $preloader->addItem($node["obj_id"], $node["type"]);
@@ -93,7 +85,6 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
         $location = $objDefinition->getLocation($node["type"]);
         $full_class = "ilObj" . $class . "ListGUI";
 
-        include_once($location . "/class." . $full_class . ".php");
         $item_list_gui = new $full_class(ilObjectListGUI::CONTEXT_WORKSPACE);
         
         $item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);

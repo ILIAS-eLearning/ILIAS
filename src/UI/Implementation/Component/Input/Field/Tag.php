@@ -18,11 +18,11 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  */
 class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
 {
-    const EVENT_ITEM_ADDED = 'itemAdded';
-    const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
-    const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
-    const EVENT_ITEM_REMOVED = 'itemRemoved';
-    const INFINITE = 0;
+    public const EVENT_ITEM_ADDED = 'itemAdded';
+    public const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
+    public const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
+    public const EVENT_ITEM_REMOVED = 'itemRemoved';
+    public const INFINITE = 0;
     use JavaScriptBindable;
     use Triggerer;
     /**

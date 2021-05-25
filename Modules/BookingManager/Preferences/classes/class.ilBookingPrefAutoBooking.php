@@ -9,11 +9,18 @@
  */
 class ilBookingPrefAutoBooking
 {
+
+    /**
+     * @var ilBookingManagerInternalService
+     */
+    protected $service;
+
     /**
      * Constructor
      */
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->service = $DIC->bookingManager()->internal();

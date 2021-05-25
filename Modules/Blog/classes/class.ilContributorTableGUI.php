@@ -15,15 +15,20 @@ class ilContributorTableGUI extends ilTable2GUI
     protected $rbacreview;
 
     protected $local_roles; // [array]
+
+    /**
+     * @var array
+     */
+    protected $contributor_ids;
     
     /**
      * Constructor
      *
-     * @param ilObject $a_parent_obj
+     * @param object $a_parent_obj
      * @param string $a_parent_cmd
      * @param array $a_roles
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, array $a_roles)
+    public function __construct($a_parent_obj, string $a_parent_cmd, array $a_roles)
     {
         global $DIC;
 

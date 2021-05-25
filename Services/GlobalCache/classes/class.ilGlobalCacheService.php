@@ -281,9 +281,6 @@ abstract class ilGlobalCacheService
     /**
      * Declare a key as valid. If the key is already known no action is taken.
      *
-     * This method exists only for legacy reasons and has only a real function
-     * in combination with XCache.
-     *
      * @param string $key The key which should be declared as valid.
      *
      * @return void
@@ -293,32 +290,9 @@ abstract class ilGlobalCacheService
         $this->valid_keys[$key] = true;
     }
 
-    /**
-     * Set the key as invalid.
-     * This method will invalidate all keys if no argument is given or null.
-     *
-     * This method exists only for legacy reasons and has only a real function
-     * in combination with XCache.
-     *
-     * @param string $key   The key which should be invalidated or null to invalidate all.
-     *
-     * @return void
-     */
-    public function setInvalid($key = null)
-    {
-        if ($key !== null) {
-            unset($this->valid_keys[$key]);
-        } else {
-            unset($this->valid_keys);
-        }
-    }
-
 
     /**
      * Checks whether the cache key is valid or not.
-     *
-     * This method exists only for legacy reasons and has only a real function
-     * in combination with XCache.
      *
      * @param string $key   The key which should be checked.
      *

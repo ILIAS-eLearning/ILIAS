@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer
 {
-    const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
+    public const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
     /**
      * @inheritdoc
      */
@@ -67,6 +67,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("SHORT_TITLE", $component->getShortTitle());
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
+        $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
         if ($component->hasFooter()) {
@@ -111,7 +112,7 @@ class Renderer extends AbstractComponentRenderer
     protected function setHeaderVars($tpl, bool $for_ui_demo = false)
     {
         global $DIC;
-        $il_tpl = $DIC["tpl"];
+        $il_tpl = $DIC["tpl"] ?? null;
 
         $js_files = [];
         $js_inline = [];

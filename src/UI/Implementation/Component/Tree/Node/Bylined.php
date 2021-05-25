@@ -8,7 +8,6 @@
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\UI\Component\Tree\Node\Bylined as BylinedInterface;
-use ILIAS\UI\Component\Tree\Node\Icon;
 
 class Bylined extends \ILIAS\UI\Implementation\Component\Tree\Node\Simple implements BylinedInterface
 {

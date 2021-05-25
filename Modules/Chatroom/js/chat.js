@@ -535,11 +535,22 @@
 
 	var lastHandledDate = {};
 	$.fn.ilChatMessageArea = function( method ) {
+		let scrollChatArea = function(container, state) {
+			if (state.scrolling) {
+				$(container).parent().animate({
+					scrollTop: $(container).height()
+				}, 5);
+			}
+		}
+
 		var methods = {
-			init: function() {
+			init: function(s) {
 				$(this).data('ilChatMessageArea', {
-					_scopes: {}
+					_scopes: {},
+					_state: s
 				});
+
+				$(this).data('state', s);
 			},
 			addScope: function(scope_id, scope) {
 				var tmp = $('<div class="messageContainer">');
@@ -549,7 +560,7 @@
 				tmp.hide();
 			},
 			addMessage: function(scope, message) {
-				var containers;
+				var containers, msgArea = $(this);
 				if (scope == -1) {
 					containers = $(this).data('ilChatMessageArea')._scopes;
 				}
@@ -621,6 +632,9 @@
 								line
 								    .append($('<span class="chat"></span>').append(translate('connect', {username: message.users[0].login})));
 								line.addClass('notice');
+								if (!msgArea.data('state').show_auto_msg) {
+									line.addClass('ilNoDisplay');
+								}
 							}
 							break;
 						case 'disconnected':
@@ -628,6 +642,9 @@
 								line
 								    .append($('<span class="chat"></span>').append(translate('disconnected', {username: message.users[0].login})));
 								line.addClass('notice');
+								if (!msgArea.data('state').show_auto_msg) {
+									line.addClass('ilNoDisplay');
+								}
 							}
 							break;
 						case 'private_room_entered':
@@ -644,6 +661,9 @@
 							line
 							    .append($('<span class="chat"></span>').append(message.content));
 							line.addClass('notice');
+							if (!msgArea.data('state').show_auto_msg) {
+								line.addClass('ilNoDisplay');
+							}
 							break;
 						case 'error':
 							line
@@ -656,13 +676,11 @@
 
 					container.append(line);
 
-					if(message.subRoomId == subRoomId)
-					{
-						scrollChatArea(container);
+					if (message.subRoomId == subRoomId) {
+						scrollChatArea(container, msgArea.data('state'));
 					}
 				});
 
-                    
 				return $(this);
 			},
 			hasContent: function(id) {
@@ -672,14 +690,15 @@
 				$(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').html('');
 			},
 			show: function(id, posturl, leaveCallback) {
-				var scopes = $(this).data('ilChatMessageArea')._scopes;
+				var scopes = $(this).data('ilChatMessageArea')._scopes,
+					msgArea = $(this);
                     
 				$.each(scopes, function() {
 					$(this).hide();
 				});
                     
 				scopes['id_' + id].show();
-				scrollChatArea(scopes['id_' + id]);
+				scrollChatArea(scopes['id_' + id], msgArea.data('state'));
 				if (id == 0) {
 				    $('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
 				}
@@ -715,6 +734,40 @@
 					$('.no_users').hide();
 				}
 
+				msgArea
+					.off("auto-message:toggle")
+					.off("msg-scrolling:toggle")
+					.on("auto-message:toggle", function(e, isActive, url) {
+						let state = msgArea.data('state');
+
+						let msgState = 1;
+						if (isActive) {
+							state.show_auto_msg = true;
+							$("#chat_messages .messageLine.notice").removeClass("ilNoDisplay");
+						} else {
+							msgState = 0;
+							state.show_auto_msg = false;
+							$("#chat_messages .messageLine.notice").addClass("ilNoDisplay");
+						}
+
+						msgArea.data('state', state);
+
+						$.ajax({
+							type: 'POST',
+							url: url,
+							data: {state: msgState}
+						});
+					})
+					.on("msg-scrolling:toggle", function(e, isActive) {
+						let state = msgArea.data('state');
+
+						if (isActive) {
+							state.scrolling = true;
+						} else {
+							state.scrolling = false;
+						}
+					});
+
 				subRoomId = id;
 
 				return $(this);
@@ -728,17 +781,5 @@
 		} else {
 			$.error( 'Method ' +  method + ' does not exist on jQuery.ilChatMessageArea' );
 		}
-  
 	};
-
-
-	function scrollChatArea(container) {
-		if ($('#chat_auto_scroll:checked').length > 0) {
-			$(container).parent().animate({
-				scrollTop: $(container).height()
-			}, 5);
-		}
-	}
-
-
 })(jQuery)

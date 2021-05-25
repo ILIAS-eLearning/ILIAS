@@ -2,12 +2,16 @@
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
 	.btn-bulky,
-	.link-bulky {
+	.il-link.link-bulky {
 		font-size: @il-mainbar-btn-label-size;
 		line-height: @il-mainbar-btn-label-size * @line-height-large;
 		&:focus,
 		&:active {
-			box-shadow: none;
+			box-shadow: none; 
+		}
+		&:focus-visible {
+			border: 2px solid @il-focus-color;
+			outline: none;
 		}
 	}
 	.bulky-label {
@@ -19,7 +23,7 @@
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
-	.btn {
+	.btn,a {
 	  &:active {
 		  outline: 0;
 		  outline-offset: 0;
@@ -83,6 +87,7 @@
 			white-space: normal;
 			word-break: break-word;
     		padding: 0 2px;
+			text-align: center;
 			overflow: hidden;
 			-webkit-line-clamp: 2;
 		    -webkit-box-orient: vertical;
@@ -122,6 +127,9 @@
 // mainbar entries
 .il-mainbar-entries {
 	min-width: 100%;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
 }
 
 // mainbar slates
@@ -138,10 +146,10 @@
 	.btn-bulky.engaged {
 		background-color: @il-mainbar-tools-btn-bg;
 		border: 0;
-		color: darken(@il-mainbar-btn-color-engaged, 10%);
+		color: white;
 		padding: 0;
 		.icon  {
-			filter: invert(30%);
+			filter: invert(100%);
 		}
 	}
 	.btn-bulky.engaged {
@@ -162,7 +170,7 @@
 	}
 	.btn-bulky,.btn-bulky,
 	.il-link.link-bulky {
-		background-color: lighten(@brand-primary, 25%);
+		background-color: lighten(@il-main-color, 25%);
 		color: @il-mainbar-btn-color;
 		padding: 0;
 		.icon {
@@ -207,7 +215,7 @@
 	    right: 0;
 	}
 	.close {
-		color: @brand-primary;
+		color: @il-main-color;
 	    font-size: 4.5rem;
 	    font-weight: 300;
 		height: @il-mainbar-btn-height;
@@ -300,8 +308,8 @@
 		   height: @il-mainbar-small-btn-height;
 		   width: @il-mainbar-small-btn-width;
 		   .icon.small {
-			   height: @icon-size-xsmall;
-			   width: @icon-size-xsmall;
+			   height: @il-icon-size-xsmall;
+			   width: @il-icon-size-xsmall;
 		   }
 	   }
 	}

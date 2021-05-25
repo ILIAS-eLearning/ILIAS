@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for table NewsForContext
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesNews
-*/
+ * TableGUI class for table NewsForContext
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilMediaCastTableGUI extends ilTable2GUI
 {
     /**
@@ -79,8 +73,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
 
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        
         $news_set = new ilSetting("news");
         $enable_internal_rss = $news_set->get("enable_rss_for_internal");
 
@@ -175,15 +167,12 @@ class ilMediaCastTableGUI extends ilTable2GUI
                     }
                 }
                 
-                include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-                
                 // the news id will be used as player id, see also ilObjMediaCastGUI
                 $event_url = ($this->presentation_mode)
                     ? $ilCtrl->getLinkTarget($this->parent_obj, "handlePlayerEvent", "", true, false)
                     : "";
                 $mpl = new ilMediaPlayerGUI($a_set["id"], $event_url);
                 if (is_object($med)) {
-                    require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
                     if (strcasecmp("Reference", $med->getLocationType()) == 0) {
                         $a_file = $med->getLocation();
                     } else {
@@ -191,9 +180,6 @@ class ilMediaCastTableGUI extends ilTable2GUI
                     }
                     $mpl->setFile(ilWACSignedPath::signFile($a_file));
                     $mpl->setMimeType($med->getFormat());
-                    //$mpl->setDisplayHeight($med->getHeight());
-                    //$mpl->setDisplayWidth("320px");
-                    //$mpl->setDisplayHeight("480px");
                     $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
                     $mpl->setTitle($a_set["title"]);
                     $mpl->setDescription($a_set["content"]);

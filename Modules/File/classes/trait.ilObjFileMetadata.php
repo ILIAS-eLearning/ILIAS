@@ -26,13 +26,9 @@ trait ilObjFileMetadata
             return true;
         }
 
-        // not upload mode
-        ilHistory::_createEntry($this->getId(), "create", $this->getFileName() . ",1" . ",1");
-        $this->addNewsNotification("file_created");
-
         // New Item
         $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET['ref_id']);
-        if ($default_visibility == "public") {
+        if ($default_visibility === "public") {
             ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());
         }
 
@@ -44,16 +40,6 @@ trait ilObjFileMetadata
         $this->log->logStack(ilLogLevel::DEBUG);
 
         $DIC->database()->insert('file_data', $this->getArrayForDatabase());
-
-        //add metadata to database
-        $metadata = [
-            'meta_lifecycle_id' => ['integer', $DIC->database()->nextId('il_meta_lifecycle')],
-            'rbac_id' => ['integer', $this->getId()],
-            'obj_id' => ['integer', $this->getId()],
-            'obj_type' => ['text', "file"],
-            'meta_version' => ['integer', (int) $this->getVersion()],
-        ];
-        $DIC->database()->insert('il_meta_lifecycle', $metadata);
 
         // no meta data handling for file list files
         if ($this->getMode() != self::MODE_FILELIST) {
@@ -69,12 +55,12 @@ trait ilObjFileMetadata
         $this->no_meta_data_creation = (bool) $a_status;
     }
 
-    protected function beforeCreateMetaData()
+    protected function beforeCreateMetaData() : bool
     {
         return !(bool) $this->no_meta_data_creation;
     }
 
-    protected function beforeUpdateMetaData()
+    protected function beforeUpdateMetaData() : bool
     {
         return !(bool) $this->no_meta_data_creation;
     }
@@ -82,7 +68,7 @@ trait ilObjFileMetadata
     /**
      * create file object meta data
      */
-    protected function doCreateMetaData()
+    protected function doCreateMetaData() : void
     {
         // add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());
@@ -95,7 +81,7 @@ trait ilObjFileMetadata
         $technical->update();
     }
 
-    protected function beforeMDUpdateListener($a_element)
+    protected function beforeMDUpdateListener(string $a_element) : bool
     {
         // Check file extension
         // Removing the file extension is not allowed
@@ -111,7 +97,7 @@ trait ilObjFileMetadata
         return true;
     }
 
-    protected function doMDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
         // handling for technical section
         include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -122,7 +108,7 @@ trait ilObjFileMetadata
                 // Update Format (size is not stored in db)
                 $md = new ilMD($this->getId(), 0, $this->getType());
                 if (!is_object($md_technical = $md->getTechnical())) {
-                    return false;
+                    return;
                 }
 
                 foreach ($md_technical->getFormatIds() as $id) {
@@ -133,14 +119,12 @@ trait ilObjFileMetadata
 
                 break;
         }
-
-        return true;
     }
 
     /**
      * update meta data
      */
-    protected function doUpdateMetaData()
+    protected function doUpdateMetaData() : void
     {
         // add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());

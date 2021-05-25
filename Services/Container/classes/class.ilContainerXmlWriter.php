@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-include_once './Services/Export/classes/class.ilExportOptions.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* XML writer for container structure
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesContainer
-*/
+ * XML writer for container structure
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilContainerXmlWriter extends ilXmlWriter
 {
     /**
@@ -107,7 +102,6 @@ class ilContainerXmlWriter extends ilXmlWriter
      */
     protected function writeCourseItemInformation($a_ref_id)
     {
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         $item = ilObjectActivation::getItem($a_ref_id);
         
         $this->xmlStartTag(

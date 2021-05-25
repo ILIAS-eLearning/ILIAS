@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/MediaObjects/interfaces/interface.ilMobMultiSrtInt.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Handler class for multi srt upload in learning modules
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMepMultiSrt implements ilMobMultiSrtInt
 {

@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Grouped list GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUIComponent
  */
 class ilGroupedListGUI
 {
@@ -20,14 +18,16 @@ class ilGroupedListGUI
     protected $items = array();
     protected $as_dropdown = false;
     protected $dd_pullright = false;
+    protected $id;
     
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($id = "")
     {
         global $DIC;
 
+        $this->id = $id;
         $this->ctrl = $DIC->ctrl();
     }
     
@@ -163,7 +163,6 @@ class ilGroupedListGUI
                         $tpl->parseCurrentBlock();
                         $tpl->touchBlock("item");
                         if ($i["ttip"] != "" && $i["id"] != "") {
-                            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                             if ($ilCtrl->isAsynch()) {
                                 $tt_calls .= " " . ilTooltipGUI::getTooltip(
                                     $i["id"],
@@ -207,13 +206,19 @@ class ilGroupedListGUI
             $tpl->parseCurrentBlock();
         }
 
+        if ($this->id != "") {
+            $tpl->setCurrentBlock("id");
+            $tpl->setVariable("ID", $this->id);
+            $tpl->parseCurrentBlock();
+        }
+
         if ($this->getAsDropDown()) {
             if ($this->dd_pullright) {
                 $tpl->setVariable("LIST_CLASS", "dropdown-menu pull-right");
             } else {
                 $tpl->setVariable("LIST_CLASS", "dropdown-menu");
             }
-            $tpl->setVariable("LIST_ROLE", "menu");
+            $tpl->setVariable("LIST_ROLE", 'role="menu"');
         } else {
             $tpl->setVariable("LIST_CLASS", "");
             $tpl->setVariable("LIST_ROLE", "");

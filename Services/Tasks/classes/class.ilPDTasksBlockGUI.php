@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * BlockGUI class for Tasks on PD
@@ -238,7 +236,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
         $lng = $this->lng;
@@ -298,7 +296,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("task_no_task_items");
     }

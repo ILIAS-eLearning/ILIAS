@@ -27,6 +27,9 @@ meta#:#md_adv_int_default#:#Standardsprache:
 meta#:#md_adv_int_translation_info#:#Übersetzung:
 meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
+crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
+crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
+crs#:#crs_objective_result_details#:#« Details anzeigen
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
@@ -47,7 +50,7 @@ rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
 rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
 rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
-dash#:#dash_make_favourite#:#Zu Favouriten hinzufügen
+dash#:#dash_make_favourite#:#Zu Favoriten hinzufügen
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
 dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 common#:#obj_nots_desc#:#Notizfunktion administrieren
@@ -213,9 +216,9 @@ lti#:#auth_lti#:#LTI Auth
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
 lti#:#lti_obj_active#:#LTI-Tool-Provider
 lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
-lti#:#lti_admin#:#LTI-Administrator
-lti#:#lti_tutor#:#LTI-Tutor
-lti#:#lti_member#:#LTI-Member
+lti#:#lti_admin#:#LTI-Rolle Administrator
+lti#:#lti_tutor#:#LTI-Rolle Tutor
+lti#:#lti_member#:#LTI-Rolle Mitglied
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 crs#:#crs_timings_activate_optional#:#Freiwilligen-Modus des studyplans des Benutzers
 crs#:#crs_timings_activate_optional_own#:#Freiwilligen-Modus meines studyplans
@@ -359,7 +362,7 @@ acc#:#acc_form_document#:#Dokument
 acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
 acc#:#acc_form_document_new#:#Inhalt ändern
 acc#:#acc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
-acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden im Zweifel eine neue Datei hoch.
 acc#:#acc_tbl_docs_title#:#Dokumente
 acc#:#acc_tbl_docs_head_sorting#:#Sortierung
 acc#:#acc_tbl_docs_head_title#:#Titel
@@ -601,7 +604,7 @@ adve#:#adve_grp_glo#:#Glossare
 adve#:#adve_grp_lm#:#ILIAS-Lernmodule
 adve#:#adve_grp_rep#:#Magazinseiten
 adve#:#adve_grp_scorm#:#SCORM-Module
-adve#:#adve_grp_test#:#Test and Assessment
+adve#:#adve_grp_test#:#Test und Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
 adve#:#adve_pe_general#:#Einstellungen
@@ -794,7 +797,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
 assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
-assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hinereinander
+assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hintereinander
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
 assessment#:#ass_cloze_fb_mode#:#Modus der Rückmeldung
 assessment#:#ass_cloze_fb_mode_gap_qst#:#Rückmeldungen je Lücke
@@ -1553,7 +1556,7 @@ assessment#:#tst_postpone_off_desc#:#Auch wenn Teilnehmer Antworten verwerfen od
 assessment#:#tst_presentation_properties#:#Durchführung: Verhalten der Frage
 assessment#:#tst_print#:#Test und Assessment – Druckansicht
 assessment#:#tst_processing_time#:#Bearbeitungsdauer begrenzen
-assessment#:#tst_processing_time_desc#:#Teilnehmer können den Test nur für eine begrenzte Zeit bearbeiten. Die Zeit läuft von dem Moment des ersten Startens durch den Teilnehmer. "Test unterbrechen" stoppt den Ablauf der Bearbeitungsdauer nicht. Wenn die Anzahl möglicher Testdurchläufe eingeschränkt wird, erscheint im Tab "Dashboard" eine zusätzliche Funktion um Teilnehmern zusätzliche Zeit zu gewähren.
+assessment#:#tst_processing_time_desc#:#Nutzen Sie diese Einstellung für E-Klausuren/Fernklausuren, damit Teilnehmer einen festen Zeitraum für die Bearbeitung des Tests bekommen. Die Zeit läuft für jeden Teilnehmer ab dem Moment, an dem der erste Testdurchlauf gestartet wurde. „Test unterbrechen“ stoppt den Ablauf der Bearbeitungsdauer nicht. Wurde die Anzahl möglicher Testdurchläufe eingeschränkt, erscheint im Reiter „Dashboard“ eine Funktion, um Teilnehmern zusätzliche Bearbeitungszeit zu gewähren.
 assessment#:#tst_qst_order#:#Nr.
 assessment#:#tst_question#:#Frage
 assessment#:#tst_question_mark#:#Frage markieren
@@ -1711,6 +1714,7 @@ assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
+assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
@@ -1832,9 +1836,9 @@ assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
 assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
-assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
+assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzzuweisungen wurden aktualisiert.
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
-assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzzuweisungen wurden auf die Originalfrage übertragen.
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
@@ -1854,9 +1858,11 @@ assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
 assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
 assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten, Rückmeldungen und Lösungshinweise. Rückmeldungen und Lösungshinweise werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen und Lösungshinweise mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
@@ -1880,8 +1886,8 @@ assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
 assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
-assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken des Buttons 'Test starten' ist möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt, zu dem der Test beendet wird. Teilnehmer können ab diesem Moment keine Antworten mehr abgeben. ILIAS beendet den Test.
+assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Ab diesem Moment ist das Klicken des Buttons „Test starten“ möglich, und Teilnehmer können Fragen beantworten.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
 assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
@@ -2165,6 +2171,7 @@ certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
+chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen
@@ -2679,7 +2686,7 @@ rbac#:#cert_write#:#Einstellungen der Zertifikatsverwaltung bearbeiten
 common#:#certificate#:#Zertifikat
 common#:#change#:#Ändern
 common#:#change_assignment#:#Zuweisung ändern
-rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonstern gilt die Rechteänderung nur für künftig erstellte Objekte.
+rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonsten gilt die Rechteänderung nur für künftig erstellte Objekte.
 rbac#:#change_existing_objects#:#Vorhandene Objekte ändern
 rbac#:#change_existing_objects_desc#:#Wenn aktiviert, werden die geänderten Rechteeinstellungen dieser Rolle auch auf alle bereits bestehenden Objekte übertragen. Um nur die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an.
 rbac#:#change_existing_prefix#:#Bereits vorhandene
@@ -2755,7 +2762,7 @@ common#:#condition_finished#:#Beendet
 common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
-common#:#condition_accredited_or_passed#:#Akkreditiert oder Bestanden
+common#:#condition_accredited_or_passed#:#Akkreditiert oder bestanden
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
@@ -2763,7 +2770,7 @@ common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
 common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite bearbeitet.
 common#:#cont_iim_create_info#:#Bitte laden Sie die zugrundeliegende Bilddatei für das interaktive Bild hoch.
-common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenen Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
+common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenden Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
@@ -2841,7 +2848,7 @@ common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
 common#:#crsr#:#Kurslink
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
-common#:#crsr_new#:#Neue Kurslink anlegen
+common#:#crsr_new#:#Neuen Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
@@ -2885,7 +2892,7 @@ common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
@@ -2893,7 +2900,7 @@ common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern d
 common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
 common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
@@ -3102,7 +3109,7 @@ common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt-
+common#:#fold_added#:#Ordner angelegt
 rbac#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
@@ -4730,7 +4737,7 @@ content#:#cont_active_areas#:#Auslöser
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
 content#:#cont_add_definition#:#Definition hinzufügen
-content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues Element hinzuzufügen.
+content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
 content#:#cont_add_popup#:#Popup hinzufügen
@@ -4815,7 +4822,7 @@ content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_question_from_pool#:#Frage aus Testfragenpool kopieren
 content#:#cont_copy_question_into_page#:#In Seite kopieren
 content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
-content#:#cont_correct_after_first#:#Erste Antwort korrekt
+content#:#cont_correct_after_first#:#1.&nbsp;Antwort korrekt
 content#:#cont_correct_answer_also#:#Richtig ist auch:
 content#:#cont_correct_answers_also#:#Richtig sind auch:
 content#:#cont_correct_answers_shown#:#Richtige Lösung siehe oben.
@@ -4861,14 +4868,16 @@ content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
 content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
-content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
+content#:#cont_shift_click_to_select#:#Mit <b>Shift + Klick</b> <b>wählen</b> Sie ein Seitenelement <b>aus</b> und wechseln in den Auswahlmodus.
+content#:#cont_click_multi_select#:#<b>Klicken</b> Sie Seitenelemente um diese <b>auszuwählen</b> oder die Auswahl wieder aufzuheben.
+content#:#cont_click_edit#:#<b>Klicken</b> Sie ein <b>Seitenelement</b>, um es zu <b>bearbeiten</b>.
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Der Reiter "Download" wird in der Präsentationsansicht angezeigt. Dort können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für Offline-Nutzung oder Import.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
-content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
+content#:#cont_drag_and_drop_elements#:#<b>Ziehen</b> Sie ein Seitenelement mit der Maus auf einen Platzhalter um es zu <b>bewegen</b>.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -5321,7 +5330,7 @@ content#:#cont_score#:#Punkte
 content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
-content#:#cont_second#:#Zweite
+content#:#cont_second#:#2.&nbsp;Antwort
 content#:#cont_sel_el_use_paste#:#Die ausgewählten Elemente sind nun in der Zwischenablage. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
 content#:#cont_select#:#Auswählen
 content#:#cont_select_file#:#Datei auswählen
@@ -5404,7 +5413,7 @@ content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
 content#:#cont_text_xln#:#Externer Link
-content#:#cont_third_and_more#:#Dritte oder später
+content#:#cont_third_and_more#:#3. oder weitere
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
@@ -5532,7 +5541,7 @@ crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_objective#:#Neues Lernziel hinzufügen
 crs#:#crs_add_remove_from_desktop#:#Als Favoriten hinzufügen
-crs#:#crs_add_remove_from_desktop_info#:#Mitglieder können sich Kursobjekte als Favoriten hinzufügen.
+crs#:#crs_add_remove_from_desktop_info#:#Objekte innerhalb des Kurses können den Favoriten hinzugefügt werden.
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
@@ -6655,7 +6664,7 @@ grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
-grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
+grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" aufgenommen worden.
 grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
@@ -6744,7 +6753,7 @@ grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Maximale Anzahl
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen - Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
-jscalendar#:#about_time#:#  Auswahl der Zeit: - Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen - or Umschalten+Klicken, um den Wert zu erniedrigen - oder klicken und ziehen für eine Schnellauswahl.
+jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst anzeigen
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -6817,6 +6826,8 @@ ldap#:#ldap_deleted_rule#:#Ausgewählte Rollenzuordnung gelöscht
 ldap#:#ldap_dn_info#:#Wählen Sie hier den kompletten DN der LDAP-Gruppe.
 ldap#:#ldap_edit_role_ass_rule#:#Regel zur Rollenzuordnung bearbeiten
 ldap#:#ldap_err_missing_plugin_id#:#Bitte geben Sie eine gültige Plugin-Id ein.
+ldap#:#ldap_escapedn#:#DN maskieren
+ldap#:#ldap_escapedn_info#:#Wenn aktiviert, werden reservierte Zeichen im "Distinguished Name (DN)" für Abfragen von Gruppenzugehörigkeiten maskiert.
 ldap#:#ldap_filter_info#:#Filter, der dem Suchfilter folgendermaßen hinzugefügt wird: (&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_global_role#:#Globale Rolle
 ldap#:#ldap_global_role_assignment#:#Rollenzuordnung
@@ -6914,7 +6925,6 @@ ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zwe
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
-mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
 mail#:#back_to_folder#:#Zurück zum Ordner
@@ -7066,10 +7076,10 @@ mail#:#placeholders_advise#:#Persönliche Platzhalter werden nur für Empfänger
 mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
-mail#:#mail_firstname_last_name_superior#:#A comma separated list for firstname and lastname of the user's superior(s).
-mail#:#mail_email_usr_subject#:#Test E-Mail Benutzer Mail
+mail#:#mail_firstname_last_name_superior#:#Kommaseparierte Liste mit den Vor- und Nachnamen der Vorgesetzten eines Benutzers
+mail#:#mail_email_usr_subject#:#Test-E-Mail „Benutzer-Mail”
 mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von einem Benutzer initiierten E-Mail an externe E-Mail-Adressen zu testen.
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
+mail#:#mail_email_sys_subject#:#Test-E-Mail „System-Mail”
 mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
@@ -7484,7 +7494,7 @@ meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational#:#Pädagogik
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
-meta#:#meta_educationalvalidator#:#Educational Validator
+meta#:#meta_educationalvalidator#:#Pädagogische Abnahme
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
@@ -8008,7 +8018,7 @@ rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
-rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändernilStaffGSToolProvider
+rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
@@ -8731,6 +8741,7 @@ skmg#:#skmg_skill#:#Kompetenz
 skmg#:#skmg_skill_level#:#Kompetenzausprägung
 skmg#:#skmg_skill_level_trigger#:#Auslöser
 skmg#:#skmg_skill_levels#:#Kompetenzausprägungen
+skmg#:#skmg_target_levels#:#Zielausprägungen
 skmg#:#skmg_skill_management_deactivated#:#Das Kompetenzmanagement ist momentan deaktiviert.
 skmg#:#skmg_skill_template#:#Vorlage
 skmg#:#skmg_skill_templates#:#Vorlagen
@@ -9036,7 +9047,7 @@ survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
 survey#:#constraints#:#Verzweigungsregel
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblöck kann keine Verzweigungsregel gesetzt werden.
+survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblock kann keine Verzweigungsregel gesetzt werden.
 survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsregeln
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
@@ -10030,7 +10041,7 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_list_visibility_and_filter#:#Liste
+dcl#:#dcl_list_visibility_and_filter#:#Übersicht
 dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
@@ -10143,7 +10154,7 @@ book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
-book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
+book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
@@ -10337,15 +10348,15 @@ ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 rtst#:#rtst_call#:#ECS-Test aufrufen
 rbac#:#contribute#:#Beiträge erstellen
-dateplaner#:#cal_setting_global_vis_repos#:#Anzeige im Magazin
-dateplaner#:#cal_setting_global_crs_act#:#Aktivierung in Kursen
-dateplaner#:#cal_setting_global_grp_act#:#Aktivierung in Gruppen
-dateplaner#:#cal_setting_global_crs_act_info#:#Wenn ausgewählt, ist der Kurskalender standardmäßig in Kursen aktiviert. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_grp_act_info#:#Wenn ausgewählt, ist der Gruppenkalender standardmäßig in Gruppen aktiviert. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
-dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
-dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäßig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenkalender standardmäßig in Gruppen angezeigt. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
+dateplaner#:#cal_setting_global_vis_repos#:#Anzeige in Magazinobjekten
+dateplaner#:#cal_setting_global_crs_act#:#Kurskalender
+dateplaner#:#cal_setting_global_grp_act#:#Gruppenkalender
+dateplaner#:#cal_setting_global_crs_act_info#:#In neu erstellten Kursen ist der Kalender standardmäßig aktiviert.
+dateplaner#:#cal_setting_global_grp_act_info#:#In neu erstellten Gruppen ist der Kalender standardmäßig aktiviert.
+dateplaner#:#cal_setting_global_crs_vis#:#Kalenderblock
+dateplaner#:#cal_setting_global_grp_vis#:#Kalenderblock
+dateplaner#:#cal_setting_global_crs_vis_info#:#Der Kurskalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
+dateplaner#:#cal_setting_global_grp_vis_info#:#Der Gruppenkalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
 dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde bearbeitet.
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
@@ -10408,8 +10419,8 @@ dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
-dcl#:#dcl_edit_entry_rules#:#Bearbeitung
-dcl#:#dcl_create_entry_rules#:#Erstellung
+dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
+dcl#:#dcl_create_entry_rules#:#Eintragserstellung
 dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
 dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
@@ -10568,12 +10579,13 @@ dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
-dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
+dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tabelle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
 common#:#search_globally#:#Im gesamten Magazin
 common#:#search_at_current_position#:#An der aktuellen Position
+common#:#label_search_options#:#Suchbereich
 survey#:#svy_copy#:#Umfrage kopieren
 blog#:#blog_authors#:#Autoren
 blog#:#blog_author#:#Beiträge von
@@ -10877,7 +10889,7 @@ tos#:#tos_crit_type_usr_country#:#Benutzerland
 tos#:#tos_crit_type_usr_country_info#:#Das Dokument muss akzeptiert werden, wenn beim ersten Login dieses Land gewählt wurde. Eine nachträgliche Änderung der Benutzersprache führt nicht automatisch zur Vorlage eines neuen Dokuments.
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
-tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall, und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu aktepzieren.
+tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu akzeptieren.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
 tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
@@ -11121,12 +11133,12 @@ survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Neh
 survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
-skmg#:#skmg_skill_profiles#:#Profile
+skmg#:#skmg_skill_profiles#:#Kompetenzprofile
 skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
-skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Kompetenzausprägungen
+skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Zielausprägungen
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
 skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
@@ -11512,7 +11524,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Bestehendes Blog nutzen
 prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio, um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
-prtf#:#prtf_template_import_quota_failure#:#Diese Portfoliovorlage kann nicht kopiert werden, da Ihre Disk-Quota überschritten würde.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
@@ -12100,7 +12111,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Einige Objekte können nicht gelöscht 
 skmg#:#skmg_status_draft#:#In Vorbereitung (Offline)
 skmg#:#skmg_status_draft_info#:#Eintrag wird Benutzern nicht angezeigt.
 skmg#:#skmg_status_publish#:#Veröffentlicht
-skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind. Sobald die Kompetenz genutzt wird, kann sie nicht mehr gelöscht oder der Status "In Vorbereitung" gesetzt werden.
+skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind.
 skmg#:#skmg_status_outdated#:#Veraltet
 skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
 skmg#:#skmg_status#:#Status
@@ -12132,7 +12143,7 @@ init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unt
 init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
-obj#:#obj_master_lang#:#Standardsprache
+obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_additional_langs#:#Zusätzliche Sprachen
 obj#:#obj_deactivate_content_lang#:#Mehrsprachigkeit für Seiteneditor deaktivieren.
 obj#:#obj_multilinguality#:#Mehrsprachigkeit
@@ -12948,12 +12959,12 @@ assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 dateplaner#:#cal_type_exc#:#Übungskalender
-grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Gruppe ist ausserhalb des Beitrittszeitraumes.
-crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Der Kurs ist ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmledung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
+crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zum Kurs liegt ausserhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
-crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
+grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe "%s" beigetreten.
+crs#:#crs_admission_link_success_registration#:#Erfolgreich dem Kurs "%s" beigetreten.
 crs#:#crs_admission_link_failure_offline#:#Kein Beitritt möglich. Der Kurs ist offline.
 crs#:#crs_admission_link_failure_availability#:#Kein Beitritt möglich. Der Kurs ist online.
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13228,6 +13239,7 @@ note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_link#:#Link
+lng#:#language_detection#:#Automatische Spracherkennung
 lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
 lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 trac#:#trac_mode_content_visited#:#Besuch
@@ -13311,13 +13323,13 @@ content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertite
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
 content#:#cont_subtitle_file#:#SRT-ZIP-Datei
 content#:#cont_multi_srt_files#:#SRT-Dateien
-content#:#cont_master_language_only#:#Hauptsprache für Übersetzung - Master
+content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
 content#:#cont_import#:#Import
-content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 content#:#cont_import_trans#:#Übersetzung importieren
 content#:#cont_import_lang#:#Zielsprache
-mep#:#mep_master_language_only#:#Hauptsprache für Übersetzung - Master
-mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+mep#:#mep_master_language_only#:#Basissprache für Übersetzung - Master
+mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 mep#:#mep_import_trans#:#Übersetzung importieren
 mep#:#mep_import_lang#:#Zielsprache
 content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von einer anderen ILIAS-Installation.
@@ -13439,7 +13451,7 @@ adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
-adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur Info Barrierefreit im Footer.
+adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
@@ -13558,7 +13570,7 @@ prg#:#prg_type_custom_icon#:#Individuelles Icon
 prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
 prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
 prg#:#prg_type_assign_amd_sets#:#Erweiterten Metadatensatz zuweisen
-prg#:#prg_type_available_amd_sets#:#Verfügbare Erweiterte Metadatensätze
+prg#:#prg_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadatensätze
 prg#:#prg_type_edit#:#Typ editieren
 prg#:#prg_type_msg_deleted#:#Typ gelöscht.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
@@ -13646,6 +13658,7 @@ rbac#:#feed_copy#:#Webfeed kopieren
 log#:#log_level_off#:#Deaktiviert
 log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
 administration#:#adm_user_starting_point_ref_id_info#:# Öffnen Sie das Objekt, welches Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein.
+mail#:#mail_sel_label#:#Auswahl der Empfänger
 mail#:#mail_crs_roles#:#Verschicke Mail an folgende Rollen des Kurses
 mail#:#mail_grp_roles#:#Verschicke Mail an folgende Rollen der Gruppe
 mail#:#send_mail_members#:#Alle Mitglieder
@@ -13725,9 +13738,9 @@ rbac#:#svy_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen 
 rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen bearbeiten
 rbac#:#read_results#:#Umfrageergebnisse
 rbac#:#svy_read_results#:#Benutzer hat Zugriff auf alle Umfrageergebnisse
-maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
-maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
+maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
+maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
 crs#:#event_user_selection_include_role#:#Binde alle Benutzer der Rolle "%1$s" ein
 crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warteliste" ein
 crs#:#event_user_selection_include_requests#:#Binde alle Benutzer der Liste "Aufnahmeanträge" ein
@@ -13897,7 +13910,7 @@ obj#:#obj_tool_ext_mail_subject_prefix#:#E-Mail-Betreff Prefix
 obj#:#obj_tool_ext_mail_subject_prefix_info#:#Tragen Sie hier einen kurzen Text ein, der in die Betreffzeile von externen E-Mails in den Betreff aufgenommen wird. Dies erleichtert das Identifizieren von E-Mails aus unterschiedlichen Bereichen.
 badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_image_template_form#:#Bildvorlage
-badge#:#badge_image_from_upload#:#Bild hochlanden
+badge#:#badge_image_from_upload#:#Bild hochladen
 badge#:#badge_image_from_template#:#Vorlage nutzen
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_remove_badge#:#Badge entziehen
@@ -14041,16 +14054,16 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Sub-Style verwalten
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
 style#:#from_skin#:#vom Skin:
 style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
-style#:#to#:#nach:
+style#:#sty_copy_to#:#nach:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
 style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
 style#:#sty_create_new_system_sub_style#:#Neuen Sub-Style anlegen
@@ -14108,8 +14121,8 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub-Styles können nicht g
 style#:#style_assignments_deleted#:#Style-Zuweisungen des folgenden Sub-Styles wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
-exc#:#exc_individual_deadline#:#Individuelle Frist
-exc#:#exc_individual_deadline_action#:#Individuelle Frist setzen
+exc#:#exc_individual_deadline#:#Individueller Abgabetermin
+exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
 exc#:#exc_tbl_submission_date#:#Abgegeben am
 exc#:#exc_tbl_status#:#Bewertung
@@ -14120,7 +14133,7 @@ exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
+exc#:#exc_tbl_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
@@ -14313,7 +14326,7 @@ usr#:#user_action#:#Benutzeraktion
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_server_status#:#Server-Status
-chatroom#:#chtr_ban_actor_tbl_head#:#Actor
+chatroom#:#chtr_ban_actor_tbl_head#:#gesperrt durch
 chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
 common#:#chtr_import#:#Chatraum importieren
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
@@ -14480,7 +14493,7 @@ common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie b
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
 auth#:#auth_saml_add_idp_btn#:#Identity Provider hinzufügen
-auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
 auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
 auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
@@ -14511,6 +14524,7 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
+auth#:#auth_saml_err_sqlite_driver#:#Die SAML-Authentifizierung benötigt die SQLite-Treiber für PHP. Bitte installieren Sie diese und versuchen Sie es erneut.
 dateplaner#:#cal_origin#:#Herkunft
 dateplaner#:#cal_list#:#Liste
 dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
@@ -14552,10 +14566,10 @@ common#:#second_email#:#Zweite E-Mail
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
-skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
+skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
 skmg#:#skmg_selected_skills#:#Kompetenzeinträge
-skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
-skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
@@ -14647,8 +14661,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
-content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
+mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
+content#:#cont_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
 mep#:#mep_content#:#Medienobjekte
 mep#:#mep_media_subtitles#:#Untertitel
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
@@ -14702,7 +14716,7 @@ cont#:#cont_published#:#Veröffentlichung
 cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
 cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
 cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
-cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzuweisungen des Benutzers zurücksetzen?
+cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?
 skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägungen im Zeitraum %1$s bis %2$s erreicht:
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
@@ -14743,12 +14757,12 @@ prtf#:#prtf_date_of_print#:#Datum des Ausdrucks
 prtf#:#prtf_signature#:#Feld für Unterschrift
 prtf#:#prtf_signature_info#:#Das PDF enthält ein Feld, in welchem die Benutzer unterschreiben können.
 prtf#:#prtf_signature_date#:#Datum, Unterschrift
-lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
+lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
 lti#:#lti_navigation#:#Navigation
-lti#:#lti_session#:#LTI Sitzung
-lti#:#lti_exit#:#LTI Sitzung beenden
-lti#:#lti_exited#:#LTI Sitzung beendet
-lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
+lti#:#lti_session#:#LTI-Sitzung
+lti#:#lti_exit#:#LTI-Sitzung beenden
+lti#:#lti_exited#:#LTI-Sitzung beendet
+lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktuellster Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
 orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
@@ -14790,7 +14804,7 @@ common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
 common#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
 sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
-sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
+sahs#:#sahs_glo_info#:#Bitte beachten Sie, dass interne Links in Glossarbegriffen nicht unterstützt werden.
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Veranstaltungen enthalten keine Dateien.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
@@ -14830,8 +14844,8 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
-common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rolle
-common#:#cron_users_without_login_del_role_whitelist_info#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
+common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
@@ -14895,7 +14909,7 @@ common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
 cpad#:#cpad_reading_time_status#:#Lesezeit
-cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten-Objekten ermittelt und agenzeigt.
+cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 adve#:#adve_grp_copa#:#Inhaltsseiten
 common#:#msg_info_blacklisted#:#Bitte entschuldigen Sie!  Sie dürfen die Datei aus Sicherheitsgründen nicht hochladen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
@@ -14906,17 +14920,17 @@ mail#:#mail_bg_task_desc#:#Betreff: %s
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 common#:#presentation_table_more#:#Mehr anzeigen
 exc#:#exc_global_feedback_file_after_date#:#Nach festem Datum
-exc#:#feedback_given#:#Feedback given
+exc#:#feedback_given#:#Gegebenes Feedback
 exc#:#feedback#:#Feedback
-exc#:#feedback_received#:#Feedback received
-exc#:#feedback_from#:#Feedback from
-exc#:#text_assignment#:#Text Assignment
-exc#:#not_yet#:#not yet
+exc#:#feedback_received#:#Gegebenes Feedback
+exc#:#feedback_from#:#Feedback von
+exc#:#text_assignment#:#Text Übungseinheit
+exc#:#not_yet#:#noch nicht
 exc#:#grade_evaluate#:#Bewerten/Benoten
 exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
 exc#:#filter#:#Filter
-exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#fiter_no_results#:#Zu den aktuellen Einstellungen des Filters passen kein Abgaben.
 exc#:#exc_reminder_link#:#URL
 exc#:#exc_mail_context_grade_reminder_info#:#Die Tutoren werden an die Bewertung der Enireichungen erinnert.
 exc#:#exc_mail_context_grade_reminder_title#:#Übung: Erinnerung an Bewertung
@@ -15014,7 +15028,7 @@ mme#:#field_external_info#:#Link wird in einem neuen Fenster geöffnet.
 mme#:#field_url#:#URL
 mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
 mme#:#field_ref_id#:#ILIAS Referenz-ID
-mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
+mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin. Sie finden die Referenz-ID in der URL eines Objektes (...?ref_id=123)
 common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
@@ -15597,8 +15611,6 @@ svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 common#:#personal_resources#:#Persönliche Ressourcen
-file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
-file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 dash#:#dash_favourites#:#Favoriten
@@ -16139,10 +16151,10 @@ prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
 prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet, ist nicht zu bestehen.
 prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
 prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Studienprogramm.
-prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
-prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
-prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
-prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
+prg#:#prg_user_risky_to_fail_title#:#Warnung per E-Mail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_not_restarted_title#:#Warnung per E-Mail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
 prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
 prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail, um den Benutzer daran zu erinnern, das Studienprogramm neu zu starten.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
@@ -16308,7 +16320,7 @@ feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#lso_admin_form_title#:#Einstellungen
 common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
-common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden. 
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
 common#:#mainbar_more_label#:#Mehr
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
@@ -16511,4 +16523,30 @@ tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu 
 tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
+forum#:#new_thread_with_post#:#Neues Thema mit Beitrag
+forum#:#empty_thread#:#Leeres Thema
 common#:#installation_status#:#Status Installation
+copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Problem
+copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
+adve#:#adve_autosave_info_min_10#:#Bitte setzen sie den Wert auf mindestens 10 Sekunden, falls sie Funktion nutzen.
+content#:#cont_keyword#:#Schlagwort
+content#:#cont_footnote#:#Fußnote
+content#:#cont_Book#:#Buchdruck
+content#:#cont_Numbers#:#Zahlen
+content#:#cont_Verse#:#Lyrik/Strophe
+content#:#cont_choose_from_clipboard#:#Aus Medien-Clipboard
+content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
+obj#:#obj_fallback_lang#:#Standardsprache
+obj#:#obj_set_fallback_lang#:#Standardsprache setzen
+obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
+common#:#user_avatar#:#Profilbild
+common#:#current_user_avatar#:#Ihr Profilbild
+common#:#user_avatar_of#:#Profilbild von
+awrn#:#awrn_filter#:#Benutzerfilter
+help#:#help_search_label#:#Suche in Hilfe
+rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
+dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
+dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.

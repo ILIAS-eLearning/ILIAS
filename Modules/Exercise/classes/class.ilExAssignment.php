@@ -10,7 +10,7 @@
 class ilExAssignment
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -971,7 +971,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT * FROM exc_assignment " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         
         // #16172 - might be deleted
@@ -1066,7 +1066,7 @@ class ilExAssignment
             "fb_cron" => array("integer", $this->hasFeedbackCron()),
             "team_tutor" => array("integer", $this->getTeamTutor()),
             "max_file" => array("integer", $this->getMaxFile()),
-            "portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+            "portfolio_template" => array("integer", $this->getPortfolioTemplateId()),
             "min_char_limit" => array("integer", $this->getMinCharLimit()),
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
@@ -1117,7 +1117,7 @@ class ilExAssignment
             "fb_cron" => array("integer", $this->hasFeedbackCron()),
             "team_tutor" => array("integer", $this->getTeamTutor()),
             "max_file" => array("integer", $this->getMaxFile()),
-            "portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+            "portfolio_template" => array("integer", $this->getPortfolioTemplateId()),
             "min_char_limit" => array("integer", $this->getMinCharLimit()),
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "deadline_mode" => array("integer", $this->getDeadlineMode()),
@@ -1146,7 +1146,7 @@ class ilExAssignment
         $ilDB->manipulate(
             "DELETE FROM exc_assignment WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
         
@@ -1205,10 +1205,8 @@ class ilExAssignment
     
     /**
      * Clone assignments of exercise
-     * @param
-     * @return
      */
-    public static function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
+    public static function cloneAssignmentsOfExercise(int $a_old_exc_id, int $a_new_exc_id, array $a_crit_cat_map)
     {
         $ass_data = self::getInstancesByExercise($a_old_exc_id);
         foreach ($ass_data as $d) {
@@ -1338,7 +1336,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT MAX(order_nr) mnr FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_exc_id, "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             return (int) $rec["mnr"];
         }
@@ -1396,7 +1394,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT " . $a_field . " FROM exc_assignment " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
 
         $rec = $ilDB->fetchAssoc($set);
 
@@ -1438,7 +1436,7 @@ class ilExAssignment
                 " order_nr = " . $ilDB->quote($nr, "integer") .
                 " WHERE id = " . $ilDB->quote((int) $k, "integer") .
                 " AND exc_id = " . $ilDB->quote((int) $a_ex_id, "integer")
-                );
+            );
             $nr += 10;
         }
     }
@@ -1455,14 +1453,14 @@ class ilExAssignment
             "SELECT id FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " ORDER BY time_stamp ASC"
-            );
+        );
         $nr = 10;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $ilDB->manipulate(
                 "UPDATE exc_assignment SET " .
                 " order_nr = " . $ilDB->quote($nr, "integer") .
                 " WHERE id = " . $ilDB->quote($rec["id"], "integer")
-                );
+            );
             $nr += 10;
         }
     }
@@ -1480,7 +1478,7 @@ class ilExAssignment
             "SELECT count(*) cntm FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " AND mandatory = " . $ilDB->quote(1, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["cntm"];
     }
@@ -1497,7 +1495,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT count(*) cntm FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["cntm"];
     }
@@ -1515,7 +1513,7 @@ class ilExAssignment
             "SELECT * FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " AND id = " . $ilDB->quote($a_ass_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
@@ -1854,13 +1852,9 @@ class ilExAssignment
     
     /**
      * Clear multi feedback directory
-     *
-     * @param array
-     * @return
      */
     public function clearMultiFeedbackDirectory()
     {
-        $lng = $this->lng;
         $ilUser = $this->user;
         
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1870,21 +1864,16 @@ class ilExAssignment
     
     /**
      * Save multi feedback files
-     *
-     * @param
-     * @return
      */
-    public function saveMultiFeedbackFiles($a_files, ilObjExercise $a_exc)
+    public function saveMultiFeedbackFiles(array $a_files, ilObjExercise $a_exc)
     {
         if ($this->getExerciseId() != $a_exc->getId()) {
-            return;
+            return null;
         }
         
         $fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $fstorage->create();
-        
-        $team_map = array();
-        
+
         $mf_files = $this->getMultiFeedbackFiles();
         foreach ($mf_files as $f) {
             $user_id = $f["user_id"];
@@ -1925,9 +1914,7 @@ class ilExAssignment
         
         $this->clearMultiFeedbackDirectory();
     }
-    
-    
-    
+
     
     /**
      * Handle calendar entries for deadline(s)
@@ -2158,13 +2145,14 @@ class ilExAssignment
         return false;
     }
     
-    public function getGlobalFeedbackFilePath()
+    public function getGlobalFeedbackFilePath() : string
     {
         $file = $this->getFeedbackFile();
         if ($file) {
             $path = $this->getGlobalFeedbackFileStoragePath();
             return $path . "/" . $file;
         }
+        return "";
     }
 
     /**
@@ -2341,7 +2329,7 @@ class ilExAssignment
             //first of all check the suffix and change if necessary
             $filename = ilUtil::getSafeFilename($a_filename);
 
-            if (!self::instructionFileExistsInDb($filename, $a_ass_id)) {
+            if (self::instructionFileExistsInDb($filename, $a_ass_id) == 0) {
                 if ($a_order_nr == 0) {
                     $order_val = self::instructionFileOrderGetMax($a_ass_id);
                     $order = $order_val + 10;
@@ -2406,11 +2394,11 @@ class ilExAssignment
     }
 
     /**
-     * @param $a_filename
-     * @param $a_ass_id assignment id
-     * @return int if the file exists or not in the DB
+     * @param string $a_filename
+     * @param int $a_ass_id
+     * @return int
      */
-    public static function instructionFileExistsInDb($a_filename, $a_ass_id)
+    public static function instructionFileExistsInDb(string $a_filename, int $a_ass_id) : int
     {
         global $DIC;
 
@@ -2425,6 +2413,8 @@ class ilExAssignment
 
             return $db->numRows($result);
         }
+
+        return 0;
     }
 
     public function fixInstructionFileOrdering()
@@ -2450,7 +2440,7 @@ class ilExAssignment
                     " order_nr = " . $db->quote($order_nr, "integer") .
                     " WHERE assignment_id = " . $db->quote($this->getId(), "integer") .
                     " AND id = " . $db->quote($rec["id"], "integer")
-                    );
+                );
                 $order_nr += 10;
                 $numbered_files[] = $rec["filename"];
             } else {	// file does not exist, delete entry

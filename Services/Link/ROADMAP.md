@@ -1,5 +1,5 @@
 # Roadmap
 
-## Move auto-linking to refinery
+## Streamline implementations for auto-linking
 
-The autolink feature should be moved to some transformation in the refinery.
+There are currently two autolinking implementations, the client side via linkifyjs and the server side ilUtil::makeClickable. This should be streamlined. A server side solution could use the refinery service.

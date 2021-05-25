@@ -161,7 +161,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     */
     public function setValueByArray($a_values)
     {
-        $incoming = $a_values[$this->getPostVar()];
+        $incoming = $a_values[$this->getPostVar()] ?? "";
         $this->setDate(ilCalendarUtil::parseIncomingDate($incoming, $this->getDatePickerTimeFormat()));
                 
         foreach ($this->getSubItems() as $item) {

@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/MediaObjects/classes/class.ilMapArea.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilMediaItem
  * Media Item, component of a media object (file or reference)
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesMediaObjects
  */
 class ilMediaItem
 {
@@ -116,7 +113,7 @@ class ilMediaItem
      * Set duration
      * @param int $a_val duration
      */
-    function setDuration($a_val)
+    public function setDuration($a_val)
     {
         $this->duration = $a_val;
     }
@@ -125,7 +122,7 @@ class ilMediaItem
      * Get duration
      * @return int duration
      */
-    function getDuration()
+    public function getDuration()
     {
         return $this->duration;
     }
@@ -630,7 +627,6 @@ class ilMediaItem
                 $loc = $this->getLocation();
             }
 
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             $size = ilMediaImageUtil::getImageSize($loc);
             if ($size[0] > 0 && $size[1] > 0) {
                 return array("width" => $size[0], "height" => $size[1]);
@@ -869,13 +865,13 @@ class ilMediaItem
                 if (is_file($thumb_file_small)) {
                     $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small.".$format."?dummy=" . $random->int(1, 999999);
+                        $this->getPurpose() . "_small." . $format . "?dummy=" . $random->int(1, 999999);
                 }
             } else {
                 if (is_file($thumb_file)) {
                     $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . ".".$format."?dummy=" . $random->int(1, 999999);
+                        $this->getPurpose() . "." . $format . "?dummy=" . $random->int(1, 999999);
                 }
             }
         }
@@ -1197,7 +1193,6 @@ class ilMediaItem
      */
     public function extractUrlParameters()
     {
-        include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
         $par = ilExternalMediaAnalyzer::extractUrlParameters(
             $this->getLocation(),
             $this->getParameters()
@@ -1207,7 +1202,8 @@ class ilMediaItem
         }
     }
 
-    public function determineDuration() {
+    public function determineDuration()
+    {
         $ana = new ilMediaAnalyzer();
         $ana->setFile(ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation());
         $ana->analyzeFile();

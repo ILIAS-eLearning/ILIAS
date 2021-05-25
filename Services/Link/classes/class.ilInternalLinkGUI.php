@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilInternalLinkGUI
@@ -10,9 +8,6 @@ require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
  * Some gui methods to handle internal links
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesLink
  */
 class ilInternalLinkGUI
 {
@@ -363,9 +358,6 @@ class ilInternalLinkGUI
         switch ($this->base_link_type) {
             // page link
             case "PageObject":
-                require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-                include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
-                
                 $cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
                 // get all chapters
@@ -392,7 +384,6 @@ class ilInternalLinkGUI
                     }
 
                     if ($node["type"] == "pg") {
-                        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
                         $this->renderLink(
                             $tpl,
                             $node["title"],
@@ -419,7 +410,6 @@ class ilInternalLinkGUI
                     $tpl->parseCurrentBlock();
 
                     foreach ($free_pages as $node) {
-                        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
                         $this->renderLink(
                             $tpl,
                             $node["title"],
@@ -448,7 +438,6 @@ class ilInternalLinkGUI
                     $this->changeTargetObject("lm");
                 }
 
-                require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
                 $cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
                 // get all chapters
@@ -511,7 +500,6 @@ class ilInternalLinkGUI
 
             // media object
             case "Media":
-                include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
                 //$tpl->setVariable("TARGET2", " target=\"content\" ");
                 // content object id = 0 --> get clipboard objects
                 if ($this->parent_ref_id == 0) {
@@ -545,7 +533,6 @@ class ilInternalLinkGUI
                     $tpl->setCurrentBlock("chapter_list");
                     $tpl->parseCurrentBlock();
                 } else {
-                    require_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
                     $med_pool = new ilObjMediaPool($this->parent_ref_id, true);
                     // get current folders
                     $fobjs = $med_pool->getChilds($this->parent_fold_id, "fold");
@@ -648,7 +635,6 @@ class ilInternalLinkGUI
             // wiki page link
             case "WikiPage":
                 $wiki_id = ilObject::_lookupObjId($this->parent_ref_id);
-                require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                 $wpages = ilWikiPage::getAllWikiPages($wiki_id);
 
                 // get all glossary items
@@ -680,7 +666,6 @@ class ilInternalLinkGUI
             case "PortfolioPage":
             case "PortfolioTemplatePage":
                 $prtf_id = $this->parent_obj_id;
-                require_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
                 $ppages = ilPortfolioPage::getAllPortfolioPages($prtf_id);
 
                 // get all glossary items
@@ -755,7 +740,6 @@ class ilInternalLinkGUI
             $tpl->setVariable("TXT_SELECT_FILE", $lng->txt("cont_select_file"));
             $tpl->setVariable("TXT_SAVE_LINK", $lng->txt("cont_create_link"));
             $tpl->setVariable("CMD_SAVE_LINK", "saveFileLink");
-            include_once("./Services/Form/classes/class.ilFileInputGUI.php");
             $fi = new ilFileInputGUI("", "link_file");
             $fi->setSize(15);
             $tpl->setVariable("INPUT", $fi->getToolbarHTML());
@@ -790,7 +774,6 @@ class ilInternalLinkGUI
     public function saveFileLink()
     {
         if ($_FILES["link_file"]["name"] != "") {
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $fileObj = new ilObjFile();
             $fileObj->setType("file");
             $fileObj->setTitle($_FILES["link_file"]["name"]);
@@ -879,7 +862,6 @@ class ilInternalLinkGUI
     public function getTargetExplorer()
     {
         //$ilCtrl->setParameter($this, "target_type", $a_type);
-        include_once("./Services/Link/classes/class.ilLinkTargetObjectExplorerGUI.php");
         $exp = new ilLinkTargetObjectExplorerGUI($this, "getTargetExplorer", $this->link_type);
 
         $a_type = $this->parent_type[$this->base_link_type];
@@ -960,8 +942,6 @@ class ilInternalLinkGUI
 
         $ilCtrl->setParameter($this, "link_par_fold_id", "");
 
-        //$ilCtrl->setParameter($this, "target_type", $a_type);
-        include_once("./Services/Link/classes/class.ilIntLinkRepItemExplorerGUI.php");
         $exp = new ilIntLinkRepItemExplorerGUI($this, "selectRepositoryItem");
         $exp->setSetLinkTargetScript($this->getSetLinkTargetScript());
 
@@ -994,10 +974,8 @@ class ilInternalLinkGUI
         $lng->loadLanguageModule("link");
 
         $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
-        include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
         ilExplorerBaseGUI::init();
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
         $tpl->addJavascript("./Services/Link/js/ilIntLink.js");
@@ -1005,7 +983,6 @@ class ilInternalLinkGUI
         // #18721
         $tpl->addJavaScript("Services/Form/js/Form.js");
 
-        include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($lng->txt("link_link"));
         $modal->setId("ilIntLinkModal");
@@ -1071,8 +1048,6 @@ class ilInternalLinkGUI
             : "tblrow1";
 
         if ($this->getSetLinkTargetScript() != "") {
-            require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-            require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
             ilImageMapEditorGUI::_recoverParameters();
             if ($a_type == "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);
@@ -1136,7 +1111,6 @@ class ilInternalLinkGUI
      */
     public function initUserSearchForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setId("link_user_search_form");
 

@@ -93,16 +93,9 @@ class ilUserDefinedData
 
         $ilDB = $DIC['ilDB'];
         
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $udf_obj = &ilUserDefinedFields::_getInstance();
+        $udf_obj = ilUserDefinedFields::_getInstance();
 
-        $sql = '';
-        $field_def = array();
         foreach ($udf_obj->getDefinitions() as $definition) {
-            //			$field_def['f_'.$definition['field_id']] = array('text',$this->get($definition['field_id']));
-            
-            //			$sql .= ("`".(int) $definition['field_id']."` = ".$this->db->quote($this->get($definition['field_id'])).", ");
-
             if ($definition["field_type"] == UDF_TYPE_WYSIWYG) {
                 $ilDB->replace(
                     "udf_clob",
@@ -125,23 +118,6 @@ class ilUserDefinedData
                 );
             }
         }
-        /*		if(!$field_def)
-                {
-                    return true;
-                }
-
-                $query = "SELECT usr_id FROM udf_data WHERE usr_id = ".$ilDB->quote($this->getUserId(),'integer');
-                $res = $ilDB->query($query);
-
-                if($res->numRows())
-                {
-                    $ilDB->update('udf_data',$field_def,array('usr_id' => array('integer',$this->getUserId())));
-                }
-                else
-                {
-                    $field_def['usr_id'] = array('integer',$this->getUserId());
-                    $ilDB->insert('udf_data',$field_def);
-                }*/
         return true;
     }
     
@@ -159,11 +135,11 @@ class ilUserDefinedData
         $ilDB->manipulate(
             "DELETE FROM udf_text WHERE "
             . " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM udf_clob WHERE "
             . " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
     /**
@@ -180,11 +156,11 @@ class ilUserDefinedData
         $ilDB->manipulate(
             "DELETE FROM udf_text WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM udf_clob WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
-            );
+        );
     }
 
     /**
@@ -203,7 +179,7 @@ class ilUserDefinedData
             "UPDATE udf_text SET value = " . $ilDB->quote("", "text") . " WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
             . " AND value = " . $ilDB->quote($a_value, "text")
-            );
+        );
     }
 
     public function toXML()

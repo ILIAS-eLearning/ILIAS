@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * ilContainerStartObjects
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: class.ilCourseStart.php 44362 2013-08-22 08:36:03Z jluetzen $
- *
- * @ingroup ServicesContainer
  */
 class ilContainerStartObjects
 {
@@ -189,7 +187,6 @@ class ilContainerStartObjects
 
     public function getPossibleStarters()
     {
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         foreach (ilObjectActivation::getItems($this->getRefId(), false) as $node) {
             switch ($node['type']) {
                 case 'lm':
@@ -223,7 +220,6 @@ class ilContainerStartObjects
         
         switch ($type) {
             case 'tst':
-                include_once './Modules/Test/classes/class.ilObjTestAccess.php';
                 if (!ilObjTestAccess::checkCondition($obj_id, 'finished', '', $a_user_id)) { // #14000
                     return false;
                 }
@@ -237,7 +233,6 @@ class ilContainerStartObjects
                 break;
                 
             case 'sahs':
-                include_once 'Services/Tracking/classes/class.ilLPStatus.php';
                 if (!ilLPStatus::_hasUserCompleted($obj_id, $a_user_id)) {
                     return false;
                 }
@@ -250,7 +245,6 @@ class ilContainerStartObjects
                 break;
 
             default:
-                include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
                 $lm_continue = new ilCourseLMHistory($this->getRefId(), $a_user_id);
                 $continue_data = $lm_continue->getLMHistory();
                 if (!isset($continue_data[$a_item_id])) {
@@ -272,7 +266,6 @@ class ilContainerStartObjects
         $new_obj_id = $ilObjDataCache->lookupObjId($a_target_id);
         $start = new self($a_target_id, $new_obj_id);
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         foreach ($this->getStartObjects() as $data) {

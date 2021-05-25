@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
-* Class ilWikiPage
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilWikiPage
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilWikiPage extends ilPageObject
 {
     protected $blocked = false;
@@ -211,11 +207,8 @@ class ilWikiPage extends ilPageObject
         if (!$a_prevent_page_creation) {
             parent::create();
             $this->saveInternalLinks($this->getDomDoc());
-            
-            include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+
             ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_CREATED, $this);
-            
-            include_once "./Services/Notification/classes/class.ilNotification.php";
             ilWikiUtil::sendNotification("new", ilNotification::TYPE_WIKI, $this->getWikiRefId(), $this->getId());
         }
 
@@ -225,7 +218,6 @@ class ilWikiPage extends ilPageObject
     public function afterUpdate($a_domdoc = null, $a_xml = "")
     {
         // internal == wiki links
-        include_once "Modules/Wiki/classes/class.ilWikiUtil.php";
         $int_links = sizeof(ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true));
         
         $xpath = new DOMXPath($a_domdoc);
@@ -240,8 +232,7 @@ class ilWikiPage extends ilPageObject
         // words/characters (xml)
                 
         $xml = strip_tags($a_xml);
-        
-        include_once "Services/Utilities/classes/class.ilStr.php";
+
         $num_chars = ilStr::strLen($xml);
         $num_words = sizeof(explode(" ", $xml));
                         
@@ -252,8 +243,7 @@ class ilWikiPage extends ilPageObject
             "num_words" => $num_words,
             "num_chars" => $num_chars
         );
-        
-        include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);
     }
     
@@ -279,7 +269,6 @@ class ilWikiPage extends ilPageObject
         $updated = parent::update($a_validate, $a_no_history);
 
         if ($updated === true) {
-            include_once "./Services/Notification/classes/class.ilNotification.php";
             ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
             
             $this->updateNews(true);
@@ -331,17 +320,13 @@ class ilWikiPage extends ilPageObject
         );
 
         // delete internal links information to this page
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         ilInternalLink::_deleteAllLinksToTarget("wpg", $this->getId());
-        
-        include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_DELETED, $this);
 
-        include_once "./Services/Notification/classes/class.ilNotification.php";
         ilWikiUtil::sendNotification("delete", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
 
         // remove all notifications
-        include_once "./Services/Notification/classes/class.ilNotification.php";
         ilNotification::removeForObject(ilNotification::TYPE_WIKI_PAGE, $this->getId());
         
         // delete record of table il_wiki_data
@@ -535,8 +520,7 @@ class ilWikiPage extends ilPageObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
+
         $sources = ilInternalLink::_getSourcesOfTarget("wpg", $a_page_id, 0);
         
         $ids = array();
@@ -574,8 +558,6 @@ class ilWikiPage extends ilPageObject
         $ilDB = $DIC->database();
         
         $pages = ilWikiPage::getAllWikiPages($a_wiki_id);
-        
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         
         $orphaned = array();
         foreach ($pages as $k => $page) {
@@ -717,7 +699,6 @@ class ilWikiPage extends ilPageObject
         );
         
         // collect the wiki links of the page
-        include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
         $xml = $a_domdoc->saveXML();
         $int_wiki_links = ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true);
         foreach ($int_wiki_links as $wlink) {
@@ -906,7 +887,6 @@ class ilWikiPage extends ilPageObject
         $xml_new_name = str_replace("&", "&amp;", $a_new_name);
 
         if ($pg_id == 0 || $pg_id == $this->getId()) {
-            include_once("./Services/Link/classes/class.ilInternalLink.php");
             $sources = ilInternalLink::_getSourcesOfTarget("wpg", $this->getId(), 0);
 
             foreach ($sources as $s) {
@@ -972,7 +952,6 @@ class ilWikiPage extends ilPageObject
                 }
             }
 
-            include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
             if (ilObjWiki::_lookupStartPage($this->getWikiId()) == $this->getTitle()) {
                 ilObjWiki::writeStartPage($this->getWikiId(), $a_new_name);
             }
@@ -998,7 +977,6 @@ class ilWikiPage extends ilPageObject
                 ? $news_set->get("default_visibility")
                 : "users";
 
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         if (!$a_update) {
             $news_item = new ilNewsItem();
             $news_item->setContext(
@@ -1082,7 +1060,6 @@ class ilWikiPage extends ilPageObject
      */
     public function getContentTemplates()
     {
-        include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
         $wt = new ilWikiPageTemplate($this->getWikiId());
         $templates = array();
         foreach ($wt->getAllInfo(ilWikiPageTemplate::TYPE_ADD_TO_PAGE) as $t) {

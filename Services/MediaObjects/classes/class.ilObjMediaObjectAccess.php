@@ -1,12 +1,8 @@
 <?php
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
-require_once('./Services/MediaObjects/classes/class.ilObjMediaObject.php');
-
 /**
  * Class ilObjMediaObjectAccess
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version 1.0.0
  */
 class ilObjMediaObjectAccess implements ilWACCheckingClass
 {
@@ -69,7 +65,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     // Mobs on the Loginpage should always be delivered
                     return true;
                 case "mep:pg":
-                    include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
                     $usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
                     foreach ($usages2 as $usage2) {
                         $oid2 = ilObjMediaObject::getParentObjectIdForUsage($usage2, true);
@@ -121,8 +116,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
             case 'news':
                 // media objects in news (media casts)
-                include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
-                include_once("./Services/News/classes/class.ilNewsItem.php");
                 if ($this->checkAccessObject($oid)) {
                     return true;
                 } elseif (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC) {
@@ -143,7 +136,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
             case 'frm~d:html':
                 $draft_id = $usage['id'];
                 
-                include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
                 $oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
                 if ($user_id == $oDraft->getPostAuthorId()) {
                     return true;
@@ -151,9 +143,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                 break;
             case 'frm~h:html':
                 $history_id = $usage['id'];
-                include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
-                include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-                
                 $oHistoryDraft = new ilForumDraftsHistory($history_id);
                 $oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
                 if ($user_id == $oDraft->getPostAuthorId()) {
@@ -204,8 +193,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                 break;
 
             case 'impr:pg':
-                include_once 'Services/Imprint/classes/class.ilImprint.php';
-
                 return (ilImprint::isActive() || $this->checkAccessObject(SYSTEM_FOLDER_ID, 'adm'));
 
             case 'cstr:pg':
@@ -273,7 +260,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
         if ($obj_type == 'qpl') {
             // give access if question pool is used by readable test
             // for random selection of questions
-            include_once('./Modules/Test/classes/class.ilObjTestAccess.php');
             $tests = ilObjTestAccess::_getRandomTestsForQuestionPool($obj_id);
             foreach ($tests as $test_id) {
                 if ($this->checkAccessObject($test_id, 'tst')) {
@@ -304,7 +290,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
 
         $term_id = ilGlossaryDefinition::_lookupTermId($page_id);
 
-        include_once('./Services/Link/classes/class.ilInternalLink.php');
         $sources = ilInternalLink::_getSourcesOfTarget('git', $term_id, 0);
 
         if ($sources) {
@@ -313,7 +298,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     // Give access if term is linked by a learning module with read access.
                     // The term including media is shown by the learning module presentation!
                     case 'lm:pg':
-                        include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                         $src_obj_id = ilLMObject::_lookupContObjID($src['id']);
                         if ($this->checkAccessObject($src_obj_id, 'lm')) {
                             return true;
@@ -349,7 +333,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessPortfolioPage($obj_id, $page_id)
     {
         $ilUser = $this->user;
-        include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
         $access_handler = new ilPortfolioAccessHandler();
         if ($access_handler->checkAccessOfUser($ilUser->getId(), "read", "view", $obj_id, "prtf")) {
             return true;
@@ -370,14 +353,11 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     protected function checkAccessBlogPage($obj_id)
     {
         $ilUser = $this->user;
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree(0);
         $node_id = $tree->lookupNodeId($obj_id);
         if (!$node_id) {
             return $this->checkAccessObject($obj_id);
         } else {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-
             $access_handler = new ilWorkspaceAccessHandler($tree);
             if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
                 return true;
@@ -396,7 +376,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
      */
     protected function checkAccessLearningObjectivePage($obj_id, $page_id)
     {
-        include_once "Modules/Course/classes/class.ilCourseObjective.php";
         $crs_obj_id = ilCourseObjective::_lookupContainerIdByObjectiveId($page_id);
 
         return $this->checkAccessObject($crs_obj_id, 'crs');

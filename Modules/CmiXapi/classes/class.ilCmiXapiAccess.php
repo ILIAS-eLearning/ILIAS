@@ -60,7 +60,7 @@ class ilCmiXapiAccess
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $editPermsAccess = $DIC->access()->checkAccess(
-            'edit_permissions',
+            'edit_permission',
             '',
             $this->object->getRefId(),
             $this->object->getType(),
@@ -71,7 +71,7 @@ class ilCmiXapiAccess
             return true;
         }
         
-        return $this->hasWriteAccess();
+        return false;
     }
     
     /**
@@ -92,8 +92,7 @@ class ilCmiXapiAccess
         if ($outcomesAccess) {
             return true;
         }
-        
-        return $this->hasWriteAccess();
+        return false;
     }
     
     /**

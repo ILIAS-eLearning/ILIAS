@@ -12,7 +12,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
     /**
      * @inheritDoc
      */
-    function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id): array {
+    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
+    {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -21,6 +22,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $acc->addItem($lng->txt("cont_upload_file"), $this->getRenderedUploadForm($ui_wrapper, $lng));
         $acc->addItem($lng->txt("cont_add_url"), $this->getRenderedUrlForm($ui_wrapper, $lng));
         $acc->addItem($lng->txt("cont_choose_from_pool"), $this->getRenderedPoolLink($ui_wrapper, $lng));
+        $acc->addItem($lng->txt("cont_choose_from_clipboard"), $this->getRenderedClipboardLink($ui_wrapper, $lng, $page_gui));
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
@@ -32,7 +34,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
     /**
      * @inheritDoc
      */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid): string {
+    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
+    {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -50,7 +53,9 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $pc_media_gui = new ilPCMediaObjectGUI(
             $page_gui->getPageObject(),
             $pc_media,
-            $page_gui->getPageObject()->getHierIdForPcId($pcid), $pcid);
+            $page_gui->getPageObject()->getHierIdForPcId($pcid),
+            $pcid
+        );
         $pc_media_gui->getCharacteristicsOfCurrentStyle("media_cont");
 
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");
@@ -113,7 +118,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
 
         $link = $ui_wrapper->getRenderedLink($lng->txt("cont_advanced_settings"), "Page", "link", "component.settings");
 
-        return $html.$link;
+        return $html . $link;
     }
 
     /**
@@ -210,12 +215,48 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $lng = $DIC->language();
 
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
-        $l = $ui_wrapper->getRenderedLink($lng->txt("cont_choose_media_pool"), "MediaObject", "media-action", "select.pool",
-        ["url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")]);
+        $l = $ui_wrapper->getRenderedLink(
+            $lng->txt("cont_choose_media_pool"),
+            "MediaObject",
+            "media-action",
+            "select.pool",
+            ["url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")]
+        );
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
 
         return $l;
         //http://scorsese.local/ilias_6/ilias.php?ref_id=86&obj_id=3&active_node=3&hier_id=pg&subCmd=poolSelection&cmd=insert&cmdClass=ilpcmediaobjectgui&cmdNode=ow:oi:o3:o6:ek:ec&baseClass=ilLMEditorGUI
     }
 
+    /**
+     * Get pool link
+     * @param \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper
+     * @param                                       $lng
+     * @param                                       $page_gui
+     * @return string
+     */
+    protected function getRenderedClipboardLink(
+        \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper,
+        $lng,
+        $page_gui
+    ) {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
+        $return_cmd = $ctrl->getLinkTargetByClass("ilpageeditorgui", "insertFromClipboard");
+
+        $ctrl->setParameterByClass("ileditclipboardgui", "returnCommand", rawurlencode($return_cmd));
+
+        $l = $ui_wrapper->getRenderedLink(
+            $lng->txt("cont_open_clipboard"),
+            "MediaObject",
+            "media-action",
+            "open.clipboard",
+            ["url" => $ctrl->getLinkTargetByClass([get_class($page_gui), "ileditclipboardgui"], "getObject")]
+        );
+
+        return $l;
+        //http://scorsese.local/ilias_5_4_x/ilias.php?ref_id=512&obj_id=5595&active_node=5595&returnCommand=ilias.php%3Fref_id%3D512%26obj_id%3D5595%26active_node%3D5595%26hier_id%3D1%26pc_id%3D5e9a9817c21a81b1a7cee4307aa82e82%26cmd%3DinsertFromClipboard%26cmdClass%3Dilpageeditorgui%26cmdNode%3Dpw%3Apj%3Apz%3Apu%3Aew%26baseClass%3DilLMEditorGUI&cmd=getObject&cmdClass=ileditclipboardgui&cmdNode=pw:pj:pz:pu:17&baseClass=ilLMEditorGUI
+    }
 }

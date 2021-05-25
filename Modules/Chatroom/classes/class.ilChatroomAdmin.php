@@ -94,8 +94,17 @@ class ilChatroomAdmin
             array($this->config_id)
         );
 
-        $row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
-        $row['client_settings'] !== null ? $clnt_set = $row['client_settings'] : $clnt_set = "{}";
+        $def_conf = '{}';
+        $clnt_set = '{}';
+        if (is_array($row)) {
+            if ($row['default_config'] !== null) {
+                $def_conf = $row['default_config'];
+            }
+
+            if ($row['client_settings'] !== null) {
+                $clnt_set = $row['client_settings'];
+            }
+        }
 
         $DIC->database()->manipulateF(
             "
@@ -158,11 +167,7 @@ class ilChatroomAdmin
         );
     }
 
-    /**
-     * Returns an array containing server settings from settingsTable.
-     * @return array
-     */
-    public function loadGeneralSettings()
+    public function loadGeneralSettings() : array
     {
         global $DIC;
 
@@ -171,25 +176,21 @@ class ilChatroomAdmin
         if (($row = $DIC->database()->fetchAssoc($DIC->database()->query($query))) && $row['server_settings']) {
             $settings = json_decode($row['server_settings'], true);
 
-            if (!$settings['protocol']) {
+            if (!isset($settings['protocol'])) {
                 $settings['protocol'] = 'http';
             }
 
-            if (!$settings['log_level']) {
+            if (!isset($settings['log_level'])) {
                 $settings['log_level'] = 'info';
             }
 
             return $settings;
         }
 
-        return array();
+        return [];
     }
 
-    /**
-     * Returns an array containing client settings from settingsTable.
-     * @return array
-     */
-    public function loadClientSettings()
+    public function loadClientSettings() : array
     {
         global $DIC;
 
@@ -201,7 +202,7 @@ class ilChatroomAdmin
                 $settings['osd_intervall'] = 60;
             }
 
-            if (!$settings['client']) {
+            if (!isset($settings['client']) || !is_string($settings['client']) || $settings['client'] === '') {
                 $settings['client'] = CLIENT_ID;
             }
 
@@ -219,6 +220,6 @@ class ilChatroomAdmin
             return $settings;
         }
 
-        return array();
+        return [];
     }
 }

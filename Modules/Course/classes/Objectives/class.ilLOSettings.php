@@ -63,7 +63,7 @@ class ilLOSettings
     private $initial_test = 0;
     private $qualified_test = 0;
     private $reset_results = true;
-    private $passed_obj_mode = self::HIDE_PASSED_OBJECTIVE_QST;
+    private $passed_objective_mode = self::HIDE_PASSED_OBJECTIVE_QST;
 
 
     private $entry_exists = false;

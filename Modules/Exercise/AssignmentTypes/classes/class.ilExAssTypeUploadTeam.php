@@ -99,5 +99,6 @@ class ilExAssTypeUploadTeam implements ilExAssignmentTypeInterface
     public function getStringIdentifier() : string
     {
         // TODO: Implement getSubmissionStringIdentifier() method.
+        return "";
     }
 }

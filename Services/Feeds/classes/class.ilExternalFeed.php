@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Services/Http/classes/class.ilProxySettings.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 if (!defined("MAGPIE_DIR")) {
     define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
@@ -15,15 +14,11 @@ define('MAGPIE_CACHE_AGE', 900);			// 900 seconds = 15 minutes
 define('MAGPIE_DEBUG', false);
 include_once(MAGPIE_DIR . "/rss_fetch.inc");
 
-include_once("./Services/Feeds/classes/class.ilExternalFeedItem.php");
-
 /**
-* Handles external Feeds via Magpie library.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesFeeds
-*/
+ * Handles external Feeds via Magpie library.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilExternalFeed
 {
     protected $items = array();

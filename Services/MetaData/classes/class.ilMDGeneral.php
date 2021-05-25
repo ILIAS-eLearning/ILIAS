@@ -101,7 +101,7 @@ class ilMDGeneral extends ilMDBase
 
         return $lan;
     }
-    public function &getDescriptionIds()
+    public function getDescriptionIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -120,7 +120,7 @@ class ilMDGeneral extends ilMDBase
 
         return $des;
     }
-    public function &addDescription()
+    public function addDescription()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -130,7 +130,7 @@ class ilMDGeneral extends ilMDBase
 
         return $des;
     }
-    public function &getKeywordIds()
+    public function getKeywordIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
@@ -189,7 +189,7 @@ class ilMDGeneral extends ilMDBase
     {
         return $this->title;
     }
-    public function setTitleLanguage(&$lng_obj)
+    public function setTitleLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->title_language = $lng_obj;
@@ -213,7 +213,7 @@ class ilMDGeneral extends ilMDBase
         return $this->coverage;
     }
 
-    public function setCoverageLanguage(&$lng_obj)
+    public function setCoverageLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->coverage_language = $lng_obj;

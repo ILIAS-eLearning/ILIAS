@@ -76,10 +76,8 @@ class Renderer extends AbstractComponentRenderer
 
         if ($popover instanceof Component\Popover\Standard) {
             return $this->renderStandardPopover($popover, $default_renderer, $id);
-        } else {
-            if ($popover instanceof Component\Popover\Listing) {
-                return $this->renderListingPopover($popover, $default_renderer, $id);
-            }
+        } elseif ($popover instanceof Component\Popover\Listing) {
+            return $this->renderListingPopover($popover, $default_renderer, $id);
         }
 
         return '';

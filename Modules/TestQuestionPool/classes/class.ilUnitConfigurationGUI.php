@@ -168,7 +168,6 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteUnits'));
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteUnits');
@@ -598,7 +597,6 @@ abstract class ilUnitConfigurationGUI
             return;
         }
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, 'deleteCategories'));
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteCategories');

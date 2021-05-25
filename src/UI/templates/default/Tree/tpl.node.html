@@ -1,6 +1,7 @@
 <li id="{ID}"
-	 class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN expanded --> expanded<!-- END expanded --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
-	 role="{ARIA_ROLE}"
+	 class="il-tree-node node-simple<!-- BEGIN expandable --> expandable<!-- END expandable --><!-- BEGIN highlighted --> highlighted<!-- END highlighted -->"
+<!-- BEGIN role_item --> role="treeitem"<!-- END role_item -->
+<!-- BEGIN role_none --> role="none"<!-- END role_none -->
 <!-- BEGIN aria_expanded --> aria-expanded="{ARIA_EXPANDED}"<!-- END aria_expanded -->
 <!-- BEGIN async_loading --> data-async_url="{ASYNCURL}" data-async_loaded="false"<!-- END async_loading -->
 >
@@ -15,7 +16,7 @@
 
 	<!-- BEGIN node_with_link -->
 	<span class="node-line">
-		<span class="node-label">{ICON_LINKED}<a href="{LINK}">{LABEL_LINKED}</a></span>
+		<span class="node-label">{ICON_LINKED}<a role="treeitem" href="{LINK}">{LABEL_LINKED}</a></span>
 		<!-- BEGIN byline_link -->
 			<span class="node-byline">{BYLINE_LINKED}</span>
 		<!-- END byline_link -->

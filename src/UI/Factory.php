@@ -762,6 +762,16 @@ interface Factory
      *     2: >
      *       A Tree SHOULD NOT mix different kind of nodes, i.e.
      *       all nodes in the same Tree SHOULD be identical in structure.
+     *   accessibility:
+     *     1: All tree nodes are contained in or owned by an element with role "tree".
+     *     2: Each element serving as a tree node has role "treeitem".
+     *     3: Each root node is contained in the element with role "tree".
+     *     4: >
+     *       Each parent node contains an an element with role "group" that contains
+     *       the subnodes of that parent.
+     *     5: >
+     *       Each parent node uses "aria-expanded" (with values "true" or "false") to
+     *       indicate if it is expanded or not.
      *
      * ---
      * @return \ILIAS\UI\Component\Tree\Factory

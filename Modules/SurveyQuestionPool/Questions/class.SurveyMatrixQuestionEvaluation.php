@@ -370,7 +370,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     /**
      * @inheritDoc
      */
-    protected function supportsSumScore(): bool
+    protected function supportsSumScore() : bool
     {
         return true;
     }
@@ -378,12 +378,11 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
     /**
      * @inheritDoc
      */
-    protected function isSumScoreValid(int $nr_answer_records): bool
+    protected function isSumScoreValid(int $nr_answer_records) : bool
     {
         if ($nr_answer_records == $this->question->getRowCount()) {
             return true;
         }
         return false;
     }
-
 }

@@ -22,7 +22,6 @@ class ExcPeerReviewTest extends TestCase
 
     protected function getDistribution($user_ids, $num_assignments)
     {
-        include_once("./Modules/Exercise/PeerReview/class.ExcPeerReviewDistribution.php");
         return new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $num_assignments);
     }
 
@@ -63,7 +62,6 @@ class ExcPeerReviewTest extends TestCase
         foreach ($peer_raters as $peer => $raters) {
             $this->assertEquals(count($raters), $num_assignments);
         }
-
     }
 
     /**
@@ -82,5 +80,4 @@ class ExcPeerReviewTest extends TestCase
             }
         }
     }
-
 }

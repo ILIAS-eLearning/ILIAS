@@ -596,7 +596,6 @@ class ilCustomUserFieldsGUI
             return $this->listUserDefinedFields();
         }
     
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
         $confirmation_gui->setHeaderText($lng->txt("udf_delete_sure"));

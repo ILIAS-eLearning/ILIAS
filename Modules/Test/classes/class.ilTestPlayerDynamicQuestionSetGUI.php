@@ -567,7 +567,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
             $headerBlockBuilder->setQuestionPostponed(
                 $this->testSequence->isPostponedQuestion(
                     $this->testSession->getCurrentQuestionId()
-            )
+                )
             );
             $headerBlockBuilder->setQuestionObligatory(
                 $this->object->areObligationsEnabled() && ilObjTest::isQuestionObligatory($this->object->getId())
@@ -801,7 +801,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 $pass = null,
                 $this->object->areObligationsEnabled(),
                 $authorized
-                );
+            );
             
             if ($authorized && $this->object->isSkillServiceToBeConsidered()) {
                 $this->handleSkillTriggering($this->testSession);
@@ -1045,7 +1045,6 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
     
     protected function showCheckedQuestionResettingConfirmation()
     {
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setHeaderText($this->lng->txt('tst_dyn_unfreeze_answers_confirmation'));

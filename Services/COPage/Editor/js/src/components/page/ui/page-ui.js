@@ -79,7 +79,7 @@ export default class PageUI {
 
     this.debug = true;
     this.droparea = "<div class='il_droparea'></div>";
-    this.add = "<span class='glyphicon glyphicon-plus'></span>";
+    this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
     this.model = {};
     this.uiModel = {};
 
@@ -208,9 +208,10 @@ export default class PageUI {
             li.querySelector("a").addEventListener("click", (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().componentInsert(cname,
-                area.dataset.pcid,
-                hier_id,
-                pluginName));
+                  area.dataset.pcid,
+                  hier_id,
+                  pluginName,
+                  false));
             });
             ul.appendChild(li);
           }
@@ -278,24 +279,30 @@ export default class PageUI {
         } else if (this.model.getState() === this.model.STATE_COMPONENT) {
 
           // Invoke switch action, if click is on other component of same type
+          // (and currently type must be Paragraph)
           if (this.model.getCurrentPCName() === area.dataset.cname &&
-            this.model.getCurrentPCId() !== area.dataset.pcid) {
+              this.model.getCurrentPCId() !== area.dataset.pcid &&
+              this.model.getCurrentPCName() === "Paragraph") {
 
-            let compPara = {};
-            if (this.componentUI.has(area.dataset.cname)) {
-              const componentUI = this.componentUI.get(area.dataset.cname);
-              if (typeof componentUI.getSwitchParameters === 'function') {
-                compPara = componentUI.getSwitchParameters();
+            const pcModel = this.model.getPCModel(area.dataset.pcid);
+            if (pcModel.characteristic !== "Code") {
+
+              let compPara = {};
+              if (this.componentUI.has(area.dataset.cname)) {
+                const componentUI = this.componentUI.get(area.dataset.cname);
+                if (typeof componentUI.getSwitchParameters === 'function') {
+                  compPara = componentUI.getSwitchParameters();
+                }
               }
-            }
 
-            dispatch.dispatch(action.page().editor().componentSwitch(
-              area.dataset.cname,
-              this.model.getComponentState(),
-              this.model.getCurrentPCId(),
-              compPara,
-              area.dataset.pcid,
-              area.dataset.hierid));
+              dispatch.dispatch(action.page().editor().componentSwitch(
+                  area.dataset.cname,
+                  this.model.getComponentState(),
+                  this.model.getCurrentPCId(),
+                  compPara,
+                  area.dataset.pcid,
+                  area.dataset.hierid));
+            }
           }
         }
       });
@@ -439,15 +446,17 @@ export default class PageUI {
     const model = this.model;
     const multi = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.multi']");
     const single = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.single']");
-    if (model.getState() === model.STATE_PAGE) {
-      multi.disabled = false;
-      single.disabled = true;
-    } else {
-      multi.disabled = true;
-      single.disabled = false;
-    }
     multi.classList.remove("engaged");
     single.classList.remove("engaged");
+    if (model.getState() === model.STATE_PAGE) {
+      //multi.disabled = false;
+      //single.disabled = true;
+      single.classList.add("engaged");
+    } else {
+      //multi.disabled = true;
+      //single.disabled = false;
+      multi.classList.add("engaged");
+    }
   }
 
   initFormatButtons() {
@@ -574,7 +583,7 @@ export default class PageUI {
         break;
 
       default:
-        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions);
+        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions + this.uiModel.multiEditHelp);
         this.initTopActions();
         this.initMultiButtons();
         break;

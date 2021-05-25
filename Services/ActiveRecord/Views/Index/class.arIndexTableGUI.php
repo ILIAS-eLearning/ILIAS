@@ -359,10 +359,10 @@ class arIndexTableGUI extends ilTable2GUI
 
     protected function initTableData()
     {
-        $this->active_record_list->getArWhereCollection()->setStatements(null);
-        $this->active_record_list->getArJoinCollection()->setStatements(null);
-        $this->active_record_list->getArLimitCollection()->setStatements(null);
-        $this->active_record_list->getArOrderCollection()->setStatements(null);
+        $this->active_record_list->getArWhereCollection()->setStatements([]);
+        $this->active_record_list->getArJoinCollection()->setStatements([]);
+        $this->active_record_list->getArLimitCollection()->setStatements([]);
+        $this->active_record_list->getArOrderCollection()->setStatements([]);
 
         $this->filterTableData();
         $this->beforeGetData();

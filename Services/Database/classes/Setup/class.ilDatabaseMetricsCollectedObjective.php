@@ -31,7 +31,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             );
             $storage->storeConfigText(
                 "port",
-                $client_ini->readVariable("db", "host"),
+                $client_ini->readVariable("db", "port"),
                 "The port where the storage backend is located at the host."
             );
             $storage->storeConfigText(

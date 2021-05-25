@@ -246,7 +246,7 @@ class ilExcCriteriaCatalogueGUI
         $this->importForm();
     }
     
-    protected function getCurrentCatalogue()
+    protected function getCurrentCatalogue() : ?ilExcCriteriaCatalogue
     {
         $ilCtrl = $this->ctrl;
         
@@ -260,6 +260,8 @@ class ilExcCriteriaCatalogueGUI
         }
         
         $ilCtrl->redirect($this, "view");
+
+        return null;
     }
     
     protected function edit(ilPropertyFormGUI $a_form = null)

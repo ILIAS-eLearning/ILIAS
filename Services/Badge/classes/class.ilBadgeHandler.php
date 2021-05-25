@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilBadgeHandler
@@ -597,7 +598,6 @@ class ilBadgeHandler
                 if (ilContext::hasHTML()) {
                     $osd_params = array("badge_list" => "<br />" . implode("<br />", $user_badges));
 
-                    require_once "Services/Notifications/classes/class.ilNotificationConfig.php";
                     $notification = new ilNotificationConfig("osd_main");
                     $notification->setTitleVar("badge_notification_subject", array(), "badge");
                     $notification->setShortDescriptionVar("badge_notification_osd", $osd_params, "badge");

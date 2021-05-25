@@ -128,7 +128,7 @@ class ilSurveyParticipantsGUI
                         'inviteUsers',
                         array(
                             )
-                        );
+                    );
                     $rep_search->setTitle($lng->txt("svy_invite_participants"));
                     // Set tabs
                     $this->ctrl->setReturn($this, 'maintenance');
@@ -149,7 +149,7 @@ class ilSurveyParticipantsGUI
                         'addRater',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'editRaters');
@@ -163,7 +163,7 @@ class ilSurveyParticipantsGUI
                         'addAppraisee',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'listAppraisees');
@@ -1235,7 +1235,6 @@ class ilSurveyParticipantsGUI
         );
         
         // #13320
-        require_once "Services/Link/classes/class.ilLink.php";
         $url = ilLink::_getStaticLink($this->object->getRefId());
         
         $tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id), $url); // #11285

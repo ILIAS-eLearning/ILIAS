@@ -1,38 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjSystemFolder
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @extends ilObject
-*/
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
+ * Class ilObjSystemFolder
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjSystemFolder extends ilObject
 {
     /**
@@ -156,10 +130,10 @@ class ilObjSystemFolder extends ilObject
         return $row->obj_id;
     }
 
-    public static function _getHeaderTitle()
+    public static function _getHeaderTitle() : string
     {
         /**
-         * @var $ilDB ilDB
+         * @var $ilDB ilDBInterface
          * @var $ilUser ilObjUser
          */
         global $DIC;
@@ -169,14 +143,18 @@ class ilObjSystemFolder extends ilObject
 
         $id = ilObjSystemFolder::_getId();
 
-        $q = "SELECT title,description FROM object_translation " .
+        $title = '';
+
+        $q = "SELECT title FROM object_translation " .
             "WHERE obj_id = " . $ilDB->quote($id, 'integer') . " " .
             "AND lang_default = 1";
         $r = $ilDB->query($q);
         $row = $ilDB->fetchObject($r);
-        $title = $row->title;
+        if ($row !== null) {
+            $title = (string) $row->title;
+        }
 
-        $q = "SELECT title,description FROM object_translation " .
+        $q = "SELECT title FROM object_translation " .
             "WHERE obj_id = " . $ilDB->quote($id, 'integer') . " " .
             "AND lang_code = " .
             $ilDB->quote($ilUser->getCurrentLanguage(), 'text') . " " .
@@ -184,8 +162,8 @@ class ilObjSystemFolder extends ilObject
         $r = $ilDB->query($q);
         $row = $ilDB->fetchObject($r);
 
-        if ($row) {
-            $title = $row->title;
+        if ($row !== null) {
+            $title = (string) $row->title;
         }
 
         return $title;

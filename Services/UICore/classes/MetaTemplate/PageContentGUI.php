@@ -1,5 +1,7 @@
 <?php namespace ILIAS\Services\UICore\MetaTemplate;
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 use ilTemplate;
 
 /**
@@ -16,7 +18,7 @@ class PageContentGUI
     private $template_file;
 
     /**
-     * @var bool 
+     * @var bool
      */
     private $hiddenTitle = false;
 
@@ -483,7 +485,7 @@ class PageContentGUI
             $resp = $gui_class->getHTML(
                 "",
                 "template_show",
-                array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)
             );
 
             if ($resp["mode"] != \ilUIHookPluginGUI::KEEP) {
@@ -491,10 +493,8 @@ class PageContentGUI
             }
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            \ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        \ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
@@ -564,7 +564,6 @@ class PageContentGUI
      */
     private function initHelp()
     {
-        include_once("./Services/Help/classes/class.ilHelpGUI.php");
         //\ilHelpGUI::initHelp($this);
     }
 
@@ -630,7 +629,7 @@ class PageContentGUI
         if (count((array) $this->title_alerts)) {
             foreach ($this->title_alerts as $alert) {
                 $this->template_file->setCurrentBlock('header_alert');
-                if (!($alert['propertyNameVisible'] === false)) {
+                if (!(bool) ($alert['propertyNameVisible'] ?? false)) {
                     $this->template_file->setVariable('H_PROP', $alert['property'] . ':');
                 }
                 $this->template_file->setVariable('H_VALUE', $alert['value']);
@@ -643,7 +642,6 @@ class PageContentGUI
             $ref_id = $this->enable_fileupload;
             $upload_id = "dropzone_" . $ref_id;
 
-            include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
             $upload = new \ilFileUploadGUI($upload_id, $ref_id, true);
 
             $this->template_file->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");

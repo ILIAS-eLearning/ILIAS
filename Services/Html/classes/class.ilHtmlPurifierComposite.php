@@ -19,7 +19,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      */
     public function addPurifier(ilHtmlPurifierInterface $purifier) : bool
     {
-        $key = array_search($purifier, $this->purifiers);
+        $key = array_search($purifier, $this->purifiers, true);
         if (false === $key) {
             $this->purifiers[] = $purifier;
             return true;
@@ -35,7 +35,7 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      */
     public function removePurifier(ilHtmlPurifierInterface $purifier) : bool
     {
-        $key = array_search($purifier, $this->purifiers);
+        $key = array_search($purifier, $this->purifiers, true);
         if (false === $key) {
             return false;
         }
@@ -61,6 +61,16 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
      */
     public function purifyArray(array $htmlCollection) : array
     {
+        foreach ($htmlCollection as $key => $html) {
+            if (!is_string($html)) {
+                throw new InvalidArgumentException(sprintf(
+                    'The element on index %s is not of type string: %s',
+                    $key,
+                    print_r($html, true)
+                ));
+            }
+        }
+
         foreach ($htmlCollection as $key => $html) {
             foreach ($this->purifiers as $purifier) {
                 $html = $purifier->purify($html);

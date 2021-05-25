@@ -161,7 +161,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
                     false,
                     true,
                     $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
-                    ) . " - ");
+                ) . " - ");
             }
             include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
             $tpl->setVariable("TIME_EDITED", ilDatePresentation::formatDate($update_date));

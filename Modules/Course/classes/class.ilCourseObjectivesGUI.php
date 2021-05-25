@@ -313,7 +313,7 @@ class ilCourseObjectivesGUI
         }
 
         foreach ($_SESSION['crs_delete_objectives'] as $objective_id) {
-            $objective_obj = &$this->__initObjectivesObject($objective_id);
+            $objective_obj = $this->__initObjectivesObject($objective_id);
             $objective_obj->delete();
         }
 
@@ -413,7 +413,7 @@ class ilCourseObjectivesGUI
     // PRIVATE
     public function __initCourseObject()
     {
-        if (!$this->course_obj = &ilObjectFactory::getInstanceByRefId($this->course_id, false)) {
+        if (!$this->course_obj = ilObjectFactory::getInstanceByRefId($this->course_id, false)) {
             $this->ilErr->raiseError("ilCourseObjectivesGUI: cannot create course object", $this->ilErr->MESSAGE);
             exit;
         }

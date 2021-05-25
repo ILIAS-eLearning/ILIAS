@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_WIKI_ALL_PAGES", "all");
 define("IL_WIKI_NEW_PAGES", "new");
@@ -11,13 +9,10 @@ define("IL_WIKI_WHAT_LINKS_HERE", "what_links");
 define("IL_WIKI_ORPHANED_PAGES", "orphaned");
 
 /**
-* TableGUI class for wiki pages table
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWiki
-*/
+ * TableGUI class for wiki pages table
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
     public function __construct(
@@ -102,8 +97,6 @@ class ilWikiPagesTableGUI extends ilTable2GUI
     */
     public function getPages()
     {
-        include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-        
         $pages = array();
         $this->setDefaultOrderField("title");
 
@@ -135,7 +128,6 @@ class ilWikiPagesTableGUI extends ilTable2GUI
                 
         if ($pages) {
             // enable sorting
-            include_once("./Services/User/classes/class.ilUserUtil.php");
             foreach (array_keys($pages) as $idx) {
                 $pages[$idx]["user_sort"] = ilUserUtil::getNamePresentation($pages[$idx]["user"], false, false);
             }
@@ -183,7 +175,6 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         );
 
         // user name
-        include_once("./Services/User/classes/class.ilUserUtil.php");
         $this->tpl->setVariable(
             "TXT_USER",
             ilUserUtil::getNamePresentation(

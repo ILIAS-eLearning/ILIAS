@@ -14,16 +14,16 @@ class arHavingCollection extends arStatementCollection
     /**
      * @return string
      */
-    public function asSQLStatement()
+    public function asSQLStatement() : string
     {
         $return = '';
         if ($this->hasStatements()) {
             $return .= ' HAVING ';
-            $wheres = $this->getHavings();
-            $last = end($wheres);
-            foreach ($wheres as $arWhere) {
+            $havings = $this->getHavings();
+            $last = end($havings);
+            foreach ($havings as $arWhere) {
                 $return .= $arWhere->asSQLStatement($this->getAr());
-                if ($arWhere != $last) {
+                if ($arWhere !== $last) {
                     $return .= ' ' . $arWhere->getGlue() . ' ';
                 }
             }
@@ -32,11 +32,10 @@ class arHavingCollection extends arStatementCollection
         return $return;
     }
 
-
     /**
      * @return arHaving[]
      */
-    public function getHavings()
+    public function getHavings() : array
     {
         return $this->statements;
     }

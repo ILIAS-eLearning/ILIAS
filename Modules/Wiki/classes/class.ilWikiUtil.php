@@ -1,32 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Wiki link / page title handling:
-*
-* Media wiki uses the following fields for page titles/links (see Title.php):
-*
-* $mDbkeyform = $dbkey;				($dbkey includes "_" for " ")
-* $mUrlform = ilWikiUtil::wfUrlencode($dbkey);
-* $mTextform = str_replace('_', ' ', $dbkey);
-*
-* ILIAS uses the ilWikiUtil::makeDbTitle($mTextform) (including " ") as key in the database table and
-* the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
-*
-*/
+ * Wiki link / page title handling:
+ *
+ * Media wiki uses the following fields for page titles/links (see Title.php):
+ *
+ * $mDbkeyform = $dbkey;				($dbkey includes "_" for " ")
+ * $mUrlform = ilWikiUtil::wfUrlencode($dbkey);
+ * $mTextform = str_replace('_', ' ', $dbkey);
+ *
+ * ILIAS uses the ilWikiUtil::makeDbTitle($mTextform) (including " ") as key in the database table and
+ * the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
+ *
+ */
 define("IL_WIKI_MODE_REPLACE", "replace");
 define("IL_WIKI_MODE_COLLECT", "collect");
 define("IL_WIKI_MODE_EXT_COLLECT", "ext_collect");
 
 /**
-* Utility class for wiki.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWiki
-*/
+ * Utility class for wiki.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilWikiUtil
 {
 
@@ -85,7 +82,6 @@ class ilWikiUtil
         $wgLegalTitleChars = " %!\"$&'()*,\\-.\\/0-9:;=?@A-Z\\\\^_`a-z~\\x80-\\xFF+";
 
         // Adapter for media wiki classes
-        include_once("./Modules/Wiki/classes/class.ilMediaWikiAdapter.php");
         $GLOBALS["wgContLang"] = new ilMediaWikiAdapter();
         $GLOBALS["wgInterWikiCache"] = false;
         
@@ -202,164 +198,19 @@ class ilWikiUtil
             //			wfProfileOut( "$fname-misc" );
             //			wfProfileIn( "$fname-title" );
 
-            // todo
-            include_once("./Modules/Wiki/mediawiki/Title.php");
-            include_once("./Services/Utilities/classes/Sanitizer.php");
-            //$nt = Title::newFromText( $this->mStripState->unstripNoWiki($link) );
-            
             // todo: check step by step
-            //echo "<br>".htmlentities($link)."---";
             $nt = Title::newFromText($link);
 
             if (!$nt) {
                 $s .= $prefix . '[[' . $line;
-                //wfProfileOut( "$fname-title" );
                 continue;
             }
-
-            /*			$ns = $nt->getNamespace();
-                        $iw = $nt->getInterWiki();
-                        wfProfileOut( "$fname-title" );
-
-            /*			if ($might_be_img) { # if this is actually an invalid link
-                            wfProfileIn( "$fname-might_be_img" );
-                            if ($ns == NS_IMAGE && $noforce) { #but might be an image
-                                $found = false;
-                                while (isset ($a[$k+1]) ) {
-                                    #look at the next 'line' to see if we can close it there
-                                    $spliced = array_splice( $a, $k + 1, 1 );
-                                    $next_line = array_shift( $spliced );
-                                    $m = explode( ']]', $next_line, 3 );
-                                    if ( count( $m ) == 3 ) {
-                                        # the first ]] closes the inner link, the second the image
-                                        $found = true;
-                                        $text .= "[[{$m[0]}]]{$m[1]}";
-                                        $trail = $m[2];
-                                        break;
-                                    } elseif ( count( $m ) == 2 ) {
-                                        #if there's exactly one ]] that's fine, we'll keep looking
-                                        $text .= "[[{$m[0]}]]{$m[1]}";
-                                    } else {
-                                        #if $next_line is invalid too, we need look no further
-                                        $text .= '[[' . $next_line;
-                                        break;
-                                    }
-                                }
-                                if ( !$found ) {
-                                    # we couldn't find the end of this imageLink, so output it raw
-                                    #but don't ignore what might be perfectly normal links in the text we've examined
-                                    $text = $this->replaceInternalLinks($text);
-                                    $s .= "{$prefix}[[$link|$text";
-                                    # note: no $trail, because without an end, there *is* no trail
-                                    wfProfileOut( "$fname-might_be_img" );
-                                    continue;
-                                }
-                            } else { #it's not an image, so output it raw
-                                $s .= "{$prefix}[[$link|$text";
-                                # note: no $trail, because without an end, there *is* no trail
-                                wfProfileOut( "$fname-might_be_img" );
-                                continue;
-                            }
-                            wfProfileOut( "$fname-might_be_img" );
-                        }
-            */
 
             $wasblank = ('' == $text);
             if ($wasblank) {
                 $text = $link;
             }
 
-            # Link not escaped by : , create the various objects
-            if ($noforce) {
-                # Interwikis
-                /*wfProfileIn( "$fname-interwiki" );
-                if( $iw && $this->mOptions->getInterwikiMagic() && $nottalk && $wgContLang->getLanguageName( $iw ) ) {
-                    $this->mOutput->addLanguageLink( $nt->getFullText() );
-                    $s = rtrim($s . $prefix);
-                    $s .= trim($trail, "\n") == '' ? '': $prefix . $trail;
-                    wfProfileOut( "$fname-interwiki" );
-                    continue;
-                }
-                wfProfileOut( "$fname-interwiki" );*/
-
-/*				if ( $ns == NS_IMAGE ) {
-                    wfProfileIn( "$fname-image" );
-                    if ( !wfIsBadImage( $nt->getDBkey(), $this->mTitle ) ) {
-                        # recursively parse links inside the image caption
-                        # actually, this will parse them in any other parameters, too,
-                        # but it might be hard to fix that, and it doesn't matter ATM
-                        $text = $this->replaceExternalLinks($text);
-                        $text = $this->replaceInternalLinks($text);
-
-                        # cloak any absolute URLs inside the image markup, so replaceExternalLinks() won't touch them
-                        $s .= $prefix . $this->armorLinks( $this->makeImage( $nt, $text ) ) . $trail;
-                        $this->mOutput->addImage( $nt->getDBkey() );
-
-                        wfProfileOut( "$fname-image" );
-                        continue;
-                    } else {
-                        # We still need to record the image's presence on the page
-                        $this->mOutput->addImage( $nt->getDBkey() );
-                    }
-                    wfProfileOut( "$fname-image" );
-
-                }
-*/
-/*				if ( $ns == NS_CATEGORY ) {
-                    wfProfileIn( "$fname-category" );
-                    $s = rtrim($s . "\n"); # bug 87
-
-                    if ( $wasblank ) {
-                        $sortkey = $this->getDefaultSort();
-                    } else {
-                        $sortkey = $text;
-                    }
-                    $sortkey = Sanitizer::decodeCharReferences( $sortkey );
-                    $sortkey = str_replace( "\n", '', $sortkey );
-                    $sortkey = $wgContLang->convertCategoryKey( $sortkey );
-                    $this->mOutput->addCategory( $nt->getDBkey(), $sortkey );
-*/
-                    /**
-                     * Strip the whitespace Category links produce, see bug 87
-                     * @todo We might want to use trim($tmp, "\n") here.
-                     */
-//					$s .= trim($prefix . $trail, "\n") == '' ? '': $prefix . $trail;
-
-//					wfProfileOut( "$fname-category" );
-//					continue;
-//				}
-            }
-
-            # Self-link checking
-            /*			if( $nt->getFragment() === '' ) {
-                            if( in_array( $nt->getPrefixedText(), $selflink, true ) ) {
-                                $s .= $prefix . $sk->makeSelfLinkObj( $nt, $text, '', $trail );
-                                continue;
-                            }
-                        }*/
-
-            # Special and Media are pseudo-namespaces; no pages actually exist in them
-            /*			if( $ns == NS_MEDIA ) {
-                            $link = $sk->makeMediaLinkObj( $nt, $text );
-                            # Cloak with NOPARSE to avoid replacement in replaceExternalLinks
-                            $s .= $prefix . $this->armorLinks( $link ) . $trail;
-                            $this->mOutput->addImage( $nt->getDBkey() );
-                            continue;
-                        } elseif( $ns == NS_SPECIAL ) {
-                            $s .= $this->makeKnownLinkHolder( $nt, $text, '', $trail, $prefix );
-                            continue;
-                        } elseif( $ns == NS_IMAGE ) {
-                            $img = new Image( $nt );
-                            if( $img->exists() ) {
-                                // Force a blue link if the file exists; may be a remote
-                                // upload on the shared repository, and we want to see its
-                                // auto-generated page.
-                                $s .= $this->makeKnownLinkHolder( $nt, $text, '', $trail, $prefix );
-                                $this->mOutput->addLink( $nt );
-                                continue;
-                            }
-                        }*/
-            
             // Media wiki performs an intermediate step here (Parser->makeLinkHolder)
             if ($a_mode == IL_WIKI_MODE_REPLACE) {
                 $s .= ilWikiUtil::makeLink(
@@ -371,7 +222,6 @@ class ilWikiUtil
                     $prefix,
                     $a_offline
                 );
-                //echo "<br>-".htmlentities($s)."-";
             }
             if ($a_mode == IL_WIKI_MODE_EXT_COLLECT) {
                 if (is_object($nt)) {
@@ -383,11 +233,8 @@ class ilWikiUtil
                         "url_title" => $url_title);
                 }
             } else {
-                $url_title = ilWikiUtil::makeUrlTitle($nt->mTextform);
                 $db_title = ilWikiUtil::makeDbTitle($nt->mTextform);
 
-                //$s .= ilWikiUtil::makeLink($nt, $a_wiki_id, $text, '', $trail, $prefix);
-                include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                 if ((ilWikiPage::_wikiPageExists($a_wiki_id, $db_title) ||
                     $a_collect_non_ex)
                 &&
@@ -618,10 +465,6 @@ class ilWikiUtil
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
 
-        include_once "./Services/Notification/classes/class.ilNotification.php";
-        include_once "./Modules/Wiki/classes/class.ilObjWiki.php";
-        include_once "./Modules/Wiki/classes/class.ilWikiPage.php";
-        
         $wiki_id = $ilObjDataCache->lookupObjId($a_wiki_ref_id);
         $wiki = new ilObjWiki($a_wiki_ref_id, true);
         $page = new ilWikiPage($a_page_id);
@@ -653,7 +496,6 @@ class ilWikiUtil
         ilNotification::updateNotificationTime(ilNotification::TYPE_WIKI, $wiki_id, $users, $a_page_id);
         
         // #15192 - should always be present
-        include_once "./Services/Link/classes/class.ilLink.php";
         if ($a_page_id) {
             // #18804 - see ilWikiPageGUI::preview()
             $link = ilLink::_getLink("", "wiki", null, "wpage_" . $a_page_id . "_" . $a_wiki_ref_id);
@@ -661,16 +503,6 @@ class ilWikiUtil
             $link = ilLink::_getLink($a_wiki_ref_id);
         }
 
-        include_once "./Services/Mail/classes/class.ilMail.php";
-        include_once "./Services/User/classes/class.ilObjUser.php";
-        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-        include_once("./Services/User/classes/class.ilUserUtil.php");
-                
-        
-        // see ilBlogPostingGUI::getSnippet()
-        // see ilBlogPosting::getNotificationAbstract()
-
-        include_once "Modules/Wiki/classes/class.ilWikiPageGUI.php";
         $pgui = new ilWikiPageGUI($page->getId());
         $pgui->setRawPageContent(true);
         $pgui->setAbstractOnly(true);

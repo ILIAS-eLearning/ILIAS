@@ -21,19 +21,19 @@
  */
 class ilSkillUsage implements ilSkillUsageInfo
 {
-    const TYPE_GENERAL = "gen";
-    const USER_ASSIGNED = "user";
-    const PERSONAL_SKILL = "pers";
-    const USER_MATERIAL = "mat";
-    const SELF_EVAL = "seval";
-    const PROFILE = "prof";
-    const RESOURCE = "res";
+    public const TYPE_GENERAL = "gen";
+    public const USER_ASSIGNED = "user";
+    public const PERSONAL_SKILL = "pers";
+    public const USER_MATERIAL = "mat";
+    public const SELF_EVAL = "seval";
+    public const PROFILE = "prof";
+    public const RESOURCE = "res";
     
-    // these classes implement the ilSkillUsageInfo interface
-    // currently this array is ok, we do not need any subscription model here
-    /*protected $classes = array("ilBasicSkill", "ilPersonalSkill",
-        "ilSkillSelfEvaluation", "ilSkillProfile", "ilSkillResources", "ilSkillUsage");*/
-    protected $classes = array("ilBasicSkill", "ilPersonalSkill", "ilSkillProfile",  "ilSkillResources", "ilSkillUsage");
+    /**
+     * @var ilSkillUsageInfo[]
+     */
+    protected $classes = [ilBasicSkill::class, ilPersonalSkill::class, ilSkillProfile::class,
+                          ilSkillResources::class, ilSkillUsage::class];
     
     /**
      * Set usage
@@ -58,14 +58,14 @@ class ilSkillUsage implements ilSkillUsageInfo
                     "tref_id" => array("integer", $a_tref_id)
                     ),
                 array()
-                );
+            );
         } else {
             $ilDB->manipulate(
                 $q = "DELETE FROM skl_usage WHERE " .
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
                 " AND skill_id = " . $ilDB->quote($a_skill_id, "integer") .
                 " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
-                );
+            );
             //echo $q; exit;
         }
     }
@@ -87,7 +87,7 @@ class ilSkillUsage implements ilSkillUsageInfo
             "SELECT obj_id FROM skl_usage " .
             " WHERE skill_id = " . $ilDB->quote($a_skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
-            );
+        );
         $obj_ids = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $obj_ids[] = $rec["obj_id"];
@@ -268,21 +268,19 @@ class ilSkillUsage implements ilSkillUsageInfo
             case self::TYPE_GENERAL:
             case self::RESOURCE:
                 return $lng->txt("skmg_usage_obj_objects");
-                break;
             
             case self::USER_ASSIGNED:
             case self::PERSONAL_SKILL:
             case self::USER_MATERIAL:
             case self::SELF_EVAL:
                 return $lng->txt("skmg_usage_obj_users");
-                break;
 
             case self::PROFILE:
                 return $lng->txt("skmg_usage_obj_profiles");
-                break;
+
+            default:
+                return $lng->txt("skmg_usage_type_info_" . $a_type);
         }
-        
-        return $lng->txt("skmg_usage_type_info_" . $a_type);
     }
 
     /**
@@ -306,6 +304,7 @@ class ilSkillUsage implements ilSkillUsageInfo
     {
         $usages = $this->getAllUsagesOfTemplate($a_template_id);
         $obj_usages = array_column($usages, "gen");
+        $objects = [];
         foreach ($obj_usages as $obj) {
             $objects["objects"] = array_column($obj, "key");
         }

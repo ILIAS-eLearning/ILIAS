@@ -77,7 +77,7 @@ class ilExcAssMemberStateRepository
 			GROUP BY (ass.id)',
             array("text","integer"),
             array("notgraded", 1)
-            );
+        );
         $open_gradings = [];
         while ($rec = $db->fetchAssoc($set)) {
             $open_gradings[$rec["id"]] = $rec["open_grading"];

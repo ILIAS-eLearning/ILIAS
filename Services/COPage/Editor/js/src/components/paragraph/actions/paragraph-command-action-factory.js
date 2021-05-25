@@ -29,12 +29,13 @@ export default class ParagraphCommandActionFactory {
    * @param characteristic
    * @return {CommandAction}
    */
-  insert(after_pcid, pcid, content, characteristic) {
+  insert(after_pcid, pcid, content, characteristic, fromPlaceholder) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.INSERT, {
       after_pcid: after_pcid,
       pcid: pcid,
       content: content,
-      characteristic: characteristic
+      characteristic: characteristic,
+      fromPlaceholder: fromPlaceholder
     });
   }
 
@@ -71,14 +72,16 @@ export default class ParagraphCommandActionFactory {
    * @param pcid
    * @param content
    * @param characteristic
+   * @param fromPlaceholder
    * @return {CommandAction}
    */
-  autoInsert(after_pcid, pcid, content, characteristic) {
+  autoInsert(after_pcid, pcid, content, characteristic, fromPlaceholder) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.INSERT_AUTO, {
       after_pcid: after_pcid,
       pcid: pcid,
       content: content,
-      characteristic: characteristic
+      characteristic: characteristic,
+      fromPlaceholder: fromPlaceholder
     });
   }
 
@@ -92,14 +95,15 @@ export default class ParagraphCommandActionFactory {
    * @param newParagraphs
    * @return {CommandAction}
    */
-  split(insertMode, after_pcid, pcid, text, characteristic, newParagraphs) {
+  split(insertMode, after_pcid, pcid, text, characteristic, newParagraphs, fromPlaceholder) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.SPLIT, {
       insert_mode: insertMode,
       after_pcid: after_pcid,
       pcid: pcid,
       text: text,
       characteristic: characteristic,
-      new_paragraphs: newParagraphs
+      new_paragraphs: newParagraphs,
+      fromPlaceholder: fromPlaceholder
     });
   }
 
@@ -152,6 +156,16 @@ export default class ParagraphCommandActionFactory {
       removeSectionFromPcid: removeSectionFromPcid,
       paragraphText: paragraphText,
       paragraphCharacteristic: paragraphCharacteristic
+    });
+  }
+
+  /**
+   * @param pcid
+   * @return {CommandAction}
+   */
+  delete(pcid) {
+    return this.clientActionFactory.command(this.COMPONENT, ACTIONS.DELETE, {
+      pcid: pcid
     });
   }
 

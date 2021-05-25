@@ -32,7 +32,7 @@ abstract class ilMailBaseTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = function ($c) use ($name) {
+        $DIC[$name] = static function (Container $c) use ($name) {
             return $GLOBALS[$name];
         };
     }

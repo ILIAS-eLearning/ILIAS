@@ -13,9 +13,11 @@ export default class PageModifier {
   //pageUI = null;
 
   /**
+   * @param {ToolSlate} toolSlate
    */
-  constructor() {
+  constructor(toolSlate) {
     this.pageUI = null;
+    this.toolSlate = toolSlate;
   }
 
   setPageUI(pageUI) {
@@ -63,6 +65,22 @@ export default class PageModifier {
     const next = el.nextSibling;
     el.parentNode.removeChild(el);
     next.parentNode.removeChild(next);
+  }
+
+  hideComponent(pcid) {
+    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const el = document.querySelector(pcSelector).parentNode;
+    const next = el.nextSibling;
+    el.style.display = 'none';
+    next.style.display = 'none';
+  }
+
+  showComponent(pcid) {
+    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const el = document.querySelector(pcSelector).parentNode;
+    const next = el.nextSibling;
+    el.style.display = '';
+    next.style.display = '';
   }
 
   cut(items) {
@@ -118,8 +136,14 @@ export default class PageModifier {
       }
     );
 
-    const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
-    b.addEventListener("click", onclick);
+    if (button_txt) {
+      const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
+      b.addEventListener("click", onclick);
+    } else {
+      document.querySelectorAll("#il-copg-ed-modal .modal-footer").forEach((b) => {
+        b.remove();
+      });
+    }
   }
 
   hideCurrentModal() {
@@ -145,5 +169,24 @@ export default class PageModifier {
 
   redirect(url) {
     window.location.replace(url);
+  }
+
+  displayError(error) {
+    const uiModel = this.pageUI.uiModel;
+    this.toolSlate.displayError(uiModel.errorMessage);
+    const pm = this;
+    console.log(document.querySelector("#copg-editor-slate-error ul li a"));
+    document.querySelector("#copg-editor-slate-error ul li a").addEventListener("click", () => {
+      pm.showModal(il.Language.txt("copg_error"), error);
+      let m = document.getElementById("il-copg-ed-modal");
+      m = m.querySelector(".modal-dialog");
+      if (m) {
+        m.style.width = "90%";
+      }
+    });
+  }
+
+  clearError() {
+    this.toolSlate.clearError();
   }
 }

@@ -22,6 +22,11 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
     protected $obj_data_cache;
 
     /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
      * Constructor
      * @param	object	$a_parent_obj
      * @param	string	$a_parent_cmd
@@ -36,9 +41,6 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $this->obj_data_cache = $DIC["ilObjDataCache"];
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
         $this->ref_id = $a_ref_id;

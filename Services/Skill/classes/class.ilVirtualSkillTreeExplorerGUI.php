@@ -19,6 +19,11 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      */
     protected $ctrl;
 
+    /**
+     * @var ilVirtualSkillTree
+     */
+    protected $vtree;
+
     protected $show_draft_nodes = false;
     protected $show_outdated_nodes = false;
     
@@ -42,7 +47,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Set show draft nodes
      *
-     * @param boolean $a_val show draft nodes
+     * @param bool $a_val show draft nodes
      */
     public function setShowDraftNodes($a_val)
     {
@@ -53,7 +58,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Get show draft nodes
      *
-     * @return boolean show draft nodes
+     * @return bool show draft nodes
      */
     public function getShowDraftNodes()
     {
@@ -63,7 +68,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Set show outdated nodes
      *
-     * @param boolean $a_val show outdated notes
+     * @param bool $a_val show outdated notes
      */
     public function setShowOutdatedNodes($a_val)
     {
@@ -74,7 +79,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Get show outdated nodes
      *
-     * @return boolean show outdated notes
+     * @return bool show outdated notes
      */
     public function getShowOutdatedNodes()
     {
@@ -105,9 +110,9 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getDomNodeIdForNodeId($node_id)
+    public function getDomNodeIdForNodeId($a_node_id)
     {
-        return parent::getDomNodeIdForNodeId(str_replace(":", "_", $node_id));
+        return parent::getDomNodeIdForNodeId(str_replace(":", "_", $a_node_id));
     }
 
     /**
@@ -123,12 +128,12 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Get childs of node
      *
-     * @param int $a_parent_id parent id
+     * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_id)
+    public function getChildsOfNode($a_parent_node_id)
     {
-        return $this->vtree->getChildsOfNode($a_parent_id);
+        return $this->vtree->getChildsOfNode($a_parent_node_id);
     }
 
     /**
@@ -151,10 +156,8 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         // root?
         if ($a_node["type"] == "skrt") {
             $lng->txt("skmg_skills");
-        } else {
-            if ($a_node["type"] == "sktr") {
-                //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
-            }
+        } elseif ($a_node["type"] == "sktr") {
+            //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
         }
         
         return $title;

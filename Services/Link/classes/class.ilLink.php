@@ -1,17 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define('IL_INTERNAL_LINK_SCRIPT', 'goto.php');
 
-
 /**
-* Class for creating internal links on e.g repostory items.
-* This class uses goto.php to create permanent links
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * Class for creating internal links on e.g repostory items.
+ * This class uses goto.php to create permanent links
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLink
 {
     public static function _getLink($a_ref_id, $a_type = '', $a_params = array(), $append = "")
@@ -64,7 +62,6 @@ class ilLink
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         
-        include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
         $robot_settings = ilRobotSettings::_getInstance();
         if (!$robot_settings->robotSupportEnabled()) {
             if ($a_fallback_goto) {

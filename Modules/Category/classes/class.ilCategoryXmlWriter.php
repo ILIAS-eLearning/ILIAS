@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class for category export
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilCategoryXmlWriter extends ilXmlWriter
 {
@@ -79,9 +77,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
             }
             $this->buildCategory();
             $this->buildTranslations();
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
             ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->getCategory()->getId());
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_exportContainerSettings($this, $this->category->getId());
             $this->buildFooter();
         }

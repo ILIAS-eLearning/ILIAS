@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/exceptions/class.ilObjectException.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Type mismatch exception
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  */
 class ilObjectTypeMismatchException extends ilObjectException
 {

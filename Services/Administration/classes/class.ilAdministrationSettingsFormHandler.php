@@ -85,7 +85,6 @@ class ilAdministrationSettingsFormHandler
         $class_name = $objDefinition->getClassName($obj_type);
         $class_name = "ilObj" . $class_name . "GUI";
         $class_path = $ilCtrl->lookupClassPath($class_name);
-        
         if (is_subclass_of($class_name, "ilObject2GUI")) {
             $gui_obj = new $class_name($ref_id, ilObject2GUI::REPOSITORY_NODE_ID);
         } else {
@@ -160,11 +159,9 @@ class ilAdministrationSettingsFormHandler
         
         // cron jobs - special handling
                 
-        include_once "Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php";
         $parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
         $parent_gui->setCreationMode(true);
         
-        include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
         $gui = new ilCronManagerGUI();
         $data = $gui->addToExternalSettingsForm($a_form_id);
         if (is_array($data) && sizeof($data)) {

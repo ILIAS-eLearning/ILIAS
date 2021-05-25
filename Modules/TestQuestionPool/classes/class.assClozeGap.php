@@ -91,10 +91,10 @@ class assClozeGap
     /**
      * Gets the items of a cloze gap
      *
-     * @param ilArrayElementShuffler $shuffler
+     * @param ilRandomArrayElementProvider $shuffler
      * @return assAnswerCloze[] The list of items
      */
-    public function getItems(ilArrayElementShuffler $shuffler)
+    public function getItems(ilRandomArrayElementProvider $shuffler)
     {
         if ($this->getShuffle()) {
             return $shuffler->shuffle($this->items);
@@ -340,11 +340,11 @@ class assClozeGap
     }
 
     /**
-     * @param ilArrayElementShuffler $shuffler
+     * @param ilRandomArrayElementProvider $shuffler
      * @param null | array $combinations
      * @return string
      */
-    public function getBestSolutionOutput(ilArrayElementShuffler $shuffler, $combinations = null)
+    public function getBestSolutionOutput(ilRandomArrayElementProvider $shuffler, $combinations = null)
     {
         global $DIC;
         $lng = $DIC['lng'];

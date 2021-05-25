@@ -1,14 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Repository/classes/class.ilRepositoryExplorer.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-/*
-* ilPasteIntoMultipleItemsExplorer Explorer
-*
-* @author Michael Jansen <mjansen@databay.de>
-*
-*/
+/**
+ * ilPasteIntoMultipleItemsExplorer Explorer
+ *
+ * @author Michael Jansen <mjansen@databay.de>
+ *
+ */
 class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
 {
     /**

@@ -43,8 +43,6 @@ il.Tooltip = {
 		var k;
 
 		for (k in this.tooltips) {
-//			this.tooltips[k].tp = new YAHOO.widget.Tooltip("ttip_" + this.tooltips[k].el_id,
-//				this.tooltips[k].cfg);
 			$(this.tooltips[k].el_id).qtip({
 				position: {
 					my: this.tooltips[k].cfg.my,

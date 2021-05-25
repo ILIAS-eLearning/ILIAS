@@ -35,7 +35,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
     /**
      * Add filter
-     * @param ilDidacticTemplateFilterPatter $pattern
+     * @param ilDidacticTemplateFilterPattern $pattern
      */
     public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern)
     {
@@ -143,7 +143,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
     /**
      * delete action filter
-     * @global ilDB $ilDB
      * @return bool
      */
     public function delete()
@@ -343,7 +342,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         parent::__clone();
 
         // Clone patterns
-        $cloned = array();
+        $clones = array();
         foreach ($this->getFilterPattern() as $pattern) {
             $clones[] = clone $pattern;
         }
@@ -374,6 +373,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
+        return true;
     }
 
 
@@ -500,6 +500,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             'WHERE title = ' . $ilDB->quote($rolt_title, 'text') . ' ' .
             'AND type = ' . $ilDB->quote('rolt', 'text');
         $res = $ilDB->query($query);
+        $rolt_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rolt_id = $row->obj_id;
         }
@@ -525,5 +526,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
             array('all')
         );
+        return true;
     }
 }

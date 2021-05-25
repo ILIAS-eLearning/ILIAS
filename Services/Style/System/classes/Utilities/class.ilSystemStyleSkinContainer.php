@@ -290,7 +290,7 @@ class ilSystemStyleSkinContainer
             self::xCopy($absolut_old_dir, $absolut_new_dir);
             $this->getMessageStack()->addMessage(
                 new ilSystemStyleMessage(
-                    $this->lng->txt("dir_copied_from") . " " . $absolut_old_dir . " " . $this->lng->txt("to") . " " . $absolut_new_dir,
+                    $this->lng->txt("dir_copied_from") . " " . $absolut_old_dir . " " . $this->lng->txt("sty_copy_to") . " " . $absolut_new_dir,
                     ilSystemStyleMessage::TYPE_SUCCESS
                 )
             );

@@ -1,13 +1,10 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Access key user interface handling
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAccessibility
  */
 class ilAccessKeyGUI
 {

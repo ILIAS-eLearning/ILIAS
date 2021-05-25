@@ -1,20 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/COPage/classes/class.ilPageContentGUI.php";
-include_once "./Services/COPage/classes/class.ilPCQuestion.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCQuestionGUI
-*
-* Adapter User Interface class for assessment questions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCQuestionGUI
+ *
+ * Adapter User Interface class for assessment questions
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCQuestionGUI extends ilPageContentGUI
 {
     /**
@@ -166,7 +160,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         // get all question types (@todo: we have to check, whether they are
         // suitable for self assessment or not)
-        include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
         $all_types = ilObjQuestionPool::_getSelfAssessmentQuestionTypes();
         $options = array();
         $all_types = ilUtil::sortArray($all_types, "order", "asc", true, true);
@@ -176,7 +169,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
         }
         
         // new table form (input of rows and columns)
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setFormAction($ilCtrl->getFormAction($this));
         $this->form_gui->setTitle($lng->txt("cont_ed_insert_pcqst"));
@@ -189,7 +181,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         // additional content editor
         // assessment
-        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $ri = new ilRadioGroupInputGUI($this->lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
             
@@ -212,31 +203,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $this->form_gui->addItem($hi, true);
         }
 
-        
-        // Select Question Pool
-        /*
-                include_once("./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php");
-                $qpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, false, true, false, "write");
-
-                if (count($qpools) > 0)
-                {
-                    $pool_options = array();
-                    foreach ($qpools as $key => $value)
-                    {
-                        $pool_options[$key] = $value["title"];
-                    }
-                    $pool_input = new ilSelectInputGUI($lng->txt("cont_question_pool"), "qpool_ref_id");
-                    $pool_input->setOptions($pool_options);
-                    $pool_input->setRequired(true);
-                    $this->form_gui->addItem($pool_input);
-                }
-                else
-                {
-                    $pool_input = new ilTextInputGUI($lng->txt("cont_question_pool"), "qpool_title");
-                    $pool_input->setRequired(true);
-                    $this->form_gui->addItem($pool_input);
-                }
-        */
         if ($a_mode == "edit_empty") {
             $this->form_gui->addCommandButton("edit", $lng->txt("save"));
         } else {
@@ -330,21 +296,11 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 return $this->insert("edit_empty");
             }
                         
-            include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
-            include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-            include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-            
-            /*			$ilCtrl->setCmdClass("ilquestioneditgui");
-                        $ilCtrl->setCmd("editQuestion");
-                        $edit_gui = new ilQuestionEditGUI();*/
-            
             // create question first-hand (needed for uploads)
             if ($q_id < 1 && $q_type) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
                 $q_gui = assQuestionGUI::_getQuestionGUI($q_type);
 
                 // feedback editing mode
-                include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
                 if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()
                     && $_REQUEST['add_quest_cont_edit_mode'] != "") {
                     $addContEditMode = $_GET['add_quest_cont_edit_mode'];
@@ -363,16 +319,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $ilCtrl->setParameterByClass("ilQuestionEditGUI", "q_id", $q_id);
             $ilCtrl->redirectByClass(array(get_class($this->pg_obj) . "GUI", "ilQuestionEditGUI"), "editQuestion");
             
-            /*			$edit_gui->setPoolObjId(0);
-                        $edit_gui->setQuestionId($q_id);
-                        $edit_gui->setQuestionType($q_type);
-                        $edit_gui->setSelfAssessmentEditingMode(true);
-                        $edit_gui->setPageConfig($this->getPageConfig());
-                        $ret = $ilCtrl->forwardCommand($edit_gui);
-                        $this->tpl->setContent($ret);*/
             return $ret;
         } else {	// behaviour in question pool
-            require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
             $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
             $this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
         }
@@ -382,9 +330,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
-        
-        include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         
         $ilTabs->setTabActive('feedback');
         
@@ -422,7 +367,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
     {
         $tree = $this->tree;
         $parent_ref = $tree->getParentId($_GET["ref_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         $qpl = new ilObjQuestionPool();
         $qpl->setType("qpl");
         $qpl->setTitle($name);
@@ -447,9 +391,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-        
+
         if ($this->content_obj != "") {
             $q_ref = $this->content_obj->getQuestionReference();
         }
@@ -475,8 +417,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         if ($q_id > 0) {
             if (assQuestion::_getQuestionType($q_id) != "assTextQuestion") {
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
                 $tabLink = ilUtil::appendUrlParameterString(
                     $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),
@@ -521,13 +461,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
     public function poolSelection()
     {
         $ilCtrl = $this->ctrl;
-        $tree = $this->tree;
         $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
 
         $this->setInsertTabs("copy_question");
-
-        include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
 
         $ilCtrl->setParameter($this, "subCmd", "poolSelection");
         $exp = new ilPoolSelectorGUI($this, "insert");
@@ -577,8 +513,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
 
         $this->setInsertTabs("copy_question");
 
-        include_once "./Services/COPage/classes/class.ilCopySelfAssQuestionTableGUI.php";
-        
         $ilCtrl->setParameter($this, "subCmd", "listPoolQuestions");
         $table_gui = new ilCopySelfAssQuestionTableGUI(
             $this,

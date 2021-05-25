@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Tree/classes/class.ilTree.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Tree handler for personal workspace
@@ -153,7 +151,6 @@ class ilWorkspaceTree extends ilTree
         
         $root = $this->getNodeData($root_id);
         
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
         $access_handler = new ilWorkspaceAccessHandler($this);
         
         // delete node data

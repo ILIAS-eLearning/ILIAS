@@ -418,8 +418,20 @@ class ilForum
      * @param int    $send_activation_mail
      * @return int   new post_id
      */
-    public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
-    {
+    public function generatePost(
+        $forum_id,
+        $thread_id,
+        $author_id,
+        $display_user_id,
+        $message,
+        $parent_pos,
+        $notify,
+        $subject = '',
+        $alias = '',
+        $date = '',
+        $status = 1,
+        $send_activation_mail = 0
+    ) {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
         $objNewPost->setThreadId($thread_id);
@@ -581,6 +593,8 @@ class ilForum
             $status,
             0
         );
+
+        return $rootNodeId;
     }
 
     /**
@@ -914,7 +928,7 @@ class ilForum
 					WHERE pos_pk = %s',
                     array('integer'),
                     array($del_id[$i])
-                 );
+                );
                 
                 // delete related news item
                 $news_id = ilNewsItem::getFirstNewsIdForContext(
@@ -994,7 +1008,7 @@ class ilForum
 			WHERE top_frm_fk = %s',
             array('integer', 'integer'),
             array($dead_pos, $this->id)
-         );
+        );
         
         // get latest post of forum and update last_post
         $res2 = $this->db->queryf(

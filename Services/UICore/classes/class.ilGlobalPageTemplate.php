@@ -67,6 +67,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         if (defined("ILIAS_HTTP_PATH")) {
             $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
         }
+        $this->gs->layout()->meta()->setTextDirection($this->lng->getTextDirection());
     }
 
 
@@ -110,6 +111,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+
+        // save language usages as late as possible
+        \ilObjLanguageAccess::_saveUsages();
 
         // see #26968
         $this->handleReferer();

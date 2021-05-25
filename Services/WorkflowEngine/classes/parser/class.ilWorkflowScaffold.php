@@ -221,7 +221,10 @@ class ilWorkflowScaffold
         $content = '';
         foreach ((array) $this->bpmn2_array['children'] as $elements) {
             foreach ((array) $elements['children'] as $element) {
-                if ($element['name'] == 'startEvent' && @$element['children'][0]['name'] == 'timerEventDefinition') {
+                if (
+                    isset($element['name']) && $element['name'] == 'startEvent' &&
+                    isset($element['children'][0]['name']) && $element['children'][0]['name'] == 'timerEventDefinition'
+                ) {
                     $timer_element = $element['children'][0];
                     $content = $timer_element['children'][0]['content'];
                 }

@@ -1,21 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCContentTemplate.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPCContentTemplateGUI
  *
  * User Interface for inserting content templates
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilPCContentTemplateGUI: ilPageEditorGUI
- *
- * @ingroup ServicesCOPage
  */
 class ilPCContentTemplateGUI extends ilPageContentGUI
 {
@@ -74,7 +67,6 @@ class ilPCContentTemplateGUI extends ilPageContentGUI
         $lng = $this->lng;
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_ed_insert_templ"));

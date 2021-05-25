@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
@@ -14,12 +12,9 @@ use ILIAS\Setup\CLI\StatusCommand;
  * Class ilObjSystemFolderGUI
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * $Id$
  *
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilPermissionGUI, ilImprintGUI
  * @ilCtrl_Calls ilObjSystemFolderGUI: ilObjectOwnershipManagementGUI, ilCronManagerGUI
- *
- * @extends ilObjectGUI
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
@@ -115,7 +110,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         switch ($next_class) {
             case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -127,8 +121,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "")
                 );
-            
-                include_once("./Services/Imprint/classes/class.ilImprintGUI.php");
+
                 $igui = new ilImprintGUI();
                                 
                 // needed for editor
@@ -146,14 +139,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 
             case "ilobjectownershipmanagementgui":
                 $this->setSystemCheckSubTabs("no_owner");
-                include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
                 $gui = new ilObjectOwnershipManagementGUI(0);
                 $this->ctrl->forwardCommand($gui);
                 break;
             
             case "ilcronmanagergui":
                 $ilTabs->activateTab("cron_jobs");
-                include_once("Services/Cron/classes/class.ilCronManagerGUI.php");
                 $gui = new ilCronManagerGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -232,7 +223,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
-        //echo "1";
 
         if ($_POST['count_limit'] !== null || $_POST['age_limit'] !== null || $_POST['type_limit'] !== null) {
             $ilUser->writePref(
@@ -247,12 +237,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
 
         if ($_POST["mode"]) {
-            //echo "3";
             $this->writeCheckParams();
             $this->startValidator($_POST["mode"], $_POST["log_scan"]);
         } else {
-            //echo "4";
-            include_once "./Services/Repository/classes/class.ilValidator.php";
             $validator = new ilValidator();
             $hasScanLog = $validator->hasScanLog();
 
@@ -361,15 +348,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                     $ts,
                     false,
                     true
-                    )
+                )
             );
             $this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
             $this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));
             $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("start_scan"));
 
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save_params_for_cron"));
-            
-            include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
             
             $cron_form = new ilPropertyFormGUI();
             $cron_form->setFormAction($this->ctrl->getFormAction($this));
@@ -401,7 +386,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     
     private function writeCheckParams()
     {
-        include_once "./Services/Repository/classes/class.ilValidator.php";
         $validator = new ilValidator();
         $modes = $validator->getPossibleModes();
         
@@ -519,8 +503,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                 "Services/MetaData"
             );
             $this->tpl->setVariable("SEL_NAME", "Fobject[" . $key . "][lang]");
-
-            include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
 
             $languages = ilMDLanguageItem::_getLanguages();
 
@@ -665,7 +647,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         }
 
         $logging = ($a_log) ? true : false;
-        include_once "./Services/Repository/classes/class.ilValidator.php";
         $validator = new ilValidator($logging);
         $validator->setMode("all", false);
 
@@ -704,7 +685,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
     public function viewScanLog()
     {
-        include_once "./Services/Repository/classes/class.ilValidator.php";
         $validator = new IlValidator();
         $scan_log = &$validator->readScanLog();
 
@@ -747,7 +727,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->benchmarkSubTabs("settings");
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // Activate DB Benchmark
@@ -818,7 +797,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilBench = $this->bench;
         $rec = $ilBench->getDbBenchRecords();
 
-        include_once("./Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php");
         $table = new ilBenchmarkTableGUI($this, "benchmark", $rec, $a_mode);
         $tpl->setContent($table->getHTML());
     }
@@ -1020,9 +998,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
-        $lng = $this->lng;
 
-        require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $button = ilLinkButton::getInstance();
         $button->setCaption('vc_information');
         $button->setUrl($this->ctrl->getLinkTarget($this, 'showVcsInformation'));
@@ -1050,7 +1026,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilClientIniFile = $this->client_ini;
         $ilSetting = $this->settings;
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         
         // installation name
@@ -1237,7 +1212,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilSetting = $this->settings;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $lng->loadLanguageModule("pd");
         
@@ -1274,7 +1248,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $cb->addSubItem($cb_prop);
 
         // search engine
-        include_once('Services/PrivacySecurity/classes/class.ilRobotSettings.php');
         $robot_settings = ilRobotSettings::_getInstance();
         $cb2 = new ilCheckboxInputGUI($this->lng->txt("search_engine"), "open_google");
         $cb2->setInfo($this->lng->txt("enable_search_engine"));
@@ -1324,7 +1297,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->initBasicSettingsForm();
         if ($this->form->checkInput()) {
-            $ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
+            $ilSetting->set("short_inst_name", $this->form->getInput("short_inst_name"));
             
             $public_section = ilPublicSectionSettings::getInstance();
             $public_section->setEnabled($this->form->getInput('pub_section'));
@@ -1338,13 +1311,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $public_section->setDomains($domains);
             $public_section->save();
             
-            $global_profiles = ($_POST["pub_section"])
-                ? (int) $_POST['enable_global_profiles']
+            $global_profiles = ($this->form->getInput("pub_section"))
+                ? (int) $this->form->getInput('enable_global_profiles')
                 : 0;
             $ilSetting->set('enable_global_profiles', $global_profiles);
                                 
-            $ilSetting->set("open_google", $_POST["open_google"]);
-            $ilSetting->set("locale", $_POST["locale"]);
+            $ilSetting->set("open_google", $this->form->getInput("open_google"));
+            $ilSetting->set("locale", $this->form->getInput("locale"));
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showBasicSettings");
@@ -1368,20 +1341,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $tpl = $this->tpl;
         
         $this->setGeneralSettingsSubTabs("header_title");
-        include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
         $table = new ilObjectTranslationTableGUI($this, "showHeaderTitle", false);
         if ($a_get_post_values) {
             $vals = array();
             foreach ($_POST["title"] as $k => $v) {
+                $def = $_POST["default"] ?? "";
                 $vals[] = array("title" => $v,
-                    "desc" => $_POST["desc"][$k],
-                    "lang" => $_POST["lang"][$k],
-                    "default" => ($_POST["default"] == $k));
+                    "desc" => ($_POST["desc"][$k] ?? ""),
+                    "lang" => ($_POST["lang"][$k] ?? ""),
+                    "default" => ($def == $k));
             }
             $table->setData($vals);
         } else {
             $data = $this->object->getHeaderTitleTranslations();
-            if (is_array($data["Fobject"])) {
+            if (isset($data["Fobject"]) && is_array($data["Fobject"])) {
                 foreach ($data["Fobject"] as $k => $v) {
                     if ($k == $data["default_language"]) {
                         $data["Fobject"][$k]["default"] = true;
@@ -1434,9 +1407,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // save the stuff
         $this->object->removeHeaderTitleTranslations();
         foreach ($_POST["title"] as $k => $v) {
+            $desc = $_POST["desc"][$k] ?? "";
             $this->object->addHeaderTitleTranslation(
                 ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($_POST["desc"][$k]),
+                ilUtil::stripSlashes($desc),
                 ilUtil::stripSlashes($_POST["lang"][$k]),
                 ($_POST["default"] == $k)
             );
@@ -1451,14 +1425,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     */
     public function addHeaderTitleObject()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $k => $v) {
-            }
+        $k = 1;
+        if (isset($_POST["title"]) && is_array($_POST["title"])) {
+            $k = count($_POST["title"]) + 1;
         }
-        $k++;
         $_POST["title"][$k] = "";
         $this->showHeaderTitleObject(true);
     }
@@ -1539,7 +1509,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilSetting = $this->settings;
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
     
         // first name
@@ -1620,7 +1589,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->form->addItem($ti);
         
         // email
-        $ti = new ilEmailInputGUI($this->lng->txt("email"), "admin_email");
+        $ti = new ilEMailInputGUI($this->lng->txt("email"), "admin_email");
         $ti->setMaxLength(64);
         $ti->setSize(40);
         $ti->setRequired(true);
@@ -1628,22 +1597,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setValue($ilSetting->get("admin_email"));
         $this->form->addItem($ti);
         
-        // feedback recipient
-        /* currently used in:
-        - footer
-        - terms of service: no document found message
-        */
-        /*$ti = new ilEmailInputGUI($this->lng->txt("feedback_recipient"), "feedback_recipient");
-        $ti->setInfo(sprintf($this->lng->txt("feedback_recipient_info"), $this->lng->txt("contact_sysadmin")));
-        $ti->setMaxLength(64);
-        $ti->setSize(40);
-        $ti->setRequired(true);
-        $ti->allowRFC822(true);
-        $ti->setValue($ilSetting->get("feedback_recipient"));
-        $this->form->addItem($ti);*/
-
         // System support contacts
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
         $ti = new ilTextInputGUI($this->lng->txt("adm_support_contacts"), "adm_support_contacts");
         $ti->setMaxLength(500);
         $ti->setValue(ilSystemSupportContacts::getList());
@@ -1659,15 +1613,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
         $this->form->addItem($ti);
 
-        
-        // error recipient
-        /*$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
-        $ti->setMaxLength(64);
-        $ti->setSize(40);
-        $ti->allowRFC822(true);
-        $ti->setValue($ilSetting->get("error_recipient"));
-        $this->form->addItem($ti);*/
-        
         $this->form->addCommandButton("saveContactInformation", $lng->txt("save"));
                     
         $this->form->setTitle($lng->txt("contact_data"));
@@ -1701,7 +1646,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             }
 
             // System support contacts
-            include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
             ilSystemSupportContacts::setList($_POST["adm_support_contacts"]);
 
             // Accessibility support contacts
@@ -1756,7 +1700,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilSetting = $this->settings;
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         
         // pdf fonts
@@ -1814,7 +1757,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_SECURITY:
 
-                include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
                 $security = ilSecuritySettings::_getInstance();
 
                 $subitems = null;

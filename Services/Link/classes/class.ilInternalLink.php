@@ -1,16 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilInternalLink
-*
-* Some methods to handle internal links
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilInternalLink
+ *
+ * Some methods to handle internal links
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilInternalLink
 {
     /**
@@ -170,7 +168,6 @@ class ilInternalLink
      */
     public static function _getIdForImportId($a_type, $a_target)
     {
-        include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
         switch ($a_type) {
             case "PageObject":
                 $id = ilLMObject::_getIdForImportId($a_target);
@@ -268,7 +265,6 @@ class ilInternalLink
         switch ($a_type) {
             case "PageObject":
             case "StructureObject":
-                include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 return ilLMObject::_exists($a_target);
                 break;
 
@@ -277,12 +273,10 @@ class ilInternalLink
                 break;
 
             case "MediaObject":
-                include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 return ilObjMediaObject::_exists($a_target);
                 break;
                 
             case "WikiPage":
-                include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                 return ilWikiPage::_exists("wiki", (int) $a_target);
                 break;
                 
@@ -385,10 +379,8 @@ class ilInternalLink
         $result->filter(ROOT_FOLDER_ID, true);
 
         // Filter users (depends on setting in user accounts)
-        include_once 'Services/User/classes/class.ilUserFilter.php';
         $users = ilUserFilter::getInstance()->filter($result->getResultIds());
 
-        include_once("./Services/User/classes/class.ilObjUser.php");
         $p = ilObjUser::getProfileStatusOfUsers($users);
 
         $users = array_intersect($users, $p["public"]);

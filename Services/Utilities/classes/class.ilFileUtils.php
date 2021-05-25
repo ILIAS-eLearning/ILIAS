@@ -1,28 +1,6 @@
 <?php
-/*
-+-----------------------------------------------------------------------------+
-| ILIAS open source                                                           |
-+-----------------------------------------------------------------------------+
-| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-|                                                                             |
-| This program is free software; you can redistribute it and/or               |
-| modify it under the terms of the GNU General Public License                 |
-| as published by the Free Software Foundation; either version 2              |
-| of the License, or (at your option) any later version.                      |
-|                                                                             |
-| This program is distributed in the hope that it will be useful,             |
-| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-| GNU General Public License for more details.                                |
-|                                                                             |
-| You should have received a copy of the GNU General Public License           |
-| along with this program; if not, write to the Free Software                 |
-| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-+-----------------------------------------------------------------------------+
-*/
 
-/** @defgroup ServicesUtilities Services/Utilities
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilFileUtils
@@ -32,8 +10,6 @@
  *            this class.
  *
  * @author     Jan Hippchen <janhippchen@gmx.de>
- *
- * @ingroup    ServicesUtilities
  */
 class ilFileUtils
 {
@@ -45,18 +21,7 @@ class ilFileUtils
 
 
     /**
-     * unzips in given directory and processes uploaded zip for use as single files
-     *
-     * @param string  $a_directory Directory to unzip
-     * @param string  $a_file      Filename of archive
-     * @param boolean structure  True if archive structure is to be overtaken
-     * @param integer $ref_id      ref_id of parent object, if null, files wont be included in system (just checked)
-     * @param string containerType object type of created containerobjects (folder or category)
-     *
-     * @throws ilFileUtilsException
-     * @throws ilException
-     * @author  Jan Hippchen
-     * @version 1.6.9.07
+     * @deprecated Will be removed with ILIAS 8
      */
 
     public static function processZipFile($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null)
@@ -179,21 +144,8 @@ class ilFileUtils
         closedir($dirlist);
     }
 
-
     /**
-     * Recursively scans a given directory and creates file and folder/category objects
-     *
-     * Calls createContainer & createFile to store objects in tree
-     *
-     * @param string  $dir    Directory to start from
-     * @param boolean structure  True if archive structure is to be overtaken (otherwise flat inclusion)
-     * @param integer $ref_id ref_id of parent object, if null, files won�t be included in system (just checked)
-     * @param string containerType object type of created containerobjects (folder or category)
-     *
-     * @return integer errorcode
-     * @throws ilFileUtilsException
-     * @author  Jan Hippchen
-     * @version 1.6.9.07
+     * @deprecated Will be removed with ILIAS 8
      */
     public static function createObjects($dir, $structure, $ref_id, $containerType, $tree = null, $access_handler = null)
     {
@@ -223,33 +175,22 @@ class ilFileUtils
 
 
     /**
-     * Creates and inserts container object (folder/category) into tree
-     *
-     * @param string  $name          Name of the object
-     * @param integer $ref_id        ref_id of parent
-     * @param string  $containerType Fold or Cat
-     *
-     * @return integer ref_id of containerobject
-     * @author  Jan Hippchen
-     * @version 1.6.9.07
+     * @deprecated Will be removed with ILIAS 8
      */
     public static function createContainer($name, $ref_id, $containerType, $tree = null, $access_handler = null)
     {
         switch ($containerType) {
             case "Category":
-                include_once("./Modules/Category/classes/class.ilObjCategory.php");
                 $newObj = new ilObjCategory();
                 $newObj->setType("cat");
                 break;
 
             case "Folder":
-                include_once("./Modules/Folder/classes/class.ilObjFolder.php");
                 $newObj = new ilObjFolder();
                 $newObj->setType("fold");
                 break;
 
             case "WorkspaceFolder":
-                include_once("./Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolder.php");
                 $newObj = new ilObjWorkspaceFolder();
                 break;
         }
@@ -309,14 +250,12 @@ class ilFileUtils
         if ($permission) {
 
             // create and insert file in grp_tree
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $fileObj = new ilObjFile();
             $fileObj->setType('file');
             $fileObj->setTitle(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
             $fileObj->setFileName(ilFileUtils::utf8_encode(ilUtil::stripSlashes($filename)));
 
             // better use this, mime_content_type is deprecated
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $fileObj->setFileType(ilObjMediaObject::getMimeType($path . "/" . $filename));
             $fileObj->setFileSize(filesize($path . "/" . $filename));
             $fileObj->create();
@@ -549,8 +488,10 @@ class ilFileUtils
         static $fileadmin_ref_id;
 
         if ($fileadmin_ref_id === null) {
-            $id = (int) reset(ilObject2::_getObjectsByType('facs'))['obj_id'];
-            $fileadmin_ref_id = (int) reset(ilObject2::_getAllReferences($id));
+            $objects_by_type = ilObject2::_getObjectsByType('facs');
+            $id = (int) reset($objects_by_type)['obj_id'];
+            $references = ilObject2::_getAllReferences($id);
+            $fileadmin_ref_id = (int) reset($references);
         }
         if ($DIC->rbac()->system()->checkAccess('upload_blacklisted_files', $fileadmin_ref_id)) {
             return array();
@@ -868,7 +809,6 @@ class ilFileUtils
             // if extension is not in white list, remove all "." and add ".sec" extension
             $basename = str_replace(".", "", $pi["basename"]);
             if (trim($basename) == "") {
-                include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
                 throw new ilFileUtilsException("Invalid upload filename.");
             }
             $basename .= ".sec";
@@ -888,11 +828,12 @@ class ilFileUtils
      *
      * @return bool
      */
-    public static function hasValidExtension($a_filename)
+    public static function hasValidExtension($a_filename) : bool
     {
         $pi = pathinfo($a_filename);
 
-        return (in_array(strtolower($pi["extension"]), self::getValidExtensions()));
+        return in_array(strtolower($pi["extension"]), self::getValidExtensions())
+            && !in_array(strtolower($pi["extension"]), self::getExplicitlyBlockedFiles());
     }
 
 
@@ -909,7 +850,6 @@ class ilFileUtils
     {
         $pi = pathinfo($a_target);
         if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
-            include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
             throw new ilFileUtilsException("Invalid target file");
         }
 
