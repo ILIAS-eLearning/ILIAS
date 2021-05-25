@@ -13,7 +13,7 @@ trait JavaScriptBindable
     /**
      * @var		\Closure|null
      */
-    private $on_load_code_binder = null;
+    protected $on_load_code_binder = null;
 
     /**
      * @see \ILIAS\UI\Component\JavaScriptBindable::withOnLoadCode

@@ -609,4 +609,30 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(UploadHandler $handler, string $label, string $byline = null) : File;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A realText-field is intended for entering longer texts with format
+     *   composition: >
+     *      Text fields will render an wysiwyg editor using toastUI editor
+     *   effect: >
+     *      Text inputs are unrestricted and contain Markup display information
+     *   rivals:
+     *      text field: Use a text/textarea field to enter short texts without format
+     *
+     * rules:
+     *   interaction:
+     *     1: >
+     *        Real text input cannot meaningfully constrain the amount of characters entered
+     *        needs to be mapped wo a clob/text database field to prevent problems
+     *
+     * ---
+     * @param string $label
+     * @param string $byline
+     *
+     * @return RealText
+     */
+    public function realText(string $label, string $byline = null) : RealText;
 }
