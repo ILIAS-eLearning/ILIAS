@@ -6,8 +6,8 @@ use Closure;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\UI\Implementation\Component\Signal;
 
 /**
  * Interface Toast
