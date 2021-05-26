@@ -34,9 +34,6 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
         $this->assertEquals($toPurify, $purifier->purifyArray($toPurify));
     }
 
-    /**
-     * @return array
-     */
     public function invalidHtmlDataTypeProvider() : array
     {
         return [

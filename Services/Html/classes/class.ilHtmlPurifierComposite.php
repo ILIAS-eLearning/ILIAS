@@ -7,10 +7,8 @@
  */
 class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
 {
-    /**
-     * @var ilHtmlPurifierInterface[]
-     */
-    protected $purifiers = [];
+    /** @var ilHtmlPurifierInterface[]  */
+    protected array $purifiers = [];
 
     /**
      * Adds a node to composite
@@ -44,9 +42,6 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function purify(string $html) : string
     {
         foreach ($this->purifiers as $purifier) {
@@ -56,9 +51,6 @@ class ilHtmlPurifierComposite implements ilHtmlPurifierInterface
         return $html;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function purifyArray(array $htmlCollection) : array
     {
         foreach ($htmlCollection as $key => $html) {

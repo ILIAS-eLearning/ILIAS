@@ -7,18 +7,6 @@
  */
 class ilHtmlForumPostPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    /**
-     * ilHtmlForumPostPurifier constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Concrete function which builds a html purifier config instance
-     * @return    HTMLPurifier_Config Instance of HTMLPurifier_Config
-     */
     protected function getPurifierConfigInstance() : HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();

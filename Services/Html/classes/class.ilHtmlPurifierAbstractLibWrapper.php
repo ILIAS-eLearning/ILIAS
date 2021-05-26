@@ -7,8 +7,7 @@
  */
 abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterface
 {
-    /** @var HTMLPurifier */
-    protected $purifier;
+    protected HTMLPurifier $purifier;
 
     /**
      * ilHtmlPurifierAbstractLibWrapper constructor.
@@ -20,17 +19,11 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     final public function purify(string $html) : string
     {
         return $this->purifier->purify($html);
     }
 
-    /**
-     * @inheritDoc
-     */
     final public function purifyArray(array $htmlCollection) : array
     {
         foreach ($htmlCollection as $key => $html) {
@@ -46,32 +39,19 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
         return $this->purifier->purifyArray($htmlCollection);
     }
 
-    /**
-     * @return HTMLPurifier_Config
-     */
     abstract protected function getPurifierConfigInstance() : HTMLPurifier_Config;
 
-    /**
-     * @param HTMLPurifier $purifier
-     * @return ilHtmlPurifierAbstractLibWrapper
-     */
-    protected function setPurifier(HTMLPurifier $purifier) : self
+    final protected function setPurifier(HTMLPurifier $purifier) : self
     {
         $this->purifier = $purifier;
         return $this;
     }
 
-    /**
-     * @return HTMLPurifier
-     */
-    protected function getPurifier() : HTMLPurifier
+    final protected function getPurifier() : HTMLPurifier
     {
         return $this->purifier;
     }
 
-    /**
-     * @return string
-     */
     final public static function _getCacheDirectory() : string
     {
         if (!file_exists(ilUtil::getDataDir() . '/HTMLPurifier') ||
@@ -117,7 +97,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      * @param string[] $elements
      * @return string[]
      */
-    protected function makeElementListTinyMceCompliant(array $elements) : array
+    final protected function makeElementListTinyMceCompliant(array $elements) : array
     {
         // Bugfix #5945: Necessary because TinyMCE does not use the "u"
         // html element but <span style="text-decoration: underline">E</span>

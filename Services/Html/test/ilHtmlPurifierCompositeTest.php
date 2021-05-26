@@ -79,9 +79,6 @@ class ilHtmlPurifierCompositeTest extends TestCase
         }, $toPurify), $purifier->purifyArray($toPurify));
     }
 
-    /**
-     * @return array
-     */
     public function invalidHtmlDataTypeProvider() : array
     {
         return [
