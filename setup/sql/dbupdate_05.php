@@ -6554,3 +6554,2205 @@ if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
     $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
 }
 ?>
+<#5788>
+<?php
+if ($ilDB->tableColumnExists('acc_cache', 'time')) {
+    $ilDB->modifyTableColumn('acc_cache', 'time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5789>
+<?php
+if ($ilDB->tableColumnExists('acc_criterion_to_doc', 'assigned_ts')) {
+    $ilDB->modifyTableColumn('acc_criterion_to_doc', 'assigned_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('acc_criterion_to_doc', 'modification_ts')) {
+    $ilDB->modifyTableColumn('acc_criterion_to_doc', 'modification_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5790>
+<?php
+if ($ilDB->tableColumnExists('acc_documents', 'creation_ts')) {
+    $ilDB->modifyTableColumn('acc_documents', 'creation_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('acc_documents', 'modification_ts')) {
+    $ilDB->modifyTableColumn('acc_documents', 'modification_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5791>
+<?php
+if ($ilDB->tableColumnExists('acl_ws', 'tstamp')) {
+    $ilDB->modifyTableColumn('acl_ws', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5792>
+<?php
+if ($ilDB->tableColumnExists('ass_log', 'tstamp')) {
+    $ilDB->modifyTableColumn('ass_log', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5793>
+<?php
+if ($ilDB->tableColumnExists('badge_user_badge', 'tstamp')) {
+    $ilDB->modifyTableColumn('badge_user_badge', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5794>
+<?php
+if ($ilDB->tableColumnExists('booking_entry', 'deadline')) {
+    $ilDB->modifyTableColumn('booking_entry', 'deadline', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5795>
+<?php
+if ($ilDB->tableColumnExists('booking_reservation', 'date_from')) {
+    $ilDB->modifyTableColumn('booking_reservation', 'date_from', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('booking_reservation', 'date_to')) {
+    $ilDB->modifyTableColumn('booking_reservation', 'date_to', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5796>
+<?php
+if ($ilDB->tableColumnExists('booking_schedule', 'deadline')) {
+    $ilDB->modifyTableColumn('booking_schedule', 'deadline', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('booking_schedule', 'av_from')) {
+    $ilDB->modifyTableColumn('booking_schedule', 'av_from', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('booking_schedule', 'av_to')) {
+    $ilDB->modifyTableColumn('booking_schedule', 'av_to', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5797>
+<?php
+if ($ilDB->tableColumnExists('booking_settings', 'last_remind_ts')) {
+    $ilDB->modifyTableColumn('booking_settings', 'last_remind_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('booking_settings', 'pref_deadline')) {
+    $ilDB->modifyTableColumn('booking_settings', 'pref_deadline', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5798>
+<?php
+if ($ilDB->tableColumnExists('booking_user', 'tstamp')) {
+    $ilDB->modifyTableColumn('booking_user', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5799>
+<?php
+if ($ilDB->tableColumnExists('buddylist', 'ts')) {
+    $ilDB->modifyTableColumn('buddylist', 'ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5800>
+<?php
+if ($ilDB->tableColumnExists('buddylist_requests', 'ts')) {
+    $ilDB->modifyTableColumn('buddylist_requests', 'ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5801>
+<?php
+if ($ilDB->tableColumnExists('cache_clob', 'expire_time')) {
+    $ilDB->modifyTableColumn('cache_clob', 'expire_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5802>
+<?php
+if ($ilDB->tableColumnExists('cache_text', 'expire_time')) {
+    $ilDB->modifyTableColumn('cache_text', 'expire_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5803>
+<?php
+if ($ilDB->tableColumnExists('cal_auth_token', 'calendar')) {
+    $ilDB->modifyTableColumn('cal_auth_token', 'calendar', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('cal_auth_token', 'c_time')) {
+    $ilDB->modifyTableColumn('cal_auth_token', 'c_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5804>
+<?php
+if ($ilDB->tableColumnExists('cal_registrations', 'dstart')) {
+    $ilDB->modifyTableColumn('cal_registrations', 'dstart', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('cal_registrations', 'dend')) {
+    $ilDB->modifyTableColumn('cal_registrations', 'dend', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5805>
+<?php
+if ($ilDB->tableColumnExists('chatroom_bans', 'timestamp')) {
+    $ilDB->modifyTableColumn('chatroom_bans', 'timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5806>
+<?php
+if ($ilDB->tableColumnExists('chatroom_history', 'timestamp')) {
+    $ilDB->modifyTableColumn('chatroom_history', 'timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5807>
+<?php
+if ($ilDB->tableColumnExists('chatroom_uploads', 'timestamp')) {
+    $ilDB->modifyTableColumn('chatroom_uploads', 'timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5808>
+<?php
+if ($ilDB->tableColumnExists('cmix_lrs_types', 'time_to_delete')) {
+    $ilDB->modifyTableColumn('cmix_lrs_types', 'time_to_delete', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('cmix_lrs_types', 'duration')) {
+    $ilDB->modifyTableColumn('cmix_lrs_types', 'duration', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 1
+    ]);
+}
+?>
+<#5809>
+<?php
+if ($ilDB->tableColumnExists('cmix_settings', 'duration')) {
+    $ilDB->modifyTableColumn('cmix_settings', 'duration', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 1
+    ]);
+}
+?>
+<#5810>
+<?php
+if ($ilDB->tableColumnExists('content_page_metrics', 'reading_time')) {
+    $ilDB->modifyTableColumn('content_page_metrics', 'reading_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5811>
+<?php
+if ($ilDB->tableColumnExists('copg_section_timings', 'unix_ts')) {
+    $ilDB->modifyTableColumn('copg_section_timings', 'unix_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5812>
+<?php
+if ($ilDB->tableColumnExists('cron_job', 'job_status_ts')) {
+    $ilDB->modifyTableColumn('cron_job', 'job_status_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('cron_job', 'job_result_ts')) {
+    $ilDB->modifyTableColumn('cron_job', 'job_result_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('cron_job', 'running_ts')) {
+    $ilDB->modifyTableColumn('cron_job', 'running_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('cron_job', 'alive_ts')) {
+    $ilDB->modifyTableColumn('cron_job', 'alive_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5813>
+<?php
+if ($ilDB->tableColumnExists('crs_archives', 'archive_date')) {
+    $ilDB->modifyTableColumn('crs_archives', 'archive_date', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5814>
+<?php
+if ($ilDB->tableColumnExists('crs_items', 'timing_start')) {
+    $ilDB->modifyTableColumn('crs_items', 'timing_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_items', 'timing_end')) {
+    $ilDB->modifyTableColumn('crs_items', 'timing_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_items', 'suggestion_start')) {
+    $ilDB->modifyTableColumn('crs_items', 'suggestion_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_items', 'suggestion_end')) {
+    $ilDB->modifyTableColumn('crs_items', 'suggestion_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_items', 'suggestion_start_rel')) {
+    $ilDB->modifyTableColumn('crs_items', 'suggestion_start_rel', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_items', 'suggestion_end_rel')) {
+    $ilDB->modifyTableColumn('crs_items', 'suggestion_end_rel', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5815>
+<?php
+if ($ilDB->tableColumnExists('crs_lm_history', 'last_access')) {
+    $ilDB->modifyTableColumn('crs_lm_history', 'last_access', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5816>
+<?php
+if ($ilDB->tableColumnExists('crs_settings', 'activation_start')) {
+    $ilDB->modifyTableColumn('crs_settings', 'activation_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'activation_end')) {
+    $ilDB->modifyTableColumn('crs_settings', 'activation_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'sub_start')) {
+    $ilDB->modifyTableColumn('crs_settings', 'sub_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'sub_end')) {
+    $ilDB->modifyTableColumn('crs_settings', 'sub_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'archive_start')) {
+    $ilDB->modifyTableColumn('crs_settings', 'archive_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'archive_end')) {
+    $ilDB->modifyTableColumn('crs_settings', 'archive_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'crs_start')) {
+    $ilDB->modifyTableColumn('crs_settings', 'crs_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'crs_end')) {
+    $ilDB->modifyTableColumn('crs_settings', 'crs_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_settings', 'leave_end')) {
+    $ilDB->modifyTableColumn('crs_settings', 'leave_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5817>
+<?php
+if ($ilDB->tableColumnExists('crs_timings_planed', 'planed_start')) {
+    $ilDB->modifyTableColumn('crs_timings_planed', 'planed_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_timings_planed', 'planed_end')) {
+    $ilDB->modifyTableColumn('crs_timings_planed', 'planed_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5818>
+<?php
+if ($ilDB->tableColumnExists('crs_timings_user', 'sstart')) {
+    $ilDB->modifyTableColumn('crs_timings_user', 'sstart', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('crs_timings_user', 'ssend')) {
+    $ilDB->modifyTableColumn('crs_timings_user', 'ssend', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5819>
+<?php
+if ($ilDB->tableColumnExists('crs_waiting_list', 'sub_time')) {
+    $ilDB->modifyTableColumn('crs_waiting_list', 'sub_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5820>
+<?php
+if ($ilDB->tableColumnExists('dav_lock', 'expires')) {
+    $ilDB->modifyTableColumn('dav_lock', 'expires', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5821>
+<?php
+if ($ilDB->tableColumnExists('ecs_container_mapping', 'date_range_start')) {
+    $ilDB->modifyTableColumn('ecs_container_mapping', 'date_range_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('ecs_container_mapping', 'date_range_end')) {
+    $ilDB->modifyTableColumn('ecs_container_mapping', 'date_range_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5822>
+<?php
+if ($ilDB->tableColumnExists('ecs_server', 'polling_time')) {
+    $ilDB->modifyTableColumn('ecs_server', 'polling_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('ecs_server', 'duration')) {
+    $ilDB->modifyTableColumn('ecs_server', 'duration', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5823>
+<?php
+if ($ilDB->tableColumnExists('event_appointment', 'starting_time')) {
+    $ilDB->modifyTableColumn('event_appointment', 'starting_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('event_appointment', 'ending_time')) {
+    $ilDB->modifyTableColumn('event_appointment', 'ending_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('event_appointment', 'fulltime')) {
+    $ilDB->modifyTableColumn('event_appointment', 'fulltime', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5824>
+<?php
+if ($ilDB->tableColumnExists('exc_ass_reminders', 'start')) {
+    $ilDB->modifyTableColumn('exc_ass_reminders', 'start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_ass_reminders', 'end')) {
+    $ilDB->modifyTableColumn('exc_ass_reminders', 'end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_ass_reminders', 'last_send')) {
+    $ilDB->modifyTableColumn('exc_ass_reminders', 'last_send', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5825>
+<?php
+if ($ilDB->tableColumnExists('exc_assignment', 'time_stamp')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'time_stamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'start_time')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'start_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'peer_dl')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'peer_dl', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'deadline2')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'deadline2', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'fb_date_custom')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'fb_date_custom', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'rmd_submit_start')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'rmd_submit_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'rmd_submit_end')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'rmd_submit_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'rmd_grade_start')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'rmd_grade_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'rmd_grade_end')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'rmd_grade_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'peer_rmd_start')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'peer_rmd_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'peer_rmd_end')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'peer_rmd_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'relative_deadline')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'relative_deadline', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_assignment', 'rel_deadline_last_subm')) {
+    $ilDB->modifyTableColumn('exc_assignment', 'rel_deadline_last_subm', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5826>
+<?php
+if ($ilDB->tableColumnExists('exc_data', 'time_stamp')) {
+    $ilDB->modifyTableColumn('exc_data', 'time_stamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5827>
+<?php
+if ($ilDB->tableColumnExists('exc_idl', 'tstamp')) {
+    $ilDB->modifyTableColumn('exc_idl', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('exc_idl', 'starting_ts')) {
+    $ilDB->modifyTableColumn('exc_idl', 'starting_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5828>
+<?php
+if ($ilDB->tableColumnExists('frm_thread_access', 'access_old')) {
+    $ilDB->modifyTableColumn('frm_thread_access', 'access_old', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('frm_thread_access', 'access_last')) {
+    $ilDB->modifyTableColumn('frm_thread_access', 'access_last', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5829>
+<?php
+if ($ilDB->tableColumnExists('grp_settings', 'leave_end')) {
+    $ilDB->modifyTableColumn('grp_settings', 'leave_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('grp_settings', 'grp_start')) {
+    $ilDB->modifyTableColumn('grp_settings', 'grp_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('grp_settings', 'grp_end')) {
+    $ilDB->modifyTableColumn('grp_settings', 'grp_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5830>
+<?php
+if ($ilDB->tableColumnExists('iass_members', 'notification_ts')) {
+    $ilDB->modifyTableColumn('iass_members', 'notification_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => -1
+    ]);
+}
+?>
+<#5831>
+<?php
+if ($ilDB->tableColumnExists('il_adn_notifications', 'type_during_event')) {
+    $ilDB->modifyTableColumn('il_adn_notifications', 'type_during_event', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5832>
+<?php
+if ($ilDB->tableColumnExists('il_bt_bucket', 'last_heartbeat')) {
+    $ilDB->modifyTableColumn('il_bt_bucket', 'last_heartbeat', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5833>
+<?php
+if ($ilDB->tableColumnExists('il_cert_bgtask_migr', 'started_ts')) {
+    $ilDB->modifyTableColumn('il_cert_bgtask_migr', 'started_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('il_cert_bgtask_migr', 'finished_ts')) {
+    $ilDB->modifyTableColumn('il_cert_bgtask_migr', 'finished_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5834>
+<?php
+if ($ilDB->tableColumnExists('il_cert_cron_queue', 'started_timestamp')) {
+    $ilDB->modifyTableColumn('il_cert_cron_queue', 'started_timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5835>
+<?php
+if ($ilDB->tableColumnExists('il_cert_template', 'created_timestamp')) {
+    $ilDB->modifyTableColumn('il_cert_template', 'created_timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5836>
+<?php
+if ($ilDB->tableColumnExists('il_cert_user_cert', 'acquired_timestamp')) {
+    $ilDB->modifyTableColumn('il_cert_user_cert', 'acquired_timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('il_cert_user_cert', 'valid_until')) {
+    $ilDB->modifyTableColumn('il_cert_user_cert', 'valid_until', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5837>
+<?php
+if ($ilDB->tableColumnExists('il_exc_team_log', 'tstamp')) {
+    $ilDB->modifyTableColumn('il_exc_team_log', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5838>
+<?php
+if ($ilDB->tableColumnExists('il_poll', 'period_begin')) {
+    $ilDB->modifyTableColumn('il_poll', 'period_begin', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('il_poll', 'period_end')) {
+    $ilDB->modifyTableColumn('il_poll', 'period_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5839>
+<?php
+if ($ilDB->tableColumnExists('il_rating', 'tstamp')) {
+    $ilDB->modifyTableColumn('il_rating', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5840>
+<?php
+if ($ilDB->tableColumnExists('il_subscribers', 'sub_time')) {
+    $ilDB->modifyTableColumn('il_subscribers', 'sub_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5841>
+<?php
+if ($ilDB->tableColumnExists('link_check', 'last_check')) {
+    $ilDB->modifyTableColumn('link_check', 'last_check', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5842>
+<?php
+if ($ilDB->tableColumnExists('lm_read_event', 'last_access')) {
+    $ilDB->modifyTableColumn('lm_read_event', 'last_access', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5843>
+<?php
+if ($ilDB->tableColumnExists('loc_user_results', 'tstamp')) {
+    $ilDB->modifyTableColumn('loc_user_results', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5844>
+<?php
+if ($ilDB->tableColumnExists('loginname_history', 'history_date')) {
+    $ilDB->modifyTableColumn('loginname_history', 'history_date', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5845>
+<?php
+if ($ilDB->tableColumnExists('lso_activation', 'activation_start_ts')) {
+    $ilDB->modifyTableColumn('lso_activation', 'activation_start_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('lso_activation', 'activation_end_ts')) {
+    $ilDB->modifyTableColumn('lso_activation', 'activation_end_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5846>
+<?php
+if ($ilDB->tableColumnExists('lti_ext_provider', 'time_to_delete')) {
+    $ilDB->modifyTableColumn('lti_ext_provider', 'time_to_delete', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5847>
+<?php
+if ($ilDB->tableColumnExists('mail_cron_orphaned', 'ts_do_delete')) {
+    $ilDB->modifyTableColumn('mail_cron_orphaned', 'ts_do_delete', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5848>
+<?php
+if ($ilDB->tableColumnExists('media_item', 'duration')) {
+    $ilDB->modifyTableColumn('media_item', 'duration', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5849>
+<?php
+if ($ilDB->tableColumnExists('member_agreement', 'acceptance_time')) {
+    $ilDB->modifyTableColumn('member_agreement', 'acceptance_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5850>
+<?php
+if ($ilDB->tableColumnExists('notification_osd', 'valid_until')) {
+    $ilDB->modifyTableColumn('notification_osd', 'valid_until', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('notification_osd', 'time_added')) {
+    $ilDB->modifyTableColumn('notification_osd', 'time_added', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5851>
+<?php
+if ($ilDB->tableColumnExists('notification_queue', 'valid_until')) {
+    $ilDB->modifyTableColumn('notification_queue', 'valid_until', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5852>
+<?php
+if ($ilDB->tableColumnExists('obj_lp_stat', 'fulldate')) {
+    $ilDB->modifyTableColumn('obj_lp_stat', 'fulldate', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5853>
+<?php
+if ($ilDB->tableColumnExists('obj_members', 'origin_ts')) {
+    $ilDB->modifyTableColumn('obj_members', 'origin_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5854>
+<?php
+if ($ilDB->tableColumnExists('obj_stat_log', 'tstamp')) {
+    $ilDB->modifyTableColumn('obj_stat_log', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5855>
+<?php
+if ($ilDB->tableColumnExists('obj_stat_tmp', 'tstamp')) {
+    $ilDB->modifyTableColumn('obj_stat_tmp', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5856>
+<?php
+if ($ilDB->tableColumnExists('obj_type_stat', 'fulldate')) {
+    $ilDB->modifyTableColumn('obj_type_stat', 'fulldate', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5857>
+<?php
+if ($ilDB->tableColumnExists('obj_user_stat', 'fulldate')) {
+    $ilDB->modifyTableColumn('obj_user_stat', 'fulldate', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5858>
+<?php
+if ($ilDB->tableColumnExists('object_data_del', 'tstamp')) {
+    $ilDB->modifyTableColumn('object_data_del', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5859>
+<?php
+if ($ilDB->tableColumnExists('page_object', 'edit_lock_ts')) {
+    $ilDB->modifyTableColumn('page_object', 'edit_lock_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5860>
+<?php
+if ($ilDB->tableColumnExists('prg_settings', 'deadline_period')) {
+    $ilDB->modifyTableColumn('prg_settings', 'deadline_period', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('prg_settings', 'vq_restart_period')) {
+    $ilDB->modifyTableColumn('prg_settings', 'vq_restart_period', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => -1
+    ]);
+}
+if ($ilDB->tableColumnExists('prg_settings', 'proc_end_no_success')) {
+    $ilDB->modifyTableColumn('prg_settings', 'proc_end_no_success', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5861>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_cloze', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_cloze', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5862>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_imagemap', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_imagemap', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5863>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_mc', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_mc', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5864>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_ordering', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_ordering', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5865>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_sc', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_sc', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5866>
+<?php
+if ($ilDB->tableColumnExists('qpl_a_textsubset', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_a_textsubset', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5867>
+<?php
+if ($ilDB->tableColumnExists('qpl_fb_generic', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_fb_generic', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5868>
+<?php
+if ($ilDB->tableColumnExists('qpl_fb_specific', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_fb_specific', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5869>
+<?php
+if ($ilDB->tableColumnExists('qpl_num_range', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_num_range', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5870>
+<?php
+if ($ilDB->tableColumnExists('qpl_questionpool', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_questionpool', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5871>
+<?php
+if ($ilDB->tableColumnExists('qpl_questions', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_questions', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5872>
+<?php
+if ($ilDB->tableColumnExists('qpl_sol_sug', 'tstamp')) {
+    $ilDB->modifyTableColumn('qpl_sol_sug', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5873>
+<?php
+if ($ilDB->tableColumnExists('read_event', 'last_access')) {
+    $ilDB->modifyTableColumn('read_event', 'last_access', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5874>
+<?php
+if ($ilDB->tableColumnExists('reg_access_limit', 'limit_absolute')) {
+    $ilDB->modifyTableColumn('reg_access_limit', 'limit_absolute', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5875>
+<?php
+if ($ilDB->tableColumnExists('reg_registration_codes', 'generated_on')) {
+    $ilDB->modifyTableColumn('reg_registration_codes', 'generated_on', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+?>
+<#5876>
+<?php
+if ($ilDB->tableColumnExists('remote_course_settings', 'r_start')) {
+    $ilDB->modifyTableColumn('remote_course_settings', 'r_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('remote_course_settings', 'r_end')) {
+    $ilDB->modifyTableColumn('remote_course_settings', 'r_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5877>
+<?php
+if ($ilDB->tableColumnExists('rfil_settings', 'version_tstamp')) {
+    $ilDB->modifyTableColumn('rfil_settings', 'version_tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5878>
+<?php
+if ($ilDB->tableColumnExists('rgrp_settings', 'availability_start')) {
+    $ilDB->modifyTableColumn('rgrp_settings', 'availability_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('rgrp_settings', 'availability_end')) {
+    $ilDB->modifyTableColumn('rgrp_settings', 'availability_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5879>
+<?php
+if ($ilDB->tableColumnExists('rtst_settings', 'availability_start')) {
+    $ilDB->modifyTableColumn('rtst_settings', 'availability_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('rtst_settings', 'availability_end')) {
+    $ilDB->modifyTableColumn('rtst_settings', 'availability_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5880>
+<?php
+if ($ilDB->tableColumnExists('sahs_user', 'total_time_sec')) {
+    $ilDB->modifyTableColumn('sahs_user', 'total_time_sec', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('sahs_user', 'sco_total_time_sec')) {
+    $ilDB->modifyTableColumn('sahs_user', 'sco_total_time_sec', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5881>
+<?php
+if ($ilDB->tableColumnExists('svy_anonymous', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_anonymous', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5882>
+<?php
+if ($ilDB->tableColumnExists('svy_answer', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_answer', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5883>
+<?php
+if ($ilDB->tableColumnExists('svy_category', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_category', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5884>
+<?php
+if ($ilDB->tableColumnExists('svy_finished', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_finished', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5885>
+<?php
+if ($ilDB->tableColumnExists('svy_material', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_material', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5886>
+<?php
+if ($ilDB->tableColumnExists('svy_phrase', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_phrase', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5887>
+<?php
+if ($ilDB->tableColumnExists('svy_qblk', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_qblk', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5888>
+<?php
+if ($ilDB->tableColumnExists('svy_qpl', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_qpl', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5889>
+<?php
+if ($ilDB->tableColumnExists('svy_qst_matrix', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_qst_matrix', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5890>
+<?php
+if ($ilDB->tableColumnExists('svy_qst_oblig', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_qst_oblig', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5891>
+<?php
+if ($ilDB->tableColumnExists('svy_question', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_question', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5892>
+<?php
+if ($ilDB->tableColumnExists('svy_relation', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_relation', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5893>
+<?php
+if ($ilDB->tableColumnExists('svy_svy', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_svy', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5894>
+<?php
+if ($ilDB->tableColumnExists('svy_svy_qst', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_svy_qst', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5895>
+<?php
+if ($ilDB->tableColumnExists('svy_times', 'entered_page')) {
+    $ilDB->modifyTableColumn('svy_times', 'entered_page', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('svy_times', 'left_page')) {
+    $ilDB->modifyTableColumn('svy_times', 'left_page', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5896>
+<?php
+if ($ilDB->tableColumnExists('svy_variable', 'tstamp')) {
+    $ilDB->modifyTableColumn('svy_variable', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5897>
+<?php
+if ($ilDB->tableColumnExists('tos_acceptance_track', 'ts')) {
+    $ilDB->modifyTableColumn('tos_acceptance_track', 'ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5898>
+<?php
+if ($ilDB->tableColumnExists('tos_criterion_to_doc', 'assigned_ts')) {
+    $ilDB->modifyTableColumn('tos_criterion_to_doc', 'assigned_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('tos_criterion_to_doc', 'modification_ts')) {
+    $ilDB->modifyTableColumn('tos_criterion_to_doc', 'modification_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5899>
+<?php
+if ($ilDB->tableColumnExists('tos_documents', 'creation_ts')) {
+    $ilDB->modifyTableColumn('tos_documents', 'creation_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('tos_documents', 'modification_ts')) {
+    $ilDB->modifyTableColumn('tos_documents', 'modification_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5900>
+<?php
+if ($ilDB->tableColumnExists('tos_versions', 'ts')) {
+    $ilDB->modifyTableColumn('tos_versions', 'ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5901>
+<?php
+if ($ilDB->tableColumnExists('tst_active', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_active', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5902>
+<?php
+if ($ilDB->tableColumnExists('tst_invited_user', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_invited_user', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5903>
+<?php
+if ($ilDB->tableColumnExists('tst_manual_fb', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_manual_fb', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5904>
+<?php
+if ($ilDB->tableColumnExists('tst_mark', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_mark', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5905>
+<?php
+if ($ilDB->tableColumnExists('tst_pass_result', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_pass_result', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5906>
+<?php
+if ($ilDB->tableColumnExists('tst_result_cache', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_result_cache', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5907>
+<?php
+if ($ilDB->tableColumnExists('tst_rnd_quest_set_cfg', 'quest_sync_timestamp')) {
+    $ilDB->modifyTableColumn('tst_rnd_quest_set_cfg', 'quest_sync_timestamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5908>
+<?php
+if ($ilDB->tableColumnExists('tst_sequence', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_sequence', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5909>
+<?php
+if ($ilDB->tableColumnExists('tst_solutions', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_solutions', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5910>
+<?php
+if ($ilDB->tableColumnExists('tst_test_defaults', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_test_defaults', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5911>
+<?php
+if ($ilDB->tableColumnExists('tst_test_question', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_test_question', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5912>
+<?php
+if ($ilDB->tableColumnExists('tst_test_result', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_test_result', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5913>
+<?php
+if ($ilDB->tableColumnExists('tst_test_rnd_qst', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_test_rnd_qst', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5914>
+<?php
+if ($ilDB->tableColumnExists('tst_tests', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_tests', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('tst_tests', 'starting_time')) {
+    $ilDB->modifyTableColumn('tst_tests', 'starting_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('tst_tests', 'ending_time')) {
+    $ilDB->modifyTableColumn('tst_tests', 'ending_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5915>
+<?php
+if ($ilDB->tableColumnExists('tst_times', 'tstamp')) {
+    $ilDB->modifyTableColumn('tst_times', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5916>
+<?php
+if ($ilDB->tableColumnExists('usr_cron_mail_reminder', 'ts')) {
+    $ilDB->modifyTableColumn('usr_cron_mail_reminder', 'ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5917>
+<?php
+if ($ilDB->tableColumnExists('usr_data', 'time_limit_from')) {
+    $ilDB->modifyTableColumn('usr_data', 'time_limit_from', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_data', 'time_limit_until')) {
+    $ilDB->modifyTableColumn('usr_data', 'time_limit_until', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_data', 'last_password_change')) {
+    $ilDB->modifyTableColumn('usr_data', 'last_password_change', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5918>
+<?php
+if ($ilDB->tableColumnExists('usr_portf_acl', 'tstamp')) {
+    $ilDB->modifyTableColumn('usr_portf_acl', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5919>
+<?php
+if ($ilDB->tableColumnExists('usr_pwassist', 'expires')) {
+    $ilDB->modifyTableColumn('usr_pwassist', 'expires', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_pwassist', 'ctime')) {
+    $ilDB->modifyTableColumn('usr_pwassist', 'ctime', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5920>
+<?php
+if ($ilDB->tableColumnExists('usr_session', 'expires')) {
+    $ilDB->modifyTableColumn('usr_session', 'expires', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session', 'ctime')) {
+    $ilDB->modifyTableColumn('usr_session', 'ctime', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session', 'last_remind_ts')) {
+    $ilDB->modifyTableColumn('usr_session', 'last_remind_ts', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session', 'createtime')) {
+    $ilDB->modifyTableColumn('usr_session', 'createtime', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5921>
+<?php
+if ($ilDB->tableColumnExists('usr_session_log', 'tstamp')) {
+    $ilDB->modifyTableColumn('usr_session_log', 'tstamp', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5922>
+<?php
+if ($ilDB->tableColumnExists('usr_session_stats', 'slot_begin')) {
+    $ilDB->modifyTableColumn('usr_session_stats', 'slot_begin', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session_stats', 'slot_end')) {
+    $ilDB->modifyTableColumn('usr_session_stats', 'slot_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session_stats', 'active_end')) {
+    $ilDB->modifyTableColumn('usr_session_stats', 'active_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5923>
+<?php
+if ($ilDB->tableColumnExists('usr_session_stats_raw', 'start_time')) {
+    $ilDB->modifyTableColumn('usr_session_stats_raw', 'start_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_session_stats_raw', 'end_time')) {
+    $ilDB->modifyTableColumn('usr_session_stats_raw', 'end_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5924>
+<?php
+if ($ilDB->tableColumnExists('usr_starting_point', 'calendar_view')) {
+    $ilDB->modifyTableColumn('usr_starting_point', 'calendar_view', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('usr_starting_point', 'calendar_period')) {
+    $ilDB->modifyTableColumn('usr_starting_point', 'calendar_period', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5925>
+<?php
+if ($ilDB->tableColumnExists('ut_lp_coll_manual', 'last_change')) {
+    $ilDB->modifyTableColumn('ut_lp_coll_manual', 'last_change', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5926>
+<?php
+if ($ilDB->tableColumnExists('ut_online', 'online_time')) {
+    $ilDB->modifyTableColumn('ut_online', 'online_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('ut_online', 'access_time')) {
+    $ilDB->modifyTableColumn('ut_online', 'access_time', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5927>
+<?php
+if ($ilDB->tableColumnExists('webr_items', 'create_date')) {
+    $ilDB->modifyTableColumn('webr_items', 'create_date', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('webr_items', 'last_update')) {
+    $ilDB->modifyTableColumn('webr_items', 'last_update', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('webr_items', 'last_check')) {
+    $ilDB->modifyTableColumn('webr_items', 'last_check', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
+<#5928>
+<?php
+if ($ilDB->tableColumnExists('webr_lists', 'create_date')) {
+    $ilDB->modifyTableColumn('webr_lists', 'create_date', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+if ($ilDB->tableColumnExists('webr_lists', 'last_update')) {
+    $ilDB->modifyTableColumn('webr_lists', 'last_update', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0
+    ]);
+}
+?>
+<#5929>
+<?php
+if ($ilDB->tableColumnExists('wfe_det_listening', 'listening_start')) {
+    $ilDB->modifyTableColumn('wfe_det_listening', 'listening_start', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+if ($ilDB->tableColumnExists('wfe_det_listening', 'listening_end')) {
+    $ilDB->modifyTableColumn('wfe_det_listening', 'listening_end', [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => false,
+        'default' => null
+    ]);
+}
+?>
