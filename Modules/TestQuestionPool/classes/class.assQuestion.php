@@ -4711,7 +4711,7 @@ abstract class assQuestion
     public function getHtmlUserSolutionPurifier()
     {
         require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
-        return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+        return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
 
     /**
@@ -4720,7 +4720,7 @@ abstract class assQuestion
     public function getHtmlQuestionContentPurifier()
     {
         require_once 'Services/Html/classes/class.ilHtmlPurifierFactory.php';
-        return ilHtmlPurifierFactory::_getInstanceByType('qpl_usersolution');
+        return ilHtmlPurifierFactory::getInstanceByType('qpl_usersolution');
     }
     
     protected function buildQuestionDataQuery()

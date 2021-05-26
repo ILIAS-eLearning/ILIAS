@@ -7,7 +7,7 @@
  */
 class ilHtmlPurifierFactory
 {
-    public static function _getInstanceByType(string $type) : ilHtmlPurifierInterface
+    public static function getInstanceByType(string $type) : ilHtmlPurifierInterface
     {
         global $DIC;
 
