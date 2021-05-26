@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilMd5PasswordEncoder.php';
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 /**
  * Class ilMd5PasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
@@ -11,13 +8,10 @@ require_once 'Services/Password/test/ilPasswordBaseTest.php';
  */
 class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 {
-    /**
-     * @return ilMd5PasswordEncoder
-     */
     public function testInstanceCanBeCreated() : ilMd5PasswordEncoder
     {
         $encoder = new ilMd5PasswordEncoder();
-        $this->assertInstanceOf('ilMd5PasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilMd5PasswordEncoder::class, $encoder);
         return $encoder;
     }
 

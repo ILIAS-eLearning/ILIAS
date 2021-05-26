@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-		colors="true"
-		stopOnFailure="true"
-		backupGlobals="false"
-		bootstrap="./test/bootstrap.php">
-	<testsuite name="ilServicesMailSuite">
-		<file>./test/ilServicesPasswordSuite.php</file>
-	</testsuite>
-	<logging>
-		<log type="coverage-html"
-			 target="build/coverage"
-			 highLowerBound="80" />
-		<log type="testdox-html"
-			 target="build/dox.html" />
-	</logging>
-	<filter>
-		<whitelist>
-			<directory suffix=".php">classes</directory>
-		</whitelist>
-	</filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stopOnFailure="true" backupGlobals="false" bootstrap="./test/bootstrap.php" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">classes</directory>
+    </include>
+    <report>
+      <html outputDirectory="build/coverage" highLowerBound="80"/>
+    </report>
+  </coverage>
+  <testsuite name="ilServicesMailSuite">
+    <file>./test/ilServicesPasswordSuite.php</file>
+  </testsuite>
+  <logging>
+    <testdoxHtml outputFile="build/dox.html"/>
+  </logging>
 </phpunit>

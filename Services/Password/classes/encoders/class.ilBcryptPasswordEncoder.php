@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
-
 /**
  * Class ilBcryptPasswordEncoder
  * @author  Michael Jansen <mjansen@databay.de>
@@ -17,20 +15,13 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     /** @var string */
     public const SALT_STORAGE_FILENAME = 'pwsalt.txt';
 
-    /** @var string|null */
-    private $client_salt = null;
-
-    /** @var bool */
-    private $is_security_flaw_ignored = false;
-
-    /** @var bool */
-    private $backward_compatibility = false;
-
-    /** @var string */
-    private $data_directory = '';
+    private ?string $client_salt = null;
+    private bool $is_security_flaw_ignored = false;
+    private bool $backward_compatibility = false;
+    private string $data_directory = '';
 
     /**
-     * @param array $config
+     * @param array<string, mixed> $config
      * @throws ilPasswordException
      */
     public function __construct(array $config = [])
@@ -52,44 +43,29 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         parent::__construct($config);
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     protected function init() : void
     {
         $this->readClientSalt();
     }
 
-    /**
-     * @return bool
-     */
     protected function isBcryptSupported() : bool
     {
         return PHP_VERSION_ID >= 50307;
     }
 
-    /**
-     * @return string
-     */
     public function getDataDirectory() : string
     {
         return $this->data_directory;
     }
 
-    /**
-     * @param string $data_directory
-     */
     public function setDataDirectory(string $data_directory) : void
     {
         $this->data_directory = $data_directory;
     }
 
-    /**
-     * @return bool
-     */
     public function isBackwardCompatibilityEnabled() : bool
     {
-        return (bool) $this->backward_compatibility;
+        return $this->backward_compatibility;
     }
 
     /**
@@ -98,45 +74,29 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     public function setBackwardCompatibility(bool $backward_compatibility) : void
     {
-        $this->backward_compatibility = (bool) $backward_compatibility;
+        $this->backward_compatibility = $backward_compatibility;
     }
 
-    /**
-     * @return bool
-     */
     public function isSecurityFlawIgnored() : bool
     {
-        return (bool) $this->is_security_flaw_ignored;
+        return $this->is_security_flaw_ignored;
     }
 
-    /**
-     * @param bool $is_security_flaw_ignored
-     */
     public function setIsSecurityFlawIgnored(bool $is_security_flaw_ignored) : void
     {
-        $this->is_security_flaw_ignored = (bool) $is_security_flaw_ignored;
+        $this->is_security_flaw_ignored = $is_security_flaw_ignored;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClientSalt() : ?string
     {
         return $this->client_salt;
     }
 
-    /**
-     * @param string|null $client_salt
-     */
     public function setClientSalt(?string $client_salt) : void
     {
         $this->client_salt = $client_salt;
     }
 
-    /**
-     * @inheritDoc
-     * @throws ilPasswordException
-     */
     public function encodePassword(string $raw, string $salt) : string
     {
         if (!$this->getClientSalt()) {
@@ -150,10 +110,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return $this->encode($raw, $salt);
     }
 
-    /**
-     * @inheritDoc
-     * @throws ilPasswordException
-     */
     public function isPasswordValid(string $encoded, string $raw, string $salt) : bool
     {
         if (!$this->getClientSalt()) {
@@ -163,37 +119,21 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return !$this->isPasswordTooLong($raw) && $this->check($encoded, $raw, $salt);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getName() : string
     {
         return 'bcrypt';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function requiresSalt() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function requiresReencoding(string $encoded) : bool
     {
         return false;
     }
 
-    /**
-     * Generates a bcrypt encoded string
-     * @param string $raw        The raw password
-     * @param string $userSecret A randomly generated string (should be 16 ASCII chars)
-     * @return   string
-     * @throws   ilPasswordException
-     */
     protected function encode(string $raw, string $userSecret) : string
     {
         $clientSecret = $this->getClientSalt();
@@ -235,13 +175,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return $saltedPassword;
     }
 
-    /**
-     * Verifies a bcrypt encoded string
-     * @param string $encoded
-     * @param string $raw
-     * @param string $salt
-     * @return   bool
-     */
     protected function check(string $encoded, string $raw, string $salt) : bool
     {
         $hashedPassword = hash_hmac(
@@ -254,17 +187,11 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         return $this->comparePasswords($encoded, crypt($hashedPassword, substr($encoded, 0, 30)));
     }
 
-    /**
-     * @return string
-     */
     public function getClientSaltLocation() : string
     {
         return $this->getDataDirectory() . '/' . self::SALT_STORAGE_FILENAME;
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     private function readClientSalt() : void
     {
         if (is_file($this->getClientSaltLocation()) && is_readable($this->getClientSaltLocation())) {
@@ -285,9 +212,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         );
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     private function storeClientSalt() : void
     {
         $location = $this->getClientSaltLocation();
