@@ -33,14 +33,15 @@ interface Toast extends Component
     public function getDescription() : string;
 
     /**
-     * Create a copy of this toast with a set of actions to perform on it.
+     * Create a copy of this toast with a new action appended to the array of actions to perform on it.
      */
-    public function withActions(Link $actions) : Toast;
+    public function withAction(Link $actions) : Toast;
 
     /**
      * Get the actions of the toast.
+     * @return Link[]
      */
-    public function getActions() : Link;
+    public function getActions() : array;
 
     /**
      * Create a copy of this toast with an url, which is called when the item title is clicked.

@@ -45,5 +45,5 @@ interface Factory
      *
      * @return Toast
      */
-    public function toast(string $title, Icon $icon) : Toast;
+    public function standard(string $title, Icon $icon) : Toast;
 }
