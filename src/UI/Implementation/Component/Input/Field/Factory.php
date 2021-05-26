@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Input\Field\RealText;
 
 /**
  * Class Factory
@@ -157,9 +158,9 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function realText($label, $byline = null)
+    public function realText(string $label, ?string $byline = null) : RealText
     {
-        return new RealText($this->data_factory, $this->refinery, $label, $byline);
+        return new \ILIAS\UI\Implementation\Component\Input\Field\RealText($this->data_factory, $this->refinery, $label, $byline);
     }
 
     /**
