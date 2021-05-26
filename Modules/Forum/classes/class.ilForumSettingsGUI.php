@@ -319,7 +319,7 @@ class ilForumSettingsGUI
                 $members = $this->getUserNotificationTableData($member_ids, $frm_noti);
                 $tutors = $this->getUserNotificationTableData($tutor_ids, $frm_noti);
 
-                $this->__showMembersTable($moderators, $admins, $members, $tutors);
+                $this->showMembersTable($moderators, $admins, $members, $tutors);
             }
         }
     }
@@ -352,7 +352,7 @@ class ilForumSettingsGUI
         return $users;
     }
 
-    private function __showMembersTable(array $moderators, array $admins, array $members, array $tutors)
+    private function showMembersTable(array $moderators, array $admins, array $members, array $tutors)
     {
         foreach (array_filter([
             'moderators' => $moderators,
