@@ -35,7 +35,7 @@ interface Toast extends Component
     /**
      * Create a copy of this toast with a new action appended to the array of actions to perform on it.
      */
-    public function withAction(Link $actions) : Toast;
+    public function withAction(Link $action) : Toast;
 
     /**
      * Get the actions of the toast.
