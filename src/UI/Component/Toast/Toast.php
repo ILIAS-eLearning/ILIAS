@@ -15,12 +15,12 @@ use ILIAS\UI\Implementation\Component\Signal;
  */
 interface Toast extends Component
 {
+    public function __construct($title, Icon $icon);
+
     /**
      * Gets the title of the toast
-     *
-     * @return string|Shy|Link
      */
-    public function getTitle();
+    public function getTitle() : string|Shy|Link;
 
     /**
      * Create a copy of this toast with an attached description.
@@ -56,7 +56,7 @@ interface Toast extends Component
     /**
      * Get the url, which is called when the user clicks the item title.
      */
-    public function getTitleAction() : ?string;
+    public function getTitleAction() : string|Signal|Closure;
 
     /**
      * Create a copy of this toast with an url, which is called asynchronous when the item vanishes.
@@ -67,7 +67,7 @@ interface Toast extends Component
     /**
      * Get the url, which is called when the item vanishes without user interaction.
      */
-    public function getVanishAction() : ?string;
+    public function getVanishAction() : string|Signal|Closure;
 
     /**
      * Get icon.
