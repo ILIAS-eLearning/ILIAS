@@ -28,11 +28,7 @@ class RealText extends Input implements C\Input\Field\RealText
             );
 
             $this->on_load_code_binder = function($id) {
-                return "new toastui.Editor({
-                        el: document.querySelector('#$id'),
-                        initialValue: content,
-                        initialEditType: 'wysiwyg'
-                    });";
+                return "il.UI.input.realtext.initiateEditor($id);";
             };
     }
 
@@ -72,5 +68,13 @@ class RealText extends Input implements C\Input\Field\RealText
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex()
+    {
+        return false;
     }
 }
