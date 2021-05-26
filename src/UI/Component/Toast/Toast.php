@@ -15,7 +15,7 @@ use ILIAS\UI\Implementation\Component\Signal;
  */
 interface Toast extends Component
 {
-    public function __construct($title, Icon $icon);
+    public function __construct(string $title, Icon $icon);
 
     /**
      * Gets the title of the toast
