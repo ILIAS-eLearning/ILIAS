@@ -51,7 +51,7 @@ interface Toast extends Component
     /**
      * Create a copy of this toast with an url, which is called when the item title is clicked.
      */
-    public function withTitleAction(string|Signal|Closure $url) : Toast;
+    public function withTitleAction(string|Signal|Closure $action) : Toast;
 
     /**
      * Get the url, which is called when the user clicks the item title.
@@ -62,7 +62,7 @@ interface Toast extends Component
      * Create a copy of this toast with an url, which is called asynchronous when the item vanishes.
      * This action will not trigger if the vanishing is provoked by the user by interacting with the toast.
      */
-    public function withVanishAction(string|Signal|Closure $url) : Toast;
+    public function withVanishAction(string|Signal|Closure $action) : Toast;
 
     /**
      * Get the url, which is called when the item vanishes without user interaction.
