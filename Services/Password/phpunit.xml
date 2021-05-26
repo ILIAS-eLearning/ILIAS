@@ -8,7 +8,7 @@
       <html outputDirectory="build/coverage" highLowerBound="80"/>
     </report>
   </coverage>
-  <testsuite name="ilServicesMailSuite">
+  <testsuite name="ilServicesPasswordSuite">
     <file>./test/ilServicesPasswordSuite.php</file>
   </testsuite>
   <logging>
