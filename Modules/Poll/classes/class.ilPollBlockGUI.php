@@ -154,7 +154,7 @@ class ilPollBlockGUI extends ilBlockGUI
                         $this->tpl->setVariable("ANSWER_INPUT", "checkbox");
                         $this->tpl->setVariable("ANSWER_NAME", "aw[]");
 
-                        if (is_array($last_vote) && in_array($item["id"], $last_vote)) {
+                        if (!empty($last_vote) && is_array($last_vote) && in_array($item["id"], $last_vote)) {
                             $this->tpl->setVariable("ANSWER_STATUS", 'checked="checked"');
                         }
                     }

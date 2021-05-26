@@ -374,8 +374,9 @@ class ilObjPoll extends ilObject2
      * Get image incl. path
      *
      * @param bool $a_as_thumb
+     * @return string
      */
-    public function getImageFullPath($a_as_thumb = false)
+    public function getImageFullPath($a_as_thumb = false) : ?string
     {
         $img = $this->getImage();
         if ($img) {
@@ -386,6 +387,8 @@ class ilObjPoll extends ilObject2
                 return $path . "thb_" . $img;
             }
         }
+
+        return null;
     }
     
     /**
@@ -404,11 +407,11 @@ class ilObjPoll extends ilObject2
     /**
      * Init file system storage
      *
-     * @param type $a_id
-     * @param type $a_subdir
+     * @param int $a_id
+     * @param string $a_subdir
      * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
+    public static function initStorage(int $a_id, string $a_subdir = null)
     {
         $storage = new ilFSStoragePoll($a_id);
         $storage->create();
@@ -508,13 +511,13 @@ class ilObjPoll extends ilObject2
         $set = $ilDB->query($sql);
         return (array) $ilDB->fetchAssoc($set);
     }
-    
-    public function saveAnswer($a_text, $a_pos = null)
+
+    public function saveAnswer($a_text, $a_pos = null) : ?int
     {
         $ilDB = $this->db;
         
         if (!trim($a_text)) {
-            return;
+            return null;
         }
         
         $id = $ilDB->nextId("il_poll_answer");
@@ -622,6 +625,7 @@ class ilObjPoll extends ilObject2
                         
         $ids = array();
         $pos = 0;
+        $id = null;
         foreach ($a_answers as $answer) {
             if (trim($answer)) {
                 // existing answer?

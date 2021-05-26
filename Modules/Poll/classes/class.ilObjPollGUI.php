@@ -28,9 +28,14 @@ class ilObjPollGUI extends ilObject2GUI
     protected $nav_history;
 
     /**
-     * @var \ILIAS\DI\Container
+     * @var
      */
-    protected $ui;
+    protected $ui_factory;
+
+    /**
+     * @var
+     */
+    protected $ui_renderer;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
@@ -47,7 +52,8 @@ class ilObjPollGUI extends ilObject2GUI
         $this->tree = $DIC->repositoryTree();
         $this->locator = $DIC["ilLocator"];
         $lng = $DIC->language();
-        $this->ui = $DIC->ui();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         
@@ -273,11 +279,6 @@ class ilObjPollGUI extends ilObject2GUI
         }
         
         switch ($next_class) {
-            case "ilinfoscreengui":
-                $this->prepareOutput();
-                $this->infoScreenForward();
-                break;
-            
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -326,7 +327,8 @@ class ilObjPollGUI extends ilObject2GUI
         $lng = $this->lng;
         $ilToolbar = $this->toolbar;
         $ilUser = $this->user;
-        $ui = $this->ui;
+        $ui_factory = $this->ui_factory;
+        $ui_renderer = $this->ui_renderer;
         
         if (!$this->checkPermissionBool("write")) {
             ilUtil::sendInfo($lng->txt("no_permission"));
@@ -334,18 +336,19 @@ class ilObjPollGUI extends ilObject2GUI
         }
         
         $ilTabs->activateTab("content");
-        
+
+        $message = "";
         if (!$a_form) {
             if ($this->object->countVotes()) {
                 $url = $ilCtrl->getLinkTarget($this, "showParticipants");
 
-                $mbox = $ui->factory()->messageBox()->info($lng->txt("poll_votes_no_edit"))
-                    ->withLinks([$ui->factory()->link()->standard(
+                $mbox = $ui_factory->messageBox()->info($lng->txt("poll_votes_no_edit"))
+                    ->withLinks([$ui_factory->link()->standard(
                         $lng->txt("poll_result"),
                         $url
                     )]);
 
-                $message = $ui->renderer()->render($mbox);
+                $message = $ui_renderer->render($mbox);
             }
             
             $a_form = $this->initQuestionForm($this->object->countVotes());
@@ -440,7 +443,7 @@ class ilObjPollGUI extends ilObject2GUI
                 $this->object->deleteImage();
             }
              
-            $nr_of_anwers = $this->object->saveAnswers($form->getInput("answers"));
+            $nr_of_anwers = $this->object->saveAnswers((array) $form->getInput("answers"));
             
             // #15073
             $this->object->setMaxNumberOfAnswers(min($form->getInput("nanswers"), $nr_of_anwers));
@@ -647,8 +650,9 @@ class ilObjPollGUI extends ilObject2GUI
      *
      * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
+        return parent::getHTML();
     }
     
     public function addLocatorItems()

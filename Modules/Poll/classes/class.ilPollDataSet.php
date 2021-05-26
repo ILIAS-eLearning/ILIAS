@@ -34,7 +34,7 @@ class ilPollDataSet extends ilDataSet
     /**
      * Get field types for entity
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "poll") {
             switch ($a_version) {
@@ -85,15 +85,19 @@ class ilPollDataSet extends ilDataSet
                     break;
             }
         }
+
+        return array();
     }
 
     /**
      * Read data
-     *
-     * @param
-     * @return
+     * @param        $a_entity
+     * @param        $a_version
+     * @param        $a_ids
+     * @param string $a_field
+     * @return void
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -167,14 +171,22 @@ class ilPollDataSet extends ilDataSet
 
         return $a_set;
     }
-    
+
     /**
      * Import record
-     *
-     * @param
-     * @return
+     * @param $a_entity
+     * @param $a_types
+     * @param $a_rec
+     * @param $a_mapping
+     * @param $a_schema_version
+     * @return void
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
     {
         switch ($a_entity) {
             case "poll":

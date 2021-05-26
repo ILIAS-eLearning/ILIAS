@@ -110,7 +110,7 @@ class ilPollBlock extends ilCustomBlock
         return false;
     }
     
-    public function maySeeResults($a_user_id)
+    public function maySeeResults($a_user_id) : bool
     {
         if (!$this->active) {
             return false;
@@ -133,9 +133,10 @@ class ilPollBlock extends ilCustomBlock
                 }
                 return false;
         }
+        return false;
     }
     
-    public function getMessage($a_user_id)
+    public function getMessage($a_user_id) : ?string
     {
         $lng = $this->lng;
         
@@ -152,6 +153,8 @@ class ilPollBlock extends ilCustomBlock
                 return sprintf($lng->txt("poll_block_message_inactive"), $date);
             }
         }
+
+        return null;
     }
 
     /**
