@@ -1,4 +1,4 @@
-# Reviewer
+# Review
 
 A review is given by a reviewer on code contributions (see: [contributing.md](contributing.md)) of 
 a reviewee. There are no guidelines on how review has to be performed in ILIAS, however here we propose a pattern
