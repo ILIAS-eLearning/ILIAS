@@ -1,6 +1,6 @@
-# Reviewer
+# Review
 
-A review is given by a reviewer on code contributions (see: [contributing.md](contributing.md)) of 
+A review is given by a reviewer on code contributions (see: [contributing.md](contributing.md)) of
 a reviewee. There are no guidelines on how review has to be performed in ILIAS, however here we propose a pattern
 inspired by an article of Dan Munckton in [How to be a kinder more effective code reviewer](https://cultivatehq.com/posts/how-to-be-a-kinder-more-effective-code-reviewer/).
 
@@ -8,10 +8,10 @@ In our experience many conflicts arise due to feedback written in a fashion whic
 what exactly is asked of a reviewee. The pattern adapted from suggestions by Munckton is aimed
 to make reviews easier to read and to leave less room for misunderstandings and communicational deadlocks.
 
- 
+
 
 ## General Pattern
-We try to lay a strong focus on making feedback **actionable**, meaning the reviewee should have 
+We try to lay a strong focus on making feedback **actionable**, meaning the reviewee should have
 a clear picture on how to react. Inspired by Munckton (see below for more details) we propose
 to use the following structure to reply to PRs:
 
@@ -80,12 +80,12 @@ In short, we have the following suggestions for you when writting reviews:
 
 ## Reasoning
 Munckton introduces the term **actionable** for feedbacks. An **actionable** feedback is one that
-can directly be reacted upon. He claims Questions, Suggestions and Change Requests 
+can directly be reacted upon. He claims Questions, Suggestions and Change Requests
 to be the most relevant types of such statements. He gives the following examples of those three statements:
-                                                  
+
 - Question: could you explain why this ended up having to be here?
 - Suggestion: you may have come across this already, but we might be able to use XYZ for this.
-- Change request: sorry, I appreciate the effort it took to get it this far. But the team 
+- Change request: sorry, I appreciate the effort it took to get it this far. But the team
 already agreed to solve this using XYZ. So I'm going to have to ask you to rework this. Let me know if I can help.
 
 
@@ -93,7 +93,7 @@ A fourth type he sometimes uses is the reaction, which is not actionable, but mi
 
 He further suggests to always keep things as clear as possible by using the following pattern:
 
->[type]: [actionable request] 
+>[type]: [actionable request]
 
 >[rationale or discussion]
 
@@ -103,8 +103,8 @@ Whereas:
 should respond.
 - rational or discussion: Possible further explanations of the reasoning behind the request.
 
-An example could be: 
->Suggestion: use XYZ. 
+An example could be:
+>Suggestion: use XYZ.
 
 >You may have come across this already, but we might be able to use XYZ for this because blah blah blah etc.
 
@@ -119,7 +119,3 @@ do not need an rational (E.g. *Change Request: typo in word actionalbe*).
 
 Do not leave any reactions in inline comments. They tend to crowd the discussion without giving
 the possibility of being resolved (seens not actionable). Move them to the summary.
-
-
-
-
