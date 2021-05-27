@@ -6,7 +6,6 @@ use Closure;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Link;
-use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
@@ -56,6 +55,7 @@ interface Toast extends Component
     /**
      * Get the url, which is called when the user clicks the item title.
      */
+
     public function getTitleAction() : string|Closure;
 
     /**
