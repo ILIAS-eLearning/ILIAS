@@ -21,12 +21,24 @@ class SkillInternalService
     protected $repository_tree;
 
     /**
+     * @var \ilRbacSystem
+     */
+    protected $rbac_system;
+
+    /**
+     * @var int
+     */
+    protected $usr_id;
+
+    /**
      * Constructor
      */
-    public function __construct(int $skmg_ref_id, \ilTree $repository_tree)
+    public function __construct(int $skmg_ref_id, \ilTree $repository_tree, \ilRbacSystem $rbac_system, int $usr_id)
     {
         $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
+        $this->rbac_system = $rbac_system;
+        $this->usr_id = $usr_id;
     }
 
     /**
@@ -43,7 +55,9 @@ class SkillInternalService
         return new SkillInternalManagerService(
             $this->skmg_ref_id,
             $this->repository_tree,
-            $this->factory()->tree()
+            $this->factory()->tree(),
+            $this->rbac_system,
+            $this->usr_id
         );
     }
 

@@ -165,3 +165,34 @@ $ilDB->update("skl_tree", [
 );
 
 ?>
+<#6>
+<?php
+
+if (!$ilDB->tableColumnExists("skl_profile", "skee_id")) {
+    $ilDB->addTableColumn("skl_profile", "skee_id", array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 4
+    ));
+}
+
+?>
+<#7>
+<?php
+
+$set = $ilDB->queryF("SELECT * FROM object_data " .
+    " WHERE type = %s AND title = %s",
+    ["string", "string"],
+    ["skee", "Default"]
+);
+$rec = $ilDB->fetchAssoc($set);
+
+$ilDB->update("skl_profile", [
+    "skee_id" => ["integer", $rec["obj_id"]]
+], [    // where
+        "skee_id" => ["integer", 0]
+    ]
+);
+
+?>

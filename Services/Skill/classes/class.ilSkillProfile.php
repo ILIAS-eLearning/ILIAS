@@ -28,6 +28,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected $title;
     protected $description;
     protected $ref_id = 0;
+    protected $skee_id = 0;
     protected $skill_level = array();
     
     /**
@@ -123,6 +124,22 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         return $this->ref_id;
     }
+
+    /**
+     * @param int $a_val skee id
+     */
+    public function setSkeeId($a_val)
+    {
+        $this->skee_id = $a_val;
+    }
+
+    /**
+     * @return int skee id
+     */
+    public function getSkeeId()
+    {
+        return $this->skee_id;
+    }
     
     /**
      * Add skill level
@@ -192,6 +209,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setRefId($rec["ref_id"]);
+        $this->setSkeeId($rec["skee_id"]);
         
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_level " .
@@ -217,11 +235,12 @@ class ilSkillProfile implements ilSkillUsageInfo
         // profile
         $this->setId($ilDB->nextId("skl_profile"));
         $ilDB->manipulate("INSERT INTO skl_profile " .
-            "(id, title, description, ref_id) VALUES (" .
+            "(id, title, description, ref_id, skee_id) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
             $ilDB->quote($this->getTitle(), "text") . "," .
             $ilDB->quote($this->getDescription(), "text") . "," .
-            $ilDB->quote($this->getRefId(), "integer") .
+            $ilDB->quote($this->getRefId(), "integer") . "," .
+            $ilDB->quote($this->getSkeeId(), "integer") .
             ")");
         
         // profile levels
@@ -401,7 +420,7 @@ class ilSkillProfile implements ilSkillUsageInfo
      * @param
      * @return
      */
-    public static function getProfiles()
+    public static function getProfilesForAllSkillTrees()
     {
         global $DIC;
 
@@ -419,12 +438,31 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $profiles;
     }
 
+    public static function getProfilesForSkillTree(int $a_skill_tree_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_profile " .
+            " WHERE skee_id = " . $ilDB->quote($a_skill_tree_id, "integer") .
+            " ORDER BY title "
+        );
+        $profiles = array();
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[$rec["id"]] = $rec;
+        }
+
+        return $profiles;
+    }
+
     /**
      * Get global profiles
      *
      * @return array
      */
-    public static function getGlobalProfiles()
+    public static function getGlobalProfiles() //nur für Skill Tree?
     {
         global $DIC;
 
@@ -449,7 +487,7 @@ class ilSkillProfile implements ilSkillUsageInfo
      * @param int $a_ref_id
      * @return array
      */
-    public static function getLocalProfiles(int $a_ref_id)
+    public static function getLocalProfiles(int $a_ref_id) //nur für Skill Tree?
     {
         global $DIC;
 
@@ -890,5 +928,18 @@ class ilSkillProfile implements ilSkillUsageInfo
             "profile_id",
             "base_skill_id"
         );
+    }
+
+    public function getTreeIdForProfileId(int $a_profile_id) : int
+    {
+        $db = $this->db;
+
+        $set = $db->queryF("SELECT * FROM skl_profile " .
+            " WHERE id = %s ",
+            ["integer"],
+            [$a_profile_id]
+        );
+        $rec = $db->fetchAssoc($set);
+        return $rec["skee_id"] ?? 0;
     }
 }

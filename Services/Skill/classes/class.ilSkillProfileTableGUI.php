@@ -20,26 +20,46 @@ class ilSkillProfileTableGUI extends ilTable2GUI
     protected $access;
 
     /**
-     * @var ilRbacSystem
+     * @var \ILIAS\Skill\Access\SkillAccess
      */
-    protected $rbacsystem;
+    protected $skill_access_manager;
+
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $requested_ref_id;
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_write_permission = false)
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_skill_tree_id)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->rbacsystem = $DIC->rbac()->system();
+        $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
+        $params = $this->request->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
+
+        $this->skill_access_manager = $DIC->skills()->internal()->manager()->getAccessManager($this->requested_ref_id);
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setData($this->getProfiles());
+        if ($a_skill_tree_id == 0) {
+            $this->setData($this->getProfiles());
+        } else {
+            $this->setData($this->getProfilesForSkillTree($a_skill_tree_id));
+        }
+
         $this->setTitle($lng->txt("skmg_skill_profiles"));
 
         $this->addColumn("", "", "1px", true);
@@ -53,7 +73,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_profile_row.html", "Services/Skill");
 
         $this->addMultiCommand("exportProfiles", $lng->txt("export"));
-        if ($a_write_permission) {
+        if ($this->skill_access_manager->hasManageProfilesPermission()) {
             $this->addMultiCommand("confirmDeleteProfiles", $lng->txt("delete"));
         }
         //$this->addCommandButton("", $lng->txt(""));
@@ -66,7 +86,17 @@ class ilSkillProfileTableGUI extends ilTable2GUI
      */
     public function getProfiles()
     {
-        return ilSkillProfile::getProfiles();
+        return ilSkillProfile::getProfilesForAllSkillTrees();
+    }
+
+    /**
+     * Get profiles for a specific skill tree
+     *
+     * @return array array of skill profiles
+     */
+    public function getProfilesForSkillTree(int $a_skill_tree_id)
+    {
+        return ilSkillProfile::getProfilesForSkillTree($a_skill_tree_id);
     }
 
 
@@ -79,13 +109,11 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setCurrentBlock("cmd");
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $this->tpl->setVariable("CMD", $lng->txt("edit"));
-            $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
-            $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showLevels"));
-            $ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
-            $this->tpl->parseCurrentBlock();
-        }
+        $this->tpl->setVariable("CMD", $lng->txt("edit"));
+        $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
+        $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showLevels"));
+        $ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
+        $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 

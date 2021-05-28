@@ -4,6 +4,7 @@
 
 use \ILIAS\Skill\Service\SkillInternalManagerService;
 use \ILIAS\Skill\Tree;
+use \ILIAS\Skill\Access;
 use \ILIAS\UI\Component\Input\Container\Form;
 use \ILIAS\GlobalScreen\ScreenContext;
 
@@ -41,6 +42,11 @@ class ilObjSkillTreeGUI extends ilObjectGUI
      * @var Tree\SkillTreeNodeManager
      */
     protected $skill_tree_node_manager;
+
+    /**
+     * @var Access\SkillAccess
+     */
+    protected $skill_access_manager;
 
     /**
      * @var \ILIAS\DI\UIServices
@@ -97,6 +103,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->skill_access_manager = $DIC->skills()->internal()->manager()->getAccessManager($this->object->getRefId());
     }
 
     /**
@@ -203,7 +210,10 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
             case "ilskillprofilegui":
                 $ilTabs->activateTab("profiles");
-                $skprof_gui = new ilSkillProfileGUI();
+                $skprof_gui = new ilSkillProfileGUI(
+                    $this->skill_access_manager,
+                    $this->skill_tree->getTreeId()
+                );
                 $ret = $this->ctrl->forwardCommand($skprof_gui);
                 break;
 

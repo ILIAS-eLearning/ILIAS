@@ -62,6 +62,11 @@ class ilContSkillAdminGUI
     protected $skmg_settings;
 
     /**
+     * @var \ILIAS\Skill\Access\SkillAccess
+     */
+    protected $skill_access_manager;
+
+    /**
      * @var ilToolbarGUI
      */
     protected $toolbar;
@@ -103,6 +108,7 @@ class ilContSkillAdminGUI
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
         $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
         $this->skmg_settings = new ilSkillManagementSettings();
+        $this->skill_access_manager = $DIC->skills()->internal()->manager()->getAccessManager($this->ref_id);
 
         $this->user_id = (int) $_GET["usr_id"];
 
@@ -123,7 +129,7 @@ class ilContSkillAdminGUI
     
         switch ($next_class) {
             case "ilskillprofilegui":
-                $profile_gui = new ilSkillProfileGUI();
+                $profile_gui = new ilSkillProfileGUI($this->skill_access_manager);
                 $this->ctrl->setReturn($this, "listProfiles");
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
