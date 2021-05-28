@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
-
 use ILIAS\Setup;
 
 /**
@@ -11,42 +9,57 @@ use ILIAS\Setup;
  */
 class ilGlobalCacheSettings implements Setup\Config
 {
+    /**
+     * @var int
+     */
     const LOG_LEVEL_FORCED = -1;
+    /**
+     * @var int
+     */
     const LOG_LEVEL_NONE = 0;
+    /**
+     * @var int
+     */
     const LOG_LEVEL_SHY = 1;
+    /**
+     * @var int
+     */
     const LOG_LEVEL_NORMAL = 2;
+    /**
+     * @var int
+     */
     const LOG_LEVEL_CHATTY = 3;
+    /**
+     * @var string
+     */
     const INI_HEADER_CACHE = 'cache';
+    /**
+     * @var string
+     */
     const INI_FIELD_ACTIVATE_GLOBAL_CACHE = 'activate_global_cache';
+    /**
+     * @var string
+     */
     const INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE = 'global_cache_service_type';
+    /**
+     * @var string
+     */
     const INI_HEADER_CACHE_ACTIVATED_COMPONENTS = 'cache_activated_components';
+    /**
+     * @var string
+     */
     const INI_FIELD_LOG_LEVEL = 'log_level';
-    /**
-     * @var int
-     */
-    protected $service = ilGlobalCache::TYPE_STATIC;
-    /**
-     * @var array
-     */
-    protected $activated_components = array();
-    /**
-     * @var bool
-     */
-    protected $active = false;
-    /**
-     * @var int
-     */
-    protected $log_level = self::LOG_LEVEL_NONE;
+    protected int $service = ilGlobalCache::TYPE_STATIC;
+    protected array $activated_components = array();
+    protected bool $active = false;
+    protected int $log_level = self::LOG_LEVEL_NONE;
     /**
      * @var ilMemcacheServer[]
      */
-    protected $memcached_nodes = [];
+    protected array $memcached_nodes = [];
 
 
-    /**
-     * @param ilIniFile $ilIniFile
-     */
-    public function readFromIniFile(ilIniFile $ilIniFile)
+    public function readFromIniFile(ilIniFile $ilIniFile): void
     {
         $this->checkIniHeader($ilIniFile);
         $this->setActive($ilIniFile->readVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE));
@@ -67,10 +80,7 @@ class ilGlobalCacheSettings implements Setup\Config
     }
 
 
-    /**
-     * @param ilIniFile $ilIniFile
-     */
-    public function writeToIniFile(ilIniFile $ilIniFile)
+    public function writeToIniFile(ilIniFile $ilIniFile): void
     {
         $ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_ACTIVATE_GLOBAL_CACHE, $this->isActive() ? '1' : '0');
         $ilIniFile->setVariable(self::INI_HEADER_CACHE, self::INI_FIELD_GLOBAL_CACHE_SERVICE_TYPE, $this->getService());
@@ -87,7 +97,7 @@ class ilGlobalCacheSettings implements Setup\Config
     }
 
 
-    public function activateAll()
+    public function activateAll(): void
     {
         foreach (ilGlobalCache::getAvailableComponents() as $comp) {
             $this->addActivatedComponent($comp);
@@ -98,14 +108,14 @@ class ilGlobalCacheSettings implements Setup\Config
     /**
      * @param $component
      */
-    public function addActivatedComponent($component)
+    public function addActivatedComponent($component): void
     {
         $this->activated_components[] = $component;
         $this->activated_components = array_unique($this->activated_components);
     }
 
 
-    public function resetActivatedComponents()
+    public function resetActivatedComponents(): void
     {
         $this->activated_components = array();
     }
@@ -113,82 +123,56 @@ class ilGlobalCacheSettings implements Setup\Config
 
     /**
      * @param $component
-     *
-     * @return bool
      */
-    public function isComponentActivated($component)
+    public function isComponentActivated($component): bool
     {
         return in_array($component, $this->activated_components);
     }
 
 
-    /**
-     * @return bool
-     */
-    public function areAllComponentActivated()
+    public function areAllComponentActivated(): bool
     {
-        return count($this->activated_components) == count(ilGlobalCache::getAvailableComponents());
+        return count($this->activated_components) === count(ilGlobalCache::getAvailableComponents());
     }
 
 
-    /**
-     * @return int
-     */
-    public function getService()
+    public function getService(): int
     {
         return $this->service;
     }
 
 
-    /**
-     * @param int $service
-     */
-    public function setService($service)
+    public function setService(int $service): void
     {
         $this->service = $service;
     }
 
 
-    /**
-     * @return array
-     */
-    public function getActivatedComponents()
+    public function getActivatedComponents(): array
     {
         return $this->activated_components;
     }
 
 
-    /**
-     * @param array $activated_components
-     */
-    public function setActivatedComponents($activated_components)
+    public function setActivatedComponents(array $activated_components): void
     {
         $this->activated_components = $activated_components;
     }
 
 
-    /**
-     * @return boolean
-     */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active;
     }
 
 
-    /**
-     * @param boolean $active
-     */
-    public function setActive($active)
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
 
 
-    /**
-     * @param ilIniFile $ilIniFile
-     */
-    protected function checkIniHeader(ilIniFile $ilIniFile)
+    protected function checkIniHeader(ilIniFile $ilIniFile): void
     {
         if (!$ilIniFile->readGroup(self::INI_HEADER_CACHE)) {
             $ilIniFile->addGroup(self::INI_HEADER_CACHE);
@@ -199,19 +183,13 @@ class ilGlobalCacheSettings implements Setup\Config
     }
 
 
-    /**
-     * @return int
-     */
-    public function getLogLevel()
+    public function getLogLevel(): int
     {
         return $this->log_level;
     }
 
 
-    /**
-     * @param int $log_level
-     */
-    public function setLogLevel($log_level)
+    public function setLogLevel(int $log_level): void
     {
         $this->log_level = $log_level;
     }
@@ -227,10 +205,7 @@ class ilGlobalCacheSettings implements Setup\Config
     }
 
 
-    /**
-     * @return string
-     */
-    protected function getLogLevelName()
+    protected function getLogLevelName(): string
     {
         return $this->lookupLogLevelName($this->getLogLevel());
     }
@@ -238,14 +213,12 @@ class ilGlobalCacheSettings implements Setup\Config
 
     /**
      * @param $level
-     *
-     * @return string
      */
-    protected function lookupLogLevelName($level)
+    protected function lookupLogLevelName($level): string
     {
         $r = new ReflectionClass($this);
         foreach ($r->getConstants() as $k => $v) {
-            if (strpos($k, 'LOG_LEVEL') === 0 and $v == $level) {
+            if (strpos($k, 'LOG_LEVEL') === 0 && $v == $level) {
                 return $k;
             }
         }

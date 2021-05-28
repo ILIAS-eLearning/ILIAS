@@ -1,7 +1,5 @@
 <?php
 
-require_once('./Services/GlobalCache/classes/class.ilGlobalCacheService.php');
-
 /**
  * Class ilStaticCache
  * @beta
@@ -11,69 +9,47 @@ require_once('./Services/GlobalCache/classes/class.ilGlobalCacheService.php');
 class ilStaticCache extends ilGlobalCacheService
 {
     
-    /**
-     * @return bool
-     */
-    protected function getActive()
+    protected function getActive(): bool
     {
         return true;
     }
     
-    /**
-     * @return bool
-     */
-    protected function getInstallable()
+    protected function getInstallable(): bool
     {
         return true;
     }
     
-    /**
-     * @var array
-     */
-    protected static $cache = array();
+    protected static array $cache = array();
     
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function exists($key)
+    public function exists(string $key) : bool
     {
         return isset(self::$cache[$this->getComponent()][$key]);
     }
     
     /**
-     * @param      $key
-     * @param      $serialized_value
-     * @param null $ttl
+     * @param string   $key
+     * @param          $serialized_value
+     * @param int|null $ttl
      * @return bool
      */
-    public function set($key, $serialized_value, $ttl = null)
+    public function set(string $key, $serialized_value, int $ttl = null) : bool
     {
         return self::$cache[$this->getComponent()][$key] = $serialized_value;
     }
     
     /**
-     * @param      $key
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         return self::$cache[$this->getComponent()][$key];
     }
     
-    /**
-     * @param      $key
-     * @return bool
-     */
-    public function delete($key)
+    public function delete(string $key): bool
     {
         unset(self::$cache[$this->getComponent()][$key]);
     }
     
-    /**
-     * @param bool $complete
-     * @return bool
-     */
     public function flush(bool $complete = false) : bool
     {
         if ($complete) {

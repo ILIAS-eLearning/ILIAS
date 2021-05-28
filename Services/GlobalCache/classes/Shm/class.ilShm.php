@@ -1,7 +1,5 @@
 <?php
 
-require_once('./Services/GlobalCache/classes/class.ilGlobalCacheService.php');
-
 /**
  * Class ilShm
  *
@@ -16,29 +14,25 @@ class ilShm extends ilGlobalCacheService
     /**
      * @var int
      */
-    protected static $shm_id = null;
-    /**
-     * @var int
-     */
-    protected static $block_size = 0;
-
-
+    protected static $shm_id;
+    protected static int $block_size = 0;
+    
     /**
      * @description set self::$active
+     * @return bool
      */
-    protected function getActive()
+    protected function getActive(): bool
     {
-        self::$active = function_exists('shmop_open');
+        return function_exists('shmop_open');
     }
-
-
+    
     /**
      * @description set self::$installable
+     * @return bool
      */
-    protected function getInstallable()
+    protected function getInstallable(): bool
     {
         return false;
-        self::$active = function_exists('shmop_open');
     }
 
 
@@ -52,59 +46,37 @@ class ilShm extends ilGlobalCacheService
         self::$shm_id = shmop_open(0xff3, "c", 0644, 100);
         self::$block_size = shmop_size(self::$shm_id);
     }
-
-
-    /**
-     * @param $key
-     *
-     * @return bool
-     */
-    public function exists($key)
+    
+    public function exists(string $key):bool
     {
         return shm_has_var(self::$shm_id, $key);
     }
-
-
+    
     /**
-     * @param      $key
-     * @param      $serialized_value
-     * @param null $ttl
-     *
+     * @param string   $key
+     * @param          $serialized_value
+     * @param int|null $ttl
      * @return bool
      */
-    public function set($key, $serialized_value, $ttl = null)
+    public function set(string $key, $serialized_value, int $ttl = null):bool
     {
         return shmop_write(self::$shm_id, $key, $serialized_value);
     }
-
-
+    
     /**
-     * @param      $key
-     *
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         return shmop_read(self::$shm_id, 0, self::$block_size);
     }
-
-
-    /**
-     * @param      $key
-     *
-     * @return bool
-     */
-    public function delete($key)
+    
+    public function delete(string $key):bool
     {
         return shm_remove_var(self::$shm_id, $key);
     }
 
 
-    /**
-     * @param bool $complete
-     *
-     * @return bool
-     */
     public function flush(bool $complete = false):bool
     {
         // currently a partial flushing is missing
@@ -119,7 +91,7 @@ class ilShm extends ilGlobalCacheService
      *
      * @return mixed
      */
-    public function serialize($value)
+    public function serialize($value): string
     {
         return serialize($value);
     }

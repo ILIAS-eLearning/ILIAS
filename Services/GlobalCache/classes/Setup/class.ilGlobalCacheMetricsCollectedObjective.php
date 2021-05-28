@@ -7,14 +7,14 @@ use ILIAS\DI;
 
 class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);

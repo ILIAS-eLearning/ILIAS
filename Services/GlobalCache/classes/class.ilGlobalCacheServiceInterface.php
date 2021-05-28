@@ -15,87 +15,46 @@ interface ilGlobalCacheServiceInterface
     public function unserialize($serialized_value);
     
     /**
-     * @param      $key
      * @return mixed
      */
-    public function get($key);
+    public function get(string $key);
     
     /**
-     * @param      $key
-     * @param      $serialized_value
-     * @param null $ttl
+     * @param string   $key
+     * @param          $serialized_value
+     * @param int|null $ttl
      * @return bool
      */
-    public function set($key, $serialized_value, $ttl = null);
+    public function set(string $key, $serialized_value, int $ttl = null) : bool;
+    
+    public function getServiceId() : int;
+    
+    public function setServiceId(int $service_id) : void;
+    
+    public function getComponent() : string;
+    
+    public function setComponent(string $component) : void;
+    
+    public function isActive() : bool;
+    
+    public function isInstallable() : bool;
+    
+    public function returnKey(string $key) : string;
+    
+    public function getInfo() : array;
+    
+    public function getInstallationFailureReason() : string;
+    
+    public function exists(string $key) : bool;
+    
+    public function delete(string $key) : bool;
     
     /**
-     * @return string
-     */
-    public function getServiceId();
-    
-    /**
-     * @param string $service_id
-     */
-    public function setServiceId($service_id);
-    
-    /**
-     * @return string
-     */
-    public function getComponent();
-    
-    /**
-     * @param string $component
-     */
-    public function setComponent($component);
-    
-    /**
-     * @return bool
-     */
-    public function isActive();
-    
-    /**
-     * @return bool
-     */
-    public function isInstallable();
-    
-    /**
-     * @param $key
-     * @return string
-     */
-    public function returnKey($key);
-    
-    /**
-     * @return array
-     */
-    public function getInfo();
-    
-    /**
-     * @return string
-     */
-    public function getInstallationFailureReason();
-    
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function exists($key);
-    
-    /**
-     * @param      $key
-     * @return bool
-     */
-    public function delete($key);
-    
-    /**
-     * @param bool $complete
      * @return mixed
      */
     public function flush(bool $complete = false) : bool;
     
-    /**
-     * @param int $service_type
-     */
-    public function setServiceType($service_type);
+    public function setServiceType(int $service_type);
     
     /**
      * @return int
@@ -107,12 +66,12 @@ interface ilGlobalCacheServiceInterface
      * @param string $key The key which should be declared as valid.
      * @return void
      */
-    public function setValid($key);
+    public function setValid(string $key);
     
     /**
      * Checks whether the cache key is valid or not.
      * @param string $key The key which should be checked.
      * @return bool True if the key is valid otherwise false.
      */
-    public function isValid($key);
+    public function isValid(string $key) : bool;
 }

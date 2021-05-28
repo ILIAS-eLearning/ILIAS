@@ -9,100 +9,79 @@
 abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
     
-    /**
-     * @var int
-     */
-    protected $current_time = 0;
-    /**
-     * @var array
-     */
-    protected $valid_keys = array();
-    /**
-     * @var bool
-     */
-    protected static $active = array();
-    /**
-     * @var bool
-     */
-    protected static $installable = array();
-    /**
-     * @var string
-     */
-    protected $service_id = '';
-    /**
-     * @var string
-     */
-    protected $component = '';
-    /**
-     * @var int
-     */
-    protected $service_type = ilGlobalCache::TYPE_STATIC;
-    /**
-     * @var string
-     */
-    protected $valid_key_hash = '';
+    protected int $current_time = 0;
+    protected array $valid_keys = array();
+    protected static array $active = array();
+    protected static array $installable = array();
+    protected string $service_id = '';
+    protected string $component = '';
+    protected int $service_type = ilGlobalCache::TYPE_STATIC;
+    protected string $valid_key_hash = '';
     
-    public function __construct($service_id, $component)
+    /**
+     * ilGlobalCacheService constructor.
+     */
+    public function __construct(int $service_id, string $component)
     {
         $this->setComponent($component);
         $this->setServiceId($service_id);
-        self::$active[get_called_class()] = $this->getActive();
-        self::$installable[get_called_class()] = ($this->getInstallable() and $this->checkMemory());
+        self::$active[static::class] = $this->getActive();
+        self::$installable[static::class] = ($this->getInstallable() && $this->checkMemory());
     }
     
-    abstract protected function getActive();
+    abstract protected function getActive() : bool;
     
-    abstract protected function getInstallable();
+    abstract protected function getInstallable() : bool;
     
     abstract public function unserialize($serialized_value);
     
-    abstract public function get($key);
+    abstract public function get(string $key);
     
-    abstract public function set($key, $serialized_value, $ttl = null);
+    abstract public function set(string $key, $serialized_value, int $ttl = null) : bool;
     
     abstract public function serialize($value);
     
-    public function getServiceId()
+    public function getServiceId(): int
     {
         return $this->service_id;
     }
     
-    public function setServiceId($service_id)
+    public function setServiceId(int $service_id): void
     {
         $this->service_id = $service_id;
     }
     
-    public function getComponent()
+    public function getComponent(): string
     {
         return $this->component;
     }
     
-    public function setComponent($component)
+    public function setComponent(string $component): void
     {
         $this->component = $component;
     }
     
-    public function isActive()
+    public function isActive() : bool
     {
-        return self::$active[get_called_class()];
+        return self::$active[static::class];
     }
     
-    public function isInstallable()
+    public function isInstallable() : bool
     {
-        return self::$installable[get_called_class()];
+        return self::$installable[static::class];
     }
     
-    public function returnKey($key)
+    public function returnKey(string $key) : string
     {
-        return $str = $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
+        return $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
     }
     
-    public function getInfo()
+    public function getInfo() : array
     {
         return array();
     }
     
-    public function getInstallationFailureReason()
+    public function getInstallationFailureReason() : string
     {
         if (!$this->getInstallable()) {
             return 'Not installed';
@@ -114,58 +93,55 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         return 'Unknown reason';
     }
     
-    protected function getMemoryLimit()
+    protected function getMemoryLimit() : int
     {
         return 9999;
     }
     
-    protected function getMinMemory()
+    protected function getMinMemory() : int
     {
         return 0;
     }
     
-    protected function checkMemory()
+    protected function checkMemory() : bool
     {
         $matches = array();
         $memory_limit = $this->getMemoryLimit();
-        if (preg_match('/([0-9]*)([M|K])/uism', $memory_limit, $matches)) {
-            switch ($matches[2]) {
-                case 'M':
-                    $memory_limit = $matches[1] * 1024 * 1024; // nnnM -> nnn MB
-                    break;
-                case 'K':
-                    $memory_limit = $matches[1] * 1024; // nnnK -> nnn KB
-                    break;
+        if (preg_match('#(\d*)([M|K])#uism', $memory_limit, $matches)) {
+            if ($matches[2] === 'M') {
+                $memory_limit = $matches[1] * 1024 * 1024;
+            } elseif ($matches[2] === 'K') {
+                $memory_limit = $matches[1] * 1024;
             }
         } else {
-            $memory_limit = $memory_limit * 1024 * 1024; // nnnM -> nnn MB
+            $memory_limit *= 1024 * 1024; // nnnM -> nnn MB
         }
         
         return ($memory_limit >= $this->getMinMemory() * 1024 * 1024);
     }
     
-    abstract public function exists($key);
+    abstract public function exists(string $key) : bool;
     
-    abstract public function delete($key);
+    abstract public function delete(string $key) : bool;
     
     abstract public function flush(bool $complete = false) : bool;
     
-    public function setServiceType($service_type)
+    public function setServiceType(int $service_type): void
     {
         $this->service_type = $service_type;
     }
     
-    public function getServiceType()
+    public function getServiceType(): int
     {
         return $this->service_type;
     }
     
-    public function setValid($key)
+    public function setValid(string $key): void
     {
         $this->valid_keys[$key] = true;
     }
     
-    public function isValid($key)
+    public function isValid(string $key) : bool
     {
         return isset($this->valid_keys[$key]);
     }
