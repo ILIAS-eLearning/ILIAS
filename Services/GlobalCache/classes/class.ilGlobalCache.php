@@ -449,9 +449,6 @@ class ilGlobalCache
      */
     public function setServiceType($service_type)
     {
-        if ($this->global_cache instanceof ilGlobalCacheService) {
-            $this->global_cache->setServiceType($service_type);
-        }
         $this->service_type = $service_type;
     }
 
@@ -460,10 +457,6 @@ class ilGlobalCache
      */
     public function getServiceType()
     {
-        if ($this->global_cache instanceof ilGlobalCacheService) {
-            return $this->global_cache->getServiceType();
-        }
-
         return $this->service_type;
     }
 
