@@ -105,7 +105,7 @@ class ilShm extends ilGlobalCacheService
      *
      * @return bool
      */
-    public function flush($complete = false)
+    public function flush(bool $complete = false):bool
     {
         // currently a partial flushing is missing
         shmop_delete(self::$shm_id);

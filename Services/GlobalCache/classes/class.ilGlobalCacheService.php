@@ -2,15 +2,13 @@
 
 /**
  * Class ilGlobalCacheService
- *
  * Base class for all concrete cache implementations.
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.1
  */
-abstract class ilGlobalCacheService
+abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
-
+    
     /**
      * @var int
      */
@@ -43,12 +41,7 @@ abstract class ilGlobalCacheService
      * @var string
      */
     protected $valid_key_hash = '';
-
-
-    /**
-     * @param $service_id
-     * @param $component
-     */
+    
     public function __construct($service_id, $component)
     {
         $this->setComponent($component);
@@ -56,131 +49,59 @@ abstract class ilGlobalCacheService
         self::$active[get_called_class()] = $this->getActive();
         self::$installable[get_called_class()] = ($this->getInstallable() and $this->checkMemory());
     }
-
-
-    /**
-     * @return bool
-     */
+    
     abstract protected function getActive();
-
-
-    /**
-     * @return bool
-     */
+    
     abstract protected function getInstallable();
-
-
-    /**
-     * @param $serialized_value
-     *
-     * @return mixed
-     */
+    
     abstract public function unserialize($serialized_value);
-
-
-    /**
-     * @param      $key
-     *
-     * @return mixed
-     */
+    
     abstract public function get($key);
-
-
-    /**
-     * @param      $key
-     * @param      $serialized_value
-     * @param null $ttl
-     *
-     * @return bool
-     */
+    
     abstract public function set($key, $serialized_value, $ttl = null);
-
-
-    /**
-     * @param $value
-     *
-     * @return mixed
-     */
+    
     abstract public function serialize($value);
-
-
-    /**
-     * @return string
-     */
+    
     public function getServiceId()
     {
         return $this->service_id;
     }
-
-
-    /**
-     * @param string $service_id
-     */
+    
     public function setServiceId($service_id)
     {
         $this->service_id = $service_id;
     }
-
-
-    /**
-     * @return string
-     */
+    
     public function getComponent()
     {
         return $this->component;
     }
-
-
-    /**
-     * @param string $component
-     */
+    
     public function setComponent($component)
     {
         $this->component = $component;
     }
-
-
-    /**
-     * @return bool
-     */
+    
     public function isActive()
     {
         return self::$active[get_called_class()];
     }
-
-
-    /**
-     * @return bool
-     */
+    
     public function isInstallable()
     {
         return self::$installable[get_called_class()];
     }
-
-
-    /**
-     * @param $key
-     *
-     * @return string
-     */
+    
     public function returnKey($key)
     {
         return $str = $this->getServiceId() . '_' . $this->getComponent() . '_' . $key;
     }
-
-
-    /**
-     * @return array
-     */
+    
     public function getInfo()
     {
         return array();
     }
-
-
-    /**
-     * @return string
-     */
+    
     public function getInstallationFailureReason()
     {
         if (!$this->getInstallable()) {
@@ -189,32 +110,20 @@ abstract class ilGlobalCacheService
         if (!$this->checkMemory()) {
             return 'Not enough Cache-Memory, set to at least ' . $this->getMinMemory() . 'M';
         }
-
+        
         return 'Unknown reason';
     }
-
-
-    /**
-     * @return int
-     */
+    
     protected function getMemoryLimit()
     {
         return 9999;
     }
-
-
-    /**
-     * @return int
-     */
+    
     protected function getMinMemory()
     {
         return 0;
     }
-
-
-    /**
-     * @return bool
-     */
+    
     protected function checkMemory()
     {
         $matches = array();
@@ -231,73 +140,31 @@ abstract class ilGlobalCacheService
         } else {
             $memory_limit = $memory_limit * 1024 * 1024; // nnnM -> nnn MB
         }
-
+        
         return ($memory_limit >= $this->getMinMemory() * 1024 * 1024);
     }
-
-
-    /**
-     * @param $key
-     *
-     * @return bool
-     */
+    
     abstract public function exists($key);
-
-
-    /**
-     * @param      $key
-     *
-     * @return bool
-     */
+    
     abstract public function delete($key);
-
-
-    /**
-     * @param bool $complete
-     *
-     * @return mixed
-     */
-    abstract public function flush($complete = false);
-
-
-    /**
-     * @param int $service_type
-     */
+    
+    abstract public function flush(bool $complete = false) : bool;
+    
     public function setServiceType($service_type)
     {
         $this->service_type = $service_type;
     }
-
-
-    /**
-     * @return int
-     */
+    
     public function getServiceType()
     {
         return $this->service_type;
     }
-
-
-    /**
-     * Declare a key as valid. If the key is already known no action is taken.
-     *
-     * @param string $key The key which should be declared as valid.
-     *
-     * @return void
-     */
+    
     public function setValid($key)
     {
         $this->valid_keys[$key] = true;
     }
-
-
-    /**
-     * Checks whether the cache key is valid or not.
-     *
-     * @param string $key   The key which should be checked.
-     *
-     * @return bool True if the key is valid otherwise false.
-     */
+    
     public function isValid($key)
     {
         return isset($this->valid_keys[$key]);

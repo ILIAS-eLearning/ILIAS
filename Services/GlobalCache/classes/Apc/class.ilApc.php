@@ -11,7 +11,7 @@ require_once('./Services/Environment/classes/class.ilRuntime.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilApc extends ilGlobalCacheService
+class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
     const MIN_MEMORY = 16;
     const CACHE_ID = 'user';
@@ -72,7 +72,7 @@ class ilApc extends ilGlobalCacheService
      *
      * @return bool
      */
-    public function flush($complete = false)
+    public function flush(bool $complete = false) : bool
     {
         if ($complete) {
             return apcu_clear_cache();
