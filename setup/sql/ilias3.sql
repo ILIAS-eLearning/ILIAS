@@ -1197,7 +1197,9 @@ CREATE TABLE `booking_reservation` (
   `context_obj_id` int(11) DEFAULT 0,
   PRIMARY KEY (`booking_reservation_id`),
   KEY `i1_idx` (`user_id`),
-  KEY `i2_idx` (`object_id`)
+  KEY `i2_idx` (`object_id`),
+  KEY `i3_idx` (`date_from`),
+  KEY `i4_idx` (`date_to`)
 ) ;
 
 --
@@ -20361,7 +20363,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','42');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','44');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 
 --
@@ -24970,4 +24972,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2021-04-30 13:34:09
+-- Dump completed on 2021-05-28 16:45:47

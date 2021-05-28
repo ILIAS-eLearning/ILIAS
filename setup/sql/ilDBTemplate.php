@@ -2478,6 +2478,12 @@ $ilDB->addIndex("booking_reservation", $in_fields, "i1", false);
 $in_fields = array("object_id");
 $ilDB->addIndex("booking_reservation", $in_fields, "i2", false);
 
+$in_fields = array("date_from");
+$ilDB->addIndex("booking_reservation", $in_fields, "i3", false);
+
+$in_fields = array("date_to");
+$ilDB->addIndex("booking_reservation", $in_fields, "i4", false);
+
 $ilDB->createSequence("booking_reservation", 1);
 
 
@@ -48593,7 +48599,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '42')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '44')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
