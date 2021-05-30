@@ -1,3 +1,25 @@
+/*		Color scheme
+		Dark BLue: #0f2152;
+		Mid Blue: #4c6586;
+		Green: #6ea03c;
+		Light Brown: #dcb496;
+		Dark Brown: #523228;
+		Orange: #fa8228;
+		External Blue: #21c5d8;
+		ILIAS 4 MainMenu Color: #c8e6ff;
+*/
+/** if left unchanged, you have to copy all the background images to your skin/images folder.
+* To use the delos background images in your skin,
+* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
+*/
+/** if left unchanged, you have to copy delos fonts folder to your skin folder.
+* To use the delos fonts in your skin,
+* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
+*/
+/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
+/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
+/* @il-highlight-bg: lighten(#21c5d8, 40%); */
+/* @nav-tabs-link-hover-border-color: @brand-primary; */
 a.ilc_qetitem_ErrorTextItem {
   padding: 2px;
   text-decoration: none;
@@ -135,7 +157,8 @@ a.ilc_section_AdvancedKnowledge {
   background-repeat: no-repeat;
 }
 div.ilc_qanswer_Answer {
-  padding-left: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
   border-radius: 5px;
   margin: 3px;
 }
@@ -902,14 +925,14 @@ li.ilc_qordli_OrderListItem {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  background-color: #f5f7fa;
+  background-color: #dfe3e6;
   margin-right: 0px;
   cursor: move;
   padding: 10px;
 }
 li.ilc_qordli_OrderListItemHorizontal {
   cursor: move;
-  background-color: #f5f7fa;
+  background-color: #dfe3e6;
   padding: 10px;
   margin-right: 10px;
   margin-bottom: 5px;
