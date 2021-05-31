@@ -170,7 +170,7 @@ $uploaded_file_desc = array();
 if ($errors->fields || $errors->general) {
     $response[] = $errors;
 } elseif ($uploadedFile && $mob_details[$uploadedFile]) {
-    $location= $mob_details[$uploadedFile]['http_dir'] . $mob_details[$uploadedFile]['file_name'];
+    $location= "." . $mob_details[$uploadedFile]['http_dir'] . $mob_details[$uploadedFile]['file_name'];
     $uploaded_file_desc['width']= (int) $img_size[0];
     $uploaded_file_desc['height']= (int) $img_size[1];
     $uploaded_file_desc['location']= $location;
