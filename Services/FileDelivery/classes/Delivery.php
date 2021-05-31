@@ -609,16 +609,21 @@ final class Delivery
 
 
     /**
-     * @return void
+     * @return bool
      */
-    public function clearBuffer()
+    public function clearBuffer() : bool
     {
-        $ob_get_contents = ob_get_contents();
-        if ($ob_get_contents) {
-            //			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
-            //			                                . $ob_get_contents);
+        try {
+            $ob_get_contents = ob_get_contents();
+            if ($ob_get_contents) {
+                //			\ilWACLog::getInstance()->write(__CLASS__ . ' had output before file delivery: '
+                //			                                . $ob_get_contents);
+            }
+            ob_end_clean(); // fixed 0016469, 0016467, 0016468
+            return true;
+        } catch (\Throwable $t) {
+            return false;
         }
-        ob_end_clean(); // fixed 0016469, 0016467, 0016468
     }
 
 
