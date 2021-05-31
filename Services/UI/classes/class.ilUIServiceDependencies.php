@@ -33,8 +33,11 @@ class ilUIServiceDependencies
      * @param ilUIFilterRequestAdapter $request
      * @param ilUIFilterServiceSessionGateway|null $session
      */
-    public function __construct(UIServices $ui, ilUIFilterRequestAdapter $request, ilUIFilterServiceSessionGateway $session = null)
-    {
+    public function __construct(
+        UIServices $ui,
+        ilUIFilterRequestAdapter $request,
+        ilUIFilterServiceSessionGateway $session = null
+    ) {
         $this->ui = $ui;
         $this->request_adapter = $request;
         $this->session = (is_null($session))

@@ -38,16 +38,49 @@ il.UI.filter = (function ($) {
 			});
 
 			//Show labels and values in Filter Bar
+			var rendered_active_inputs = false;
 			$($filter).find(".il-popover-container").each(function () {
 				var label = $(this).find(".leftaddon").text();
-				var value = $(this).find(".il-standard-popover-content").children().val();
-				if (value === undefined || value === "") {
-					value = "-"
+				var input_element = $(this).find(":input:not(:button)");
+				var value = input_element.val();
+				//Handle value for Multi Select Input
+				if (input_element.is(":checkbox")) {
+					var options = [];
+					input_element.each(function() {
+						if ($(this).prop('checked')) {
+							options.push($(this).parent().find('span').text());
+						}
+					});
+					if (options.length != 0) {
+						active_checkboxes = options.join(', ');
+						var label_and_value = label + ": " + active_checkboxes;
+						$(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").html(label_and_value);
+						rendered_active_inputs = true;
+					}
 				}
-				var label_and_value = label + ": " + value;
-				$(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").html(label_and_value);
+				//Handle value for Select Input
+				else if (input_element.is("select") && value !== undefined && value !== "") {
+					var selected_option = input_element.find("option:selected").text();
+					var label_and_value = label + ": " + selected_option;
+					$(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").html(label_and_value);
+					rendered_active_inputs = true;
+				}
+				//Handle value for all other Inputs
+				else if (value !== undefined && value !== "") {
+					var label_and_value = label + ": " + value;
+					$(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").html(label_and_value);
+					rendered_active_inputs = true;
+				}
+				//Do not show Input if it has no applied value
+				else {
+					$(".il-filter-inputs-active").find("span[id='" + (cnt_bar) + "']").hide();
+				}
 				cnt_bar++;
 			});
+			//Hide Filter Content Area completely if there are no active inputs
+			if (!rendered_active_inputs) {
+				$(".il-filter-inputs-active").hide();
+			}
 
 			//Popover of Add-Button always at the bottom
 			$('.input-group .btn.btn-bulky').attr('data-placement', 'bottom');
@@ -58,14 +91,17 @@ il.UI.filter = (function ($) {
 				$(".btn-bulky").parents(".il-popover-container").hide();
 			}
 
-			//Accessibility for Input Fields
+			//Accessibility for complex Input Fields
 			$(".il-filter-field").keydown(function (event) {
 				var key = event.which;
-				//Imitate a click on the Input Field in the Fiter and focus on the element (input, select,...) in the Popover
+				//Imitate a click on the Input Field in the Fiter and focus on the Input Element in the Popover
 				if ((key === 13) || (key === 32)) {	// 13 = Return, 32 = Space
 					$(this).click();
-					var input_element = searchInputElement($(this));
-					input_element.focus();
+					//Focus on the first checkbox in the Multi Select Input Element in the Popover
+					var checkboxes = searchInputElementMultiSelect($(this));
+					if (checkboxes.length != 0) {
+						checkboxes[0].focus();
+					}
 					event.preventDefault();
 				}
 			});
@@ -109,12 +145,21 @@ il.UI.filter = (function ($) {
 	};
 
 	/**
-	 * Search for the Input Element (in the Popover) which have been added to the Filter
-	 * @param input_label
+	 * Search for the given Input Element
+	 * @param $el
 	 */
-	var searchInputElement = function (input_field) {
-		var input_element = input_field.parents(".il-popover-container").find(".il-standard-popover-content").children();
+	var searchInputElement = function ($el) {
+		var input_element = $el.parents(".il-popover-container").find(":input");
 		return input_element;
+	};
+
+	/**
+	 * Search for the checkboxes in the given Multi Select Input Element (in the Popover)
+	 * @param $el
+	 */
+	var searchInputElementMultiSelect = function ($el) {
+		var checkboxes = $el.parents(".il-popover-container").find(".il-standard-popover-content").children().children().find("input");
+		return checkboxes;
 	};
 
 	/**
@@ -176,10 +221,16 @@ il.UI.filter = (function ($) {
 		//Remove Input Field from Filter
 		$el.parents(".il-popover-container").hide();
 
-		//Clear Input Field when it is removed
+		//Clear Input Field (Text, Numeric, Select) when it is removed
 		var input_element = searchInputElement($el);
 		input_element.val("");
-		$el.parents(".il-popover-container").find(".il-filter-field").html("");
+
+		//Clear Multi Select Input Field when it is removed
+		var checkboxes = searchInputElementMultiSelect($el);
+		checkboxes.each(function () {
+			$(this).prop("checked", false);
+		});
+		checkboxes.parents(".il-popover-container").find(".il-filter-field").html("");
 
 		//Add Input Field to Add-Button
 		var label = $el.parents(".input-group").find(".input-group-addon.leftaddon").html();
@@ -214,16 +265,23 @@ il.UI.filter = (function ($) {
 		var input_label = searchInputLabel($el, label);
 		input_label.parents(".il-popover-container").show();
 
-		//Imitate a click on the Input Field in the Fiter
-		input_label.parent().find(".il-filter-field").click();
-
-		//Focus on the element (input, select,...) in the Popover
+		//Focus on the Input Element (Text, Numeric, Select)
 		var input_element = searchInputElement(input_label);
 		input_element.focus();
 
+		//Imitate a click on the Input Field in the Fiter (for complex Input Elements which use Popover)
+		input_label.parent().find(".il-filter-field").click();
+
+		//Focus on the first checkbox in the Multi Select Input Element in the Popover
+		var checkboxes = searchInputElementMultiSelect(input_label);
+		console.log(checkboxes);
+		if (checkboxes.length != 0) {
+			checkboxes[0].focus();
+		}
+
 		//Hide Add-Button when all Input Fields are shown in the Filter
 		var add_button = searchAddButton($el);
-		var addable_inputs = $el.parents(".il-standard-form").find("li:visible").length;
+		var addable_inputs = $el.parents(".il-filter").find(".il-filter-add-list").find("li:visible").length;
 		if (addable_inputs === 0) {
 			add_button.hide();
 		}

@@ -200,3 +200,10 @@ Due to a different appearance of Inputs in the Filter component, Filter Inputs c
 use the standard Renderer like for Forms. Therefore, the [FilterContextRenderer](src/UI/Implementation/Component/Input/Field/FilterContextRenderer.php)
 was introduced. In this renderer, you must provide an appropriate presentation of each
 new Filter Input within the Filter.
+
+#### Step 3, Check the filter.js and adapt it if needed
+Much magic happens via Javascript, so that the Filter can work properly. When you add
+a new Filter Input, it is highly probable that you have to add some Javascript code
+especially for your Filter Input. To have an idea about the necessary changes, please
+search for "Multi Select" in the `filter.js` and check the extra code which was added
+for that Input.

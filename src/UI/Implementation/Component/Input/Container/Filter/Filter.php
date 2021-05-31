@@ -103,7 +103,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
      * @param string|Signal $collapse_action
      * @param string|Signal $apply_action
      * @param string|Signal $reset_action
-     * @param C\Input\Field\Input $inputs
+     * @param C\Input\Field\Input[] $inputs
      * @param bool[] $is_input_rendered
      * @param bool $is_activated
      * @param bool $is_expanded
@@ -119,8 +119,8 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $reset_action,
         array $inputs,
         array $is_input_rendered,
-        $is_activated,
-        $is_expanded
+        bool $is_activated,
+        bool $is_expanded
     ) {
         $this->signal_generator = $signal_generator;
         $this->field_factory = $field_factory;
@@ -132,9 +132,6 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
         $this->reset_action = $reset_action;
         //No further handling for actions needed here, will be done in constructors of the respective component
 
-        if (count($inputs) != count($is_input_rendered)) {
-            throw new \ArgumentCountError("Inputs and boolean values must be arrays of same size.");
-        }
         $classes = ['\ILIAS\UI\Component\Input\Field\FilterInput'];
         $this->checkArgListElements("input", $inputs, $classes);
 
@@ -145,10 +142,7 @@ abstract class Filter implements C\Input\Container\Filter\Filter, CI\Input\NameS
             $this->checkBoolArg("is_input_rendered", $r);
         }
         $this->is_input_rendered = $is_input_rendered;
-
-        $this->checkBoolArg("is_activated", $is_activated);
         $this->is_activated = $is_activated;
-        $this->checkBoolArg("is_expanded", $is_expanded);
         $this->is_expanded = $is_expanded;
     }
 

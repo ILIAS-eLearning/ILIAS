@@ -140,7 +140,11 @@ class FilterContextRenderer extends AbstractComponentRenderer
         $tpl->setVariable("LABEL", $input->getLabel());
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("filter_field");
-        $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_tpl, $input, $default_renderer));
+        if ($input->isComplex()) {
+            $tpl->setVariable("FILTER_FIELD", $this->renderProxyField($input_tpl, $input, $default_renderer));
+        } else {
+            $tpl->setVariable("FILTER_FIELD", $this->renderInputField($input_tpl, $input));
+        }
         $tpl->parseCurrentBlock();
         $tpl->setCurrentBlock("addon_right");
         $tpl->setVariable("DELETE", $default_renderer->render($remove_glyph));
@@ -181,7 +185,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
      * @param Input $input
      * @return string
      */
-    protected function renderInputField(Template $tpl, Input $input)
+    protected function renderInputField(Template $tpl, Component\Input\Field\Input $input)
     {
         $id = null;
         $input = $this->setSignals($input);
@@ -265,7 +269,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         //disable first option if required.
         $tpl->setCurrentBlock("options");
         if (!$value) {
-            $tpl->setVariable("SELECTED", "selected");
+            $tpl->setVariable("SELECTED", 'selected="selected"');
         }
         if ($input->isRequired()) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
@@ -278,7 +282,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         foreach ($input->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
             if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", "selected");
+                $tpl->setVariable("SELECTED", 'selected="selected"');
             }
             $tpl->setVariable("VALUE", $option_key);
             $tpl->setVariable("VALUE_STR", $option_value);
