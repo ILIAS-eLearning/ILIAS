@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cc75e3cfc35397fba8b388f84307c8da",
+    "content-hash": "52a21e56383a3e76fa58af6477afa5cd",
     "packages": [
         {
             "name": "cweagans/composer-patches",
@@ -716,17 +716,17 @@
             "time": "2020-06-30T18:43:34+00:00"
         },
         {
-            "name": "jumbojett/openid-connect-php",
-            "version": "v0.9.2",
+            "name": "juliuspc/openid-connect-php",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jumbojett/OpenID-Connect-PHP.git",
-                "reference": "4f95102af87f86c43e8191ec6e90d9f35ed1ce5f"
+                "url": "https://github.com/JuliusPC/OpenID-Connect-PHP.git",
+                "reference": "24a4ee0ba5776f7a119824946ab7bdf9e4d02fd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jumbojett/OpenID-Connect-PHP/zipball/4f95102af87f86c43e8191ec6e90d9f35ed1ce5f",
-                "reference": "4f95102af87f86c43e8191ec6e90d9f35ed1ce5f",
+                "url": "https://api.github.com/repos/JuliusPC/OpenID-Connect-PHP/zipball/24a4ee0ba5776f7a119824946ab7bdf9e4d02fd0",
+                "reference": "24a4ee0ba5776f7a119824946ab7bdf9e4d02fd0",
                 "shasum": ""
             },
             "require": {
@@ -750,8 +750,23 @@
             "license": [
                 "Apache-2.0"
             ],
-            "description": "Bare-bones OpenID Connect client",
-            "time": "2020-11-16T14:48:22+00:00"
+            "description": "OpenID Connect client",
+            "keywords": [
+                "OpenID Connect",
+                "RFC7009",
+                "RFC7662",
+                "SSO",
+                "client",
+                "oauth 2",
+                "oidc",
+                "rfc6749",
+                "rfc7636"
+            ],
+            "support": {
+                "issues": "https://github.com/JuliusPC/OpenID-Connect-PHP/issues",
+                "source": "https://github.com/JuliusPC/OpenID-Connect-PHP/tree/v1.1.1"
+            },
+            "time": "2021-05-14T12:47:35+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1557,16 +1572,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.1",
+            "version": "2.0.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "ba6fb78f727cd09f2a649113b95468019e490585"
+                "reference": "233a920cb38636a43b18d428f9a8db1f0a1a08f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/ba6fb78f727cd09f2a649113b95468019e490585",
-                "reference": "ba6fb78f727cd09f2a649113b95468019e490585",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/233a920cb38636a43b18d428f9a8db1f0a1a08f4",
+                "reference": "233a920cb38636a43b18d428f9a8db1f0a1a08f4",
                 "shasum": ""
             },
             "require": {
@@ -1574,8 +1589,7 @@
             },
             "require-dev": {
                 "phing/phing": "~2.7",
-                "phpunit/phpunit": "~4.0",
-                "sami/sami": "~2.0",
+                "phpunit/phpunit": "^4.8.35|^5.7|^6.0|^9.4",
                 "squizlabs/php_codesniffer": "~2.0"
             },
             "suggest": {
@@ -1586,6 +1600,9 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "phpseclib/bootstrap.php"
+                ],
                 "psr-4": {
                     "phpseclib\\": "phpseclib/"
                 }
@@ -1642,7 +1659,25 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2016-01-18T17:07:21+00:00"
+            "support": {
+                "issues": "https://github.com/phpseclib/phpseclib/issues",
+                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.31"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/terrafrost",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpseclib",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpseclib/phpseclib",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-04-06T13:56:45+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -8691,5 +8726,6 @@
     "platform": {
         "php": "^7.3"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
