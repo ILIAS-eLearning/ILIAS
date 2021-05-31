@@ -27,9 +27,9 @@ interface ilGlobalCacheServiceInterface
      */
     public function set(string $key, $serialized_value, int $ttl = null) : bool;
     
-    public function getServiceId() : int;
+    public function getServiceId() : string;
     
-    public function setServiceId(int $service_id) : void;
+    public function setServiceId(string $service_id) : void;
     
     public function getComponent() : string;
     

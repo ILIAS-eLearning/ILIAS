@@ -21,7 +21,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     /**
      * ilGlobalCacheService constructor.
      */
-    public function __construct(int $service_id, string $component)
+    public function __construct(string $service_id, string $component)
     {
         $this->setComponent($component);
         $this->setServiceId($service_id);
@@ -41,12 +41,12 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     
     abstract public function serialize($value);
     
-    public function getServiceId(): int
+    public function getServiceId(): string
     {
         return $this->service_id;
     }
     
-    public function setServiceId(int $service_id): void
+    public function setServiceId(string $service_id): void
     {
         $this->service_id = $service_id;
     }
