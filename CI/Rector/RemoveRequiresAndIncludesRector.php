@@ -6,6 +6,7 @@ use PhpParser\Node;
 use Rector\Core\Rector\AbstractRector;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+use PHPStan\Type\ObjectType;
 
 final class RemoveRequiresAndIncludesRector extends AbstractRector
 {
@@ -15,12 +16,11 @@ final class RemoveRequiresAndIncludesRector extends AbstractRector
     }
     
     /**
-     * @param Node\Expr\Include_ $node - we can add "MethodCall" type here, because
-     *                                 only this node is in "getNodeTypes()"
+     * @param Node\Expr\Include_ $node
      */
     public function refactor(Node $node) : ?Node
     {
-        if (!$this->isObjectType($node, Node\Expr\Assign::class)) {
+        if (!$this->isObjectType($node, new ObjectType(Node\Expr\Assign::class))) {
             $this->nodeRemover->removeNode($node);
         }
         
