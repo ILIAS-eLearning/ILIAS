@@ -7583,8 +7583,8 @@ dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gel
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
-dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde bearbeitet.
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungsfunktion für die oben genannte Datensatzsammlung aktiviert haben.
+dcl#:#dcl_change_notification_subject#:#Die Datensammlung "%s" wurde bearbeitet.
+dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_comments#:#Kommentare
