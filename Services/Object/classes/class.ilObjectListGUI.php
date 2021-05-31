@@ -3878,13 +3878,15 @@ class ilObjectListGUI
         $def_command = $this->getDefaultCommand();
 
         if ($def_command["frame"] != "") {
+            /* this seems to be introduced due to #25624, but does not fix it
+                removed with ##30732
             $button =
                 $ui->factory()->button()->shy("Open", "")->withAdditionalOnLoadCode(function ($id) use ($def_command) {
                     return
                         "$('#$id').click(function(e) { window.open('" . str_replace("&amp;", "&",
                             $def_command["link"]) . "', '" . $def_command["frame"] . "');});";
                 });
-            $actions[] = $button;
+            $actions[] = $button;*/
         }
         $dropdown = $ui->factory()->dropdown()->standard($actions);
 
