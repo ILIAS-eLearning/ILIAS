@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Task service
  *
- * @author killing@leifos.de
- * @ingroup ServiceTasks
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDerivedTaskService
 {

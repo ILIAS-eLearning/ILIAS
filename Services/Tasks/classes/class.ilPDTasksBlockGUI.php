@@ -5,7 +5,7 @@
 /**
  * BlockGUI class for Tasks on PD
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_IsCalledBy ilPDTasksBlockGUI: ilColumnGUI
  */

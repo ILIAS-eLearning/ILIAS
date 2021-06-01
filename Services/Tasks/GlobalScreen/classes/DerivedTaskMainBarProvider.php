@@ -1,5 +1,7 @@
 <?php namespace ILIAS\Tasks\DerivedTasks\Provider;
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -7,7 +9,7 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
 /**
  * Main menu entry for derived tasks
  *
- * @author <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
 {
