@@ -53,7 +53,7 @@ class ilSessionParticipants extends ilParticipants
      */
     public static function getInstance($a_ref_id)
     {
-        if (self::$instances[$a_ref_id] instanceof self) {
+        if (isset(self::$instances[$a_ref_id]) && self::$instances[$a_ref_id] instanceof self) {
             return self::$instances[$a_ref_id];
         }
         return self::$instances[$a_ref_id] = new self($a_ref_id);

@@ -864,6 +864,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $lng = $this->lng;
         $tree = $this->tree;
 
+        $cnt = [];
+
         $tpl = new ilGlobalTemplate(
             "tpl.container_link_help.html",
             true,
@@ -903,7 +905,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable(
                     "TYPE",
@@ -1574,7 +1575,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilUser = $this->user;
         $ilErr = $this->error;
         $lng = $this->lng;
-        $ctrl = $this->ctrl;
         $ui = $this->ui;
 
         $exists = [];
@@ -1667,6 +1667,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         ////////////////////////////
         // process checking results
+        $error = "";
         if (count($exists) && $command != "copy") {
             $error .= implode('<br />', $exists);
         }
@@ -1789,6 +1790,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // process LINK command
         if ($command == 'link') {
+            $subnodes = [];
             $linked_to_folders = array();
 
             $rbac_log_active = ilRbacLog::isActive();
@@ -2158,6 +2160,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         } // END CUT
 
         // process LINK command
+        $ref_id = 0;
         if ($_SESSION["clipboard"]["cmd"] == "link") {
             foreach ($ref_ids as $ref_id) {
                 // get node data

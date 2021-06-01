@@ -1,8 +1,10 @@
 <?php
 
 namespace ILIAS\ResourceStorage;
-
+/** @noRector  */
 require_once('AbstractBaseTest.php');
+/** @noRector  */
+require_once('DummyIDGenerator.php');
 
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;

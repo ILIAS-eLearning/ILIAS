@@ -27,10 +27,6 @@ class ilDidacticTemplateImport
     protected $objDefinition;
 
 
-    /**
-     * Constructor
-     * @param <type> $a_type
-     */
     public function __construct($a_type)
     {
         global $DIC;
@@ -49,10 +45,6 @@ class ilDidacticTemplateImport
         $this->xmlfile = $a_file;
     }
 
-    /**
-     * Get inputfile
-     * @return <type>
-     */
     public function getInputFile()
     {
         return $this->xmlfile;
@@ -72,23 +64,20 @@ class ilDidacticTemplateImport
      */
     public function import($a_dtpl_id = 0)
     {
+        $root = null;
         libxml_use_internal_errors(true);
-
         switch ($this->getInputType()) {
             case self::IMPORT_FILE:
-
                 $root = simplexml_load_file($this->getInputFile());
-                if ($root == false) {
-                    throw new ilDidacticTemplateImportException(
-                        $this->parseXmlErrors()
-                    );
-                }
                 break;
         }
-
+        if (!$root instanceof SimpleXMLElement) {
+            throw new ilDidacticTemplateImportException(
+                $this->parseXmlErrors()
+            );
+        }
         $settings = $this->parseSettings($root);
         $this->parseActions($settings, $root->didacticTemplate->actions);
-
         return $settings;
     }
 

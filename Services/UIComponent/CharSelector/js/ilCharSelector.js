@@ -381,8 +381,8 @@ il.CharSelector = new function() {
         }
         else
         {
-            var position = $('nav.breadcrumbs').position();
-            $('#ilCharSelectorPanel').css('top', position.top + $('nav.breadcrumbs').height());
+            var position = $('nav.breadcrumb_wrapper').position();
+            $('#ilCharSelectorPanel').css('top', position.top + $('nav.breadcrumb_wrapper').height());
         }
 
         $('#ilCharSelectorSpacer').height($('#ilCharSelectorPanel').height()+30);

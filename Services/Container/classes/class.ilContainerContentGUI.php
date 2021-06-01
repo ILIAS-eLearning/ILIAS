@@ -79,6 +79,8 @@ abstract class ilContainerContentGUI
     public $container_gui;
     public $container_obj;
 
+    public $adminCommands = false;
+
     /**
      * @var ilLogger
      */
@@ -202,8 +204,10 @@ abstract class ilContainerContentGUI
         );
         // END ChangeEvent: record read event.
         
-
-        $tpl->setContent($this->getCenterColumnHTML());
+        $html = $this->getCenterColumnHTML();
+        if (strlen($html)) {
+            $tpl->setContent($html);
+        }
 
         // see above, all other cases (this was the old position of setRightContent,
         // maybe the position above is ok and all ifs can be removed)
@@ -219,6 +223,7 @@ abstract class ilContainerContentGUI
     protected function getRightColumnHTML()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         $ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -329,6 +334,7 @@ abstract class ilContainerContentGUI
     private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         // this gets us the subitems we need in setColumnSettings()
         // todo: this should be done in ilCourseGUI->getSubItems

@@ -57,12 +57,12 @@ class ilMailUserCache
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
                 $user = new ilObjUser();
-                $user->setId($row['usr_id']);
-                $user->setLogin($row['login']);
-                $user->setGender($row['gender']);
-                $user->setTitle($row['title']);
-                $user->setFirstname($row['firstname']);
-                $user->setLastname($row['lastname']);
+                $user->setId((int) $row['usr_id']);
+                $user->setLogin((string) $row['login']);
+                $user->setGender((string) $row['gender']);
+                $user->setTitle((string) $row['title']);
+                $user->setFirstname((string) $row['firstname']);
+                $user->setLastname((string) $row['lastname']);
                 $user->setPref('public_profile', $row['public_profile']);
                 $user->setPref('public_upload', $row['public_upload']);
                 $user->setPref('public_gender', $row['public_gender']);

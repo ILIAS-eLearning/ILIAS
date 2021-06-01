@@ -341,8 +341,9 @@ class ilUserAutoComplete
             $recs[$rec['usr_id']] = $rec;
             $usrIds[] = $rec['usr_id'];
         }
-        if (is_callable($this->user_filter, true, $callable_name = '')) {
-            $usrIds = call_user_func_array($this->user_filter, [$usrIds]);
+        $callable_name = null;
+        if (is_callable($this->user_filter, true, $callable_name)) {
+            $usrIds = call_user_func($this->user_filter, $usrIds);
         }
         foreach ($usrIds as $usr_id) {
             $rec = $recs[$usr_id];

@@ -227,6 +227,7 @@ class ilDidacticTemplateSettingsTableFilter
         if (isset($this->filter_values[$name])) {
             return $this->filter_values[$name];
         }
+        return null;
     }
 
     protected function loadFilterValues()

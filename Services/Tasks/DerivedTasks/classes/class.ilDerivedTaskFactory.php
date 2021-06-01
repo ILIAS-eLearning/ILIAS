@@ -10,19 +10,12 @@
  */
 class ilDerivedTaskFactory
 {
-    /**
-     * @var ilTaskServiceDependencies
-     */
-    protected $_deps;
+    protected \ilTaskServiceDependencies $_deps;
 
-    /**
-     * @var ilTaskService
-     */
-    protected $service;
+    protected \ilTaskService $service;
 
     /**
      * Constructor
-     * @param ilTaskService $service
      * @param ilTaskServiceDependencies $_deps
      */
     public function __construct(ilTaskService $service)
@@ -33,13 +26,6 @@ class ilDerivedTaskFactory
 
     /**
      * Subservice for derived tasks
-     *
-     * @param string $title
-     * @param int $ref_id
-     * @param int $deadline
-     * @param int $starting_time
-     * @param int $wsp_id
-     * @return ilDerivedTask
      */
     public function task(string $title, int $ref_id, int $deadline, int $starting_time, int $wsp_id = 0) : ilDerivedTask
     {
@@ -52,7 +38,7 @@ class ilDerivedTaskFactory
      * @param
      * @return
      */
-    public function collector()
+    public function collector() : \ilDerivedTaskCollector
     {
         return new ilDerivedTaskCollector($this->service);
     }
@@ -64,7 +50,7 @@ class ilDerivedTaskFactory
      * @param int $user_id get instances for user with user id
      * @return ilLearningHistoryProviderInterface[]
      */
-    public function getAllProviders($active_only = false, $user_id = null)
+    public function getAllProviders(bool $active_only = false, int $user_id = null) : array
     {
         $master_factory = $this->service->getDependencies()->getDerivedTaskProviderMasterFactory();
         return $master_factory->getAllProviders($active_only, $user_id);

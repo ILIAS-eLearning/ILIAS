@@ -52,7 +52,7 @@ abstract class ilChatroomGUIHandler
     protected $rbacsystem;
 
     /**
-     * @var \ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $mainTpl;
 

@@ -3,6 +3,8 @@
 
 /**
  * Wrapper for generation of random numbers, strings, bytes
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilRandom
 {
@@ -14,10 +16,7 @@ class ilRandom
     {
     }
 
-    /**
-     * @param callable $c
-     */
-    private function logIfPossible(callable $c)
+    private function logIfPossible(callable $c) : void
     {
         global $DIC;
 
@@ -26,34 +25,23 @@ class ilRandom
         }
     }
 
-    /**
-     * @param int $min
-     * @param int $max
-     * @return int
-     * @throws Throwable
-     */
-    public function int(int $min = null, int $max = null) :int
+    public function int(int $min = null, int $max = null) : int
     {
         if (is_null($min)) {
             $min = 0;
         }
+
         if (is_null($max)) {
             $max = mt_getrandmax();
         }
 
         try {
             return random_int($min, $max);
-        } catch (Exception $e) {
-                $this->logIfPossible(static function (ilLogger $logger) {
-                    $logger->logStack(\ilLogLevel::ERROR);
-                    $logger->error('No suitable random number generator found.');
-                });
-            throw $e;
         } catch (Throwable $e) {
-                $this->logIfPossible(static function (ilLogger $logger) {
-                    $logger->logStack(\ilLogLevel::ERROR);
-                    $logger->error('max should be greater than min.');
-                });
+            $this->logIfPossible(static function (ilLogger $logger) : void {
+                $logger->logStack(ilLogLevel::ERROR);
+                $logger->error('No suitable random number generator found.');
+            });
             throw $e;
         }
     }

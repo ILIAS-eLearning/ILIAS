@@ -10,14 +10,10 @@
  */
 class ilDerivedTaskCollector
 {
-    /**
-     * @var ilTaskService
-     */
-    protected $service;
+    protected \ilTaskService $service;
 
     /**
      * Constructor
-     * @param ilTaskService $service
      */
     public function __construct(ilTaskService $service)
     {
@@ -30,7 +26,7 @@ class ilDerivedTaskCollector
      * @param int $user_id user id
      * @return ilDerivedTask[]
      */
-    public function getEntries(int $user_id)
+    public function getEntries(int $user_id) : array
     {
         $sort_array = [];
         /** @var ilDerivedTaskProvider $provider */

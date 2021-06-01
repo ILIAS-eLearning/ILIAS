@@ -1074,6 +1074,7 @@ class ilUtil
             //             Workaround for Windows WebDAV Client:
             //             Use the unicode ellipsis symbol for shortening instead of
             //             three full stop characters.
+            $p = false;
             if ($a_keep_extension) {
                 $p = strrpos($a_str, '.');	// this messes up normal shortening, see bug #6190
             }

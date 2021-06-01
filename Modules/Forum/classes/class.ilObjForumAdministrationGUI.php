@@ -174,11 +174,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $frm_radio->setInfo($this->lng->txt('frm_disp_info_desc'));
         $form->addItem($frm_radio);
 
-        $check = new ilCheckboxInputGui($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
+        $check = new ilCheckboxInputGUI($this->lng->txt('enable_fora_statistics'), 'fora_statistics');
         $check->setInfo($this->lng->txt('enable_fora_statistics_desc'));
         $form->addItem($check);
 
-        $check = new ilCheckboxInputGui($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
+        $check = new ilCheckboxInputGUI($this->lng->txt('enable_anonymous_fora'), 'anonymous_fora');
         $check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
         $form->addItem($check);
 
@@ -195,13 +195,13 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 $this
             );
         } else {
-            $notifications = new ilCheckboxInputGui($this->lng->txt('cron_forum_notification'), 'forum_notification');
+            $notifications = new ilCheckboxInputGUI($this->lng->txt('cron_forum_notification'), 'forum_notification');
             $notifications->setInfo($this->lng->txt('cron_forum_notification_desc'));
             $notifications->setValue(1);
             $form->addItem($notifications);
         }
 
-        $check = new ilCheckboxInputGui($this->lng->txt('enable_send_attachments'), 'send_attachments_by_mail');
+        $check = new ilCheckboxInputGUI($this->lng->txt('enable_send_attachments'), 'send_attachments_by_mail');
         $check->setInfo($this->lng->txt('enable_send_attachments_desc'));
         $check->setValue(1);
         $form->addItem($check);

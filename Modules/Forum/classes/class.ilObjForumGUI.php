@@ -1837,9 +1837,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         return $form_tpl->get();
     }
 
-    /**
-     * @throws ilHtmlPurifierNotFoundException
-     */
     private function initReplyEditForm()
     {
         /**
@@ -1973,8 +1970,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 '3.5.11'
             );
         }
-        // purifier
-        $oPostGUI->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+
+        $oPostGUI->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
 
         $this->replyEditForm->addItem($oPostGUI);
 

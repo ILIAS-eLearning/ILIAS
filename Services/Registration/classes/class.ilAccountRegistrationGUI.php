@@ -123,6 +123,9 @@ class ilAccountRegistrationGUI
         // code handling
         
         if ($this->code_enabled) {
+            $field = new ilFormSectionHeaderGUI();
+            $field->setTitle($this->lng->txt('registration_codes_type_reg'));
+            $this->form->addItem($field);
             $code = new ilTextInputGUI($this->lng->txt("registration_code"), "usr_registration_code");
             $code->setSize(40);
             $code->setMaxLength(ilRegistrationCode::CODE_LENGTH);

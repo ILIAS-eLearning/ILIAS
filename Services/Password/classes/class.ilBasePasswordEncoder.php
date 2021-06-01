@@ -18,7 +18,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
      * @url http://codahale.com/a-lesson-in-timing-attacks/
      * @param string $knownString The first password
      * @param string $userString  The second password
-     * @return Boolean true if the two passwords are the same, false otherwise
+     * @return bool true if the two passwords are the same, false otherwise
      */
     protected function comparePasswords(string $knownString, string $userString) : bool
     {
@@ -34,39 +34,24 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
             $result |= (ord($knownString[$i % $known_string_length]) ^ ord($userString[$i]));
         }
 
-        // They are only identical strings if $result is exactly 0...
         return 0 === $result;
     }
 
-    /**
-     * Checks if the password is too long.
-     * @param string $password The password
-     * @return bool true if the password is too long, false otherwise
-     */
     protected function isPasswordTooLong(string $password) : bool
     {
         return strlen($password) > self::MAX_PASSWORD_LENGTH;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isSupportedByRuntime() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function requiresSalt() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function requiresReencoding(string $encoded) : bool
     {
         return false;

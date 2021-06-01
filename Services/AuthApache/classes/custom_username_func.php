@@ -4,9 +4,6 @@
 
 class ApacheCustom
 {
-    /**
-     * @return string
-     */
     public static function getUsername() : string
     {
         /*

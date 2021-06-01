@@ -21,10 +21,6 @@ class ilDidacticTemplateCopier
         $this->tpl_id = $a_tpl_id;
     }
     
-    /**
-     *
-     * @param type $a_orig_title
-     */
     public static function appendCopyInfo($a_orig_title)
     {
         global $DIC;
@@ -68,8 +64,6 @@ class ilDidacticTemplateCopier
 
     /**
      * Start copy
-     *
-     * @return int new template id
      */
     public function start()
     {

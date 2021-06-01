@@ -469,7 +469,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         // title image type
         if ($news["ref_id"] > 0) {
-            if ($news["agg_ref_id"] > 0) {
+            if (isset($news["agg_ref_id"]) && $news["agg_ref_id"] > 0) {
                 $obj_id = ilObject::_lookupObjId($news["agg_ref_id"]);
                 $type = ilObject::_lookupType($obj_id);
                 $context_ref = $news["agg_ref_id"];
@@ -504,8 +504,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $news["context_obj_type"],
                 $news["title"],
                 $news["content_is_lang_var"],
-                $news["agg_ref_id"],
-                $news["aggregation"]
+                $news["agg_ref_id"] ?? 0,
+                $news["aggregation"] ?? false
             ));
         
 
@@ -573,7 +573,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         // collect news items to show
         $news_list = array();
-        if (is_array($c["aggregation"])) {	// we have an aggregation
+        if (isset($c["aggregation"]) && is_array($c["aggregation"])) {	// we have an aggregation
             $news_list[] = array("ref_id" => $c["agg_ref_id"],
                 "agg_ref_id" => $c["agg_ref_id"],
                 "aggregation" => $c["aggregation"],
@@ -802,16 +802,20 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 }
     
                 $context_opened = false;
-                if ($item["loc_context"] != null && $item["loc_context"] != $item["loc_stop"]) {
+                $loc_stop = $item["loc_stop"] ?? "";
+                if ($item["loc_context"] != null &&
+                    $item["loc_context"] != $loc_stop
+                ) {
                     $tpl->setCurrentBlock("context");
                     $context_opened = true;
                     $cont_loc = new ilLocatorGUI();
-                    $cont_loc->addContextItems($item["loc_context"], true, $item["loc_stop"]);
+                    $cont_loc->addContextItems($item["loc_context"], true, $loc_stop);
                     $tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
                 }
                 
                 //var_dump($item);
-                if ($item["no_context_title"] !== true) {
+                $no_context_title = $item["no_context_title"] ?? false;
+                if ($no_context_title !== true) {
                     if (!$context_opened) {
                         $tpl->setCurrentBlock("context");
                     }
@@ -833,8 +837,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $item["context_obj_type"],
                     $item["title"],
                     $item["content_is_lang_var"],
-                    $item["agg_ref_id"],
-                    $item["aggregation"]
+                    $item["agg_ref_id"] ?? 0,
+                    $item["aggregation"] ?? false
                 )
             );
             

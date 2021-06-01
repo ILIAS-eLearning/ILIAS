@@ -579,7 +579,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                         //$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $user_id);
 
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", $user_id);
+                        $path = $this->getTargetGUIClassPath();
+                        $ilCtrl->setParameterByClass(end($path), "ch_user_id", $user_id);
 
                         if ($next_app) {
                             // this does not work correctly
@@ -596,9 +597,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
                                 'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
                             );
                         }
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", "");
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $_GET["bkid"]);
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "seed", $_GET["seed"]);
+                        $path = $this->getTargetGUIClassPath();
+                        $last_gui = end($path);
+                        $ilCtrl->setParameterByClass($last_gui, "ch_user_id", "");
+                        $ilCtrl->setParameterByClass($last_gui, "bkid", $_GET["bkid"] ?? "");
+                        $ilCtrl->setParameterByClass($last_gui, "seed", $_GET["seed"] ?? "");
                     }
                 }
                 $ilCtrl->setParameter($this, "bkid", "");

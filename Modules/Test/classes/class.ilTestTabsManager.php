@@ -508,8 +508,8 @@ class ilTestTabsManager
             switch ($this->getTestOBJ()->getQuestionSetType()) {
                 case ilObjTest::QUESTION_SET_TYPE_FIXED:
                     $target = $DIC->ctrl()->getLinkTargetByClass(
-                        'ilTestExpresspageObjectGUI',
-                        'showPage'
+                        'ilObjTestGUI',
+                        'questions'
                     );
                     break;
                 
@@ -766,6 +766,7 @@ class ilTestTabsManager
         
         $this->tabs->activateTab(self::TAB_ID_QUESTIONS);
 
+        /*
         if (!$this->getTestOBJ()->isRandomTest()) {
             $this->tabs->addSubTab(
                 self::SUBTAB_ID_QST_PAGE_VIEW,
@@ -773,6 +774,8 @@ class ilTestTabsManager
                 $DIC->ctrl()->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage')
             );
         }
+        */
+
         include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
         $template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         

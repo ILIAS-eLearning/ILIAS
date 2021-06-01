@@ -104,7 +104,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             'pastetext',
             'formatselect'
         ]);
-        $message->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+        $message->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
         $this->addItem($message);
     }
     

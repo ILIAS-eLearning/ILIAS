@@ -10,20 +10,12 @@
  */
 class ilDerivedTaskService
 {
-    /**
-     * @var ilTaskServiceDependencies
-     */
-    protected $_deps;
+    protected \ilTaskServiceDependencies $_deps;
 
-    /**
-     * @var ilTaskService
-     */
-    protected $service;
+    protected \ilTaskService $service;
 
     /**
      * Constructor
-     *
-     * @param ilTaskService $service
      */
     public function __construct(ilTaskService $service)
     {

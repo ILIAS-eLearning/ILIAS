@@ -146,6 +146,7 @@ class ilContainerFilterAdminGUI
 
         // standar set
         $selected = [];
+        $options = [];
         foreach ($service->standardSet()->getFields() as $field) {
             $options[$field->getFieldId()] = $service->util()->getContainerFieldTitle($field->getRecordSetId(), $field->getFieldId());
             if ($current_filters->has(0, $field->getFieldId())) {

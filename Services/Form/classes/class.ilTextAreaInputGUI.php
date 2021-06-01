@@ -224,10 +224,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function setUseRte($a_usert, $version = '')
     {
         $this->usert = $a_usert;
-
-        if (strlen($version)) {
-            $this->rteSupport['version'] = $version;
-        }
+        $this->rteSupport['version'] = $version;
     }
 
     /**

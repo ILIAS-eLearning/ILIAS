@@ -3608,11 +3608,9 @@ class ilObjectListGUI
     public static function preloadCommonProperties($a_obj_ids, $a_context)
     {
         global $DIC;
-
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
-        
         if ($a_context == self::CONTEXT_REPOSITORY) {
             $active_notes = !$ilSetting->get("disable_notes");
             $active_comments = !$ilSetting->get("disable_comments");
@@ -3791,14 +3789,22 @@ class ilObjectListGUI
             $list_item = $ui->factory()->item()->standard($this->getTitle());
         }
 
+        if ($description != "") {
+            $list_item = $list_item->withDescription($description);
+        }
         $list_item = $list_item->withActions($dropdown)->withLeadIcon($icon);
 
 
         $l = [];
+        $this->enableComments(true);
+        $this->enableNotes(true);
+        $this->enableTags(true);
+        $this->enableRating(true);
+
         foreach ($this->determineProperties() as $p) {
-            if ($p['property'] !== $this->lng->txt('learning_progress')) {
-                $l[(string) $p['property']] = (string) $p['value'];
-            }
+            //if ($p['property'] !== $this->lng->txt('learning_progress')) {
+            $l[(string) $p['property']] = (string) $p['value'];
+            //}
         }
         if (count($l) > 0) {
             $list_item = $list_item->withProperties($l);
@@ -3877,6 +3883,8 @@ class ilObjectListGUI
         $def_command = $this->getDefaultCommand();
 
         if ($def_command["frame"] != "") {
+            /* this seems to be introduced due to #25624, but does not fix it
+                removed with ##30732
             $button =
                 $ui->factory()->button()->shy("Open", "")->withAdditionalOnLoadCode(function ($id) use ($def_command) {
                     return
@@ -3886,7 +3894,7 @@ class ilObjectListGUI
                             $def_command["link"]
                         ) . "', '" . $def_command["frame"] . "');});";
                 });
-            $actions[] = $button;
+            $actions[] = $button;*/
         }
         $dropdown = $ui->factory()->dropdown()->standard($actions);
 

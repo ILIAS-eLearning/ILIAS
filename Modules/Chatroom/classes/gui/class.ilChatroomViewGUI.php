@@ -30,18 +30,20 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->setupTemplate();
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $failure = false;
+        $failure = true;
         $username = '';
 
-        if ($_REQUEST['custom_username_radio'] == 'custom_username') {
-            $username = $_REQUEST['custom_username_text'];
-        } elseif (method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio'])) {
-            $username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
-        } else {
-            $failure = true;
+        if (isset($_REQUEST['custom_username_radio'])) {
+            if (isset($_REQUEST['custom_username_text']) && $_REQUEST['custom_username_radio'] === 'custom_username') {
+                $username = $_REQUEST['custom_username_text'];
+                $failure = false;
+            } elseif (method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio'])) {
+                $username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
+                $failure = false;
+            }
         }
 
-        if (!$failure && trim($username) != '') {
+        if (!$failure && trim($username) !== '') {
             if (!$room->isSubscribed($chat_user->getUserId())) {
                 $chat_user->setUsername($chat_user->buildUniqueUsername($username));
             }
@@ -134,11 +136,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $new_keys = array();
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
-                    if ($key == 'smiley_keywords') {
+                    if ($key === 'smiley_keywords') {
                         $new_keys = explode("\n", $value);
                     }
 
-                    if ($key == 'smiley_fullpath') {
+                    if ($key === 'smiley_fullpath') {
                         $new_val = $value;
                     }
                 }
@@ -201,7 +203,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         }
 
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
-        $roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
+        $roomTpl->setVariable('SESSION_ID', (string) ($connection_info->{'session-id'} ?? ''));
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);

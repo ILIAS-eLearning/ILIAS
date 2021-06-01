@@ -2063,7 +2063,7 @@ class ilObjectGUI
         global $DIC;
 
         $ctrl = $DIC->ctrl();
-        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", ROOT_FOLDER_ID);
+        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $a_ref_id);
         $ctrl->redirectByClass("ilRepositoryGUI", $a_cmd);
     }
     

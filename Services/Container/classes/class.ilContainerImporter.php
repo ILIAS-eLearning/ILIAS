@@ -51,7 +51,8 @@ class ilContainerImporter extends ilXmlImporter
             $parts = explode(':', $old_pg_id);
             $pg_type = $parts[0];
             $old_obj_id = $parts[1];
-            $new_pg_id = array_pop(explode(':', $new_pg_id));
+            $parts = explode(':', $new_pg_id);
+            $new_pg_id = array_pop($parts);
             $new_obj_id = $a_mapping->getMapping('Services/Container', 'objs', $old_obj_id);
             // see bug #22718, this missed a check for the pg type
             if (in_array($pg_type, array("crs", "grp", "fold", "cont"))) {

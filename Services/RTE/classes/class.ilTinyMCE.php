@@ -1119,7 +1119,7 @@ class ilTinyMCE extends ilRTE
             $a_string = str_replace(',,', ',', $a_string);
         }
 
-        if ($a_string[0] == ',') {
+        if (isset($a_string[0]) && $a_string[0] == ',') {
             $a_string = (string) substr($a_string, 1);
         }
 
