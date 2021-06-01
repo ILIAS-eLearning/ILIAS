@@ -10,36 +10,18 @@
  */
 class ilTaskServiceDependencies
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected \ilLanguage $lng;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
+    protected \ilObjUser $user;
 
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
+    protected \ilAccessHandler $access;
 
-    /**
-     * @var ilDerivedTaskProviderMasterFactory
-     */
-    protected $derived_task_provider_master_factory;
+    protected \ilDerivedTaskProviderMasterFactory $derived_task_provider_master_factory;
 
     /**
      * Constructor
-     * @param ilObjUser $user
-     * @param ilLanguage $lng
-     * @param \ILIAS\DI\UIServices $ui
      */
     public function __construct(
         ilObjUser $user,
@@ -57,8 +39,6 @@ class ilTaskServiceDependencies
 
     /**
      * Get derived task provider master factory
-     *
-     * @return ilDerivedTaskProviderMasterFactory
      */
     public function getDerivedTaskProviderMasterFactory() : \ilDerivedTaskProviderMasterFactory
     {
@@ -67,8 +47,6 @@ class ilTaskServiceDependencies
 
     /**
      * Get language object
-     *
-     * @return \ilLanguage
      */
     public function language() : \ilLanguage
     {
@@ -77,8 +55,6 @@ class ilTaskServiceDependencies
 
     /**
      * Get current user
-     *
-     * @return \ilObjUser
      */
     public function user() : \ilObjUser
     {
@@ -87,8 +63,6 @@ class ilTaskServiceDependencies
 
     /**
      * Get ui service
-     *
-     * @return \ILIAS\DI\UIServices
      */
     public function ui() : \ILIAS\DI\UIServices
     {
@@ -97,8 +71,6 @@ class ilTaskServiceDependencies
 
     /**
      * Get access
-     *
-     * @return \ilAccessHandler
      */
     protected function getAccess() : \ilAccessHandler
     {

@@ -11,9 +11,9 @@
  */
 class ilPDTasksBlockGUI extends ilBlockGUI
 {
-    public static $block_type = "pdtasks";
+    public static string $block_type = "pdtasks";
 
-    protected $tasks = [];
+    protected array $tasks = [];
 
     /**
      * Constructor
@@ -57,11 +57,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
      */
     public static function getScreenMode()
     {
-        switch ($_GET["cmd"]) {
-            default:
-                return IL_SCREEN_SIDE;
-                break;
-        }
+        return IL_SCREEN_SIDE;
     }
 
     /**
@@ -79,7 +75,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         global $DIC;
         $collector = $DIC->task()->derived()->factory()->collector();
@@ -100,7 +96,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get list data.
      */
-    public function getListRowData()
+    public function getListRowData() : void
     {
         $data = [];
 
@@ -122,7 +118,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow($a_set)
+    public function fillRow($a_set) : void
     {
         global $DIC;
 
@@ -144,11 +140,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $obj_id = ilObject::_lookupObjId($a_set["ref_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
             
-            if (0 === $a_set['url']) {
-                $url = ilLink::_getStaticLink($a_set["ref_id"]);
-            } else {
-                $url = $a_set['url'];
-            }
+            $url = 0 === $a_set['url'] ? ilLink::_getStaticLink($a_set["ref_id"]) : $a_set['url'];
             $link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
 
             $info_screen->addProperty(
@@ -162,11 +154,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $obj_id = $wst->lookupObjectId($a_set["wsp_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
 
-            if (0 === $a_set['url']) {
-                $url = ilLink::_getStaticLink($a_set["wsp_id"]);
-            } else {
-                $url = $a_set['url'];
-            }
+            $url = 0 === $a_set['url'] ? ilLink::_getStaticLink($a_set["wsp_id"]) : $a_set['url'];
             $link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
 
             $info_screen->addProperty(
@@ -205,11 +193,11 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get overview.
      */
-    public function getOverview()
+    public function getOverview() : string
     {
         $lng = $this->lng;
 
-        return '<div class="small">' . ((int) count($this->tasks)) . " " . $lng->txt("task_derived_tasks") . "</div>";
+        return '<div class="small">' . (count($this->tasks)) . " " . $lng->txt("task_derived_tasks") . "</div>";
     }
 
     //
@@ -247,11 +235,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         if ($data["ref_id"] > 0) {
             $obj_id = ilObject::_lookupObjId($data["ref_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
-            if ($data['url'] == "") {
-                $url = ilLink::_getStaticLink($data["ref_id"]);
-            } else {
-                $url = $data['url'];
-            }
+            $url = $data['url'] == "" ? ilLink::_getStaticLink($data["ref_id"]) : $data['url'];
             $link = $url;
             $title = $factory->link()->standard($data["title"], $link);
             $props[$lng->txt("obj_" . $obj_type)] = ilObject::_lookupTitle($obj_id);
@@ -261,11 +245,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $wst = new ilWorkspaceTree($this->user->getId());
             $obj_id = $wst->lookupObjectId($data["wsp_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
-            if ($data['url'] == "") {
-                $url = ilLink::_getStaticLink($data["wsp_id"]);
-            } else {
-                $url = $data['url'];
-            }
+            $url = $data['url'] == "" ? ilLink::_getStaticLink($data["wsp_id"]) : $data['url'];
             $link = $url;
             $title = $factory->link()->standard($data["title"], $link);
             $props[$lng->txt("obj_" . $obj_type)] = ilObject::_lookupTitle($obj_id);
@@ -293,8 +273,6 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 
     /**
      * No item entry
-     *
-     * @return string
      */
     public function getNoItemFoundContent() : string
     {
