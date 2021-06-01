@@ -7091,7 +7091,7 @@ button.close {
   position: relative;
   background-color: white;
   border: none;
-  box-shadow: 0 1px 2px rgb(0 0 0%), 0 0px 0px rgb(0 0 0%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
   /* see bug #24947 */
 }
 .il-card img {
@@ -13368,6 +13368,16 @@ div.ilFrmPostHeader span.small {
 @media only screen {
   .ilFrmPostContentContainer img {
     width: 100%;
+    height: auto !important;
+  }
+}
+.ilFrmTargetImage {
+  margin: 0 0 10px;
+  height: auto !important;
+  float: right;
+}
+@media only screen {
+  .ilFrmTargetImage img {
     height: auto !important;
   }
 }
