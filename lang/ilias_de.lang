@@ -16550,3 +16550,5 @@ rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
 dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
+common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!

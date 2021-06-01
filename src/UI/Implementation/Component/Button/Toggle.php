@@ -28,11 +28,6 @@ class Toggle extends Button implements C\Button\Toggle
     protected $action_on = null;
 
     /**
-     * @var bool
-     */
-    protected $has_on_off_label = false;
-
-    /**
      * @inheritdoc
      */
     public function __construct($label, $action_on, $action_off, $is_on, Signal $click = null)
@@ -100,23 +95,5 @@ class Toggle extends Button implements C\Button\Toggle
     public function withAdditionalToggleOffSignal(Signal $signal) : \ILIAS\UI\Component\Button\Toggle
     {
         return $this->appendTriggeredSignal($signal, "toggle_off");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withOnOffLabel() : \ILIAS\UI\Component\Button\Toggle
-    {
-        $clone = clone $this;
-        $clone->has_on_off_label = true;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function hasOnOffLabel() : bool
-    {
-        return $this->has_on_off_label;
     }
 }

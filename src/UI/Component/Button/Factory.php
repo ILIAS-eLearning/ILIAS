@@ -321,7 +321,7 @@ interface Factory
      *           The Toggle Button MUST be placed next to the control it activates/deactivates.
      *   style:
      *       1: >
-     *           The Toggle Button MAY contain a label inside, representing its current status (ON/OFF).
+     *           The Toggle Button MUST contain a label inside, representing its current status (ON/OFF).
      *   ordering:
      *       1: >
      *           The Toggle Button SHOULD be placed above the control it activates/deactivates.

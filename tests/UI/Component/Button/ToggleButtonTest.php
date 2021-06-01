@@ -58,16 +58,6 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $this->assertTrue($button->isEngaged());
     }
 
-    public function test_with_on_off_label()
-    {
-        $f = $this->getFactory();
-        $button = $f->toggle("", "action_on_string", "action_off_string");
-        $button2 = $button->withOnOffLabel();
-
-        $this->assertFalse($button->hasOnOffLabel());
-        $this->assertTrue($button2->hasOnOffLabel());
-    }
-
     public function test_append_OnAction()
     {
         $f = $this->getFactory();
@@ -102,23 +92,8 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <span class="il-toggle-switch"></span>
-</button>
-EOT;
-
-        $this->assertHTMLEquals("<div>" . $expected . "</div>", "<div>" . $r->render($button) . "</div>");
-    }
-
-    public function test_render_with_on_off_label()
-    {
-        $r = $this->getDefaultRenderer();
-        $button = $this->getFactory()->toggle("", "action_on_string", "action_off_string")
-            ->withOnOffLabel();
-
-        $expected = <<<EOT
-<button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <span class="il-toggle-label-on">ON</span>
-    <span class="il-toggle-label-off">OFF</span>
+    <span class="il-toggle-label-on">toggle_on</span>
+    <span class="il-toggle-label-off">toggle_off</span>
     <span class="il-toggle-switch"></span>
 </button>
 EOT;
@@ -133,6 +108,8 @@ EOT;
 
         $expected = ''
             . '<button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
+            . '    <span class="il-toggle-label-on">toggle_on</span>'
+            . '    <span class="il-toggle-label-off">toggle_off</span>'
             . '    <span class="il-toggle-switch"></span>'
             . '</button>';
 
@@ -154,6 +131,8 @@ EOT;
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+    <span class="il-toggle-label-on">toggle_on</span>
+    <span class="il-toggle-label-off">toggle_off</span>
     <span class="il-toggle-switch"></span>
 </button>
 EOT;

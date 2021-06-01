@@ -36,18 +36,4 @@ interface Toggle extends Button
      * @return Toggle
      */
     public function withAdditionalToggleOffSignal(Signal $signal) : Toggle;
-
-    /**
-     * Get a button like this, but with an ON/OFF label inside.
-     *
-     * @return Toggle
-     */
-    public function withOnOffLabel() : Toggle;
-
-    /**
-     * Is the ON/OFF label set?
-     *
-     * @return bool
-     */
-    public function hasOnOffLabel() : bool;
 }
