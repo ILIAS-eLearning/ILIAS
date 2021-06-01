@@ -1,9 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 /**
  * Class ilObjFileListGUI
  *

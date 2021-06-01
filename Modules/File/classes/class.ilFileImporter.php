@@ -1,8 +1,4 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
-
 /**
  * Importer class for files
  *

@@ -150,12 +150,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioOption.php");
-        require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("settings"));
@@ -188,8 +182,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $tai_prop->setCols(80);
         $tai_prop->setRows(5);
         $form->addItem($tai_prop);
-
-        require_once("Services/Preview/classes/class.ilPreviewSettings.php");
 
         // enable preview
         $chk_prop = new ilCheckboxInputGUI($lng->txt("enable_preview"), "enable_preview");
@@ -261,8 +253,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
             $this->object->update();
             $this->folderSettings->set("bgtask_download_limit", (int) $_POST["bg_limit"]);
-
-            require_once("Services/Preview/classes/class.ilPreviewSettings.php");
             ilPreviewSettings::setPreviewEnabled($_POST["enable_preview"] == 1);
             ilPreviewSettings::setMaximumPreviews($_POST["max_previews_per_object"]);
 
@@ -294,10 +284,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         if (!ilGhostscriptRenderer::isGhostscriptInstalled()) {
             ilUtil::sendInfo($lng->txt("ghostscript_not_configured"));
         }
-
-        // build renderer HTML
-        require_once("Services/Preview/classes/class.ilRendererFactory.php");
-        require_once("Services/Preview/classes/class.ilRendererTableGUI.php");
 
         $renderers = ilRendererFactory::getRenderers();
 

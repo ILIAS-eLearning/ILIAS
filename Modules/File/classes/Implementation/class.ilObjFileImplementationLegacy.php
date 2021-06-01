@@ -309,7 +309,6 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
      */
     public function getSpecificVersion($version_id)
     {
-        include_once("./Services/History/classes/class.ilHistory.php");
         $version = ilHistory::_getEntryByHistoryID($version_id);
         if ($version === false) {
             return false;
@@ -336,7 +335,6 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName(); // FSX
         } else {
-            require_once("./Services/History/classes/class.ilHistory.php");
             $entry = ilHistory::_getEntryByHistoryID($a_hist_entry_id);
 
             if ($entry === false) {
