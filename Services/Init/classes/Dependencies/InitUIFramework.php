@@ -31,7 +31,8 @@ class InitUIFramework
                 $c["ui.factory.tree"],
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
-                $c["ui.factory.legacy"]
+                $c["ui.factory.legacy"],
+                $c["ui.factory.markup"]
             );
         };
         $c["ui.signal_generator"] = function ($c) {
@@ -232,6 +233,10 @@ class InitUIFramework
 
         $c["ui.factory.legacy"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
+        };
+
+        $c["ui.factory.markup"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Markup\Factory();
         };
 
         $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {

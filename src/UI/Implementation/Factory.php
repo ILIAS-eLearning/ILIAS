@@ -43,6 +43,11 @@ class Factory implements \ILIAS\UI\Factory
     protected $modal_factory;
 
     /**
+     * @var C\Markup\Factory
+     */
+    protected $markup_factory;
+
+    /**
      * @var C\Dropzone\Factory
      */
     protected $dropzone_factory;
@@ -156,7 +161,8 @@ class Factory implements \ILIAS\UI\Factory
         C\Tree\Factory $tree_factory,
         C\Menu\Factory $menu_factory,
         C\Symbol\Factory $symbol_factory,
-        C\Legacy\Factory $legacy_factory
+        C\Legacy\Factory $legacy_factory,
+        C\Markup\Factory $markup_factory
     ) {
         $this->counter_factory = $counter_factory;
         $this->button_factory = $button_factory;
@@ -182,6 +188,7 @@ class Factory implements \ILIAS\UI\Factory
         $this->menu_factory = $menu_factory;
         $this->symbol_factory = $symbol_factory;
         $this->legacy_factory = $legacy_factory;
+        $this->markup_factory = $markup_factory;
     }
 
     /**
@@ -254,6 +261,14 @@ class Factory implements \ILIAS\UI\Factory
     public function modal()
     {
         return $this->modal_factory;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function markup()
+    {
+        return $this->markup_factory;
     }
 
     /**

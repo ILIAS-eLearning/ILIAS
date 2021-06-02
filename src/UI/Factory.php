@@ -514,6 +514,16 @@ interface Factory
     /**
      * ---
      * description:
+     *   purpose: >
+     *      An item that displays markup content in html
+     * ---
+     * @return \ILIAS\UI\Component\Markup\Factory
+     */
+    public function markup();
+
+    /**
+     * ---
+     * description:
      *   purpose: The Modal forces users to focus on the task at hand.
      *   composition: >
      *     A Modal is a full-screen dialog on top of the greyed-out ILIAS screen. The Modal consists
