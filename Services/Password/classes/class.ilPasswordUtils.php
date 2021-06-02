@@ -10,7 +10,6 @@ class ilPasswordUtils
 {
     /**
      * Generate random bytes using OpenSSL or Mcrypt and mt_rand() as fallback
-     * @param int $length
      * @return string A byte string
      */
     public static function getBytes(int $length) : string
@@ -24,7 +23,7 @@ class ilPasswordUtils
         }
 
         $rand = '';
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; ++$i) {
             $rand .= chr(mt_rand(0, 255));
         }
 

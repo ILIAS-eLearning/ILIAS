@@ -26,17 +26,12 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     public function __construct(array $config = [])
     {
-        if (!empty($config)) {
-            foreach ($config as $key => $value) {
-                switch (strtolower($key)) {
-                    case 'ignore_security_flaw':
-                        $this->setIsSecurityFlawIgnored($value);
-                        break;
-
-                    case 'data_directory':
-                        $this->setDataDirectory($value);
-                        break;
-                }
+        foreach ($config as $key => $value) {
+            $key = strtolower($key);
+            if ($key === 'ignore_security_flaw') {
+                $this->setIsSecurityFlawIgnored($value);
+            } elseif ($key === 'data_directory') {
+                $this->setDataDirectory($value);
             }
         }
 
@@ -70,7 +65,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     /**
      * Set the backward compatibility $2a$ instead of $2y$ for PHP 5.3.7+
-     * @param bool $backward_compatibility
      */
     public function setBackwardCompatibility(bool $backward_compatibility) : void
     {
@@ -158,7 +152,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         } else {
             $prefix = '$2a$';
             // check if the password contains 8-bit character
-            if (!$this->isSecurityFlawIgnored() && preg_match('/[\x80-\xFF]/', $raw)) {
+            if (!$this->isSecurityFlawIgnored() && preg_match('#[\x80-\xFF]#', $raw)) {
                 throw new ilPasswordException(
                     'The bcrypt implementation used by PHP can contain a security flaw ' .
                     'using passwords with 8-bit characters. ' .
@@ -228,11 +222,11 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
                     $location
                 ));
             }
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             throw new ilPasswordException(sprintf(
                 'Could not store the client salt in: %s. Please contact an administrator.',
                 $location
-            ));
+            ), $exception->getCode(), $exception);
         } finally {
             restore_error_handler();
         }

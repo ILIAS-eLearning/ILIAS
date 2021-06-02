@@ -19,13 +19,9 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
      */
     public function __construct(array $config = [])
     {
-        if (!empty($config)) {
-            foreach ($config as $key => $value) {
-                switch (strtolower($key)) {
-                    case 'cost':
-                        $this->setCosts($value);
-                        break;
-                }
+        foreach ($config as $key => $value) {
+            if (strtolower($key) === 'cost') {
+                $this->setCosts($value);
             }
         }
 
@@ -43,8 +39,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
     /**
      * @see http://php.net/manual/en/function.password-hash.php#example-984
-     * @param float $time_target
-     * @return int
      * @throws ilPasswordException
      */
     public function benchmarkCost(float $time_target = 0.05) : int
@@ -52,7 +46,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         $cost = 8;
 
         do {
-            $cost++;
+            ++$cost;
             $start = microtime(true);
             $encoder = new self(['cost' => (string) $cost]);
             $encoder->encodePassword('test', '');

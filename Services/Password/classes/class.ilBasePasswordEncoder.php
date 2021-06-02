@@ -30,7 +30,7 @@ abstract class ilBasePasswordEncoder implements ilPasswordEncoder
 
         $result = $known_string_length - $user_string_length;
 
-        for ($i = 0; $i < $user_string_length; $i++) {
+        for ($i = 0; $i < $user_string_length; ++$i) {
             $result |= (ord($knownString[$i % $known_string_length]) ^ ord($userString[$i]));
         }
 
