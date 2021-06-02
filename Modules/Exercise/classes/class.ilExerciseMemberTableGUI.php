@@ -55,7 +55,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         // filter user access
         $usr_ids = array_keys($tmp_data);
         $filtered_usr_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'etit_submissions_grades',
+            'edit_submissions_grades',
             'edit_submissions_grades',
             $this->exc->getRefId(),
             $usr_ids
