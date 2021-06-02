@@ -222,11 +222,11 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
                     $location
                 ));
             }
-        } catch (Exception $exception) {
+        } catch (Exception $e) {
             throw new ilPasswordException(sprintf(
                 'Could not store the client salt in: %s. Please contact an administrator.',
                 $location
-            ), $exception->getCode(), $exception);
+            ));
         } finally {
             restore_error_handler();
         }
