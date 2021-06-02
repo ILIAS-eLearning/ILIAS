@@ -16570,3 +16570,5 @@ file#:#not_yet_migrated#:#This file object has not yet been migrated and no new 
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!

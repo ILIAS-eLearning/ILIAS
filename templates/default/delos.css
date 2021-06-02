@@ -7584,6 +7584,14 @@ a fieldset[disabled] .active {
   background: #6ea03c;
   border: 1px solid #bfbfbf;
 }
+.il-toggle-button.on .il-toggle-label-on {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: white;
+}
 .il-toggle-button.on .il-toggle-switch {
   left: 53%;
   background: #f9f9f9;
@@ -7592,6 +7600,13 @@ a fieldset[disabled] .active {
 .il-toggle-button.off {
   background: #f9f9f9;
   border: 1px solid #bfbfbf;
+}
+.il-toggle-button.off .il-toggle-label-off {
+  position: absolute;
+  top: 0;
+  left: 23px;
+  font-weight: 600;
+  font-size: 0.9em;
 }
 .il-toggle-button.off .il-toggle-switch {
   background: #f9f9f9;
