@@ -652,7 +652,7 @@ class ilObjExercise extends ilObject
         $mem_obj = new ilExerciseMembers($this);
         
         $filtered_members = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
-            'etit_submissions_grades',
+            'edit_submissions_grades',
             'edit_submissions_grades',
             $this->getRefId(),
             (array) $mem_obj->getMembers()
