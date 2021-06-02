@@ -17,7 +17,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordShouldBeCorrectlyEncoded(ilMd5PasswordEncoder $encoder) : void
@@ -27,7 +26,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordCanBeVerified(ilMd5PasswordEncoder $encoder) : void
@@ -37,7 +35,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testEncoderDoesNotRelyOnSalts(ilMd5PasswordEncoder $encoder) : void
     {
@@ -46,7 +43,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testEncoderDoesNotSupportReencoding(ilMd5PasswordEncoder $encoder) : void
     {
@@ -55,7 +51,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
@@ -67,7 +62,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
@@ -78,7 +72,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testNameShouldBeMd5(ilMd5PasswordEncoder $encoder) : void
     {

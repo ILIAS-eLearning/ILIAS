@@ -77,7 +77,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     public function costsProvider() : array
     {
         $data = [];
-        for ($i = 4; $i <= 31; $i++) {
+        for ($i = 4; $i <= 31; ++$i) {
             $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
         }
 
@@ -86,11 +86,9 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     private function getInstanceWithConfiguredDataDirectory() : ilBcryptPasswordEncoder
     {
-        $encoder = new ilBcryptPasswordEncoder([
+        return new ilBcryptPasswordEncoder([
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-
-        return $encoder;
     }
 
     public function testInstanceCanBeCreated() : ilBcryptPasswordEncoder
@@ -123,7 +121,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeRetrievedWhenCostsAreSet(ilBcryptPasswordEncoder $encoder) : void
@@ -136,7 +133,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetAboveRange(ilBcryptPasswordEncoder $encoder) : void
@@ -147,7 +143,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetBelowRange(ilBcryptPasswordEncoder $encoder) : void
@@ -160,8 +155,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
      * @doesNotPerformAssertions
      * @depends      testInstanceCanBeCreated
      * @dataProvider costsProvider
-     * @param string $costs
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeSetInRange(string $costs, ilBcryptPasswordEncoder $encoder) : void
@@ -171,8 +164,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
-     * @return ilBcryptPasswordEncoder
      * @throws ilPasswordException
      */
     public function testPasswordShouldBeCorrectlyEncodedAndVerified(
@@ -188,7 +179,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
@@ -201,7 +191,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
@@ -213,7 +202,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testEncoderReliesOnSalts(ilBcryptPasswordEncoder $encoder) : void
     {
@@ -222,7 +210,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testEncoderDoesNotSupportReencoding(ilBcryptPasswordEncoder $encoder) : void
     {
@@ -231,7 +218,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testNameShouldBeBcrypt(ilBcryptPasswordEncoder $encoder) : void
     {
@@ -310,12 +296,14 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $encoder = $this->getInstanceWithConfiguredDataDirectory();
         $encoder->setClientSalt(self::CLIENT_SALT);
         $encoder->setBackwardCompatibility(true);
+
         $encoded_password = $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
         $this->assertEquals('$2a$', substr($encoded_password, 0, 4));
 
         $another_encoder = $this->getInstanceWithConfiguredDataDirectory();
         $another_encoder->setClientSalt(self::CLIENT_SALT);
+
         $another_encoder->setBackwardCompatibility(false);
         $another_encoded_password = $another_encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertEquals('$2y$', substr($another_encoded_password, 0, 4));
