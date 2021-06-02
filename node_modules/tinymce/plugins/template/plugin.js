@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -50,6 +50,12 @@
     };
     var getPreviewReplaceValues = function (editor) {
       return editor.getParam('template_preview_replace_values');
+    };
+    var getContentStyle = function (editor) {
+      return editor.getParam('content_style', '', 'string');
+    };
+    var shouldUseContentCssCors = function (editor) {
+      return editor.getParam('content_css_cors', false, 'boolean');
     };
     var getTemplateReplaceValues = function (editor) {
       return editor.getParam('template_replace_values');
@@ -153,7 +159,7 @@
     var hasClass = function (n, c) {
       return new RegExp('\\b' + c + '\\b', 'g').test(n.className);
     };
-    var insertTemplate = function (editor, ui, html) {
+    var insertTemplate = function (editor, _ui, html) {
       var el;
       var dom = editor.dom;
       var sel = editor.selection.getContent();
@@ -300,7 +306,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -319,22 +325,24 @@
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
         if (pred(x, i)) {
-          return Option.some(x);
+          return Optional.some(x);
         } else if (until(x, i)) {
           break;
         }
       }
-      return Option.none();
+      return Optional.none();
     };
     var find = function (xs, pred) {
       return findUntil(xs, pred, never);
     };
 
-    var global$3 = tinymce.util.Tools.resolve('tinymce.util.Promise');
+    var global$3 = tinymce.util.Tools.resolve('tinymce.Env');
+
+    var global$4 = tinymce.util.Tools.resolve('tinymce.util.Promise');
 
     var hasOwnProperty = Object.hasOwnProperty;
     var get = function (obj, key) {
-      return has(obj, key) ? Option.from(obj[key]) : Option.none();
+      return has(obj, key) ? Optional.from(obj[key]) : Optional.none();
     };
     var has = function (obj, key) {
       return hasOwnProperty.call(obj, key);
@@ -355,15 +363,22 @@
 
     var getPreviewContent = function (editor, html) {
       if (html.indexOf('<html>') === -1) {
-        var contentCssLinks_1 = '';
+        var contentCssEntries_1 = '';
+        var contentStyle = getContentStyle(editor);
+        if (contentStyle) {
+          contentCssEntries_1 += '<style type="text/css">' + contentStyle + '</style>';
+        }
+        var cors_1 = shouldUseContentCssCors(editor) ? ' crossorigin="anonymous"' : '';
         global$1.each(editor.contentCSS, function (url) {
-          contentCssLinks_1 += '<link type="text/css" rel="stylesheet" href="' + editor.documentBaseURI.toAbsolute(url) + '">';
+          contentCssEntries_1 += '<link type="text/css" rel="stylesheet" href="' + editor.documentBaseURI.toAbsolute(url) + '"' + cors_1 + '>';
         });
         var bodyClass = getBodyClass(editor);
         var encode = editor.dom.encode;
+        var isMetaKeyPressed = global$3.mac ? 'e.metaKey' : 'e.ctrlKey && !e.altKey';
+        var preventClicksOnLinksScript = '<script>' + 'document.addEventListener && document.addEventListener("click", function(e) {' + 'for (var elm = e.target; elm; elm = elm.parentNode) {' + 'if (elm.nodeName === "A" && !(' + isMetaKeyPressed + ')) {' + 'e.preventDefault();' + '}' + '}' + '}, false);' + '</script> ';
         var directionality = editor.getBody().dir;
         var dirAttr = directionality ? ' dir="' + encode(directionality) + '"' : '';
-        html = '<!DOCTYPE html>' + '<html>' + '<head>' + contentCssLinks_1 + '</head>' + '<body class="' + encode(bodyClass) + '"' + dirAttr + '>' + html + '</body>' + '</html>';
+        html = '<!DOCTYPE html>' + '<html>' + '<head>' + '<base href="' + encode(editor.documentBaseURI.getURI()) + '">' + contentCssEntries_1 + preventClicksOnLinksScript + '</head>' + '<body class="' + encode(bodyClass) + '"' + dirAttr + '>' + html + '</body>' + '</html>';
       }
       return replaceTemplateValues(html, getPreviewReplaceValues(editor));
     };
@@ -375,9 +390,9 @@
             text: message,
             type: 'info'
           });
-          return Option.none();
+          return Optional.none();
         }
-        return Option.from(global$1.map(templateList, function (template, index) {
+        return Optional.from(global$1.map(templateList, function (template, index) {
           var isUrlTemplate = function (t) {
             return t.url !== undefined;
           };
@@ -385,8 +400,8 @@
             selected: index === 0,
             text: template.title,
             value: {
-              url: isUrlTemplate(template) ? Option.from(template.url) : Option.none(),
-              content: !isUrlTemplate(template) ? Option.from(template.content) : Option.none(),
+              url: isUrlTemplate(template) ? Optional.from(template.url) : Optional.none(),
+              content: !isUrlTemplate(template) ? Optional.from(template.content) : Optional.none(),
               description: template.description
             }
           };
@@ -411,7 +426,7 @@
         });
       };
       var getTemplateContent = function (t) {
-        return new global$3(function (resolve, reject) {
+        return new global$4(function (resolve, reject) {
           t.value.url.fold(function () {
             return resolve(t.value.content.getOr(''));
           }, function (url) {

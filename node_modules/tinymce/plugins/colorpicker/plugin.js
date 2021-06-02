@@ -4,19 +4,19 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     function Plugin () {
       global.add('colorpicker', function () {
-        domGlobals.console.warn('Color picker plugin is now built in to the core editor, please remove it from your editor configuration');
+        console.warn('Color picker plugin is now built in to the core editor, please remove it from your editor configuration');
       });
     }
 
     Plugin();
 
-}(window));
+}());
