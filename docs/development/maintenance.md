@@ -9,7 +9,7 @@ modules of ILIAS.
 * **Product Management**: [Matthias Kunkel]
 * **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: [Florian Suittenpointner]
+* **Documentation**: N.A.
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
@@ -112,7 +112,7 @@ substantially in the general condition of the component and the proposed maintai
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: Manuel Müller, ZWH
+	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
 
 * **Chat**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
