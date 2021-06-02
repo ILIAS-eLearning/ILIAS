@@ -433,7 +433,7 @@ configuration might look like this afterwards:
         "default_language" : "de",
         "install_languages" : ["de"]
     },
-    "loggin" : {
+    "logging" : {
         "enable" : true,
         "path_to_logfile" : "/var/www/logs/ilias.log",
         "errorlog_dir" : "/var/www/logs/"
