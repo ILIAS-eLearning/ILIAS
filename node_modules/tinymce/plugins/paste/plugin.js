@@ -4,9 +4,9 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var Cell = function (initial) {
@@ -26,9 +26,9 @@
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
 
     var hasProPlugin = function (editor) {
-      if (/(^|[ ,])powerpaste([, ]|$)/.test(editor.getParam('plugins')) && global.get('powerpaste')) {
-        if (typeof domGlobals.window.console !== 'undefined' && domGlobals.window.console.log) {
-          domGlobals.window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
+      if (editor.hasPlugin('powerpaste', true)) {
+        if (typeof window.console !== 'undefined' && window.console.log) {
+          window.console.log('PowerPaste is incompatible with Paste plugin! Remove \'paste\' from the \'plugins\' option.');
         }
         return true;
       } else {
@@ -41,52 +41,6 @@
         clipboard: clipboard,
         quirks: quirks
       };
-    };
-
-    var firePastePreProcess = function (editor, html, internal, isWordHtml) {
-      return editor.fire('PastePreProcess', {
-        content: html,
-        internal: internal,
-        wordContent: isWordHtml
-      });
-    };
-    var firePastePostProcess = function (editor, node, internal, isWordHtml) {
-      return editor.fire('PastePostProcess', {
-        node: node,
-        internal: internal,
-        wordContent: isWordHtml
-      });
-    };
-    var firePastePlainTextToggle = function (editor, state) {
-      return editor.fire('PastePlainTextToggle', { state: state });
-    };
-    var firePaste = function (editor, ieFake) {
-      return editor.fire('paste', { ieFake: ieFake });
-    };
-
-    var togglePlainTextPaste = function (editor, clipboard) {
-      if (clipboard.pasteFormat.get() === 'text') {
-        clipboard.pasteFormat.set('html');
-        firePastePlainTextToggle(editor, false);
-      } else {
-        clipboard.pasteFormat.set('text');
-        firePastePlainTextToggle(editor, true);
-      }
-      editor.focus();
-    };
-
-    var register = function (editor, clipboard) {
-      editor.addCommand('mceTogglePlainTextPaste', function () {
-        togglePlainTextPaste(editor, clipboard);
-      });
-      editor.addCommand('mceInsertClipboardContent', function (ui, value) {
-        if (value.content) {
-          clipboard.pasteHtml(value.content, value.internal);
-        }
-        if (value.text) {
-          clipboard.pasteText(value.text);
-        }
-      });
     };
 
     var noop = function () {
@@ -199,7 +153,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -210,9 +164,24 @@
         return typeof value === type;
       };
     };
+    var isNullable = function (a) {
+      return a === null || a === undefined;
+    };
+    var isNonNullable = function (a) {
+      return !isNullable(a);
+    };
     var isFunction = isSimpleType('function');
 
     var nativeSlice = Array.prototype.slice;
+    var exists = function (xs, pred) {
+      for (var i = 0, len = xs.length; i < len; i++) {
+        var x = xs[i];
+        if (pred(x, i)) {
+          return true;
+        }
+      }
+      return false;
+    };
     var map = function (xs, f) {
       var len = xs.length;
       var r = new Array(len);
@@ -249,18 +218,18 @@
     };
 
     var value = function () {
-      var subject = Cell(Option.none());
+      var subject = Cell(Optional.none());
       var clear = function () {
-        subject.set(Option.none());
+        return subject.set(Optional.none());
       };
       var set = function (s) {
-        subject.set(Option.some(s));
-      };
-      var on = function (f) {
-        subject.get().each(f);
+        return subject.set(Optional.some(s));
       };
       var isSet = function () {
         return subject.get().isSome();
+      };
+      var on = function (f) {
+        return subject.get().each(f);
       };
       return {
         clear: clear,
@@ -270,6 +239,19 @@
       };
     };
 
+    var checkRange = function (str, substr, start) {
+      return substr === '' || str.length >= substr.length && str.substr(start, start + substr.length) === substr;
+    };
+    var startsWith = function (str, prefix) {
+      return checkRange(str, prefix, 0);
+    };
+    var endsWith = function (str, suffix) {
+      return checkRange(str, suffix, str.length - suffix.length);
+    };
+    var repeat = function (s, count) {
+      return count <= 0 ? '' : new Array(count + 1).join(s);
+    };
+
     var global$1 = tinymce.util.Tools.resolve('tinymce.Env');
 
     var global$2 = tinymce.util.Tools.resolve('tinymce.util.Delay');
@@ -277,6 +259,29 @@
     var global$3 = tinymce.util.Tools.resolve('tinymce.util.Promise');
 
     var global$4 = tinymce.util.Tools.resolve('tinymce.util.VK');
+
+    var firePastePreProcess = function (editor, html, internal, isWordHtml) {
+      return editor.fire('PastePreProcess', {
+        content: html,
+        internal: internal,
+        wordContent: isWordHtml
+      });
+    };
+    var firePastePostProcess = function (editor, node, internal, isWordHtml) {
+      return editor.fire('PastePostProcess', {
+        node: node,
+        internal: internal,
+        wordContent: isWordHtml
+      });
+    };
+    var firePastePlainTextToggle = function (editor, state) {
+      return editor.fire('PastePlainTextToggle', { state: state });
+    };
+    var firePaste = function (editor, ieFake) {
+      return editor.fire('paste', { ieFake: ieFake });
+    };
+
+    var global$5 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var shouldBlockDrop = function (editor) {
       return editor.getParam('paste_block_drop', false);
@@ -345,6 +350,10 @@
     var getTabSpaces = function (editor) {
       return editor.getParam('paste_tab_spaces', 4, 'number');
     };
+    var getAllowedImageFileTypes = function (editor) {
+      var defaultImageFileTypes = 'jpeg,jpg,jpe,jfi,jif,jfif,png,gif,bmp,webp';
+      return global$5.explode(editor.getParam('images_file_types', defaultImageFileTypes, 'string'));
+    };
 
     var internalMimeType = 'x-tinymce/html';
     var internalMark = '<!-- ' + internalMimeType + ' -->';
@@ -360,8 +369,6 @@
     var internalHtmlMime = function () {
       return internalMimeType;
     };
-
-    var global$5 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var global$6 = tinymce.util.Tools.resolve('tinymce.html.Entities');
 
@@ -492,9 +499,22 @@
         return prefix + count++;
       };
     }
+    var getImageMimeType = function (ext) {
+      var mimeOverrides = {
+        jpg: 'jpeg',
+        jpe: 'jpeg',
+        jfi: 'jpeg',
+        jif: 'jpeg',
+        jfif: 'jpeg',
+        pjpeg: 'jpeg',
+        pjp: 'jpeg',
+        svg: 'svg+xml'
+      };
+      return global$5.hasOwn(mimeOverrides, ext) ? 'image/' + mimeOverrides[ext] : 'image/' + ext;
+    };
 
     function isWordContent(content) {
-      return /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^'']*\bmso-|w:WordDocument/i.test(content) || /class="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
+      return /<font face="Times New Roman"|class="?Mso|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument/i.test(content) || /class="OutlineElement/.test(content) || /id="?docs\-internal\-guid\-/.test(content);
     }
     function isNumericList(text) {
       var found;
@@ -812,7 +832,7 @@
       var parser = global$7({}, editor.schema);
       parser.addNodeFilter('meta', function (nodes) {
         global$5.each(nodes, function (node) {
-          return node.remove();
+          node.remove();
         });
       });
       var fragment = parser.parse(html, {
@@ -857,8 +877,10 @@
     var isAbsoluteUrl = function (url) {
       return /^https?:\/\/[\w\?\-\/+=.&%@~#]+$/i.test(url);
     };
-    var isImageUrl = function (url) {
-      return isAbsoluteUrl(url) && /.(gif|jpe?g|png)$/.test(url);
+    var isImageUrl = function (editor, url) {
+      return isAbsoluteUrl(url) && exists(getAllowedImageFileTypes(editor), function (type) {
+        return endsWith(url, '.' + type);
+      });
     };
     var createImage = function (editor, url, pasteHtmlFn) {
       editor.undoManager.extra(function () {
@@ -880,7 +902,7 @@
       return editor.selection.isCollapsed() === false && isAbsoluteUrl(html) ? createLink(editor, html, pasteHtmlFn) : false;
     };
     var insertImage = function (editor, html, pasteHtmlFn) {
-      return isImageUrl(html) ? createImage(editor, html, pasteHtmlFn) : false;
+      return isImageUrl(editor, html) ? createImage(editor, html, pasteHtmlFn) : false;
     };
     var smartInsertContent = function (editor, html) {
       global$5.each([
@@ -897,10 +919,6 @@
       } else {
         smartInsertContent(editor, html);
       }
-    };
-
-    var repeat = function (s, count) {
-      return count <= 0 ? '' : new Array(count + 1).join(s);
     };
 
     var isCollapsibleWhitespace = function (c) {
@@ -1010,22 +1028,25 @@
       return filter ? filter(imgElm) : true;
     };
     var extractFilename = function (editor, str) {
-      var m = str.match(/([\s\S]+?)\.(?:jpeg|jpg|png|gif)$/i);
-      return m ? editor.dom.encode(m[1]) : null;
+      var m = str.match(/([\s\S]+?)(?:\.[a-z0-9.]+)$/i);
+      return isNonNullable(m) ? editor.dom.encode(m[1]) : null;
     };
     var uniqueId = createIdGenerator('mceclip');
     var pasteImage = function (editor, imageItem) {
       var _a = parseDataUri(imageItem.uri), base64 = _a.data, type = _a.type;
       var id = uniqueId();
-      var name = getImagesReuseFilename(editor) && imageItem.blob.name ? extractFilename(editor, imageItem.blob.name) : id;
-      var img = new domGlobals.Image();
+      var file = imageItem.blob;
+      var img = new Image();
       img.src = imageItem.uri;
       if (isValidDataUriImage(editor, img)) {
         var blobCache = editor.editorUpload.blobCache;
         var blobInfo = void 0;
         var existingBlobInfo = blobCache.getByData(base64, type);
         if (!existingBlobInfo) {
-          blobInfo = blobCache.create(id, imageItem.blob, base64, name);
+          var useFileName = getImagesReuseFilename(editor) && isNonNullable(file.name);
+          var name_1 = useFileName ? extractFilename(editor, file.name) : id;
+          var filename = useFileName ? file.name : undefined;
+          blobInfo = blobCache.create(id, file, base64, name_1, filename);
           blobCache.add(blobInfo);
         } else {
           blobInfo = existingBlobInfo;
@@ -1038,10 +1059,13 @@
     var isClipboardEvent = function (event) {
       return event.type === 'paste';
     };
-    var readBlobsAsDataUris = function (items) {
+    var isDataTransferItem = function (item) {
+      return isNonNullable(item.getAsFile);
+    };
+    var readFilesAsDataUris = function (items) {
       return global$3.all(map(items, function (item) {
         return new global$3(function (resolve) {
-          var blob = item.getAsFile ? item.getAsFile() : item;
+          var blob = isDataTransferItem(item) ? item.getAsFile() : item;
           var reader = new window.FileReader();
           reader.onload = function () {
             resolve({
@@ -1053,27 +1077,32 @@
         });
       }));
     };
-    var getImagesFromDataTransfer = function (dataTransfer) {
+    var isImage = function (editor) {
+      var allowedExtensions = getAllowedImageFileTypes(editor);
+      return function (file) {
+        return startsWith(file.type, 'image/') && exists(allowedExtensions, function (extension) {
+          return getImageMimeType(extension) === file.type;
+        });
+      };
+    };
+    var getImagesFromDataTransfer = function (editor, dataTransfer) {
       var items = dataTransfer.items ? map(from$1(dataTransfer.items), function (item) {
         return item.getAsFile();
       }) : [];
       var files = dataTransfer.files ? from$1(dataTransfer.files) : [];
-      var images = filter(items.length > 0 ? items : files, function (file) {
-        return /^image\/(jpeg|png|gif|bmp)$/.test(file.type);
-      });
-      return images;
+      return filter(items.length > 0 ? items : files, isImage(editor));
     };
     var pasteImageData = function (editor, e, rng) {
       var dataTransfer = isClipboardEvent(e) ? e.clipboardData : e.dataTransfer;
       if (getPasteDataImages(editor) && dataTransfer) {
-        var images = getImagesFromDataTransfer(dataTransfer);
+        var images = getImagesFromDataTransfer(editor, dataTransfer);
         if (images.length > 0) {
           e.preventDefault();
-          readBlobsAsDataUris(images).then(function (blobResults) {
+          readFilesAsDataUris(images).then(function (fileResults) {
             if (rng) {
               editor.selection.setRng(rng);
             }
-            each(blobResults, function (result) {
+            each(fileResults, function (result) {
               pasteImage(editor, result);
             });
           });
@@ -1084,30 +1113,30 @@
     };
     var isBrokenAndroidClipboardEvent = function (e) {
       var clipboardData = e.clipboardData;
-      return domGlobals.navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
+      return navigator.userAgent.indexOf('Android') !== -1 && clipboardData && clipboardData.items && clipboardData.items.length === 0;
     };
     var isKeyboardPasteEvent = function (e) {
       return global$4.metaKeyPressed(e) && e.keyCode === 86 || e.shiftKey && e.keyCode === 45;
     };
     var registerEventHandlers = function (editor, pasteBin, pasteFormat) {
       var keyboardPasteEvent = value();
+      var keyboardPastePressed = value();
       var keyboardPastePlainTextState;
+      editor.on('keyup', keyboardPastePressed.clear);
       editor.on('keydown', function (e) {
-        function removePasteBinOnKeyUp(e) {
+        var removePasteBinOnKeyUp = function (e) {
           if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
             pasteBin.remove();
           }
-        }
+        };
         if (isKeyboardPasteEvent(e) && !e.isDefaultPrevented()) {
           keyboardPastePlainTextState = e.shiftKey && e.keyCode === 86;
-          if (keyboardPastePlainTextState && global$1.webkit && domGlobals.navigator.userAgent.indexOf('Version/') !== -1) {
+          if (keyboardPastePlainTextState && global$1.webkit && navigator.userAgent.indexOf('Version/') !== -1) {
             return;
           }
           e.stopImmediatePropagation();
           keyboardPasteEvent.set(e);
-          window.setTimeout(function () {
-            keyboardPasteEvent.clear();
-          }, 100);
+          keyboardPastePressed.set(true);
           if (global$1.ie && keyboardPastePlainTextState) {
             e.preventDefault();
             firePaste(editor, true);
@@ -1121,7 +1150,7 @@
           });
         }
       });
-      function insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal) {
+      function insertClipboardContent(editor, clipboardContent, isKeyBoardPaste, plainTextMode, internal) {
         var content;
         if (hasContentType(clipboardContent, 'text/html')) {
           content = clipboardContent['text/html'];
@@ -1135,7 +1164,7 @@
         content = trimHtml(content);
         pasteBin.remove();
         var isPlainTextHtml = internal === false && isPlainText(content);
-        var isImage = isImageUrl(content);
+        var isImage = isImageUrl(editor, content);
         if (!content.length || isPlainTextHtml && !isImage) {
           plainTextMode = true;
         }
@@ -1162,7 +1191,10 @@
         return pasteBin.getLastRng() || editor.selection.getRng();
       };
       editor.on('paste', function (e) {
-        var isKeyBoardPaste = keyboardPasteEvent.isSet();
+        var isKeyboardPaste = keyboardPasteEvent.isSet() || keyboardPastePressed.isSet();
+        if (isKeyboardPaste) {
+          keyboardPasteEvent.clear();
+        }
         var clipboardContent = getClipboardContent(editor, e);
         var plainTextMode = pasteFormat.get() === 'text' || keyboardPastePlainTextState;
         var internal = hasContentType(clipboardContent, internalHtmlMime());
@@ -1175,10 +1207,10 @@
           pasteBin.remove();
           return;
         }
-        if (!isKeyBoardPaste) {
+        if (!isKeyboardPaste) {
           e.preventDefault();
         }
-        if (global$1.ie && (!isKeyBoardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
+        if (global$1.ie && (!isKeyboardPaste || e.ieFake) && !hasContentType(clipboardContent, 'text/html')) {
           pasteBin.create();
           editor.dom.bind(pasteBin.getEl(), 'paste', function (e) {
             e.stopPropagation();
@@ -1191,10 +1223,10 @@
           if (!internal) {
             internal = isMarked(clipboardContent['text/html']);
           }
-          insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
+          insertClipboardContent(editor, clipboardContent, isKeyboardPaste, plainTextMode, internal);
         } else {
           global$2.setEditorTimeout(editor, function () {
-            insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode, internal);
+            insertClipboardContent(editor, clipboardContent, isKeyboardPaste, plainTextMode, internal);
           }, 0);
         }
       });
@@ -1235,7 +1267,7 @@
     };
 
     var getPasteBinParent = function (editor) {
-      return global$1.ie && editor.inline ? domGlobals.document.body : editor.getBody();
+      return global$1.ie && editor.inline ? document.body : editor.getBody();
     };
     var isExternalPasteBin = function (editor) {
       return getPasteBinParent(editor) !== editor.getBody();
@@ -1369,6 +1401,31 @@
       };
     };
 
+    var togglePlainTextPaste = function (editor, clipboard) {
+      if (clipboard.pasteFormat.get() === 'text') {
+        clipboard.pasteFormat.set('html');
+        firePastePlainTextToggle(editor, false);
+      } else {
+        clipboard.pasteFormat.set('text');
+        firePastePlainTextToggle(editor, true);
+      }
+      editor.focus();
+    };
+
+    var register = function (editor, clipboard) {
+      editor.addCommand('mceTogglePlainTextPaste', function () {
+        togglePlainTextPaste(editor, clipboard);
+      });
+      editor.addCommand('mceInsertClipboardContent', function (ui, value) {
+        if (value.content) {
+          clipboard.pasteHtml(value.content, value.internal);
+        }
+        if (value.text) {
+          clipboard.pasteText(value.text);
+        }
+      });
+    };
+
     var hasWorkingClipboardApi = function (clipboardData) {
       return global$1.iOS === false && typeof (clipboardData === null || clipboardData === void 0 ? void 0 : clipboardData.setData) === 'function';
     };
@@ -1440,7 +1497,7 @@
       return function (evt) {
         if (hasSelectedContent(editor)) {
           setClipboardData(evt, getData(editor), fallback(editor), function () {
-            if (global$1.browser.isChrome()) {
+            if (global$1.browser.isChrome() || global$1.browser.isFirefox()) {
               var rng_1 = editor.selection.getRng();
               global$2.setEditorTimeout(editor, function () {
                 editor.selection.setRng(rng_1);
@@ -1704,4 +1761,4 @@
 
     Plugin();
 
-}(window));
+}());

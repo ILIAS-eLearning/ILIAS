@@ -39,7 +39,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $ilCtrl = $DIC->ctrl();
         $tpl = $DIC->ui()->mainTemplate();
-        $tpl->addJavaScript('./Services/RTE/tiny_mce_3_5_11/tiny_mce.js');
+        $tpl->addJavaScript('./node_modules/tinymce/tinymce.js');
         $this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
         parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);

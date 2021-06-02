@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -134,7 +134,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -204,7 +204,7 @@
       }
     };
     var get = function (obj, key) {
-      return has(obj, key) ? Option.from(obj[key]) : Option.none();
+      return has(obj, key) ? Optional.from(obj[key]) : Optional.none();
     };
     var has = function (obj, key) {
       return hasOwnProperty.call(obj, key);
@@ -461,7 +461,7 @@
                 if (data[sources[index]]) {
                   var attrs = [];
                   attrs.map = {};
-                  if (sourceCount < index) {
+                  if (sourceCount <= index) {
                     setAttributes(attrs, {
                       src: data[sources[index]],
                       type: data[sources[index] + 'mime']
@@ -731,20 +731,20 @@
         };
         var getNonEmptyValue = function (c) {
           return get(c, 'value').bind(function (v) {
-            return v.length > 0 ? Option.some(v) : Option.none();
+            return v.length > 0 ? Optional.some(v) : Optional.none();
           });
         };
         var getFromValueFirst = function () {
           return getFromData().bind(function (child) {
             return isObject(child) ? getNonEmptyValue(child).orThunk(getFromMetaData) : getFromMetaData().orThunk(function () {
-              return Option.from(child);
+              return Optional.from(child);
             });
           });
         };
         var getFromMetaFirst = function () {
           return getFromMetaData().orThunk(function () {
             return getFromData().bind(function (child) {
-              return isObject(child) ? getNonEmptyValue(child) : Option.from(child);
+              return isObject(child) ? getNonEmptyValue(child) : Optional.from(child);
             });
           });
         };
