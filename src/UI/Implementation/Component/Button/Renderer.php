@@ -196,6 +196,10 @@ class Renderer extends AbstractComponentRenderer
                 //var_dump($code); exit;
                 return $code;
             });
+            $tpl->setCurrentBlock("with_on_off_label");
+            $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
+            $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
+            $tpl->parseCurrentBlock();
         } else {
             $tpl->touchBlock("disabled");
             $button_status = 'unavailable';
