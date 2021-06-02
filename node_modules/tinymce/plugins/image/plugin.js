@@ -4,12 +4,59 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
+
+    var __assign = function () {
+      __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+          s = arguments[i];
+          for (var p in s)
+            if (Object.prototype.hasOwnProperty.call(s, p))
+              t[p] = s[p];
+        }
+        return t;
+      };
+      return __assign.apply(this, arguments);
+    };
+
+    var typeOf = function (x) {
+      var t = typeof x;
+      if (x === null) {
+        return 'null';
+      } else if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
+        return 'array';
+      } else if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
+        return 'string';
+      } else {
+        return t;
+      }
+    };
+    var isType = function (type) {
+      return function (value) {
+        return typeOf(value) === type;
+      };
+    };
+    var isSimpleType = function (type) {
+      return function (value) {
+        return typeof value === type;
+      };
+    };
+    var eq = function (t) {
+      return function (a) {
+        return t === a;
+      };
+    };
+    var isString = isType('string');
+    var isObject = isType('object');
+    var isArray = isType('array');
+    var isNull = eq(null);
+    var isBoolean = isSimpleType('boolean');
+    var isNumber = isSimpleType('number');
 
     var noop = function () {
     };
@@ -121,45 +168,11 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
     };
-
-    var typeOf = function (x) {
-      var t = typeof x;
-      if (x === null) {
-        return 'null';
-      } else if (t === 'object' && (Array.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'Array')) {
-        return 'array';
-      } else if (t === 'object' && (String.prototype.isPrototypeOf(x) || x.constructor && x.constructor.name === 'String')) {
-        return 'string';
-      } else {
-        return t;
-      }
-    };
-    var isType = function (type) {
-      return function (value) {
-        return typeOf(value) === type;
-      };
-    };
-    var isSimpleType = function (type) {
-      return function (value) {
-        return typeof value === type;
-      };
-    };
-    var eq = function (t) {
-      return function (a) {
-        return t === a;
-      };
-    };
-    var isString = isType('string');
-    var isObject = isType('object');
-    var isArray = isType('array');
-    var isNull = eq(null);
-    var isBoolean = isSimpleType('boolean');
-    var isNumber = isSimpleType('number');
 
     var nativePush = Array.prototype.push;
     var flatten = function (xs) {
@@ -172,8 +185,11 @@
       }
       return r;
     };
+    var get = function (xs, i) {
+      return i >= 0 && i < xs.length ? Optional.some(xs[i]) : Optional.none();
+    };
     var head = function (xs) {
-      return xs.length === 0 ? Option.none() : Option.some(xs[0]);
+      return get(xs, 0);
     };
     var findMap = function (arr, f) {
       for (var i = 0; i < arr.length; i++) {
@@ -182,84 +198,43 @@
           return r;
         }
       }
-      return Option.none();
+      return Optional.none();
     };
 
-    var hasOwnProperty = Object.prototype.hasOwnProperty;
-    var deep = function (old, nu) {
-      var bothObjects = isObject(old) && isObject(nu);
-      return bothObjects ? deepMerge(old, nu) : nu;
-    };
-    var baseMerge = function (merger) {
-      return function () {
-        var objects = new Array(arguments.length);
-        for (var i = 0; i < objects.length; i++) {
-          objects[i] = arguments[i];
-        }
-        if (objects.length === 0) {
-          throw new Error('Can\'t merge zero objects');
-        }
-        var ret = {};
-        for (var j = 0; j < objects.length; j++) {
-          var curObject = objects[j];
-          for (var key in curObject) {
-            if (hasOwnProperty.call(curObject, key)) {
-              ret[key] = merger(ret[key], curObject[key]);
-            }
-          }
-        }
-        return ret;
-      };
-    };
-    var deepMerge = baseMerge(deep);
-
-    var __assign = function () {
-      __assign = Object.assign || function __assign(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-          s = arguments[i];
-          for (var p in s)
-            if (Object.prototype.hasOwnProperty.call(s, p))
-              t[p] = s[p];
-        }
-        return t;
-      };
-      return __assign.apply(this, arguments);
-    };
-
-    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
+    var Global = typeof window !== 'undefined' ? window : Function('return this;')();
 
     var rawSet = function (dom, key, value) {
       if (isString(value) || isBoolean(value) || isNumber(value)) {
         dom.setAttribute(key, value + '');
       } else {
-        domGlobals.console.error('Invalid call to Attr.set. Key ', key, ':: Value ', value, ':: Element ', dom);
+        console.error('Invalid call to Attribute.set. Key ', key, ':: Value ', value, ':: Element ', dom);
         throw new Error('Attribute value was not simple');
       }
     };
     var set = function (element, key, value) {
-      rawSet(element.dom(), key, value);
+      rawSet(element.dom, key, value);
     };
     var remove = function (element, key) {
-      element.dom().removeAttribute(key);
+      element.dom.removeAttribute(key);
     };
 
     var fromHtml = function (html, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var div = doc.createElement('div');
       div.innerHTML = html;
       if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        domGlobals.console.error('HTML does not have a single root node', html);
+        console.error('HTML does not have a single root node', html);
         throw new Error('HTML must have a single root node');
       }
       return fromDom(div.childNodes[0]);
     };
     var fromTag = function (tag, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var node = doc.createElement(tag);
       return fromDom(node);
     };
     var fromText = function (text, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var node = doc.createTextNode(text);
       return fromDom(node);
     };
@@ -267,13 +242,12 @@
       if (node === null || node === undefined) {
         throw new Error('Node cannot be null or undefined');
       }
-      return { dom: constant(node) };
+      return { dom: node };
     };
     var fromPoint = function (docElm, x, y) {
-      var doc = docElm.dom();
-      return Option.from(doc.elementFromPoint(x, y)).map(fromDom);
+      return Optional.from(docElm.dom.elementFromPoint(x, y)).map(fromDom);
     };
-    var Element = {
+    var SugarElement = {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
@@ -344,7 +318,7 @@
     };
     var getImageSize = function (url) {
       return new global$2(function (callback) {
-        var img = domGlobals.document.createElement('img');
+        var img = document.createElement('img');
         var done = function (dimensions) {
           if (img.parentNode) {
             img.parentNode.removeChild(img);
@@ -368,7 +342,7 @@
         style.position = 'fixed';
         style.bottom = style.left = '0px';
         style.width = style.height = 'auto';
-        domGlobals.document.body.appendChild(img);
+        document.body.appendChild(img);
         img.src = url;
       });
     };
@@ -452,7 +426,7 @@
     };
     var blobToDataUri = function (blob) {
       return new global$2(function (resolve, reject) {
-        var reader = new domGlobals.FileReader();
+        var reader = new FileReader();
         reader.onload = function () {
           resolve(reader.result);
         };
@@ -608,7 +582,7 @@
       };
     };
     var getStyleValue = function (normalizeCss, data) {
-      var image = domGlobals.document.createElement('img');
+      var image = document.createElement('img');
       updateAttrib(image, 'style', data.style);
       if (getHspace(image) || data.hspace !== '') {
         setHspace(image, data.hspace);
@@ -625,7 +599,7 @@
       return normalizeCss(image.getAttribute('style'));
     };
     var create = function (normalizeCss, data) {
-      var image = domGlobals.document.createElement('img');
+      var image = document.createElement('img');
       write(normalizeCss, __assign(__assign({}, data), { caption: false }), image);
       setAlt(image, data.alt, data.isDecorative);
       if (data.caption) {
@@ -663,14 +637,14 @@
     var setAlt = function (image, alt, isDecorative) {
       if (isDecorative) {
         DOM.setAttrib(image, 'role', 'presentation');
-        var sugarImage = Element.fromDom(image);
+        var sugarImage = SugarElement.fromDom(image);
         set(sugarImage, 'alt', '');
       } else {
         if (isNull(alt)) {
-          var sugarImage = Element.fromDom(image);
+          var sugarImage = SugarElement.fromDom(image);
           remove(sugarImage, 'alt');
         } else {
-          var sugarImage = Element.fromDom(image);
+          var sugarImage = SugarElement.fromDom(image);
           set(sugarImage, 'alt', alt);
         }
         if (DOM.getAttrib(image, 'role') === 'presentation') {
@@ -806,15 +780,52 @@
       }
     };
 
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var deep = function (old, nu) {
+      var bothObjects = isObject(old) && isObject(nu);
+      return bothObjects ? deepMerge(old, nu) : nu;
+    };
+    var baseMerge = function (merger) {
+      return function () {
+        var objects = new Array(arguments.length);
+        for (var i = 0; i < objects.length; i++) {
+          objects[i] = arguments[i];
+        }
+        if (objects.length === 0) {
+          throw new Error('Can\'t merge zero objects');
+        }
+        var ret = {};
+        for (var j = 0; j < objects.length; j++) {
+          var curObject = objects[j];
+          for (var key in curObject) {
+            if (hasOwnProperty.call(curObject, key)) {
+              ret[key] = merger(ret[key], curObject[key]);
+            }
+          }
+        }
+        return ret;
+      };
+    };
+    var deepMerge = baseMerge(deep);
+
     var global$4 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getValue = function (item) {
       return isString(item.value) ? item.value : '';
     };
+    var getText = function (item) {
+      if (isString(item.text)) {
+        return item.text;
+      } else if (isString(item.title)) {
+        return item.title;
+      } else {
+        return '';
+      }
+    };
     var sanitizeList = function (list, extractValue) {
       var out = [];
       global$4.each(list, function (item) {
-        var text = isString(item.text) ? item.text : isString(item.title) ? item.title : '';
+        var text = getText(item);
         if (item.menu !== undefined) {
           var items = sanitizeList(item.menu, extractValue);
           out.push({
@@ -837,11 +848,11 @@
       }
       return function (list) {
         if (list) {
-          return Option.from(list).map(function (list) {
+          return Optional.from(list).map(function (list) {
             return sanitizeList(list, extracter);
           });
         } else {
-          return Option.none();
+          return Optional.none();
         }
       };
     };
@@ -856,9 +867,9 @@
         if (isGroup(item)) {
           return findEntryDelegate(item.items, value);
         } else if (item.value === value) {
-          return Option.some(item);
+          return Optional.some(item);
         } else {
-          return Option.none();
+          return Optional.none();
         }
       });
     };
@@ -881,7 +892,7 @@
     };
     function Uploader (settings) {
       var defaultHandler = function (blobInfo, success, failure, progress) {
-        var xhr = new domGlobals.XMLHttpRequest();
+        var xhr = new XMLHttpRequest();
         xhr.open('POST', settings.url);
         xhr.withCredentials = settings.credentials;
         xhr.upload.onprogress = function (e) {
@@ -902,7 +913,7 @@
           }
           success(pathJoin(settings.basePath, json.location));
         };
-        var formData = new domGlobals.FormData();
+        var formData = new FormData();
         formData.append('file', blobInfo.blob(), blobInfo.filename());
         xhr.send(formData);
       };
@@ -961,7 +972,7 @@
                 inputMode: 'numeric'
               },
               {
-                type: 'selectbox',
+                type: 'listbox',
                 name: 'borderstyle',
                 label: 'Border style',
                 items: [
@@ -1051,7 +1062,7 @@
       var credentials = getUploadCredentials(editor);
       var handler = getUploadHandler(editor);
       var automaticUploads = isAutomaticUploadsEnabled(editor);
-      var prependURL = Option.some(getPrependUrl(editor)).filter(function (preUrl) {
+      var prependURL = Optional.some(getPrependUrl(editor)).filter(function (preUrl) {
         return isString(preUrl) && preUrl.length > 0;
       });
       return futureImageList.then(function (imageList) {
@@ -1088,7 +1099,7 @@
       var imageList = info.imageList.map(function (items) {
         return {
           name: 'images',
-          type: 'selectbox',
+          type: 'listbox',
           label: 'Image list',
           items: items
         };
@@ -1120,7 +1131,7 @@
       var classList = info.classList.map(function (items) {
         return {
           name: 'classes',
-          type: 'selectbox',
+          type: 'listbox',
           label: 'Class',
           items: items
         };
@@ -1228,12 +1239,12 @@
       if (!/^(?:[a-zA-Z]+:)?\/\//.test(srcURL)) {
         return info.prependURL.bind(function (prependUrl) {
           if (srcURL.substring(0, prependUrl.length) !== prependUrl) {
-            return Option.some(prependUrl + srcURL);
+            return Optional.some(prependUrl + srcURL);
           }
-          return Option.none();
+          return Optional.none();
         });
       }
-      return Option.none();
+      return Optional.none();
     };
     var addPrependUrl = function (info, api) {
       var data = api.getData();
@@ -1398,7 +1409,7 @@
       head(data.fileinput).fold(function () {
         api.unblock();
       }, function (file) {
-        var blobUri = domGlobals.URL.createObjectURL(file);
+        var blobUri = URL.createObjectURL(file);
         var uploader = Uploader({
           url: info.url,
           basePath: info.basePath,
@@ -1407,7 +1418,7 @@
         });
         var finalize = function () {
           api.unblock();
-          domGlobals.URL.revokeObjectURL(blobUri);
+          URL.revokeObjectURL(blobUri);
         };
         var updateSrcAndSwitchTab = function (url) {
           api.setData({
@@ -1537,6 +1548,7 @@
           blob: file,
           blobUri: blobUri,
           name: file.name ? file.name.replace(/\.[^\.]+$/, '') : null,
+          filename: file.name,
           base64: dataUrl.split(',')[1]
         });
       };
@@ -1578,21 +1590,13 @@
         serializeStyle: serializeStyle(editor)
       };
       var open = function () {
-        return collect(editor).then(makeDialog(helpers)).then(function (spec) {
-          return editor.windowManager.open(spec);
-        });
+        collect(editor).then(makeDialog(helpers)).then(editor.windowManager.open);
       };
-      var openLater = function () {
-        open();
-      };
-      return {
-        open: open,
-        openLater: openLater
-      };
+      return { open: open };
     };
 
     var register = function (editor) {
-      editor.addCommand('mceImage', Dialog(editor).openLater);
+      editor.addCommand('mceImage', Dialog(editor).open);
       editor.addCommand('mceUpdateImage', function (_ui, data) {
         editor.undoManager.transact(function () {
           return insertOrUpdateImage(editor, data);
@@ -1630,7 +1634,7 @@
       editor.ui.registry.addToggleButton('image', {
         icon: 'image',
         tooltip: 'Insert/edit image',
-        onAction: Dialog(editor).openLater,
+        onAction: Dialog(editor).open,
         onSetup: function (buttonApi) {
           return editor.selection.selectorChangedWithUnbind('img:not([data-mce-object],[data-mce-placeholder]),figure.image', buttonApi.setActive).unbind;
         }
@@ -1638,7 +1642,7 @@
       editor.ui.registry.addMenuItem('image', {
         icon: 'image',
         text: 'Image...',
-        onAction: Dialog(editor).openLater
+        onAction: Dialog(editor).open
       });
       editor.ui.registry.addContextMenu('image', {
         update: function (element) {
@@ -1657,4 +1661,4 @@
 
     Plugin();
 
-}(window));
+}());

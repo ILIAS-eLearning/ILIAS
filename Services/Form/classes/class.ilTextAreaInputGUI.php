@@ -494,7 +494,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.
-                $rte->addPlugin("emotions");
+                $rte->addPlugin("emoticons");
                 foreach ($this->plugins as $plugin) {
                     if (strlen($plugin)) {
                         $rte->addPlugin($plugin);
@@ -527,13 +527,18 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         
                         // #13603 - "paste from word" is essential
                         $rte->addPlugin("paste");
+                        //Add plugins 'lists', 'code' and 'link': in tinymce 3 it wasnt necessary to configure these plugins
+                        $rte->addPlugin("lists");
+                        $rte->addPlugin("link");
+                        $rte->addPlugin("code");
+
+                        $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
                         
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
-                        $rte->disableButtons(array("anchor", "justifyleft", "justifycenter",
-                            "justifyright", "justifyfull", "formatselect", "removeformat",
+                        $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
+                            "alignright", "alignjustify", "formatselect", "removeformat",
                             "cut", "copy", "paste", "pastetext")); // JF, 2013-12-09
                     }
-                    
                     $rte->addCustomRTESupport(0, "", $this->getRteTags());
                 }
                 

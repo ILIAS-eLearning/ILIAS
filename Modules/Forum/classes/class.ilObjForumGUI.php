@@ -1964,7 +1964,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'frm_post',
                 'tpl.tinymce_frm_post.js',
                 false,
-                '3.5.11'
+                '5.6.0'
             );
         } else {
             $oPostGUI->setRTESupport(
@@ -1973,7 +1973,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'frm_post',
                 'tpl.tinymce_frm_post.js',
                 false,
-                '3.5.11'
+                '5.6.0'
             );
         }
         // purifier
