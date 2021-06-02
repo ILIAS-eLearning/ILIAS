@@ -51,8 +51,35 @@ final class RootFolderTest extends TestCase
         'unzip_test_file.zip',
         'webdav.php',
     ];
+    
+    private const ALLOWED_ROOT_FOLDER_DIRS = [
+        '.git',
+        '.github',
+        '.idea',
+        'CI',
+        'Customizing',
+        'Modules',
+        'Services',
+        'cron',
+        'data',
+        'dicto',
+        'docs',
+        'extern',
+        'include',
+        'lang',
+        'libs',
+        'node_modules',
+        'setup',
+        'src',
+        'sso',
+        'templates',
+        'test',
+        'tests',
+        'webservice',
+        'xml',
+    ];
 
-    public function testAppRootFolderOnlyContainsDefinedFiles() : void
+    private function getAppRootFolderOrFail() : string
     {
         $app_root_folder = getcwd();
 
@@ -63,18 +90,24 @@ final class RootFolderTest extends TestCase
         if (!file_exists($app_root_folder . '/index.php')) {
             $this->fail('Could not determine ILIAS root folder');
         }
+        
+        return $app_root_folder;
+    }
 
+    public function testAppRootFolderOnlyContainsDefinedFiles() : void
+    {
         $found_files = [];
         $iter = new CallbackFilterIterator(
-            new DirectoryIterator($app_root_folder),
-            static function (SplFileInfo $file) : bool {
+            new DirectoryIterator($this->getAppRootFolderOrFail()),
+            static function (DirectoryIterator $file) : bool {
                 return $file->isFile();
             }
         );
         foreach ($iter as $file) {
-            /** @var SplFileInfo $file */
+            /** @var DirectoryIterator $file */
             $found_files[] = $file->getBasename();
         }
+        sort($found_files);
 
         $unexpected_files = array_diff($found_files, self::ALLOWED_ROOT_FOLDER_FILES);
 
@@ -83,6 +116,32 @@ final class RootFolderTest extends TestCase
             sprintf(
                 'The following files are not expected in the ILIAS root folder: %s',
                 implode(', ', $unexpected_files)
+            )
+        );
+    }
+
+    public function testAppRootFolderOnlyContainsDefinedFolders() : void
+    {
+        $found_directories = [];
+        $iter = new CallbackFilterIterator(
+            new DirectoryIterator($this->getAppRootFolderOrFail()),
+            static function (DirectoryIterator $file) : bool {
+                return $file->isDir() && !$file->isDot();
+            }
+        );
+        foreach ($iter as $file) {
+            /** @var DirectoryIterator $file */
+            $found_directories[] = $file->getBasename();
+        }
+
+        $unexpected_directories = array_diff($found_directories, self::ALLOWED_ROOT_FOLDER_DIRS);
+        sort($unexpected_directories);
+
+        $this->assertEmpty(
+            $unexpected_directories,
+            sprintf(
+                'The following directories are not expected in the ILIAS root folder: %s',
+                implode(', ', $unexpected_directories)
             )
         );
     }
