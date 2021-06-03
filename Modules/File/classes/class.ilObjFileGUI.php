@@ -3,6 +3,8 @@
 
 use ILIAS\DI\Container;
 
+use ILIAS\UI\Component\Input\Container\Form\Standard as UIComponentForm;
+
 /**
  * GUI class for file objects.
  * @author       Sascha Hofmann <shofmann@databay.de>
@@ -22,6 +24,10 @@ class ilObjFileGUI extends ilObject2GUI
      * @var \ilObjFile
      */
     public $object;
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
     public $lng;
     protected $log = null;
     protected $obj_service;
@@ -36,6 +42,7 @@ class ilObjFileGUI extends ilObject2GUI
     {
         global $DIC;
         $this->lng = $DIC->language();
+        $this->ui = $DIC->ui();
         $this->log = ilLoggerFactory::getLogger('file');
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $this->obj_service = $DIC->object();
@@ -183,13 +190,104 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     /**
+     * returns the HTML of a UI Component form.
+     *
+     * @param ilAccordionGUI  $accordion
+     * @param UIComponentForm $form
+     * @param int             $form_type
+     */
+    private function addUIFormToAccordion(ilAccordionGUI $accordion, UIComponentForm $form, int $form_type) : void
+    {
+        // abort if form-type is unknown
+        if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
+            return;
+        }
+
+        $inputs = $form->getInputs();
+        // use label of first input as title, because UI Component forms don't support form-titles yet
+        $title = (!empty($inputs)) ?
+            $inputs[0]->getLabel() : ''
+        ;
+
+        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+        $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $title);
+
+        $accordion->addItem($tpl->get(), $this->ui->renderer()->render($form));
+    }
+
+    /**
+     * returns the HTML of a legacy form.
+     *
+     * @param ilAccordionGUI    $accordion
+     * @param ilPropertyFormGUI $form
+     * @param int               $form_type
+     */
+    private function addLegacyFormToAccordion(ilAccordionGUI $accordion, ilPropertyFormGUI $form, int $form_type) : void
+    {
+        // abort if form-type is unknown
+        if (!in_array($form_type, [self::CFORM_NEW, self::CFORM_CLONE, self::CFORM_IMPORT], true)) {
+            return;
+        }
+
+        // see bug #0016217
+        if (method_exists($this, "getCreationFormTitle")) {
+            if (!empty(($title = $this->getCreationFormTitle($form_type)))) {
+                $form->setTitle($title);
+            }
+        }
+
+        $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
+        $tpl->setVariable("TITLE", $this->lng->txt("option") . " " . $form_type . ": " . $form->getTitle());
+
+        $accordion->addItem($tpl->get(), $form->getHTML());
+    }
+
+    /**
+     * returns the HTML for creation forms (accordion).
+     * this method overrides the parent method in order to support UI Component forms.
+     *
+     * @param array $a_forms
+     * @return string
+     */
+    protected function getCreationFormsHTML(array $a_forms)
+    {
+        // abort if empty array was passed
+        if (empty($a_forms)) return '';
+
+        // return ui component form html if it's the only array entry
+        if (1 === count($a_forms) && $a_forms[0] instanceof UIComponentForm) {
+            return $this->ui->renderer()->render($a_forms[0]);
+        }
+
+        // return legacy form html if it's the only array entry
+        if (1 === count($a_forms) && $a_forms[0] instanceof ilPropertyFormGUI) {
+            return $a_forms[0]->getHTML();
+        }
+
+        $accordion = new ilAccordionGUI();
+        $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+
+        foreach ($a_forms as $type => $form) {
+            if ($form instanceof UIComponentForm) {
+                $this->addUIFormToAccordion($accordion, $form, $type);
+            }
+
+            if ($form instanceof ilPropertyFormGUI) {
+                $this->addLegacyFormToAccordion($accordion, $form, $type);
+            }
+        }
+
+        return "<div class='ilCreationFormSection'>{$accordion->getHTML()}</div>";
+    }
+
+    /**
      * @param string $a_new_type
      * @return array
      */
     protected function initCreationForms($a_new_type) : array
     {
         $forms = [];
-        $forms[] = $this->initMultiUploadForm();
+        $forms[self::CFORM_NEW] = $this->initMultiUploadForm();
 
         // repository only
         if ((int) $this->id_type !== self::WORKSPACE_NODE_ID) {
@@ -707,6 +805,12 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function initMultiUploadForm()
     {
+        return $this->ui->factory()->input()->container()->form()->standard(
+            "",
+            [$this->ui->factory()->input()->field()->text('test')]
+        );
+
+        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);
         $dnd_form_gui->setHideLabels();
