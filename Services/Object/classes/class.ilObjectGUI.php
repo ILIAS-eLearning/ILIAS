@@ -828,7 +828,7 @@ class ilObjectGUI
      *
      * @param array $a_forms
      */
-    final protected function getCreationFormsHTML(array $a_forms)
+    protected function getCreationFormsHTML(array $a_forms)
     {
         $tpl = $this->tpl;
         
