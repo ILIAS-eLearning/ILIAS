@@ -638,3 +638,4 @@ not_enabled#:#Disabled
 phantomjs_path#:#Path to phantomjs
 phantomjs_path_comment#:#Optional to create PDFs, e.g. '/usr/bin/phantomjs'
 cache_activate_global_screen#:#Global Screen
+lang_hr#:#Croatian
