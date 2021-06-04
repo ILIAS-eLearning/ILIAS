@@ -7703,8 +7703,7 @@ dcl#:#dcl_reference_link_info#:#Detaljan prikaz mora biti aktivan u referenciran
 dcl#:#dcl_reference_title#:#Upućivanje na tablicu i polje
 dcl#:#dcl_regex#:#Regularni izraz
 dcl#:#dcl_regex_info#:#(bez razgraničivača)
-dcl#:#dcl_required#:#Obvezno polje
-#NAME?
+dcl#:#dcl_required#:#Obvezn
 dcl#:#dcl_save#:#Spremi tablicu
 dcl#:#dcl_save_confirmation#:#Spremi potvrdu
 dcl#:#dcl_save_confirmation_desc#:#Korisnici moraju potvrditi novi unos zbirke podataka
