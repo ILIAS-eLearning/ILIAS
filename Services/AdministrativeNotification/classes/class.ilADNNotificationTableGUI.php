@@ -117,7 +117,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             
             $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET);
             $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_RESET), "")
-                                ->withOnClick($delete_modal->getShowSignal());
+                                ->withOnClick($reset_modal->getShowSignal());
             $this->modals[] = $reset_modal;
             
             $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
