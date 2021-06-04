@@ -1842,6 +1842,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         /**
          * @var $oFDForum ilFileDataForum
          */
+        $isReply = in_array($this->requestAction, ['showreply', 'ready_showreply']);
+        $isDraft = in_array($this->requestAction, ['publishDraft', 'editdraft']);
 
         // init objects
         $oForumObjects = $this->getForumObjects();
@@ -1884,9 +1886,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
         $this->ctrl->clearParameters($this);
 
-        if (in_array($this->requestAction, ['showreply', 'ready_showreply'])) {
+        if ($isReply) {
             $this->replyEditForm->setTitle($this->lng->txt('forums_your_reply'));
-        } elseif (in_array($this->requestAction, ['showdraft', 'editdraft'])) {
+        } elseif ($isDraft) {
             $this->replyEditForm->setTitle($this->lng->txt('forums_edit_draft'));
         } else {
             $this->replyEditForm->setTitle($this->lng->txt('forums_edit_post'));
@@ -1914,9 +1916,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->replyEditForm->addItem($oSubjectGUI);
 
         $oPostGUI = new ilTextAreaInputGUI(
-            in_array($this->requestAction, ['showreply', 'ready_showreply']) ?
-                $this->lng->txt('forums_your_reply') :
-                $this->lng->txt('forums_edit_post'),
+            $isReply ? $this->lng->txt('forums_your_reply') : $this->lng->txt('forums_edit_post'),
             'message'
         );
         $oPostGUI->setRequired(true);
@@ -1925,12 +1925,22 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oPostGUI->addPlugin('latex');
         $oPostGUI->addButton('latex');
         $oPostGUI->addButton('pastelatex');
-        if (!$this->isTopLevelReplyCommand()) {
+
+    
+        $quotingAllowed = (
+            !$this->isTopLevelReplyCommand() && (
+                ($isReply && $this->objCurrentPost->getDepth() >= 2) ||
+                (!$isDraft && !$isReply && $this->objCurrentPost->getDepth() > 2) ||
+                ($isDraft && $this->objCurrentPost->getDepth() >= 1)
+            )
+        );
+        if ($quotingAllowed) {
             $oPostGUI->addPlugin('ilfrmquote');
-            if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
-                $oPostGUI->addButton('ilFrmQuoteAjaxCall');
-            }
+            $oPostGUI->addButton('ilFrmQuoteAjaxCall');
+            
+            
         }
+        
         $oPostGUI->removePlugin('advlink');
         $oPostGUI->setRTERootBlockElement('');
         $oPostGUI->usePurifier(true);
@@ -2075,7 +2085,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (strtolower($rtestring) != 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState()) {
-                if (!$this->isTopLevelReplyCommand()) {
+                if ($quotingAllowed) {
                     $this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
                 }
             }
@@ -2091,9 +2101,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 if ($this->requestAction == 'editdraft') {
                     $this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
-                } elseif ($this->isTopLevelReplyCommand()) {
+                } /*elseif ($this->isTopLevelReplyCommand()) {
                     $this->replyEditForm->addCommandButton('saveTopLevelDraft', $this->lng->txt('save_message'));
-                } else {
+                } */else {
                     $this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));
                 }
 
@@ -2196,7 +2206,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         if ($use_replyform) {
             $oReplyEditForm = $this->getReplyEditForm();
-            if (!$oReplyEditForm->checkInput() && !$draft_obj instanceof ilForumPostDraft) {
+            if (!$oReplyEditForm->checkInput()) {
                 $oReplyEditForm->setValuesByPost();
                 return $this->viewThreadObject();
             }
@@ -5571,6 +5581,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         'del_file' => array()
                     ));
                 }
+    
+                $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getParentId());
+                $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl->setVariable(
+                    'IL_FRM_QUOTE_CALLBACK_SRC',
+                    $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
+                );
+                $this->ctrl->clearParameters($this);
+                $tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
                 break;
 
             case 'editdraft':
@@ -5597,6 +5617,17 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         'del_file' => []
                     ));
                 }
+    
+                $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+                $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
+    
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl->setVariable(
+                    'IL_FRM_QUOTE_CALLBACK_SRC',
+                    $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
+                );
+                $this->ctrl->clearParameters($this);
+                $tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
                 break;
         }
 
