@@ -113,10 +113,10 @@
 			_log('ILIAS-Request', message);
 		};
 
-		function _log(type, message) {
-			console.log(type, message);
-		}
-	};
+	function _log(type, message) {
+		console.log(type, message);
+	}
+};
 
 	/**
 	 * This class translates all translation key to language text.
@@ -914,6 +914,73 @@
 		}
 	};
 
+const ChatTypingBroadcasterFactory = (function () {
+	let instances = {}, ms = 500;
+
+	/**
+	 *
+	 * @param {Function} onTypingStarted
+	 * @param {Function} onTypeingStopped
+	 * @constructor
+	 */
+	function TypingBroadcaster(onTypingStarted, onTypingStopped) {
+		this.is_typing = false;
+		this.timer = 0;
+		this.onTypingStarted = onTypingStarted;
+		this.onTypingStopped = onTypingStopped;
+	}
+
+	TypingBroadcaster.prototype.release = function() {
+		if (this.is_typing) {
+			window.clearTimeout(this.timer);
+			this.onTimeout();
+		}
+	}
+
+	TypingBroadcaster.prototype.onTimeout = function() {
+		window.clearTimeout(this.timer);
+		this.is_typing = false;
+		this.onTypingStopped.call();
+	};
+
+	TypingBroadcaster.prototype.registerTyping = function() {
+		if (this.is_typing) {
+			window.clearTimeout(this.timer);
+			this.timer = window.setTimeout(this.onTimeout.bind(this), ms);
+		} else {
+			this.is_typing = true;
+			this.onTypingStarted.call();
+			this.timer = window.setTimeout(this.onTimeout.bind(this), ms);
+		}
+	};
+
+	/**
+	 *
+	 * @param {String} scopeId
+	 * @param {Function} onTypingStarted
+	 * @param {Function} onTypingStopped
+	 * @returns {TypingBroadcaster}
+	 */
+	function createInstance(scopeId, onTypingStarted, onTypingStopped) {
+		return new TypingBroadcaster(onTypingStarted, onTypingStopped);
+	}
+
+	return {
+		/**
+		 * @param {String} scopeId
+		 * @param {Function} onTypingStarted
+		 * @param {Function} onTypingStopped
+		 * @returns {TypingBroadcaster}
+		 */
+		getInstance: function (scopeId, onTypingStarted, onTypingStopped) {
+			if (!instances.hasOwnProperty(scopeId)) {
+				instances[scopeId] = createInstance(scopeId, onTypingStarted, onTypingStopped);
+			}
+			return instances[scopeId];
+		}
+	};
+})();
+
 /**
  * This class handles responses of all asynchronous request done by ILIASConnector.
  * It has to be passed to the ILIASConnector instance.
@@ -1195,6 +1262,8 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		_socket.on('userjustbanned', _onUserBanned);
 		_socket.on('clear', _onClear);
 		_socket.on('notice', _onNotice);
+		_socket.on('userStartedTyping', _onUserStartedTyping);
+		_socket.on('userStoppedTyping', _onUserStoppedTyping);
 		_socket.on('userlist', _onUserlist);
 		_socket.on('shutdown', function(){
 			_socket.removeAllListeners();
@@ -1228,6 +1297,16 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				callback();
 			});
 		};
+
+	this.userStartedTyping = function(roomId, subRoomId) {
+		logger.logServerRequest('userStartedTyping');
+		_socket.emit('userStartedTyping', roomId, subRoomId);
+	}
+
+	this.userStoppedTyping = function(roomId, subRoomId) {
+		logger.logServerRequest('userStoppedTyping');
+		_socket.emit('userStoppedTyping', roomId, subRoomId);
+	}
 
 	/**
 	 * Displays chatmessage in chat
@@ -1559,6 +1638,18 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			}
 		});
 	}
+	
+	function _onUserStartedTyping(message) {
+		logger.logServerResponse("onUserStartedTyping");
+		console.log(message);
+		// TODO: Re-render typing information
+	}
+
+	function _onUserStoppedTyping(message) {
+		logger.logServerResponse("onUserStoppedTyping");
+		console.log(message);
+		// TODO: Re-render typing information
+	}
 
 	/**
 	 * Setup message submit to server
@@ -1583,6 +1674,34 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				$(this).blur();
 				_sendMessage();
 			}
+		});
+
+		$('#submit_message_text').keyup(function(e) {
+			if (personalUserInfo.broadcast_typing !== true) {
+				return;
+			}
+
+			const room_id = _scope, sub_room_id = currentRoom;
+
+			const broadcaster = ChatTypingBroadcasterFactory.getInstance(
+				room_id + '_' + sub_room_id,
+				function() {
+					console.log("Started Typing");
+					serverConnector.userStartedTyping(room_id, sub_room_id);
+				},
+				function() {
+					console.log("Stopped Typing");
+					serverConnector.userStoppedTyping(room_id, sub_room_id);
+				}
+			);
+
+			const keycode = e.keyCode || e.which;
+			if (keycode === 13) {
+				broadcaster.release();
+				return;
+			}
+
+			broadcaster.registerTyping();
 		});
 	}
 
