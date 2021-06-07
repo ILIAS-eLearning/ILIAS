@@ -707,11 +707,6 @@
 				return;
 			}
 
-			const keycode = e.keyCode || e.which;
-			if (keycode === 13) {
-				return;
-			}
-
 			const conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 			const broadcaster = TypingBroadcasterFactory.getInstance(
 				conversationId,
@@ -724,6 +719,17 @@
 					$chat.userStoppedTyping(conversationId);
 				}
 			);
+
+			const keycode = event.keyCode || event.which;
+			if (keycode === 13) {
+				broadcaster.release();
+				return;
+			}
+
+			const input = $('[data-onscreenchat-window=' + conversationId + ']').find('[data-onscreenchat-message]');
+			if (input.text().trim() === "") {
+				return '';
+			}
 
 			broadcaster.registerTyping();
 		},
@@ -1707,11 +1713,16 @@
 			this.onTypingStopped = onTypingStopped;
 		}
 
+		TypingBroadcaster.prototype.release = function() {
+			if (this.is_typing) {
+				window.clearTimeout(this.timer);
+				this.onTimeout();
+			}
+		}
+
 		TypingBroadcaster.prototype.onTimeout = function() {
-			window.clearTimeout(this.timer);
 			this.is_typing = false;
 			this.onTypingStopped.call();
-
 		};
 
 		TypingBroadcaster.prototype.registerTyping = function() {
