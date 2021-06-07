@@ -29,7 +29,7 @@ class ilMailDeliveryJob extends AbstractJob
 
         $DIC->logger()->mail()->debug(sprintf(
             'Input: %s',
-            json_encode(array_slice($arguments, 0, 5), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+            json_encode(array_slice($arguments, 0, 5), JSON_PRETTY_PRINT)
         ));
 
         $mail = new ilMail((int) $input[0]->getValue());
