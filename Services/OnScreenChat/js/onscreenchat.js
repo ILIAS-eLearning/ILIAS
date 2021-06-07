@@ -738,10 +738,13 @@
 
 		onUserStartedTyping: function (message) {
 			console.log("onUserStartedTyping", message);
-			TypingUsersTextRendererFactory.getInstance(message.conversation.id).addTypingUser(message.participant.id);
+			
+			const generator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
+
+			generator.addTypingUser(message.participant.id);
 
 			// TODO: Re-render typing information
-			console.log(TypingUsersTextRendererFactory.getInstance(message.conversation.id).text(
+			console.log(generator.text(
 				getModule().storage,
 				il.Language,
 				getParticipantsNames
@@ -750,10 +753,13 @@
 
 		onUserStoppedTyping: function (message) {
 			console.log("onUserStoppedTyping", message);
-			TypingUsersTextRendererFactory.getInstance(message.conversation.id).removeTypingUser(message.participant.id);
+
+			const generator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
+			
+			generator.removeTypingUser(message.participant.id);
 
 			// TODO: Re-render typing information
-			console.log(TypingUsersTextRendererFactory.getInstance(message.conversation.id).text(
+			console.log(generator.text(
 				getModule().storage,
 				il.Language,
 				getParticipantsNames
@@ -1782,7 +1788,7 @@
 		};
 	})();
 
-	const TypingUsersTextRendererFactory = (function () {
+	const TypingUsersTextGeneratorFactory = (function () {
 		let instances = {};
 
 		/**
@@ -1790,7 +1796,7 @@
 		 * @param {String} conversationId
 		 * @constructor
 		 */
-		function TypingUsersTextRenderer(conversationId) {
+		function TypingUsersTextGenerator(conversationId) {
 			this.conversationId = conversationId;
 			this.typingSet = new Set();
 		}
@@ -1799,7 +1805,7 @@
 		 *
 		 * @param {Number} usrId
 		 */
-		TypingUsersTextRenderer.prototype.addTypingUser = function(usrId) {
+		TypingUsersTextGenerator.prototype.addTypingUser = function(usrId) {
 			if (!this.typingSet.has(usrId)) {
 				this.typingSet.add(usrId);
 			}
@@ -1809,7 +1815,7 @@
 		 * 
 		 * @param {Number} usrId
 		 */
-		TypingUsersTextRenderer.prototype.removeTypingUser = function(usrId) {
+		TypingUsersTextGenerator.prototype.removeTypingUser = function(usrId) {
 			if (this.typingSet.has(usrId)) {
 				this.typingSet.delete(usrId);
 			}
@@ -1822,7 +1828,7 @@
 		 * @param {Function} usernameGenerator
 		 * @returns {string}
 		 */
-		TypingUsersTextRenderer.prototype.text = function (storage, language, usernameGenerator) {
+		TypingUsersTextGenerator.prototype.text = function (storage, language, usernameGenerator) {
 			const names = usernameGenerator(
 				storage.get(this.conversationId),
 				function(usrId) {
@@ -1842,16 +1848,16 @@
 		/**
 		 *
 		 * @param {String} conversationId
-		 * @returns {TypingUsersTextRenderer}
+		 * @returns {TypingUsersTextGenerator}
 		 */
 		function createInstance(conversationId) {
-			return new TypingUsersTextRenderer(conversationId);
+			return new TypingUsersTextGenerator(conversationId);
 		}
 
 		return {
 			/**
 			 * @param {String} conversationId
-			 * @returns {TypingUsersTextRenderer}
+			 * @returns {TypingUsersTextGenerator}
 			 */
 			getInstance: function (conversationId) {
 				if (!instances.hasOwnProperty(conversationId)) {
