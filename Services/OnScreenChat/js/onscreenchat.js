@@ -736,10 +736,12 @@
 
 		onUserStartedTyping: function (message) {
 			console.log("onUserStartedTyping", message);
+			// TODO: Re-render typing information
 		},
 
 		onUserStoppedTyping: function (message) {
 			console.log("onUserStoppedTyping", message);
+			// TODO: Re-render typing information
 		},
 
 		/**
