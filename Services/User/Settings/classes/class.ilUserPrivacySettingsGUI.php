@@ -11,6 +11,7 @@ class ilUserPrivacySettingsGUI
     const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
     const PROP_ENABLE_BROWSER_NOTIFICATIONS = 'chat_osc_browser_notifications';
     const PROP_ENABLE_SOUND = 'play_invitation_sound';
+    private const PROP_ENABLE_BROADCAST_TYPING = 'chat_broadcast_typing';
 
     /**
      * @var ilLanguage
@@ -232,9 +233,7 @@ class ilUserPrivacySettingsGUI
     public function shouldDisplayChatSection() : bool
     {
         return (
-            $this->chatSettings->get('chat_enabled', false) && (
-                $this->shouldShowNotificationOptions() || $this->shouldShowOnScreenChatOptions()
-            )
+            $this->chatSettings->get('chat_enabled', false)
         );
     }
 
@@ -404,6 +403,11 @@ class ilUserPrivacySettingsGUI
                 ->withValue((bool) $this->user->getPref('chat_play_invitation_sound'));
         }
 
+        $fields[self::PROP_ENABLE_BROADCAST_TYPING] = $fieldFactory
+            ->checkbox($this->lng->txt('chat_broadcast_typing'), $this->lng->txt('chat_broadcast_typing_info'))
+            ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
+            ->withValue((bool) $this->user->getPref('chat_broadcast_typing'));
+
         $formSections['chat_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('chat_settings'));
     }
 
@@ -488,6 +492,13 @@ class ilUserPrivacySettingsGUI
                             $preferencesUpdated = true;
                         }
                     }
+                }
+
+                $oldBroadcastTypingValue = (int) $this->user->getPref('chat_broadcast_typing');
+                $broadcastTyping = (int) ($formData[self::PROP_ENABLE_BROADCAST_TYPING] ?? 0);
+                if ($oldBroadcastTypingValue !== $broadcastTyping) {
+                    $this->user->setPref('chat_broadcast_typing', $broadcastTyping);
+                    $preferencesUpdated = true;
                 }
 
                 if ($preferencesUpdated) {
