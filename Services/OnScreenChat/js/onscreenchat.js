@@ -707,8 +707,12 @@
 				return;
 			}
 
-			let conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+			const keycode = e.keyCode || e.which;
+			if (keycode === 13) {
+				return;
+			}
 
+			const conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
 			const broadcaster = TypingBroadcasterFactory.getInstance(
 				conversationId,
 				function() {
