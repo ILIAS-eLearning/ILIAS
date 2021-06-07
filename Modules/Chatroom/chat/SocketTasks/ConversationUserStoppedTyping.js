@@ -2,9 +2,9 @@ let Container  = require('../AppContainer');
 
 module.exports = function(conversationId, userId) {
     if (conversationId !== null && userId !== null) {
-        let namespace = Container.getNamespace(this.nsp.name);
-        let conversation = namespace.getConversations().getById(conversationId);
-        let participant = namespace.getSubscriber(userId);
+        const namespace = Container.getNamespace(this.nsp.name),
+            conversation = namespace.getConversations().getById(conversationId),
+            participant = namespace.getSubscriber(userId);
 
         if (conversation !== null && conversation.isParticipant(participant)) {
             Container.getLogger().debug('User %s stopped typing in conversation "%s"', userId, conversationId);
