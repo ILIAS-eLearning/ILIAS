@@ -1,4 +1,3 @@
-<script type="text/javascript">
 (function($, root) {
 	function ilFrmQuoteAjaxHandler(t, ed) {
 		$.ajax({
@@ -24,4 +23,3 @@
 
 	root.ilFrmQuoteAjaxHandler = ilFrmQuoteAjaxHandler;
 })(jQuery, window);
-</script>

@@ -3071,13 +3071,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $firstNodeInThread->getThreadId());
-                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.js', true, true, 'Modules/Forum');
                 $jsTpl->setVariable(
                     'IL_FRM_QUOTE_CALLBACK_SRC',
                     $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
                 );
                 $this->ctrl->clearParameters($this);
-                $threadContentTemplate->setVariable('BOTTOM_FORM_ADDITIONAL_JS', $jsTpl->get());
+                $this->tpl->addOnLoadCode($jsTpl->get());
                 $threadContentTemplate->setVariable('BOTTOM_FORM', $form->getHTML());
             }
         } else {
@@ -5553,13 +5553,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
 
-                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.js', true, true, 'Modules/Forum');
                 $jsTpl->setVariable(
                     'IL_FRM_QUOTE_CALLBACK_SRC',
                     $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
                 );
                 $this->ctrl->clearParameters($this);
-                $tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+                $this->tpl->addOnLoadCode($jsTpl->get());
                 break;
 
             case 'showedit':
@@ -5581,13 +5581,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     
                 $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getParentId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.js', true, true, 'Modules/Forum');
                 $jsTpl->setVariable(
                     'IL_FRM_QUOTE_CALLBACK_SRC',
                     $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
                 );
                 $this->ctrl->clearParameters($this);
-                $tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+                $this->tpl->addOnLoadCode($jsTpl->get());
                 break;
 
             case 'editdraft':
@@ -5618,13 +5618,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
     
-                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.html', true, true, 'Modules/Forum');
+                $jsTpl = new ilTemplate('tpl.forum_post_quoation_ajax_handler.js', true, true, 'Modules/Forum');
                 $jsTpl->setVariable(
                     'IL_FRM_QUOTE_CALLBACK_SRC',
                     $this->ctrl->getLinkTarget($this, 'getQuotationHTMLAsynch', '', true)
                 );
                 $this->ctrl->clearParameters($this);
-                $tpl->setVariable('FORM_ADDITIONAL_JS', $jsTpl->get());
+                $this->tpl->addOnLoadCode($jsTpl->get());
                 break;
         }
 
