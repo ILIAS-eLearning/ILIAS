@@ -51,6 +51,22 @@
 			getModule().socket.emit('removeUser', conversationId, userId, name);
 		},
 
+		userStartedTyping: function(conversationId) {
+			getModule().socket.emit('userStartedTyping', conversationId, getModule().config.userId);
+		},
+
+		onUserStartedTyping: function(callback) {
+			getModule().socket.on('userStartedTyping', callback);
+		},
+
+		userStoppedTyping: function(conversationId) {
+			getModule().socket.emit('userStoppedTyping', conversationId, getModule().config.userId);
+		},
+
+		onUserStoppedTyping: function(callback) {
+			getModule().socket.on('userStoppedTyping', callback);
+		},
+
 		onGroupConversationLeft: function(callback) {
 			getModule().socket.on('removeUser', callback);
 		},

@@ -36,6 +36,7 @@
 			participantEvent: function(){},
 			onEmitCloseConversation: function(){},
 			submitEvent: function(){},
+			messageKeyUpEvent: function(){},
 			addEvent: function(){},
 			resizeChatWindow: function() {},
 			focusOut: function() {},
@@ -57,6 +58,9 @@
 			}
 			if (triggers.hasOwnProperty('submitEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent = triggers.submitEvent;
+			}
+			if (triggers.hasOwnProperty('messageKeyUpEvent')) {
+				$scope.il.OnScreenChatJQueryTriggers.triggers.messageKeyUpEvent = triggers.messageKeyUpEvent;
 			}
 			if (triggers.hasOwnProperty('addEvent')) {
 				$scope.il.OnScreenChatJQueryTriggers.triggers.addEvent = triggers.addEvent;
@@ -108,6 +112,7 @@
 				})
 				.on('paste', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageContentPasted)
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
+				.on('keyup', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageKeyUpEvent)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
 				// Notification center events
@@ -226,6 +231,8 @@
 			$chat.onParticipantsSuppressedMessages(getModule().onParticipantsSuppressedMessages);
 			$chat.onSenderSuppressesMessages(getModule().onSenderSuppressesMessages);
 			$chat.receiveConversation(getModule().onConversation);
+			$chat.onUserStartedTyping(getModule().onUserStartedTyping);
+			$chat.onUserStoppedTyping(getModule().onUserStoppedTyping);
 			$chat.onHistory(getModule().onHistory);
 			$chat.onGroupConversation(getModule().onConversationInit);
 			$chat.onGroupConversationLeft(getModule().onConversationLeft);
@@ -235,6 +242,7 @@
 				participantEvent:        getModule().startConversation,
 				onEmitCloseConversation: getModule().onEmitCloseConversation,
 				submitEvent:             getModule().handleSubmit,
+				messageKeyUpEvent:       getModule().onMessageKeyUp,
 				addEvent:                getModule().openInviteUser,
 				resizeChatWindow:        getModule().resizeMessageInput,
 				focusOut:                getModule().onFocusOut,
@@ -692,6 +700,36 @@
 
 			messageObject.message = il.Language.txt('chat_osc_self_rej_msgs');
 			getModule().receiveMessage(messageObject);
+		},
+
+		onMessageKeyUp: function (event) {
+			if (getConfig().broadcast_typing !== true) {
+				return;
+			}
+
+			let conversationId = $(this).closest('[data-onscreenchat-window]').attr('data-onscreenchat-window');
+
+			const broadcaster = TypingBroadcasterFactory.getInstance(
+				conversationId,
+				function() {
+					console.log("Started Typing");
+					$chat.userStartedTyping(conversationId);
+				},
+				function() {
+					console.log("Stopped Typing");
+					$chat.userStoppedTyping(conversationId);
+				}
+			);
+
+			broadcaster.registerTyping();
+		},
+
+		onUserStartedTyping: function (message) {
+			console.log("onUserStartedTyping", message);
+		},
+
+		onUserStoppedTyping: function (message) {
+			console.log("onUserStoppedTyping", message);
 		},
 
 		/**
@@ -1649,4 +1687,64 @@
 		};
 	};
 
+	const TypingBroadcasterFactory = (function () {
+		let instances = {}, ms = 500;
+
+		/**
+		 * 
+		 * @param {Function} onTypingStarted
+		 * @param {Function} onTypeingStopped
+		 * @constructor
+		 */
+		function TypingBroadcaster(onTypingStarted, onTypingStopped) {
+			this.is_typing = false;
+			this.timer = 0;
+			this.onTypingStarted = onTypingStarted;
+			this.onTypingStopped = onTypingStopped;
+		}
+
+		TypingBroadcaster.prototype.onTimeout = function() {
+			window.clearTimeout(this.timer);
+			this.is_typing = false;
+			this.onTypingStopped.call();
+
+		};
+
+		TypingBroadcaster.prototype.registerTyping = function() {
+			if (this.is_typing) {
+				window.clearTimeout(this.timer);
+				this.timer = window.setTimeout(this.onTimeout.bind(this), ms);
+			} else {
+				this.is_typing = true;
+				this.onTypingStarted.call();
+				this.timer = window.setTimeout(this.onTimeout.bind(this), ms);
+			}
+		};
+
+		/**
+		 *
+		 * @param {String} conversationId
+		 * @param {Function} onTypingStarted
+		 * @param {Function} onTypingStopped
+		 * @returns {TypingBroadcaster}
+		 */
+		function createInstance(conversationId, onTypingStarted, onTypingStopped) {
+			return new TypingBroadcaster(onTypingStarted, onTypingStopped);
+		}
+
+		return {
+			/**
+			 * @param {String} conversationId
+			 * @param {Function} onTypingStarted
+			 * @param {Function} onTypingStopped
+			 * @returns {TypingBroadcaster}
+			 */
+			getInstance: function (conversationId, onTypingStarted, onTypingStopped) {
+				if (!instances.hasOwnProperty(conversationId)) {
+					instances[conversationId] = createInstance(conversationId, onTypingStarted, onTypingStopped);
+				}
+				return instances[conversationId];
+			}
+		};
+	})();
 })(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);
