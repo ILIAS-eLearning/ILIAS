@@ -1971,21 +1971,18 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oPostGUI->addButton('latex');
         $oPostGUI->addButton('pastelatex');
 
-    
         $quotingAllowed = (
             !$this->isTopLevelReplyCommand() && (
                 ($isReply && $this->objCurrentPost->getDepth() >= 2) ||
                 (!$isDraft && !$isReply && $this->objCurrentPost->getDepth() > 2) ||
-                ($isDraft && $this->objCurrentPost->getDepth() >= 1)
+                ($isDraft && $this->objCurrentPost->getDepth() >= 2)
             )
         );
         if ($quotingAllowed) {
             $oPostGUI->addPlugin('ilfrmquote');
             $oPostGUI->addButton('ilFrmQuoteAjaxCall');
-            
-            
         }
-        
+
         $oPostGUI->removePlugin('advlink');
         $oPostGUI->setRTERootBlockElement('');
         $oPostGUI->usePurifier(true);
@@ -2145,9 +2142,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 if ($this->requestAction == 'editdraft') {
                     $this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
-                } /*elseif ($this->isTopLevelReplyCommand()) {
+                } elseif ($this->isTopLevelReplyCommand()) {
                     $this->replyEditForm->addCommandButton('saveTopLevelDraft', $this->lng->txt('save_message'));
-                } */else {
+                } else {
                     $this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));
                 }
 
