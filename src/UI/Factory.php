@@ -800,4 +800,14 @@ interface Factory
      * @return \ILIAS\UI\Component\Symbol\Factory
      */
     public function symbol() : Component\Symbol\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose:
+     *     Toast are volatile Elements, which get the users attention without affecting the UI permantent.
+     *
+     * ---
+     */
+    public function toast() : C\Toast\Factory;
 }
