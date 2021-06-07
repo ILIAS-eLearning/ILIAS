@@ -412,7 +412,7 @@
 		createWindow: function(conversation) {
 			var template = getModule().config.chatWindowTemplate;
 			if (conversation.isGroup) {
-				var participantsNames = getParticipantsNames(conversation, false);
+				var participantsNames = getParticipantsNames(conversation);
 				var partTooltipFormatter = new ParticipantsTooltipFormatter(participantsNames);
 				template = template.replace(/\[\[participants-tt\]\]/g, partTooltipFormatter.format());
 				template = template.replace(
@@ -420,7 +420,9 @@
 					il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length)
 				);
 			} else {
-				var participantsNames = getParticipantsNames(conversation);
+				var participantsNames = getParticipantsNames(conversation, function(usrId) {
+					return getModule().user === undefined || getModule().user.id != usrId;
+				});
 
 				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
 				template = template.replace(/\[\[participants-header\]\]/g, participantsNames.join(', '));
@@ -736,12 +738,26 @@
 
 		onUserStartedTyping: function (message) {
 			console.log("onUserStartedTyping", message);
+			TypingUsersTextRendererFactory.getInstance(message.conversation.id).addTypingUser(message.participant.id);
+
 			// TODO: Re-render typing information
+			console.log(TypingUsersTextRendererFactory.getInstance(message.conversation.id).text(
+				getModule().storage,
+				il.Language,
+				getParticipantsNames
+			));
 		},
 
 		onUserStoppedTyping: function (message) {
 			console.log("onUserStoppedTyping", message);
+			TypingUsersTextRendererFactory.getInstance(message.conversation.id).removeTypingUser(message.participant.id);
+
 			// TODO: Re-render typing information
+			console.log(TypingUsersTextRendererFactory.getInstance(message.conversation.id).text(
+				getModule().storage,
+				il.Language,
+				getParticipantsNames
+			));
 		},
 
 		/**
@@ -936,13 +952,15 @@
 					if (chatWindow.length !== 0) {
 						var participantsNames, header, tooltip;
 						if (conversation.isGroup) {
-							participantsNames = getParticipantsNames(conversation, false);
+							participantsNames = getParticipantsNames(conversation);
 
 							header = il.Language.txt('chat_osc_head_grp_x_persons', participantsNames.length);
 							var partTooltipFormatter = new ParticipantsTooltipFormatter(participantsNames);
 							tooltip = partTooltipFormatter.format();
 						} else {
-							participantsNames = getParticipantsNames(conversation);
+							participantsNames = getParticipantsNames(conversation, function(usrId) {
+								return getModule().user === undefined || getModule().user.id != usrId;
+							});
 							tooltip = header = participantsNames.join(', ');
 						}
 
@@ -1522,14 +1540,13 @@
 		return ids;
 	};
 
-	const getParticipantsNames = function(conversation, ignoreMySelf) {
+	const getParticipantsNames = function(conversation, predicate = null) {
 		let names = [];
 
 		for (let key in conversation.participants) {
 			if (
 				conversation.participants.hasOwnProperty(key) && (
-					(getModule().user !== undefined && getModule().user.id != conversation.participants[key].id) ||
-					ignoreMySelf === false
+					null === predicate || predicate(conversation.participants[key].id)
 				)
 			) {
 				if (getModule().participantsNames.hasOwnProperty(conversation.participants[key].id)) {
@@ -1700,7 +1717,7 @@
 	};
 
 	const TypingBroadcasterFactory = (function () {
-		let instances = {}, ms = 500;
+		let instances = {}, ms = 5000;
 
 		/**
 		 * 
@@ -1759,6 +1776,86 @@
 			getInstance: function (conversationId, onTypingStarted, onTypingStopped) {
 				if (!instances.hasOwnProperty(conversationId)) {
 					instances[conversationId] = createInstance(conversationId, onTypingStarted, onTypingStopped);
+				}
+				return instances[conversationId];
+			}
+		};
+	})();
+
+	const TypingUsersTextRendererFactory = (function () {
+		let instances = {};
+
+		/**
+		 *
+		 * @param {String} conversationId
+		 * @constructor
+		 */
+		function TypingUsersTextRenderer(conversationId) {
+			this.conversationId = conversationId;
+			this.typingSet = new Set();
+		}
+
+		/**
+		 *
+		 * @param {Number} usrId
+		 */
+		TypingUsersTextRenderer.prototype.addTypingUser = function(usrId) {
+			if (!this.typingSet.has(usrId)) {
+				this.typingSet.add(usrId);
+			}
+		}
+
+		/**
+		 * 
+		 * @param {Number} usrId
+		 */
+		TypingUsersTextRenderer.prototype.removeTypingUser = function(usrId) {
+			if (this.typingSet.has(usrId)) {
+				this.typingSet.delete(usrId);
+			}
+		};
+
+		/**
+		 * 
+		 * @param {ConversationStorage} storage
+		 * @param {il.Language} language
+		 * @param {Function} usernameGenerator
+		 * @returns {string}
+		 */
+		TypingUsersTextRenderer.prototype.text = function (storage, language, usernameGenerator) {
+			const names = usernameGenerator(
+				storage.get(this.conversationId),
+				function(usrId) {
+					return this.typingSet.has(usrId);
+				}.bind(this)
+			);
+
+			if (names.length === 0) {
+				return '';
+			} else if (1 === names.length) {
+				return language.txt("chat_user_x_is_typing", names[0]);
+			}
+
+			return; language.txt("chat_users_are_typing");
+		};
+
+		/**
+		 *
+		 * @param {String} conversationId
+		 * @returns {TypingUsersTextRenderer}
+		 */
+		function createInstance(conversationId) {
+			return new TypingUsersTextRenderer(conversationId);
+		}
+
+		return {
+			/**
+			 * @param {String} conversationId
+			 * @returns {TypingUsersTextRenderer}
+			 */
+			getInstance: function (conversationId) {
+				if (!instances.hasOwnProperty(conversationId)) {
+					instances[conversationId] = createInstance(conversationId);
 				}
 				return instances[conversationId];
 			}
