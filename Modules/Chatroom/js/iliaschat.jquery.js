@@ -914,8 +914,83 @@
 		}
 	};
 
+const ChatTypingUsersTextGeneratorFactory = (function () {
+	let instances = {};
+
+	/**
+	 *
+	 * @param {String} conversationId
+	 * @constructor
+	 */
+	function TypingUsersTextGenerator(conversationId) {
+		this.conversationId = conversationId;
+		this.typingMap = new Map();
+	}
+
+	/**
+	 *
+	 * @param {Number} id
+	 * @param {String} username
+	 */
+	TypingUsersTextGenerator.prototype.addTypingSubscriber = function(id, username) {
+		if (!this.typingMap.has(id)) {
+			this.typingMap.set(id, username);
+		}
+	}
+
+	/**
+	 *
+	 * @param {Number} id
+	 * @param {String} username
+	 */
+	TypingUsersTextGenerator.prototype.removeTypingSubscriber = function(id, username) {
+		if (this.typingMap.has(id)) {
+			this.typingMap.delete(id);
+		}
+	};
+
+	/**
+	 *
+	 * @param {il.Language} language
+	 * @returns {string}
+	 */
+	TypingUsersTextGenerator.prototype.text = function ( language) {
+		names = Array.from(this.typingMap.values());
+
+		if (names.length === 0) {
+			return '';
+		} else if (1 === names.length) {
+			return language.txt("chat_user_x_is_typing", names[0]);
+		}
+
+		return; language.txt("chat_users_are_typing");
+	};
+
+	/**
+	 *
+	 * @param {String} conversationId
+	 * @returns {TypingUsersTextGenerator}
+	 */
+	function createInstance(conversationId) {
+		return new TypingUsersTextGenerator(conversationId);
+	}
+
+	return {
+		/**
+		 * @param {String} conversationId
+		 * @returns {TypingUsersTextGenerator}
+		 */
+		getInstance: function (conversationId) {
+			if (!instances.hasOwnProperty(conversationId)) {
+				instances[conversationId] = createInstance(conversationId);
+			}
+			return instances[conversationId];
+		}
+	};
+})();
+
 const ChatTypingBroadcasterFactory = (function () {
-	let instances = {}, ms = 500;
+	let instances = {}, ms = 5000;
 
 	/**
 	 *
@@ -1642,13 +1717,32 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	function _onUserStartedTyping(message) {
 		logger.logServerResponse("onUserStartedTyping");
 		console.log(message);
-		// TODO: Re-render typing information
+
+		const subscriber = JSON.parse(message.subscriber),
+			scope = message.roomId + '_' + message.subRoomId;
+			renderer = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
+
+		renderer.addTypingSubscriber(subscriber.id, subscriber.username);
+
+		$("#typing_area").text(renderer.text(
+			il.Language
+		));
 	}
 
 	function _onUserStoppedTyping(message) {
 		logger.logServerResponse("onUserStoppedTyping");
 		console.log(message);
-		// TODO: Re-render typing information
+
+		const subscriber = JSON.parse(message.subscriber),
+			scope = message.roomId + '_' + message.subRoomId,
+			renderer = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
+			
+
+		renderer.removeTypingSubscriber(subscriber.id, subscriber.username);
+
+		$("#typing_area").text(renderer.text(
+			il.Language
+		));
 	}
 
 	/**

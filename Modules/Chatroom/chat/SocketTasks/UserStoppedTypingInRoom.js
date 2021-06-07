@@ -19,8 +19,16 @@ module.exports = function (roomId, subRoomId) {
 
     Container.getLogger().debug("Subscribed with id %s stopped typing", this.subscriber.getId());
 
-    namespace.getIO().to(serverRoomId).emit(
-        'userStoppedTyping',
-        UserStoppedTyping.create(roomId, subRoomId, this.subscriber.getId())
-    );
+    const subscriber = this.subscriber,
+        message = UserStoppedTyping.create(roomId, subRoomId, this.subscriber.toString());
+
+    room.forSubscribers(function(sub) {
+        if (sub.getId() == subscriber.getId()) {
+            return;
+        }
+
+        sub.getSocketIds().forEach(function(socketId) {
+            namespace.getIO().to(socketId).emit('userStoppedTyping', message);
+        });
+    });
 };
