@@ -37,7 +37,7 @@ interface Factory
      *     2: The Toast MUST NOT be used for Notifications which are not time relevant to the point of their creation.
      *   composition:
      *     1: The Toast SHOULD precede all Notifications which are relevant for the user in time.
-     *   interactions:
+     *   interaction:
      *     1: The click interaction offered by clicking on the Toast Items title SHOULD trigger the persisted click
      *        action.
      *     2: Clicking on the Close Glyph MUST remove the Toast Item permanently.
