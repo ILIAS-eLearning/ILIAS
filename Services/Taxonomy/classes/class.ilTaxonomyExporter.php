@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Export class for taxonomies
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesTaxonomy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilTaxonomyExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyDataSet.php");
         $this->ds = new ilTaxonomyDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");

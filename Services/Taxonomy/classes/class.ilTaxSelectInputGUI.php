@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php");
-include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Select taxonomy nodes input GUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_IsCalledBy ilTaxSelectInputGUI: ilFormPropertyDispatchGUI
- *
- * @ingroup	ServicesTaxonomy
  */
 class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 {
@@ -33,7 +27,6 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         
         $lng->loadLanguageModule("tax");
         $this->multi_nodes = $a_multi;
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
         $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $a_postvar);
         $this->explorer_gui = new ilTaxonomyExplorerGUI(
             array("ilformpropertydispatchgui", "iltaxselectinputgui"),
@@ -85,7 +78,6 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      */
     public function getTitleForNodeId($a_id)
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
         return ilTaxonomyNode::_lookupTitle($a_id);
     }
 }

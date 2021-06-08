@@ -1,23 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for taxonomy list
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyListTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected \ilAccessHandler $access;
+    protected int $requested_tax_id;
 
     /**
      * Constructor
@@ -31,13 +24,10 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->assigned_object_id = $a_assigned_object_id;
         
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
         $this->setData(ilObjTaxonomy::getUsageOfObject($this->assigned_object_id, true));
         $this->setTitle($lng->txt("obj_taxf"));
         $this->setDescription($a_info);
@@ -52,8 +42,8 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.taxonomy_list_row.html", "Services/Taxonomy");
 
-        //$this->addMultiCommand("", $lng->txt(""));
-        //$this->addCommandButton("", $lng->txt(""));
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
     }
     
     /**
@@ -73,7 +63,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "confirmDeleteTaxonomy"));
         $this->tpl->setVariable("CMD", $lng->txt("delete"));
         $this->tpl->parseCurrentBlock();
-        $ilCtrl->setParameter($this->parent_obj, "tax_id", $_GET["tax_id"]);
+        $ilCtrl->setParameter($this->parent_obj, "tax_id", $this->requested_tax_id);
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("DESCRIPTION", ilObject::_lookupDescription($a_set["tax_id"]));

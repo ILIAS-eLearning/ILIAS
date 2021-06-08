@@ -1,8 +1,4 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
  * Class ilObjTaxonomyAdministration
  *
@@ -23,13 +19,13 @@ class ilObjTaxonomyAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;
     }
     
-    protected function getPath($a_ref_id)
+    protected function getPath($a_ref_id) : array
     {
         $tree = $this->tree;
         
@@ -42,14 +38,12 @@ class ilObjTaxonomyAdministration extends ilObject
         return $res;
     }
     
-    public function getRepositoryTaxonomies()
+    public function getRepositoryTaxonomies() : array
     {
         $ilDB = $this->db;
         $tree = $this->tree;
                     
         $res = array();
-        
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
                 
         $sql = "SELECT oref.ref_id, od.obj_id, od.type obj_type, od.title obj_title," .
             " tu.tax_id, od2.title tax_title, cs.value tax_status" .

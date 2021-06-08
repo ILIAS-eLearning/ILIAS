@@ -1,31 +1,35 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Classification/classes/class.ilClassificationProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy classification provider
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTaxonomy
  */
 class ilTaxonomyClassificationProvider extends ilClassificationProvider
 {
-    protected $selection; // [array]
-    
-    protected static $valid_tax_map = array();
+    protected array $selection;
+    protected static array $valid_tax_map = [];
+    protected int $incoming_id;
     
     public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function init()
+    {
+        $params = $this->request->getQueryParams();
+        $body = $this->request->getParsedBody();
+        $this->incoming_id = (int) ($body["tax_node"] ?? ($params["tax_node"] ?? null));
+    }
     
     public function render(array &$a_html, $a_parent_gui)
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
-    
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
             $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);
             $tax_exp->setSkipRootNode(true);
@@ -49,7 +53,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     
     public function importPostData($a_saved = null)
     {
-        $incoming_id = (int) $_REQUEST["tax_node"];
+        $incoming_id = $this->incoming_id;
         if ($incoming_id) {
             if (is_array($a_saved)) {
                 foreach ($a_saved as $idx => $node_id) {
@@ -78,10 +82,6 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         $tree = $DIC->repositoryTree();
         
         if (!isset(self::$valid_tax_map[$a_parent_ref_id])) {
-            include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-            include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-            include_once "Modules/Category/classes/class.ilObjCategoryGUI.php";
-                        
             $prefix = ilObjCategoryGUI::CONTAINER_SETTING_TAXBLOCK;
 
             $all_valid = array();
@@ -132,10 +132,6 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     
     public function getFilteredObjects()
     {
-        include_once "Services/Taxonomy/classes/class.ilTaxonomyTree.php";
-        include_once "Services/Taxonomy/classes/class.ilTaxNodeAssignment.php";
-        include_once "Services/Taxonomy/classes/class.ilTaxonomyNode.php";
-        
         $tax_obj_ids = $tax_map = array();
             
         // :TODO: this could be smarter

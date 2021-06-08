@@ -728,7 +728,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      * @param string $a_item_type ('quest' in our context)
      * @param integer $a_item_id (questionId in our context)
      */
-    public function getTitle($a_comp_id, $a_item_type, $a_item_id)
+    public function getTitle(string $a_comp_id, string $a_item_type, int $a_item_id) : string
     {
         if ($a_comp_id != 'qpl' || $a_item_type != 'quest' || !(int) $a_item_id) {
             return '';

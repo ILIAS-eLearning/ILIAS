@@ -2,36 +2,31 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use \Psr\Http\Message\RequestInterface;
+
 /**
  * This class represents a property in a property form.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFormPropertyGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $type;
-    protected $title;
-    protected $postvar;
-    protected $info;
-    protected $alert;
-    protected $required = false;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected string $type;
+    protected string $title = "";
+    protected string $postvar = "";
+    protected string $info = "";
+    protected $alert = "";
+    protected bool $required = false;
     protected $parentgui;
     protected $parentform;
-    protected $hidden_title = "";
-    protected $multi = false;
-    protected $multi_sortable = false;
-    protected $multi_addremove = true;
+    protected string $hidden_title = "";
+    protected bool $multi = false;
+    protected bool $multi_sortable = false;
+    protected bool $multi_addremove = true;
     protected $multi_values;
+    protected RequestInterface $request;
     
     /**
     * Constructor
@@ -48,6 +43,7 @@ class ilFormPropertyGUI
         $this->setTitle($a_title);
         $this->setPostVar($a_postvar);
         $this->setDisabled(false);
+        $this->request = $DIC->http()->request();
     }
 
     /**

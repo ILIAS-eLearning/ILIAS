@@ -1,17 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("./Services/Taxonomy/exceptions/class.ilTaxonomyException.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Input GUI class for taxonomy assignments
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup	ServicesTaxonomy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxAssignInputGUI extends ilSelectInputGUI
 {
@@ -98,7 +92,6 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
             $options = array("" => $lng->txt("please_select"));
         }
         
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
         $tax_tree = new ilTaxonomyTree($this->getTaxonomyId());
         
         $nodes = $tax_tree->getSubtree($tax_tree->getNodeData($tax_tree->readRootId()));
@@ -119,11 +112,11 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      */
     public function saveInput($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
-        //$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
 
-        $post = $_POST[$this->getPostVar()];
+        $body = $this->request->getParsedBody();
+        $post = $body[$this->getPostVar()] ?? "";
+
         if (!$this->getMulti()) {
             $post = array($post);
         } elseif (!is_array($post)) {
@@ -158,7 +151,6 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      */
     public function setCurrentValues($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
         $ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
         

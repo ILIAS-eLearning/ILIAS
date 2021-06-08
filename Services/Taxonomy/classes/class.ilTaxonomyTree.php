@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Tree/classes/class.ilTree.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy tree
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesTaxonomy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyTree extends ilTree
 {

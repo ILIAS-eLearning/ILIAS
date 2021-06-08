@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for taxonomy list
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 {
@@ -52,9 +47,6 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-        
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
         $tax_ass = new ilTaxNodeAssignment($this->comp_id, $this->obj_id, $this->item_type, $this->tax->getId());
         $this->setData($tax_ass->getAssignmentsOfNode($this->node_id));
         $this->setTitle($lng->txt("tax_assigned_items"));

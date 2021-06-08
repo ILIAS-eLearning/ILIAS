@@ -1,40 +1,38 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \Psr\Http\Message\RequestInterface;
 
 /**
  * Taxonomies selection for metadata helper GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilTaxMDGUI: ilFormPropertyDispatchGUI
- * @ingroup ServicesTaxonomy
  */
 class ilTaxMDGUI
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    protected $md_rbac_id; // [int]
-    protected $md_obj_id; // [int]
-    protected $md_obj_type; // [string]
-
+    protected \ilObjectDefinition $obj_definition;
+    protected \ilTree $tree;
+    protected int $md_rbac_id;
+    protected int $md_obj_id;
+    protected string $md_obj_type;
+    protected string $requested_post_var;
+    protected RequestInterface $request;
 
     /**
      * Constructor
-     *
-     * @param int $a_md_rbac_id
-     * @param int $a_md_obj_id
-     * @param int $a_md_obj_type
-     * @return self
+     * @param int    $a_md_rbac_id
+     * @param int    $a_md_obj_id
+     * @param string $a_md_obj_type
+     * @param int    $a_ref_id
      */
-    public function __construct($a_md_rbac_id, $a_md_obj_id, $a_md_obj_type, $a_ref_id)
-    {
+    public function __construct(
+        int $a_md_rbac_id,
+        int $a_md_obj_id,
+        string $a_md_obj_type,
+        int $a_ref_id
+    ) {
         global $DIC;
 
         $this->obj_definition = $DIC["objDefinition"];
@@ -46,10 +44,15 @@ class ilTaxMDGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
 
+        $this->request = $DIC->http()->request();
+
         $this->md_rbac_id = $a_md_rbac_id;
         $this->md_obj_id = $a_md_obj_id;
         $this->md_obj_type = $a_md_obj_type;
         $this->ref_id = $a_ref_id;
+
+        $params = $this->request->getQueryParams();
+        $this->requested_post_var = $params["postvar"] ?? "";
     }
 
     /**
@@ -61,11 +64,11 @@ class ilTaxMDGUI
         $cmd = $this->ctrl->getCmd("show");
 
         switch ($next_class) {
+
             case 'ilformpropertydispatchgui':
                 $form = $this->initForm();
-                include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
-                $item = $form->getItemByPostVar($_GET["postvar"]);
+                $item = $form->getItemByPostVar($this->requested_post_var);
                 $form_prop_dispatch->setItem($item);
                 return $this->ctrl->forwardCommand($form_prop_dispatch);
 
@@ -76,24 +79,14 @@ class ilTaxMDGUI
         }
     }
 
-    /**
-     * Show
-     *
-     * @param
-     * @return
-     */
-    public function show()
+    public function show() : void
     {
         $tpl = $this->tpl;
-
         $form = $this->initForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save form
-     */
-    public function save()
+    public function save() : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;
@@ -112,51 +105,37 @@ class ilTaxMDGUI
     /**
      * Init taxonomy form.
      */
-    public function initForm()
+    public function initForm() : ilPropertyFormGUI
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         $this->addToMDForm($form);
-
         $form->addCommandButton("save", $this->lng->txt("save"));
-
-
         $form->setTitle($this->lng->txt("tax_tax_assignment"));
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
     }
 
-    /**
-     * Get selectable taxonomies for current object
-     *
-     * @return array
-     */
-    public function getSelectableTaxonomies()
+    // Get selectable taxonomies for current object
+    public function getSelectableTaxonomies() : array
     {
         $objDefinition = $this->obj_definition;
         $tree = $this->tree;
-        
+
+        $res = [];
         if ($this->ref_id > 0 && $objDefinition->isRBACObject($this->md_obj_type)) {
-            $res = array();
-            
-            // see ilTaxonomyBlockGUI::getActiveTaxonomies()
-                        
             // get all active taxonomies of parent objects
             foreach ($tree->getPathFull((int) $this->ref_id) as $node) {
                 if ($node["ref_id"] != (int) $this->ref_id) {
                     // currently only active for categories
                     if ($node["type"] == "cat") {
-                        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-                        include_once "Services/Container/classes/class.ilContainer.php";
                         if (ilContainer::_lookupContainerSetting(
                             $node["obj_id"],
                             ilObjectServiceSettingsGUI::TAXONOMIES,
                             false
                         )
                         ) {
-                            include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
                             $tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);
                             if (sizeof($tax_ids)) {
                                 $res = array_merge($res, $tax_ids);
@@ -165,22 +144,12 @@ class ilTaxMDGUI
                     }
                 }
             }
-            
-            if (sizeof($res)) {
-                return $res;
-            }
         }
+        return $res;
     }
     
-    /**
-     * Init tax node assignment
-     *
-     * @param int $a_tax_id
-     * @return ilTaxNodeAssignment
-     */
-    protected function initTaxNodeAssignment($a_tax_id)
+    protected function initTaxNodeAssignment(int $a_tax_id) : ilTaxNodeAssignment
     {
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
         return new ilTaxNodeAssignment($this->md_obj_type, $this->md_obj_id, "obj", $a_tax_id);
     }
     
@@ -189,11 +158,10 @@ class ilTaxMDGUI
      *
      * @param ilPropertyFormGUI $a_form
      */
-    public function addToMDForm(ilPropertyFormGUI $a_form)
+    public function addToMDForm(ilPropertyFormGUI $a_form) : void
     {
         $tax_ids = $this->getSelectableTaxonomies();
         if (is_array($tax_ids)) {
-            include_once "Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php";
             foreach ($tax_ids as $tax_id) {
                 // get existing assignments
                 $node_ids = array();
@@ -212,12 +180,11 @@ class ilTaxMDGUI
     /**
      * Import settings from MD (quick edit) form
      */
-    public function updateFromMDForm()
+    public function updateFromMDForm() : void
     {
+        $body = $this->request->getParsedBody();
         $tax_ids = $this->getSelectableTaxonomies();
         if (is_array($tax_ids)) {
-            include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-            
             foreach ($tax_ids as $tax_id) {
                 $ta = $this->initTaxNodeAssignment($tax_id);
                 
@@ -225,8 +192,8 @@ class ilTaxMDGUI
                 $ta->deleteAssignmentsOfItem($this->md_obj_id);
                             
                 // set current assignment
-                if (is_array($_POST["md_tax_" . $tax_id])) {
-                    foreach ($_POST["md_tax_" . $tax_id] as $node_id) {
+                if (is_array($body["md_tax_" . $tax_id])) {
+                    foreach ($body["md_tax_" . $tax_id] as $node_id) {
                         $ta->addAssignment($node_id, $this->md_obj_id);
                     }
                 }
@@ -236,11 +203,8 @@ class ilTaxMDGUI
 
     /**
      * addSubTab
-     *
-     * @param
-     * @return
      */
-    public function addSubTab()
+    public function addSubTab() : void
     {
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;

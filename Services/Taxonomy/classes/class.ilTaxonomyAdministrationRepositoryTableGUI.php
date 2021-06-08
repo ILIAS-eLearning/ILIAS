@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for repository taxonomies
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTaxonomy
  */
 class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
 {
@@ -53,7 +48,6 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
     {
         $data = array();
         
-        include_once "Services/Link/classes/class.ilLink.php";
         foreach ($this->obj->getRepositoryTaxonomies() as $tax_id => $objs) {
             foreach ($objs as $obj_id => $obj) {
                 $idx = $tax_id . "_" . $obj_id;

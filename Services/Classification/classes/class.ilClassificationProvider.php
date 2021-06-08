@@ -1,19 +1,19 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \Psr\Http\Message\RequestInterface;
 
 /**
  * Classification provider
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesClassification
  */
 abstract class ilClassificationProvider
 {
-    protected $parent_ref_id; // [int]
-    protected $parent_obj_id; // [int]
-    protected $parent_type; // [string]
+    protected int $parent_ref_id;
+    protected int $parent_obj_id;
+    protected string $parent_type;
+    protected RequestInterface $request;
     
     /**
      * Constructor
@@ -25,6 +25,9 @@ abstract class ilClassificationProvider
      */
     public function __construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
     {
+        global $DIC;
+
+        $this->request = $DIC->http()->request();
         $this->parent_ref_id = (int) $a_parent_ref_id;
         $this->parent_obj_id = (int) $a_parent_obj_id;
         $this->parent_type = (string) $a_parent_obj_type;
@@ -51,12 +54,10 @@ abstract class ilClassificationProvider
     {
         $res = array();
         
-        include_once "Services/Taxonomy/classes/class.ilTaxonomyClassificationProvider.php";
         if (ilTaxonomyClassificationProvider::isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)) {
             $res[] = new ilTaxonomyClassificationProvider($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
         }
         
-        include_once "Services/Tagging/classes/class.ilTaggingClassificationProvider.php";
         if (ilTaggingClassificationProvider::isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)) {
             $res[] = new ilTaggingClassificationProvider($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
         }

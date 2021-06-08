@@ -1,22 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy explorer GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesTaxonomy
  */
 class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected string $requested_tax_node;
+    protected string $onclick = "";
 
     /**
      * Constructor
@@ -34,14 +28,12 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
         $this->tax_tree = new ilTaxonomyTree($a_tax_id);
         if ($a_id != "") {
             $this->id = $a_id;
         } else {
             $this->id = "tax_expl_" . $this->tax_tree->getTreeId();
         }
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
         if (ilObjTaxonomy::lookupSortingMode($a_tax_id) == ilObjTaxonomy::SORT_ALPHABETICAL) {
             $this->setOrderField("title");
         } else {
@@ -50,7 +42,8 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         $this->setPreloadChilds(true);
         $this->target_gui = $a_target_gui;
         $this->target_cmd = $a_target_cmd;
-        //$this->setOrderField("title");
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_tax_node = ilUtil::stripSlashes((string) ($params["tax_node"] ?? ""));
         parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
     }
     
@@ -90,8 +83,8 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
                 // See: https://mantis.ilias.de/view.php?id=27727
                 $href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
             }
-            if (isset($_GET["tax_node"]) && !is_array($_GET['tax_node'])) {
-                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", ilUtil::stripSlashes((string) $_GET["tax_node"]));
+            if ($this->requested_tax_node != "" && !is_array($this->requested_tax_node)) {
+                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $this->requested_tax_node);
             }
             return $href;
         } else {
@@ -118,7 +111,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      */
     public function isNodeHighlighted($a_node)
     {
-        if ((!$this->onclick && $a_node["child"] == $_GET["tax_node"]) ||
+        if ((!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
             ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes))) {
             return true;
         }

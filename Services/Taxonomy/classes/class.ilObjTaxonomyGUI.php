@@ -1,37 +1,27 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
-require_once "./Services/Taxonomy/classes/class.ilObjTaxonomy.php";
-include_once("./Services/Taxonomy/interfaces/interface.ilTaxAssignedItemInfo.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy GUI class
  *
- * @author Alex Killing alex.killing@gmx.de
- * @version $Id$
- *
- * @ilCtrl_Calls ilObjTaxonomyGUI:
- *
- * @ingroup ServicesTaxonomy
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilObjTaxonomyGUI: ilObjTaxonomyGUI
  */
 class ilObjTaxonomyGUI extends ilObject2GUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected \ilTabsGUI $tabs;
+    protected \ilHelpGUI $help;
+    protected bool $multiple = false;
+    protected bool $assigned_item_sorting = false;
+    protected int $assigned_object_id;
+    protected string $list_info;
+    protected int $current_tax_node;
+    protected int $requested_tax_id;
+    protected string $requested_move_ids;
 
     /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    protected $multiple = false;
-    protected $assigned_item_sorting = false;
-    
-    /**
-     * Execute command
+     * @inheritDoc
      */
     public function __construct($a_id = 0)
     {
@@ -53,6 +43,11 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $ilCtrl->saveParameter($this, "tax_id");
         
         $lng->loadLanguageModule("tax");
+
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->current_tax_node = (int) ($params["tax_node"] ?? null);
+        $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
+        $this->requested_move_ids = (string) ($params["move_ids"] ?? "");
     }
     
     /**
@@ -66,21 +61,14 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     }
 
     /**
-     * Set assigned object
-     *
      * @param int $a_val object id
      */
-    public function setAssignedObject($a_val)
+    public function setAssignedObject(int $a_val)
     {
         $this->assigned_object_id = $a_val;
     }
     
-    /**
-     * Get assigned object
-     *
-     * @return int object id
-     */
-    public function getAssignedObject()
+    public function getAssignedObject() : int
     {
         return $this->assigned_object_id;
     }
@@ -90,48 +78,39 @@ class ilObjTaxonomyGUI extends ilObject2GUI
      *
      * @param bool $a_val multiple
      */
-    public function setMultiple($a_val)
+    public function setMultiple(bool $a_val)
     {
         $this->multiple = $a_val;
     }
     
-    /**
-     * Get multiple
-     *
-     * @return bool multiple
-     */
-    public function getMultiple()
+    public function getMultiple() : bool
     {
         return $this->multiple;
     }
     
-    /**
-     * Set list info
-     *
-     * @param string $a_val
-     */
-    public function setListInfo($a_val)
+    public function setListInfo(string $a_val)
     {
         $this->list_info = trim($a_val);
     }
     
-    /**
-     * Get list info
-     *
-     * @return string
-     */
-    public function getListInfo()
+    public function getListInfo() : string
     {
         return $this->list_info;
     }
     
     /**
      * Activate sorting mode of assigned objects
-     *
-     * @param object $a_item_info_obj information object of assigned items
+     * @param ilTaxAssignedItemInfo $a_item_info_obj
+     * @param string                $a_component_id
+     * @param int                   $a_obj_id
+     * @param string                $a_item_type
      */
-    public function activateAssignedItemSorting(ilTaxAssignedItemInfo $a_item_info_obj, $a_component_id, $a_obj_id, $a_item_type)
-    {
+    public function activateAssignedItemSorting(
+        ilTaxAssignedItemInfo $a_item_info_obj,
+        string $a_component_id,
+        int $a_obj_id,
+        string $a_item_type
+    ) {
         $this->assigned_item_sorting = true;
         $this->assigned_item_info_obj = $a_item_info_obj;
         $this->assigned_item_comp_id = $a_component_id;
@@ -173,49 +152,22 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 
     
     ////
-    //// Features that work on the base of an assigend object (AO)
+    //// Features that work on the base of an assigned object (AO)
     ////
     
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    public function editAOTaxonomySettings()
+    public function editAOTaxonomySettings() : void
     {
-        $ilToolbar = $this->toolbar;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        
-        //		if (count($tax_ids) != 0 && !$this->getMultiple())
-        //		{
-        //			$this->listNodes();
-        //		}
-        //		else if ($this->getMultiple())
-        //		{
         $this->listTaxonomies();
-        //		}
-        
-        // currently we support only one taxonomy, otherwise we may need to provide
-        // a list here
     }
     
-    /**
-     * Get current taxonomy id
-     *
-     * @param
-     * @return
-     */
-    public function getCurrentTaxonomyId()
+    public function getCurrentTaxonomyId() : ?int
     {
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->getAssignedObject());
-        $tax_id = (int) $_GET["tax_id"];
+        $tax_id = $this->requested_tax_id;
         if (in_array($tax_id, $tax_ids)) {
             return $tax_id;
         }
-        return false;
+        return null;
     }
     
     
@@ -265,12 +217,11 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->showTree();
         
         // show subitems
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyTableGUI.php");
         $table = new ilTaxonomyTableGUI(
             $this,
             "listNodes",
             $tax->getTree(),
-            (int) $_GET["tax_node"],
+            $this->current_tax_node,
             $this->getCurrentTaxonomy()
         );
         $table->setOpenFormTag(false);
@@ -329,10 +280,8 @@ class ilObjTaxonomyGUI extends ilObject2GUI
      */
     public function save()
     {
-        $ilCtrl = $this->ctrl;
-        
         if ($this->getAssignedObject() > 0) {
-            $_REQUEST["new_type"] = "tax";
+            $this->requested_new_type = "tax";
         }
         
         parent::saveObject();
@@ -414,36 +363,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     }
     
     /**
-     * Get tree html
-     *
-     * @param
-     * @return
-     */
-    public static function getTreeHTML(
-        $a_tax_id,
-        $a_class,
-        $a_cmd,
-        $a_target_class,
-        $a_target_cmd,
-        $a_root_node_title = ""
-    ) {
-        die("ilObjTaxonomyGUI::getTreeHTML is deprecated.");
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
-        $tax_exp = new ilTaxonomyExplorerGUI(
-            $a_class,
-            $a_cmd,
-            $a_tax_id,
-            $a_target_class,
-            $a_target_cmd
-        );
-        if (!$tax_exp->handleCommand()) {
-            return $tax_exp->getHTML() . "&nbsp;";
-        }
-        return;
-    }
-    
-
-    /**
      * Create tax node
      *
      * @param
@@ -472,7 +391,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
     
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -489,7 +407,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         }
         
         if ($a_mode == "edit") {
-            $node = new ilTaxonomyNode((int) $_GET["tax_node"]);
+            $node = new ilTaxonomyNode($this->current_tax_node);
             $ti->setValue($node->getTitle());
             $or->setValue($node->getOrderNr());
         }
@@ -523,16 +441,16 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             $tax = $this->getCurrentTaxonomy();
             
             // create node
-            include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
             $node = new ilTaxonomyNode();
             $node->setTitle($this->form->getInput("title"));
             
             $tax = $this->getCurrentTaxonomy();
+            $order_nr = "";
             if ($tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
                 $order_nr = $this->form->getInput("order_nr");
             }
             if ($order_nr === "") {
-                $order_nr = ilTaxonomyNode::getNextOrderNr($tax->getId(), (int) $_GET["tax_node"]);
+                $order_nr = ilTaxonomyNode::getNextOrderNr($tax->getId(), $this->current_tax_node);
             }
             //echo $order_nr; exit;
             $node->setOrderNr($order_nr);
@@ -540,9 +458,9 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             $node->create();
             
             // put in tree
-            ilTaxonomyNode::putInTree($tax->getId(), $node, (int) $_GET["tax_node"]);
+            ilTaxonomyNode::putInTree($tax->getId(), $node, $this->current_tax_node);
             
-            ilTaxonomyNode::fixOrderNumbers($tax->getId(), (int) $_GET["tax_node"]);
+            ilTaxonomyNode::fixOrderNumbers($tax->getId(), $this->current_tax_node);
             
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listNodes");
@@ -565,7 +483,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->initTaxNodeForm("edit");
         if ($this->form->checkInput()) {
             // create node
-            $node = new ilTaxonomyNode($_GET["tax_node"]);
+            $node = new ilTaxonomyNode($this->current_tax_node);
             $node->setTitle($this->form->getInput("title"));
 
             $tax = $this->getCurrentTaxonomy();
@@ -591,10 +509,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
         $ilHelp = $this->help;
+        $body = $this->request->getParsedBody();
 
-        if (!isset($_POST["id"])) {
+        if (!isset($body["id"])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listNodes");
         }
@@ -610,8 +528,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
 
         // Add items to delete
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
-        foreach ($_POST["id"] as $id) {
+        foreach ($body["id"] as $id) {
             $confirmation_gui->addItem(
                 "id[]",
                 $id,
@@ -631,11 +548,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     public function confirmedDelete()
     {
         $ilCtrl = $this->ctrl;
+        $body = $this->request->getParsedBody();
         
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
-
         // delete all selected objects
-        foreach ($_POST["id"] as $id) {
+        foreach ($body["id"] as $id) {
             $node = new ilTaxonomyNode($id);
             $tax = new ilObjTaxonomy($node->getTaxonomyId());
             $tax_tree = $tax->getTree();
@@ -665,21 +581,19 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
+        $body = $this->request->getParsedBody();
         
         // save sorting
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
-        if (is_array($_POST["order"])) {
-            //			asort($_POST["order"]);
-            //			$cnt = 10;
-            foreach ($_POST["order"] as $k => $v) {
+        if (is_array($body["order"])) {
+            foreach ($body["order"] as $k => $v) {
                 ilTaxonomyNode::writeOrderNr(ilUtil::stripSlashes($k), $v);
             }
-            ilTaxonomyNode::fixOrderNumbers($this->getCurrentTaxonomyId(), (int) $_GET["tax_node"]);
+            ilTaxonomyNode::fixOrderNumbers($this->getCurrentTaxonomyId(), $this->current_tax_node);
         }
         
         // save titles
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $k => $v) {
+        if (is_array($body["title"])) {
+            foreach ($body["title"] as $k => $v) {
                 ilTaxonomyNode::writeTitle(
                     (int) $k,
                     ilUtil::stripSlashes($v)
@@ -697,13 +611,13 @@ class ilObjTaxonomyGUI extends ilObject2GUI
      */
     public function moveItems()
     {
-        $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilToolbar = $this->toolbar;
         $ilHelp = $this->help;
+        $body = $this->request->getParsedBody();
 
-        if (!isset($_POST["id"])) {
+        if (!isset($body["id"])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listNodes");
         }
@@ -718,15 +632,11 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         
         ilUtil::sendInfo($lng->txt("tax_please_select_target"));
         
-        if (is_array($_POST["id"])) {
-            $ilCtrl->setParameter($this, "move_ids", implode(",", $_POST["id"]));
+        if (is_array($body["id"])) {
+            $ilCtrl->setParameter($this, "move_ids", implode(",", $body["id"]));
             
-            $ilUser = $this->user;
             $tpl = $this->tpl;
-            $ilCtrl = $this->ctrl;
-            $lng = $this->lng;
 
-            include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
             $tax_exp = new ilTaxonomyExplorerGUI(
                 $this,
                 "moveItems",
@@ -748,15 +658,12 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        //var_dump($_GET);
-        //var_dump($_POST);
-        if ($_GET["move_ids"] != "") {
-            $move_ids = explode(",", $_GET["move_ids"]);
+        if ($this->requested_move_ids != "") {
+            $move_ids = explode(",", $this->requested_move_ids);
             $tax = $this->getCurrentTaxonomy();
             $tree = $tax->getTree();
             
-            include_once("./Services/Taxonomy/classes/class.ilTaxonomyNode.php");
-            $target_node = new ilTaxonomyNode((int) $_GET["tax_node"]);
+            $target_node = new ilTaxonomyNode((int) $this->current_tax_node);
             foreach ($move_ids as $m_id) {
                 // cross check taxonomy
                 $node = new ilTaxonomyNode((int) $m_id);
@@ -847,8 +754,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
             ilUtil::sendInfo($lng->txt("tax_max_one_tax"));
         }
         
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyListTableGUI.php");
-        
         $tab = new ilTaxonomyListTableGUI(
             $this,
             "listTaxonomies",
@@ -932,7 +837,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     
         $tax = $this->getCurrentTaxonomy();
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
     
         // title
@@ -1020,11 +924,10 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $this->showTree(true);
         
         // list assigned items
-        include_once("./Services/Taxonomy/classes/class.ilTaxAssignedItemsTableGUI.php");
         $table = new ilTaxAssignedItemsTableGUI(
             $this,
             "listAssignedItems",
-            (int) $_GET["tax_node"],
+            $this->current_tax_node,
             $this->getCurrentTaxonomy(),
             $this->assigned_item_comp_id,
             $this->assigned_item_obj_id,
@@ -1045,13 +948,11 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
-        if (is_array($_POST["order"])) {
-            $order = $_POST["order"];
-            //asort($order, SORT_NUMERIC);
-            //$cnt = 10;
-            $tax_node = (int) $_GET["tax_node"];
+        $body = $this->request->getParsedBody();
+
+        if (is_array($body["order"])) {
+            $order = $body["order"];
+            $tax_node = $this->current_tax_node;
             foreach ($order as $a_item_id => $ord_nr) {
                 $tax_ass = new ilTaxNodeAssignment(
                     $this->assigned_item_comp_id,
@@ -1060,7 +961,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
                     $this->getCurrentTaxonomyId()
                 );
                 $tax_ass->setOrderNr($tax_node, $a_item_id, $ord_nr);
-                //$cnt+= 10;
             }
             $tax_ass = new ilTaxNodeAssignment(
                 $this->assigned_item_comp_id,
