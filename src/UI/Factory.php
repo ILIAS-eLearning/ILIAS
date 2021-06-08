@@ -805,7 +805,7 @@ interface Factory
      * ---
      * description:
      *   purpose:
-     *     Toast are volatile Elements, which get the users attention without affecting the UI permantent.
+     *     Toast are volatile Elements, which get the users attention without affecting the UI permanent.
      *
      * ---
      */
