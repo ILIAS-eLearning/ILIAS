@@ -37,7 +37,7 @@ class ilMD extends ilMDBase
      * meta elements
      *
      */
-    public function &getGeneral()
+    public function getGeneral()
     {
         include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
 
@@ -49,7 +49,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addGeneral()
+    public function addGeneral()
     {
         include_once 'Services/MetaData/classes/class.ilMDGeneral.php';
 
@@ -59,7 +59,7 @@ class ilMD extends ilMDBase
     }
 
 
-    public function &getLifecycle()
+    public function getLifecycle()
     {
         include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
         
@@ -71,7 +71,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addLifecycle()
+    public function addLifecycle()
     {
         include_once 'Services/MetaData/classes/class.ilMDLifecycle.php';
 
@@ -80,7 +80,7 @@ class ilMD extends ilMDBase
         return $lif;
     }
 
-    public function &getMetaMetadata()
+    public function getMetaMetadata()
     {
         include_once 'Services/MetaData/classes/class.ilMDMetaMetadata.php';
 
@@ -92,7 +92,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addMetaMetadata()
+    public function addMetaMetadata()
     {
         include_once 'Services/MetaData/classes/class.ilMDMetaMetadata.php';
 
@@ -101,7 +101,7 @@ class ilMD extends ilMDBase
         return $met;
     }
 
-    public function &getTechnical()
+    public function getTechnical()
     {
         include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
 
@@ -113,7 +113,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addTechnical()
+    public function addTechnical()
     {
         include_once 'Services/MetaData/classes/class.ilMDTechnical.php';
 
@@ -122,7 +122,7 @@ class ilMD extends ilMDBase
         return $tec;
     }
 
-    public function &getEducational()
+    public function getEducational()
     {
         include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
@@ -134,7 +134,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addEducational()
+    public function addEducational()
     {
         include_once 'Services/MetaData/classes/class.ilMDEducational.php';
 
@@ -142,7 +142,7 @@ class ilMD extends ilMDBase
 
         return $edu;
     }
-    public function &getRights()
+    public function getRights()
     {
         include_once 'Services/MetaData/classes/class.ilMDRights.php';
 
@@ -154,7 +154,7 @@ class ilMD extends ilMDBase
         }
         return false;
     }
-    public function &addRights()
+    public function addRights()
     {
         include_once 'Services/MetaData/classes/class.ilMDRights.php';
 
@@ -163,13 +163,13 @@ class ilMD extends ilMDBase
         return $rig;
     }
 
-    public function &getRelationIds()
+    public function getRelationIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
         return ilMDRelation::_getIds($this->getRBACId(), $this->getObjId());
     }
-    public function &getRelation($a_relation_id)
+    public function getRelation($a_relation_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
@@ -182,7 +182,7 @@ class ilMD extends ilMDBase
         
         return $rel;
     }
-    public function &addRelation()
+    public function addRelation()
     {
         include_once 'Services/MetaData/classes/class.ilMDRelation.php';
 
@@ -192,13 +192,13 @@ class ilMD extends ilMDBase
     }
 
 
-    public function &getAnnotationIds()
+    public function getAnnotationIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
 
         return ilMDAnnotation::_getIds($this->getRBACId(), $this->getObjId());
     }
-    public function &getAnnotation($a_annotation_id)
+    public function getAnnotation($a_annotation_id)
     {
         if (!$a_annotation_id) {
             return false;
@@ -210,7 +210,7 @@ class ilMD extends ilMDBase
 
         return $ann;
     }
-    public function &addAnnotation()
+    public function addAnnotation()
     {
         include_once 'Services/MetaData/classes/class.ilMDAnnotation.php';
         
@@ -219,13 +219,13 @@ class ilMD extends ilMDBase
         return $ann;
     }
 
-    public function &getClassificationIds()
+    public function getClassificationIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDClassification.php';
 
         return ilMDClassification::_getIds($this->getRBACId(), $this->getObjId());
     }
-    public function &getClassification($a_classification_id)
+    public function getClassification($a_classification_id)
     {
         if (!$a_classification_id) {
             return false;
@@ -238,7 +238,7 @@ class ilMD extends ilMDBase
 
         return $cla;
     }
-    public function &addClassification()
+    public function addClassification()
     {
         include_once 'Services/MetaData/classes/class.ilMDClassification.php';
 
@@ -252,12 +252,12 @@ class ilMD extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('MetaData');
 
         // General
-        if (is_object($gen = &$this->getGeneral())) {
+        if (is_object($gen = $this->getGeneral())) {
             $gen->setExportMode($this->getExportMode());
             $gen->toXML($writer);
         } else {
@@ -270,45 +270,45 @@ class ilMD extends ilMDBase
             
 
         // Lifecycle
-        if (is_object($lif = &$this->getLifecycle())) {
+        if (is_object($lif = $this->getLifecycle())) {
             $lif->toXML($writer);
         }
 
         // Meta-Metadata
-        if (is_object($met = &$this->getMetaMetadata())) {
+        if (is_object($met = $this->getMetaMetadata())) {
             $met->toXML($writer);
         }
 
         // Technical
-        if (is_object($tec = &$this->getTechnical())) {
+        if (is_object($tec = $this->getTechnical())) {
             $tec->toXML($writer);
         }
 
         // Educational
-        if (is_object($edu = &$this->getEducational())) {
+        if (is_object($edu = $this->getEducational())) {
             $edu->toXML($writer);
         }
 
         // Rights
-        if (is_object($rig = &$this->getRights())) {
+        if (is_object($rig = $this->getRights())) {
             $rig->toXML($writer);
         }
 
         // Relations
         foreach ($this->getRelationIds() as $id) {
-            $rel = &$this->getRelation($id);
+            $rel = $this->getRelation($id);
             $rel->toXML($writer);
         }
 
         // Annotations
         foreach ($this->getAnnotationIds() as $id) {
-            $ann = &$this->getAnnotation($id);
+            $ann = $this->getAnnotation($id);
             $ann->toXML($writer);
         }
         
         // Classification
         foreach ($this->getClassificationIds() as $id) {
-            $cla = &$this->getClassification($id);
+            $cla = $this->getClassification($id);
             $cla->toXML($writer);
         }
         
@@ -323,7 +323,7 @@ class ilMD extends ilMDBase
      * @return object new cloned md object
      *
      */
-    public function &cloneMD($a_rbac_id, $a_obj_id, $a_obj_type)
+    public function cloneMD($a_rbac_id, $a_obj_id, $a_obj_type)
     {
         include_once 'Services/MetaData/classes/class.ilMD2XML.php';
 

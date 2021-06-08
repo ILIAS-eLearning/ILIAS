@@ -33,13 +33,13 @@ include_once 'class.ilMDBase.php';
 class ilMDTaxonPath extends ilMDBase
 {
     // METHODS OF CHILD OBJECTS (Taxon)
-    public function &getTaxonIds()
+    public function getTaxonIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
         return ilMDTaxon::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_taxon_path');
     }
-    public function &getTaxon($a_taxon_id)
+    public function getTaxon($a_taxon_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
@@ -51,7 +51,7 @@ class ilMDTaxonPath extends ilMDBase
 
         return $tax;
     }
-    public function &addTaxon()
+    public function addTaxon()
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxon.php';
 
@@ -77,7 +77,7 @@ class ilMDTaxonPath extends ilMDBase
             $this->source_language = $lng_obj;
         }
     }
-    public function &getSourceLanguage()
+    public function getSourceLanguage()
     {
         return is_object($this->source_language) ? $this->source_language : false;
     }
