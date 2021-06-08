@@ -808,7 +808,7 @@ interface Factory
      *     Toast are volatile Elements, which get the users attention without affecting the UI permanent.
      *
      * ---
-     * @return C\Toast\Factory
+     * @return \ILIAS\UI\Component\Toast\Factory
      */
     public function toast() : C\Toast\Factory;
 }
