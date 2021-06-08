@@ -354,6 +354,9 @@
 			_$anchor.ilChatMessageArea('addMessage', subRoomId, messageObject);
 		};
 
+	this.addTypingInfo = function(messageObject, text) {
+		_$anchor.ilChatMessageArea('addTypingInfo', messageObject, text);
+	};
 };
 
 	/**
@@ -1716,31 +1719,28 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 	
 	function _onUserStartedTyping(message) {
 		logger.logServerResponse("onUserStartedTyping");
-		console.log(message);
 
 		const subscriber = JSON.parse(message.subscriber),
-			scope = message.roomId + '_' + message.subRoomId;
-			renderer = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
+			scope = message.roomId + '_' + message.subRoomId,
+			generator = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
 
-		renderer.addTypingSubscriber(subscriber.id, subscriber.username);
+		generator.addTypingSubscriber(subscriber.id, subscriber.username);
 
-		$("#typing_area").text(renderer.text(
+		gui.addTypingInfo(message, generator.text(
 			il.Language
 		));
 	}
 
 	function _onUserStoppedTyping(message) {
 		logger.logServerResponse("onUserStoppedTyping");
-		console.log(message);
 
 		const subscriber = JSON.parse(message.subscriber),
 			scope = message.roomId + '_' + message.subRoomId,
-			renderer = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
-			
+			generator = ChatTypingUsersTextGeneratorFactory.getInstance(scope);
 
-		renderer.removeTypingSubscriber(subscriber.id, subscriber.username);
+		generator.removeTypingSubscriber(subscriber.id, subscriber.username);
 
-		$("#typing_area").text(renderer.text(
+		gui.addTypingInfo(message, generator.text(
 			il.Language
 		));
 	}

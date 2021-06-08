@@ -540,17 +540,45 @@
 			init: function(s) {
 				$(this).data('ilChatMessageArea', {
 					_scopes: {},
+					_typeInfos: {},
 					_state: s
 				});
 
 				$(this).data('state', s);
 			},
 			addScope: function(scope_id, scope) {
-				var tmp = $('<div class="messageContainer">');
+				const tmp = $('<div class="messageContainer">');
 				$(this).data('ilChatMessageArea')._scopes['id_' + scope_id] = tmp;
 				$(this).append(tmp);
 				tmp.data('ilChatMessageArea', scope);
 				tmp.hide();
+
+				const fader = $('<div class="fader">');
+				$(this).data('ilChatMessageArea')._typeInfos['id_' + scope_id] = fader;
+				$(this).append(fader);
+				fader.data('ilChatMessageArea', scope);
+				fader.append($('<div class="typing-info">'));
+				fader.hide();
+			},
+			addTypingInfo: function (messageObject, text) {
+				const scope = messageObject.subRoomId;
+				let containers;
+
+				if (scope == -1) {
+					containers = $(this).data('ilChatMessageArea')._typeInfos;
+				} else {
+					containers = [$(this).data('ilChatMessageArea')._typeInfos['id_' + scope]];
+				}
+
+				$.each(containers, function() {
+					const container = this;
+
+					if (!container || container == window) {
+						return;
+					}
+
+					container.find(".typing-info").text(text);
+				});
 			},
 			addMessage: function(scope, message) {
 				var containers, msgArea = $(this);
@@ -683,14 +711,21 @@
 				$(this).data('ilChatMessageArea')._scopes['id_' + id].find('div').html('');
 			},
 			show: function(id, posturl, leaveCallback) {
-				var scopes = $(this).data('ilChatMessageArea')._scopes,
+				const scopes = $(this).data('ilChatMessageArea')._scopes,
+					typeInfos = $(this).data('ilChatMessageArea')._typeInfos,
 					msgArea = $(this);
                     
 				$.each(scopes, function() {
 					$(this).hide();
 				});
+				
+				$.each(typeInfos, function() {
+					$(this).hide();
+				});
                     
 				scopes['id_' + id].show();
+				typeInfos['id_' + id].show();
+
 				scrollChatArea(scopes['id_' + id], msgArea.data('state'));
 				if (id == 0) {
 				    $('.current_room_title').text(scopes['id_' + id].data('ilChatMessageArea').title);
