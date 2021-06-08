@@ -777,7 +777,7 @@ class ilObjectGUI
         $tpl = $this->tpl;
         $ilErr = $this->ilErr;
 
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $_REQUEST["new_type"] ?? "";
 
         
         // add new object to custom parent container
