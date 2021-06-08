@@ -17492,9 +17492,17 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   position: sticky;
   bottom: 0;
   width: 100%;
-  height: 30px;
+  height: 50px;
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-body .fader .typing-info {
+  font-size: 0.6em;
+  position: absolute;
+  bottom: 0;
+  padding: 2px 5px;
+  text-align: right;
+  width: 100%;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-footer {
   position: relative;

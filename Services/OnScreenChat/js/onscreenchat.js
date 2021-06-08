@@ -737,33 +737,39 @@
 		},
 
 		onUserStartedTyping: function (message) {
-			console.log("onUserStartedTyping", message);
-			
 			const generator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
 
 			generator.addTypingUser(message.participant.id);
 
-			// TODO: Re-render typing information
-			console.log(generator.text(
-				getModule().storage,
-				il.Language,
-				getParticipantsNames
-			));
+			getModule().renderTypingInfo(
+				message.conversation,
+				generator.text(
+					getModule().storage,
+					il.Language,
+					getParticipantsNames
+				)
+			);
 		},
 
 		onUserStoppedTyping: function (message) {
-			console.log("onUserStoppedTyping", message);
+			const cgenerator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
 
-			const generator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
-			
 			generator.removeTypingUser(message.participant.id);
 
-			// TODO: Re-render typing information
-			console.log(generator.text(
-				getModule().storage,
-				il.Language,
-				getParticipantsNames
-			));
+			getModule().renderTypingInfo(
+				message.conversation,
+				generator.text(
+					getModule().storage,
+					il.Language,
+					getParticipantsNames
+				)
+			);
+		},
+		
+		renderTypingInfo: function (conversation, text) {
+			const container = $('[data-onscreenchat-window=' + conversation.id + ']');
+
+			container.find('[data-onscreenchat-typing]').text(text);
 		},
 
 		/**
