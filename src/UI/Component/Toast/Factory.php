@@ -12,22 +12,23 @@ interface Factory
     /**
      * ---
      * description:
-     *   purpose: >
+     *   purpose:
      *     Toasts are temporary messages from the system published to the user.
      *     Toast Items are used to attract attention from a user without affecting the user experience permanent.
-     *   composition: >
+     *   composition:
      *     Toast Items contain a title, a close button and an icon, which indicates the service or module
      *     triggering the Toast. They might contain a description, a click action, which triggers when the user clicks
      *     the title of a Toast, and a vanish action, which triggers when the Toast vanished. Further the Toast might
      *     contain a number of link items, which will be presented below the description.
-     *   effect: >
+     *   effect:
      *     The item will be displayed overlaying the main content in the top right corner.
      *     If the user does not interact with the item it will vanish after a global configurable amount of time.
      *     If the item has a click action set, a click interaction of the user on the title will trigger this action.
      *     If the item has a vanish action set, the default vanishing (without user interaction) will trigger this
      *     action.
      *     A click interaction of the user on the close Glyph will prevent both other actions and the item will vanish.
-     *   rivals: >
+     *   rivals:
+     *     1:
      *     The Toast is similar to the OSD notifcation, which arent a component ATM(26.04.2021). Therefore it suppose to
      *     replace and unify this UI violation.
      *
