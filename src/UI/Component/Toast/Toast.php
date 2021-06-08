@@ -18,8 +18,9 @@ interface Toast extends Component
 
     /**
      * Gets the title of the toast
+     * @return string|Shy|Link
      */
-    public function getTitle() : string|Shy|Link;
+    public function getTitle();
 
     /**
      * Create a copy of this toast with an attached description.
@@ -49,14 +50,15 @@ interface Toast extends Component
 
     /**
      * Create a copy of this toast with an url, which is called when the item title is clicked.
+     * @param string|Closure $action
      */
-    public function withTitleAction(string|Closure $action) : Toast;
+    public function withTitleAction($action) : Toast;
 
     /**
      * Get the url, which is called when the user clicks the item title.
+     * @return string|Closure
      */
-
-    public function getTitleAction() : string|Closure;
+    public function getTitleAction();
 
     /**
      * Create a copy of this toast with an url, which is called asynchronous when the item vanishes.
