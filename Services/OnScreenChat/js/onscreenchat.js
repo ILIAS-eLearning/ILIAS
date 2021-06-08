@@ -752,7 +752,7 @@
 		},
 
 		onUserStoppedTyping: function (message) {
-			const cgenerator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
+			const generator = TypingUsersTextGeneratorFactory.getInstance(message.conversation.id);
 
 			generator.removeTypingUser(message.participant.id);
 
