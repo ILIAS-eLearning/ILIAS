@@ -15689,9 +15689,11 @@ li.smallPad {
   -webkit-hyphens: auto;
   hyphens: auto;
   width: 100%;
-  min-height: 200px;
   background-color: #f9f9f9;
   position: relative;
+}
+#chat_messages .messageContainer {
+  min-height: 250px;
 }
 #chat_messages .fader {
   position: -webkit-sticky;
@@ -17428,6 +17430,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   list-style: none;
   margin: 0;
   padding: 0;
+  min-height: calc(100% - 50px);
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator:not(:first-child) {
   margin-top: 10px;
