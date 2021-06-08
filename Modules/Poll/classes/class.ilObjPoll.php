@@ -213,12 +213,12 @@ class ilObjPoll extends ilObject2
         $this->setQuestion((string) ($row["question"] ?? ''));
         $this->setImage((string) ($row["image"] ?? ''));
         $this->setViewResults((int) ($row["view_results"] ?? self::VIEW_RESULTS_AFTER_VOTE));
-        $this->setVotingPeriod((int) ($row["period"] ?? 0));
+        $this->setVotingPeriod((bool) ($row["period"] ?? 0));
         $this->setVotingPeriodBegin((int) ($row["period_begin"] ?? 0));
         $this->setVotingPeriodEnd((int) ($row["period_end"] ?? 0));
         $this->setMaxNumberOfAnswers((int) ($row["max_answers"] ?? 0));
-        $this->setSortResultByVotes((int) ($row["result_sort"] ?? 0));
-        $this->setNonAnonymous((int) ($row["non_anon"] ?? 0));
+        $this->setSortResultByVotes((bool) ($row["result_sort"] ?? 0));
+        $this->setNonAnonymous((bool) ($row["non_anon"] ?? 0));
         $this->setShowResultsAs((int) ($row["show_results_as"] ?? self::SHOW_RESULTS_AS_BARCHART));
         
         // #14661
@@ -724,7 +724,11 @@ class ilObjPoll extends ilObject2
         foreach ($res as $id => $item) {
             $abs = (int) ($item['abs'] ?? 0);
             $id = (int) ($id ?? 0);
-            $res[$id]["perc"] = $abs / $cnt * 100;
+            if ($cnt === 0) {
+                $res[$id]["perc"] = 0;
+            } else {
+                $res[$id]["perc"] = $abs / $cnt * 100;
+            }
         }
         
         return array("perc" => $res, "total" => $this->countVotes());

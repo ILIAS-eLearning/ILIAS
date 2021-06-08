@@ -525,14 +525,17 @@ class ilObjPollGUI extends ilObject2GUI
                 $valid = false;
             }
         }
-        
+
+        $session_last_poll_vote = ilSession::get('last_poll_vote');
         if ($valid) {
-            unset($_SESSION["last_poll_vote"][$this->object->getId()]);
+            unset($session_last_poll_vote[$this->object->getId()]);
+            ilSession::set('last_poll_vote', $session_last_poll_vote);
             $this->object->saveVote($this->user->getId(), $aw);
             
             $this->sendNotifications();
         } else {
-            $_SESSION["last_poll_vote"][$this->object->getId()] = $aw;
+            $session_last_poll_vote[$this->object->getId()] = $aw;
+            ilSession::set('last_poll_vote', $session_last_poll_vote);
         }
 
         ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));

@@ -119,10 +119,11 @@ class ilPollBlockGUI extends ilBlockGUI
 
                 $is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
 
-                $last_poll_vote = ilSession::get('last_poll_vote');
-                if (isset($last_poll_vote[$this->poll_block->getPoll()->getId()])) {
-                    $last_vote = $last_poll_vote[$this->poll_block->getPoll()->getId()];
-                    unset($_SESSION['last_poll_vote'][$this->poll_block->getPoll()->getId()]);
+                $session_last_poll_vote = ilSession::get('last_poll_vote');
+                if (isset($session_last_poll_vote[$this->poll_block->getPoll()->getId()])) {
+                    $last_vote = $session_last_poll_vote[$this->poll_block->getPoll()->getId()];
+                    unset($session_last_poll_vote[$this->poll_block->getPoll()->getId()]);
+                    ilSession::set('last_poll_vote', $session_last_poll_vote);
 
                     if ($is_multi_answer) {
                         $error = sprintf(

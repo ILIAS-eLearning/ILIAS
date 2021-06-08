@@ -175,7 +175,7 @@ class ilPollDataSet extends ilDataSet
                 $newObj->setQuestion((string) ($a_rec["Question"] ?? ''));
                 $newObj->setImage((string) ($a_rec["Image"] ?? ''));
                 $newObj->setViewResults((int) ($a_rec["ViewResults"] ?? ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
-                $newObj->setVotingPeriod((int) ($a_rec["Period"] ?? 0));
+                $newObj->setVotingPeriod((bool) ($a_rec["Period"] ?? 0));
                 $newObj->setVotingPeriodBegin((int) ($a_rec["PeriodBegin"] ?? 0));
                 $newObj->setVotingPeriodEnd((int) ($a_rec["PeriodEnd"] ?? 0));
                 $newObj->update();
