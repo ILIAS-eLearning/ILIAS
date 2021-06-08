@@ -523,6 +523,8 @@ class ilTabsGUI
                 
                 if (isset($target["cmd"]) && !is_array($target["cmd"])) {
                     $target["cmd"] = array($target["cmd"]);
+                } else if(!isset($target["cmd"])) {
+                    $target["cmd"] = array();
                 }
 
                 if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
