@@ -37,12 +37,10 @@ class ilObjPollListGUI extends ilObjectListGUI
     */
     public function getProperties()
     {
-        $lng = $this->lng;
 
         // BEGIN ChangeEvent: Get parent properties
         $props = parent::getProperties();
         // END ChangeEvent: Get parent properties
-
 
         return $props;
     }
