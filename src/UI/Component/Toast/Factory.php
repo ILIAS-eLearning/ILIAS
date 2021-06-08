@@ -30,7 +30,6 @@ interface Factory
      *   rivals:
      *     1: The Toast is similar to the OSD notifcation, which arent a component ATM(26.04.2021). Therefore it suppose to
      *     replace and unify this UI violation.
-     *
      * rules:
      *   usage:
      *     1: The Toast MUST be used for all Notifications which COULD require the users awareness in the moment the
