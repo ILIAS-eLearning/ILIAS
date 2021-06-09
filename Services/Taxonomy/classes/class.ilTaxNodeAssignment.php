@@ -24,17 +24,22 @@ class ilTaxNodeAssignment
      * @param int $a_obj_id repository object id of the object that is responsible for the assignment
      * @param string $a_item_type item type (e.g. "term", must be unique component wide) [use "obj" if repository object wide taxonomies!]
      * @param int $a_tax_id taxonomy id
+     * @param ilDBInterface|null $db
      * @throws ilTaxonomyException
      */
     public function __construct(
         string $a_component_id,
         int $a_obj_id,
         string $a_item_type,
-        int $a_tax_id
+        int $a_tax_id,
+        \ilDBInterface $db = null
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
+        $this->db = (is_null($db))
+            ? $DIC->database()
+            : $db;
+
         if ($a_component_id == "") {
             throw new ilTaxonomyException('No component ID passed to ilTaxNodeAssignment.');
         }
