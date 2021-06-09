@@ -27,10 +27,6 @@ class ilTaxMDGUI
 
     /**
      * Constructor
-     * @param int    $a_md_rbac_id
-     * @param int    $a_md_obj_id
-     * @param string $a_md_obj_type
-     * @param int    $a_ref_id
      */
     public function __construct(
         int $a_md_rbac_id,
@@ -70,19 +66,16 @@ class ilTaxMDGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
 
-        switch ($next_class) {
-
-            case 'ilformpropertydispatchgui':
-                $form = $this->initForm();
-                $form_prop_dispatch = new ilFormPropertyDispatchGUI();
-                $item = $form->getItemByPostVar($this->requested_post_var);
-                $form_prop_dispatch->setItem($item);
-                return $this->ctrl->forwardCommand($form_prop_dispatch);
-
-            default:
-                if (in_array($cmd, array("show", "save"))) {
-                    $this->$cmd();
-                }
+        if ($next_class == 'ilformpropertydispatchgui') {
+            $form = $this->initForm();
+            $form_prop_dispatch = new ilFormPropertyDispatchGUI();
+            $item = $form->getItemByPostVar($this->requested_post_var);
+            $form_prop_dispatch->setItem($item);
+            return $this->ctrl->forwardCommand($form_prop_dispatch);
+        } else {
+            if (in_array($cmd, array("show", "save"))) {
+                $this->$cmd();
+            }
         }
         return "";
     }
@@ -134,20 +127,18 @@ class ilTaxMDGUI
         $res = [];
         if ($this->ref_id > 0 && $objDefinition->isRBACObject($this->md_obj_type)) {
             // get all active taxonomies of parent objects
-            foreach ($tree->getPathFull((int) $this->ref_id) as $node) {
-                if ($node["ref_id"] != (int) $this->ref_id) {
-                    // currently only active for categories
-                    if ($node["type"] == "cat") {
-                        if (ilContainer::_lookupContainerSetting(
-                            $node["obj_id"],
-                            ilObjectServiceSettingsGUI::TAXONOMIES,
-                            false
-                        )
-                        ) {
-                            $tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);
-                            if (sizeof($tax_ids)) {
-                                $res = array_merge($res, $tax_ids);
-                            }
+            foreach ($tree->getPathFull($this->ref_id) as $node) {
+                // currently only active for categories
+                if ($node["ref_id"] != $this->ref_id && $node["type"] == "cat") {
+                    if (ilContainer::_lookupContainerSetting(
+                        $node["obj_id"],
+                        ilObjectServiceSettingsGUI::TAXONOMIES,
+                        false
+                    ) !== ''
+                    ) {
+                        $tax_ids = ilObjTaxonomy::getUsageOfObject($node["obj_id"]);
+                        if (count($tax_ids) !== 0) {
+                            $res = array_merge($res, $tax_ids);
                         }
                     }
                 }
@@ -163,8 +154,6 @@ class ilTaxMDGUI
     
     /**
      * Add taxonomy selector to MD (quick edit) form
-     *
-     * @param ilPropertyFormGUI $a_form
      */
     public function addToMDForm(ilPropertyFormGUI $a_form) : void
     {

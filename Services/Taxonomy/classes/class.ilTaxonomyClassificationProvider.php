@@ -13,7 +13,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     protected static array $valid_tax_map = [];
     protected int $incoming_id;
     
-    public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
+    public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type) : bool
     {
         return (bool) self::getActiveTaxonomiesForParentRefId($a_parent_ref_id);
     }
@@ -21,14 +21,14 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     /**
      * @inheritDoc
      */
-    protected function init()
+    protected function init() : void
     {
         $params = $this->request->getQueryParams();
         $body = $this->request->getParsedBody();
         $this->incoming_id = (int) ($body["tax_node"] ?? ($params["tax_node"] ?? null));
     }
     
-    public function render(array &$a_html, $a_parent_gui)
+    public function render(array &$a_html, $a_parent_gui) : void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
             $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, null, $tax_id, null, null);
@@ -54,7 +54,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     public function importPostData($a_saved = null) : array
     {
         $incoming_id = $this->incoming_id;
-        if ($incoming_id) {
+        if ($incoming_id !== 0) {
             if (is_array($a_saved)) {
                 foreach ($a_saved as $idx => $node_id) {
                     if ($node_id == $incoming_id) {
@@ -71,12 +71,12 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         return [];
     }
     
-    public function setSelection($a_value)
+    public function setSelection($a_value) : void
     {
         $this->selection = $a_value;
     }
     
-    protected static function getActiveTaxonomiesForParentRefId($a_parent_ref_id)
+    protected static function getActiveTaxonomiesForParentRefId($a_parent_ref_id) : int
     {
         global $DIC;
 
@@ -94,7 +94,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
                         $node["obj_id"],
                         ilObjectServiceSettingsGUI::TAXONOMIES,
                         false
-                    )) {
+                    ) !== '') {
                         $all_valid = array_merge(
                             $all_valid,
                             ilObjTaxonomy::getUsageOfObject($node["obj_id"])
@@ -110,7 +110,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
                         $node_valid = array_intersect($all_valid, $active);
                     }
                     
-                    if (sizeof($node_valid)) {
+                    if (count($node_valid) !== 0) {
                         foreach ($node_valid as $idx => $node_id) {
                             // #15268 - deleted taxonomy?
                             if (ilObject::_lookupType($node_id) != "tax") {
@@ -125,15 +125,16 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
 
         if (isset(self::$valid_tax_map[$a_parent_ref_id]) && is_array(self::$valid_tax_map[$a_parent_ref_id])) {
-            return sizeof(self::$valid_tax_map[$a_parent_ref_id]);
+            return count(self::$valid_tax_map[$a_parent_ref_id]);
         }
 
         return 0;
     }
     
-    public function getFilteredObjects()
+    public function getFilteredObjects() : array
     {
-        $tax_obj_ids = $tax_map = array();
+        $tax_obj_ids = array();
+        $tax_map = array();
             
         // :TODO: this could be smarter
         foreach ($this->selection as $node_id) {
@@ -157,11 +158,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         // combine taxonomies AND
         $obj_ids = null;
         foreach ($tax_obj_ids as $tax_objs) {
-            if ($obj_ids === null) {
-                $obj_ids = $tax_objs;
-            } else {
-                $obj_ids = array_intersect($obj_ids, $tax_objs);
-            }
+            $obj_ids = $obj_ids === null ? $tax_objs : array_intersect($obj_ids, $tax_objs);
         }
         
         return (array) $obj_ids;

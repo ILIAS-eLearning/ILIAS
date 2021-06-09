@@ -23,12 +23,12 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
     public function __construct(
         $a_parent_obj,
         $a_parent_cmd,
-        $a_node_id,
-        $a_tax,
-        $a_comp_id,
-        $a_obj_id,
-        $a_item_type,
-        $a_info_obj
+        int $a_node_id,
+        \ilObjTaxonomy $a_tax,
+        string $a_comp_id,
+        int $a_obj_id,
+        string $a_item_type,
+        \ilTaxAssignedItemInfo $a_info_obj
     ) {
         global $DIC;
 
@@ -71,23 +71,17 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
      * @param
      * @return
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
-        if (in_array($a_field, array("order_nr"))) {
-            return true;
-        }
-        return false;
+        return $a_field == "order_nr";
     }
 
 
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);
         $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
         $this->tpl->setVariable("TITLE", $this->info_obj->getTitle(

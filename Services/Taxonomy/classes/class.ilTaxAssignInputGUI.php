@@ -23,7 +23,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         $a_multi = true,
         $a_title = "",
         $a_postvar = "",
-        $a_include_please_select = true
+        bool $a_include_please_select = true
     ) {
         global $DIC;
 
@@ -57,7 +57,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @param int $a_val taxonomy id
      */
-    public function setTaxonomyId($a_val)
+    public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
@@ -67,7 +67,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @return int taxonomy id
      */
-    public function getTaxonomyId()
+    public function getTaxonomyId() : int
     {
         return $this->taxononmy_id;
     }
@@ -77,7 +77,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @param	array	$a_options	Options. Array ("value" => "option_text")
      */
-    public function setOptions($a_options)
+    public function setOptions($a_options) : void
     {
         throw new ilTaxonomyException("setOptions: Not supported for ilTaxAssignInputGUI.");
     }
@@ -110,10 +110,6 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     
     /**
      * Save input
-     * @param string $a_component_id
-     * @param int    $a_obj_id
-     * @param string $a_item_type
-     * @param int    $a_item_id
      * @throws ilTaxonomyException
      */
     public function saveInput(
@@ -155,10 +151,6 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     
     /**
      * Set current values
-     * @param string $a_component_id
-     * @param int    $a_obj_id
-     * @param string $a_item_type
-     * @param int    $a_item_id
      * @throws ilTaxonomyException
      */
     public function setCurrentValues(

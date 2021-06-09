@@ -39,7 +39,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->initItems();
     }
     
-    protected function initItems()
+    protected function initItems() : void
     {
         $data = array();
         
@@ -70,7 +70,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         foreach ($a_set["references"] as $ref) {
             $this->tpl->setCurrentBlock("obj_bl");

@@ -16,7 +16,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_assigned_object_id, $a_info = null)
+    public function __construct($a_parent_obj, $a_parent_cmd, int $a_assigned_object_id, $a_info = null)
     {
         global $DIC;
 
@@ -50,12 +50,13 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this->parent_obj, "tax_id", $a_set["tax_id"]);
+
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listNodes"));
         $this->tpl->setVariable("CMD", $lng->txt("edit"));
@@ -63,6 +64,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock("cmd");
         $this->tpl->setVariable("HREF_CMD", $ilCtrl->getLinkTarget($this->parent_obj, "confirmDeleteTaxonomy"));
         $this->tpl->setVariable("CMD", $lng->txt("delete"));
+
         $this->tpl->parseCurrentBlock();
         $ilCtrl->setParameter($this->parent_obj, "tax_id", $this->requested_tax_id);
 

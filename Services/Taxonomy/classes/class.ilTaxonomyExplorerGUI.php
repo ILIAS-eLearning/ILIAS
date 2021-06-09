@@ -19,11 +19,6 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     /**
      * Constructor
      * @param object|string|array $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param int    $a_tax_id
-     * @param string $a_target_gui
-     * @param string $a_target_cmd
-     * @param string $a_id
      */
     public function __construct(
         mixed $a_parent_obj,
@@ -36,11 +31,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         global $DIC;
         $this->ctrl = $DIC->ctrl();
         $this->tax_tree = new ilTaxonomyTree($a_tax_id);
-        if ($a_id != "") {
-            $this->id = $a_id;
-        } else {
-            $this->id = "tax_expl_" . $this->tax_tree->getTreeId();
-        }
+        $this->id = $a_id != "" ? $a_id : "tax_expl_" . $this->tax_tree->getTreeId();
         if (ilObjTaxonomy::lookupSortingMode($a_tax_id) == ilObjTaxonomy::SORT_ALPHABETICAL) {
             $this->setOrderField("title");
         } else {
@@ -117,23 +108,20 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param
      * @return
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
-        if ((!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
-            ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes))) {
-            return true;
-        }
-        return false;
+        return (!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
+            ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes));
     }
     
-    public function setOnClick($a_value)
+    public function setOnClick(string $a_value) : void
     {
         $this->onclick = $a_value;
     }
     
     public function getNodeOnClick($a_node)
     {
-        if ($this->onclick) {
+        if ($this->onclick !== '') {
             return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);
         } else {
             // #14623

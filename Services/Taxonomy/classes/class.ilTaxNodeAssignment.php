@@ -46,7 +46,7 @@ class ilTaxNodeAssignment
             throw new ilTaxonomyException('No item type passed to ilTaxNodeAssignment.');
         }
 
-        if ((int) $a_tax_id == 0) {
+        if ($a_tax_id == 0) {
             throw new ilTaxonomyException('No taxonomy ID passed to ilTaxNodeAssignment.');
         }
 
@@ -56,7 +56,7 @@ class ilTaxNodeAssignment
         $this->setObjectId($a_obj_id);
     }
     
-    protected function setComponentId(string $a_val)
+    protected function setComponentId(string $a_val) : void
     {
         $this->component_id = $a_val;
     }
@@ -66,7 +66,7 @@ class ilTaxNodeAssignment
         return $this->component_id;
     }
     
-    protected function setItemType(string $a_val)
+    protected function setItemType(string $a_val) : void
     {
         $this->item_type = $a_val;
     }
@@ -76,7 +76,7 @@ class ilTaxNodeAssignment
         return $this->item_type;
     }
     
-    protected function setTaxonomyId(int $a_val)
+    protected function setTaxonomyId(int $a_val) : void
     {
         $this->taxonomy_id = $a_val;
     }
@@ -86,7 +86,7 @@ class ilTaxNodeAssignment
         return $this->taxonomy_id;
     }
     
-    public function setObjectId(int $a_val)
+    public function setObjectId(int $a_val) : void
     {
         $this->obj_id = $a_val;
     }
@@ -136,7 +136,6 @@ class ilTaxNodeAssignment
     
     /**
      * Get assignments for item
-     * @param int $a_item_id
      * @return array array of tax node assignments arrays
      */
     final public function getAssignmentsOfItem(int $a_item_id) : array
@@ -161,17 +160,14 @@ class ilTaxNodeAssignment
     /**
      * Add assignment
      *
-     * @param int $a_node_id
-     * @param int $a_item_id
-     * @param int $a_order_nr
      * @throws ilTaxonomyException
      */
-    public function addAssignment(int $a_node_id, int $a_item_id, int $a_order_nr = 0)
+    public function addAssignment(int $a_node_id, int $a_item_id, int $a_order_nr = 0) : void
     {
         $ilDB = $this->db;
         
         // nothing to do, if not both IDs are greater 0
-        if ((int) $a_node_id == 0 || (int) $a_item_id == 0) {
+        if ($a_node_id == 0 || $a_item_id == 0) {
             return;
         }
         
@@ -225,7 +221,7 @@ class ilTaxNodeAssignment
         $ilDB = $this->db;
 
         // nothing to do, if not both IDs are greater 0
-        if ((int) $a_node_id == 0 || (int) $a_item_id == 0) {
+        if ($a_node_id == 0 || $a_item_id == 0) {
             return;
         }
 
@@ -356,11 +352,6 @@ class ilTaxNodeAssignment
 
     /**
      * Find object which have assigned nodes
-     *
-     * @param int    $a_tax_id
-     * @param array  $a_node_ids
-     * @param string $a_item_type
-     * @return array
      */
     public static function findObjectsByNode(int $a_tax_id, array $a_node_ids, string $a_item_type) : array
     {

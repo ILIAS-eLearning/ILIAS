@@ -9,12 +9,12 @@
  */
 class ilTaxonomyExporter extends ilXmlExporter
 {
-    private $ds;
+    private ?\ilTaxonomyDataSet $ds = null;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilTaxonomyDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -29,7 +29,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) : array
     {
         return array();
     }
@@ -43,7 +43,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) : array
     {
         return array();
     }
@@ -56,7 +56,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
     }
@@ -68,7 +68,7 @@ class ilTaxonomyExporter extends ilXmlExporter
      *
      * @return
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions($a_entity) : array
     {
         return array(
             "4.3.0" => array(

@@ -21,7 +21,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      * @param	string	$a_title	Title
      * @param	string	$a_postvar	Post Variable
      */
-    public function __construct($a_taxonomy_id, $a_postvar, $a_multi = false)
+    public function __construct($a_taxonomy_id, $a_postvar, bool $a_multi = false)
     {
         global $DIC;
 
@@ -60,7 +60,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      *
      * @param int $a_val taxonomy id
      */
-    public function setTaxonomyId($a_val)
+    public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
@@ -70,7 +70,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      *
      * @return int taxonomy id
      */
-    public function getTaxonomyId()
+    public function getTaxonomyId() : int
     {
         return $this->taxononmy_id;
     }
@@ -81,7 +81,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      * @param
      * @return
      */
-    public function getTitleForNodeId($a_id)
+    public function getTitleForNodeId($a_id) : string
     {
         return ilTaxonomyNode::_lookupTitle($a_id);
     }
