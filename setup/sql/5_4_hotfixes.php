@@ -1472,3 +1472,7 @@ if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
     $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
 }
 ?>
+<#108>
+<?php
+$ilDB->addPrimaryKey('il_meta_oer_stat', ['obj_id']);
+?>
