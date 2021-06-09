@@ -13371,15 +13371,8 @@ div.ilFrmPostHeader span.small {
     height: auto !important;
   }
 }
-.ilFrmTargetImage {
-  margin: 0 0 10px;
-  height: auto !important;
-  float: right;
-}
-@media only screen {
-  .ilFrmTargetImage img {
-    height: auto !important;
-  }
+.ilFrmTargetImage .il-link.link-bulky .bulky-label {
+  display: none;
 }
 .ilFrmPostContent {
   margin-top: 20px;

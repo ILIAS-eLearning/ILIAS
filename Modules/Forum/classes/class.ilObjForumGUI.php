@@ -1126,12 +1126,26 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         if ($this->selectedSorting == ilForumProperties::VIEW_TREE
             && $node->getId() != $this->session_storage->get($node->getThreadId())) {
-            $tpl->setVariable('ICON_TARGET', \ilUtil::getImagePath('target.svg'));
-    
+            $target = $this->uiFactory->symbol()->icon()->custom(
+                ilUtil::getImagePath('target.svg'),
+                $this->lng->txt('target_select')
+            );
+   
             $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
             $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
-            $tpl->setVariable('HREF_TARGET', $this->ctrl->getLinkTarget($this, 'selectPost', $node->getId()));
-            $tpl->setVariable('TITLE_TARGET', $this->lng->txt('select'));
+    
+            $tpl->setVariable(
+                'TARGET',
+                $this->uiRenderer->render(
+                    $this->uiFactory->link()->bulky(
+                        $target,
+                        $this->lng->txt('select'),
+                        new \ILIAS\Data\URI(
+                            ILIAS_HTTP_PATH . '/' . $this->ctrl->getLinkTarget($this, 'selectPost', $node->getId())
+                        )
+                    )
+                )
+            );
         }
         
         $node->setMessage($frm->prepareText($node->getMessage()));
@@ -3898,7 +3912,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $newThread->setDisplayUserId($userIdForDisplayPurposes);
             $newThread->setSubject($this->handleFormInput($minimal_form->getInput('subject'), false));
             $newThread->setUserAlias($userAlias);
-                
+            
             $newPost = $frm->generateThread(
                 $newThread,
                 '',
