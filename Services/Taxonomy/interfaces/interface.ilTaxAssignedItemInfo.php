@@ -14,7 +14,7 @@ interface ilTaxAssignedItemInfo
      *
      * @param string $a_comp_id component identifier, e.g. "glo" for glossary
      * @param string $a_item_type item type identifier, e.g. "term" for glossary terms
-     * @param integer $a_item_id item id
+     * @param int $a_item_id item id
      * @return string
      */
     public function getTitle(string $a_comp_id, string $a_item_type, int $a_item_id) : string;

@@ -11,6 +11,9 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected string $requested_tax_node;
+    protected ilTaxonomyTree $tree;
+    protected ilObjTaxonomy $tax;
+    protected int $node_id;
 
     /**
      * Constructor
@@ -77,15 +80,16 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     
         
     /**
-    * Should this field be sorted numeric?
-    *
-    * @return	boolean		numeric ordering; default is false
-    */
-    public function numericOrdering($a_field)
+     * Should this field be sorted numeric?
+     * @param $a_field
+     * @return bool
+     */
+    public function numericOrdering($a_field) : bool
     {
         if (in_array($a_field, array("order_nr"))) {
             return true;
         }
+        return false;
     }
     
     /**

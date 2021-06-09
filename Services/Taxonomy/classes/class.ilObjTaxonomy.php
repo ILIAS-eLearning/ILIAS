@@ -9,15 +9,8 @@
  */
 class ilObjTaxonomy extends ilObject2
 {
-    /**
-     * @var int
-     */
-    const SORT_ALPHABETICAL = 0;
-
-    /**
-     * @var int
-     */
-    const SORT_MANUAL = 1;
+    public const SORT_ALPHABETICAL = 0;
+    public const SORT_MANUAL = 1;
 
     protected array $node_mapping = array();
     protected bool $item_sorting = false;
@@ -128,18 +121,18 @@ class ilObjTaxonomy extends ilObject2
             if ($node["type"] === "taxn") {
                 $tax_node = new ilTaxonomyNode($node["child"]);
                 $new_node = $tax_node->copy($a_new_obj->getId());
+
+                ilTaxonomyNode::putInTree(
+                    $a_new_obj->getId(),
+                    $new_node,
+                    $a_target_parent
+                );
+
+                $this->node_mapping[$node["child"]] = $new_node->getId();
+
+                // handle childs
+                $this->cloneNodes($a_new_obj, $new_node->getId(), $node["child"]);
             }
-
-            ilTaxonomyNode::putInTree(
-                $a_new_obj->getId(),
-                $new_node,
-                $a_target_parent
-            );
-            
-            $this->node_mapping[$node["child"]] = $new_node->getId();
-
-            // handle childs
-            $this->cloneNodes($a_new_obj, $new_node->getId(), $node["child"]);
         }
     }
     

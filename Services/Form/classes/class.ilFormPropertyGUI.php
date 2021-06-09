@@ -13,7 +13,7 @@ class ilFormPropertyGUI
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected string $type;
+    protected string $type = "";
     protected string $title = "";
     protected string $postvar = "";
     protected string $info = "";

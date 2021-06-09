@@ -52,7 +52,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     /**
     * Set Value.
     *
-    * @param	string	$a_value	Value
+    * @param	string|array	$a_value	Value
     */
     public function setValue($a_value)
     {
@@ -66,7 +66,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     /**
     * Get Value.
     *
-    * @return	string	Value
+    * @return	string|array	Value
     */
     public function getValue()
     {

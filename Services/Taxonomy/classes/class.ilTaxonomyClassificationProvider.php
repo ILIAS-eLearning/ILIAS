@@ -51,7 +51,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
     
-    public function importPostData($a_saved = null)
+    public function importPostData($a_saved = null) : array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id) {
@@ -68,6 +68,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
                 return array($incoming_id);
             }
         }
+        return [];
     }
     
     public function setSelection($a_value)

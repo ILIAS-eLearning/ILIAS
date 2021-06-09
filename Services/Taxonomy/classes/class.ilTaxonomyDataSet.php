@@ -15,6 +15,8 @@
  */
 class ilTaxonomyDataSet extends ilDataSet
 {
+    protected ilObjTaxonomy $current_obj;
+
     /**
      * Get supported versions
      *
@@ -27,21 +29,15 @@ class ilTaxonomyDataSet extends ilDataSet
     }
     
     /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Services/Taxonomy/" . $a_entity;
     }
     
     /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
     protected function getTypes($a_entity, $a_version)
     {
@@ -96,15 +92,17 @@ class ilTaxonomyDataSet extends ilDataSet
                         );
             }
         }
+        return [];
     }
 
     /**
      * Read data
-     *
-     * @param
-     * @return
+     * @param string $a_entity
+     * @param string $a_version
+     * @param array $a_ids
+     * @param string $a_field
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -189,10 +187,7 @@ class ilTaxonomyDataSet extends ilDataSet
     
     
     /**
-     * Import record
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {

@@ -17,9 +17,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     protected $rbacsystem;
 
     /**
-     * Contructor
-     *
-     * @return self
+     * @inheritDoc
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {

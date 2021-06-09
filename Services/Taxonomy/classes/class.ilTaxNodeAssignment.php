@@ -18,6 +18,7 @@ class ilTaxNodeAssignment
     protected string $component_id;
     protected int $taxonomy_id;
     protected string $item_type;
+    protected int $obj_id;
 
     /**
      * Constructor

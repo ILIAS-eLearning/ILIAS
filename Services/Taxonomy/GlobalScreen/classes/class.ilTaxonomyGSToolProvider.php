@@ -11,27 +11,11 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
 {
-    /**
-     * @var string
-     */
-    const SHOW_TAX_TREE = 'show_tax_tree';
-    /**
-     * @var string
-     */
-    const TAX_TREE_GUI_PATH = 'tax_tree_gui_path';
-    /**
-     * @var string
-     */
-    const TAX_ID = 'tax_id';
-    /**
-     * @var string
-     */
-    const TAX_TREE_CMD = 'tax_tree_cmd';
-    /**
-     * @var string
-     */
-    const TAX_TREE_PARENT_CMD = 'tax_tree_parent_cmd';
-
+    public const SHOW_TAX_TREE = 'show_tax_tree';
+    public const TAX_TREE_GUI_PATH = 'tax_tree_gui_path';
+    public const TAX_ID = 'tax_id';
+    public const TAX_TREE_CMD = 'tax_tree_cmd';
+    public const TAX_TREE_PARENT_CMD = 'tax_tree_parent_cmd';
 
     /**
      * @inheritDoc

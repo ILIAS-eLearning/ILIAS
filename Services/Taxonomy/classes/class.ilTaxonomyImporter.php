@@ -9,6 +9,7 @@
  */
 class ilTaxonomyImporter extends ilXmlImporter
 {
+    protected ilTaxonomyDataSet $ds;
 
     /**
      * Initialisation
@@ -21,12 +22,9 @@ class ilTaxonomyImporter extends ilXmlImporter
 
 
     /**
-     * Import XML
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping) : void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,

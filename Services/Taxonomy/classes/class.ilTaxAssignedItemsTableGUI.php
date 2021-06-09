@@ -9,10 +9,13 @@
  */
 class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected ilObjTaxonomy $tax;
+    protected int $node_id;
+    protected string $comp_id;
+    protected int $obj_id;
+    protected string $item_type;
+    protected ilTaxAssignedItemInfo $info_obj;
 
     /**
      * Constructor

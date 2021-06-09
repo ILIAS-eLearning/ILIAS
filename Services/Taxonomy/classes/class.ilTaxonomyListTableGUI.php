@@ -11,6 +11,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
 {
     protected \ilAccessHandler $access;
     protected int $requested_tax_id;
+    protected int $assigned_object_id;
 
     /**
      * Constructor

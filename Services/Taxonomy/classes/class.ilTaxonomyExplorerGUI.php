@@ -11,20 +11,27 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 {
     protected string $requested_tax_node;
     protected string $onclick = "";
+    protected ilTaxonomyTree $tax_tree;
+    protected string $id;
+    protected mixed $target_gui;
+    protected string $target_cmd;
 
     /**
      * Constructor
-     *
-     * @param
-     * @return
+     * @param object|string|array $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param int    $a_tax_id
+     * @param string $a_target_gui
+     * @param string $a_target_cmd
+     * @param string $a_id
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_tax_id,
-        $a_target_gui,
-        $a_target_cmd,
-        $a_id = ""
+        mixed $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_tax_id,
+        string $a_target_gui,
+        string $a_target_cmd,
+        string $a_id = ""
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
@@ -43,7 +50,8 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         $this->target_gui = $a_target_gui;
         $this->target_cmd = $a_target_cmd;
         $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_tax_node = ilUtil::stripSlashes((string) ($params["tax_node"] ?? ""));
+        $tax_node = (string) ($params["tax_node"] ?? "");
+        $this->requested_tax_node = (string) ilUtil::stripSlashes($tax_node);
         parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
     }
     

@@ -14,6 +14,7 @@ class ilTaxonomyNode
     public int $id;
     public string $title;
     protected int $order_nr = 0;
+    protected int $taxonomy_id;
 
     /**
      * Constructor
@@ -298,13 +299,8 @@ class ilTaxonomyNode
         }
     }
 
-    /**
-     * Write order nr
-     *
-     * @param
-     * @return
-     */
-    public static function writeOrderNr($a_node_id, $a_order_nr)
+    // Write order nr
+    public static function writeOrderNr(int $a_node_id, int $a_order_nr) : void
     {
         global $DIC;
 
@@ -319,11 +315,8 @@ class ilTaxonomyNode
     
     /**
      * Write title
-     *
-     * @param
-     * @return
      */
-    public static function writeTitle($a_node_id, $a_title)
+    public static function writeTitle(int $a_node_id, string $a_title) : void
     {
         global $DIC;
 
@@ -357,13 +350,8 @@ class ilTaxonomyNode
         return $max;
     }
     
-    /**
-     * Fix order numbers
-     *
-     * @param
-     * @return
-     */
-    public static function fixOrderNumbers($a_tax_id, $a_parent_id)
+    // set order nrs to 10, 20, ...
+    public static function fixOrderNumbers(int $a_tax_id, int $a_parent_id) : void
     {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
         if ($a_parent_id == 0) {

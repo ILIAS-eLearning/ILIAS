@@ -9,23 +9,18 @@
  */
 class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected int $obj_id;
+    protected ilObject $obj;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjTaxonomyAdministration $a_obj)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilObject $a_obj)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
+
         $this->obj = $a_obj;
         
         $this->setId("tax_adm_repo");

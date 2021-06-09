@@ -10,6 +10,11 @@
  */
 class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 {
+    protected bool $multi_nodes;
+    protected ilTaxonomyExplorerGUI $explorer_gui;
+    protected ilObjTaxonomy $tax;
+    protected int $taxononmy_id;
+
     /**
      * Constructor
      *
@@ -43,7 +48,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         $this->setType("tax_select");
         
         if ((int) $a_taxonomy_id == 0) {
-            throw new ilTaxonomyExceptions("No taxonomy ID passed to ilTaxSelectInputGUI.");
+            throw new ilTaxonomyException("No taxonomy ID passed to ilTaxSelectInputGUI.");
         }
         
         $this->setTaxonomyId((int) $a_taxonomy_id);

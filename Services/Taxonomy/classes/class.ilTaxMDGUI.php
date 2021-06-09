@@ -19,6 +19,11 @@ class ilTaxMDGUI
     protected string $md_obj_type;
     protected string $requested_post_var;
     protected RequestInterface $request;
+    protected \ilCtrl $ctrl;
+    protected \ilGlobalTemplateInterface $tpl;
+    protected \ilLanguage $lng;
+    protected \ilTabsGUI $tabs;
+    protected int $ref_id;
 
     /**
      * Constructor
@@ -42,7 +47,7 @@ class ilTaxMDGUI
         $this->tabs = $DIC->tabs();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->request = $DIC->http()->request();
 
@@ -57,8 +62,10 @@ class ilTaxMDGUI
 
     /**
      * Execute command
+     * @return mixed|string
+     * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : mixed
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -77,6 +84,7 @@ class ilTaxMDGUI
                     $this->$cmd();
                 }
         }
+        return "";
     }
 
     public function show() : void
@@ -98,7 +106,7 @@ class ilTaxMDGUI
             $ctrl->redirect($this, "show");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 
