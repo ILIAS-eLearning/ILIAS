@@ -43,7 +43,9 @@ class ilFormPropertyGUI
         $this->setTitle($a_title);
         $this->setPostVar($a_postvar);
         $this->setDisabled(false);
-        $this->request = $DIC->http()->request();
+        if (isset($DIC["http"])) {      // some unit tests will fail otherwise
+            $this->request = $DIC->http()->request();
+        }
     }
 
     /**
