@@ -9,12 +9,12 @@
  */
 class ilRatingExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilRatingDataSet $ds;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilRatingDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -22,14 +22,9 @@ class ilRatingExporter extends ilXmlExporter
     }
 
     /**
-     * Get xml representation
-     *
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
+     * @inheritDoc
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
     {
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
     }
@@ -39,9 +34,9 @@ class ilRatingExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      *
-     * @return
+     * @inheritDoc
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions($a_entity) : array
     {
         return array(
             "4.3.0" => array(

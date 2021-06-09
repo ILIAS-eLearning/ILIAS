@@ -221,7 +221,7 @@ class ilCommonActionDispatcherGUI
             
             case "ilratinggui":
                 $rating_gui = new ilRatingGUI();
-                if (!$_GET["rnsb"]) {
+                if (!($_GET["rnsb"] ?? null)) {
                     $rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
                 } else {
                     // coming from headaction ignore sub-objects
