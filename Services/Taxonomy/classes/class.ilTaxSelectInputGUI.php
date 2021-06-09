@@ -15,13 +15,7 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
     protected ilObjTaxonomy $tax;
     protected int $taxononmy_id;
 
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
-    public function __construct($a_taxonomy_id, $a_postvar, bool $a_multi = false)
+    public function __construct(int $a_taxonomy_id, string $a_postvar, bool $a_multi = false)
     {
         global $DIC;
 
@@ -55,31 +49,18 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
         $this->tax = new ilObjTaxonomy($this->getTaxonomyId());
     }
     
-    /**
-     * Set taxonomy id
-     *
-     * @param int $a_val taxonomy id
-     */
     public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
     
-    /**
-     * Get taxonomy id
-     *
-     * @return int taxonomy id
-     */
     public function getTaxonomyId() : int
     {
         return $this->taxononmy_id;
     }
-    
+
     /**
-     * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
     public function getTitleForNodeId($a_id) : string
     {

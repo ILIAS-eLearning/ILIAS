@@ -1,13 +1,12 @@
 <?php
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  * Taxonomy Administration Settings
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
  * @ilCtrl_Calls ilObjTaxonomyAdministrationGUI: ilPermissionGUI
- *
- * @ingroup ServicesTaxonomy
  */
 class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
 {

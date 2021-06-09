@@ -1,11 +1,11 @@
 <?php
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  * Class ilObjTaxonomyAdministration
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesTaxonomy
  */
 class ilObjTaxonomyAdministration extends ilObject
 {
@@ -25,7 +25,7 @@ class ilObjTaxonomyAdministration extends ilObject
         return false;
     }
     
-    protected function getPath($a_ref_id) : array
+    protected function getPath(int $a_ref_id) : array
     {
         $tree = $this->tree;
         

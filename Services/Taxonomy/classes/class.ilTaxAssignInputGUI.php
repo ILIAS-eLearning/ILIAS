@@ -12,17 +12,11 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     protected bool $include_please_select;
     protected int $taxononmy_id;
 
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
     public function __construct(
-        $a_taxonomy_id,
-        $a_multi = true,
-        $a_title = "",
-        $a_postvar = "",
+        int $a_taxonomy_id,
+        bool $a_multi = true,
+        string $a_title = "",
+        string $a_postvar = "",
         bool $a_include_please_select = true
     ) {
         global $DIC;

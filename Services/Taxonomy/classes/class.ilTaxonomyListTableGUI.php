@@ -48,7 +48,7 @@ class ilTaxonomyListTableGUI extends ilTable2GUI
     }
     
     /**
-     * Fill table row
+     * @inheritDoc
      */
     protected function fillRow($a_set) : void
     {

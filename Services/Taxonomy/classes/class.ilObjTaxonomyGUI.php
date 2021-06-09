@@ -161,20 +161,13 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     }
     
     
-    /**
-     * Get current taxonomy
-     *
-     * @param
-     * @return
-     */
-    public function getCurrentTaxonomy()
+    public function getCurrentTaxonomy() : ?ilObjTaxonomy
     {
         $tax_id = $this->getCurrentTaxonomyId();
         if ($tax_id > 0) {
             return new ilObjTaxonomy($tax_id);
         }
-        
-        return false;
+        return null;
     }
     
     
@@ -226,8 +219,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     
     
     /**
-     * If we run under an assigned object, the permission should be checked on
-     * the upper level
+     * @inheritDoc
      */
     protected function checkPermissionBool($a_perm, $a_cmd = "", $a_type = "", $a_node_id = null)
     {
@@ -770,9 +762,6 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $tpl->setContent($form->getHTML());
     }
     
-    /**
-     * Init  form.
-     */
     public function initSettingsForm() : \ilPropertyFormGUI
     {
         $lng = $this->lng;

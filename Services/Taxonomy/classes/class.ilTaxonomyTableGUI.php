@@ -19,11 +19,11 @@ class ilTaxonomyTableGUI extends ilTable2GUI
      * Constructor
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_tree,
-        $a_node_id,
-        $a_tax
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilTaxonomyTree $a_tree,
+        int $a_node_id,
+        ilObjTaxonomy $a_tax
     ) {
         global $DIC;
 
@@ -80,9 +80,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     
         
     /**
-     * Should this field be sorted numeric?
-     * @param $a_field
-     * @return bool
+     * @inheritDoc
      */
     public function numericOrdering($a_field) : bool
     {
@@ -93,11 +91,10 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     }
     
     /**
-     * Fill table row
+     * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);

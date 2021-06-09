@@ -5,7 +5,7 @@
 /**
  * Taxonomy
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjTaxonomy extends ilObject2
 {

@@ -18,10 +18,7 @@ class ilTaxonomyDataSet extends ilDataSet
     protected ilObjTaxonomy $current_obj;
 
     /**
-     * Get supported versions
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
     public function getSupportedVersions()
     {
@@ -39,7 +36,7 @@ class ilTaxonomyDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         // tax
         if ($a_entity == "tax") {
@@ -96,11 +93,7 @@ class ilTaxonomyDataSet extends ilDataSet
     }
 
     /**
-     * Read data
-     * @param string $a_entity
-     * @param string $a_version
-     * @param array $a_ids
-     * @param string $a_field
+     * @inheritDoc
      */
     public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
@@ -186,11 +179,13 @@ class ilTaxonomyDataSet extends ilDataSet
     ////
     
     
-    /**
-     * @inheritDoc
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
+    public function importRecord(
+        string $a_entity,
+        $a_types,
+        array $a_rec,
+        array $a_mapping,
+        string $a_schema_version
+    ) {
         switch ($a_entity) {
             case "tax":
                 $newObj = new ilObjTaxonomy();

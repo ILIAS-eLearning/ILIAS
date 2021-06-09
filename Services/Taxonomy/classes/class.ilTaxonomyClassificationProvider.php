@@ -51,7 +51,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
     
-    public function importPostData($a_saved = null) : array
+    public function importPostData(array $a_saved = null) : array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id !== 0) {
@@ -70,13 +70,16 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
         return [];
     }
-    
+
+    /**
+     * @inheritDoc
+     */
     public function setSelection($a_value) : void
     {
         $this->selection = $a_value;
     }
     
-    protected static function getActiveTaxonomiesForParentRefId($a_parent_ref_id) : int
+    protected static function getActiveTaxonomiesForParentRefId(int $a_parent_ref_id) : int
     {
         global $DIC;
 

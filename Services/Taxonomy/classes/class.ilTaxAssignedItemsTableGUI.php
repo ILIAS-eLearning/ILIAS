@@ -22,7 +22,7 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         int $a_node_id,
         \ilObjTaxonomy $a_tax,
         string $a_comp_id,
@@ -65,21 +65,11 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
         $this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
     }
 
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
     public function numericOrdering($a_field) : bool
     {
         return $a_field == "order_nr";
     }
 
-
-    /**
-     * Fill table row
-     */
     protected function fillRow($a_set) : void
     {
         $this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);

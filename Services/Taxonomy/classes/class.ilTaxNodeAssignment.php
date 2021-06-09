@@ -7,10 +7,7 @@
  *
  * This class allows to assign items to taxonomy nodes.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services/Taxonomy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxNodeAssignment
 {
