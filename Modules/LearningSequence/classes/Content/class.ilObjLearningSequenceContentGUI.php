@@ -151,12 +151,14 @@ class ilObjLearningSequenceContentGUI
             $order = $this->getFieldName(self::FIELD_ORDER, $ref_id);
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
-            $condition = $lsitem->getPostCondition()
+            if (!empty($post[$condition_type])) {
+              $condition = $lsitem->getPostCondition()
                 ->withConditionOperator($post[$condition_type]);
-            $updated[] = $lsitem
+              $updated[] = $lsitem
                 ->withOnline((bool) $post[$online])
                 ->withOrderNumber((int) $post[$order])
                 ->withPostCondition($condition);
+            }
         }
 
         $this->parent_gui->getObject()->storeLSItems($updated);
