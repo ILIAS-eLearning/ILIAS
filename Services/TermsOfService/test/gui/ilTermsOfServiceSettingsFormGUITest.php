@@ -19,6 +19,15 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->method('getStatus')
             ->willReturn(true);
 
+        $lng = $this->getLanguageMock();
+
+        $lng
+            ->expects($this->any())
+            ->method('txt')
+            ->willReturn('translation');
+
+        $this->setGlobalVariable('lng', $lng);
+
         $form = new ilTermsOfServiceSettingsFormGUI(
             $tos,
             '',
