@@ -16,7 +16,7 @@ use PHPUnit\Runner\Filter\ExcludeGroupFilterIterator as GroupExcludeFilter;
 *
 * @author	<alex.killing@gmx.de>
 */
-class ilGlobalSuite extends TestSuite
+class ILIASSuite extends TestSuite
 {
     /**
      * @var	string
@@ -68,7 +68,7 @@ class ilGlobalSuite extends TestSuite
 
     public static function suite()
     {
-        $suite = new ilGlobalSuite();
+        $suite = new ILIASSuite();
         echo "ILIAS PHPUnit-Tests need installed dev-requirements, please install using 'composer install' in ./libs/composer \n";
         echo "\n";
         
@@ -116,11 +116,8 @@ class ilGlobalSuite extends TestSuite
 
     /**
      * Find and add all testSuits beneath ILIAS_ROOL/tests - folder
-     *
-     * @param	ilGlobalSuite	$suite
-     * @return	ilGloblaSuite	$suite
      */
-    protected static function addTestFolderToSuite(ilGlobalSuite $suite)
+    protected static function addTestFolderToSuite(ILIASSuite $suite) : ILIASSuite
     {
         $test_directories = array("tests");
         while ($aux_dir = current($test_directories)) {
