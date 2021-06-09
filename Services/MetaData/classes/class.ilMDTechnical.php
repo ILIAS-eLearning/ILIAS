@@ -342,7 +342,7 @@ class ilMDTechnical extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Technical');
 
