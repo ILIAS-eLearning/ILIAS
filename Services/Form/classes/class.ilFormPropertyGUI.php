@@ -12,7 +12,7 @@ use \Psr\Http\Message\RequestInterface;
 class ilFormPropertyGUI
 {
     protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
+    protected $lng;
     protected string $type = "";
     protected string $title = "";
     protected string $postvar = "";

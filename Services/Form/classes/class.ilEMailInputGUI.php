@@ -8,11 +8,6 @@
  */
 class ilEMailInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $value;
     protected $size = 30;
     protected $max_length = 80;

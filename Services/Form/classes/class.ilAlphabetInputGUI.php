@@ -9,16 +9,6 @@
  */
 class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
     protected $letters;
     protected $parent_object;
     protected $parent_cmd;
