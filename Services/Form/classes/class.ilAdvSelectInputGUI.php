@@ -11,11 +11,6 @@
  */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $options = array();
     protected $value;
     

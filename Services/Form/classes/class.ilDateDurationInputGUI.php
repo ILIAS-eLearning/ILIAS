@@ -10,11 +10,6 @@
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilObjUser
      */
     protected $user;

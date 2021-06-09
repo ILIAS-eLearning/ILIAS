@@ -1,8 +1,4 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-
 /**
  * Taxonomy Administration Settings
  *
@@ -21,9 +17,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     protected $rbacsystem;
 
     /**
-     * Contructor
-     *
-     * @return self
+     * @inheritDoc
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
@@ -39,28 +33,22 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        switch ($next_class) {
-            case 'ilpermissiongui':
-                $this->tabs_gui->activateTab('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
-                $perm_gui = new ilPermissionGUI($this);
-                $this->ctrl->forwardCommand($perm_gui);
-                break;
-
-            default:
-                if (!$cmd || $cmd == 'view') {
-                    $cmd = "listRepository";
-                }
-
-                $this->$cmd();
-                break;
+        if ($next_class == 'ilpermissiongui') {
+            $this->tabs_gui->activateTab('perm_settings');
+            $perm_gui = new ilPermissionGUI($this);
+            $this->ctrl->forwardCommand($perm_gui);
+        } else {
+            if (!$cmd || $cmd == 'view') {
+                $cmd = "listRepository";
+            }
+            $this->$cmd();
         }
         return true;
     }
@@ -68,7 +56,7 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * Get tabs
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -92,11 +80,9 @@ class ilObjTaxonomyAdministrationGUI extends ilObjectGUI
     /**
      * List taxonomies of repository objects
      */
-    public function listRepository()
+    public function listRepository() : void
     {
         $this->tabs_gui->activateTab('settings');
-        
-        require_once "Services/Taxonomy/classes/class.ilTaxonomyAdministrationRepositoryTableGUI.php";
         $tbl = new ilTaxonomyAdministrationRepositoryTableGUI($this, "listRepository", $this->object);
         $this->tpl->setContent($tbl->getHTML());
     }

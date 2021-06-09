@@ -33,13 +33,13 @@ include_once 'class.ilMDBase.php';
 class ilMDEducational extends ilMDBase
 {
     // Methods for child objects (TypicalAgeRange, Description, Language)
-    public function &getTypicalAgeRangeIds()
+    public function getTypicalAgeRangeIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
         return ilMDTypicalAgeRange::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function &getTypicalAgeRange($a_typical_age_range_id)
+    public function getTypicalAgeRange($a_typical_age_range_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
@@ -51,7 +51,7 @@ class ilMDEducational extends ilMDBase
 
         return $typ;
     }
-    public function &addTypicalAgeRange()
+    public function addTypicalAgeRange()
     {
         include_once 'Services/MetaData/classes/class.ilMDTypicalAgeRange.php';
 
@@ -61,13 +61,13 @@ class ilMDEducational extends ilMDBase
 
         return $typ;
     }
-    public function &getDescriptionIds()
+    public function getDescriptionIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function &getDescription($a_description_id)
+    public function getDescription($a_description_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -79,7 +79,7 @@ class ilMDEducational extends ilMDBase
 
         return $des;
     }
-    public function &addDescription()
+    public function addDescription()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
@@ -89,13 +89,13 @@ class ilMDEducational extends ilMDBase
 
         return $des;
     }
-    public function &getLanguageIds()
+    public function getLanguageIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_educational');
     }
-    public function &getLanguage($a_language_id)
+    public function getLanguage($a_language_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
 
@@ -107,7 +107,7 @@ class ilMDEducational extends ilMDBase
 
         return $lan;
     }
-    public function &addLanguage()
+    public function addLanguage()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguage.php';
         
@@ -422,7 +422,7 @@ class ilMDEducational extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag(
             'Educational',
@@ -452,7 +452,7 @@ class ilMDEducational extends ilMDBase
         // TypicalAgeRange
         $typ_ages = $this->getTypicalAgeRangeIds();
         foreach ($typ_ages as $id) {
-            $key = &$this->getTypicalAgeRange($id);
+            $key = $this->getTypicalAgeRange($id);
             
             // extra test due to bug 5316 (may be due to eLaix import)
             if (is_object($key)) {
@@ -470,12 +470,12 @@ class ilMDEducational extends ilMDBase
 
         // Description
         foreach ($this->getDescriptionIds() as $id) {
-            $key = &$this->getDescription($id);
+            $key = $this->getDescription($id);
             $key->toXML($writer);
         }
         // Language
         foreach ($this->getLanguageIds() as $id) {
-            $lang = &$this->getLanguage($id);
+            $lang = $this->getLanguage($id);
             $lang->toXML($writer);
         }
         $writer->xmlEndTag('Educational');

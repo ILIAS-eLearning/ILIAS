@@ -159,6 +159,7 @@ class ilObjectGUI
     protected int $requested_ref_id = 0;
     protected int $requested_crtptrefid = 0;
     protected int $requested_crtcb = 0;
+    protected string $requested_new_type;
 
     /**
     * Constructor
@@ -238,6 +239,7 @@ class ilObjectGUI
         // callback after creation
         $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
         $this->requested_crtcb = (int) ($_REQUEST["crtcb"] ?? 0);
+        $this->requested_new_type = $_REQUEST["new_type"] ?? "";
 
 
         if ($this->id != 0) {
@@ -777,7 +779,7 @@ class ilObjectGUI
         $tpl = $this->tpl;
         $ilErr = $this->ilErr;
 
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->requested_new_type;
 
         
         // add new object to custom parent container
@@ -1023,7 +1025,7 @@ class ilObjectGUI
         $tpl = $this->tpl;
         $ilErr = $this->ilErr;
 
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->requested_new_type;
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool("create", "", $new_type)) {
@@ -1387,7 +1389,7 @@ class ilObjectGUI
         if (!$parent_id) {
             $parent_id = $this->requested_ref_id;
         }
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->requested_new_type;
         $upload_type = $this->request->getParsedBody()['upload_type'] ?? self::UPLOAD_TYPE_LOCAL;
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts

@@ -882,7 +882,7 @@ class ilTree
     /**
      * Get all ids of subnodes
      * @return
-     * @param object $a_ref_id
+     * @param $a_ref_id
      */
     public function getSubTreeIds($a_ref_id)
     {

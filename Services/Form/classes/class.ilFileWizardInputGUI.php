@@ -10,11 +10,6 @@
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilTemplate
      */
     protected $tpl;

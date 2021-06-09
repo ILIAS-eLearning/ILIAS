@@ -1,23 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for taxonomies
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected string $requested_tax_node;
+    protected ilTaxonomyTree $tree;
+    protected ilObjTaxonomy $tax;
+    protected int $node_id;
 
     /**
      * Constructor
@@ -34,6 +30,10 @@ class ilTaxonomyTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+
+        $params = $DIC->http()->request()->getQueryParams();
+
+        $this->requested_tax_node = $params["tax_node"] ?? "";
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -80,15 +80,16 @@ class ilTaxonomyTableGUI extends ilTable2GUI
     
         
     /**
-    * Should this field be sorted numeric?
-    *
-    * @return	boolean		numeric ordering; default is false
-    */
-    public function numericOrdering($a_field)
+     * Should this field be sorted numeric?
+     * @param $a_field
+     * @return bool
+     */
+    public function numericOrdering($a_field) : bool
     {
         if (in_array($a_field, array("order_nr"))) {
             return true;
         }
+        return false;
     }
     
     /**
@@ -101,7 +102,7 @@ class ilTaxonomyTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->parent_obj, "tax_node", $a_set["child"]);
         $ret = $ilCtrl->getLinkTargetByClass("ilobjtaxonomygui", "listNodes");
-        $ilCtrl->setParameter($this->parent_obj, "tax_node", $_GET["tax_node"]);
+        $ilCtrl->setParameter($this->parent_obj, "tax_node", $this->requested_tax_node);
         if ($this->tax->getSortingMode() == ilObjTaxonomy::SORT_MANUAL) {
             $this->tpl->setCurrentBlock("order");
             $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);

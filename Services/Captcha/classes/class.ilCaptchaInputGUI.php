@@ -13,11 +13,6 @@ require_once 'Services/Captcha/classes/class.ilSecurImageUtil.php';
 class ilCaptchaInputGUI extends ilFormPropertyGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var string
      */
     protected $value;

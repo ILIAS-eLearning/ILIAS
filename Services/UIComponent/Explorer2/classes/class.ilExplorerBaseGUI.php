@@ -47,7 +47,7 @@ abstract class ilExplorerBaseGUI
     protected $store;
 
     /**
-     * @var string|object
+     * @var string|object|array
      */
     protected $parent_obj;
 
