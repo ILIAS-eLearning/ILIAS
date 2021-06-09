@@ -1,19 +1,4 @@
 <div>
 	<p>{TXT_WELCOME}<br />{TXT_REGISTERED}</p>
-	<!-- BEGIN activation -->
-	<form action="{FORMACTION}" {TARGET} method="post">
-	<input type="hidden" name="cmd[showLogin]" value="1" />
-	<input type="hidden" name="password" value="{PASSWORD}" />
-	<input type="hidden" name="username" value="{USERNAME}" />
-	<input class="btn btn-default" type="submit" value="{TXT_LOGIN}" />
-	</form>
-	<!-- END activation -->
-	<!-- BEGIN redirect -->
-	<script type="text/javascript">
-	setTimeout(function() {
-		window.location.href = '{REDIRECT_URL}';	
-	}, 20000);
-	</script>
-	<noscript><meta http-equiv="refresh" content="20; url={REDIRECT_URL}" /></noscript>
-	<!-- END redirect -->
+	{LOGIN_LINK}
 </div>
