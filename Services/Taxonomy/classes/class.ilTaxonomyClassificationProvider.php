@@ -51,7 +51,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
         }
     }
     
-    public function importPostData(array $a_saved = null) : array
+    public function importPostData($a_saved = null) : array
     {
         $incoming_id = $this->incoming_id;
         if ($incoming_id !== 0) {
