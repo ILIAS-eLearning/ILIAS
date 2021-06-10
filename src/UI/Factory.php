@@ -805,8 +805,29 @@ interface Factory
      * ---
      * description:
      *   purpose:
-     *     Toast are volatile Elements, which get the users attention without affecting the UI permanent.
-     *
+     *     Toasts are temporary messages from the system published to the user.
+     *     Toast Items are used to attract attention from a user without affecting the user experience permanent.
+     *   composition:
+     *     Toast Items contain a information which is temporarily displayed decentralized from the main content.
+     *   rivals:
+     *     Rival 1: The Toast is similar to the OSD notification, which arent a component ATM(26.04.2021). Therefore it
+     *        suppose to replace and unify this UI violation.
+     * rules:
+     *   usage:
+     *     1: The Toast MUST be used for all Notifications which COULD require the users awareness in the moment the
+     *        are created.
+     *     2: The Toast MUST NOT be used for Notifications which are not time relevant to the point of their creation.
+     *   composition:
+     *     1: The Toast SHOULD precede all Notifications which are relevant for the user in time.
+     *   interaction:
+     *     1: Clicking on the Close Glyph MUST remove the Toast Item permanently.
+     *   style:
+     *     1: The Toast MUST be visible on the top layer of the page, Therefore it MUST cover up all other UI Items in
+     *        its space.
+     *     2: The Toast MUST disappear after a certain amount of time or earlier by user interaction. No interaction can
+     *        extends the Toast time of appearance above the global defined amount.
+     *   accessibility:
+     *     1: All interactions SHOULD be only accessible as long a the Toast is not vanished.
      * ---
      * @return \ILIAS\UI\Component\Toast\Factory
      */
