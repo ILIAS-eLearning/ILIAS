@@ -71,7 +71,7 @@
 				dataType:'json',
 				type:    'POST',
 				data: {
-					session_id: properties.session_id
+					hash: properties.hash
 				},
 				success: function (response) {
 					if (response.message && typeof response.message == "string") {
@@ -130,13 +130,11 @@
 						properties: $.extend(
 							true, {},
 							{
-								url         :"",
-								client_id   :"",
-								session_name:"",
-								session_id  :"",
-								session_id_hash  :"",
-								frequency   :60,
-								debug       :0
+								url: "",
+								client_id: "",
+								hash: "",
+								frequency: 60,
+								debug: 0
 							},
 							params
 						)
@@ -156,10 +154,10 @@
 					});
 
 					internals.log("Session reminder started");
-					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id_hash") !== properties.session_id_hash) {
+					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id_hash") !== properties.hash) {
 						YAHOO.util.Cookie.set(cookie_prefix + "activation", "enabled");
 						YAHOO.util.Cookie.set(cookie_prefix + "status", "unlocked");
-						YAHOO.util.Cookie.set(cookie_prefix + "session_id_hash", properties.session_id_hash);
+						YAHOO.util.Cookie.set(cookie_prefix + "session_id_hash", properties.hash);
 						internals.log("Session cookie changed after new login or session reminder initially started for current session: Release lock and enabled reminder");
 					}
 

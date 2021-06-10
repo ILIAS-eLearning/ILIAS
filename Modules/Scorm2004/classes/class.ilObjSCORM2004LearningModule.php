@@ -754,6 +754,23 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         }
         return $aV[0] * 3155760000 + $aV[1] * 262980000 + $aV[2] * 8640000 + $aV[3] * 360000 + $aV[4] * 6000 + round($aV[5] * 100);
     }
+
+    public static function getQuantityOfSCOs(int $a_slm_id)
+    {
+        global $DIC;
+        $val_set = $DIC->database()->queryF(
+            '
+		SELECT 	distinct(cp_node.cp_node_id) FROM cp_node,cp_resource,cp_item 
+		WHERE  	cp_item.cp_node_id = cp_node.cp_node_id 
+		AND 	cp_item.resourceid = cp_resource.id 
+		AND scormtype = %s
+		AND nodename = %s
+		AND cp_node.slm_id = %s ',
+            array('text','text','integer'),
+            array('sco','item',$a_slm_id)
+        );
+        return $DIC->database()->numRows($val_set);
+    }
     
     public function getCourseCompletionForUser($a_user)
     {
@@ -774,7 +791,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             array('text','text','integer'),
             array('sco','item',$this->getId())
         );
-        
+
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
             array_push($scos, $val_rec['cp_node_id']);
         }

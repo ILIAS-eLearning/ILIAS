@@ -296,7 +296,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                         ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
                         ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
                     $this->filter["status"] = $item->getValue();
-                    if ($this->filter["status"]) {
+                    if (is_numeric($this->filter["status"])) {
                         $this->filter["status"]--;
                     }
                     break;

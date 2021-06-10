@@ -134,7 +134,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             $this->logger->debug('No outcome service available for resource id: ' . $resource);
             return false;
         }
-        $this->logger->debug('Trying outcome service');
+        $this->logger->debug('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
         $user = \IMSGlobal\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
 
         if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
@@ -197,4 +197,61 @@ class ilLTIAppEventListener implements \ilAppEventListener
         $listener->doCronUpdate($since);
         return true;
     }
+
+
+    public static function handleOutcomeWithoutLP($a_obj_id, $a_usr_id, $a_percentage)
+    {
+        global $DIC;
+        $score = 0;
+
+        $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
+        if (strpos($auth_mode, 'lti_') === false) {
+            $DIC->logger()->lti()->debug('Ignoring outcome for non-LTI-user.');
+            return false;
+        }
+        //check if LearningPress enabled
+        $olp = ilObjectLP::getInstance($a_obj_id);
+        if (ilLPObjSettings::LP_MODE_DEACTIVATED != $olp->getCurrentMode())
+        {
+            $DIC->logger()->lti()->debug('Ignoring outcome if LP is activated.');
+            return false;
+        }
+
+        if ($a_percentage && $a_percentage > 0) {
+            $score = round($a_percentage/100, 4);
+        }
+
+        $connector = new ilLTIDataConnector();
+        $ext_account = ilObjUser::_lookupExternalAccount($a_usr_id);
+        list($lti, $consumer) = explode('_', $auth_mode);
+
+        // iterate through all references
+        $refs = ilObject::_getAllReferences($a_obj_id);
+        foreach ((array) $refs as $ref_id) {
+            $resources = $connector->lookupResourcesForUserObjectRelation(
+                $ref_id,
+                $ext_account,
+                $consumer
+            );
+
+            $DIC->logger()->lti()->debug('Resources for update: '.$resources);
+
+            foreach ($resources as $resource) {
+                // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
+                $resource_link = \IMSGlobal\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $connector);
+                if ($resource_link->hasOutcomesService()) {
+                    $user = \IMSGlobal\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
+                    $DIC->logger()->lti()->debug('Sending score: ' . (string) $score);
+                    $outcome = new \IMSGlobal\LTI\ToolProvider\Outcome($score);
+
+                    $resource_link->doOutcomesService(
+                        \IMSGlobal\LTI\ToolProvider\ResourceLink::EXT_WRITE,
+                        $outcome,
+                        $user
+                    );
+                }
+            }
+        }
+    }
+
 }

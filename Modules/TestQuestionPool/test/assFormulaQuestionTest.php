@@ -376,7 +376,7 @@ class assFormulaQuestionTest extends PHPUnit_Framework_TestCase
             // RESULT_NO_SELECTION
             [$r11, $variables, $results, '1/3', null, true],
             // Test for #22381
-            [$r12, $variables, $results, '3.0', null, true],
+            [$r12, $variables, $results, '3.1', null, true],
         ];
     }
 }

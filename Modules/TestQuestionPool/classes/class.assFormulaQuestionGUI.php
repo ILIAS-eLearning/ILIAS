@@ -93,7 +93,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
             // edit question properties
             $ilTabs->addTarget(
-                "edit_properties",
+                "edit_question",
                 $url,
                 array(
                     "editQuestion", "save", "cancel", "addSuggestedSolution",

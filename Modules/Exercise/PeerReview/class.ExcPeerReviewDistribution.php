@@ -56,10 +56,10 @@ class ExcPeerReviewDistribution
         $this->user_ids = array_values($user_ids);  // ensure numerical indexing
 
         // we cannot assign more users to a single user than count($user_ids) - 1
-        $num_assignments = min ($num_assignments, count($user_ids) - 1);
+        $num_assignments = min($num_assignments, count($user_ids) - 1);
 
         // we cannot create a negative number of assignments
-        $num_assignments = max ($num_assignments, 0);
+        $num_assignments = max($num_assignments, 0);
 
         $this->num_assignments = $num_assignments;
         $this->initDistribution();
@@ -78,7 +78,7 @@ class ExcPeerReviewDistribution
      * @param array
      * @return array
      */
-    protected function randomUserOrder($user_ids): array
+    protected function randomUserOrder($user_ids) : array
     {
         $order = [];
         while (count($user_ids) > 0) {
@@ -94,7 +94,7 @@ class ExcPeerReviewDistribution
      * Get user order
      * @return array
      */
-    public function getUserOrder(): array
+    public function getUserOrder() : array
     {
         return $this->user_order;
     }
@@ -118,5 +118,4 @@ class ExcPeerReviewDistribution
         }
         return $peers;
     }
-
 }

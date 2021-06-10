@@ -88,7 +88,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 
         $ctrl = $DIC->ctrl();
 
-        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $_GET["ppage"]);
+        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $this->requested_ppage);
         return $ctrl->getLinkTargetByClass("ilobjportfoliotemplategui", "preview");
     }
 

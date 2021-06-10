@@ -204,7 +204,7 @@ class ilWikiStat
         $ilAtomQuery->addTableLock($a_table);
 
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use ($a_table,  $a_primary, $a_values, $tstamp, &$is_update) {
+            function (ilDBInterface $ilDB) use ($a_table, $a_primary, $a_values, $tstamp, &$is_update) {
                 $primary = array();
                 foreach ($a_primary as $column => $value) {
                     $primary[] = $column . " = " . $ilDB->quote($value[1], $value[0]);
