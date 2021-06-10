@@ -9,7 +9,7 @@
  */
 class ilRating
 {
-    protected static array $list_data;
+    protected static array $list_data = [];
     
     /**
     * Write rating for a user and an object.
@@ -116,7 +116,7 @@ class ilRating
     * @param	int			$a_sub_obj_id		Subobject ID
     * @param	string		$a_sub_obj_type		Subobject Type
     * @param	int			$a_user_id			User ID
-    * @param	int			$a_category_id		Category ID
+    * @param	?int		$a_category_id		Category ID
     */
     public static function getRatingForUserAndObject(
         int $a_obj_id,
@@ -130,7 +130,7 @@ class ilRating
 
         $ilDB = $DIC->database();
         
-        if (is_array(self::$list_data)) {
+        if (isset(self::$list_data["user"][$a_obj_type . "/" . $a_obj_id])) {
             return self::$list_data["user"][$a_obj_type . "/" . $a_obj_id] ?? 0;
         }
         
@@ -168,7 +168,7 @@ class ilRating
 
         $ilDB = $DIC->database();
     
-        if (is_array(self::$list_data)) {
+        if (isset(self::$list_data["all"][$a_obj_type . "/" . $a_obj_id])) {
             return self::$list_data["all"][$a_obj_type . "/" . $a_obj_id];
         }
         

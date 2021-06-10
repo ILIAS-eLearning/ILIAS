@@ -27,6 +27,8 @@ class ilRatingGUI
     protected ?string $sub_obj_type;
     protected int $userid;
     protected $update_callback = null;
+    protected ?array $requested_ratings = null;
+    protected int $requested_rating;
 
     public function __construct()
     {
@@ -38,7 +40,13 @@ class ilRatingGUI
         $lng = $DIC->language();
 
         $this->ui = $DIC->ui();
-        
+
+        $params = $DIC->http()->request()->getQueryParams();
+        $body = $DIC->http()->request()->getParsedBody();
+
+        $this->requested_ratings = ($body["rating"] ?? null);
+        $this->requested_rating = (int) ($params["rating"] ?? 0);
+
         $lng->loadLanguageModule("rating");
     }
     
@@ -155,7 +163,6 @@ class ilRatingGUI
                     $this->getUserId(),
                     0
                 );
-
                 $overall_rating = [
                     "avg" => 0,
                     "cnt" => 0
@@ -552,9 +559,9 @@ class ilRatingGUI
     {
         $ilCtrl = $this->ctrl;
         
-        if (!is_array($_REQUEST["rating"])) {
-            $rating = (int) ilUtil::stripSlashes($_GET["rating"]);
-            if (!$rating) {
+        if (!is_array($this->requested_ratings)) {
+            $rating = $this->requested_rating;
+            if ($rating == 0) {
                 $this->resetUserRating();
             } else {
                 ilRating::writeRatingForUserAndObject(
@@ -567,7 +574,7 @@ class ilRatingGUI
                 );
             }
         } else {
-            foreach ($_POST["rating"] as $cat_id => $rating) {
+            foreach ($this->requested_ratings as $cat_id => $rating) {
                 ilRating::writeRatingForUserAndObject(
                     $this->obj_id,
                     $this->obj_type,

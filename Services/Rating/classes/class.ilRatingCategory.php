@@ -19,12 +19,19 @@ class ilRatingCategory
     protected int $pos; // order
 
 
-    public function __construct(int $a_id = null)
-    {
+    public function __construct(
+        int $a_id = null,
+        \ilDBInterface $db = null
+    ) {
         global $DIC;
 
-        $this->db = $DIC->database();
-        $this->read($a_id);
+        $this->db = (is_null($db))
+            ? $DIC->database()
+            : $db;
+
+        if ($a_id > 0) {
+            $this->read($a_id);
+        }
     }
     
     public function setId(int $a_value) : void
