@@ -155,6 +155,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         
             $this->showResetLimitedViewInfo();
         } else {
+            $this->session_storage->set($this->objCurrentTopic->getId(), 0);
             $this->objCurrentPost = new ilForumPost(
                 (int) $this->httpRequest->getQueryParams()['pos_pk'] ?? 0,
                 $this->is_moderator
