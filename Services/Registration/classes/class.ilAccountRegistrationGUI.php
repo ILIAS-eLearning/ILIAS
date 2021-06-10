@@ -702,13 +702,14 @@ class ilAccountRegistrationGUI
      */
     protected function showLogin()
     {
+        global $DIC;
         /**
          * @var ilAuthSession
          */
-        $auth_session = $GLOBALS['DIC']['ilAuthSession'];
+        $auth_session = $DIC['ilAuthSession'];
         $auth_session->setAuthenticated(
             true,
-            ilSession::get('registered_user')
+            $DIC->user()->getId()
         );
         ilInitialisation::initUserAccount();
         return ilInitialisation::redirectToStartingPage();
