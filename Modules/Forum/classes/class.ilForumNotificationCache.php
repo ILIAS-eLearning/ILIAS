@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,14 +8,9 @@
  */
 class ilForumNotificationCache
 {
-    /** @var array */
-    private $storage = array();
+    /** @var array<string, mixed> */
+    private $storage = [];
 
-    /**
-     * @param string $id - id to access the cache.
-     *                  SHOULD be md5 encoded
-     * @return mixed
-     */
     public function fetch(string $id)
     {
         if (false === $this->exists($id)) {
@@ -25,33 +20,33 @@ class ilForumNotificationCache
         return $this->storage[$id];
     }
 
-    /**
-     * @param string $key
-     * @param mixed $data
-     */
-    public function store(string $key, $data)
+    public function store(string $key, $data) : void
     {
         $this->storage[$key] = $data;
     }
 
-    /**
-     * Checks if the current id exists
-     *
-     * @param string $id
-     * @return bool
-     */
-    public function exists(string $id)
+    public function exists(string $id) : bool
     {
         return array_key_exists($id, $this->storage);
     }
 
     /**
      * @param array $values
-     * @return string - MD5 encoded key based on the
-     *                  given arrays
+     * @return string A MD5 encoded key based on the given arrays
      */
     public function createKeyByValues(array $values)
     {
+        foreach ($values as &$value) {
+            if ($value !== null && !is_scalar($value)) {
+                throw new InvalidArgumentException(sprintf(
+                    "Value %s is not scalar and can't be used to build a key",
+                    print_r($value, true)
+                ));
+            }
+
+            $value = (string) $value;
+        }
+
         $cacheKey = md5(implode('|', $values));
 
         return $cacheKey;
