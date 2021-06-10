@@ -13480,6 +13480,9 @@ div.ilFrmPostHeader span.small {
   color: #434343;
   padding-left: 23px;
 }
+.frm-thread-scrollable-print {
+  overflow: auto;
+}
 /* Services/Mail */
 a.mailread,
 a.mailread:visited {
