@@ -19,7 +19,8 @@ class PageReadingTimeTest extends TestCase
             'Array Type' => [[4]],
             'Object Type' => [new stdClass()],
             'Boolean Type' => [false],
-            'Null Type' => [null]
+            'Null Type' => [null],
+            'Ressource Type' => [fopen('php://temp', 'rb')]
         ];
     }
 
