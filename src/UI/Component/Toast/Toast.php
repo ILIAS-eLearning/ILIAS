@@ -27,7 +27,7 @@ interface Toast extends Component
 
     public function getDescription() : string;
 
-    public function withAdditionalLink(Link $action) : Toast;
+    public function withAdditionalLink(Link $link) : Toast;
 
     public function withoutLinks() : Toast;
 

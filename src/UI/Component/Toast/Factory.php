@@ -15,7 +15,7 @@ interface Factory
      *     Standard Toasts display a normal toast in the top right corner of the given context.
      *   composition:
      *     Standard Toasts contain a title, a close button and an icon, which indicates the service or module
-     *     triggering the Toast. They might contain a description, a click action, and a vanish action, which is triggered
+     *     triggering the Toast. They might contain a description and a vanish action, which is triggered
      *     when the Toast is vanished. Further the Toast might contain a number of ILIAS Link components, which will be
      *     presented below the description.
      *   effect:
