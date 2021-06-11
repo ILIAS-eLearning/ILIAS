@@ -547,7 +547,7 @@
 				$(this).data('state', s);
 			},
 			addScope: function(scope_id, scope) {
-				const tmp = $('<div class="messageContainer">');
+				const tmp = $('<div class="messageContainer" aria-live="off">');
 				$(this).data('ilChatMessageArea')._scopes['id_' + scope_id] = tmp;
 				$(this).append(tmp);
 				tmp.data('ilChatMessageArea', scope);
@@ -557,7 +557,7 @@
 				$(this).data('ilChatMessageArea')._typeInfos['id_' + scope_id] = fader;
 				$(this).append(fader);
 				fader.data('ilChatMessageArea', scope);
-				fader.append($('<div class="typing-info">'));
+				fader.append($('<div class="typing-info" aria-live="off">'));
 				fader.hide();
 			},
 			addTypingInfo: function (messageObject, text) {
@@ -714,17 +714,17 @@
 				const scopes = $(this).data('ilChatMessageArea')._scopes,
 					typeInfos = $(this).data('ilChatMessageArea')._typeInfos,
 					msgArea = $(this);
-                    
+
 				$.each(scopes, function() {
-					$(this).hide();
+					$(this).attr("aria-live", "off").hide();
 				});
 				
 				$.each(typeInfos, function() {
-					$(this).hide();
+					$(this).hide().find("[aria-live]").attr("aria-live", "off");
 				});
-                    
-				scopes['id_' + id].show();
-				typeInfos['id_' + id].show();
+
+				scopes['id_' + id].attr("aria-live", "polite").show();
+				typeInfos['id_' + id].show().find("[aria-live]").attr("aria-live", "polite");
 
 				scrollChatArea(scopes['id_' + id], msgArea.data('state'));
 				if (id == 0) {

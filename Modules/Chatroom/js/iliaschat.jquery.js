@@ -1780,11 +1780,9 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 			const broadcaster = ChatTypingBroadcasterFactory.getInstance(
 				room_id + '_' + sub_room_id,
 				function() {
-					console.log("Started Typing");
 					serverConnector.userStartedTyping(room_id, sub_room_id);
 				},
 				function() {
-					console.log("Stopped Typing");
 					serverConnector.userStoppedTyping(room_id, sub_room_id);
 				}
 			);
@@ -1823,6 +1821,23 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 				}
 
 			$textInput.val('');
+
+			if (personalUserInfo.broadcast_typing === true) {
+				const room_id = _scope, sub_room_id = currentRoom;
+
+				const broadcaster = ChatTypingBroadcasterFactory.getInstance(
+					room_id + '_' + sub_room_id,
+					function() {
+						serverConnector.userStartedTyping(room_id, sub_room_id);
+					},
+					function() {
+						serverConnector.userStoppedTyping(room_id, sub_room_id);
+					}
+				);
+
+				broadcaster.release();
+			}
+
 			_socket.emit('message', message, scope, currentRoom);
 			$textInput.focus();
 		}
