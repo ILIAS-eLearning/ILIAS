@@ -5,6 +5,7 @@ namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionSkippedException;
 
 class AsyncTaskManager extends BasicTaskManager
 {
@@ -77,6 +78,9 @@ class AsyncTaskManager extends BasicTaskManager
                 $this->executeTask($task, $observer);
                 $bucket->setState(State::FINISHED);
                 $this->persistence->updateBucket($bucket);
+            } catch (UserInteractionSkippedException $e) {
+                $bucket->setState(State::FINISHED);
+                $this->persistence->deleteBucket($bucket);
             } catch (UserInteractionRequiredException $e) {
                 // We're okay!
                 $this->persistence->saveBucketAndItsTasks($bucket);
