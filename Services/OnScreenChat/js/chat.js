@@ -7,11 +7,13 @@
 			getModule().config = config;
 		},
 
-		init: function(userId, username, callback) {
+		init: function(userId, username, callback, unloadCallback) {
 			getModule().socket = $io.connect(getModule().config.url, {path: getModule().config.subDirectory});
 			getModule().socket.on('connect', function() {
 				getModule().login(userId, username, callback);
 			});
+
+			$(window).on('beforeunload', unloadCallback);
 		},
 
 		onHistory: function(callback) {

@@ -226,7 +226,7 @@
 				});
 			}, 60000);
 
-			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
+			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin, getModule().onUnload);
 			$chat.receiveMessage(getModule().receiveMessage);
 			$chat.onParticipantsSuppressedMessages(getModule().onParticipantsSuppressedMessages);
 			$chat.onSenderSuppressesMessages(getModule().onSenderSuppressesMessages);
@@ -1037,6 +1037,10 @@
 			getModule().user = participant;
 		},
 
+		onUnload: function(participant) {
+			TypingBroadcasterFactory.releaseAll();
+		},
+
 		openInviteUser: function(e) {
 			e.preventDefault();
 			e.stopPropagation();
@@ -1794,7 +1798,15 @@
 				if (!instances.hasOwnProperty(conversationId)) {
 					instances[conversationId] = createInstance(conversationId, onTypingStarted, onTypingStopped);
 				}
+
 				return instances[conversationId];
+			},
+			releaseAll: function () {
+				for (let conversationId in instances) {
+					if (instances.hasOwnProperty(conversationId)) {
+						instances[conversationId].release();
+					}
+				}
 			}
 		};
 	})();

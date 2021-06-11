@@ -1055,6 +1055,13 @@ const ChatTypingBroadcasterFactory = (function () {
 				instances[scopeId] = createInstance(scopeId, onTypingStarted, onTypingStopped);
 			}
 			return instances[scopeId];
+		},
+		releaseAll: function () {
+			for (let conversationId in instances) {
+				if (instances.hasOwnProperty(conversationId)) {
+					instances[conversationId].release();
+				}
+			}
 		}
 	};
 })();
@@ -1350,6 +1357,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		});
 
 		$(window).on('beforeunload',function() {
+			ChatTypingBroadcasterFactory.releaseAll();
 			_socket.close();
 		});
 
