@@ -2061,7 +2061,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             if ($this->mayContribute() && $this->mayEditPosting($this->blpg)) {
                 $ctrl->setParameter($this, "prvm", "");
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
-                $link = $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+                if ($this->prtf_embed) {
+                    $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
+                }
+                $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
