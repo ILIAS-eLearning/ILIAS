@@ -93,4 +93,10 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
     {
         return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilObjPortfolioTemplateGUI", "view");
+    }
+
 }

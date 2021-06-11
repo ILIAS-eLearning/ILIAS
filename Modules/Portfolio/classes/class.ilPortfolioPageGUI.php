@@ -1218,4 +1218,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $notes_gui->setExportMode();
         return  $notes_gui->getNotesHTML();
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilObjPortfolioGUI", "view");
+    }
+
 }
