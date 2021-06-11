@@ -103,7 +103,7 @@ abstract class ilClassificationProvider
      *
      * @return array
      */
-    abstract public function getFilteredObjects();
+    abstract public function getFilteredObjects() : array;
     
     
     /**

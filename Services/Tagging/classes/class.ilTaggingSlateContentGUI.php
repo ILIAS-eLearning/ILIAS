@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Tagging slate UI
@@ -11,56 +12,19 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilTaggingSlateContentGUI
 {
-    const CURRENT_TAG_KEY = "tag_current_tag";
+    public const CURRENT_TAG_KEY = "tag_current_tag";
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ilLanguage $lng;
+    protected \ilAccessHandler $access;
+    protected ilTree $tree;
+    protected \ILIAS\DI\HTTPServices $http;
+    protected string $requested_tag;
+    protected ilSessionIStorage $store;
+    protected array $tags;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var \ILIAS\DI\HTTPServices
-     */
-    protected $http;
-
-    /**
-     * @var string
-     */
-    protected $requested_tag;
-
-    /**
-     * @var ilSessionIStorage
-     */
-    protected $store;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -88,10 +52,7 @@ class ilTaggingSlateContentGUI
         }
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -105,13 +66,13 @@ class ilTaggingSlateContentGUI
                 }
         }
     }
+
     /**
      * Render
-     *
      * @return string
      * @throws ilTemplateException
      */
-    public function render()
+    public function render() : string
     {
         if ($this->getCurrentTag() != "") {
             $content = $this->renderResourcesForTag();
@@ -121,12 +82,7 @@ class ilTaggingSlateContentGUI
         return "<div id='il-tag-slate-container'>" . $content . "</div>";
     }
     
-    /**
-     * Get tag cloud
-     *
-     * @return string
-     * @throws ilTemplateException
-     */
+    // Get tag cloud
     protected function renderTagCloud() : string
     {
         $ilCtrl = $this->ctrl;
@@ -168,12 +124,8 @@ class ilTaggingSlateContentGUI
     }
     
 
-    /**
-     * Render resources
-     *
-     * @return string
-     */
-    protected function renderResourcesForTag()
+    // Render resources
+    protected function renderResourcesForTag() : string
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -195,6 +147,7 @@ class ilTaggingSlateContentGUI
 
         $f = $this->ui->factory();
         $item_groups = [];
+        $items = [];
         foreach ($objs as $key => $obj) {
             $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
             foreach ($ref_ids as $ref_id) {
@@ -222,27 +175,25 @@ class ilTaggingSlateContentGUI
 
     /**
      * show resources
-     *
-     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     * @throws ResponseSendingException
      */
-    protected function showResourcesForTag()
+    protected function showResourcesForTag() : void
     {
         $this->send($this->renderResourcesForTag());
     }
+
     /**
      * Show tag cloud
-     * @throws ilTemplateException
+     * @throws ResponseSendingException
      */
-    protected function showTagCloud()
+    protected function showTagCloud() : void
     {
         $this->send($this->renderTagCloud());
     }
 
 
-    /**
-     * Remove tasg without access
-     */
-    public function removeTagsWithoutAccess()
+    // Remove tags without access
+    public function removeTagsWithoutAccess() : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -283,11 +234,6 @@ class ilTaggingSlateContentGUI
         $ilCtrl->returnToParent($this);
     }
 
-    /**
-     * No tags used message box
-     *
-     * @return ILIAS\UI\Component\MessageBox\MessageBox
-     */
     public function getNoTagsUsedMessage() : ILIAS\UI\Component\MessageBox\MessageBox
     {
         $txt = $this->lng->txt("no_tag_text_1") . "<br>";
@@ -302,10 +248,7 @@ class ilTaggingSlateContentGUI
         return $mbox;
     }
 
-    /**
-     * @return string
-     */
-    protected function getRepositoryTitle()
+    protected function getRepositoryTitle() : string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
@@ -320,9 +263,9 @@ class ilTaggingSlateContentGUI
     /**
      * Send
      * @param string $output
-     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     * @throws ResponseSendingException
      */
-    protected function send(string $output)
+    protected function send(string $output) : void
     {
         $this->http->saveResponse($this->http->response()->withBody(
             Streams::ofString($output)
@@ -331,28 +274,17 @@ class ilTaggingSlateContentGUI
         $this->http->close();
     }
 
-    /**
-     * Set current tag
-     * @param string
-     */
-    protected function setCurrentTag(string $tag)
+    protected function setCurrentTag(string $tag) : void
     {
         $this->store->set(self::CURRENT_TAG_KEY, $tag);
     }
 
-    /**
-     * Get current tag
-     * @return string
-     */
-    protected function getCurrentTag()
+    protected function getCurrentTag() : string
     {
-        return $this->store->get(self::CURRENT_TAG_KEY);
+        return (string) $this->store->get(self::CURRENT_TAG_KEY);
     }
 
-    /**
-     * Clear current tag
-     */
-    protected function clearCurrentTag()
+    protected function clearCurrentTag() : void
     {
         $this->store->set(self::CURRENT_TAG_KEY, "");
     }
