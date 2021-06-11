@@ -720,11 +720,9 @@
 			const broadcaster = TypingBroadcasterFactory.getInstance(
 				conversationId,
 				function() {
-					console.log("Started Typing");
 					$chat.userStartedTyping(conversationId);
 				},
 				function() {
-					console.log("Stopped Typing");
 					$chat.userStoppedTyping(conversationId);
 				}
 			);
