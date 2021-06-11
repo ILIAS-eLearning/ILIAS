@@ -3,17 +3,14 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group needsInstalledILIAS
- */
-class ilObjectTest extends TestCase
+class ilObjectTest //extends TestCase
 {
     protected $backupGlobals = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
 
     /**

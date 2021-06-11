@@ -21,50 +21,8 @@ class ILIASSuite extends TestSuite
     /**
      * @var	string
      */
-    const PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS = "needsInstalledILIAS";
     const REGEX_TEST_FILENAME = "#[a-zA-Z]+Test\.php#";
     const PHP_UNIT_PARENT_CLASS = TestCase::class;
-
-    /**
-     * Check if there is an installed ILIAS to run tests on.
-     *
-     * TODO: implement me correctly!
-     * @return	bool
-     */
-    public function hasInstalledILIAS()
-    {
-        $ilias_ini_path = __DIR__ . "/../../../ilias.ini.php";
-
-        if (!is_file($ilias_ini_path)) {
-            return false;
-        }
-        require_once './Services/Init/classes/class.ilIniFile.php';
-        $ilias_ini = new ilIniFile($ilias_ini_path);
-        $ilias_ini->read();
-        $client_data_path = $ilias_ini->readVariable("server", "absolute_path") . "/" . $ilias_ini->readVariable("clients", "path");
-
-        if (!is_dir($client_data_path)) {
-            return false;
-        }
-
-        include_once($ilias_ini->readVariable("server", "absolute_path") . "/Services/PHPUnit/config/cfg.phpunit.php");
-
-        if (!isset($_GET["client_id"])) {
-            return false;
-        }
-
-        $phpunit_client = $_GET["client_id"];
-
-        if (!$phpunit_client) {
-            return false;
-        }
-
-        if (!is_file($client_data_path . "/" . $phpunit_client . "/client.ini.php")) {
-            return false;
-        }
-
-        return true;
-    }
 
     public static function suite()
     {
@@ -100,17 +58,6 @@ class ILIASSuite extends TestSuite
 
         echo "\n";
 
-        if (!$suite->hasInstalledILIAS()) {
-            echo "Removing tests requiring an installed ILIAS.\n";
-            $ff = new FilterFactory();
-            $ff->addFilter(
-                new ReflectionClass(GroupExcludeFilter::class),
-                array(self::PHPUNIT_GROUP_FOR_TESTS_REQUIRING_INSTALLED_ILIAS)
-                );
-            $suite->injectFilter($ff);
-        } else {
-            echo "Found installed ILIAS, running all tests.\n";
-        }
         return $suite;
     }
 
