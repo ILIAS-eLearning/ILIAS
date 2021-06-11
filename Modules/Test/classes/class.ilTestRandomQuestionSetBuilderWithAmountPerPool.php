@@ -100,6 +100,7 @@ class ilTestRandomQuestionSetBuilderWithAmountPerPool extends ilTestRandomQuesti
                 $questions = $actualQuestionStage;
             }
 
+            $questions->shuffleQuestions();
             $questionSet->mergeQuestionCollection($questions);
         }
 
