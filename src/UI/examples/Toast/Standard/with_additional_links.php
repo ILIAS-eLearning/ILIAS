@@ -2,18 +2,15 @@
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-/**
- * With with additional links as clickable actions
- */
-function with_additional_actions()
+function with_additional_links()
 {
     global $DIC;
     $toast = $DIC->ui()->factory()->toast()->standard(
         'Example',
         $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Example')
     )
-    ->withAdditionalAction($DIC->ui()->factory()->link()->standard('ILIAS', 'https://www.ilias.de'))
-    ->withAdditionalAction($DIC->ui()->factory()->link()->standard('GitHub', 'https://www.github.com'))
+    ->withAdditionalLinks($DIC->ui()->factory()->link()->standard('ILIAS', 'https://www.ilias.de'))
+    ->withAdditionalLinks($DIC->ui()->factory()->link()->standard('GitHub', 'https://www.github.com'))
     ;
     return $DIC->ui()->renderer()->render($toast);
 }

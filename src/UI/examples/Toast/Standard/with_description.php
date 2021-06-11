@@ -2,9 +2,6 @@
 
 namespace ILIAS\UI\examples\Toast\Standard;
 
-/**
- * With description
- */
 function with_description()
 {
     global $DIC;
