@@ -2,7 +2,6 @@
 
 namespace ILIAS\UI\Component\Toast;
 
-use Closure;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Link;
@@ -35,7 +34,7 @@ interface Toast extends Component
     /**
      * @return Link[]
      */
-    public function getActions() : array;
+    public function getLinks() : array;
 
     /**
      * Create a copy of this toast with an url, which is called asynchronous when the item vanishes.
