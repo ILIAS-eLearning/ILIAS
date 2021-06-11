@@ -374,6 +374,7 @@
 				); 
 			}
 
+			conversationWindow.find("[aria-live]").attr("aria-live", "polite")
 			conversationWindow.show();
 
 			if(countOpenChatWindows() > getModule().numWindows) {
@@ -551,9 +552,12 @@
 		 * @param conversation
 		 */
 		onRemoveConversation: function(conversation) {
-			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			// Remove conversation/notification from notification center
+			const conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
 
+			conversationWindow.find("[aria-live]").attr("aria-live", "off")
+			conversationWindow.hide();
+
+			// Remove conversation/notification from notification center
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
@@ -565,7 +569,10 @@
 		 * @param conversation
 		 */
 		onCloseConversation: function(conversation) {
-			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+			const conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+
+			conversationWindow.find("[aria-live]").attr("aria-live", "off")
+			conversationWindow.hide();
 
 			// Add or update conversation/notification to notification center
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
