@@ -828,3 +828,57 @@ if (!$ilDB->indexExistsByFields('il_meta_oer_stat', ['obj_id'])) {
     $ilDB->addPrimaryKey('il_meta_oer_stat', ['obj_id']);
 }
 ?>
+<#46>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#47>
+<?php
+if (!$ilDB->indexExistsByFields('il_bt_value', array('bucket_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value',
+        array('bucket_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('task_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('task_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('value_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('value_id'),
+        'i2'
+    );
+}
+?>
+<#48>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value_to_task', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value_to_task',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
