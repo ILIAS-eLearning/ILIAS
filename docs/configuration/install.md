@@ -113,17 +113,17 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.0.38                     |
-| PHP            | 7.3                         |
-| Apache2        | 2.4.18                      |
+| Distribution   | Ubuntu 20.04.2 LTS          |
+| MariaDB        | 10.3                        |
+| PHP            | 7.2.34                      |
+| Apache         | 2.4.41                      |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | OpenJDK 8                   |
-| Node.js        | 10.23.0                     |
-| wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.26                        |
-| Imagemagick    | 6.8.9-9 Q16                 |
+| JDK            | 1.8.0_292                   |
+| NodeJS         | v10.24.1                    |
+| wkhtmltopdf    | 0.12.6                      |
+| Ghostscript    | 9.50                        |
+| Imagemagick    | 6.9.10-23 Q16               |
 
 
 <a name="other-platforms"></a>
