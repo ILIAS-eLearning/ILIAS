@@ -5,6 +5,7 @@ namespace ILIAS\BackgroundTasks\Implementation\TaskManager;
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionSkippedException;
 use ILIAS\BackgroundTasks\Persistence;
 
 /**
@@ -52,9 +53,11 @@ class SyncTaskManager extends BasicTaskManager
         $task = $bucket->getTask();
         $bucket->setCurrentTask($task);
         $observer = new NonPersistingObserver($bucket);
-
+    
         try {
             $this->executeTask($task, $observer);
+            $bucket->setState(State::FINISHED);
+        } catch (UserInteractionSkippedException $e) {
             $bucket->setState(State::FINISHED);
         } catch (UserInteractionRequiredException $e) {
             // We're okay!
