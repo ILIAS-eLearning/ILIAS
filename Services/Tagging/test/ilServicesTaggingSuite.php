@@ -16,8 +16,8 @@ class ilServicesTaggingSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Tagging/test/Assignment/TaggingTest.php");
-        $suite->addTestSuite("TaggingTest");
+        require_once("./Services/Tagging/test/TagRelevanceTest.php");
+        $suite->addTestSuite("TagRelevanceTest");
 
         return $suite;
     }
