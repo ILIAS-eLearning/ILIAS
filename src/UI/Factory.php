@@ -671,7 +671,7 @@ interface Factory
      * description:
      *   purpose: >
      *     Message Boxes inform the user about the state of the system or an ongoing user task. Such as the successful
-     *     completion, the need for further input  of an actual error or stopping users in their tracks in high-risk tasks.
+     *     completion, the need for further input of an actual error or stopping users in their tracks in high-risk tasks.
      *   composition: >
      *     Message Boxes consist of a mandatory message text, optional Buttons and an optional Unordered List of Links.
      *     There are four main types of Message Boxes, each is displayed in the according color:
@@ -682,7 +682,9 @@ interface Factory
      *   effect: >
      *     Message Boxes convey information and optionally provide interaction by using Buttons and navigation by
      *     using Links.
-     *
+     *   rivals:
+     *     Toast: Toast are primarily used for less serious information wich can be optional ignored by the user, while
+     *        MessageBox handling more serious information and there are more intrusive in influencing the users workflow.
      * rules:
      *   interaction:
      *     1: >
@@ -806,21 +808,29 @@ interface Factory
      * description:
      *   purpose:
      *     Toasts are temporary messages from the system published to the user.
-     *     Toast Items are used to attract attention from a user without affecting the user experience permanent.
+     *     Toasts are used to attract attention from a user without affecting the user experience permanently.
      *   composition:
-     *     Toast Items contain a information which is temporarily displayed decentralized from the main content.
+     *     Toasts contain a information which is temporarily displayed decentralized from the main content.
+     *   effect:
+     *     If the user does not interact with the item it will vanish after a global configurable amount of time.
      *   rivals:
-     *     Rival 1: The Toast is similar to the OSD notification, which arent a component ATM(26.04.2021). Therefore it
-     *        suppose to replace and unify this UI violation.
+     *     OSD notification: OSD notification are of the similar purpose as toast but arent a component ATM(26.04.2021).
+     *        Therefore toast suppose to replace and unify this UI violation.
+     *     Message Box: The Message Box it primarily used to catch the users awarness for serious problems or error and
+     *        is therefore more intrusive or even used to interrupt the users workflow, while toast will provide some
+     *        less serious information which can be optional ignored by  the user.
+     *     System Info: System Info is used for system specific information without temporal dependencies, while toast
+     *        are used  for temporal information without semantic dependencies. Therefore Toast can be used for matching
+     *        information about the system to increase their temporal awareness without changing the workflow of system
+     *        infos.
      * rules:
      *   usage:
-     *     1: The Toast MUST be used for all Notifications which COULD require the users awareness in the moment the
-     *        are created.
-     *     2: The Toast MUST NOT be used for Notifications which are not time relevant to the point of their creation.
+     *     1: The Toast SHOULD be used for all Notifications which include temporal relevant information for a user.
+     *     2: The Toast SHOULD NOT be used for Notifications which are not time relevant to the point of their creation.
      *   composition:
-     *     1: The Toast SHOULD precede all Notifications which are relevant for the user in time.
+     *     1: The Toast SHOULD precede all Notifications which are temporal relevant for the user.
      *   interaction:
-     *     1: Clicking on the Close Glyph MUST remove the Toast Item permanently.
+     *     1: Clicking on the Close Glyph MUST remove the Toast permanently.
      *   style:
      *     1: The Toast MUST be visible on the top layer of the page, Therefore it MUST cover up all other UI Items in
      *        its space.
