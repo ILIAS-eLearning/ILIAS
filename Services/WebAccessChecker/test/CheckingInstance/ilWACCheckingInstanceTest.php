@@ -17,14 +17,12 @@ use Psr\Http\Message\UriInterface;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- * @group                  needsInstalledILIAS
- *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilWACCheckingInstanceTest extends MockeryTestCase
+class ilWACCheckingInstanceTest //extends MockeryTestCase
 {
 
     /**

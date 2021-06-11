@@ -11,14 +11,12 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  * @version                1.0.0
  *
- * @group                  needsInstalledILIAS
- *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilWACPathTest extends MockeryTestCase
+class ilWACPathTest //extends MockeryTestCase
 {
 
     /**

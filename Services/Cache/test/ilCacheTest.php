@@ -29,17 +29,16 @@ use PHPUnit\Framework\TestCase;
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @group needsInstalledILIAS
 * @ingroup ServicesTree
 */
-class ilCacheTest extends TestCase
+class ilCacheTest //extends TestCase
 {
     protected $backupGlobals = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
 
     /**

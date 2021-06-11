@@ -28,10 +28,8 @@ use PHPUnit\Framework\TestCase;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
- *
- * @group   needsInstalledILIAS
  */
-class ilDatabaseAtomRunTest extends TestCase
+class ilDatabaseAtomRunTest //extends TestCase
 {
 
     /**
@@ -58,7 +56,7 @@ class ilDatabaseAtomRunTest extends TestCase
 
     protected function setUp() : void
     {
-        ilUnitUtil::performInitialisation();
+        //ilUnitUtil::performInitialisation();
 
         global $ilClientIniFile;
         $this->ilDBInterfaceGalera = ilDBWrapperFactory::getWrapper(ilDBConstants::TYPE_GALERA);
