@@ -703,8 +703,10 @@ class ilForumSettingsGUI
                 $notification_events = $this->notificationSettingsForm->getInput('notification_events');
                 $interested_events = 0;
     
-                foreach ($notification_events as $activated_event) {
-                    $interested_events += (int) $activated_event;
+                if (is_array($notification_events)) {
+                    foreach ($notification_events as $activated_event) {
+                        $interested_events += (int) $activated_event;
+                    }
                 }
                 
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
