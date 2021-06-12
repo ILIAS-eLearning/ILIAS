@@ -25,16 +25,17 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function _checkGoto($a_target)
     {
         global $DIC;
 
+        if (!is_string($a_target)) {
+            return false;
+        }
+
         $t_arr = explode('_', $a_target);
 
-        if ($t_arr[0] != 'chtr' || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== 'chtr' || !isset($t_arr[1]) || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 

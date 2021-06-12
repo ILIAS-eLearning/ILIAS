@@ -94,7 +94,6 @@ class ilChatroom
     {
         global $DIC;
 
-        require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
         $pub_ref_id = ilObjChatroom::_getPublicRefId();
 
         foreach ($permissions as $permission) {
