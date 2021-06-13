@@ -801,6 +801,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             if ($this->checkAccess("write") || $this->checkAccess("contribute")) {
                 if (is_array($keywords)) {
                     $this->getBlogPosting()->updateKeywords($keywords);
+                } else {
+                    $this->getBlogPosting()->updateKeywords([]);
                 }
             }
 
