@@ -241,6 +241,21 @@ Top items in the mainbar are wrapped in a <div class="il-mainbar-triggers">;
 We should get rid of this wrapper and have <ol>/<li> only for "menu-items",
 directly under the <nav>-tag.
 
+### Renovate Lightbox Modal (advanced, ~8h)
+The Lightbox Modal is a rather old component that does not follow current standards of
+the UI framework and the web. It should be renovated:
+
+* There are various IDs used internally, they are superflous and are not created in
+the UI framework reliably. Only one id is generated per component, the other HTML
+elements should be located by other means, e.g. using relative selectors.
+* Internally, the Lightbox Modal uses the Bootstrap 3 Carousel. This can be replaced
+with modern CSS transformations.
+* The indicators do not work when clicked.
+* The sizes of the various lightboxes do not align, which looks odd when clicking
+through the various pages.
+* The template file of the lightbox contains a script tag, which is not allowed as
+of Dicto Rule `IliasTemplateFiles cannot contain text: "<script"`.
+
 
 ## Long Term
 
