@@ -5,7 +5,7 @@ This documentation comes with no guarantee of completeness or correctness. Pleas
 ## Data being stored
 
 - **Personal competences** selected by users (User ID / Skill ID).
-- **Competence profile assignments**. Competence management administrators can assign competence profiles to users directly or via roles. Course administrators can assign competence profiles to the local member role. (Profile ID + User ID/Role ID).
+- **Competence profile assignments**. Competence management administrators can assign competence profiles to users directly or via roles and organisational units. Course administrators can assign competence profiles to the local member role. (Profile ID + User ID/Role ID).
 - Documents to prove personal skill level achievements: Users can **assign workspace files to single skill levels**. The documents are organised in the workspace service. The skill service stores the reference "user/document/skill level".
 - **Competence assessment/achievements** are aquired either by self evaluation, evaluation of others (e.g. 360° surveys) or measured by tools like tests. For all these cases the service stores user ID, competence level ID, timestamp of achievement, triggering object (e.g. test ID) and level of fulfillment (e.g. 60% of level 3).
 
