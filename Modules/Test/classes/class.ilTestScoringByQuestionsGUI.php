@@ -266,10 +266,12 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             );
             ilUtil::sendSuccess($msg, true);
 
+            /* disabled for Mantis 25850
             require_once './Modules/Test/classes/class.ilTestScoring.php';
             $scorer = new ilTestScoring($this->object);
             $scorer->setPreserveManualScores(true);
             $scorer->recalculateSolutions();
+            */
         }
 
         $this->showManScoringByQuestionParticipantsTable();
