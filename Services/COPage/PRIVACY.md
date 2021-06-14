@@ -17,5 +17,5 @@ This documentation comes with no guarantee of completeness or correctness. Pleas
 ## Data Deletion
 
 - **Users cannot delete** entries in the page **history**.
-- **Pages and their history are deleted**, if the **container object** is **deleted** and **removed from the trash**.
+- **Pages and their history are deleted**, if the **single page or** the **container object** is **deleted** and **removed from the trash**.
 - If a **user is deleted** the **content** authored by the user is **not deleted**. However **no account name, firstname or lastname will be presented** in the "last edited" information, the page history or as user links **anymore**.
