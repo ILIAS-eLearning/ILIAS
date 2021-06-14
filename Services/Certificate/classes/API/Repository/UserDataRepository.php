@@ -103,8 +103,8 @@ FROM
                 $row['firstname'],
                 $row['lastname'],
                 $row['login'],
-                $row['email'],
-                $row['second_email'],
+                (string) $row['email'],
+                (string) $row['second_email'],
                 [(int) $row['ref_id']],
                 $link
             );
