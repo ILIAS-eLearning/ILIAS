@@ -55,6 +55,11 @@ class ilUserAvatarResolver
     protected $ui;
 
     /**
+     * @var bool
+     */
+    protected $letter_avatars_activated;
+    
+    /**
      *  constructor.
      * @param int $user_id
      */
@@ -67,11 +72,15 @@ class ilUserAvatarResolver
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->user_id = $user_id;
+        $this->letter_avatars_activated = (bool) $DIC->settings()->get('letter_avatars');
         $this->init();
     }
 
     private function init() : void
     {
+        if ($this->letter_avatars_activated === false) {
+            return;
+        }
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
@@ -138,6 +147,13 @@ class ilUserAvatarResolver
         if ($this->useUploadedFile()) {
             return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
                             ->withAlternativeText($alternative_text);
+        }
+    
+        if ($this->letter_avatars_activated === false) {
+            return $this->ui->symbol()->avatar()->picture(
+                \ilUtil::getImagePath('no_photo_xsmall.jpg'),
+                ilObjUser::_lookupLogin($this->user_id)
+            );
         }
 
         return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
