@@ -1,4 +1,6 @@
-# COPage (Page Editor): Privacy Issues
+# COPage (Page Editor) Service Privacy
+
+This documentation comes with no guarantee of completeness or correctness. Please report any issues (missing or wrong information) in the ILIAS issue tracker.
 
 ## Data being stored
 
