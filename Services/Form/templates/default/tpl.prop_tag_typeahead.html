@@ -142,8 +142,10 @@
 </script>
 <!-- BEGIN initialize_on_page_load -->
 <script>
+window.setTimeout(function() {
 	ilBootstrapTaggingOnLoad.appendId('#{ID}');
 	ilBootstrapTaggingOnLoad.Init();
+}, 0);
 </script>
 <!-- END initialize_on_page_load -->
 
