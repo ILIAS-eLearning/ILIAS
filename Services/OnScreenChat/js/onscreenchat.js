@@ -1865,7 +1865,7 @@
 				return language.txt("chat_user_x_is_typing", names[0]);
 			}
 
-			return; language.txt("chat_users_are_typing");
+			return language.txt("chat_users_are_typing");
 		};
 
 		/**
