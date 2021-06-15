@@ -11,7 +11,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
- * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI
  * @ingroup      ModulesForum
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
@@ -359,6 +359,28 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         switch ($next_class) {
+            case 'illearningprogressgui':
+                if (!ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+                }
+
+                $this->tabs->activateTab('learning_progress');
+
+                $usrId = $this->user->getId();
+                if (
+                    isset($this->request->getQueryParams()['user_id']) &&
+                    is_numeric($this->request->getQueryParams()['user_id'])
+                ) {
+                    $usrId = (int) $this->request->getQueryParams()['user_id'];
+                }
+
+                $this->ctrl->forwardCommand(new ilLearningProgressGUI(
+                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    $this->object->getRefId(),
+                    $usrId
+                ));
+                break;
+
             case 'ilforumsettingsgui':
                 $forum_settings_gui = new ilForumSettingsGUI($this);
                 $this->ctrl->forwardCommand($forum_settings_gui);
@@ -1323,6 +1345,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $force_active
                 );
             }
+        }
+
+        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+            $this->tabs->addTab(
+                'learning_progress',
+                $this->lng->txt('learning_progress'),
+                $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class)
+            );
         }
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {

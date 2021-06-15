@@ -130,6 +130,9 @@ class ilObjectLP
                 case 'lti':
                     return ilLTIConsumerLP::class;
 
+                case 'frm':
+                    return ilForumLP::class;
+
                 // plugin
                 case $objDefinition->isPluginTypeName($a_type):
                     return "ilPluginLP";
@@ -143,7 +146,7 @@ class ilObjectLP
         $objDefinition = $DIC["objDefinition"];
 
         $valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
-            "sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr');
+            "sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr', 'frm');
 
         if (in_array($a_type, $valid)) {
             return true;
@@ -629,7 +632,7 @@ class ilObjectLP
     
     public static function supportsSpentSeconds($a_obj_type)
     {
-        return !in_array($a_obj_type, array("exc", "file", "mcst", "mob", "htlm", "copa", 'cmix', 'lti'));
+        return !in_array($a_obj_type, ["exc", "file", "mcst", "mob", "htlm", "copa", 'cmix', 'lti', 'frm']);
     }
     
     public static function supportsMark($a_obj_type)
@@ -639,7 +642,7 @@ class ilObjectLP
     
     public static function supportsMatrixView($a_obj_type)
     {
-        return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg', 'copa', 'cmix', 'lti','crsr'));
+        return !in_array($a_obj_type, ['svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'frm', 'prg', 'copa', 'cmix', 'lti','crsr']);
     }
     
     

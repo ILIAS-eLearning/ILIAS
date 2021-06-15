@@ -66,6 +66,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                         case "prg":
                         case 'iass':
                         case 'copa':
+                        case 'frm':
                         case 'cmix':
                         case 'lti':
                         case 'lso':
