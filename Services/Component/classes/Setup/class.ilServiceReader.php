@@ -32,20 +32,6 @@
 */
 class ilServiceReader extends ilObjDefReader
 {
-    public function getServices()
-    {
-        $this->startParsing();
-    }
-
-    
-    public function setHandlers($a_xml_parser)
-    {
-        xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-    }
-
-
     /**
     * clear the tables
     */
@@ -91,40 +77,5 @@ class ilServiceReader extends ilObjDefReader
 
         // smeyer: first read outer xml
         parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
-    }
-            
-    /**
-    * end tag handler
-    *
-    * @param	ressouce	internal xml_parser_handler
-    * @param	string		element tag name
-    * @access	private
-    */
-    public function handlerEndTag($a_xml_parser, $a_name)
-    {
-        parent::handlerEndTag($a_xml_parser, $a_name);
-    }
-
-            
-    /**
-    * end tag handler
-    *
-    * @param	ressouce	internal xml_parser_handler
-    * @param	string		data
-    * @access	private
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data)
-    {
-        parent::handlerCharacterData($a_xml_parser, $a_data);
-        
-        // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA
-        $a_data = preg_replace("/\n/", "", $a_data);
-        $a_data = preg_replace("/\t+/", "", $a_data);
-
-        if (!empty($a_data)) {
-            switch ($this->current_tag) {
-                case '':
-            }
-        }
     }
 }

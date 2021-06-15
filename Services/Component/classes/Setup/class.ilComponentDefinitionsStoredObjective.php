@@ -120,8 +120,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
                 "Modules",
                 $db
             );
-            $mr->getModules();
-            unset($mr);
+            $mr->startParsing();
         }
 
         $sr = new \ilServiceReader("", "", "", $db);
@@ -134,8 +133,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
                 "Services",
                 $db
             );
-            $sr->getServices();
-            unset($sr);
+            $sr->startParsing();
         }
 
         $GLOBALS["DIC"] = $DIC;
