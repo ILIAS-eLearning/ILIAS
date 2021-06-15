@@ -958,7 +958,7 @@ const ChatTypingUsersTextGeneratorFactory = (function () {
 	 * @returns {string}
 	 */
 	TypingUsersTextGenerator.prototype.text = function ( language) {
-		names = Array.from(this.typingMap.values());
+		const names = Array.from(this.typingMap.values());
 
 		if (names.length === 0) {
 			return '';
