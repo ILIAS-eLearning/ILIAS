@@ -49,13 +49,6 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once("./Modules/TestQuestionPool/test/assFileUploadGUITest.php");
         $suite->addTestSuite("assFileUploadGUITest");
 
-        // Type: Flash
-        require_once("./Modules/TestQuestionPool/test/assFlashQuestionTest.php");
-        $suite->addTestSuite("assFlashQuestionTest");
-
-        require_once("./Modules/TestQuestionPool/test/assFlashQuestionGUITest.php");
-        $suite->addTestSuite("assFlashQuestionGUITest");
-
         // Type: Formula
         require_once("./Modules/TestQuestionPool/test/assFormulaQuestionTest.php");
         $suite->addTestSuite("assFormulaQuestionTest");
