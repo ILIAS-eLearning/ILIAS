@@ -357,7 +357,6 @@ assessment#:#assFileUpload#:#Вопрос с загрузкой файла
 assessment#:#assFlashQuestion#:#Вопрос с Flash
 assessment#:#assFormulaQuestion#:#Автоматическая задача
 assessment#:#assImagemapQuestion#:#Вопрос с картой изображения
-assessment#:#assJavaApplet#:#Вопрос с Java аплетом
 assessment#:#assMatchingQuestion#:#Вопрос на соответствие
 assessment#:#assMultipleChoice#:#Вопрос с выбором из вариантов (несколько верных)
 assessment#:#assNumeric#:#Вопрос о числе

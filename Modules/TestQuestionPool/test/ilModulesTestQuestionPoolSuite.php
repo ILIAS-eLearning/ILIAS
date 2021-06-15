@@ -67,13 +67,6 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once("./Modules/TestQuestionPool/test/assImagemapQuestionTest.php");
         $suite->addTestSuite("assImagemapQuestionTest");
 
-        // Zype: JavaApplet
-        require_once("./Modules/TestQuestionPool/test/assJavaAppletTest.php");
-        $suite->addTestSuite("assJavaAppletTest");
-
-        require_once("./Modules/TestQuestionPool/test/assJavaAppletGUITest.php");
-        $suite->addTestSuite("assJavaAppletGUITest");
-
         // Type: MatchingQuestion
         require_once("./Modules/TestQuestionPool/test/assMatchingQuestionTest.php");
         $suite->addTestSuite("assMatchingQuestionTest");

@@ -217,7 +217,6 @@ assessment#:#assErrorText#:#Chybný text
 assessment#:#assFileUpload#:#Soubor uložených otázek
 assessment#:#assFlashQuestion#:#Flash otázka
 assessment#:#assImagemapQuestion#:#Otázka s mapou obrázku
-assessment#:#assJavaApplet#:#Otázka s Java apletem
 assessment#:#assMatchingQuestion#:#Otázka s párováním odpovědí
 assessment#:#assMultipleChoice#:#Otázka s vícenásobným výběrem (více odpovědí)
 assessment#:#assNumeric#:#Numerická otázka

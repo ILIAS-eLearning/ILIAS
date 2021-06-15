@@ -50,14 +50,13 @@ class ilAssQuestionTypeOrderer
         'assLongMenu',
 
         'assFlashQuestion',
-        'assJavaApplet',
     );
     
     /**
      * @var array
      */
     protected $deprecatedTypes = array(
-        'assFlashQuestion', 'assJavaApplet'
+        'assFlashQuestion'
     );
     
     /**

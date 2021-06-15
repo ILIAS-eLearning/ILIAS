@@ -407,7 +407,6 @@ assessment#:#assFileUpload#:#アップロード問題ファイル
 assessment#:#assFlashQuestion#:#Flash問題
 assessment#:#assFormulaQuestion#:#数式問題
 assessment#:#assImagemapQuestion#:#イメージマップ問題
-assessment#:#assJavaApplet#:#Java Applet問題
 assessment#:#assKprimChoice#:#多肢選択問題 (Kprim解答)
 assessment#:#assMatchingQuestion#:#組み合わせ問題
 assessment#:#assMultipleChoice#:#多肢選択問題(複数解答)
