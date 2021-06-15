@@ -97,13 +97,11 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         $tpl->setVariable("ELEMENT_ID", $this->getFieldId());
 
         if (!$this->getDisabled()) {
-            $tpl->setCurrentBlock('js_engine_initialisation');
-            $tpl->touchBlock('js_engine_initialisation');
-            $tpl->parseCurrentBlock();
-
             $globalTpl = $GLOBALS['DIC'] ? $GLOBALS['DIC']['tpl'] : $GLOBALS['tpl'];
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
             $globalTpl->addJavascript("./Services/Form/js/ServiceFormIdentifiedWizardInputExtend.js");
+
+            $globalTpl->addJavascript("./Services/Form/js/ServiceFormMultiTextInputInit.js");
         }
 
         return $tpl->get();
