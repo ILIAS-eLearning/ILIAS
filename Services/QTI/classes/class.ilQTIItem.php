@@ -32,7 +32,6 @@ define("QT_MATCHING", "assMatchingQuestion");
 define("QT_ORDERING", "assOrderingQuestion");
 define("QT_ORDERING_HORIZONTAL", "assOrderingHorizontal");
 define("QT_IMAGEMAP", "assImagemapQuestion");
-define("QT_FLASHAPPLET", "assFlashApplet");
 define("QT_TEXT", "assTextQuestion");
 define("QT_FILEUPLOAD", "assFileUpload");
 define("QT_NUMERIC", "assNumeric");
