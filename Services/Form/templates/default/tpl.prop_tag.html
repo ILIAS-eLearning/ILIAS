@@ -13,10 +13,12 @@
 </div>
 <!-- BEGIN initialize_on_page_load -->
 <script>
+window.setTimeout(function() {
 		$('#{ID}').tagsinput({
 			maxTags	  : {MAXTAGS},
 			maxChars  : {MAXCHARS},
 			allowDuplicates : "{ALLOW_DUPLICATES}"
 		});
+}, 0);
 </script>
 <!-- END initialize_on_page_load -->
