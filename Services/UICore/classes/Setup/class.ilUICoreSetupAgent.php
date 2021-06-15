@@ -2,6 +2,7 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\ObjectiveCollection;
 
 class ilUICoreSetupAgent implements Setup\Agent
 {
@@ -45,6 +46,18 @@ class ilUICoreSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         return new \ilCtrlStructureStoredObjective($this->ctrl_reader, false);
+    }
+
+    public function reloadCtrlStructure(Setup\Config $config = null) : Setup\Objective
+    {
+        return new ObjectiveCollection(
+            "Reload Control Structure of ILIAS",
+            false,
+            new \ilCtrlStructureStoredObjective(
+                new \ilCtrlStructureReader()
+            ),
+            new \ilComponentDefinitionsStoredObjective(false)
+        );
     }
 
     /**
