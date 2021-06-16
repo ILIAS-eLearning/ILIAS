@@ -2940,6 +2940,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         // get forum- and thread-data
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
 
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
+
         if ($firstNodeInThread) {
             $this->objCurrentTopic->updateVisits();
 
