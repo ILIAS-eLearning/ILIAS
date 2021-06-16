@@ -178,15 +178,16 @@ class ilGlobalCache
     /**
      * @return string
      */
-    protected static function generateServiceId() : void
+    protected static function generateServiceId() : string
     {
         if (!isset(self::$unique_service_id)) {
-            $rawServiceId = '_';
+            $raw_service_id = '_';
             if (defined('CLIENT_ID')) {
-                $rawServiceId .= 'il_' . CLIENT_ID;
+                $raw_service_id .= 'il_' . CLIENT_ID;
             }
-            self::$unique_service_id = substr(md5($rawServiceId), 0, 6);
+            self::$unique_service_id = substr(md5($raw_service_id), 0, 6);
         }
+        return self::$unique_service_id;
     }
     
     public static function flushAll() : void

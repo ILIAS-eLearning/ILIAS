@@ -10,13 +10,13 @@ class ilMemcache extends ilGlobalCacheService
 {
 
     protected static ?\Memcached $memcache_object = null;
-
-
+    
     /**
-     * @param $service_id
-     * @param $component
+     * ilMemcache constructor.
+     * @param string $service_id
+     * @param string $component
      */
-    public function __construct(int $service_id, string $component)
+    public function __construct(string $service_id, string $component)
     {
         if (!(self::$memcache_object instanceof Memcached) && $this->getInstallable()) {
             /**

@@ -34,13 +34,13 @@ class ilShm extends ilGlobalCacheService
     {
         return false;
     }
-
-
+    
     /**
-     * @param $service_id
-     * @param $component
+     * ilShm constructor.
+     * @param string $service_id
+     * @param string $component
      */
-    public function __construct($service_id, $component)
+    public function __construct(string $service_id, string $component)
     {
         parent::__construct($service_id, $component);
         self::$shm_id = shmop_open(0xff3, "c", 0644, 100);
