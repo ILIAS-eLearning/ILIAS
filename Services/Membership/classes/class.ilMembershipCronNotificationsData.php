@@ -143,8 +143,9 @@ class ilMembershipCronNotificationsData
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
                             foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
-                                if ($has_perm || $ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
                                     $has_perm = true;
+                                    break;
                                 }
                             }
                             if ($has_perm) {
@@ -175,8 +176,9 @@ class ilMembershipCronNotificationsData
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
                             foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
-                                if ($has_perm || $ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
                                     $has_perm = true;
+                                    break;
                                 }
                             }
                             if ($has_perm) {
