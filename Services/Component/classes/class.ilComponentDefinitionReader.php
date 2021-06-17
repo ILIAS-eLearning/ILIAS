@@ -28,4 +28,29 @@ class ilComponentDefinitionReader
             $p->purge();
         }
     }
+
+    /**
+     * Get paths to all component.xmls in the core.
+     *
+     * TODO: Currently this wraps the existing methods `ilModule::getAvailableCoreModules`
+     * and `ilService::getAvailableCoreServices`, we will want to replace this by some
+     * artifact some day.
+     *
+     * @return string[]
+     */
+    protected function getComponents() : array
+    {
+        $modules_dir = __DIR__ . "/../../../Modules";
+        $services_dir = __DIR__ . "/../../../Services";
+        return array_merge(
+            array_map(
+                fn ($path) => realpath($modules_dir . "/" . $path["subdir"] . "/module.xml"),
+                ilModule::getAvailableCoreModules()
+            ),
+            array_map(
+                fn ($path) => realpath($services_dir . "/" . $path["subdir"] . "/service.xml"),
+                ilService::getAvailableCoreServices()
+            )
+        );
+    }
 }

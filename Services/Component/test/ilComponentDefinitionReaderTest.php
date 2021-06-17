@@ -37,4 +37,23 @@ class ilComponentDefinitionReaderTest extends TestCase
 
         $this->reader->purge();
     }
+
+    public function testGetComponents()
+    {
+        $reader = new class extends ilComponentDefinitionReader {
+            public function __construct()
+            {
+            }
+            public function _getComponents()
+            {
+                return $this->getComponents();
+            }
+        };
+
+        $components = $reader->_getComponents();
+
+        $this->assertIsArray($components);
+        $this->assertContains(realpath(__DIR__ . "/../../../Modules/Course/module.xml"), $components);
+        $this->assertContains(realpath(__DIR__ . "/../../../Services/Component/service.xml"), $components);
+    }
 }
