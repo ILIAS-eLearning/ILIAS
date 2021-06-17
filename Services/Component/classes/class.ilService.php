@@ -84,7 +84,7 @@ class ilService extends ilComponent
     */
     final public static function getAvailableCoreServices()
     {
-        $services_dir = ILIAS_ABSOLUTE_PATH . "/Services";
+        $services_dir = __DIR__ . "/../../../Services";
 
         if (!@is_dir($services_dir)) {
             return array();
