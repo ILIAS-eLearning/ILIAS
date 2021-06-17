@@ -13,15 +13,27 @@ interface ilComponentDefinitionProcessorMock2 extends ilComponentDefinitionProce
 
 class ilComponentDefinitionReaderTest extends TestCase
 {
+    public static $component_xml_paths = [
+        "/path/to/module.xml",
+        "/other/path/to/service.xml"
+    ];
+
     protected function setUp() : void
     {
         $this->processor1 = $this->createMock(ilComponentDefinitionProcessorMock1::class);
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
-        $this->reader = new ilComponentDefinitionReader(
-            $this->processor1,
-            $this->processor2
-        );
+        $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
+            protected function getCoreComponents() : array
+            {
+                return ilComponentDefinitionReaderTest::$component_xml_paths;
+            }
+            public $read_files = [];
+            protected function readFile($path) : string
+            {
+                $this->read_files[] = $path;
+            }
+        };
     }
 
     public function testPurge()
@@ -55,5 +67,12 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->assertIsArray($components);
         $this->assertContains(realpath(__DIR__ . "/../../../Modules/Course/module.xml"), $components);
         $this->assertContains(realpath(__DIR__ . "/../../../Services/Component/service.xml"), $components);
+    }
+
+    public function testReadComponentDefinitions()
+    {
+        $this->reader->readComponentDefinitions();
+
+        $this->assertEquals(self::$component_xml_paths, $this->reader_read_files);
     }
 }

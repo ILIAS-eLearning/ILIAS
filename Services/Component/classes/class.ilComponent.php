@@ -267,7 +267,7 @@ abstract class ilComponent
         }
 
         if (isset($parts[2]) && !is_numeric($parts[2])) {
-            return "Not all version number parts a.b.c are numeric.";    
+            return "Not all version number parts a.b.c are numeric.";
         }
 
         return $parts;
