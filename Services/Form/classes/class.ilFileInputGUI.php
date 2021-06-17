@@ -9,11 +9,6 @@
  */
 class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     private $filename;
     private $filename_post;
     protected $size = 40;

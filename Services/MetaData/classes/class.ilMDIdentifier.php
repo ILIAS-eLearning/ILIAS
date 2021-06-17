@@ -141,7 +141,7 @@ class ilMDIdentifier extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer, $a_overwrite_id = false)
+    public function toXML($writer, $a_overwrite_id = false)
     {
         $entry_default = ($this->getObjId() == 0)
             ? "il_" . IL_INST_ID . "_" . $this->getObjType() . "_" . $this->getRBACId()

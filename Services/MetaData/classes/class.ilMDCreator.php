@@ -88,7 +88,7 @@ class ilMDCreator
     {
         $this->title_lng = $a_lng;
     }
-    public function &getTitleLanguage()
+    public function getTitleLanguage()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -98,7 +98,7 @@ class ilMDCreator
     {
         $this->title_lng = $a_lng;
     }
-    public function &getDescriptionLanguage()
+    public function getDescriptionLanguage()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -108,7 +108,7 @@ class ilMDCreator
     {
         $this->title_lng = $a_lng;
     }
-    public function &getLanguage()
+    public function getLanguage()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -140,7 +140,7 @@ class ilMDCreator
     {
         $this->title_lng = $a_lng;
     }
-    public function &getKeywordLanguage()
+    public function getKeywordLanguage()
     {
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
@@ -181,28 +181,28 @@ class ilMDCreator
     // PROTECTED
     public function __createGeneral()
     {
-        $md_gen = &$this->md_obj->addGeneral();
+        $md_gen = $this->md_obj->addGeneral();
 
         $md_gen->setStructure($this->getStructure());
         $md_gen->setTitle($this->getTitle());
         $md_gen->setTitleLanguage($this->getTitleLanguage());
         $md_gen->save();
 
-        $md_ide = &$md_gen->addIdentifier();
+        $md_ide = $md_gen->addIdentifier();
         $md_ide->setCatalog($this->getCatalog());
         $md_ide->setEntry($this->getEntry());
         $md_ide->save();
 
-        $md_lng = &$md_gen->addLanguage();
+        $md_lng = $md_gen->addLanguage();
         $md_lng->setLanguage($this->getLanguage());
         $md_lng->save();
 
-        $md_des = &$md_gen->addDescription();
+        $md_des = $md_gen->addDescription();
         $md_des->setDescription($this->getDescription());
         $md_des->setDescriptionLanguage($this->getDescriptionLanguage());
         $md_des->save();
 
-        $md_key = &$md_gen->addKeyword();
+        $md_key = $md_gen->addKeyword();
         $md_key->setKeyword($this->getKeyword());
         $md_key->setKeywordLanguage($this->getKeywordLanguage());
         $md_key->save();

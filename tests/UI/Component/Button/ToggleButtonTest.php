@@ -92,6 +92,8 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+    <span class="il-toggle-label-on">toggle_on</span>
+    <span class="il-toggle-label-off">toggle_off</span>
     <span class="il-toggle-switch"></span>
 </button>
 EOT;
@@ -106,6 +108,8 @@ EOT;
 
         $expected = ''
             . '<button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
+            . '    <span class="il-toggle-label-on">toggle_on</span>'
+            . '    <span class="il-toggle-label-off">toggle_off</span>'
             . '    <span class="il-toggle-switch"></span>'
             . '</button>';
 
@@ -127,6 +131,8 @@ EOT;
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
+    <span class="il-toggle-label-on">toggle_on</span>
+    <span class="il-toggle-label-off">toggle_off</span>
     <span class="il-toggle-switch"></span>
 </button>
 EOT;

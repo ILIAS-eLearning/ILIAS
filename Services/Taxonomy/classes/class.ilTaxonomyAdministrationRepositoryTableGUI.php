@@ -1,36 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for repository taxonomies
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTaxonomy
  */
 class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected int $obj_id;
+    protected ilObject $obj;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjTaxonomyAdministration $a_obj)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilObject $a_obj)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
+
         $this->obj = $a_obj;
         
         $this->setId("tax_adm_repo");
@@ -49,11 +39,10 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->initItems();
     }
     
-    protected function initItems()
+    protected function initItems() : void
     {
         $data = array();
         
-        include_once "Services/Link/classes/class.ilLink.php";
         foreach ($this->obj->getRepositoryTaxonomies() as $tax_id => $objs) {
             foreach ($objs as $obj_id => $obj) {
                 $idx = $tax_id . "_" . $obj_id;
@@ -81,7 +70,7 @@ class ilTaxonomyAdministrationRepositoryTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         foreach ($a_set["references"] as $ref) {
             $this->tpl->setCurrentBlock("obj_bl");

@@ -76,7 +76,7 @@ For best results we recommend:
   * php-gd, php-xml, php-mysql, php-mbstring
   * OpenJDK 11
   * zip, unzip
-  * Node.js: 12 (LTS)
+  * Node.js: 14 (LTS)
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
@@ -433,7 +433,7 @@ configuration might look like this afterwards:
         "default_language" : "de",
         "install_languages" : ["de"]
     },
-    "loggin" : {
+    "logging" : {
         "enable" : true,
         "path_to_logfile" : "/var/www/logs/ilias.log",
         "errorlog_dir" : "/var/www/logs/"

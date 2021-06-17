@@ -203,11 +203,9 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         }
 
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
-        $roomTpl->setVariable('SESSION_ID', (string) ($connection_info->{'session-id'} ?? ''));
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);
-        $roomTpl->setVariable('MY_ID', $user_id);
         $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
 
         $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));

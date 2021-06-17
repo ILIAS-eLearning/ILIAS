@@ -2362,7 +2362,7 @@ cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
 cntr#:#cntr_manage#:#Verwalten
 cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
 cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
-cntr#:#cntr_ordering#:#Sortierung
+cntr#:#cntr_ordering#:#Sortieren
 cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
 cntr#:#cntr_switch_to_new_editor_message#:#Dies ist der Standard-Seiteneditor. Wenn Sie ihn nutzen möchten, müssen Sie die Inhalte per Klick auf die Platzhalter unten hinzufügen. Wenn Sie auf den nachfolgenden Link klicken, werden die unterstehenden Inhalte für die Seitendarstellung genutzt.
@@ -10357,12 +10357,12 @@ dateplaner#:#cal_setting_global_crs_vis#:#Kalenderblock
 dateplaner#:#cal_setting_global_grp_vis#:#Kalenderblock
 dateplaner#:#cal_setting_global_crs_vis_info#:#Der Kurskalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
 dateplaner#:#cal_setting_global_grp_vis_info#:#Der Gruppenkalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
-dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde bearbeitet.
+dcl#:#dcl_change_notification_subject#:#Die Datensammlung "%s" wurde bearbeitet.
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
 dcl#:#dcl_change_notification_dcl_update_record#:#Der folgende Eintrag wurde aktualisiert
 dcl#:#dcl_change_notification_dcl_delete_record#:#Der folgende Eintrag wurde gelöscht
-dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht weil Sie die Benachrichtigungsfunktion für die oben genannte Datensatzsammlung aktiviert haben.
+dcl#:#dcl_change_why_you_receive_this_email#:#Sie erhalten diese Nachricht, weil Sie die Benachrichtigungsfunktion für die oben genannte Datensammlung aktiviert haben.
 dcl#:#dcl_table#:#Tabelle
 dcl#:#dcl_changed_by#:#Letzte Änderung durch
 dcl#:#dcl_notification_activate_dcl#:#Benachrichtigung aktivieren
@@ -16550,3 +16550,5 @@ rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
 dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
+common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
+common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!

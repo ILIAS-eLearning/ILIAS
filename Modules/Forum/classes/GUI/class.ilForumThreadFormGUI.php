@@ -83,19 +83,17 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $message->addButton('latex');
         $message->addButton('pastelatex');
         $message->addPlugin('ilfrmquote');
-        
-        $message->removePlugin('advlink');
         $message->usePurifier(true);
         $message->setRTERootBlockElement('');
-        $message->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '3.5.11');
+        $message->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
         $message->disableButtons([
             'charmap',
             'undo',
             'redo',
-            'justifyleft',
-            'justifycenter',
-            'justifyright',
-            'justifyfull',
+            'alignleft',
+            'aligncenter',
+            'alignright',
+            'alignjustify',
             'anchor',
             'fullscreen',
             'cut',
@@ -104,7 +102,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             'pastetext',
             'formatselect'
         ]);
-        $message->setPurifier(ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
+        $message->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
         $this->addItem($message);
     }
     

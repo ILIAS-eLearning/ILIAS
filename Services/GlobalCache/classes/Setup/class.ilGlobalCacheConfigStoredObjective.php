@@ -6,10 +6,7 @@ use ILIAS\Setup;
 
 class ilGlobalCacheConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilGlobalCacheSettings
-     */
-    protected $settings;
+    protected \ilGlobalCacheSettings $settings;
 
     public function __construct(
         \ilGlobalCacheSettings $settings
@@ -46,10 +43,8 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         ilMemcacheServer::flushDB();
 
         $memcached_nodes = $this->settings->getMemcachedNodes();
-        if (count($memcached_nodes) > 0) {
-            foreach ($memcached_nodes as $node) {
-                $node->create();
-            }
+        foreach ($memcached_nodes as $node) {
+            $node->create();
         }
 
         $this->settings->writeToIniFile($client_ini);

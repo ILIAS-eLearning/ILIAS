@@ -9,10 +9,7 @@
  */
 class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {
-    protected $type;
     protected $value;
-    protected $title;
-    protected $info;
     protected $section_icon;
     protected $disable_escaping;
     

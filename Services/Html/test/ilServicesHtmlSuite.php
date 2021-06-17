@@ -13,10 +13,6 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilServicesHtmlSuite extends TestSuite
 {
-    /**
-     * @return self
-     * @throws ReflectionException
-     */
     public static function suite() : self
     {
         $suite = new self();
@@ -26,6 +22,9 @@ class ilServicesHtmlSuite extends TestSuite
 
         require_once 'ilHtmlPurifierLibWrapperTest.php';
         $suite->addTestSuite(ilHtmlPurifierLibWrapperTest::class);
+
+        require_once 'ilHtmlDomNodeIteratorTest.php';
+        $suite->addTestSuite(ilHtmlDomNodeIteratorTest::class);
 
         return $suite;
     }

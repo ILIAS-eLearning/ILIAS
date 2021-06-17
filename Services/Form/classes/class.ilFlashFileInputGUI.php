@@ -9,11 +9,6 @@
  */
 class ilFlashFileInputGUI extends ilFileInputGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $applet;
     protected $applet_path_web;
     protected $width;

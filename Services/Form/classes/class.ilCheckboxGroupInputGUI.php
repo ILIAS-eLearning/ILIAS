@@ -9,11 +9,6 @@
  */
 class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $options = array();
     protected $value;
     protected $use_values_as_keys = false;

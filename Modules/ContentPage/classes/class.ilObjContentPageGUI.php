@@ -110,6 +110,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if ($DIC->access()->checkAccess('read', '', $refId)) {
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
+            if (isset($DIC->http()->request()->getQueryParams()['gotolp'])) {
+                $DIC->ctrl()->setParameterByClass(__CLASS__, 'gotolp', 1);
+            }
             $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', $refId);
             $DIC->ctrl()->redirectByClass([
                 'ilRepositoryGUI',

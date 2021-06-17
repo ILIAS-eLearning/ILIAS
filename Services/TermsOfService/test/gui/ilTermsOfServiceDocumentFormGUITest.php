@@ -19,6 +19,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -119,6 +121,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormForNewDocumentsCanBeSavedForValidInput() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -341,6 +345,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -393,6 +399,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
     {
+        $this->initLangMock();
+
         $expectedSorting = 10;
 
         $document = $this

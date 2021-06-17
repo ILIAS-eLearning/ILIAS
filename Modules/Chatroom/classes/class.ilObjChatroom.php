@@ -142,20 +142,24 @@ class ilObjChatroom extends ilObject
         parent::read();
     }
 
-    public static function _getPublicRefId()
+    public static function _getPublicRefId() : int
     {
         $settings = new ilSetting('chatroom');
-        return $settings->get('public_room_ref', 0);
+
+        return (int) $settings->get('public_room_ref', 0);
     }
 
-    public static function _getPublicObjId()
+    public static function _getPublicObjId() : int
     {
         global $DIC;
 
-        $rset = $DIC->database()->query('SELECT object_id FROM chatroom_settings WHERE room_type=' . $DIC->database()->quote('default', 'text'));
+        $rset = $DIC->database()->query(
+            'SELECT object_id FROM chatroom_settings WHERE room_type = ' . $DIC->database()->quote('default', 'text')
+        );
         if ($row = $DIC->database()->fetchAssoc($rset)) {
-            return $row['object_id'];
+            return (int) $row['object_id'];
         }
+
         return 0;
     }
 

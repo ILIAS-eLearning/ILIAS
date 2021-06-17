@@ -11,11 +11,6 @@
 class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilObjUser
      */
     protected $user;

@@ -7,13 +7,7 @@
  */
 class ilHtmlPurifierFactory
 {
-    /**
-     * Factory method for creating purifier instances
-     * @param string $type type for the concrete purifier instance
-     * @return ilHtmlPurifierInterface
-     * @throws ilHtmlPurifierNotFoundException
-     */
-    public static function _getInstanceByType(string $type) : ilHtmlPurifierInterface
+    public static function getInstanceByType(string $type) : ilHtmlPurifierInterface
     {
         global $DIC;
 

@@ -1,81 +1,76 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjChatroomAdminAccessTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-class ilObjChatroomAdminAccessTest extends PHPUnit_Framework_TestCase
+class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
 {
+    protected ilObjChatroomAdminAccess $adminAccess;
 
-    /**
-     * @var ilObjChatroomAdminAccess
-     */
-    protected $adminAccess;
+    protected ilRbacSystem $ilAccessMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $ilAccessMock;
-
-    protected function setUp()
+    public function testCommandDefitionFullfilsExpectations() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        $expected = [
+            ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true],
+            ['permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'],
+            ['permission' => 'write', 'cmd' => 'versions', 'lang_var' => 'versions'],
+        ];
 
-        require_once './Services/AccessControl/classes/class.ilAccessHandler.php';
-        $this->ilAccessMock = $this->createMock('ilAccessHandler');
-        global $ilAccess;
-        $ilAccess = $this->ilAccessMock;
+        $commands = $this->adminAccess::_getCommands();
 
-        require_once './Modules/Chatroom/classes/class.ilObjChatroomAdminAccess.php';
-        $this->adminAccess = new ilObjChatroomAdminAccess();
-    }
-
-    public function testInstanceOf()
-    {
-        $this->assertInstanceOf('ilObjectAccess', $this->adminAccess);
-    }
-
-    public function test_getCommands()
-    {
-        $expected = array(
-            array("permission" => "read", "cmd" => "view", "lang_var" => "enter", "default" => true),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-            array("permission" => "write", "cmd" => "versions", "lang_var" => "versions"),
-        );
-
-        $commands = $this->adminAccess->_getCommands();
-
-        $this->assertInternalType("array", $commands);
+        $this->assertIsArray($commands);
         $this->assertEquals($expected, $commands);
     }
 
-    public function test_checkGotoReturnFalse()
+    public function testGotoCheckFails() : void
     {
-        $this->ilAccessMock->expects($this->any())->method('checkAccess')->with($this->equalTo('visible'), $this->equalTo(''), $this->equalTo('1'))->will($this->returnValue(false));
+        $this->ilAccessMock->expects($this->any())
+            ->method('checkAccess')
+            ->with(
+                $this->equalTo('visible'),
+                $this->equalTo('1')
+            )->willReturn(false);
 
-        $this->assertFalse($this->adminAccess->_checkGoto(''));
-        $this->assertFalse($this->adminAccess->_checkGoto('chtr'));
-        $this->assertFalse($this->adminAccess->_checkGoto('chtr_'));
-        $this->assertFalse($this->adminAccess->_checkGoto('chtr_'));
-        $this->assertFalse($this->adminAccess->_checkGoto('chtr_test'));
-        $this->assertFalse($this->adminAccess->_checkGoto('chtr_1'));
+        $this->assertFalse($this->adminAccess::_checkGoto(''));
+        $this->assertFalse($this->adminAccess::_checkGoto('chtr'));
+        $this->assertFalse($this->adminAccess::_checkGoto('chtr_'));
+        $this->assertFalse($this->adminAccess::_checkGoto('chtr_'));
+        $this->assertFalse($this->adminAccess::_checkGoto('chtr_test'));
+        $this->assertFalse($this->adminAccess::_checkGoto('chtr_1'));
     }
 
-    public function test_checkGotoReturnTrue()
+    public function testGotoCheckSucceeds() : void
     {
-        $this->ilAccessMock->expects($this->once())->method('checkAccess')->with($this->equalTo('visible'), $this->equalTo(''), $this->equalTo('5'))->will($this->returnValue(true));
-        $this->assertTrue($this->adminAccess->_checkGoto('chtr_5'));
+        $this->ilAccessMock->expects($this->once())
+            ->method('checkAccess')
+            ->with(
+                $this->equalTo('visible'),
+                $this->equalTo('5')
+            )->willReturn(true);
+
+        $this->assertTrue($this->adminAccess::_checkGoto('chtr_5'));
     }
 
-    public function test_checkGotoIssueWithTargetNotAString()
+    public function testGotoCheckFailsWithTargetNotBeingOfTypeString() : void
     {
-        $this->assertFalse($this->adminAccess->_checkGoto(array('chtr', '5')));
-        $this->assertFalse($this->adminAccess->_checkGoto(5));
+        $this->assertFalse($this->adminAccess::_checkGoto(['chtr', '5']));
+        $this->assertFalse($this->adminAccess::_checkGoto(5));
+    }
+
+    protected function setUp() : void
+    {
+        parent::setUp();
+
+        $this->ilAccessMock = $this->getMockBuilder(ilRbacSystem::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['checkAccess'])
+            ->getMock();
+        $this->setGlobalVariable('rbacsystem', $this->ilAccessMock);
+
+        $this->adminAccess = new ilObjChatroomAdminAccess();
     }
 }

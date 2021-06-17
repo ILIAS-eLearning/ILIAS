@@ -10,12 +10,6 @@
 class ilCountrySelectInputGUI extends ilSelectInputGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    
-    /**
     * Constructor
     *
     * @param	string	$a_title	Title

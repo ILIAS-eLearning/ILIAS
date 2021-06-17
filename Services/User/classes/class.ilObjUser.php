@@ -108,7 +108,7 @@ class ilObjUser extends ilObject
     * @var		array
     * @access	public
     */
-    public $prefs;
+    public $prefs = [];
 
     /**
     * Contains template set

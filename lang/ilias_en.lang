@@ -1495,7 +1495,7 @@ assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
-assessment#:#tst_reached_points#:#Points
+assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
@@ -16551,3 +16551,5 @@ rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!

@@ -47,7 +47,7 @@ class ilMDKeyword extends ilMDBase
             $this->keyword_language = $lng_obj;
         }
     }
-    public function &getKeywordLanguage()
+    public function getKeywordLanguage()
     {
         return is_object($this->keyword_language) ? $this->keyword_language : false;
     }
@@ -149,7 +149,7 @@ class ilMDKeyword extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement(
             'Keyword',

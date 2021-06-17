@@ -1,6 +1,4 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-
 /**
  * Class ilMemcacheServer
  *
@@ -9,38 +7,38 @@ require_once('./Services/ActiveRecord/class.ActiveRecord.php');
  */
 class ilMemcacheServer extends ActiveRecord
 {
+    /**
+     * @var int
+     */
     const STATUS_INACTIVE = -1;
+    /**
+     * @var int
+     */
     const STATUS_ACTIVE = 1;
 
 
     /**
-     * @return string
      * @description Return the Name of your Database Table
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName(): string
     {
         return 'il_gc_memcache_server';
     }
 
 
-    /**
-     * @return bool
-     */
-    public function isActive()
+    public function isActive(): bool
     {
-        return $this->getStatus() == self::STATUS_ACTIVE;
+        return $this->getStatus() === self::STATUS_ACTIVE;
     }
 
 
-    /**
-     * @return bool
-     */
-    public function isReachable()
+    public function isReachable(): bool
     {
         $mem = new Memcached();
         $mem->resetServerList();
         $mem->addServer($this->getHost(), $this->getPort(), $this->getWeight());
+
         $stats = $mem->getStats();
 
         return $stats[$this->getHost() . ':' . $this->getPort()]['pid'] > 0;
@@ -48,7 +46,6 @@ class ilMemcacheServer extends ActiveRecord
 
 
     /**
-     * @var int
      *
      * @con_is_primary true
      * @con_is_unique  true
@@ -57,7 +54,7 @@ class ilMemcacheServer extends ActiveRecord
      * @con_length     8
      * @con_sequence   true
      */
-    protected $id = 0;
+    protected int $id = 0;
     /**
      * @var string
      *
@@ -67,29 +64,26 @@ class ilMemcacheServer extends ActiveRecord
      */
     protected $status = self::STATUS_INACTIVE;
     /**
-     * @var string
      *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
-    protected $host = '';
+    protected string $host = '';
     /**
-     * @var int
      *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $port = 0;
+    protected int $port = 0;
     /**
-     * @var int
      *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     2
      */
-    protected $weight = 100;
+    protected int $weight = 100;
     /**
      * @var string
      *
@@ -100,109 +94,73 @@ class ilMemcacheServer extends ActiveRecord
     protected $flush_needed = false;
 
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->status;
     }
 
 
-    /**
-     * @param string $status
-     */
-    public function setStatus($status)
+    public function setStatus(string $status): void
     {
         $this->status = $status;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->host;
     }
 
 
-    /**
-     * @param string $host
-     */
-    public function setHost($host)
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }
 
 
-    /**
-     * @return int
-     */
-    public function getPort()
+    public function getPort(): int
     {
         return $this->port;
     }
 
 
-    /**
-     * @param int $port
-     */
-    public function setPort($port)
+    public function setPort(int $port): void
     {
         $this->port = $port;
     }
 
 
-    /**
-     * @return string
-     */
-    public function getFlushNeeded()
+    public function getFlushNeeded(): string
     {
         return $this->flush_needed;
     }
 
 
-    /**
-     * @param string $flush_needed
-     */
-    public function setFlushNeeded($flush_needed)
+    public function setFlushNeeded(string $flush_needed): void
     {
         $this->flush_needed = $flush_needed;
     }
 
 
-    /**
-     * @return int
-     */
-    public function getWeight()
+    public function getWeight(): int
     {
         return $this->weight;
     }
 
 
-    /**
-     * @param int $weight
-     */
-    public function setWeight($weight)
+    public function setWeight(int $weight): void
     {
         $this->weight = $weight;
     }

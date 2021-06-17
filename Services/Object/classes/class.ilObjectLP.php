@@ -703,4 +703,30 @@ class ilObjectLP
         $olp = new $class(0);
         return $olp->getDefaultMode();
     }
+
+    public function hasIndividualModeOptions() : bool
+    {
+        return false;
+    }
+
+    public function initInvidualModeOptions(ilRadioGroupInputGUI $modeRadio) : void
+    {
+    }
+
+    public function shouldFetchIndividualModeFromFormSubmission() : bool
+    {
+        return false;
+    }
+
+    public function fetchIndividualModeFromFormSubmission(ilPropertyFormGUI $form) : int
+    {
+    }
+
+    public function appendModeConfiguration(int $mode, ilRadioOption $modeElement) : void
+    {
+    }
+    
+    public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged) : void
+    {
+    }
 }

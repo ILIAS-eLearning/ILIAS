@@ -1,32 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("./Services/Taxonomy/exceptions/class.ilTaxonomyException.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Input GUI class for taxonomy assignments
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup	ServicesTaxonomy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxAssignInputGUI extends ilSelectInputGUI
 {
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
+    protected bool $include_please_select;
+    protected int $taxononmy_id;
+
     public function __construct(
-        $a_taxonomy_id,
-        $a_multi = true,
-        $a_title = "",
-        $a_postvar = "",
-        $a_include_please_select = true
+        int $a_taxonomy_id,
+        bool $a_multi = true,
+        string $a_title = "",
+        string $a_postvar = "",
+        bool $a_include_please_select = true
     ) {
         global $DIC;
 
@@ -49,7 +40,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
         $this->setType("tax_assign");
         
         if ((int) $a_taxonomy_id == 0) {
-            throw new ilTaxonomyExceptions("No taxonomy ID passed to ilTaxAssignInputGUI.");
+            throw new ilTaxonomyException("No taxonomy ID passed to ilTaxAssignInputGUI.");
         }
         
         $this->setTaxonomyId((int) $a_taxonomy_id);
@@ -60,7 +51,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @param int $a_val taxonomy id
      */
-    public function setTaxonomyId($a_val)
+    public function setTaxonomyId(int $a_val) : void
     {
         $this->taxononmy_id = $a_val;
     }
@@ -70,7 +61,7 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @return int taxonomy id
      */
-    public function getTaxonomyId()
+    public function getTaxonomyId() : int
     {
         return $this->taxononmy_id;
     }
@@ -80,9 +71,9 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @param	array	$a_options	Options. Array ("value" => "option_text")
      */
-    public function setOptions($a_options)
+    public function setOptions($a_options) : void
     {
-        throw new ilTaxonomyExceptions("setOptions: Not supported for ilTaxAssignInputGUI.");
+        throw new ilTaxonomyException("setOptions: Not supported for ilTaxAssignInputGUI.");
     }
 
     /**
@@ -90,18 +81,18 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
      *
      * @return	array	Options. Array ("value" => "option_text")
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         $lng = $this->lng;
-        
+
+        $options = [];
         if ($this->include_please_select) {
             $options = array("" => $lng->txt("please_select"));
         }
         
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
         $tax_tree = new ilTaxonomyTree($this->getTaxonomyId());
         
-        $nodes = $tax_tree->getSubtree($tax_tree->getNodeData($tax_tree->readRootId()));
+        $nodes = $tax_tree->getSubTree($tax_tree->getNodeData($tax_tree->readRootId()));
         foreach ($nodes as $n) {
             if ($n["type"] == "taxn") {
                 $options[$n["child"]] = str_repeat("&nbsp;", ($n["depth"] - 2) * 2) . $n["title"];
@@ -113,17 +104,19 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     
     /**
      * Save input
-     *
-     * @param
-     * @return
+     * @throws ilTaxonomyException
      */
-    public function saveInput($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
-    {
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+    public function saveInput(
+        string $a_component_id,
+        int $a_obj_id,
+        string $a_item_type,
+        int $a_item_id
+    ) : void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
-        //$tax_node_ass->deleteAssignmentsOfItem($a_item_id);
 
-        $post = $_POST[$this->getPostVar()];
+        $body = $this->request->getParsedBody();
+        $post = $body[$this->getPostVar()] ?? "";
+
         if (!$this->getMulti()) {
             $post = array($post);
         } elseif (!is_array($post)) {
@@ -152,13 +145,14 @@ class ilTaxAssignInputGUI extends ilSelectInputGUI
     
     /**
      * Set current values
-     *
-     * @param
-     * @return
+     * @throws ilTaxonomyException
      */
-    public function setCurrentValues($a_component_id, $a_obj_id, $a_item_type, $a_item_id)
-    {
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+    public function setCurrentValues(
+        string $a_component_id,
+        int $a_obj_id,
+        string $a_item_type,
+        int $a_item_id
+    ) : void {
         $tax_node_ass = new ilTaxNodeAssignment($a_component_id, $a_obj_id, $a_item_type, $this->getTaxonomyId());
         $ass = $tax_node_ass->getAssignmentsOfItem($a_item_id);
         

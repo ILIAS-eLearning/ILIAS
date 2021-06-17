@@ -89,19 +89,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         $mod->setValue($this->obj_lp->getCurrentMode());
         $form->addItem($mod);
 
-        if (method_exists($this->obj_lp, 'initModeOptions')) {
-            /**
-             * this is neccessary for cmix object
-             * @see ilCmiXapiLP::initModeOptions()
-             */
-            $this->obj_lp->initModeOptions($mod);
+        if ($this->obj_lp->hasIndividualModeOptions()) {
+            $this->obj_lp->initInvidualModeOptions($mod);
         } else {
             foreach ($this->obj_lp->getValidModes() as $mode_key) {
                 $opt = new ilRadioOption(
                     $this->obj_lp->getModeText($mode_key),
                     $mode_key,
                     $this->obj_lp->getModeInfoText($mode_key)
-            );
+                );
                 $opt->setValue($mode_key);
                 $mod->addOption($opt);
 
@@ -113,11 +109,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                     $vis->setInfo(sprintf(
                         $this->lng->txt('trac_visits_info'),
                         ilObjUserTracking::_getValidTimeSpan()
-                ));
+                    ));
                     $vis->setRequired(true);
                     $vis->setValue($this->obj_settings->getVisits());
                     $opt->addSubItem($vis);
                 }
+                $this->obj_lp->appendModeConfiguration((int) $mode_key, $opt);
             }
         }
         
@@ -137,18 +134,14 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
             // anything changed?
             
             // mode
-            if (method_exists($this->obj_lp, 'fetchModeOption')) {
-                /**
-                 * this is neccessary for cmix object
-                 * @see ilCmiXapiLP::fetchModeOption()
-                 */
-                $new_mode = (int) $this->obj_lp->fetchModeOption($form);
+            if ($this->obj_lp->shouldFetchIndividualModeFromFormSubmission()) {
+                $new_mode = $this->obj_lp->fetchIndividualModeFromFormSubmission($form);
             } else {
                 $new_mode = (int) $form->getInput('modus');
             }
             $old_mode = $this->obj_lp->getCurrentMode();
             $mode_changed = ($old_mode != $new_mode);
-            
+
             // visits
             $new_visits = null;
             $visits_changed = null;
@@ -157,7 +150,9 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
                 $old_visits = $this->obj_settings->getVisits();
                 $visits_changed = ($old_visits != $new_visits);
             }
-            
+
+            $this->obj_lp->saveModeConfiguration($form, $mode_changed);
+
             if ($mode_changed) {
                 // delete existing collection
                 $collection = $this->obj_lp->getCollectionInstance();

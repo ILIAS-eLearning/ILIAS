@@ -111,7 +111,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             false
         );
 
-        if (!is_string($internal_account) || 0 === strlen($internal_account)) {
+        if (!is_string($internal_account) || $internal_account === '') {
             $update_auth_mode = true;
 
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
@@ -150,7 +150,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             }
         }
 
-        if (is_string($internal_account) && strlen($internal_account) > 0) {
+        if (is_string($internal_account) && $internal_account !== '') {
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
                 'Found user "%s" for ext_account "%s" in ILIAS database.',
                 $internal_account,
@@ -198,58 +198,58 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
             ilSession::set('used_external_auth', true);
 
             return true;
-        } else {
+        }
+
+        ilLoggerFactory::getLogger('auth')->debug(sprintf(
+            'Could not find an existing user for ext_account "%s" for any relevant auth_mode.',
+            $this->uid
+        ));
+        if ($this->idp->isSynchronizationEnabled()) {
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
-                'Could not find an existing user for ext_account "%s" for any relevant auth_mode.',
-                $this->uid
+                'SAML user synchronisation is enabled, so determine action for ext_account "%s" and auth_mode "%s".',
+                $this->uid,
+                $this->getUserAuthModeName()
             ));
-            if ($this->idp->isSynchronizationEnabled()) {
+            if ($this->idp->isAccountMigrationEnabled() && !$this->force_new_account) {
+                ilSession::set('tmp_attributes', $this->attributes);
+                ilSession::set('tmp_return_to', $this->return_to);
+
                 ilLoggerFactory::getLogger('auth')->debug(sprintf(
-                    'SAML user synchronisation is enabled, so determine action for ext_account "%s" and auth_mode "%s".',
-                    $this->uid,
-                    $this->getUserAuthModeName()
-                ));
-                if ($this->idp->isAccountMigrationEnabled() && !$this->force_new_account) {
-                    ilSession::set('tmp_attributes', $this->attributes);
-                    ilSession::set('tmp_return_to', $this->return_to);
-
-                    ilLoggerFactory::getLogger('auth')->debug(sprintf(
-                        'Account migration is enabled, so redirecting ext_account "%s" to account migration screen.',
-                        $this->uid
-                    ));
-
-                    $this->setExternalAccountName($this->uid);
-                    $status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);
-
-                    return false;
-                }
-
-                $new_name = $this->importUser(null, $this->uid, $this->attributes);
-                ilLoggerFactory::getLogger('auth')->debug(sprintf(
-                    'Created new user account with login "%s" and ext_account "%s".',
-                    $new_name,
+                    'Account migration is enabled, so redirecting ext_account "%s" to account migration screen.',
                     $this->uid
                 ));
 
-                ilSession::set('tmp_attributes', null);
-                ilSession::set('tmp_return_to', null);
-                ilSession::set('used_external_auth', true);
-
-                if (strlen($this->return_to)) {
-                    $_GET['target'] = $this->return_to;
-                }
-
-                $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-                $status->setAuthenticatedUserId(ilObjUser::_lookupId($new_name));
-
-                return true;
-            } else {
-                ilLoggerFactory::getLogger('auth')->debug("SAML user synchronisation is not enabled, auth failed.");
-                $this->handleAuthenticationFail($status, 'err_auth_saml_no_ilias_user');
+                $this->setExternalAccountName($this->uid);
+                $status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);
 
                 return false;
             }
+
+            $new_name = $this->importUser(null, $this->uid, $this->attributes);
+            ilLoggerFactory::getLogger('auth')->debug(sprintf(
+                'Created new user account with login "%s" and ext_account "%s".',
+                $new_name,
+                $this->uid
+            ));
+
+            ilSession::set('tmp_attributes', null);
+            ilSession::set('tmp_return_to', null);
+            ilSession::set('used_external_auth', true);
+
+            if (strlen($this->return_to)) {
+                $_GET['target'] = $this->return_to;
+            }
+
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+            $status->setAuthenticatedUserId(ilObjUser::_lookupId($new_name));
+
+            return true;
         }
+
+        ilLoggerFactory::getLogger('auth')->debug("SAML user synchronisation is not enabled, auth failed.");
+        $this->handleAuthenticationFail($status, 'err_auth_saml_no_ilias_user');
+
+        return false;
     }
 
     /**

@@ -9,11 +9,6 @@
  */
 class ilCSSRectInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $top;
     protected $left;
     protected $right;

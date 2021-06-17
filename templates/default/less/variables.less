@@ -136,7 +136,9 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 2px solid @il-focus-color;
+@il-focus-outline: 3px solid @il-focus-color;
+// The offset should only be used if the contrast between the focus outline and the component is insufficient.
+@il-focus-outline-offset: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -377,6 +379,14 @@ with the il- variable set here.
 @il-enabled-btn-toggle-switch-position-left: 53%;
 @il-disabled-btn-toggle-switch-color: #808080;
 @il-disabled-btn-toggle-switch-position-left: -6%;
+
+//** The ON/OFF Label of the Toggle Button
+@il-btn-toggle-label-position-top: 0;
+@il-btn-toggle-label-on-position-left: 5px;
+@il-btn-toggle-label-off-position-left: 23px;
+@il-btn-toggle-label-font-weight: 600;
+@il-btn-toggle-label-font-size: 0.9em;
+@il-btn-toggle-label-on-color: @il-main-bg;
 
 //** on
 @il-btn-toggle-bg-color-on: @il-secondary-color;

@@ -21,7 +21,7 @@ class StorableFileResource implements StorableResource
     /**
      * @var RevisionCollection
      */
-    private $revisions = [];
+    private $revisions;
     /**
      * @var ResourceStakeholder[]
      */

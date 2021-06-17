@@ -1,9 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
-
 /**
  * Class ilECSFileSettings
  *
@@ -24,8 +20,6 @@ class ilECSFileSettings extends ilECSObjectSettings
     {
         $json = $this->getJsonCore('application/ecs-file');
         $json->version = $this->content_obj->getVersion();
-
-        require_once("./Services/History/classes/class.ilHistory.php");
         $entries = ilHistory::_getEntriesForObject(
             $this->content_obj->getId(),
             $this->content_obj->getType()

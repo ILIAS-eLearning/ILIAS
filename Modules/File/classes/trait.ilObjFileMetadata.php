@@ -85,7 +85,6 @@ trait ilObjFileMetadata
     {
         // Check file extension
         // Removing the file extension is not allowed
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md = new ilMD($this->getId(), 0, $this->getType());
         if (!is_object($md_gen = $md->getGeneral())) {
             return false;
@@ -100,8 +99,6 @@ trait ilObjFileMetadata
     protected function doMDUpdateListener(string $a_element) : void
     {
         // handling for technical section
-        include_once 'Services/MetaData/classes/class.ilMD.php';
-
         switch ($a_element) {
             case 'Technical':
 

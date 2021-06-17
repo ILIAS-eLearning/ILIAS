@@ -141,7 +141,7 @@ class ilMDIdentifier_ extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement('Identifier_', array('Catalog' => $this->getCatalog(),
                                                 'Entry' => $this->getEntry() ? $this->getEntry() : "ID1"));

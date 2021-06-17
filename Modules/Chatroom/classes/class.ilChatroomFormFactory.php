@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-
 /**
  * Class ilChatroomFormFactory
  * @author  Jan Posselt <jposselt@databay.de>
@@ -11,15 +9,9 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilChatroomFormFactory
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected \ILIAS\DI\HTTPServices $http;
 
     /**
      * Constructor
@@ -30,6 +22,7 @@ class ilChatroomFormFactory
 
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
+        $this->http = $DIC->http();
     }
 
     /**
@@ -295,8 +288,11 @@ class ilChatroomFormFactory
         $name->setMaxLength(100);
         $enable_chat->addSubItem($name);
 
-        require_once 'Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php';
-        $auth = new ilChatroomAuthInputGUI($this->lng->txt('chatroom_auth'), 'auth');
+        $auth = new ilChatroomAuthInputGUI(
+            $this->lng->txt('chatroom_auth'),
+            'auth',
+            $this->http
+        );
         $auth->setInfo($this->lng->txt('chat_auth_token_info'));
         $auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
         $auth->setRequired(true);

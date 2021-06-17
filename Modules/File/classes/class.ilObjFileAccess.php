@@ -4,9 +4,6 @@
 
 use ILIAS\DI\Container;
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
-
 /**
  * Access class for file objects.
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -113,8 +110,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
 
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
-            include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
-
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
 
@@ -197,8 +192,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $q = "SELECT * FROM file_data WHERE file_id = " . $ilDB->quote($a_id, 'integer');
         $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-        require_once('Modules/File/classes/class.ilFSStorageFile.php');
         $fss = new ilFSStorageFile($a_id);
         $file = $fss->getAbsolutePath() . '/' . $row->file_name;
 
@@ -221,8 +214,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _lookupSuffix($a_id)
     {
-        include_once('Modules/File/classes/class.ilFSStorageFile.php');
-
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -230,7 +221,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $q = "SELECT * FROM object_data WHERE obj_id = " . $ilDB->quote($a_id, 'integer');
         $r = $ilDB->query($q);
         $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        require_once 'Modules/File/classes/class.ilObjFile.php';
 
         return self::_getFileExtension($row->title);
         // END WebDAV: Filename suffix is determined by file title
@@ -243,7 +233,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _lookupDiskUsage($a_id)
     {
-        include_once('Modules/File/classes/class.ilFSStorageFile.php');
         $fileStorage = new ilFSStorageFile($a_id);
         $dir = $fileStorage->getAbsolutePath();
 
@@ -259,9 +248,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         if (self::$_inlineFileExtensionsArray
             === null
-        ) {        // the === makes a huge difference, if the array is empty
-            require_once 'Services/Administration/classes/class.ilSetting.php';
-            $settings = new ilSetting('file_access');
+        ) {        $settings = new ilSetting('file_access');
             self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1,
                 PREG_SPLIT_NO_EMPTY);
         }

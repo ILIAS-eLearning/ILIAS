@@ -5,38 +5,30 @@
 /**
  * Class ilRatingGUI. User interface class for rating.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRatingGUI: ilRatingCategoryGUI
  */
 class ilRatingGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $id = "rtg_";
+    protected ilLanguage$lng;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected string $id = "rtg_";
     protected $export_callback;
-    protected $export_subobj_title;
-    protected $ctrl_path;
-
+    protected string $export_subobj_title;
+    protected array $ctrl_path;
     protected bool $enable_categories = false;
     protected string $your_rating_text = "";
+    protected \ILIAS\DI\UIServices $ui;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected int $obj_id;
+    protected string $obj_type;
+    protected ?int $sub_obj_id;
+    protected ?string $sub_obj_type;
+    protected int $userid;
+    protected $update_callback = null;
+    protected ?array $requested_ratings = null;
+    protected int $requested_rating;
 
     public function __construct()
     {
@@ -48,14 +40,20 @@ class ilRatingGUI
         $lng = $DIC->language();
 
         $this->ui = $DIC->ui();
-        
+
+        $params = $DIC->http()->request()->getQueryParams();
+        $body = $DIC->http()->request()->getParsedBody();
+
+        $this->requested_ratings = ($body["rating"] ?? null);
+        $this->requested_rating = (int) ($params["rating"] ?? 0);
+
         $lng->loadLanguageModule("rating");
     }
     
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -69,7 +67,7 @@ class ilRatingGUI
                 break;
             
             default:
-                return $this->$cmd();
+                $this->$cmd();
                 break;
         }
     }
@@ -82,8 +80,12 @@ class ilRatingGUI
     * @param	int			$a_sub_obj_id		Subobject ID
     * @param	string		$a_sub_obj_type		Subobject Type
     */
-    public function setObject($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
-    {
+    public function setObject(
+        int $a_obj_id,
+        string $a_obj_type,
+        ?int $a_sub_obj_id = 0,
+        ?string $a_sub_obj_type = ""
+    ) : void {
         $ilUser = $this->user;
         
         if (!trim($a_sub_obj_type)) {
@@ -100,78 +102,44 @@ class ilRatingGUI
         $this->setUserId($ilUser->getId());
     }
     
-    /**
-    * Set User ID.
-    *
-    * @param	int	$a_userid	User ID
-    */
-    public function setUserId($a_userid)
+    public function setUserId(int $a_userid) : void
     {
         $this->userid = $a_userid;
     }
 
-    /**
-    * Get User ID.
-    *
-    * @return	int	User ID
-    */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->userid;
     }
     
-    /**
-     * Set "Your Rating" text
-     *
-     * @param string $a_val text
-     */
-    public function setYourRatingText($a_val)
+    public function setYourRatingText(string $a_val) : void
     {
         $this->your_rating_text = $a_val;
     }
     
-    /**
-     * Get "Your Rating" text
-     *
-     * @return string text
-     */
-    public function getYourRatingText()
+    public function getYourRatingText() : string
     {
         return $this->your_rating_text;
     }
     
-    /**
-     * Toggle categories status
-     *
-     * @param bool  $a_value
-     */
-    public function enableCategories($a_value)
+    public function enableCategories(bool $a_value) : void
     {
         $this->enable_categories = (bool) $a_value;
     }
     
-    /**
-     * ilCtrl path
-     *
-     * @param array $a_value
-     */
-    public function setCtrlPath(array $a_value)
+    public function setCtrlPath(array $a_value) : void
     {
         $this->ctrl_path = $a_value;
     }
     
-    /**
-     * Render rating details
-     *
-     * @param string $a_js_id
-     * @param bool $a_may_rate
-     * @param array $a_categories
-     * @param bool $a_onclick
-     * @param bool $a_average
-     * @return string
-     */
-    protected function renderDetails($a_js_id, $a_may_rate, array $a_categories = null, $a_onclick = null, $a_average = false)
-    {
+    // Render rating details
+    protected function renderDetails(
+        string $a_js_id,
+        bool $a_may_rate,
+        array $a_categories = null,
+        string $a_onclick = null,
+        bool $a_average = false
+    ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
@@ -195,7 +163,10 @@ class ilRatingGUI
                     $this->getUserId(),
                     0
                 );
-                
+                $overall_rating = [
+                    "avg" => 0,
+                    "cnt" => 0
+                ];
                 if ((bool) $a_average) {
                     $overall_rating = ilRating::getOverallRatingForObject(
                         $this->obj_id,
@@ -301,6 +272,10 @@ class ilRatingGUI
         // categories: overall & user (form)
         else {
             $has_user_rating = false;
+            $overall_rating = [
+                "avg" => 0,
+                "cnt" => 0
+            ];
             foreach ($a_categories as $category) {
                 $user_rating = round(ilRating::getRatingForUserAndObject(
                     $this->obj_id,
@@ -377,7 +352,7 @@ class ilRatingGUI
                 $ttpl->parseCurrentBlock();
             }
             
-            if ($overall_rating["cnt"]) {
+            if ($overall_rating["cnt"] > 0) {
                 $ttpl->setCurrentBlock("votes_number_bl");
                 $ttpl->setVariable("NUMBER_VOTES", sprintf($lng->txt("rating_number_votes"), $overall_rating["cnt"]));
                 $ttpl->parseCurrentBlock();
@@ -409,30 +384,19 @@ class ilRatingGUI
                 $ttpl->setVariable("TXT_SUBMIT", $lng->txt("rating_overlay_submit"));
                 $ttpl->setVariable("CMD_SUBMIT", "saveRating");
                 $ttpl->touchBlock("user_rating_categories_form_out");
-                
-                // overall / user title
-                /*
-                $ttpl->setCurrentBlock("user_rating_categories");
-                $ttpl->setVariable("TXT_RATING_OVERALL", $lng->txt("rating_overlay_title_overall"));
-                $ttpl->parseCurrentBlock();
-                */
             }
         }
         
         return $ttpl->get();
     }
 
-    /**
-     * Get HTML for rating of an object (and a user)
-     *
-     * @param bool $a_show_overall
-     * @param bool $a_may_rate
-     * @param string $a_onclick
-     * @param string $a_additional_id
-     * @return string
-     */
-    public function getHTML($a_show_overall = true, $a_may_rate = true, $a_onclick = null, $a_additional_id = null)
-    {
+    // Get HTML for rating of an object (and a user)
+    public function getHTML(
+        bool $a_show_overall = true,
+        bool $a_may_rate = true,
+        string $a_onclick = null,
+        string $a_additional_id = null
+    ) : string {
         $lng = $this->lng;
         
         $unique_id = $this->id;
@@ -566,7 +530,7 @@ class ilRatingGUI
         return $ttpl->get();
     }
     
-    public function getBlockHTML($a_title)
+    public function getBlockHTML(string $a_title) : string
     {
         $ui = $this->ui;
 
@@ -589,15 +553,15 @@ class ilRatingGUI
     }
     
     /**
-    * Save Rating
-    */
-    public function saveRating()
+     * Save Rating
+     */
+    public function saveRating() : void
     {
         $ilCtrl = $this->ctrl;
         
-        if (!is_array($_REQUEST["rating"])) {
-            $rating = (int) ilUtil::stripSlashes($_GET["rating"]);
-            if (!$rating) {
+        if (!is_array($this->requested_ratings)) {
+            $rating = $this->requested_rating;
+            if ($rating == 0) {
                 $this->resetUserRating();
             } else {
                 ilRating::writeRatingForUserAndObject(
@@ -610,7 +574,7 @@ class ilRatingGUI
                 );
             }
         } else {
-            foreach ($_POST["rating"] as $cat_id => $rating) {
+            foreach ($this->requested_ratings as $cat_id => $rating) {
                 ilRating::writeRatingForUserAndObject(
                     $this->obj_id,
                     $this->obj_type,
@@ -638,15 +602,12 @@ class ilRatingGUI
         }
     }
     
-    public function setUpdateCallback($a_callback)
+    public function setUpdateCallback($a_callback) : void
     {
         $this->update_callback = $a_callback;
     }
     
-    /**
-    * Reset Rating
-    */
-    public function resetUserRating()
+    public function resetUserRating() : void
     {
         ilRating::resetRatingForUserAndObject(
             $this->obj_id,
@@ -657,28 +618,24 @@ class ilRatingGUI
         );
     }
     
-    public function setExportCallback($a_callback, $a_subobj_title)
+    public function setExportCallback($a_callback, string $a_subobj_title) : void
     {
         $this->export_callback = $a_callback;
         $this->export_subobj_title = $a_subobj_title;
     }
     
-    /**
-     * Build list gui property for object
-     *
-     * @param int $a_ref_id
-     * @param bool $a_may_rate
-     * @param string $a_ajax_hash
-     * @param int $_parent_ref_id
-     * @return string
-     */
-    public function getListGUIProperty($a_ref_id, $a_may_rate, $a_ajax_hash, $_parent_ref_id)
-    {
+    // Build list gui property for object
+    public function getListGUIProperty(
+        int $a_ref_id,
+        bool $a_may_rate,
+        string $a_ajax_hash,
+        int $parent_ref_id
+    ) : string {
         return $this->getHTML(
             true,
             $a_may_rate,
             "il.Object.saveRatingFromListGUI(" . $a_ref_id . ", '" . $a_ajax_hash . "', %rating%);",
-            $_parent_ref_id
+            $parent_ref_id
         );
     }
 }

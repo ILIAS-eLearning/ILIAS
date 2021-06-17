@@ -1,111 +1,113 @@
 <script type="text/javascript" id="pers-chat-settings-js">
-  (function ($, root) {
-    const templates = {
-      modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
-    };
+document.addEventListener("DOMContentLoaded", (event) => {
+    (function ($, root) {
+        const templates = {
+            modal: '<div class="help-block alert alert-danger"><img src="{ALERT_IMAGE_SRC}" /><span></span></div>'
+        };
 
-    const emptyErrorMessages = function emptyErrorMessages($parent) {
-      $parent.find(".dynamic-errors").remove();
-    };
+        const emptyErrorMessages = function emptyErrorMessages($parent) {
+            $parent.find(".dynamic-errors").remove();
+        };
 
-    const hasErrorMessages = function hasErrorMessages($parent) {
-      return 0 !== $parent.find(".dynamic-errors").length;
-    };
+        const hasErrorMessages = function hasErrorMessages($parent) {
+            return 0 !== $parent.find(".dynamic-errors").length;
+        };
 
-    /**
-     *
-     * @param $parent
-     * @param {string} languageVariable
-     */
-    const showErrorMessage = function showErrorMessage($parent, languageVariable) {
-      let $warning = $(templates.modal);
+        /**
+         *
+         * @param $parent
+         * @param {string} languageVariable
+         */
+        const showErrorMessage = function showErrorMessage($parent, languageVariable) {
+            let $warning = $(templates.modal);
 
-      $warning.addClass("dynamic-errors");
-      emptyErrorMessages($parent);
-      $parent.append($warning);
-      $warning.find("span").html(il.Language.txt(languageVariable));
-    };
+            $warning.addClass("dynamic-errors");
+            emptyErrorMessages($parent);
+            $parent.append($warning);
+            $warning.find("span").html(il.Language.txt(languageVariable));
+        };
 
-    const deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
-      $elm.prop("disabled", true);
-      $elm.prop("checked", false);
-    };
+        const deselectAndLockCheckbox = function deselectAndLockCheckbox($elm) {
+            $elm.prop("disabled", true);
+            $elm.prop("checked", false);
+        };
 
-    il.Util.addOnLoad(function () {
-      // Nesting the addOnLoad code is required because otherwise we cannot use il.Language.txt
-      il.Util.addOnLoad(function () {
-        const BROWSER_NOTIFICATION_TOGGLE_LABEL = '{BROWSER_NOTIFICATION_TOGGLE_LABEL}';
+        il.Util.addOnLoad(function () {
+            // Nesting the addOnLoad code is required because otherwise we cannot use il.Language.txt
+            il.Util.addOnLoad(function () {
+                const BROWSER_NOTIFICATION_TOGGLE_LABEL = '{BROWSER_NOTIFICATION_TOGGLE_LABEL}';
 
-        let $form = $("#pers-chat-settings-js").parent().find("form:first"),
-          $notificationToggle = null;
+                let $form = $("#pers-chat-settings-js").parent().find("form:first"),
+                    $notificationToggle = null;
 
-        // Very fucked up!!!
-        let $textNodes = $form.find("*").contents().filter(function () {
-          return (
-            this.nodeType === Node.TEXT_NODE &&
-            BROWSER_NOTIFICATION_TOGGLE_LABEL === $.trim(this.textContent)
-          );
-        });
+                // Very fucked up!!!
+                let $textNodes = $form.find("*").contents().filter(function () {
+                    return (
+                        this.nodeType === Node.TEXT_NODE &&
+                        BROWSER_NOTIFICATION_TOGGLE_LABEL === $.trim(this.textContent)
+                    );
+                });
 
-        console.log($textNodes);
-        if (1 === $textNodes.length) {
-          const $checkboxes = $textNodes.first().closest(".form-group").find('input[type="checkbox"]');
+                console.log($textNodes);
+                if (1 === $textNodes.length) {
+                    const $checkboxes = $textNodes.first().closest(".form-group").find('input[type="checkbox"]');
 
-          if (1 === $checkboxes.length) {
-            $notificationToggle = $checkboxes.first();
-          }
-        }
-
-        console.log($notificationToggle);
-
-        if (null !== $notificationToggle) {
-          let $container = $notificationToggle.parent();
-
-          const notificationStateChangeObserver = function notificationStateChangeObserver() {
-            if (il.BrowserNotifications.isBlocked()) {
-              if (!hasErrorMessages($container)) {
-                showErrorMessage($container, 'osc_browser_noti_no_permission_error');
-                deselectAndLockCheckbox($notificationToggle);
-              }
-            } else {
-              $notificationToggle.prop("disabled", false);
-              emptyErrorMessages($container);
-            }
-          };
-
-          if (!il.BrowserNotifications.isSupported()) {
-            showErrorMessage($container, 'osc_browser_noti_no_support_error');
-            deselectAndLockCheckbox($notificationToggle);
-          } else {
-            notificationStateChangeObserver();
-
-            /*
-                Firefox blocks permission requests temporarily. In this case a "default" permission
-                means "blocked", so we MUST NOT check it continuously
-                https://stackoverflow.com/questions/2324944/in-javascript-how-do-i-determine-if-my-current-browser-is-firefox-on-a-computer
-             */
-            if (navigator.userAgent.search("Firefox") === -1) {
-              root.setInterval(notificationStateChangeObserver, 1000);
-            }
-          }
-
-          $notificationToggle.on("change", function () {
-            let $elm = $(this),
-              currentValue = $elm.is(":checked");
-
-            if (currentValue) {
-              il.BrowserNotifications.requestPermission().then(() => {
-                $elm.prop("disabled", false);
-              }).catch(() => {
-                if (!il.BrowserNotifications.isGranted()) {
-                  showErrorMessage($container, 'osc_browser_noti_req_permission_error');
-                  deselectAndLockCheckbox($notificationToggle);
+                    if (1 === $checkboxes.length) {
+                        $notificationToggle = $checkboxes.first();
+                    }
                 }
-              });
-            }
-          });
-        }
-      });
-    });
-  })(jQuery, window);
+
+                console.log($notificationToggle);
+
+                if (null !== $notificationToggle) {
+                    let $container = $notificationToggle.parent();
+
+                    const notificationStateChangeObserver = function notificationStateChangeObserver() {
+                        if (il.BrowserNotifications.isBlocked()) {
+                            if (!hasErrorMessages($container)) {
+                                showErrorMessage($container, 'osc_browser_noti_no_permission_error');
+                                deselectAndLockCheckbox($notificationToggle);
+                            }
+                        } else {
+                            $notificationToggle.prop("disabled", false);
+                            emptyErrorMessages($container);
+                        }
+                    };
+
+                    if (!il.BrowserNotifications.isSupported()) {
+                        showErrorMessage($container, 'osc_browser_noti_no_support_error');
+                        deselectAndLockCheckbox($notificationToggle);
+                    } else {
+                        notificationStateChangeObserver();
+
+                        /*
+                            Firefox blocks permission requests temporarily. In this case a "default" permission
+                            means "blocked", so we MUST NOT check it continuously
+                            https://stackoverflow.com/questions/2324944/in-javascript-how-do-i-determine-if-my-current-browser-is-firefox-on-a-computer
+                         */
+                        if (navigator.userAgent.search("Firefox") === -1) {
+                            root.setInterval(notificationStateChangeObserver, 1000);
+                        }
+                    }
+
+                    $notificationToggle.on("change", function () {
+                        let $elm = $(this),
+                            currentValue = $elm.is(":checked");
+
+                        if (currentValue) {
+                            il.BrowserNotifications.requestPermission().then(() => {
+                                $elm.prop("disabled", false);
+                            }).catch(() => {
+                                if (!il.BrowserNotifications.isGranted()) {
+                                    showErrorMessage($container, 'osc_browser_noti_req_permission_error');
+                                    deselectAndLockCheckbox($notificationToggle);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    })(window.jQuery, window);
+});
 </script>

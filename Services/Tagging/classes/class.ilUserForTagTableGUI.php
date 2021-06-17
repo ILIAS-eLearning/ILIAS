@@ -5,48 +5,39 @@
 /**
  * Show all users for a tag
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUserForTagTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-    
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_tag)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        string $a_tag
+    ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
         $this->setData(ilTagging::getUsersForTag($a_tag));
-        $this->setTitle($lng->txt("tagging_users_using_tag"));
+        $this->setTitle($this->lng->txt("tagging_users_using_tag"));
         
         $this->addColumn($this->lng->txt("user"), "");
         
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.user_for_tag_row.html", "Services/Tagging");
         $this->setEnableTitle(true);
     }
     
     /**
-    * Fill table row
-    */
+     * @inheritDoc
+     */
     protected function fillRow($a_set)
     {
-        $lng = $this->lng;
-
         $this->tpl->setVariable(
             "USER",
             ilUserUtil::getNamePresentation($a_set["id"], true, false, "", true)

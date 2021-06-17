@@ -1127,7 +1127,7 @@ a:focus {
   outline-offset: 0px;
 }
 a:focus:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 figure {
   margin: 0;
@@ -2724,7 +2724,7 @@ input[type="checkbox"]:focus {
 input[type="file"]:focus:focus-visible,
 input[type="radio"]:focus:focus-visible,
 input[type="checkbox"]:focus:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 output {
   display: block;
@@ -3213,7 +3213,7 @@ select[multiple].input-lg {
 .btn.focus:focus-visible,
 .btn:active.focus:focus-visible,
 .btn.active.focus:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 .btn:hover,
 .btn:focus,
@@ -7091,7 +7091,7 @@ button.close {
   position: relative;
   background-color: white;
   border: none;
-  box-shadow: 0 1px 2px rgb(0 0 0%), 0 0px 0px rgb(0 0 0%);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
   /* see bug #24947 */
 }
 .il-card img {
@@ -7288,7 +7288,7 @@ button.close {
   font-size: 12px;
 }
 .btn:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
   outline-offset: 0px;
 }
 .btn:active,
@@ -7358,6 +7358,9 @@ fieldset[disabled] .btn-default.focus {
   color: #4c6586;
   background-color: white;
 }
+.btn-default:focus-visible {
+  outline-offset: 2px;
+}
 .btn-primary {
   color: white;
   background-color: #557b2e;
@@ -7410,6 +7413,9 @@ fieldset[disabled] .btn-primary.focus {
 .btn-primary .badge {
   color: #557b2e;
   background-color: white;
+}
+.btn-primary:focus-visible {
+  outline-offset: 2px;
 }
 .btn[disabled],
 .btn.btn-tag[disabled],
@@ -7569,6 +7575,14 @@ a fieldset[disabled] .active {
   background: #6ea03c;
   border: 1px solid #bfbfbf;
 }
+.il-toggle-button.on .il-toggle-label-on {
+  position: absolute;
+  top: 0;
+  left: 5px;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: white;
+}
 .il-toggle-button.on .il-toggle-switch {
   left: 53%;
   background: #f9f9f9;
@@ -7577,6 +7591,13 @@ a fieldset[disabled] .active {
 .il-toggle-button.off {
   background: #f9f9f9;
   border: 1px solid #bfbfbf;
+}
+.il-toggle-button.off .il-toggle-label-off {
+  position: absolute;
+  top: 0;
+  left: 23px;
+  font-weight: 600;
+  font-size: 0.9em;
 }
 .il-toggle-button.off .il-toggle-switch {
   background: #f9f9f9;
@@ -9669,7 +9690,7 @@ footer {
 .il-maincontrols-metabar .btn-bulky:focus-visible,
 .il-maincontrols-mainbar .il-link.link-bulky:focus-visible,
 .il-maincontrols-metabar .il-link.link-bulky:focus-visible {
-  border: 2px solid #0078D7;
+  border: 3px solid #0078D7;
   outline: none;
 }
 .il-maincontrols-mainbar .bulky-label,
@@ -10609,7 +10630,7 @@ footer {
   }
 }
 .il-link:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
   outline-offset: 0px;
 }
 .il-link:active,
@@ -11794,6 +11815,7 @@ body.mceContentBody {
 }
 body#tinymce {
   background-color: white;
+  overflow: initial;
 }
 html.il-no-tiny-bg body#tinymce {
   background-color: transparent;
@@ -12864,7 +12886,7 @@ form.form-inline {
 .form-control:focus-visible {
   -webkit-box-shadow: none;
   box-shadow: none;
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 textarea.form-control {
   max-width: 100%;
@@ -13457,6 +13479,9 @@ div.ilFrmPostHeader span.small {
   font-size: smaller;
   color: #434343;
   padding-left: 23px;
+}
+.frm-thread-scrollable-print {
+  overflow: auto;
 }
 /* Services/Mail */
 a.mailread,
@@ -17619,7 +17644,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   background-color: #f9f9f9;
 }
 .ilAwarenessItem > div[role='button']:focus-visible {
-  outline: 2px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 .ilAwarenessItem ul {
   margin: 0;

@@ -4,9 +4,9 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
@@ -18,15 +18,6 @@
     var insertChar = function (editor, chr) {
       var evtChr = fireInsertCustomChar(editor, chr).chr;
       editor.execCommand('mceInsertContent', false, evtChr);
-    };
-
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
-
-    var getCharMap = function (editor) {
-      return editor.getParam('charmap');
-    };
-    var getCharMapAppend = function (editor) {
-      return editor.getParam('charmap_append');
     };
 
     var noop = function () {
@@ -139,7 +130,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -184,12 +175,12 @@
       for (var i = 0, len = xs.length; i < len; i++) {
         var x = xs[i];
         if (pred(x, i)) {
-          return Option.some(x);
+          return Optional.some(x);
         } else if (until(x, i)) {
           break;
         }
       }
-      return Option.none();
+      return Optional.none();
     };
     var find = function (xs, pred) {
       return findUntil(xs, pred, never);
@@ -206,6 +197,15 @@
     };
     var bind = function (xs, f) {
       return flatten(map(xs, f));
+    };
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
+
+    var getCharMap = function (editor) {
+      return editor.getParam('charmap');
+    };
+    var getCharMapAppend = function (editor) {
+      return editor.getParam('charmap_append');
     };
 
     var isArray$1 = global$1.isArray;
@@ -1480,7 +1480,7 @@
       var timer = null;
       var cancel = function () {
         if (timer !== null) {
-          domGlobals.clearTimeout(timer);
+          clearTimeout(timer);
           timer = null;
         }
       };
@@ -1490,9 +1490,9 @@
           args[_i] = arguments[_i];
         }
         if (timer !== null) {
-          domGlobals.clearTimeout(timer);
+          clearTimeout(timer);
         }
-        timer = domGlobals.setTimeout(function () {
+        timer = setTimeout(function () {
           fn.apply(null, args);
           timer = null;
         }, rate);
@@ -1703,4 +1703,4 @@
 
     Plugin();
 
-}(window));
+}());

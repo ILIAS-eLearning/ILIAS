@@ -106,9 +106,9 @@ export default class AutoSave {
     this.log("AutoSave: update " + this.auto_save_running);
     if (this.auto_save_running) {
 
-      //if (this.debug) {
+      if (this.debug) {
         this.displayAutoSave(this.calculateAutoSaveSecondsToNextSaving());
-      //}
+      }
       if (this.calculateAutoSaveSecondsToNextSaving() <= 0) {
         this.autoSave();
       }

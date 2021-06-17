@@ -33,13 +33,13 @@ include_once 'class.ilMDBase.php';
 class ilMDRelation extends ilMDBase
 {
     // METHODS OF CHILD OBJECTS (Taxon)
-    public function &getIdentifier_Ids()
+    public function getIdentifier_Ids()
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
         return ilMDIdentifier_::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
-    public function &getIdentifier_($a_identifier__id)
+    public function getIdentifier_($a_identifier__id)
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
@@ -51,7 +51,7 @@ class ilMDRelation extends ilMDBase
 
         return $ide;
     }
-    public function &addIdentifier_()
+    public function addIdentifier_()
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier_.php';
 
@@ -62,13 +62,13 @@ class ilMDRelation extends ilMDBase
         return $ide;
     }
 
-    public function &getDescriptionIds()
+    public function getDescriptionIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 
         return ilMdDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
-    public function &getDescription($a_description_id)
+    public function getDescription($a_description_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
         
@@ -80,7 +80,7 @@ class ilMDRelation extends ilMDBase
 
         return $des;
     }
-    public function &addDescription()
+    public function addDescription()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
         
@@ -213,7 +213,7 @@ class ilMDRelation extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Relation', array('Kind' => $this->getKind()
                                               ? $this->getKind()
@@ -223,7 +223,7 @@ class ilMDRelation extends ilMDBase
         // Identifier_
         $ides = $this->getIdentifier_Ids();
         foreach ($ides as $id) {
-            $ide = &$this->getIdentifier_($id);
+            $ide = $this->getIdentifier_($id);
             $ide->toXML($writer);
         }
         if (!count($ides)) {
@@ -235,7 +235,7 @@ class ilMDRelation extends ilMDBase
         // Description
         $dess = $this->getDescriptionIds();
         foreach ($dess as $id) {
-            $des = &$this->getDescription($id);
+            $des = $this->getDescription($id);
             $des->toXML($writer);
         }
         if (!count($dess)) {

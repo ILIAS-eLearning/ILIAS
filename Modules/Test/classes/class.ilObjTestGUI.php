@@ -2184,7 +2184,7 @@ class ilObjTestGUI extends ilObjectGUI
                     
                     $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
                 }
-
+                /*
                 $ilToolbar->addSeparator();
                 $ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 
@@ -2211,7 +2211,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
                         $executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = true);
-                        
+
                         if ($executable["executable"]) {
                             if ($testSession->getActiveId() > 0) {
                                 // resume test
@@ -2235,6 +2235,7 @@ class ilObjTestGUI extends ilObjectGUI
                         }
                     }
                 }
+                */
             }
         }
 

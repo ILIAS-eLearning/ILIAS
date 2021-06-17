@@ -139,7 +139,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     /**
      * Insert property html
      */
-    public function insert(&$a_tpl)
+    public function insert($a_tpl)
     {
         $ttpl = new ilTemplate("tpl.prop_typical_learning_time.html", true, true, "Services/MetaData");
         $val = $this->getValue();

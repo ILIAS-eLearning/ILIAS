@@ -18,7 +18,7 @@ class ilSamlIdp
     /** @var bool */
     protected $allow_local_auth = false;
     /** @var int */
-    protected $default_role_id = false;
+    protected $default_role_id = 0;
     /** @var string */
     protected $uid_claim = '';
     /** @var string */

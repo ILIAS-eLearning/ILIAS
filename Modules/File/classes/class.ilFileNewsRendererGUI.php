@@ -1,9 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
-
 /**
  *  Default renderer
  *
