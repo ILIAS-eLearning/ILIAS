@@ -110,7 +110,7 @@ class ilPollBlock extends ilCustomBlock
         return false;
     }
     
-    public function maySeeResults($a_user_id)
+    public function maySeeResults($a_user_id) : bool
     {
         if (!$this->active) {
             return false;
@@ -133,25 +133,27 @@ class ilPollBlock extends ilCustomBlock
                 }
                 return false;
         }
+        return false;
     }
     
-    public function getMessage($a_user_id)
+    public function getMessage($a_user_id) : ?string
     {
-        $lng = $this->lng;
-        
+
         if (!sizeof($this->answers)) {
-            return $lng->txt("poll_block_message_no_answers");
+            return $this->lng->txt("poll_block_message_no_answers");
         }
         
         if (!$this->active) {
             if (!$this->poll->isOnline()) {
-                return $lng->txt("poll_block_message_offline");
+                return $this->lng->txt("poll_block_message_offline");
             }
             if ($this->poll->getAccessBegin() > time()) {
                 $date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
-                return sprintf($lng->txt("poll_block_message_inactive"), $date);
+                return sprintf($this->lng->txt("poll_block_message_inactive"), $date);
             }
         }
+
+        return null;
     }
 
     /**
