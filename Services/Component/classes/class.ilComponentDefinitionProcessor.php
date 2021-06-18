@@ -10,8 +10,6 @@
  * Make sure to understand that this is used in the context of processing xml via
  * sax-style parsing. That is, the processor needs to act in a stateful session
  * and react on beginning and ending of tags.
- *
- *
  */
 interface ilComponentDefinitionProcessor
 {
@@ -24,16 +22,28 @@ interface ilComponentDefinitionProcessor
     public function purge() : void;
 
     /**
+     * This method is called when parsing of component.xml for the given component
+     * starts.
+     *
+     * This is supposed to reset any internal parsing state.
+     */
+    public function beginComponent(string $component, string $type);
+
+    /**
+     * This method is called when parsing of component.xml for the given component
+     * ends.
+     */
+    public function endComponent(string $component, string $type);
+
+    /**
      * This is called when a tag starts in the context of the given component.
      *
      * @param string[] $attributes
      */
-    public function beginTag(string $component, string $name, array $attributes) : void;
+    public function beginTag(string $name, array $attributes) : void;
 
     /**
      * This is called when a tag ends in the context of the given component.
-     *
-     * @param string[] $attributes
      */
-    public function endTag(string $component, string $name, array $attributes) : void;
+    public function endTag(string $name) : void;
 }
