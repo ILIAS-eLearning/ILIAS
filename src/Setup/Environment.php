@@ -37,6 +37,7 @@ interface Environment
     public const RESOURCE_PLUGIN_ADMIN = "resource_plugin_admin";
     public const RESOURCE_COMPONENT_REPOSITORY = "resource_component_repository";
     public const RESOURCE_COMPONENT_FACTORY = "resource_component_factory";
+    public const RESOURCE_TREE = "resource_tree";
 
     /**
      * Consumers of this method should check if the result is what they expect,
