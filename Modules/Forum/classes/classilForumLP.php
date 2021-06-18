@@ -30,6 +30,9 @@ class ilForumLP extends ilObjectLP
     public function saveModeConfiguration(ilPropertyFormGUI $form, bool &$modeChanged) : void
     {
         $frm_properties = ilForumProperties::getInstance($this->obj_id);
+
+        $current_value = $frm_properties->getLpReqNumPostings();
+
         if (is_numeric($form->getInput('number_of_postings'))) {
             $frm_properties->setLpReqNumPostings(
                 (int) $form->getInput('number_of_postings')
@@ -38,6 +41,10 @@ class ilForumLP extends ilObjectLP
             $frm_properties->setLpReqNumPostings(null);
         }
         $frm_properties->update();
+
+        if ($current_value !== $frm_properties->getLpReqNumPostings()) {
+            $modeChanged = true;
+        }
     }
   
     public static function getDefaultModes($a_lp_active)
