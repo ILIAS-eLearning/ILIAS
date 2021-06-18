@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Class ilLPStatusContributionToDiscussion
@@ -9,6 +9,13 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
     public static function _getCompleted($a_obj_id)
     {
         $userIds = [];
+
+        $frm_properties = ilForumProperties::getInstance($a_obj_id);
+        $num_required_postings = $frm_properties->getLpReqNumPostings();
+
+        if (null === $num_required_postings) {
+            return $userIds;
+        }
 
         /**
          * TODO:
@@ -24,6 +31,13 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
     {
         $userIds = [];
 
+        $frm_properties = ilForumProperties::getInstance($a_obj_id);
+        $num_required_postings = $frm_properties->getLpReqNumPostings();
+
+        if (null === $num_required_postings) {
+            return $userIds;
+        }
+
         /**
          * TODO:
          * 1. Read threshold setting (number of required postings) by $a_obj_id
@@ -37,6 +51,13 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
     public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
     {
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+
+        $frm_properties = ilForumProperties::getInstance($a_obj_id);
+        $num_required_postings = $frm_properties->getLpReqNumPostings();
+
+        if (null === $num_required_postings) {
+            return $status;
+        }
 
         /**
          * TODO:
