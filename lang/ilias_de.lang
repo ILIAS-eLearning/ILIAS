@@ -16587,3 +16587,6 @@ irss#:#resource_id#:#Resource ID
 irss#:#storage_id#:#Storage ID
 irss#:#max_revision#:#Max. Revision
 irss#:#stakeholders#:#Stakeholders
+ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
+ui#:#ui_link_label#:#Label
+ui#:#ui_link_url#:#URL
