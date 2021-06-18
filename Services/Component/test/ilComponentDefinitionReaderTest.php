@@ -13,9 +13,9 @@ interface ilComponentDefinitionProcessorMock2 extends ilComponentDefinitionProce
 
 class ilComponentDefinitionReaderTest extends TestCase
 {
-    public static $component_xml_paths = [
-        "/path/to/module.xml",
-        "/other/path/to/service.xml"
+    public static $components = [
+        ["Modules", "A_Module", "/path/to/module.xml"],
+        ["Services", "A_Service", "/other/path/to/service.xml"]
     ];
 
     protected function setUp() : void
@@ -24,14 +24,31 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->processor2 = $this->createMock(ilComponentDefinitionProcessorMock2::class);
 
         $this->reader = new class($this->processor1, $this->processor2) extends ilComponentDefinitionReader {
-            protected function getCoreComponents() : array
+            protected function getComponents() : array
             {
-                return ilComponentDefinitionReaderTest::$component_xml_paths;
+                return ilComponentDefinitionReaderTest::$components;
             }
             public $read_files = [];
             protected function readFile($path) : string
             {
                 $this->read_files[] = $path;
+                if ($path === "/path/to/module.xml") {
+                    return
+'<?xml version = "1.0" encoding = "UTF-8"?>
+<module a1="a1" a2="a2">
+    <tag1>
+        <tag11></tag11>
+    </tag1>
+    <tag2></tag2>
+</module>';
+                }
+                if ($path === "/other/path/to/service.xml") {
+                    return
+'<?xml version = "1.0" encoding = "UTF-8"?>
+<service>
+</service>';
+                }
+                return "";
             }
         };
     }
@@ -65,14 +82,111 @@ class ilComponentDefinitionReaderTest extends TestCase
         $components = $reader->_getComponents();
 
         $this->assertIsArray($components);
-        $this->assertContains(realpath(__DIR__ . "/../../../Modules/Course/module.xml"), $components);
-        $this->assertContains(realpath(__DIR__ . "/../../../Services/Component/service.xml"), $components);
+        $this->assertContains(["Modules", "Course", realpath(__DIR__ . "/../../../Modules/Course/module.xml")], $components);
+        $this->assertContains(["Services", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
     }
 
     public function testReadComponentDefinitions()
     {
+        $processor1_stack = [];
+        $this->processor1
+            ->method("beginComponent")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+                $processor1_stack[] = "beginComponent";
+                $processor1_stack[] = $s1;
+                $processor1_stack[] = $s2;
+            }));
+        $this->processor1
+            ->method("endComponent")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+                $processor1_stack[] = "endComponent";
+                $processor1_stack[] = $s1;
+                $processor1_stack[] = $s2;
+            }));
+        $this->processor1
+            ->method("beginTag")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor1_stack) {
+                $processor1_stack[] = "beginTag";
+                $processor1_stack[] = $s1;
+                $processor1_stack[] = $s2;
+            }));
+        $this->processor1
+            ->method("endTag")
+            ->will($this->returnCallback(function ($s1) use (&$processor1_stack) {
+                $processor1_stack[] = "endTag";
+                $processor1_stack[] = $s1;
+            }));
+
+        $processor2_stack = [];
+        $this->processor2
+            ->method("beginComponent")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+                $processor2_stack[] = "beginComponent";
+                $processor2_stack[] = $s1;
+                $processor2_stack[] = $s2;
+            }));
+        $this->processor2
+            ->method("endComponent")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+                $processor2_stack[] = "endComponent";
+                $processor2_stack[] = $s1;
+                $processor2_stack[] = $s2;
+            }));
+        $this->processor2
+            ->method("beginTag")
+            ->will($this->returnCallback(function ($s1, $s2) use (&$processor2_stack) {
+                $processor2_stack[] = "beginTag";
+                $processor2_stack[] = $s1;
+                $processor2_stack[] = $s2;
+            }));
+        $this->processor2
+            ->method("endTag")
+            ->will($this->returnCallback(function ($s1) use (&$processor2_stack) {
+                $processor2_stack[] = "endTag";
+                $processor2_stack[] = $s1;
+            }));
+
+
         $this->reader->readComponentDefinitions();
 
-        $this->assertEquals(self::$component_xml_paths, $this->reader_read_files);
+
+        $this->assertEquals([self::$components[0][2], self::$components[1][2]], $this->reader->read_files);
+
+        $expected_processor_stack = [
+            "beginComponent",
+            self::$components[0][1], // A_Module
+            self::$components[0][0], // Modules
+            "beginTag",
+            "module", ["a1" => "a1", "a2" => "a2"],
+            "beginTag",
+            "tag1", [],
+            "beginTag",
+            "tag11", [],
+            "endTag",
+            "tag11",
+            "endTag",
+            "tag1",
+            "beginTag",
+            "tag2", [],
+            "endTag",
+            "tag2",
+            "endTag",
+            "module",
+            "endComponent",
+            self::$components[0][1], // A_Module
+            self::$components[0][0], // Modules
+            "beginComponent",
+            self::$components[1][1], // A_Service
+            self::$components[1][0], // Services
+            "beginTag",
+            "service", [],
+            "endTag",
+            "service",
+            "endComponent",
+            self::$components[1][1], // A_Service
+            self::$components[1][0], // Services
+        ];
+        $this->assertEquals($expected_processor_stack, $processor1_stack);
+        $this->assertEquals($expected_processor_stack, $processor2_stack);
     }
 }
