@@ -180,11 +180,12 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
         }
 
         $form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lp_obj_settings.html', 'Services/Tracking');
-        $this->tpl->setVariable('PROP_FORM', $form->getHTML());
-        $this->tpl->setVariable('COLLECTION_TABLE', $this->getTableByMode());
+        $this->tpl->setContent(
+            $this->handleLPUsageInfo() .
+            $form->getHTML() .
+            $this->getTableByMode()
+        );
     }
 
     /**
