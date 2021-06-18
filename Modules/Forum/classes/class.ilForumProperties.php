@@ -127,7 +127,7 @@ class ilForumProperties
     /** @var bool */
     private $exists = false;
     
-    private ?int $lp_req_num_postings;
+    private ?int $lp_req_num_postings = null;
 
     protected function __construct($a_obj_id = 0)
     {
