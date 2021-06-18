@@ -88,6 +88,14 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->request = $DIC->http()->request();
         $this->requested_ref_id = (int) ($this->request->getQueryParams()['ref_id'] ?? 0);
 
+        $new_type = '';
+        if(isset($this->request->getQueryParams()['new_type'])) {
+            $new_type = $this->request->getQueryParams()['new_type'];
+        } else if(isset($this->request->getParsedBody()['new_type'])) {
+            $new_type = $this->request->getParsedBody()['new_type'];
+        }
+
+        $this->requested_new_type = $new_type;
 
         $params = array();
         switch ($this->id_type) {
