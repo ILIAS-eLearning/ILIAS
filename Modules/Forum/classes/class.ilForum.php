@@ -24,7 +24,7 @@ class ilForum
 
     public $lng;
     public $error;
-    public $db;
+    public ilDBInterface $db;
     public $user;
     public $settings;
     
@@ -1307,72 +1307,89 @@ class ilForum
             'cnt' => $cnt
         );
     }
-    
-    /**
-     * @param bool $is_moderator
-     * @return array
-     */
-    public function getUserStatistic($is_moderator = false)
-    {
-        $statistic = array();
-        
-        $data_types = array();
-        $data = array();
-        
-        $query = "SELECT COUNT(f.pos_display_user_id) ranking, u.login, p.value, u.lastname, u.firstname
-	 				FROM frm_posts f
-						INNER JOIN frm_posts_tree t
-							ON f.pos_pk = t.pos_fk
-						INNER JOIN frm_threads th
-							ON t.thr_fk = th.thr_pk
-						INNER JOIN usr_data u
-							ON u.usr_id = f.pos_display_user_id
-						INNER JOIN frm_data d
-							ON d.top_pk = f.pos_top_fk
-						LEFT JOIN usr_pref p
-							ON p.usr_id = u.usr_id AND p.keyword = %s
-					WHERE 1 = 1 AND t.parent_pos != 0";
-    
-        array_push($data_types, 'text');
-        array_push($data, 'public_profile');
 
-        if (!$is_moderator) {
-            $query .= ' AND (pos_status = %s
-						OR (pos_status = %s
-						AND pos_author_id = %s ))';
-            
+    public function getNumberOfPublishedUserPostings(int $usr_id) : int
+    {
+        $query = "
+            SELECT COUNT(f.pos_author_id) cnt
+            FROM frm_posts f
+            INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
+            INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
+            INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
+            WHERE  AND f.pos_status = %s AND f.pos_author_id = %s
+        ";
+
+        $res = $this->db->queryF(
+            $query,
+            ['integer', 'integer', 'integer', 'integer'],
+            [0, $this->getForumId(), 1, $usr_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (is_array($row) && !empty($row)) {
+            return (int) $row['cnt'];
+        }
+
+        return 0;
+    }
+    
+    public function getUserStatistics(bool $for_display_purpose = true, bool $is_moderator = false) : array
+    {
+        $statistic = [];
+        $data_types = [];
+        $data = [];
+
+        $query = "
+            SELECT 
+                   u.login, u.lastname, u.firstname, u.pos_author_id,
+                   p.value public_profile,
+                   COUNT(f.pos_author_id) num_postings
+            FROM frm_posts f
+            INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk
+            INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk
+            INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
+            INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
+            LEFT JOIN usr_pref p ON p.usr_id = u.usr_id AND p.keyword = %s
+            WHERE t.parent_pos != %s
+        ";
+    
+        $data_types[] = 'text';
+        $data_types[] = 'integer';
+        $data[] = 'public_profile';
+        $data[] = 0;
+
+        if ($for_display_purpose && !$is_moderator) {
+            $query .= ' AND (pos_status = %s OR (pos_status = %s AND pos_author_id = %s))';
             array_push($data_types, 'integer', 'integer', 'integer');
             array_push($data, '1', '0', $this->user->getId());
+        } elseif (!$for_display_purpose) {
+            $query .= ' AND pos_status = %s';
+            $data_types[] = 'integer';
+            $data[] = 1;
         }
         
-        $query .= ' AND d.top_frm_fk = %s
-					GROUP BY pos_display_user_id, u.login, p.value,u.lastname, u.firstname';
+        $query .= '
+            AND d.top_frm_fk = %s
+            GROUP BY u.login, p.value,u.lastname, u.firstname, u.pos_author_id
+        ';
 
-        array_push($data_types, 'integer');
-        array_push($data, $this->getForumId());
+        $data_types[] = 'integer';
+        $data[] = $this->getForumId();
         
-        $res = $this->db->queryf($query, $data_types, $data);
+        $res = $this->db->queryF($query, $data_types, $data);
         
-        $counter = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            $statistic[$counter][] = $row['ranking'];
-            $statistic[$counter][] = $row['login'];
-
-            $lastname = '';
-            $firstname = '';
-            if (!$this->user->isAnonymous() && in_array($row['value'], array('y', 'g')) ||
-                $this->user->isAnonymous() && 'g' == $row['value']) {
-                $lastname = $row['lastname'];
-                $firstname = $row['firstname'];
+            if (
+                'g' === $row['public_profile'] ||
+                (!$this->user->isAnonymous() && in_array($row['public_profile'], ['y', 'g'], true))
+            ) {
+                $row['lastname'] = '';
+                $row['firstname'] = '';
             }
 
-            $statistic[$counter][] = $lastname;
-            $statistic[$counter][] = $firstname;
-            
-            ++$counter;
+            $statistic[] = $row;
         }
               
-        return is_array($statistic) ? $statistic : array();
+        return $statistic;
     }
     
     /**

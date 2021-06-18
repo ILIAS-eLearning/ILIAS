@@ -1401,14 +1401,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->lng->txt('obj_' . $this->object->getType())
         );
 
-        $data = $this->object->Forum->getUserStatistic($this->is_moderator);
+        $data = $this->object->Forum->getUserStatistics(true, $this->is_moderator);
         $result = array();
         $counter = 0;
         foreach ($data as $row) {
-            $result[$counter]['ranking'] = $row[0];
-            $result[$counter]['login'] = $row[1];
-            $result[$counter]['lastname'] = $row[2];
-            $result[$counter]['firstname'] = $row[3];
+            $result[$counter]['ranking'] = $row['num_postings'];
+            $result[$counter]['login'] = $row['login'];
+            $result[$counter]['lastname'] = $row['lastname'];
+            $result[$counter]['firstname'] = $row['firstname'];
 
             ++$counter;
         }

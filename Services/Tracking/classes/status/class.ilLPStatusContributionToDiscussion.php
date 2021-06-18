@@ -17,12 +17,16 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
             return $userIds;
         }
 
-        /**
-         * TODO:
-         * 1. Read threshold setting (number of required postings) by $a_obj_id
-         * 2. Determine all users, where the amount of created postings (do NOT count root postings) is >= this threshold
-         * Maybe ask mkunkel: only active postings (WHERE status = 1)?
-         */
+        $frm = new ilForum();
+        $frm->setForumId($frm_properties->getObjId());
+        $statistics = $frm->getUserStatistics(false, true);
+
+        return array_map(static function (array $statisic) : int {
+            return (int) $statisic['pos_author_id'];
+        }, array_filter($statistics, static function (array $statistic) use ($num_required_postings) : bool {
+            $num_user_postings = (int) $statistic['num_postings'];
+            return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
+        }));
 
         return $userIds;
     }
@@ -38,14 +42,15 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
             return $userIds;
         }
 
-        /**
-         * TODO:
-         * 1. Read threshold setting (number of required postings) by $a_obj_id
-         * 2. Determine all users, where the amount of created postings (do NOT count root postings) is < this threshold but > 1
-         * Maybe ask mkunkel: only active postings (WHERE status = 1)?
-         */
+        $frm = new ilForum();
+        $frm->setForumId($frm_properties->getObjId());
+        $statistics = $frm->getUserStatistics(false, true);
 
-        return $userIds;
+        return array_map(static function (array $statisic) : int {
+            return (int) $statisic['pos_author_id'];
+        }, array_filter($statistics, static function (array $statistic) use ($num_required_postings) : bool {
+            return (int) $statistic['num_postings'] >= $num_required_postings;
+        }));
     }
 
     public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
@@ -59,14 +64,15 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
             return $status;
         }
 
-        /**
-         * TODO:
-         * 1. Read threshold setting (number of required postings) by $a_obj_id
-         * 2. Determine the number of postings (do NOT count root postings) for $a_user_id in $a_obj_id
-         * Maybe ask mkunkel: only active postings (WHERE status = 1)?
-         * 3. If $number > 1, then $status = self::LP_STATUS_IN_PROGRESS_NUM, if $number >= $threshold
-         * $status = self::LP_STATUS_COMPLETED_NUM
-         */
+        $frm = new ilForum();
+        $frm->setForumId($frm_properties->getObjId());
+
+        $num_postings = $frm->getNumberOfPublishedUserPostings((int) $a_user_id);
+        if ($num_postings >= $num_required_postings) {
+            $status = self::LP_STATUS_COMPLETED_NUM;
+        } elseif ($num_postings > 0) {
+            $status = self::LP_STATUS_IN_PROGRESS_NUM;
+        }
 
         return $status;
     }
