@@ -107,7 +107,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
-        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification)->withVisibilityCallable($this->access_helper->isUserLoggedIn());
+        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
+        // ->withVisibilityCallable($this->access_helper->isUserLoggedIn()) // see Mantis 30743
+        
 
         if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
             $item = $item->withTitle($storage->getDefaultTitle());

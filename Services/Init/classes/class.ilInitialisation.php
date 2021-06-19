@@ -3,6 +3,7 @@
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
@@ -1991,7 +1992,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {

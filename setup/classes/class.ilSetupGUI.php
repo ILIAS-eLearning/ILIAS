@@ -4322,7 +4322,7 @@ class ilSetupGUI
         $client = $this->setup->getClient();
         $client->provideGlobalDB();
 
-        $persistence = new BasicPersistence();
+        $persistence = BasicPersistence::instance();
         $bucket_ids = $persistence->getBucketIdsByState(State::SCHEDULED);
         foreach ($bucket_ids as $bucket_id) {
             $persistence->deleteBucketById($bucket_id);

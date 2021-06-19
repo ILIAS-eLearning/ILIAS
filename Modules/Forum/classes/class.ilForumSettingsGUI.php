@@ -170,7 +170,7 @@ class ilForumSettingsGUI
             'basic_settings',
             $this->ctrl->getLinkTarget($this->parent_obj, 'edit'),
             '',
-            ['ilobjforumgui', 'ilObjForumGUI']
+            [strtolower(ilObjForumGUI::class)]
         );
 
         if ($this->settings->get('forum_notification') > 0) {
@@ -188,7 +188,7 @@ class ilForumSettingsGUI
                         'notifications',
                         $this->ctrl->getLinkTarget($this, 'showMembers'),
                         '',
-                        '',
+                        [strtolower(self::class)],
                         '',
                         $force_mem_active
                     );
@@ -199,9 +199,9 @@ class ilForumSettingsGUI
         $this->lng->loadLanguageModule('cont');
         $this->tabs->addSubTabTarget(
             'cont_news_settings',
-            $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'),
+            $this->ctrl->getLinkTargetByClass(ilContainerNewsSettingsGUI::class),
             '',
-            'ilcontainernewssettingsgui'
+            [strtolower(ilContainerNewsSettingsGUI::class)]
         );
 
         return true;

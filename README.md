@@ -26,3 +26,7 @@ You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.
 ### Development
 
 Information on our software development processes and guidelines and ways to contribute can be found the the [development section](docs/development) of our documentation.
+
+
+### ILIAS Root Directory
+Requests to add new files and directories in the root directory of ILIAS MUST be presented as development issues at and approved by the Jour Fixe.
