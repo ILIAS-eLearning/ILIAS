@@ -2,11 +2,12 @@
 
 namespace PhpOffice\PhpSpreadsheet\Worksheet;
 
+use Iterator;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Exception;
 use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 
-class ColumnIterator implements \Iterator
+class ColumnIterator implements Iterator
 {
     /**
      * Worksheet to iterate.
@@ -56,7 +57,8 @@ class ColumnIterator implements \Iterator
      */
     public function __destruct()
     {
-        unset($this->worksheet);
+        // @phpstan-ignore-next-line
+        $this->worksheet = null;
     }
 
     /**
@@ -64,15 +66,15 @@ class ColumnIterator implements \Iterator
      *
      * @param string $startColumn The column address at which to start iterating
      *
-     * @throws Exception
-     *
-     * @return ColumnIterator
+     * @return $this
      */
-    public function resetStart($startColumn = 'A')
+    public function resetStart(string $startColumn = 'A')
     {
         $startColumnIndex = Coordinate::columnIndexFromString($startColumn);
         if ($startColumnIndex > Coordinate::columnIndexFromString($this->worksheet->getHighestColumn())) {
-            throw new Exception("Start column ({$startColumn}) is beyond highest column ({$this->worksheet->getHighestColumn()})");
+            throw new Exception(
+                "Start column ({$startColumn}) is beyond highest column ({$this->worksheet->getHighestColumn()})"
+            );
         }
 
         $this->startColumnIndex = $startColumnIndex;
@@ -89,11 +91,11 @@ class ColumnIterator implements \Iterator
      *
      * @param string $endColumn The column address at which to stop iterating
      *
-     * @return ColumnIterator
+     * @return $this
      */
     public function resetEnd($endColumn = null)
     {
-        $endColumn = $endColumn ? $endColumn : $this->worksheet->getHighestColumn();
+        $endColumn = $endColumn ?: $this->worksheet->getHighestColumn();
         $this->endColumnIndex = Coordinate::columnIndexFromString($endColumn);
 
         return $this;
@@ -104,15 +106,15 @@ class ColumnIterator implements \Iterator
      *
      * @param string $column The column address to set the current pointer at
      *
-     * @throws PhpSpreadsheetException
-     *
-     * @return ColumnIterator
+     * @return $this
      */
-    public function seek($column = 'A')
+    public function seek(string $column = 'A')
     {
         $column = Coordinate::columnIndexFromString($column);
         if (($column < $this->startColumnIndex) || ($column > $this->endColumnIndex)) {
-            throw new PhpSpreadsheetException("Column $column is out of range ({$this->startColumnIndex} - {$this->endColumnIndex})");
+            throw new PhpSpreadsheetException(
+                "Column $column is out of range ({$this->startColumnIndex} - {$this->endColumnIndex})"
+            );
         }
         $this->currentColumnIndex = $column;
 
@@ -122,7 +124,7 @@ class ColumnIterator implements \Iterator
     /**
      * Rewind the iterator to the starting column.
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentColumnIndex = $this->startColumnIndex;
     }
@@ -139,10 +141,8 @@ class ColumnIterator implements \Iterator
 
     /**
      * Return the current iterator key.
-     *
-     * @return string
      */
-    public function key()
+    public function key(): string
     {
         return Coordinate::stringFromColumnIndex($this->currentColumnIndex);
     }
@@ -150,7 +150,7 @@ class ColumnIterator implements \Iterator
     /**
      * Set the iterator to its next value.
      */
-    public function next()
+    public function next(): void
     {
         ++$this->currentColumnIndex;
     }
@@ -158,17 +158,15 @@ class ColumnIterator implements \Iterator
     /**
      * Set the iterator to its previous value.
      */
-    public function prev()
+    public function prev(): void
     {
         --$this->currentColumnIndex;
     }
 
     /**
      * Indicate if more columns exist in the worksheet range of columns that we're iterating.
-     *
-     * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->currentColumnIndex <= $this->endColumnIndex && $this->currentColumnIndex >= $this->startColumnIndex;
     }

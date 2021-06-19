@@ -25,11 +25,11 @@ abstract class WriterPart
 
     /**
      * Set parent Ods writer.
-     *
-     * @param Ods $writer
      */
     public function __construct(Ods $writer)
     {
         $this->parentWriter = $writer;
     }
+
+    abstract public function write(): string;
 }

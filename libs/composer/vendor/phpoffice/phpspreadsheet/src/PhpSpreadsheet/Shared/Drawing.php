@@ -2,6 +2,8 @@
 
 namespace PhpOffice\PhpSpreadsheet\Shared;
 
+use GdImage;
+
 class Drawing
 {
     /**
@@ -13,7 +15,7 @@ class Drawing
      */
     public static function pixelsToEMU($pValue)
     {
-        return round($pValue * 9525);
+        return $pValue * 9525;
     }
 
     /**
@@ -26,7 +28,7 @@ class Drawing
     public static function EMUToPixels($pValue)
     {
         if ($pValue != 0) {
-            return round($pValue / 9525);
+            return (int) round($pValue / 9525);
         }
 
         return 0;
@@ -98,7 +100,7 @@ class Drawing
      */
     public static function pixelsToPoints($pValue)
     {
-        return $pValue * 0.67777777;
+        return $pValue * 0.75;
     }
 
     /**
@@ -111,7 +113,7 @@ class Drawing
     public static function pointsToPixels($pValue)
     {
         if ($pValue != 0) {
-            return (int) ceil($pValue * 1.333333333);
+            return (int) ceil($pValue / 0.75);
         }
 
         return 0;
@@ -139,7 +141,7 @@ class Drawing
     public static function angleToDegrees($pValue)
     {
         if ($pValue != 0) {
-            return round($pValue / 60000);
+            return (int) round($pValue / 60000);
         }
 
         return 0;
@@ -152,7 +154,7 @@ class Drawing
      *
      * @param string $p_sFile Path to Windows DIB (BMP) image
      *
-     * @return resource
+     * @return GdImage|resource
      */
     public static function imagecreatefrombmp($p_sFile)
     {
@@ -169,6 +171,8 @@ class Drawing
 
         //    Process the header
         //    Structure: http://www.fastgraph.com/help/bmp_header_format.html
+        $width = 0;
+        $height = 0;
         if (substr($header, 0, 4) == '424d') {
             //    Cut it in parts of 2 bytes
             $header_parts = str_split($header, 2);

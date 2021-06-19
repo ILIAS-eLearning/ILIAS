@@ -55,7 +55,7 @@ class DataSeriesValues
     /**
      * Data Values.
      *
-     * @var array of mixed
+     * @var mixed[]
      */
     private $dataValues = [];
 
@@ -115,9 +115,7 @@ class DataSeriesValues
      *                                    DataSeriesValues::DATASERIES_TYPE_NUMBER
      *                                        Normally used for chart data values
      *
-     * @throws Exception
-     *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setDataType($dataType)
     {
@@ -144,7 +142,7 @@ class DataSeriesValues
      *
      * @param string $dataSource
      *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setDataSource($dataSource)
     {
@@ -168,7 +166,7 @@ class DataSeriesValues
      *
      * @param string $marker
      *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setPointMarker($marker)
     {
@@ -192,7 +190,7 @@ class DataSeriesValues
      *
      * @param string $formatCode
      *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setFormatCode($formatCode)
     {
@@ -247,8 +245,6 @@ class DataSeriesValues
      *
      * @param string $color value for color
      *
-     * @throws \Exception thrown if color is invalid
-     *
      * @return bool true if validation was successful
      */
     private function validateColor($color)
@@ -275,7 +271,7 @@ class DataSeriesValues
      *
      * @param int $width
      *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setLineWidth($width)
     {
@@ -317,7 +313,7 @@ class DataSeriesValues
     /**
      * Get Series Data Values.
      *
-     * @return array of mixed
+     * @return mixed[]
      */
     public function getDataValues()
     {
@@ -346,7 +342,7 @@ class DataSeriesValues
      *
      * @param array $dataValues
      *
-     * @return DataSeriesValues
+     * @return $this
      */
     public function setDataValues($dataValues)
     {
@@ -356,7 +352,7 @@ class DataSeriesValues
         return $this;
     }
 
-    public function refresh(Worksheet $worksheet, $flatten = true)
+    public function refresh(Worksheet $worksheet, $flatten = true): void
     {
         if ($this->dataSource !== null) {
             $calcEngine = Calculation::getInstance($worksheet->getParent());
@@ -370,13 +366,13 @@ class DataSeriesValues
             if ($flatten) {
                 $this->dataValues = Functions::flattenArray($newDataValues);
                 foreach ($this->dataValues as &$dataValue) {
-                    if ((!empty($dataValue)) && ($dataValue[0] == '#')) {
+                    if (is_string($dataValue) && !empty($dataValue) && $dataValue[0] == '#') {
                         $dataValue = 0.0;
                     }
                 }
                 unset($dataValue);
             } else {
-                list($worksheet, $cellRange) = Worksheet::extractSheetTitle($this->dataSource, true);
+                [$worksheet, $cellRange] = Worksheet::extractSheetTitle($this->dataSource, true);
                 $dimensions = Coordinate::rangeDimension(str_replace('$', '', $cellRange));
                 if (($dimensions[0] == 1) || ($dimensions[1] == 1)) {
                     $this->dataValues = Functions::flattenArray($newDataValues);

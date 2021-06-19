@@ -40,6 +40,10 @@ class DataSeries
     const STYLE_MARKER = 'marker';
     const STYLE_FILLED = 'filled';
 
+    const EMPTY_AS_GAP = 'gap';
+    const EMPTY_AS_ZERO = 'zero';
+    const EMPTY_AS_SPAN = 'span';
+
     /**
      * Series Plot Type.
      *
@@ -71,21 +75,21 @@ class DataSeries
     /**
      * Order of plots in Series.
      *
-     * @var array of integer
+     * @var int[]
      */
     private $plotOrder = [];
 
     /**
      * Plot Label.
      *
-     * @var array of DataSeriesValues
+     * @var DataSeriesValues[]
      */
     private $plotLabel = [];
 
     /**
      * Plot Category.
      *
-     * @var array of DataSeriesValues
+     * @var DataSeriesValues[]
      */
     private $plotCategory = [];
 
@@ -99,7 +103,7 @@ class DataSeries
     /**
      * Plot Values.
      *
-     * @var array of DataSeriesValues
+     * @var DataSeriesValues[]
      */
     private $plotValues = [];
 
@@ -157,7 +161,7 @@ class DataSeries
      *
      * @param string $plotType
      *
-     * @return DataSeries
+     * @return $this
      */
     public function setPlotType($plotType)
     {
@@ -181,7 +185,7 @@ class DataSeries
      *
      * @param string $groupingType
      *
-     * @return DataSeries
+     * @return $this
      */
     public function setPlotGrouping($groupingType)
     {
@@ -205,7 +209,7 @@ class DataSeries
      *
      * @param string $plotDirection
      *
-     * @return DataSeries
+     * @return $this
      */
     public function setPlotDirection($plotDirection)
     {
@@ -227,7 +231,7 @@ class DataSeries
     /**
      * Get Plot Labels.
      *
-     * @return array of DataSeriesValues
+     * @return DataSeriesValues[]
      */
     public function getPlotLabels()
     {
@@ -239,7 +243,7 @@ class DataSeries
      *
      * @param mixed $index
      *
-     * @return DataSeriesValues
+     * @return DataSeriesValues|false
      */
     public function getPlotLabelByIndex($index)
     {
@@ -256,7 +260,7 @@ class DataSeries
     /**
      * Get Plot Categories.
      *
-     * @return array of DataSeriesValues
+     * @return DataSeriesValues[]
      */
     public function getPlotCategories()
     {
@@ -268,7 +272,7 @@ class DataSeries
      *
      * @param mixed $index
      *
-     * @return DataSeriesValues
+     * @return DataSeriesValues|false
      */
     public function getPlotCategoryByIndex($index)
     {
@@ -297,7 +301,7 @@ class DataSeries
      *
      * @param null|string $plotStyle
      *
-     * @return DataSeries
+     * @return $this
      */
     public function setPlotStyle($plotStyle)
     {
@@ -309,7 +313,7 @@ class DataSeries
     /**
      * Get Plot Values.
      *
-     * @return array of DataSeriesValues
+     * @return DataSeriesValues[]
      */
     public function getPlotValues()
     {
@@ -321,7 +325,7 @@ class DataSeries
      *
      * @param mixed $index
      *
-     * @return DataSeriesValues
+     * @return DataSeriesValues|false
      */
     public function getPlotValuesByIndex($index)
     {
@@ -360,7 +364,7 @@ class DataSeries
      *
      * @param bool $smoothLine
      *
-     * @return DataSeries
+     * @return $this
      */
     public function setSmoothLine($smoothLine)
     {
@@ -369,7 +373,7 @@ class DataSeries
         return $this;
     }
 
-    public function refresh(Worksheet $worksheet)
+    public function refresh(Worksheet $worksheet): void
     {
         foreach ($this->plotValues as $plotValues) {
             if ($plotValues !== null) {

@@ -14,10 +14,7 @@ class Drawing extends WriterPart
     /**
      * Write drawings to XML format.
      *
-     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $pWorksheet
      * @param bool $includeCharts Flag indicating if we should include drawing details for charts
-     *
-     * @throws WriterException
      *
      * @return string XML Output
      */
@@ -82,28 +79,27 @@ class Drawing extends WriterPart
      * Write drawings to XML format.
      *
      * @param XMLWriter $objWriter XML Writer
-     * @param \PhpOffice\PhpSpreadsheet\Chart\Chart $pChart
      * @param int $pRelationId
      */
-    public function writeChart(XMLWriter $objWriter, \PhpOffice\PhpSpreadsheet\Chart\Chart $pChart, $pRelationId = -1)
+    public function writeChart(XMLWriter $objWriter, \PhpOffice\PhpSpreadsheet\Chart\Chart $pChart, $pRelationId = -1): void
     {
         $tl = $pChart->getTopLeftPosition();
-        $tl['colRow'] = Coordinate::coordinateFromString($tl['cell']);
+        $tlColRow = Coordinate::indexesFromString($tl['cell']);
         $br = $pChart->getBottomRightPosition();
-        $br['colRow'] = Coordinate::coordinateFromString($br['cell']);
+        $brColRow = Coordinate::indexesFromString($br['cell']);
 
         $objWriter->startElement('xdr:twoCellAnchor');
 
         $objWriter->startElement('xdr:from');
-        $objWriter->writeElement('xdr:col', Coordinate::columnIndexFromString($tl['colRow'][0]) - 1);
+        $objWriter->writeElement('xdr:col', $tlColRow[0] - 1);
         $objWriter->writeElement('xdr:colOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($tl['xOffset']));
-        $objWriter->writeElement('xdr:row', $tl['colRow'][1] - 1);
+        $objWriter->writeElement('xdr:row', $tlColRow[1] - 1);
         $objWriter->writeElement('xdr:rowOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($tl['yOffset']));
         $objWriter->endElement();
         $objWriter->startElement('xdr:to');
-        $objWriter->writeElement('xdr:col', Coordinate::columnIndexFromString($br['colRow'][0]) - 1);
+        $objWriter->writeElement('xdr:col', $brColRow[0] - 1);
         $objWriter->writeElement('xdr:colOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($br['xOffset']));
-        $objWriter->writeElement('xdr:row', $br['colRow'][1] - 1);
+        $objWriter->writeElement('xdr:row', $brColRow[1] - 1);
         $objWriter->writeElement('xdr:rowOff', \PhpOffice\PhpSpreadsheet\Shared\Drawing::pixelsToEMU($br['yOffset']));
         $objWriter->endElement();
 
@@ -153,20 +149,16 @@ class Drawing extends WriterPart
      * Write drawings to XML format.
      *
      * @param XMLWriter $objWriter XML Writer
-     * @param BaseDrawing $pDrawing
      * @param int $pRelationId
      * @param null|int $hlinkClickId
-     *
-     * @throws WriterException
      */
-    public function writeDrawing(XMLWriter $objWriter, BaseDrawing $pDrawing, $pRelationId = -1, $hlinkClickId = null)
+    public function writeDrawing(XMLWriter $objWriter, BaseDrawing $pDrawing, $pRelationId = -1, $hlinkClickId = null): void
     {
         if ($pRelationId >= 0) {
             // xdr:oneCellAnchor
             $objWriter->startElement('xdr:oneCellAnchor');
             // Image location
-            $aCoordinates = Coordinate::coordinateFromString($pDrawing->getCoordinates());
-            $aCoordinates[0] = Coordinate::columnIndexFromString($aCoordinates[0]);
+            $aCoordinates = Coordinate::indexesFromString($pDrawing->getCoordinates());
 
             // xdr:from
             $objWriter->startElement('xdr:from');
@@ -286,10 +278,6 @@ class Drawing extends WriterPart
 
     /**
      * Write VML header/footer images to XML format.
-     *
-     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $pWorksheet
-     *
-     * @throws WriterException
      *
      * @return string XML Output
      */
@@ -440,11 +428,11 @@ class Drawing extends WriterPart
      * @param string $pReference Reference
      * @param HeaderFooterDrawing $pImage Image
      */
-    private function writeVMLHeaderFooterImage(XMLWriter $objWriter, $pReference, HeaderFooterDrawing $pImage)
+    private function writeVMLHeaderFooterImage(XMLWriter $objWriter, $pReference, HeaderFooterDrawing $pImage): void
     {
         // Calculate object id
         preg_match('{(\d+)}', md5($pReference), $m);
-        $id = 1500 + (substr($m[1], 0, 2) * 1);
+        $id = 1500 + ((int) substr($m[1], 0, 2) * 1);
 
         // Calculate offset
         $width = $pImage->getWidth();
@@ -477,8 +465,6 @@ class Drawing extends WriterPart
     /**
      * Get an array of all drawings.
      *
-     * @param Spreadsheet $spreadsheet
-     *
      * @return \PhpOffice\PhpSpreadsheet\Worksheet\Drawing[] All drawings in PhpSpreadsheet
      */
     public function allDrawings(Spreadsheet $spreadsheet)
@@ -502,10 +488,9 @@ class Drawing extends WriterPart
     }
 
     /**
-     * @param XMLWriter $objWriter
      * @param null|int $hlinkClickId
      */
-    private function writeHyperLinkDrawing(XMLWriter $objWriter, $hlinkClickId)
+    private function writeHyperLinkDrawing(XMLWriter $objWriter, $hlinkClickId): void
     {
         if ($hlinkClickId === null) {
             return;
