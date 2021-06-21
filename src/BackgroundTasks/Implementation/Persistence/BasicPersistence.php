@@ -509,7 +509,12 @@ class BasicPersistence implements Persistence
     {
         $buckets = [];
         foreach ($bucket_container_id as $bucket_id) {
-            $buckets[] = $this->loadBucket($bucket_id);
+            try {
+                $buckets[] = $this->loadBucket($bucket_id);
+            } catch (\Throwable $t) {
+                // there seem to be a problem with this container, we must delete it
+                $this->deleteBucketById($bucket_id);
+            }
         }
 
         return $buckets;
