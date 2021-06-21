@@ -2052,7 +2052,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {
