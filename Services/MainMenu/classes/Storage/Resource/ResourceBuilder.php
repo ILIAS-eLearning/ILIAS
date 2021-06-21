@@ -81,7 +81,7 @@ class ResourceBuilder
 
     public function has(ResourceIdentification $identification) : bool
     {
-        return $this->resource_repository->has($identification);
+        return $this->resource_repository->has($identification) && $this->storage_handler->has($identification);
     }
 
 
