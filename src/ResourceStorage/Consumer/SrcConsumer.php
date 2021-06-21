@@ -40,7 +40,12 @@ class SrcConsumer
     public function getSrc() : string
     {
         $revision = $this->getRevision();
-        $stream = $this->storage_handler->getStream($revision);
+        try {
+            $stream = $this->storage_handler->getStream($revision);
+        } catch (\Throwable $t) {
+            return '';
+        }
+        
         $base64 = base64_encode($stream->getContents());
         $mime = $revision->getInformation()->getMimeType();
 
