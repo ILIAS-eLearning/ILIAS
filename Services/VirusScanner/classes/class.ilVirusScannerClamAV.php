@@ -160,13 +160,14 @@ class ilVirusScannerClamAV extends ilVirusScanner
         $is_debug_virus = false;
         if ($a_origname == 'clamav_infected.txt') {
             $is_debug_virus = true;
+            $this->scanResult = 'Debug file "clamav_infected" triggered virus alert. ';
         }
         //end-patch skyguide
 
         // sophie could be called
+        //begin-patch skyguide
         if ($this->hasDetections($this->scanResult) || $is_debug_virus) {
             $this->scanFileIsInfected = true;
-            //begin-patch skyguide
 			#$this->logScanResult();
             $vir_info = array();
             $vir_info['found'] = 1;
@@ -192,20 +193,17 @@ class ilVirusScannerClamAV extends ilVirusScanner
                 $vir_info['info_text'] .= ' Virus type ' . explode(":", $out[0])[1] . '.';
             }
 
-
-            $vir_info['info_text'] .= ' More information is written in clamd_ilias.log.' . "\n";
-
-            $info_string = implode("#", $vir_info);
+            //$info_string = implode("#", $vir_info);
             $file = ILIAS_LOG_DIR.'/clamd_status.log';
             $status_file = fopen($file, "w");
-            fwrite($status_file, $info_string);
+            //fwrite($status_file, $info_string);
+            fwrite($status_file, "1");
             fclose($status_file);
             //end-patch skyguide
             return $this->scanResult;
 		}
 		else
-		{
-            //begin-patch skyguide
+		{            //begin-patch skyguide
             if ($GLOBALS['ilUser'] instanceof ilObjUser) {
                 $this->log->info('File is clean: ' . $this->scanFilePath . ' uploaded by ' . $GLOBALS['ilUser']->getLogin());
             } else {
