@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
  * Class ilObjLinkResourceAccess
@@ -176,7 +175,6 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         if (isset(self::$single_link[$a_obj_id])) {
             return self::$single_link[$a_obj_id];
         }
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         return self::$single_link[$a_obj_id] = ilLinkResourceItems::_isSingular($a_obj_id);
     }
 }

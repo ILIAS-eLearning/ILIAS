@@ -3,8 +3,6 @@
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-include_once('./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php');
 
 /**
 * Class ilObjLinkResourceListGUI
@@ -36,9 +34,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     */
     public function getDescription()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
     
         if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
@@ -47,10 +42,10 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             $desc = $this->link_data['description'];
             
             // #10682
-            if ($ilSetting->get("rep_shorten_description")) {
+            if ($this->settings->get("rep_shorten_description")) {
                 $desc = ilUtil::shortenText(
                     $desc,
-                    $ilSetting->get("rep_shorten_description_length"),
+                    $this->settings->get("rep_shorten_description_length"),
                     true
                 );
             }
@@ -94,29 +89,15 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             $link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
             
             // we could use the "internal" flag, but it would not work for "old" links
-            include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-            include_once "Services/Form/classes/class.ilLinkInputGUI.php";
             if (!ilLinkInputGUI::isInternalLink($link["target"])) {
                 return '_blank';
             }
         }
+        return '';
     }
             
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
     public function getProperties()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-
         $props = array();
 
         return $props;
@@ -132,9 +113,24 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     */
     public function getCommandLink($a_cmd)
     {
+        global $DIC;
+        $request = $DIC->http()->request();
+
+        if(isset($request->getQueryParams()['wsp_id'])) {
+            $wsp_id = $request->getQueryParams()['wsp_id'];
+        } else if(isset($request->getParsedBody()['wsp_id'])) {
+            $wsp_id = $request->getParsedBody()['wsp_id'];
+        }
+
+        if(isset($request->getQueryParams()['cmdClass'])) {
+            $cmd_class = $request->getQueryParams()['cmdClass'];
+        } else if(isset($request->getParsedBody()['cmdClass'])) {
+            $cmd_class = $request->getParsedBody()['cmdClass'];
+        }
+
         if (
-            (isset($_REQUEST["wsp_id"]) && $_REQUEST["wsp_id"]) ||
-            (isset($_REQUEST["cmdClass"]) && $_REQUEST["cmdClass"] === "ilpersonalworkspacegui")
+            (isset($wsp_id) && $wsp_id) ||
+            (isset($cmd_class) && $cmd_class === "ilpersonalworkspacegui")
         ) {
             if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                 !ilLinkResourceList::checkListStatus($this->obj_id) &&
@@ -172,11 +168,9 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     */
     public function __readLink()
     {
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-        include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
 
         if (ilParameterAppender::_isEnabled()) {
-            return $this->link_data = ilParameterAppender::_append($tmp = &ilLinkResourceItems::_getFirstLink($this->obj_id));
+            return $this->link_data = ilParameterAppender::_append($tmp = ilLinkResourceItems::_getFirstLink($this->obj_id));
         }
         return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
     }

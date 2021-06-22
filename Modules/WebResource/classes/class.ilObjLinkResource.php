@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/Object/classes/class.ilObject.php";
 
 /** @defgroup ModulesWebResource Modules/WebResource
  */
@@ -93,7 +92,6 @@ class ilObjLinkResource extends ilObject
         }
         switch ($a_element) {
             case 'General':
-                    include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
                     if (ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
                         $link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
                         $link = new ilLinkResourceItems($this->getId());
@@ -122,14 +120,12 @@ class ilObjLinkResource extends ilObject
         }
 
         // delete items and list
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         ilLinkResourceItems::_deleteAll($this->getId());
         $list = new ilLinkResourceList($this->getId());
         $list->delete();
 
 
         // Delete notify entries
-        include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
         ilLinkCheckNotify::_deleteObject($this->getId());
 
         // delete meta data
@@ -140,7 +136,6 @@ class ilObjLinkResource extends ilObject
 
     public function initLinkResourceItemsObject()
     {
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
         $this->items_obj = new ilLinkResourceItems($this->getId());
 
@@ -161,7 +156,6 @@ class ilObjLinkResource extends ilObject
         $this->cloneMetaData($new_obj);
         
         // object created now copy other settings
-        include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
         $links = new ilLinkResourceItems($this->getId());
         $links->cloneItems($new_obj->getId());
         
@@ -186,13 +180,11 @@ class ilObjLinkResource extends ilObject
         $writer->xmlStartTag('WebLinks', $attribs);
                 
         // LOM MetaData
-        include_once 'Services/MetaData/classes/class.ilMD2XML.php';
         $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
         $md2xml->startExport();
         $writer->appendXML($md2xml->getXML());
 
         // Sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {
             case ilContainer::SORT_MANUAL:
                 $writer->xmlElement(
@@ -211,7 +203,6 @@ class ilObjLinkResource extends ilObject
         }
         
         // All links
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->getId());
         $links->toXML($writer);
         

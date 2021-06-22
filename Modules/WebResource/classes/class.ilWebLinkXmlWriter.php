@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 
 /**
 * XML writer for weblinks
@@ -30,7 +29,6 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     /**
      * Set obj_id of weblink object
      * @param int obj_id
-     * @return bool
      */
     public function setObjId($a_obj_id)
     {
@@ -39,7 +37,6 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     
     /**
      * Write XML
-     * @return
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
     public function write()
@@ -67,7 +64,6 @@ class ilWebLinkXmlWriter extends ilXmlWriter
     
     /**
      * Init xml writer
-     * @return bool
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr
      */
     protected function init()
@@ -77,7 +73,7 @@ class ilWebLinkXmlWriter extends ilXmlWriter
         if (!$this->obj_id) {
             throw new UnexpectedValueException('No obj_id given: ');
         }
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
+
         if (!$this->weblink = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
             throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
         }

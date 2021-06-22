@@ -34,18 +34,18 @@
 */
 class ilLinkResourceHandlerGUI
 {
+
+    /**
+     * @var ilCtrl
+     */
+    private $ctrl;
+
     public function __construct()
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilias = $DIC['ilias'];
-        $ilNavigationHistory = $DIC['ilNavigationHistory'];
-
         // initialisation stuff
-        $this->ctrl = &$ilCtrl;
+        $this->ctrl = $DIC->ctrl();
     }
     
     /**
@@ -55,10 +55,11 @@ class ilLinkResourceHandlerGUI
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $tpl = $DIC['tpl'];
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
+        $tpl = $DIC->ui()->mainTemplate();
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
+        $getParams = $DIC->http()->request()->getQueryParams();
         
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -68,18 +69,17 @@ class ilLinkResourceHandlerGUI
         }
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $getParams["ref_id"])) {
             $ilNavigationHistory->addItem(
-                $_GET["ref_id"],
-                "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=" . $_GET["ref_id"],
+                $getParams["ref_id"],
+                "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=" . $getParams["ref_id"],
                 "webr"
             );
         }
 
         switch ($next_class) {
             case 'ilobjlinkresourcegui':
-                require_once "./Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
-                $link_gui = new ilObjLinkResourceGUI((int) $_GET["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+                $link_gui = new ilObjLinkResourceGUI((int) $getParams["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
                 $this->ctrl->forwardCommand($link_gui);
                 break;
         }

@@ -21,11 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
-include_once './Services/Link/classes/class.ilLink.php';
 
 /**
 * Show glossary terms
@@ -38,17 +33,10 @@ include_once './Services/Link/classes/class.ilLink.php';
 */
 class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 {
-    /**
-     * get html
-     * @return
-     */
     public function getHTML()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         
-        $lng->loadLanguageModule('webr');
+        $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
                 $this->tpl->setCurrentBlock('sea_fragment');
@@ -56,7 +44,7 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock('subitem');
-            $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('webr'));
+            $this->tpl->setVariable('SUBITEM_TYPE', $this->lng->txt('webr'));
             $this->tpl->setVariable('SEPERATOR', ':');
             
             $link_data = ilLinkResourceItems::lookupItem($this->getObjId(), $sub_item);

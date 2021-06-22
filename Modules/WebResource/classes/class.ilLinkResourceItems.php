@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
-
 /**
 * Class ilLinkResourceItems
 *
@@ -59,11 +57,6 @@ class ilLinkResourceItems
     }
     // END PATCH Lucene Search
     
-    /**
-     * Update title
-     * @param type $a_link_id
-     * @param type $a_title
-     */
     public static function updateTitle($a_link_id, $a_title)
     {
         global $DIC;
@@ -196,7 +189,6 @@ class ilLinkResourceItems
      */
     public function cloneItems($a_new_id)
     {
-        include_once 'Modules/WebResource/classes/class.ilParameterAppender.php';
         $appender = new ilParameterAppender($this->getLinkResourceId());
         
         foreach ($this->getAllItems() as $item) {
@@ -237,7 +229,6 @@ class ilLinkResourceItems
         $res = $ilDB->manipulate($query);
 
         if ($a_update_history) {
-            include_once("./Services/History/classes/class.ilHistory.php");
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "delete",
@@ -274,7 +265,6 @@ class ilLinkResourceItems
         $res = $ilDB->manipulate($query);
         
         if ($a_update_history) {
-            include_once("./Services/History/classes/class.ilHistory.php");
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "update",
@@ -413,7 +403,6 @@ class ilLinkResourceItems
         $this->setLinkId($link_id);
         
         if ($a_update_history) {
-            include_once("./Services/History/classes/class.ilHistory.php");
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "add",
@@ -525,13 +514,11 @@ class ilLinkResourceItems
     
     /**
      * Sort items (sorting mode depends on sorting setting)
-     * @param object $a_items
+     * @param array $a_items
      * @return
      */
     public function sortItems($a_items)
     {
-        include_once './Services/Container/classes/class.ilContainer.php';
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $mode = ilContainerSortingSettings::_lookupSortMode($this->getLinkResourceId());
         
         if ($mode == ilContainer::SORT_TITLE) {
@@ -541,7 +528,6 @@ class ilLinkResourceItems
     
     
         if ($mode == ilContainer::SORT_MANUAL) {
-            include_once './Services/Container/classes/class.ilContainerSorting.php';
             $pos = ilContainerSorting::lookupPositions($this->getLinkResourceId());
             foreach ($a_items as $link_id => $item) {
                 if (isset($pos[$link_id])) {
@@ -653,7 +639,6 @@ class ilLinkResourceItems
 
         $ilDB = $DIC['ilDB'];
 
-        include_once("./Modules/WebResource/classes/class.ilObjLinkResourceAccess.php");
         return ilObjLinkResourceAccess::_getFirstLink($a_webr_id);
     }
     
@@ -697,8 +682,7 @@ class ilLinkResourceItems
             $writer->xmlElement('Target', array(), $link['target']);
             
             // Dynamic parameters
-            include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-            foreach (ilParameterAppender::_getParams($link_id) as $param_id => $param) {
+            foreach (ilParameterAppender::_getParams($link['link_id']) as $param_id => $param) {
                 $value = '';
                 switch ($param['value']) {
                     case LINKS_USER_ID:

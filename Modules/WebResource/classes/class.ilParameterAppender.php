@@ -21,15 +21,15 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("LINKS_USER_ID", 1);
-define("LINKS_SESSION_ID", 2);
-define("LINKS_LOGIN", 3);
-define('LINKS_MATRICULATION', 4);
+const LINKS_USER_ID = 1;
+const LINKS_SESSION_ID = 2;
+const LINKS_LOGIN = 3;
+const LINKS_MATRICULATION = 4;
 
 // Errors
-define("LINKS_ERR_NO_NAME", 1);
-define("LINKS_ERR_NO_VALUE", 2);
-define("LINKS_ERR_NO_NAME_VALUE", 3);
+const LINKS_ERR_NO_NAME = 1;
+const LINKS_ERR_NO_VALUE = 2;
+const LINKS_ERR_NO_NAME_VALUE = 3;
 
 /**
 * Class ilParameterAppender
@@ -47,15 +47,11 @@ class ilParameterAppender
     public $err = null;
 
 
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct($webr_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $this->webr_id = $webr_id;
         $this->db = $ilDB;
@@ -71,7 +67,7 @@ class ilParameterAppender
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = "SELECT * FROM webr_params " .
             "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer') . " " .
@@ -136,9 +132,6 @@ class ilParameterAppender
     
     public function add($a_link_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!$a_link_id) {
             return false;
@@ -147,30 +140,26 @@ class ilParameterAppender
             return false;
         }
 
-        $next_id = $ilDB->nextId('webr_params');
+        $next_id = $this->db->nextId('webr_params');
         $query = "INSERT INTO webr_params (param_id,webr_id,link_id,name,value) " .
             "VALUES( " .
-            $ilDB->quote($next_id, 'integer') . ", " .
-            $ilDB->quote($this->getObjId(), 'integer') . ", " .
-            $ilDB->quote($a_link_id, 'integer') . ", " .
-            $ilDB->quote($this->getName(), 'text') . ", " .
-            $ilDB->quote($this->getValue(), 'integer') .
+            $this->db->quote($next_id, 'integer') . ", " .
+            $this->db->quote($this->getObjId(), 'integer') . ", " .
+            $this->db->quote($a_link_id, 'integer') . ", " .
+            $this->db->quote($this->getName(), 'text') . ", " .
+            $this->db->quote($this->getValue(), 'integer') .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
 
         return $next_id;
     }
     
     public function delete($a_param_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "DELETE FROM webr_params " .
-            "WHERE param_id = " . $ilDB->quote($a_param_id, 'integer') . " " .
-            "AND webr_id = " . $ilDB->quote($this->getObjId(), 'integer');
-        $res = $ilDB->manipulate($query);
+            "WHERE param_id = " . $this->db->quote($a_param_id, 'integer') . " " .
+            "AND webr_id = " . $this->db->quote($this->getObjId(), 'integer');
+        $res = $this->db->manipulate($query);
         return true;
     }
     

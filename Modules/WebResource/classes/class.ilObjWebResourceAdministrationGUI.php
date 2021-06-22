@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php" ;
 
 /**
  * Web Resource Administration Settings.
@@ -37,7 +36,6 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive("perm_settings");
-                include_once "Services/AccessControl/classes/class.ilPermissionGUI.php";
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -54,11 +52,8 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
     public function getAdminTabs()
     {
-        global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "editSettings"),
@@ -66,7 +61,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("edit_permission", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"),
@@ -76,7 +71,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         }
     }
     
-    public function editSettings(ilObjPropertyFormGUI $a_form = null)
+    public function editSettings(ilPropertyFormGUI $a_form = null)
     {
         $this->tabs_gui->setTabActive('settings');
                 
@@ -89,15 +84,12 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
     public function saveSettings()
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
         
         $this->checkPermission("write");
         
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $ilSetting->set("links_dynamic", $form->getInput("links_dynamic"));
+            $this->settings->set("links_dynamic", $form->getInput("links_dynamic"));
             
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "editSettings");
@@ -109,12 +101,7 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
 
     protected function initFormSettings()
     {
-        global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-        $ilAccess = $DIC['ilAccess'];
-        
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveSettings"));
         $form->setTitle($this->lng->txt("settings"));
@@ -122,10 +109,10 @@ class ilObjWebResourceAdministrationGUI extends ilObjectGUI
         // dynamic web links
         $cb = new ilCheckboxInputGUI($this->lng->txt("links_dynamic"), "links_dynamic");
         $cb->setInfo($this->lng->txt("links_dynamic_info"));
-        $cb->setChecked($ilSetting->get("links_dynamic"));
+        $cb->setChecked($this->settings->get("links_dynamic"));
         $form->addItem($cb);
     
-        if ($ilAccess->checkAccess("write", '', $this->object->getRefId())) {
+        if ($this->access->checkAccess("write", '', $this->object->getRefId())) {
             $form->addCommandButton("saveSettings", $this->lng->txt("save"));
             $form->addCommandButton("view", $this->lng->txt("cancel"));
         }
