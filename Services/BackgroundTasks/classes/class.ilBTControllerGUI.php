@@ -58,8 +58,11 @@ class ilBTControllerGUI
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
         $from_url = $this->getFromURL();
-
-        $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
+        try {
+            $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
+        } catch (Throwable $t) {
+            $this->ctrl()->redirectToURL($from_url);
+        }
         $option = new UserInteractionOption("", $selected_option);
         $this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
         if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
