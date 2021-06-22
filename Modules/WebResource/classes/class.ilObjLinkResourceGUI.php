@@ -779,8 +779,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 break;
         }
 
-        $DIC->logger()->usr()->dump($a_mode);
-
         if ($a_mode == self::LINK_MOD_SET_LIST) {
             $this->form->setValuesByPost();
             $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveLinkList'));
