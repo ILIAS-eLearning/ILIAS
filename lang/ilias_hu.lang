@@ -705,7 +705,6 @@ assessment#:#assErrorText#:#Hibás szövegrész(ek) megjelölése
 assessment#:#assFileUpload#:#Fájlfeltöltéses kérdés
 assessment#:#assFlashQuestion#:#Flash-kérdés
 assessment#:#assImagemapQuestion#:#Aktív terület/képtérképes kérdés
-assessment#:#assJavaApplet#:#Java-Applet kérdés
 assessment#:#assMatchingQuestion#:#Párosító kérdés
 assessment#:#assMultipleChoice#:#Többválaszos kérdés (jelölőnégyzetes)
 assessment#:#assKprimChoice#:#Többválaszos kérdés (Kprim válaszok)

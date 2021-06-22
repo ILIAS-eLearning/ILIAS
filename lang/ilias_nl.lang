@@ -369,7 +369,6 @@ assessment#:#assFileUpload#:#Bestandsupload Vraag
 assessment#:#assFlashQuestion#:#Flash vraag
 assessment#:#assFormulaQuestion#:#Formulevraag
 assessment#:#assImagemapQuestion#:#'Hotspot' vraag
-assessment#:#assJavaApplet#:#Java Applet vraag
 assessment#:#assKprimChoice#:#Multiple Choice Vraag (Kprim Antwoorden)
 assessment#:#assMatchingQuestion#:#'Matching' vraag
 assessment#:#assMultipleChoice#:#Multiple-choice vragen (meerdere antwoorden)

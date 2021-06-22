@@ -709,7 +709,6 @@ assessment#:#assErrorText#:#Error Text
 assessment#:#assFileUpload#:#File Upload Question
 assessment#:#assFlashQuestion#:#Flash Question
 assessment#:#assImagemapQuestion#:#Hot Spot / Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
 assessment#:#assMatchingQuestion#:#Matching Question
 assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Answers)
 assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)

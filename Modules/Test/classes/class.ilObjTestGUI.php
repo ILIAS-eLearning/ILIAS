@@ -29,7 +29,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
  * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI, assFlashQuestionGUI
@@ -1247,10 +1247,6 @@ class ilObjTestGUI extends ilObjectGUI
                 case IMAGEMAP_QUESTION_IDENTIFIER:
                 case QT_IMAGEMAP:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
-                    break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                case QT_JAVAAPPLET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
                     break;
                 case FLASHAPPLET_QUESTION_IDENTIFIER:
                 case QT_FLASHAPPLET:

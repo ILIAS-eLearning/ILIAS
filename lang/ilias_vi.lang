@@ -3336,7 +3336,6 @@ common#:#usr_without_courses#:#Users without courses assigned###25 02 2007 new v
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###25 02 2007 new variable
 assessment#:#assClozeTest#:#Cloze Question###25 02 2007 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###25 02 2007 new variable
-assessment#:#assJavaApplet#:#Java Applet Question###25 02 2007 new variable
 assessment#:#assMatchingQuestion#:#Matching Question###25 02 2007 new variable
 assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)###25 02 2007 new variable
 assessment#:#assNumeric#:#Numeric Question###25 02 2007 new variable
