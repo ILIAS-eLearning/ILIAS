@@ -151,7 +151,7 @@ class ilPersonalSkillsGUI
      *
      * @return ilPersonalSkillsFilterGUI
      */
-    protected function getFilter()
+    public function getFilter()
     {
         return $this->filter;
     }
@@ -299,6 +299,22 @@ class ilPersonalSkillsGUI
         }
         $ilCtrl->setParameter($this, "profile_id", $current_prof_id);
         $this->setProfileId($current_prof_id);
+    }
+
+    /**
+     * @return int
+     */
+    public function getObjectId() : int
+    {
+        return $this->obj_id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getObjectSkills() : array
+    {
+        return $this->obj_skills;
     }
 
     /**
