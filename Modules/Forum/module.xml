@@ -26,7 +26,10 @@
 		<event type="raise" id="createdPost" />
 		<event type="raise" id="updatedPost" />
 		<event type="raise" id="censoredPost" />
-		<event type="raise" id="deletedPost" />
+		<event type="raise" id="beforePostDeletion" />
+		<event type="raise" id="afterPostDeletion" />
+		<event type="raise" id="mergedThreads" />
+		<event type="raise" id="movedThreads" />
 	</events>
 	<crons>		
 		<cron id="frm_notification" class="ilForumCronNotification" />

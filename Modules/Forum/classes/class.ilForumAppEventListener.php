@@ -23,6 +23,7 @@ class ilForumAppEventListener implements ilAppEventListener
     {
         /**
          * @var $post ilForumPost
+         * @var $forum ilObjForum
          * @var $logger ilLogger
          */
         global $DIC;
@@ -36,13 +37,26 @@ class ilForumAppEventListener implements ilAppEventListener
             case 'Modules/Forum':
                 switch ($a_event) {
                     case 'mergedThreads':
-                        ilForumPostDraft::moveDraftsByMergedThreads($a_parameter['source_thread_id'], $a_parameter['target_thread_id']);
+                        ilForumPostDraft::moveDraftsByMergedThreads(
+                            $a_parameter['source_thread_id'],
+                            $a_parameter['target_thread_id']
+                        );
+                        ilLPStatusWrapper::_refreshStatus(
+                            $a_parameter['obj_id']
+                        );
                         break;
                     case 'movedThreads':
-                        ilForumPostDraft::moveDraftsByMovedThread($a_parameter['thread_ids'], $a_parameter['source_ref_id'], $a_parameter['target_ref_id']);
+                        ilLPStatusWrapper::_refreshStatus(
+                            $a_parameter['source_frm_obj_id']
+                        );
+                        ilLPStatusWrapper::_refreshStatus(
+                            $a_parameter['target_frm_obj_id']
+                        );
                         break;
                     case 'createdPost':
                         $post = $a_parameter['post'];
+                        $forum = $a_parameter['object'];
+
                         $notify_moderators = $a_parameter['notify_moderators'];
 
                         $logger->debug(sprintf(
@@ -130,10 +144,18 @@ class ilForumAppEventListener implements ilAppEventListener
                                 'No "Reply to Posting" notification will be send at all ...'
                             );
                         }
+
+                        if ($post->isActivated()) {
+                            ilLPStatusWrapper::_updateStatus(
+                                $forum->getId(),
+                                $post->getPosAuthorId()
+                            );
+                        }
                         break;
 
                     case 'activatedPost':
                         $post = $a_parameter['post'];
+                        $forum = $a_parameter['object'];
 
                         $logger->debug(sprintf(
                             "Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",
@@ -164,6 +186,11 @@ class ilForumAppEventListener implements ilAppEventListener
                         }
 
                         // TODO Maybe an email regarding the parent posting's author notification is missing here
+
+                        ilLPStatusWrapper::_updateStatus(
+                            $forum->getId(),
+                            $post->getPosAuthorId()
+                        );
                         break;
 
                     case 'updatedPost':
@@ -277,7 +304,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         }
                         break;
 
-                    case 'deletedPost':
+                    case 'beforePostDeletion':
                         $post = $a_parameter['post'];
 
                         $logger->debug(sprintf(
@@ -330,6 +357,15 @@ class ilForumAppEventListener implements ilAppEventListener
                                 '"Posting Deleted" or "Thread Deleted" notifications will not be send ...'
                             );
                         }
+                        break;
+                    case 'afterPostDeletion':
+                        $post = $a_parameter['post'];
+
+                        ilLPStatusWrapper::_updateStatus(
+                            $a_parameter['obj_id'],
+                            $post->getPosAuthorId()
+                        );
+                        break;
                         break;
                     case 'savedAsDraft':
                     case 'updatedDraft':

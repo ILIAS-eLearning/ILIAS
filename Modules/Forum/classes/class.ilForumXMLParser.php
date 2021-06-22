@@ -11,14 +11,14 @@ class ilForumXMLParser extends ilSaxParser
      */
     private $forum;
     private $entity;
-    private $mapping = array(
-        'frm' => array(),
-        'thr' => array(),
-        'pos' => array()
-    );
+    private $mapping = [
+        'frm' => [],
+        'thr' => [],
+        'pos' => []
+    ];
     private $import_install_id = null;
-    private $user_id_mapping = array();
-    protected $mediaObjects = array();
+    private $user_id_mapping = [];
+    protected $mediaObjects = [];
 
     /**
      * @var null|string
@@ -26,17 +26,18 @@ class ilForumXMLParser extends ilSaxParser
     protected $schema_version = null;
 
     private $db;
+
     /**
      * Constructor
      *
-     * @param	ilObjForum	$forum	 existing forum object
-     * @param	string		$a_xml_file	xml data
-     * @access	public
+     * @param ilObjForum $forum existing forum object
+     * @param string $a_xml_file xml data
+     * @access    public
      */
     public function __construct($forum, $a_xml_data)
     {
         global $DIC;
-        
+
         parent::__construct();
         $this->forum = $forum;
         $this->setXMLContent('<?xml version="1.0" encoding="utf-8"?>' . $a_xml_data);
@@ -47,7 +48,7 @@ class ilForumXMLParser extends ilSaxParser
     /**
      * Set import directory
      *
-     * @param	string	import directory
+     * @param string    import directory
      */
     public function setImportDirectory($a_val)
     {
@@ -57,7 +58,7 @@ class ilForumXMLParser extends ilSaxParser
     /**
      * Get import directory
      *
-     * @return	string	import directory
+     * @return    string    import directory
      */
     public function getImportDirectory()
     {
@@ -81,11 +82,11 @@ class ilForumXMLParser extends ilSaxParser
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * set event handlers
+     *
+     * @param resource    reference to the xml parser
+     * @access    private
+     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -94,12 +95,12 @@ class ilForumXMLParser extends ilSaxParser
     }
 
     /**
-    * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
-    */
+     * handler for begin of element
+     *
+     * @param resource $a_xml_parser xml parser
+     * @param string $a_name element name
+     * @param array $a_attribs element attributes array
+     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
         switch ($a_name) {
@@ -133,8 +134,8 @@ class ilForumXMLParser extends ilSaxParser
     /**
      * handler for end of element
      *
-     * @param	resource	$a_xml_parser		xml parser
-     * @param	string		$a_name				element name
+     * @param resource $a_xml_parser xml parser
+     * @param string $a_name element name
      */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
@@ -145,8 +146,8 @@ class ilForumXMLParser extends ilSaxParser
         switch ($a_name) {
             case 'Forum':
                 $query_num_posts = "SELECT COUNT(pos_pk) cnt
-										FROM frm_posts
-									WHERE pos_top_fk = " . $this->db->quote(
+                    FROM frm_posts
+                    WHERE pos_top_fk = " . $this->db->quote(
                     $this->lastHandledForumId,
                     'integer'
                 );
@@ -156,8 +157,8 @@ class ilForumXMLParser extends ilSaxParser
                 $num_posts = $data_pos['cnt'];
 
                 $query_num_threads = "SELECT COUNT(thr_pk) cnt
-										FROM frm_threads
-									  WHERE thr_top_fk = " . $this->db->quote(
+                    FROM frm_threads
+                    WHERE thr_top_fk = " . $this->db->quote(
                     $this->lastHandledForumId,
                     'integer'
                 );
@@ -169,84 +170,86 @@ class ilForumXMLParser extends ilSaxParser
                 $update_str = "$this->lastHandledForumId#$this->lastHandledThreadId#$this->lastHandledPostId";
                 $this->db->manipulateF(
                     "UPDATE frm_data 
-						SET top_last_post = %s,
-							top_num_posts = %s,
-							top_num_threads = %s,
-							top_usr_id = %s
-					WHERE top_frm_fk = %s",
+                        SET top_last_post = %s,
+                            top_num_posts = %s,
+                            top_num_threads = %s,
+                            top_usr_id = %s
+                    WHERE top_frm_fk = %s",
                     array('text', 'integer', 'integer', 'integer', 'integer'),
                     array($update_str, $num_posts, $num_threads, $this->frm_last_mapped_top_usr_id, $this->forum_obj_id)
                 );
+
+                ilLPStatusWrapper::_refreshStatus($this->forum->getId());
                 break;
 
             case 'Id':
                 $x['Id'] = $this->cdata;
                 break;
-            
+
             case 'ObjId':
                 $x['ObjId'] = $this->cdata;
                 break;
-            
+
             case 'Title':
                 $x['Title'] = $this->cdata;
                 break;
-            
+
             case 'Description':
                 $x['Description'] = $this->cdata;
                 break;
-            
+
             case 'DefaultView':
                 $x['DefaultView'] = $this->cdata;
                 break;
-            
+
             case 'Pseudonyms':
                 $x['Pseudonyms'] = $this->cdata;
                 break;
-            
+
             case 'Statistics':
                 $x['Statistics'] = $this->cdata;
                 break;
-            
+
             case 'ThreadRatings':
                 $x['ThreadRatings'] = $this->cdata;
                 break;
-            
+
             case 'PostingActivation':
                 $x['PostingActivation'] = $this->cdata;
                 break;
-            
+
             case 'PresetSubject':
                 $x['PresetSubject'] = $this->cdata;
                 break;
-            
+
             case 'PresetRe':
                 $x['PresetRe'] = $this->cdata;
                 break;
-            
+
             case 'NotificationType':
                 $x['NotificationType'] = $this->cdata;
                 break;
-            
+
             case 'ForceNotification':
                 $x['ForceNotification'] = $this->cdata;
                 break;
-            
+
             case 'ToggleNotification':
                 $x['ToggleNotification'] = $this->cdata;
                 break;
-            
+
             case 'LastPost':
                 $x['LastPost'] = $this->cdata;
                 break;
-            
+
             case 'Moderator':
                 $x['Moderator'] = $this->cdata;
                 break;
-            
+
             case 'CreateDate':
                 $x['CreateDate'] = $this->cdata;
                 break;
-            
+
             case 'UpdateDate':
                 $x['UpdateDate'] = $this->cdata;
                 break;
@@ -265,7 +268,7 @@ class ilForumXMLParser extends ilSaxParser
             case 'isAuthorModerator':
                 $x['isAuthorModerator'] = $this->cdata;
                 break;
-            
+
             case 'UserId':
                 $x['UserId'] = $this->cdata;
                 if ($this->entity == 'forum' && $this->forumArray) {
@@ -306,8 +309,8 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setAdminForceNoti((int) $this->forumArray['ForceNotification']);
                     $newObjProp->setUserToggleNoti((int) $this->forumArray['ToggleNotification']);
                     $newObjProp->setFileUploadAllowed((int) $this->forumArray['FileUpload']);
-                    $newObjProp->setThreadSorting((int)$this->forumArray['Sorting']);
-                    $newObjProp->setMarkModeratorPosts((int)$this->forumArray['MarkModeratorPosts']);
+                    $newObjProp->setThreadSorting((int) $this->forumArray['Sorting']);
+                    $newObjProp->setMarkModeratorPosts((int) $this->forumArray['MarkModeratorPosts']);
                     $newObjProp->update();
 
                     $id = $this->getNewForumPk();
@@ -317,20 +320,18 @@ class ilForumXMLParser extends ilSaxParser
 
                     unset($this->forumArray);
                 }
-                
+
                 break;
 
             case 'Thread':
                 $update_str = "$this->lastHandledForumId#$this->lastHandledThreadId#$this->lastHandledPostId";
                 $this->db->manipulateF(
-                    "UPDATE frm_threads
-						SET thr_last_post = %s
-					WHERE thr_pk = %s",
+                    "UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s",
                     array('text', 'integer'),
                     array($update_str, $this->lastHandledThreadId)
                 );
                 break;
-            
+
             case 'Subject':
                 $x['Subject'] = $this->cdata;
                 break;
@@ -364,7 +365,7 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumThread->setCreateDate($this->threadArray['CreateDate']);
                     $this->forumThread->setChangeDate($this->threadArray['UpdateDate']);
                     $this->forumThread->setImportName($this->threadArray['ImportName']);
-                    
+
                     $usr_data = $this->getUserIdAndAlias(
                         $this->threadArray['UserId'],
                         $this->threadArray['Alias']
@@ -381,7 +382,7 @@ class ilForumXMLParser extends ilSaxParser
                         $this->threadArray['AuthorId']
                     );
                     $this->forumThread->setThrAuthorId((int) $author_id_data['usr_id']);
-                
+
                     $this->forumThread->insert();
 
                     $this->mapping['thr'][$this->threadArray['Id']] = $this->forumThread->getId();
@@ -389,7 +390,7 @@ class ilForumXMLParser extends ilSaxParser
 
                     unset($this->threadArray);
                 }
-                
+
                 break;
 
             case 'Post':
@@ -472,13 +473,13 @@ class ilForumXMLParser extends ilSaxParser
                         $this->postArray['AuthorId']
                     );
                     $this->forumPost->setPosAuthorId((int) $author_id_data['usr_id']);
-                    
+
                     if ($this->postArray['isAuthorModerator'] === 'NULL') {
                         $this->forumPost->setIsAuthorModerator(null);
                     } else {
                         $this->forumPost->setIsAuthorModerator((int) $this->postArray['isAuthorModerator']);
                     }
-                    
+
                     $this->forumPost->insert();
 
                     if ($this->mapping['pos'][$this->postArray['ParentId']]) {
@@ -506,14 +507,22 @@ class ilForumXMLParser extends ilSaxParser
                     foreach ($this->mediaObjects as $mob_attr) {
                         $importfile = $this->getImportDirectory() . '/' . $mob_attr['uri'];
                         if (file_exists($importfile)) {
-                            $mob = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                            $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
+                                basename($importfile),
+                                $importfile,
+                                false
+                            );
                             ilObjMediaObject::_saveUsage($mob->getId(), "frm:html", $this->forumPost->getId());
 
                             $this->forumPost->setMessage(
                                 str_replace(
                                     array(
                                         "src=\"" . $mob_attr["label"] . "\"",
-                                        "src=\"" . preg_replace("/(il)_[\d]+_(mob)_([\d]+)/", "$1_0_$2_$3", $mob_attr["label"]) . "\""
+                                        "src=\"" . preg_replace(
+                                            "/(il)_[\d]+_(mob)_([\d]+)/",
+                                            "$1_0_$2_$3",
+                                            $mob_attr["label"]
+                                        ) . "\""
                                     ),
                                     "src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
                                     $this->forumPost->getMessage()
@@ -522,7 +531,7 @@ class ilForumXMLParser extends ilSaxParser
                             $media_objects_found = true;
                         }
                     }
-                    
+
                     if ($media_objects_found) {
                         $this->forumPost->update();
                     }
@@ -532,24 +541,28 @@ class ilForumXMLParser extends ilSaxParser
 
                 break;
 
-                case 'Content':
-                    $x['content'] = $this->cdata;
-                    break;
+            case 'Content':
+                $x['content'] = $this->cdata;
+                break;
 
-                case 'Attachment':
-                    $filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
+            case 'Attachment':
+                $filedata = new ilFileDataForum($this->forum->getId(), $this->lastHandledPostId);
 
-                    $importPath = $this->contentArray['content'];
+                $importPath = $this->contentArray['content'];
 
-                    if (strlen($importPath)) {
-                        $importPath = $this->getImportDirectory() . '/' . $importPath;
+                if (strlen($importPath)) {
+                    $importPath = $this->getImportDirectory() . '/' . $importPath;
 
-                        $newFilename = preg_replace("/^\d+_\d+(_.*)/ims", $this->forum->getId() . "_" . $this->lastHandledPostId . "$1", basename($importPath));
-                        $path = $filedata->getForumPath();
-                        $newPath = $path . '/' . $newFilename;
-                        @copy($importPath, $newPath);
-                    }
-                    break;
+                    $newFilename = preg_replace(
+                        "/^\d+_\d+(_.*)/ims",
+                        $this->forum->getId() . "_" . $this->lastHandledPostId . "$1",
+                        basename($importPath)
+                    );
+                    $path = $filedata->getForumPath();
+                    $newPath = $path . '/' . $newFilename;
+                    @copy($importPath, $newPath);
+                }
+                break;
         }
 
         $this->cdata = '';
@@ -559,11 +572,7 @@ class ilForumXMLParser extends ilSaxParser
 
     private function getIdAndAliasArray($imp_usr_id, $param = 'import')
     {
-        $select = 'SELECT od.obj_id, ud.login
-					FROM object_data od
-						INNER JOIN usr_data ud
-							ON od.obj_id = ud.usr_id';
-
+        $select = 'SELECT od.obj_id, ud.login FROM object_data od INNER JOIN usr_data ud ON od.obj_id = ud.usr_id';
         if ($param == 'import') {
             $where = ' WHERE od.import_id = ' . $this->db->quote(
                 'il_' . $this->import_install_id . '_usr_' . $imp_usr_id,
@@ -607,14 +616,14 @@ class ilForumXMLParser extends ilSaxParser
     {
         if ((int) $imp_usr_id > 0) {
             $newUsrId = -1;
-            
+
             if ($this->import_install_id != IL_INST_ID && IL_INST_ID > 0) {
                 // Different installations
                 if ($this->user_id_mapping[$imp_usr_id]) {
                     return $this->user_id_mapping[$imp_usr_id];
                 } else {
                     $res = $this->getIdAndAliasArray($imp_usr_id, 'import');
-                    
+
                     if ($res) {
                         $this->user_id_mapping[$imp_usr_id] = $res;
 
@@ -691,8 +700,7 @@ class ilForumXMLParser extends ilSaxParser
 
     private function getNewForumPk()
     {
-        $query = "SELECT top_pk FROM frm_data
-					WHERE top_frm_fk = " . $this->db->quote(
+        $query = "SELECT top_pk FROM frm_data WHERE top_frm_fk = " . $this->db->quote(
             $this->forum->getId(),
             'integer'
         );
@@ -703,11 +711,11 @@ class ilForumXMLParser extends ilSaxParser
     }
 
     /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
+     * handler for character data
+     *
+     * @param resource $a_xml_parser xml parser
+     * @param string $a_data character data
+     */
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
         if ($a_data != "\n") {
@@ -717,7 +725,7 @@ class ilForumXMLParser extends ilSaxParser
             $this->cdata .= $a_data;
         }
     }
-    
+
     /**
      * starts parsing an changes object by side effect.
      *
