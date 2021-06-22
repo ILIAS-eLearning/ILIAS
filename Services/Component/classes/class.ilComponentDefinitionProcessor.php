@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -27,13 +27,13 @@ interface ilComponentDefinitionProcessor
      *
      * This is supposed to reset any internal parsing state.
      */
-    public function beginComponent(string $component, string $type);
+    public function beginComponent(string $component, string $type) : void;
 
     /**
      * This method is called when parsing of component.xml for the given component
      * ends.
      */
-    public function endComponent(string $component, string $type);
+    public function endComponent(string $component, string $type) : void;
 
     /**
      * This is called when a tag starts in the context of the given component.

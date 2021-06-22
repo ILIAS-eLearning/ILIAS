@@ -5,12 +5,18 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesComponentSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
-        $suite = new ilServicesComponentSuite();
+        $suite = new self();
     
         require_once("./Services/Component/test/ilComponentDefinitionReaderTest.php");
-        $suite->addTestSuite("ilComponentDefinitionReaderTest");
+        $suite->addTestSuite(ilComponentDefinitionReaderTest::class);
+
+        require_once("./Services/Component/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
+        $suite->addTestSuite(ilComponentDefinitionInfoProcessorTest::class);
+
+        require_once("./Services/Component/test/Setup/ilPluginSlotDefinitionProcessorTest.php");
+        $suite->addTestSuite(ilPluginSlotDefinitionProcessorTest::class);
 
         return $suite;
     }

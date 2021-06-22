@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -33,7 +33,7 @@ class ilComponentDefinitionReader
      * This reads the component.xml of all components in the core and processes
      * them with the provided processor.
      */
-    public function readComponentDefinitions()
+    public function readComponentDefinitions() : void
     {
         foreach ($this->getComponents() as list($type, $component, $path)) {
             $file = $this->readFile($path);
@@ -47,7 +47,17 @@ class ilComponentDefinitionReader
         }
     }
 
-    protected function parseComponentXML(string $type, string $component, string $xml)
+    protected function readFile(string $path) : string
+    {
+        if (!file_exists($path)) {
+            throw new \InvalidArgumentException(
+                "Cannot find file $path."
+            );
+        }
+        return file_get_contents($path);
+    }
+
+    protected function parseComponentXML(string $type, string $component, string $xml) : void
     {
         $xml_parser = null;
         try {
@@ -71,14 +81,14 @@ class ilComponentDefinitionReader
         }
     }
 
-    public function beginTag($_, $name, $attributes)
+    public function beginTag($_, string $name, array $attributes) : void
     {
         foreach ($this->processor as $processor) {
             $processor->beginTag($name, $attributes);
         }
     }
 
-    public function endTag($_, $name)
+    public function endTag($_, string $name) : void
     {
         foreach ($this->processor as $processor) {
             $processor->endTag($name);

@@ -13,7 +13,10 @@ interface ilComponentDefinitionProcessorMock2 extends ilComponentDefinitionProce
 
 class ilComponentDefinitionReaderTest extends TestCase
 {
-    public static $components = [
+    protected ilComponentDefinitionProcessor $processor1;
+    protected ilComponentDefinitionProcessor $processor2;
+
+    public static array $components = [
         ["Modules", "A_Module", "/path/to/module.xml"],
         ["Services", "A_Service", "/other/path/to/service.xml"]
     ];
@@ -29,7 +32,7 @@ class ilComponentDefinitionReaderTest extends TestCase
                 return ilComponentDefinitionReaderTest::$components;
             }
             public $read_files = [];
-            protected function readFile($path) : string
+            protected function readFile(string $path) : string
             {
                 $this->read_files[] = $path;
                 if ($path === "/path/to/module.xml") {
@@ -53,7 +56,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         };
     }
 
-    public function testPurge()
+    public function testPurge() : void
     {
         $this->processor1
             ->expects($this->once())
@@ -67,13 +70,13 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->reader->purge();
     }
 
-    public function testGetComponents()
+    public function testGetComponents() : void
     {
         $reader = new class extends ilComponentDefinitionReader {
             public function __construct()
             {
             }
-            public function _getComponents()
+            public function _getComponents() : array
             {
                 return $this->getComponents();
             }
@@ -86,7 +89,7 @@ class ilComponentDefinitionReaderTest extends TestCase
         $this->assertContains(["Services", "Component", realpath(__DIR__ . "/../../../Services/Component/service.xml")], $components);
     }
 
-    public function testReadComponentDefinitions()
+    public function testReadComponentDefinitions() : void
     {
         $processor1_stack = [];
         $this->processor1
