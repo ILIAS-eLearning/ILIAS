@@ -391,7 +391,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         }
 
         if ($this->may_assign && $assign_possible) {
-            if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
+            // note: this call is currently super expensive
+            // see #26388, it has been performed even for users without edit permissions before
+            // now the call has been moved here, but still this needs improvement
+            // EDIT: deactivated for now due to performance reasons
+            //if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
                 if (is_object($this->filter['period']['from'])) {
                     $ilCtrl->setParameterByClass(
                         "ilbookingprocessgui",
@@ -406,7 +410,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 );
 
                 $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed', '');
-            }
+            //}
         }
 
         if ($a_set['info_file']) {

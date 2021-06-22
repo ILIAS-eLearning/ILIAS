@@ -6,6 +6,7 @@ use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Exceptions\Exception;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRequiredException;
+use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionSkippedException;
 use ILIAS\BackgroundTasks\Implementation\Values\ThunkValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Persistence;
@@ -92,8 +93,8 @@ abstract class BasicTaskManager implements TaskManager
             $userInteraction = $task;
 
             if ($userInteraction->canBeSkipped($final_values)) {
-                return $userInteraction->getSkippedValue($final_values);
-            //
+                $observer->notifyState(State::FINISHED);
+                throw new UserInteractionSkippedException("User interaction skipped.");
             } else {
                 $observer->notifyCurrentTask($userInteraction);
                 $observer->notifyState(State::USER_INTERACTION);

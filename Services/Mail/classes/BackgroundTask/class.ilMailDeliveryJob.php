@@ -25,9 +25,11 @@ class ilMailDeliveryJob extends AbstractJob
             return $value->getValue();
         }, $input);
 
-        $DIC->logger()->mail()->info(sprintf(
-            'Mail delivery background task executed for input: %s',
-            json_encode($arguments, JSON_PRETTY_PRINT)
+        $DIC->logger()->mail()->info('Mail delivery background task executed');
+
+        $DIC->logger()->mail()->debug(sprintf(
+            'Input: %s',
+            json_encode(array_slice($arguments, 0, 5), JSON_PRETTY_PRINT)
         ));
 
         $mail = new ilMail((int) $input[0]->getValue());
@@ -46,10 +48,7 @@ class ilMailDeliveryJob extends AbstractJob
             (bool) $input[7]->getValue() // Use Placeholders
         );
 
-        $DIC->logger()->mail()->info(sprintf(
-            'Mail delivery background task finished: %s',
-            json_encode($arguments, JSON_PRETTY_PRINT)
-        ));
+        $DIC->logger()->mail()->info('Mail delivery background task finished');
 
         $output = new BooleanValue();
         $output->setValue(true);

@@ -239,7 +239,7 @@ class ilECSCourseCreationHandler
         foreach ($this->getCreatedCourses() as $ref_id) {
             include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
             $crsr = new ilObjCourseReference();
-            $crsr->setOwner(SYTEM_USER_ID);
+            $crsr->setOwner(SYSTEM_USER_ID);
             $crsr->setTargetRefId($ref_id);
             $crsr->setTargetId(ilObject::_lookupObjId($ref_id));
             $crsr->create();

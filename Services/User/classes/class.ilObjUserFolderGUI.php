@@ -927,11 +927,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $tpl = $DIC['tpl'];
         $rbacsystem = $DIC['rbacsystem'];
         $ilCtrl = $DIC->ctrl();
+        $access = $DIC->access();
 
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget($this->lng->txt('usrf'), $ilCtrl->getLinkTarget($this, 'view'));
 
-        if (!$rbacsystem->checkAccess('create_usr', $this->object->getRefId())) {
+        if (
+            !$rbacsystem->checkAccess('create_usr', $this->object->getRefId()) &&
+            !$access->checkAccess('cat_administrate_users', '', $this->object->getRefId())
+        ) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -1267,14 +1271,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     } else {
                         $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
-
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
-                        $select = $ui->input()->field()->select($role["name"], $selectable_roles)
-                                     ->withRequired(true);
-                        array_push($local_selects, $select);
+                        if (count($selectable_roles)) {
+                            $select = $ui->input()->field()->select($role["name"], $selectable_roles)
+                                         ->withRequired(true);
+                            array_push($local_selects, $select);
+                        }
                     }
                 }
             }

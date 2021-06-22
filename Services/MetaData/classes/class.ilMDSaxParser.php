@@ -21,21 +21,16 @@
     +-----------------------------------------------------------------------------+
 */
 
-
-/**
-* Abstract meta data sax parser
-* This class should be inherited by all classes that want to parse meta data. E.g ContObjParser, CourseXMLParser ...
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* Inserts Meta data from XML into ILIAS db
-*
-* @extends ilSaxParser
-* @package ilias-core
-*/
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 
+/**
+ * Abstract meta data sax parser
+ * This class should be inherited by all classes that want to parse meta data. E.g ContObjParser, CourseXMLParser ...
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * Inserts Meta data from XML into ILIAS db
+ * @extends ilSaxParser
+ * @package ilias-core
+ */
 class ilMDSaxParser extends ilSaxParser
 {
     public $md_in_md = false;
@@ -445,27 +440,19 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Description':
                 $par = $this->__getParent();
-
                 if ($par instanceof ilMDRights) {
                     $par->parseDescriptionFromImport(
                         $this->__getCharacterData()
                     );
-                    $par->update();
-                    $this->__popParent();
-                    break;
-                } elseif ($par instanceof ilMDDescription) {
-                    $par->setDescription($this->__getCharacterData());
-                    $par->update();
-                    $this->__popParent();
-                    break;
                 } else {
                     $par->setDescription($this->__getCharacterData());
-                    $par->update();
-                    $this->__popParent();
-                    break;
                 }
+                $par->update();
+                if ($par instanceof ilMDDescription) {
+                    $this->__popParent();
+                }
+                break;
 
-                // no break
             case 'Keyword':
                 $par = &$this->__getParent();
                 if (!in_array(get_class($par), ["ilMD"])) {
@@ -682,18 +669,22 @@ class ilMDSaxParser extends ilSaxParser
     public function __pushParent(&$md_obj)
     {
         $this->md_parent[] = &$md_obj;
-        #echo '<br />';
+        $this->meta_log->debug('New parent stack (push)...');
         foreach ($this->md_parent as $class) {
             $this->meta_log->debug(get_class($class));
         }
     }
-    public function &__popParent()
+    public function __popParent()
     {
+        $this->meta_log->debug('New parent stack (pop)....');
         $class = array_pop($this->md_parent);
+        foreach ((array) $this->md_parent as $class) {
+            $this->meta_log->debug(get_class($class));
+        }
         $this->meta_log->debug(is_object($class) ? get_class($class) : 'null');
         unset($class);
     }
-    public function &__getParent()
+    public function __getParent()
     {
         return $this->md_parent[count($this->md_parent) - 1];
     }
