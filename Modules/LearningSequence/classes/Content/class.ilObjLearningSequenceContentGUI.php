@@ -152,9 +152,9 @@ class ilObjLearningSequenceContentGUI
             $condition_type = $this->getFieldName(self::FIELD_POSTCONDITION_TYPE, $ref_id);
 
             if (!empty($post[$condition_type])) {
-              $condition = $lsitem->getPostCondition()
+                $condition = $lsitem->getPostCondition()
                 ->withConditionOperator($post[$condition_type]);
-              $updated[] = $lsitem
+                $updated[] = $lsitem
                 ->withOnline((bool) $post[$online])
                 ->withOrderNumber((int) $post[$order])
                 ->withPostCondition($condition);
