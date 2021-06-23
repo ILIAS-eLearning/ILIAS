@@ -14,7 +14,7 @@
 class ilObjLTIConsumer extends ilObject2
 {
     const DB_TABLE_NAME = 'lti_consumer_settings';
-    
+
     /**
      * repository object activation settings (handled by ilObject)
      */
@@ -22,21 +22,21 @@ class ilObjLTIConsumer extends ilObject2
     protected $activationStartingTime;
     protected $activationEndingTime;
     protected $activationVisibility;
-    
+
     /**
      * @var int
      */
     protected $providerId = 0;
-    
+
     /**
      * @var ilLTIConsumeProvider
      */
     protected $provider = null;
-    
+
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
     const LAUNCH_METHOD_NEW_WIN = 'newWin';
     const LAUNCH_METHOD_EMBEDDED = 'embedded';
-    
+
     protected $use_xapi = false;
     protected $custom_activity_id = '';
     protected $statementsReportEnabled = false;
@@ -56,7 +56,7 @@ class ilObjLTIConsumer extends ilObject2
      * @var string
      */
     protected $customLaunchSecret = '';
-    
+
     /**
      * ilObjLTIConsumer constructor.
      * @param int $a_id
@@ -66,12 +66,12 @@ class ilObjLTIConsumer extends ilObject2
     {
         parent::__construct($a_id, $a_reference);
     }
-    
+
     protected function initType()
     {
         $this->type = "lti";
     }
-    
+
     /**
      * @return bool
      */
@@ -79,7 +79,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->activationLimited;
     }
-    
+
     /**
      * @param bool $activationLimited
      */
@@ -87,7 +87,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->activationLimited = $activationLimited;
     }
-    
+
     /**
      * @return int
      */
@@ -95,7 +95,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->activationStartingTime;
     }
-    
+
     /**
      * @param int $activationStartingTime
      */
@@ -103,7 +103,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->activationStartingTime = $activationStartingTime;
     }
-    
+
     /**
      * @return int
      */
@@ -111,7 +111,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->activationEndingTime;
     }
-    
+
     /**
      * @param int $activationEndingTime
      */
@@ -119,7 +119,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->activationEndingTime = $activationEndingTime;
     }
-    
+
     /**
      * @return bool
      */
@@ -127,7 +127,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->activationVisibility;
     }
-    
+
     /**
      * @param bool $activationVisibility
      */
@@ -175,7 +175,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->providerId;
     }
-    
+
     /**
      * @param int $providerId
      */
@@ -183,12 +183,12 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->providerId = $providerId;
     }
-    
+
     public function initProvider()
     {
         $this->provider = new ilLTIConsumeProvider($this->getProviderId());
     }
-    
+
     /**
      * @return ilLTIConsumeProvider
      */
@@ -196,7 +196,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->provider;
     }
-    
+
     /**
      * @param ilLTIConsumeProvider $provider
      */
@@ -204,7 +204,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->provider = $provider;
     }
-    
+
     /**
      * @return bool
      */
@@ -212,7 +212,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->launchMethod == self::LAUNCH_METHOD_OWN_WIN;
     }
-    
+
     /**
      * @return bool
      */
@@ -220,7 +220,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->launchMethod == self::LAUNCH_METHOD_EMBEDDED;
     }
-    
+
     /**
      * @return string
      */
@@ -228,7 +228,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->launchMethod;
     }
-    
+
     /**
      * @param string $launchMethod
      */
@@ -244,7 +244,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->customLaunchKey;
     }
-    
+
     /**
      * @param string $customLaunchKey
      */
@@ -252,7 +252,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->customLaunchKey = $customLaunchKey;
     }
-    
+
     /**
      * @return string
      */
@@ -260,7 +260,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->customLaunchSecret;
     }
-    
+
     /**
      * @param string $customLaunchSecret
      */
@@ -268,7 +268,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->customLaunchSecret = $customLaunchSecret;
     }
-    
+
     /**
      * @return string
      */
@@ -277,10 +277,10 @@ class ilObjLTIConsumer extends ilObject2
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchKey();
         }
-        
+
         return $this->getProvider()->getProviderKey();
     }
-    
+
     /**
      * @return string
      */
@@ -289,10 +289,10 @@ class ilObjLTIConsumer extends ilObject2
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchSecret();
         }
-        
+
         return $this->getProvider()->getProviderSecret();
     }
-    
+
     /**
      * @return bool
      */
@@ -300,7 +300,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->use_xapi;
     }
-    
+
     /**
      * @param bool $use_xapi
      */
@@ -316,7 +316,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->custom_activity_id;
     }
-    
+
     /**
      * @param string $custom_activity_id
      */
@@ -324,7 +324,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->custom_activity_id = $custom_activity_id;
     }
-    
+
     /**
      * @return string
      */
@@ -333,10 +333,10 @@ class ilObjLTIConsumer extends ilObject2
         if (strlen($this->getProvider()->getXapiActivityId())) {
             return $this->getProvider()->getXapiActivityId();
         }
-        
+
         return $this->custom_activity_id;
     }
-    
+
     /**
      * @return bool
      */
@@ -344,7 +344,7 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->statementsReportEnabled;
     }
-    
+
     /**
      * @param bool $statementsReportEnabled
      */
@@ -353,27 +353,48 @@ class ilObjLTIConsumer extends ilObject2
         $this->statementsReportEnabled = $statementsReportEnabled;
     }
 
-    
-    
-    
+    /**
+     * @return string[]
+     */
+    private function getCustomParams() : array
+    {
+        $paramsAsArray = [];
+
+        $params = $this->getProvider()->getCustomParams();
+        // allows   foo=bar;foo2=baz2; foo3=baz3
+        $params = preg_split('/; ?/', $params);
+
+        foreach ($params as $param) {
+            $param = explode('=', $param);
+            // empty field, duplicate/leading/trailing semicolon?
+            if ($param[0] != '') {
+                $value = isset($param[1]) ? $param[1] : '';
+                $paramsAsArray[$param[0]] = $value;
+            }
+        }
+
+        return $paramsAsArray;
+    }
+
+
     public function doRead()
     {
         $this->load();
     }
-    
+
     public function load()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $query = "SELECT * FROM {$this->dbTableName()} WHERE obj_id = %s";
         $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
-        
+
         while ($row = $DIC->database()->fetchAssoc($res)) {
             // if ($row['provider_id']) { //always set
             $this->setProviderId((int) $row['provider_id']);
             $this->setProvider(new ilLTIConsumeProvider((int) $row['provider_id']));
             // }
-            
+
             $this->setLaunchMethod($row['launch_method']);
 
             $this->setCustomLaunchKey((string) $row['launch_key']);
@@ -392,19 +413,19 @@ class ilObjLTIConsumer extends ilObject2
 
             $this->setMasteryScore((float) $row['mastery_score']);
         }
-        
+
         $this->loadRepositoryActivationSettings();
     }
-    
+
     public function doUpdate()
     {
         $this->save();
     }
-    
+
     public function save()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $DIC->database()->replace($this->dbTableName(), [
             'obj_id' => ['integer', $this->getId()]
         ], [
@@ -424,10 +445,10 @@ class ilObjLTIConsumer extends ilObject2
             'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()],
             'mastery_score' => ['float', (float) $this->getMasteryScore()]
         ]);
-        
+
         $this->saveRepositoryActivationSettings();
     }
-    
+
     protected function loadRepositoryActivationSettings()
     {
         if ($this->ref_id) {
@@ -440,20 +461,20 @@ class ilObjLTIConsumer extends ilObject2
                     $this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
-                
+
                 default:
                     $this->setActivationLimited(false);
                     break;
             }
         }
     }
-    
+
     protected function saveRepositoryActivationSettings()
     {
         if ($this->ref_id) {
             include_once "./Services/Object/classes/class.ilObjectActivation.php";
             ilObjectActivation::getItem($this->ref_id);
-            
+
             $item = new ilObjectActivation;
             if (!$this->isActivationLimited()) {
                 $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
@@ -463,16 +484,16 @@ class ilObjLTIConsumer extends ilObject2
                 $item->setTimingEnd($this->getActivationEndingTime());
                 $item->toggleVisible($this->getActivationVisibility());
             }
-            
+
             $item->update($this->ref_id);
         }
     }
-    
+
     protected function dbTableName()
     {
         return self::DB_TABLE_NAME;
     }
-    
+
     /////////////////////////////////////////
     /// HIGHSCORE
 
@@ -721,7 +742,7 @@ class ilObjLTIConsumer extends ilObject2
     public function buildLaunchParameters(ilCmiXapiUser $cmixUser, $token, $contextType, $contextId, $contextTitle, $returnUrl = '')
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         if ($this->getProvider()->getAlwaysLearner() == true) {
             $roles = "Learner";
@@ -731,17 +752,17 @@ class ilObjLTIConsumer extends ilObject2
         if ($this->getProvider()->getUseProviderId() == true) {
             $resource_link_id = 'p' . $this->getProvider()->getId();
         }
-        
+
         $usrImage = '';
         if ($this->getProvider()->getIncludeUserPicture()) {
             $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
-        
+
         $documentTarget = "window";
         if ($this->getLaunchMethod() == self::LAUNCH_METHOD_EMBEDDED) {
             $documentTarget = "iframe";
         }
-        
+
         $nameGiven = '-';
         $nameFamily = '-';
         $nameFull = '-';
@@ -768,7 +789,9 @@ class ilObjLTIConsumer extends ilObject2
         $emailPrimary = $cmixUser->getUsrIdent();
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
-        
+
+        $custom_params = $this->getCustomParams();
+
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -803,7 +826,7 @@ class ilObjLTIConsumer extends ilObject2
             "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
-        
+
         $OAuthParams = [
             "url" => $this->getProvider()->getProviderUrl(),
             "key" => $this->getLaunchKey(),
@@ -812,11 +835,11 @@ class ilObjLTIConsumer extends ilObject2
             "http_method" => "POST",
             "sign_method" => "HMAC_SHA1",
             "token" => "",
-            "data" => $launch_vars //Todo Specialparameters für ProviderObject reinmergen
+            "data" => ($launch_vars + $custom_params)
         ];
-        
+
         $launchParameters = ilLTIConsumerLaunch::signOAuth($OAuthParams);
-        
+
         return $launchParameters;
     }
 }
