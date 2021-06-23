@@ -527,6 +527,7 @@ administration#:#language_scope_unchanged#:#Unveränderte Einträge
 administration#:#language_settings#:#Spracheinstellungen
 administration#:#language_statistics#:#Statistik
 administration#:#language_translation_enabled#:#Seitenübersetzung aktiviert
+administration#:#language_variables_saved#:#Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.
 administration#:#log_scan#:#Untersuchungsergebnisse festhalten
 administration#:#log_scan_desc#:#Untersuchungsergebnisse in Datei 'scanlog.log' im Datenverzeichnis des Mandanten speichern
 administration#:#loginname_change_blocking_time#:#Sperrzeit für Änderung des Benutzernamens
