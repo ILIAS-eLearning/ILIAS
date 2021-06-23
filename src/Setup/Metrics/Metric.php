@@ -216,14 +216,15 @@ final class Metric
             case self::TYPE_BOOL:
                 if ($value) {
                     return "true";
-                }  else {
+                } else {
                     return "false";
                 }
+                // no break
             case self::TYPE_COUNTER:
-                return (string)$value;
+                return (string) $value;
             case self::TYPE_GAUGE:
                 if (is_int($value)) {
-                    return (string)$value;
+                    return (string) $value;
                 }
                 return sprintf("%.03f", $value);
             case self::TYPE_TIMESTAMP:

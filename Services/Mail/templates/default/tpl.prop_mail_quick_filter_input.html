@@ -7,21 +7,19 @@
 		{FIELD_SUBITEMS}
 	</div>
 	<script>
-		il.Util.addOnLoad(
-				function() {
-					$("#filter_options_{FIELD_ID} input[type=checkbox]").css({position: "absolute", top: "-3px", "margin-left": "10px"});
-					if($("#{FIELD_ID}").val() != "") {
-						$("#filter_options_{FIELD_ID}").fadeIn();
-					}
-					$("#{FIELD_ID}").keyup(function() {
-						if($("#{FIELD_ID}").val() == "") {
-							$("#filter_options_{FIELD_ID}").fadeOut();
-						} else {
-							$("#filter_options_{FIELD_ID}").fadeIn();
-						}
-					});
+		document.addEventListener("DOMContentLoaded", (event) => {
+			$("#filter_options_{FIELD_ID} input[type=checkbox]").css({position: "absolute", top: "-3px", "margin-left": "10px"});
+			if($("#{FIELD_ID}").val() != "") {
+				$("#filter_options_{FIELD_ID}").fadeIn();
+			}
+			$("#{FIELD_ID}").keyup(function() {
+				if($("#{FIELD_ID}").val() == "") {
+					$("#filter_options_{FIELD_ID}").fadeOut();
+				} else {
+					$("#filter_options_{FIELD_ID}").fadeIn();
 				}
-		);
+			});
+		});
 	</script>
 	<!-- END filter_options -->
 </div>
