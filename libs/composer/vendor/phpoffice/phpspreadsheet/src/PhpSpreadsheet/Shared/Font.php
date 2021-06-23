@@ -4,6 +4,7 @@ namespace PhpOffice\PhpSpreadsheet\Shared;
 
 use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class Font
 {
@@ -198,7 +199,7 @@ class Font
      *
      * @param string $pValue
      */
-    public static function setTrueTypeFontPath($pValue)
+    public static function setTrueTypeFontPath($pValue): void
     {
         self::$trueTypeFontPath = $pValue;
     }
@@ -223,7 +224,7 @@ class Font
      *
      * @return int Column width
      */
-    public static function calculateColumnWidth(\PhpOffice\PhpSpreadsheet\Style\Font $font, $cellText = '', $rotation = 0, \PhpOffice\PhpSpreadsheet\Style\Font $defaultFont = null)
+    public static function calculateColumnWidth(\PhpOffice\PhpSpreadsheet\Style\Font $font, $cellText = '', $rotation = 0, ?\PhpOffice\PhpSpreadsheet\Style\Font $defaultFont = null)
     {
         // If it is rich text, use plain text
         if ($cellText instanceof RichText) {
@@ -231,7 +232,7 @@ class Font
         }
 
         // Special case if there are one or more newline characters ("\n")
-        if (strpos($cellText, "\n") !== false) {
+        if (strpos($cellText ?? '', "\n") !== false) {
             $lineTexts = explode("\n", $cellText);
             $lineWidths = [];
             foreach ($lineTexts as $lineText) {
@@ -243,6 +244,7 @@ class Font
 
         // Try to get the exact text width in pixels
         $approximate = self::$autoSizeMethod == self::AUTOSIZE_METHOD_APPROX;
+        $columnWidth = 0;
         if (!$approximate) {
             $columnWidthAdjust = ceil(self::getTextWidthPixelsExact('n', $font, 0) * 1.07);
 
@@ -266,21 +268,13 @@ class Font
         $columnWidth = Drawing::pixelsToCellDimension($columnWidth, $defaultFont);
 
         // Return
-        return round($columnWidth, 6);
+        return (int) round($columnWidth, 6);
     }
 
     /**
      * Get GD text width in pixels for a string of text in a certain font at a certain rotation angle.
-     *
-     * @param string $text
-     * @param \PhpOffice\PhpSpreadsheet\Style\Font
-     * @param int $rotation
-     *
-     * @throws PhpSpreadsheetException
-     *
-     * @return int
      */
-    public static function getTextWidthPixelsExact($text, \PhpOffice\PhpSpreadsheet\Style\Font $font, $rotation = 0)
+    public static function getTextWidthPixelsExact(string $text, \PhpOffice\PhpSpreadsheet\Style\Font $font, int $rotation = 0): int
     {
         if (!function_exists('imagettfbbox')) {
             throw new PhpSpreadsheetException('GD library needs to be enabled');
@@ -298,16 +292,13 @@ class Font
         $upperLeftCornerX = $textBox[6];
 
         // Consider the rotation when calculating the width
-        $textWidth = max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX);
-
-        return $textWidth;
+        return max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX);
     }
 
     /**
      * Get approximate width in pixels for a string of text in a certain font at a certain rotation angle.
      *
      * @param string $columnText
-     * @param \PhpOffice\PhpSpreadsheet\Style\Font $font
      * @param int $rotation
      *
      * @return int Text width in pixels (no padding added)
@@ -323,33 +314,37 @@ class Font
                 // value 8.26 was found via interpolation by inspecting real Excel files with Calibri 11 font.
                 $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
                 $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
+
                 break;
             case 'Arial':
                 // value 8 was set because of experience in different exports at Arial 10 font.
                 $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
                 $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
+
                 break;
             case 'Verdana':
                 // value 8 was found via interpolation by inspecting real Excel files with Verdana 10 font.
                 $columnWidth = (int) (8 * StringHelper::countCharacters($columnText));
                 $columnWidth = $columnWidth * $fontSize / 10; // extrapolate from font size
+
                 break;
             default:
                 // just assume Calibri
                 $columnWidth = (int) (8.26 * StringHelper::countCharacters($columnText));
                 $columnWidth = $columnWidth * $fontSize / 11; // extrapolate from font size
+
                 break;
         }
 
         // Calculate approximate rotated column width
         if ($rotation !== 0) {
-            if ($rotation == -165) {
+            if ($rotation == Alignment::TEXTROTATION_STACK_PHPSPREADSHEET) {
                 // stacked text
                 $columnWidth = 4; // approximation
             } else {
                 // rotated text
                 $columnWidth = $columnWidth * cos(deg2rad($rotation))
-                                + $fontSize * abs(sin(deg2rad($rotation))) / 5; // approximation
+                    + $fontSize * abs(sin(deg2rad($rotation))) / 5; // approximation
             }
         }
 
@@ -414,35 +409,35 @@ class Font
         switch ($name) {
             case 'Arial':
                 $fontFile = (
-                    $bold ? ($italic ? self::ARIAL_BOLD_ITALIC : self::ARIAL_BOLD)
-                          : ($italic ? self::ARIAL_ITALIC : self::ARIAL)
+                $bold ? ($italic ? self::ARIAL_BOLD_ITALIC : self::ARIAL_BOLD)
+                    : ($italic ? self::ARIAL_ITALIC : self::ARIAL)
                 );
 
                 break;
             case 'Calibri':
                 $fontFile = (
-                    $bold ? ($italic ? self::CALIBRI_BOLD_ITALIC : self::CALIBRI_BOLD)
-                          : ($italic ? self::CALIBRI_ITALIC : self::CALIBRI)
+                $bold ? ($italic ? self::CALIBRI_BOLD_ITALIC : self::CALIBRI_BOLD)
+                    : ($italic ? self::CALIBRI_ITALIC : self::CALIBRI)
                 );
 
                 break;
             case 'Courier New':
                 $fontFile = (
-                    $bold ? ($italic ? self::COURIER_NEW_BOLD_ITALIC : self::COURIER_NEW_BOLD)
-                          : ($italic ? self::COURIER_NEW_ITALIC : self::COURIER_NEW)
+                $bold ? ($italic ? self::COURIER_NEW_BOLD_ITALIC : self::COURIER_NEW_BOLD)
+                    : ($italic ? self::COURIER_NEW_ITALIC : self::COURIER_NEW)
                 );
 
                 break;
             case 'Comic Sans MS':
                 $fontFile = (
-                    $bold ? self::COMIC_SANS_MS_BOLD : self::COMIC_SANS_MS
+                $bold ? self::COMIC_SANS_MS_BOLD : self::COMIC_SANS_MS
                 );
 
                 break;
             case 'Georgia':
                 $fontFile = (
-                    $bold ? ($italic ? self::GEORGIA_BOLD_ITALIC : self::GEORGIA_BOLD)
-                          : ($italic ? self::GEORGIA_ITALIC : self::GEORGIA)
+                $bold ? ($italic ? self::GEORGIA_BOLD_ITALIC : self::GEORGIA_BOLD)
+                    : ($italic ? self::GEORGIA_ITALIC : self::GEORGIA)
                 );
 
                 break;
@@ -452,8 +447,8 @@ class Font
                 break;
             case 'Liberation Sans':
                 $fontFile = (
-                    $bold ? ($italic ? self::LIBERATION_SANS_BOLD_ITALIC : self::LIBERATION_SANS_BOLD)
-                          : ($italic ? self::LIBERATION_SANS_ITALIC : self::LIBERATION_SANS)
+                $bold ? ($italic ? self::LIBERATION_SANS_BOLD_ITALIC : self::LIBERATION_SANS_BOLD)
+                    : ($italic ? self::LIBERATION_SANS_ITALIC : self::LIBERATION_SANS)
                 );
 
                 break;
@@ -471,8 +466,8 @@ class Font
                 break;
             case 'Palatino Linotype':
                 $fontFile = (
-                    $bold ? ($italic ? self::PALATINO_LINOTYPE_BOLD_ITALIC : self::PALATINO_LINOTYPE_BOLD)
-                          : ($italic ? self::PALATINO_LINOTYPE_ITALIC : self::PALATINO_LINOTYPE)
+                $bold ? ($italic ? self::PALATINO_LINOTYPE_BOLD_ITALIC : self::PALATINO_LINOTYPE_BOLD)
+                    : ($italic ? self::PALATINO_LINOTYPE_ITALIC : self::PALATINO_LINOTYPE)
                 );
 
                 break;
@@ -482,28 +477,28 @@ class Font
                 break;
             case 'Tahoma':
                 $fontFile = (
-                    $bold ? self::TAHOMA_BOLD : self::TAHOMA
+                $bold ? self::TAHOMA_BOLD : self::TAHOMA
                 );
 
                 break;
             case 'Times New Roman':
                 $fontFile = (
-                    $bold ? ($italic ? self::TIMES_NEW_ROMAN_BOLD_ITALIC : self::TIMES_NEW_ROMAN_BOLD)
-                          : ($italic ? self::TIMES_NEW_ROMAN_ITALIC : self::TIMES_NEW_ROMAN)
+                $bold ? ($italic ? self::TIMES_NEW_ROMAN_BOLD_ITALIC : self::TIMES_NEW_ROMAN_BOLD)
+                    : ($italic ? self::TIMES_NEW_ROMAN_ITALIC : self::TIMES_NEW_ROMAN)
                 );
 
                 break;
             case 'Trebuchet MS':
                 $fontFile = (
-                    $bold ? ($italic ? self::TREBUCHET_MS_BOLD_ITALIC : self::TREBUCHET_MS_BOLD)
-                          : ($italic ? self::TREBUCHET_MS_ITALIC : self::TREBUCHET_MS)
+                $bold ? ($italic ? self::TREBUCHET_MS_BOLD_ITALIC : self::TREBUCHET_MS_BOLD)
+                    : ($italic ? self::TREBUCHET_MS_ITALIC : self::TREBUCHET_MS)
                 );
 
                 break;
             case 'Verdana':
                 $fontFile = (
-                    $bold ? ($italic ? self::VERDANA_BOLD_ITALIC : self::VERDANA_BOLD)
-                          : ($italic ? self::VERDANA_ITALIC : self::VERDANA)
+                $bold ? ($italic ? self::VERDANA_BOLD_ITALIC : self::VERDANA_BOLD)
+                    : ($italic ? self::VERDANA_ITALIC : self::VERDANA)
                 );
 
                 break;
@@ -562,13 +557,13 @@ class Font
             // Exact width can be determined
             $columnWidth = $pPixels ?
                 self::$defaultColumnWidths[$font->getName()][$font->getSize()]['px']
-                    : self::$defaultColumnWidths[$font->getName()][$font->getSize()]['width'];
+                : self::$defaultColumnWidths[$font->getName()][$font->getSize()]['width'];
         } else {
             // We don't have data for this particular font and size, use approximation by
             // extrapolating from Calibri 11
             $columnWidth = $pPixels ?
                 self::$defaultColumnWidths['Calibri'][11]['px']
-                    : self::$defaultColumnWidths['Calibri'][11]['width'];
+                : self::$defaultColumnWidths['Calibri'][11]['width'];
             $columnWidth = $columnWidth * $font->getSize() / 11;
 
             // Round pixels to closest integer

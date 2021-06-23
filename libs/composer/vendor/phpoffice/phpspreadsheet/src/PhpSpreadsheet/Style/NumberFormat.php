@@ -2,11 +2,6 @@
 
 namespace PhpOffice\PhpSpreadsheet\Style;
 
-use PhpOffice\PhpSpreadsheet\Calculation\MathTrig;
-use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
-use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
-
 class NumberFormat extends Supervisor
 {
     // Pre-defined formats
@@ -23,8 +18,8 @@ class NumberFormat extends Supervisor
     const FORMAT_PERCENTAGE_00 = '0.00%';
 
     const FORMAT_DATE_YYYYMMDD2 = 'yyyy-mm-dd';
-    const FORMAT_DATE_YYYYMMDD = 'yy-mm-dd';
-    const FORMAT_DATE_DDMMYYYY = 'dd/mm/yy';
+    const FORMAT_DATE_YYYYMMDD = 'yyyy-mm-dd';
+    const FORMAT_DATE_DDMMYYYY = 'dd/mm/yyyy';
     const FORMAT_DATE_DMYSLASH = 'd/m/yy';
     const FORMAT_DATE_DMYMINUS = 'd-m-yy';
     const FORMAT_DATE_DMMINUS = 'd-m';
@@ -43,7 +38,7 @@ class NumberFormat extends Supervisor
     const FORMAT_DATE_TIME6 = 'h:mm:ss';
     const FORMAT_DATE_TIME7 = 'i:s.S';
     const FORMAT_DATE_TIME8 = 'h:mm:ss;@';
-    const FORMAT_DATE_YYYYMMDDSLASH = 'yy/mm/dd;@';
+    const FORMAT_DATE_YYYYMMDDSLASH = 'yyyy/mm/dd;@';
 
     const FORMAT_CURRENCY_USD_SIMPLE = '"$"#,##0.00_-';
     const FORMAT_CURRENCY_USD = '$#,##0_-';
@@ -69,14 +64,14 @@ class NumberFormat extends Supervisor
     /**
      * Format Code.
      *
-     * @var string
+     * @var null|string
      */
     protected $formatCode = self::FORMAT_GENERAL;
 
     /**
      * Built-in format Code.
      *
-     * @var string
+     * @var false|int
      */
     protected $builtInFormatCode = 0;
 
@@ -137,9 +132,7 @@ class NumberFormat extends Supervisor
      *
      * @param array $pStyles Array containing style information
      *
-     * @throws PhpSpreadsheetException
-     *
-     * @return NumberFormat
+     * @return $this
      */
     public function applyFromArray(array $pStyles)
     {
@@ -157,7 +150,7 @@ class NumberFormat extends Supervisor
     /**
      * Get Format Code.
      *
-     * @return string
+     * @return null|string
      */
     public function getFormatCode()
     {
@@ -176,7 +169,7 @@ class NumberFormat extends Supervisor
      *
      * @param string $pValue see self::FORMAT_*
      *
-     * @return NumberFormat
+     * @return $this
      */
     public function setFormatCode($pValue)
     {
@@ -197,7 +190,7 @@ class NumberFormat extends Supervisor
     /**
      * Get Built-In Format Code.
      *
-     * @return int
+     * @return false|int
      */
     public function getBuiltInFormatCode()
     {
@@ -213,7 +206,7 @@ class NumberFormat extends Supervisor
      *
      * @param int $pValue
      *
-     * @return NumberFormat
+     * @return $this
      */
     public function setBuiltInFormatCode($pValue)
     {
@@ -231,7 +224,7 @@ class NumberFormat extends Supervisor
     /**
      * Fill built-in format codes.
      */
-    private static function fillBuiltInFormatCodes()
+    private static function fillBuiltInFormatCodes(): void
     {
         //  [MS-OI29500: Microsoft Office Implementation Information for ISO/IEC-29500 Standard Compliance]
         //  18.8.30. numFmt (Number Format)
@@ -367,7 +360,7 @@ class NumberFormat extends Supervisor
         self::fillBuiltInFormatCodes();
 
         // Lookup format code
-        if (isset(self::$flippedBuiltInFormats[$formatCode])) {
+        if (array_key_exists($formatCode, self::$flippedBuiltInFormats)) {
             return self::$flippedBuiltInFormats[$formatCode];
         }
 
@@ -393,205 +386,6 @@ class NumberFormat extends Supervisor
     }
 
     /**
-     * Search/replace values to convert Excel date/time format masks to PHP format masks.
-     *
-     * @var array
-     */
-    private static $dateFormatReplacements = [
-            // first remove escapes related to non-format characters
-            '\\' => '',
-            //    12-hour suffix
-            'am/pm' => 'A',
-            //    4-digit year
-            'e' => 'Y',
-            'yyyy' => 'Y',
-            //    2-digit year
-            'yy' => 'y',
-            //    first letter of month - no php equivalent
-            'mmmmm' => 'M',
-            //    full month name
-            'mmmm' => 'F',
-            //    short month name
-            'mmm' => 'M',
-            //    mm is minutes if time, but can also be month w/leading zero
-            //    so we try to identify times be the inclusion of a : separator in the mask
-            //    It isn't perfect, but the best way I know how
-            ':mm' => ':i',
-            'mm:' => 'i:',
-            //    month leading zero
-            'mm' => 'm',
-            //    month no leading zero
-            'm' => 'n',
-            //    full day of week name
-            'dddd' => 'l',
-            //    short day of week name
-            'ddd' => 'D',
-            //    days leading zero
-            'dd' => 'd',
-            //    days no leading zero
-            'd' => 'j',
-            //    seconds
-            'ss' => 's',
-            //    fractional seconds - no php equivalent
-            '.s' => '',
-        ];
-
-    /**
-     * Search/replace values to convert Excel date/time format masks hours to PHP format masks (24 hr clock).
-     *
-     * @var array
-     */
-    private static $dateFormatReplacements24 = [
-        'hh' => 'H',
-        'h' => 'G',
-    ];
-
-    /**
-     * Search/replace values to convert Excel date/time format masks hours to PHP format masks (12 hr clock).
-     *
-     * @var array
-     */
-    private static $dateFormatReplacements12 = [
-        'hh' => 'h',
-        'h' => 'g',
-    ];
-
-    private static function setLowercaseCallback($matches)
-    {
-        return mb_strtolower($matches[0]);
-    }
-
-    private static function escapeQuotesCallback($matches)
-    {
-        return '\\' . implode('\\', str_split($matches[1]));
-    }
-
-    private static function formatAsDate(&$value, &$format)
-    {
-        // strip off first part containing e.g. [$-F800] or [$USD-409]
-        // general syntax: [$<Currency string>-<language info>]
-        // language info is in hexadecimal
-        // strip off chinese part like [DBNum1][$-804]
-        $format = preg_replace('/^(\[[0-9A-Za-z]*\])*(\[\$[A-Z]*-[0-9A-F]*\])/i', '', $format);
-
-        // OpenOffice.org uses upper-case number formats, e.g. 'YYYY', convert to lower-case;
-        //    but we don't want to change any quoted strings
-        $format = preg_replace_callback('/(?:^|")([^"]*)(?:$|")/', ['self', 'setLowercaseCallback'], $format);
-
-        // Only process the non-quoted blocks for date format characters
-        $blocks = explode('"', $format);
-        foreach ($blocks as $key => &$block) {
-            if ($key % 2 == 0) {
-                $block = strtr($block, self::$dateFormatReplacements);
-                if (!strpos($block, 'A')) {
-                    // 24-hour time format
-                    // when [h]:mm format, the [h] should replace to the hours of the value * 24
-                    if (false !== strpos($block, '[h]')) {
-                        $hours = (int) ($value * 24);
-                        $block = str_replace('[h]', $hours, $block);
-
-                        continue;
-                    }
-                    $block = strtr($block, self::$dateFormatReplacements24);
-                } else {
-                    // 12-hour time format
-                    $block = strtr($block, self::$dateFormatReplacements12);
-                }
-            }
-        }
-        $format = implode('"', $blocks);
-
-        // escape any quoted characters so that DateTime format() will render them correctly
-        $format = preg_replace_callback('/"(.*)"/U', ['self', 'escapeQuotesCallback'], $format);
-
-        $dateObj = Date::excelToDateTimeObject($value);
-        $value = $dateObj->format($format);
-    }
-
-    private static function formatAsPercentage(&$value, &$format)
-    {
-        if ($format === self::FORMAT_PERCENTAGE) {
-            $value = round((100 * $value), 0) . '%';
-        } else {
-            if (preg_match('/\.[#0]+/', $format, $m)) {
-                $s = substr($m[0], 0, 1) . (strlen($m[0]) - 1);
-                $format = str_replace($m[0], $s, $format);
-            }
-            if (preg_match('/^[#0]+/', $format, $m)) {
-                $format = str_replace($m[0], strlen($m[0]), $format);
-            }
-            $format = '%' . str_replace('%', 'f%%', $format);
-
-            $value = sprintf($format, 100 * $value);
-        }
-    }
-
-    private static function formatAsFraction(&$value, &$format)
-    {
-        $sign = ($value < 0) ? '-' : '';
-
-        $integerPart = floor(abs($value));
-        $decimalPart = trim(fmod(abs($value), 1), '0.');
-        $decimalLength = strlen($decimalPart);
-        $decimalDivisor = pow(10, $decimalLength);
-
-        $GCD = MathTrig::GCD($decimalPart, $decimalDivisor);
-
-        $adjustedDecimalPart = $decimalPart / $GCD;
-        $adjustedDecimalDivisor = $decimalDivisor / $GCD;
-
-        if ((strpos($format, '0') !== false) || (strpos($format, '#') !== false) || (substr($format, 0, 3) == '? ?')) {
-            if ($integerPart == 0) {
-                $integerPart = '';
-            }
-            $value = "$sign$integerPart $adjustedDecimalPart/$adjustedDecimalDivisor";
-        } else {
-            $adjustedDecimalPart += $integerPart * $adjustedDecimalDivisor;
-            $value = "$sign$adjustedDecimalPart/$adjustedDecimalDivisor";
-        }
-    }
-
-    private static function complexNumberFormatMask($number, $mask)
-    {
-        $sign = ($number < 0.0);
-        $number = abs($number);
-        if (strpos($mask, '.') !== false) {
-            $numbers = explode('.', $number . '.0');
-            $masks = explode('.', $mask . '.0');
-            $result1 = self::complexNumberFormatMask($numbers[0], $masks[0]);
-            $result2 = strrev(self::complexNumberFormatMask(strrev($numbers[1]), strrev($masks[1])));
-
-            return (($sign) ? '-' : '') . $result1 . '.' . $result2;
-        }
-
-        $r = preg_match_all('/0+/', $mask, $result, PREG_OFFSET_CAPTURE);
-        if ($r > 1) {
-            $result = array_reverse($result[0]);
-
-            foreach ($result as $block) {
-                $divisor = 1 . $block[0];
-                $size = strlen($block[0]);
-                $offset = $block[1];
-
-                $blockValue = sprintf(
-                    '%0' . $size . 'd',
-                    fmod($number, $divisor)
-                );
-                $number = floor($number / $divisor);
-                $mask = substr_replace($mask, $blockValue, $offset, $size);
-            }
-            if ($number > 0) {
-                $mask = substr_replace($mask, $number, $offset, 0);
-            }
-            $result = $mask;
-        } else {
-            $result = $number;
-        }
-
-        return (($sign) ? '-' : '') . $result;
-    }
-
-    /**
      * Convert a value in a pre-defined format to a PHP string.
      *
      * @param mixed $value Value to format
@@ -602,174 +396,14 @@ class NumberFormat extends Supervisor
      */
     public static function toFormattedString($value, $format, $callBack = null)
     {
-        // For now we do not treat strings although section 4 of a format code affects strings
-        if (!is_numeric($value)) {
-            return $value;
-        }
+        return NumberFormat\Formatter::toFormattedString($value, $format, $callBack);
+    }
 
-        // For 'General' format code, we just pass the value although this is not entirely the way Excel does it,
-        // it seems to round numbers to a total of 10 digits.
-        if (($format === self::FORMAT_GENERAL) || ($format === self::FORMAT_TEXT)) {
-            return $value;
-        }
+    protected function exportArray1(): array
+    {
+        $exportedArray = [];
+        $this->exportArray2($exportedArray, 'formatCode', $this->getFormatCode());
 
-        // Convert any other escaped characters to quoted strings, e.g. (\T to "T")
-        $format = preg_replace('/(\\\(((.)(?!((AM\/PM)|(A\/P))))|([^ ])))(?=(?:[^"]|"[^"]*")*$)/u', '"${2}"', $format);
-
-        // Get the sections, there can be up to four sections, separated with a semi-colon (but only if not a quoted literal)
-        $sections = preg_split('/(;)(?=(?:[^"]|"[^"]*")*$)/u', $format);
-
-        // Extract the relevant section depending on whether number is positive, negative, or zero?
-        // Text not supported yet.
-        // Here is how the sections apply to various values in Excel:
-        //   1 section:   [POSITIVE/NEGATIVE/ZERO/TEXT]
-        //   2 sections:  [POSITIVE/ZERO/TEXT] [NEGATIVE]
-        //   3 sections:  [POSITIVE/TEXT] [NEGATIVE] [ZERO]
-        //   4 sections:  [POSITIVE] [NEGATIVE] [ZERO] [TEXT]
-        switch (count($sections)) {
-            case 1:
-                $format = $sections[0];
-
-                break;
-            case 2:
-                $format = ($value >= 0) ? $sections[0] : $sections[1];
-                $value = abs($value); // Use the absolute value
-                break;
-            case 3:
-                $format = ($value > 0) ?
-                    $sections[0] : (($value < 0) ?
-                        $sections[1] : $sections[2]);
-                $value = abs($value); // Use the absolute value
-                break;
-            case 4:
-                $format = ($value > 0) ?
-                    $sections[0] : (($value < 0) ?
-                        $sections[1] : $sections[2]);
-                $value = abs($value); // Use the absolute value
-                break;
-            default:
-                // something is wrong, just use first section
-                $format = $sections[0];
-
-                break;
-        }
-
-        // In Excel formats, "_" is used to add spacing,
-        //    The following character indicates the size of the spacing, which we can't do in HTML, so we just use a standard space
-        $format = preg_replace('/_./', ' ', $format);
-
-        // Save format with color information for later use below
-        $formatColor = $format;
-
-        // Let's begin inspecting the format and converting the value to a formatted string
-
-        //  Check for date/time characters (not inside quotes)
-        if (preg_match('/(\[\$[A-Z]*-[0-9A-F]*\])*[hmsdy](?=(?:[^"]|"[^"]*")*$)/miu', $format, $matches)) {
-            // datetime format
-            self::formatAsDate($value, $format);
-        } else {
-            // Strip color information
-            $color_regex = '/^\\[[a-zA-Z]+\\]/';
-            $format = preg_replace($color_regex, '', $format);
-            if (preg_match('/%$/', $format)) {
-                // % number format
-                self::formatAsPercentage($value, $format);
-            } else {
-                if ($format === self::FORMAT_CURRENCY_EUR_SIMPLE) {
-                    $value = 'EUR ' . sprintf('%1.2f', $value);
-                } else {
-                    // Some non-number strings are quoted, so we'll get rid of the quotes, likewise any positional * symbols
-                    $format = str_replace(['"', '*'], '', $format);
-
-                    // Find out if we need thousands separator
-                    // This is indicated by a comma enclosed by a digit placeholder:
-                    //        #,#   or   0,0
-                    $useThousands = preg_match('/(#,#|0,0)/', $format);
-                    if ($useThousands) {
-                        $format = preg_replace('/0,0/', '00', $format);
-                        $format = preg_replace('/#,#/', '##', $format);
-                    }
-
-                    // Scale thousands, millions,...
-                    // This is indicated by a number of commas after a digit placeholder:
-                    //        #,   or    0.0,,
-                    $scale = 1; // same as no scale
-                    $matches = [];
-                    if (preg_match('/(#|0)(,+)/', $format, $matches)) {
-                        $scale = pow(1000, strlen($matches[2]));
-
-                        // strip the commas
-                        $format = preg_replace('/0,+/', '0', $format);
-                        $format = preg_replace('/#,+/', '#', $format);
-                    }
-
-                    if (preg_match('/#?.*\?\/\?/', $format, $m)) {
-                        if ($value != (int) $value) {
-                            self::formatAsFraction($value, $format);
-                        }
-                    } else {
-                        // Handle the number itself
-
-                        // scale number
-                        $value = $value / $scale;
-
-                        // Strip #
-                        $format = preg_replace('/\\#/', '0', $format);
-
-                        // Remove locale code [$-###]
-                        $format = preg_replace('/\[\$\-.*\]/', '', $format);
-
-                        $n = '/\\[[^\\]]+\\]/';
-                        $m = preg_replace($n, '', $format);
-                        $number_regex = '/(0+)(\\.?)(0*)/';
-                        if (preg_match($number_regex, $m, $matches)) {
-                            $left = $matches[1];
-                            $dec = $matches[2];
-                            $right = $matches[3];
-
-                            // minimun width of formatted number (including dot)
-                            $minWidth = strlen($left) + strlen($dec) + strlen($right);
-                            if ($useThousands) {
-                                $value = number_format(
-                                    $value,
-                                    strlen($right),
-                                    StringHelper::getDecimalSeparator(),
-                                    StringHelper::getThousandsSeparator()
-                                );
-                                $value = preg_replace($number_regex, $value, $format);
-                            } else {
-                                if (preg_match('/[0#]E[+-]0/i', $format)) {
-                                    //    Scientific format
-                                    $value = sprintf('%5.2E', $value);
-                                } elseif (preg_match('/0([^\d\.]+)0/', $format)) {
-                                    $value = self::complexNumberFormatMask($value, $format);
-                                } else {
-                                    $sprintf_pattern = "%0$minWidth." . strlen($right) . 'f';
-                                    $value = sprintf($sprintf_pattern, $value);
-                                    $value = preg_replace($number_regex, $value, $format);
-                                }
-                            }
-                        }
-                    }
-                    if (preg_match('/\[\$(.*)\]/u', $format, $m)) {
-                        //  Currency or Accounting
-                        $currencyCode = $m[1];
-                        list($currencyCode) = explode('-', $currencyCode);
-                        if ($currencyCode == '') {
-                            $currencyCode = StringHelper::getCurrencyCode();
-                        }
-                        $value = preg_replace('/\[\$([^\]]*)\]/u', $currencyCode, $value);
-                    }
-                }
-            }
-        }
-
-        // Additional formatting provided by callback function
-        if ($callBack !== null) {
-            list($writerInstance, $function) = $callBack;
-            $value = $writerInstance->$function($value, $formatColor);
-        }
-
-        return $value;
+        return $exportedArray;
     }
 }

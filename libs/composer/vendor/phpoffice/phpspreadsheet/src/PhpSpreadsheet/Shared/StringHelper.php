@@ -63,7 +63,7 @@ class StringHelper
     /**
      * Build control characters array.
      */
-    private static function buildControlCharacters()
+    private static function buildControlCharacters(): void
     {
         for ($i = 0; $i <= 31; ++$i) {
             if ($i != 9 && $i != 10 && $i != 13) {
@@ -77,7 +77,7 @@ class StringHelper
     /**
      * Build SYLK characters array.
      */
-    private static function buildSYLKCharacters()
+    private static function buildSYLKCharacters(): void
     {
         self::$SYLKCharacters = [
             "\x1B 0" => chr(0),
@@ -272,7 +272,7 @@ class StringHelper
         return self::$isIconvEnabled;
     }
 
-    private static function buildCharacterSets()
+    private static function buildCharacterSets(): void
     {
         if (empty(self::$controlCharacters)) {
             self::buildControlCharacters();
@@ -430,9 +430,7 @@ class StringHelper
         // characters
         $chars = self::convertEncoding($value, 'UTF-16LE', 'UTF-8');
 
-        $data = pack('vC', $ln, 0x0001) . $chars;
-
-        return $data;
+        return pack('vC', $ln, 0x0001) . $chars;
     }
 
     /**
@@ -466,7 +464,7 @@ class StringHelper
      */
     public static function countCharacters($value, $enc = 'UTF-8')
     {
-        return mb_strlen($value, $enc);
+        return mb_strlen($value ?? '', $enc);
     }
 
     /**
@@ -558,7 +556,7 @@ class StringHelper
      * Identify whether a string contains a fractional numeric value,
      * and convert it to a numeric if it is.
      *
-     * @param string &$operand string value to test
+     * @param string $operand string value to test
      *
      * @return bool
      */
@@ -605,7 +603,7 @@ class StringHelper
      *
      * @param string $pValue Character for decimal separator
      */
-    public static function setDecimalSeparator($pValue)
+    public static function setDecimalSeparator($pValue): void
     {
         self::$decimalSeparator = $pValue;
     }
@@ -638,7 +636,7 @@ class StringHelper
      *
      * @param string $pValue Character for thousands separator
      */
-    public static function setThousandsSeparator($pValue)
+    public static function setThousandsSeparator($pValue): void
     {
         self::$thousandsSeparator = $pValue;
     }
@@ -676,7 +674,7 @@ class StringHelper
      *
      * @param string $pValue Character for currency code
      */
-    public static function setCurrencyCode($pValue)
+    public static function setCurrencyCode($pValue): void
     {
         self::$currencyCode = $pValue;
     }

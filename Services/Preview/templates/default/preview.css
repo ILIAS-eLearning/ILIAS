@@ -21,6 +21,7 @@
 .ilPreviewText {
     font-size: 90%;
     margin-top: -20px;
+    color: #434343;
 }
 .ilPreviewTextLoading {
     width: 14px;

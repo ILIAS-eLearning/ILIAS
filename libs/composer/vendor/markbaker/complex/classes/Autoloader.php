@@ -8,7 +8,7 @@ namespace Complex;
  *
  * @package Complex
  * @copyright  Copyright (c) 2014 Mark Baker (https://github.com/MarkBaker/PHPComplex)
- * @license    http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt    LGPL
+ * @license    https://opensource.org/licenses/MIT          MIT
  */
 class Autoloader
 {
@@ -23,7 +23,7 @@ class Autoloader
             spl_autoload_register('__autoload');
         }
         //    Register ourselves with SPL
-        return spl_autoload_register(['Complex\Autoloader', 'Load']);
+        return spl_autoload_register(['Complex\\Autoloader', 'Load']);
     }
 
 
@@ -41,7 +41,7 @@ class Autoloader
 
         $pClassFilePath = __DIR__ . DIRECTORY_SEPARATOR .
                           'src' . DIRECTORY_SEPARATOR .
-                          str_replace('Complex\\', '', $pClassName) .
+                          str_replace(['Complex\\', '\\'], ['', '/'], $pClassName) .
                           '.php';
 
         if ((file_exists($pClassFilePath) === false) || (is_readable($pClassFilePath) === false)) {

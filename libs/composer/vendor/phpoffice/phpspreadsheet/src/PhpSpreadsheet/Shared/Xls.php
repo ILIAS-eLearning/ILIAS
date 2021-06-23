@@ -25,7 +25,7 @@ class Xls
         $columnDimensions = $sheet->getColumnDimensions();
 
         // first find the true column width in pixels (uncollapsed and unhidden)
-        if (isset($columnDimensions[$col]) and $columnDimensions[$col]->getWidth() != -1) {
+        if (isset($columnDimensions[$col]) && $columnDimensions[$col]->getWidth() != -1) {
             // then we have column dimension with explicit width
             $columnDimension = $columnDimensions[$col];
             $width = $columnDimension->getWidth();
@@ -41,7 +41,7 @@ class Xls
         }
 
         // now find the effective column width in pixels
-        if (isset($columnDimensions[$col]) and !$columnDimensions[$col]->getVisible()) {
+        if (isset($columnDimensions[$col]) && !$columnDimensions[$col]->getVisible()) {
             $effectivePixelWidth = 0;
         } else {
             $effectivePixelWidth = $pixelWidth;
@@ -68,7 +68,7 @@ class Xls
         $rowDimensions = $sheet->getRowDimensions();
 
         // first find the true row height in pixels (uncollapsed and unhidden)
-        if (isset($rowDimensions[$row]) and $rowDimensions[$row]->getRowHeight() != -1) {
+        if (isset($rowDimensions[$row]) && $rowDimensions[$row]->getRowHeight() != -1) {
             // then we have a row dimension
             $rowDimension = $rowDimensions[$row];
             $rowHeight = $rowDimension->getRowHeight();
@@ -85,7 +85,7 @@ class Xls
         }
 
         // now find the effective row height in pixels
-        if (isset($rowDimensions[$row]) and !$rowDimensions[$row]->getVisible()) {
+        if (isset($rowDimensions[$row]) && !$rowDimensions[$row]->getVisible()) {
             $effectivePixelRowHeight = 0;
         } else {
             $effectivePixelRowHeight = $pixelRowHeight;
@@ -98,7 +98,6 @@ class Xls
      * Get the horizontal distance in pixels between two anchors
      * The distanceX is found as sum of all the spanning columns widths minus correction for the two offsets.
      *
-     * @param Worksheet $sheet
      * @param string $startColumn
      * @param int $startOffsetX Offset within start cell measured in 1/1024 of the cell width
      * @param string $endColumn
@@ -130,7 +129,6 @@ class Xls
      * Get the vertical distance in pixels between two anchors
      * The distanceY is found as sum of all the spanning rows minus two offsets.
      *
-     * @param Worksheet $sheet
      * @param int $startRow (1-based)
      * @param int $startOffsetY Offset within start cell measured in 1/256 of the cell height
      * @param int $endRow (1-based)
@@ -207,12 +205,11 @@ class Xls
      * @param int $width Width in pixels
      * @param int $height Height in pixels
      *
-     * @return array
+     * @return null|array
      */
     public static function oneAnchor2twoAnchor($sheet, $coordinates, $offsetX, $offsetY, $width, $height)
     {
-        list($column, $row) = Coordinate::coordinateFromString($coordinates);
-        $col_start = Coordinate::columnIndexFromString($column);
+        [$col_start, $row] = Coordinate::indexesFromString($coordinates);
         $row_start = $row - 1;
 
         $x1 = $offsetX;
@@ -248,16 +245,16 @@ class Xls
         // Bitmap isn't allowed to start or finish in a hidden cell, i.e. a cell
         // with zero height or width.
         if (self::sizeCol($sheet, Coordinate::stringFromColumnIndex($col_start)) == 0) {
-            return;
+            return null;
         }
         if (self::sizeCol($sheet, Coordinate::stringFromColumnIndex($col_end)) == 0) {
-            return;
+            return null;
         }
         if (self::sizeRow($sheet, $row_start + 1) == 0) {
-            return;
+            return null;
         }
         if (self::sizeRow($sheet, $row_end + 1) == 0) {
-            return;
+            return null;
         }
 
         // Convert the pixel values to the percentage value expected by Excel
@@ -269,7 +266,7 @@ class Xls
         $startCoordinates = Coordinate::stringFromColumnIndex($col_start) . ($row_start + 1);
         $endCoordinates = Coordinate::stringFromColumnIndex($col_end) . ($row_end + 1);
 
-        $twoAnchor = [
+        return [
             'startCoordinates' => $startCoordinates,
             'startOffsetX' => $x1,
             'startOffsetY' => $y1,
@@ -277,7 +274,5 @@ class Xls
             'endOffsetX' => $x2,
             'endOffsetY' => $y2,
         ];
-
-        return  $twoAnchor;
     }
 }

@@ -5,17 +5,12 @@ namespace PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Shared\XMLWriter;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-/**
- * @category   PhpSpreadsheet
- *
- * @copyright  Copyright (c) 2006 - 2016 PhpSpreadsheet (https://github.com/PHPOffice/PhpSpreadsheet)
- */
 class Theme extends WriterPart
 {
     /**
      * Map of Major fonts to write.
      *
-     * @var array of string
+     * @var string[]
      */
     private static $majorFonts = [
         'Jpan' => 'ＭＳ Ｐゴシック',
@@ -53,7 +48,7 @@ class Theme extends WriterPart
     /**
      * Map of Minor fonts to write.
      *
-     * @var array of string
+     * @var string[]
      */
     private static $minorFonts = [
         'Jpan' => 'ＭＳ Ｐゴシック',
@@ -91,7 +86,7 @@ class Theme extends WriterPart
     /**
      * Map of core colours.
      *
-     * @var array of string
+     * @var string[]
      */
     private static $colourScheme = [
         'dk2' => '1F497D',
@@ -108,10 +103,6 @@ class Theme extends WriterPart
 
     /**
      * Write theme to XML format.
-     *
-     * @param Spreadsheet $spreadsheet
-     *
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      *
      * @return string XML Output
      */
@@ -793,13 +784,9 @@ class Theme extends WriterPart
     /**
      * Write fonts to XML format.
      *
-     * @param XMLWriter $objWriter
-     * @param string $latinFont
-     * @param array of string                $fontSet
-     *
-     * @return string XML Output
+     * @param string[] $fontSet
      */
-    private function writeFonts($objWriter, $latinFont, $fontSet)
+    private function writeFonts(XMLWriter $objWriter, string $latinFont, array $fontSet): void
     {
         // a:latin
         $objWriter->startElement('a:latin');
@@ -826,12 +813,8 @@ class Theme extends WriterPart
 
     /**
      * Write colour scheme to XML format.
-     *
-     * @param XMLWriter $objWriter
-     *
-     * @return string XML Output
      */
-    private function writeColourScheme($objWriter)
+    private function writeColourScheme(XMLWriter $objWriter): void
     {
         foreach (self::$colourScheme as $colourName => $colourValue) {
             $objWriter->startElement('a:' . $colourName);

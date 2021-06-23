@@ -72,6 +72,8 @@ class BaseDependencyMap extends EmptyDependencyMap
                 return $DIC->backgroundTasks()->persistence();
             case TaskFactory::class:
                 return $DIC->backgroundTasks()->taskFactory();
+            case Container::class:
+                return $DIC;
         }
     }
 }

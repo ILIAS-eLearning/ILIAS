@@ -26,8 +26,6 @@ use PhpOffice\PhpSpreadsheet\Shared\OLE;
  * Class for creating PPS's for OLE containers.
  *
  * @author   Xavier Noguer <xnoguer@php.net>
- *
- * @category PhpSpreadsheet
  */
 class PPS
 {
@@ -76,14 +74,14 @@ class PPS
     /**
      * A timestamp.
      *
-     * @var int
+     * @var float|int
      */
     public $Time1st;
 
     /**
      * A timestamp.
      *
-     * @var int
+     * @var float|int
      */
     public $Time2nd;
 
@@ -131,8 +129,8 @@ class PPS
      * @param int $prev The index of the previous PPS
      * @param int $next The index of the next PPS
      * @param int $dir The index of it's first child if this is a Dir or Root PPS
-     * @param int $time_1st A timestamp
-     * @param int $time_2nd A timestamp
+     * @param null|float|int $time_1st A timestamp
+     * @param null|float|int $time_2nd A timestamp
      * @param string $data The (usually binary) source data of the PPS
      * @param array $children Array containing children PPS for this PPS
      */
@@ -144,8 +142,8 @@ class PPS
         $this->PrevPps = $prev;
         $this->NextPps = $next;
         $this->DirPps = $dir;
-        $this->Time1st = $time_1st;
-        $this->Time2nd = $time_2nd;
+        $this->Time1st = $time_1st ?? 0;
+        $this->Time2nd = $time_2nd ?? 0;
         $this->_data = $data;
         $this->children = $children;
         if ($data != '') {
@@ -174,7 +172,7 @@ class PPS
      *
      * @return string The binary string
      */
-    public function _getPpsWk()
+    public function getPpsWk()
     {
         $ret = str_pad($this->Name, 64, "\x00");
 
@@ -191,9 +189,10 @@ class PPS
             . "\x00\x00\x00\x00"                  // 100
             . OLE::localDateToOLE($this->Time1st)          // 108
             . OLE::localDateToOLE($this->Time2nd)          // 116
-            . pack('V', isset($this->startBlock) ? $this->startBlock : 0)  // 120
+            . pack('V', $this->startBlock ?? 0)  // 120
             . pack('V', $this->Size)               // 124
             . pack('V', 0); // 128
+
         return $ret;
     }
 
@@ -201,14 +200,14 @@ class PPS
      * Updates index and pointers to previous, next and children PPS's for this
      * PPS. I don't think it'll work with Dir PPS's.
      *
-     * @param array &$raList Reference to the array of PPS's for the whole OLE
+     * @param array $raList Reference to the array of PPS's for the whole OLE
      *                          container
      * @param mixed $to_save
      * @param mixed $depth
      *
      * @return int The index for this PPS
      */
-    public static function _savePpsSetPnt(&$raList, $to_save, $depth = 0)
+    public static function savePpsSetPnt(&$raList, $to_save, $depth = 0)
     {
         if (!is_array($to_save) || (empty($to_save))) {
             return 0xFFFFFFFF;
@@ -219,7 +218,7 @@ class PPS
             $raList[$cnt]->No = $cnt;
             $raList[$cnt]->PrevPps = 0xFFFFFFFF;
             $raList[$cnt]->NextPps = 0xFFFFFFFF;
-            $raList[$cnt]->DirPps = self::_savePpsSetPnt($raList, @$raList[$cnt]->children, $depth++);
+            $raList[$cnt]->DirPps = self::savePpsSetPnt($raList, @$raList[$cnt]->children, $depth++);
         } else {
             $iPos = floor(count($to_save) / 2);
             $aPrev = array_slice($to_save, 0, $iPos);
@@ -228,9 +227,9 @@ class PPS
             // If the first entry, it's the root... Don't clone it!
             $raList[$cnt] = ($depth == 0) ? $to_save[$iPos] : clone $to_save[$iPos];
             $raList[$cnt]->No = $cnt;
-            $raList[$cnt]->PrevPps = self::_savePpsSetPnt($raList, $aPrev, $depth++);
-            $raList[$cnt]->NextPps = self::_savePpsSetPnt($raList, $aNext, $depth++);
-            $raList[$cnt]->DirPps = self::_savePpsSetPnt($raList, @$raList[$cnt]->children, $depth++);
+            $raList[$cnt]->PrevPps = self::savePpsSetPnt($raList, $aPrev, $depth++);
+            $raList[$cnt]->NextPps = self::savePpsSetPnt($raList, $aNext, $depth++);
+            $raList[$cnt]->DirPps = self::savePpsSetPnt($raList, @$raList[$cnt]->children, $depth++);
         }
 
         return $cnt;
