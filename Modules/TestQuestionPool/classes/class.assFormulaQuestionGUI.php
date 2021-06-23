@@ -898,6 +898,17 @@ class assFormulaQuestionGUI extends assQuestionGUI
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+
+    /**
      * Get the question solution output
      * @param integer $active_id             The active user id
      * @param integer $pass                  The test pass
@@ -932,7 +943,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
             $user_solution["active_id"] = $active_id;
             $user_solution["pass"] = $pass;
-            $solutions = $this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             foreach ($solutions as $idx => $solution_value) {
                 if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
                     $user_solution[$matches[1]] = $solution_value["value2"];

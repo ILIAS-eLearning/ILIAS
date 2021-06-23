@@ -400,6 +400,16 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
      * Get the question solution output
      *
      * @param integer $active_id             The active user id
@@ -428,7 +438,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutionOrderingList = $this->object->getOrderingElementListForSolutionOutput(
             $forceCorrectSolution,
             $active_id,
-            $pass
+            $pass,
+            $this->getUseIntermediateSolution()
         );
 
         $answers_gui = $this->object->buildNestedOrderingElementInputGui();
