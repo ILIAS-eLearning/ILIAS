@@ -3005,6 +3005,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
+        $access = $DIC->access();
 
         if (substr($a_target, -3) == "wsp") {
             $id = explode("_", $a_target);
@@ -3042,7 +3043,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            if ($access->checkAccess("read", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            }
+            if ($access->checkAccess("visible", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
+            }
         }
     }
 

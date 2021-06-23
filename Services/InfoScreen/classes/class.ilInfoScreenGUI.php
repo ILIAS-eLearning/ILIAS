@@ -87,6 +87,11 @@ class ilInfoScreenGUI
      */
     protected $booking_enabled = false;
 
+    /**
+     * @var bool
+     */
+    protected $availability_enabled = true;
+
 
     /**
     * Constructor
@@ -206,6 +211,14 @@ class ilInfoScreenGUI
     public function enableLearningProgress($a_enable = true)
     {
         $this->learning_progress_enabled = $a_enable;
+    }
+
+    /**
+    * enable availability
+    */
+    public function enableAvailability($a_enable = true)
+    {
+        $this->availability_enabled = $a_enable;
     }
 
     /**
@@ -828,6 +841,10 @@ class ilInfoScreenGUI
             }
         }
 
+        if ($this->availability_enabled) {
+            $this->addAvailability();
+        }
+
         $this->addPreconditions();
 
         // learning progress
@@ -1272,6 +1289,30 @@ class ilInfoScreenGUI
         return "<a onClick=\"toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "'); return false;\" href=\"#\">" . $lng->txt("show_hidden_sections") . "</a>";
     }
 
+
+    /**
+     * Add preconditions
+     */
+    protected function addAvailability()
+    {
+        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+            return;
+        }
+
+        $obj = $this->gui_object->object;
+        if ($obj->getRefId() <= 0) {
+            return;
+        }
+
+        $act = new ilObjectActivation();
+        $act->read($obj->getRefId());
+        if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION) {
+            $this->lng->loadLanguageModule("rep");
+            $this->addSection($this->lng->txt("rep_activation_availability"));
+            $this->addAccessPeriodProperty();
+        }
+    }
+
     /**
      * Add preconditions
      */
@@ -1370,6 +1411,38 @@ class ilInfoScreenGUI
                 $this->addProperty(
                     $p["condition"],
                     "<a href='" . $p["link"] . "'>" . $p["title"] . "</a>"
+                );
+            }
+        }
+    }
+
+    /**
+     * Add access period property
+     */
+    public function addAccessPeriodProperty() : void
+    {
+        $a_obj = $this->gui_object->object;
+
+        $this->lng->loadLanguageModule("rep");
+        $this->lng->loadLanguageModule("crs");
+
+        // links to the object
+        if (is_object($a_obj)) {
+            $act = new ilObjectActivation();
+            $act->read($a_obj->getRefId());
+            if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION)
+            {
+                $this->addProperty(
+                    $this->lng->txt('rep_activation_access'),
+                    ilDatePresentation::formatPeriod(
+                        new ilDateTime($act->getTimingStart(), IL_CAL_UNIX),
+                        new ilDateTime($act->getTimingEnd(), IL_CAL_UNIX)
+                    )
+                );
+            } else {
+                $this->addProperty(
+                    $this->lng->txt('rep_activation_access'),
+                    $this->lng->txt('crs_visibility_limitless')
                 );
             }
         }

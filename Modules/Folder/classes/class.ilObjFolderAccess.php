@@ -96,4 +96,27 @@ class ilObjFolderAccess extends ilObjectAccess
         */
         return true;
     }
+
+    /**
+     * check whether goto script will succeed
+     */
+    public static function _checkGoto($a_target)
+    {
+        global $DIC;
+
+        $ilAccess = $DIC->access();
+
+        $t_arr = explode("_", $a_target);
+
+        if ($t_arr[0] != "fold" || ((int) $t_arr[1]) <= 0) {
+            return false;
+        }
+
+        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+            return true;
+        }
+        return false;
+    }
+
 }
