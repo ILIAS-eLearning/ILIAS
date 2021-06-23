@@ -58,7 +58,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
 
         $message =
             "An installation already seems to exist in this location. Using this command\n" .
-            "might change your installation in unexpected ways. Also, the command might not\n".
+            "might change your installation in unexpected ways. Also, the command might not\n" .
             "work as expected. Are you sure that you want to proceed anyway?";
 
         if (!$admin_interaction->confirmOrDeny($message)) {
