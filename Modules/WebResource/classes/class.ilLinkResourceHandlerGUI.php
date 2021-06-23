@@ -59,7 +59,7 @@ class ilLinkResourceHandlerGUI
         $ilAccess = $DIC->access();
         $tpl = $DIC->ui()->mainTemplate();
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
-        $getParams = $DIC->http()->request()->getQueryParams();
+        $ref_id = (int) ($DIC->http()->request()->getQueryParams()['ref_id'] ?? 0);
         
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -69,17 +69,17 @@ class ilLinkResourceHandlerGUI
         }
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $getParams["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $ref_id)) {
             $ilNavigationHistory->addItem(
-                $getParams["ref_id"],
-                "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=" . $getParams["ref_id"],
+                $ref_id,
+                "ilias.php?baseClass=ilLinkResourceHandlerGUI&cmd=infoScreen&ref_id=" . $ref_id,
                 "webr"
             );
         }
 
         switch ($next_class) {
             case 'ilobjlinkresourcegui':
-                $link_gui = new ilObjLinkResourceGUI((int) $getParams["ref_id"], ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
+                $link_gui = new ilObjLinkResourceGUI((int) $ref_id, ilObjLinkResourceGUI::REPOSITORY_NODE_ID);
                 $this->ctrl->forwardCommand($link_gui);
                 break;
         }

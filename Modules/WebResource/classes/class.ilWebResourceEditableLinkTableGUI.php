@@ -105,14 +105,14 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $link_id = $link['id'];
             
             $tmp = $link;
-            $tmp['title'] = $postParams['links'][$link_id]['title'];
-            $tmp['description'] = $postParams['links'][$link_id]['desc'];
-            $tmp['target'] = $postParams['links'][$link_id]['tar'];
-            $tmp['valid'] = $postParams['links'][$link_id]['vali'];
-            $tmp['disable_check'] = $postParams['links'][$link_id]['che'];
-            $tmp['active'] = $postParams['links'][$link_id]['act'];
-            $tmp['value'] = $postParams['links'][$link_id]['val'];
-            $tmp['name'] = $postParams['links'][$link_id]['nam'];
+            $tmp['title'] = (string) ($postParams['links'][$link_id]['title'] ?? '');
+            $tmp['description'] = (string) ($postParams['links'][$link_id]['desc'] ?? '');
+            $tmp['target'] = (string) ($postParams['links'][$link_id]['tar'] ?? '');
+            $tmp['valid'] = (bool) ($postParams['links'][$link_id]['vali'] ?? 0);
+            $tmp['disable_check'] = (bool) ($postParams['links'][$link_id]['che'] ?? 0);
+            $tmp['active'] = (bool) ($postParams['links'][$link_id]['act'] ?? 0);
+            $tmp['value'] = (string) ($postParams['links'][$link_id]['val'] ?? '');
+            $tmp['name'] = (string) ($postParams['links'][$link_id]['nam'] ?? '');
             $tmp['params'] = array();
             
             // var_dump($_POST, $link_id);

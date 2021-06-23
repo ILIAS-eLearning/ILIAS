@@ -63,7 +63,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     {
 
         if ($this->getParams["baseClass"] == 'ilLinkResourceHandlerGUI') {
-            $_GET['view_mode'] = $this->getParams['switch_mode'] ?? $this->getParams['view_mode'];
+            $view_mode = $this->getParams['switch_mode'] ?? $this->getParams['view_mode'] ?? 0;
+            $this->ctrl->setParameter($this, 'view_mode', $view_mode);
             $this->ctrl->saveParameter($this, 'view_mode');
             $this->__prepareOutput();
         }
@@ -349,7 +350,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
         
         $this->initFormLink(self::LINK_MOD_EDIT);
-        $this->setValuesFromLink((int) $this->getParams['link_id']);
+        $this->setValuesFromLink((int) $this->getParams['link_id'] ?? 0);
         $this->tpl->setContent($this->form->getHTML());
     }
     
@@ -498,7 +499,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     {
         $this->checkPermission('write');
         
-        $this->ctrl->setParameter($this, 'link_id', (int) $this->getParams['link_id']);
+        $this->ctrl->setParameter($this, 'link_id', (int) $this->getParams['link_id'] ?? 0);
         
         if (!isset($this->getParams['param_id'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -506,7 +507,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
 
         $param = new ilParameterAppender($this->object->getId());
-        $param->delete((int) $this->getParams['param_id']);
+        $param->delete((int) $this->getParams['param_id'] ?? 0);
         
         ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'), true);
         $this->ctrl->redirect($this, 'editLinks');
@@ -522,7 +523,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         }
 
         $param = new ilParameterAppender($this->object->getId());
-        $param->delete((int) $this->getParams['param_id']);
+        $param->delete((int) $this->getParams['param_id'] ?? 0);
         
         ilUtil::sendSuccess($this->lng->txt('links_parameter_deleted'), true);
         $this->ctrl->redirect($this, 'view');
@@ -547,7 +548,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         // Validate
         $invalid = array();
         foreach ($this->postParams['ids'] as $link_id) {
-            $data = $this->postParams['links'][$link_id];
+            $data = (array) $this->postParams['links'][$link_id] ?? array();
     
             // handle internal links
             if ($this->postParams['tar_' . $link_id . '_ajax_type'] &&
@@ -582,7 +583,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 
             $table = new ilWebResourceEditableLinkTableGUI($this, 'view');
             $table->setInvalidLinks($invalid);
-            $table->parseSelectedLinks($this->postParams['ids']);
+            $table->parseSelectedLinks( (array) $this->postParams['ids'] ?? array());
             $table->updateFromPost();
             $this->tpl->setVariable('TABLE_LINKS', $table->getHTML());
             return false;
@@ -591,8 +592,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $links = new ilLinkResourceItems($this->object->getId());
         
         // Save Settings
+        $ids = (array) $this->postParams['ids'] ?? array();
         foreach ($this->postParams['ids'] as $link_id) {
-            $data = $this->postParams['links'][$link_id];
+            $data = (array) $this->postParams['links'][$link_id] ?? 0;
             
             $orig = ilLinkResourceItems::lookupItem($this->object->getId(), $link_id);
             
@@ -858,7 +860,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $dyn->setInfo($this->lng->txt('links_dynamic_info'));
 
 
-                if (count($links = ilParameterAppender::_getParams( (int) $this->getParams['link_id']))) {
+                if (count($links = ilParameterAppender::_getParams( (int) $this->getParams['link_id'] ?? 0))) {
                     $ex = new ilCustomInputGUI($this->lng->txt('links_existing_params'), 'ex');
                     $dyn->addSubItem($ex);
 
@@ -897,7 +899,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
      */
     protected function switchViewMode()
     {
-        $_REQUEST['view_mode'] = $this->getParams['view_mode'] = (int) $this->getParams['switch_mode'];
+        $_REQUEST['view_mode'] = $this->getParams['view_mode'] = (int) $this->getParams['switch_mode'] ?? self::VIEW_MODE_VIEW;
         $this->view();
     }
     
@@ -1010,7 +1012,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->checkPermission('write');
 
         $sort = ilContainerSorting::_getInstance($this->object->getId());
-        $sort->savePost((array) $this->postParams['position']);
+        $sort->savePost((array) $this->postParams['position'] ?? array());
         
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->view();
@@ -1066,9 +1068,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $link_ids = array();
 
         if (is_array($this->postParams['link_ids'])) {
-            $link_ids = $this->postParams['link_ids'];
+            $link_ids = (array) $this->postParams['link_ids'] ?? array();
         } elseif (isset($this->getParams['link_id'])) {
-            $link_ids = array($this->getParams['link_id']);
+            $link_ids = array($this->getParams['link_id']) ?? array();
         }
 
         if (!count($link_ids) > 0) {
@@ -1102,8 +1104,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $this->checkPermission('write');
 
         $links = new ilLinkResourceItems($this->object->getId());
-        
-        foreach ($this->postParams['link_ids'] as $link_id) {
+
+        $link_ids = (array) $this->postParams['link_ids'] ?? array();
+        foreach ($link_ids as $link_id) {
             $links->delete($link_id);
         }
         ilUtil::sendSuccess($this->lng->txt('webr_deleted_items'), true);
@@ -1125,7 +1128,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $this->ctrl->redirect($this, 'view');
         }
         
-        $links->setLinkId((int) $this->getParams['link_id']);
+        $links->setLinkId((int) $this->getParams['link_id'] ?? 0);
         $links->updateActive(false);
         
         ilUtil::sendSuccess($this->lng->txt('webr_inactive_success'), true);
@@ -1598,11 +1601,10 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $ilAccess = $DIC->access();
         $ilErr = $DIC['ilErr'];
         $lng = $DIC->language();
-        $getParams = $DIC->http()->request()->getQueryParams();
                 
         if ($a_additional && substr($a_additional, -3) == "wsp") {
-            $getParams["baseClass"] = "ilsharedresourceGUI";
-            $getParams["wsp_id"] = $a_target;
+            $_GET["baseClass"] = "ilsharedresourceGUI";
+            $_GET["wsp_id"] = $a_target;
             exit;
         }
 
