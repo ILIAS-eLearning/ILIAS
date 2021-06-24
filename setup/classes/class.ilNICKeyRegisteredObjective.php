@@ -65,6 +65,16 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         }
 
         $status = explode("\n", $req->getResponseBody());
+
+        $nic_id = (string) ($status[2] ?? '');
+        if ($nic_id === '') {
+            $settings->set("nic_enabled", "-1");
+            throw new Setup\UnachievableException(
+                "Did not receive valid installation id from " .
+                "NIC server (\"" . self::ILIAS_NIC_SERVER . "\") for URL: $url"
+            );
+        }
+
         $settings->set("nic_enabled", "1");
         $settings->set("inst_id", $status[2]);
 
