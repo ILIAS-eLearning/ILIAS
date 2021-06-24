@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `reload-control-structure` [rebuilds structure information](#reload-ilias-control-structure) of an installation
+* `achieve` [executes a method from a specific agent](#achieve-method) of an installation
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
@@ -109,12 +109,14 @@ Like for `install` and `update`, plugins are included here, but can be controlle
 via options.
 
 
-## Reload ILIAS Control Structure
+## Achieve Method
 
-The control structure captures information about components and GUIs of ILIAS
-in the database. Sometimes it might be necessary to refresh that information.
-Please do not invoke this function unless it is explicitly stated in update
-or patch instructions or you know what you are doing.
+To execute a single method form an agent call, here e.g. for control structure reload,
+`php setup/setup.php achieve ilUICoreSetupAgent::reloadCtrlStructure`.
+If the agent need a config file please ensure to add a config file like
+`php setup/setup.php achieve ilUICoreSetupAgent::reloadCtrlStructure config.json`
+at the end of the achieve command.
+
 
 ## About the Config File
 

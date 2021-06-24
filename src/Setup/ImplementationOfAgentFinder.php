@@ -8,8 +8,6 @@ namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ilSetupLanguage;
 
 class ImplementationOfAgentFinder implements AgentFinder
 {
@@ -42,7 +40,7 @@ class ImplementationOfAgentFinder implements AgentFinder
      * @var array<string, Setup\Agent> $predefined_agents
      */
     protected $predefined_agents;
-    
+
     /**
      * @var array<string, Setup\Agent> $predefined_agents
      */
@@ -114,7 +112,7 @@ class ImplementationOfAgentFinder implements AgentFinder
 
         return $agents;
     }
-    
+
     /**
      * Get a agent from a specific plugin.
      *
@@ -165,10 +163,23 @@ class ImplementationOfAgentFinder implements AgentFinder
         );
     }
 
+    public function getAgentByClassName(string $class_name) : Agent
+    {
+        if (!class_exists($class_name)) {
+            throw new \InvalidArgumentException("Class '" . $class_name . "' not found.");
+        }
+
+        return new $class_name(
+            $this->refinery,
+            $this->data_factory,
+            $this->lng
+        );
+    }
+
     /**
      * Derive a name for the agent based on a class name.
      */
-    protected function getAgentNameByClassName(string $class_name) : string
+    public function getAgentNameByClassName(string $class_name) : string
     {
         // We assume that the name of an agent in the class ilXYZSetupAgent really
         // is XYZ. If that does not fit we just use the class name.
