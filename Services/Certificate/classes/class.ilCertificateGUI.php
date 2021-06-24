@@ -172,29 +172,10 @@ class ilCertificateGUI
      * @var ilPageFormats|null
      */
     private $pageFormats;
+ 
+    /** @var \ILIAS\Filesystem\Filesystem|null */
+    private $tmp_file_system;
 
-    /**
-     * ilCertificateGUI constructor
-     * @param ilCertificatePlaceholderDescription          $placeholderDescriptionObject
-     * @param ilCertificatePlaceholderValues               $placeholderValuesObject
-     * @param                                              $objectId
-     * @param                                              $certificatePath
-     * @param ilCertificateFormRepository                  $settingsFormFactory
-     * @param ilCertificateDeleteAction                    $deleteAction
-     * @param ilCertificateTemplateRepository|null         $templateRepository
-     * @param ilPageFormats|null                           $pageFormats
-     * @param ilXlsFoParser|null                           $xlsFoParser
-     * @param ilFormFieldParser                            $formFieldParser
-     * @param ilCertificateTemplateExportAction|null       $exportAction
-     * @param ilCertificateBackgroundImageUpload|null      $upload
-     * @param ilCertificateTemplatePreviewAction|null      $previewAction
-     * @param \ILIAS\FileUpload\FileUpload|null            $fileUpload
-     * @param ilSetting|null                               $settings
-     * @param ilCertificateBackgroundImageDelete|null      $backgroundImageDelete
-     * @param \ILIAS\Filesystem\Filesystem|null            $fileSystem
-     * @param ilCertificateBackgroundImageFileService|null $imageFileService
-     * @access public
-     */
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
@@ -213,7 +194,8 @@ class ilCertificateGUI
         ilSetting $settings = null,
         ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
         \ILIAS\Filesystem\Filesystem $fileSystem = null,
-        ilCertificateBackgroundImageFileService $imageFileService = null
+        ilCertificateBackgroundImageFileService $imageFileService = null,
+        \ILIAS\Filesystem\Filesystem $tmp_file_system = null
     ) {
         global $DIC;
 
@@ -221,7 +203,6 @@ class ilCertificateGUI
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->ilias = $DIC['ilias'];
-        $this->tree = $DIC['tree'];
         $this->tree = $DIC['tree'];
         $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];
@@ -336,6 +317,11 @@ class ilCertificateGUI
             );
         }
         $this->backgroundImageDelete = $backgroundImageDelete;
+        
+        if (null === $tmp_file_system) {
+            $tmp_file_system = $DIC->filesystem()->temp();
+        }
+        $this->tmp_file_system = $tmp_file_system;
     }
 
     /**
@@ -549,7 +535,11 @@ class ilCertificateGUI
                 $temporaryFileName = $_FILES['background']['tmp_name'];
                 if (strlen($temporaryFileName)) {
                     try {
-                        $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage($temporaryFileName, $nextVersion);
+                        $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage(
+                            $temporaryFileName,
+                            $nextVersion,
+                            $form->getInput('background')
+                        );
                     } catch (ilException $exception) {
                         $form->getItemByPostVar('background')->setAlert($this->lng->txt("certificate_error_upload_bgimage"));
                     }
@@ -578,19 +568,27 @@ class ilCertificateGUI
 
                         /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
                         $uploadResults = $this->fileUpload->getResults();
-                        $result = $uploadResults[$temporaryFileName];
-                        if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
-                            $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
+                        $pending_card_file = $form->getInput('certificate_card_thumbnail_image');
+                        $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
+                        if (isset($uploadResults[$temporaryFileName])) {
+                            $result = $uploadResults[$temporaryFileName];
+                            if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                                $this->fileUpload->moveOneFileTo(
+                                    $result,
+                                    $this->certificatePath,
+                                    \ILIAS\FileUpload\Location::WEB,
+                                    $cardThumbnailFileName,
+                                    true
+                                );
 
-                            $this->fileUpload->moveOneFileTo(
-                                $result,
-                                $this->certificatePath,
-                                \ILIAS\FileUpload\Location::WEB,
-                                $cardThumbnailFileName,
-                                true
-                            );
-
+                                $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
+                            }
+                        } elseif ($pending_card_file !== null && !empty($pending_card_file)) {
+                            $stream = $this->tmp_file_system->readStream(basename($pending_card_file['tmp_name']));
+                            $this->fileSystem->writeStream($this->certificatePath . '/' . $cardThumbnailFileName, $stream);
                             $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
+                        } else {
+                            throw new ilException($this->lng->txt('upload_error_file_not_found'));
                         }
                     } catch (ilException $exception) {
                         $form->getItemByPostVar('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
