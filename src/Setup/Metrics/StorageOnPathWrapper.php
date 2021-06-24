@@ -29,6 +29,6 @@ class StorageOnPathWrapper implements Storage
      */
     public function store(string $key, Metric $metric) : void
     {
-        $this->other->store("{$this->path}.$key", $metric);
+        $this->other->store("$this->path.$key", $metric);
     }
 }

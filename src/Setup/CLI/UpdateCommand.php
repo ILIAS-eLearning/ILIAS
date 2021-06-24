@@ -43,7 +43,7 @@ class UpdateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    public function configure()
+    protected function configure()
     {
         $this->setDescription("Updates an existing ILIAS installation");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the update");
@@ -53,7 +53,7 @@ class UpdateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         // ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
         // the setup for the command line version of the setup. Do not use this.

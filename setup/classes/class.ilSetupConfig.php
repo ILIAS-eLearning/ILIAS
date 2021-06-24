@@ -8,7 +8,7 @@ use ILIAS\Data\Password;
 class ilSetupConfig implements Setup\Config
 {
     /**
-     * @var	client_id
+     * @var	string
      */
     protected $client_id;
 

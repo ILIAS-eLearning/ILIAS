@@ -54,7 +54,7 @@ class DirectoryCreatedObjective implements Setup\Objective
      */
     public function getLabel() : string
     {
-        return "Create directory '{$this->path}'";
+        return "Create directory '$this->path'";
     }
 
     /**
@@ -89,7 +89,7 @@ class DirectoryCreatedObjective implements Setup\Objective
 
         if (!is_dir($this->path)) {
             throw new Setup\UnachievableException(
-                "Could not create directory '{$this->path}'"
+                "Could not create directory '$this->path'"
             );
         }
         return $environment;
