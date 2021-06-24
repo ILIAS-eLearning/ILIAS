@@ -3025,8 +3025,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (
-                $doRenderDrafts && $pageIndex === (int) (ceil($numberOfPostings / $pageSize) - 1) &&
-                $this->selectedSorting === ilForumProperties::VIEW_DATE_ASC
+                $this->selectedSorting === ilForumProperties::VIEW_DATE_ASC &&
+                $doRenderDrafts && $pageIndex === max(0, (int) (ceil($numberOfPostings / $pageSize) - 1))
             ) {
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
