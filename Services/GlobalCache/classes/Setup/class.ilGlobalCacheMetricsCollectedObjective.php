@@ -106,7 +106,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             "Which components are activated to use caching?"
         );
         $storage->store(
-            "component_activation",
+            "components",
             $component_activation
         );
 
