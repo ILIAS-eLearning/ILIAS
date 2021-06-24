@@ -3079,7 +3079,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (
-                $doRenderDrafts && $pageIndex === (int) (ceil($numberOfPostings / $pageSize) - 1) &&
+                $doRenderDrafts && $pageIndex === max(0, (int) (ceil($numberOfPostings / $pageSize) - 1)) &&
                 $currentViewMode === ilForumProperties::VIEW_DATE &&
                 $currentSortation === ilForumProperties::VIEW_DATE_ASC
             ) {

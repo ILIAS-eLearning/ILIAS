@@ -516,13 +516,20 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 
     public static function _goto($a_target)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $access = $DIC->access();
+        $ctrl = $DIC->ctrl();
+
         $id = explode("_", $a_target);
-        
-        $_GET["baseClass"] = "ilRepositoryGUI";
-        $_GET["ref_id"] = $id[0];
-        $_GET["cmd"] = "preview";
-    
-        include("ilias.php");
-        exit;
+        $ref_id = $id[0];
+
+        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", $ref_id);
+        if ($access->checkAccess("read", "", $ref_id)) {
+            $ctrl->redirectByClass("ilRepositoryGUI", "preview");
+        } else {
+            $ctrl->redirectByClass("ilRepositoryGUI", "infoScreen");
+        }
     }
 }
