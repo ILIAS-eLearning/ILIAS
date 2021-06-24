@@ -139,7 +139,7 @@ class ilIndividualAssessmentMember
                 ilIndividualAssessmentMembers::LP_COMPLETED,
                 ilIndividualAssessmentMembers::LP_FAILED
             ]
-            ) &&
+        ) &&
             !$this->finalized();
     }
 
