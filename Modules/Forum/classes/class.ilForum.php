@@ -1317,7 +1317,7 @@ class ilForum
             INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
             INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
-            WHERE  AND f.pos_status = %s AND f.pos_author_id = %s
+            WHERE f.pos_status = %s AND f.pos_author_id = %s
         ";
 
         $res = $this->db->queryF(
@@ -1341,7 +1341,7 @@ class ilForum
 
         $query = "
             SELECT 
-                   u.login, u.lastname, u.firstname, u.pos_author_id,
+                   u.login, u.lastname, u.firstname, f.pos_author_id,
                    p.value public_profile,
                    COUNT(f.pos_author_id) num_postings
             FROM frm_posts f
@@ -1370,7 +1370,7 @@ class ilForum
         
         $query .= '
             AND d.top_frm_fk = %s
-            GROUP BY u.login, p.value,u.lastname, u.firstname, u.pos_author_id
+            GROUP BY u.login, p.value,u.lastname, u.firstname, f.pos_author_id
         ';
 
         $data_types[] = 'integer';
