@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\FileUpload\Collection\EntryLockingStringMap;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\FileUpload\DTO\UploadResult;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -59,18 +63,9 @@ class ilCertificateBackgroundImageUpload
      */
     private $logger;
 
-    /**
-     * @param \ILIAS\FileUpload\FileUpload $fileUpload
-     * @param string $certificatePath
-     * @param ilLanguage $language
-     * @param ilLogger $logger
-     * @param \ILIAS\Filesystem\Filesystem|null $fileSystem
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateFileUtilsHelper|null $certificateFileUtilsHelper
-     * @param LegacyPathHelperHelper|null $legacyPathHelper
-     * @param string $rootDirectory
-     * @param string $clientID
-     */
+    /** @var \ILIAS\Filesystem\Filesystem|null */
+    private $tmp_file_system;
+
     public function __construct(
         \ILIAS\FileUpload\FileUpload $fileUpload,
         string $certificatePath,
@@ -81,7 +76,8 @@ class ilCertificateBackgroundImageUpload
         ilCertificateFileUtilsHelper $certificateFileUtilsHelper = null,
         LegacyPathHelperHelper $legacyPathHelper = null,
         string $rootDirectory = CLIENT_WEB_DIR,
-        string $clientID = CLIENT_ID
+        string $clientID = CLIENT_ID,
+        \ILIAS\Filesystem\Filesystem $tmp_file_system = null
     ) {
         $this->fileUpload = $fileUpload;
         $this->certificatePath = $certificatePath;
@@ -111,6 +107,12 @@ class ilCertificateBackgroundImageUpload
         $this->legacyPathHelper = $legacyPathHelper;
 
         $this->clientId = $clientID;
+
+        if (null === $tmp_file_system) {
+            global $DIC;
+            $tmp_file_system = $DIC->filesystem()->temp();
+        }
+        $this->tmp_file_system = $tmp_file_system;
     }
 
     /**
@@ -119,6 +121,7 @@ class ilCertificateBackgroundImageUpload
      *
      * @param string $imageTempFilename Name of the temporary uploaded image file
      * @param int $version - Version of the current certifcate template
+     * @param array|null $pending_file
      * @return integer An errorcode if the image upload fails, 0 otherwise
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
@@ -126,7 +129,7 @@ class ilCertificateBackgroundImageUpload
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function uploadBackgroundImage(string $imageTempFilename, int $version)
+    public function uploadBackgroundImage(string $imageTempFilename, int $version, ?array $pending_file = null)
     {
         $imagepath = $this->rootDirectory . $this->certificatePath;
 
@@ -136,7 +139,7 @@ class ilCertificateBackgroundImageUpload
 
         $backgroundImageTempFilePath = $this->createBackgroundImageTempfilePath();
 
-        $this->uploadFile($imageTempFilename, $backgroundImageTempFilePath);
+        $this->uploadFile($imageTempFilename, $backgroundImageTempFilePath, $pending_file);
 
         $backgroundImagePath = $this->certificatePath . 'background_' . $version . '.jpg';
 
@@ -176,11 +179,12 @@ class ilCertificateBackgroundImageUpload
     /**
      * @param string $temporaryFilename
      * @param string $targetFileName
+     * @param array|null $pending_file
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    private function uploadFile(string $temporaryFilename, string $targetFileName)
+    private function uploadFile(string $temporaryFilename, string $targetFileName, ?array $pending_file = null)
     {
         $targetFilename = basename($targetFileName);
         $targetFilename = $this->fileUtilsHelper->getValidFilename($targetFilename);
@@ -200,20 +204,26 @@ class ilCertificateBackgroundImageUpload
          * @var \ILIAS\FileUpload\DTO\UploadResult $uploadResult
          */
         $uploadResults = $this->fileUpload->getResults();
-        $uploadResult = $uploadResults[$temporaryFilename];
+        if (isset($uploadResults[$temporaryFilename])) {
+            $uploadResult = $uploadResults[$temporaryFilename];
+            $processingStatus = $uploadResult->getStatus();
+            if ($processingStatus->getCode() === ILIAS\FileUpload\DTO\ProcessingStatus::REJECTED) {
+                throw new ilException($processingStatus->getMessage());
+            }
 
-        $processingStatus = $uploadResult->getStatus();
-        if ($processingStatus->getCode() === ILIAS\FileUpload\DTO\ProcessingStatus::REJECTED) {
-            throw new ilException($processingStatus->getMessage());
+            $this->fileUpload->moveOneFileTo(
+                $uploadResult,
+                $targetDir,
+                $targetFilesystem,
+                $targetFilename,
+                true
+            );
+        } elseif ($pending_file !== null && !empty($pending_file)) {
+            $stream = $this->tmp_file_system->readStream(basename($pending_file['tmp_name']));
+            $this->fileSystem->writeStream($targetDir . '/' . $targetFilename, $stream);
+        } else {
+            throw new ilException($this->language->txt('upload_error_file_not_found'));
         }
-
-        $this->fileUpload->moveOneFileTo(
-            $uploadResult,
-            $targetDir,
-            $targetFilesystem,
-            $targetFilename,
-            true
-        );
     }
 
     /**
