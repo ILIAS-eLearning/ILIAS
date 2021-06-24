@@ -32,7 +32,6 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\ViewControl\Factory as ViewControlFactory;
 
 $c = build_container_for_setup($executed_in_directory);
 $app = $c["app"];

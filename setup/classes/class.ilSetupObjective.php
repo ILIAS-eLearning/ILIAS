@@ -7,11 +7,11 @@ use ILIAS\Setup;
 abstract class ilSetupObjective implements Setup\Objective
 {
     /**
-     * @var	ilSetupConfig
+     * @var	Setup\Config
      */
     protected $config;
 
-    public function __construct(\ilSetupConfig $config)
+    public function __construct(Setup\Config $config)
     {
         $this->config = $config;
     }

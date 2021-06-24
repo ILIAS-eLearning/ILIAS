@@ -8,7 +8,7 @@ use ILIAS\Setup;
 class ilSetupConfigStoredObjective extends ilSetupObjective
 {
     public function __construct(
-        \ilSetupConfig $config
+        Setup\Config $config
     ) {
         parent::__construct($config);
     }

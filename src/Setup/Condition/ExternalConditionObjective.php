@@ -90,7 +90,7 @@ class ExternalConditionObjective implements Setup\Objective
         }
 
         throw new Setup\UnachievableException(
-            "An external condition was not met: {$this->label}"
+            "An external condition was not met: $this->label"
         );
     }
 

@@ -21,6 +21,7 @@ class MigrationObjective implements Setup\Objective
     /**
      * MigrationObjective constructor.
      * @param Setup\Migration $migration
+     * @param int|null        $steps
      */
     public function __construct(Setup\Migration $migration, int $steps = null)
     {
@@ -90,7 +91,7 @@ class MigrationObjective implements Setup\Objective
         if ($this->migration->getRemainingAmountOfSteps() < $steps) {
             $steps = $this->migration->getRemainingAmountOfSteps();
         }
-        $io->inform("Trigger {$steps} steps in {$this->getLabel()}");
+        $io->inform("Trigger $steps steps in {$this->getLabel()}");
         $step = 0;
         $io->startProgress($steps);
 

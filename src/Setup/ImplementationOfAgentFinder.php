@@ -39,12 +39,12 @@ class ImplementationOfAgentFinder implements AgentFinder
     protected $interface_finder;
 
     /**
-     * @var array<string, Setup\Agent> $predefined_agents
+     * @var array<string, Agent> $predefined_agents
      */
     protected $predefined_agents;
     
     /**
-     * @var array<string, Setup\Agent> $predefined_agents
+     * @var array<string, Agent> $predefined_agents
      */
     public function __construct(
         Refinery $refinery,

@@ -47,8 +47,10 @@ class ImplementationOfInterfaceFinder
      * Patterns are regexps (without delimiters) to define complete paths on the
      * filesystem to be ignored or selected.
      *
+     * @param   string $interface
      * @param   string[] $additional_ignore
-     * @param   string $matching_path
+     * @param   string|null $matching_path
+     * @return  \Iterator
      */
     public function getMatchingClassNames(
         string $interface,

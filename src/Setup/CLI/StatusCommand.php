@@ -28,14 +28,14 @@ class StatusCommand extends Command
         $this->agent_finder = $agent_finder;
     }
 
-    public function configure()
+    protected function configure()
     {
         $this->setDescription("Collect and show status information about the installation.");
         $this->configureCommandForPlugins();
     }
 
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $agent = $this->getRelevantAgent($input);
 

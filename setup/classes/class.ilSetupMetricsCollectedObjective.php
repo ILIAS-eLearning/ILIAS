@@ -11,14 +11,14 @@ class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
         return "Collect common metrics for the ILIAS installation.";
     }
 
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);

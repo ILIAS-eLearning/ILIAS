@@ -25,7 +25,7 @@ class ilMakeInstallationAccessibleObjective extends ilSetupObjective
     {
         $db_config = $environment->getConfigFor("database");
         return [
-            new \ilIniFilesPopulatedObjective($this->config),
+            new \ilIniFilesPopulatedObjective(),
             new ilDatabasePopulatedObjective($db_config),
             new \ilSettingsFactoryExistsObjective()
         ];

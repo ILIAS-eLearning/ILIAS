@@ -9,6 +9,7 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\NoConfirmationException;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,13 +40,13 @@ class ReloadControlStructureCommand extends Command
     }
 
 
-    public function configure()
+    protected function configure()
     {
         $this->setDescription("Reloads the control structure of the installation.");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
