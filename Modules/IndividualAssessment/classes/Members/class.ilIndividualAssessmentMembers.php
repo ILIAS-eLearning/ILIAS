@@ -254,8 +254,8 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
                 "read_learning_progress",
                 $this->referencedObject()->getRefId(),
                 $this->membersIds()
-                )
-            );
+            )
+        );
     }
 
 
