@@ -76,15 +76,14 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
         }
     }
 
-    protected function recordIndividualAssessmentRead() {
-
+    protected function recordIndividualAssessmentRead()
+    {
         ilChangeEvent::_recordReadEvent(
             $this->object->getType(),
             $this->object->getRefId(),
             $this->object->getId(),
             $this->usr->getId()
         );
-
     }
 
     public function executeCommand()
@@ -280,14 +279,14 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 self::TAB_INFO,
                 $this->txt('info_short'),
                 $this->getLinkTarget('info')
-                                    );
+            );
         }
         if ($this->object->accessHandler()->mayEditObject()) {
             $this->tabs_gui->addTab(
                 self::TAB_SETTINGS,
                 $this->txt('settings'),
                 $this->getLinkTarget('settings')
-                                    );
+            );
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
@@ -306,7 +305,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 self::TAB_MEMBERS,
                 $this->txt('il_iass_members'),
                 $this->getLinkTarget('members')
-                                    );
+            );
         }
         if (($this->object->accessHandler()->mayViewUser()
             || $this->object->accessHandler()->mayGradeUser()
@@ -317,7 +316,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 self::TAB_LP,
                 $this->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass('illearningprogressgui')
-                                    );
+            );
         }
 
         if ($this->object->accessHandler()->mayEditObject()) {
@@ -335,7 +334,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
                 array(),
                 'ilpermissiongui'
-                                    );
+            );
         }
         parent::getTabs();
     }

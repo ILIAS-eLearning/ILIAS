@@ -99,7 +99,7 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         }
         $examiner_id = $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID];
         if (!is_null($examiner_id)) {
-            $examiner_id = (int)$examiner_id;
+            $examiner_id = (int) $examiner_id;
         }
         return new ilIndividualAssessmentMember(
             $obj,
