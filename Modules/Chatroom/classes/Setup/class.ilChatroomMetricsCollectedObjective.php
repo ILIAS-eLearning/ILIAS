@@ -126,7 +126,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 );
             }
 
-            if (!$settings['client_proxy']) {
+            if ($settings['client_proxy']) {
                 $client_url = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
