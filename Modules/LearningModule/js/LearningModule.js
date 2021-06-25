@@ -218,6 +218,7 @@ $(function() {
 	$(document).keydown(function(e) {
 	if (e.target.tagName != "TEXTAREA" &&
 		e.target.tagName != "INPUT") {
+		/* deactivated due to #28962
 		// right
 		if (e.keyCode == 39) {
 			var a = $('.ilc_page_rnavlink_RightNavigationLink').first().attr('href');
@@ -233,7 +234,7 @@ $(function() {
 				top.location.href = a;
 			}
 			return false;
-		}
+		}*/
 		return true;
 	}
 })});
