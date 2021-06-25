@@ -195,11 +195,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             if ($title == "ILIAS") {
                 $title = $lng->txt("repository");
             }
-            return $lng->txt("icon") . " " . $title;
+            return $title;
         }
 
-        
-        return parent::getNodeIconAlt($a_node);
+        $lng = $this->lng;
+        return $lng->txt("obj_" . $a_node["type"]) . ": " . $this->getNodeContent($a_node);
     }
     
     /**
