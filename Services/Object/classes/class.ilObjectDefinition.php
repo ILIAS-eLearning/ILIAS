@@ -66,7 +66,7 @@ class ilObjectDefinition // extends ilSaxParser
     {
         $this->obj_data = array();
         $defIds = array();
-        $global_cache = ilCachedComponentData::getInstance();
+        $global_cache = ilCachedObjectDefinition::getInstance();
         foreach ($global_cache->getIlObjectDef() as $rec) {
             $this->obj_data[$rec["id"]] = array(
                 "name" => $rec["id"],
@@ -197,7 +197,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function readDefinitionData()
     {
-        if (ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->isActive()) {
+        if (ilGlobalCache::getInstance(ilGlobalCache::COMP_OBJ_DEF)->isActive()) {
             $this->readDefinitionDataFromCache();
         } else {
             $this->readDefinitionDataFromDB();
@@ -908,7 +908,7 @@ class ilObjectDefinition // extends ilSaxParser
             $groups[$gr_rec["id"]] = $gr_rec;
         }
 
-        $global_cache = ilCachedComponentData::getInstance();
+        $global_cache = ilCachedObjectDefinition::getInstance();
 
         $recs = $global_cache->lookupGroupedRepObj($a_parent_obj_type);
         
