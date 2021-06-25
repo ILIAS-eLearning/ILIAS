@@ -15509,11 +15509,21 @@ $fields = array (
 		,"unsigned" => false
 		,"type" => "integer"
 	)
+	,"position" => array (
+		"notnull" => true
+		,"length" => 8
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
 );
 $ilDB->createTable("il_bt_value", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_bt_value", $pk_fields);
+
+$in_fields = array("bucket_id");
+$ilDB->addIndex("il_bt_value", $in_fields, "i1", false);
 
 $ilDB->createSequence("il_bt_value", 1);
 
@@ -15547,11 +15557,24 @@ $fields = array (
 		,"unsigned" => false
 		,"type" => "integer"
 	)
+	,"position" => array (
+		"notnull" => true
+		,"length" => 8
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
 );
 $ilDB->createTable("il_bt_value_to_task", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_bt_value_to_task", $pk_fields);
+
+$in_fields = array("task_id");
+$ilDB->addIndex("il_bt_value_to_task", $in_fields, "i1", false);
+
+$in_fields = array("value_id");
+$ilDB->addIndex("il_bt_value_to_task", $in_fields, "i2", false);
 
 $ilDB->createSequence("il_bt_value_to_task", 1);
 
@@ -19377,6 +19400,9 @@ $fields = array (
 	)
 );
 $ilDB->createTable("il_meta_oer_stat", $fields);
+
+$pk_fields = array("obj_id");
+$ilDB->addPrimaryKey("il_meta_oer_stat", $pk_fields);
 
 
 //
@@ -48599,7 +48625,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '44')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '48')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
