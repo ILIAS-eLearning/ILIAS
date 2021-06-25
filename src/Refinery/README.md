@@ -48,8 +48,8 @@ $refinery = $DIC->refinery();
 
 $transformation = $refinery->in()->series(
     array(
-        new Refinery\To\IntegerTransformation(),
-        new Refinery\To\IntegerTransformation()
+        new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+        new ILIAS\Refinery\To\Transformation\IntegerTransformation()
     )
 );
 
@@ -121,6 +121,10 @@ that there are several type checks before the transformation is
 executed.
 
 ```php
+global $DIC;
+
+$refinery = $DIC->refinery();
+
 $transformation = $refinery->to()->int();
 
 $result = $transformation->transform(3.5); // Will throw exception because, values is not an integer value
@@ -128,9 +132,9 @@ $result = $transformation->transform('hello'); // Will throw exception because, 
 $result = $transformation->transform(3); // $result = 3
 ```
 
-In this example the `Refinery\To\IntegerTransformation` of the `to` group is
+In this example the `ILIAS\Refinery\To\IntegerTransformation` of the `to` group is
 used.
-The `Refinery\To\IntegerTransformation` of this group is very strict,
+The `ILIAS\Refinery\To\IntegerTransformation` of this group is very strict,
 so only elements of the `integer` type are allowed.
 Every non-matching value will throw an exception.
 
@@ -203,10 +207,14 @@ The transformation `series` takes an array of transformations and
 performs them one after another on the result of the previous transformation.
 
 ```php
+global $DIC;
+
+$refinery = $DIC->refinery();
+
 $transformation = $refinery->in()->series(
     array(
-        new Refinery\To\IntegerTransformation(),
-        new Refinery\To\StringTransformation()
+        new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+        new ILIAS\Refinery\To\Transformation\StringTransformation()
     )
 );
 
@@ -225,10 +233,14 @@ The transformation `parallel` takes an array of transformations and
 performs each on the input value to form a tuple of the results.
 
 ```php
+global $DIC;
+
+$refinery = $DIC->refinery();
+
 $transformation = $refinery->in()->parallel(
     array(
-        new Refinery\To\IntegerTransformation(),
-        new Refinery\To\IntegerTransformation()
+        new ILIAS\Refinery\To\Transformation\IntegerTransformation(),
+        new ILIAS\Refinery\To\Transformation\IntegerTransformation()
     )
 );
 
@@ -292,10 +304,10 @@ The traits that can be used are:
 An example shows how the traits can be used.
 
 ```php
-class BooleanTransformation implements Transformation
+class BooleanTransformation implements ILIAS\Refinery\Transformation
 {
-	use DeriveApplyToFromTransform;
-	use DeriveInvokeFromTransform;
+	use ILIAS\Refinery\DeriveApplyToFromTransform;
+	use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 	/**
 	 * @inheritdoc
@@ -303,7 +315,7 @@ class BooleanTransformation implements Transformation
 	public function transform($from)
 	{
 		if (false === is_bool($from)) {
-			throw new ConstraintViolationException(
+			throw new ILIAS\Refinery\ConstraintViolationException(
 				'The value MUST be of type boolean',
 				'not_boolean'
 			);
@@ -385,9 +397,9 @@ interfaces to other systems or even users.
 
 ```php
 
-require_once(__DIR__."\Factory.php");
+global $DIC;
 
-$f = new \ILIAS\Refinery\Factory;
+$f = $DIC->refinery();
 
 // Adding labels to an array to name the elements.
 $add_abc_label = $f->container()->addLabels(["a", "b", "c"]);
@@ -400,9 +412,9 @@ $split = $split_string_at_dot->transform("a.b.c");
 assert($split === ["a", "b", "c"]);
 
 // Use a closure for the transformation.
-$int_to_string = $f->custom(function ($v) {
+$int_to_string = $f->custom()->transformation(function ($v) {
 	if (!is_int($v)) {
-		throw new \InvalidArgumentException("Expected int, got ".get_type($v));
+		throw new \InvalidArgumentException("Expected int, got ".gettype($v));
 	}
 	return "$v";
 });
@@ -424,12 +436,13 @@ client side someday.
 
 ```php
 
-// In reality this has dependencies that need to be satisfied...
-$f = new ILIAS\Refinery\Factory;
+global $DIC;
+
+$f = $DIC->refinery();
 
 // Build some basic constraints
-$gt0 = $f->integer()->greaterThan(0);
-$lt10 = $f->integer()->lessThan(10);
+$gt0 = $f->int()->isGreaterThan(0);
+$lt10 = $f->int()->isLessThan(10);
 
 // Check them and react:
 if (!$gt0->accepts(1)) {

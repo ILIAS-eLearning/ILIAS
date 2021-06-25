@@ -21,6 +21,7 @@ class IsNull extends CustomConstraint implements Constraint
      * IsNull constructor.
      *
      * @param Data\Factory $data_factory
+     * @param \ilLanguage $lng
      */
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {

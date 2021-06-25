@@ -6,7 +6,7 @@
  */
 function toNewObject()
 {
-    class SomeClass
+    class SomeOtherClass
     {
         private $firstParameter;
         private $secondParameter;
@@ -33,7 +33,7 @@ function toNewObject()
     $refinery = $DIC->refinery();
 
     $transformation = $refinery->to()->toNew(
-        'SomeClass'
+        'SomeOtherClass'
     );
 
     $result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));

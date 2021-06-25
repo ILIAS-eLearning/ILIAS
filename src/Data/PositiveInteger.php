@@ -23,8 +23,6 @@ class PositiveInteger
      */
     public function __construct(int $value)
     {
-        $matches = null;
-
         if ($value < 0) {
             throw new ConstraintViolationException(
                 sprintf('The value "%s" is not a positive integer', $value),
@@ -41,6 +39,6 @@ class PositiveInteger
      */
     public function getValue() : int
     {
-        return (int) $this->value;
+        return $this->value;
     }
 }

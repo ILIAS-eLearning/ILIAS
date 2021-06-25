@@ -24,7 +24,6 @@ class ChangeTimezone implements Transformation
 
     /**
      * @param string $timezone
-     * @param Factory $factory
      */
     public function __construct(string $timezone)
     {

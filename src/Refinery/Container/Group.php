@@ -24,7 +24,7 @@ class Group
      * Adds to any array keys for each value
      *
      * @param array $labels
-     * @return mixed
+     * @return AddLabels
      */
     public function addLabels(array $labels)
     {

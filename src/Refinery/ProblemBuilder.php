@@ -25,14 +25,12 @@ trait ProblemBuilder
 
     /**
      * Get the problem message
-     *
-     * @return string
      */
-    final public function getErrorMessage($value)
+    final public function getErrorMessage($value) : string
     {
         $error = $this->getError();
         if (!is_callable($error)) {
-            return (string) $error;
+            return $error;
         }
         $lng_closure = $this->getLngClosure();
         return call_user_func($this->error, $lng_closure, $value);

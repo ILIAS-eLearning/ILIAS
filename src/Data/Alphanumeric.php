@@ -19,7 +19,7 @@ class Alphanumeric
     private $value;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @throws ConstraintViolationException
      */
     public function __construct($value)
