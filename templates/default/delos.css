@@ -7854,6 +7854,13 @@ ul.dropdown-menu > li > .btn:focus {
   pointer-events: none;
   cursor: default;
 }
+.panel-secondary .il-viewcontrol-section .btn-default,
+.panel-secondary .il-viewcontrol-section .btn-default:active {
+  background-color: transparent;
+  border-color: transparent;
+  color: #4c6586;
+  box-shadow: none;
+}
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
@@ -18627,8 +18634,8 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewStatusNone {
   filter: alpha(opacity=60);
-  -moz-opacity: 0.60;
-  opacity: 0.60;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
 }
 /* tooltip */
 #qtip-preview {
