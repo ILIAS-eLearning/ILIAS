@@ -16561,3 +16561,4 @@ rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 
 content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).###28 05 2021 new variable
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###28 05 2021 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###28 05 2021 new variable
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable

@@ -16560,3 +16560,4 @@ rep#:#rep_no_last_visited_mess#:#Egy erőforrást sem látogatott még meg.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Az oldal nem menthető (duplikált PC ID-k).
 dateplaner#:#cal_delete_recurrence_rule#:#Elfoglaltságsorozat törlése
 dateplaner#:#cal_recurrence_confirm_deletion#:#Kérem válasszon, hogy egy foglaltságot vagy egy teljes foglaltságsorozatot.
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
