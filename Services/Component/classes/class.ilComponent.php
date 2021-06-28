@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('class.ilCachedComponentData.php');
 
 define("IL_COMP_MODULE", "Modules");
 define("IL_COMP_SERVICE", "Services");
