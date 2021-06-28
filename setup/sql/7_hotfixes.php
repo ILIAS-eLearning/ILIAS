@@ -824,7 +824,9 @@ if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
 ?>
 <#45>
 <?php
-if (!$ilDB->indexExistsByFields('il_meta_oer_stat', ['obj_id'])) {
+$query = "show index from il_meta_oer_stat where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
     $ilDB->addPrimaryKey('il_meta_oer_stat', ['obj_id']);
 }
 ?>
