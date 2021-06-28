@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data;
@@ -12,10 +13,8 @@ interface Result
 {
     /**
      * Get to know if the result is ok.
-     *
-     * @return bool
      */
-    public function isOK();
+    public function isOK() : bool;
 
     /**
      * Get the encapsulated value.
@@ -28,10 +27,8 @@ interface Result
 
     /**
      * Get to know if the result is an error.
-     *
-     * @return bool
      */
-    public function isError();
+    public function isError() : bool;
 
     /**
      * Get the encapsulated error.
@@ -55,9 +52,8 @@ interface Result
      * Does nothing if !isOK.
      *
      * @param	callable $f mixed -> mixed
-     * @return	Result
      */
-    public function map(callable $f);
+    public function map(callable $f) : Result;
 
     /**
      * Get a new result from the callable or do nothing if this is an error.
@@ -68,9 +64,8 @@ interface Result
      *
      * @param	callable $f mixed -> Result|null
      * @throws 	\UnexpectedValueException 	If callable returns no instance of Result
-     * @return  Result
      */
-    public function then(callable $f);
+    public function then(callable $f) : Result;
 
     /**
      * Feed the error into a callable and replace this with the result
@@ -82,7 +77,6 @@ interface Result
      *
      * @param	callable $f string|\Exception -> Result|null
      * @throws 	\UnexpectedValueException 	If callable returns no instance of Result
-     * @return	Result
      */
-    public function except(callable $f);
+    public function except(callable $f) : Result;
 }

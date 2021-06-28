@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,13 +12,9 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class PositiveInteger
 {
-    /**
-     * @var int
-     */
-    private $value;
+    private int $value;
 
     /**
-     * @param int $value
      * @throws ConstraintViolationException
      */
     public function __construct(int $value)
@@ -34,9 +30,6 @@ class PositiveInteger
         $this->value = $value;
     }
 
-    /**
-     * @return int
-     */
     public function getValue() : int
     {
         return $this->value;

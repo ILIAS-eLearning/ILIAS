@@ -9,15 +9,8 @@ namespace ILIAS\Data;
  */
 class Range
 {
-    /**
-     * @var integer
-     */
-    protected $start;
-
-    /**
-     * @var integer
-     */
-    protected $length;
+    protected int $start;
+    protected int $length;
 
 
     public function __construct(int $start, int $length)

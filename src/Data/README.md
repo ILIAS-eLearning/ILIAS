@@ -187,7 +187,7 @@ $data_size = $f->dataSize(123, 'GB');
 
 assert($data_size->getSize() === 123.0);
 assert($data_size->getUnit() === 1000000000);
-assert($data_size->inBytes() === 123000000000);
+assert($data_size->inBytes() === 123000000000.0);
 ?>
 ```
 
