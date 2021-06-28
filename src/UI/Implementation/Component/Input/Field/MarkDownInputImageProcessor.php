@@ -11,7 +11,7 @@ use ILIAS\Data\UUID\Factory;
 /**
  * This implements the realtext input.
  */
-class RealTextInputImageProcessor
+class MarkDownInputImageProcessor
 {
     /**
      * @var string

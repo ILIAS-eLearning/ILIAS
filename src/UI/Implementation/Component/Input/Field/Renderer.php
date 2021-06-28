@@ -97,7 +97,7 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
 
-            case ($component instanceof F\RealText):
+            case ($component instanceof F\Markdown):
                 return $this->renderRealTextField($component, $default_renderer);
 
             default:
@@ -205,7 +205,7 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-    protected function renderRealTextField(F\RealText $component) : string
+    protected function renderRealTextField(F\Markdown $component) : string
     {
         $tpl = $this->getTemplate("tpl.realtext.html", true, true);
         $this->applyName($component, $tpl);
@@ -690,12 +690,10 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
-        $registry->register('./src/UI/templates/js/Input/Field/realtext.js');
+        $registry->register('./src/UI/templates/js/Input/Field/markdown.js');
 
-        $registry->register('./node_modules/codemirror/lib/codemirror.css');
-        $registry->register('./node_modules/@toast-ui/editor/dist/toastui-editor.css');
-        $registry->register('./node_modules/codemirror/lib/codemirror.js');
-        $registry->register('./node_modules/@toast-ui/editor/dist/toastui-editor.js');
+        $registry->register('src/UI/templates/default/Markdown/toastui-editor.css');
+        $registry->register('src/UI/templates/js/Markdown/toastui-editor-all.js');
     }
 
     /**
@@ -771,7 +769,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
-            Component\Input\Field\RealText::class
+            Component\Input\Field\MarkDown::class
         ];
     }
 

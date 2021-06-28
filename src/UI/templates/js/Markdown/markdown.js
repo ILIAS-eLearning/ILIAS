@@ -7,14 +7,14 @@
 var il = il || {};
 il.UI = il.UI || {};
 
-il.UI.markup = (function () {
+il.UI.Markdown = (function () {
 
-	const initiateMarkup = function(markup) {
+	const initiateMarkup = function(markdown) {
 		new toastui.Editor.factory(
 		{
-            el: markup,
+            el: markdown,
             viewer: true,
-            initialValue: markup.innerHTML
+            initialValue: markdown.innerHTML
         });
 	}
 	

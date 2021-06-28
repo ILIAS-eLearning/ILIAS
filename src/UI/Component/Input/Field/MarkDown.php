@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes a multi-select input.
  */
-interface RealText extends FilterInput
+interface MarkDown extends FilterInput
 {
 
 }

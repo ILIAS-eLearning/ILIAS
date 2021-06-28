@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2021 Adrian Lüthi <adi.l@bluewin.ch> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Markup;
+namespace ILIAS\UI\Implementation\Component\Markdown;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -42,12 +42,10 @@ class Renderer extends AbstractComponentRenderer
     {
         parent::registerResources($registry);
 
-        $registry->register('./src/UI/templates/js/Markup/markup.js');
+        $registry->register('./src/UI/templates/js/Markup/markdown.js');
 
-        $registry->register('./node_modules/codemirror/lib/codemirror.css');
-        $registry->register('./node_modules/@toast-ui/editor/dist/toastui-editor.css');
-        $registry->register('./node_modules/codemirror/lib/codemirror.js');
-        $registry->register('./node_modules/@toast-ui/editor/dist/toastui-editor.js');
+        $registry->register('src/UI/templates/default/Markdown/toastui-editor.css');
+        $registry->register('src/UI/templates/js/Markdown/toastui-editor-all.js');
     }
 
     /**

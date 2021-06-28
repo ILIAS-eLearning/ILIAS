@@ -614,11 +614,11 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     A realText-field is intended for entering longer texts with format
+     *     A markdown-field is intended for entering longer texts with format
      *   composition: >
      *      Text fields will render an wysiwyg editor using toastUI editor
      *   effect: >
-     *      Text inputs are unrestricted and contain Markup display information
+     *      Text inputs are unrestricted and contain Markdown display information
      *   rivals:
      *      text field: Use a text/textarea field to enter short texts without format
      *
@@ -632,7 +632,7 @@ interface Factory
      * @param string $label
      * @param string $byline
      *
-     * @return RealText
+     * @return MarkDown
      */
-    public function realText(string $label, string $byline = null) : RealText;
+    public function markdown(string $label, string $byline = null) : MarkDown;
 }

@@ -236,7 +236,7 @@ class InitUIFramework
         };
 
         $c["ui.factory.markup"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Markup\Factory();
+            return new ILIAS\UI\Implementation\Component\Markdown\Factory();
         };
 
         $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {

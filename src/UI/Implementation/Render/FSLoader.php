@@ -64,9 +64,9 @@ class FSLoader implements Loader
         if ($component instanceof \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph) {
             return $this->glyph_renderer_factory;
         }
-        if ($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
-            return $this->field_renderer_factory;
-        }
+//        if ($component instanceof \ILIAS\UI\Implementation\Component\Input\Field\Input) {
+//            return $this->field_renderer_factory;
+//        }
         return $this->default_renderer_factory;
     }
 }

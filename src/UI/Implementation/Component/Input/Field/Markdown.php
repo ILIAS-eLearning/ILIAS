@@ -10,7 +10,7 @@ use ILIAS\UI\Component as C;
 /**
  * This implements the realtext input.
  */
-class RealText extends Input implements C\Input\Field\RealText
+class Markdown extends Input implements C\Input\Field\MarkDown
 {
     /**
      * @inheritdoc
@@ -28,7 +28,7 @@ class RealText extends Input implements C\Input\Field\RealText
             );
 
             $this->on_load_code_binder = function($id) {
-                return "il.UI.input.realtext.initiateEditor($id);";
+                return "il.UI.Input.Markdown.initiateEditor($id);";
             };
     }
 

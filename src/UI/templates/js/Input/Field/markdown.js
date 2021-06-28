@@ -8,7 +8,7 @@ var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 
-il.UI.input.realtext = (function () {
+il.UI.Input.Markdown = (function () {
 
 	let editors = {};
 	 
@@ -27,6 +27,8 @@ il.UI.input.realtext = (function () {
         }
 
         editors[text.id] = editor;
+
+        return editor;
 	}
 	
 	const attachSubmitEvent = function(item) {
@@ -36,8 +38,9 @@ il.UI.input.realtext = (function () {
 			{
 				item.addEventListener('submit', function(e) {
 					Object.values(editors).forEach((editor) => {
-						const text = editor.getUI()._container;
-					    text.nextElementSibling.value = editor.getMarkdown();
+						const text = editor.getEditorElements().mdEditor;
+						const input = text.parentElement.parentElement.parentElement.parentElement.nextElementSibling;
+						input.value = editor.getMarkdown();
 					})
 				});
 			}
