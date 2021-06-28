@@ -50,9 +50,9 @@ class SplitString implements Transformation
     /**
      * @inheritdoc
      */
-    public function applyTo(Result $data) : Result
+    public function applyTo(Result $result) : Result
     {
-        $dataValue = $data->value();
+        $dataValue = $result->value();
         if (false === is_string($dataValue)) {
             $exception = new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
             return $this->factory->error($exception);

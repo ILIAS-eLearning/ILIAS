@@ -54,9 +54,9 @@ class AddLabels implements Transformation
     /**
      * @inheritdoc
      */
-    public function applyTo(Result $data) : Result
+    public function applyTo(Result $result) : Result
     {
-        $dataValue = $data->value();
+        $dataValue = $result->value();
         if (false === is_array($dataValue)) {
             $exception = new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
             return $this->factory->error($exception);

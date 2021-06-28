@@ -29,7 +29,7 @@ class Group
     /**
      * @param callable $callable
      * @param $error
-     * @return Custom\Constraint
+     * @return Constraint
      */
     public function constraint(callable $callable, $error) : Constraint
     {
@@ -43,7 +43,7 @@ class Group
 
     /**
      * @param callable $transform
-     * @return Transformations\Transformation
+     * @return Transformation
      */
     public function transformation(callable $transform) : Transformation
     {

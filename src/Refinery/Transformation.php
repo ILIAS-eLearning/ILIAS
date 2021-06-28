@@ -45,10 +45,10 @@ interface Transformation
      * some boundary, the reification of exceptions might help you to write cleaner
      * code.
      *
-     * @param Result $data
+     * @param Result $result
      * @return Result
      */
-    public function applyTo(Result $data) : Result;
+    public function applyTo(Result $result) : Result;
 
     /**
      * Transformations should be callable. This MUST do the same as transform.

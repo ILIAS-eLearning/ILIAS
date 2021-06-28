@@ -22,7 +22,7 @@ class HasMinLength extends CustomConstraint implements Constraint
                 return strlen($value->toString()) >= $this->min_length;
             },
             function ($value) {
-                return "Password has a length less than '{$this->min_length}'.";
+                return "Password has a length less than '$this->min_length'.";
             },
             $data_factory,
             $lng

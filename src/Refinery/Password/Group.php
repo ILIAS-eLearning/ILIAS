@@ -16,7 +16,7 @@ use ILIAS\Refinery\Password\HasUpperChars;
 class Group
 {
     /**
-     * @var ILIAS\Data\Factory
+     * @var \ILIAS\Data\Factory
      */
     protected $data_factory;
 
