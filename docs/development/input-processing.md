@@ -1222,7 +1222,7 @@ interface Transformation {
 	 * some boundary, the reification of exceptions might help you to write cleaner
 	 * code.
 	 */
-	public function applyTo(Result $data) : Result
+	public function applyTo(Result $result) : Result
 
 	// [..]
 }
