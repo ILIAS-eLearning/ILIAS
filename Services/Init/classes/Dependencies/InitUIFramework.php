@@ -32,7 +32,7 @@ class InitUIFramework
                 $c["ui.factory.menu"],
                 $c["ui.factory.symbol"],
                 $c["ui.factory.legacy"],
-                $c["ui.factory.markup"]
+                $c["ui.factory.markdown"]
             );
         };
         $c["ui.signal_generator"] = function ($c) {
@@ -235,7 +235,7 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
         };
 
-        $c["ui.factory.markup"] = function ($c) {
+        $c["ui.factory.markdown"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Markdown\Factory();
         };
 
