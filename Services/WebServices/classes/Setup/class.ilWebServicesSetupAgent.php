@@ -63,6 +63,9 @@ class ilWebServicesSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if (is_null($config)) {
+            return new Setup\Objective\NullObjective();
+        }
         return new ilWebServicesConfigStoredObjective($config);
     }
 
