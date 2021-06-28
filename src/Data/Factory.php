@@ -63,7 +63,7 @@ class Factory
      * @param  string	$uri_string
      * @return URI
      */
-    public function uri($uri_string)
+    public function uri($uri_string) : URI
     {
         return new URI($uri_string);
     }
@@ -176,5 +176,10 @@ class Factory
     public function order(string $subject, $direction) : Order
     {
         return new Order($subject, $direction);
+    }
+
+    public function link(string $label, URI $url) : Link
+    {
+        return new Link($label, $url);
     }
 }

@@ -186,4 +186,20 @@ class Factory implements Field\Factory
     {
         return new \ILIAS\UI\Implementation\Component\Input\Field\File($this->data_factory, $this->refinery, $handler, $label, $byline);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function url(string $label, string $byline = null) : Url
+    {
+        return new \ILIAS\UI\Implementation\Component\Input\Field\Url($this->data_factory, $this->refinery, $label, $byline);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function link(string $label, string $byline = null) : Link
+    {
+        return new \ILIAS\UI\Implementation\Component\Input\Field\Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
+    }
 }

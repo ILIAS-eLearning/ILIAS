@@ -16553,3 +16553,6 @@ dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+ui#:#ui_invalid_url#:#Invalid URL-format
+ui#:#ui_link_label#:#Label
+ui#:#ui_link_url#:#URL

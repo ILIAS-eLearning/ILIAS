@@ -58,7 +58,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Section):
                 return $this->renderSection($component, $default_renderer);
 
+
             case ($component instanceof F\Group):
+            case ($component instanceof F\Link):
                 return $default_renderer->render($component->getInputs());
 
             case ($component instanceof F\Text):
@@ -97,6 +99,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
 
+            case ($component instanceof F\Url):
+                return $this->renderUrlField($component, $default_renderer);
+            
             default:
                 throw new \LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -751,7 +756,8 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\MultiSelect::class,
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
-            Component\Input\Field\File::class
+            Component\Input\Field\File::class,
+            Component\Input\Field\Url::class
         ];
     }
 
@@ -785,5 +791,16 @@ class Renderer extends AbstractComponentRenderer
          * @var $input Component\Input\Field\File
          */
         return $input;
+    }
+
+    
+    protected function renderUrlField(F\Url $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.url.html", true, true);
+        $this->applyName($component, $tpl);
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 }

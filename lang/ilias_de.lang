@@ -16552,3 +16552,6 @@ dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
 common#:#toggle_on#:#ON### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
 common#:#toggle_off#:#OFF### Übersetzen Sie dieses Label nicht um Darstellungsprobleme beim Toggle Button zu verhindern!
+ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
+ui#:#ui_link_label#:#Label
+ui#:#ui_link_url#:#URL
