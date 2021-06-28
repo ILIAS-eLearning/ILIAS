@@ -97,12 +97,8 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
 
-<<<<<<< HEAD
             case ($component instanceof F\Markdown):
-=======
-            case ($component instanceof F\RealText):
->>>>>>> eebebb87452d86867fd21e648c8d9222f4c5443b
-                return $this->renderRealTextField($component, $default_renderer);
+                return $this->renderMarkdownField($component, $default_renderer);
 
             default:
                 throw new \LogicException("Cannot render '" . get_class($component) . "'");
@@ -209,11 +205,7 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-<<<<<<< HEAD
-    protected function renderRealTextField(F\Markdown $component) : string
-=======
-    protected function renderRealTextField(F\RealText $component) : string
->>>>>>> eebebb87452d86867fd21e648c8d9222f4c5443b
+    protected function renderMarkdownField(F\Markdown $component) : string
     {
         $tpl = $this->getTemplate("tpl.realtext.html", true, true);
         $this->applyName($component, $tpl);
@@ -777,11 +769,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
-<<<<<<< HEAD
             Component\Input\Field\MarkDown::class
-=======
-            Component\Input\Field\RealText::class
->>>>>>> eebebb87452d86867fd21e648c8d9222f4c5443b
         ];
     }
 
