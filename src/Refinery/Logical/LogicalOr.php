@@ -22,6 +22,7 @@ class LogicalOr extends Constraint
      * LogicalOr constructor.
      * @param Constraint[] $other
      * @param Data\Factory $data_factory
+     * @param \ilLanguage $lng
      */
     public function __construct(array $other, Data\Factory $data_factory, \ilLanguage $lng)
     {
@@ -41,7 +42,7 @@ class LogicalOr extends Constraint
                 $problems = [];
 
                 foreach ($this->other as $constraint) {
-                    $problems[] = (string) $constraint->getErrorMessage($value);
+                    $problems[] = $constraint->getErrorMessage($value);
                 }
 
                 return 'Please fix one of these: ' . implode(', ', array_filter($problems));

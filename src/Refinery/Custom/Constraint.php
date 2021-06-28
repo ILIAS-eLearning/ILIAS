@@ -17,7 +17,7 @@ class Constraint implements ConstraintInterface
     use ProblemBuilder;
 
     /**
-     * @var ILIAS\Data\Factory
+     * @var Data\Factory
      */
     protected $data_factory;
 

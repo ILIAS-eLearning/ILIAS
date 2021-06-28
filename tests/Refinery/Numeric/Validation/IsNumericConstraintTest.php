@@ -13,6 +13,7 @@ class IsNumericConstraintTest extends TestCase
     {
         $this->df = new Data\Factory();
         $this->lng = $this->createMock(\ilLanguage::class);
+
         $this->f = new Factory($this->df, $this->lng);
 
         $this->c = $this->f->numeric()->isNumeric();
@@ -76,6 +77,10 @@ class IsNumericConstraintTest extends TestCase
 
     public function testCheckFails()
     {
+        $this->lng
+            ->method('txt')
+            ->will($this->returnCallback(function($value) { return $value; }))
+        ;
         $this->expectException(\UnexpectedValueException::class);
         $this->c->check("");
     }
