@@ -230,19 +230,6 @@ abstract class ilComponent
     }
     
     /**
-     * @param $a_type
-     * @param $a_name
-     *
-     * @return mixed
-     */
-    public static function getComponentInfo($a_type, $a_name)
-    {
-        $global_cache = ilCachedComponentData::getInstance();
-
-        return $global_cache->lookupCompInfo($a_type, $a_name);
-    }
-    
-    /**
     * Check version number.
     */
     final public static function checkVersionNumber($a_ver)
