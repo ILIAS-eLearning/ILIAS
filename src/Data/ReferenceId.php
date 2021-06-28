@@ -13,7 +13,7 @@ class ReferenceId
 {
 
     /**
-     * @var string
+     * @var int
      */
     private $ref_id;
 
@@ -32,11 +32,11 @@ class ReferenceId
     /**
      * Get the password-string.
      *
-     * @return  string
+     * @return  int
      */
     public function toInt() : int
     {
-        return (int) $this->ref_id;
+        return $this->ref_id;
     }
 
 
@@ -45,6 +45,6 @@ class ReferenceId
      */
     public function toObjectId() : ObjectId
     {
-        return new ObjectId((int) ilObject2::_lookupObjectId($this->ref_id));
+        return new ObjectId(ilObject2::_lookupObjectId($this->ref_id));
     }
 }

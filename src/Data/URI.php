@@ -101,7 +101,7 @@ class URI
      */
     protected function digestSchema(string $schema) : string
     {
-        return $this->checkCorrectFormatOrThrow(self::SCHEMA, (string) $schema);
+        return $this->checkCorrectFormatOrThrow(self::SCHEMA, $schema);
     }
 
     /**
@@ -113,7 +113,7 @@ class URI
      */
     protected function digestHost(string $host) : string
     {
-        return $this->checkCorrectFormatOrThrow(self::HOST, (string) $host);
+        return $this->checkCorrectFormatOrThrow(self::HOST, $host);
     }
 
     /**
@@ -191,7 +191,7 @@ class URI
      */
     protected function checkCorrectFormatOrThrow(string $regexp, string $string)
     {
-        if (preg_match($regexp, (string) $string) === 1) {
+        if (preg_match($regexp, $string) === 1) {
             return $string;
         }
         throw new \InvalidArgumentException('ill-formated component "' . $string . '" expected "' . $regexp . '"');

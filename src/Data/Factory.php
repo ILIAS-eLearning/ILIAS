@@ -3,11 +3,6 @@
 
 namespace ILIAS\Data;
 
-use ILIAS\Data\Interval\OpenedFloatInterval;
-use ILIAS\Data\Interval\OpenedIntegerInterval;
-use ILIAS\Data\Interval\ClosedFloatInterval;
-use ILIAS\Data\Interval\ClosedIntegerInterval;
-
 /**
  * Builds data types.
  *
@@ -85,7 +80,7 @@ class Factory
         if (is_string($size)) {
             $match = [];
             if (!preg_match("/(\d+)\s*([a-zA-Z]+)/", $size, $match)) {
-                throw \InvalidArgumentException("'$size' can't be interpreted as data size.");
+                throw new \InvalidArgumentException("'$size' can't be interpreted as data size.");
             }
             return $this->dataSize((int) $match[1], $match[2]);
         }
@@ -126,6 +121,16 @@ class Factory
     public function refId(int $ref_id) : ReferenceId
     {
         return new ReferenceId($ref_id);
+    }
+
+    /**
+     * @param int $obj_id
+     *
+     * @return ObjectId
+     */
+    public function objId(int $obj_id) : ObjectId
+    {
+        return new ObjectId($obj_id);
     }
 
     /**

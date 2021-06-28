@@ -38,7 +38,7 @@ class Range
     protected function checkLength(int $length)
     {
         if ($length < 1) {
-            throw new \InvalidArgumentException("Length must be larger than 1", 1);
+            throw new \InvalidArgumentException("Length must be larger than 0", 1);
         }
     }
 

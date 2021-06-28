@@ -77,7 +77,7 @@ class Factory
     * Build a color from hex-value.
     *
     * @param string $hex
-    * @return \Color
+    * @return Color
     */
     private function fromHex($hex)
     {
@@ -119,7 +119,7 @@ class Factory
      * Build a color from RGB-values.
      *
      * @param int[] $rgb
-     * @return \Color
+     * @return Color
      */
     private function fromRGB($rgb)
     {
