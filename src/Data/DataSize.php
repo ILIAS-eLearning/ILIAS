@@ -177,6 +177,6 @@ final class DataSize
      */
     public function __toString()
     {
-        return "{$this->size} {$this->suffix}";
+        return "$this->size $this->suffix";
     }
 }
