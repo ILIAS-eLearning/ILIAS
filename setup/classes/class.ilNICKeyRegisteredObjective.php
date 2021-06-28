@@ -71,7 +71,8 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
             $settings->set("nic_enabled", "-1");
             throw new Setup\UnachievableException(
                 "Did not receive valid installation id from " .
-                "NIC server (\"" . self::ILIAS_NIC_SERVER . "\") for URL: $url"
+                "NIC server (\"" . self::ILIAS_NIC_SERVER . "\") for URL: $url" .
+                $this->getRegistrationProblem($status)
             );
         }
 
@@ -89,6 +90,44 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
     public function isApplicable(Setup\Environment $environment) : bool
     {
         return true;
+    }
+
+    protected function getRegistrationProblem(array $nic_response_parts) : string
+    {
+        $error_code = trim((string) ($nic_response_parts[1] ?? ''));
+        $message = 'Unknown reason';
+
+        switch ($error_code) {
+            case 'INIC-F-01':
+                $message = "NIC server could not connect to database";
+                break;
+
+            case 'INIC-F-04':
+                $message = "NIC server could not execute query";
+                break;
+
+            case 'INIC-E-04':
+                $message = "The installation name was missing in request, please check your " .
+                    "configuration (systemfolder.client.name)";
+                break;
+
+            case 'INIC-E-08':
+                $message = "The http path or contact's lastname was missing in request, please check " .
+                    "your configuration (http.path or systemfolder.contact.lastname)";
+                break;
+
+            case 'INIC-E-09':
+                $message = "The contact's firstname was missing in request, please check your " .
+                    "configuration (systemfolder.contact.firstname)";
+                break;
+
+            case 'INIC-E-15':
+                $message = "The contact's email address was missing in request, please check your " .
+                    "configuration (systemfolder.contact.email)";
+                break;
+        }
+
+        return 'Reason: ' . $message;
     }
 
     protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config) : string
