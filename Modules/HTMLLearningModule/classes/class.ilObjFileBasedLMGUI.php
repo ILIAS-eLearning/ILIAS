@@ -343,7 +343,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         $values["startfile"] = $startfile;
         $values["title"] = $this->object->getTitle();
-        $values["desc"] = $this->object->getDescription();
+        $values["desc"] = $this->object->getLongDescription();
         //$values["lic"] = $this->object->getShowLicense();
 
         $this->form->setValuesByArray($values);
