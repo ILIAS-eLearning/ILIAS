@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -76,12 +76,12 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
         return $this->iniExists() || $this->clientIniExists();
     }
 
-    public function iniExists()
+    public function iniExists() : bool
     {
         return file_exists(dirname(__DIR__, 2) . "/ilias.ini.php");
     }
 
-    public function clientIniExists()
+    public function clientIniExists() : bool
     {
         return file_exists($this->getClientDir() . "/client.ini.php");
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -16,15 +16,8 @@ class ilSetupAgent implements Setup\Agent
 {
     const PHP_MEMORY_LIMIT = "128M";
 
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
-
-    /**
-     * @var	Data\Factory
-     */
-    protected $data;
+    protected Refinery\Factory $refinery;
+    protected Data\Factory $data;
 
     public function __construct(
         Refinery\Factory $refinery,
