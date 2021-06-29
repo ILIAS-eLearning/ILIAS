@@ -1162,9 +1162,8 @@ abstract class ilPlugin
     {
         $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
-        $cached_component = ilCachedComponentData::getInstance();
-        $rec = $cached_component->lookCompId($a_ctype, $a_cname);
-        if (!$rec) {
+        $component_data_db = new ilArtifactComponentDataDB();
+        if (!$component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)) {
             return null;
         }
 

@@ -18,6 +18,9 @@ class ilServicesComponentSuite extends TestSuite
         require_once("./Services/Component/test/Setup/ilPluginSlotDefinitionProcessorTest.php");
         $suite->addTestSuite(ilPluginSlotDefinitionProcessorTest::class);
 
+        require_once("./Services/Component/test/ilArtifactComponentDataDBTest.php");
+        $suite->addTestSuite(ilArtifactComponentDataDBTest::class);
+
         return $suite;
     }
 }
