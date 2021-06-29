@@ -6,58 +6,72 @@ use PHPUnit\Framework\TestCase;
 
 class ilComponentDefinitionInfoProcessorTest extends TestCase
 {
-    protected ilDBInterface $db;
     protected ilComponentDefinitionInfoProcessor $processor1;
 
     protected function setUp() : void
     {
-        $this->db = $this->createMock(\ilDBInterface::class);
-        $this->processor = new ilComponentInfoDefinitionProcessor($this->db);
+        $this->processor = new ilComponentInfoDefinitionProcessor();
     }
 
     public function testPurge() : void
-    {
-        $this->db->expects($this->once())
-            ->method("manipulate")
-            ->with("DELETE FROM il_component");
-
-        $this->processor->purge();
-    }
-
-    public function testBeginTagModule() : void
     {
         $type = "Modules";
         $name = "NAME";
         $id = "ID";
 
-        $this->db->expects($this->once())
-            ->method("manipulateF")
-            ->with(
-                "INSERT INTO il_component (type, name, id) VALUES (%s,%s,%s)",
-                ["text", "text", "text"],
-                [$type, $name, $id]
-            );
-
         $this->processor->beginComponent($name, $type);
         $this->processor->beginTag("module", ["id" => $id]);
+        $this->processor->purge();
+
+        $this->assertEquals([ \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => [], \ilArtifactComponentDataDB::BY_ID => []], $this->processor->getData());
     }
 
-    public function testBeginTagService() : void
+    public function testBeginTag() : void
     {
-        $type = "Services";
-        $name = "NAME";
-        $id = "ID";
+        $type1 = "Modules";
+        $name1 = "NAME1";
+        $id1 = "ID1";
+        $name2 = "NAME2";
+        $id2 = "ID2";
 
-        $this->db->expects($this->once())
-            ->method("manipulateF")
-            ->with(
-                "INSERT INTO il_component (type, name, id) VALUES (%s,%s,%s)",
-                ["text", "text", "text"],
-                [$type, $name, $id]
-            );
+        $type2 = "Services";
+        $name3 = "NAME3";
+        $id3 = "ID3";
+        $name4 = "NAME4";
+        $id4 = "ID4";
 
-        $this->processor->beginComponent($name, $type);
-        $this->processor->beginTag("service", ["id" => $id]);
+        $this->processor->beginComponent($name1, $type1);
+        $this->processor->beginTag("module", ["id" => $id1]);
+
+        $this->processor->beginComponent($name2, $type1);
+        $this->processor->beginTag("module", ["id" => $id2]);
+
+        $this->processor->beginComponent($name3, $type2);
+        $this->processor->beginTag("service", ["id" => $id3]);
+
+        $this->processor->beginComponent($name4, $type2);
+        $this->processor->beginTag("service", ["id" => $id4]);
+
+        $expected = [
+            \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => [
+                $type1 => [
+                    $name1 => $id1,
+                    $name2 => $id2
+                ],
+                $type2 => [
+                    $name3 => $id3,
+                    $name4 => $id4
+                ],
+            ],
+            \ilArtifactComponentDataDB::BY_ID => [
+                $id1 => [$type1, $name1],
+                $id2 => [$type1, $name2],
+                $id3 => [$type2, $name3],
+                $id4 => [$type2, $name4]
+            ]
+        ];
+
+        $this->assertEquals($expected, $this->processor->getData());
     }
 
     public function testTagComponentTypeMismatch() : void

@@ -52,17 +52,16 @@ abstract class ilComponent
     */
     abstract public function getName();
 
-
-    /**
-     * @var ilCachedComponentData
-     */
-    protected $global_cache;
-
     public function __construct()
     {
-        $this->global_cache = ilCachedComponentData::getInstance();
+        $this->component_data_db = new ilArtifactComponentDataDB();
 
-        $this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));
+        $this->setId(
+            $this->component_data_db->getComponentId(
+                $this->getComponentType(),
+                $this->getName()
+            )
+        );
         $this->setPluginSlots(ilComponent::lookupPluginSlots(
             $this->getComponentType(),
             $this->getName()
@@ -117,16 +116,8 @@ abstract class ilComponent
     */
     final public static function getComponentObject($a_ctype, $a_cname)
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->queryF(
-            "SELECT * FROM il_component WHERE type = %s " .
-            " AND name = %s",
-            array("text", "text"),
-            array($a_ctype, $a_cname)
-        );
-        if (!$ilDB->fetchAssoc($set)) {
+        $component_data_db = new ilArtifactComponentDataDB();
+        if (!$component_data_db->hasComponent($a_ctype, $a_cname)) {
             return null;
         }
         
@@ -223,9 +214,8 @@ abstract class ilComponent
     */
     public static function lookupId($a_type, $a_name)
     {
-        $global_cache = ilCachedComponentData::getInstance();
-
-        return $global_cache->lookCompId($a_type, $a_name);
+        $component_data_db = new ilArtifactComponentDataDB();
+        return $component_data_db->getComponentId($a_type, $a_name);
     }
     
     /**
@@ -280,16 +270,11 @@ abstract class ilComponent
      */
     public static function lookupComponentName($a_component_id)
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-        
-        $query = 'SELECT name from il_component ' .
-                'WHERE id = ' . $ilDB->quote($a_component_id, 'text');
-        
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->name;
+        $component_data_db = new ilArtifactComponentDataDB();
+        if (!$component_data_db->hasComponent($a_component_id)) {
+            return null;
         }
+        return $component_data_db->getComponentName($a_component_id);
     }
 
     /**
@@ -298,14 +283,7 @@ abstract class ilComponent
      */
     public static function getAll()
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT * FROM il_component");
-        $comps = [];
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $comps[$rec["id"]] = $rec;
-        }
-        return $comps;
+        $component_data_db = new ilArtifactComponentDataDB();
+        return iterator_to_array($component_data_db->getComponentIds());
     }
 }

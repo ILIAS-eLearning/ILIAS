@@ -4,18 +4,21 @@
 
 class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected array $data = [];
     protected ?string $component;
     protected ?string $type;
 
-    public function __construct(\ilDBInterface $db)
+    public function getData() : array
     {
-        $this->db = $db;
+        return $this->data;
     }
 
     public function purge() : void
     {
-        $this->db->manipulate("DELETE FROM il_component");
+        $this->data = [
+            \ilArtifactComponentDataDB::BY_ID => [],
+            \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => []
+        ];
     }
 
     public function beginComponent(string $component, string $type) : void
@@ -52,11 +55,12 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
             );
         }
 
-        $this->db->manipulateF(
-            "INSERT INTO il_component (type, name, id) VALUES (%s,%s,%s)",
-            ["text", "text", "text"],
-            [$type, $this->component, $attributes["id"]]
-        );
+        if (!isset($this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type])) {
+            $this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type] = [];
+        }
+
+        $this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type][$this->component] = $attributes["id"];
+        $this->data[\ilArtifactComponentDataDB::BY_ID][$attributes["id"]] = [$this->type, $this->component];
     }
 
     public function endTag(string $name) : void

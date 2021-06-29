@@ -9,7 +9,6 @@
 class ilCachedComponentData
 {
     protected static ?ilCachedComponentData $instance;
-    protected array $obj_def_name_and_type_raw;
     protected array $il_pluginslot_by_id = [];
     protected array $il_pluginslot_by_name = [];
     protected array $il_pluginslot_by_comp = [];
@@ -27,14 +26,6 @@ class ilCachedComponentData
     {
         global $DIC;
         $ilDB = $DIC->database();
-        /**
-         * @var $ilDB ilDB
-         */
-        $set = $ilDB->query('SELECT * FROM il_component');
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $this->obj_def_name_and_type_raw[$rec['type']][$rec['name']] = $rec;
-        }
-
 
         $set = $ilDB->query('SELECT * FROM il_pluginslot');
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -128,17 +119,6 @@ class ilCachedComponentData
         } else {
             return array();
         }
-    }
-
-    /**
-     * @param $name
-     * @param $type
-     *
-     * @return mixed
-     */
-    public function lookCompId($type, $name)
-    {
-        return $this->obj_def_name_and_type_raw[$type][$name]['id'];
     }
 
     /**

@@ -37,6 +37,7 @@ class ilBadgeHandler
     {
         global $DIC;
 
+        $this->component_data_db = new ilArtifactComponentDataDB();
         $this->db = $DIC->database();
         if (isset($DIC["tree"])) {
             $this->tree = $DIC->repositoryTree();
@@ -142,15 +143,13 @@ class ilBadgeHandler
     
     protected function getComponent($a_id)
     {
-        $ilDB = $this->db;
-        
-        // see ilCtrl
-        $set = $ilDB->query("SELECT * FROM il_component" .
-            " WHERE id = " . $ilDB->quote($a_id, "text"));
-        $rec = $ilDB->fetchAssoc($set);
-        if ($rec["type"]) {
-            return $rec;
+        if (!$this->component_data_db->hasComponentId($a_id)) {
+            return null;
         }
+        return [
+            "type" => $this->component_data_db->getComponentType($a_id),
+            "name" => $this->component_data_db->getComponentName($a_id)
+        ];
     }
     
     /**
