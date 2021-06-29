@@ -3,26 +3,14 @@
 
 /**
  * Class ilSimpleSAMLphpWrapper
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
-    /**
-     * @var SimpleSAML\Configuration
-     */
-    protected $config;
+    protected SimpleSAML\Configuration $config;
+    protected SimpleSAML\Auth\Simple $authSource;
 
-    /**
-     * @var SimpleSAML\Auth\Simple
-     */
-    protected $authSource;
-
-    /**
-     * ilSimpleSAMLphpWrapper constructor.
-     * @param string $authSourceName
-     * @param string $configurationPath
-     * @throws Exception
-     */
-    public function __construct($authSourceName, $configurationPath)
+    public function __construct(string $authSourceName, string $configurationPath)
     {
         $this->initConfigFiles($configurationPath);
 
@@ -33,26 +21,23 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
         $storageType = $this->config->getString('store.type', false);
 
         if (
-            $storageType == 'phpsession' || $sessionHandler == 'phpsession' ||
+            $storageType === 'phpsession' || $sessionHandler === 'phpsession' ||
             (empty($storageType) && empty($sessionHandler))
         ) {
-            throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession');
+            throw new RuntimeException('Invalid SimpleSAMLphp session handler: Must not be phpsession or empty');
         }
 
         $this->authSource = new SimpleSAML\Auth\Simple($authSourceName);
     }
 
-    /**
-     * @param string $configurationPath
-     */
-    protected function initConfigFiles($configurationPath)
+    protected function initConfigFiles(string $configurationPath) : void
     {
         global $DIC;
 
         $templateHandler = new ilSimpleSAMLphpConfigTemplateHandler($DIC->filesystem()->storage());
         $templateHandler->copy('./Services/Saml/lib/config.php.dist', 'auth/saml/config/config.php', [
             'DB_PATH' => rtrim($configurationPath, '/') . '/ssphp.sq3',
-            'SQL_INITIAL_PASSWORD' => function () {
+            'SQL_INITIAL_PASSWORD' => static function () : string {
                 return substr(str_replace('+', '.', base64_encode(ilPasswordUtils::getBytes(20))), 0, 10);
             },
             'COOKIE_PATH' => IL_COOKIE_PATH,
@@ -83,7 +68,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
     /**
      * @inheritdoc
      */
-    public function storeParam($key, $value)
+    public function storeParam(string $key, $value) : void
     {
         $session = SimpleSAML\Session::getSessionFromRequest();
         $session->setData('ilias', $key, $value);

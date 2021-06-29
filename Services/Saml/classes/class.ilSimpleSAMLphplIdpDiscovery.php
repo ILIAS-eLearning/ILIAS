@@ -3,10 +3,11 @@
 
 /**
  * Class ilSimpleSAMLphplIdpDiscovery
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements ilSamlIdpDiscovery
 {
-    const METADATA_DIRECTORY = 'auth/saml/metadata';
+    private const METADATA_DIRECTORY = 'auth/saml/metadata';
 
     /**
      * ilSimpleSAMLphplIdpDiscovery constructor.

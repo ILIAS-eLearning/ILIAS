@@ -3,20 +3,14 @@
 
 /**
  * Class ilAuthFrontendCredentialsSaml
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-    /** @var array */
-    protected $attributes = [];
-    /** @var string */
-    protected $return_to = '';
-    /** @var ilSamlAuth */
-    protected $auth;
+    protected ilSamlAuth $auth;
+    protected string $return_to = '';
+    protected array $attributes = [];
 
-    /**
-     * ilAuthFrontendCredentialsSaml constructor.
-     * @param ilSamlAuth $auth
-     */
     public function __construct(ilSamlAuth $auth)
     {
         parent::__construct();
@@ -26,41 +20,26 @@ class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements
         $this->setAttributes($this->auth->getAttributes());
     }
 
-    /**
-     * Init credentials from request
-     */
     public function initFromRequest() : void
     {
-        $this->setReturnTo(isset($_GET['target']) ? $_GET['target'] : '');
+        $this->setReturnTo((string) ($_GET['target'] ?? ''));
     }
 
-    /**
-     * @param array $attributes
-     */
     public function setAttributes(array $attributes) : void
     {
         $this->attributes = $attributes;
     }
 
-    /**
-     * @return array
-     */
     public function getAttributes() : array
     {
         return $this->attributes;
     }
 
-    /**
-     * @return string
-     */
     public function getReturnTo() : string
     {
         return $this->return_to;
     }
 
-    /**
-     * @param string $return_to
-     */
     public function setReturnTo(string $return_to) : void
     {
         $this->return_to = $return_to;
