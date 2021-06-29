@@ -17,7 +17,7 @@ trait HasConfigReader
     /**
      * @var ConfigReader
      */
-    protected $config_reader;
+    protected ConfigReader $config_reader;
 
     protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
     {

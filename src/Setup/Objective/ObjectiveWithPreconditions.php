@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,15 +14,12 @@ use ILIAS\Setup;
  */
 class ObjectiveWithPreconditions implements Setup\Objective
 {
-    /**
-     * @var Setup\Objective
-     */
-    protected $original;
+    protected Setup\Objective $original;
 
     /**
      * @var Setup\Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     public function __construct(Setup\Objective $original, Setup\Objective ...$preconditions)
     {

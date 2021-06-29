@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -14,15 +13,8 @@ class DirectoryCreatedObjective implements Setup\Objective
 {
     const DEFAULT_DIRECTORY_PERMISSIONS = 0755;
 
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @var int
-     */
-    protected $permissions;
+    protected string $path;
+    protected int $permissions;
 
     public function __construct(
         string $path,

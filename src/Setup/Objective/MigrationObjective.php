@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\Setup\Objective;
 
@@ -9,14 +9,8 @@ use ILIAS\Setup;
  */
 class MigrationObjective implements Setup\Objective
 {
-    /**
-     * @var Setup\Migration
-     */
-    protected $migration;
-    /**
-     * @var int
-     */
-    protected $steps;
+    protected Setup\Migration $migration;
+    protected int $steps;
 
     /**
      * MigrationObjective constructor.

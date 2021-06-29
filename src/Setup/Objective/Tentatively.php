@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,10 +12,7 @@ use ILIAS\Setup;
  */
 class Tentatively implements Setup\Objective
 {
-    /**
-     * @var Setup\Objective
-     */
-    protected $other;
+    protected Setup\Objective $other;
 
     public function __construct(Setup\Objective $other)
     {

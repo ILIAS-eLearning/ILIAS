@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -15,25 +15,14 @@ use ILIAS\Setup;
  */
 class ExternalConditionObjective implements Setup\Objective
 {
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var callable
-     */
-    protected $condition;
-
-    /**
-     * @var string|null
-     */
-    protected $message;
+    protected string $label;
+    protected \Closure $condition;
+    protected ?string $message;
 
     /**
      * @param callable $condition needs to be function from Environment to bool.
      */
-    public function __construct(string $label, callable $condition, string $message = null)
+    public function __construct(string $label, \Closure $condition, string $message = null)
     {
         $this->condition = $condition;
         $this->label = $label;

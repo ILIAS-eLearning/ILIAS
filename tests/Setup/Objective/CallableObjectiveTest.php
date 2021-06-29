@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,20 +13,9 @@ class CallableObjectiveTest extends TestCase
 {
     use Test\Helper;
 
-    /**
-     * @var Setup\Environment
-     */
-    protected $env;
-
-    /**
-     * @var Setup\Objective
-     */
-    protected $p;
-
-    /**
-     * @var Objective\CallableObjective
-     */
-    protected $o;
+    protected ?Setup\Environment $env;
+    protected Setup\Objective $p;
+    protected Objective\CallableObjective $o;
 
     public function myMethod(Setup\Environment $environment) : Setup\Environment
     {

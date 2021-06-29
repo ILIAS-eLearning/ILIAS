@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -48,24 +48,22 @@ final class Metric
     const TYPE_COLLECTION = "collection";
 
     /**
-     * @var mixed one of STABILITY_*
+     * @var string one of STABILITY_*
      */
-    protected $stability;
+    protected string $stability;
 
     /**
-     * @var mixed one of TYPE_*
+     * @var string one of TYPE_*
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var mixed
      */
     protected $value;
 
-    /**
-     * @var string|null
-     */
-    protected $description;
+
+    protected ?string $description;
 
     public function __construct(
         string $stability,

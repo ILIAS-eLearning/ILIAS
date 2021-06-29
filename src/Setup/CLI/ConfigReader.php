@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\CLI;
@@ -16,12 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConfigReader
 {
-    /**
-     * @var string
-     */
-    protected $base_dir;
+    protected string $base_dir;
 
-    public function __construct($base_dir = null)
+    public function __construct(string $base_dir = null)
     {
         $this->base_dir = $base_dir ?? getcwd();
     }
@@ -43,7 +41,7 @@ class ConfigReader
                 "Config-file '$name' does not exist or is not readable."
             );
         }
-        $json = json_decode(file_get_contents($name), JSON_OBJECT_AS_ARRAY);
+        $json = json_decode(file_get_contents($name), (bool)JSON_OBJECT_AS_ARRAY);
         if (!is_array($json)) {
             throw new \InvalidArgumentException(
                 "Could not find JSON-array in '$name'."
@@ -65,7 +63,7 @@ class ConfigReader
         };
 
         foreach ($overwrites as $path => $value) {
-            $path = explode(".", $path);
+            $path = explode(".", (string) $path);
             $json = $replacer($json, $path, $value);
         }
 
