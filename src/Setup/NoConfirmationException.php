@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,10 +9,7 @@ namespace ILIAS\Setup;
  */
 class NoConfirmationException extends \RuntimeException
 {
-    /**
-     * @var string
-     */
-    protected $confirmation;
+    protected string $confirmation;
 
     public function __construct(string $confirmation, ...$rest)
     {

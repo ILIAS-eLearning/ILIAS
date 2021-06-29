@@ -30,7 +30,7 @@ class UpdateCommand extends Command
     /**
      * var Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation

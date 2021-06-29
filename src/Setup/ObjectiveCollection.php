@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,20 +9,13 @@ namespace ILIAS\Setup;
  */
 class ObjectiveCollection implements Objective
 {
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var bool
-     */
-    protected $is_notable;
+    protected string $label;
+    protected bool $is_notable;
 
     /**
      * @var	Objective[]
      */
-    protected $objectives;
+    protected array $objectives;
 
     public function __construct(string $label, bool $is_notable, Objective ...$objectives)
     {

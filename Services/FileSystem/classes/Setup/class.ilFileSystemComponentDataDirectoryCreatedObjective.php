@@ -12,11 +12,6 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
     /**
      * @var string
      */
-    protected $path;
-
-    /**
-     * @var string
-     */
     protected $component_dir;
 
     /**

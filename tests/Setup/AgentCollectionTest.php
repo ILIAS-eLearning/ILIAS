@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -253,7 +253,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetAgent()
+    public function testGetAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -274,7 +274,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($c->getAgent("c5"));
     }
 
-    public function testWithRemovedAgent()
+    public function testWithRemovedAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -304,7 +304,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testWithAdditionalAgent()
+    public function testWithAdditionalAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 

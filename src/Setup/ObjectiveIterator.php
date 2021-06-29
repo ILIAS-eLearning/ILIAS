@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -16,40 +16,30 @@ use ILIAS\Setup\UnachievableException;
  */
 class ObjectiveIterator implements \Iterator
 {
-    /**
-     * @var	Environment
-     */
-    protected $environment;
-
-    /**
-     * @var Objective
-     */
-    protected $objective;
+    protected Environment $environment;
+    protected Objective $objective;
 
     /**
      * @var Objective[]
      */
-    protected $stack;
+    protected array $stack;
 
-    /**
-     * @var Objective|null
-     */
-    protected $current;
+    protected ?Objective $current;
 
     /**
      * @var array<string, bool>
      */
-    protected $returned;
+    protected array $returned;
 
     /**
      * @var	array<string, bool>
      */
-    protected $failed;
+    protected array $failed;
 
     /**
      * @var array<string, string[]>
      */
-    protected $reverse_dependencies;
+    protected array $reverse_dependencies;
 
 
     public function __construct(Environment $environment, Objective $objective)

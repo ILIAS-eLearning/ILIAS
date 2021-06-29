@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,15 +13,12 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class AgentCollection implements Agent
 {
-    /**
-     * @var Refinery
-     */
-    protected $refinery;
+    protected Refinery $refinery;
 
     /**
      * @var Agent[]
      */
-    protected $agents;
+    protected array $agents;
 
     public function __construct(
         Refinery $refinery,

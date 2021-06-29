@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\CLI;
@@ -30,7 +31,7 @@ class InstallCommand extends Command
     /**
      * var Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
