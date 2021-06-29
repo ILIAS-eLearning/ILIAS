@@ -101,9 +101,9 @@ class EstimatedReadingTime implements Transformation
 
         for ($i = 1; $i <= $numberOfImages; $i++) {
             if ($i >= 10) {
-                $time += 3 * ((int) $this->wordsPerMinute / 60);
+                $time += 3 * ($this->wordsPerMinute / 60);
             } else {
-                $time += (12 - ($i - 1)) * ((int) $this->wordsPerMinute / 60);
+                $time += (12 - ($i - 1)) * ($this->wordsPerMinute / 60);
             }
         }
 

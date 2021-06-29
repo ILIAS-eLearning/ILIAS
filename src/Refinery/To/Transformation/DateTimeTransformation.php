@@ -19,7 +19,7 @@ class DateTimeTransformation implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @var DataFactory
+     * @var Factory
      */
     private $factory;
 

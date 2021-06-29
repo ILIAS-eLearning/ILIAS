@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data\DateFormat;
@@ -8,10 +9,7 @@ namespace ILIAS\Data\DateFormat;
  */
 class Factory
 {
-    /**
-     * @var FormatBuilder
-     */
-    protected $builder;
+    protected FormatBuilder $builder;
 
     public function __construct(FormatBuilder $builder)
     {
@@ -20,7 +18,6 @@ class Factory
 
     /**
      * Get the ISO 8601 date format (YYYY-MM-DD)
-     * @return DateFormat
      */
     public function standard() : DateFormat
     {
@@ -29,24 +26,17 @@ class Factory
 
     /**
      * Get the builder to define a custom DateFormat
-     * @return FormatBuilder
      */
     public function custom() : FormatBuilder
     {
         return $this->builder;
     }
 
-    /**
-     * @return DateFormat
-     */
     public function germanShort() : DateFormat
     {
         return $this->builder->day()->dot()->month()->dot()->year()->get();
     }
 
-    /**
-     * @return DateFormat
-     */
     public function germanLong() : DateFormat
     {
         return $this->builder->weekday()->comma()->space()

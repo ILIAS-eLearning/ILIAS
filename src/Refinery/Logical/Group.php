@@ -4,7 +4,7 @@
 namespace ILIAS\Refinery\Logical;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\Custom\Constraint;
 use ILIAS\Refinery\Logical\LogicalOr;
 use ILIAS\Refinery\Logical\Not;
 use ILIAS\Refinery\Logical\Parallel;

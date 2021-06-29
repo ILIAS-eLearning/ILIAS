@@ -51,7 +51,7 @@ abstract class BasicTaskManager implements TaskManager
      * @param Observer $observer
      *
      * @return Value
-     * @throws Exception
+     * @throws UserInteractionSkippedException|UserInteractionRequiredException|Exception
      */
     public function executeTask(Task $task, Observer $observer)
     {
@@ -89,17 +89,19 @@ abstract class BasicTaskManager implements TaskManager
         }
 
         if (is_a($task, Task\UserInteraction::class)) {
-            /** @var Task\UserInteraction $userInteraction */
-            $userInteraction = $task;
+            /** @var Task\UserInteraction $user_interaction */
+            $user_interaction = $task;
 
-            if ($userInteraction->canBeSkipped($final_values)) {
-                $observer->notifyState(State::FINISHED);
-                throw new UserInteractionSkippedException("User interaction skipped.");
-            } else {
-                $observer->notifyCurrentTask($userInteraction);
-                $observer->notifyState(State::USER_INTERACTION);
-                throw new UserInteractionRequiredException("User interaction required.");
+            if ($user_interaction->canBeSkipped($final_values)) {
+                if ($task->isFinal()) {
+                    throw new UserInteractionSkippedException('Final interaction skipped');
+                }
+                return $task->getSkippedValue($task->getInput());
             }
+
+            $observer->notifyCurrentTask($user_interaction);
+            $observer->notifyState(State::USER_INTERACTION);
+            throw new UserInteractionRequiredException("User interaction required.");
         }
 
         throw new Exception("You need to execute a Job or a UserInteraction.");

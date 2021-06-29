@@ -15,9 +15,9 @@ class Order
     /**
      * @var array <subject, direction>
      */
-    protected $order = [];
+    protected array $order = [];
 
-    public function __construct(string $subject, $direction)
+    public function __construct(string $subject, string $direction)
     {
         $this->checkDirection($direction);
         $this->order[$subject] = $direction;
@@ -30,14 +30,14 @@ class Order
         }
     }
 
-    protected function checkDirection($direction)
+    protected function checkDirection(string $direction)
     {
         if ($direction !== self::ASC && $direction !== self::DESC) {
             throw new \InvalidArgumentException("Direction bust be Order::ASC or Order::DESC.", 1);
         }
     }
 
-    public function append(string $subject, $direction) : Order
+    public function append(string $subject, string $direction) : Order
     {
         $this->checkSubject($subject);
         $this->checkDirection($direction);

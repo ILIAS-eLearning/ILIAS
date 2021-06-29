@@ -123,4 +123,11 @@ class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
     {
         return $input[0];
     }
+
+    public function isFinal(): bool
+    {
+        return false;
+    }
+
+
 }
