@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Data;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Data;
 
 use ilObject2;
 
@@ -11,32 +13,20 @@ use ilObject2;
  */
 class ObjectId
 {
-
-    /**
-     * @var string
-     */
-    private $object_id;
-
+    private int $object_id;
 
     /**
      * ReferenceId constructor.
-     *
-     * @param int $object_id
      */
     public function __construct(int $object_id)
     {
         $this->object_id = $object_id;
     }
 
-
-    /**
-     * @return int
-     */
     public function toInt() : int
     {
-        return (int) $this->object_id;
+        return $this->object_id;
     }
-
 
     /**
      * @return ReferenceId[]

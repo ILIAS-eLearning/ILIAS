@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\Data;
 
@@ -100,18 +100,9 @@ final class DataSize
         'YiB' => self::YiB
     ];
 
-    /**
-     * @var float $size
-     */
-    private $size;
-    /**
-     * @var int $unit
-     */
-    private $unit;
-    /**
-     * @var string $suffix
-     */
-    private $suffix;
+    private float $size;
+    private int $unit;
+    private string $suffix;
 
     /**
      * DataSize constructor.
@@ -137,22 +128,19 @@ final class DataSize
     /**
      * The calculated data size.
      *
-     * @return float
      * @since 5.3
      */
-    public function getSize()
+    public function getSize() : float
     {
         return $this->size;
     }
 
-
     /**
      * The unit which equals the class constant used to calculate the data size. (self::GiB, ...)
      *
-     * @return int
      * @since 5.3
      */
-    public function getUnit()
+    public function getUnit() : int
     {
         return $this->unit;
     }
@@ -160,7 +148,7 @@ final class DataSize
     /**
      * Get the size in bytes.
      */
-    public function inBytes() : int
+    public function inBytes() : float
     {
         return $this->size * $this->unit;
     }
@@ -172,10 +160,9 @@ final class DataSize
      * 1024 B
      * 4096 GiB
      *
-     * @return string
      * @since 5.3
      */
-    public function __toString()
+    public function __toString() : string
     {
         return "$this->size $this->suffix";
     }
