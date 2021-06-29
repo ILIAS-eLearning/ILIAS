@@ -17,16 +17,14 @@ use Sabre\DAV\Exception\NotImplemented;
 abstract class ilObjectDAV extends Sabre\DAV\Node
 {
     /** @var $ref_id integer */
-    protected $ref_id;
+    protected int $ref_id;
     
     /** @var $obj ilObject */
-    protected $obj;
+    protected \ilObject $obj;
     
-    /** @var ilWebDAVRepositoryHelper $repo_helper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $dav_helper;
+    protected \ilWebDAVObjDAVHelper $dav_helper;
 
     /**
      * Constructor for DAV Object

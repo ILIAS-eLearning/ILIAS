@@ -3,8 +3,7 @@
 
 class ilWebDAVMountInstructionsHtmlDocumentProcessor extends ilWebDAVMountInstructionsDocumentProcessorBase
 {
-    /** @var ilWebDAVMountInstructionsDocumentPurifier */
-    protected $document_purifier;
+    protected \ilHtmlPurifierInterface $document_purifier;
 
     /**
      * HTML processor constructor.

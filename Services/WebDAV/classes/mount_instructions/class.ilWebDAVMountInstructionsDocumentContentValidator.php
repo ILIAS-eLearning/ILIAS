@@ -3,7 +3,7 @@
 
 class ilWebDAVMountInstructionsDocumentContentValidator
 {
-    protected $necessary_text_placeholders = array(
+    protected array $necessary_text_placeholders = array(
         'WEBFOLDER_TITLE', 'WEBFOLDER_URI_HTTP', 'WEBFOLDER_URI_KONQUEROR', 'WEBFOLDER_URI_NAUTILUS'
     );
 

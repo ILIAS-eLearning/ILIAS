@@ -16,7 +16,7 @@ class ilWebDAVDBManager
      */
     protected $db;
     
-    private $lock_table = 'dav_lock';
+    private string $lock_table = 'dav_lock';
     
     public function __construct($db)
     {

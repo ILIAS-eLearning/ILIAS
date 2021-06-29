@@ -8,41 +8,30 @@ use ILIAS\FileUpload\Location;
 
 class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilWebDAVMountInstructionsDocument */
-    protected $document;
+    protected \ilWebDAVMountInstructionsDocument $document;
 
-    /** @var ilWebDAVMountInstructionsRepository */
-    protected $mount_instructions_repository;
+    protected \ilWebDAVMountInstructionsRepository $mount_instructions_repository;
 
-    /** @var ilHtmlPurifierInterface */
-    protected $document_purifier;
+    protected ?\ilHtmlPurifierInterface $document_purifier = null;
 
-    /** @var ilObjUser */
-    protected $actor;
+    protected \ilObjUser $actor;
 
-    /** @var FileUpload */
-    protected $file_upload;
+    protected \ILIAS\FileUpload\FileUpload $file_upload;
 
     /** @var Filesystem */
     protected $tmp_filesystem;
 
-    /** @var string */
-    protected $form_action;
+    protected string $form_action;
 
-    /** @var string */
-    protected $save_command;
+    protected string $save_command;
 
-    /** @var string */
-    protected $cancel_command;
+    protected string $cancel_command;
 
-    /** @var bool */
-    protected $is_editable = false;
+    protected bool $is_editable = false;
 
-    /** @var string */
-    protected $translated_error;
+    protected string $translated_error;
 
-    /** @var string */
-    protected $translated_info;
+    protected string $translated_info;
 
     /**
      * ilWebDAVMountInstructionsDocumentFormGUI constructor.

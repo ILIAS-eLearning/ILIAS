@@ -23,8 +23,7 @@ use Sabre\DAV\Exception\Forbidden;
  */
 class ilMountPointDAV implements Sabre\DAV\ICollection
 {
-    /** @var ilAccessHandler */
-    protected $access;
+    protected \ilAccessHandler $access;
     
     /** @var string */
     protected $client_id;
@@ -32,11 +31,9 @@ class ilMountPointDAV implements Sabre\DAV\ICollection
     /** @var int */
     protected $user_id;
 
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $dav_helper;
+    protected \ilWebDAVObjDAVHelper $dav_helper;
 
     public function __construct(ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {

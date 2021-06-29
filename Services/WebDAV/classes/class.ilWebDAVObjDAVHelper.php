@@ -11,8 +11,7 @@
  */
 class ilWebDAVObjDAVHelper
 {
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
     /**
      * ilWebDAVObjDAVHelper constructor.
@@ -38,7 +37,7 @@ class ilWebDAVObjDAVHelper
         $type = $this->repo_helper->getObjectTypeFromObjId($obj_id);
         $title = $this->repo_helper->getObjectTitleFromObjId($obj_id);
 
-        if($do_name_check) {
+        if ($do_name_check) {
             $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title);
         } else {
             $is_davable = $this->isDAVableObjType($type);

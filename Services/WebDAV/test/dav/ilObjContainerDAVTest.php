@@ -3,23 +3,17 @@
 use \PHPUnit\Framework\TestCase;
 use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-require_once 'ilObjDummyDAV.php';
-
 class ilObjContainerDAVTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
-    /** @var int */
-    protected $ref_id;
+    protected int $ref_id;
 
-    /** @var \Mockery\MockInterface */
-    protected $mocked_obj;
+    protected \Mockery\LegacyMockInterface $mocked_obj;
 
-    /** @var \Mockery\MockInterface */
-    protected $mocked_repo_helper;
+    protected \Mockery\LegacyMockInterface $mocked_repo_helper;
 
-    /** @var \Mockery\MockInterface */
-    protected $mocked_dav_helper;
+    protected \Mockery\LegacyMockInterface $mocked_dav_helper;
 
     /** @var ilobjContainerDAV */
     protected $container_dav;

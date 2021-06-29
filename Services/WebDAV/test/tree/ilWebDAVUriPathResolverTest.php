@@ -5,8 +5,7 @@ use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class ilWebDAVUriPathResolverTest extends TestCase
 {
-    /** @var \Mockery\MockInterface */
-    protected $mocked_repo_helper;
+    protected \Mockery\LegacyMockInterface $mocked_repo_helper;
 
     /**
      * Setup

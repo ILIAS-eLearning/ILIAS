@@ -7,8 +7,7 @@
  */
 class ilWebDAVSabreBrowserPlugin extends Sabre\DAV\Browser\Plugin
 {
-    /** @var ilCtrl */
-    protected $ilCtrl;
+    protected \ilCtrl $ilCtrl;
 
     /**
      * Override the original contructor. ilCtrl is needed to redirect to the mount-instructions page.

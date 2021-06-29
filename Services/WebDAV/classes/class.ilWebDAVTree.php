@@ -16,7 +16,7 @@ use Sabre\DAV\Exception\BadRequest;
  */
 class ilWebDAVTree
 {
-    protected static $instance;
+    protected static ?\ilWebDAVTree $instance = null;
     
     public static function getInstance()
     {

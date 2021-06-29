@@ -3,20 +3,15 @@
 
 final class ilWebDAVMountInstructionsDocument
 {
-    /** @var int */
-    private $id;
+    private int $id;
 
-    /** @var string */
-    private $title;
+    private string $title;
 
-    /** @var string */
-    private $uploaded_instructions;
+    private string $uploaded_instructions;
 
-    /** @var string */
-    private $processed_instructions;
+    private string $processed_instructions;
 
-    /** @var string */
-    private $language;
+    private string $language;
 
     /** @var null */
     private $creation_ts;
@@ -24,11 +19,9 @@ final class ilWebDAVMountInstructionsDocument
     /** @var null */
     private $modification_ts;
 
-    /** @var int */
-    private $owner_usr_id;
+    private int $owner_usr_id;
 
-    /** @var int */
-    private $last_modified_usr_id;
+    private int $last_modified_usr_id;
 
     /** @var int */
     private $sorting;

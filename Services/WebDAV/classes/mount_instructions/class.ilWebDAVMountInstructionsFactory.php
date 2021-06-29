@@ -8,9 +8,9 @@
  */
 class ilWebDAVMountInstructionsFactory
 {
-    private $repo;
-    private $request;
-    private $user;
+    private \ilWebDAVMountInstructionsRepositoryImpl $repo;
+    private \Psr\Http\Message\RequestInterface $request;
+    private \ilObjUser $user;
     
     public function __construct(
         ilWebDAVMountInstructionsRepositoryImpl $a_repo,

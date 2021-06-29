@@ -22,7 +22,7 @@ class ilObjWebDAVAccess extends ilObjectAccess
     {
         global $DIC;
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->http       = $DIC->http();
+        $this->http = $DIC->http();
     }
 
     /**
@@ -44,5 +44,4 @@ class ilObjWebDAVAccess extends ilObjectAccess
     {
         return (bool) $this->rbacsystem->checkAccess($permission, $this->http->request()->getQueryParams()['ref_id']);
     }
-
 }

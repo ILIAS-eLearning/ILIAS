@@ -23,17 +23,13 @@ use Sabre\DAV\Exception\Forbidden;
  */
 class ilObjectDAVTest //extends TestCase
 {
-    /** @var int */
-    protected $ref_id;
+    protected int $ref_id;
 
-    /** @var \Mockery\MockInterface */
-    protected $mocked_obj;
+    protected \Mockery\LegacyMockInterface $mocked_obj;
 
-    /** @var ilWebDAVRepositoryHelper */
-    protected $mocked_dav_repo_helper;
+    protected \Mockery\LegacyMockInterface $mocked_dav_repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $mocked_dav_obj_helper;
+    protected \Mockery\LegacyMockInterface $mocked_dav_obj_helper;
 
     /** @var ilObject */
     protected $dav_obj;

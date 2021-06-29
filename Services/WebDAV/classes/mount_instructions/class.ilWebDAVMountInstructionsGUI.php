@@ -18,7 +18,7 @@ class ilWebDAVMountInstructionsGUI
     protected $protocol_prefixes;
     protected $base_url;
     protected $ref_id;
-    protected $mount_instruction;
+    protected \ilWebDAVBaseMountInstructions $mount_instruction;
     protected $il_lang;
     protected $ui;
     protected $http;

@@ -13,7 +13,7 @@ use Sabre\DAV\Exception\BadRequest;
  */
 class ilWebDAVRequestHandler
 {
-    private static $instance;
+    private static ?\ilWebDAVRequestHandler $instance = null;
     
     public static function getInstance()
     {

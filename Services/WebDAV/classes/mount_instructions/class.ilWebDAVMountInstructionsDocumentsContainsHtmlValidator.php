@@ -3,8 +3,7 @@
 
 class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
 {
-    /** @var string */
-    private $text;
+    private string $text;
 
     /**
      * ilWebDAVMountInstructionsDocumentsContainsHtmlValidator constructor.

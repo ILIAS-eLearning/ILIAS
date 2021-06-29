@@ -26,14 +26,11 @@ use Sabre\DAV\Exception\NotFound;
  */
 class ilClientNodeDAV implements Sabre\DAV\ICollection
 {
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $dav_helper;
+    protected \ilWebDAVObjDAVHelper $dav_helper;
 
-    /** @var string */
-    protected $name_of_repository_root;
+    protected string $name_of_repository_root;
     
     /**
      * @param string $client_name

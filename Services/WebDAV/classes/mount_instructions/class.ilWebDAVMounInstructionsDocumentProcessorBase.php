@@ -19,7 +19,7 @@ abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDA
             // Is there a [ and a ] and are they in this order?
             if ($open_tag_start_pos !== false && $open_tag_end_pos !== false && $open_tag_start_pos < $open_tag_end_pos) {
                 // Extract text between the square brackets "[tag_name]" and create the end tag [/tag_name]
-                $tag_name = substr($processing_text, $open_tag_start_pos+1, $open_tag_end_pos - $open_tag_start_pos -1);
+                $tag_name = substr($processing_text, $open_tag_start_pos + 1, $open_tag_end_pos - $open_tag_start_pos - 1);
                 $close_tag = "[/$tag_name]";
 
                 $close_tag_pos = strpos($processing_text, $close_tag);

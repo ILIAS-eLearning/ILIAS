@@ -2,35 +2,26 @@
 
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
-    /** @var ilWebDAVUriBuilder */
-    protected $mount_instructions_gui;
+    protected \ilWebDAVUriBuilder $mount_instructions_gui;
 
-    /** @var \ILIAS\UI\Factory */
-    protected $ui_factory;
+    protected \ILIAS\UI\Factory $ui_factory;
 
-    /** @var ILIAS\UI\Renderer */
-    protected $ui_renderer;
+    protected \ILIAS\UI\Renderer $ui_renderer;
 
-    /** @var bool */
-    protected $is_editable = false;
+    protected bool $is_editable = false;
 
-    /** @var int */
-    protected $factor = 10;
+    protected int $factor = 10;
 
-    /** @var int */
-    protected $i = 1;
+    protected int $i = 1;
 
-    /** @var int */
-    protected $num_rendered_criteria = 0;
+    protected int $num_rendered_criteria = 0;
 
-    /** @var array */
-    protected $visible_optional_columns;
+    protected array $visible_optional_columns;
 
     /** @var ILIAS\UI\Component\Component[] */
-    protected $ui_components = [];
+    protected array $ui_components = [];
 
-    /** @var ilWebDAVMountInstructionsTableDataProvider */
-    protected $provider;
+    protected ?\ilWebDAVMountInstructionsTableDataProvider $provider = null;
 
     public function __construct(
         ilWebDAVMountInstructionsUploadGUI $a_parent_obj,
@@ -104,9 +95,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
     public function getSelectableColumns() : array
     {
-        $optional_columns = array_filter($this->getColumnDefinition(), function ($column) {
-            return isset($column['optional']) && $column['optional'];
-        });
+        $optional_columns = array_filter($this->getColumnDefinition(), fn ($column) => isset($column['optional']) && $column['optional']);
 
         $columns = [];
         foreach ($optional_columns as $index => $column) {
@@ -359,9 +348,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $title_link = $this->ui_factory
             ->button()
             ->shy($a_row[$a_column], '#')
-            ->withAdditionalOnLoadCode(function ($id) use ($url) {
-                return "$('#$id').click(function(){ triggerWebDAVModal('$url');});";
-            });
+            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(){ triggerWebDAVModal('$url');});");
 
         return $this->ui_renderer->render([$title_link]);
     }

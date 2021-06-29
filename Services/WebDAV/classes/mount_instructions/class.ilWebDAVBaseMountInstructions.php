@@ -4,17 +4,13 @@ use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
 
 abstract class ilWebDAVBaseMountInstructions
 {
-    /** @var ilWebDAVMountInstructionsRepository */
-    protected $repo;
+    protected \ilWebDAVMountInstructionsRepository $repo;
 
-    /** @var ilWebDAVUriBuilder */
-    protected $uri_builder;
+    protected \ilWebDAVUriBuilder $uri_builder;
 
-    /** @var ilSetting */
-    protected $settings;
+    protected \ilSetting $settings;
 
-    /** @var string */
-    protected $language;
+    protected string $language;
 
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,

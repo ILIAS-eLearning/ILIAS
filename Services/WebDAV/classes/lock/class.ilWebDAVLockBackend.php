@@ -18,14 +18,11 @@ class ilWebDAVLockBackend extends Sabre\DAV\Locks\Backend\AbstractBackend
     /** @var ilWebDAVDBManager */
     protected $db_manager;
 
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $obj_dav_helper;
+    protected \ilWebDAVObjDAVHelper $obj_dav_helper;
 
-    /** @var ilWebDAVUriPathResolver */
-    protected $uri_path_resolver;
+    protected \ilWebDAVUriPathResolver $uri_path_resolver;
 
     /**
      * Constructor with dependency injection

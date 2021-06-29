@@ -11,9 +11,9 @@
  */
 class ilWebDAVUtil
 {
-    private static $instance = null;
+    private static ?\ilWebDAVUtil $instance = null;
 
-    private $pwd_instruction = null;
+    private ?bool $pwd_instruction = null;
 
     /**
      * Singleton constructor

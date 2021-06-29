@@ -3,19 +3,17 @@
 
 class ilWebDAVUriBuilder
 {
-    /** @var \Psr\Http\Message\RequestInterface */
-    protected $request;
+    protected \Psr\Http\Message\RequestInterface $request;
 
-    /** @var array */
-    protected $schemas = array(
+    protected array $schemas = array(
             'default' => 'http',
             'konqueror' => 'webdav',
             'nautilus' => 'dav'
         );
 
-    protected $mount_instructions_query = 'mount-instructions';
+    protected string $mount_instructions_query = 'mount-instructions';
 
-    protected $webdav_script_name = 'webdav.php';
+    protected string $webdav_script_name = 'webdav.php';
 
     public function __construct(\Psr\Http\Message\RequestInterface $a_request)
     {

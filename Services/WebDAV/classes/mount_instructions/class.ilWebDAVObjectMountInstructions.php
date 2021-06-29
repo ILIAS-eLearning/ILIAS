@@ -22,9 +22,9 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     
     protected $settings;
     
-    protected $ref_id;
+    protected int $ref_id;
     protected $obj_id;
-    protected $obj_title;
+    protected string $obj_title;
 
     protected $document_repository;
     protected $uri_provider;

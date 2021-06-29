@@ -11,11 +11,9 @@
  */
 class ilWebDAVRepositoryHelper
 {
-    /** @var ilAccess $access */
-    protected $access;
+    protected \ilAccessHandler $access;
 
-    /** @var ilTree $tree */
-    protected $tree;
+    protected \ilTree $tree;
 
     /**
      * ilWebDAVRepositoryHelper constructor.

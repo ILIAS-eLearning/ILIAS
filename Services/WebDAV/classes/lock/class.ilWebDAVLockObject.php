@@ -33,12 +33,12 @@ class ilWebDAVLockObject
     }
     
     protected $token;
-    protected $obj_id;
-    protected $ilias_owner;
-    protected $dav_owner;
-    protected $expires;
+    protected int $obj_id;
+    protected int $ilias_owner;
+    protected string $dav_owner;
+    protected int $expires;
     protected $depth;
-    protected $type;
+    protected string $type;
     protected $scope;
     
     /**

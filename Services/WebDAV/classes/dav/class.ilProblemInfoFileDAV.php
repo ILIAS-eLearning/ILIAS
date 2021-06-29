@@ -10,14 +10,11 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
     const PROBLEM_FORBIDDEN_CHARACTERS = 'forbidden_characters';
     const PROBLEM_INFO_NAME_DUPLICATE = 'info_name_duplicate';
 
-    /** @var ilObjContainerDAV */
-    protected $dav_container;
+    protected \ilObjContainerDAV $dav_container;
 
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
-    /** @var ilWebDAVObjDAVHelper */
-    protected $dav_helper;
+    protected \ilWebDAVObjDAVHelper $dav_helper;
 
     public function __construct(
         ilObjContainerDAV $a_dav_container,

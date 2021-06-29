@@ -10,8 +10,7 @@
  */
 class ilWebDAVUriPathResolver
 {
-    /** @var ilWebDAVRepositoryHelper */
-    protected $repo_helper;
+    protected \ilWebDAVRepositoryHelper $repo_helper;
 
     /**
      * ilWebDAVUriPathResolver constructor.

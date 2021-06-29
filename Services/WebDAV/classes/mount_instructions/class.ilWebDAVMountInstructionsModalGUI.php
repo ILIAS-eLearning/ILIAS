@@ -52,9 +52,8 @@ class ilWebDAVMountInstructionsModalGUI
         return $this->modal->getShowSignal()->getId();
     }
 
-    /** @var ilWebDAVMountInstructionsModalGUI */
-    private static $instance = null;
-    private static $modal_already_rendered = false;
+    private static ?\ilWebDAVMountInstructionsModalGUI $instance = null;
+    private static bool $modal_already_rendered = false;
 
     /**
      * This is kind of a singleton pattern. But instead of getting creating only one instance of this class, an object

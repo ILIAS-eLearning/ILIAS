@@ -13,7 +13,7 @@ use Sabre\DAV\Exception\Forbidden;
 class ilObjRepositoryRootDAV extends ilObjContainerDAV implements Sabre\DAV\ICollection
 {
     /** @var $repository_root_name string */
-    protected $repository_root_name;
+    protected string $repository_root_name;
 
     /**
      * Check if given object has valid type and calls parent constructor

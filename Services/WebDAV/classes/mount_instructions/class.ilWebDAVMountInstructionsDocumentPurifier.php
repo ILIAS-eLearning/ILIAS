@@ -3,11 +3,9 @@
 
 class ilWebDAVMountInstructionsDocumentPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    /** @var array */
-    private $allowedTags = [];
+    private ?array $allowedTags = [];
 
-    /** @var string */
-    protected $cacheDirectory = '';
+    protected ?string $cacheDirectory = '';
 
     /**
      * ilTermsOfServiceDocumentHtmlPurifier constructor.
