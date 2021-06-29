@@ -58,7 +58,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function node($label, int $parameter = null, $lp = null) : TOCBuilder
+    public function node(string $label, int $parameter = null, int $lp = null) : TOCBuilder
     {
         //build node
         $toc = new LSTOCBuilder($this, $this->command, $label, $parameter, $lp);
