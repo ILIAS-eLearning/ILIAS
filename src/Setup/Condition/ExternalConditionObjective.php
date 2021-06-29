@@ -20,7 +20,7 @@ class ExternalConditionObjective implements Setup\Objective
     protected ?string $message;
 
     /**
-     * @param callable $condition needs to be function from Environment to bool.
+     * @param \Closure $condition needs to be function from Environment to bool.
      */
     public function __construct(string $label, \Closure $condition, string $message = null)
     {
