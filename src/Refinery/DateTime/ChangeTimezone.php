@@ -25,7 +25,7 @@ class ChangeTimezone implements Transformation
      */
     public function __construct(string $timezone)
     {
-        if (!in_array($timezone, timezone_identifiers_list())) {
+        if (!in_array($timezone, timezone_identifiers_list(), true)) {
             throw new \InvalidArgumentException("$timezone is not a valid timezone identifier", 1);
         }
         $this->timezone = new \DateTimeZone($timezone);
