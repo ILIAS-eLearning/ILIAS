@@ -2,24 +2,24 @@
 <div>{NO_GALLERY_USERS}</div>
 <!-- END no_users -->
 {GALLERY_HTML}
-<script type="text/javascript">
-(function($, $scope) {
-	var no_entries_html = {NO_ENTRIES_HTML};
+<script>
+document.addEventListener("DOMContentLoaded", (event) => {
+    let no_entries_html = {NO_ENTRIES_HTML};
 
-	<!-- BEGIN js_remove_handler -->
-	$(function() {
-		var stateChangedListener = function(event, usr_id, is_state, was_state) {
-			if (is_state == "ilBuddySystemUnlinkedRelationState") {
-				$('.il-deck [data-buddy-id="' + usr_id + '"]').closest(".il-card").parent().remove();
-				if (!$('.il-card.thumbnail').size())  {
-					$('.il-deck').html(no_entries_html);
-				}
-			}
-			return true;
-		};
+    <!-- BEGIN js_remove_handler -->
+    $(function () {
+        let stateChangedListener = function (event, usr_id, is_state, was_state) {
+            if (is_state == "ilBuddySystemUnlinkedRelationState") {
+                $('.il-deck [data-buddy-id="' + usr_id + '"]').closest(".il-card").parent().remove();
+                if (!$('.il-card.thumbnail').size()) {
+                    $('.il-deck').html(no_entries_html);
+                }
+            }
+            return true;
+        };
 
-		$($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
-	});
-	<!-- END js_remove_handler -->
-})(jQuery, window);
+        $($scope).on("il.bs.stateChange.afterStateChangePerformed", stateChangedListener);
+    });
+    <!-- END js_remove_handler -->
+});
 </script>
