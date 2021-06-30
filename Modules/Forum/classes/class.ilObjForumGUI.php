@@ -1369,22 +1369,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function showStatisticsObject()
+    public function showStatisticsObject() : void
     {
-        /// if globally deactivated, skip!!! intrusion detected
         if (!$this->settings->get('enable_fora_statistics', false)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        // if no read access -> intrusion detected
-        if (!$this->access->checkAccess('read', '', (int) $_GET['ref_id'])) {
+        if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        // if read access and statistics disabled -> intrusion detected
         if (!$this->objProperties->isStatisticEnabled()) {
-            // if write access and statistics disabled -> ok, for forum admin
-            if ($this->access->checkAccess('write', '', (int) $_GET['ref_id'])) {
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
                 ilUtil::sendInfo($this->lng->txt('frm_statistics_disabled_for_participants'));
             } else {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -1394,15 +1390,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->Forum->setForumId($this->object->getId());
 
         $tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
-        $tbl->setId('il_frm_statistic_table_' . (int) $_GET['ref_id']);
+        $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
         $tbl->setTitle(
             $this->lng->txt('statistic'),
             'icon_usr.svg',
             $this->lng->txt('obj_' . $this->object->getType())
         );
 
-        $data = $this->object->Forum->getUserStatistics(true, $this->is_moderator);
-        $result = array();
+        $data = $this->object->Forum->getUserStatistics((bool) $this->objProperties->isPostActivationEnabled());
+        $result = [];
         $counter = 0;
         foreach ($data as $row) {
             $result[$counter]['ranking'] = $row['num_postings'];

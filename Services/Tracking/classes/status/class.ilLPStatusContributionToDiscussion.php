@@ -19,7 +19,7 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
 
         $frm = new ilForum();
         $frm->setForumId($frm_properties->getObjId());
-        $statistics = $frm->getUserStatistics(false, true);
+        $statistics = $frm->getUserStatistics((bool) $frm_properties->isPostActivationEnabled());
 
         return array_map(static function (array $statisic) : int {
             return (int) $statisic['pos_author_id'];
@@ -41,7 +41,7 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
 
         $frm = new ilForum();
         $frm->setForumId($frm_properties->getObjId());
-        $statistics = $frm->getUserStatistics(false, true);
+        $statistics = $frm->getUserStatistics((bool) $frm_properties->isPostActivationEnabled());
 
         return array_map(static function (array $statisic) : int {
             return (int) $statisic['pos_author_id'];
@@ -65,7 +65,10 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         $frm = new ilForum();
         $frm->setForumId($frm_properties->getObjId());
 
-        $num_postings = $frm->getNumberOfPublishedUserPostings((int) $a_user_id);
+        $num_postings = $frm->getNumberOfPublishedUserPostings(
+            (int) $a_user_id,
+            (bool) $frm_properties->isPostActivationEnabled()
+        );
         if ($num_postings >= $num_required_postings) {
             $status = self::LP_STATUS_COMPLETED_NUM;
         } elseif ($num_postings > 0) {

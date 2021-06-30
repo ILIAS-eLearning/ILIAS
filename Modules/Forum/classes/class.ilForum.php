@@ -1309,7 +1309,7 @@ class ilForum
         );
     }
 
-    public function getNumberOfPublishedUserPostings(int $usr_id) : int
+    public function getNumberOfPublishedUserPostings(int $usr_id, bool $post_activation_required) : int
     {
         $query = "
             SELECT COUNT(f.pos_author_id) cnt
@@ -1317,13 +1317,17 @@ class ilForum
             INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
             INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
-            WHERE f.pos_status = %s AND f.pos_author_id = %s
+            WHERE f.pos_author_id = %s
         ";
+
+        if ($post_activation_required) {
+            $query .= ' AND f.pos_status = %s' . $this->db->quote(1, 'integer');
+        }
 
         $res = $this->db->queryF(
             $query,
-            ['integer', 'integer', 'integer', 'integer'],
-            [0, $this->getForumId(), 1, $usr_id]
+            ['integer', 'integer', 'integer'],
+            [0, $this->getForumId(), $usr_id]
         );
         $row = $this->db->fetchAssoc($res);
         if (is_array($row) && !empty($row)) {
@@ -1333,7 +1337,7 @@ class ilForum
         return 0;
     }
     
-    public function getUserStatistics(bool $for_display_purpose = true, bool $is_moderator = false) : array
+    public function getUserStatistics(bool $post_activation_required) : array
     {
         $statistic = [];
         $data_types = [];
@@ -1358,11 +1362,7 @@ class ilForum
         $data[] = 'public_profile';
         $data[] = 0;
 
-        if ($for_display_purpose && !$is_moderator) {
-            $query .= ' AND (pos_status = %s OR (pos_status = %s AND pos_author_id = %s))';
-            array_push($data_types, 'integer', 'integer', 'integer');
-            array_push($data, '1', '0', $this->user->getId());
-        } elseif (!$for_display_purpose) {
+        if ($post_activation_required) {
             $query .= ' AND pos_status = %s';
             $data_types[] = 'integer';
             $data[] = 1;
