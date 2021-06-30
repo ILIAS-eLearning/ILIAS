@@ -16,15 +16,8 @@ class Constraint implements ConstraintInterface
     use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
-    /**
-     * @var Data\Factory
-     */
-    protected $data_factory;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected Data\Factory $data_factory;
+    protected \ilLanguage $lng;
 
     /**
      * @var callable
@@ -76,7 +69,7 @@ class Constraint implements ConstraintInterface
     /**
      * @inheritdoc
      */
-    final public function accepts($value)
+    final public function accepts($value) : bool
     {
         return call_user_func($this->is_ok, $value);
     }
@@ -84,7 +77,7 @@ class Constraint implements ConstraintInterface
     /**
      * @inheritdoc
      */
-    final public function problemWith($value)
+    final public function problemWith($value) : ?string
     {
         if (!$this->accepts($value)) {
             return $this->getErrorMessage($value);

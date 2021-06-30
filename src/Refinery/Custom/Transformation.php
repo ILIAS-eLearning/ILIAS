@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Custom;
@@ -21,11 +22,11 @@ class Transformation implements TransformationInterface
      * @var callable
      */
     protected $transform;
-    private $factory;
+    private Factory $factory;
 
     /**
      * @param callable $transform
-     * @param Factory|null $factory
+     * @param Factory $factory
      */
     public function __construct(callable $transform, Factory $factory)
     {

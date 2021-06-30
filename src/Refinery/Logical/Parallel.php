@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Logical;
@@ -11,7 +12,7 @@ class Parallel extends Constraint
     /**
      * @var Constraint[]
      */
-    protected $constraints;
+    protected array $constraints;
 
     /**
      * There's a test to show this state will never be visible
@@ -19,7 +20,7 @@ class Parallel extends Constraint
      *
      * @var Constraint[]
      */
-    protected $failed_constraints;
+    protected array $failed_constraints;
 
     public function __construct(array $constraints, Data\Factory $data_factory, \ilLanguage $lng)
     {

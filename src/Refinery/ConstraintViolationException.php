@@ -1,27 +1,19 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery;
 
 /***
  * Signals the violation of some constraint on a value in a way that can be subject
  * to i18n.
+ *
+ * @author  Niels Theen <ntheen@databay.de>
  */
 class ConstraintViolationException extends \UnexpectedValueException
 {
-    /**
-     * @var string
-     */
-    private $languageId;
-
-    /**
-     * @var array
-     */
-    private $languageValues;
+    private string $languageId;
+    private array $languageValues;
 
     /**
      * Construct a violation on a constraint.
@@ -41,11 +33,7 @@ class ConstraintViolationException extends \UnexpectedValueException
         $this->languageValues = $languageValues;
     }
 
-    /**
-     * @param callable $txt
-     * @return string
-     */
-    public function getTranslatedMessage(callable $txt)
+    public function getTranslatedMessage(callable $txt) : string
     {
         return vsprintf($txt($this->languageId), $this->languageValues);
     }

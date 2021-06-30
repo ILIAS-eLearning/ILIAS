@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Container;
@@ -18,16 +19,11 @@ class AddLabels implements Transformation
     /**
      * @var string[] | int[]
      */
-    protected $labels;
-
-    /**
-     * @var Factory
-     */
-    private $factory;
+    protected array $labels;
+    private Factory $factory;
 
     /**
      * @param string[] | int[] $labels
-     * @param Factory|null $factory
      */
     public function __construct(array $labels, Factory $factory)
     {

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -30,7 +31,7 @@ interface Constraint extends Transformation
      * @param   mixed $value
      * @return  bool
      */
-    public function accepts($value);
+    public function accepts($value) : bool;
 
     /**
      * Tells what the problem with the provided value is.
@@ -40,7 +41,7 @@ interface Constraint extends Transformation
      * @param   mixed $value
      * @return  string|null
      */
-    public function problemWith($value);
+    public function problemWith($value) : ?string;
 
     /**
      * Restricts a Result.
