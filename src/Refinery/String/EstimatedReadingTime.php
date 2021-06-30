@@ -60,8 +60,8 @@ class EstimatedReadingTime implements Transformation
 
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
 
-                $wordsInContent = array_filter($wordsInContent, function (string $word) {
-                    return preg_replace('/^\pP$/', '', $word) !== '';
+                $wordsInContent = array_filter($wordsInContent, static function (string $word) : bool {
+                    return preg_replace('/^\pP$/u', '', $word) !== '';
                 });
                 
                 $numberOfWords += count($wordsInContent);
