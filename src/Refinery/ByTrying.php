@@ -33,7 +33,7 @@ class ByTrying implements Transformation
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
-        $this->error = function () {
+        $this->error = static function () : void {
             throw new ConstraintViolationException(
                 'no valid constraints',
                 'no_valid_constraints'

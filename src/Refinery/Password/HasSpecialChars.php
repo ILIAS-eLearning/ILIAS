@@ -10,7 +10,7 @@ use ILIAS\Data;
 
 class HasSpecialChars extends CustomConstraint implements Constraint
 {
-    protected static string $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/';
+    protected static string $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
 
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {
