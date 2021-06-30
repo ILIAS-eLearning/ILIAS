@@ -35,15 +35,6 @@ class ilArtifactComponentDataDBTest extends TestCase
         };
     }
 
-    public function testGetComponentIds()
-    {
-        $expected = ["mod1", "mod2", "ser1", "ser2"];
-        $result = iterator_to_array($this->db->getComponentIds());
-        sort($expected);
-        sort($result);
-        $this->assertEquals($expected, $result);
-    }
-
     public function testHasComponent()
     {
         $this->assertTrue($this->db->hasComponent("Modules", "Module1"));
@@ -74,51 +65,54 @@ class ilArtifactComponentDataDBTest extends TestCase
         $this->assertFalse($this->db->hasComponentId("ser4"));
     }
 
-    public function testGetComponentId()
+    public function testGetComponents()
     {
-        $this->assertEquals("mod1", $this->db->getComponentId("Modules", "Module1"));
-        $this->assertEquals("mod2", $this->db->getComponentId("Modules", "Module2"));
-        $this->assertEquals("ser1", $this->db->getComponentId("Services", "Service1"));
-        $this->assertEquals("ser2", $this->db->getComponentId("Services", "Service2"));
+        $result = iterator_to_array($this->db->getComponents());
+
+        $ids = array_keys($result);
+        $expected_ids = ["mod1", "mod2", "ser1", "ser2"];
+        sort($ids);
+        sort($expected_ids);
+
+        $this->assertEquals($expected_ids, $ids);
+
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $result["mod1"]);
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $result["mod2"]);
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $result["ser1"]);
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $result["ser2"]);
     }
 
-    public function testGetComponentIdThrowsOnUnknownComponent1()
+    public function testGetComponentById()
+    {
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $this->db->getComponentById("mod1"));
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $this->db->getComponentById("mod2"));
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $this->db->getComponentById("ser1"));
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $this->db->getComponentById("ser2"));
+    }
+
+    public function testGetComponentByTypeAndName()
+    {
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $this->db->getComponentByTypeAndName("Modules", "Module1"));
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $this->db->getComponentByTypeAndName("Modules", "Module2"));
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $this->db->getComponentByTypeAndName("Services", "Service1"));
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $this->db->getComponentByTypeAndName("Services", "Service2"));
+    }
+
+    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->db->getComponentId("Modules", "Module3");
+        $this->db->getComponentByTypeAndName("Modules", "Module3");
     }
 
-    public function testGetComponentIdThrowsOnUnknownComponent2()
+    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent2()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->db->getComponentId("OtherComponent", "Service1");
+        $this->db->getComponentByTypeAndName("OtherComponent", "Service1");
     }
 
-    public function testGetComponentType()
-    {
-        $this->assertEquals("Modules", $this->db->getComponentType("mod1"));
-        $this->assertEquals("Modules", $this->db->getComponentType("mod2"));
-        $this->assertEquals("Services", $this->db->getComponentType("ser1"));
-        $this->assertEquals("Services", $this->db->getComponentType("ser2"));
-    }
-
-    public function testGetComponentTypeThrowsOnInvalidId()
+    public function testGetComponentByIdTypeThrowsOnInvalidId()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->db->getComponentType("some_id");
-    }
-
-    public function testGetComponentName()
-    {
-        $this->assertEquals("Module1", $this->db->getComponentName("mod1"));
-        $this->assertEquals("Module2", $this->db->getComponentName("mod2"));
-        $this->assertEquals("Service1", $this->db->getComponentName("ser1"));
-        $this->assertEquals("Service2", $this->db->getComponentName("ser2"));
-    }
-
-    public function testGetComponentNameThrowsOnInvalidId()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->db->getComponentName("some_id");
+        $this->db->getComponentById("some_id");
     }
 }

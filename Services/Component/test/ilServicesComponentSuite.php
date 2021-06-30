@@ -12,6 +12,9 @@ class ilServicesComponentSuite extends TestSuite
         require_once("./Services/Component/test/ilComponentDefinitionReaderTest.php");
         $suite->addTestSuite(ilComponentDefinitionReaderTest::class);
 
+        require_once("./Services/Component/test/ilComponentInfoTest.php");
+        $suite->addTestSuite(ilComponentInfoTest::class);
+
         require_once("./Services/Component/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
         $suite->addTestSuite(ilComponentDefinitionInfoProcessorTest::class);
 

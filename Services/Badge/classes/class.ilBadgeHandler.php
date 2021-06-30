@@ -146,9 +146,10 @@ class ilBadgeHandler
         if (!$this->component_data_db->hasComponentId($a_id)) {
             return null;
         }
+        $component = $this->component_data_db->getComponentById($a_id);
         return [
-            "type" => $this->component_data_db->getComponentType($a_id),
-            "name" => $this->component_data_db->getComponentName($a_id)
+            "type" => $component->getType(),
+            "name" => $component->getName()
         ];
     }
     

@@ -45,7 +45,7 @@ class ilCachedComponentData
         }
     }
 
-    /**
+    /** !!!
      * @return array
      */
     public function getIlPluginslotById()
@@ -53,7 +53,7 @@ class ilCachedComponentData
         return $this->il_pluginslot_by_id;
     }
 
-    /**
+    /** !!!
      * @return array
      */
     public function getIlPluginById()
@@ -61,7 +61,7 @@ class ilCachedComponentData
         return $this->il_plugin_by_id;
     }
 
-    /**
+    /** !!!
      * @return array
      */
     public function getIlPluginActive()
@@ -88,7 +88,8 @@ class ilCachedComponentData
         return self::$instance;
     }
 
-
+    /** !!!
+     **/
     public static function flush()
     {
         ilGlobalCache::getInstance(ilGlobalCache::COMP_COMPONENT)->flush();
@@ -96,7 +97,7 @@ class ilCachedComponentData
     }
 
 
-    /**
+    /** !!!
      * @param $name
      *
      * @return mixed
@@ -107,7 +108,7 @@ class ilCachedComponentData
     }
 
 
-    /**
+    /** !!!
      * @param $slot_id
      *
      * @return mixed
@@ -121,7 +122,7 @@ class ilCachedComponentData
         }
     }
 
-    /**
+    /** !!!
      * @param $component
      *
      * @return mixed
@@ -136,7 +137,7 @@ class ilCachedComponentData
     }
 
 
-    /**
+    /** !!!
      * @param $id
      *
      * @return mixed
@@ -147,7 +148,7 @@ class ilCachedComponentData
     }
 
 
-    /**
+    /** !!!
      * @param $name
      *
      * @return mixed
