@@ -29,11 +29,6 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @var integer
     */
     public $maxNumOfChars;
-    
-    /**
-     * @var bool
-     */
-    protected $wordCounterEnabled;
 
     /**
     * Keywords of the question
@@ -153,13 +148,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -328,7 +323,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $this->maxNumOfChars = $maxchars;
     }
-    
+
     /**
      * @return bool
      */
@@ -336,7 +331,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         return $this->wordCounterEnabled;
     }
-    
+
     /**
      * @param bool $wordCounterEnabled
      */
@@ -685,7 +680,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             'matchcondition' => array('integer', $this->matchcondition),
             'keyword_relation' => array('text', $this->getKeywordRelation())
         );
-        
+
         $ilDB->insert($this->getAdditionalTableName(), $fields);
     }
 
@@ -1066,17 +1061,30 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         return ilStr::strLen($text);
     }
     
-    public function countWords($text)
+    public function getLatestAutosaveContent($active_id)
     {
-        $text = str_replace('&nbsp;', ' ', $text);
-        
-        $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
-        
-        $text = preg_replace('/^\s*/m', '', $text);
-        $text = preg_replace('/\s*$/m', '', $text);
-        $text = preg_replace('/\s+/m', ' ', $text);
+        $question_fi = $this->getId();
 
-        return count(explode(' ', $text));
+        // Do we have an unauthorized result?
+        $cntresult = $this->db->query('
+            SELECT count(solution_id) cnt
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+        );
+        $row = $this->db->fetchAssoc($cntresult);
+        if($row['cnt'] > 0 ) {
+            $tresult = $this->db->query('
+            SELECT value1
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+            );
+            $trow = $this->db->fetchAssoc($tresult);
+            return $trow['value1'];
+        }
+        return '';
     }
-
 }
