@@ -220,7 +220,7 @@ class CaseOfLabel implements Transformation
         // Before the word muss be the start of the string or a space
         // After the word muss be the end of the string or a space
         // Ignore case to include the uppercase in the first step before
-        return "/(\s|^)" . preg_quote($word) . "(\s|$)/i";
+        return "/(\s|^)" . preg_quote($word, '/') . "(\s|$)/i";
     }
 
     protected function replaceHelper(array $result) : string
