@@ -15,7 +15,7 @@ use ILIAS\Refinery\Constraint;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class IsNull extends CustomConstraint implements Constraint
+class IsNull extends CustomConstraint
 {
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {

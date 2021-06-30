@@ -8,7 +8,7 @@ use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
-class HasSpecialChars extends CustomConstraint implements Constraint
+class HasSpecialChars extends CustomConstraint
 {
     protected static string $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/u';
 
