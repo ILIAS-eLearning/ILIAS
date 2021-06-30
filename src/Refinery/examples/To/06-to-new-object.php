@@ -23,7 +23,7 @@ function toNewObject()
             $this->thirdParameter = $thirdParameter;
         }
 
-        public function say()
+        public function say() : string
         {
             return $this->firstParameter;
         }
