@@ -315,7 +315,7 @@ class ilSamlSettingsGUI
 
                 $rule = $this->mapping->getEmptyRule();
                 $rule->setAttribute($id);
-                $rule->setExternalAttribute($form->getInput($rule->getAttribute()));
+                $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
                 $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . '_update'));
                 $this->mapping[$rule->getAttribute()] = $rule;
             }
@@ -323,7 +323,7 @@ class ilSamlSettingsGUI
             foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
                 $rule = $this->mapping->getEmptyRule();
                 $rule->setAttribute('udf_' . $definition['field_id']);
-                $rule->setExternalAttribute($form->getInput($rule->getAttribute()));
+                $rule->setExternalAttribute((string) $form->getInput($rule->getAttribute()));
                 $rule->updateAutomatically((bool) $form->getInput($rule->getAttribute() . '_update'));
                 $this->mapping[$rule->getAttribute()] = $rule;
             }
@@ -347,7 +347,7 @@ class ilSamlSettingsGUI
             $data = array();
             foreach ($this->mapping as $rule) {
                 $data[$rule->getAttribute()] = $rule->getExternalAttribute();
-                $data[$rule->getAttribute() . '_update'] = (bool) $rule->isAutomaticallyUpdated();
+                $data[$rule->getAttribute() . '_update'] = $rule->isAutomaticallyUpdated();
             }
             $form->setValuesByArray($data);
         }

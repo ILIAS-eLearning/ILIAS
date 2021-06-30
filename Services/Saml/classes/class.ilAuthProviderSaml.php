@@ -4,7 +4,7 @@
 /**
  * Class ilAuthProviderSaml
  */
-class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
+class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccountMigrationInterface
 {
     protected ilSamlIdp $idp;
     protected array $attributes = [];

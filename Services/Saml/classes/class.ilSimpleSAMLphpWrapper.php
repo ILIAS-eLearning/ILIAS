@@ -126,7 +126,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
             'ReturnStateStage' => 'ilLogoutState'
         ];
 
-        if (strlen($returnUrl) > 0) {
+        if ($returnUrl !== '') {
             $params['ReturnTo'] = $returnUrl;
         }
 

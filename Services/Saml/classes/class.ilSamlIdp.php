@@ -151,11 +151,9 @@ class ilSamlIdp
         $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
         $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
 
-        /**
-         * @var $metadata ilSamlIdpMetadataInputGUI
-         */
+        /** @var $metadata ilSamlIdpMetadataInputGUI */
         $metadata = $form->getItemByPostVar('metadata');
-        $this->setEntityId((string) $metadata->getIdpMetadataParser()->getEntityId());
+        $this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
     }
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
@@ -168,7 +166,7 @@ class ilSamlIdp
         $auth_arr = explode('_', $a_auth_mode);
         return (
             count($auth_arr) === 2 &&
-            (int) $auth_arr[0] === (int) AUTH_SAML &&
+            (int) $auth_arr[0] === AUTH_SAML &&
             is_string($auth_arr[1]) && $auth_arr[1] !== ''
         );
     }

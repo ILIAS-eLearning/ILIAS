@@ -5,7 +5,7 @@
  * Class ilAuthFrontendCredentialsSaml
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
 {
     protected ilSamlAuth $auth;
     protected string $return_to = '';
