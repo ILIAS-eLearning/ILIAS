@@ -1,10 +1,6 @@
-<?php
-declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\To\Transformation;
 
@@ -13,6 +9,9 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class TupleTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
@@ -21,7 +20,7 @@ class TupleTransformation implements Transformation
     /**
      * @var Transformation[]
      */
-    private $transformations;
+    private array $transformations;
 
     /**
      * @param array $transformations
@@ -70,9 +69,6 @@ class TupleTransformation implements Transformation
         return $result;
     }
 
-    /**
-     * @param $values
-     */
     private function validateValueLength($values)
     {
         $countOfValues = count($values);

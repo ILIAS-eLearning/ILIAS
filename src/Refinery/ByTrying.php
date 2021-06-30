@@ -20,12 +20,9 @@ class ByTrying implements Transformation
     /**
      * @var Transformation[]
      */
-    protected $transformations;
+    protected array $transformations;
 
-    /**
-     * @var Data\Factory
-     */
-    protected $data_factory;
+    protected Data\Factory $data_factory;
 
     /**
      * @var callable

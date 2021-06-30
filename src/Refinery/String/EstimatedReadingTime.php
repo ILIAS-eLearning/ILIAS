@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
@@ -12,19 +13,10 @@ class EstimatedReadingTime implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /** @var int  */
-    private $wordsPerMinute = 275;
+    private int $wordsPerMinute = 275;
+    private int $firstImageReadingTimeInSeconds = 12;
+    private bool $withImages = false;
 
-    /** @var int */
-    private $firstImageReadingTimeInSeconds = 12;
-    
-    /** @var bool */
-    private $withImages = false;
-
-    /**
-     * ReadingTime constructor.
-     * @param bool $withImages
-     */
     public function __construct(bool $withImages)
     {
         $this->withImages = $withImages;
@@ -42,10 +34,6 @@ class EstimatedReadingTime implements Transformation
         return $this->calculate($from);
     }
 
-    /**
-     * @param string $text
-     * @return int
-     */
     private function calculate(string $text) : int
     {
         $text = mb_convert_encoding(

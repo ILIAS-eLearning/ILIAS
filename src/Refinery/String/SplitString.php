@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
@@ -15,21 +16,10 @@ class SplitString implements Transformation
 {
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var string
-     */
-    protected $delimiter;
+    protected string $delimiter;
+    private Factory $factory;
 
-    /**
-     * @var Factory
-     */
-    private $factory;
-
-    /**
-     * @param string $delimiter
-     * @param Factory $factory
-     */
-    public function __construct($delimiter, Factory $factory)
+    public function __construct(string $delimiter, Factory $factory)
     {
         $this->delimiter = $delimiter;
         $this->factory = $factory;

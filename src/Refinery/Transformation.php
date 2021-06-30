@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -44,9 +45,6 @@ interface Transformation
      * If you are implementing some entity that performs processing of input data at
      * some boundary, the reification of exceptions might help you to write cleaner
      * code.
-     *
-     * @param Result $result
-     * @return Result
      */
     public function applyTo(Result $result) : Result;
 

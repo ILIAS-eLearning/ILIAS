@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Logical;
@@ -16,7 +17,7 @@ class LogicalOr extends Constraint
     /**
      * @var Constraint[]
      */
-    protected $other = [];
+    protected array $other = [];
 
     /**
      * LogicalOr constructor.

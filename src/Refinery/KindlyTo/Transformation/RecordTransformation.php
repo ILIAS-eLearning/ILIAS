@@ -14,7 +14,7 @@ class RecordTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private $transformations;
+    private array $transformations;
 
     /**
      *@param Transformation[] $transformations
