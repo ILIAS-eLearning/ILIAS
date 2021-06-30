@@ -6908,3 +6908,67 @@ if (!$ilDB->tableColumnExists('frm_settings', 'lp_req_num_postings')) {
     );
 }
 ?>
+<#5805>
+<?php
+$query = "
+    SELECT 
+           u.usr_id, d.top_frm_fk obj_id,
+           MIN(f.pos_date) first_access_datetime,
+           MAX(f.pos_date) last_access_datetime
+    FROM frm_posts f
+    INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk
+    INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk
+    INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
+    INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
+    LEFT JOIN read_event re ON re.obj_id = d.top_frm_fk AND re.usr_id = u.usr_id
+    WHERE re.usr_id IS NULL AND t.parent_pos != %s
+    GROUP BY u.usr_id, d.top_frm_fk
+";
+$res = $ilDB->queryF($query, ['integer'], [0]);
+
+$frm_read_stats_statement = $ilDB->prepare('
+    SELECT MAX(access_last) last_access_ts
+    FROM frm_thread_access
+    WHERE usr_id = ? AND obj_id = ? AND (access_last > 0 AND access_last IS NOT NULL)
+', ['integer', 'integer']);
+
+while ($row = $ilDB->fetchAssoc($res)) {
+    $firs_access_datetime = null;
+    $last_access_ts = null;
+
+    if ($row['last_access_datetime_fallback']) {
+        $last_access_ts = strtotime($row['last_access_datetime_fallback']);
+    }
+
+    $access_res = $ilDB->execute($frm_read_stats_statement, [$row['usr_id'], $row['usr_id']]);
+    $access_row = $ilDB->fetchAssoc($access_res);
+    if (
+        (is_array($access_row) && $access_row['last_access_ts'] > 0) &&
+        (null === $last_access_ts || $access_row['last_access_ts'] > $last_access_ts)
+    ) {
+        $last_access_ts = $access_row['last_access_ts'];
+    }
+    if (null === $last_access_ts) {
+        $last_access_ts = time();
+    }
+
+    if ($row['first_access_datetime']) {
+        $firs_access_datetime = $row['first_access_datetime'];
+    }
+    if (null === $firs_access_datetime) {
+        $firs_access_datetime = date('Y-m-d H:i:s');
+    }
+
+    $ilDB->insert(
+        'read_event',
+        [
+            'obj_id' => ['integer', $row['obj_id']],
+            'usr_id' => ['integer', $row['usr_id']],
+            'read_count' => ['integer', 1],
+            'spent_seconds' => ['integer', 1],
+            'first_access' => ['timestamp', $firs_access_datetime],
+            'last_access' => ['integer', $last_access_ts]
+        ]
+    );
+}
+?>
