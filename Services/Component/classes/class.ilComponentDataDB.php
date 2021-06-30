@@ -6,13 +6,6 @@
 interface ilComponentDataDB
 {
     /**
-     * Get all component ids.
-     *
-     * @return Iterator <string>
-     */
-    public function getComponentIds() : Iterator;
-
-    /**
      * Check if a component exists.
      *
      * @throws \InvalidArgumentException if $type is not known
@@ -25,23 +18,25 @@ interface ilComponentDataDB
     public function hasComponentId(string $id) : bool;
 
     /**
-     * Get the id of a component.
+     * Get all components.
      *
-     * @throws \InvalidArgumentException if component does not exist
+     * Keys are the ids.
+     *
+     * @return Iterator <string, ilComponentInfo>
      */
-    public function getComponentId(string $type, string $name) : string;
+    public function getComponents() : Iterator;
 
     /**
-     * Get the type of a component.
+     * Get a component by id.
      *
      * @throws \InvalidArgumentException if component does not exist
      */
-    public function getComponentType(string $id) : string;
+    public function getComponentById(string $id) : ilComponentInfo;
 
     /**
-     * Get the name of a component.
+     * Get a component by type and name.
      *
      * @throws \InvalidArgumentException if component does not exist
      */
-    public function getComponentName(string $id) : string;
+    public function getComponentByTypeAndName(string $type, string $name) : ilComponentInfo;
 }

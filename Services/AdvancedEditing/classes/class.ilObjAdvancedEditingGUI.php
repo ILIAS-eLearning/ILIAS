@@ -578,15 +578,16 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $sh->setInfo($lng->txt("copg_allow_html_info"));
         $form->addItem($sh);
 
-        $comps = ilComponent::getAll();
-        $comps_per_dir = array_column(array_map(function ($k, $v) {
-            return [$v["type"] . "/" . $v["name"], $v];
+        $component_data_db = new ilArtifactComponentDataDB();
+        $comps = iterator_to_array($component_data_db->getComponents());
+        $comps_per_dir = array_column(array_map(function ($k, $c) {
+            return [$c->getType() . "/" . $c->getName(), $c];
         }, array_keys($comps), $comps), 1, 0);
 
         $cdef = new ilCOPageObjDef();
         foreach ($cdef->getDefinitions() as $key => $def) {
             if (in_array($key, $this->getPageObjectKeysWithOptionalHTML())) {
-                $comp_id = $comps_per_dir[$def["component"]]["id"];
+                $comp_id = $comps_per_dir[$def["component"]]->getId();
                 $this->lng->loadLanguageModule($comp_id);
                 $cb = new ilCheckboxInputGUI($def["component"] . ": " . $this->lng->txt($comp_id . "_page_type_" . $key), "act_html_" . $key);
                 $cb->setChecked((bool) $aset->get("act_html_" . $key));

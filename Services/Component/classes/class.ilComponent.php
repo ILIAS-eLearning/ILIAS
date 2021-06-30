@@ -57,10 +57,10 @@ abstract class ilComponent
         $this->component_data_db = new ilArtifactComponentDataDB();
 
         $this->setId(
-            $this->component_data_db->getComponentId(
+            $this->component_data_db->getComponent(
                 $this->getComponentType(),
                 $this->getName()
-            )
+            )->getId()
         );
         $this->setPluginSlots(ilComponent::lookupPluginSlots(
             $this->getComponentType(),
@@ -215,7 +215,7 @@ abstract class ilComponent
     public static function lookupId($a_type, $a_name)
     {
         $component_data_db = new ilArtifactComponentDataDB();
-        return $component_data_db->getComponentId($a_type, $a_name);
+        return $component_data_db->getComponentByTypeAndName($a_type, $a_name)->getId();
     }
     
     /**
@@ -274,16 +274,6 @@ abstract class ilComponent
         if (!$component_data_db->hasComponent($a_component_id)) {
             return null;
         }
-        return $component_data_db->getComponentName($a_component_id);
-    }
-
-    /**
-     * Get all
-     * @return array
-     */
-    public static function getAll()
-    {
-        $component_data_db = new ilArtifactComponentDataDB();
-        return iterator_to_array($component_data_db->getComponentIds());
+        return $component_data_db->getComponentById($a_component_id)->getName();
     }
 }
