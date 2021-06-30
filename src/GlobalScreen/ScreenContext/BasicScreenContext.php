@@ -104,7 +104,7 @@ class BasicScreenContext implements ScreenContext
      */
     public function addAdditionalDataIfNotExist(string $key, $value) : ScreenContext
     {
-        if($this->additional_data->exists($key)) {
+        if ($this->additional_data->exists($key)) {
             $this->additional_data->replace($key, $value);
         } else {
             $this->additional_data->add($key, $value);
