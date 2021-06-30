@@ -49,9 +49,15 @@ class ilForumLP extends ilObjectLP
   
     public static function getDefaultModes($a_lp_active)
     {
+        if (true === $a_lp_active) {
+            return [
+                ilLPObjSettings::LP_MODE_DEACTIVATED,
+                ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION,
+            ];
+        }
+
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
-            ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION,
         ];
     }
 
