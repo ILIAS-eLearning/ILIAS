@@ -14,7 +14,7 @@ class ListTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private $transformation;
+    private Transformation $transformation;
 
     public function __construct(Transformation $transformation)
     {

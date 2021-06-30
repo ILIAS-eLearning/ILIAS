@@ -1,11 +1,6 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 
 namespace ILIAS\Refinery\To;
 
@@ -22,12 +17,12 @@ use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
 use ILIAS\Refinery\Transformation;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class Group
 {
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    private $dataFactory;
+    private \ILIAS\Data\Factory $dataFactory;
 
     /**
      * @param \ILIAS\Data\Factory $dataFactory
@@ -40,7 +35,6 @@ class Group
     /**
      * Returns an object that allows to transform a value
      * to a string value
-     * @return StringTransformation
      */
     public function string() : StringTransformation
     {
@@ -50,7 +44,6 @@ class Group
     /**
      * Returns an object that allows to transform a value
      * to an integer value
-     * @return IntegerTransformation
      */
     public function int() : IntegerTransformation
     {
@@ -60,7 +53,6 @@ class Group
     /**
      * Returns an object that allows to transform a value
      * to a float value
-     * @return FloatTransformation
      */
     public function float() : FloatTransformation
     {
@@ -70,7 +62,6 @@ class Group
     /**
      * Returns an object that allows to transform a value
      * to a boolean value
-     * @return BooleanTransformation
      */
     public function bool() : BooleanTransformation
     {
@@ -84,9 +75,6 @@ class Group
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     *
-     * @param Transformation $transformation
-     * @return Transformation
      */
     public function listOf(Transformation $transformation) : Transformation
     {
@@ -100,9 +88,6 @@ class Group
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     *
-     * @param Transformation $transformation
-     * @return Transformation
      */
     public function dictOf(Transformation $transformation) : Transformation
     {
@@ -120,9 +105,6 @@ class Group
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     *
-     * @param array $transformation
-     * @return Transformation
      */
     public function tupleOf(array $transformation) : Transformation
     {
@@ -142,9 +124,6 @@ class Group
      *
      * Using `ILIAS\Refinery\Factory::to()` will check if the value is identical
      * to the value after the transformation.
-     *
-     * @param array $transformations
-     * @return Transformation
      */
     public function recordOf(array $transformations) : Transformation
     {
@@ -156,9 +135,6 @@ class Group
      * existing class, with variations of constructor parameters OR returns
      * an transformation object to execute a certain method with variation of
      * parameters on the objects.
-     *
-     * @param $classNameOrArray
-     * @return Transformation
      */
     public function toNew($classNameOrArray) : Transformation
     {
@@ -180,7 +156,6 @@ class Group
     {
         return $this->toNew(array($this->dataFactory, $dataType));
     }
-
 
     public function dateTime() : DateTimeTransformation
     {

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Password;
@@ -9,7 +10,7 @@ use ILIAS\Data;
 
 class HasSpecialChars extends CustomConstraint implements Constraint
 {
-    protected static $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/';
+    protected static string $ALLOWED_CHARS = '/[,_.\-#\+\*?!%§\(\)\$]/';
 
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {
