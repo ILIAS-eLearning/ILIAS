@@ -250,7 +250,7 @@ class ilLMPresentationGUI
                     $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL, true);
                 }
             }
-            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_LINK_SLATES, true);
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalDataIfNotExist(ilLMGSToolProvider::SHOW_LINK_SLATES, true);
         }
 
         if ($embed_mode) {
@@ -260,7 +260,7 @@ class ilLMPresentationGUI
                 "ref_id" => $this->lm->getRefId(),
                 "frame" => ""
             ];
-            $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+            $DIC->globalScreen()->tool()->context()->current()->addAdditionalDataIfNotExist(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
         }
     }
 

@@ -53,6 +53,13 @@ interface ScreenContext
      */
     public function addAdditionalData(string $key, $value) : ScreenContext;
 
+    /**
+     * @param string $key
+     * @param        $value
+     *
+     * @return ScreenContext
+     */
+    public function addAdditionalDataIfNotExist(string $key, $value) : ScreenContext;
 
     /**
      * @return Collection
