@@ -7792,6 +7792,13 @@ ul.dropdown-menu > li > .btn:focus {
   color: #557196;
   padding: 3px 3px;
 }
+.panel-secondary .il-viewcontrol-section .btn-default,
+.panel-secondary .il-viewcontrol-section .btn-default:active {
+  background-color: transparent;
+  border-color: transparent;
+  color: #557196;
+  box-shadow: none;
+}
 .breadcrumbs {
   -ms-flex-align: center;
   align-items: center;
@@ -19145,7 +19152,7 @@ span.ilProfileBadge .modal .img-responsive {
 .ilPreviewText {
   font-size: 90%;
   margin-top: -20px;
-  color: #434343;
+  /* color: @il-neutral-color; out-commented, since currently undefined, leads to less errors, alex, 25 jun 2021*/
 }
 .ilPreviewTextLoading {
   width: 14px;
@@ -19162,8 +19169,8 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewStatusNone {
   filter: alpha(opacity=60);
-  -moz-opacity: 0.60;
-  opacity: 0.60;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
 }
 /* tooltip */
 #qtip-preview {
