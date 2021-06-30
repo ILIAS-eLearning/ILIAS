@@ -12,7 +12,7 @@ class ilForumLP extends ilObjectLP
 
         if (ilLPObjSettings::LP_MODE_CONTRIBUTION_TO_DISCUSSION === $mode) {
             $num_postings = new ilNumberInputGUI(
-                $DIC->language()->txt('frm_lp_number_of_postings'),
+                $DIC->language()->txt('trac_frm_contribution_num_postings'),
                 'number_of_postings'
             );
             $num_postings->allowDecimals(false);
