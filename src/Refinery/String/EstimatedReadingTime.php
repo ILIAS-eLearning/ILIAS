@@ -15,7 +15,7 @@ class EstimatedReadingTime implements Transformation
 
     private int $wordsPerMinute = 275;
     private int $firstImageReadingTimeInSeconds = 12;
-    private bool $withImages = false;
+    private bool $withImages;
 
     public function __construct(bool $withImages)
     {

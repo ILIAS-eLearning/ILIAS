@@ -11,12 +11,12 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class BooleanTransformation implements Transformation
 {
-    const BOOL_TRUE_STRING = 'true';
-    const BOOL_FALSE_STRING = 'false';
-    const BOOL_TRUE_NUMBER = 1;
-    const BOOL_FALSE_NUMBER = 0;
-    const BOOL_TRUE_NUMBER_STRING = '1';
-    const BOOL_FALSE_NUMBER_STRING = '0';
+    private const BOOL_TRUE_STRING = 'true';
+    private const BOOL_FALSE_STRING = 'false';
+    private const BOOL_TRUE_NUMBER = 1;
+    private const BOOL_FALSE_NUMBER = 0;
+    private const BOOL_TRUE_NUMBER_STRING = '1';
+    private const BOOL_FALSE_NUMBER_STRING = '0';
 
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;

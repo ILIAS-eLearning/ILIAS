@@ -11,7 +11,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class IntegerTransformation implements Transformation
 {
-    const REG_INT = '/^\s*(0|(-?[1-9]\d*))\s*$/';
+    private const REG_INT = '/^\s*(0|(-?[1-9]\d*))\s*$/';
 
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
@@ -25,9 +25,9 @@ class IntegerTransformation implements Transformation
             return $from;
         }
 
-        if (is_float($from) && !is_nan($from) && $from !== INF && $from !== -INF) {
+        if ($from !== INF && $from !== -INF && is_float($from) && !is_nan($from)) {
             $from = round($from);
-            return intval($from);
+            return (int) $from;
         }
 
         if (is_bool($from)) {
@@ -35,7 +35,7 @@ class IntegerTransformation implements Transformation
         }
 
         if (is_string($from) && preg_match(self::REG_INT, $from)) {
-            $int = intval($from);
+            $int = (int) $from;
             // This is supposed to guard against PHP_MIN_INT and PHP_MAX_INT.
             // We only return the value if it looks the same when transforming it
             // back to string. This won't be the case for too big or too small
