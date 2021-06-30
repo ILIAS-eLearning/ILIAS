@@ -26,8 +26,8 @@ class StringTransformation implements Transformation
      */
     public function transform($from)
     {
-        if (is_int($from) || is_float($from) || is_double($from)) {
-            return strval($from);
+        if (is_int($from) || is_float($from)) {
+            return (string) $from;
         }
 
         if (is_bool($from) || $from === self::BOOL_TRUE_NUMBER || $from === self::BOOL_FALSE_NUMBER) {
