@@ -7,9 +7,6 @@
  */
 class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestRule extends ilBuddySystemRelationStateFilterRule
 {
-    /**
-     * @inheritDoc
-     */
     public function matches() : bool
     {
         if (!$this->relation->isIgnored()) {
@@ -23,9 +20,6 @@ class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestR
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __invoke(ilBuddySystemRelationState $state) : bool
     {
         if ($state instanceof ilBuddySystemLinkedRelationState) {

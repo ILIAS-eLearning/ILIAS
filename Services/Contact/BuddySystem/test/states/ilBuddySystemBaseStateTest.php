@@ -20,9 +20,13 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 
     protected function setUp() : void
     {
-        $this->relation = new ilBuddySystemRelation($this->getInitialState());
-        $this->relation->setUsrId(self::RELATION_OWNER_ID);
-        $this->relation->setBuddyUsrId(self::RELATION_BUDDY_ID);
+        $this->relation = new ilBuddySystemRelation(
+            $this->getInitialState(),
+            self::RELATION_OWNER_ID,
+            self::RELATION_BUDDY_ID,
+            false,
+            time()
+        );
     }
 
     /**

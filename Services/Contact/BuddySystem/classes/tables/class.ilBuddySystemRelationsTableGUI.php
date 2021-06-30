@@ -7,26 +7,14 @@
  */
 class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
-    /** @var string */
     private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
-
-    /** @var string */
     private const RESET_FILTER_CMD = 'resetContactsTableFilter';
-
-    /** @var string */
     private const STATE_FILTER_ELM_ID = 'relation_state_type';
 
-    /** @var ilTemplate */
-    protected $containerTemplate;
-
-    /** @var bool */
-    protected $hasAccessToMailSystem = false;
-
-    /** @var bool */
-    protected $isChatEnabled = false;
-
-    /** @var ilObjUser */
-    protected $user;
+    protected ilGlobalTemplateInterface $containerTemplate;
+    protected bool $hasAccessToMailSystem = false;
+    protected bool $isChatEnabled = false;
+    protected ilObjUser $user;
 
     /**
      * @param object $a_parent_obj
@@ -188,8 +176,11 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $public_profile = ilObjUser::_lookupPref($a_set['usr_id'], 'public_profile');
         if ((!$this->user->isAnonymous() && $public_profile === 'y') || $public_profile === 'g') {
-            $this->ctrl->setParameterByClass('ilpublicuserprofilegui', 'user', $a_set['usr_id']);
-            $profile_target = $this->ctrl->getLinkTargetByClass('ilpublicuserprofilegui', 'getHTML');
+            $this->ctrl->setParameterByClass(ilPublicUserProfileGUI::class, 'user', $a_set['usr_id']);
+            $profile_target = $this->ctrl->getLinkTargetByClass(
+                ilPublicUserProfileGUI::class,
+                'getHTML'
+            );
             $a_set['profile_link'] = $profile_target;
             $a_set['linked_public_name'] = $a_set['public_name'];
 

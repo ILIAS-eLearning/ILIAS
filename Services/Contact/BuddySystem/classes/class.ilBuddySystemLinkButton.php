@@ -7,17 +7,10 @@
  */
 class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
 {
-    /** @var int */
-    protected $usrId;
-
-    /** @var ilBuddyList */
-    protected $buddyList;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var ilObjUser */
-    protected $user;
+    protected int $usrId;
+    protected ilBuddyList $buddyList;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
 
     /**
      * ilBuddySystemLinkButton constructor.
@@ -45,33 +38,16 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
         return new self($usrId);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getUsrId() : int
     {
         return $this->usrId;
     }
 
-    /**
-     * @param int $usrId
-     */
-    public function setUsrId(int $usrId)
-    {
-        $this->usrId = $usrId;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getBuddyList() : ilBuddyList
     {
         return $this->buddyList;
     }
 
-    /**
-     * @return string
-     */
     public function getHtml() : string
     {
         $this->lng->loadLanguageModule('buddysystem');

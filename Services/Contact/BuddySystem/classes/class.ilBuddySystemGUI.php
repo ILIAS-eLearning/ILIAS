@@ -14,30 +14,15 @@ class ilBuddySystemGUI
     private const BS_REQUEST_HTTP_GET = 1;
     private const BS_REQUEST_HTTP_POST = 2;
 
-    /** @var bool */
-    protected static $isFrontendInitialized = false;
+    protected static bool $isFrontendInitialized = false;
 
-    /** @var ilCtrl */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilBuddyList $buddyList;
+    protected ilBuddySystemRelationStateFactory $stateFactory;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected HTTPServices $http;
 
-    /** @var ilBuddyList */
-    protected $buddyList;
-
-    /** @var ilBuddySystemRelationStateFactory */
-    protected $stateFactory;
-
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var HTTPServices */
-    protected $http;
-
-    /**
-     * ilBuddySystemGUI constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -53,17 +38,14 @@ class ilBuddySystemGUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    /**
-     * @param ilGlobalTemplateInterface $page
-     */
     public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
     {
         global $DIC;
 
         if (
+            !self::$isFrontendInitialized &&
             ilBuddySystem::getInstance()->isEnabled() &&
-            !$DIC->user()->isAnonymous() &&
-            !self::$isFrontendInitialized
+            !$DIC->user()->isAnonymous()
         ) {
             $DIC->language()->loadLanguageModule('buddysystem');
 
@@ -71,8 +53,8 @@ class ilBuddySystemGUI
 
             $config = new stdClass();
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([
-                'ilUIPluginRouterGUI',
-                'ilBuddySystemGUI'
+                ilUIPluginRouterGUI::class,
+                self::class
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
             $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config) . ');');
@@ -116,50 +98,42 @@ class ilBuddySystemGUI
     {
         switch ($type) {
             case self::BS_REQUEST_HTTP_POST:
-                return isset($_POST[$key]) && strlen($_POST[$key]);
+                $body = $this->http->request()->getParsedBody();
+                return (isset($body[$key]) && is_string($body[$key]) && $body[$key] !== '');
 
             case self::BS_REQUEST_HTTP_GET:
             default:
-                return isset($_GET[$key]) && strlen($_GET[$key]);
+                $query = $this->http->request()->getQueryParams();
+                return (isset($query[$key]) && is_string($query[$key]) && $query[$key] !== '');
         }
     }
 
-    /**
-     *
-     */
     private function requestCommand() : void
     {
-        $this->transitionCommand('request', 'buddy_relation_requested', function (ilBuddySystemRelation $relation) {
-            if (
-                $relation->isUnlinked() &&
-                !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
-            ) {
-                throw new ilException('The requested user does not want to get contact requests');
+        $this->transitionCommand(
+            'request',
+            'buddy_relation_requested',
+            static function (ilBuddySystemRelation $relation) : void {
+                if (
+                    $relation->isUnlinked() &&
+                    !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
+                ) {
+                    throw new ilException('The requested user does not want to get contact requests');
+                }
             }
-        });
+        );
     }
 
-    /**
-     *
-     */
     private function ignoreCommand() : void
     {
         $this->transitionCommand('ignore', 'buddy_request_ignored');
     }
 
-    /**
-     *
-     */
     private function linkCommand() : void
     {
         $this->transitionCommand('link', 'buddy_request_approved');
     }
 
-    /**
-     * @param string $cmd
-     * @param string $positiveFeedbackLanguageId
-     * @param callable|null $onBeforeExecute
-     */
     private function transitionCommand(
         string $cmd,
         string $positiveFeedbackLanguageId,
@@ -170,8 +144,9 @@ class ilBuddySystemGUI
             $this->ctrl->returnToParent($this);
         }
 
+        $usrId = (int) $this->http->request()->getParsedBody()['user_id'];
         try {
-            $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int) $_GET['user_id']);
+            $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($usrId);
 
             if (null !== $onBeforeExecute) {
                 $onBeforeExecute($relation);
@@ -182,7 +157,7 @@ class ilBuddySystemGUI
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
             ilUtil::sendInfo(sprintf(
                 $this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])
+                (string) ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
             ilUtil::sendInfo($this->lng->txt('buddy_bs_action_not_possible'), true);
@@ -200,11 +175,11 @@ class ilBuddySystemGUI
             throw new RuntimeException('This action only supports AJAX http requests');
         }
 
-        if (!isset($_POST['usr_id']) || !is_numeric($_POST['usr_id'])) {
+        if (!$this->isRequestParameterGiven('usr_id', self::BS_REQUEST_HTTP_POST)) {
             throw new RuntimeException('Missing "usr_id" parameter');
         }
 
-        if (!isset($_POST['action']) || !strlen($_POST['action'])) {
+        if (!$this->isRequestParameterGiven('action', self::BS_REQUEST_HTTP_POST)) {
             throw new RuntimeException('Missing "action" parameter');
         }
 
@@ -212,8 +187,8 @@ class ilBuddySystemGUI
         $response->success = false;
 
         try {
-            $usr_id = (int) $_POST['usr_id'];
-            $action = ilUtil::stripSlashes($_POST['action']);
+            $usr_id = (int) $this->http->request()->getParsedBody()['usr_id'];
+            $action = ilUtil::stripSlashes($this->http->request()->getParsedBody()['action']);
 
             if (ilObjUser::_isAnonymous($usr_id)) {
                 throw new ilBuddySystemException(sprintf(
@@ -222,7 +197,8 @@ class ilBuddySystemGUI
                 ));
             }
 
-            if (!strlen(ilObjUser::_lookupLogin($usr_id))) {
+            $login = ilObjUser::_lookupLogin($usr_id);
+            if ($login === false || $login === '') {
                 throw new ilBuddySystemException(sprintf(
                     'You cannot perform a state transition for a non existing user (id: %s)',
                     $usr_id
@@ -242,8 +218,8 @@ class ilBuddySystemGUI
             try {
                 $this->buddyList->{$action}($relation);
                 $response->success = true;
-            } catch (ilBuddySystemRelationStateAlreadyGivenException| ilBuddySystemRelationStateTransitionException $e) {
-                $response->message = sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int) $usr_id));
+            } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
+                $response->message = sprintf($this->lng->txt($e->getMessage()), $login);
             } catch (Exception $e) {
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');
             }
@@ -257,8 +233,13 @@ class ilBuddySystemGUI
             $response->message = $this->lng->txt('buddy_bs_action_not_possible');
         }
 
-        echo json_encode($response);
-        exit();
+        $this->http->saveResponse(
+            $this->http->response()
+                ->withAddedHeader('Content-Type', 'application/json')
+                ->withBody(ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response)))
+        );
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     private function redirectToReferer() : void

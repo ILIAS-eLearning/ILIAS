@@ -7,18 +7,9 @@
  */
 interface ilBuddySystemLinkButtonType
 {
-    /**
-     * @return string
-     */
     public function getHTML() : string;
 
-    /**
-     * @return int
-     */
     public function getUsrId() : int;
 
-    /**
-     * @return ilBuddyList
-     */
     public function getBuddyList() : ilBuddyList;
 }

@@ -19,7 +19,13 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     public function testPriorStateIsEmptyAfterInstanceWasCreated() : void
     {
         $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
-        $relation = new ilBuddySystemRelation($stateMock);
+        $relation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
         $this->assertNull($relation->getPriorState());
     }
 
@@ -33,7 +39,13 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
         $finishStateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
         $stateMock->expects($this->any())->method('link');
 
-        $relation = new ilBuddySystemRelation($stateMock);
+        $relation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
         $relation->setState($furtherStateMock);
         $this->assertEquals($stateMock, $relation->getPriorState());
         $relation->setState($finishStateMock);
@@ -46,17 +58,23 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     public function testValuesCanBeFetchedByGettersWhenSetBySetters() : void
     {
         $stateMock = $this->getMockBuilder(ilBuddySystemRelationState::class)->getMock();
-        $relation = new ilBuddySystemRelation($stateMock);
+        $ts = time();
+        $relation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
 
-        $relation->setUsrId(1);
+        $relation = $relation->withUsrId(1);
         $this->assertEquals(1, $relation->getUsrId());
 
-        $relation->setBuddyUsrId(2);
+        $relation = $relation->withBuddyUsrId(2);
         $this->assertEquals(2, $relation->getBuddyUsrId());
 
-        $ts = time();
-        $relation->setTimestamp($ts);
-        $this->assertEquals($ts, $relation->getTimestamp());
+        $relation = $relation->withTimestamp($ts + 1);
+        $this->assertEquals($ts + 1, $relation->getTimestamp());
     }
 
     /**
@@ -66,10 +84,16 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
         $stateMock = $this->getMockBuilder(ilBuddySystemUnlinkedRelationState::class)->getMock();
-        $expectedRelation = new ilBuddySystemRelation($stateMock);
+        $expectedRelation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
 
-        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->request();
     }
@@ -81,9 +105,15 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
         $stateMock = $this->getMockBuilder(ilBuddySystemLinkedRelationState::class)->getMock();
-        $expectedRelation = new ilBuddySystemRelation($stateMock);
-        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
+        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->unlink();
     }
@@ -95,9 +125,15 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
         $stateMock = $this->getMockBuilder(ilBuddySystemRequestedRelationState::class)->getMock();
-        $expectedRelation = new ilBuddySystemRelation($stateMock);
-        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
+        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->link();
     }
@@ -109,9 +145,15 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
         $stateMock = $this->getMockBuilder(ilBuddySystemRequestedRelationState::class)->getMock();
-        $expectedRelation = new ilBuddySystemRelation($stateMock);
-        $expectedRelation->setUsrId(self::RELATION_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            $stateMock,
+            self::RELATION_OWNER_ID,
+            self::RELATION_OWNER_ID,
+            false,
+            time()
+        );
+        $expectedRelation->withUsrId(self::RELATION_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(self::RELATION_OWNER_ID);
 
         $expectedRelation->ignore();
     }
