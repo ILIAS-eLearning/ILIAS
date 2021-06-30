@@ -756,10 +756,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         // Import information: Topic (variable $topicData) means frm object, not thread
         $topicData = $frm->getOneTopic();
         if ($topicData) {
-            // Visit-Counter
             $frm->setDbTable('frm_data');
             $frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));
             $frm->updateVisits($topicData['top_pk']);
+
+            ilChangeEvent::_recordReadEvent(
+                $this->object->getType(),
+                $this->object->getRefId(),
+                $this->object->getId(),
+                $this->user->getId()
+            );
 
             if (!in_array($cmd, array('showThreads', 'sortThreads'))) {
                 $cmd = 'showThreads';
