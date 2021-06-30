@@ -8,7 +8,7 @@ use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
-class HasLowerChars extends CustomConstraint implements Constraint
+class HasLowerChars extends CustomConstraint
 {
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {

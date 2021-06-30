@@ -8,7 +8,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class IsNumeric extends CustomConstraint implements Constraint
+class IsNumeric extends CustomConstraint
 {
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {
