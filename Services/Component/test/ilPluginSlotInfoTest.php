@@ -29,5 +29,6 @@ class ilPluginSlotInfoTest extends TestCase
         $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->pluginslot->getComponent());
         $this->assertEquals("slt1", $this->pluginslot->getId());
         $this->assertEquals("Slot1", $this->pluginslot->getName());
+        $this->assertEquals("Modules/Module1/Slot1", $this->pluginslot->getQualifiedName());
     }
 }

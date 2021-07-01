@@ -33,4 +33,9 @@ class ilPluginSlotInfo
     {
         return $this->name;
     }
+
+    public function getQualifiedName() : string
+    {
+        return $this->component->getQualifiedName() . "/" . $this->getName();
+    }
 }
