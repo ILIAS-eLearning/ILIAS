@@ -51,6 +51,11 @@ class ilComponentInfo
         return $this->name;
     }
 
+    public function getQualifiedName() : string
+    {
+        return $this->type . "/" . $this->name;
+    }
+
     /**
      * @return Iterator <ilPluginSlotInfo>
      */
