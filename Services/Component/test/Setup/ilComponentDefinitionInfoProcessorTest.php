@@ -23,7 +23,7 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("module", ["id" => $id]);
         $this->processor->purge();
 
-        $this->assertEquals([ \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => [], \ilArtifactComponentDataDB::BY_ID => []], $this->processor->getData());
+        $this->assertEquals([], $this->processor->getData());
     }
 
     public function testBeginTag() : void
@@ -53,21 +53,13 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $this->processor->beginTag("service", ["id" => $id4]);
 
         $expected = [
-            \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => [
-                $type1 => [
-                    $name1 => $id1,
-                    $name2 => $id2
-                ],
-                $type2 => [
-                    $name3 => $id3,
-                    $name4 => $id4
-                ],
+            $type1 => [
+                $name1 => $id1,
+                $name2 => $id2
             ],
-            \ilArtifactComponentDataDB::BY_ID => [
-                $id1 => [$type1, $name1],
-                $id2 => [$type1, $name2],
-                $id3 => [$type2, $name3],
-                $id4 => [$type2, $name4]
+            $type2 => [
+                $name3 => $id3,
+                $name4 => $id4
             ]
         ];
 

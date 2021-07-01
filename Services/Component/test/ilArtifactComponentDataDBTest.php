@@ -7,32 +7,83 @@ use PHPUnit\Framework\TestCase;
 class ilArtifactComponentDataDBTest extends TestCase
 {
     public static array $component_data = [
-        ilArtifactComponentDataDB::BY_ID => [
-            "mod1" => ["Modules", "Module1"],
-            "mod2" => ["Modules", "Module2"],
-            "ser1" => ["Services", "Service1"],
-            "ser2" => ["Services", "Service2"],
-        ],
-        ilArtifactComponentDataDB::BY_TYPE_AND_NAME => [
-            "Modules" => [
-                "Module1" => "mod1",
-                "Module2" => "mod2"
-            ],
-            "Services" => [
-                "Service1" => "ser1",
-                "Service2" => "ser2"
-            ]
-        ]
+        "mod1" => ["Modules", "Module1", [
+            ["slt1", "Slot1"],
+            ["slt2", "Slot2"],
+        ]],
+        "mod2" => ["Modules", "Module2", [
+        ]],
+        "ser1" => ["Services", "Service1", [
+            ["slt3", "Slot3"]
+        ]],
+        "ser2" => ["Services", "Service2", [
+            ["slt4", "Slot4"]
+        ]]
     ];
 
     protected function setUp() : void
     {
         $this->db = new class() extends ilArtifactComponentDataDB {
-            public function __construct()
+            protected function readComponentData() : array
             {
-                $this->component_data = ilArtifactComponentDataDBTest::$component_data;
+                return ilArtifactComponentDataDBTest::$component_data;
             }
         };
+
+        $slots1 = [];
+        $this->mod1 = new ilComponentInfo(
+            "mod1",
+            "Modules",
+            "Module1",
+            $slots1
+        );
+        $this->slt1 = new ilPluginSlotInfo(
+            $this->mod1,
+            "slt1",
+            "Slot1"
+        );
+        $this->slt2 = new ilPluginSlotInfo(
+            $this->mod1,
+            "slt2",
+            "Slot2"
+        );
+        $slots1 = ["slt1" => $this->slt1, "slt2" => $this->slt2];
+
+        $slots2 = [];
+        $this->mod2 = new ilComponentInfo(
+            "mod2",
+            "Modules",
+            "Module2",
+            $slots2
+        );
+
+        $slots3 = [];
+        $this->ser1 = new ilComponentInfo(
+            "ser1",
+            "Services",
+            "Service1",
+            $slots3
+        );
+        $this->slt3 = new ilPluginSlotInfo(
+            $this->ser1,
+            "slt3",
+            "Slot3"
+        );
+        $slots3 = ["slt3" => $this->slt3];
+
+        $slots4 = [];
+        $this->ser2 = new ilComponentInfo(
+            "ser2",
+            "Services",
+            "Service2",
+            $slots4
+        );
+        $this->slt4 = new ilPluginSlotInfo(
+            $this->ser2,
+            "slt4",
+            "Slot4"
+        );
+        $slots4 = ["slt4" => $this->slt4];
     }
 
     public function testHasComponent()
@@ -76,29 +127,28 @@ class ilArtifactComponentDataDBTest extends TestCase
 
         $this->assertEquals($expected_ids, $ids);
 
-        $slots = [];
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $result["mod1"]);
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $result["mod2"]);
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $result["ser1"]);
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $result["ser2"]);
+        $this->assertEquals($this->mod1, $result["mod1"]);
+        $this->assertEquals($this->mod2, $result["mod2"]);
+        $this->assertEquals($this->ser1, $result["ser1"]);
+        $this->assertEquals($this->ser2, $result["ser2"]);
     }
 
     public function testGetComponentById()
     {
         $slots = [];
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->db->getComponentById("mod1"));
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $this->db->getComponentById("mod2"));
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $this->db->getComponentById("ser1"));
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $this->db->getComponentById("ser2"));
+        $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
+        $this->assertEquals($this->mod2, $this->db->getComponentById("mod2"));
+        $this->assertEquals($this->ser1, $this->db->getComponentById("ser1"));
+        $this->assertEquals($this->ser2, $this->db->getComponentById("ser2"));
     }
 
     public function testGetComponentByTypeAndName()
     {
         $slots = [];
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->db->getComponentByTypeAndName("Modules", "Module1"));
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $this->db->getComponentByTypeAndName("Modules", "Module2"));
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $this->db->getComponentByTypeAndName("Services", "Service1"));
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $this->db->getComponentByTypeAndName("Services", "Service2"));
+        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
+        $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("Modules", "Module2"));
+        $this->assertEquals($this->ser1, $this->db->getComponentByTypeAndName("Services", "Service1"));
+        $this->assertEquals($this->ser2, $this->db->getComponentByTypeAndName("Services", "Service2"));
     }
 
     public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1()
