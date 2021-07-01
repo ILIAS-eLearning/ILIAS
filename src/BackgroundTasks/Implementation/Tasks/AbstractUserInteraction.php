@@ -42,4 +42,11 @@ abstract class AbstractUserInteraction extends AbstractTask implements UserInter
     {
         return $input[0];
     }
+
+    public function isFinal(): bool
+    {
+        return true;
+    }
+
+
 }

@@ -523,17 +523,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $button->setCommand('confirmRemove');
         $top_tb->addStickyItem($button);
 
-        $button2 = ilSubmitButton::getInstance();
-        $button2->setCaption('cancel');
-        $button2->setCommand('cancel');
-        $top_tb->addStickyItem($button2);
-
         $top_tb->setCloseFormTag(false);
 
         $bot_tb = new ilToolbarGUI();
         $bot_tb->setLeadingImage(ilUtil::getImagePath('arrow_downright.svg'), $this->lng->txt('actions'));
         $bot_tb->addStickyItem($button);
-        $bot_tb->addStickyItem($button2);
         $bot_tb->setOpenFormTag(false);
 
         return $top_tb->getHTML() . $this->renderManageList() . $bot_tb->getHTML();
@@ -607,8 +601,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         // #12909
         ilUtil::sendSuccess($this->lng->txt('pd_remove_multi_confirm'), true);
-        $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
-        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+        $this->ctrl->redirect($this, 'manage');
     }
     
     public function confirmedUnsubscribe()
