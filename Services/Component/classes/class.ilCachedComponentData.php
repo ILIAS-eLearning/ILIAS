@@ -146,15 +146,4 @@ class ilCachedComponentData
     {
         return $this->il_pluginslot_by_id[$id];
     }
-
-
-    /** !!!
-     * @param $name
-     *
-     * @return mixed
-     */
-    public function lookupPluginSlotByName($name)
-    {
-        return $this->il_pluginslot_by_name[$name];
-    }
 }
