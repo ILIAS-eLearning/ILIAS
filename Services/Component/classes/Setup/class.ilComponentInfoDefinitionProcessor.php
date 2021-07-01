@@ -16,8 +16,6 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
     public function purge() : void
     {
         $this->data = [
-            \ilArtifactComponentDataDB::BY_ID => [],
-            \ilArtifactComponentDataDB::BY_TYPE_AND_NAME => []
         ];
     }
 
@@ -55,12 +53,7 @@ class ilComponentInfoDefinitionProcessor implements ilComponentDefinitionProcess
             );
         }
 
-        if (!isset($this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type])) {
-            $this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type] = [];
-        }
-
-        $this->data[\ilArtifactComponentDataDB::BY_TYPE_AND_NAME][$this->type][$this->component] = $attributes["id"];
-        $this->data[\ilArtifactComponentDataDB::BY_ID][$attributes["id"]] = [$this->type, $this->component];
+        $this->data[$attributes["id"]] = [$this->type, $this->component, []];
     }
 
     public function endTag(string $name) : void

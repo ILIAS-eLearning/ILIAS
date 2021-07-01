@@ -6,14 +6,42 @@
 class ilArtifactComponentDataDB implements ilComponentDataDB
 {
     public const COMPONENT_DATA_PATH = "Services/Component/artifacts/component_data.php";
-    public const BY_TYPE_AND_NAME = "by_type_and_name";
-    public const BY_ID = "by_id";
 
-    protected array $component_data;
+    protected array $components;
+    protected array $id_by_type_and_name;
 
     public function __construct()
     {
-        $this->component_data = require self::COMPONENT_DATA_PATH;
+        $component_data = $this->readComponentData();
+        $this->components = [];
+        $this->id_by_type_and_name = [
+            "Modules" => [],
+            "Services" => []
+        ];
+        foreach ($component_data as $comp_id => list($type, $comp_name, $slot_data)) {
+            $slots = [];
+            $component = new ilComponentInfo(
+                $comp_id,
+                $type,
+                $comp_name,
+                $slots
+            );
+            foreach ($slot_data as list($slot_id, $slot_name)) {
+                $slots[$slot_id] = new ilPluginSlotInfo(
+                    $component,
+                    $slot_id,
+                    $slot_name
+                );
+            }
+            $this->components[$comp_id] = $component;
+            $this->id_by_type_and_name[$type][$comp_name] = $comp_id;
+            unset($slots);
+        }
+    }
+
+    protected function readComponentData() : array
+    {
+        return require self::COMPONENT_DATA_PATH;
     }
 
     /**
@@ -27,7 +55,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             );
         }
 
-        return isset($this->component_data[self::BY_TYPE_AND_NAME][$type][$name]);
+        return isset($this->id_by_type_and_name[$type][$name]);
     }
 
     /**
@@ -35,7 +63,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
      */
     public function hasComponentId(string $id) : bool
     {
-        return isset($this->component_data[self::BY_ID][$id]);
+        return isset($this->components[$id]);
     }
 
     /**
@@ -44,8 +72,8 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     public function getComponents() : Iterator
     {
         $slots = [];
-        foreach ($this->component_data[self::BY_ID] as $id => list($type, $name)) {
-            yield $id => new ilComponentInfo($id, $type, $name, $slots);
+        foreach ($this->components as $id => $comp) {
+            yield $id => $comp;
         }
     }
 
@@ -61,13 +89,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 "Unknown component $id"
             );
         }
-        $slots = [];
-        return new ilComponentInfo(
-            $id,
-            $this->component_data[self::BY_ID][$id][0],
-            $this->component_data[self::BY_ID][$id][1],
-            $slots
-        );
+        return $this->components[$id];
     }
 
     /**
@@ -82,12 +104,6 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 "Unknown component $type/$name"
             );
         }
-        $slots = [];
-        return new ilComponentInfo(
-            $this->component_data[self::BY_TYPE_AND_NAME][$type][$name],
-            $type,
-            $name,
-            $slots
-        );
+        return $this->components[$this->id_by_type_and_name[$type][$name]];
     }
 }
