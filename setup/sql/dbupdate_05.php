@@ -6937,7 +6937,10 @@ while ($row = $ilDB->fetchAssoc($res)) {
     $last_access_ts = null;
 
     if ($row['last_access_datetime_fallback']) {
-        $last_access_ts = strtotime($row['last_access_datetime_fallback']);
+        $last_access_ts = (new DateTimeImmutable(
+            $row['last_access_datetime_fallback'],
+            new DateTimeZone(date_default_timezone_get())
+        ))->getTimestamp();
     }
 
     $access_res = $ilDB->execute($frm_read_stats_statement, [$row['usr_id'], $row['usr_id']]);
@@ -6956,7 +6959,8 @@ while ($row = $ilDB->fetchAssoc($res)) {
         $firs_access_datetime = $row['first_access_datetime'];
     }
     if (null === $firs_access_datetime) {
-        $firs_access_datetime = date('Y-m-d H:i:s');
+        $firs_access_datetime = (new DateTimeImmutable('@' . time()))
+            ->setTimezone(new DateTimeZone(date_default_timezone_get()))->format('Y-m-d H:i:s');
     }
 
     $ilDB->insert(
