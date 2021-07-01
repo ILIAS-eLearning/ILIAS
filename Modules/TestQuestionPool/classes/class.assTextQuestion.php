@@ -31,6 +31,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     public $maxNumOfChars;
 
     /**
+     * @var bool
+     */
+    protected $wordCounterEnabled;
+
+    /**
     * Keywords of the question
     *
     * If every keyword in $keywords is found in the question answer,
@@ -1059,6 +1064,19 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $text = str_replace("\n", "", $text);
         
         return ilStr::strLen($text);
+    }
+
+    public function countWords($text)
+    {
+        $text = str_replace('&nbsp;', ' ', $text);
+
+        $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
+
+        $text = preg_replace('/^\s*/m', '', $text);
+        $text = preg_replace('/\s*$/m', '', $text);
+        $text = preg_replace('/\s+/m', ' ', $text);
+
+        return count(explode(' ', $text));
     }
     
     public function getLatestAutosaveContent($active_id)
