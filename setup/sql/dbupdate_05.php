@@ -6971,4 +6971,30 @@ while ($row = $ilDB->fetchAssoc($res)) {
         ]
     );
 }
+
+$query = "
+    SELECT frm_thread_access.usr_id, frm_thread_access.obj_id, MAX(frm_thread_access.access_last) last_access_ts
+    FROM frm_thread_access
+    INNER JOIN object_data od ON od.obj_id = frm_thread_access.obj_id
+    LEFT JOIN read_event re ON re.obj_id = od.obj_id AND re.usr_id = frm_thread_access.usr_id
+    WHERE (frm_thread_access.access_last > 0 AND frm_thread_access.access_last IS NOT NULL)
+    AND re.usr_id IS NULL
+    GROUP BY frm_thread_access.usr_id, frm_thread_access.obj_id
+";
+while ($row = $ilDB->fetchAssoc($res)) {
+    $access = (new DateTimeImmutable('@' . $row['last_access_ts']))
+        ->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+    $ilDB->insert(
+        'read_event',
+        [
+            'obj_id' => ['integer', $row['obj_id']],
+            'usr_id' => ['integer', $row['usr_id']],
+            'read_count' => ['integer', 1],
+            'spent_seconds' => ['integer', 1],
+            'first_access' => ['timestamp', $access->format('Y-m-d H:i:s')],
+            'last_access' => ['integer', $access->getTimestamp()]
+        ]
+    );
+}
 ?>
