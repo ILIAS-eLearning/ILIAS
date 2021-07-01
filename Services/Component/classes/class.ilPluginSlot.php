@@ -288,17 +288,6 @@ class ilPluginSlot
         }
         return null;
     }
-    
-    /**
-    * Lookup slot ID for component and slot name
-    */
-    public static function lookupSlotId($a_ctype, $a_cname, $a_slot_name)
-    {
-        $cached_component = ilCachedComponentData::getInstance();
-        $rec = $cached_component->lookupPluginSlotByName($a_slot_name);
-
-        return $rec['id'];
-    }
 
     /**
     * Lookup slot name for component and slot id
