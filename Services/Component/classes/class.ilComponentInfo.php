@@ -13,11 +13,16 @@ class ilComponentInfo
     protected string $id;
     protected string $type;
     protected string $name;
+    /**
+     * @var ilPluginSlot[]
+     */
+    protected array $pluginslots;
 
     public function __construct(
         string $id,
         string $type,
-        string $name
+        string $name,
+        array &$pluginslots
     ) {
         if (!in_array($type, self::TYPES)) {
             throw new \InvalidArgumentException(
@@ -28,6 +33,7 @@ class ilComponentInfo
         $this->id = $id;
         $this->type = $type;
         $this->name = $name;
+        $this->pluginslots = &$pluginslots;
     }
 
     public function getId() : string
@@ -43,5 +49,15 @@ class ilComponentInfo
     public function getName() : string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Iterator <ilPluginSlotInfo>
+     */
+    public function getPluginSlots() : Iterator
+    {
+        foreach ($this->pluginslots as $slot) {
+            yield $slot->getId() => $slot;
+        }
     }
 }

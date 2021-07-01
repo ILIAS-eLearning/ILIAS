@@ -43,8 +43,9 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
      */
     public function getComponents() : Iterator
     {
+        $slots = [];
         foreach ($this->component_data[self::BY_ID] as $id => list($type, $name)) {
-            yield $id => new ilComponentInfo($id, $type, $name);
+            yield $id => new ilComponentInfo($id, $type, $name, $slots);
         }
     }
 
@@ -60,10 +61,12 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 "Unknown component $id"
             );
         }
+        $slots = [];
         return new ilComponentInfo(
             $id,
             $this->component_data[self::BY_ID][$id][0],
-            $this->component_data[self::BY_ID][$id][1]
+            $this->component_data[self::BY_ID][$id][1],
+            $slots
         );
     }
 
@@ -79,10 +82,12 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 "Unknown component $type/$name"
             );
         }
+        $slots = [];
         return new ilComponentInfo(
             $this->component_data[self::BY_TYPE_AND_NAME][$type][$name],
             $type,
-            $name
+            $name,
+            $slots
         );
     }
 }

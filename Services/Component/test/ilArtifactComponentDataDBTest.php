@@ -76,26 +76,29 @@ class ilArtifactComponentDataDBTest extends TestCase
 
         $this->assertEquals($expected_ids, $ids);
 
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $result["mod1"]);
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $result["mod2"]);
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $result["ser1"]);
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $result["ser2"]);
+        $slots = [];
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $result["mod1"]);
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $result["mod2"]);
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $result["ser1"]);
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $result["ser2"]);
     }
 
     public function testGetComponentById()
     {
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $this->db->getComponentById("mod1"));
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $this->db->getComponentById("mod2"));
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $this->db->getComponentById("ser1"));
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $this->db->getComponentById("ser2"));
+        $slots = [];
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->db->getComponentById("mod1"));
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $this->db->getComponentById("mod2"));
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $this->db->getComponentById("ser1"));
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $this->db->getComponentById("ser2"));
     }
 
     public function testGetComponentByTypeAndName()
     {
-        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1"), $this->db->getComponentByTypeAndName("Modules", "Module1"));
-        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2"), $this->db->getComponentByTypeAndName("Modules", "Module2"));
-        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1"), $this->db->getComponentByTypeAndName("Services", "Service1"));
-        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2"), $this->db->getComponentByTypeAndName("Services", "Service2"));
+        $slots = [];
+        $this->assertEquals(new ilComponentInfo("mod1", "Modules", "Module1", $slots), $this->db->getComponentByTypeAndName("Modules", "Module1"));
+        $this->assertEquals(new ilComponentInfo("mod2", "Modules", "Module2", $slots), $this->db->getComponentByTypeAndName("Modules", "Module2"));
+        $this->assertEquals(new ilComponentInfo("ser1", "Services", "Service1", $slots), $this->db->getComponentByTypeAndName("Services", "Service1"));
+        $this->assertEquals(new ilComponentInfo("ser2", "Services", "Service2", $slots), $this->db->getComponentByTypeAndName("Services", "Service2"));
     }
 
     public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1()
