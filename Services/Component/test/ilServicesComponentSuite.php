@@ -15,15 +15,11 @@ class ilServicesComponentSuite extends TestSuite
         require_once("./Services/Component/test/ilComponentInfoTest.php");
         $suite->addTestSuite(ilComponentInfoTest::class);
 
-
         require_once("./Services/Component/test/ilPluginSlotInfoTest.php");
         $suite->addTestSuite(ilPluginSlotInfoTest::class);
 
         require_once("./Services/Component/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
         $suite->addTestSuite(ilComponentDefinitionInfoProcessorTest::class);
-
-        require_once("./Services/Component/test/Setup/ilPluginSlotDefinitionProcessorTest.php");
-        $suite->addTestSuite(ilPluginSlotDefinitionProcessorTest::class);
 
         require_once("./Services/Component/test/ilArtifactComponentDataDBTest.php");
         $suite->addTestSuite(ilArtifactComponentDataDBTest::class);

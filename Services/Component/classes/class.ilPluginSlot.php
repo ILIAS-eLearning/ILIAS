@@ -39,9 +39,8 @@ class ilPluginSlot
     */
     public function read()
     {
-        $cached_component = ilCachedComponentData::getInstance();
-        $rec = $cached_component->lookupPluginSlotById($this->getSlotId());
-        $this->setSlotName($rec["name"]);
+        $component_data_db = new ilArtifactComponentDataDB();
+        $this->setSlotName($component_data_db->getPluginSlotById($this->getSlotId())->getName());
     }
     
     /**
@@ -294,10 +293,8 @@ class ilPluginSlot
     */
     public static function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
     {
-        $cached_component = ilCachedComponentData::getInstance();
-        $rec = $cached_component->lookupPluginSlotById($a_slot_id);
-
-        return $rec['name'];
+        $component_data_db = new ilArtifactComponentDataDB();
+        return $component_data_db->getPluginSlotById($a_slot_id)->getName();
     }
 
     /**
@@ -313,27 +310,5 @@ class ilPluginSlot
             $this->getComponentName(),
             $this->getSlotId()
         );
-    }
-    
-    
-    /**
-    * Get all plugin slots
-    */
-    public static function getAllSlots()
-    {
-        $cached_component = ilCachedComponentData::getInstance();
-        $recs = $cached_component->getIlPluginslotById();
-
-        foreach ($recs as $rec) {
-            $pos = strpos($rec["component"], "/");
-            $slots[] = array(
-                "component_type" => substr($rec["component"], 0, $pos),
-                "component_name" => substr($rec["component"], $pos + 1),
-                "slot_id" => $rec["id"],
-                "slot_name" => $rec["name"]
-                );
-        }
-        
-        return $slots;
     }
 }

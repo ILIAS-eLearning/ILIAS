@@ -105,10 +105,11 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected function addPluginData(array &$plugins, array $core_items, string $core_type)
     {
+        $component_data_db = new ilArtifactComponentDataDB();
         foreach ($core_items as $core_item) {
-            $plugin_slots = ilComponent::lookupPluginSlots($core_type, $core_item["subdir"]);
+            $plugin_slots = $component_data_db->getComponentByTypeAndName($core_type, $core_item["subdir"]);
             foreach ($plugin_slots as $plugin_slot) {
-                $slot = new ilPluginSlot($core_type, $core_item["subdir"], $plugin_slot["id"]);
+                $slot = new ilPluginSlot($core_type, $core_item["subdir"], $plugin_slot->getId());
                 foreach ($slot->getPluginsInformation() as $plugin) {
                     if ($core_type && $slot && $core_item["subdir"] && is_array($plugin) && count($plugin) > 0) {
                         $plugins[] = $this->gatherPluginData($core_type, $slot, $core_item["subdir"], $plugin);

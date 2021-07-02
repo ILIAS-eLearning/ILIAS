@@ -52,30 +52,16 @@ abstract class ilComponent
     */
     abstract public function getName();
 
+    protected \ilComponentInfo $component;
+
     public function __construct()
     {
         $this->component_data_db = new ilArtifactComponentDataDB();
 
-        $this->setId(
-            $this->component_data_db->getComponent(
-                $this->getComponentType(),
-                $this->getName()
-            )->getId()
-        );
-        $this->setPluginSlots(ilComponent::lookupPluginSlots(
+        $this->component = $this->component_data_db->getComponentByTypeAndName(
             $this->getComponentType(),
             $this->getName()
-        ));
-    }
-    
-    /**
-    * Set Id.
-    *
-    * @param	string	$a_id	Id
-    */
-    final public function setId($a_id)
-    {
-        $this->id = $a_id;
+        );
     }
 
     /**
@@ -85,17 +71,7 @@ abstract class ilComponent
     */
     final public function getId()
     {
-        return $this->id;
-    }
-
-    /**
-    * Set Plugin Slots.
-    *
-    * @param	array	$a_pluginslots	Plugin Slots
-    */
-    final public function setPluginSlots($a_pluginslots)
-    {
-        $this->pluginslots = $a_pluginslots;
+        return $this->component->getId();
     }
 
     /**
@@ -105,7 +81,17 @@ abstract class ilComponent
     */
     final public function getPluginSlots()
     {
-        return $this->pluginslots;
+        $pluginslots = [];
+        foreach ($this->component->getPluginSlots() as $slot) {
+            $pluginslots[$slot->getId()] = [
+                "component" => $this->component->getQualifiedName(),
+                "id" => $slot->getId(),
+                "name" => $slot->getName(),
+                "dir_pres" => "Customizing/global/plugins/<br />" . $slot->getQualifiedName(),
+                "lang_prefix" => $this->component->getId() . "_" . $slot->getId() . "_"
+            ];
+        }
+        return $pluginslots;
     }
 
     /**
@@ -153,24 +139,6 @@ abstract class ilComponent
     public function getSubDirectory()
     {
         return $this->subdirectory;
-    }
-    
-    /**
-    * Lookup all plugin slots of a component
-    */
-    public static function lookupPluginSlots($a_type, $a_name)
-    {
-        $cached_component = ilCachedComponentData::getInstance();
-        $recs = $cached_component->lookupPluginSlotByComponent($a_type . "/" . $a_name);
-
-        $ps = array();
-        foreach ($recs as $rec) {
-            $rec["dir"] = "Customizing/global/plugins/" . $a_type . "/" . $a_name . "/" . $rec["name"];
-            $rec["dir_pres"] = "Customizing/global/plugins/<br />" . $a_type . "/" . $a_name . "/" . $rec["name"];
-            $rec["lang_prefix"] = ilComponent::lookupId($a_type, $a_name) . "_" . $rec["id"] . "_";
-            $ps[$rec["id"]] = $rec;
-        }
-        return $ps;
     }
     
     /**

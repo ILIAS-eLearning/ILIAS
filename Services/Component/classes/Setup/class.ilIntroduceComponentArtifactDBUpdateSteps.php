@@ -33,4 +33,9 @@ class ilIntroduceComponentArtifactDBUpdateSteps implements ilDatabaseUpdateSteps
     {
         $this->db->dropTable("il_component");
     } 
+
+    public function step_2()
+    {
+        $this->db->dropTable("il_pluginslot");
+    }
 }

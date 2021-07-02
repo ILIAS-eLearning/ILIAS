@@ -8,16 +8,18 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     public const COMPONENT_DATA_PATH = "Services/Component/artifacts/component_data.php";
 
     protected array $components;
-    protected array $id_by_type_and_name;
+    protected array $component_id_by_type_and_name;
+    protected array $pluginslot_by_id;
 
     public function __construct()
     {
         $component_data = $this->readComponentData();
         $this->components = [];
-        $this->id_by_type_and_name = [
+        $this->component_id_by_type_and_name = [
             "Modules" => [],
             "Services" => []
         ];
+        $this->pluginslot_by_id = [];
         foreach ($component_data as $comp_id => list($type, $comp_name, $slot_data)) {
             $slots = [];
             $component = new ilComponentInfo(
@@ -32,9 +34,10 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                     $slot_id,
                     $slot_name
                 );
+                $this->pluginslot_by_id[$slot_id] = $slots[$slot_id];
             }
             $this->components[$comp_id] = $component;
-            $this->id_by_type_and_name[$type][$comp_name] = $comp_id;
+            $this->component_id_by_type_and_name[$type][$comp_name] = $comp_id;
             unset($slots);
         }
     }
@@ -55,7 +58,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             );
         }
 
-        return isset($this->id_by_type_and_name[$type][$name]);
+        return isset($this->component_id_by_type_and_name[$type][$name]);
     }
 
     /**
@@ -71,16 +74,12 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
      */
     public function getComponents() : Iterator
     {
-        $slots = [];
         foreach ($this->components as $id => $comp) {
             yield $id => $comp;
         }
     }
 
     /**
-     * Get a component by id.
-     *
-     * @throws \InvalidArgumentException if component does not exist
      */
     public function getComponentById(string $id) : ilComponentInfo
     {
@@ -93,9 +92,6 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     }
 
     /**
-     * Get a component by type and name.
-     *
-     * @throws \InvalidArgumentException if component does not exist
      */
     public function getComponentByTypeAndName(string $type, string $name) : ilComponentInfo
     {
@@ -104,6 +100,35 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 "Unknown component $type/$name"
             );
         }
-        return $this->components[$this->id_by_type_and_name[$type][$name]];
+        return $this->components[$this->component_id_by_type_and_name[$type][$name]];
+    }
+
+
+    /**
+     */
+    public function hasPluginSlotId(string $id) : bool
+    {
+        return isset($this->pluginslot_by_id[$id]);
+    }
+
+    /**
+     */
+    public function getPluginSlots() : Iterator
+    {
+        foreach ($this->pluginslot_by_id as $id => $slot) {
+            yield $id => $slot;
+        }
+    }
+
+    /**
+     */
+    public function getPluginSlotById(string $id) : ilPluginSlotInfo
+    {
+        if (!$this->hasPluginslotId($id)) {
+            throw new \InvalidArgumentException(
+                "Unknown pluginslot $id"
+            );
+        }
+        return $this->pluginslot_by_id[$id];
     }
 }
