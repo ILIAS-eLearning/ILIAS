@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -28,9 +28,9 @@ class ilChatroomFormFactory
     /**
      * Applies given values to field in given form.
      * @param ilPropertyFormGUI $form
-     * @param array             $values
+     * @param array $values
      */
-    public static function applyValues(ilPropertyFormGUI $form, array $values)
+    public static function applyValues(ilPropertyFormGUI $form, array $values) : void
     {
         $form->setValuesByArray($values);
     }
@@ -38,10 +38,10 @@ class ilChatroomFormFactory
     /**
      * Instantiates and returns ilPropertyFormGUI containing ilTextInputGUI
      * and ilTextAreaInputGUI
-     * @deprecated replaced by default creation screens
      * @return ilPropertyFormGUI
+     * @deprecated replaced by default creation screens
      */
-    public function getCreationForm()
+    public function getCreationForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -59,7 +59,7 @@ class ilChatroomFormFactory
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    private function addDefaultBehaviour(ilPropertyFormGUI $form)
+    private function addDefaultBehaviour(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $form->addCommandButton('create-save', $this->lng->txt('create'));
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -67,10 +67,7 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    public function getSettingsForm()
+    public function getSettingsForm() : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('rep');
 
@@ -115,7 +112,6 @@ class ilChatroomFormFactory
         $online->setInfo($this->lng->txt('chtr_activation_online_info'));
         $form->addItem($online);
 
-        require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
         $dur = new ilDateDurationInputGUI($this->lng->txt('rep_time_period'), 'access_period');
         $dur->setShowTime(true);
         $form->addItem($dur);
@@ -132,7 +128,7 @@ class ilChatroomFormFactory
      * Prepares Fileupload form and returns it.
      * @return ilPropertyFormGUI
      */
-    public function getFileUploadForm()
+    public function getFileUploadForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $file_input = new ilFileInputGUI();
@@ -151,12 +147,11 @@ class ilChatroomFormFactory
      * Returns period form.
      * @return ilPropertyFormGUI
      */
-    public function getPeriodForm()
+    public function getPeriodForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
 
-        require_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
         $duration = new ilDateDurationInputGUI($this->lng->txt('period'), 'timeperiod');
 
         $duration->setStartText($this->lng->txt('duration_from'));
@@ -173,7 +168,7 @@ class ilChatroomFormFactory
      * @param array $name_options
      * @return ilPropertyFormGUI
      */
-    public function getUserChatNameSelectionForm(array $name_options)
+    public function getUserChatNameSelectionForm(array $name_options) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -205,13 +200,13 @@ class ilChatroomFormFactory
      * @param array $sessions
      * @return ilPropertyFormGUI
      */
-    public function getSessionForm(array $sessions)
+    public function getSessionForm(array $sessions) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
         $list = new ilSelectInputGUI($this->lng->txt('session'), 'session');
 
-        $options = array();
+        $options = [];
 
         foreach ($sessions as $session) {
             $start = new ilDateTime($session['connected'], IL_CAL_UNIX);
@@ -229,10 +224,7 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    public function getClientSettingsForm()
+    public function getClientSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -243,7 +235,7 @@ class ilChatroomFormFactory
         $enable_osc->setInfo($this->lng->txt('chatroom_enable_osc_info'));
         $enable_chat->addSubItem($enable_osc);
 
-        $oscBrowserNotificationStatus = new \ilCheckboxInputGUI(
+        $oscBrowserNotificationStatus = new ilCheckboxInputGUI(
             $this->lng->txt('osc_adm_browser_noti_label'),
             'enable_browser_notifications'
         );
@@ -251,7 +243,7 @@ class ilChatroomFormFactory
         $oscBrowserNotificationStatus->setValue(1);
         $enable_osc->addSubItem($oscBrowserNotificationStatus);
 
-        $oscBrowserNotificationIdleTime = new \ilNumberInputGUI(
+        $oscBrowserNotificationIdleTime = new ilNumberInputGUI(
             $this->lng->txt('osc_adm_conv_idle_state_threshold_label'),
             'conversation_idle_state_in_minutes'
         );
@@ -282,7 +274,7 @@ class ilChatroomFormFactory
         $enable_smilies->setInfo($this->lng->txt('hint_enable_smilies'));
         $enable_chat->addSubItem($enable_smilies);
 
-        $name = new \ilTextInputGUI($this->lng->txt('chatroom_client_name'), 'client_name');
+        $name = new ilTextInputGUI($this->lng->txt('chatroom_client_name'), 'client_name');
         $name->setInfo($this->lng->txt('chatroom_client_name_info'));
         $name->setRequired(true);
         $name->setMaxLength(100);
@@ -294,7 +286,15 @@ class ilChatroomFormFactory
             $this->http
         );
         $auth->setInfo($this->lng->txt('chat_auth_token_info'));
-        $auth->setCtrlPath(array('iladministrationgui', 'ilobjchatroomgui', 'ilpropertyformgui', 'ilformpropertydispatchgui', 'ilchatroomauthinputgui'));
+        $auth->setCtrlPath(
+            [
+                ilAdministrationGUI::class,
+                ilObjChatroomGUI::class,
+                ilPropertyFormGUI::class,
+                ilFormPropertyDispatchGUI::class,
+                ilChatroomAuthInputGUI::class,
+            ]
+        );
         $auth->setRequired(true);
         $enable_chat->addSubItem($auth);
 

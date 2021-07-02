@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,6 +13,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     private const NAME_AUTH_PROP_2 = 'secret';
 
     private \ILIAS\DI\HTTPServices $http;
+    /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
     protected array $values = [
@@ -72,6 +73,9 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         );
     }
 
+    /**
+     * @param string[] $ctrl_path
+     */
     public function setCtrlPath(array $ctrl_path) : void
     {
         $this->ctrl_path = $ctrl_path;
