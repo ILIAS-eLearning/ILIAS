@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObjectAccess.php';
 
 /**
  * Class ilObjChatroomAdminAccess
@@ -12,15 +10,12 @@ require_once 'Services/Object/classes/class.ilObjectAccess.php';
  */
 class ilObjChatroomAdminAccess extends ilObjectAccess
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function _getCommands()
     {
-        $commands = array();
-        $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "enter", "default" => true);
-        $commands[] = array("permission" => "write", "cmd" => "edit", "lang_var" => "edit");
-        $commands[] = array("permission" => "write", "cmd" => "versions", "lang_var" => "versions");
+        $commands = [];
+        $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
+        $commands[] = ['permission' => 'write', 'cmd' => 'edit', 'lang_var' => 'edit'];
+        $commands[] = ['permission' => 'write', 'cmd' => 'versions', 'lang_var' => 'versions'];
 
         return $commands;
     }
@@ -39,7 +34,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
             return false;
         }
 
-        if ($DIC->rbac()->system()->checkAccess('visible', $t_arr[1])) {
+        if ($DIC->rbac()->system()->checkAccess('visible', (int) $t_arr[1])) {
             return true;
         }
 
