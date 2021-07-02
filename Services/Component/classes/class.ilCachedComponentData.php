@@ -9,9 +9,6 @@
 class ilCachedComponentData
 {
     protected static ?ilCachedComponentData $instance;
-    protected array $il_pluginslot_by_id = [];
-    protected array $il_pluginslot_by_name = [];
-    protected array $il_pluginslot_by_comp = [];
     protected array $il_plugin_by_id = [];
     protected array $il_plugin_by_name = [];
     protected array $il_plugin_active = [];
@@ -27,13 +24,6 @@ class ilCachedComponentData
         global $DIC;
         $ilDB = $DIC->database();
 
-        $set = $ilDB->query('SELECT * FROM il_pluginslot');
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $this->il_pluginslot_by_id[$rec['id']] = $rec;
-            $this->il_pluginslot_by_name[$rec['name']] = $rec;
-            $this->il_pluginslot_by_comp[$rec['component']][] = $rec;
-        }
-
         $set = $ilDB->query('SELECT * FROM il_plugin');
         $this->il_plugin_active = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -43,14 +33,6 @@ class ilCachedComponentData
                 $this->il_plugin_active[$rec['slot_id']][] = $rec;
             }
         }
-    }
-
-    /** !!!
-     * @return array
-     */
-    public function getIlPluginslotById()
-    {
-        return $this->il_pluginslot_by_id;
     }
 
     /** !!!
@@ -120,30 +102,5 @@ class ilCachedComponentData
         } else {
             return array();
         }
-    }
-
-    /** !!!
-     * @param $component
-     *
-     * @return mixed
-     */
-    public function lookupPluginSlotByComponent($component)
-    {
-        if (isset($this->il_pluginslot_by_comp[$component]) && is_array($this->il_pluginslot_by_comp[$component])) {
-            return $this->il_pluginslot_by_comp[$component];
-        }
-
-        return array();
-    }
-
-
-    /** !!!
-     * @param $id
-     *
-     * @return mixed
-     */
-    public function lookupPluginSlotById($id)
-    {
-        return $this->il_pluginslot_by_id[$id];
     }
 }

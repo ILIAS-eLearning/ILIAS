@@ -270,14 +270,12 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        // refresh languages of activated plugins
-        include_once("./Services/Component/classes/class.ilPluginSlot.php");
-        $slots = ilPluginSlot::getAllSlots();
-        foreach ($slots as $slot) {
+        $component_data_db = new ilArtifactComponentDataDB();
+        foreach ($component_data_db->getPluginSlots() as $slot) {
             $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                $slot["component_type"],
-                $slot["component_name"],
-                $slot["slot_id"]
+                $slot->getComponent()->getType(),
+                $slot->getComponent()->getName(),
+                $slot->getId()
             );
             foreach ($act_plugins as $plugin) {
                 include_once("./Services/Component/classes/class.ilPlugin.php");

@@ -40,27 +40,33 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
         $name4 = "NAME4";
         $id4 = "ID4";
 
+        $id5 = "id5";
+        $name5 = "name5";
+        $id6 = "id6";
+        $name6 = "name6";
+        $id7 = "id7";
+        $name7 = "name7";
+
         $this->processor->beginComponent($name1, $type1);
         $this->processor->beginTag("module", ["id" => $id1]);
 
         $this->processor->beginComponent($name2, $type1);
         $this->processor->beginTag("module", ["id" => $id2]);
+        $this->processor->beginTag("pluginslot", ["id" => $id5, "name" => $name5]);
 
         $this->processor->beginComponent($name3, $type2);
         $this->processor->beginTag("service", ["id" => $id3]);
+        $this->processor->beginTag("pluginslot", ["id" => $id6, "name" => $name6]);
+        $this->processor->beginTag("pluginslot", ["id" => $id7, "name" => $name7]);
 
         $this->processor->beginComponent($name4, $type2);
         $this->processor->beginTag("service", ["id" => $id4]);
 
         $expected = [
-            $type1 => [
-                $name1 => $id1,
-                $name2 => $id2
-            ],
-            $type2 => [
-                $name3 => $id3,
-                $name4 => $id4
-            ]
+            $id1 => [$type1, $name1, []],
+            $id2 => [$type1, $name2, [[$id5, $name5]]],
+            $id3 => [$type2, $name3, [[$id6, $name6], [$id7, $name7]]],
+            $id4 => [$type2, $name4, []]
         ];
 
         $this->assertEquals($expected, $this->processor->getData());
@@ -87,5 +93,29 @@ class ilComponentDefinitionInfoProcessorTest extends TestCase
 
         $this->processor->beginComponent($name, $type);
         $this->processor->beginTag("service", []);
+    }
+
+    public function testDuplicateComponentId() : void
+    {
+        $this->expectException(\LogicException::class);
+
+        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginTag("module", ["id" => "id"]);
+
+        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginTag("module", ["id" => "id"]);
+    }
+
+    public function testDuplicatePluginId() : void
+    {
+        $this->expectException(\LogicException::class);
+
+        $this->processor->beginComponent("Module1", "Modules");
+        $this->processor->beginTag("module", ["id" => "id1"]);
+        $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
+
+        $this->processor->beginComponent("Module2", "Modules");
+        $this->processor->beginTag("module", ["id" => "id2"]);
+        $this->processor->beginTag("pluginslot", ["id" => "id", "name" => "name"]);
     }
 }

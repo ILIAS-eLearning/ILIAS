@@ -114,7 +114,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor($db),
-            new \ilPluginSlotDefinitionProcessor($db),
             new \ilCronDefinitionProcessor($db),
             new \ilEventDefinitionProcessor($db),
             new \ilLoggingDefinitionProcessor($db),

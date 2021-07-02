@@ -41,6 +41,10 @@ class ilPluginAdmin
      * @var ilLanguage
      */
     protected $lng;
+    /**
+     * @var ilComponentDataDB
+     */
+    protected $component_data_db;
 
 
     /**
@@ -51,6 +55,7 @@ class ilPluginAdmin
         global $DIC;
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("cmps");
+        $this->component_data_db = new ilArtifactComponentDataDB();
     }
 
 
@@ -661,19 +666,17 @@ class ilPluginAdmin
     protected function getPluginSlots(array $components, string $type) : \Iterator
     {
         foreach ($this->getComponentSlotsByType($components, $type) as $slot) {
-            $subdir = (explode('/', $slot['component']))[1];
-            yield new ilPluginSlot($type, $subdir, $slot['id']);
+            $component = $slot->getComponent();
+            yield new ilPluginSlot($component->getType(), $component->getName(), $slot->getId());
         }
     }
 
     protected function getComponentSlotsByType(array $components, string $type) : \Iterator
     {
         foreach ($components as $component) {
-            $component_slots = ilComponent::lookupPluginSlots($type, $component["subdir"]);
-            foreach ($component_slots as $component_slot) {
-                if (count($component_slot) > 0) {
-                    yield $component_slot;
-                }
+            $component = $this->component_data_db->getComponentByTypeAndName($type, $component["subdir"]);
+            foreach ($component->getPluginSlots() as $component_slot) {
+                yield $component_slot;
             }
         }
     }

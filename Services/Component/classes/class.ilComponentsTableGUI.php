@@ -51,17 +51,18 @@ class ilComponentsTableGUI extends ilTable2GUI
     */
     public function getComponents()
     {
+        $component_data_db = new ilArtifactComponentDataDB();
         $data = array();
 
         include_once("./Services/Component/classes/class.ilService.php");
         foreach (ilService::getAvailableCoreServices() as $obj) {
-            foreach (ilComponent::lookupPluginSlots(IL_COMP_SERVICE, $obj["subdir"]) as $slot) {
+            foreach ($component_data_db->getComponentByTypeAndName(IL_COMP_SERVICE, $obj["subdir"])->getPluginSlots() as $slot) {
                 $data[] = array(
                     "subdir" => $obj["subdir"],
-                    "id" => $slot["id"],
-                    "name" => $slot["name"],
-                    "dir" => $slot["dir_pres"],
-                    "lang" => $slot["lang_prefix"],
+                    "id" => $slot->getId(),
+                    "name" => $slot->getName(),
+                    "dir" => "Customizing/global/plugins/<br />" . "/" . $slot->getQualifiedName(),
+                    "lang" => $slot->getComponent()->getId() . "_" . $slot->getId() . "_",
                     "ctype" => IL_COMP_SERVICE
                 );
             }
@@ -69,13 +70,13 @@ class ilComponentsTableGUI extends ilTable2GUI
 
         include_once("./Services/Component/classes/class.ilModule.php");
         foreach (ilModule::getAvailableCoreModules() as $obj) {
-            foreach (ilComponent::lookupPluginSlots(IL_COMP_MODULE, $obj["subdir"]) as $slot) {
+            foreach ($component_data_db->getComponentByTypeAndName(IL_COMP_MODULE, $obj["subdir"])->getPluginSlots() as $slot) {
                 $data[] = array(
                     "subdir" => $obj["subdir"],
-                    "id" => $slot["id"],
-                    "name" => $slot["name"],
-                    "dir" => $slot["dir_pres"],
-                    "lang" => $slot["lang_prefix"],
+                    "id" => $slot->getId(),
+                    "name" => $slot->getName(),
+                    "dir" => "Customizing/global/plugins/<br />" . "/" . $slot->getQualifiedName(),
+                    "lang" => $slot->getComponent()->getId() . "_" . $slot->getId() . "_",
                     "ctype" => IL_COMP_MODULE
                 );
             }

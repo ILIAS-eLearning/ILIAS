@@ -168,4 +168,42 @@ class ilArtifactComponentDataDBTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->db->getComponentById("some_id");
     }
+
+    public function testGetPluginSlots()
+    {
+        $slots = iterator_to_array($this->db->getPluginSlots());
+
+        $ids = array_keys($slots);
+        $expected_ids = ["slt1", "slt2", "slt3", "slt4"];
+        sort($ids);
+        sort($expected_ids);
+
+        $this->assertEquals($expected_ids, $ids);
+
+        $this->assertEquals($this->slt1, $slots["slt1"]);
+        $this->assertEquals($this->slt2, $slots["slt2"]);
+        $this->assertEquals($this->slt3, $slots["slt3"]);
+        $this->assertEquals($this->slt4, $slots["slt4"]);
+    }
+
+    public function testGetPluginslotById()
+    {
+        $this->assertEquals($this->slt1, $this->db->getPluginslotById("slt1"));
+        $this->assertEquals($this->slt2, $this->db->getPluginslotById("slt2"));
+        $this->assertEquals($this->slt3, $this->db->getPluginslotById("slt3"));
+        $this->assertEquals($this->slt4, $this->db->getPluginslotById("slt4"));
+    }
+
+    public function testNoPluginSlot()
+    {
+        $db = new class() extends ilArtifactComponentDataDB {
+            protected function readComponentData() : array
+            {
+                return ["mod2" => ["Modules", "Module2", []]];
+            }
+        };
+
+        $slots = iterator_to_array($db->getPluginSlots());
+        $this->assertEquals([], $slots);
+    }
 }
