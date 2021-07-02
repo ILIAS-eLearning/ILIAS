@@ -46,6 +46,7 @@ class ilMailMemberSearchGUI
      * @var ilAccessHandler
      */
     protected $access;
+    private $ref_id;
 
     /**
      * ilMailMemberSearchGUI constructor.

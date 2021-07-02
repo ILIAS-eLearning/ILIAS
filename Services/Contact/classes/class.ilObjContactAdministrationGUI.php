@@ -140,7 +140,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             $form = $this->getConfigurationForm();
             $form->setValuesByArray(array(
                 'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', 0),
-                'use_osd' => isset($cfg['buddysystem_request']) && array_search('osd', $cfg['buddysystem_request']) !== false
+                'use_osd' => isset($cfg['buddysystem_request']) && in_array('osd', $cfg['buddysystem_request'], true)
             ));
         }
 
@@ -161,7 +161,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             return;
         }
 
-        ilBuddySystem::getInstance()->setSetting('enabled', (bool) $form->getInput('enable') ? 1 : 0);
+        ilBuddySystem::getInstance()->setSetting('enabled', $form->getInput('enable') ? 1 : 0);
 
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
@@ -178,7 +178,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             $new_cfg['buddysystem_request'] = array();
         }
 
-        if ((bool) $form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request'])) {
+        if ($form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request'])) {
             $new_cfg['buddysystem_request']['osd'] = true;
         } elseif (!(bool) $form->getInput('use_osd') && array_key_exists('osd', $new_cfg['buddysystem_request'])) {
             $new_cfg['buddysystem_request']['osd'] = false;

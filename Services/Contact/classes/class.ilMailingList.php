@@ -46,9 +46,10 @@ class ilMailingList
      */
     private $db;
     
-    const MODE_ADDRESSBOOK = 1;
-    const MODE_TEMPORARY = 2;
-    
+    public const MODE_ADDRESSBOOK = 1;
+    public const MODE_TEMPORARY = 2;
+    private int $mode;
+
     public function __construct(ilObjUser $user, $id = 0)
     {
         global $DIC;
@@ -179,9 +180,6 @@ class ilMailingList
                 $this->setMode($row->lmode);
             }
         }
-        
-        
-        return true;
     }
 
     public function getAssignedEntries()

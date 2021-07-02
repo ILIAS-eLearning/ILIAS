@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -20,6 +20,8 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
+
+use JetBrains\PhpStorm\NoReturn;
 
 /**
 * @author Jens Conze
@@ -78,7 +80,7 @@ class ilMailSearchGUI
         $this->umail = new ilFormatMail($DIC->user()->getId());
     }
 
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -101,7 +103,7 @@ class ilMailSearchGUI
         return !isset($_GET['ref']) || $_GET['ref'] !== 'wsp';
     }
 
-    public function adopt()
+    public function adopt(): void
     {
         // necessary because of select all feature of ilTable2GUI
         $recipients = array();
@@ -124,7 +126,7 @@ class ilMailSearchGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function saveMailData()
+    private function saveMailData(): void
     {
         $mail_data = $this->umail->getSavedData();
 
@@ -143,16 +145,16 @@ class ilMailSearchGUI
         );
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function search()
+    public function search(): bool
     {
         $_SESSION["mail_search_search"] = (string) $_POST["search"];
 
-        if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
+        if (trim($_SESSION["mail_search_search"]) === '') {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
         } elseif (strlen(trim($_SESSION["mail_search_search"])) < 3) {
             $this->lng->loadLanguageModule('search');
@@ -164,7 +166,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    protected function initSearchForm()
+    protected function initSearchForm(): ilPropertyFormGUI
     {
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
@@ -189,7 +191,7 @@ class ilMailSearchGUI
         if (
             isset($_SESSION["mail_search_search"]) &&
             is_string($_SESSION["mail_search_search"]) &&
-            strlen(trim($_SESSION["mail_search_search"])) > 0
+            trim($_SESSION["mail_search_search"]) !== ''
         ) {
             $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
         }
@@ -201,7 +203,7 @@ class ilMailSearchGUI
         return $form;
     }
 
-    public function lookupRecipientAsync()
+    #[NoReturn] public function lookupRecipientAsync(): void
     {
         include_once 'Services/JSON/classes/class.ilJsonUtil.php';
         include_once 'Services/Mail/classes/class.ilMailForm.php';
@@ -225,8 +227,7 @@ class ilMailSearchGUI
 
         // #14768
         $quoted = ilUtil::stripSlashes($search);
-        $quoted = str_replace('%', '\%', $quoted);
-        $quoted = str_replace('_', '\_', $quoted);
+        $quoted = str_replace(array('%', '_'), array('\%', '\_'), $quoted);
 
         $search_recipients = ($this->isDefaultRequestContext());
 
@@ -238,7 +239,7 @@ class ilMailSearchGUI
     }
 
 
-    public function showResults()
+    public function showResults(): void
     {
         $form = $this->initSearchForm();
 
@@ -314,7 +315,7 @@ class ilMailSearchGUI
                 $result[$counter]['login'] = $login;
                 if (ilObjUser::_lookupPref($user, 'public_email') == 'y') {
                     $has_mail_addr = true;
-                    $result[$counter]['email'] = ilObjUser::_lookupEmail($user, 'email');
+                    $result[$counter]['email'] = ilObjUser::_lookupEmail($user);
                 }
 
                 if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y', "g"))) {
@@ -492,11 +493,11 @@ class ilMailSearchGUI
                     $members = array();
                     $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
-                        if (substr($role['title'], 0, 14) == 'il_grp_member_' ||
-                            substr($role['title'], 0, 13) == 'il_grp_admin_'
+                        if (str_starts_with($role['title'], 'il_grp_member_') ||
+                            str_starts_with($role['title'], 'il_grp_admin_')
                         ) {
                             // FIX for Mantis: 7523
-                            array_push($members, '#' . $role['title']);
+                            $members[] = '#' . $role['title'];
                         }
                     }
                     $str_members = implode(',', $members);
@@ -555,7 +556,7 @@ class ilMailSearchGUI
         }
     }
 
-    protected function addPermission($a_obj_ids)
+    protected function addPermission($a_obj_ids): void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = array($a_obj_ids);

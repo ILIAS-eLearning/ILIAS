@@ -68,7 +68,7 @@ class ilMailingLists
         
         if (is_array($a_ids) && !empty($a_ids)) {
             $counter = 0;
-            while ($id = @array_pop($a_ids)) {
+            while ($id = array_pop($a_ids)) {
                 $entries[$counter] = new ilMailingList($this->user, $id);
                 
                 ++$counter;

@@ -14,8 +14,8 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilContactGUI
 {
-    const CONTACTS_VIEW_GALLERY = 1;
-    const CONTACTS_VIEW_TABLE = 2;
+    public const CONTACTS_VIEW_GALLERY = 1;
+    public const CONTACTS_VIEW_TABLE = 2;
 
     /**
      * @var ilTemplate
@@ -355,7 +355,7 @@ class ilContactGUI
             return true;
         }
 
-        $usr_ids = (array) $_POST['usr_id'];
+        $usr_ids = $_POST['usr_id'];
 
         $mail_data = $this->umail->getSavedData();
         if (!is_array($mail_data)) {
@@ -394,7 +394,7 @@ class ilContactGUI
      */
     public function submitInvitation()
     {
-        if (!isset($_POST['usr_id']) || !strlen($_POST['usr_id'])) {
+        if (!isset($_POST['usr_id']) || $_POST['usr_id'] === '') {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
@@ -426,7 +426,7 @@ class ilContactGUI
 
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
-            if (!strlen($login)) {
+            if ($login === '') {
                 $no_login[$usr_id] = $usr_id;
                 continue;
             }
@@ -496,7 +496,7 @@ class ilContactGUI
                 null,
                 $this->user->getId(),
                 $id,
-                (int) $scope,
+                $scope,
                 $url
             );
             $userlist[] = '<li>' . $valid_user_to_login_map[$id] . '</li>';

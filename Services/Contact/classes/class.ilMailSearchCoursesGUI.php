@@ -178,17 +178,17 @@ class ilMailSearchCoursesGUI
             foreach ($ref_ids as $ref_id) {
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
                 foreach ($roles as $role) {
-                    if (substr($role['title'], 0, 14) == 'il_crs_member_' ||
-                        substr($role['title'], 0, 13) == 'il_crs_tutor_' ||
-                        substr($role['title'], 0, 13) == 'il_crs_admin_') {
+                    if (str_starts_with($role['title'], 'il_crs_member_') ||
+                        str_starts_with($role['title'], 'il_crs_tutor_') ||
+                        str_starts_with($role['title'], 'il_crs_admin_')) {
                         if (isset($old_mail_data['rcp_to']) &&
                            trim($old_mail_data['rcp_to']) != '') {
                             $rcpt = (new \ilRoleMailboxAddress($role['obj_id']))->value();
                             if (!$this->umail->existsRecipient($rcpt, (string) $old_mail_data['rcp_to'])) {
-                                array_push($members, $rcpt);
+                                $members[] = $rcpt;
                             }
                         } else {
-                            array_push($members, (new \ilRoleMailboxAddress($role['obj_id']))->value());
+                            $members[] = (new \ilRoleMailboxAddress($role['obj_id']))->value();
                         }
                     }
                 }
@@ -242,7 +242,7 @@ class ilMailSearchCoursesGUI
         
         foreach ($ids as $member) {
             $login = ilObjUser::_lookupLogin($member);
-            array_push($members, $login);
+            $members[] = $login;
         }
         $mail_data = $this->umail->appendSearchResult($members, "to");
 
@@ -427,7 +427,8 @@ class ilMailSearchCoursesGUI
                 if ($oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED) {
                     unset($_POST['search_crs']);
                     ilUtil::sendInfo($this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
-                    return $this->showMyCourses();
+                    $this->showMyCourses();
+                    return;
                 }
                 unset($oTmpCrs);
             }
@@ -446,7 +447,7 @@ class ilMailSearchCoursesGUI
 
             $this->lng->loadLanguageModule('crs');
             include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-            $context = $_GET["ref"] ? $_GET["ref"] : "mail";
+            $context = $_GET["ref"] ?: "mail";
             $table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context, $_POST["search_crs"]);
             $tableData = array();
             $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
@@ -515,7 +516,7 @@ class ilMailSearchCoursesGUI
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
             }
-            if (is_array($ids) && sizeof($ids)) {
+            if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
@@ -523,7 +524,7 @@ class ilMailSearchCoursesGUI
             }
         } elseif ($_GET["view"] == "crs_members") {
             $ids = $_REQUEST["search_members"];
-            if (is_array($ids) && sizeof($ids)) {
+            if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_one_entry"));
