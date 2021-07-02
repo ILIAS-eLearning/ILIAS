@@ -2,20 +2,17 @@
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Setup;
 
 /**
  * Store information about https is enabled
  */
 class ilChatroomServerConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilChatroomSetupConfig
-     */
-    protected $config;
+    protected ilChatroomSetupConfig $config;
 
-    public function __construct(\ilChatroomSetupConfig $config)
+    public function __construct(ilChatroomSetupConfig $config)
     {
         $this->config = $config;
     }
@@ -38,9 +35,9 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilIniFilesLoadedObjective(),
-            new \ilDatabaseInitializedObjective(),
-            new \ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
+            new ilIniFilesLoadedObjective(),
+            new ilDatabaseInitializedObjective(),
+            new ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
         ];
     }
 
@@ -106,6 +103,6 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        return $this->config->getAddress() != '' && $this->config->getPort() != 0;
+        return $this->config->getAddress() !== '' && $this->config->getPort() !== 0;
     }
 }
