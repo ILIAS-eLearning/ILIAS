@@ -65,7 +65,7 @@ class ilUserCertificateTableProvider
      */
     public function fetchDataSet($userId, $params, $filter)
     {
-        $this->logger->info(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
+        $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
         $sql = 'SELECT 
   il_cert_user_cert.id,
@@ -75,26 +75,24 @@ class ilUserCertificateTableProvider
   usr_data.firstname,
   usr_data.lastname,
   il_cert_user_cert.obj_id,
-  (CASE WHEN (object_data.title IS NULL OR LENGTH(object_data.title) = 0)
-    THEN
-      CASE WHEN (object_data_del.title IS NULL OR LENGTH(object_data_del.title) = 0)
-        THEN ' . $this->database->quote($this->defaultTitle, 'text') . '
-        ELSE object_data_del.title
-        END
-    ELSE object_data.title 
+  (CASE
+    WHEN (trans.title IS NOT NULL AND LENGTH(trans.title) > 0) THEN trans.title
+    WHEN (object_data.title IS NOT NULL AND LENGTH(object_data.title) > 0) THEN object_data.title 
+    WHEN (object_data_del.title IS NOT NULL AND LENGTH(object_data_del.title) > 0) THEN object_data_del.title 
+    ELSE ' . $this->database->quote($this->defaultTitle, 'text') . '
     END
   ) as title,
-  (CASE WHEN (object_data.description IS NULL OR LENGTH(object_data.description) = 0)
-    THEN
-      CASE WHEN (object_data_del.description IS NULL OR LENGTH(object_data_del.description) = 0)
-        THEN ""
-        ELSE object_data_del.description
-        END
-    ELSE object_data.description 
+  (CASE
+    WHEN (trans.description IS NOT NULL AND LENGTH(trans.description) > 0) THEN trans.description
+    WHEN (object_data.description IS NOT NULL AND LENGTH(object_data.description) > 0) THEN object_data.description 
+    WHEN (object_data_del.description IS NOT NULL AND LENGTH(object_data_del.description) > 0) THEN object_data_del.description 
+    ELSE ""
     END
   ) as description
 FROM il_cert_user_cert
 LEFT JOIN object_data ON object_data.obj_id = il_cert_user_cert.obj_id
+LEFT JOIN object_translation trans ON trans.obj_id = object_data.obj_id
+AND trans.lang_code = ' . $this->database->quote($params['language'], 'text') . '
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
@@ -153,7 +151,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             $data['cnt'] = $row_cnt['cnt'];
 
-            $this->logger->info(sprintf(
+            $this->logger->debug(sprintf(
                 'All active certificates for user: "%s" total: "%s"',
                 $userId,
                 $data['cnt']
@@ -183,7 +181,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
-            if ($params['order_field'] == 'date') {
+            if ($params['order_field'] === 'date') {
                 $params['order_field'] = 'acquired_timestamp';
             }
 
