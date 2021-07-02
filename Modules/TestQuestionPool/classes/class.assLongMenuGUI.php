@@ -51,7 +51,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             #{
             #	if (is_null($pass)) $pass = ilObjTest::_getPass($active_id);
             #}
-            $solutions = $this->object->getTestOutputSolutions($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
+            //$solutions = $this->object->getTestOutputSolutions($active_id, $pass);
             // hey.
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value["value1"]] = $solution_value["value2"];
@@ -249,6 +250,16 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
     {
         return $form;
+    }
+
+    /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
     }
 
     /**

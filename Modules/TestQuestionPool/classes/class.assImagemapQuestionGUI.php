@@ -413,6 +413,16 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     // hey.
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
     * Get the question solution output
     *
     * @param integer $active_id The active user id
@@ -445,7 +455,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $pass = ilObjTest::_getPass($active_id);
                 }
             }
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
         } else {
             if (!$this->object->getIsMultipleChoice()) {
                 $found_index = -1;

@@ -210,6 +210,16 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
      * Get the question solution output
      *
      * The getSolutionOutput() method is used to print either the
@@ -246,7 +256,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             /* Retrieve tst_solutions entries. */
             $reached_points = $this->object->getReachedPoints($active_id, $pass);
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             if (is_array($solutions)) {
                 foreach ($solutions as $solution) {
                     array_push($selections, (int) $solution['value1']);

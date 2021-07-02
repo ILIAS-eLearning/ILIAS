@@ -148,6 +148,16 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
      * Get the question solution output
      *
      * @param integer $active_id             The active user id
@@ -176,7 +186,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         // get the solution of the user for the active pass or from the last pass if allowed
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
         } else {
             array_push($solutions, array("value1" => sprintf($this->lng->txt("value_between_x_and_y"), $this->object->getLowerLimit(), $this->object->getUpperLimit())));
         }
