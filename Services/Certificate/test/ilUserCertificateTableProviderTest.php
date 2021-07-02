@@ -36,10 +36,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->once())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -123,10 +119,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -209,10 +201,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $logger = $this->getMockBuilder('ilLogger')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
 
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
@@ -298,10 +286,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -370,10 +354,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -441,10 +421,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $logger = $this->getMockBuilder('ilLogger')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
 
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
@@ -522,10 +498,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -601,10 +573,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $logger = $this->getMockBuilder('ilLogger')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
 
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
