@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,16 +10,16 @@
  */
 class ilChatroomConfigFileHandler
 {
-    const CHATROOM_DATA_DIR = '/chatroom/';
-    const CHATROOM_CLIENT_CONFIG_FILENAME = 'client.cfg';
-    const CHATROOM_SERVER_CONFIG_FILENAME = 'server.cfg';
+    private const CHATROOM_DATA_DIR = '/chatroom/';
+    private const CHATROOM_CLIENT_CONFIG_FILENAME = 'client.cfg';
+    private const CHATROOM_SERVER_CONFIG_FILENAME = 'server.cfg';
 
     /**
      * Creates a client config file and saves it to the chatroom data directory
      * @param array $settings
      * @throws Exception
      */
-    public function createClientConfigFile(array $settings)
+    public function createClientConfigFile(array $settings) : void
     {
         $content = $this->getClientFileContent($settings);
         $this->writeDataToFile($content, self::CHATROOM_CLIENT_CONFIG_FILENAME);
@@ -30,32 +30,32 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @return string
      */
-    protected function getClientFileContent(array $settings)
+    protected function getClientFileContent(array $settings) : string
     {
         global $DIC;
 
         // Dirty configuration swap: Ilias differentiates between InnoDB and MyISAM.
         // MyISAM is configured as mysql, InnoDB as innodb.
         // The client config file only needs information about driver not engine
-        $type = $a_type = $DIC['ilClientIniFile']->readVariable('db', 'type');
-        if (in_array($type, array(
+        $type = $DIC['ilClientIniFile']->readVariable('db', 'type');
+        if (in_array($type, [
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
             ilDBConstants::TYPE_PDO_MYSQL_INNODB,
             ilDBConstants::TYPE_PDO_MYSQL_MYISAM,
             ''
-        ))) {
+        ], true)) {
             $type = 'mysql';
         }
 
-        $settings['database'] = array(
+        $settings['database'] = [
             'type' => $type,
             'host' => $DIC['ilClientIniFile']->readVariable('db', 'host'),
             'port' => (int) $DIC['ilClientIniFile']->readVariable('db', 'port'),
             'name' => $DIC['ilClientIniFile']->readVariable('db', 'name'),
             'user' => $DIC['ilClientIniFile']->readVariable('db', 'user'),
             'pass' => $DIC['ilClientIniFile']->readVariable('db', 'pass')
-        );
+        ];
 
         return json_encode($settings, JSON_PRETTY_PRINT);
     }
@@ -66,10 +66,10 @@ class ilChatroomConfigFileHandler
      * @param string $filename
      * @throws Exception
      */
-    protected function writeDataToFile($content, $filename)
+    protected function writeDataToFile(string $content, string $filename) : void
     {
         $path = $this->createDataDirIfNotExists();
-        $handle = fopen($path . $filename, 'w');
+        $handle = fopen($path . $filename, 'wb');
 
         if (!fwrite($handle, $content)) {
             throw new Exception('Cannot write to file');
@@ -83,7 +83,7 @@ class ilChatroomConfigFileHandler
      * @return string
      * @throws Exception Throws Exception if data dir creation failed
      */
-    protected function createDataDirIfNotExists()
+    protected function createDataDirIfNotExists() : string
     {
         $path = ilUtil::getDataDir() . self::CHATROOM_DATA_DIR;
 
@@ -101,7 +101,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @throws Exception
      */
-    public function createServerConfigFile(array $settings)
+    public function createServerConfigFile(array $settings) : void
     {
         $content = $this->getServerFileContent($settings);
         $this->writeDataToFile($content, self::CHATROOM_SERVER_CONFIG_FILENAME);
@@ -112,7 +112,7 @@ class ilChatroomConfigFileHandler
      * @param array $settings
      * @return string
      */
-    protected function getServerFileContent(array $settings)
+    protected function getServerFileContent(array $settings) : string
     {
         unset($settings['ilias_proxy']);
         unset($settings['client_proxy']);
