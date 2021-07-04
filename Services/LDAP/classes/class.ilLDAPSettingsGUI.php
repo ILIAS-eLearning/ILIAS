@@ -519,27 +519,33 @@ class ilLDAPSettingsGUI
             if ($this->form->getInput('role_name') == 0) {
                 $this->rule->setRoleId($this->form->getInput('role_id'));
             } elseif ($this->form->getInput('role_search')) {
-                // Search role
-                include_once './Services/Search/classes/class.ilQueryParser.php';
-                
-                $parser = new ilQueryParser('"' . $this->form->getInput('role_search') . '"');
-                
-                // TODO: Handle minWordLength
-                $parser->setMinWordLength(1, true);
-                $parser->setCombination(QP_COMBINATION_AND);
-                $parser->parse();
-                
-                include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
-                $object_search = new ilLikeObjectSearch($parser);
-                $object_search->setFilter(array('role'));
-                $res = $object_search->performSearch();
-                
-                $entries = $res->getEntries();
-                if (count($entries) == 1) {
-                    $role = current($entries);
-                    $this->rule->setRoleId($role['obj_id']);
-                } elseif (count($entries) > 1) {
-                    $this->rule->setRoleId(-1);
+                $words = explode(' ', trim($this->form->getInput('role_search')));
+                if (preg_match(':\d+:', $words[0], $rol_id)) {
+                    $this->rule->setRoleId($rol_id[0]);
+                }
+                else {
+                    // Search role
+                    include_once './Services/Search/classes/class.ilQueryParser.php';
+
+                    $parser = new ilQueryParser('"' . $this->form->getInput('role_search') . '"');
+
+                    // TODO: Handle minWordLength
+                    $parser->setMinWordLength(1, true);
+                    $parser->setCombination(QP_COMBINATION_AND);
+                    $parser->parse();
+
+                    include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+                    $object_search = new ilLikeObjectSearch($parser);
+                    $object_search->setFilter(array('role'));
+                    $res = $object_search->performSearch();
+
+                    $entries = $res->getEntries();
+                    if (count($entries) == 1) {
+                        $role = current($entries);
+                        $this->rule->setRoleId($role['obj_id']);
+                    } elseif (count($entries) > 1) {
+                        $this->rule->setRoleId(-1);
+                    }
                 }
             }
             
