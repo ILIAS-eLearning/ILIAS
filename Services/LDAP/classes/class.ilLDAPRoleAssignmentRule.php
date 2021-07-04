@@ -125,8 +125,8 @@ class ilLDAPRoleAssignmentRule
     protected function wildcardCompare($a_str1, $a_str2)
     {
         $pattern = str_replace('*', '.*?', $a_str1);
-        $this->logger->debug(': Replace pattern:' . $pattern . ' => ' . $a_str2);
-        return (bool) preg_match('/^' . $pattern . '$/i', $a_str2);
+        $this->logger->debug(': Compare pattern:' . $pattern . ' => ' . $a_str2);
+        return (bool) preg_match('/^' . preg_quote($pattern, "/") . '$/i', $a_str2);
     }
     
     /**
