@@ -125,7 +125,7 @@ class ilChatroomSmilies
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $result[] = [
-                'smiley_id' => $row['smiley_id'],
+                'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
                 'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
@@ -154,11 +154,11 @@ class ilChatroomSmilies
         $sql_parts = [];
 
         foreach ($smilies as $s) {
-            unlink($s["smiley_fullpath"]);
-            $sql_parts[] = "smiley_id = " . $ilDB->quote($s["smiley_id"], 'integer');
+            unlink($s['smiley_fullpath']);
+            $sql_parts[] = 'smiley_id = ' . $ilDB->quote($s['smiley_id'], 'integer');
         }
 
-        $ilDB->manipulate("DELETE FROM chatroom_smilies WHERE " . implode(" OR ", $sql_parts));
+        $ilDB->manipulate('DELETE FROM chatroom_smilies WHERE ' . implode(' OR ', $sql_parts));
     }
 
     /**
@@ -176,7 +176,7 @@ class ilChatroomSmilies
             return [];
         }
 
-        $sql = "SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies WHERE ";
+        $sql = 'SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies WHERE ';
 
         $sql_parts = [];
         foreach ($ids as $id) {
@@ -189,7 +189,7 @@ class ilChatroomSmilies
 
         while ($row = $ilDB->fetchAssoc($res)) {
             $result[] = [
-                'smiley_id' => $row['smiley_id'],
+                'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
                 'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
@@ -247,7 +247,7 @@ class ilChatroomSmilies
 
         if ($row = $ilDB->fetchAssoc($res)) {
             return [
-                'smiley_id' => $row['smiley_id'],
+                'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
                 'smiley_path' => $row['smiley_path'],
                 'smiley_fullpath' => ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $row['smiley_path']
