@@ -57,7 +57,7 @@ class ilChatroomConfigFileHandler
             'pass' => $DIC['ilClientIniFile']->readVariable('db', 'pass')
         ];
 
-        return json_encode($settings, JSON_PRETTY_PRINT);
+        return json_encode($settings, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
     }
 
     /**
@@ -114,11 +114,8 @@ class ilChatroomConfigFileHandler
      */
     protected function getServerFileContent(array $settings) : string
     {
-        unset($settings['ilias_proxy']);
-        unset($settings['client_proxy']);
-        unset($settings['ilias_url']);
-        unset($settings['client_url']);
+        unset($settings['ilias_proxy'], $settings['client_proxy'], $settings['ilias_url'], $settings['client_url']);
 
-        return json_encode($settings, JSON_PRETTY_PRINT);
+        return json_encode($settings, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
     }
 }
