@@ -204,7 +204,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                     $this->httpServices->saveResponse(
                         $this->httpServices->response()
                             ->withBody($responseStream)
-                            ->withAddedHeader('Content-Type', 'application/json')
+                            ->withHeader('Content-Type', 'application/json')
                     );
                     $this->httpServices->close();
                 }

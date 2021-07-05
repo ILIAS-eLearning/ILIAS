@@ -44,7 +44,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withBody($responseStream)
-                ->withAddedHeader('Content-Type', 'application/json')
+                ->withHeader('Content-Type', 'application/json')
         );
         $this->http->sendResponse();
         $this->http->close();
