@@ -22,11 +22,11 @@ function base()
     );
 
     //Step 1: define the select
-    $multi = $ui->input()->field()->multiselect("Take your picks", $options, "This is the byline text")
-        ->withRequired(true);
+    $multi = $ui->input()->field()->multiselect("Take your picks", $options, "This is the byline text")->withValue(['2']);
+    $text  = $ui->input()->field()->text("Some label")->withValue('some string');
 
     //Step 2: define form and form actions
-    $form = $ui->input()->container()->form()->standard('#', ['multi' => $multi]);
+    $form = $ui->input()->container()->form()->standard('#', ['multi' => $multi, 'text' => $text]);
 
     //Step 3: implement some form data processing.
     if ($request->getMethod() == "POST") {
