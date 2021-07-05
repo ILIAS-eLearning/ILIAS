@@ -85,7 +85,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
     {
         foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
-                return $refId;
+                return (int) $refId;
             }
         }
 
