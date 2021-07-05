@@ -10,7 +10,7 @@
  */
 class ilChatroomSmiliesGUI
 {
-    public static function _getExistingSmiliesTable(ilObjChatroomAdminGUI $a_ref) : string
+    public static function _getExistingSmiliesTable(ilChatroomObjectGUI $a_ref) : string
     {
         $table = new ilChatroomSmiliesTableGUI($a_ref, 'smiley');
         $values = ilChatroomSmilies::_getSmilies();

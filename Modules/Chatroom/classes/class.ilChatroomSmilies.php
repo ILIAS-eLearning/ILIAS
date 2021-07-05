@@ -288,10 +288,10 @@ class ilChatroomSmilies
 
     /**
      * Stores smiley with given keywords and path in database.
-     * @param string[] $keywords
+     * @param string $keywords
      * @param string $path
      */
-    public static function _storeSmiley(array $keywords, string $path) : void
+    public static function _storeSmiley(string $keywords, string $path) : void
     {
         global $DIC;
 

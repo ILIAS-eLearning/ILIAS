@@ -10,10 +10,10 @@
  */
 class ilChatroomSmiliesTableGUI extends ilTable2GUI
 {
-    private ilObjChatroomAdminGUI $gui;
+    private ilChatroomObjectGUI $gui;
     protected \ILIAS\DI\Container $dic;
 
-    public function __construct(ilObjChatroomAdminGUI $a_ref, string $cmd)
+    public function __construct(ilChatroomObjectGUI $a_ref, string $cmd)
     {
         $this->setId('chatroom_smilies_tbl');
         parent::__construct($a_ref, $cmd);
