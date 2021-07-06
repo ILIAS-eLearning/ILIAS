@@ -8,7 +8,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class HasMaxLength extends CustomConstraint implements Constraint
+class HasMaxLength extends CustomConstraint
 {
     protected int $max_length;
 

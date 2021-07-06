@@ -8,7 +8,7 @@ use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
-class HasMinLength extends CustomConstraint implements Constraint
+class HasMinLength extends CustomConstraint
 {
     protected int $min_length;
 

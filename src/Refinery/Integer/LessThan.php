@@ -8,7 +8,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class LessThan extends CustomConstraint implements Constraint
+class LessThan extends CustomConstraint
 {
     protected int $max;
 

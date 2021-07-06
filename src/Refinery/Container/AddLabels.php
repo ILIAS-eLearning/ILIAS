@@ -40,7 +40,7 @@ class AddLabels implements Transformation
             throw new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
         }
 
-        if (count($from) != count($this->labels)) {
+        if (count($from) !== count($this->labels)) {
             throw new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
         }
 
@@ -58,7 +58,7 @@ class AddLabels implements Transformation
             return $this->factory->error($exception);
         }
 
-        if (count($dataValue) != count($this->labels)) {
+        if (count($dataValue) !== count($this->labels)) {
             $exception = new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
             return $this->factory->error($exception);
         }

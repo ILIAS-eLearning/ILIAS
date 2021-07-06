@@ -54,7 +54,7 @@ trait ProblemBuilder
             $error = $this->lng->txt($args[0]);
             if (count($args) > 1) {
                 $args[0] = $error;
-                for ($i = 0; $i < count($args); $i++) {
+                for ($i = 0, $numArgs = count($args); $i < $numArgs; $i++) {
                     $v = $args[$i];
                     if ((is_array($v) || (is_object($v) && !method_exists($v, "__toString")) || is_null($v))) {
                         if (is_array($v)) {
@@ -66,7 +66,7 @@ trait ProblemBuilder
                         }
                     }
                 }
-                $error = call_user_func_array("sprintf", $args);
+                $error = sprintf(...$args);
             }
             return $error;
         };

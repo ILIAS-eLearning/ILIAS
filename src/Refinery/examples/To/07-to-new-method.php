@@ -9,7 +9,7 @@ function toList()
 {
     class SomeClass
     {
-        public function say(string $firstWord, string $secondWord)
+        public function say(string $firstWord, string $secondWord) : string
         {
             return $firstWord . $secondWord;
         }
