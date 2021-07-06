@@ -150,7 +150,7 @@ class ilChatroomUser
         );
 
         while (($row = $DIC->database()->fetchAssoc($rset))) {
-            $json = json_decode($row['userdata'], true);
+            $json = json_decode($row['userdata'], true, 512, JSON_THROW_ON_ERROR);
             $usernames[] = $json['login'];
         }
 
@@ -184,7 +184,7 @@ class ilChatroomUser
 
         $res = $DIC->database()->query($query);
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $users[] = json_decode($row['userdata']);
+            $users[] = json_decode($row['userdata'], false, 512, JSON_THROW_ON_ERROR);
         }
 
         return $users;
