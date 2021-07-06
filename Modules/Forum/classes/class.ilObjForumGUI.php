@@ -60,7 +60,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     /** @var \Psr\Http\Message\ServerRequestInterface */
     private $httpRequest;
-    /** @var \ILIAS\HTTP\GlobalHttpState */
+    /** @var \ILIAS\HTTP\Services */
     private $http;
 
     /** @var Factory */

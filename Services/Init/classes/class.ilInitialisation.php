@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -76,7 +77,7 @@ class ilInitialisation
             )
         );
     }
-    
+
     /**
      * get common include code files
      */
@@ -86,17 +87,17 @@ class ilInitialisation
         if (ilContext::usesTemplate()) {
             require_once "./Services/UICore/classes/class.ilTemplate.php";
         }
-                
+
         // really always required?
         require_once "./Services/Utilities/classes/class.ilUtil.php";
         require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
         require_once "include/inc.ilias_version.php";
-        
+
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        
+
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
-    
+
     /**
      * This is a hack for  authentication.
      *
@@ -1465,6 +1466,11 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+
+        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
+        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
+        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
+        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
     }
 
     /**

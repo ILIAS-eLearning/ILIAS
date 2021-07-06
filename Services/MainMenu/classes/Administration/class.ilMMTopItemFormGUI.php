@@ -17,7 +17,7 @@ class ilMMTopItemFormGUI
 
     private const F_ICON = 'icon';
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     private $http;
     /**
@@ -64,7 +64,7 @@ class ilMMTopItemFormGUI
         Factory $ui_fa,
         Renderer $ui_re,
         ilLanguage $lng,
-        \ILIAS\DI\HTTPServices $http,
+        \ILIAS\HTTP\Services $http,
         ilMMItemFacadeInterface $item,
         ilMMItemRepository $repository
     ) {

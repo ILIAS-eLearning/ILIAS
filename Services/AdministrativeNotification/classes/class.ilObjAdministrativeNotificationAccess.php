@@ -8,7 +8,7 @@ class ilObjAdministrativeNotificationAccess extends ilObjectAccess
 {
 
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     private $http;
     /**

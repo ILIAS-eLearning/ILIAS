@@ -4,7 +4,7 @@
 require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\HTTP\Cookies\CookieFactory;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use org\bovigo\vfs;
@@ -36,7 +36,7 @@ class ilWACCheckingInstanceTest extends MockeryTestCase
      */
     protected $root;
     /**
-     * @var GlobalHttpState|MockInterface
+     * @var Services|MockInterface
      */
     private $http;
 
@@ -59,7 +59,7 @@ class ilWACCheckingInstanceTest extends MockeryTestCase
         //setup container for HttpServiceAware classes
         $container = new \ILIAS\DI\Container();
         $container['http'] = function ($c) {
-            return Mockery::mock(GlobalHttpState::class);
+            return Mockery::mock(Services::class);
         };
 
         $this->http = $container['http'];
@@ -106,7 +106,7 @@ class ilWACCheckingInstanceTest extends MockeryTestCase
         });
 
         /**
-         * @var GlobalHttpState|\Mockery\MockInterface $httpService
+         * @var Services|\Mockery\MockInterface $httpService
          */
         $httpService = $this->http;
         /**

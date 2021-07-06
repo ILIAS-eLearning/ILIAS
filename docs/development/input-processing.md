@@ -1794,7 +1794,7 @@ the pattern could be implemented over a DOM-parser of XML.
 
 To enforce the usage of the two proposed changes, we recommend to introduce a
 dicto rule that forbids the usage of `$_GET`, `$_POST` and `$_COOKIE` and the
-usage of `ILIAS\HTTP\GlobalHttpState::request`, with appropriate exceptions. The
+usage of `ILIAS\HTTP\Services::request`, with appropriate exceptions. The
 change in `ilDataSetImporter` will be breaking and thus does not need a dicto rule
 but instead should be explained and advertised in the JF and on developers@.
 

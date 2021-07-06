@@ -465,7 +465,7 @@ class ilPropertyFormGUI extends ilFormGUI
         }
         
         // check if POST is missint completely (if post_max_size exceeded)
-        if (count($this->items) > 0 && !is_array($_POST)) {
+        if (count($this->items) > 0 && count($_POST) === 0) {
             $ok = false;
         }
         

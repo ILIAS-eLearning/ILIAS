@@ -14,10 +14,11 @@ use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\FileUpload\Processor\PreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManager;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Psr\Http\Message\UploadedFileInterface;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class FileUploadImpl
@@ -38,7 +39,7 @@ final class FileUploadImpl implements FileUpload
      */
     private $filesystems;
     /**
-     * @var GlobalHttpState
+     * @var Services
      */
     private $globalHttpState;
     /**
@@ -266,7 +267,7 @@ final class FileUploadImpl implements FileUpload
             $identifier = $file->getStream()->getMetadata('uri');
 
             $identifier = is_array($identifier) ? '' : $identifier;
-            
+
             $this->uploadStreams[$identifier] = $stream;
 
             if ($file->getError() === UPLOAD_ERR_OK) {
