@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<module xmlns="http://www.w3.org" version="$Id$" id="lti">
+<module xmlns="http://www.w3.org" version="$Id$" id="ltic">
 	<baseclasses>
 		<baseclass name="LTIConsumerGUI" dir="classes" />
 	</baseclasses>
