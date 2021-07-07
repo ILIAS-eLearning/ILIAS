@@ -70,7 +70,7 @@ class ilChatroomServerSettingsTest extends TestCase
     {
         $protocol = 'http://';
         $domain = '127.0.0.1';
-        $port = '7373';
+        $port = 7373;
         $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setProtocol($protocol);
@@ -85,7 +85,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $protocol = 'http://';
         $domain = '127.0.0.1';
         $clientDomain = 'proxy.localhost';
-        $port = '7373';
+        $port = 7373;
         $expected = sprintf('%s%s:%s', $protocol, $clientDomain, $port);
 
         $this->settings->setClientUrlEnabled(true);
@@ -102,7 +102,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $protocol = 'http://';
         $domain = '127.0.0.1';
         $clientDomain = 'proxy.localhost';
-        $port = '7373';
+        $port = 7373;
         $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setClientUrlEnabled(false);
@@ -119,7 +119,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $protocol = 'http://';
         $domain = '127.0.0.1';
         $iliasDomain = 'proxy.localhost';
-        $port = '7373';
+        $port = 7373;
         $expected = sprintf('%s%s:%s', $protocol, $iliasDomain, $port);
 
         $this->settings->setIliasUrlEnabled(true);
@@ -136,7 +136,7 @@ class ilChatroomServerSettingsTest extends TestCase
         $protocol = 'http://';
         $domain = '127.0.0.1';
         $iliasDomain = 'proxy.localhost';
-        $port = '7373';
+        $port = 7373;
         $expected = sprintf('%s%s:%s', $protocol, $domain, $port);
 
         $this->settings->setIliasUrlEnabled(false);
