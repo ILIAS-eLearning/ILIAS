@@ -30,6 +30,10 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
     $GLOBALS['ilGlobalStartTime'] = microtime();
 }
 
+global $DIC;
+
+$DIC = new Container();
+
 include_once "Services/Context/classes/class.ilContext.php";
 
 /** @defgroup ServicesInit Services/Init
@@ -1104,7 +1108,7 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
-        $GLOBALS["DIC"] = new \ILIAS\DI\Container();
+
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();
         };
