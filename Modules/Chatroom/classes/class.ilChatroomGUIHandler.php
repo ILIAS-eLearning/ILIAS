@@ -76,6 +76,15 @@ abstract class ilChatroomGUIHandler
         return $default ?? null;
     }
 
+    protected function hasRequestValue(string $key) : bool
+    {
+        if (isset($this->httpServices->request()->getQueryParams()[$key])) {
+            return true;
+        }
+
+        return isset($this->httpServices->request()->getParsedBody()[$key]) ? true : false;
+    }
+
     /**
      * Executes given $method if existing, otherwise executes executeDefault() method.
      * @param string $method

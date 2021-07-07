@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 use ILIAS\Filesystem\Stream\Streams;
 
 /**
@@ -27,20 +28,28 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $failure = true;
         $username = '';
 
-        if (isset($this->httpServices->request()->getParsedBody()['custom_username_radio'])) {
+        if ($this->hasRequestValue('custom_username_radio')) {
             if (
-                isset($this->httpServices->request()->getParsedBody()['custom_username_text']) &&
-                $this->httpServices->request()->getParsedBody()['custom_username_radio'] === 'custom_username'
+                $this->hasRequestValue('custom_username_text') &&
+                $this->getRequestValue('custom_username_radio') === 'custom_username'
             ) {
-                $username = $this->httpServices->request()->getParsedBody()['custom_username_text'];
+                $username = $this->refinery->kindlyTo()->string()->transform(
+                    $this->getRequestValue('custom_username_text')
+                );
                 $failure = false;
             } elseif (
                 method_exists(
                     $chat_user,
-                    'build' . $this->httpServices->request()->getParsedBody()['custom_username_radio']
+                    'build' . $this->refinery->kindlyTo()->string()->transform(
+                        $this->getRequestValue('custom_username_radio')
+                    )
                 )
             ) {
-                $username = $chat_user->{'build' . $this->httpServices->request()->getParsedBody()['custom_username_radio']}();
+                $username = $chat_user->{
+                    'build' . $this->refinery->kindlyTo()->string()->transform(
+                        $this->getRequestValue('custom_username_radio')
+                    )
+                }();
                 $failure = false;
             }
         }
@@ -65,7 +74,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->mainTpl->addJavaScript('Modules/Chatroom/js/chat.js');
         $this->mainTpl->addJavaScript('Modules/Chatroom/js/iliaschat.jquery.js');
         $this->mainTpl->addJavaScript('node_modules/jquery-outside-events/jquery.ba-outside-events.js');
-
         $this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
         $this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
@@ -73,10 +81,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     /**
      * Prepares and displays chatroom and connects user to it.
-     * @param ilChatroom     $room
+     * @param ilChatroom $room
      * @param ilChatroomUser $chat_user
      */
-    private function showRoom(ilChatroom $room, ilChatroomUser $chat_user)
+    private function showRoom(ilChatroom $room, ilChatroomUser $chat_user) : void
     {
         $this->redirectIfNoPermission('read');
 

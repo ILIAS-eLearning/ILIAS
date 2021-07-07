@@ -197,16 +197,20 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                         $this->{$this->ctrl->getCmd() . 'Object'}();
                     }
                 } catch (Exception $e) {
-                    $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
-                        'success' => false,
-                        'reason' => $e->getMessage()
-                    ], JSON_THROW_ON_ERROR));
-                    $this->httpServices->saveResponse(
-                        $this->httpServices->response()
-                            ->withBody($responseStream)
-                            ->withHeader('Content-Type', 'application/json')
-                    );
-                    $this->httpServices->close();
+                    if ($this->ctrl->isAsynch()) {
+                        $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
+                            'success' => false,
+                            'reason' => $e->getMessage()
+                        ], JSON_THROW_ON_ERROR));
+                        $this->httpServices->saveResponse(
+                            $this->httpServices->response()
+                                ->withBody($responseStream)
+                                ->withHeader('Content-Type', 'application/json')
+                        );
+                        $this->httpServices->close();
+                    } else {
+                        throw $e;
+                    }
                 }
                 break;
         }

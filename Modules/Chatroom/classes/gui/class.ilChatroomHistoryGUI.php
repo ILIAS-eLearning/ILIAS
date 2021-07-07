@@ -89,6 +89,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         }
 
         $scopes = [];
+        $isScopeRequest = $this->hasRequestValue('scope');
         $requestScope = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0));
 
         if ($export) {
@@ -104,8 +105,11 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             switch ($message['message']->type) {
                 case 'message':
                     if (
-                        ($requestScope && (int) $message['message']->subRoomId === $requestScope) ||
-                        !$message['message']->subRoomId
+                        !$message['message']->subRoomId ||
+                        (
+                            $isScopeRequest &&
+                            (int) $message['message']->subRoomId === $requestScope
+                        )
                     ) {
                         $date = new ilDate($message['timestamp'], IL_CAL_UNIX);
                         $dateTime = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
@@ -167,7 +171,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $select = new ilSelectInputGUI($this->ilLng->txt('scope'), 'scope');
             $select->setOptions($scopes);
 
-            if ($requestScope) {
+            if ($isScopeRequest) {
                 $select->setValue($requestScope);
             }
 
@@ -193,7 +197,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             }
             ilDatePresentation::setUseRelativeDates($prevUseRelDates);
 
-            $isPrivateRoom = (bool) $requestScope;
+            $isPrivateRoom = $isScopeRequest;
             if ($isPrivateRoom) {
                 $roomTpl->setVariable(
                     'ROOM_TITLE',
