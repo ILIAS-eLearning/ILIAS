@@ -99,7 +99,6 @@ class ilCalendarPresentationGUI
         // show back to pd
         $this->ctrl->saveParameter($this, 'backpd');
         
-        
         include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         
@@ -716,6 +715,8 @@ class ilCalendarPresentationGUI
             $this->addStandardTabs();
         }
 
+        $tpl->setTitleIcon(ilUtil::getImagePath("icon_cals.svg"));
+
         // if we are in single calendar view
         if ($this->category_id > 0) {
             global $DIC;
@@ -750,7 +751,7 @@ class ilCalendarPresentationGUI
                     $header = $category->getTitle();
                     break;
             }
-            $tpl->setTitleIcon(ilUtil::getImagePath("icon_cal.svg"));
+            $tpl->setTitleIcon(ilUtil::getImagePath("icon_cals.svg"));
             $tpl->setTitle($header);
 
             $this->action_menu = new ilAdvancedSelectionListGUI();
