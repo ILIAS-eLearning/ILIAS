@@ -13,17 +13,12 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
-    private $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
     private Container $dic;
 
-    /**
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
         ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
@@ -57,11 +52,9 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     /**
      * Get all completed tests
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         $ilUser = $this->dic->user();
-
-        $data = array();
 
         $userId = $ilUser->getId();
 
@@ -84,7 +77,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $ilCtrl = $this->dic->ctrl();
 

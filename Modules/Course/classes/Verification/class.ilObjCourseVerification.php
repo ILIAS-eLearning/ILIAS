@@ -14,15 +14,19 @@ include_once('./Services/Verification/classes/class.ilVerificationObject.php');
 */
 class ilObjCourseVerification extends ilVerificationObject
 {
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "crsv";
     }
 
-    protected function getPropertyMap()
+    /**
+     * @return int[]
+     */
+    protected function getPropertyMap() : array
     {
-        return array("issued_on" => self::TYPE_DATE,
+        return [
+            "issued_on" => self::TYPE_DATE,
             "file" => self::TYPE_STRING
-            );
+        ];
     }
 }

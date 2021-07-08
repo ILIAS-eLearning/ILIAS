@@ -24,7 +24,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "crsv";
     }
@@ -32,7 +32,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     /**
      * List all tests in which current user participated
      */
-    public function create()
+    public function create() : void
     {
         $ilTabs = $this->dic->tabs();
 
@@ -50,7 +50,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         $ilUser = $this->dic->user();
         
@@ -74,7 +74,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
+                return;
             }
 
             if ($newObj) {
@@ -93,21 +94,21 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         if ($file) {
             ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
         }
     }
-    
+
     /**
      * Render content
-     *
-     * @param bool $a_return
-     * @param string $a_url
+     * @param bool        $a_return
+     * @param string|bool $a_url
+     * @return string
      */
-    public function render($a_return = false, $a_url = false)
+    public function render(bool $a_return = false, $a_url = false) : string
     {
         $ilUser = $this->dic->user();
         $lng = $this->dic->language();
@@ -142,9 +143,11 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
+
+        return "";
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         $ilErr = $this->dic['ilErr'];
         
@@ -156,7 +159,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
     
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
         
