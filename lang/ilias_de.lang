@@ -6493,14 +6493,6 @@ feed#:#feed_no_js_click_here#:#Wird der Newsfeed nicht angezeigt, klicken Sie bi
 feed#:#feed_no_valid_url#:#Die URL des Webfeeds ist nicht gültig.
 feed#:#feed_open_source_page#:#Gehe zur externen Nachricht
 feed#:#feed_settings#:#Externe Webfeeds
-file#:#file_new_version#:#Neue Version anlegen
-file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
-file#:#file_uploaded_by#:#Hochgeladen von
-file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
-common#:#page_count#:#Anzahl Seiten
-file#:#upload_info#:#Datei
-file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
-file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 fold#:#fold_import#:#Ordner importieren
 form#:#form_alphabet_all#:#Alle
 form#:#form_days#:#Tage
@@ -10454,7 +10446,6 @@ crs#:#crs_copy#:#Kurs kopieren
 cat#:#cat_copy#:#Kategorie kopieren
 grp#:#grp_copy#:#Gruppe kopieren
 forum#:#frm_copy#:#Forum kopieren
-file#:#file_copy#:#Datei kopieren
 webr#:#webr_copy#:#Weblink kopieren
 exc#:#exc_copy#:#Übung kopieren
 assessment#:#tst_copy#:#Test kopieren
@@ -10692,7 +10683,6 @@ dateplaner#:#cal_user_notification_info#:#Die ausgewählten Benutzer erhalten ei
 dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
-file#:#file_download#:#Datei herunterladen
 trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
@@ -12984,7 +12974,6 @@ grp#:#grp_usr_agreement#:#Benutzervereinbarung
 meta#:#md_adv_confirm_definition_select_option_all#:#Alle vorhandenen Einträge gleich behandeln
 meta#:#md_adv_confirm_definition_select_option_single#:#Jeden vorhandenen Eintrag einzeln entscheiden
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Neuer Wert
-file#:#file_import#:#Dateiimport
 dcl#:#dcl_boolean_desc#:#Auswahlfeld für "zutreffend"/"nicht zutreffend"
 dcl#:#dcl_text_desc#:#Eingabefeld für Text, Links oder E-Mail-Adressen
 dcl#:#dcl_text_selection_desc#:#Bereitstellen von Auswahloptionen (Text)
@@ -14869,19 +14858,6 @@ content#:#cont_lpe_user_agreement_link#:#Link zur Benutzervereinbarung
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#obj_fold_duplicate#:#Ordner kopieren
 common#:#fold_wizard_page#:#Ordner kopieren (Schritt 2/2)
-file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
-file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
-file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
-file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
-file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
-file#:#file_suffix_custom_black_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
-file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
-file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
-file#:#file_suffix_overall_white#:#Effektive Positivliste
-file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
-file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
@@ -16561,3 +16537,29 @@ common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 202
 content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
 dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
+file#:#file_import#:#Dateiimport
+file#:#file_download#:#Datei herunterladen
+file#:#file_copy#:#Datei kopieren
+file#:#file_new_version#:#Neue Version anlegen
+file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
+file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#version_uploaded#:#Version hochgeladen am
+file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
+common#:#page_count#:#Anzahl Seiten
+file#:#upload_info#:#Datei
+file#:#resource_id#:#Ressourcen ID
+file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
+file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
+file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
+file#:#file_suffix_custom_expl_black#:#Verbotene Dateiendungen
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
+file#:#file_suffix_default_white#:#Dateiendungen: Positivliste (Ausgangsliste)
+file#:#file_suffix_default_white_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
+file#:#file_suffix_custom_black#:#Dateiendungen: Negativliste (Anpassungen)
+file#:#file_suffix_custom_black_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
+file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
+file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
+file#:#file_suffix_overall_white#:#Effektive Positivliste
+file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.

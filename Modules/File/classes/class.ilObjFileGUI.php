@@ -486,18 +486,15 @@ class ilObjFileGUI extends ilObject2GUI
             $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
-            // #14378
-            include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
             $button->setCaption("file_download");
             $button->setPrimary(true);
 
             // get permanent download link for repository
-            if ($this->id_type == self::REPOSITORY_NODE_ID) {
+            if ($this->id_type === self::REPOSITORY_NODE_ID) {
                 $button->setUrl(ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
             } else {
                 $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
@@ -536,6 +533,13 @@ class ilObjFileGUI extends ilObject2GUI
         $info->addProperty($this->lng->txt("size"),
             ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long'));
         $info->addProperty($this->lng->txt("version"), $this->object->getVersion());
+
+        $version = $this->object->getVersions([$this->object->getVersion()]);
+        $version = end($version);
+        if($version instanceof ilObjFileVersion) {
+            $info->addProperty($this->lng->txt("version_uploaded"), (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME));
+        }
+
 
         if ($this->object->getPageCount() > 0) {
             $info->addProperty($this->lng->txt("page_count"), $this->object->getPageCount());
