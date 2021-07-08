@@ -79,7 +79,21 @@ class MigrateCommand extends Command
         }
         $migration = $migrations[$migration_name];
 
-        $steps = (int) ($input->getOption('steps') ?? $migration->getDefaultAmountOfStepsPerRun());
+        $steps = (int)$input->getOption('steps');
+
+        switch ($steps) {
+            case Migration::INFINITE:
+                $io->text("Determined infinite steps to run.");
+                break;
+            case 0:
+                $steps = $migration->getDefaultAmountOfStepsPerRun();
+                $io->text("no --steps option found, fallback to default amount of steps of migration. ($steps)");
+                break;
+            default:
+                $io->text("Determined $steps step(s) to run.");
+                break;
+
+        }
         $objective = new Objective\MigrationObjective($migration, $steps);
 
         $env = new ArrayEnvironment([
@@ -93,8 +107,8 @@ class MigrateCommand extends Command
                 ...$preconditions
             );
         }
-
-        $io->inform("Running {$steps} in {$migration_name}");
+        $steps_text = $steps === Migration::INFINITE ? 'all' : (string)$steps;
+        $io->inform("Preparing Environment for {$steps_text} steps in {$migration_name}");
         try {
             $this->achieveObjective($objective, $env, $io);
         } catch (NoConfirmationException $e) {

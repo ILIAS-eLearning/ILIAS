@@ -82,15 +82,18 @@ class MigrationObjective implements Setup\Objective
             $io->error("Migration '$key' aborted.");
             return $environment;
         }
-        $io->inform("Preparing Migration, this may take a while.");
+        $io->inform("Preparing Migration: This may take quite a long time (e.g. all files are collected.");
         $this->migration->prepare($environment);
         $io->inform("Preparing Migration: done.");
 
         $steps = $this->steps;
+        if ($steps === Setup\Migration::INFINITE) {
+            $steps = $this->migration->getRemainingAmountOfSteps();
+        }
         if ($this->migration->getRemainingAmountOfSteps() < $steps) {
             $steps = $this->migration->getRemainingAmountOfSteps();
         }
-        $io->inform("Trigger {$steps} steps in {$this->getLabel()}");
+        $io->inform("Trigger {$steps} step(s) in {$this->getLabel()}");
         $step = 0;
         $io->startProgress($steps);
 
@@ -100,7 +103,8 @@ class MigrationObjective implements Setup\Objective
             $step++;
         }
         $io->stopProgress();
-        $io->inform("There are {$this->migration->getRemainingAmountOfSteps()} steps remaining. Run again to proceed.");
+        $remaining = $this->migration->getRemainingAmountOfSteps() - $steps;
+        $io->inform("{$remaining} step(s) remaining. Run again to proceed.");
 
         return $environment;
     }
