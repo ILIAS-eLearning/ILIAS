@@ -52,7 +52,12 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new \ilComponentBuildComponentInfoObjective();
+        return new Setup\ObjectiveCollection(
+            "Artifacts for Services/Component",
+            false,
+            new \ilComponentBuildComponentInfoObjective(),
+            new \ilComponentBuildPluginInfoObjective()
+        );
     }
 
     /**
