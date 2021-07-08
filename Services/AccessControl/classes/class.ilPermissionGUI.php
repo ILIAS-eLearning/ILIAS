@@ -152,7 +152,7 @@ class ilPermissionGUI extends ilPermission2GUI
         }
 
         $this->__initSubTabs("perm");
-        
+
         if (!$table instanceof ilTable2GUI) {
             include_once './Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php';
             $table = new ilObjectRolePermissionTableGUI($this, 'perm', $this->getCurrentObject()->getRefId());

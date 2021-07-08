@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill root GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillRootGUI extends ilSkillTreeNodeGUI
 {
@@ -39,7 +41,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0)
     {
         global $DIC;
 
@@ -52,7 +54,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "obj_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     /**
@@ -126,7 +128,6 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
-
         $skmg_set = new ilSetting("skmg");
         $enable_skmg = $skmg_set->get("enable_skmg");
         if (!$enable_skmg) {
@@ -143,7 +144,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
-            (int) $_GET["obj_id"],
+            $this->requested_obj_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         
@@ -171,6 +172,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $ilTabs->setBackTarget(
+            $lng->txt("obj_skmg"),
+            $ctrl->getLinkTarget($this, "listSkills")
+        );
 
         $ilTabs->activateTab("skills");
         $tpl->setContent($this->initInputForm()->getHTML());

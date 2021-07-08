@@ -17,12 +17,12 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "selected_skill")
+    public function __construct($a_skill_tree_id, $a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "selected_skill")
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd);
+        parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd, $a_skill_tree_id);
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
             : $a_select_gui;

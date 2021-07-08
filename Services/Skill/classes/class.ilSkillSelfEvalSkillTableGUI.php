@@ -42,15 +42,11 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
         }
 
         // build title
-        $stree = new ilSkillTree();
-        $path = $stree->getPathFull($this->sn_id);
-        $title = $sep = "";
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $title .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $tree_id = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeIdForNodeId($this->sn_id);
+        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $title = $node_manager->getWrittenPath(
+            $this->sn_id
+        );
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());

@@ -52,8 +52,6 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
 
         $this->setId("cont_skll_mem_" . $a_cont_skills->getId());
 
-        $this->skill_tree = new ilSkillTree();
-
         $this->container_skills = $a_cont_skills;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+
 /**
  * TableGUI class for skill list in survey
  *
@@ -9,6 +11,16 @@
  */
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
+    /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var Tree\SkillTreeFactory
+     */
+    protected $tree_factory;
+
     /**
      * Constructor
      */
@@ -22,12 +34,13 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         $this->survey = $a_survey;
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
-
-        $this->skill_tree = new ilSkillTree();
 
         $this->skill_thres = new ilSurveySkillThresholds($a_survey);
         $this->thresholds = $this->skill_thres->getThresholds();
@@ -89,7 +102,9 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             "COMPETENCE",
             ilBasicSkill::_lookupTitle($a_set["base_skill"], $a_set["tref_id"])
         );
-        $path = $this->skill_tree->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill"]);
+        $tree = $this->tree_factory->getById($tree_id);
+        $path = $tree->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
         $path_nodes = array();
         foreach ($path as $p) {
             if ($p["child"] > 1 && $p["skill_id"] != $a_set["base_skill"]) {

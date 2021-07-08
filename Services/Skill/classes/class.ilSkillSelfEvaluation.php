@@ -321,60 +321,6 @@ class ilSkillSelfEvaluation
         return $rec[$a_prop];
     }
 
-    /**
-     * Get average level of user self evaluation
-     *
-     * Note: this method does not make much sense in general, since it
-     * assumes that all basic skills have the same level
-     */
-    public static function getAverageLevel($a_se_id, $a_user_id, $a_top_skill_id)
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $lng->loadLanguageModule("skmg");
-
-        $stree = new ilSkillTree();
-        $cnt = 0;
-        $sum = 0;
-        if ($stree->isInTree($a_top_skill_id)) {
-            $se = new ilSkillSelfEvaluation($a_se_id);
-            $levels = $se->getLevels();
-
-            $cnode = $stree->getNodeData($a_top_skill_id);
-            $childs = $stree->getSubTree($cnode);
-
-            foreach ($childs as $child) {
-                if ($child["type"] == "skll") {
-                    $sk = new ilBasicSkill($child["child"]);
-                    $ls = $sk->getLevelData();
-                    $ord = array();
-                    foreach ($ls as $k => $l) {
-                        $ord[$l["id"]] = $k + 1;
-                    }
-                    reset($ls);
-                    foreach ($ls as $ld) {
-                        if ($ld["id"] == $levels[$child["child"]]) {
-                            $sum += $ord[$ld["id"]];
-                        }
-                    }
-                    $cnt += 1;
-                }
-            }
-        }
-        if ($cnt > 0) {
-            $avg = round($sum / $cnt);
-            if ($avg > 0) {
-                return (array("skill_title" => $cnode["title"],
-                    "ord" => $avg, "avg_title" => $ls[$avg - 1]["title"]));
-            } else {
-                return (array("skill_title" => $cnode["title"],
-                    "ord" => $avg, "avg_title" => $lng->txt("skmg_no_skills")));
-            }
-        }
-        return null;
-    }
 
     /**
      * Determine steps
@@ -384,10 +330,11 @@ class ilSkillSelfEvaluation
      */
     public static function determineSteps($a_sn_id)
     {
+        global $DIC;
+
         $steps = array();
         if ($a_sn_id > 0) {
-            $stree = new ilSkillTree();
-
+            $stree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_sn_id);
             if ($stree->isInTree($a_sn_id)) {
                 $cnode = $stree->getNodeData($a_sn_id);
                 $childs = $stree->getSubTree($cnode);

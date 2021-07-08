@@ -76,6 +76,11 @@ class ilCOPageHTMLExport
     protected $ref_id;
 
     /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
      * ilCOPageHTMLExport constructor.
      * @param $a_exp_dir
      */
@@ -90,6 +95,7 @@ class ilCOPageHTMLExport
             ? new ilPageLinker("", true)
             : $linker;
         $this->ref_id = $ref_id;
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
 
         $this->exp_dir = $a_exp_dir;
         $this->mobs_dir = $a_exp_dir . "/mobs";
@@ -386,7 +392,6 @@ class ilCOPageHTMLExport
         }
 
         // collect page content items
-        $skill_tree = $ws_tree = null;
 
         // skills
         foreach ($pcs as $pc) {
@@ -408,15 +413,11 @@ class ilCOPageHTMLExport
                 }
                 
                 if ($user_id) {
-                    // we only need 1 instance each
-                    if (!$skill_tree) {
-                        $skill_tree = new ilSkillTree();
-
-                        $ws_tree = new ilWorkspaceTree($user_id);
-                    }
+                    $ws_tree = new ilWorkspaceTree($user_id);
 
                     // walk skill tree
-                    $vtree = new ilVirtualSkillTree();
+                    $vtree_id = $this->tree_repo->getTreeIdForNodeId((int) $skill_id);
+                    $vtree = new ilVirtualSkillTree($vtree_id);
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {

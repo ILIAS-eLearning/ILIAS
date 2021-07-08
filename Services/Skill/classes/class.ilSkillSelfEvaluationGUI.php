@@ -1,13 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \ILIAS\Skill\Tree;
 
 /**
  * Self evaluation
  *
- * @author Alex Killing <alex.kiling@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSkillSelfEvaluationGUI:
- * @ingroup ServicesSkill
  */
 class ilSkillSelfEvaluationGUI
 {
@@ -37,6 +38,16 @@ class ilSkillSelfEvaluationGUI
     protected $user;
 
     /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var Tree\SkillTreeFactory
+     */
+    protected $tree_factory;
+
+    /**
      * Constructor
      *
      * @param
@@ -64,6 +75,8 @@ class ilSkillSelfEvaluationGUI
             ? (int) $_POST["sn_id"]
             : (int) $_GET["sn_id"];
         $ilCtrl->setParameter($this, "sn_id", $this->sn_id);
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
     }
 
     /**
@@ -384,7 +397,7 @@ class ilSkillSelfEvaluationGUI
 
         $this->form->setTitle($lng->txt("skmg_self_evaluation") . $dates);
 
-        $stree = new ilSkillTree();
+        $stree = $this->tree_repo->getTreeForNodeId($se->getTopSkillId());
 
         if ($stree->isInTree($se->getTopSkillId())) {
             $cnode = $stree->getNodeData($se->getTopSkillId());

@@ -450,7 +450,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $creation_operations = array();
         foreach ($objects as $type => $info) {
             $ops_id = $ops_ids[$type];
-            
             if (!$ops_id) {
                 continue;
             }
@@ -486,7 +485,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             $perms[$counter]['subtype'] = 'creation';
             $counter++;
         }
-
         $this->setData($perms);
     }
     

@@ -2,11 +2,14 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+use \ILIAS\Skill\Service\SkillInternalManagerService;
+
 /**
  * Skill management main GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI
+ * @ilCtrl_Calls ilObjSkillManagementGUI: ilPermissionGUI, ilSkillProfileGUI, ilExportGUI, SkillTreeAdminGUI
  * @ilCtrl_isCalledBy ilObjSkillManagementGUI: ilAdministrationGUI
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
@@ -27,7 +30,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected $tabs;
 
     protected $skill_tree;
-    
+
+    /**
+     * @var SkillInternalManagerService
+     */
+    protected $skill_manager;
+
     /**
      * Contructor
      *
@@ -56,10 +64,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('skmg');
 
-        $this->skill_tree = new ilSkillTree();
-
         $ilCtrl->saveParameter($this, "obj_id");
+        $this->skill_manager = $DIC->skills()->internal()->manager();
     }
+
 
     /**
      * Execute command
@@ -76,20 +84,18 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        $this->prepareOutput();
-
-
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
         }
 
         switch ($next_class) {
+
             case 'ilskillrootgui':
                 $skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"], $this);
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
                 break;
-
+            /*
             case 'ilskillcategorygui':
                 $this->tabs_gui->activateTab("skills");
                 $scat_gui = new ilSkillCategoryGUI((int) $_GET["obj_id"]);
@@ -135,14 +141,16 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $skprof_gui = new ilSkillProfileGUI();
                 $ret = $this->ctrl->forwardCommand($skprof_gui);
                 break;
-                
+                */
             case 'ilpermissiongui':
+                $this->prepareOutput();
                 $this->tabs_gui->activateTab('permissions');
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
+                $this->prepareOutput();
                 $this->tabs_gui->activateTab('export');
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
@@ -150,9 +158,17 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $ret = $this->ctrl->forwardCommand($exp_gui);
                 break;
 
+            case "skilltreeadmingui":
+                $this->prepareOutput();
+                $ilTabs->activateTab("skill_trees");
+                $gui = new SkillTreeAdminGUI($this->skill_manager);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
+                $this->prepareOutput();
                 if (!$cmd || $cmd == 'view') {
-                    $cmd = "editSkills";
+                    $cmd = "listTrees";
                 }
                 
                 if ($cmd == "showTree") {
@@ -179,6 +195,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
+                "skill_trees",
+                $lng->txt("skmg_skill_trees"),
+                $this->ctrl->getLinkTargetByClass("skilltreeadmingui", "")
+            );
+
+            /*
+            $this->tabs_gui->addTab(
                 "skills",
                 $lng->txt("skmg_skills"),
                 $this->ctrl->getLinkTarget($this, "editSkills")
@@ -195,6 +218,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 $lng->txt("skmg_skill_profiles"),
                 $this->ctrl->getLinkTargetByClass("ilskillprofilegui")
             );
+            */
 
             $this->tabs_gui->addTab(
                 "settings",
@@ -207,14 +231,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                     "export",
                     $lng->txt("export"),
                     $this->ctrl->getLinkTargetByClass("ilexportgui", "")
-                );
-            }
-
-            if (DEVMODE == 1) {
-                $this->tabs_gui->addTab(
-                    "test",
-                    "Test (DEVMODE)",
-                    $this->ctrl->getLinkTarget($this, "test")
                 );
             }
         }
@@ -318,17 +334,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     /**
      * Edit skills
      */
-    public function editSkills()
+    public function listTrees()
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        $ilTabs->activateTab("skills");
-
-        $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
-        $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
+        $this->ctrl->redirectByClass("skilltreeadmingui", "listTrees");
     }
 
 
@@ -550,256 +558,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         ilUtil::sendInfo($this->lng->txt("info_deleted"), true);
     }
 
-    //
-    //
-    //	Test
-    //
-    //
 
-    /**
-     * Test getCompletionDateForTriggerRefId
-     *
-     * @param
-     * @return
-     */
-    public function test()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $this->setTestSubTabs("test");
-
-        $ilTabs->activateTab("test");
-
-        $this->form = new ilPropertyFormGUI();
-
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $this->form->addCommandButton("test", $lng->txt("execute"));
-        }
-
-        $this->form->setTitle("getCompletionDateForTriggerRefId()");
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-
-        // user id
-        $ti = new ilTextInputGUI("User ID(s)", "user_id");
-        $ti->setMaxLength(200);
-        $ti->setInfo("Separate multiple IDs by :");
-        $ti->setValue($_POST["user_id"]);
-        $this->form->addItem($ti);
-
-        // ref id
-        $ti = new ilTextInputGUI("Ref ID(s)", "ref_id");
-        $ti->setMaxLength(200);
-        $ti->setInfo("Separate multiple IDs by :");
-        $ti->setValue($_POST["ref_id"]);
-        $this->form->addItem($ti);
-
-        $result = "";
-        if (isset($_POST["user_id"])) {
-            $user_ids = explode(":", $_POST["user_id"]);
-            $ref_ids = explode(":", $_POST["ref_id"]);
-            if (count($user_ids) <= 1) {
-                $user_ids = $user_ids[0];
-            }
-            if (count($ref_ids) == 1) {
-                $ref_ids = $ref_ids[0];
-            } elseif (count($ref_ids) == 0) {
-                $ref_ids = null;
-            }
-
-            $result = ilBasicSkill::getCompletionDateForTriggerRefId($user_ids, $ref_ids);
-            $result = "<br />Result:<br />" . var_export($result, true);
-        }
-
-        $tpl->setContent($this->form->getHTML() . $result);
-    }
-
-    /**
-     * Test checkUserCertificateForTriggerRefId
-     *
-     * @param
-     * @return
-     */
-    public function testCert()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $this->setTestSubTabs("cert");
-        $ilTabs->activateTab("test");
-
-        $this->form = new ilPropertyFormGUI();
-
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $this->form->addCommandButton("testCert", $lng->txt("execute"));
-        }
-
-        $this->form->setTitle("checkUserCertificateForTriggerRefId()");
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-
-        // user id
-        $ti = new ilTextInputGUI("User ID(s)", "user_id");
-        $ti->setMaxLength(200);
-        $ti->setInfo("Separate multiple IDs by :");
-        $ti->setValue($_POST["user_id"]);
-        $this->form->addItem($ti);
-
-        // ref id
-        $ti = new ilTextInputGUI("Ref ID(s)", "ref_id");
-        $ti->setMaxLength(200);
-        $ti->setInfo("Separate multiple IDs by :");
-        $ti->setValue($_POST["ref_id"]);
-        $this->form->addItem($ti);
-
-        $result = "";
-        if (isset($_POST["user_id"])) {
-            $user_ids = explode(":", $_POST["user_id"]);
-            $ref_ids = explode(":", $_POST["ref_id"]);
-            if (count($user_ids) <= 1) {
-                $user_ids = $user_ids[0];
-            }
-            if (count($ref_ids) == 1) {
-                $ref_ids = $ref_ids[0];
-            } elseif (count($ref_ids) == 0) {
-                $ref_ids = null;
-            }
-
-            $result = ilBasicSkill::checkUserCertificateForTriggerRefId($user_ids, $ref_ids);
-            $result = "<br />Result:<br />" . var_export($result, true);
-        }
-
-        $tpl->setContent($this->form->getHTML() . $result);
-    }
-
-    /**
-     * Test getTriggerOfAllCertificates
-     *
-     * @param
-     * @return
-     */
-    public function testAllCert()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $this->setTestSubTabs("all_cert");
-        $ilTabs->activateTab("test");
-
-        $this->form = new ilPropertyFormGUI();
-
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $this->form->addCommandButton("testAllCert", $lng->txt("execute"));
-        }
-
-        $this->form->setTitle("getTriggerOfAllCertificates()");
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-
-        // user id
-        $ti = new ilTextInputGUI("User ID(s)", "user_id");
-        $ti->setMaxLength(200);
-        $ti->setInfo("Separate multiple IDs by :");
-        $ti->setValue($_POST["user_id"]);
-        $this->form->addItem($ti);
-
-        $result = "";
-        if (isset($_POST["user_id"])) {
-            $user_ids = explode(":", $_POST["user_id"]);
-            $ref_ids = explode(":", $_POST["ref_id"]);
-            if (count($user_ids) <= 1) {
-                $user_ids = $user_ids[0];
-            }
-
-            $result = ilBasicSkill::getTriggerOfAllCertificates($user_ids);
-            $result = "<br />Result:<br />" . var_export($result, true);
-        }
-
-        $tpl->setContent($this->form->getHTML() . $result);
-    }
-
-    /**
-     * Test getSkillLevelsForTrigger
-     *
-     * @param
-     * @return
-     */
-    public function testLevels()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-
-        $this->setTestSubTabs("levels");
-        $ilTabs->activateTab("test");
-
-        $this->form = new ilPropertyFormGUI();
-
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            $this->form->addCommandButton("testLevels", $lng->txt("execute"));
-        }
-
-        $this->form->setTitle("getTriggerOfAllCertificates()");
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-
-        // user id
-        $ti = new ilTextInputGUI("Ref ID", "ref_id");
-        $ti->setMaxLength(200);
-        $ti->setValue($_POST["ref_id"]);
-        $this->form->addItem($ti);
-
-        $result = "";
-        if (isset($_POST["ref_id"])) {
-            $result = ilBasicSkill::getSkillLevelsForTrigger($_POST["ref_id"]);
-            $result = "<br />Result:<br />" . var_export($result, true);
-        }
-
-        $tpl->setContent($this->form->getHTML() . $result);
-    }
-
-
-    /**
-     * Set test subtabs
-     *
-     * @param
-     * @return
-     */
-    public function setTestSubtabs($a_act)
-    {
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-
-        $ilTabs->addSubtab(
-            "test",
-            "getCompletionDateForTriggerRefId",
-            $ilCtrl->getLinkTarget($this, "test")
-        );
-
-        $ilTabs->addSubtab(
-            "cert",
-            "checkUserCertificateForTriggerRefId",
-            $ilCtrl->getLinkTarget($this, "testCert")
-        );
-
-        $ilTabs->addSubtab(
-            "all_cert",
-            "getTriggerOfAllCertificates",
-            $ilCtrl->getLinkTarget($this, "testAllCert")
-        );
-
-        $ilTabs->addSubtab(
-            "levels",
-            "getSkillLevelsForTrigger",
-            $ilCtrl->getLinkTarget($this, "testLevels")
-        );
-
-        $ilTabs->activateSubtab($a_act);
-    }
 
     //
     // Skill Templates
@@ -816,7 +575,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $ilTabs->activateTab("skill_templates");
-        $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
+        $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->readRootId());
         $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 
@@ -851,10 +610,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         
         if ($a_templates) {
             $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_TEMPLATE_TREE, true);
-            $exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree");
+            $exp = new ilSkillTemplateTreeExplorerGUI($this, "showTree"); //kommt man hier noch rein?
         } else {
             $this->tool_context->current()->addAdditionalData(ilSkillGSToolProvider::SHOW_SKILL_TREE, true);
-            $exp = new ilSkillTreeExplorerGUI($this, "showTree");
+            $exp = new ilSkillTreeExplorerGUI($this, "showTree"); //kommt man hier noch rein?
         }
         if (!$exp->handleCommand()) {
             $tpl->setLeftNavContent($exp->getHTML());

@@ -4,6 +4,7 @@
 
 namespace ILIAS\Skill\Service;
 
+
 /**
  * Skill internal repo service
  * @author famula@leifos.de
@@ -11,10 +12,16 @@ namespace ILIAS\Skill\Service;
 class SkillInternalRepoService
 {
     /**
+     * @var SkillInternalFactoryService
+     */
+    protected $factory;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(SkillInternalFactoryService $factory)
     {
+        $this->factory = $factory;
     }
 
     /**
@@ -22,7 +29,7 @@ class SkillInternalRepoService
      */
     public function getLevelRepo() : \ilBasicSkillLevelRepository
     {
-        return new \ilBasicSkillLevelDBRepository();
+        return new \ilBasicSkillLevelDBRepository($this->getTreeRepo());
     }
 
     /**
@@ -38,6 +45,6 @@ class SkillInternalRepoService
      */
     public function getTreeRepo() : \ilBasicSkillTreeRepository
     {
-        return new \ilBasicSkillTreeDBRepository();
+        return new \ilBasicSkillTreeDBRepository($this->factory->tree());
     }
 }

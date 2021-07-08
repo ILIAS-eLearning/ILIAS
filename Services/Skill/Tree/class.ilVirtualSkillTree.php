@@ -26,12 +26,12 @@ class ilVirtualSkillTree
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tree = new ilSkillTree();
+        $this->tree = $DIC->skills()->internal()->factory()->tree()->getById($tree_id);
     }
     
     /**
@@ -324,7 +324,7 @@ class ilVirtualSkillTree
      * @param array $result node array (called by reference)
      * @param bool $a_only_basic return only basic skills (and basic skill templates)
      */
-    private function __getSubTreeRec($id, &$result, $a_only_basic)
+    protected function __getSubTreeRec($id, &$result, $a_only_basic)
     {
         $childs = $this->getChildsOfNode($id);
         foreach ($childs as $c) {

@@ -20,16 +20,16 @@ class ilPersonalSkill implements ilSkillUsageInfo
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        $stree = new ilSkillTree();
 
+        $repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        
         $set = $ilDB->query(
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer")
             );
         $pskills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if ($stree->isInTree($rec["skill_node_id"])) {
+            if ($repo->isInAnyTree($rec["skill_node_id"])) {
                 $pskills[$rec["skill_node_id"]] = array("skill_node_id" => $rec["skill_node_id"],
                     "title" => ilSkillTreeNode::_lookupTitle($rec["skill_node_id"]));
             }
