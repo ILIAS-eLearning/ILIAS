@@ -17,16 +17,19 @@ class ilComponentInfoTest extends TestCase
             $slots
         );
 
+        $plugins = [];
         $this->pluginslot1 = new ilPluginSlotInfo(
             $this->component,
             "slt1",
-            "Slot1"
+            "Slot1",
+            $plugins
         );
 
         $this->pluginslot2 = new ilPluginSlotInfo(
             $this->component,
             "slt2",
-            "Slot2"
+            "Slot2",
+            $plugins
         );
 
         $slots[] = $this->pluginslot1;
@@ -56,8 +59,55 @@ class ilComponentInfoTest extends TestCase
     public function testGetPluginsSlots()
     {
         $pluginslots = iterator_to_array($this->component->getPluginSlots());
+        $plugins = [];
         $this->assertEquals(2, count($pluginslots));
-        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt1", "Slot1"), $pluginslots["slt1"]);
-        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt2", "Slot2"), $pluginslots["slt2"]);
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt1", "Slot1", $plugins), $pluginslots["slt1"]);
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt2", "Slot2", $plugins), $pluginslots["slt2"]);
+    }
+
+    public function testHasPluginSlotId()
+    {
+        $this->assertTrue($this->component->hasPluginSlotId("slt1"));
+        $this->assertTrue($this->component->hasPluginSlotId("slt2"));
+        $this->assertFalse($this->component->hasPluginSlotId("slt3"));
+    }
+
+    public function testGetPluginSlotById()
+    {
+        $plugins = [];
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt1", "Slot1", $plugins), $this->component->getPluginSlotById("slt1"));
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt2", "Slot2", $plugins), $this->component->getPluginSlotById("slt2"));
+    }
+
+    public function testGetUnknownPluginSlotById()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->component->getPluginSlotById("slt3");
+    }
+
+    public function testGetUnknownPluginSlot()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->component->getPluginSlotById("slt3");
+    }
+
+    public function testHasPluginSlotName()
+    {
+        $this->assertTrue($this->component->hasPluginSlotName("Slot1"));
+        $this->assertTrue($this->component->hasPluginSlotName("Slot2"));
+        $this->assertFalse($this->component->hasPluginSlotName("Slot3"));
+    }
+
+    public function testGetPluginSlotByName()
+    {
+        $plugins = [];
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt1", "Slot1", $plugins), $this->component->getPluginSlotByName("Slot1"));
+        $this->assertEquals(new ilPluginSlotInfo($this->component, "slt2", "Slot2", $plugins), $this->component->getPluginSlotByName("Slot2"));
+    }
+
+    public function testGetUnknownPluginSlotByName()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->component->getPluginSlotById("Slot3");
     }
 }

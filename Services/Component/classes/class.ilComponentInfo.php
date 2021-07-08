@@ -61,8 +61,58 @@ class ilComponentInfo
      */
     public function getPluginSlots() : Iterator
     {
-        foreach ($this->pluginslots as $slot) {
+        foreach ($this->pluginslots as $id => $slot) {
             yield $slot->getId() => $slot;
         }
+    }
+
+    public function hasPluginSlotId(string $id) : bool
+    {
+        foreach ($this->pluginslots as $slot) {
+            if ($slot->getId() === $id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throw \InvalidArgumentException if there is no such slot
+     */
+    public function getPluginSlotById(string $id) : \ilPluginSlotInfo
+    {
+        foreach ($this->pluginslots as $slot) {
+            if ($slot->getId() === $id) {
+                return $slot;
+            }
+        }
+        throw new \InvalidArgumentException(
+            "No plugin slot $id at component {$this->getQualifiedName()}"
+        );
+    }
+
+    public function hasPluginSlotName(string $name) : bool
+    {
+        foreach ($this->pluginslots as $slot) {
+            if ($slot->getName() === $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throw \InvalidArgumentException if there is no such slot
+     */
+    public function getPluginSlotByName(string $name) : \ilPluginSlotInfo
+    {
+        foreach ($this->pluginslots as $slot) {
+            if ($slot->getName() === $name) {
+                return $slot;
+            }
+        }
+        throw new \InvalidArgumentException(
+            "No plugin slot $name at component {$this->getQualifiedName()}"
+        );
     }
 }
