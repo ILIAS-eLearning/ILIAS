@@ -403,19 +403,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $ilCtrl->getLinkTargetByClass("ilskillrootgui", "showImportForm")
         );
     }
-
-    /**
-     * Cancel
-     *
-     * @param
-     * @return
-     */
-    public function cancel()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
-    }
     
     /**
      * Redirect to parent (identified by current obj_id)

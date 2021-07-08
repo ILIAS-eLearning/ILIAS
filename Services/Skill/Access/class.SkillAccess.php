@@ -35,19 +35,87 @@ class SkillAccess
         $this->usr_id = $usr_id;
     }
 
-    public function hasManageProfilesPermission(int $a_usr_id = 0) : bool
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasCreateTreePermission(int $a_usr_id = 0) : bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "manage_profiles", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "create_skee", $this->obj_skill_tree_ref_id);
     }
 
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasReadCompetencesPermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "read_comp", $this->obj_skill_tree_ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
     public function hasReadProfilesPermission(int $a_usr_id = 0) : bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
         return $this->access->checkAccessOfUser($a_usr_id, "read_profiles", $this->obj_skill_tree_ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasManageCompetencesPermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp", $this->obj_skill_tree_ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasManageCompetenceCategoriesPermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp_cat", $this->obj_skill_tree_ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasManageCompetenceTemplatesPermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp_temp", $this->obj_skill_tree_ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
+    public function hasManageProfilesPermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_profiles", $this->obj_skill_tree_ref_id);
     }
 }

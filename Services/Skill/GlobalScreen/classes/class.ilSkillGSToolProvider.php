@@ -96,7 +96,8 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getTemplateTree(int $tree_id) : string
     {
-        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree", $tree_id);
+        $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+            "SkillTreeAdminGUI", "ilObjSkillTreeGUI"], "showTree", $tree_id);
 
         return $exp->getHTML();
     }

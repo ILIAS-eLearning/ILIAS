@@ -56,6 +56,11 @@ class ilSkillTreeNodeGUI
     protected $requested_obj_id;
 
     /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
+
+    /**
     * constructor
     *
     * @param	object		$a_content_obj		node object
@@ -71,6 +76,7 @@ class ilSkillTreeNodeGUI
         $this->user = $DIC->user();
         $ilAccess = $DIC->access();
         $this->tree = $DIC->repositoryTree();
+        $this->tabs = $DIC->tabs();
 
         $this->node_object = null;
         $this->access = $ilAccess;
@@ -347,7 +353,7 @@ class ilSkillTreeNodeGUI
     public function setSkillNodeDescription()
     {
         $tpl = $this->tpl;
-        $tpl->setDescription($this->skill_tree_node_manager->getWrittenPath($this->node_object->getId(), $this->tref_id));
+        $tpl->setDescription($this->skill_tree_node_manager->getWrittenPath($this->node_object->getId(), (int) $this->tref_id));
     }
 
     /**
@@ -355,7 +361,15 @@ class ilSkillTreeNodeGUI
      */
     public function create()
     {
+        $lng = $this->lng;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+        $ilCtrl = $this->ctrl;
+
+        $tabs->setBackTarget(
+            $lng->txt("back"),
+            $ilCtrl->getLinkTarget($this, "redirectToParent")
+        );
         
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());

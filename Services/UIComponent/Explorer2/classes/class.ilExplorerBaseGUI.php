@@ -88,6 +88,8 @@ abstract class ilExplorerBaseGUI
         }
 
         $this->requested_node_id = $_GET["node_id"];
+        $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
 
         $this->nodeOnclickEnabled = true;
         ilYuiUtil::initConnection();
@@ -766,8 +768,13 @@ abstract class ilExplorerBaseGUI
                 $this->renderNode($this->getRootNode(), $etpl);
                 $this->listEnd($etpl);
             } else {
+                //var_dump($root_node); exit;
+                //var_dump($this->getNodeId($root_node)); exit;
                 $childs = $this->getChildsOfNode($this->getNodeId($root_node));
+                //$childs = $this->getChildsOfNode(0);
+                //var_dump($childs); exit;
                 $childs = $this->sortChilds($childs, $this->getNodeId($root_node));
+                //var_dump($childs); exit;
                 $any = false;
                 foreach ($childs as $child_node) {
                     if ($this->isNodeVisible($child_node)) {
@@ -871,6 +878,7 @@ abstract class ilExplorerBaseGUI
         
         if (!$this->getAjax() || in_array($this->getNodeId($a_node), $this->open_nodes)
             || in_array($this->getNodeId($a_node), $this->custom_open_nodes)) {
+            //var_dump($a_node); exit;
             $this->renderChilds($this->getNodeId($a_node), $tpl);
         }
         

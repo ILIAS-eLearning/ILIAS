@@ -62,7 +62,9 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 
         $this->setTitle($lng->txt("skmg_skill_profiles"));
 
-        $this->addColumn("", "", "1px", true);
+        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+            $this->addColumn("", "", "1px", true);
+        }
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("context"));
         $this->addColumn($this->lng->txt("users"));
@@ -72,8 +74,8 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_row.html", "Services/Skill");
 
-        $this->addMultiCommand("exportProfiles", $lng->txt("export"));
         if ($this->skill_access_manager->hasManageProfilesPermission()) {
+            $this->addMultiCommand("exportProfiles", $lng->txt("export"));
             $this->addMultiCommand("confirmDeleteProfiles", $lng->txt("delete"));
         }
         //$this->addCommandButton("", $lng->txt(""));
@@ -109,12 +111,21 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $this->tpl->setCurrentBlock("cmd");
-        $this->tpl->setVariable("CMD", $lng->txt("edit"));
+        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+            $this->tpl->setVariable("CMD", $lng->txt("edit"));
+        }
+        else {
+            $this->tpl->setVariable("CMD", $lng->txt("show"));
+        }
         $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
         $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showLevels"));
         $ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
         $this->tpl->parseCurrentBlock();
-        $this->tpl->setVariable("ID", $a_set["id"]);
+        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+            $this->tpl->setCurrentBlock("checkbox");
+            $this->tpl->setVariable("ID", $a_set["id"]);
+            $this->tpl->parseCurrentBlock();
+        }
         $this->tpl->setVariable("TITLE", $a_set["title"]);
 
         $profile_ref_id = ilSkillProfile::lookupRefId($a_set["id"]);

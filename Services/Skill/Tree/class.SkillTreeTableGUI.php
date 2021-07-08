@@ -26,6 +26,11 @@ class SkillTreeTableGUI extends \ilTable2GUI
     protected $manager;
 
     /**
+     * @var \ILIAS\Skill\Tree\SkillTreeFactory
+     */
+    protected $skill_tree_factory;
+
+    /**
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
@@ -43,6 +48,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $this->ui = $DIC->ui();
 
         $this->manager = $manager;
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -53,11 +59,10 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("actions"));
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormActionByClass("ilobjskilltreegui"));
         $this->setRowTemplate("tpl.skill_tree_row.html", "Services/Skill/Tree");
 
-        $this->addMultiCommand("", $this->lng->txt(""));
-        $this->addCommandButton("", $this->lng->txt(""));
+        $this->addMultiCommand("delete", $this->lng->txt("delete"));
     }
 
     /**
@@ -85,17 +90,19 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $lng = $this->lng;
         $ui = $this->ui;
 
-        $tree = $row["tree"];
+        //var_dump($row);
+        $tree_obj = $row["tree"];
+        $tree = $this->skill_tree_factory->getById($tree_obj->getId());
 
-        $tpl->setVariable("REF_ID", $tree->getRefId());
-        $tpl->setVariable("TITLE", $tree->getTitle());
+        $tpl->setVariable("ID", $tree->readRootId());
+        $tpl->setVariable("TITLE", $tree_obj->getTitle());
 
         // actions
         $actions = [];
-        $ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree->getRefId());
+        $ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree_obj->getRefId());
         $actions[] = $ui->factory()->link()->standard(
             $lng->txt("edit"),
-            $ctrl->getLinkTargetByClass("ilobjskilltreegui", "edit")
+            $ctrl->getLinkTargetByClass("ilobjskilltreegui", "editSkills")
         );
         $dd = $ui->factory()->dropdown()->standard($actions);
         $tpl->setVariable("ACTIONS", $ui->renderer()->render($dd));

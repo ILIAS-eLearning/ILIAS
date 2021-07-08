@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+
 /**
  * Container skills administration
  *
@@ -67,6 +69,16 @@ class ilContSkillAdminGUI
     protected $skill_access_manager;
 
     /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var Tree\SkillTreeFactory
+     */
+    protected $tree_factory;
+
+    /**
      * @var ilToolbarGUI
      */
     protected $toolbar;
@@ -101,7 +113,8 @@ class ilContSkillAdminGUI
         $this->container = $a_container_gui->object;
         $this->ref_id = $this->container->getRefId();
 
-        $this->skill_tree = new ilSkillTree();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
@@ -241,7 +254,8 @@ class ilContSkillAdminGUI
      */
     public function getPathString($a_skill_id, $a_tref_id = 0)
     {
-        $skill_tree = $this->skill_tree;
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($a_skill_id);
+        $skill_tree = $this->tree_factory->getById($tree_id);
 
         $path = $skill_tree->getSkillTreePath($a_skill_id, $a_tref_id);
         $titles = array();
@@ -421,7 +435,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("competences");
 
-        $sel = new ilSkillSelectorGUI($this, "selectSkill", $this, "saveSelectedSkill");
+        $sel = new ilSkillSelectorGUI(0, $this, "selectSkill", $this, "saveSelectedSkill");
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
         }

@@ -544,7 +544,8 @@ class ilPersonalSkillsGUI
 
         $tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId($a_top_skill_id);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = $a_tref_id;
         $skill_id = $a_top_skill_id;
         if (ilSkillTreeNode::_lookupType($a_top_skill_id) == "sktr") {
@@ -866,7 +867,8 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId((int) $_GET["skill_id"]);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = 0;
         $skill_id = (int) $_GET["skill_id"];
         if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
@@ -1067,7 +1069,8 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId((int) $_GET["skill_id"]);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = 0;
         $skill_id = (int) $_GET["skill_id"];
         if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
@@ -1471,7 +1474,7 @@ class ilPersonalSkillsGUI
 
         if (!$this->getProfileId() > 0) {
             // order skills per virtual skill tree
-            $vtree = new ilVirtualSkillTree();
+            $vtree = new ilGlobalVirtualSkillTree();
             $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
         }
         foreach ($skills as $s) {

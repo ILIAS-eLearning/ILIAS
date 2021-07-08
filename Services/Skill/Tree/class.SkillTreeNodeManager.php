@@ -52,8 +52,8 @@ class SkillTreeNodeManager
         $node->update();
         // determine parent
         $parent_id = ($parent_node_id <= 0)
-            ? $parent_node_id
-            : $tree->readRootId();
+            ? $tree->readRootId()
+            : $parent_node_id;
 
         // make a check, whether the type of object is allowed under
         // the parent
@@ -225,7 +225,7 @@ class SkillTreeNodeManager
             // if skill was already copied as part of tree - do not copy it again
             if (!in_array($skill["id"], array_keys($copied_nodes))) {
                 $cid = $this->pasteTree(
-                    $skill["id"],
+                    (int) $skill["id"],
                     $parent_id,
                     $target,
                     $skill["insert_time"],
@@ -322,7 +322,7 @@ class SkillTreeNodeManager
 
         foreach ($childs as $child) {
             $this->pasteTree(
-                $child["id"],
+                (int) $child["id"],
                 $target_item->getId(),
                 IL_LAST_NODE,
                 $a_insert_time,

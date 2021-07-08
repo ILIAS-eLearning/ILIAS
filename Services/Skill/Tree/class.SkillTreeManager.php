@@ -26,6 +26,11 @@ class SkillTreeManager
     protected $tree_factory;
 
     /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
      * Constructor
      * @param int     $skmg_ref_id
      * @param \ilTree $repository_tree
@@ -33,9 +38,12 @@ class SkillTreeManager
     public function __construct(
         int $skmg_ref_id, \ilTree $repository_tree, SkillTreeFactory $tree_factory)
     {
+        global $DIC;
+
         $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
         $this->tree_factory = $tree_factory;
+        $this->ctrl = $DIC->ctrl();
     }
 
     /**
@@ -58,6 +66,8 @@ class SkillTreeManager
         $root_node->setTitle("Skill Tree Root Node");
         $root_node->create();
         $tree->addTree($tree_obj->getId(), $root_node->getId());
+        $this->ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree_obj->getRefId());
+        $this->ctrl->setParameterByClass("ilobjskilltreegui", "obj_id", $tree->readRootId());
     }
 
     /**
@@ -73,6 +83,11 @@ class SkillTreeManager
         $tree_obj->update();
     }
 
+    public function deleteTree(\ilObjSkillTree $tree_obj) : void
+    {
+        $tree_obj->delete();
+    }
+
     /**
      * Get tree objects
      * @return \Generator
@@ -82,6 +97,16 @@ class SkillTreeManager
         foreach ($this->repository_tree->getChilds($this->skmg_ref_id) as $c) {
             yield new \ilObjSkillTree($c["child"]);
         }
+    }
+
+    /**
+     * Get tree object
+     * @return \ilObjSkillTree
+     */
+    public function getTree(int $skl_tree_id) : \ilObjSkillTree
+    {
+        $skl_tree_id = (int) current(\ilObject::_getAllReferences($skl_tree_id));
+        return new \ilObjSkillTree($skl_tree_id);
     }
 
     /**

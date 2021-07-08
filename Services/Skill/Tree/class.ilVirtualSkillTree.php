@@ -324,7 +324,7 @@ class ilVirtualSkillTree
      * @param array $result node array (called by reference)
      * @param bool $a_only_basic return only basic skills (and basic skill templates)
      */
-    private function __getSubTreeRec($id, &$result, $a_only_basic)
+    protected function __getSubTreeRec($id, &$result, $a_only_basic)
     {
         $childs = $this->getChildsOfNode($id);
         foreach ($childs as $c) {

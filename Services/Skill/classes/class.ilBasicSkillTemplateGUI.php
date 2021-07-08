@@ -197,7 +197,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         if ($this->tref_id == 0) {
             $ilTabs->setBackTarget(
                 $lng->txt("skmg_skill_templates"),
-                $ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkillTemplates")
+                $ilCtrl->getLinkTargetByClass("ilobjskilltreegui", "editSkillTemplates")
             );
         }
 

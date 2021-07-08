@@ -166,7 +166,7 @@ class ilSkillProfileGUI
         
         $tpl->setTitle($lng->txt("skmg_profile") . ": " .
             $this->profile->getTitle());
-        $tpl->setDescription("");
+        $tpl->setDescription($this->profile->getDescription());
         
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_prof");
@@ -411,7 +411,7 @@ class ilSkillProfileGUI
             $this->profile->update();
             
             ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "listProfiles");
+            $ilCtrl->redirect($this, "edit");
         } else {
             $form->setValuesByPost();
             $tpl->setContent($form->getHtml());

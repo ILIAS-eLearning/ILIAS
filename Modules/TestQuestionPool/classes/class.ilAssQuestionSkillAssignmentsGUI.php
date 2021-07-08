@@ -554,6 +554,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private function buildSkillSelectorExplorerGUI($assignments)
     {
         $skillSelectorExplorerGUI = new ilSkillSelectorGUI(
+            0,
             $this,
             self::CMD_SHOW_SKILL_SELECT,
             $this,

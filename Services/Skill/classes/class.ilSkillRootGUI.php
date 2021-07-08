@@ -172,6 +172,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $ilTabs->setBackTarget(
+            $lng->txt("obj_skmg"),
+            $ctrl->getLinkTarget($this, "listSkills")
+        );
 
         $ilTabs->activateTab("skills");
         $tpl->setContent($this->initInputForm()->getHTML());

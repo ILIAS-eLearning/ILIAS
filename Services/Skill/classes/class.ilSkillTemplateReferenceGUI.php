@@ -118,13 +118,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             }
 
             // back link
-            /*
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $this->node_object->skill_tree->getRootId());
-                        $ilTabs->setBackTarget($lng->txt("obj_skmg"),
-                            $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $_GET["obj_id"]);*/
+            $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+                $this->skill_tree_node_manager->getRootId());
+            $ilTabs->setBackTarget($lng->txt("obj_skmg"),
+                $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
+            $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+                $_GET["obj_id"]);
             
             $tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
             $add = " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
@@ -231,7 +230,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         if ($this->checkPermissionBool("write")) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
-                $this->form->addCommandButton("cancel", $lng->txt("cancel"));
+                $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
                 $this->form->setTitle($lng->txt("skmg_new_sktr"));
             } else {
                 $this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
@@ -325,19 +324,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
-    }
-
-    /**
-     * Cancel
-     *
-     * @param
-     * @return
-     */
-    public function cancel()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
     }
     
     /**

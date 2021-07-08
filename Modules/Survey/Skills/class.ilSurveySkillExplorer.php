@@ -51,8 +51,8 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->addFilter("scat");
         //		$this->addFilter("sktr");
         $this->setTitleLength(999);
-        
-        $this->tree = new ilSkillTree();
+
+        $this->tree = new ilGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
         
         $this->setSessionExpandVariable("skpexpand");
@@ -63,13 +63,20 @@ class ilSurveySkillExplorer extends ilExplorer
         //		$this->textwidth = 200;
 
         $this->force_open_path = array();
-        
-        $this->all_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->root_id));
-        foreach ($this->all_nodes as $n) {
-            $this->node[$n["child"]] = $n;
-            $this->child_nodes[$n["parent"]][] = $n;
-            $this->parent[$n["child"]] = $n["parent"];
-            //echo "-$k-"; var_dump($n);
+
+        $this->all_nodes = [];
+
+        foreach ($this->tree->getChilds(0) as $c) {
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($c["child"]);
+            $tree = $this->skill_tree_factory->getById($tree_id);
+            $all_nodes = $tree->getSubTree($tree->getNodeData($c["child"]));
+            foreach ($all_nodes as $n) {
+                $this->node[$n["child"]] = $n;
+                $this->child_nodes[$n["parent"]][] = $n;
+                $this->parent[$n["child"]] = $n["parent"];
+                $this->all_nodes[] = $n;
+                //echo "-$k-"; var_dump($n);
+            }
         }
         
         //		$this->buildSelectableTree($this->root_id);

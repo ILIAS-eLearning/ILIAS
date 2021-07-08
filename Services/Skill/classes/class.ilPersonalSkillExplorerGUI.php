@@ -24,6 +24,21 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     protected $has_selectable_nodes = false;
 
     /**
+     * @var \ILIAS\Skill\Tree\SkillTreeFactory
+     */
+    protected $skill_tree_factory;
+
+    /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    protected $node = [];
+    protected $all_nodes = [];
+    protected $child_nodes = [];
+    protected $parent = [];
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "obj_id")
@@ -39,26 +54,50 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
 
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
 
         $this->lng->loadLanguageModule("skmg");
         
-        $this->tree = new ilSkillTree();
+        $this->tree = new ilGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
+        //$this->setRootId(0);
         
         parent::__construct("pskill_sel", $a_parent_obj, $a_parent_cmd, $this->tree);
-        $this->setSkipRootNode(true);
-        
-        $this->all_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->root_id));
-        foreach ($this->all_nodes as $n) {
-            $this->node[$n["child"]] = $n;
-            $this->child_nodes[$n["parent"]][] = $n;
-            $this->parent[$n["child"]] = $n["parent"];
-            //echo "-$k-"; var_dump($n);
-        }
+        $this->setSkipRootNode(true); // false?
+        //var_dump($this->tree->getChilds(0)); exit;
 
+        //var_dump($this->tree->getNodeData($this->root_id)); exit;
+        $this->all_nodes = [];
+
+        foreach ($this->tree->getChilds(0) as $c) {
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($c["child"]);
+            //var_dump($tree_id);
+            $tree1 = $this->skill_tree_factory->getById($tree_id);
+            //var_dump($tree1->getNodeData($c["child"])); exit;
+            $all_nodes = $tree1->getSubTree($tree1->getNodeData($c["child"]));
+            //var_dump($all_nodes); exit;
+            foreach ($all_nodes as $n) {
+                $this->node[$n["child"]] = $n;
+                $this->child_nodes[$n["parent"]][] = $n;
+                $this->parent[$n["child"]] = $n["parent"];
+                $this->all_nodes[] = $n;
+                //echo "-$k-"; var_dump($n);
+            }
+        }
+        //var_dump($this->child_nodes); exit;
+        //exit;
         
         //		$this->setTypeWhiteList(array("skrt", "skll", "scat", "sktr"));
-        $this->buildSelectableTree($this->tree->readRootId());
+        $this->buildSelectableTree(0);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getRootId()
+    {
+        return 0;
     }
 
     /**
@@ -88,9 +127,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      */
     public function buildSelectableTree($a_node_id)
     {
-        //echo "<br>-$a_node_id-";
         if (in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED))) {
-            return;
+            if ($a_node_id != 0 && ilSkillTreeNode::_lookupType($a_node_id) !== "skrt") {
+                return;
+            }
         }
 
         if (ilSkillTreeNode::_lookupSelfEvaluation($a_node_id)) {
@@ -111,6 +151,14 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             $this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
                 $this->node[$a_node_id];
         }
+    }
+
+    public function getNodeId($a_node)
+    {
+        if (is_null($a_node["child"])) {
+            return 0;
+        }
+        return parent::getNodeId($a_node);
     }
 
     /**
