@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -49,6 +49,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     /**
      * create new instance and save it
+     * @throws ilException
      */
     public function save() : void
     {
