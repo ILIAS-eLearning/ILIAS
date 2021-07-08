@@ -54,7 +54,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     {
         $ilUser = $this->dic->user();
         
-        $objectId = $_REQUEST["crs_id"];
+        $objectId = $this->getRequestValue("crs_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $this->dic->language(),
@@ -164,5 +164,22 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
         exit;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed   $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null) {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }
