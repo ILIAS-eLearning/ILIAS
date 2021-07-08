@@ -24,6 +24,9 @@ class ilServicesComponentSuite extends TestSuite
         require_once("./Services/Component/test/Setup/ilComponentDefinitionInfoProcessorTest.php");
         $suite->addTestSuite(ilComponentDefinitionInfoProcessorTest::class);
 
+        require_once("./Services/Component/test/Setup/ilComponentBuildPluginInfoObjectiveTest.php");
+        $suite->addTestSuite(ilComponentBuildPluginInfoObjectiveTest::class);
+
         require_once("./Services/Component/test/ilArtifactComponentDataDBTest.php");
         $suite->addTestSuite(ilArtifactComponentDataDBTest::class);
 

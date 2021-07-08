@@ -6,6 +6,7 @@
 class ilArtifactComponentDataDB implements ilComponentDataDB
 {
     public const COMPONENT_DATA_PATH = "Services/Component/artifacts/component_data.php";
+    public const PLUGIN_DATA_PATH = "Services/Component/artifacts/plugin_data.php";
 
     protected array $components;
     protected array $component_id_by_type_and_name;
