@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 
 /**
@@ -12,6 +14,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
     private $userCertificateRepository;
+    private Container $dic;
 
     /**
      * @param ilObject $a_parent_obj
@@ -24,6 +27,8 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
+
+        $this->dic = $DIC;
 
         $ilCtrl = $DIC->ctrl();
         $database = $DIC->database();
@@ -54,9 +59,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
      */
     protected function getItems()
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
+        $ilUser = $this->dic->user();
 
         $data = array();
 
@@ -83,9 +86,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
      */
     protected function fillRow($a_set)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC->ctrl();
+        $ilCtrl = $this->dic->ctrl();
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :

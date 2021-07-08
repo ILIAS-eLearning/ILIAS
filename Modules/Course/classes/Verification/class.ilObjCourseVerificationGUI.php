@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 include_once('./Services/Object/classes/class.ilObject2GUI.php');
 
 /**
@@ -13,6 +15,15 @@ include_once('./Services/Object/classes/class.ilObject2GUI.php');
  */
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {
+    private Container $dic;
+
+    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    {
+        global $DIC;
+        $this->dic = $DIC;
+        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+    }
+
     public function getType()
     {
         return "crsv";
@@ -23,9 +34,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
      */
     public function create()
     {
-        global $DIC;
-
-        $ilTabs = $DIC->tabs();
+        $ilTabs = $this->dic->tabs();
 
         $this->lng->loadLanguageModule("crsv");
 
@@ -43,16 +52,14 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
      */
     public function save()
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
+        $ilUser = $this->dic->user();
         
         $objectId = $_REQUEST["crs_id"];
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
-                $DIC->language(),
-                $DIC->database(),
-                $DIC->logger()->root(),
+                $this->dic->language(),
+                $this->dic->database(),
+                $this->dic->logger()->root(),
                 new ilCertificateVerificationClassMap()
             );
 
@@ -102,10 +109,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
      */
     public function render($a_return = false, $a_url = false)
     {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-        $lng = $DIC->language();
+        $ilUser = $this->dic->user();
+        $lng = $this->dic->language();
         
         if (!$a_return) {
             $this->deliver();
@@ -141,9 +146,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
+        $ilErr = $this->dic['ilErr'];
         
         include_once "Services/COPage/classes/class.ilPCVerification.php";
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
