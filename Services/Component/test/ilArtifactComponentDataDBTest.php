@@ -3,6 +3,7 @@
 /* Copyright (c) 2021 Richard Klees <richard.klees@concepts-and-training.de>, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Data;
 
 class ilArtifactComponentDataDBTest extends TestCase
 {
@@ -21,12 +22,49 @@ class ilArtifactComponentDataDBTest extends TestCase
         ]]
     ];
 
+    public static array $plugin_data = [
+        "plg1" => [
+            "Modules",
+            "Module1",
+            "Slot1",
+            "Plugin1",
+            "1.9.1",
+            "8.0",
+            "8.999",
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            true,
+            false,
+            null
+        ],
+        "plg2" => [
+            "Services",
+            "Service2",
+            "Slot4",
+            "Plugin2",
+            "2.9.1",
+            "8.1",
+            "8.999",
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            null,
+            true,
+            false
+        ]
+    ];
+
     protected function setUp() : void
     {
-        $this->db = new class() extends ilArtifactComponentDataDB {
+        $this->data_factory = new Data\Factory();
+
+        $this->db = new class($this->data_factory) extends ilArtifactComponentDataDB {
             protected function readComponentData() : array
             {
                 return ilArtifactComponentDataDBTest::$component_data;
+            }
+            protected function readPluginData() : array
+            {
+                return ilArtifactComponentDataDBTest::$plugin_data;
             }
         };
 
@@ -37,15 +75,37 @@ class ilArtifactComponentDataDBTest extends TestCase
             "Module1",
             $slots1
         );
+        $plugins1 = [];
         $this->slt1 = new ilPluginSlotInfo(
             $this->mod1,
             "slt1",
-            "Slot1"
+            "Slot1",
+            $plugins1
         );
+        $this->plg1 = new ilPluginInfo(
+            $this->slt1,
+            "plg1",
+            "Plugin1",
+            false,
+            $this->data_factory->version("1.9.1"),
+            0,
+            $this->data_factory->version("1.9.1"),
+            0,
+            $this->data_factory->version("8.0"),
+            $this->data_factory->version("8.999"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            true,
+            false,
+            true
+        );
+        $plugins1[] = $this->plg1;
+        $plugins2 = [];
         $this->slt2 = new ilPluginSlotInfo(
             $this->mod1,
             "slt2",
-            "Slot2"
+            "Slot2",
+            $plugins2
         );
         $slots1 = ["slt1" => $this->slt1, "slt2" => $this->slt2];
 
@@ -64,10 +124,13 @@ class ilArtifactComponentDataDBTest extends TestCase
             "Service1",
             $slots3
         );
+
+        $plugins3 = [];
         $this->slt3 = new ilPluginSlotInfo(
             $this->ser1,
             "slt3",
-            "Slot3"
+            "Slot3",
+            $plugins3
         );
         $slots3 = ["slt3" => $this->slt3];
 
@@ -78,12 +141,32 @@ class ilArtifactComponentDataDBTest extends TestCase
             "Service2",
             $slots4
         );
+        $plugins4 = [];
         $this->slt4 = new ilPluginSlotInfo(
             $this->ser2,
             "slt4",
-            "Slot4"
+            "Slot4",
+            $plugins4
         );
         $slots4 = ["slt4" => $this->slt4];
+        $this->plg2 = new ilPluginInfo(
+            $this->slt4,
+            "plg2",
+            "Plugin2",
+            false,
+            $this->data_factory->version("2.9.1"),
+            0,
+            $this->data_factory->version("2.9.1"),
+            0,
+            $this->data_factory->version("8.1"),
+            $this->data_factory->version("8.999"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            false,
+            true,
+            false
+        );
+        $plugins4[] = $this->plg2;
     }
 
     public function testHasComponent()
@@ -196,14 +279,45 @@ class ilArtifactComponentDataDBTest extends TestCase
 
     public function testNoPluginSlot()
     {
-        $db = new class() extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory) extends ilArtifactComponentDataDB {
             protected function readComponentData() : array
             {
                 return ["mod2" => ["Modules", "Module2", []]];
+            }
+            protected function readPluginData() : array
+            {
+                return [];
             }
         };
 
         $slots = iterator_to_array($db->getPluginSlots());
         $this->assertEquals([], $slots);
+    }
+
+    public function testGetPlugins()
+    {
+        $plugins = iterator_to_array($this->db->getPlugins());
+
+        $ids = array_keys($plugins);
+        $expected_ids = ["plg1", "plg2"];
+        sort($ids);
+        sort($expected_ids);
+
+        $this->assertEquals($expected_ids, $ids);
+
+        $this->assertEquals($this->plg1, $plugins["plg1"]);
+        $this->assertEquals($this->plg2, $plugins["plg2"]);
+    }
+
+    public function testGetPlugin()
+    {
+        $this->assertEquals($this->plg1, $this->db->getPlugin("plg1"));
+        $this->assertEquals($this->plg2, $this->db->getPlugin("plg2"));
+    }
+
+    public function testUnknownPlugin()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->db->getPlugin("some_id");
     }
 }

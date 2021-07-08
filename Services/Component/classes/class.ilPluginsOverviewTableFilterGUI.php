@@ -36,7 +36,7 @@ class ilPluginsOverviewTableFilterGUI
             return $DIC->language()->txt($id);
         };
 
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         $slots = [];
         $components = [];
         foreach ($component_data_db->getPluginSlots() as $slot) {

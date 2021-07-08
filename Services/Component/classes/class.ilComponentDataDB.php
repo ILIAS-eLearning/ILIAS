@@ -60,4 +60,25 @@ interface ilComponentDataDB
      * @throws \InvalidArgumentException if pluginslot does not exist
      */
     public function getPluginSlotById(string $id) : ilPluginSlotInfo;
+
+    /**
+     * Check if a plugin exists.
+     */
+    public function hasPlugin(string $id) : bool;
+
+    /**
+     * Get all plugins.
+     *
+     * Keys are the ids.
+     *
+     * @return Iterator <string, ilPluginInfo>
+     */
+    public function getPlugins() : Iterator;
+
+    /**
+     * Get a plugin by id.
+     *
+     * @throws \InvalidArgumentException if plugin does not exist
+     */
+    public function getPlugin(string $id) : ilPluginInfo;
 }

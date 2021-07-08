@@ -55,7 +55,7 @@ class ilPluginAdmin
         global $DIC;
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("cmps");
-        $this->component_data_db = new ilArtifactComponentDataDB();
+        $this->component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
     }
 
 

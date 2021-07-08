@@ -56,7 +56,7 @@ abstract class ilComponent
 
     public function __construct()
     {
-        $this->component_data_db = new ilArtifactComponentDataDB();
+        $this->component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
 
         $this->component = $this->component_data_db->getComponentByTypeAndName(
             $this->getComponentType(),
@@ -102,7 +102,7 @@ abstract class ilComponent
     */
     final public static function getComponentObject($a_ctype, $a_cname)
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         if (!$component_data_db->hasComponent($a_ctype, $a_cname)) {
             return null;
         }
@@ -182,7 +182,7 @@ abstract class ilComponent
     */
     public static function lookupId($a_type, $a_name)
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         return $component_data_db->getComponentByTypeAndName($a_type, $a_name)->getId();
     }
     
@@ -238,7 +238,7 @@ abstract class ilComponent
      */
     public static function lookupComponentName($a_component_id)
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         if (!$component_data_db->hasComponent($a_component_id)) {
             return null;
         }

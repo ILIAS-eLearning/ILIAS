@@ -39,7 +39,7 @@ class ilPluginSlot
     */
     public function read()
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         $this->setSlotName($component_data_db->getPluginSlotById($this->getSlotId())->getName());
     }
     
@@ -293,7 +293,7 @@ class ilPluginSlot
     */
     public static function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         return $component_data_db->getPluginSlotById($a_slot_id)->getName();
     }
 
