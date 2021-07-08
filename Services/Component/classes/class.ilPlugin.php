@@ -1162,7 +1162,7 @@ abstract class ilPlugin
     {
         $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         if (!$component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)) {
             return null;
         }

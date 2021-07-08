@@ -105,7 +105,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected function addPluginData(array &$plugins, array $core_items, string $core_type)
     {
-        $component_data_db = new ilArtifactComponentDataDB();
+        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         foreach ($core_items as $core_item) {
             $plugin_slots = $component_data_db->getComponentByTypeAndName($core_type, $core_item["subdir"]);
             foreach ($plugin_slots as $plugin_slot) {
