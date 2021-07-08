@@ -25,7 +25,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
 
@@ -56,7 +56,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
 
         $data = array();
 
@@ -85,7 +85,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $DIC->ctrl();
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :

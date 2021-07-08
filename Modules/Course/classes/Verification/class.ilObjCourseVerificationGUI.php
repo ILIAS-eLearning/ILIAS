@@ -25,7 +25,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $DIC->tabs();
 
         $this->lng->loadLanguageModule("crsv");
 
@@ -45,7 +45,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $DIC->user();
         
         $objectId = $_REQUEST["crs_id"];
         if ($objectId) {
@@ -104,8 +104,8 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+        $ilUser = $DIC->user();
+        $lng = $DIC->language();
         
         if (!$a_return) {
             $this->deliver();

@@ -36,7 +36,7 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         
         $t_arr = explode("_", $a_target);
         

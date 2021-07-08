@@ -38,7 +38,7 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
         return array(
             array("alert" => false, "property" => $lng->txt("type"),
