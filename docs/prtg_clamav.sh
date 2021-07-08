@@ -2,15 +2,21 @@
 
 LOG_DIR=/srv/www/hal/log
 STATUS_LOG=clamd_status.log
+MOUNTPOINT=/media/share
 
 warning() {
 	echo "1:1:$1";
 }
 
 ok() {
-	echo "0:0:OK";
+	echo "0:0:OK$1";
 }
 
+if ! mountpoint -q $MOUNTPOINT
+then
+	ok ", $MOUNTPOINT not mounted"
+	exit 0;
+fi
 
 if [ ! -d "$LOG_DIR" ]
 then
