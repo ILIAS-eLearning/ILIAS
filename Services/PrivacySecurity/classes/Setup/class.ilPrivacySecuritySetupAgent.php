@@ -41,7 +41,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilPrivacySecuritySetupConfig(
-                (bool) $data["https_enabled"]
+                (bool) ($data["https_enabled"] ?? false)
             );
         });
     }
