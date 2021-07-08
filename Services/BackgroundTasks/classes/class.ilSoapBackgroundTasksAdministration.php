@@ -21,7 +21,6 @@
  +-----------------------------------------------------------------------------+
 */
 
-
 include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapBackgroundTasksAdministration extends ilSoapAdministration

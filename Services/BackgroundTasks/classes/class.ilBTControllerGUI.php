@@ -20,6 +20,8 @@ class ilBTControllerGUI
     const CMD_REMOVE = 'abortBucket';
     const CMD_GET_POPOVER_CONTENT = 'getPopoverContent';
     const CMD_USER_INTERACTION = 'userInteraction';
+    const IS_ASYNC = 'bt_task_is_async';
+    const CMD_GET_REPLACEMENT_ITEM = "getAsyncReplacementItem";
 
 
     public function executeCommand()
@@ -35,11 +37,18 @@ class ilBTControllerGUI
     {
         $cmd = $this->ctrl()->getCmd();
         switch ($cmd) {
-            case self::CMD_USER_INTERACTION:
             case self::CMD_GET_POPOVER_CONTENT:
+                $this->getPopoverContent();
+                break;
+            case self::CMD_USER_INTERACTION:
+                $this->userInteraction();
+                break;
             case self::CMD_ABORT:
             case self::CMD_REMOVE:
-                $this->$cmd();
+                $this->abortBucket();
+                break;
+            default:
+                break;
         }
     }
 
@@ -49,10 +58,16 @@ class ilBTControllerGUI
         $observer_id = (int) $this->http()->request()->getQueryParams()[self::OBSERVER_ID];
         $selected_option = $this->http()->request()->getQueryParams()[self::SELECTED_OPTION];
         $from_url = $this->getFromURL();
-
-        $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
+        try {
+            $observer = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
+        } catch (Throwable $t) {
+            $this->ctrl()->redirectToURL($from_url);
+        }
         $option = new UserInteractionOption("", $selected_option);
         $this->dic()->backgroundTasks()->taskManager()->continueTask($observer, $option);
+        if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
+            exit;
+        }
         $this->ctrl()->redirectToURL($from_url);
     }
 
@@ -65,7 +80,9 @@ class ilBTControllerGUI
         $bucket = $this->dic()->backgroundTasks()->persistence()->loadBucket($observer_id);
 
         $this->dic()->backgroundTasks()->taskManager()->quitBucket($bucket);
-
+        if ($this->http()->request()->getQueryParams()[self::IS_ASYNC] === "true") {
+            exit;
+        }
         $this->ctrl()->redirectToURL($from_url);
     }
 
@@ -84,6 +101,7 @@ class ilBTControllerGUI
 
         echo $this->ui()->renderer()->renderAsync($gui->getPopOverContent($this->user()
                                                                                ->getId(), $this->getFromURL(), $replace_url));
+        exit;
     }
 
 

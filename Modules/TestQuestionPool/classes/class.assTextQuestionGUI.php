@@ -400,6 +400,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("CHARACTERS", $this->lng->txt("characters"));
             $template->parseCurrentBlock();
         }
+
         $template->setVariable("QID", $this->object->getId());
         $template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
         $questiontext = $this->object->getQuestion();

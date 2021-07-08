@@ -107,6 +107,16 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
     * Get the question solution output
     *
     * @param integer $active_id The active user id
@@ -136,7 +146,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         //$solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             if (strlen($solutions[0]["value1"])) {
                 $elements = explode("{::}", $solutions[0]["value1"]);
             }

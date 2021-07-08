@@ -536,6 +536,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+
+    /**
      * @param $active_id
      * @param null $pass
      * @param bool $graphicalOutput
@@ -563,7 +574,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         // get the solution of the user for the active pass or from the last pass if allowed
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             foreach ($solutions as $idx => $solution_value) {
                 $user_solution[$solution_value['value1']] = $solution_value['value2'];
             }
