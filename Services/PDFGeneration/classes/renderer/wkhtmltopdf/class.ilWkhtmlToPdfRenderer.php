@@ -164,6 +164,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         } else {
             $log->info('ilWebkitHtmlToPdfTransformer error: ' . print_r($return_value, true));
         }
+        unlink($a_path_to_file);
     }
 
     /**
