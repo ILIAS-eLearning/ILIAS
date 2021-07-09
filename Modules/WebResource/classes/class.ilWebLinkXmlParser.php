@@ -133,15 +133,14 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 
                 if ($this->getMode() == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create')) {
                     // New weblink
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
                 } elseif ($this->getMode() == self::MODE_UPDATE and $a_attribs['action'] == 'Delete') {
                     $this->current_link_delete = true;
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
-                    $this->current_link->delete($a_attribs['id']);
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
+                    $this->current_link->delete();
                     break;
                 } elseif ($this->getMode() == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action']))) {
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
-                    $this->current_link->readItem($a_attribs['id']);
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
                     $this->current_link_update = true;
                     
                     // Delete all dynamic parameter
@@ -207,15 +206,15 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 
                 switch ($a_attribs['type']) {
                     case 'userName':
-                        $param->setValue(LINKS_LOGIN);
+                        $param->setValue(ilParameterAppender::LINKS_LOGIN);
                         break;
                         
                     case 'userId':
-                        $param->setValue(LINKS_USER_ID);
+                        $param->setValue(ilParameterAppender::LINKS_USER_ID);
                         break;
                     
                     case 'matriculation':
-                        $param->setValue(LINKS_MATRICULATION);
+                        $param->setValue(ilParameterAppender::LINKS_MATRICULATION);
                         break;
                         
                     default:

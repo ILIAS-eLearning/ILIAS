@@ -14,10 +14,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 {
     protected $web_res = null;
     protected $invalid = array();
-
-    /**
-     * Constructor
-     */
+    
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         
@@ -50,47 +47,39 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->addMultiCommand('confirmDeleteLink', $this->lng->txt('delete'));
         $this->addCommandButton('updateLinks', $this->lng->txt('save'));
     }
-    
-    /**
-     * Invalid links
-     * @param array $a_links
-     */
+
     public function setInvalidLinks($a_links)
     {
         $this->invalid = $a_links;
     }
-    
-    /**
-     * Get invalid links
-     */
+
     public function getInvalidLinks()
     {
-        return $this->invalid ? $this->invalid : array();
+        return $this->invalid ?? array();
     }
     
-    /**
-     * Parse selected items
-     * @param array $a_link_ids
-     */
-    public function parseSelectedLinks($a_link_ids)
+
+    public function parseSelectedLinks(array $a_link_ids)
     {
+        global $DIC;
         $rows = array();
         foreach ($a_link_ids as $link_id) {
-            $link = $this->getWebResourceItems()->getItem($link_id);
+            $link = new ilLinkResourceItem($link_id);
 
-            $tmp['id'] = $link['link_id'];
-            $tmp['title'] = $link['title'];
-            $tmp['description'] = $link['description'];
-            $tmp['target'] = $link['target'];
-            $tmp['link_id'] = $link['link_id'];
-            $tmp['active'] = $link['active'];
-            $tmp['disable_check'] = $link['disable_check'];
-            $tmp['valid'] = $link['valid'];
-            $tmp['last_check'] = $link['last_check'];
+            $tmp['id'] = $link->getWebResourceId();
+            $tmp['title'] = $link->getTitle();
+            $tmp['description'] = $link->getDescription();
+            $tmp['target'] = $link->getTarget();
+            $tmp['link_id'] = $link->getLinkId();
+            $tmp['active'] = $link->getActiveStatus();
+            $tmp['disable_check'] = $link->getDisableCheckStatus();
+            $tmp['valid'] = $link->getValidStatus();
+            $tmp['last_check'] = $link->getLastCheckDate();
             $tmp['params'] = array();
             
             $rows[] = $tmp;
         }
+
         $this->setData($rows);
     }
     
@@ -102,7 +91,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 
         $rows = array();
         foreach ($this->getData() as $link) {
-            $link_id = $link['id'];
+            $link_id = $link['link_id'];
             
             $tmp = $link;
             $tmp['title'] = (string) ($postParams['links'][$link_id]['title'] ?? '');
@@ -115,20 +104,11 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $tmp['name'] = (string) ($postParams['links'][$link_id]['nam'] ?? '');
             $tmp['params'] = array();
             
-            // var_dump($_POST, $link_id);
-            
-            // var_dump($_POST['tar_'.$link_id.'_ajax_type']);
-            // var_dump($_POST['tar_'.$link_id.'_ajax_id']);
-            
             $rows[] = $tmp;
         }
         $this->setData($rows);
     }
-    
-    
-    /**
-     * Parse Links
-     */
+
     public function parse()
     {
         $rows = array();

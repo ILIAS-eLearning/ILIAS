@@ -104,6 +104,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     {
         
         $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'link_id', $a_set['link_id']);
+        $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'view_mode', ilObjLinkResourceGUI::VIEW_MODE_VIEW);
         
         $this->tpl->setVariable('TITLE', $a_set['title']);
         if (strlen($a_set['description'])) {

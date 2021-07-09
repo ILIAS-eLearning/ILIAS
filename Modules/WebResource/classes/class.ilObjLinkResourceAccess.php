@@ -97,10 +97,10 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      * Check before with _isSingular() if there is more or less than one
      *
      * @param	int			$a_webr_id		object id of web resource
-     * @return array link item data
+     * @return null|ilLinkResourceItem link item data
      *
      */
-    public static function _getFirstLink($a_webr_id)
+    public static function _getFirstLink(int $a_webr_id) : ?ilLinkResourceItem
     {
         global $DIC;
 
@@ -109,25 +109,17 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         if (isset(self::$item[$a_webr_id])) {
             return self::$item[$a_webr_id];
         }
-        $query = "SELECT * FROM webr_items " .
-            "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer') . ' ' .
-            "AND active = " . $ilDB->quote(1, 'integer') . ' ';
+        $query = "SELECT link_id FROM webr_items " .
+            "WHERE webr_id = " . $ilDB->quote($a_webr_id, ilDBConstants::T_INTEGER) . ' ' .
+            "AND active = " . $ilDB->quote(1, ilDBConstants::T_INTEGER) . ' ';
         $res = $ilDB->query($query);
-        
+
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title'] = $row->title;
-            $item['description'] = $row->description;
-            $item['target'] = $row->target;
-            $item['active'] = (bool) $row->active;
-            $item['disable_check'] = $row->disable_check;
-            $item['create_date'] = $row->create_date;
-            $item['last_update'] = $row->last_update;
-            $item['last_check'] = $row->last_check;
-            $item['valid'] = $row->valid;
-            $item['link_id'] = $row->link_id;
-            self::$item[$row->webr_id] = $item;
+            $item = new ilLinkResourceItem($row->link_id);
+            self::$item[$a_webr_id] = $item;
         }
-        return $item ? $item : array();
+
+        return $item ?? null;
     }
 
     /**
@@ -145,22 +137,13 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         $res = $ilDB->query(
             "SELECT * FROM webr_items WHERE " .
                 $ilDB->in("webr_id", $a_obj_ids, false, "integer") .
-                " AND active = " . $ilDB->quote(1, 'integer')
+                " AND active = " . $ilDB->quote(1, ilDBConstants::T_INTEGER)
         );
         foreach ($a_obj_ids as $id) {
             self::$item[$id] = array();
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $item['title'] = $row->title;
-            $item['description'] = $row->description;
-            $item['target'] = $row->target;
-            $item['active'] = (bool) $row->active;
-            $item['disable_check'] = $row->disable_check;
-            $item['create_date'] = $row->create_date;
-            $item['last_update'] = $row->last_update;
-            $item['last_check'] = $row->last_check;
-            $item['valid'] = $row->valid;
-            $item['link_id'] = $row->link_id;
+            $item = new ilLinkResourceItem($row->link_id);
             self::$item[$row->webr_id] = $item;
         }
     }

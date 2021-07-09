@@ -21,16 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-const LINKS_USER_ID = 1;
-const LINKS_SESSION_ID = 2;
-const LINKS_LOGIN = 3;
-const LINKS_MATRICULATION = 4;
-
-// Errors
-const LINKS_ERR_NO_NAME = 1;
-const LINKS_ERR_NO_VALUE = 2;
-const LINKS_ERR_NO_NAME_VALUE = 3;
-
 /**
 * Class ilParameterAppender
 *
@@ -41,6 +31,16 @@ const LINKS_ERR_NO_NAME_VALUE = 3;
 */
 class ilParameterAppender
 {
+    public const LINKS_USER_ID = 1;
+    public const LINKS_SESSION_ID = 2;
+    public const LINKS_LOGIN = 3;
+    public const LINKS_MATRICULATION = 4;
+
+    // Errors
+    public const LINKS_ERR_NO_NAME = 1;
+    public const LINKS_ERR_NO_VALUE = 2;
+    public const LINKS_ERR_NO_NAME_VALUE = 3;
+
     public $webr_id = null;
     public $db = null;
 
@@ -70,8 +70,8 @@ class ilParameterAppender
         $ilDB = $DIC->database();
         
         $query = "SELECT * FROM webr_params " .
-            "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer') . " " .
-            "AND link_id = " . $ilDB->quote($a_link_id, 'integer');
+            "WHERE webr_id = " . $ilDB->quote($a_webr_id, ilDBConstants::T_INTEGER) . " " .
+            "AND link_id = " . $ilDB->quote($a_link_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $params[] = $row['param_id'];
@@ -115,15 +115,15 @@ class ilParameterAppender
     public function validate()
     {
         if (!strlen($this->getName()) and !$this->getValue()) {
-            $this->err = LINKS_ERR_NO_NAME_VALUE;
+            $this->err = ilParameterAppender::LINKS_ERR_NO_NAME_VALUE;
             return false;
         }
         if (!strlen($this->getName())) {
-            $this->err = LINKS_ERR_NO_NAME;
+            $this->err = ilParameterAppender::LINKS_ERR_NO_NAME;
             return false;
         }
         if (!$this->getValue()) {
-            $this->err = LINKS_ERR_NO_VALUE;
+            $this->err = ilParameterAppender::LINKS_ERR_NO_VALUE;
             return false;
         }
         return true;
@@ -143,11 +143,11 @@ class ilParameterAppender
         $next_id = $this->db->nextId('webr_params');
         $query = "INSERT INTO webr_params (param_id,webr_id,link_id,name,value) " .
             "VALUES( " .
-            $this->db->quote($next_id, 'integer') . ", " .
-            $this->db->quote($this->getObjId(), 'integer') . ", " .
-            $this->db->quote($a_link_id, 'integer') . ", " .
-            $this->db->quote($this->getName(), 'text') . ", " .
-            $this->db->quote($this->getValue(), 'integer') .
+            $this->db->quote($next_id, ilDBConstants::T_INTEGER) . ", " .
+            $this->db->quote($this->getObjId(), ilDBConstants::T_INTEGER) . ", " .
+            $this->db->quote($a_link_id, ilDBConstants::T_INTEGER) . ", " .
+            $this->db->quote($this->getName(), ilDBConstants::T_TEXT) . ", " .
+            $this->db->quote($this->getValue(), ilDBConstants::T_INTEGER) .
             ")";
         $res = $this->db->manipulate($query);
 
@@ -157,8 +157,8 @@ class ilParameterAppender
     public function delete($a_param_id)
     {
         $query = "DELETE FROM webr_params " .
-            "WHERE param_id = " . $this->db->quote($a_param_id, 'integer') . " " .
-            "AND webr_id = " . $this->db->quote($this->getObjId(), 'integer');
+            "WHERE param_id = " . $this->db->quote($a_param_id, ilDBConstants::T_INTEGER) . " " .
+            "AND webr_id = " . $this->db->quote($this->getObjId(), ilDBConstants::T_INTEGER);
         $res = $this->db->manipulate($query);
         return true;
     }
@@ -176,39 +176,36 @@ class ilParameterAppender
         return $ilSetting->get('links_dynamic', false) ? true : false;
     }
 
-    public static function _append($a_link_data)
+    public static function _append(ilLinkResourceItem $a_link_data) : ilLinkResourceItem
     {
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
 
-        if (!is_array($a_link_data)) {
-            return false;
-        }
-        if (count($params = ilParameterAppender::_getParams($a_link_data['link_id']))) {
+        if (count($params = ilParameterAppender::_getParams($a_link_data->getLinkId()))) {
             // Check for prefix
             foreach ($params as $param_data) {
-                if (!strpos($a_link_data['target'], '?')) {
-                    $a_link_data['target'] .= "?";
+                if (!strpos($a_link_data->getTarget(), '?')) {
+                    $a_link_data->addToTarget("?");
                 } else {
-                    $a_link_data['target'] .= "&";
+                    $a_link_data->addToTarget("&");
                 }
-                $a_link_data['target'] .= ($param_data['name'] . "=");
+                $a_link_data->addToTarget($param_data['name'] . "=");
                 switch ($param_data['value']) {
-                    case LINKS_LOGIN:
-                        $a_link_data['target'] .= (urlencode($ilUser->getLogin()));
+                    case ilParameterAppender::LINKS_LOGIN:
+                        $a_link_data->addToTarget(urlencode($ilUser->getLogin()));
                         break;
                         
-                    case LINKS_SESSION_ID:
-                        $a_link_data['target'] .= (session_id());
+                    case ilParameterAppender::LINKS_SESSION_ID:
+                        $a_link_data->addToTarget(session_id());
                         break;
                         
-                    case LINKS_USER_ID:
-                        $a_link_data['target'] .= ($ilUser->getId());
+                    case ilParameterAppender::LINKS_USER_ID:
+                        $a_link_data->addToTarget($ilUser->getId());
                         break;
                         
-                    case LINKS_MATRICULATION:
-                        $a_link_data['target'] .= ($ilUser->getMatriculation());
+                    case ilParameterAppender::LINKS_MATRICULATION:
+                        $a_link_data->addToTarget($ilUser->getMatriculation());
                         break;
                 }
             }
@@ -230,7 +227,7 @@ class ilParameterAppender
         $params = [];
 
         $res = $ilDB->query("SELECT * FROM webr_params WHERE link_id = " .
-            $ilDB->quote((int) $a_link_id, 'integer'));
+            $ilDB->quote((int) $a_link_id, ilDBConstants::T_INTEGER));
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $params[$row->param_id]['name'] = $row->name;
             $params[$row->param_id]['value'] = $row->value;
@@ -250,16 +247,16 @@ class ilParameterAppender
         $info = $a_name;
         
         switch ($a_value) {
-            case LINKS_USER_ID:
+            case ilParameterAppender::LINKS_USER_ID:
                 return $info . '=USER_ID';
                 
-            case LINKS_SESSION_ID:
+            case ilParameterAppender::LINKS_SESSION_ID:
                 return $info . '=SESSION_ID';
                 
-            case LINKS_LOGIN:
+            case ilParameterAppender::LINKS_LOGIN:
                 return $info . '=LOGIN';
                 
-            case LINKS_MATRICULATION:
+            case ilParameterAppender::LINKS_MATRICULATION:
                 return $info . '=MATRICULATION';
         }
         return '';
@@ -272,7 +269,7 @@ class ilParameterAppender
         $ilDB = $DIC['ilDB'];
 
         $query = "DELETE FROM webr_params WHERE webr_id = " .
-            $ilDB->quote((int) $a_webr_id, 'integer');
+            $ilDB->quote((int) $a_webr_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->manipulate($query);
 
         return true;
@@ -289,10 +286,10 @@ class ilParameterAppender
         $lng = $DIC['lng'];
 
         return array(0 => $lng->txt('links_select_one'),
-                     LINKS_USER_ID => $lng->txt('links_user_id'),
-                     LINKS_LOGIN => $lng->txt('links_user_name'),
-                     LINKS_SESSION_ID => $lng->txt('links_session_id'),
-                     LINKS_MATRICULATION => $lng->txt('matriculation')
+                     ilParameterAppender::LINKS_USER_ID => $lng->txt('links_user_id'),
+                     ilParameterAppender::LINKS_LOGIN => $lng->txt('links_user_name'),
+                     ilParameterAppender::LINKS_SESSION_ID => $lng->txt('links_session_id'),
+                     ilParameterAppender::LINKS_MATRICULATION => $lng->txt('matriculation')
         );
     }
 }

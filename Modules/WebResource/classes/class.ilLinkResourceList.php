@@ -137,7 +137,7 @@ class ilLinkResourceList
         $ilDB = $this->db;
 
         $query = "SELECT * FROM webr_lists " .
-            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), 'integer');
+            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), ilDBConstants::T_INTEGER);
 
         $res = $ilDB->query($query);
         if ($ilDB->numRows($res)) {
@@ -161,7 +161,7 @@ class ilLinkResourceList
         $ilDB = $this->db;
 
         $query = "DELETE FROM webr_lists " .
-            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), 'integer');
+            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), ilDBConstants::T_INTEGER);
         $res = $ilDB->manipulate($query);
 
         if ($a_update_history) {
@@ -189,10 +189,10 @@ class ilLinkResourceList
 
         $this->setLastUpdateDate(time());
         $query = "UPDATE webr_lists " .
-            "SET title = " . $ilDB->quote($this->getTitle(), 'text') . ", " .
-            "description = " . $ilDB->quote($this->getDescription(), 'text') . ", " .
-            "last_update = " . $ilDB->quote($this->getLastUpdateDate(), 'integer') . " " .
-            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), 'integer');
+            "SET title = " . $ilDB->quote($this->getTitle(), ilDBConstants::T_TEXT) . ", " .
+            "description = " . $ilDB->quote($this->getDescription(), ilDBConstants::T_TEXT) . ", " .
+            "last_update = " . $ilDB->quote($this->getLastUpdateDate(), ilDBConstants::T_INTEGER) . " " .
+            "WHERE webr_id = " . $ilDB->quote($this->getListResourceId(), ilDBConstants::T_INTEGER);
         $res = $ilDB->manipulate($query);
 
         if ($a_update_history) {
@@ -220,11 +220,11 @@ class ilLinkResourceList
 
         $query = "INSERT INTO webr_lists (title,description,last_update,create_date,webr_id) " .
             "VALUES( " .
-            $ilDB->quote($this->getTitle(), 'text') . ", " .
-            $ilDB->quote($this->getDescription(), 'text') . ", " .
-            $ilDB->quote($this->getLastUpdateDate(), 'integer') . ", " .
-            $ilDB->quote($this->getCreateDate(), 'integer') . ", " .
-            $ilDB->quote($this->getListResourceId(), 'integer') . " " .
+            $ilDB->quote($this->getTitle(), ilDBConstants::T_TEXT) . ", " .
+            $ilDB->quote($this->getDescription(), ilDBConstants::T_TEXT) . ", " .
+            $ilDB->quote($this->getLastUpdateDate(), ilDBConstants::T_INTEGER) . ", " .
+            $ilDB->quote($this->getCreateDate(), ilDBConstants::T_INTEGER) . ", " .
+            $ilDB->quote($this->getListResourceId(), ilDBConstants::T_INTEGER) . " " .
             ")";
         $res = $ilDB->manipulate($query);
 
@@ -250,7 +250,7 @@ class ilLinkResourceList
         $ilDB = $DIC->database();
 
         $query = "SELECT * FROM webr_lists " .
-            "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer');
+            "WHERE webr_id = " . $ilDB->quote($a_webr_id, ilDBConstants::T_INTEGER);
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -296,7 +296,7 @@ class ilLinkResourceList
         $ilDB = $DIC->database();
 
         $query = "SELECT * FROM webr_lists " .
-            "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer');
+            "WHERE webr_id = " . $ilDB->quote($a_webr_id, ilDBConstants::T_INTEGER);
 
         $res = $ilDB->query($query);
         if ($ilDB->numRows($res)) {

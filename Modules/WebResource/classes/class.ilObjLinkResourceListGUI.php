@@ -14,7 +14,7 @@
 */
 class ilObjLinkResourceListGUI extends ilObjectListGUI
 {
-    public $link_data = array();
+    public $link_data = null;
 
     /**
     * overwritten from base class
@@ -25,7 +25,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
             
-            return $this->link_data['title'];
+            return $this->link_data->getTitle();
         }
         return parent::getTitle();
     }
@@ -39,7 +39,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             !ilLinkResourceList::checkListStatus($this->obj_id)) {
             $this->__readLink();
             
-            $desc = $this->link_data['description'];
+            $desc = $this->link_data->getDescription();
             
             // #10682
             if ($this->settings->get("rep_shorten_description")) {
@@ -89,7 +89,7 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
             $link = ilObjLinkResourceAccess::_getFirstLink($this->obj_id);
             
             // we could use the "internal" flag, but it would not work for "old" links
-            if (!ilLinkInputGUI::isInternalLink($link["target"])) {
+            if (!ilLinkInputGUI::isInternalLink($link->getTarget())) {
                 return '_blank';
             }
         }
@@ -116,22 +116,21 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
         global $DIC;
         $request = $DIC->http()->request();
 
+        $wsp_id = 0;
         if(isset($request->getQueryParams()['wsp_id'])) {
-            $wsp_id = $request->getQueryParams()['wsp_id'];
+            $wsp_id = (int) $request->getQueryParams()['wsp_id'];
         } else if(isset($request->getParsedBody()['wsp_id'])) {
-            $wsp_id = $request->getParsedBody()['wsp_id'];
+            $wsp_id = (int) $request->getParsedBody()['wsp_id'];
         }
 
+        $cmd_class = '';
         if(isset($request->getQueryParams()['cmdClass'])) {
-            $cmd_class = $request->getQueryParams()['cmdClass'];
+            $cmd_class = (string) $request->getQueryParams()['cmdClass'];
         } else if(isset($request->getParsedBody()['cmdClass'])) {
-            $cmd_class = $request->getParsedBody()['cmdClass'];
+            $cmd_class = (string) $request->getParsedBody()['cmdClass'];
         }
 
-        if (
-            (isset($wsp_id) && $wsp_id) ||
-            (isset($cmd_class) && $cmd_class === "ilpersonalworkspacegui")
-        ) {
+        if ( $wsp_id || $cmd_class === "ilpersonalworkspacegui" ) {
             if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                 !ilLinkResourceList::checkListStatus($this->obj_id) &&
                 $a_cmd == '') {
@@ -147,7 +146,6 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
                     if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                         !ilLinkResourceList::checkListStatus($this->obj_id)) {
                         $this->__readLink();
-                        // $cmd_link = $this->link_data['target'];
                         $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=calldirectlink";
                     } else {
                         $cmd_link = "ilias.php?baseClass=ilLinkResourceHandlerGUI&ref_id=" . $this->ref_id . "&cmd=$a_cmd";
@@ -164,13 +162,13 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     /**
     * Get data of first active link resource
     *
-    * @return array link data array
+    * @return ilLinkResourceItem link data array
     */
     public function __readLink()
     {
-
+        global $DIC;
         if (ilParameterAppender::_isEnabled()) {
-            return $this->link_data = ilParameterAppender::_append($tmp = ilLinkResourceItems::_getFirstLink($this->obj_id));
+            return $this->link_data = ilParameterAppender::_append(ilLinkResourceItems::_getFirstLink($this->obj_id));
         }
         return $this->link_data = ilLinkResourceItems::_getFirstLink($this->obj_id);
     }

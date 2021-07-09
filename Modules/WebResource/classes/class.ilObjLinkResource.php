@@ -94,10 +94,9 @@ class ilObjLinkResource extends ilObject
             case 'General':
                     if (ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
                         $link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
-                        $link = new ilLinkResourceItems($this->getId());
-                        $link->readItem($link_arr['link_id']);
-                        $link->setTitle($title);
-                        $link->setDescription($description);
+                        $link = new ilLinkResourceItem( (int) $link_arr['link_id'] ?? 0);
+                        $link->setTitle( (string) $title ?? '');
+                        $link->setDescription( (string) $description ?? '');
                         $link->update();
                     }
                     break;
@@ -134,10 +133,11 @@ class ilObjLinkResource extends ilObject
         return true;
     }
 
-    public function initLinkResourceItemsObject()
+    public function initLinkResourceItemObject(int $webr_id, int $link_id = 0) : bool
     {
 
-        $this->items_obj = new ilLinkResourceItems($this->getId());
+        $this->item_obj = new ilLinkResourceItem($link_id);
+        $this->item_obj->setWebResourceId($webr_id);
 
         return true;
     }
@@ -157,12 +157,12 @@ class ilObjLinkResource extends ilObject
         
         // object created now copy other settings
         $links = new ilLinkResourceItems($this->getId());
-        $links->cloneItems($new_obj->getId());
+        $links->cloneItems($this->getId(),$new_obj->getId());
         
         // append copy info weblink title
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
-            ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
+            ilLinkResourceItem::updateTitle($first['link_id'], $new_obj->getTitle());
         }
         
         return $new_obj;
