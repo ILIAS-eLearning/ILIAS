@@ -499,7 +499,7 @@ class ilForum
             $news_item->setPriority(NEWS_NOTICE);
             $news_item->setTitle($objNewPost->getSubject());
             $news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($this->prepareText($objNewPost->getMessage(), 0), 1));
-            if ($objNewPost->getMessage() != strip_tags($objNewPost->getMessage())) {
+            if ($news_item->getContent() != strip_tags($news_item->getContent())) {
                 $news_item->setContentHtml(true);
             }
             
@@ -746,7 +746,7 @@ class ilForum
                 $news_item = new ilNewsItem($news_id);
                 //$news_item->setTitle($subject);
                 $news_item->setContent(nl2br($this->prepareText($message, 0)));
-                if ($message != strip_tags($message)) {
+                if ($news_item->getContent() != strip_tags($news_item->getContent())) {
                     $news_item->setContentHtml(true);
                 } else {
                     $news_item->setContentHtml(false);
@@ -768,7 +768,7 @@ class ilForum
                 $news_item = new ilNewsItem($news_id);
                 //$news_item->setTitle($subject);
                 $news_item->setContent(nl2br($this->prepareText($rec["pos_message"], 0)));
-                if ($rec["pos_message"] != strip_tags($rec["pos_message"])) {
+                if ($news_item->getContent() != strip_tags($news_item->getContent())) {
                     $news_item->setContentHtml(true);
                 } else {
                     $news_item->setContentHtml(false);
