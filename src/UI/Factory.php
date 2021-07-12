@@ -838,6 +838,8 @@ interface Factory
      *        extends the Toast time of appearance above the global defined amount.
      *   accessibility:
      *     1: All interactions SHOULD be only accessible as long a the Toast is not vanished.
+     *     2: All Toast MUST alert Screenreaders when appearing and therefore MUST declare the role "alert".
+     *
      * ---
      * @return \ILIAS\UI\Component\Toast\Factory
      */
