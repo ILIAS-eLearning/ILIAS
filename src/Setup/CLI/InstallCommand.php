@@ -46,7 +46,7 @@ class InstallCommand extends Command
     public function configure()
     {
         $this->setDescription("Creates a fresh ILIAS installation based on the config");
-        $this->addArgument("config", InputArgument::REQUIRED, "Configuration file for the installation");
+        $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
         $this->configureCommandForPlugins();
@@ -58,6 +58,23 @@ class InstallCommand extends Command
         // the setup for the command line version of the setup. Do not use this.
         define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
 
+        if ($input->hasOption('plugin') && $input->getOption('plugin') != "") {
+            list($objective, $environment, $io) = $this->preparePluginInstallation($input, $output);
+        } else {
+            list($objective, $environment, $io) = $this->prepareILIASInstallation($input, $output);
+        }
+
+        try {
+            $this->achieveObjective($objective, $environment, $io);
+            $io->success("Installation complete. Thanks and have fun!");
+        } catch (NoConfirmationException $e) {
+            $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
+        }
+
+    }
+
+    protected function prepareILIASInstallation(InputInterface $input, OutputInterface $output) : array
+    {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
         $io->title("Install ILIAS");
@@ -93,11 +110,40 @@ class InstallCommand extends Command
             $common_config->getClientId()
         );
 
-        try {
-            $this->achieveObjective($objective, $environment, $io);
-            $io->success("Installation complete. Thanks and have fun!");
-        } catch (NoConfirmationException $e) {
-            $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
+        return [$objective, $environment, $io];
+    }
+
+    protected function preparePluginInstallation(InputInterface $input, OutputInterface $output) : array
+    {
+        $io = new IOWrapper($input, $output);
+        $io->printLicenseMessage();
+        $io->title("Install ILIAS Plugin");
+
+        $agent = $this->getRelevantAgent($input);
+
+        $config = $this->readAgentConfig($agent, $input);
+
+        $objective = new ObjectiveCollection(
+            "Install and Update ILIAS Plugin",
+            false,
+            $agent->getInstallObjective($config),
+            $agent->getUpdateObjective($config)
+        );
+        if (count($this->preconditions) > 0) {
+            $objective = new ObjectiveWithPreconditions(
+                $objective,
+                ...$this->preconditions
+            );
         }
+
+        $environment = new ArrayEnvironment([
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
+        ]);
+
+        if (!is_null($config)) {
+            $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
+        }
+
+       return [$objective, $environment, $io];
     }
 }

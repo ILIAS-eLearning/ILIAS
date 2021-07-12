@@ -96,7 +96,9 @@ class AgentCollection implements Agent
      */
     public function getInstallObjective(Config $config = null) : Objective
     {
-        $this->checkConfig($config);
+        if (!is_null($config)) {
+            $this->checkConfig($config);
+        }
 
         return new ObjectiveCollection(
             "Collected Install Objectives",
