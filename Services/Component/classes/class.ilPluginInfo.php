@@ -11,11 +11,11 @@ class ilPluginInfo
     protected string $id;
     protected string $name;
     protected bool $activated;
-    protected Version $current_version;
-    protected int $db_version;
+    protected ?Version $current_version;
+    protected ?int $current_db_version;
     protected Version $available_version;
-    protected Version $ilias_min_version;
-    protected Version $ilias_max_version;
+    protected Version $minimum_ilias_version;
+    protected Version $maximum_ilias_version;
     protected string $responsible;
     protected string $responsible_mail;
     protected bool $supports_learning_progress;
@@ -27,8 +27,8 @@ class ilPluginInfo
         string $id,
         string $name,
         bool $activated,
-        Version $current_version,
-        int $current_db_version,
+        ?Version $current_version,
+        ?int $current_db_version,
         Version $available_version,
         int $available_db_version,
         Version $minimum_ilias_version,
@@ -39,6 +39,12 @@ class ilPluginInfo
         bool $supports_export,
         bool $supports_cli_setup
     ) {
+        if ($current_version === null && $current_db_version !== null) {
+            throw new \InvalidArgumentException(
+                "If there is no current version for the plugin, we also should not " .
+                "have a db-version."
+            );
+        }
         $this->pluginslot = $pluginslot;
         $this->id = $id;
         $this->name = $name;
@@ -85,21 +91,12 @@ class ilPluginInfo
         return $this->activated;
     }
 
-    /**
-     * "Active" tells if the plugin is actually effective, i.e.
-     * if it is activated and updated.
-     */
-    public function isActive() : bool
-    {
-        return $this->activated;
-    }
-
-    public function getCurrentVersion() : Version
+    public function getCurrentVersion() : ?Version
     {
         return $this->current_version;
     }
 
-    public function getCurrentDBVersion() : int
+    public function getCurrentDBVersion() : ?int
     {
         return $this->current_db_version;
     }
@@ -147,5 +144,32 @@ class ilPluginInfo
     public function supportsCLISetup() : bool
     {
         return $this->supports_cli_setup;
+    }
+
+    /**
+     * "Installed" tells if the plugin has some installed version.
+     */
+    public function isInstalled() : bool
+    {
+        return $this->current_version !== null;
+    }
+
+    /**
+     * "Update required" tells if the plugin needs an update.
+     */
+    public function isUpdateRequired() : bool
+    {
+        return $this->isInstalled() && !$this->current_version->equals($this->available_version);
+    }
+
+    /**
+     * "ILIAS Version compliance" tells if the plugin can be operated with the
+     * given ILIAS version.
+     */
+    public function isCompliantToILIAS(Version $version) : bool
+    {
+        return
+            $version->isGreaterThanOrEquals($this->minimum_ilias_version)
+            && $version->isSmallerThanOrEquals($this->maximum_ilias_version);
     }
 }
