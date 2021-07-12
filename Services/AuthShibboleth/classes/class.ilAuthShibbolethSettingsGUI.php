@@ -38,6 +38,11 @@ class ilAuthShibbolethSettingsGUI
      */
     private $ref_id;
 
+    /**
+     * @var ilAccess
+     */
+    private $access;
+
 
     /**
      *
@@ -54,6 +59,7 @@ class ilAuthShibbolethSettingsGUI
         $ilTabs = $DIC['ilTabs'];
         $ilias = $DIC['ilias'];
         $this->ctrl = $ilCtrl;
+        $this->access = $DIC['ilAccess'];
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('shib');
@@ -148,7 +154,11 @@ class ilAuthShibbolethSettingsGUI
         $propertys = new ilPropertyFormGUI();
         $propertys->setTitle($this->lng->txt("shib"));
         $propertys->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $propertys->addCommandButton("save", $this->lng->txt("save"));
+
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
+            $propertys->addCommandButton("save", $this->lng->txt("save"));
+        }
+
         $propertys->addCommandButton("settings", $this->lng->txt("cancel"));
         //set enable shibboleth support
         $enable = new ilCheckboxInputGUI();
