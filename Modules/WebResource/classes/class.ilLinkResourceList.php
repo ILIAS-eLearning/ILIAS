@@ -260,7 +260,7 @@ class ilLinkResourceList
             $list['last_update'] = $row->last_update;
             $list['webr_id'] = $row->webr_id;
         }
-        return $list ? $list : array();
+        return $list ?? array();
     }
 
     /**
@@ -282,7 +282,7 @@ class ilLinkResourceList
             $lists[$row->webr_id]['last_update'] = $row->last_update;
             $lists[$row->webr_id]['webr_id'] = $row->webr_id;
         }
-        return $lists ? $lists : array();
+        return $lists ?? array();
     }
 
     /**

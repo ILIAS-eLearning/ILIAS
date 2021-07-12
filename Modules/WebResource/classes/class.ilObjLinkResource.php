@@ -95,8 +95,8 @@ class ilObjLinkResource extends ilObject
                     if (ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
                         $link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
                         $link = new ilLinkResourceItem( (int) $link_arr['link_id'] ?? 0);
-                        $link->setTitle( (string) $title ?? '');
-                        $link->setDescription( (string) $description ?? '');
+                        $link->setTitle( (string) ($title ?? ''));
+                        $link->setDescription( (string) ($description ?? ''));
                         $link->update();
                     }
                     break;
