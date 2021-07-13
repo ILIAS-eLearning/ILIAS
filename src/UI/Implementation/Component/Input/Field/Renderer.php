@@ -295,19 +295,28 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         $configuration = $component->getConfiguration();
-        /**
-         * @var $component F\Tag
-         */
+        $value = $component->getValue();
+        
+        if ($value) {
+            $value = array_map(
+                function ($v) {
+                    return ['value' => urlencode($v), 'display' => $v];
+                },
+                $value
+            );
+        }
+
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($configuration) {
+            function ($id) use ($configuration, $value) {
                 $encoded = json_encode($configuration);
-                return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+                $value = json_encode($value);
+                return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
             }
         );
         $id = $this->bindJSandApplyId($component, $tpl);
 
-        if ($component->getValue()) {
-            $value = $component->getValue();
+        /*
+        if ($value) {
             $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
             foreach ($value as $tag) {
                 $tpl->setCurrentBlock('existing_tags');
@@ -315,10 +324,13 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("TAG_NAME", $tag);
                 $tpl->parseCurrentBlock();
             }
-        }
+        }*/
 
         if ($component->isDisabled()) {
-            $tpl->setVariable("DISABLED", 'disabled');
+            //$tpl->setCurrentBlock("disabled");
+            $tpl->setVariable("DISABLED", "disabled");
+            //$tpl->parseCurrentBlock();
+            $tpl->setVariable("READONLY", "readonly");
         }
 
         return $this->wrapInFormContext($component, $tpl->get());
@@ -663,14 +675,13 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
-        $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
-        //from ilCalendarUtil::initDateTimePicker
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-
-        $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
+        
+        $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
+        $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
+
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');

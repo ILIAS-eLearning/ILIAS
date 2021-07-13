@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@andxor/jquery-ui-touch-punch-fix": "^1.0.2",
+    "@yaireo/tagify": "^4.3.1",
     "bootstrap": "3.4.1",
-    "bootstrap-tagsinput": "^0.7.1",
     "dropzone": "^5.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "fine-uploader": "^5.16.2",
@@ -32,7 +32,6 @@
     "qtip2": "^3.0.3",
     "rollup-plugin-sourcemaps": "^0.6.2",
     "tinymce": "git+https://github.com/Minervis-GmbH/tinymce-dist.git",
-    "typeahead": "^0.2.2",
     "webui-popover": "^1.2.18"
   },
   "devDependencies": {
@@ -188,22 +187,6 @@
       "last-update-for-ilias": "5.3.0",
       "note": ""
     },
-    "bootstrap-tagsinput": {
-      "introduction-date": "2017-12-18",
-      "approved-by": "Jour Fixe",
-      "developer": "fschmid",
-      "purpose": "UI Service Input Tag",
-      "last-update-for-ilias": "5.3.0",
-      "note": ""
-    },
-    "typeahead.js": {
-      "introduction-date": "2017-12-18",
-      "approved-by": "Jour Fixe",
-      "developer": "fschmid",
-      "purpose": "UI Service Input Tag",
-      "last-update-for-ilias": "5.3.0",
-      "note": ""
-    },
     "openlayers": {
       "introduction-date": "2014-01-20",
       "approved-by": "Jour Fixe",
@@ -239,6 +222,14 @@
       "developer": "akill",
       "purpose": "Services/Link, autolinking of external links",
       "last-update-for-ilias": "5.4.13"
+    },
+    "@yaireo/tagify": {
+      "introduction-date": "2021-06-23",
+      "approved-by": null,
+      "developer": "nhaagen",
+      "purpose": "UI Input Tag",
+      "last-update-for-ilias": "8.0.0",
+      "note": "Replacement for bootstrap-tagsinput, typeahead.js; needs prop-types^15.7.2"
     }
   }
 }
