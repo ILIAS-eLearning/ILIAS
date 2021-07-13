@@ -35,6 +35,9 @@ class ilTestCorrectionsGUI
     public function __construct(\ILIAS\DI\Container $DIC, ilObjTest $testOBJ)
     {
         $this->DIC = $DIC;
+        $lng = $this->DIC['lng'];
+        $lng->loadLanguageModule("assessment");
+
         $this->testOBJ = $testOBJ;
         
         $this->testAccess = new ilTestAccess($testOBJ->getRefId(), $testOBJ->getTestId());
@@ -74,19 +77,27 @@ class ilTestCorrectionsGUI
     {
         $this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
         
-        $table_gui = new ilTestQuestionsTableGUI(
-            $this,
-            'showQuestionList',
-            $this->testOBJ->getRefId()
-        );
-        
-        $table_gui->setQuestionTitleLinksEnabled(true);
-        $table_gui->setQuestionRemoveRowButtonEnabled(true);
-        $table_gui->init();
-        
-        $table_gui->setData($this->getQuestions());
-        
-        $this->DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
+        if ($this->testOBJ->isFixedTest()) {
+            $table_gui = new ilTestQuestionsTableGUI(
+                $this,
+                'showQuestionList',
+                $this->testOBJ->getRefId()
+            );
+
+            $table_gui->setQuestionTitleLinksEnabled(true);
+            $table_gui->setQuestionRemoveRowButtonEnabled(true);
+            $table_gui->init();
+
+            $table_gui->setData($this->getQuestions());
+
+            $gui_html = $table_gui->getHTML();
+        } else {
+            $lng = $this->DIC['lng'];
+            $txt = $lng->txt('tst_corrections_incompatible_question_set_type');
+            $gui_html = "<p>$txt</p>";
+        }
+
+        $this->DIC->ui()->mainTemplate()->setContent($gui_html);
     }
     
     protected function showQuestion(ilPropertyFormGUI $form = null)
