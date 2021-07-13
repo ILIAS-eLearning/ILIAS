@@ -41,7 +41,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($f) {
-                    $fav_list = new \ilFavouritesListGUI();
+                    $fav_list = new \ilFavouritesListMenuGUI();
 
                     return $f->legacy($fav_list->render());
                 })
