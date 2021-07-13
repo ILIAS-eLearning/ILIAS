@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Search/classes/class.ilSearchSettings.php';
@@ -8,22 +8,22 @@ require_once 'Services/Search/classes/class.ilSearchSettings.php';
  */
 class ilMailAutoCompleteRecipientResult
 {
-    const MODE_STOP_ON_MAX_ENTRIES = 1;
-    const MODE_FETCH_ALL = 2;
+    public const MODE_STOP_ON_MAX_ENTRIES = 1;
+    public const MODE_FETCH_ALL = 2;
 
-    const MAX_RESULT_ENTRIES = 1000;
+    public const MAX_RESULT_ENTRIES = 1000;
 
-    protected $allow_smtp = null;
-    protected $user_id = null;
-    protected $handled_recipients = array();
-    protected $mode = self::MODE_STOP_ON_MAX_ENTRIES;
-    protected $max_entries = null;
-    public $result = array();
+    protected bool $allow_smtp;
+    protected int $user_id;
+    protected array $handled_recipients = array();
+    protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
+    protected int $max_entries;
+    public array $result = array();
 
     /**
      * @param int $mode
      */
-    public function __construct($mode)
+    public function __construct(int $mode)
     {
         global $DIC;
 
@@ -41,7 +41,7 @@ class ilMailAutoCompleteRecipientResult
      * @param int $mode
      * @throws InvalidArgumentException
      */
-    protected function initMode($mode)
+    protected function initMode(int $mode): void
     {
         if (!in_array($mode, array(self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES))) {
             throw new InvalidArgumentException("Wrong mode passed!");
@@ -52,15 +52,15 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return bool
      */
-    public function isResultAddable()
+    public function isResultAddable(): bool
     {
-        if (
-            $this->mode == self::MODE_STOP_ON_MAX_ENTRIES &&
-            $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries
-        ) {
+        if ($this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
+        $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries) {
             return false;
-        } elseif (
-            $this->mode == self::MODE_FETCH_ALL &&
+        }
+
+        if (
+            $this->mode === self::MODE_FETCH_ALL &&
             count($this->result['items']) >= self::MAX_RESULT_ENTRIES
         ) {
             return false;
@@ -73,7 +73,7 @@ class ilMailAutoCompleteRecipientResult
      * @param string $firstname
      * @param string $lastname
      */
-    public function addResult($login, $firstname, $lastname)
+    public function addResult(string $login, string $firstname, string $lastname): void
     {
         if (!isset($this->handled_recipients[$login])) {
             $recipient = array();
@@ -93,7 +93,7 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return array
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->result;
     }
@@ -101,8 +101,8 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return int
      */
-    public function numItems()
+    public function numItems(): int
     {
-        return (int) count($this->result['items']);
+        return count($this->result['items']);
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Mail/classes/class.ilMailNotification.php';
@@ -15,25 +15,14 @@ include_once 'Services/Mail/classes/class.ilMail.php';
  */
 class ilMailSummaryNotification extends ilMailNotification
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilSetting $settings;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($a_is_personal_workspace = false)
+    public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
 
@@ -44,7 +33,7 @@ class ilMailSummaryNotification extends ilMailNotification
         parent::__construct($a_is_personal_workspace);
     }
 
-    public function send()
+    public function send(): void
     {
         $is_message_enabled = $this->settings->get("mail_notification_message");
 
@@ -65,7 +54,7 @@ class ilMailSummaryNotification extends ilMailNotification
         $user_id = 0;
 
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($user_id == 0 || $row['user_id'] != $user_id) {
+            if ($user_id === 0 || $row['user_id'] !== $user_id) {
                 $user_id = $row['user_id'];
             }
             $users[$user_id][] = $row;
@@ -77,7 +66,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
-            $user_lang = $this->getLanguage() ? $this->getLanguage() : $this->lng;
+            $user_lang = $this->getLanguage() ?: $this->lng;
 
             $this->initMail();
 
@@ -86,7 +75,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
             $this->setBody(ilMail::getSalutation($user_id, $user_lang));
             $this->appendBody("\n\n");
-            if (count($mail_data) == 1) {
+            if (count($mail_data) === 1) {
                 $this->appendBody(sprintf($user_lang->txt('mail_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
             } else {
                 $this->appendBody(sprintf($user_lang->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
@@ -100,7 +89,7 @@ class ilMailSummaryNotification extends ilMailNotification
                 $this->appendBody('#' . $counter . "\n\n");
                 $this->appendBody($user_lang->txt('date') . ": " . $mail['send_time']);
                 $this->appendBody("\n");
-                if ($mail['sender_id'] == ANONYMOUS_USER_ID) {
+                if ($mail['sender_id'] === ANONYMOUS_USER_ID) {
                     $senderName = ilMail::_getIliasMailerName();
                 } else {
                     $senderName = ilObjUser::_lookupLogin($mail['sender_id']);
@@ -110,7 +99,7 @@ class ilMailSummaryNotification extends ilMailNotification
                 $this->appendBody($user_lang->txt('subject') . ": " . $mail['m_subject']);
                 $this->appendBody("\n\n");
 
-                if ($is_message_enabled == true) {
+                if ($is_message_enabled) {
                     $this->appendBody($user_lang->txt('message') . ": " . $mail['m_message']);
                     $this->appendBody("\n\n");
                 }

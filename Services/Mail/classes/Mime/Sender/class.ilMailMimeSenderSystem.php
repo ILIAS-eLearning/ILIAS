@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,8 +7,7 @@
  */
 class ilMailMimeSenderSystem implements ilMailMimeSender
 {
-    /** @var ilSetting */
-    protected $settings;
+    protected ilSetting $settings;
 
     /**
      * ilMailMimeSenderSystem constructor.
@@ -24,7 +23,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
      */
     public function hasReplyToAddress() : bool
     {
-        return strlen($this->settings->get('mail_system_sys_reply_to_addr')) > 0;
+        return $this->settings->get('mail_system_sys_reply_to_addr') !== '';
     }
 
     /**
@@ -48,7 +47,7 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
      */
     public function hasEnvelopFromAddress() : bool
     {
-        return strlen($this->settings->get('mail_system_sys_env_from_addr')) > 0;
+        return $this->settings->get('mail_system_sys_env_from_addr') !== '';
     }
 
     /**

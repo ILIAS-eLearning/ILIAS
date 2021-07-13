@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,27 +12,27 @@ class ilMailFormCall
     /**
      *
      */
-    const SESSION_KEY = 'mail_transport';
+    public const SESSION_KEY = 'mail_transport';
 
     /**
      * HTTP-GET parameter for the referer url
      */
-    const REFERER_KEY = 'r';
+    public const REFERER_KEY = 'r';
 
     /**
      * Session parameter for the hash
      */
-    const SIGNATURE_KEY = 'sig';
+    public const SIGNATURE_KEY = 'sig';
 
     /**
      * Session parameter for the context
      */
-    const CONTEXT_PREFIX = 'ctx';
+    public const CONTEXT_PREFIX = 'ctx';
 
     /**
      * Session parameter for the context
      */
-    const CONTEXT_KEY = 'ctx_template';
+    public const CONTEXT_KEY = 'ctx_template';
 
     /**
      * @param object|string $gui
@@ -43,11 +43,11 @@ class ilMailFormCall
      * @return string
      */
     public static function getLinkTarget(
-        $gui,
+        mixed $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
-        $context_params = []
+        array $context_params = []
     ) : string {
         return self::getTargetUrl('&', $gui, $cmd, $gui_params, $mail_params, $context_params);
     }
@@ -61,7 +61,7 @@ class ilMailFormCall
      * @return string
      */
     public static function getRedirectTarget(
-        $gui,
+        mixed $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
@@ -81,7 +81,7 @@ class ilMailFormCall
      */
     protected static function getTargetUrl(
         string $argument_separator,
-        $gui,
+        mixed $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
@@ -97,7 +97,7 @@ class ilMailFormCall
         }
 
         foreach ($context_params as $key => $value) {
-            if ($key == self::CONTEXT_KEY) {
+            if ($key === self::CONTEXT_KEY) {
                 $mparams .= $argument_separator . $key . '=' . urlencode($value);
             } else {
                 $mparams .= $argument_separator . self::CONTEXT_PREFIX . '_' . $key . '=' . urlencode($value);
@@ -133,8 +133,8 @@ class ilMailFormCall
             $contextParameters = [];
             foreach ($queryParameters as $key => $value) {
                 $prefix = substr($key, 0, strlen(self::CONTEXT_PREFIX));
-                if ($prefix == self::CONTEXT_PREFIX) {
-                    if ($key == self::CONTEXT_KEY) {
+                if ($prefix === self::CONTEXT_PREFIX) {
+                    if ($key === self::CONTEXT_KEY) {
                         $contextParameters[$key] = $value;
                     } else {
                         $contextParameters[substr($key, strlen(self::CONTEXT_PREFIX . '_'))] = $value;

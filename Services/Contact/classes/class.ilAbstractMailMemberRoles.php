@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * Class ilAbstractMailMemberRoles
@@ -10,18 +10,18 @@ abstract class ilAbstractMailMemberRoles
      * @param int $ref_id
      * @return array
      */
-    abstract public function getMailRoles($ref_id);
+    abstract public function getMailRoles(int $ref_id): array;
     
     /**
      * @return string
      */
-    abstract public function getRadioOptionTitle();
+    abstract public function getRadioOptionTitle(): string;
 
     /**
      * @param int $role_id
      * @return String
      */
-    final public function getMailboxRoleAddress($role_id)
+    final public function getMailboxRoleAddress(int $role_id): string
     {
         return (new \ilRoleMailboxAddress($role_id))->value();
     }

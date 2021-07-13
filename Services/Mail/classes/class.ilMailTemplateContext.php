@@ -14,20 +14,11 @@ require_once './Services/Language/classes/class.ilLanguageFactory.php';
  */
 abstract class ilMailTemplateContext
 {
-    /** @var ilLanguage|null */
-    protected $language;
-
-    /** @var ilMailEnvironmentHelper */
-    protected $envHelper;
-
-    /** @var ilMailLanguageHelper */
-    protected $languageHelper;
-
-    /** @var ilMailUserHelper */
-    protected $userHelper;
-
-    /** @var OrgUnitUserService */
-    protected $orgUnitUserService;
+    protected ?ilLanguage $language;
+    protected ?ilMailEnvironmentHelper $envHelper;
+    protected ?ilMailLanguageHelper $languageHelper;
+    protected ?ilMailUserHelper $userHelper;
+    protected ?OrgUnitUserService $orgUnitUserService;
 
     /**
      * ilMailTemplateContext constructor.
@@ -68,7 +59,7 @@ abstract class ilMailTemplateContext
      */
     public function getLanguage() : ilLanguage
     {
-        return $this->language ? $this->language : $this->languageHelper->getCurrentLanguage();
+        return $this->language ?: $this->languageHelper->getCurrentLanguage();
     }
 
     /**
@@ -240,7 +231,7 @@ abstract class ilMailTemplateContext
                 }
                 break;
 
-            case !in_array($placeholder_id, array_keys($this->getGenericPlaceholders())):
+            case !array_key_exists($placeholder_id, $this->getGenericPlaceholders()):
                 $datePresentationLanguage = ilDatePresentation::getLanguage();
                 ilDatePresentation::setLanguage($this->getLanguage());
 
@@ -255,7 +246,7 @@ abstract class ilMailTemplateContext
                 break;
         }
 
-        return (string) $resolved;
+        return $resolved;
     }
 
     /**
@@ -263,7 +254,7 @@ abstract class ilMailTemplateContext
      */
     protected function initLanguage(ilObjUser $user) : void
     {
-        $this->initLanguageByIso2Code((string) $user->getLanguage());
+        $this->initLanguageByIso2Code($user->getLanguage());
     }
 
     /**

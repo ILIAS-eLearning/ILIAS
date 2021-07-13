@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,60 +15,18 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchCoursesGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $cache;
-
-    /**
-     * @var ilFormatMail
-     */
-    protected $umail;
-
-    /**
-     * @var bool
-     */
-    protected $mailing_allowed;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilErrorHandling $error;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilTree $tree;
+    protected ilObjectDataCache $cache;
+    protected ilFormatMail $umail;
+    protected bool $mailing_allowed;
 
     public function __construct($wsp_access_handler = null, $wsp_node_id = null)
     {
@@ -99,13 +57,13 @@ class ilMailSearchCoursesGUI
         $this->umail = new ilFormatMail($this->user->getId());
     }
 
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
             case 'ilbuddysystemgui':
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
-                    $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+                $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }
 
                 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
@@ -113,7 +71,6 @@ class ilMailSearchCoursesGUI
                 $this->ctrl->setReturn($this, 'showMembers');
                 $this->ctrl->forwardCommand(new ilBuddySystemGUI());
                 break;
-
             default:
                 if (!($cmd = $this->ctrl->getCmd())) {
                     $cmd = "showMyCourses";
@@ -122,12 +79,13 @@ class ilMailSearchCoursesGUI
                 $this->$cmd();
                 break;
         }
+
         return true;
     }
 
-    public function mail()
+    public function mail(): void
     {
-        if ($_GET["view"] == "mycourses") {
+        if ($_GET["view"] === "mycourses") {
             $ids = ((int) $_GET['search_crs']) ? array((int) $_GET['search_crs']) : $_POST['search_crs'];
             
             if ($ids) {
@@ -136,7 +94,7 @@ class ilMailSearchCoursesGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
                 $this->showMyCourses();
             }
-        } elseif ($_GET["view"] == "crs_members") {
+        } elseif ($_GET["view"] === "crs_members") {
             $ids = ((int) $_GET['search_members']) ? array((int) $_GET['search_members']) : $_POST['search_members'];
             if ($ids) {
                 $this->mailMembers();
@@ -149,7 +107,7 @@ class ilMailSearchCoursesGUI
         }
     }
 
-    public function mailCourses()
+    public function mailCourses(): void
     {
         $members = array();
 
@@ -182,7 +140,7 @@ class ilMailSearchCoursesGUI
                         str_starts_with($role['title'], 'il_crs_tutor_') ||
                         str_starts_with($role['title'], 'il_crs_admin_')) {
                         if (isset($old_mail_data['rcp_to']) &&
-                           trim($old_mail_data['rcp_to']) != '') {
+                           trim($old_mail_data['rcp_to']) !== '') {
                             $rcpt = (new \ilRoleMailboxAddress($role['obj_id']))->value();
                             if (!$this->umail->existsRecipient($rcpt, (string) $old_mail_data['rcp_to'])) {
                                 $members[] = $rcpt;
@@ -219,7 +177,7 @@ class ilMailSearchCoursesGUI
         ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
     }
 
-    public function mailMembers()
+    public function mailMembers(): void
     {
         $members = array();
 
@@ -267,10 +225,10 @@ class ilMailSearchCoursesGUI
     /**
      * Cancel action
      */
-    public function cancel()
+    public function cancel(): void
     {
-        if ($_GET["view"] == "mycourses" &&
-            $_GET["ref"] == "mail") {
+        if ($_GET["view"] === "mycourses" &&
+            $_GET["ref"] === "mail") {
             $this->ctrl->returnToParent($this);
         } else {
             $this->showMyCourses();
@@ -280,7 +238,7 @@ class ilMailSearchCoursesGUI
     /**
      * Show user's courses
      */
-    public function showMyCourses()
+    public function showMyCourses(): void
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
     
@@ -326,7 +284,7 @@ class ilMailSearchCoursesGUI
                     }
 
                     $hiddenMembers = false;
-                    if ((int) $oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED) {
+                    if ((int) $oTmpCrs->getShowMembers() === $oTmpCrs->SHOW_MEMBERS_DISABLED) {
                         ++$num_courses_hidden_members;
                         $hiddenMembers = true;
                     }
@@ -352,11 +310,11 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->setParameter($this, 'search_crs', $crs_id);
                     $this->ctrl->setParameter($this, 'view', 'mycourses');
                     
-                    if ($_GET["ref"] == "mail") {
+                    if ($_GET["ref"] === "mail") {
                         if ($this->mailing_allowed) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($_GET["ref"] == "wsp") {
+                    } elseif ($_GET["ref"] === "wsp") {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
@@ -386,14 +344,14 @@ class ilMailSearchCoursesGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         
         $table->setData($tableData);
-        if ($_GET['ref'] == 'mail') {
+        if ($_GET['ref'] === 'mail') {
             $this->tpl->setVariable('BUTTON_CANCEL', $this->lng->txt('cancel'));
         }
 
         $searchTpl->setVariable('TABLE', $table->getHtml());
         $this->tpl->setContent($searchTpl->get());
 
-        if ($_GET["ref"] != "wsp") {
+        if ($_GET["ref"] !== "wsp") {
             $this->tpl->printToStdout();
         }
     }
@@ -401,14 +359,14 @@ class ilMailSearchCoursesGUI
     /**
      * Show course members
      */
-    public function showMembers()
+    public function showMembers(): void
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
-        if ($_GET["search_crs"] != "") {
+        if ($_GET["search_crs"] !== "") {
             $_POST["search_crs"] = explode(",", $_GET["search_crs"]);
             $_GET["search_crs"] = "";
-        } elseif ($_SESSION["search_crs"] != "") {
+        } elseif ($_SESSION["search_crs"] !== "") {
             $_POST["search_crs"] = explode(",", $_SESSION["search_crs"]);
             $_SESSION["search_crs"] = "";
         }
@@ -418,13 +376,13 @@ class ilMailSearchCoursesGUI
         }
 
         if (!is_array($_POST["search_crs"]) ||
-            count($_POST["search_crs"]) == 0) {
+            count($_POST["search_crs"]) === 0) {
             ilUtil::sendInfo($this->lng->txt("mail_select_course"));
             $this->showMyCourses();
         } else {
             foreach ($_POST['search_crs'] as $crs_id) {
                 $oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
-                if ($oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED) {
+                if ($oTmpCrs->getShowMembers() === $oTmpCrs->SHOW_MEMBERS_DISABLED) {
                     unset($_POST['search_crs']);
                     ilUtil::sendInfo($this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                     $this->showMyCourses();
@@ -436,7 +394,7 @@ class ilMailSearchCoursesGUI
             $this->tpl->setTitle($this->lng->txt("mail_addressbook"));
         
             $this->ctrl->setParameter($this, "view", "crs_members");
-            if ($_GET["ref"] != "") {
+            if ($_GET["ref"] !== "") {
                 $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
             }
             if (is_array($_POST["search_crs"])) {
@@ -478,11 +436,11 @@ class ilMailSearchCoursesGUI
                         'search_crs' => $crs_id
                     );
 
-                    if ('mail' == $context && ilBuddySystem::getInstance()->isEnabled()) {
+                    if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {
                         $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($member);
                         $state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
                         $rowData['status'] = '';
-                        if ($member != $this->user->getId()) {
+                        if ($member !== $this->user->getId()) {
                             if ($relation->isOwnedByActor()) {
                                 $rowData['status'] = $this->lng->txt('buddy_bs_state_' . $state_name . '_a');
                             } else {
@@ -503,15 +461,15 @@ class ilMailSearchCoursesGUI
             $searchTpl->setVariable('TABLE', $table->getHtml());
             $this->tpl->setContent($searchTpl->get());
             
-            if ($_GET["ref"] != "wsp") {
+            if ($_GET["ref"] !== "wsp") {
                 $this->tpl->printToStdout();
             }
         }
     }
     
-    public function share()
+    public function share(): void
     {
-        if ($_GET["view"] == "mycourses") {
+        if ($_GET["view"] === "mycourses") {
             $ids = $_REQUEST["search_crs"];
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
@@ -522,7 +480,7 @@ class ilMailSearchCoursesGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
                 $this->showMyCourses();
             }
-        } elseif ($_GET["view"] == "crs_members") {
+        } elseif ($_GET["view"] === "crs_members") {
             $ids = $_REQUEST["search_members"];
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
@@ -535,7 +493,7 @@ class ilMailSearchCoursesGUI
         }
     }
     
-    protected function addPermission($a_obj_ids)
+    protected function addPermission(mixed $a_obj_ids): void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = array($a_obj_ids);
@@ -544,7 +502,7 @@ class ilMailSearchCoursesGUI
         $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
         $added = false;
         foreach ($a_obj_ids as $object_id) {
-            if (!in_array($object_id, $existing)) {
+            if (!in_array($object_id, $existing, true)) {
                 $added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
             }
         }

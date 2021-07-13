@@ -11,32 +11,15 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailOptionsGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
-
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilSetting */
-    private $settings;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilFormatMail */
-    private $umail;
-
-    /** @var ilMailbox */
-    private $mbox;
-
-    /** @var ServerRequestInterface */
-    protected $request;
-
-    /** @var ilMailOptionsFormGUI */
-    protected $form;
+    private ?ilGlobalPageTemplate $tpl;
+    private ?ilCtrl $ctrl;
+    private ?ilLanguage $lng;
+    private ?ilSetting $settings;
+    private ?ilObjUser $user;
+    private ?ilFormatMail $umail;
+    private ?ilMailbox $mbox;
+    protected ?ServerRequestInterface $request;
+    protected ilMailOptionsFormGUI $form;
 
     /**
      * ilMailOptionsGUI constructor.
@@ -142,15 +125,11 @@ class ilMailOptionsGUI
      */
     protected function getForm() : ilMailOptionsFormGUI
     {
-        if (null !== $this->form) {
-            return $this->form;
-        }
-
-        return new ilMailOptionsFormGUI(
-            new ilMailOptions((int) $this->user->getId()),
-            $this,
-            'saveOptions'
-        );
+        return $this->form ?? new ilMailOptionsFormGUI(
+                new ilMailOptions($this->user->getId()),
+                $this,
+                'saveOptions'
+            );
     }
 
     /**

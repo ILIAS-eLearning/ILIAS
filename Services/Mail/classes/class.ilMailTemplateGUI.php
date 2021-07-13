@@ -5,6 +5,7 @@
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use JetBrains\PhpStorm\NoReturn;
 
 /**
  * Class ilMailTemplateGUI
@@ -14,41 +15,18 @@ use ILIAS\UI\Renderer;
  */
 class ilMailTemplateGUI
 {
-    /** @var ilPropertyFormGUI */
-    protected $form;
-
-    /** @var ilGlobalPageTemplate */
-    protected $tpl;
-
-    /** @var ilCtrl */
-    protected $ctrl;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var ilToolbarGUI */
-    protected $toolbar;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilObject */
-    protected $parentObject;
-
-    /** @var ilErrorHandling */
-    protected $error;
-
-    /** @var ilMailTemplateService */
-    protected $service;
-
-    /** @var Services */
-    protected $http;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
+    protected ilPropertyFormGUI $form;
+    protected ?ilGlobalPageTemplate $tpl;
+    protected ?ilCtrl $ctrl;
+    protected ?ilLanguage $lng;
+    protected ?ilToolbarGUI $toolbar;
+    protected ?ilRbacSystem $rbacsystem;
+    protected ilObject $parentObject;
+    protected ?ilErrorHandling $error;
+    protected ?ilMailTemplateService $service;
+    protected ?Services $http;
+    protected ?Factory $uiFactory;
+    protected ?Renderer $uiRenderer;
 
     /**
      * ilMailTemplateGUI constructor.
@@ -215,11 +193,11 @@ class ilMailTemplateGUI
 
         try {
             $this->service->createNewTemplate(
-                (string) ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
-                (string) $form->getInput('title'),
-                (string) $form->getInput('m_subject'),
-                (string) $form->getInput('m_message'),
-                (string) $form->getInput('lang')
+                ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
+                $form->getInput('title'),
+                $form->getInput('m_subject'),
+                $form->getInput('m_message'),
+                $form->getInput('lang')
             );
 
             ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
@@ -282,11 +260,11 @@ class ilMailTemplateGUI
             try {
                 $this->service->modifyExistingTemplate(
                     (int) $templateId,
-                    (string) ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
-                    (string) $form->getInput('title'),
-                    (string) $form->getInput('m_subject'),
-                    (string) $form->getInput('m_message'),
-                    (string) $form->getInput('lang')
+                    ilMailTemplateContextService::getTemplateContextById($form->getInput('context'))->getId(),
+                    $form->getInput('title'),
+                    $form->getInput('m_subject'),
+                    $form->getInput('m_message'),
+                    $form->getInput('lang')
                 );
 
                 ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
@@ -339,7 +317,7 @@ class ilMailTemplateGUI
      * @param ilPropertyFormGUI $form
      * @param ilMailTemplate $template
      */
-    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template)
+    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template): void
     {
         $form->setValuesByArray(array(
             'tpl_id' => $template->getTplId(),
@@ -437,7 +415,7 @@ class ilMailTemplateGUI
     /**
      * @throws ilMailException
      */
-    public function getAjaxPlaceholdersById() : void
+    #[NoReturn] public function getAjaxPlaceholdersById() : void
     {
         $triggerValue = $this->http->request()->getQueryParams()['triggerValue'] ?? '';
         $contextId = ilUtil::stripSlashes($triggerValue);
@@ -482,7 +460,7 @@ class ilMailTemplateGUI
         $context_options = array();
         $generic_context = new ilMailTemplateGenericContext();
         foreach ($contexts as $ctx) {
-            if ($ctx->getId() != $generic_context->getId()) {
+            if ($ctx->getId() !== $generic_context->getId()) {
                 $context_options[$ctx->getId()] = $ctx;
                 $context_sort[$ctx->getId()] = $ctx->getTitle();
             }
@@ -598,7 +576,7 @@ class ilMailTemplateGUI
     /**
      *
      */
-    public function setAsContextDefault()
+    public function setAsContextDefault(): void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);

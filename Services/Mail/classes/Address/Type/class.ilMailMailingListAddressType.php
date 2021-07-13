@@ -7,8 +7,7 @@
  */
 class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
-    /** @var ilMailingLists */
-    private $lists;
+    private ilMailingLists $lists;
 
     /**
      * ilMailMailingListAddressType constructor.

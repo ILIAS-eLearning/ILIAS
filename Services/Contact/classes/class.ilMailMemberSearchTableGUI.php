@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -57,7 +57,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    protected function fillRow($a_set): void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

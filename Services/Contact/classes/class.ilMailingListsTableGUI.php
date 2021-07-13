@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -45,7 +45,7 @@ class ilMailingListsTableGUI extends ilTable2GUI
         $this->initColumns();
     }
 
-    protected function initColumns()
+    protected function initColumns(): void
     {
         $this->addColumn('', 'check', '10%', true);
         $this->addColumn($this->lng->txt('title'), 'title', '30%');

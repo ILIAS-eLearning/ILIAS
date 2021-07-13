@@ -7,11 +7,8 @@
  */
 class ilMailDiffAddressList implements ilMailAddressList
 {
-    /** @var ilMailAddressList */
-    protected $left;
-
-    /** @var ilMailAddressList */
-    protected $right;
+    protected ilMailAddressList $left;
+    protected ilMailAddressList $right;
 
     /**
      * ilMailDiffAddressList constructor.

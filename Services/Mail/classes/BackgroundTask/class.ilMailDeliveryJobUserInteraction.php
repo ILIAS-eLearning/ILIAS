@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
@@ -12,7 +12,7 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOp
  */
 class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
 {
-    const OPTION_CANCEL = 'cancel';
+    public const OPTION_CANCEL = 'cancel';
 
     /**
      * @inheritdoc
@@ -25,7 +25,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getRemoveOption()
+    public function getRemoveOption(): UserInteractionOption
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
@@ -33,7 +33,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getInputTypes()
+    public function getInputTypes(): array
     {
         return [];
     }
@@ -41,7 +41,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getOutputType()
+    public function getOutputType(): SingleType
     {
         return new SingleType(StringValue::class);
     }
@@ -49,7 +49,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket)
+    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket): array
     {
         return $input;
     }
@@ -57,7 +57,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getMessage(array $input)
+    public function getMessage(array $input): string
     {
         return '';
     }

@@ -31,34 +31,14 @@ use JetBrains\PhpStorm\NoReturn;
 */
 class ilMailSearchGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    private $tpl;
 
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $object_data_cache;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-    
-    private $umail = null;
-
-    private $errorDelete = false;
+    private ilGlobalPageTemplate $tpl;
+    private ilCtrl $ctrl;
+    protected ilRbacReview $rbacreview;
+    protected ilObjectDataCache $object_data_cache;
+    private ilLanguage $lng;
+    private ilFormatMail $umail;
+    private bool $errorDelete = false;
 
     public function __construct($wsp_access_handler = null, $wsp_node_id = null)
     {
@@ -313,7 +293,7 @@ class ilMailSearchGUI
                 }
 
                 $result[$counter]['login'] = $login;
-                if (ilObjUser::_lookupPref($user, 'public_email') == 'y') {
+                if (ilObjUser::_lookupPref($user, 'public_email') === 'y') {
                     $has_mail_addr = true;
                     $result[$counter]['email'] = ilObjUser::_lookupEmail($user);
                 }
@@ -340,7 +320,7 @@ class ilMailSearchGUI
             $tbl_contacts->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
             if ($has_mail_addr) {
                 foreach ($result as $key => $val) {
-                    if ($val['email'] == '') {
+                    if ($val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -415,7 +395,7 @@ class ilMailSearchGUI
                     $result[$counter]['lastname'] = '';
                 }
 
-                if (ilObjUser::_lookupPref($user, 'public_email') == 'y') {
+                if (ilObjUser::_lookupPref($user, 'public_email') === 'y') {
                     $has_mail_usr = true;
                     $result[$counter]['email'] = ilObjUser::_lookupEmail($user);
                 }
@@ -431,9 +411,9 @@ class ilMailSearchGUI
             $tbl_users->addColumn($this->lng->txt('login'), 'login', '15%');
             $tbl_users->addColumn($this->lng->txt('firstname'), 'firstname', '15%');
             $tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
-            if ($has_mail_usr == true) {
+            if ($has_mail_usr === true) {
                 foreach ($result as $key => $val) {
-                    if ($val['email'] == '') {
+                    if ($val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -565,7 +545,7 @@ class ilMailSearchGUI
         $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
         $added = false;
         foreach ($a_obj_ids as $object_id) {
-            if (!in_array($object_id, $existing)) {
+            if (!in_array($object_id, $existing, true)) {
                 $added = $this->wsp_access_handler->addPermission($this->wsp_node_id, $object_id);
             }
         }

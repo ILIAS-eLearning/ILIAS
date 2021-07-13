@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,8 +8,7 @@
  */
 class ilMailTemplateService
 {
-    /** @var \ilMailTemplateRepository */
-    protected $repository;
+    protected ilMailTemplateRepository $repository;
 
     /**
      * ilMailTemplateService constructor.
@@ -62,7 +61,8 @@ class ilMailTemplateService
         string $subject,
         string $message,
         string $language
-    ) {
+    ): void
+    {
         $template = $this->repository->findById($templateId);
 
         $template->setContext($contextId);
@@ -95,7 +95,7 @@ class ilMailTemplateService
     /**
      * @param array $templateIds
      */
-    public function deleteTemplatesByIds(array $templateIds)
+    public function deleteTemplatesByIds(array $templateIds): void
     {
         $this->repository->deleteByIds($templateIds);
     }
@@ -117,7 +117,7 @@ class ilMailTemplateService
     /**
      * @param \ilMailTemplate $template
      */
-    public function unsetAsContextDefault(\ilMailTemplate $template)
+    public function unsetAsContextDefault(\ilMailTemplate $template): void
     {
         $template->setAsDefault(false);
 
@@ -127,13 +127,13 @@ class ilMailTemplateService
     /**
      * @param \ilMailTemplate $template
      */
-    public function setAsContextDefault(\ilMailTemplate $template)
+    public function setAsContextDefault(\ilMailTemplate $template): void
     {
         $allOfContext = $this->repository->findByContextId($template->getContext());
         foreach ($allOfContext as $otherTemplate) {
             $otherTemplate->setAsDefault(false);
 
-            if ((int) $template->getTplId() === (int) $otherTemplate->getTplId()) {
+            if ($template->getTplId() === $otherTemplate->getTplId()) {
                 $otherTemplate->setAsDefault(true);
             }
 

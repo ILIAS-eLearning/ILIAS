@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,25 +7,17 @@
  */
 class ilMailCronOrphanedMailsFolderObject
 {
-    /**
-     * @var int
-     */
-    protected $folder_id = 0;
-
-    /**
-     * @var string
-     */
-    protected $folder_title = '';
-
+    protected int $folder_id = 0;
+    protected string $folder_title = '';
     /**
      * @var ilMailCronOrphanedMailsFolderMailObject[]
      */
-    protected $orphaned_mail_objects = array();
+    protected array $orphaned_mail_objects = array();
 
     /**
      * @param $folder_id
      */
-    public function __construct($folder_id)
+    public function __construct(int $folder_id)
     {
         $this->setFolderId($folder_id);
     }
@@ -33,7 +25,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @return int
      */
-    public function getFolderId()
+    public function getFolderId(): int
     {
         return $this->folder_id;
     }
@@ -41,7 +33,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @param int $folder_id
      */
-    public function setFolderId($folder_id)
+    public function setFolderId(int $folder_id): void
     {
         $this->folder_id = $folder_id;
     }
@@ -49,7 +41,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @return string
      */
-    public function getFolderTitle()
+    public function getFolderTitle(): string
     {
         return $this->folder_title;
     }
@@ -57,7 +49,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @param string $folder_title
      */
-    public function setFolderTitle($folder_title)
+    public function setFolderTitle(string $folder_title): void
     {
         $this->folder_title = $folder_title;
     }
@@ -65,7 +57,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @param ilMailCronOrphanedMailsFolderMailObject $mail_obj
      */
-    public function addMailObject(ilMailCronOrphanedMailsFolderMailObject $mail_obj)
+    public function addMailObject(ilMailCronOrphanedMailsFolderMailObject $mail_obj): void
     {
         $this->orphaned_mail_objects[$mail_obj->getMailId()] = $mail_obj;
     }
@@ -73,7 +65,7 @@ class ilMailCronOrphanedMailsFolderObject
     /**
      * @return ilMailCronOrphanedMailsFolderMailObject[]
      */
-    public function getOrphanedMailObjects()
+    public function getOrphanedMailObjects(): array
     {
         return $this->orphaned_mail_objects;
     }

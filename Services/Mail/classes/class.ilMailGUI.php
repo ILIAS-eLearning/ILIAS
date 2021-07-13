@@ -12,32 +12,15 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
-
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var string */
-    private $forwardClass = '';
-
-    /** @var ServerRequestInterface */
-    private $httpRequest;
-
-    /** @var int */
-    private $currentFolderId = 0;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilMail */
-    public $umail;
-
-    /** @var ilMailBox */
-    public $mbox;
+    private ilGlobalPageTemplate $tpl;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private string $forwardClass = '';
+    private ServerRequestInterface $httpRequest;
+    private int $currentFolderId = 0;
+    private ilObjUser $user;
+    public ilMail $umail;
+    public ilMailBox $mbox;
 
     /**
      * ilMailGUI constructor.
@@ -86,7 +69,7 @@ class ilMailGUI
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
             $folderId = $this->mbox->getInboxFolder();
         }
-        $this->currentFolderId = (int) $folderId;
+        $this->currentFolderId = $folderId;
     }
 
     /**
@@ -109,7 +92,7 @@ class ilMailGUI
         } elseif ('new' === $type) {
             $to = $this->httpRequest->getQueryParams()['rcp_to'] ?? '';
             ilSession::set('rcp_to', ilUtil::stripSlashes($to));
-            if (!strlen(ilSession::get('rcp_to')) && ($recipients = ilMailFormCall::getRecipients())) {
+            if (ilSession::get('rcp_to') === '' && ($recipients = ilMailFormCall::getRecipients())) {
                 ilSession::set('rcp_to', implode(',', $recipients));
                 ilMailFormCall::setRecipients([]);
             }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
@@ -10,15 +10,12 @@ include_once 'Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
  */
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
-    /**
-     * @var array
-     */
-    protected $fields = array();
+    protected array $fields = array();
     
     /**
      *
      */
-    public function parse()
+    public function parse(): void
     {
         if ($this->getFields()) {
             $queried_fields = array();
@@ -41,7 +38,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     /**
      * @param array $fields
      */
-    public function setFields($fields)
+    public function setFields($fields): void
     {
         $this->fields = $fields;
     }
@@ -49,7 +46,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     /**
      * @return array
      */
-    public function getFields()
+    public function getFields(): array
     {
         return $this->fields;
     }

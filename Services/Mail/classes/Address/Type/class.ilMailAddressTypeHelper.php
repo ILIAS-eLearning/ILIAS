@@ -7,8 +7,8 @@
  */
 class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
-    /** @var string */
-    protected $installationHost = '';
+
+    protected string $installationHost = '';
 
     /**
      * ilMailAddressTypeHelperImpl constructor.

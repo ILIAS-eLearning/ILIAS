@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -59,7 +59,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('buddysystem');
 
-        if ($context == "mail") {
+        if ($context === "mail") {
             // check if current user may send mails
             include_once "Services/Mail/classes/class.ilMail.php";
             $mail = new ilMail($this->user->getId());
@@ -68,7 +68,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
 
         $mode = array();
         
-        if ($type == "crs") {
+        if ($type === "crs") {
             $mode["short"] = "crs";
             $mode["long"] = "course";
             $mode["checkbox"] = "search_crs";
@@ -76,7 +76,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
             $mode["lng_mail"] = $this->lng->txt("mail_my_courses");
             $mode["view"] = "mycourses";
             $this->setTitle($mode["lng_mail"]);
-        } elseif ($type == "grp") {
+        } elseif ($type === "grp") {
             $mode["short"] = "grp";
             $mode["long"] = "group";
             $mode["checkbox"] = "search_grp";
@@ -95,7 +95,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->context = $context;
 
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
-        if ($_GET['ref'] != '') {
+        if ($_GET['ref'] !== '') {
             $this->ctrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
         }
         if (is_array($_POST[$mode["checkbox"]])) {
@@ -117,17 +117,17 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('crs_count_members'), 'CRS_NO_MEMBERS', '20%');
         $this->addColumn($this->lng->txt('actions'), '', '19%');
         
-        if ($context == "mail") {
+        if ($context === "mail") {
             if ($this->mailing_allowed) {
                 $this->addMultiCommand('mail', $this->lng->txt('mail_members'));
             }
-        } elseif ($context == "wsp") {
+        } elseif ($context === "wsp") {
             $this->lng->loadLanguageModule("wsp");
             $this->addMultiCommand('share', $this->lng->txt('wsp_share_with_members'));
         }
         $this->addMultiCommand('showMembers', $this->lng->txt('mail_list_members'));
         
-        if ($_GET['ref'] == 'mail') {
+        if ($_GET['ref'] === 'mail') {
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
     }
@@ -139,7 +139,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    protected function fillRow($a_set): void
     {
         if ($a_set['hidden_members']) {
             $this->tpl->setCurrentBlock('caption_asterisk');
@@ -152,10 +152,8 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('SHORT', $this->mode["short"]);
     }
 
-    public function numericOrdering($column)
+    public function numericOrdering($column): bool
     {
-        if ($column == 'CRS_NO_MEMBERS') {
-            return true;
-        }
+        return $column === 'CRS_NO_MEMBERS';
     }
 }

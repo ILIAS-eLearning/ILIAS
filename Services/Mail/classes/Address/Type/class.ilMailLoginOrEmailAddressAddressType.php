@@ -7,8 +7,8 @@
  */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
+
+    protected ilRbacSystem $rbacsystem;
 
     /**
      * ilMailMailingListAddressType constructor.
@@ -33,13 +33,13 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
      */
     protected function isValid(int $senderId) : bool
     {
-        if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $usrId = $this->typeHelper->getUserIdByLogin($this->address->getMailbox());
         } else {
             $usrId = false;
         }
 
-        if (!$usrId && $this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if (!$usrId && $this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
             return false;
         }
@@ -67,7 +67,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
      */
     public function resolve() : array
     {
-        if ($this->address->getHost() == $this->typeHelper->getInstallationHost()) {
+        if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
             $address = $this->address->getMailbox();
         } else {
             $address = (string) $this->address;
@@ -83,7 +83,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
                 $address,
                 implode(', ', array_unique($usrIds))
             ));
-        } elseif (strlen($address) > 0) {
+        } elseif ($address !== '') {
             $this->logger->debug(sprintf(
                 "Did not find any user account for address (login) '%s'",
                 $address

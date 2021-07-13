@@ -13,35 +13,16 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMails extends ilCronJob
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var bool
-     */
-    protected $initDone = false;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilDBInterface $db;
+    protected ilObjUser $user;
+    protected bool $initDone = false;
 
     /**
      *
      */
-    protected function init()
+    protected function init(): void
     {
         global $DIC;
 
@@ -193,7 +174,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         return $result;
     }
 
-    private function processNotification()
+    private function processNotification(): void
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php';
@@ -208,7 +189,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $notifier->processNotification();
     }
 
-    private function processDeletion()
+    private function processDeletion(): void
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionCollector.php';

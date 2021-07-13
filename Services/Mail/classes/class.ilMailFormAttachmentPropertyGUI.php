@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -13,8 +13,8 @@ include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
 
 class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 {
-    public $buttonLabel;
-    public $items = array();
+    public string $buttonLabel;
+    public array $items = array();
 
     /**
      * @var \ilLanguage
@@ -25,7 +25,7 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
      * Form Element for showing Mail Attachments
      * @param	string	Buttonlabel (e.g. edit or add)
      */
-    public function __construct($buttonLabel)
+    public function __construct(string $buttonLabel)
     {
         global $DIC;
 
@@ -40,12 +40,12 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
      * @param	string	Label for item including additional information
      *			like Filesize.
      */
-    public function addItem($label)
+    public function addItem(string $label): void
     {
         $this->items[] = $label;
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $tpl = new ilTemplate('tpl.mail_new_attachments.html', true, true, 'Services/Mail');
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.php';
@@ -12,13 +12,13 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * @var array
      */
-    protected $users_stack = array();
+    protected array $users_stack = array();
     
     /**
      * "Current" implementation of iterator interface
      * @return  array
      */
-    public function current()
+    public function current(): array
     {
         if (is_array($this->data)) {
             return array(
@@ -26,24 +26,29 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
                 'firstname' => '',
                 'lastname' => ''
             );
-        } elseif (count($this->users_stack) > 0) {
+        }
+
+        if (count($this->users_stack) > 0) {
             return array(
                 'login' => array_shift($this->users_stack),
                 'firstname' => '',
                 'lastname' => ''
             );
         }
+
     }
 
     /**
      * "Key" implementation of iterator interface
      * @return string
      */
-    public function key()
+    public function key(): string
     {
         if (is_array($this->data)) {
             return $this->data['login'];
-        } elseif (count($this->users_stack) > 0) {
+        }
+
+        if (count($this->users_stack) > 0) {
             return $this->users_stack[0];
         }
     }
@@ -51,14 +56,14 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
         if (
             is_array($this->data) &&
             (
-                strpos($this->data['login'], ',') !== false ||
-                strpos($this->data['login'], ';') !== false
+                str_contains($this->data['login'], ',') ||
+                str_contains($this->data['login'], ';')
             )
         ) {
             $parts = array_filter(array_map('trim', preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))));
@@ -79,7 +84,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * "Rewind "implementation of iterator interface
      */
-    public function rewind()
+    public function rewind(): void
     {
         if ($this->res) {
             $this->db->free($this->res);

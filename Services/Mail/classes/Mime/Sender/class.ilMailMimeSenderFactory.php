@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,14 +7,11 @@
  */
 class ilMailMimeSenderFactory
 {
-    /** @var ilSetting */
-    protected $settings;
+    protected ilSetting $settings;
 
     /** @var ilMailMimeSender[] */
-    protected $senders = [];
-
-    /** @var int */
-    protected $anonymousUsrId = 0;
+    protected array $senders = [];
+    protected ?int $anonymousUsrId = 0;
 
     /**
      * ilMailMimeSenderFactory constructor.
@@ -49,14 +46,10 @@ class ilMailMimeSenderFactory
             return $this->senders[$usrId];
         }
 
-        switch (true) {
-            case $this->isSystemMail($usrId):
-                $sender = $this->system();
-                break;
-
-            default:
-                $sender = $this->user($usrId);
-                break;
+        if ($this->isSystemMail($usrId)) {
+            $sender = $this->system();
+        } else {
+            $sender = $this->user($usrId);
         }
 
         $this->senders[$usrId] = $sender;

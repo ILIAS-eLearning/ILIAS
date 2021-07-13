@@ -12,9 +12,9 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  * @author Ingmar Szmais <iszmais@databay.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ContactNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class ContactNotificationProvider extends AbstractNotificationProvider
 {
-    const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
+    public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
 
     /**
      * @param string $id

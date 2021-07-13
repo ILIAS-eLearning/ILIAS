@@ -7,8 +7,7 @@
  */
 class ilMailTransportSettings
 {
-    /** @var ilMailOptions */
-    private $mailOptions;
+    private ilMailOptions $mailOptions;
 
     /**
      * ilMailTransportSettings constructor.
@@ -30,8 +29,8 @@ class ilMailTransportSettings
             return;
         }
 
-        $hasFirstEmail = strlen($firstMail) > 0;
-        $hasSecondEmail = strlen($secondMail) > 0;
+        $hasFirstEmail = $firstMail !== '';
+        $hasSecondEmail = $secondMail !== '';
 
         if (!$hasFirstEmail && !$hasSecondEmail) {
             $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);

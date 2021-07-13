@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,20 +8,9 @@
  */
 class ilMailLuceneSearcher
 {
-    /**
-     * @var ilLuceneQueryParser
-     */
-    protected $query_parser;
-
-    /**
-     * @var ilMailSearchResult
-     */
-    protected $result;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
+    protected ilLuceneQueryParser $query_parser;
+    protected ilMailSearchResult $result;
+    protected ilSetting $settings;
 
     /**
      *
@@ -41,7 +30,7 @@ class ilMailLuceneSearcher
      * @param int $mail_folder_id
      * @throws Exception
      */
-    public function search($user_id, $mail_folder_id)
+    public function search(int $user_id, int $mail_folder_id): void
     {
         if (!$this->query_parser->getQuery()) {
             throw new ilException('mail_search_query_missing');
@@ -51,9 +40,9 @@ class ilMailLuceneSearcher
             include_once 'Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
             $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
                 CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
-                (int) $user_id,
+                $user_id,
                 (string) $this->query_parser->getQuery(),
-                (int) $mail_folder_id
+                $mail_folder_id
             );
         } catch (Exception $e) {
             require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';

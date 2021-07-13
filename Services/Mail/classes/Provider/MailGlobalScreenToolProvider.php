@@ -9,7 +9,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
  */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
+    public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
 
     /**

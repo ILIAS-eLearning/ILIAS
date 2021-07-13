@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,29 +8,15 @@
  */
 class ilMailUserCache
 {
-    /**
-     * @var array
-     * @static
-     */
-    protected static $user_instances = array();
-
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids = array();
-
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids_key_map = array();
+    protected static array $user_instances = array();
+    protected static array $requested_usr_ids = array();
+    protected static array $requested_usr_ids_key_map = array();
 
     /**
      * @static
      * @param array $usr_ids
      */
-    public static function preloadUserObjects(array $usr_ids)
+    public static function preloadUserObjects(array $usr_ids): void
     {
         global $DIC;
 
@@ -77,7 +63,7 @@ class ilMailUserCache
      * @param int $usr_id
      * @return ilObjUser|null
      */
-    public static function getUserObjectById($usr_id)
+    public static function getUserObjectById($usr_id): ?\ilObjUser
     {
         if (!$usr_id) {
             return null;
@@ -87,6 +73,6 @@ class ilMailUserCache
             self::preloadUserObjects(array($usr_id));
         }
 
-        return isset(self::$user_instances[$usr_id]) ? self::$user_instances[$usr_id] : null;
+        return self::$user_instances[$usr_id] ?? null;
     }
 }

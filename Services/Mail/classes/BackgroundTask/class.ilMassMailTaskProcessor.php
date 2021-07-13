@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
@@ -11,35 +11,12 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    /**
-     * @var TaskManager
-     */
-    private $taskManager;
-
-    /**
-     * @var TaskFactory
-     */
-    private $taskFactory;
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilLogger|null
-     */
-    private $logger;
-
-    /**
-     * @var ilMailValueObjectJsonService|null
-     */
-    private $objectJsonService;
-
-    /**
-     * @var string
-     */
-    private $anonymousUserId;
+    private ?TaskManager $taskManager;
+    private ?TaskFactory $taskFactory;
+    private ?ilLanguage $language;
+    private ?ilLogger $logger;
+    private ?ilMailValueObjectJsonService $objectJsonService;
+    private string $anonymousUserId;
 
     /**
      * @param TaskManager $taskManager
@@ -106,8 +83,8 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         int $mailsPerTask = 100
-    ) {
-        $objectsServiceSize = sizeof($mailValueObjects);
+    ): void {
+        $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
             throw new ilException('First parameter must contain at least 1 array element');
@@ -152,7 +129,7 @@ class ilMassMailTaskProcessor
      * @param \ILIAS\BackgroundTasks\Task $task
      * @param int $userId
      */
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId)
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($userId);
@@ -180,17 +157,17 @@ class ilMassMailTaskProcessor
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
         $task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
-            (int) $userId,
-            (string) $jsonString,
-            (string) $contextId,
-            (string) serialize($contextParameters),
+            $userId,
+            $jsonString,
+            $contextId,
+            serialize($contextParameters),
         ]);
 
         if ($userId === (int) $this->anonymousUserId) {
             return $task;
         }
 
-        $parameters = [$task, (int) $userId];
+        $parameters = [$task, $userId];
 
         $interaction = $this->taskFactory->createTask(
             \ilMailDeliveryJobUserInteraction::class,

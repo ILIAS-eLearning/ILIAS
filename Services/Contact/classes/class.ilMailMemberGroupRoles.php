@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Contact/classes/class.ilAbstractMailMemberRoles.php';
@@ -9,15 +9,9 @@ require_once 'Services/Contact/classes/class.ilAbstractMailMemberRoles.php';
  */
 class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
+    protected ilLanguage $lng;
+    protected ilRbacReview $rbacreview;
 
     /**
      * ilMailMemberGroupRoles constructor.
@@ -33,7 +27,7 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
     /**
      * @return string
      */
-    public function getRadioOptionTitle()
+    public function getRadioOptionTitle(): string
     {
         return $this->lng->txt('mail_grp_roles');
     }
@@ -42,7 +36,7 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
      * @param $ref_id
      * @return array sorted_roles
      */
-    public function getMailRoles($ref_id)
+    public function getMailRoles(int $ref_id): array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 

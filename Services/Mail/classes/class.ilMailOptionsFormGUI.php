@@ -18,14 +18,9 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     /** @var ilCtrl */
     protected $ctrl;
 
-    /** @var object */
-    protected $parentGui;
-
-    /** @var string */
-    protected $positiveCmd = '';
-
-    /** @var ilMailOptions */
-    protected $options;
+    protected object $parentGui;
+    protected string $positiveCmd = '';
+    protected ilMailOptions $options;
 
     /**
      * ilMailOptionsFormGUI constructor.
@@ -34,7 +29,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
      * @param string $positiveCmd
      * @throws InvalidArgumentException
      */
-    public function __construct(ilMailOptions $options, $parentGui, string $positiveCmd)
+    public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
     {
         global $DIC;
 
@@ -67,7 +62,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->setTitle($this->lng->txt('mail_settings'));
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') != '1') {
+        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {
             $incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type', false);
             $this->addItem($incoming_mail_gui);
         }
@@ -105,8 +100,8 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         }
 
         if (
-            $this->settings->get('usr_settings_hide_mail_incoming_mail') != '1' &&
-            $this->settings->get('usr_settings_disable_mail_incoming_mail') != '1'
+            $this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1' &&
+            $this->settings->get('usr_settings_disable_mail_incoming_mail') !== '1'
         ) {
             $incoming_type = (int) $this->getInput('incoming_type');
 
@@ -126,10 +121,10 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         }
 
         $this->options->setLinebreak((int) $this->getInput('linebreak'));
-        $this->options->setSignature((string) $this->getInput('signature'));
+        $this->options->setSignature($this->getInput('signature'));
         $this->options->setIsCronJobNotificationStatus((bool) $this->getInput('cronjob_notification'));
-        $this->options->setIncomingType((int) $incoming_type);
-        $this->options->setEmailAddressMode((int) $mail_address_option);
+        $this->options->setIncomingType($incoming_type);
+        $this->options->setEmailAddressMode($mail_address_option);
 
         $this->options->updateOptions();
 
@@ -147,7 +142,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled()
         ];
 
-        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') != '1') {
+        if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {
             $data['incoming_type'] = $this->options->getIncomingType();
 
             $mail_address_option = $this->options->getEmailAddressMode();

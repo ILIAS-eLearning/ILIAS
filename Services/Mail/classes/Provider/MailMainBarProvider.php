@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Mail\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -40,10 +42,10 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
                     function () use ($dic) {
-                        return ($dic->user()->getId() != ANONYMOUS_USER_ID);
+                        return ($dic->user()->getId() !== ANONYMOUS_USER_ID);
                     }
                 )
                 ->withVisibilityCallable(

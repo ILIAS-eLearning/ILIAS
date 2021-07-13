@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,43 +6,18 @@
  */
 abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
-    /**
-     * The database access object
-     * @var         ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var     ilDBStatement
-     */
-    protected $res;
-
-    /**
-     * Holds the data of a tuple
-     * @var array
-     */
-    protected $data = array();
-
-    /**
-     * @var string search term
-     */
+    protected ilDBInterface $db;
+    protected ?ilDBStatement $res;
+    protected array $data = array();
     protected $quoted_term = '';
-
-    /**
-     * @var string
-     */
-    protected $term = '';
-
-    /**
-     * @var int
-     */
-    protected $user_id = 0;
+    protected string $term = '';
+    protected int $user_id = 0;
 
     /**
      * @param string $quoted_term
      * @param string $term
      */
-    public function __construct($quoted_term, $term)
+    public function __construct(string $quoted_term, string $term)
     {
         global $DIC;
 
@@ -56,7 +31,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
      * "Valid" implementation of iterator interface
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
@@ -66,7 +41,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     /**
      * "Next" implementation of iterator interface
      */
-    public function next()
+    public function next(): void
     {
     }
 

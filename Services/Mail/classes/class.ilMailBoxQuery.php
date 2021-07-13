@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,14 +11,14 @@
  */
 class ilMailBoxQuery
 {
-    public static $folderId = -1;
-    public static $userId = -1;
-    public static $limit = 0;
-    public static $offset = 0;
-    public static $orderDirection = '';
-    public static $orderColumn = '';
-    public static $filter = array();
-    public static $filtered_ids = array();
+    public static int $folderId = -1;
+    public static int $userId = -1;
+    public static int $limit = 0;
+    public static int $offset = 0;
+    public static string $orderDirection = '';
+    public static string $orderColumn = '';
+    public static array $filter = array();
+    public static array $filtered_ids = array();
 
     /**
      * _getMailBoxListData
@@ -28,7 +28,7 @@ class ilMailBoxQuery
      * @return	array	Array of mails
      *
      */
-    public static function _getMailBoxListData()
+    public static function _getMailBoxListData(): array
     {
         global $DIC;
 
@@ -43,9 +43,9 @@ class ilMailBoxQuery
         ];
 
         $filter_parts = [];
-        if (isset(self::$filter['mail_filter']) && strlen(self::$filter['mail_filter'])) {
+        if (isset(self::$filter['mail_filter']) && self::$filter['mail_filter'] !== '') {
             foreach ($filter as $key => $column) {
-                if (strlen($column) && isset(self::$filter[$key]) && (int) self::$filter[$key]) {
+                if ($column !== '' && isset(self::$filter[$key]) && (int) self::$filter[$key]) {
                     $filter_parts[] = $DIC->database()->like(
                         $column,
                         'text',
@@ -170,7 +170,7 @@ class ilMailBoxQuery
                     . ' lastname ' . $orderDirection . ', '
                     . ' login ' . $orderDirection . ', '
                     . ' import_name ' . $orderDirection;
-        } elseif (strlen(self::$orderColumn) > 0) {
+        } elseif (self::$orderColumn !== '') {
             if (
                 !in_array(strtolower(self::$orderColumn), ['m_subject', 'send_time', 'rcp_to']) &&
                 !$DIC->database()->tableColumnExists('mail', strtolower(self::$orderColumn))) {

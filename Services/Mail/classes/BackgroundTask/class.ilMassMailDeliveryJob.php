@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
@@ -13,15 +13,9 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    private $dic;
 
-    /**
-     * @var ilMailValueObjectJsonService|null
-     */
-    private $mailJsonService;
+    private \ILIAS\DI\Container $dic;
+    private ilMailValueObjectJsonService $mailJsonService;
 
     /**
      * ilMassMailDeliveryJob constructor.
@@ -40,22 +34,22 @@ class ilMassMailDeliveryJob extends AbstractJob
      * @inheritdoc
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      */
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer): BooleanValue
     {
         $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
 
         foreach ($mailValueObjects as $mailValueObject) {
             $mail = new ilMail((int) $input[0]->getValue());
 
-            $mail->setSaveInSentbox((bool) $mailValueObject->shouldSaveInSentBox());
+            $mail->setSaveInSentbox($mailValueObject->shouldSaveInSentBox());
             $contextId = $input[2]->getValue();
             $mail = $mail
                 ->withContextId((string) $contextId)
                 ->withContextParameters((array) unserialize($input[3]->getValue()));
 
-            $recipients = (string) $mailValueObject->getRecipients();
-            $recipientsCC = (string) $mailValueObject->getRecipientsCC();
-            $recipientsBCC = (string) $mailValueObject->getRecipientsBCC();
+            $recipients = $mailValueObject->getRecipients();
+            $recipientsCC = $mailValueObject->getRecipientsCC();
+            $recipientsBCC = $mailValueObject->getRecipientsBCC();
 
             $this->dic->logger()->mail()->info(
                 sprintf(
@@ -71,10 +65,10 @@ class ilMassMailDeliveryJob extends AbstractJob
                 $recipients,
                 $recipientsCC,
                 $recipientsBCC,
-                (string) $mailValueObject->getSubject(),
-                (string) $mailValueObject->getBody(),
-                (array) $mailValueObject->getAttachments(),
-                (bool) $mailValueObject->isUsingPlaceholders()
+                $mailValueObject->getSubject(),
+                $mailValueObject->getBody(),
+                $mailValueObject->getAttachments(),
+                $mailValueObject->isUsingPlaceholders()
             );
         }
 
@@ -87,7 +81,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getInputTypes()
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class), // User Id
@@ -100,7 +94,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function isStateless()
+    public function isStateless(): bool
     {
         return true;
     }
@@ -108,7 +102,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 42; // The answer to life, universe and the rest
     }
@@ -116,7 +110,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getOutputType()
+    public function getOutputType(): SingleType
     {
         return new SingleType(BooleanValue::class);
     }

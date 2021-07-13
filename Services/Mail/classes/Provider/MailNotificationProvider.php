@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
-    const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
+    public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
     /**
      * @inheritDoc
@@ -24,7 +24,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             return $this->if->identifier($id);
         };
 
-        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
@@ -38,7 +38,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
         $newMailData = \ilMailGlobalServices::getNewMailsData(
-            (int) $this->dic->user()->getId(),
+            $this->dic->user()->getId(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
 

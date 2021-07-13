@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Mail/classes/class.ilMimeMailNotification.php';
@@ -13,7 +13,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
     /**
      * {@inheritdoc}
      */
-    public function __construct($a_is_personal_workspace = false)
+    public function __construct(bool $a_is_personal_workspace = false)
     {
         parent::__construct($a_is_personal_workspace);
     }
@@ -21,7 +21,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
     /**
      * @param string $a_code
      */
-    protected function initLanguageByIso2Code($a_code = '')
+    protected function initLanguageByIso2Code($a_code = ''): void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');
@@ -30,7 +30,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
     /**
      *
      */
-    public function send()
+    public function send(): void
     {
         foreach ($this->getRecipients() as $rcp) {
             try {
@@ -54,7 +54,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         }
     }
     
-    public function appendOrphandMailsBody()
+    public function appendOrphandMailsBody(): void
     {
         $additional_information = $this->getAdditionalInformation();
         $mail_folders = $additional_information['mail_folders'];

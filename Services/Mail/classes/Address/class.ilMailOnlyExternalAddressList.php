@@ -7,11 +7,8 @@
  */
 class ilMailOnlyExternalAddressList implements ilMailAddressList
 {
-    /** @var ilMailAddressList */
-    protected $origin;
-
-    /** @var string */
-    protected $installationHost;
+    protected ilMailAddressList $origin;
+    protected string $installationHost;
 
     /** @var callable */
     protected $getUsrIdByLoginCallable;
@@ -50,7 +47,7 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
                 return false;
             }
 
-            if ('#' === substr($address->getMailbox(), 0, 1)) {
+            if (str_starts_with($address->getMailbox(), '#')) {
                 return false;
             }
 

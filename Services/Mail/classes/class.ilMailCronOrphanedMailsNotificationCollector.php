@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollectionObj.php';
 include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsFolderObject.php';
@@ -13,17 +13,9 @@ class ilMailCronOrphanedMailsNotificationCollector
     /**
      * @var array ilMailCronOrphanedMailsNotificationCollectionObj[]
      */
-    protected $collection = array();
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $setting;
+    protected array $collection = array();
+    protected ilDBInterface $db;
+    protected ilSetting $setting;
 
     /**
      *
@@ -41,7 +33,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     /**
      *
      */
-    public function collect()
+    public function collect(): void
     {
         $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned');
         $mail_threshold = (int) $this->setting->get('mail_threshold');
@@ -117,7 +109,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     /**
      * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
      */
-    public function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj)
+    public function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj): void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
     }
@@ -126,7 +118,7 @@ class ilMailCronOrphanedMailsNotificationCollector
      * @param $user_id
      * @return bool
      */
-    private function existsCollectionObjForUserId($user_id)
+    private function existsCollectionObjForUserId(int $user_id): bool
     {
         if (isset($this->collection[$user_id])) {
             return true;
@@ -138,7 +130,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     /**
      * @return ilMailCronOrphanedMailsNotificationCollectionObj[]
      */
-    public function getCollection()
+    public function getCollection(): array
     {
         return $this->collection;
     }

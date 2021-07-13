@@ -15,7 +15,7 @@ class ilMailMimeTransportSmtp extends ilMailMimeTransportBase
 
         $this->mailer->Host = $this->settings->get('mail_smtp_host');
         $this->mailer->Port = (int) $this->settings->get('mail_smtp_port');
-        if (strlen($this->settings->get('mail_smtp_user')) > 0) {
+        if ($this->settings->get('mail_smtp_user') !== '') {
             $this->mailer->SMTPAuth = true;
             $this->mailer->Username = $this->settings->get('mail_smtp_user');
             $this->mailer->Password = $this->settings->get('mail_smtp_password');

@@ -8,9 +8,7 @@
  */
 class ilGroupNameAsMailValidator
 {
-    /** @var string */
-    protected $host;
-
+    protected string $host;
     /** @var callable */
     protected $groupNameCheckCallable;
 
@@ -41,11 +39,7 @@ class ilGroupNameAsMailValidator
         $groupName = substr($address->getMailbox(), 1);
 
         $func = $this->groupNameCheckCallable;
-        if ($func($groupName) && $this->isHostValid($address->getHost())) {
-            return true;
-        }
-
-        return false;
+        return $func($groupName) && $this->isHostValid($address->getHost());
     }
 
     /**
@@ -55,6 +49,6 @@ class ilGroupNameAsMailValidator
      */
     private function isHostValid(string $host) : bool
     {
-        return ($host == $this->host || 0 === strlen($host));
+        return ($host === $this->host || $host === '');
     }
 }

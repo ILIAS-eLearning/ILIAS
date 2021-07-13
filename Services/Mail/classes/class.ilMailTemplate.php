@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,26 +7,13 @@
  */
 class ilMailTemplate
 {
-    /** @var int */
-    protected $templateId = 0;
-
-    /** @var string */
-    protected $title = '';
-
-    /*** @var string */
-    protected $context = '';
-
-    /** @var string */
-    protected $lang = '';
-
-    /** @var string  */
-    protected $subject = '';
-
-    /** @var string */
-    protected $message = '';
-
-    /** @var bool */
-    protected $isDefault = false;
+    protected int $templateId = 0;
+    protected string $title = '';
+    protected string $context = '';
+    protected string $lang = '';
+    protected string $subject = '';
+    protected string $message = '';
+    protected bool $isDefault = false;
 
     /**
      * @param array $data
@@ -71,7 +58,7 @@ class ilMailTemplate
     /**
      * @param int $templateId
      */
-    public function setTplId(int $templateId)
+    public function setTplId(int $templateId): void
     {
         $this->templateId = $templateId;
     }
@@ -87,7 +74,7 @@ class ilMailTemplate
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -103,7 +90,7 @@ class ilMailTemplate
     /**
      * @param string $context
      */
-    public function setContext(string $context)
+    public function setContext(string $context): void
     {
         $this->context = $context;
     }
@@ -119,7 +106,7 @@ class ilMailTemplate
     /**
      * @param string $lang
      */
-    public function setLang(string $lang)
+    public function setLang(string $lang): void
     {
         $this->lang = $lang;
     }
@@ -135,7 +122,7 @@ class ilMailTemplate
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject)
+    public function setSubject(string $subject): void
     {
         $this->subject = $subject;
     }
@@ -151,7 +138,7 @@ class ilMailTemplate
     /**
      * @param string $message
      */
-    public function setMessage(string $message)
+    public function setMessage(string $message): void
     {
         $this->message = $message;
     }
@@ -167,7 +154,7 @@ class ilMailTemplate
     /**
      * @param bool $isDefault
      */
-    public function setAsDefault(bool $isDefault)
+    public function setAsDefault(bool $isDefault): void
     {
         $this->isDefault = $isDefault;
     }

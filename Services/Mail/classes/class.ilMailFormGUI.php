@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use JetBrains\PhpStorm\NoReturn;
 
 /**
 * @author Jens Conze
@@ -10,41 +12,18 @@
 */
 class ilMailFormGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
-
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilTabsGUI */
-    private $tabs;
-
-    /** @var ilToolbarGUI */
-    private $toolbar;
-
-    /** @var ilRbacSystem */
-    private $rbacsystem;
-
-    /** @var ilFormatMail */
-    private $umail;
-
-    /** @var ilMailBox */
-    private $mbox;
-
-    /** @var ilFileDataMail */
-    private $mfile;
-
-    /** @var ilMailTemplateService */
-    protected $templateService;
-
-    /** @var ilMailBodyPurifier */
-    private $purifier;
+    private ilGlobalPageTemplate $tpl;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilTabsGUI $tabs;
+    private ilToolbarGUI $toolbar;
+    private ilRbacSystem $rbacsystem;
+    private ilFormatMail $umail;
+    private ilMailBox $mbox;
+    private ilFileDataMail $mfile;
+    protected ?ilMailTemplateService $templateService;
+    private ?ilMailBodyPurifier $purifier;
 
     /**
      * ilMailFormGUI constructor.
@@ -91,7 +70,7 @@ class ilMailFormGUI
         $this->ctrl->saveParameter($this, 'mobj_id');
     }
 
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -138,7 +117,7 @@ class ilMailFormGUI
      * @param array $files
      * @return array
      */
-    protected function decodeAttachmentFiles(array $files)
+    protected function decodeAttachmentFiles(array $files): array
     {
         $decodedFiles = array();
 
@@ -151,7 +130,7 @@ class ilMailFormGUI
         return $decodedFiles;
     }
 
-    public function sendMessage()
+    public function sendMessage(): void
     {
         $message = (string) $_POST['m_message'];
 
@@ -174,7 +153,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($_POST['m_subject']),
             $sanitizedMessage,
             $files,
-            (int) $_POST['use_placeholders']
+            (bool) $_POST['use_placeholders']
         )
         ) {
             $_POST['attachments'] = $files;
@@ -195,7 +174,7 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function saveDraft()
+    public function saveDraft(): void
     {
         if (!$_POST['m_subject']) {
             $_POST['m_subject'] = 'No title';
@@ -302,7 +281,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchCoursesTo()
+    public function searchCoursesTo(): void
     {
         $this->saveMailBeforeSearch();
 
@@ -317,7 +296,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchGroupsTo()
+    public function searchGroupsTo(): void
     {
         $this->saveMailBeforeSearch();
 
@@ -325,10 +304,10 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass('ilmailsearchgroupsgui');
     }
 
-    public function search()
+    public function search(): void
     {
         $_SESSION["mail_search_search"] = $_POST["search"];
-        if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
+        if (trim($_SESSION["mail_search_search"]) === '') {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
         } elseif (strlen(trim($_SESSION["mail_search_search"])) < 3) {
@@ -341,7 +320,7 @@ class ilMailFormGUI
         }
     }
 
-    public function cancelSearch()
+    public function cancelSearch(): void
     {
         unset($_SESSION["mail_search"]);
         $this->searchResults();
@@ -375,37 +354,37 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass("ilmailattachmentgui");
     }
 
-    public function returnFromAttachments()
+    public function returnFromAttachments(): void
     {
         $_GET["type"] = "attach";
         $this->showForm();
     }
     
-    public function searchResults()
+    public function searchResults(): void
     {
         $_GET["type"] = "search_res";
         $this->showForm();
     }
 
-    public function mailUser()
+    public function mailUser(): void
     {
         $_GET["type"] = "new";
         $this->showForm();
     }
 
-    public function mailRole()
+    public function mailRole(): void
     {
         $_GET["type"] = "role";
         $this->showForm();
     }
 
-    public function replyMail()
+    public function replyMail(): void
     {
         $_GET["type"] = "reply";
         $this->showForm();
     }
 
-    public function mailAttachment()
+    public function mailAttachment(): void
     {
         $_GET["type"] = "attach";
         $this->showForm();
@@ -414,7 +393,7 @@ class ilMailFormGUI
     /**
      * Called asynchronously when changing the template
      */
-    protected function getTemplateDataById()
+    protected function getTemplateDataById(): void
     {
         if (!isset($_GET['template_id'])) {
             exit();
@@ -433,7 +412,7 @@ class ilMailFormGUI
         exit();
     }
 
-    public function showForm()
+    public function showForm(): void
     {
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
         $this->tpl->setTitle($this->lng->txt("mail"));
@@ -487,11 +466,9 @@ class ilMailFormGUI
                 if ($_SESSION["mail_search_results_bcc"]) {
                     $mailData = $this->umail->appendSearchResult($_SESSION["mail_search_results_bcc"], 'bc');
                 }
-                
-                unset($_SESSION["mail_search_results_to"]);
-                unset($_SESSION["mail_search_results_cc"]);
-                unset($_SESSION["mail_search_results_bcc"]);
-                                
+
+                unset($_SESSION["mail_search_results_to"], $_SESSION["mail_search_results_cc"], $_SESSION["mail_search_results_bcc"]);
+
                 break;
         
             case 'attach':
@@ -754,7 +731,7 @@ class ilMailFormGUI
         $this->tpl->printToStdout();
     }
 
-    public function lookupRecipientAsync()
+    #[NoReturn] public function lookupRecipientAsync(): void
     {
         $search = '';
         if (isset($_GET["term"]) && is_string($_GET["term"])) {
@@ -776,8 +753,7 @@ class ilMailFormGUI
 
         // #14768
         $quoted = ilUtil::stripSlashes($search);
-        $quoted = str_replace('%', '\%', $quoted);
-        $quoted = str_replace('_', '\_', $quoted);
+        $quoted = str_replace(array('%', '_'), array('\%', '\_'), $quoted);
 
         $mailFormObj = new ilMailForm();
         $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
@@ -786,7 +762,7 @@ class ilMailFormGUI
         exit;
     }
 
-    public function cancelMail()
+    public function cancelMail(): void
     {
         if (ilMailFormCall::isRefererStored()) {
             ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
@@ -798,7 +774,7 @@ class ilMailFormGUI
     /**
      *
      */
-    protected function saveMailBeforeSearch()
+    protected function saveMailBeforeSearch(): void
     {
         $files = array();
         if (is_array($_POST['attachments'])) {
@@ -825,7 +801,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchMailingListsTo()
+    public function searchMailingListsTo(): void
     {
         $this->saveMailBeforeSearch();
 
@@ -836,12 +812,12 @@ class ilMailFormGUI
     /**
      * @param $errors ilMailError[]
      */
-    protected function showSubmissionErrors(array $errors)
+    protected function showSubmissionErrors(array $errors): void
     {
         $formatter = new ilMailErrorFormatter($this->lng);
         $formattedErrors = $formatter->format($errors);
 
-        if (strlen($formattedErrors) > 0) {
+        if ($formattedErrors !== '') {
             ilUtil::sendFailure($formattedErrors);
         }
     }

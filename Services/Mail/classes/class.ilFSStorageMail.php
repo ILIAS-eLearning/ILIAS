@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
@@ -12,7 +12,7 @@ include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 */
 class ilFSStorageMail extends ilFileSystemStorage
 {
-    private $usr_id = 0;
+    private int $usr_id = 0;
     
     /**
      * Constructor
@@ -21,7 +21,7 @@ class ilFSStorageMail extends ilFileSystemStorage
      * @param int object id of container (e.g file_id or mob_id)
      *
      */
-    public function __construct($a_container_id, $a_usr_id)
+    public function __construct(int $a_container_id, int $a_usr_id)
     {
         $this->usr_id = $a_usr_id;
         
@@ -36,7 +36,7 @@ class ilFSStorageMail extends ilFileSystemStorage
      * @access protected
      *
      */
-    protected function getPathPostfix()
+    protected function getPathPostfix(): string
     {
         return 'mail';
     }
@@ -47,12 +47,12 @@ class ilFSStorageMail extends ilFileSystemStorage
      * @access protected
      *
      */
-    protected function getPathPrefix()
+    protected function getPathPrefix(): string
     {
         return 'mail';
     }
     
-    public function getRelativePathExMailDirectory()
+    public function getRelativePathExMailDirectory(): string
     {
         $path = '';
         switch ($this->getStorageType()) {

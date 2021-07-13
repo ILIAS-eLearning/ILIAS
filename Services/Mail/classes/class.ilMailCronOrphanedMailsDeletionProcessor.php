@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
@@ -9,20 +9,9 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMailsDeletionProcessor
 {
-    /**
-     * @var ilMailCronOrphanedMailsDeletionCollector
-     */
-    protected $collector;
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
+    protected ilMailCronOrphanedMailsDeletionCollector $collector;
+    protected ilDBInterface $db;
+    protected ilSetting $settings;
 
     /**
      * @param ilMailCronOrphanedMailsDeletionCollector $collector
@@ -40,7 +29,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    private function deleteAttachments()
+    private function deleteAttachments(): void
     {
         $attachment_paths = array();
 
@@ -116,7 +105,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    private function deleteMails()
+    private function deleteMails(): void
     {
         $this->db->manipulate('DELETE FROM mail WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
     }
@@ -124,7 +113,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      * Delete entries about notification
      */
-    private function deleteMarkedAsNotified()
+    private function deleteMarkedAsNotified(): void
     {
         if ((int) $this->settings->get('mail_notify_orphaned') >= 1) {
             $this->db->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
@@ -136,7 +125,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    public function processDeletion()
+    public function processDeletion(): void
     {
         if (count($this->collector->getMailIdsToDelete()) > 0) {
             // delete possible attachments ...

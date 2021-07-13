@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -55,7 +55,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, 'showMembers');
 
         $this->context = $context;
-        if ($this->context == 'mail') {
+        if ($this->context === 'mail') {
             // check if current user may send mails
             include_once "Services/Mail/classes/class.ilMail.php";
             $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
@@ -69,13 +69,13 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('buddysystem');
 
         $mode = array();
-        if ($type == 'crs') {
+        if ($type === 'crs') {
             $mode["checkbox"] = 'search_crs';
             $mode["short"] = 'crs';
             $mode["long"] = 'course';
             $mode["lng_type"] = $this->lng->txt('course');
             $mode["view"] = "crs_members";
-        } elseif ($type == 'grp') {
+        } elseif ($type === 'grp') {
             $mode["checkbox"] = 'search_grp';
             $mode["short"] = 'grp';
             $mode["long"] = 'group';
@@ -85,7 +85,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('members'));
         $this->mode = $mode;
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
-        if ($_GET['ref'] != '') {
+        if ($_GET['ref'] !== '') {
             $this->ctrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
         }
         if (is_array($_POST[$mode["checkbox"]])) {
@@ -107,7 +107,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt('actions'), '', '10%');
 
-        if ($this->context == "mail") {
+        if ($this->context === "mail") {
             if ($this->mailing_allowed) {
                 $this->setSelectAllCheckbox('search_members[]');
                 $this->addMultiCommand('mail', $this->lng->txt('mail_members'));
@@ -128,7 +128,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    protected function fillRow($a_set): void
     {
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $current_selection_list = new ilAdvancedSelectionListGUI();
@@ -146,7 +146,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->ctrl->setParameter($this->parent_obj, 'view', $this->mode['view']);
 
         $action_html = '';
-        if ($this->context == "mail") {
+        if ($this->context === "mail") {
             if ($this->mailing_allowed) {
                 $current_selection_list->addItem($this->lng->txt("mail_member"), '', $this->ctrl->getLinkTarget($this->parent_obj, "mail"));
             }
@@ -154,10 +154,10 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
             $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this->parent_obj, "share"));
         }
 
-        if ($this->context == 'mail' && ilBuddySystem::getInstance()->isEnabled()) {
+        if ($this->context === 'mail' && ilBuddySystem::getInstance()->isEnabled()) {
             $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
             if (
-                $a_set['members_id'] != $this->user->getId() &&
+                $a_set['members_id'] !== $this->user->getId() &&
                 $relation->isUnlinked() &&
                 ilUtil::yn2tf(ilObjUser::_lookupPref($a_set['members_id'], 'bs_allow_to_contact_me'))
             ) {

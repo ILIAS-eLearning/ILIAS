@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,41 +9,27 @@
  **/
 class ilMailMemberSearchDataProvider
 {
-    /** @var ilAccessHandler */
-    protected $access;
 
-    /** @var int */
-    protected $ref_id;
-
-    /** @var string */
-    protected $type = 'crs';
-
-    /** @var array */
-    protected $data = [];
-
-    /** @var null */
-    protected $objParticipants = null;
-
-    /** @var ilObjectDataCache */
-    protected $dataCache;
-
-    /** @var array */
-    protected $roleSortWeightMap = [
+    protected ilAccessHandler $access;
+    protected int $ref_id;
+    protected string $type = 'crs';
+    protected array $data = [];
+    protected ilParticipants $objParticipants;
+    protected ilObjectDataCache $dataCache;
+    protected array $roleSortWeightMap = [
         'il_crs_a' => 10,
         'il_grp_a' => 10,
         'il_crs_t' => 9,
         'il_crs_m' => 8,
         'il_grp_m' => 8,
     ];
-
-    /** @var ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /**
      * @param ilParticipants $objParticipants
      * @param int $a_ref_id
      */
-    public function __construct($objParticipants, $a_ref_id)
+    public function __construct(ilParticipants $objParticipants, int $a_ref_id)
     {
         global $DIC;
 

@@ -9,14 +9,9 @@ use PHPMailer\PHPMailer\PHPMailer;
  */
 abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 {
-    /** @var PHPMailer */
-    protected $mailer;
-
-    /** @var ilSetting $settings */
-    protected $settings;
-
-    /** @var ilAppEventHandler */
-    private $eventHandler;
+    protected PHPMailer $mailer;
+    protected ilSetting $settings;
+    private ilAppEventHandler $eventHandler;
 
     /**
      * ilMailMimeTransportBase constructor.
@@ -114,12 +109,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         if ($mail->getFinalBodyAlt()) {
             $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
-            $this->getMailer()->Body = $mail->getFinalBody();
         } else {
             $this->getMailer()->isHTML(false);
             $this->getMailer()->AltBody = '';
-            $this->getMailer()->Body = $mail->getFinalBody();
         }
+        $this->getMailer()->Body = $mail->getFinalBody();
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             "Trying to delegate external email delivery:" .
@@ -148,8 +142,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->mailer->Debugoutput = static function (string $message, $level) : void {
             if (
-                strpos($message, 'Invalid address') !== false ||
-                strpos($message, 'Message body empty') !== false
+                str_contains($message, 'Invalid address') ||
+                str_contains($message, 'Message body empty')
             ) {
                 ilLoggerFactory::getLogger('mail')->warning($message);
             } else {
@@ -160,11 +154,9 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->onBeforeSend();
         $result = $this->getMailer()->send();
         if ($result) {
-            ilLoggerFactory::getLogger('mail')->info(sprintf(
-                'Successfully delegated external mail delivery'
-            ));
+            ilLoggerFactory::getLogger('mail')->info('Successfully delegated external mail delivery');
 
-            if (strlen($this->getMailer()->ErrorInfo) > 0) {
+            if ($this->getMailer()->ErrorInfo !== '') {
                 ilLoggerFactory::getLogger('mail')->warning(sprintf(
                     '... with most recent errors: %s',
                     $this->getMailer()->ErrorInfo
@@ -179,9 +171,9 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->eventHandler->raise('Services/Mail', 'externalEmailDelegated', [
             'mail' => $mail,
-            'result' => (bool) $result
+            'result' => $result
         ]);
 
-        return (bool) $result;
+        return $result;
     }
 }

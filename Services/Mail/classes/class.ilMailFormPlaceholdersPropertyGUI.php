@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -33,7 +33,7 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
     /**
      * @param $a_tpl
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $subtpl = new ilTemplate("tpl.mail_new_placeholders.html", false, false, "Services/Mail");
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));

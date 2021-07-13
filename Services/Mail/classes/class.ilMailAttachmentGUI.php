@@ -8,29 +8,14 @@
  */
 class ilMailAttachmentGUI
 {
-    /** @var ilGlobalPageTemplate */
-    private $tpl;
-
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilToolbarGUI */
-    private $toolbar;
-
-    /** @var ilFormatMail */
-    private $umail;
-
-    /** @var ilFileDataMail */
-    private $mfile;
-
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    private $request;
+    private ilGlobalPageTemplate $tpl;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilToolbarGUI $toolbar;
+    private ilFormatMail $umail;
+    private ilFileDataMail $mfile;
+    private \Psr\Http\Message\ServerRequestInterface $request;
 
     /**
      * ilMailAttachmentGUI constructor.
@@ -145,15 +130,15 @@ class ilMailAttachmentGUI
         }
 
         $error = $this->mfile->unlinkFiles($decodedFiles);
-        if (strlen($error) > 0) {
+        if ($error !== '') {
             ilUtil::sendFailure($this->lng->txt('mail_error_delete_file') . ' ' . $error);
         } else {
             $mailData = $this->umail->getSavedData();
             if (is_array($mailData['attachments'])) {
                 $tmp = array();
-                for ($i = 0; $i < count($mailData['attachments']); $i++) {
-                    if (!in_array($mailData['attachments'][$i], $decodedFiles)) {
-                        $tmp[] = $mailData['attachments'][$i];
+                foreach ($mailData['attachments'] as $attachment) {
+                    if (!in_array($attachment, $decodedFiles, true)) {
+                        $tmp[] = $attachment;
                     }
                 }
                 $this->umail->saveAttachments($tmp);
@@ -182,7 +167,7 @@ class ilMailAttachmentGUI
 
     public function uploadFile() : void
     {
-        if (strlen(trim($_FILES['userfile']['name']))) {
+        if (trim($_FILES['userfile']['name']) !== '') {
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($_FILES['userfile']);
@@ -218,7 +203,7 @@ class ilMailAttachmentGUI
         $counter = 0;
         foreach ($files as $file) {
             $checked = false;
-            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'])) {
+            if (is_array($mailData['attachments']) && in_array($file['name'], $mailData['attachments'], true)) {
                 $checked = true;
             }
 

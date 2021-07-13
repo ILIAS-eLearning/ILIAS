@@ -7,10 +7,8 @@
  */
 class ilMailMimeSubjectBuilder
 {
-    /** @var ilSetting */
-    private $settings;
-    /** @var string */
-    private $defaultPrefix;
+    private ilSetting $settings;
+    private string $defaultPrefix;
 
     /**
      * ilMailMimeSubjectBuilder constructor.
@@ -52,7 +50,7 @@ class ilMailMimeSubjectBuilder
                 }
             }
 
-            if (strlen($prefix) > 0) {
+            if ($prefix !== '') {
                 $subject = $prefix . ' ' . $subject;
             }
         }

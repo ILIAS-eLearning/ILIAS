@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,20 +7,9 @@
  */
 class ilMailCronOrphanedMailsDeletionCollector
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-    
-    /**
-     * @var array
-     */
-    protected $mail_ids = array();
+    protected ilDBInterface $db;
+    protected ilSetting $settings;
+    protected array $mail_ids = array();
 
     /**
      *
@@ -38,7 +27,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     /**
      *
      */
-    public function collect()
+    public function collect(): void
     {
         $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash');
         $last_cron_start_ts = (int) $this->settings->get('last_cronjob_start_ts', time());
@@ -47,7 +36,7 @@ class ilMailCronOrphanedMailsDeletionCollector
         $now = time();
 
         if ($mail_notify_orphaned > 0) {
-            if ($last_cron_start_ts != null) {
+            if ($last_cron_start_ts !== null) {
                 if ($mail_only_inbox_trash) {
                     // überprüfen ob die mail in einen anderen Ordner verschoben wurde
                     // selektiere die, die tatsächlich gelöscht werden sollen
@@ -106,7 +95,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     /**
      * @param int $mail_id
      */
-    public function addMailIdToDelete($mail_id)
+    public function addMailIdToDelete(int $mail_id): void
     {
         $this->mail_ids[] = (int) $mail_id;
     }
@@ -114,7 +103,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     /**
      * @return array
      */
-    public function getMailIdsToDelete()
+    public function getMailIdsToDelete(): array
     {
         return $this->mail_ids;
     }

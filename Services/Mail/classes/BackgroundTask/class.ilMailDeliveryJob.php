@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
@@ -17,7 +17,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer): BooleanValue
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getInputTypes()
+    public function getInputTypes(): array
     {
         return [
             new SingleType(IntegerValue::class), // 0. User Id
@@ -79,7 +79,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function isStateless()
+    public function isStateless(): bool
     {
         return true;
     }
@@ -87,7 +87,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds(): int
     {
         return 30;
     }
@@ -95,7 +95,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getOutputType()
+    public function getOutputType(): SingleType
     {
         return new SingleType(BooleanValue::class);
     }

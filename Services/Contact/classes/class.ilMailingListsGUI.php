@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -14,49 +14,23 @@ require_once "Services/Mail/classes/class.ilFormatMail.php";
 */
 class ilMailingListsGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl = null;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl = null;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng = null;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilErrorHandling $error;
+    protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
 
     /**
      * @var ilRbacSystem
      */
     protected $rbacsystem;
 
-    private $umail = null;
-    private $mlists = null;
-    private $form_gui = null;
+    private $umail;
+    private $mlists;
+    private $form_gui;
     
     public function __construct()
     {
@@ -79,7 +53,7 @@ class ilMailingListsGUI
         $this->ctrl->saveParameter($this, 'ref');
     }
 
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         if (
             !ilBuddySystem::getInstance()->isEnabled() ||
@@ -89,6 +63,7 @@ class ilMailingListsGUI
         }
 
         $forward_class = $this->ctrl->getNextClass($this);
+
         switch ($forward_class) {
             default:
                 if (!($cmd = $this->ctrl->getCmd())) {
@@ -98,10 +73,12 @@ class ilMailingListsGUI
                 $this->$cmd();
                 break;
         }
+
+
         return true;
     }
     
-    public function confirmDelete()
+    public function confirmDelete(): bool
     {
         $ml_ids = ((int) $_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id'];
         if (!$ml_ids) {
@@ -131,7 +108,7 @@ class ilMailingListsGUI
         return true;
     }
 
-    public function performDelete()
+    public function performDelete(): bool
     {
         if (is_array($_POST['ml_id'])) {
             $counter = 0;
@@ -154,7 +131,7 @@ class ilMailingListsGUI
         return true;
     }
     
-    public function mailToList()
+    public function mailToList(): bool
     {
         // check if current user may send mails
         include_once "Services/Mail/classes/class.ilMail.php";
@@ -208,7 +185,7 @@ class ilMailingListsGUI
         return true;
     }
     
-    public function showMailingLists()
+    public function showMailingLists(): bool
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_list.html', 'Services/Contact');
@@ -235,7 +212,7 @@ class ilMailingListsGUI
             require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
             foreach ($entries as $entry) {
-                if ($entry->getMode() == ilMailingList::MODE_TEMPORARY) {
+                if ($entry->getMode() === ilMailingList::MODE_TEMPORARY) {
                     continue;
                 }
 
@@ -272,7 +249,7 @@ class ilMailingListsGUI
 
         $tbl->setData($result);
 
-        if (isset($_GET['ref']) && $_GET['ref'] == 'mail') {
+        if (isset($_GET['ref']) && $_GET['ref'] === 'mail') {
             $tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
 
@@ -284,16 +261,16 @@ class ilMailingListsGUI
     /**
      * Cancel action
      */
-    public function cancel()
+    public function cancel(): void
     {
-        if (isset($_GET['ref']) && $_GET['ref'] == 'mail') {
+        if (isset($_GET['ref']) && $_GET['ref'] === 'mail') {
             $this->ctrl->returnToParent($this);
         } else {
             $this->showMailingLists();
         }
     }
     
-    public function saveForm()
+    public function saveForm(): void
     {
         if ($this->mlists->getCurrentMailingList()->getId()) {
             if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
@@ -310,11 +287,11 @@ class ilMailingListsGUI
             $this->mlists->getCurrentMailingList()->setTitle($_POST['title']);
             $this->mlists->getCurrentMailingList()->setDescription($_POST['description']);
             if ($this->mlists->getCurrentMailingList()->getId()) {
-                $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s', time()));
+                $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->update();
                 ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
             } else {
-                $this->mlists->getCurrentMailingList()->setCreatedate(date('Y-m-d H:i:s', time()));
+                $this->mlists->getCurrentMailingList()->setCreatedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->insert();
                 $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
                 $this->form_gui->setFormAction($this->ctrl->getFormAction($this, 'saveForm'));
@@ -332,10 +309,10 @@ class ilMailingListsGUI
         $this->form_gui->setValuesByPost();
         
         $this->tpl->setVariable('FORM', $this->form_gui->getHTML());
-        return $this->tpl->printToStdout();
+        $this->tpl->printToStdout();
     }
     
-    private function initForm($a_type = 'create')
+    private function initForm(string $a_type = 'create'): void
     {
         include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form_gui = new ilPropertyFormGUI();
@@ -356,7 +333,7 @@ class ilMailingListsGUI
         $this->form_gui->addCommandButton('showMailingLists', $this->lng->txt('cancel'));
     }
     
-    private function setValuesByObject()
+    private function setValuesByObject(): void
     {
         $this->form_gui->setValuesByArray(array(
             'title' => $this->mlists->getCurrentMailingList()->getTitle(),
@@ -364,7 +341,7 @@ class ilMailingListsGUI
         ));
     }
     
-    private function setDefaultValues()
+    private function setDefaultValues(): void
     {
         $this->form_gui->setValuesByArray(array(
             'title' => '',
@@ -372,7 +349,7 @@ class ilMailingListsGUI
         ));
     }
 
-    public function showForm()
+    public function showForm(): void
     {
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
@@ -391,10 +368,10 @@ class ilMailingListsGUI
         }
         
         $this->tpl->setVariable('FORM', $this->form_gui->getHTML());
-        return $this->tpl->printToStdout();
+        $this->tpl->printToStdout();
     }
     
-    public function showMembersList()
+    public function showMembersList(): bool
     {
         if (!$this->mlists->getCurrentMailingList()->getId()) {
             $this->showMailingLists();
@@ -452,7 +429,7 @@ class ilMailingListsGUI
         return true;
     }
 
-    public function confirmDeleteMembers()
+    public function confirmDeleteMembers(): bool
     {
         if (!isset($_POST['a_id'])) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
@@ -478,7 +455,7 @@ class ilMailingListsGUI
         $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
         foreach ($assigned_entries as $entry) {
-            if (in_array($entry['a_id'], $_POST['a_id'])) {
+            if (in_array($entry['a_id'], $_POST['a_id'], true)) {
                 $c_gui->addItem('a_id[]', $entry['a_id'], $names[$entry['usr_id']]);
             }
         }
@@ -491,7 +468,7 @@ class ilMailingListsGUI
         return true;
     }
 
-    public function performDeleteMembers()
+    public function performDeleteMembers(): bool
     {
         if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -517,7 +494,7 @@ class ilMailingListsGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getAssignmentForm()
+    protected function getAssignmentForm(): ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -555,9 +532,9 @@ class ilMailingListsGUI
             $form->addItem($formItem);
 
             $form->addCommandButton('saveAssignmentForm', $this->lng->txt('assign'));
-        } elseif (count($options) == 1 && count($relations)) {
+        } elseif (count($options) === 1 && count($relations)) {
             ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'));
-        } elseif (count($relations) == 0) {
+        } elseif (count($relations) === 0) {
             ilUtil::sendInfo($this->lng->txt('mail_mailing_lists_no_contact_entries'));
         }
         $form->addCommandButton('showMembersList', $this->lng->txt('cancel'));
@@ -568,7 +545,7 @@ class ilMailingListsGUI
     /**
      * @return bool
      */
-    public function saveAssignmentForm()
+    public function saveAssignmentForm(): bool
     {
         if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -597,7 +574,7 @@ class ilMailingListsGUI
      * @param ilPropertyFormGUI|null $form
      * @return bool
      */
-    public function showAssignmentForm(ilPropertyFormGUI $form = null)
+    public function showAssignmentForm(?ilPropertyFormGUI $form = null): bool
     {
         if (!$this->mlists->getCurrentMailingList()->getId()) {
             $this->showMembersList();

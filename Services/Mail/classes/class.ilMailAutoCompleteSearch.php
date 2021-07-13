@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,15 +6,12 @@
  */
 class ilMailAutoCompleteSearch
 {
-    /**
-     * @var ilMailAutoCompleteRecipientResult
-     */
-    protected $result;
+    protected ilMailAutoCompleteRecipientResult $result;
 
     /**
      * @var Iterator[]
      */
-    protected $providers = array();
+    protected array $providers = array();
 
     /**
      * @param ilMailAutoCompleteRecipientResult $result
@@ -27,7 +24,7 @@ class ilMailAutoCompleteSearch
     /**
      * @param Iterator $provider
      */
-    public function addProvider(Iterator $provider)
+    public function addProvider(Iterator $provider): void
     {
         $this->providers[] = $provider;
     }
@@ -35,7 +32,7 @@ class ilMailAutoCompleteSearch
     /**
      *
      */
-    public function search()
+    public function search(): void
     {
         foreach ($this->providers as $provider) {
             foreach ($provider as $row) {

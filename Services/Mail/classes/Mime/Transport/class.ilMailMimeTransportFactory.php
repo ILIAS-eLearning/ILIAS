@@ -4,11 +4,8 @@
 
 class ilMailMimeTransportFactory
 {
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilAppEventHandler */
-    private $eventHandler;
+    protected ilSetting $settings;
+    private ilAppEventHandler $eventHandler;
 
     /**
      * ilMailMimeTransportFactory constructor.
@@ -30,7 +27,7 @@ class ilMailMimeTransportFactory
             return new ilMailMimeTransportNull();
         }
 
-        if ((bool) $this->settings->get('mail_smtp_status')) {
+        if ($this->settings->get('mail_smtp_status')) {
             return new ilMailMimeTransportSmtp($this->settings, $this->eventHandler);
         }
 

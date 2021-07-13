@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -20,33 +20,12 @@ require_once("./Services/Utilities/classes/class.ilFileUtils.php");
  */
 class ilFileDataMail extends ilFileData
 {
-    /**
-    * user id
-    * @var int user_id
-    * @access private
-    */
-    public $user_id;
-
-    /**
-    * path of mail directory
-    * @var string path
-    * @access private
-    */
-    public $mail_path;
-
-    /**
-     * @var
-     */
-    protected $mail_max_upload_file_size;
-
-    /** @var Filesystem */
-    protected $tmpDirectory;
-
-    /** @var Filesystem */
-    protected $storageDirectory;
-
-    /** @var \ilDBInterface */
-    protected $db;
+    public int $user_id;
+    public string $mail_path;
+    protected int $mail_max_upload_file_size;
+    protected Filesystem $tmpDirectory;
+    protected Filesystem $storageDirectory;
+    protected ilDBInterface $db;
 
     /**
     * Constructor
@@ -55,7 +34,7 @@ class ilFileDataMail extends ilFileData
     * @param int user_id
     * @access	public
     */
-    public function __construct($a_user_id = 0)
+    public function __construct(int $a_user_id = 0)
     {
         global $DIC;
 
@@ -63,7 +42,7 @@ class ilFileDataMail extends ilFileData
             define('MAILPATH', 'mail');
         }
         parent::__construct();
-        $this->mail_path = parent::getPath() . "/" . MAILPATH;
+        $this->mail_path = $this->getPath() . "/" . MAILPATH;
         $this->checkReadWrite();
         $this->user_id = $a_user_id;
 
@@ -78,17 +57,15 @@ class ilFileDataMail extends ilFileData
     * init directory
     * overwritten method
     * @access	public
-    * @return string path
+    * @return bool
     */
-    public function initDirectory()
+    public function initDirectory(): bool
     {
-        if (is_writable($this->getPath())) {
-            if (mkdir($this->getPath() . '/' . MAILPATH)) {
-                if (chmod($this->getPath() . '/' . MAILPATH, 0755)) {
-                    $this->mail_path = $this->getPath() . '/' . MAILPATH;
-                    return true;
-                }
-            }
+        if (is_writable($this->getPath())
+            && mkdir($this->getPath() . '/' . MAILPATH)
+            && chmod($this->getPath() . '/' . MAILPATH, 0755)) {
+            $this->mail_path = $this->getPath() . '/' . MAILPATH;
+            return true;
         }
         return false;
     }
@@ -96,7 +73,7 @@ class ilFileDataMail extends ilFileData
     /**
      * @return int
      */
-    public function getUploadLimit()
+    public function getUploadLimit(): int
     {
         return $this->mail_max_upload_file_size;
     }
@@ -104,10 +81,10 @@ class ilFileDataMail extends ilFileData
     /**
      * @return float|null
      */
-    public function getAttachmentsTotalSizeLimit()
+    public function getAttachmentsTotalSizeLimit(): ?float
     {
         $max_size = $this->ilias->getSetting('mail_maxsize_attach', '');
-        if (!strlen($max_size)) {
+        if ($max_size === '') {
             return null;
         }
 
@@ -119,7 +96,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return string path
     */
-    public function getMailPath()
+    public function getMailPath(): string
     {
         return $this->mail_path;
     }
@@ -191,7 +168,7 @@ class ilFileDataMail extends ilFileData
     * @param int mail_id
     * @return string path
     */
-    public function getAttachmentPath($a_filename, $a_mail_id)
+    public function getAttachmentPath(string $a_filename, int $a_mail_id): string
     {
         $path = $this->getMailPath() . '/' . $this->getAttachmentPathByMailId($a_mail_id) . '/' . $a_filename;
 
@@ -208,7 +185,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return string error message
     */
-    public function adoptAttachments($a_attachments, $a_mail_id)
+    public function adoptAttachments(array $a_attachments, int $a_mail_id): string
     {
         if (is_array($a_attachments)) {
             foreach ($a_attachments as $file) {
@@ -229,20 +206,21 @@ class ilFileDataMail extends ilFileData
     * @access	private
     * @return bool
     */
-    public function checkReadWrite()
+    public function checkReadWrite(): bool
     {
         if (is_writable($this->mail_path) && is_readable($this->mail_path)) {
             return true;
-        } else {
-            $this->ilias->raiseError("Mail directory is not readable/writable by webserver: " . $this->mail_path, $this->ilias->error_obj->FATAL);
         }
+
+        $this->ilias->raiseError("Mail directory is not readable/writable by webserver: " . $this->mail_path, $this->ilias->error_obj->FATAL);
+        return false;
     }
     /**
     * get all attachments of a specific user
     * @access	public
     * @return array
     */
-    public function getUserFilesData()
+    public function getUserFilesData(): array
     {
         return $this->getUnsentFiles();
     }
@@ -253,7 +231,7 @@ class ilFileDataMail extends ilFileData
     * @access	private
     * @return array
     */
-    private function getUnsentFiles()
+    private function getUnsentFiles(): array
     {
         $files = array();
 
@@ -263,8 +241,8 @@ class ilFileDataMail extends ilFileData
              * @var $file SplFileInfo
              */
             if ($file->isFile()) {
-                list($uid, $rest) = explode('_', $file->getFilename(), 2);
-                if ($uid == $this->user_id) {
+                [$uid, $rest] = explode('_', $file->getFilename(), 2);
+                if ($uid === (string)$this->user_id) {
                     $files[] = array(
                         'name' => $rest,
                         'size' => $file->getSize(),
@@ -279,11 +257,11 @@ class ilFileDataMail extends ilFileData
     
     /**
      * Store content as attachment
-     * @param object $a_filename
-     * @param object $a_content
+     * @param string $a_filename
+     * @param string $a_content
      * @return
      */
-    public function storeAsAttachment($a_filename, $a_content)
+    public function storeAsAttachment(string $a_filename, string $a_content): mixed
     {
         if (strlen($a_content) >= $this->getUploadLimit()) {
             return 1;
@@ -311,7 +289,7 @@ class ilFileDataMail extends ilFileData
     /**
      * @param array $file
      */
-    public function storeUploadedFile($file)
+    public function storeUploadedFile(array $file): void
     {
         $file['name'] = ilUtil::_sanitizeFilemame($file['name']);
 
@@ -325,12 +303,13 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-    * Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
-    * @param array Array with files. Absolute path required
-    * @access	public
-    * @return
-    */
-    public function copyAttachmentFile($a_abs_path, $a_new_name)
+     * Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
+     * @param string $a_abs_path
+     * @param string $a_new_name
+     * @return bool
+     * @access    public
+     */
+    public function copyAttachmentFile(string $a_abs_path, string $a_new_name): bool
     {
         @copy($a_abs_path, $this->getMailPath() . "/" . $this->user_id . "_" . $a_new_name);
         
@@ -346,7 +325,7 @@ class ilFileDataMail extends ilFileData
     * @access	private
     * @return bool
     */
-    public function rotateFiles($a_path)
+    public function rotateFiles(string $a_path): bool
     {
         if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
@@ -360,7 +339,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return string error message with filename that couldn't be deleted
     */
-    public function unlinkFiles($a_filenames)
+    public function unlinkFiles(array $a_filenames): string
     {
         if (is_array($a_filenames)) {
             foreach ($a_filenames as $file) {
@@ -377,7 +356,7 @@ class ilFileDataMail extends ilFileData
      * @param string filename to delete
      * @return bool
      */
-    public function unlinkFile($a_filename) : bool
+    public function unlinkFile(string $a_filename) : bool
     {
         if (is_file($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
             return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
@@ -401,7 +380,7 @@ class ilFileDataMail extends ilFileData
      * @param int $a_mail_id id of mail in sent box
      * @param array $a_attachments to save
      */
-    public function saveFiles($a_mail_id, array $a_attachments)
+    public function saveFiles(int $a_mail_id, array $a_attachments): void
     {
         if (!is_numeric($a_mail_id) || $a_mail_id < 1) {
             throw new InvalidArgumentException('The passed mail_id must be a valid integer!');
@@ -417,7 +396,7 @@ class ilFileDataMail extends ilFileData
      * @param $a_usr_id
      * @return \ilFSStorageMail
      */
-    public static function getStorage($a_mail_id, $a_usr_id) : \ilFSStorageMail
+    public static function getStorage(int $a_mail_id, int $a_usr_id) : \ilFSStorageMail
     {
         static $fsstorage_cache = array();
         
@@ -436,7 +415,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return bool
     */
-    public function saveFile($a_mail_id, $a_attachment)
+    public function saveFile(int $a_mail_id, array $a_attachment): bool
     {
         $oStorage = self::getStorage($a_mail_id, $this->user_id);
         $oStorage->create();
@@ -457,7 +436,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return bool
     */
-    public function checkFilesExist($a_files)
+    public function checkFilesExist(array $a_files): bool
     {
         if ($a_files) {
             foreach ($a_files as $file) {
@@ -475,7 +454,7 @@ class ilFileDataMail extends ilFileData
      * @param int mail_id
      * @param int key for directory assignment
      */
-    public function assignAttachmentsToDirectory($a_mail_id, $a_sent_mail_id)
+    public function assignAttachmentsToDirectory(int $a_mail_id, int $a_sent_mail_id): void
     {
         global $ilDB;
         
@@ -494,7 +473,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return bool
     */
-    public function deassignAttachmentFromDirectory($a_mail_id) : bool
+    public function deassignAttachmentFromDirectory(int $a_mail_id) : bool
     {
         global $ilDB;
         // IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
@@ -520,7 +499,7 @@ class ilFileDataMail extends ilFileData
             }
         }
 
-        $res = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             'DELETE FROM mail_attachment WHERE mail_id = %s',
             ['integer'],
             [$a_mail_id]
@@ -529,7 +508,7 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    public function __deleteAttachmentDirectory($a_rel_path)
+    public function __deleteAttachmentDirectory(string $a_rel_path): bool
     {
         ilUtil::delDir($this->mail_path . "/" . $a_rel_path);
         
@@ -539,7 +518,7 @@ class ilFileDataMail extends ilFileData
     /**
      *
      */
-    protected function initAttachmentMaxUploadSize()
+    protected function initAttachmentMaxUploadSize(): void
     {
         /** @todo mjansen: Unfortunately we cannot reuse the implementation of ilFileInputGUI */
 
@@ -555,10 +534,10 @@ class ilFileDataMail extends ilFileData
         $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
 
-        if (count($umf_parts) == 2) {
+        if (count($umf_parts) === 2) {
             $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
-        if (count($pms_parts) == 2) {
+        if (count($pms_parts) === 2) {
             $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
@@ -581,7 +560,7 @@ class ilFileDataMail extends ilFileData
      *                            // an associative array with the disk
      *                            // usage in bytes and the count of attachments.
      */
-    public static function _lookupDiskUsageOfUser($user_id)
+    public static function _lookupDiskUsageOfUser(int $user_id): array
     {
         // XXX - This method is extremely slow. We should
         // use a cache to speed it up, for example, we should
@@ -600,7 +579,7 @@ class ilFileDataMail extends ilFileData
         while ($row = $result_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $attachment_path = $mail_data_dir . DIRECTORY_SEPARATOR . $row['path'];
             $attachment_size = ilUtil::dirsize($attachment_path);
-            if ($attachment_size != -1) {
+            if ($attachment_size !== -1) {
                 $size += $attachment_size;
             }
             $count++;
@@ -611,7 +590,7 @@ class ilFileDataMail extends ilFileData
     /**
      * Called when an ILIAS user account should be completely deleted
      */
-    public function onUserDelete()
+    public function onUserDelete(): void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -699,18 +678,18 @@ class ilFileDataMail extends ilFileData
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function deliverAttachmentsAsZip(string $basename, int $mailId, $files = [], $isDraft = false)
+    public function deliverAttachmentsAsZip(string $basename, int $mailId, array $files = [], bool $isDraft = false): void
     {
         $path = '';
         if (!$isDraft) {
             $path = $this->getAttachmentPathByMailId($mailId);
-            if (0 === strlen($path)) {
+            if ($path === '') {
                 throw new \ilException('mail_download_zip_no_attachments');
             }
         }
 
         $downloadFilename = \ilUtil::getASCIIFilename($basename);
-        if (0 === strlen($downloadFilename)) {
+        if ($downloadFilename === '') {
             $downloadFilename = 'attachments';
         }
 

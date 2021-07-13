@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMailOptions.php';
@@ -11,15 +11,8 @@ require_once 'Services/Form/classes/class.ilRadioOption.php';
  */
 class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 {
-    /**
-     * @var bool
-     */
-    protected $freeOptionChoice = true;
-
-    /**
-     * @var bool
-     */
-    protected $optionsInitialized = false;
+    protected bool $freeOptionChoice = true;
+    protected bool $optionsInitialized = false;
 
     /**
      * ilIncomingMailInputGUI constructor.
@@ -27,7 +20,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
      * @param string $post_var
      * @param bool   $freeOptionChoice
      */
-    public function __construct($title = '', $post_var = '', $freeOptionChoice = true)
+    public function __construct(string $title = '', string $post_var = '', bool $freeOptionChoice = true)
     {
         parent::__construct($title, $post_var);
         $this->setFreeOptionChoice($freeOptionChoice);
@@ -36,7 +29,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      *
      */
-    protected function initializeOptions()
+    protected function initializeOptions(): void
     {
         if (!$this->optionsInitialized) {
             $this->addSubOptions();
@@ -47,7 +40,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         $this->initializeOptions();
         return parent::getOptions();
@@ -56,7 +49,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function setValueByArray($a_values)
+    public function setValueByArray($a_values): void
     {
         $this->initializeOptions();
         parent::setValueByArray($a_values);
@@ -65,7 +58,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function checkInput()
+    public function checkInput(): bool
     {
         $this->initializeOptions();
         return parent::checkInput();
@@ -74,7 +67,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function render()
+    public function render(): string
     {
         $this->initializeOptions();
         return parent::render();
@@ -83,7 +76,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getItemByPostVar($a_post_var)
+    public function getItemByPostVar($a_post_var): mixed
     {
         $this->initializeOptions();
         return parent::getItemByPostVar($a_post_var);
@@ -92,7 +85,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getSubInputItemsRecursive()
+    public function getSubInputItemsRecursive(): array
     {
         $this->initializeOptions();
         return parent::getSubInputItemsRecursive();
@@ -101,7 +94,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @return bool
      */
-    public function isFreeOptionChoice()
+    public function isFreeOptionChoice(): bool
     {
         return $this->freeOptionChoice;
     }
@@ -109,7 +102,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @param bool $freeOptionChoice
      */
-    public function setFreeOptionChoice($freeOptionChoice)
+    public function setFreeOptionChoice(bool $freeOptionChoice): void
     {
         $this->freeOptionChoice = $freeOptionChoice;
     }
@@ -117,7 +110,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      *
      */
-    private function addSubOptions()
+    private function addSubOptions(): void
     {
         global $DIC;
         
@@ -159,11 +152,11 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             $email_info = array();
             if (
 //				!strlen(ilObjUser::_lookupEmail($DIC->user()->getId())) ||
-                $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+                $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $this->setDisabled(true);
             }
 
-            if (!strlen($DIC->user()->getEmail()) || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->user()->getEmail() === '' || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt1->setDisabled(true);
                 $sub_mail_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
                 $sub_mail_opt3->setDisabled(true);
@@ -176,7 +169,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $email_info[] = $DIC->user()->getEmail();
             }
 
-            if (!strlen($DIC->user()->getSecondEmail()) || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->user()->getSecondEmail() === '' || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt2->setDisabled(true);
                 $sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_mail_opt3->setDisabled(true);
@@ -198,7 +191,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $sub_both_opt3->setInfo(implode(', ', $email_info));
             }
             
-            if (count($email_info) == 1) {
+            if (count($email_info) === 1) {
                 $incomingExternal->setInfo($email_info[0]);
                 $incomingBoth->setInfo($email_info[0]);
             } else {

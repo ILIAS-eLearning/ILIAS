@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
@@ -9,40 +9,13 @@ include_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
  */
 class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    /**
-     * @var array
-     */
-    protected $placeholders = array();
-
-    /**
-     * @var string
-     */
-    protected $rerenderUrl;
-
-    /**
-     * @var string
-     */
-    protected $rerenderTriggerElementName;
-
-    /**
-     * @var string
-     */
-    protected $dependencyElementId;
-
-    /**
-     * @var string
-     */
-    protected $instructionText = '';
-
-    /**
-     * @var string
-     */
-    protected $adviseText = '';
-
-    /**
-     * @var \ilGlobalPageTemplate
-     */
-    protected $tpl;
+    protected array $placeholders = array();
+    protected string $rerenderUrl;
+    protected string $rerenderTriggerElementName;
+    protected string $dependencyElementId;
+    protected string $instructionText = '';
+    protected string $adviseText = '';
+    protected ilGlobalPageTemplate $tpl;
 
     /**
      * @var \ilLanguage
@@ -53,7 +26,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      * ilManualPlaceholderInputGUI constructor.
      * @param string $dependencyElementId
      */
-    public function __construct($dependencyElementId)
+    public function __construct(string $dependencyElementId)
     {
         global $DIC;
 
@@ -70,7 +43,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return string
      */
-    public function getRerenderUrl()
+    public function getRerenderUrl(): string
     {
         return $this->rerenderUrl;
     }
@@ -78,7 +51,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return string
      */
-    public function getRerenderTriggerElementName()
+    public function getRerenderTriggerElementName(): string
     {
         return $this->rerenderTriggerElementName;
     }
@@ -87,7 +60,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string $elementId
      * @param string $url
      */
-    public function supportsRerenderSignal($elementId, $url)
+    public function supportsRerenderSignal(string $elementId, string $url): void
     {
         $this->rerenderTriggerElementName = $elementId;
         $this->rerenderUrl = $url;
@@ -96,7 +69,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return string
      */
-    public function getAdviseText()
+    public function getAdviseText(): string
     {
         return $this->adviseText;
     }
@@ -104,7 +77,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param string $adviseText
      */
-    public function setAdviseText($adviseText)
+    public function setAdviseText(string $adviseText): void
     {
         $this->adviseText = $adviseText;
     }
@@ -112,7 +85,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return string
      */
-    public function getInstructionText()
+    public function getInstructionText(): string
     {
         return $this->instructionText;
     }
@@ -120,7 +93,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param string $instructionText
      */
-    public function setInstructionText($instructionText)
+    public function setInstructionText(string $instructionText): void
     {
         $this->instructionText = $instructionText;
     }
@@ -129,7 +102,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      * @param string $placeholder
      * @param string $title
      */
-    public function addPlaceholder($placeholder, $title)
+    public function addPlaceholder(string $placeholder, string $title): void
     {
         $this->placeholders[$placeholder]['placeholder'] = $placeholder;
         $this->placeholders[$placeholder]['title'] = $title;
@@ -138,7 +111,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param $a_tpl
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl): void
     {
         $html = $this->render();
 
@@ -151,7 +124,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      * @param bool $ajax
      * @return string|void
      */
-    public function render($ajax = false)
+    public function render(bool $ajax = false): mixed
     {
         $subtpl = new ilTemplate("tpl.mail_manual_placeholders.html", true, true, "Services/Mail");
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
@@ -187,7 +160,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @param	array	$a_values	value array
      */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values): void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
@@ -196,7 +169,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @param	string	$a_value	Value
      */
-    public function setValue($a_value)
+    public function setValue(string $a_value): void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -205,7 +178,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         $this->value = $a_value;
     }
     
-    public function checkInput()
+    public function checkInput(): bool
     {
         return true;
     }

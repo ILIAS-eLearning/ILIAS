@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -18,10 +18,10 @@ class ilFileDataImportMail extends ilFileDataImport
     * @var string path
     * @access private
     */
-    public $mail_path;
+    public string $mail_path;
 
-    public $files;
-    public $xml_file;
+    public array $files;
+    public string $xml_file;
     
 
     /**
@@ -39,16 +39,16 @@ class ilFileDataImportMail extends ilFileDataImport
 
         // IF DIRECTORY ISN'T CREATED CREATE IT
         // CALL STTIC TO AVOID OVERWRITE PROBLEMS
-        ilFileDataImportMail::_initDirectory();
+        $this->_initDirectory();
         $this->__readFiles();
     }
 
-    public function getFiles()
+    public function getFiles(): array
     {
-        return $this->files ? $this->files : array();
+        return $this->files ?: array();
     }
 
-    public function getXMLFile()
+    public function getXMLFile(): string
     {
         return $this->xml_file;
     }
@@ -59,7 +59,7 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	public
     * @return bool
     */
-    public function storeUploadedFile($a_http_post_file)
+    public function storeUploadedFile(array $a_http_post_file): bool
     {
         // TODO:
         // CHECK UPLOAD LIMIT
@@ -80,13 +80,13 @@ class ilFileDataImportMail extends ilFileDataImport
             // UPDATE FILES LIST
             $this->__readFiles();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
-    public function findXMLFile($a_dir = '')
+    public function findXMLFile(string $a_dir = '')
     {
-        $a_dir = $a_dir ? $a_dir : $this->getPath();
+        $a_dir = $a_dir ?: $this->getPath();
 
         $this->__readFiles($a_dir);
 
@@ -94,16 +94,14 @@ class ilFileDataImportMail extends ilFileDataImport
             if (is_dir($file_data["abs_path"])) {
                 $this->findXMLFile($file_data["abs_path"]);
             }
-            if (($tmp = explode(".", $file_data["name"])) !== false) {
-                if ($tmp[count($tmp) - 1] == "xml") {
-                    return $this->xml_file = $file_data["abs_path"];
-                }
+            if ((($tmp = explode(".", $file_data["name"]))) && $tmp[count($tmp) - 1] === "xml") {
+                return $this->xml_file = $file_data["abs_path"];
             }
         }
         return $this->xml_file;
     }
 
-    public function unzip()
+    public function unzip(): bool
     {
         foreach ($this->getFiles() as $file_data) {
             ilUtil::unzip($file_data["abs_path"]);
@@ -118,12 +116,12 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	public
     * @return string path
     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->mail_path;
     }
 
-    public function unlinkLast()
+    public function unlinkLast(): bool
     {
         foreach ($this->getFiles() as $file_data) {
             if (is_dir($file_data["abs_path"])) {
@@ -135,15 +133,15 @@ class ilFileDataImportMail extends ilFileDataImport
         return true;
     }
     // PRIVATE METHODS
-    public function __readFiles($a_dir = '')
+    public function __readFiles(string $a_dir = ''): bool
     {
-        $a_dir = $a_dir ? $a_dir : $this->getPath();
+        $a_dir = $a_dir ?: $this->getPath();
 
         $this->files = array();
         $dp = opendir($a_dir);
 
         while ($file = readdir($dp)) {
-            if ($file == "." or $file == "..") {
+            if ($file === "." || $file === "..") {
                 continue;
             }
             $this->files[] = array(
@@ -164,19 +162,20 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	private
     * @return bool
     */
-    public function __checkReadWrite()
+    public function __checkReadWrite(): bool
     {
         if (is_writable($this->mail_path) && is_readable($this->mail_path)) {
             return true;
-        } else {
-            $this->ilias->raiseError("Mail import directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
         }
+
+        $this->ilias->raiseError("Mail import directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
+        return false;
     }
 
     /**
      * @inheritDoc
      */
-    public function _initDirectory()
+    public function _initDirectory(): bool
     {
         if (!is_dir($this->mail_path)) {
             ilUtil::makeDir($this->mail_path);

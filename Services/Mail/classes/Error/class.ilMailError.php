@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,11 +7,8 @@
  */
 class ilMailError
 {
-    /** @var string */
-    protected $languageVariable = '';
-    
-    /** @var array */
-    protected $placeHolderValues = [];
+    protected string $languageVariable = '';
+    protected array $placeHolderValues = [];
 
     /**
      * ilMailError constructor.

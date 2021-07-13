@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,45 +8,22 @@
 **/
 class ilMailMemberSearchGUI
 {
-    /**
-     * @var mixed
-     */
-    protected $mail_roles;
 
+    protected mixed $mail_roles;
     /**
      * @var ilObjGroupGUI|ilObjCourseGUI
      */
-    protected $gui;
-
-    /**
-     * @var ilAbstractMailMemberRoles
-     */
-    protected $objMailMemberRoles;
+    protected mixed $gui;
+    protected ilAbstractMailMemberRoles $objMailMemberRoles;
     /**
      * @var null object ilCourseParticipants || ilGroupParticipants
      */
-    protected $objParticipants = null;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    private $ref_id;
+    protected mixed $objParticipants;
+    protected ilCtrl $ctrl;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    private int $ref_id;
 
     /**
      * ilMailMemberSearchGUI constructor.
@@ -54,7 +31,7 @@ class ilMailMemberSearchGUI
      * @param                           $ref_id
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct($gui, $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct(mixed $gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 
@@ -82,33 +59,29 @@ class ilMailMemberSearchGUI
         $cmd = $this->ctrl->getCmd();
 
         $this->ctrl->setReturn($this, '');
-        
-        switch ($next_class) {
-            default:
-                switch ($cmd) {
-                    case 'sendMailToSelectedUsers':
-                        $this->sendMailToSelectedUsers();
-                        break;
 
-                    case 'showSelectableUsers':
-                        $this->showSelectableUsers();
-                        break;
-                    
-                    case 'nextMailForm':
-                        $this->nextMailForm();
-                        break;
-            
-                    case 'cancel':
-                        $this->redirectToParentReferer();
-                        break;
-                    
-                    default:
-                        if (isset($_GET['returned_from_mail']) && $_GET['returned_from_mail'] == '1') {
-                            $this->redirectToParentReferer();
-                        }
-                        $this->showSearchForm();
-                        break;
+        switch ($cmd) {
+            case 'sendMailToSelectedUsers':
+                $this->sendMailToSelectedUsers();
+                break;
+
+            case 'showSelectableUsers':
+                $this->showSelectableUsers();
+                break;
+
+            case 'nextMailForm':
+                $this->nextMailForm();
+                break;
+
+            case 'cancel':
+                $this->redirectToParentReferer();
+                break;
+
+            default:
+                if (isset($_GET['returned_from_mail']) && $_GET['returned_from_mail'] === '1') {
+                    $this->redirectToParentReferer();
                 }
+                $this->showSearchForm();
                 break;
         }
 

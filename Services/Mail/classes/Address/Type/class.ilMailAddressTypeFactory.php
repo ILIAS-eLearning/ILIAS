@@ -7,26 +7,14 @@
  */
 class ilMailAddressTypeFactory
 {
-    /** @var ilGroupNameAsMailValidator */
-    private $groupNameValidator;
 
-    /** @var ilLogger */
-    private $logger;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilRbacReview */
-    protected $rbacreview;
-
-    /** @var ilMailAddressTypeHelper */
-    protected $typeHelper;
-
-    /** @var ilMailingLists */
-    protected $lists;
-
-    /** @var ilRoleMailboxSearch */
-    protected $roleMailboxSearch;
+    private ilGroupNameAsMailValidator $groupNameValidator;
+    private ilLogger $logger;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilMailAddressTypeHelper $typeHelper;
+    protected ilMailingLists $lists;
+    protected ilRoleMailboxSearch $roleMailboxSearch;
 
     /**
      * @param ilGroupNameAsMailValidator|null $groupNameValidator
@@ -93,7 +81,7 @@ class ilMailAddressTypeFactory
     public function getByPrefix(ilMailAddress $address, bool $cached = true) : ilMailAddressType
     {
         switch (true) {
-            case substr($address->getMailbox(), 0, 1) !== '#' && substr($address->getMailbox(), 0, 2) !== '"#':
+            case !str_starts_with($address->getMailbox(), '#') && !str_starts_with($address->getMailbox(), '"#'):
                 $addressType = new ilMailLoginOrEmailAddressAddressType(
                     $this->typeHelper,
                     $address,
@@ -102,7 +90,7 @@ class ilMailAddressTypeFactory
                 );
                 break;
 
-            case substr($address->getMailbox(), 0, 7) === '#il_ml_':
+            case str_starts_with($address->getMailbox(), '#il_ml_'):
                 $addressType = new ilMailMailingListAddressType(
                     $this->typeHelper,
                     $address,

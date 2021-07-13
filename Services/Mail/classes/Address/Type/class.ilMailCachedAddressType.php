@@ -7,16 +7,13 @@
 class ilMailCachedAddressType implements ilMailAddressType
 {
     /** @var array[] */
-    protected static $usrIdsByAddressCache = [];
+    protected static array $usrIdsByAddressCache = [];
 
     /** @var bool[] */
-    protected static $isValidCache = [];
+    protected static array $isValidCache = [];
 
-    /** @var ilMailAddressType */
-    protected $inner;
-
-    /** @var bool */
-    protected $useCache = true;
+    protected ilMailAddressType $inner;
+    protected bool $useCache = true;
 
     /**
      * ilMailCachedRoleAddressType constructor.

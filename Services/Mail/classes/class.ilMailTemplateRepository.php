@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,8 +6,7 @@
  */
 class ilMailTemplateRepository
 {
-    /** @var \ilDBInterface */
-    protected $db;
+    protected ?ilDBInterface $db;
 
     /**
      * ilMailTemplateRepository constructor.
@@ -74,7 +73,7 @@ class ilMailTemplateRepository
     /**
      * @param int[] $templateIds
      */
-    public function deleteByIds(array $templateIds)
+    public function deleteByIds(array $templateIds): void
     {
         if (count($templateIds) > 0) {
             $this->db->manipulate(
@@ -88,7 +87,7 @@ class ilMailTemplateRepository
     /**
      * @param \ilMailTemplate $template
      */
-    public function store(\ilMailTemplate $template)
+    public function store(\ilMailTemplate $template): void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(

@@ -8,7 +8,7 @@
 class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 {
     /** @var ilObjUser[] */
-    protected static $userInstances = [];
+    protected static array $userInstances = [];
 
     /**
      * ilMailMimeSenderUserById constructor.
@@ -28,7 +28,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
      * @param int $usrId
      * @param ilObjUser $user
      */
-    public static function addUserToCache(int $usrId, ilObjUser $user)
+    public static function addUserToCache(int $usrId, ilObjUser $user): void
     {
         self::$userInstances[$usrId] = $user;
     }

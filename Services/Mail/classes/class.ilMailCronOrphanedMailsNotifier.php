@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,25 +7,10 @@
  */
 class ilMailCronOrphanedMailsNotifier
 {
-    /**
-     * @var ilMailCronOrphanedMailsNotificationCollector
-     */
-    protected $collector;
-
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var int
-     */
-    protected $threshold = 0;
-
-    /**
-     * @var int
-     */
-    protected $mail_notify_orphaned = 0;
+    protected ilMailCronOrphanedMailsNotificationCollector $collector;
+    protected ilDBInterface $db;
+    protected int $threshold = 0;
+    protected int $mail_notify_orphaned = 0;
 
     /**
      * ilMailCronOrphanedMailsNotifier constructor.
@@ -33,7 +18,7 @@ class ilMailCronOrphanedMailsNotifier
      * @param int                                          $threshold
      * @param int                                          $mail_notify_orphaned
      */
-    public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, $threshold, $mail_notify_orphaned)
+    public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, int $threshold, int $mail_notify_orphaned)
     {
         global $DIC;
 
@@ -47,7 +32,7 @@ class ilMailCronOrphanedMailsNotifier
     /**
      * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
      */
-    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj)
+    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj): void
     {
         if ($this->threshold > $this->mail_notify_orphaned) {
             $notify_days_before = $this->threshold - $this->mail_notify_orphaned;
@@ -78,7 +63,7 @@ class ilMailCronOrphanedMailsNotifier
     /**
      * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
      */
-    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj)
+    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj): void
     {
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotification.php';
         $mail = new ilMailCronOrphanedMailsNotification();
@@ -91,7 +76,7 @@ class ilMailCronOrphanedMailsNotifier
     /**
      *
      */
-    public function processNotification()
+    public function processNotification(): void
     {
         foreach ($this->collector->getCollection() as $collection_obj) {
             $this->sendMail($collection_obj);

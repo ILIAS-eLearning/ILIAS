@@ -7,11 +7,8 @@
  */
 class ilMailTemplatePlaceholderResolver
 {
-    /** @var ilMailTemplateContext */
-    protected $context;
-
-    /** @var string */
-    protected $message = '';
+    protected ilMailTemplateContext $context;
+    protected string $message = '';
 
     /**
      * ilMailTemplateProcessor constructor.
@@ -39,14 +36,14 @@ class ilMailTemplatePlaceholderResolver
 
         foreach ($this->context->getPlaceholders() as $key => $ph_definition) {
             $result = $this->context->resolvePlaceholder($key, $contextParameters, $user);
-            if (!$replaceEmptyPlaceholders && 0 === strlen($result)) {
+            if (!$replaceEmptyPlaceholders && $result === '') {
                 continue;
             }
 
             $startTag = '\[IF_' . strtoupper($key) . '\]';
             $endTag = '\[\/IF_' . strtoupper($key) . '\]';
 
-            if (strlen($result) > 0) {
+            if ($result !== '') {
                 $message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $message);
 
                 if (array_key_exists('supportsCondition', $ph_definition) && $ph_definition['supportsCondition']) {

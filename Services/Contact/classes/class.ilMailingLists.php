@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,20 +30,10 @@ require_once "Services/Contact/classes/class.ilMailingList.php";
  */
 class ilMailingLists
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
 
-    /**
-     * @var ilObjUser
-     */
-    private $user;
-
-    /**
-     * @var null|ilMailingList
-     */
-    private $ml = null;
+    private ilDBInterface $db;
+    private ilObjUser $user;
+    private ?ilMailingList $ml;
 
     /**
      * ilMailingLists constructor.
@@ -57,12 +47,16 @@ class ilMailingLists
         $this->user = $a_user;
     }
 
-    public function get($id = 0)
+    public function get(int $id = 0): ilMailingList
     {
         return new ilMailingList($this->user, $id);
     }
-    
-    public function getSelected($a_ids = array())
+
+    /**
+     * @param array $a_ids
+     * @return ilMailingList[]
+     */
+    public function getSelected(array $a_ids = array()): array
     {
         $entries = array();
         
@@ -78,7 +72,7 @@ class ilMailingLists
         return $entries;
     }
     
-    public function getAll()
+    public function getAll(): array
     {
         $res = $this->db->queryf(
             '
@@ -111,20 +105,20 @@ class ilMailingLists
         return $entries;
     }
     
-    public function mailingListExists($a_list_name)
+    public function mailingListExists(string $a_list_name): bool
     {
         $ml_id = substr($a_list_name, strrpos($a_list_name, '_') + 1);
 
         if (!is_numeric($ml_id) || $ml_id <= 0) {
             return false;
-        } else {
-            $this->setCurrentMailingList($ml_id);
         }
-        
+
+        $this->setCurrentMailingList($ml_id);
+
         return true;
     }
     
-    public function setCurrentMailingList($id = 0)
+    public function setCurrentMailingList(int $id = 0): void
     {
         $this->ml = $this->get($id);
     }
@@ -132,15 +126,15 @@ class ilMailingLists
     /**
      * @return ilMailingList
      */
-    public function getCurrentMailingList()
+    public function getCurrentMailingList(): ilMailingList
     {
         return $this->ml;
     }
         
-    public function deleteTemporaryLists()
+    public function deleteTemporaryLists(): void
     {
         foreach ($this->getAll() as $mlist) {
-            if ($mlist->getMode() == ilMailingList::MODE_TEMPORARY) {
+            if ($mlist->getMode() === ilMailingList::MODE_TEMPORARY) {
                 $mlist->delete();
             }
         }

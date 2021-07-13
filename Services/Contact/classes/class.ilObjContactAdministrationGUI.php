@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Object/classes/class.ilObject2GUI.php';
@@ -13,18 +13,12 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
 
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
     /**
      * @var ilRbacSystem
      */
     protected $rbacsystem;
-    /**
-     * @var ilSetupErrorHandling
-     */
-    protected $error;
+    protected ilSetupErrorHandling $error;
     /**
      * @var ilLanguage
      */
@@ -35,7 +29,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
      * @param int $a_id_type
      * @param int $a_parent_node_id
      */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC, $ilErr;
 
@@ -50,7 +44,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function getType()
+    public function getType(): string
     {
         return 'cadm';
     }
@@ -58,7 +52,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function getAdminTabs()
+    public function getAdminTabs(): void
     {
         if ($this->checkPermissionBool('read')) {
             $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), array('', 'view', 'showConfigurationForm', 'saveConfigurationForm'), __CLASS__);
@@ -72,7 +66,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      * {@inheritdoc}
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -86,7 +80,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
                 break;
 
             default:
-                if ($cmd == '' || $cmd == 'view') {
+                if ($cmd === '' || $cmd === 'view') {
                     $cmd = 'showConfigurationForm';
                 }
                 $this->$cmd();
@@ -97,7 +91,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getConfigurationForm()
+    protected function getConfigurationForm(): ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
@@ -127,7 +121,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    protected function showConfigurationForm(ilPropertyFormGUI $form = null)
+    protected function showConfigurationForm(ilPropertyFormGUI $form = null): void
     {
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
@@ -139,7 +133,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
             $form = $this->getConfigurationForm();
             $form->setValuesByArray(array(
-                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', 0),
+                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', false),
                 'use_osd' => isset($cfg['buddysystem_request']) && in_array('osd', $cfg['buddysystem_request'], true)
             ));
         }
@@ -150,7 +144,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     /**
      *
      */
-    protected function saveConfigurationForm()
+    protected function saveConfigurationForm(): void
     {
         $this->checkPermission('write');
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,54 +7,22 @@
 class ilMimeMail
 {
     public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
-
-    /** @var ilMailMimeTransport|null */
-    protected static $defaultTransport = null;
-
-    /** @var string */
-    protected $subject = '';
-
-    /** @var string */
-    protected $body = '';
-
-    /** @var string */
-    protected $finalBody = '';
-
-    /** @var string */
-    protected $finalBodyAlt = '';
-
-    /** @var string[] */
-    protected $sendto = [];
-
-    /** @var string[] */
-    protected $acc = [];
-
-    /** @var string[] */
-    protected $abcc = [];
-
-    /** @var array<string, array{path: string, cid: string, name: string}> */
-    protected $images = [];
-
-    /** @var string[]  */
-    protected $aattach = [];
-
-    /** @var string[] */
-    protected $actype = [];
-
-    /** @var string[] */
-    protected $adispo = [];
-
-    /** @var string[]|null[] */
-    protected $adisplay = [];
-
-    /** @var ilMailMimeSender */
-    protected $sender;
-
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilMailMimeSubjectBuilder */
-    protected $subjectBuilder;
+    protected static ?ilMailMimeTransport $defaultTransport;
+    protected string $subject = '';
+    protected string $body = '';
+    protected string $finalBody = '';
+    protected string $finalBodyAlt = '';
+    protected array $sendto = array();
+    protected array $acc = array();
+    protected array $abcc = array();
+    protected array $images = array();
+    protected array $aattach = array();
+    protected array $actype = array();
+    protected array $adispo = array();
+    protected array $adisplay = array();
+    protected ilMailMimeSender $sender;
+    protected ilSetting $settings;
+    protected ilMailMimeSubjectBuilder $subjectBuilder;
 
     /**
      * ilMimeMail constructor.
@@ -89,7 +57,7 @@ class ilMimeMail
         self::$defaultTransport = $transport;
     }
 
-    public static function getDefaultTransport() : ?ilMailMimeTransport
+    public static function getDefaultTransport() : ?\ilMailMimeTransport
     {
         return self::$defaultTransport;
     }
@@ -113,7 +81,7 @@ class ilMimeMail
      * Set the mail recipient
      * @param string|string[] To email address, accept both a single address or an array of addresses
      */
-    public function To($to) : void
+    public function To(mixed $to) : void
     {
         if (is_array($to)) {
             $this->sendto = $to;
@@ -126,7 +94,7 @@ class ilMimeMail
      * Set the cc mail recipient
      * @param string|string[] CC email address, accept both a single address or an array of addresses
      */
-    public function Cc($cc) : void
+    public function Cc(mixed $cc) : void
     {
         if (is_array($cc)) {
             $this->acc = $cc;
@@ -139,7 +107,7 @@ class ilMimeMail
      * Set the bcc mail recipient
      * @param string|string[] BCC email address, accept both a single address or an array of addresses
      */
-    public function Bcc($bcc) : void
+    public function Bcc(mixed $bcc) : void
     {
         if (is_array($bcc)) {
             $this->abcc = $bcc;

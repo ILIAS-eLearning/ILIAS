@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -21,7 +21,7 @@ class ilFormatMail extends ilMail
     * @param int user_id
     * @access	public
     */
-    public function __construct($a_user_id)
+    public function __construct(int $a_user_id)
     {
         parent::__construct($a_user_id);
     }
@@ -31,15 +31,15 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyMessage()
+    public function formatReplyMessage(): mixed
     {
         if (empty($this->mail_data)) {
             return false;
         }
 
         $bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data["m_message"]);
-        for ($i = 0; $i < count($bodylines); $i++) {
-            $bodylines[$i] = "> " . $bodylines[$i];
+        foreach ($bodylines as $i => $iValue) {
+            $bodylines[$i] = "> " . $iValue;
         }
 
         return $this->mail_data["m_message"] = implode(chr(10), $bodylines);
@@ -50,7 +50,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplySubject()
+    public function formatReplySubject(): mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -63,7 +63,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyRecipientsForCC()
+    public function formatReplyRecipientsForCC(): string
     {
         global $DIC;
 
@@ -76,13 +76,13 @@ class ilFormatMail extends ilMail
         $currentUserLogin = $DIC->user()->getLogin();
 
         foreach (explode(',', $this->mail_data['rcp_to']) as $to) {
-            if (trim($to) != '' && $currentUserLogin != trim($to)) {
+            if (trim($to) !== '' && $currentUserLogin !== trim($to)) {
                 $newCC[] = trim($to);
             }
         }
 
         foreach (explode(',', $this->mail_data['rcp_cc']) as $cc) {
-            if (trim($cc) != '' && $currentUserLogin != trim($cc)) {
+            if (trim($cc) !== '' && $currentUserLogin !== trim($cc)) {
                 $newCC[] = trim($cc);
             }
         }
@@ -95,7 +95,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyRecipient()
+    public function formatReplyRecipient(): mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -111,7 +111,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatForwardSubject()
+    public function formatForwardSubject(): mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -126,32 +126,32 @@ class ilFormatMail extends ilMail
     * @param string rcp type ('to','cc','bc')
     * @return array
     */
-    public function appendSearchResult($a_names, $a_type)
+    public function appendSearchResult(array $a_names, string $a_type): array
     {
         $name_str = implode(',', $a_names);
         switch ($a_type) {
             case 'to':
                 $this->mail_data["rcp_to"] = trim($this->mail_data["rcp_to"]);
                 if ($this->mail_data["rcp_to"]) {
-                    $this->mail_data["rcp_to"] = $this->mail_data["rcp_to"] . ",";
+                    $this->mail_data["rcp_to"] .= ",";
                 }
-                $this->mail_data["rcp_to"] = $this->mail_data["rcp_to"] . $name_str;
+                $this->mail_data["rcp_to"] .= $name_str;
                 break;
 
             case 'cc':
                 $this->mail_data["rcp_cc"] = trim($this->mail_data["rcp_cc"]);
                 if ($this->mail_data["rcp_cc"]) {
-                    $this->mail_data["rcp_cc"] = $this->mail_data["rcp_cc"] . ",";
+                    $this->mail_data["rcp_cc"] .= ",";
                 }
-                $this->mail_data["rcp_cc"] = $this->mail_data["rcp_cc"] . $name_str;
+                $this->mail_data["rcp_cc"] .= $name_str;
                 break;
 
             case 'bc':
                 $this->mail_data["rcp_bcc"] = trim($this->mail_data["rcp_bcc"]);
                 if ($this->mail_data["rcp_bcc"]) {
-                    $this->mail_data["rcp_bcc"] = $this->mail_data["rcp_bcc"] . ",";
+                    $this->mail_data["rcp_bcc"] .= ",";
                 }
-                $this->mail_data["rcp_bcc"] = $this->mail_data["rcp_bcc"] . $name_str;
+                $this->mail_data["rcp_bcc"] .= $name_str;
                 break;
 
         }
@@ -170,11 +170,11 @@ class ilFormatMail extends ilMail
         $linebreak = $this->mail_options->getLinebreak();
 
         $lines = explode(chr(10), $message);
-        for ($i = 0; $i < count($lines); $i++) {
-            if (substr($lines[$i], 0, 1) != '>') {
-                $formatted[] = wordwrap($lines[$i], $linebreak, chr(10));
+        foreach ($lines as $i => $iValue) {
+            if (!str_starts_with($iValue, '>')) {
+                $formatted[] = wordwrap($iValue, $linebreak, chr(10));
             } else {
-                $formatted[] = $lines[$i];
+                $formatted[] = $iValue;
             }
         }
         $formatted = implode(chr(10), $formatted);

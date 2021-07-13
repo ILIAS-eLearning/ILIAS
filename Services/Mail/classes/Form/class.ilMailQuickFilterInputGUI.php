@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Form/classes/class.ilTextInputGUI.php';
@@ -13,7 +13,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
     /**
      * @return bool
      */
-    public function checkInput()
+    public function checkInput(): bool
     {
         global $DIC;
 
@@ -35,22 +35,22 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
     }
 
-    public function render($a_mode = "")
+    public function render($a_mode = ""): string
     {
         global $DIC;
 
         $tpl = new ilTemplate("tpl.prop_mail_quick_filter_input.html", true, true, "Services/Mail");
-        if (strlen($this->getValue())) {
+        if ($this->getValue() !== '') {
             $tpl->setCurrentBlock("prop_text_propval");
             $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
             $tpl->parseCurrentBlock();
         }
-        if (strlen($this->getInlineStyle())) {
+        if ($this->getInlineStyle() !== '') {
             $tpl->setCurrentBlock("stylecss");
             $tpl->setVariable("CSS_STYLE", ilUtil::prepareFormOutput($this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
-        if (strlen($this->getCssClass())) {
+        if ($this->getCssClass() !== '') {
             $tpl->setCurrentBlock("classcss");
             $tpl->setVariable('CLASS_CSS', ilUtil::prepareFormOutput($this->getCssClass()));
             $tpl->parseCurrentBlock();
@@ -73,15 +73,15 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         $tpl->setVariable("ID", $this->getFieldId());
         $tpl->setVariable("ARIA_LABEL", $this->getTitle());
         $tpl->setVariable("SIZE", $this->getSize());
-        if ($this->getMaxLength() != null) {
+        if ($this->getMaxLength() !== null) {
             $tpl->setVariable("MAXLENGTH", $this->getMaxLength());
         }
-        if (strlen($this->getSuffix())) {
+        if ($this->getSuffix() !== '') {
             $tpl->setVariable("INPUT_SUFFIX", $this->getSuffix());
         }
 
         $postvar = $this->getPostVar();
-        if ($this->getMulti() && substr($postvar, -2) != "[]") {
+        if ($this->getMulti() && substr($postvar, -2) !== "[]") {
             $postvar .= "[]";
         }
 
@@ -105,7 +105,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             $tpl->setVariable("POST_VAR", $postvar);
         }
 
-        if ($a_mode == "toolbar") {
+        if ($a_mode === "toolbar") {
             // block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
             // -moz-inline-stack for FF2
             // zoom 1; *display:inline for IE6 & 7

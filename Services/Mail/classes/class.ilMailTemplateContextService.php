@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -65,11 +65,11 @@ class ilMailTemplateContextService
      * @return ilMailTemplateContext
      * @throws ilMailException
      */
-    public static function getTemplateContextById($a_id)
+    public static function getTemplateContextById(string $a_id): \ilMailTemplateContext
     {
         $contexts = self::getTemplateContexts($a_id);
         $first_context = current($contexts);
-        if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() != $a_id) {
+        if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
             require_once 'Services/Mail/exceptions/class.ilMailException.php';
             throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
         }
@@ -81,7 +81,7 @@ class ilMailTemplateContextService
      * @param null|string|array $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts($a_id = null)
+    public static function getTemplateContexts(mixed $a_id = null): array
     {
         global $DIC;
 
@@ -142,7 +142,6 @@ class ilMailTemplateContextService
                 }
             }
         }
-
         return null;
     }
 

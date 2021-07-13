@@ -9,42 +9,29 @@
  */
 class ilMailOptions
 {
-    const INCOMING_LOCAL = 0;
-    const INCOMING_EMAIL = 1;
-    const INCOMING_BOTH = 2;
+    public const INCOMING_LOCAL = 0;
+    public const INCOMING_EMAIL = 1;
+    public const INCOMING_BOTH = 2;
 
-    const FIRST_EMAIL = 3;
-    const SECOND_EMAIL = 4;
-    const BOTH_EMAIL = 5;
+    public const FIRST_EMAIL = 3;
+    public const SECOND_EMAIL = 4;
+    public const BOTH_EMAIL = 5;
 
-    const DEFAULT_LINE_BREAK = 60;
+    public const DEFAULT_LINE_BREAK = 60;
 
-    /** @var ILIAS */
-    protected $ilias;
-    /** @var ilDBInterface */
-    protected $db;
-    /** @var int */
-    protected $usrId = 0;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var string */
-    protected $table_mail_options = 'mail_options';
-    /** @var int */
-    protected $linebreak = 0;
-    /** @var string */
-    protected $signature = '';
-    /** @var bool */
-    protected $isCronJobNotificationEnabled = false;
-    /** @var int */
-    protected $incomingType = self::INCOMING_LOCAL;
-    /** @var int */
-    protected $emailAddressMode = self::FIRST_EMAIL;
-    /** @var ilMailTransportSettings */
-    private $mailTransportSettings;
-    /** @var string */
-    protected $firstEmailAddress = '';
-    /** @var string */
-    protected $secondEmailAddress = '';
+    protected ILIAS $ilias;
+    protected ilDBInterface $db;
+    protected int $usrId = 0;
+    protected ilSetting $settings;
+    protected string $table_mail_options = 'mail_options';
+    protected int $linebreak = 0;
+    protected string $signature = '';
+    protected bool $isCronJobNotificationEnabled = false;
+    protected int $incomingType = self::INCOMING_LOCAL;
+    protected int $emailAddressMode = self::FIRST_EMAIL;
+    private ?ilMailTransportSettings $mailTransportSettings;
+    protected string $firstEmailAddress = '';
+    protected string $secondEmailAddress = '';
 
     /**
      * @param int $usrId
@@ -74,12 +61,12 @@ class ilMailOptions
     public function createMailOptionsEntry() : void
     {
         $this->incomingType = self::INCOMING_LOCAL;
-        if (strlen($this->settings->get('mail_incoming_mail', '')) > 0) {
+        if ($this->settings->get('mail_incoming_mail', '') !== '') {
             $this->incomingType = (int) $this->settings->get('mail_incoming_mail');
         }
 
         $this->emailAddressMode = self::FIRST_EMAIL;
-        if (strlen($this->settings->get('mail_address_option', '')) > 0) {
+        if ($this->settings->get('mail_address_option', '') !== '') {
             $this->emailAddressMode = (int) $this->settings->get('mail_address_option');
         }
 
@@ -148,11 +135,11 @@ class ilMailOptions
         }
     }
 
-    public function updateOptions()
+    public function updateOptions(): int
     {
         $data = [
             'signature' => ['text', $this->getSignature()],
-            'linebreak' => ['integer', (int) $this->getLinebreak()],
+            'linebreak' => ['integer', $this->getLinebreak()],
             'incoming_type' => ['integer', $this->getIncomingType()],
             'mail_address_option' => ['integer', $this->getEmailAddressMode()]
         ];
@@ -160,7 +147,7 @@ class ilMailOptions
         if ($this->settings->get('mail_notification')) {
             $data['cronjob_notification'] = ['integer', (int) $this->isCronJobNotificationEnabled()];
         } else {
-            $data['cronjob_notification'] = ['integer', (int) self::lookupNotificationSetting($this->usrId)];
+            $data['cronjob_notification'] = ['integer', self::lookupNotificationSetting($this->usrId)];
         }
 
         return $this->db->replace(
@@ -278,28 +265,28 @@ class ilMailOptions
 
         switch ($this->getEmailAddressMode()) {
             case self::SECOND_EMAIL:
-                if (strlen($this->secondEmailAddress)) {
+                if ($this->secondEmailAddress !== '') {
                     $emailAddresses[] = $this->secondEmailAddress;
-                } elseif (strlen($this->firstEmailAddress)) {
+                } elseif ($this->firstEmailAddress !== '') {
                     // fallback, use first email address
                     $emailAddresses[] = $this->firstEmailAddress;
                 }
                 break;
 
             case self::BOTH_EMAIL:
-                if (strlen($this->firstEmailAddress)) {
+                if ($this->firstEmailAddress !== '') {
                     $emailAddresses[] = $this->firstEmailAddress;
                 }
-                if (strlen($this->secondEmailAddress)) {
+                if ($this->secondEmailAddress !== '') {
                     $emailAddresses[] = $this->secondEmailAddress;
                 }
                 break;
 
             case self::FIRST_EMAIL:
             default:
-                if (strlen($this->firstEmailAddress)) {
+                if ($this->firstEmailAddress !== '') {
                     $emailAddresses[] = $this->firstEmailAddress;
-                } elseif (strlen($this->secondEmailAddress)) {
+                } elseif ($this->secondEmailAddress !== '') {
                     // fallback, use first email address
                     $emailAddresses[] = $this->secondEmailAddress;
                 }

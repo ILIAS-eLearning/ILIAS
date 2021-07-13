@@ -10,16 +10,16 @@ class ilContactAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent($a_component, $a_event, $a_parameter): void
     {
         global $DIC;
 
-        if ('Services/User' == $a_component && 'deleteUser' == $a_event) {
+        if ('Services/User' === $a_component && 'deleteUser' === $a_event) {
             ilBuddyList::getInstanceByUserId((int) $a_parameter['usr_id'])->destroy();
             ilMailingList::removeAssignmentsByUserId((int) $a_parameter['usr_id']);
         }
 
-        if ('Services/Contact' == $a_component && 'contactRequested' == $a_event) {
+        if ('Services/Contact' === $a_component && 'contactRequested' === $a_event) {
             $notification = new ilBuddySystemNotification($DIC->user(), $DIC->settings());
             $notification->setRecipientIds([(int) $a_parameter['usr_id']]);
             $notification->send();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -18,7 +18,7 @@ class ilMailGlobalServices
      * @var    int
      *
      */
-    const CACHE_TYPE_REF_ID = 0;
+    public const CACHE_TYPE_REF_ID = 0;
 
     /**
      *
@@ -27,7 +27,7 @@ class ilMailGlobalServices
      * @var    int
      *
      */
-    const CACHE_TYPE_NEW_MAILS = 1;
+    public const CACHE_TYPE_NEW_MAILS = 1;
 
     /**
      *

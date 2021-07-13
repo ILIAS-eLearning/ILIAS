@@ -7,14 +7,9 @@
  */
 class ilMailRoleAddressType extends ilBaseMailAddressType
 {
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilRbacReview */
-    protected $rbacreview;
-
-    /** @var ilRoleMailboxSearch */
-    protected $roleMailboxSearch;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilRoleMailboxSearch $roleMailboxSearch;
 
     /**
      * ilMailRoleAddressType constructor.
@@ -87,10 +82,12 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
             }
         }
 
-        if (count($roleIds) == 0) {
+        if (count($roleIds) === 0) {
             $this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
             return false;
-        } elseif (count($roleIds) > 1) {
+        }
+
+        if (count($roleIds) > 1) {
             $this->pushError('mail_multiple_role_recipients_found', [
                 $this->address->getMailbox(),
                 implode(',', $roleIds),

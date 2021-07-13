@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Mail/classes/class.ilMail.php';
@@ -11,25 +11,10 @@ require_once 'Services/Mail/classes/class.ilMail.php';
  */
 class ilPDMailGUI
 {
-    /**
-     * @var \ILIAS
-     */
-    protected $ilias;
-
-    /**
-     * @var \ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
+    protected ILIAS $ilias;
+    protected ilRbacSystem $rbacsystem;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
 
     /**
      * ilPDMailGUI constructor.
@@ -47,7 +32,7 @@ class ilPDMailGUI
     /**
      * Get Mail HTML for Personal Desktop Mail Display
      */
-    public function getPDMailHTML($a_mail_id, $a_mobj_id)
+    public function getPDMailHTML(int $a_mail_id, int $a_mobj_id): string
     {
         $this->lng->loadLanguageModule('mail');
 
@@ -87,7 +72,7 @@ class ilPDMailGUI
          * @var $sender ilObjUser
          */
         $sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
-        if ($sender && $sender->getId() != ANONYMOUS_USER_ID) {
+        if ($sender && $sender->getId() !== ANONYMOUS_USER_ID) {
             $tpl->setCurrentBlock('pers_image');
             $tpl->setVariable('IMG_SENDER', $sender->getPersonalPicturePath('xsmall'));
             $tpl->setVariable('ALT_SENDER', htmlspecialchars($sender->getPublicName()));

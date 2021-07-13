@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,21 +7,14 @@
  */
 class ilMailCronOrphanedMailsFolderMailObject
 {
-    /**
-     * @var int
-     */
-    protected $mail_id = 0;
-
-    /**
-     * @var string
-     */
-    protected $mail_subject = '';
+    protected int $mail_id = 0;
+    protected string $mail_subject = '';
 
     /**
      * @param $mail_id
      * @param $mail_subject
      */
-    public function __construct($mail_id, $mail_subject)
+    public function __construct(int $mail_id, string $mail_subject)
     {
         $this->setMailId($mail_id);
         $this->setMailSubject($mail_subject);
@@ -30,7 +23,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     /**
      * @return int
      */
-    public function getMailId()
+    public function getMailId(): int
     {
         return $this->mail_id;
     }
@@ -38,7 +31,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     /**
      * @param int $mail_id
      */
-    public function setMailId($mail_id)
+    public function setMailId(int $mail_id): void
     {
         $this->mail_id = $mail_id;
     }
@@ -46,7 +39,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     /**
      * @return string
      */
-    public function getMailSubject()
+    public function getMailSubject(): string
     {
         return $this->mail_subject;
     }
@@ -54,7 +47,7 @@ class ilMailCronOrphanedMailsFolderMailObject
     /**
      * @param string $mail_subject
      */
-    public function setMailSubject($mail_subject)
+    public function setMailSubject(string $mail_subject): void
     {
         $this->mail_subject = $mail_subject;
     }

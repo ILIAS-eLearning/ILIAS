@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
@@ -57,7 +57,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set): void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
@@ -72,13 +72,9 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field): bool
     {
-        if ($a_field == 'filesize' || $a_field == 'filecreatedate') {
-            return true;
-        }
-
-        return false;
+        return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
 
     /**
@@ -86,7 +82,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
      * @param string $value
      * @return string
      */
-    protected function formatValue($column, $value)
+    protected function formatValue(string $column, string $value): ?string
     {
         switch ($column) {
             case 'filecreatedate':

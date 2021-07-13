@@ -7,11 +7,8 @@
  */
 abstract class ilMailMimeSenderUser implements ilMailMimeSender
 {
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilObjUser */
-    protected $user;
+    protected ilSetting $settings;
+    protected ilObjUser $user;
 
     /**
      * ilMailMimeSenderSystem constructor.
@@ -40,7 +37,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         if (
             true === (bool) $this->settings->get('use_global_reply_to_addr') &&
             is_string($this->settings->get('global_reply_to_addr', '')) &&
-            strlen($this->settings->get('global_reply_to_addr', '')) > 0
+            $this->settings->get('global_reply_to_addr', '') !== ''
         ) {
             return (string) $this->settings->get('global_reply_to_addr');
         }
@@ -61,7 +58,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
      */
     public function hasEnvelopFromAddress() : bool
     {
-        return strlen($this->settings->get('mail_system_usr_env_from_addr')) > 0;
+        return $this->settings->get('mail_system_usr_env_from_addr') !== '';
     }
 
     /**
@@ -86,7 +83,7 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
     public function getFromName() : string
     {
         $from = $this->settings->get('mail_system_usr_from_name', '');
-        if (0 == strlen($from)) {
+        if ($from === '') {
             return (string) $this->user->getFullname();
         }
 

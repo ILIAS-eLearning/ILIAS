@@ -18,7 +18,7 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
     /**
      * @return string
      */
-    public function getRadioOptionTitle()
+    public function getRadioOptionTitle(): string
     {
         return $this->lng->txt('mail_lso_roles');
     }
@@ -27,7 +27,7 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
      * @param $ref_id
      * @return array sorted_roles
      */
-    public function getMailRoles($ref_id)
+    public function getMailRoles(int $ref_id): array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,8 +7,7 @@
  */
 class ilMailErrorFormatter
 {
-    /** @var \ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /**
      * ilMailErrorFormatter constructor.
@@ -61,7 +60,6 @@ class ilMailErrorFormatter
         if (1 === count($errorsToDisplay)) {
             $tpl->setCurrentBlock('single_error');
             $tpl->setVariable('SINGLE_ERROR', current($errorsToDisplay));
-            $tpl->parseCurrentBlock();
         } else {
             $firstError = array_shift($errorsToDisplay);
 
@@ -73,8 +71,8 @@ class ilMailErrorFormatter
 
             $tpl->setCurrentBlock('multiple_errors');
             $tpl->setVariable('FIRST_ERROR', $firstError);
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         return $tpl->get();
     }

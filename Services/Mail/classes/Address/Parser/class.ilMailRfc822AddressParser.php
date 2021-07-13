@@ -7,10 +7,8 @@
  */
 class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
-    /**
-     * @var ilBaseMailRfc822AddressParser
-     */
-    protected $aggregatedParser;
+
+    protected ilBaseMailRfc822AddressParser $aggregatedParser;
 
     /**
      * @param ilBaseMailRfc822AddressParser $addresses

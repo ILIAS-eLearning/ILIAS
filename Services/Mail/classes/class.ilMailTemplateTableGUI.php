@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -11,19 +11,12 @@ use ILIAS\UI\Renderer;
 class ilMailTemplateTableGUI extends ilTable2GUI
 {
     /** @var \ilMailTemplateContext[] */
-    protected $contexts = [];
-
-    /** @var bool */
-    protected $readOnly = false;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
+    protected array $contexts = [];
+    protected bool $readOnly = false;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
     /** @var ILIAS\UI\Component\Component[] */
-    protected $uiComponents = [];
+    protected array $uiComponents = [];
 
     /**
      * @param        $a_parent_obj
@@ -33,11 +26,11 @@ class ilMailTemplateTableGUI extends ilTable2GUI
      * @param bool $readOnly
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
+        object $a_parent_obj,
+        string $a_parent_cmd,
         Factory $uiFactory,
         Renderer $uiRenderer,
-        $readOnly = false
+        bool $readOnly = false
     ) {
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
@@ -71,13 +64,17 @@ class ilMailTemplateTableGUI extends ilTable2GUI
      * @param array   $row
      * @return string
      */
-    protected function formatCellValue($column, array $row)
+    protected function formatCellValue(string $column, array $row): string
     {
         if ('tpl_id' === $column) {
             return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
-        } elseif ('lang' === $column) {
+        }
+
+        if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);
-        } elseif ($column == 'context') {
+        }
+
+        if ($column === 'context') {
             if (isset($this->contexts[$row[$column]])) {
                 $isDefaultSuffix = '';
                 if ($row['is_default']) {
@@ -88,9 +85,9 @@ class ilMailTemplateTableGUI extends ilTable2GUI
                     $this->contexts[$row[$column]]->getTitle(),
                     $isDefaultSuffix
                 ]);
-            } else {
-                return $this->lng->txt('mail_template_orphaned_context');
             }
+
+            return $this->lng->txt('mail_template_orphaned_context');
         }
 
         return $row[$column];
@@ -99,7 +96,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set): void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -189,7 +186,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function getHTML()
+    public function getHTML(): string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

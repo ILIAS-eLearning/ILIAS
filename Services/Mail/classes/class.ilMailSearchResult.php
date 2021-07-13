@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,10 +8,7 @@
  */
 class ilMailSearchResult
 {
-    /**
-     * @var array
-     */
-    protected $result = array();
+    protected array $result = array();
 
     /**
      *
@@ -23,7 +20,7 @@ class ilMailSearchResult
     /**
      * @param array $item
      */
-    public function addItem($id, array $fields)
+    public function addItem(int $id, array $fields): void
     {
         $this->result[$id] = $fields;
     }
@@ -31,7 +28,7 @@ class ilMailSearchResult
     /**
      * @return array
      */
-    public function getIds()
+    public function getIds(): array
     {
         return array_keys($this->result);
     }
@@ -41,7 +38,7 @@ class ilMailSearchResult
      * @return array
      * @throws OutOfBoundsException
      */
-    public function getFields($id)
+    public function getFields(int $id): array
     {
         if (!isset($this->result[$id])) {
             throw new OutOfBoundsException('mail_missing_result_fields');

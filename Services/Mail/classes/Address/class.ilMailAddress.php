@@ -7,11 +7,8 @@
  */
 class ilMailAddress
 {
-    /** @var string */
-    protected $mailbox = '';
-
-    /** @var string */
-    protected $host = '';
+    protected string $mailbox = '';
+    protected string $host = '';
 
     /**
      * ilMailAddress constructor.
@@ -27,7 +24,7 @@ class ilMailAddress
     /**
      * @param string $host
      */
-    public function setHost(string $host)
+    public function setHost(string $host): void
     {
         $this->host = $host;
     }
@@ -35,7 +32,7 @@ class ilMailAddress
     /**
      * @param string $mailbox
      */
-    public function setMailbox(string $mailbox)
+    public function setMailbox(string $mailbox): void
     {
         $this->mailbox = $mailbox;
     }

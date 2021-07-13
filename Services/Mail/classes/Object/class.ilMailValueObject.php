@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,32 +6,17 @@
  */
 class ilMailValueObject
 {
-    /** @var string */
-    private $recipients;
-
-    /** @var string */
-    private $recipientsCC;
-
-    /** @var string */
-    private $recipientsBCC;
-
-    /** @var string */
-    private $subject;
-
-    /** @var string */
-    private $body;
+    private string $recipients;
+    private string $recipientsCC;
+    private string $recipientsBCC;
+    private string $subject;
+    private string $body;
 
     /** @var string[] */
-    private $attachments = [];
-
-    /** @var bool */
-    private $usePlaceholders;
-
-    /** @var bool */
-    private $saveInSentBox;
-
-    /** @var string */
-    private $from;
+    private array $attachments;
+    private bool $usePlaceholders;
+    private bool $saveInSentBox;
+    private string $from;
 
     /**
      * @param string $from

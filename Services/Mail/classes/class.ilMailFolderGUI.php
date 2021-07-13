@@ -13,41 +13,19 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailFolderGUI
 {
-    /** @var bool */
-    private $confirmTrashDeletion = false;
-
-    /** @var bool */
-    private $errorDelete = false;
-
+    private bool $confirmTrashDeletion = false;
+    private bool $errorDelete = false;
     /** @var ilGlobalTemplate */
-    private $tpl;
-
-    /** @var ilCtrl */
-    private $ctrl;
-
-    /** @var ilLanguage */
-    private $lng;
-
-    /** @var ilToolbarGUI */
-    private $toolbar;
-
-    /** @var ilTabsGUI */
-    private $tabs;
-
-    /** @var ilObjUser */
-    private $user;
-
-    /** @var ilMail */
-    public $umail;
-
-    /** @var ilMailBox */
-    public $mbox;
-
-    /** @var ServerRequestInterface */
-    private $httpRequest;
-
-    /** @var int */
-    private $currentFolderId = 0;
+    private ilGlobalPageTemplate $tpl;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilToolbarGUI $toolbar;
+    private ilTabsGUI $tabs;
+    private ilObjUser $user;
+    public ilMail $umail;
+    public ilMailBox $mbox;
+    private ServerRequestInterface $httpRequest;
+    private int $currentFolderId = 0;
 
     /**
      * ilMailFolderGUI constructor.
@@ -84,7 +62,7 @@ class ilMailFolderGUI
             $folderId = $this->mbox->getInboxFolder();
         }
 
-        $this->currentFolderId = (int) $folderId;
+        $this->currentFolderId = $folderId;
     }
 
     /**
@@ -148,7 +126,7 @@ class ilMailFolderGUI
                 $this->ctrl->clearParameters($this);
 
                 $ret = $this->ctrl->forwardCommand($profileGui);
-                if ($ret != '') {
+                if ($ret !== '') {
                     $this->tpl->setContent($ret);
                 }
                 $this->tpl->printToStdout();
@@ -238,7 +216,7 @@ class ilMailFolderGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
         $this->tpl->setTitle($this->lng->txt('mail'));
 
-        $isTrashFolder = $this->currentFolderId == $this->mbox->getTrashFolder();
+        $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
 
         if ($isTrashFolder && 'deleteMails' === $this->parseCommand($this->ctrl->getCmd()) && !$this->errorDelete) {
             $confirmationGui = new ilConfirmationGUI();
@@ -276,7 +254,7 @@ class ilMailFolderGUI
             $mailtable->prepareHTML();
         } catch (Exception $e) {
             ilUtil::sendFailure(
-                $this->lng->txt($e->getMessage()) != '-' . $e->getMessage() . '-' ?
+                $this->lng->txt($e->getMessage()) !== '-' . $e->getMessage() . '-' ?
                     $this->lng->txt($e->getMessage()) :
                     $e->getMessage()
             );
@@ -287,12 +265,12 @@ class ilMailFolderGUI
         if ($oneConfirmationDialogueRendered === false && $this->confirmTrashDeletion === false) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 
-            if ($isUserRootFolder == true || $isUserSubFolder == true) {
+            if ($isUserRootFolder || $isUserSubFolder) {
                 $this->addSubFolderCommands($isUserSubFolder);
             }
         }
 
-        if ($mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0 && $this->confirmTrashDeletion === true) {
+        if ($mailtable->isTrashFolder() && $mailtable->getNumberOfMails() > 0 && $this->confirmTrashDeletion) {
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_empty_trash_confirmation'));
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -336,7 +314,7 @@ class ilMailFolderGUI
         $parentFolderId = $this->mbox->getParentFolderId($this->currentFolderId);
         if ($parentFolderId > 0 && $this->mbox->deleteFolder($this->currentFolderId)) {
             ilUtil::sendInfo($this->lng->txt('mail_folder_deleted'), true);
-            $this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', (int) $parentFolderId);
+            $this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', $parentFolderId);
             $this->ctrl->redirectByClass('ilMailGUI');
         } else {
             ilUtil::sendFailure($this->lng->txt('mail_error_delete'));
@@ -567,10 +545,10 @@ class ilMailFolderGUI
      */
     protected function deleteMails() : void
     {
-        $trashFolderId = (int) $this->mbox->getTrashFolder();
+        $trashFolderId = $this->mbox->getTrashFolder();
         $mailIds = $this->getMailIdsFromRequest();
 
-        if ($trashFolderId == $this->currentFolderId) {
+        if ($trashFolderId === $this->currentFolderId) {
             if (0 === count($mailIds)) {
                 ilUtil::sendInfo($this->lng->txt('mail_select_one'));
                 $this->errorDelete = true;
@@ -600,7 +578,7 @@ class ilMailFolderGUI
             return;
         }
 
-        if ((int) $this->mbox->getTrashFolder() === (int) $this->currentFolderId) {
+        if ($this->mbox->getTrashFolder() === $this->currentFolderId) {
             $this->umail->deleteMails($mailIds);
             ilUtil::sendSuccess($this->lng->txt('mail_deleted'), true);
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -800,11 +778,11 @@ class ilMailFolderGUI
                 foreach ($folders as $folder) {
                     if (
                         ($folder['type'] !== 'trash' || !$isTrashFolder) &&
-                        $folder['obj_id'] != $mailData['folder_id']
+                        $folder['obj_id'] !== $mailData['folder_id']
                     ) {
                         $optionText = $action . ' ' . $folder['title'];
                         if ($folder['type'] !== 'user_folder') {
-                            $optionText = $action . ' ' . $this->lng->txt('mail_' . $folder['title']) . ($folder['type'] == 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
+                            $optionText = $action . ' ' . $this->lng->txt('mail_' . $folder['title']) . ($folder['type'] === 'trash' ? ' (' . $this->lng->txt('delete') . ')' : '');
                         }
 
                         $selectOptions[$folder['obj_id']] = $optionText;
@@ -926,14 +904,14 @@ class ilMailFolderGUI
         }
 
         $filename = $this->httpRequest->getParsedBody()['filename'] ?? '';
-        if (is_string(ilSession::get('filename')) && strlen(ilSession::get('filename')) > 0) {
+        if (is_string(ilSession::get('filename')) && ilSession::get('filename') !== '') {
             $filename = ilSession::get('filename');
             ilSession::set('filename', null);
         }
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (strpos($filename, '..') !== false) {
+                while (str_contains($filename, '..')) {
                     $filename = str_replace('..', '', $filename);
                 }
 
@@ -1013,9 +991,9 @@ class ilMailFolderGUI
         $sentFolderId = $this->mbox->getSentFolder();
         $draftsFolderId = $this->mbox->getDraftsFolder();
 
-        $isTrashFolder = $this->currentFolderId == $this->mbox->getTrashFolder();
-        $isSentFolder = $this->currentFolderId == $sentFolderId;
-        $isDraftFolder = $this->currentFolderId == $draftsFolderId;
+        $isTrashFolder = $this->currentFolderId === $this->mbox->getTrashFolder();
+        $isSentFolder = $this->currentFolderId === $sentFolderId;
+        $isDraftFolder = $this->currentFolderId === $draftsFolderId;
 
         $table = new ilMailFolderTableGUI($this, $this->currentFolderId, 'showFolder');
         $table->isSentFolder($isSentFolder)

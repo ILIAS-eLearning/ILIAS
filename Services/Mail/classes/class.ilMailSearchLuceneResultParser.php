@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,21 +8,14 @@
  */
 class ilMailSearchLuceneResultParser
 {
-    /**
-     * @var ilMailSearchResult
-     */
-    protected $result;
-
-    /**
-     * @var string
-     */
-    protected $xml;
+    protected ilMailSearchResult $result;
+    protected string $xml;
 
     /**
      * @param ilMailSearchResult $result
      * @param string             $xml
      */
-    public function __construct(ilMailSearchResult $result, $xml)
+    public function __construct(ilMailSearchResult $result, string $xml)
     {
         $this->result = $result;
         $this->xml = $xml;
@@ -31,7 +24,7 @@ class ilMailSearchLuceneResultParser
     /**
      * @return string
      */
-    public function getXml()
+    public function getXml(): string
     {
         return $this->xml;
     }
@@ -39,7 +32,7 @@ class ilMailSearchLuceneResultParser
     /**
      * @return ilMailSearchResult
      */
-    public function getResult()
+    public function getResult(): \ilMailSearchResult
     {
         return $this->result;
     }
@@ -47,9 +40,9 @@ class ilMailSearchLuceneResultParser
     /**
      *
      */
-    public function parse()
+    public function parse(): void
     {
-        if (!strlen($this->getXml())) {
+        if ($this->getXml() === '') {
             return;
         }
 

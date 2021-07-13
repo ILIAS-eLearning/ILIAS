@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Contact\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Contact\Provider;
 
 use ilBuddySystem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;

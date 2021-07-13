@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,25 +11,14 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilMailCronNotification extends ilCronJob
 {
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var bool
-     */
-    protected $initDone = false;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected bool $initDone = false;
 
     /**
      *
      */
-    protected function init()
+    protected function init(): void
     {
         global $DIC;
 
@@ -51,18 +40,19 @@ class ilMailCronNotification extends ilCronJob
         $this->init();
         return $this->lng->txt("cron_mail_notification");
     }
-    
+
     public function getDescription() : string
     {
         $this->init();
         return  $this->lng->txt("cron_mail_notification_desc");
     }
-    
+
     public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
+
     public function getDefaultScheduleValue() : ?int
     {
         return null;
@@ -72,12 +62,12 @@ class ilMailCronNotification extends ilCronJob
     {
         return false;
     }
-    
+
     public function hasFlexibleSchedule() : bool
     {
         return false;
     }
-    
+
     public function hasCustomSettings() : bool
     {
         return true;

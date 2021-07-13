@@ -12,7 +12,7 @@ class ilMailPearRfc822WrapperAddressParser extends ilBaseMailRfc822AddressParser
      */
     protected function parseAddressString(string $addresses) : array
     {
-        if (0 === strlen($addresses)) {
+        if ($addresses === '') {
             return [];
         }
 

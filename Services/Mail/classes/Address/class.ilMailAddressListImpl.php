@@ -8,7 +8,7 @@
 class ilMailAddressListImpl implements ilMailAddressList
 {
     /** @var ilMailAddress[] */
-    protected $addresses = [];
+    protected array $addresses = [];
 
     /**
      * ilMailAddressListImpl constructor.

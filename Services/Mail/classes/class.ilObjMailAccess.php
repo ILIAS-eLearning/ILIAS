@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
@@ -21,7 +21,7 @@ class ilObjMailAccess extends ilObjectAccess
      *                            // an associative array with the disk
      *                            // usage in bytes for each object type
      */
-    public function _lookupDiskUsageOfUser($user_id)
+    public function _lookupDiskUsageOfUser(int $user_id): array
     {
         require_once "./Services/Mail/classes/class.ilFileDataMail.php";
         return ilFileDataMail::_lookupDiskUsageOfUser($user_id);
@@ -30,7 +30,7 @@ class ilObjMailAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target): bool
     {
         require_once 'Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
