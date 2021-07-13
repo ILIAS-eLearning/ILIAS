@@ -16,7 +16,7 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     protected const CMD_REMOVE = 'remove';
     protected const CMD_INFO = 'info';
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     protected $http;
     /**

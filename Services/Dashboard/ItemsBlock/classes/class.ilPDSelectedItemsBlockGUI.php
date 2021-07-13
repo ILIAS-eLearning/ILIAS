@@ -47,8 +47,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     /** @var \ILIAS\DI\UIServices */
     protected $ui;
-    
-    /** @var \ILIAS\HTTP\GlobalHttpState */
+
+    /** @var \ILIAS\HTTP\Services */
     protected $http;
 
     /** @var \ilObjectService */

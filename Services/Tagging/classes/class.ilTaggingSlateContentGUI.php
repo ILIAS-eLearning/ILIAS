@@ -20,10 +20,14 @@ class ilTaggingSlateContentGUI
     protected \ilLanguage $lng;
     protected \ilAccessHandler $access;
     protected ilTree $tree;
-    protected \ILIAS\DI\HTTPServices $http;
+    protected \ILIAS\HTTP\Services $http;
     protected string $requested_tag;
     protected ilSessionIStorage $store;
     protected array $tags;
+
+    /**
+     * Constructor
+     */
 
     public function __construct()
     {
@@ -81,7 +85,7 @@ class ilTaggingSlateContentGUI
         }
         return "<div id='il-tag-slate-container'>" . $content . "</div>";
     }
-    
+
     // Get tag cloud
     protected function renderTagCloud() : string
     {
@@ -122,7 +126,7 @@ class ilTaggingSlateContentGUI
             return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
         }
     }
-    
+
 
     // Render resources
     protected function renderResourcesForTag() : string

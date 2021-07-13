@@ -7,7 +7,7 @@ require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.p
 require_once './Services/FileDelivery/classes/FileDeliveryTypes/HeaderBasedDeliveryHelper.php';
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 
 /**
  * Class FileDeliveryTypeFactory
@@ -26,7 +26,7 @@ final class FileDeliveryTypeFactory
      */
     private static $instances = array();
     /**
-     * @var GlobalHttpState $http
+     * @var Services $http
      */
     private $http;
 
@@ -34,9 +34,9 @@ final class FileDeliveryTypeFactory
     /**
      * FileDeliveryTypeFactory constructor.
      *
-     * @param GlobalHttpState $http
+     * @param Services $http
      */
-    public function __construct(GlobalHttpState $http)
+    public function __construct(Services $http)
     {
         $this->http = $http;
     }

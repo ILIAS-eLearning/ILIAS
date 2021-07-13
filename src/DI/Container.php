@@ -179,9 +179,9 @@ class Container extends \Pimple\Container
 
 
     /**
-     * @return HTTPServices
+     * @return \ILIAS\HTTP\Services
      */
-    public function http()
+    public function http(): \ILIAS\HTTP\Services
     {
         return $this['http'];
     }
@@ -225,7 +225,7 @@ class Container extends \Pimple\Container
     {
         return $this['ilHelp'];
     }
-    
+
     /**
      * @return \ilAsqFactory
      */

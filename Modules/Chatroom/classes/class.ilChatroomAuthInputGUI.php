@@ -12,7 +12,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     private const NAME_AUTH_PROP_1 = 'key';
     private const NAME_AUTH_PROP_2 = 'secret';
 
-    private \ILIAS\DI\HTTPServices $http;
+    private \ILIAS\HTTP\Services $http;
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
@@ -22,7 +22,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     ];
     protected bool $isReadOnly = false;
 
-    public function __construct(string $title, string $httpPostVariableName, \ILIAS\DI\HTTPServices $http)
+    public function __construct(string $title, string $httpPostVariableName, \ILIAS\HTTP\Services $http)
     {
         parent::__construct($title, $httpPostVariableName);
         $this->http = $http;

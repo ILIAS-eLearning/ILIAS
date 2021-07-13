@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilBuddySystemGUI
@@ -21,7 +21,7 @@ class ilBuddySystemGUI
     protected ilBuddySystemRelationStateFactory $stateFactory;
     protected ilObjUser $user;
     protected ilLanguage $lng;
-    protected HTTPServices $http;
+    protected Services $http;
 
     public function __construct()
     {

@@ -3,7 +3,7 @@
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
@@ -21,7 +21,7 @@ final class XAccel implements ilFileDeliveryType
     const DATA = 'data';
     const SECURED_DATA = 'secured-data';
     /**
-     * @var GlobalHttpState $httpService
+     * @var Services $httpService
      */
     private $httpService;
     const X_ACCEL_REDIRECT = 'X-Accel-Redirect';
@@ -30,9 +30,9 @@ final class XAccel implements ilFileDeliveryType
     /**
      * PHP constructor.
      *
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      */
-    public function __construct(GlobalHttpState $httpState)
+    public function __construct(Services $httpState)
     {
         $this->httpService = $httpState;
     }

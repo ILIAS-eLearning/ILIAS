@@ -4,8 +4,7 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-use ILIAS\DI\HTTPServices;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +24,7 @@ class XSendfileTest extends TestCase
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     /**
-     * @var \Mockery\MockInterface | GlobalHttpState
+     * @var \Mockery\MockInterface | Services
      */
     private $httpServiceMock;
 
@@ -37,7 +36,7 @@ class XSendfileTest extends TestCase
     {
         parent::setUp();
 
-        $this->httpServiceMock = Mockery::mock(HTTPServices::class);
+        $this->httpServiceMock = Mockery::mock(Services::class);
         $this->httpServiceMock->shouldIgnoreMissing();
 
         //set remote address to localhost

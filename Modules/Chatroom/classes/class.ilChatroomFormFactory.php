@@ -11,7 +11,7 @@ class ilChatroomFormFactory
 {
     protected ilLanguage $lng;
     protected ilObjUser $user;
-    protected \ILIAS\DI\HTTPServices $http;
+    protected \ILIAS\HTTP\Services $http;
 
     /**
      * Constructor

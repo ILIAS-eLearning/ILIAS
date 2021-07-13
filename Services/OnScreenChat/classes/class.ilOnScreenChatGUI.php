@@ -23,7 +23,7 @@ class ilOnScreenChatGUI
 
     /** @var \ILIAS\DI\Container */
     private $dic;
-    /** @var \ILIAS\DI\HTTPServices */
+    /** @var \ILIAS\HTTP\Services */
     private $http;
     /** @var ilCtrl */
     private $ctrl;
