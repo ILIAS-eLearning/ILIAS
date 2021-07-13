@@ -45,8 +45,6 @@ class ilwebresourceTest //extends TestCase
     /**
      * Link check test
      * @group IL_Init
-     * @param
-     * @return
      */
     public function testLinkCheck()
     {

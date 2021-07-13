@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
  * This cron check links in web resources
@@ -13,6 +12,42 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilWebResourceCronLinkCheck extends ilCronJob
 {
+    /**
+     * @var ilLanguage
+     */
+    private $lng;
+
+    /**
+     * @var ilDBInterface
+     */
+    private $db;
+
+    /**
+     * @var ilObjUser
+     */
+    private $user;
+
+    /**
+     * @var ilSetting
+     */
+    private $setting;
+
+    /**
+     * @var ilLog
+     */
+    private $log;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
+        $this->user = $DIC->user();
+        $this->setting = $DIC->settings();
+        $this->log = $DIC->logger()->webr();
+    }
+
     public function getId()
     {
         return "webr_link_check";
@@ -20,20 +55,12 @@ class ilWebResourceCronLinkCheck extends ilCronJob
     
     public function getTitle()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("check_web_resources");
+        return $this->lng->txt("check_web_resources");
     }
     
     public function getDescription()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        
-        return $lng->txt("check_web_resources_desc");
+        return $this->lng->txt("check_web_resources_desc");
     }
     
     public function getDefaultScheduleType()
@@ -59,45 +86,40 @@ class ilWebResourceCronLinkCheck extends ilCronJob
     public function run()
     {
         global $DIC;
-
-        $ilLog = $DIC->logger()->webr();
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-        
         $status = ilCronJobResult::STATUS_NO_ACTION;
-    
-        include_once'./Services/LinkChecker/classes/class.ilLinkChecker.php';
+
 
         $counter = 0;
-        foreach (ilUtil::_getObjectsByOperations('webr', 'write', $ilUser->getId(), -1) as $node) {
+        foreach (ilUtil::_getObjectsByOperations('webr', 'write', $this->user->getId(), -1) as $node) {
             if (!is_object($tmp_webr = ilObjectFactory::getInstanceByRefId($node, false))) {
                 continue;
             }
 
-            $tmp_webr->initLinkResourceItemsObject();
+            $tmp_webr->initLinkResourceItemObject($tmp_webr->getId());
             
             // Set all link to valid. After check invalid links will be set to invalid
 
-            $link_checker = new ilLinkChecker($ilDB);
+            $link_checker = new ilLinkChecker($this->db);
             $link_checker->setMailStatus(true);
             $link_checker->setCheckPeriod($this->__getCheckPeriod());
             $link_checker->setObjId($tmp_webr->getId());
 
 
-            $tmp_webr->items_obj->updateValidByCheck($this->__getCheckPeriod());
+            $tmp_webr->item_obj->updateValidByCheck($this->__getCheckPeriod());
             foreach ($link_checker->checkWebResourceLinks() as $invalid) {
-                $tmp_webr->items_obj->readItem($invalid['page_id']);
-                $tmp_webr->items_obj->setActiveStatus(false);
-                $tmp_webr->items_obj->setValidStatus(false);
-                $tmp_webr->items_obj->setDisableCheckStatus(true);
-                $tmp_webr->items_obj->setLastCheckDate(time());
-                $tmp_webr->items_obj->update(false);
+                $link = new ilLinkResourceItem((int) ($invalid['page_id'] ?? 0));
+                $link->setWebResourceId((int) ($invalid['obj_id'] ?? 0));
+                $link->setActiveStatus(false);
+                $link->setValidStatus(false);
+                $link->setDisableCheckStatus(true);
+                $link->setLastCheckDate(time());
+                $link->update(false);
             }
             
-            $tmp_webr->items_obj->updateLastCheck($this->__getCheckPeriod());
+            $tmp_webr->item_obj->updateLastCheck($this->__getCheckPeriod());
 
             foreach ($link_checker->getLogMessages() as $message) {
-                $ilLog->debug($message);
+                $this->log->debug($message);
                 $counter++;
             }
         }
@@ -137,11 +159,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
     
     public function activationWasToggled($a_currently_active)
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-                
         // propagate cron-job setting to object setting
-        $ilSetting->set("cron_web_resource_check", (bool) $a_currently_active);
+        $this->setting->set("cron_web_resource_check", (bool) $a_currently_active);
     }
 }

@@ -21,11 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
-include_once './Services/Link/classes/class.ilLink.php';
 
 /**
 * Show glossary terms
@@ -38,17 +33,10 @@ include_once './Services/Link/classes/class.ilLink.php';
 */
 class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
 {
-    /**
-     * get html
-     * @return
-     */
     public function getHTML()
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         
-        $lng->loadLanguageModule('webr');
+        $this->lng->loadLanguageModule('webr');
         foreach ($this->getSubItemIds(true) as $sub_item) {
             if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent($this->getObjId(), $sub_item))) {
                 $this->tpl->setCurrentBlock('sea_fragment');
@@ -56,28 +44,28 @@ class ilObjLinkResourceSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock('subitem');
-            $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('webr'));
+            $this->tpl->setVariable('SUBITEM_TYPE', $this->lng->txt('webr'));
             $this->tpl->setVariable('SEPERATOR', ':');
-            
-            $link_data = ilLinkResourceItems::lookupItem($this->getObjId(), $sub_item);
+
+
+            $link_data = new ilLinkResourceItem($sub_item);;
             $link_data = ilParameterAppender::_append($link_data);
 
             // handle internal links (#10620)
-            if (stristr($link_data["target"], "|")) {
-                $parts = explode("|", $link_data["target"]);
+            if (stristr($link_data->getTarget(), "|")) {
+                $parts = explode("|", $link_data->getTarget());
                 if ($parts[0] == "page") {
                     $parts[0] = "pg";
                 }
                 if ($parts[0] == "term") {
                     $parts[0] = "git";
                 }
-                $link_data["target"] = ilLink::_getStaticLink($parts[1], $parts[0]);
+                $link_data->setTarget(ilLink::_getStaticLink($parts[1], $parts[0]));
             }
-            
-            #$this->getItemListGUI()->setChildId($sub_item);
-            $this->tpl->setVariable('LINK', $link_data['target']);
+
+            $this->tpl->setVariable('LINK', $link_data->getTarget());
             $this->tpl->setVariable('TARGET', '_blank');
-            $this->tpl->setVariable('TITLE', $link_data['title']);
+            $this->tpl->setVariable('TITLE', $link_data->getTitle());
             
             // begin-patch mime_filter
             if (count($this->getSubItemIds(true)) > 1) {

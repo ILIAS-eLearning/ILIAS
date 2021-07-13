@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once "./Services/Object/classes/class.ilObject.php";
 
 /** @defgroup ModulesWebResource Modules/WebResource
  */
@@ -93,13 +92,11 @@ class ilObjLinkResource extends ilObject
         }
         switch ($a_element) {
             case 'General':
-                    include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
                     if (ilLinkResourceItems::lookupNumberOfLinks($this->getId()) == 1) {
                         $link_arr = ilLinkResourceItems::_getFirstLink($this->getId());
-                        $link = new ilLinkResourceItems($this->getId());
-                        $link->readItem($link_arr['link_id']);
-                        $link->setTitle($title);
-                        $link->setDescription($description);
+                        $link = new ilLinkResourceItem( (int) $link_arr['link_id'] ?? 0);
+                        $link->setTitle( (string) ($title ?? ''));
+                        $link->setDescription( (string) ($description ?? ''));
                         $link->update();
                     }
                     break;
@@ -122,14 +119,12 @@ class ilObjLinkResource extends ilObject
         }
 
         // delete items and list
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         ilLinkResourceItems::_deleteAll($this->getId());
         $list = new ilLinkResourceList($this->getId());
         $list->delete();
 
 
         // Delete notify entries
-        include_once './Services/LinkChecker/classes/class.ilLinkCheckNotify.php';
         ilLinkCheckNotify::_deleteObject($this->getId());
 
         // delete meta data
@@ -138,11 +133,11 @@ class ilObjLinkResource extends ilObject
         return true;
     }
 
-    public function initLinkResourceItemsObject()
+    public function initLinkResourceItemObject(int $webr_id, int $link_id = 0) : bool
     {
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
 
-        $this->items_obj = new ilLinkResourceItems($this->getId());
+        $this->item_obj = new ilLinkResourceItem($link_id);
+        $this->item_obj->setWebResourceId($webr_id);
 
         return true;
     }
@@ -161,14 +156,13 @@ class ilObjLinkResource extends ilObject
         $this->cloneMetaData($new_obj);
         
         // object created now copy other settings
-        include_once('Modules/WebResource/classes/class.ilLinkResourceItems.php');
         $links = new ilLinkResourceItems($this->getId());
-        $links->cloneItems($new_obj->getId());
+        $links->cloneItems($this->getId(),$new_obj->getId());
         
         // append copy info weblink title
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
-            ilLinkResourceItems::updateTitle($first['link_id'], $new_obj->getTitle());
+            ilLinkResourceItem::updateTitle($first['link_id'], $new_obj->getTitle());
         }
         
         return $new_obj;
@@ -186,13 +180,11 @@ class ilObjLinkResource extends ilObject
         $writer->xmlStartTag('WebLinks', $attribs);
                 
         // LOM MetaData
-        include_once 'Services/MetaData/classes/class.ilMD2XML.php';
         $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
         $md2xml->startExport();
         $writer->appendXML($md2xml->getXML());
 
         // Sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {
             case ilContainer::SORT_MANUAL:
                 $writer->xmlElement(
@@ -211,7 +203,6 @@ class ilObjLinkResource extends ilObject
         }
         
         // All links
-        include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->getId());
         $links->toXML($writer);
         

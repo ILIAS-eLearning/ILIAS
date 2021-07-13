@@ -2,8 +2,6 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
 
 /**
 * Booking definition
@@ -27,7 +25,6 @@ class ilWebResourceExporter extends ilXmlExporter
     
     /**
      * Init export
-     * @return
      */
     public function init()
     {
@@ -42,13 +39,17 @@ class ilWebResourceExporter extends ilXmlExporter
      */
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
+        global $DIC;
+
+        $ilLog = $DIC->logger()->webr();
+
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
             $this->writer->setObjId($a_id);
             $this->writer->write();
             return $this->writer->xmlDumpMem(false);
         } catch (UnexpectedValueException $e) {
-            $GLOBALS['DIC']->logger()->webr()->warning("Caught error: " . $e->getMessage());
+            $ilLog->warning("Caught error: " . $e->getMessage());
             return '';
         }
     }

@@ -26,7 +26,7 @@ class ilLinkChecker
 
         $ilDB = $DIC['ilDB'];
 
-        define('DEBUG', 1);
+//        define('DEBUG', 1);
         define('SOCKET_TIMEOUT', 5);
         define('MAX_REDIRECTS', 5);
 
@@ -76,17 +76,17 @@ class ilLinkChecker
 
     public function getValidateAll()
     {
-        return $this->validate_all ? true : false;
+        return $this->validate_all?? false;
     }
 
     public function getLogMessages()
     {
-        return $this->log_messages ? $this->log_messages : array();
+        return $this->log_messages ?? array();
     }
 
     public function getInvalidLinks()
     {
-        return $this->invalid_links ? $this->invalid_links : array();
+        return $this->invalid_links ?? array();
     }
 
     public function getInvalidLinksFromDB()
@@ -104,7 +104,7 @@ class ilLinkChecker
                                'url' => $row->url);
         }
 
-        return $invalid ? $invalid : array();
+        return $invalid ?? array();
     }
 
     public function getLastCheckTimestamp()

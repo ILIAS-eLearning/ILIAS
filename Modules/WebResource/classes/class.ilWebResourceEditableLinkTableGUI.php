@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-include_once './Services/Form/classes/class.ilFormPropertyGUI.php';
-include_once './Services/Form/classes/class.ilLinkInputGUI.php';
 
 /**
 * TableGUI class for search results
@@ -19,17 +14,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
 {
     protected $web_res = null;
     protected $invalid = array();
-
-    /**
-     * Constructor
-     */
+    
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilCtrl = $DIC['ilCtrl'];
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -37,7 +24,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->web_res = new ilLinkResourceItems($this->getParentObject()->object->getId());
         
         
-        $this->setTitle($lng->txt('webr_edit_links'));
+        $this->setTitle($this->lng->txt('webr_edit_links'));
         
         $this->addColumn('', '', '1px');
         $this->addColumn($this->lng->txt('title'), 'title', '25%');
@@ -51,7 +38,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         
         // TODO: sorting
         $this->setEnableHeader(true);
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate("tpl.webr_editable_link_row.html", 'Modules/WebResource');
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
@@ -60,85 +47,68 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->addMultiCommand('confirmDeleteLink', $this->lng->txt('delete'));
         $this->addCommandButton('updateLinks', $this->lng->txt('save'));
     }
-    
-    /**
-     * Invalid links
-     * @param object $a_links
-     * @return
-     */
+
     public function setInvalidLinks($a_links)
     {
         $this->invalid = $a_links;
     }
-    
-    /**
-     * Get invalid links
-     * @return
-     */
+
     public function getInvalidLinks()
     {
-        return $this->invalid ? $this->invalid : array();
+        return $this->invalid ?? array();
     }
     
-    /**
-     * Parse selected items
-     * @param array $a_link_ids
-     * @return
-     */
-    public function parseSelectedLinks($a_link_ids)
+
+    public function parseSelectedLinks(array $a_link_ids)
     {
+        global $DIC;
         $rows = array();
         foreach ($a_link_ids as $link_id) {
-            $link = $this->getWebResourceItems()->getItem($link_id);
+            $link = new ilLinkResourceItem($link_id);
 
-            $tmp['id'] = $link['link_id'];
-            $tmp['title'] = $link['title'];
-            $tmp['description'] = $link['description'];
-            $tmp['target'] = $link['target'];
-            $tmp['link_id'] = $link['link_id'];
-            $tmp['active'] = $link['active'];
-            $tmp['disable_check'] = $link['disable_check'];
-            $tmp['valid'] = $link['valid'];
-            $tmp['last_check'] = $link['last_check'];
+            $tmp['id'] = $link->getWebResourceId();
+            $tmp['title'] = $link->getTitle();
+            $tmp['description'] = $link->getDescription();
+            $tmp['target'] = $link->getTarget();
+            $tmp['link_id'] = $link->getLinkId();
+            $tmp['active'] = $link->getActiveStatus();
+            $tmp['disable_check'] = $link->getDisableCheckStatus();
+            $tmp['valid'] = $link->getValidStatus();
+            $tmp['last_check'] = $link->getLastCheckDate();
             $tmp['params'] = array();
             
             $rows[] = $tmp;
         }
+
         $this->setData($rows);
     }
     
     public function updateFromPost()
     {
+        global $DIC;
+
+        $postParams = $DIC->http()->request()->getParsedBody();
+
         $rows = array();
         foreach ($this->getData() as $link) {
-            $link_id = $link['id'];
+            $link_id = $link['link_id'];
             
             $tmp = $link;
-            $tmp['title'] = $_POST['links'][$link_id]['title'];
-            $tmp['description'] = $_POST['links'][$link_id]['desc'];
-            $tmp['target'] = $_POST['links'][$link_id]['tar'];
-            $tmp['valid'] = $_POST['links'][$link_id]['vali'];
-            $tmp['disable_check'] = $_POST['links'][$link_id]['che'];
-            $tmp['active'] = $_POST['links'][$link_id]['act'];
-            $tmp['value'] = $_POST['links'][$link_id]['val'];
-            $tmp['name'] = $_POST['links'][$link_id]['nam'];
+            $tmp['title'] = (string) ($postParams['links'][$link_id]['title'] ?? '');
+            $tmp['description'] = (string) ($postParams['links'][$link_id]['desc'] ?? '');
+            $tmp['target'] = (string) ($postParams['links'][$link_id]['tar'] ?? '');
+            $tmp['valid'] = (bool) ($postParams['links'][$link_id]['vali'] ?? 0);
+            $tmp['disable_check'] = (bool) ($postParams['links'][$link_id]['che'] ?? 0);
+            $tmp['active'] = (bool) ($postParams['links'][$link_id]['act'] ?? 0);
+            $tmp['value'] = (string) ($postParams['links'][$link_id]['val'] ?? '');
+            $tmp['name'] = (string) ($postParams['links'][$link_id]['nam'] ?? '');
             $tmp['params'] = array();
-            
-            // var_dump($_POST, $link_id);
-            
-            // var_dump($_POST['tar_'.$link_id.'_ajax_type']);
-            // var_dump($_POST['tar_'.$link_id.'_ajax_id']);
             
             $rows[] = $tmp;
         }
         $this->setData($rows);
     }
-    
-    
-    /**
-     * Parse Links
-     * @return
-     */
+
     public function parse()
     {
         $rows = array();
@@ -170,10 +140,6 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
      */
     protected function fillRow($a_set)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
         
         if (!stristr($a_set['target'], '|')) {
             $this->tpl->setCurrentBlock('external');
@@ -181,10 +147,10 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_TARGET', ilUtil::prepareFormOutput($a_set['target']));
             $this->tpl->parseCurrentBlock();
         } else {
-            $ilCtrl->setParameterByClass('ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']);
+            $this->ctrl->setParameterByClass('ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']);
             $trigger_link = array(get_class($this->parent_obj), 'ilinternallinkgui');
-            $trigger_link = $ilCtrl->getLinkTargetByClass($trigger_link, '', false, true, false);
-            $ilCtrl->setParameterByClass('ilinternallinkgui', 'postvar', '');
+            $trigger_link = $this->ctrl->getLinkTargetByClass($trigger_link, '', false, true, false);
+            $this->ctrl->setParameterByClass('ilinternallinkgui', 'postvar', '');
             
             $this->tpl->setCurrentBlock('internal');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -237,8 +203,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         foreach ($a_set['params'] as $param_id => $param) {
             $this->tpl->setCurrentBlock('dyn_del_row');
             $this->tpl->setVariable('TXT_DYN_DEL', $this->lng->txt('delete'));
-            $ilCtrl->setParameterByClass(get_class($this->getParentObject()), 'param_id', $param_id);
-            $this->tpl->setVariable('DYN_DEL_LINK', $ilCtrl->getLinkTarget($this->getParentObject(), 'deleteParameter'));
+            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'param_id', $param_id);
+            $this->tpl->setVariable('DYN_DEL_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'deleteParameter'));
             $this->tpl->setVariable('VAL_DYN', ilParameterAppender::parameterToInfo($param['name'], $param['value']));
             $this->tpl->parseCurrentBlock();
         }

@@ -1,14 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/MetaData/classes/class.ilMDSaxParser.php");
-include_once("Services/MetaData/classes/class.ilMD.php");
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-
-include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-include_once './Modules/WebResource/classes/class.ilWebLinkXmlParserException.php';
-include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
-
 /**
 * XML  parser for weblink xml
 *
@@ -47,7 +39,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     /**
      * set weblink
      * @param ilObject $webl
-     * @return
      */
     public function setWebLink(ilObject $webl)
     {
@@ -66,7 +57,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     /**
      * Set parsing mode
      * @param int $a_mode
-     * @return
      */
     public function setMode($a_mode)
     {
@@ -83,15 +73,13 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     }
     
     /**
-     *
-     * @return
      * @throws	ilSaxParserException	if invalid xml structure is given
      * @throws	ilWebLinkXMLParserException	missing elements
      */
     
     public function start()
     {
-        return $this->startParsing();
+        $this->startParsing();
     }
     
     /**
@@ -145,19 +133,17 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 
                 if ($this->getMode() == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create')) {
                     // New weblink
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
                 } elseif ($this->getMode() == self::MODE_UPDATE and $a_attribs['action'] == 'Delete') {
                     $this->current_link_delete = true;
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
-                    $this->current_link->delete($a_attribs['id']);
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
+                    $this->current_link->delete();
                     break;
                 } elseif ($this->getMode() == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action']))) {
-                    $this->current_link = new ilLinkResourceItems($this->getWebLink()->getId());
-                    $this->current_link->readItem($a_attribs['id']);
+                    $this->current_link = new ilLinkResourceItem($a_attribs['id']);
                     $this->current_link_update = true;
                     
                     // Delete all dynamic parameter
-                    include_once './Modules/WebResource/classes/class.ilParameterAppender.php';
                     foreach (ilParameterAppender::getParameterIds($this->getWebLink()->getId(), $a_attribs['id']) as $param_id) {
                         $param = new ilParameterAppender($this->getWebLink()->getId());
                         $param->delete($param_id);
@@ -188,8 +174,7 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
 
             case 'Sorting':
-                
-                include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+
                 $sort = new ilContainerSortingSettings($this->getWebLink()->getId());
                 $sort->delete();
                 
@@ -221,15 +206,15 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 
                 switch ($a_attribs['type']) {
                     case 'userName':
-                        $param->setValue(LINKS_LOGIN);
+                        $param->setValue(ilParameterAppender::LINKS_LOGIN);
                         break;
                         
                     case 'userId':
-                        $param->setValue(LINKS_USER_ID);
+                        $param->setValue(ilParameterAppender::LINKS_USER_ID);
                         break;
                     
                     case 'matriculation':
-                        $param->setValue(LINKS_MATRICULATION);
+                        $param->setValue(ilParameterAppender::LINKS_MATRICULATION);
                         break;
                         
                     default:
@@ -268,7 +253,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 $this->getWebLink()->update();
                 
                 // save sorting
-                include_once './Services/Container/classes/class.ilContainerSorting.php';
                 $sorting = ilContainerSorting::_getInstance($this->getWebLink()->getId());
                 $sorting->savePost($this->sorting_positions);
                 ilLoggerFactory::getLogger('webr')->dump($this->sorting_positions);
