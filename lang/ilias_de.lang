@@ -474,7 +474,7 @@ assessment#:#ass_lac_unable_to_parse_condition#:#Der Ausdruck "%s" kann nicht va
 assessment#:#ass_lac_validation_error#:#Es sind Fehler bei der Validierung der Bedingung(en) aufgetreten!
 assessment#:#ass_location#:#Ort
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Bitte wählen Sie nicht mehr als %s von %s Antworten!
-assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie maximal %s von %s Antworten!
+assessment#:#ass_mc_sel_lim_hint#:#Bitte wählen Sie maximal %s der %s Antworten!
 assessment#:#ass_mc_sel_lim_setting#:#Antwortbeschränkung
 assessment#:#ass_mc_sel_lim_setting_desc#:#Mit dieser Einstellung lässt sich die Anzahl durch den Teilnehmer wählbarer Antworten einschränken.
 assessment#:#ass_process_lock#:#Verwende Locking-Mechanismus während der Testdurchläufe
