@@ -5,6 +5,7 @@ namespace ILIAS\UI\Component\Toast;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
@@ -37,12 +38,23 @@ interface Toast extends Component
     public function getLinks() : array;
 
     /**
-     * Create a copy of this toast with an url, which is called asynchronous when the item vanishes.
-     * This action will not trigger if the vanishing is provoked by the user by interacting with the toast.
+     * Create a copy of this toast with an url, which is called asynchronous when the user interact with the item.
      */
-    public function withVanishAction(string $action) : Toast;
+    public function withAction(string $action) : Toast;
 
-    public function getVanishAction() : string;
+    public function getAction() : string;
 
     public function getIcon() : Icon;
+
+    /**
+     * Init the default signals
+     */
+    public function initSignals();
+
+    /**
+     * Get the signal to show this toast in the frontend
+     *
+     * @return Signal
+     */
+    public function getShowSignal();
 }

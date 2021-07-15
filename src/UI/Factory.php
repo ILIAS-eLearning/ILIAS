@@ -810,7 +810,7 @@ interface Factory
      *     Toasts are temporary messages from the system published to the user.
      *     Toasts are used to attract attention from a user without affecting the user experience permanently.
      *   composition:
-     *     Toasts contain a information which is temporarily displayed decentralized from the main content.
+     *     Toasts contain an information which is temporarily displayed decentralized from the main content.
      *   effect:
      *     If the user does not interact with the item it will vanish after a global configurable amount of time.
      *   rivals:
@@ -828,17 +828,18 @@ interface Factory
      *     1: The Toast SHOULD be used for all Notifications which include temporal relevant information for a user.
      *     2: The Toast SHOULD NOT be used for Notifications which are not time relevant to the point of their creation.
      *   composition:
-     *     1: The Toast SHOULD precede all Notifications which are temporal relevant for the user.
+     *     1: If a notification has temporal relevance for a user, it SHOULD be preceded by a Toast.
      *   interaction:
-     *     1: Clicking on the Close Glyph MUST remove the Toast permanently.
+     *     1: Click interactions with the Toast MUST remove it permanently.
      *   style:
      *     1: The Toast MUST be visible on the top layer of the page, Therefore it MUST cover up all other UI Items in
      *        its space.
-     *     2: The Toast MUST disappear after a certain amount of time or earlier by user interaction. No interaction can
+     *     2: The Toast ä disappear after a certain amount of time or earlier by user interaction. No interaction can
      *        extends the Toast time of appearance above the global defined amount.
      *   accessibility:
      *     1: All interactions SHOULD be only accessible as long a the Toast is not vanished.
-     *     2: All Toast MUST alert Screenreaders when appearing and therefore MUST declare the role "alert".
+     *     2: All Toast MUST alert screen readers when appearing and therefore MUST declare the role "alert" or
+     *        aria-live.
      *
      * ---
      * @return \ILIAS\UI\Component\Toast\Factory
