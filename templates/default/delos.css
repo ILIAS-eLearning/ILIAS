@@ -9747,26 +9747,34 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover,
 .il-mainbar-triggers .btn-bulky.engaged,
-.il-mainbar-triggers .il-link.link-bulky.engaged {
+.il-mainbar-triggers .il-link.link-bulky.engaged,
+.il-mainbar-triggers .btn-bulky:focus-visible,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible {
   background-color: white;
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover .glyph,
 .il-mainbar-triggers .il-link.link-bulky:hover .glyph,
 .il-mainbar-triggers .btn-bulky.engaged .glyph,
-.il-mainbar-triggers .il-link.link-bulky.engaged .glyph {
+.il-mainbar-triggers .il-link.link-bulky.engaged .glyph,
+.il-mainbar-triggers .btn-bulky:focus-visible .glyph,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .glyph {
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover .icon,
 .il-mainbar-triggers .il-link.link-bulky:hover .icon,
 .il-mainbar-triggers .btn-bulky.engaged .icon,
-.il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+.il-mainbar-triggers .il-link.link-bulky.engaged .icon,
+.il-mainbar-triggers .btn-bulky:focus-visible .icon,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .icon {
   filter: invert(50%);
 }
 .il-mainbar-triggers .btn-bulky:hover .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label,
 .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
-.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
+.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label,
+.il-mainbar-triggers .btn-bulky:focus-visible .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .bulky-label {
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover,
