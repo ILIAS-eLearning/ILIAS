@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,35 +7,18 @@
  */
 class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 {
-    /** @var ilTaskService */
-    protected $taskService;
+    protected ilTaskService $taskService;
+    protected ilAccessHandler $accessHandler;
+    protected ilSetting $settings;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
-    /** @var \ilAccess */
-    protected $accessHandler;
-
-    /** @var \ilSetting */
-    protected $settings;
-
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /** @var \ilCtrl */
-    protected $ctrl;
-
-    /**
-     * ilForumDerivedTaskProviderFactory constructor.
-     * @param \ilTaskService $taskService
-     * @param \ilAccess|null $accessHandler
-     * @param \ilSetting|null $settings
-     * @param \ilLanguage|null $lng
-     * @param ilCtrl|null $ctrl
-     */
     public function __construct(
-        \ilTaskService $taskService,
-        \ilAccess $accessHandler = null,
-        \ilSetting $settings = null,
-        \ilLanguage $lng = null,
-        \ilCtrl $ctrl = null
+        ilTaskService $taskService,
+        ilAccessHandler $accessHandler = null,
+        ilSetting $settings = null,
+        ilLanguage $lng = null,
+        ilCtrl $ctrl = null
     ) {
         global $DIC;
 
@@ -63,7 +46,7 @@ class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
     public function getProviders() : array
     {
         return [
-            new \ilForumDraftsDerivedTaskProvider(
+            new ilForumDraftsDerivedTaskProvider(
                 $this->taskService,
                 $this->accessHandler,
                 $this->lng,

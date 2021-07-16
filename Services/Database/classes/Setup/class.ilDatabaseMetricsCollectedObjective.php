@@ -46,7 +46,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             );
             $storage->storeConfigText(
                 "pass",
-                $client_ini->readVariable("db", "pass"),
+                PHP_SAPI === 'cli' ? $client_ini->readVariable("db", "pass") : '********',
                 "The password for the user for the storage backend."
             );
         }

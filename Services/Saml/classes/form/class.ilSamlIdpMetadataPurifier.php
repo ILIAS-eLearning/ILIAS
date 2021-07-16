@@ -3,6 +3,7 @@
 
 /**
  * Class ilSamlIdpMetadataPurifier
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSamlIdpMetadataPurifier implements ilHtmlPurifierInterface
 {

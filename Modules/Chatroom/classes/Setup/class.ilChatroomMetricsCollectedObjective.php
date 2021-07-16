@@ -1,18 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Setup;
 
 class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
     protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilIniFilesLoadedObjective(),
-            new \ilDatabaseInitializedObjective(),
-            new \ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
+            new ilIniFilesLoadedObjective(),
+            new ilDatabaseInitializedObjective(),
+            new ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
         ];
     }
 
@@ -126,7 +126,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 );
             }
 
-            if (!$settings['client_proxy']) {
+            if ($settings['client_proxy']) {
                 $client_url = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
@@ -158,7 +158,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $deletion_value = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    (string) $settings['deletion_value'] ?? ""
+                    (string) ($settings['deletion_value'] ?? '')
                 );
                 $deletion_time = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,

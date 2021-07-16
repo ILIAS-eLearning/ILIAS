@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once 'libs/composer/vendor/autoload.php';
@@ -7,13 +7,11 @@ use PHPUnit\Framework\TestSuite;
 
 /**
  * Class ilServicesSamlTestSuite
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilServicesSamlTestSuite extends TestSuite
 {
-    /**
-     * @return self
-     */
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
 

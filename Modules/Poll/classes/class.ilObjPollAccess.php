@@ -92,9 +92,6 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
     }
     
     /**
-     * Is activated?
-     *
-     * @param int $a_obj_id
      * @param int $a_ref_id
      * @return boolean
      */

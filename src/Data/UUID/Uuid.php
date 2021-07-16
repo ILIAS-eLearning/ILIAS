@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\Data\UUID;
 
@@ -40,15 +40,11 @@ interface Uuid
 
     /**
      * Converts this UUID into a string representation.
-     *
-     * @return string
      */
     public function toString() : string;
 
     /**
      * Enforce that UUID implementation implement the __toString() magic method
-     *
-     * @return string
      */
     public function __toString() : string;
 }

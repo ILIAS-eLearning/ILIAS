@@ -467,7 +467,6 @@ assessment#:#assFileUpload#:#Pregunta de enviar archivo
 assessment#:#assFlashQuestion#:#Pregunta flash
 assessment#:#assFormulaQuestion#:#Pregunta de fórmula
 assessment#:#assImagemapQuestion#:#Pregunta mapa de imagen
-assessment#:#assJavaApplet#:#Pregunta Applet Java
 assessment#:#assKprimChoice#:#Pregunta de opción múltiple (4 respuestas Sí-No)
 assessment#:#assLongMenu#:#Menu largo
 assessment#:#assMatchingQuestion#:#Pregunta de unir parejas

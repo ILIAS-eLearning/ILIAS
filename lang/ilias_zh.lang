@@ -185,7 +185,6 @@ assessment#:#assErrorText#:#错误文本
 assessment#:#assFileUpload#:#文件上传题
 assessment#:#assFlashQuestion#:#Flash题
 assessment#:#assImagemapQuestion#:#图片映射题
-assessment#:#assJavaApplet#:#Java Applet题
 assessment#:#assMatchingQuestion#:#匹配题
 assessment#:#assMultipleChoice#:#多项选择题 (多个解答)
 assessment#:#assNumeric#:#数字题

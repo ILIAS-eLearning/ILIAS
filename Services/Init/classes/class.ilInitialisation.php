@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 require_once("libs/composer/vendor/autoload.php");
@@ -76,7 +77,7 @@ class ilInitialisation
             )
         );
     }
-    
+
     /**
      * get common include code files
      */
@@ -86,17 +87,17 @@ class ilInitialisation
         if (ilContext::usesTemplate()) {
             require_once "./Services/UICore/classes/class.ilTemplate.php";
         }
-                
+
         // really always required?
         require_once "./Services/Utilities/classes/class.ilUtil.php";
         require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
         require_once "include/inc.ilias_version.php";
-        
+
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        
+
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
-    
+
     /**
      * This is a hack for  authentication.
      *
@@ -1465,6 +1466,11 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+
+        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
+        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
+        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
+        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
     }
 
     /**
@@ -1619,16 +1625,16 @@ class ilInitialisation
             return true;
         }
 
-        $base_class = (string) ($_REQUEST["baseClass"] ?? '');
-        if (strtolower($base_class) == "ilstartupgui") {
-            $cmd_class = $_REQUEST["cmdClass"];
-
-            if ($cmd_class == "ilaccountregistrationgui" ||
-                $cmd_class == "ilpasswordassistancegui") {
-                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
+        $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
+        if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
+            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass']) ?? '');
+            if (
+                $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
+                $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
+            ) {
+                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-
             $cmd = self::getCurrentCmd();
             if (
                 $cmd == "showTermsOfService" || $cmd == "showClientList" ||
@@ -1642,8 +1648,10 @@ class ilInitialisation
         }
 
         // #12884
-        if (($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
-            $base_class == "ilImprintGUI") {
+        if (
+            ($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
+            $requestBaseClass == strtolower(ilImprintGUI::class)
+        ) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
             return true;
         }
@@ -1654,7 +1662,6 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
             return true;
         }
-
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }
@@ -1806,7 +1813,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {

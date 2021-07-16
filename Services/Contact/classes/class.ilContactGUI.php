@@ -418,9 +418,7 @@ class ilContactGUI
             $scope = (int) $room_ids[1];
         }
 
-        include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
-        $room = ilChatroom::byRoomId((int) $room_id, true);
+        $room = ilChatroom::byRoomId($room_id, true);
         $no_access = array();
         $no_login = array();
         $valid_users = array();
@@ -436,7 +434,7 @@ class ilContactGUI
             $ref_id = $room->getRefIdByRoomId($room_id);
 
             if (
-                !ilChatroom::checkPermissionsOfUser($usr_id, 'read', $ref_id) ||
+                !ilChatroom::checkPermissionsOfUser((int) $usr_id, 'read', $ref_id) ||
                 $room->isUserBanned($usr_id)
             ) {
                 $no_access[$usr_id] = $login;

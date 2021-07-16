@@ -36,10 +36,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->once())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -68,7 +64,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             $objectHelper
         );
 
-        $dataSet = $provider->fetchDataSet(100, array(), array());
+        $dataSet = $provider->fetchDataSet(100, array('language' => 'de'), array());
 
         $expected = array();
 
@@ -123,10 +119,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -155,7 +147,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             $objectHelper
         );
 
-        $dataSet = $provider->fetchDataSet(100, array('limit' => 2), array());
+        $dataSet = $provider->fetchDataSet(100, array('language' => 'de', 'limit' => 2), array());
 
         $expected = array();
 
@@ -210,10 +202,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -242,7 +230,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             $objectHelper
         );
 
-        $dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => 'date'), array());
+        $dataSet = $provider->fetchDataSet(
+            100,
+            array('language' => 'de', 'limit' => 2, 'order_field' => 'date'),
+            array()
+        );
 
         $expected = array();
 
@@ -298,10 +290,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -330,7 +318,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             $objectHelper
         );
 
-        $dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => 'something'), array());
+        $dataSet = $provider->fetchDataSet(
+            100,
+            array('language' => 'de', 'limit' => 2, 'order_field' => 'something'),
+            array()
+        );
 
         $this->fail('Should never happen');
     }
@@ -370,10 +362,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -402,7 +390,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             $objectHelper
         );
 
-        $dataSet = $provider->fetchDataSet(100, array('limit' => 2, 'order_field' => false), array());
+        $dataSet = $provider->fetchDataSet(
+            100,
+            array('language' => 'de', 'limit' => 2, 'order_field' => false),
+            array()
+        );
 
         $this->fail('Should never happen');
     }
@@ -442,10 +434,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -477,6 +465,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $dataSet = $provider->fetchDataSet(
             600,
             array(
+                'language' => 'de',
                 'limit' => 2,
                 'order_field' => 'date',
                 'order_direction' => 'mac'
@@ -522,10 +511,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -557,6 +542,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $dataSet = $provider->fetchDataSet(
             600,
             array(
+                'language' => 'de',
                 'limit' => 'something',
                 'order_field' => 'date',
                 'order_direction' => 'mac'
@@ -602,10 +588,6 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger
-            ->expects($this->atLeastOnce())
-            ->method('info');
-
         $controller = $this->getMockBuilder('ilCtrl')
             ->getMock();
 
@@ -638,6 +620,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
             600,
             array(
                 'limit' => 3,
+                'language' => 'de',
                 'order_field' => 'date',
                 'order_direction' => 'mac',
                 'offset' => 'something'

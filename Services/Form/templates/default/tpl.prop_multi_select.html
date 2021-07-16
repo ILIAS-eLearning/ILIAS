@@ -6,6 +6,7 @@
 </div>
 <!-- BEGIN toggle_all_bl -->	
 <script>
+window.setTimeout(function() {
 	il.Util.addOnLoad(				
 		function() {
 			var $toggle = $('#{TOGGLE_ALL_ID}');
@@ -29,6 +30,7 @@
 			$toggle.on('change', function() {
 				$parent.find('input:checkbox[id*="{TOGGLE_ALL_CBOX_ID}"]').prop("checked", this.checked);
 			});
-		});
+		})
+}, 0);
 </script>
-<!-- END toggle_all_bl -->		
+<!-- END toggle_all_bl -->

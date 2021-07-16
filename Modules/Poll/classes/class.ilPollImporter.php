@@ -20,13 +20,7 @@ class ilPollImporter extends ilXmlImporter
         $this->ds->setDSPrefix("ds");
     }
 
-    /**
-     * Import XML
-     *
-     * @param
-     * @return
-     */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping) : void
     {
         $this->ds->setImportDirectory($this->getImportDirectory());
         $parser = new ilDataSetImportParser(

@@ -1,0 +1,186 @@
+/* ilPreview classes */
+.il_ContainerItemPreview {
+    font-size: 11px;
+    margin-left: 10px;
+}
+.ilPreviewList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.ilPreviewItem {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.ilPreviewItem img {
+    border: 1px solid #D6D6D6;
+    -webkit-box-shadow: 0 0 5px #D2D5D8;
+    box-shadow: 0 0 5px #D2D5D8;
+}
+.ilPreviewText {
+    font-size: 90%;
+    margin-top: -20px;
+    color: @il-neutral-color;
+}
+.ilPreviewTextLoading {
+    width: 14px;
+    height: 14px;
+	background: transparent url(../../../../templates/default/images/loader.svg) no-repeat 0 0;
+    display: none;
+}
+.ilPreviewActions a.submit,
+.ilPreviewActions a.submit:hover {
+    margin-top: 5px;
+}
+
+.ilPreviewActions a.ilPreviewActionHidden {
+    display: none;
+}
+
+.ilPreviewStatusNone {
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.60;
+    opacity: 0.60;
+}
+
+/* tooltip */
+#qtip-preview {
+    max-width: none;
+    min-width: 50px;
+    line-height: normal;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.47) 0 0 7px 0;
+    box-shadow: rgba(0, 0, 0, 0.47) 0 0 7px 0;
+    background-color: white;
+    border-collapse: separate;
+    font-size: 14px;
+    padding: 0;
+	border: 1px solid #D1D1D1;
+}
+#qtip-preview .qtip-titlebar {
+    background: white;
+    padding: 14px 20px 10px 20px;
+}
+#qtip-preview .qtip-content {
+    background: white;
+    padding: 0 20px 20px;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+#qtip-preview .qtip-title {
+    background: transparent;
+    font-weight: normal;
+}
+
+#qtip-preview .qtip-close {
+    right: 20px;
+    top: 14px;
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
+	background: transparent url(images/preview_close.png) no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+}
+#qtip-preview .qtip-close:hover {
+	background-position-x: -16px;
+}
+#qtip-preview .ui-icon-close {
+    display: none;
+}
+
+.ilPreviewTooltipContent {
+    position: relative;
+    background: #F8F8F8;
+    border: 1px solid #E9E9E9;
+    padding: 0;
+}
+.ilPreviewTooltipContent .ilPreviewList {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    margin: 0 20px;
+	box-sizing: content-box;
+}
+.ilPreviewTooltipPrev {
+    position: absolute;
+    background: transparent url(images/preview_arrows.png) no-repeat 0 0;
+    width: 30px;
+    height: 40px;
+    left: 0;
+    top: 50%;
+    margin-top: -25px;
+    cursor: pointer;
+}
+.ilPreviewTooltipPrev:hover {
+    background-position-x: -30px;
+}
+.ilPreviewTooltipPrev.ilPreviewDisabled {
+    opacity: 0.4;
+    cursor: default;
+    background-position-x: -60px;
+}
+
+.ilPreviewTooltipNext {
+    position: absolute;
+    background: transparent url(images/preview_arrows.png) no-repeat 0 -40px;
+    width: 30px;
+    height: 40px;
+    right: 0;
+    top: 50%;
+    margin-top: -25px;
+    cursor: pointer;
+}
+.ilPreviewTooltipNext:hover {
+    background-position-x: -30px;
+}
+.ilPreviewTooltipNext.ilPreviewDisabled {
+    opacity: 0.4;
+    cursor: default;
+    background-position-x: -60px;
+}
+
+/* inline */
+.ilPreviewInline {
+    overflow: hidden;
+    width: 100%;
+}
+.ilPreviewInlineTable {
+    /* width: 100%; //provisory fix for #12096 */
+    display: table;
+    table-layout: fixed;
+    margin: 0;
+    padding: 0;
+}
+.ilPreviewInlineRow {
+    display: table-row;
+    margin: 0;
+    padding: 0;
+}
+.ilPreviewInlineCell {
+    display: table-cell;
+    margin: 0;
+    padding: 0;
+}
+.ilPreviewInlineContent {
+    overflow: auto;
+}
+.ilPreviewInlineContent .ilPreviewList {
+    padding: 0 0 5px 0;
+    white-space: nowrap;
+    display: inline-block;
+}
+.ilPreviewInlineContent .ilPreviewItem {
+    display: inline-block;
+    margin: 0 10px 0 0;
+}
+.ilPreviewInlineContent .ilPreviewItem img {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+.ilPreviewInlineContent .ilPreviewText {
+    font-size: 100%;
+    margin-top: 0;
+}

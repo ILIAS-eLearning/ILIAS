@@ -3,7 +3,7 @@
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
@@ -19,7 +19,7 @@ final class PHPChunked implements ilFileDeliveryType
 {
 
     /**
-     * @var GlobalHttpState $httpService
+     * @var Services $httpService
      */
     private $httpService;
 
@@ -27,9 +27,9 @@ final class PHPChunked implements ilFileDeliveryType
     /**
      * PHP constructor.
      *
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      */
-    public function __construct(GlobalHttpState $httpState)
+    public function __construct(Services $httpState)
     {
         $this->httpService = $httpState;
     }

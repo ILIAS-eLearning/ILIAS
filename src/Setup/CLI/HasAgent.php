@@ -14,10 +14,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 trait HasAgent
 {
-    /**
-     * @var AgentFinder
-     */
-    protected $agent_finder = null;
+    protected ?AgentFinder $agent_finder = null;
 
     protected function configureCommandForPlugins()
     {

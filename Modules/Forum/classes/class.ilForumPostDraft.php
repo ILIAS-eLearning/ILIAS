@@ -87,18 +87,18 @@ class ilForumPostDraft
      */
     protected static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row)
     {
-        $draft->setDraftId($row['draft_id']);
-        $draft->setForumId($row['forum_id']);
-        $draft->setPostAuthorId($row['post_author_id']);
-        $draft->setPostDate($row['post_date']);
-        $draft->setPostDisplayUserId($row['pos_display_usr_id']);
-        $draft->setPostId($row['post_id']);
-        $draft->setPostMessage($row['post_message']);
+        $draft->setDraftId((int) $row['draft_id']);
+        $draft->setForumId((int) $row['forum_id']);
+        $draft->setThreadId((int) $row['thread_id']);
+        $draft->setPostId((int) $row['post_id']);
+        $draft->setPostAuthorId((int) $row['post_author_id']);
+        $draft->setPostDisplayUserId((int) $row['pos_display_usr_id']);
+        $draft->setUpdateUserId((int) $row['update_user_id']);
         $draft->setPostSubject($row['post_subject']);
+        $draft->setPostMessage($row['post_message']);
+        $draft->setPostDate($row['post_date']);
         $draft->setPostUpdate($row['post_update']);
         $draft->setPostUserAlias($row['post_user_alias']);
-        $draft->setThreadId($row['thread_id']);
-        $draft->setUpdateUserId($row['update_user_id']);
         $draft->setNotify($row['notify']);
         $draft->setPostNotify($row['post_notify']);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,10 +7,7 @@
  */
 class ilExternalAuthUserCreationAttributeMappingFilter extends FilterIterator
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function accept()
+    public function accept() : bool
     {
         return true;
     }

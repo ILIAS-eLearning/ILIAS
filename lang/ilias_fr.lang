@@ -465,7 +465,6 @@ assessment#:#assFileUpload#:#Question à  téléversement de fichier
 assessment#:#assFlashQuestion#:#Question type " Flash "
 assessment#:#assFormulaQuestion#:#Question Formule
 assessment#:#assImagemapQuestion#:#Question "Image Interactive"
-assessment#:#assJavaApplet#:#Question "Applet Java"
 assessment#:#assKprimChoice#:#Question à  choix multiples (Kprim Answers)
 assessment#:#assLongMenu#:#Menu long
 assessment#:#assMatchingQuestion#:#Question "Appariement"

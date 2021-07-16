@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,35 +7,18 @@
  */
 class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 {
-    /** @var ilTaskService */
-    protected $taskService;
+    protected ilTaskService $taskService;
+    protected ilAccessHandler $accessHandler;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilCtrl $ctrl;
 
-    /** @var \ilAccess */
-    protected $accessHandler;
-
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /** @var \ilSetting */
-    protected $settings;
-
-    /** @var \ilCtrl */
-    protected $ctrl;
-
-    /**
-     * ilForumDraftsDerivedTaskProvider constructor.
-     * @param \ilTaskService $taskService
-     * @param \ilAccessHandler $accessHandler
-     * @param \ilLanguage $lng
-     * @param \ilSetting $settings
-     * @param \ilCtrl $ctrl
-     */
     public function __construct(
         ilTaskService $taskService,
-        \ilAccessHandler $accessHandler,
-        \ilLanguage $lng,
-        \ilSetting $settings,
-        \ilCtrl $ctrl
+        ilAccessHandler $accessHandler,
+        ilLanguage $lng,
+        ilSetting $settings,
+        ilCtrl $ctrl
     ) {
         $this->taskService = $taskService;
         $this->accessHandler = $accessHandler;
@@ -53,7 +36,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
     {
         $tasks = [];
 
-        $drafts = \ilForumPostDraft::getDraftInstancesByUserId($user_id);
+        $drafts = ilForumPostDraft::getDraftInstancesByUserId($user_id);
         foreach ($drafts as $draft) {
             $objId = ilForum::_lookupObjIdForForumId($draft->getForumId());
             $refId = $this->getFirstRefIdWithPermission('read', $objId, $user_id);
@@ -90,7 +73,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
                 $anchor = '#draft_' . $draft->getDraftId();
             }
 
-            $url = \ilLink::_getLink($refId, 'frm', $params) . $anchor;
+            $url = ilLink::_getLink($refId, 'frm', $params) . $anchor;
 
             $tasks[] = $task->withUrl($url);
         }
@@ -98,17 +81,11 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
         return $tasks;
     }
 
-    /**
-     * @param string $operation
-     * @param int $objId
-     * @param int $userId
-     * @return int
-     */
     protected function getFirstRefIdWithPermission(string $operation, int $objId, int $userId) : int
     {
-        foreach (\ilObject::_getAllReferences($objId) as $refId) {
+        foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
-                return $refId;
+                return (int) $refId;
             }
         }
 

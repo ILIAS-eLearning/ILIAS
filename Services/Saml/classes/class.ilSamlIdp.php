@@ -7,34 +7,21 @@
  */
 class ilSamlIdp
 {
-    /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
     /** @var self[] */
-    private static $instances = [];
-    /** @var int */
-    protected $idp_id;
-    /** @var bool */
-    protected $is_active = false;
-    /** @var bool */
-    protected $allow_local_auth = false;
-    /** @var int */
-    protected $default_role_id = 0;
-    /** @var string */
-    protected $uid_claim = '';
-    /** @var string */
-    protected $login_claim = '';
-    /** @var bool */
-    protected $sync_status = false;
-    /** @var string */
-    protected $entity_id = '';
-    /** @var bool */
-    protected $account_migration_status = false;
+    private static array $instances = [];
+    protected int $idp_id;
+    protected bool $is_active = false;
+    protected bool $allow_local_auth = false;
+    protected int $default_role_id = 0;
+    protected string $uid_claim = '';
+    protected string $login_claim = '';
+    protected bool $sync_status = false;
+    protected string $entity_id = '';
+    protected bool $account_migration_status = false;
     /** @var array */
-    protected static $idp_as_data = [];
+    protected static array $idp_as_data = [];
 
-    /**
-     * @param int $a_idp_id
-     */
     public function __construct(int $a_idp_id = 0)
     {
         $this->db = $GLOBALS['DIC']->database();
@@ -45,10 +32,6 @@ class ilSamlIdp
         }
     }
 
-    /**
-     * @return self
-     * @throws ilSamlException
-     */
     public static function getFirstActiveIdp() : self
     {
         $idps = self::getActiveIdpList();
@@ -59,10 +42,6 @@ class ilSamlIdp
         throw new ilSamlException('No active SAML IDP found');
     }
 
-    /**
-     * @param int $a_idp_id
-     * @return self
-     */
     public static function getInstanceByIdpId(int $a_idp_id) : self
     {
         if (!isset(self::$instances[$a_idp_id]) || !(self::$instances[$a_idp_id] instanceof self)) {
@@ -72,9 +51,6 @@ class ilSamlIdp
         return self::$instances[$a_idp_id];
     }
 
-    /**
-     * @throws ilException
-     */
     private function read() : void
     {
         $query = 'SELECT * FROM saml_idp_settings WHERE idp_id = ' . $this->db->quote($this->getIdpId(), 'integer');
@@ -87,9 +63,6 @@ class ilSamlIdp
         throw new ilException('Could not find idp');
     }
 
-    /**
-     *
-     */
     public function persist() : void
     {
         if (!$this->getIdpId()) {
@@ -115,7 +88,8 @@ class ilSamlIdp
     }
 
     /**
-     * Deletes an idp with all relvant mapping rules. Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+     * Deletes an idp with all relvant mapping rules.
+     * Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
      */
     public function delete() : void
     {
@@ -135,7 +109,7 @@ class ilSamlIdp
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray() : array
     {
@@ -153,7 +127,7 @@ class ilSamlIdp
     }
 
     /**
-     * @param array $record
+     * @param array<string, mixed> $record
      */
     public function bindDbRecord(array $record) : void
     {
@@ -168,10 +142,7 @@ class ilSamlIdp
         $this->setEntityId((string) $record['entity_id']);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function bindForm(ilPropertyFormGUI $form)
+    public function bindForm(ilPropertyFormGUI $form) : void
     {
         $this->setDefaultRoleId((int) $form->getInput('default_role_id'));
         $this->setUidClaim((string) $form->getInput('uid_claim'));
@@ -180,17 +151,11 @@ class ilSamlIdp
         $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
         $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
 
-        /**
-         * @var $metadata ilSamlIdpMetadataInputGUI
-         */
+        /** @var $metadata ilSamlIdpMetadataInputGUI */
         $metadata = $form->getItemByPostVar('metadata');
-        $this->setEntityId((string) $metadata->getIdpMetadataParser()->getEntityId());
+        $this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
     }
 
-    /**
-     * @param string $a_auth_mode
-     * @return bool
-     */
     public static function isAuthModeSaml(string $a_auth_mode) : bool
     {
         if (!$a_auth_mode) {
@@ -201,15 +166,11 @@ class ilSamlIdp
         $auth_arr = explode('_', $a_auth_mode);
         return (
             count($auth_arr) === 2 &&
-            (int) $auth_arr[0] === (int) AUTH_SAML &&
-            strlen($auth_arr[1]) > 0
+            (int) $auth_arr[0] === AUTH_SAML &&
+            is_string($auth_arr[1]) && $auth_arr[1] !== ''
         );
     }
 
-    /**
-     * @param string $a_auth_mode
-     * @return null|int
-     */
     public static function getIdpIdByAuthMode(string $a_auth_mode) : ?int
     {
         if (self::isAuthModeSaml($a_auth_mode)) {
@@ -220,11 +181,7 @@ class ilSamlIdp
         return null;
     }
 
-    /**
-     * @param string $entityId
-     * @return int
-     */
-    public static function geIdpIdByEntityId($entityId)
+    public static function geIdpIdByEntityId(string $entityId) : int
     {
         foreach (self::getAllIdps() as $idp) {
             if ($idp->isActive() && $idp->getEntityId() === $entityId) {
@@ -271,10 +228,6 @@ class ilSamlIdp
         return $idps;
     }
 
-    /**
-     * @param string $a_auth_key
-     * @return string
-     */
     public static function getAuthModeByKey(string $a_auth_key) : string
     {
         $auth_arr = explode('_', $a_auth_key);
@@ -285,10 +238,6 @@ class ilSamlIdp
         return 'saml';
     }
 
-    /**
-     * @param string $a_auth_mode
-     * @return string
-     */
     public static function getKeyByAuthMode(string $a_auth_mode) : string
     {
         $auth_arr = explode('_', $a_auth_mode);
@@ -299,145 +248,91 @@ class ilSamlIdp
         return (string) AUTH_SAML;
     }
 
-    /**
-     * @return string
-     */
     public function getEntityId() : string
     {
         return $this->entity_id;
     }
 
-    /**
-     * @param string $entity_id
-     */
     public function setEntityId(string $entity_id) : void
     {
         $this->entity_id = $entity_id;
     }
 
-    /**
-     * @return bool
-     */
     public function isActive() : bool
     {
         return $this->is_active;
     }
 
-    /**
-     * @param bool $is_active
-     */
     public function setActive(bool $is_active) : void
     {
         $this->is_active = $is_active;
     }
 
-    /**
-     * @return int
-     */
     public function getIdpId() : int
     {
         return $this->idp_id;
     }
 
-    /**
-     * @param int $idp_id
-     */
     public function setIdpId(int $idp_id) : void
     {
         $this->idp_id = $idp_id;
     }
 
-    /**
-     * @return bool
-     */
     public function allowLocalAuthentication() : bool
     {
         return $this->allow_local_auth;
     }
 
-    /**
-     * @param $status boolean
-     */
     public function setLocalLocalAuthenticationStatus(bool $status) : void
     {
         $this->allow_local_auth = $status;
     }
 
-    /**
-     * @return int
-     */
     public function getDefaultRoleId() : int
     {
         return $this->default_role_id;
     }
 
-    /**
-     * @param int $role_id
-     */
     public function setDefaultRoleId(int $role_id) : void
     {
         $this->default_role_id = $role_id;
     }
 
-    /**
-     * @param $claim string
-     */
     public function setUidClaim(string $claim) : void
     {
         $this->uid_claim = $claim;
     }
 
-    /**
-     * @return string
-     */
     public function getUidClaim() : string
     {
         return $this->uid_claim;
     }
 
-    /**
-     * @param $claim string
-     */
     public function setLoginClaim(string $claim) : void
     {
         $this->login_claim = $claim;
     }
 
-    /**
-     * @return string
-     */
     public function getLoginClaim() : string
     {
         return $this->login_claim;
     }
 
-    /**
-     * @return bool
-     */
     public function isSynchronizationEnabled() : bool
     {
         return $this->sync_status;
     }
 
-    /**
-     * @param bool $sync
-     */
     public function setSynchronizationStatus(bool $sync) : void
     {
         $this->sync_status = $sync;
     }
 
-    /**
-     * @return bool
-     */
     public function isAccountMigrationEnabled() : bool
     {
         return $this->account_migration_status;
     }
 
-    /**
-     * @param bool $status
-     */
     public function setAccountMigrationStatus(bool $status) : void
     {
         $this->account_migration_status = $status;

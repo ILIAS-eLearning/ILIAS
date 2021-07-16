@@ -519,6 +519,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
 administration#:#log_scan#:#Log scan results
 administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
@@ -605,7 +606,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
-assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
+assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
@@ -709,7 +710,6 @@ assessment#:#assErrorText#:#Error Text
 assessment#:#assFileUpload#:#File Upload Question
 assessment#:#assFlashQuestion#:#Flash Question
 assessment#:#assImagemapQuestion#:#Hot Spot / Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
 assessment#:#assMatchingQuestion#:#Matching Question
 assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Answers)
 assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)
@@ -5535,12 +5535,6 @@ feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
 feed#:#feed_no_valid_url#:#The Feed URL is not valid.
 feed#:#feed_open_source_page#:#Open in New Window
 feed#:#feed_settings#:#External Web Feeds Settings
-file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
-file#:#file_new_version#:#Create New Version
-file#:#replace_file_info#:#All previous file versions will be deleted.
-file#:#upload_info#:#File
-file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
-file#:#generate_sanitize_report#:#Report about inaccessible files
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -9932,7 +9926,6 @@ tax#:#tax_order#:#Order
 administration#:#adm_rep_shorten_description#:#Limited Length of Descriptions
 administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists are presented with a maximum number of characters.
 administration#:#adm_rep_shorten_description_length#:#Maximum number of characters
-file#:#file_uploaded_by#:#Uploaded by
 trac#:#trac_session_statistics_mode_year#:#Year
 assessment#:#tst_question#:#Question
 assessment#:#tst_participant#:#Participant
@@ -10563,7 +10556,6 @@ crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group
 forum#:#frm_copy#:#Copy Forum
-file#:#file_copy#:#Copy File
 webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
@@ -10683,7 +10675,6 @@ dateplaner#:#cal_user_notification_info#:#Selected users will be notified about 
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
-file#:#file_download#:#Download File
 trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
@@ -10865,7 +10856,7 @@ tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selecte
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
 tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal 
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
 tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
@@ -12966,7 +12957,6 @@ grp#:#grp_usr_agreement#:#User Agreement
 meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
-file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.
@@ -14860,19 +14850,6 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
-file#:#file_suffix_default_white#:#Default Suffix Whitelist
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
@@ -16553,3 +16530,28 @@ dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
+file#:#file_new_version#:#Create New Version
+file#:#replace_file_info#:#All previous file versions will be deleted.
+file#:#upload_info#:#File
+file#:#resource_id#:#Resource ID
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
+file#:#generate_sanitize_report#:#Report about inaccessible files
+file#:#file_import#:#Import File
+file#:#file_download#:#Download File
+file#:#file_uploaded_by#:#Version uploaded by
+file#:#version_uploaded#:#Version uploaded
+file#:#file_copy#:#Copy File
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
+file#:#file_suffix_default_white#:#Default Suffix Whitelist
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.

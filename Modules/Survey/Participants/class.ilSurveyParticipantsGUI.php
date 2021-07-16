@@ -717,13 +717,18 @@ class ilSurveyParticipantsGUI
                     // unique code?
                     if (!array_key_exists($code, $existing)) {
                         // could be date or datetime
-                        if (strlen($created) == 10) {
-                            $created = new ilDate($created, IL_CAL_DATE);
-                        } else {
-                            $created = new ilDateTime($created, IL_CAL_DATETIME);
+                        try {
+                            if (strlen($created) == 10) {
+                                $created = new ilDate($created, IL_CAL_DATE);
+                            } else {
+                                $created = new ilDateTime($created, IL_CAL_DATETIME);
+                            }
+                            $created = $created->get(IL_CAL_UNIX);
+                        } catch (Exception $e) {
+                            ilUtil::sendFailure($e->getMessage(), true);
+                            $this->ctrl->redirect($this, 'codes');
                         }
-                        $created = $created->get(IL_CAL_UNIX);
-                        
+
                         $user_data = array(
                             "email" => $email
                             ,"lastname" => $last_name

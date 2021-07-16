@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilChatroomSmiliesCurrentSmileyFormElement
- * Class ilchatroomSmiliesCurrentSmileyFormElement
- * simple form element that displays an image; does not add data to the containing form
+ * Simple form element that displays an image; does not add data to the containing form
  * but may be initialized by default methods, such as valuesByArray
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
@@ -12,12 +11,9 @@
  */
 class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
 {
+    private string $value = '';
 
-    /**
-     * Returns template HTML.
-     * @return string
-     */
-    public function getHtml()
+    public function getHtml() : string
     {
         global $DIC;
 
@@ -28,38 +24,16 @@ class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
         return $tpl->get();
     }
 
-    /**
-     * Returns $this->value of ilChatroomSmiliesCurrentSmileyFormElement
-     * @return string
-     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
 
-    /**
-     * Sets given value as $this->value in
-     * ilChatroomSmiliesCurrentSmileyFormElement
-     * @param string $a_value
-     */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-     * Set value by array
-     * @param    array $a_values value array
-     */
-    /*function setValueByArray($a_values)
-     {
-        $this->setValue( $a_values[$this->getPostVar()] );
-        }*/
-
-    /**
-     * Check Input
-     * @return boolean
-     */
     public function checkInput()
     {
         return true;

@@ -8,13 +8,8 @@
  */
 abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
 {
-    /** @var array */
-    private $elements;
+    private array $elements;
 
-    /**
-     * ilBuddySystemArrayCollection constructor.
-     * @param array $elements
-     */
     public function __construct(array $elements = [])
     {
         $this->elements = $elements;
@@ -47,7 +42,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value) : void
     {
         if (!isset($offset)) {
             $this->add($value);
@@ -60,7 +55,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset) : void
     {
         $this->remove($offset);
     }
@@ -141,7 +136,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
      */
     public function get($key)
     {
-        return isset($this->elements[$key]) ? $this->elements[$key] : null;
+        return $this->elements[$key] ?? null;
     }
 
     /**

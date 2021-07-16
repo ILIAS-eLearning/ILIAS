@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,20 +7,9 @@ use ILIAS\Data\Password;
 
 class ilSetupConfig implements Setup\Config
 {
-    /**
-     * @var	client_id
-     */
-    protected $client_id;
-
-    /**
-     * @var \DateTimeZone
-     */
-    protected $server_timezone;
-
-    /**
-     * @var	bool
-     */
-    protected $register_nic;
+    protected string $client_id;
+    protected \DateTimeZone $server_timezone;
+    protected bool $register_nic;
 
     public function __construct(
         string $client_id,

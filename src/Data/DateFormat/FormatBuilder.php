@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data\DateFormat;
@@ -9,7 +10,7 @@ namespace ILIAS\Data\DateFormat;
  */
 class FormatBuilder
 {
-    private $format = [];
+    private array $format = [];
 
     /**
      * Get the configured DateFormat and reset format.

@@ -2,7 +2,7 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -25,7 +25,7 @@ class ilWebDAVMountInstructionsUploadGUI
         ilErrorHandling $error,
         ilLogger $log,
         ilToolbarGUI $toolbar,
-        GlobalHttpState $http_state,
+        Services $http_state,
         Factory $ui_factory,
         Renderer $ui_renderer,
         Filesystems $file_systems,

@@ -159,7 +159,7 @@ class ilObjectGUI
     protected int $requested_ref_id = 0;
     protected int $requested_crtptrefid = 0;
     protected int $requested_crtcb = 0;
-    protected string $requested_new_type;
+    protected string $requested_new_type = "";
 
     /**
     * Constructor

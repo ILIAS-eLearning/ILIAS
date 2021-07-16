@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,21 +13,21 @@ interface Storage
 
     // Convenience methods to store the common types of metrics.
 
-    public function storeConfigBool($key, bool $value, string $description = null) : void;
-    public function storeConfigCounter($key, int $value, string $description = null) : void;
-    public function storeConfigGauge($key, $value, string $description = null) : void;
-    public function storeConfigTimestamp($key, \DateTimeImmutable $value, string $description = null) : void;
-    public function storeConfigText($key, string $value, string $description = null) : void;
+    public function storeConfigBool(string $key, bool $value, string $description = null) : void;
+    public function storeConfigCounter(string $key, int $value, string $description = null) : void;
+    public function storeConfigGauge(string $key, $value, string $description = null) : void;
+    public function storeConfigTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void;
+    public function storeConfigText(string $key, string $value, string $description = null) : void;
 
-    public function storeStableBool($key, bool $value, string $description = null) : void;
-    public function storeStableCounter($key, int $value, string $description = null) : void;
-    public function storeStableGauge($key, $value, string $description = null) : void;
-    public function storeStableTimestamp($key, \DateTimeImmutable $value, string $description = null) : void;
-    public function storeStableText($key, string $value, string $description = null) : void;
+    public function storeStableBool(string $key, bool $value, string $description = null) : void;
+    public function storeStableCounter(string $key, int $value, string $description = null) : void;
+    public function storeStableGauge(string $key, $value, string $description = null) : void;
+    public function storeStableTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void;
+    public function storeStableText(string $key, string $value, string $description = null) : void;
 
-    public function storeVolatileBool($key, bool $value, string $description = null) : void;
-    public function storeVolatileCounter($key, int $value, string $description = null) : void;
-    public function storeVolatileGauge($key, $value, string $description = null) : void;
-    public function storeVolatileTimestamp($key, \DateTimeImmutable $value, string $description = null) : void;
-    public function storeVolatileText($key, string $value, string $description = null) : void;
+    public function storeVolatileBool(string $key, bool $value, string $description = null) : void;
+    public function storeVolatileCounter(string $key, int $value, string $description = null) : void;
+    public function storeVolatileGauge(string $key, $value, string $description = null) : void;
+    public function storeVolatileTimestamp(string $key, \DateTimeImmutable $value, string $description = null) : void;
+    public function storeVolatileText(string $key, string $value, string $description = null) : void;
 }

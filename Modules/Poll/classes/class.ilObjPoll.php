@@ -210,28 +210,28 @@ class ilObjPoll extends ilObject2
         $set = $ilDB->query("SELECT * FROM il_poll" .
                 " WHERE id = " . $ilDB->quote($this->getId(), "integer"));
         $row = $ilDB->fetchAssoc($set);
-        $this->setQuestion($row["question"]);
-        $this->setImage($row["image"]);
-        $this->setViewResults($row["view_results"]);
-        $this->setVotingPeriod($row["period"]);
-        $this->setVotingPeriodBegin($row["period_begin"]);
-        $this->setVotingPeriodEnd($row["period_end"]);
-        $this->setMaxNumberOfAnswers($row["max_answers"]);
-        $this->setSortResultByVotes($row["result_sort"]);
-        $this->setNonAnonymous($row["non_anon"]);
-        $this->setShowResultsAs($row["show_results_as"]);
+        $this->setQuestion((string) ($row["question"] ?? ''));
+        $this->setImage((string) ($row["image"] ?? ''));
+        $this->setViewResults((int) ($row["view_results"] ?? self::VIEW_RESULTS_AFTER_VOTE));
+        $this->setVotingPeriod((bool) ($row["period"] ?? 0));
+        $this->setVotingPeriodBegin((int) ($row["period_begin"] ?? 0));
+        $this->setVotingPeriodEnd((int) ($row["period_end"] ?? 0));
+        $this->setMaxNumberOfAnswers((int) ($row["max_answers"] ?? 0));
+        $this->setSortResultByVotes((bool) ($row["result_sort"] ?? 0));
+        $this->setNonAnonymous((bool) ($row["non_anon"] ?? 0));
+        $this->setShowResultsAs((int) ($row["show_results_as"] ?? self::SHOW_RESULTS_AS_BARCHART));
         
         // #14661
         $this->setShowComments(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
         
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
-            $this->setAccessType($activation["timing_type"]);
+            $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED ));
             if ($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION) {
                 // default entry values should not be loaded if not activated
-                $this->setAccessBegin($activation["timing_start"]);
-                $this->setAccessEnd($activation["timing_end"]);
-                $this->setAccessVisibility($activation["visible"]);
+                $this->setAccessBegin((int) ($activation["timing_start"] ?? time()));
+                $this->setAccessEnd((int) ($activation["timing_end"] ?? time()));
+                $this->setAccessVisibility((bool) ($activation["visible"] ?? false));
             }
         }
     }
@@ -370,12 +370,7 @@ class ilObjPoll extends ilObject2
     // image
     //
     
-    /**
-     * Get image incl. path
-     *
-     * @param bool $a_as_thumb
-     */
-    public function getImageFullPath($a_as_thumb = false)
+    public function getImageFullPath(bool $a_as_thumb = false) : ?string
     {
         $img = $this->getImage();
         if ($img) {
@@ -386,6 +381,8 @@ class ilObjPoll extends ilObject2
                 return $path . "thb_" . $img;
             }
         }
+
+        return null;
     }
     
     /**
@@ -404,11 +401,9 @@ class ilObjPoll extends ilObject2
     /**
      * Init file system storage
      *
-     * @param type $a_id
-     * @param type $a_subdir
      * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
+    public static function initStorage(int $a_id, string $a_subdir = null)
     {
         $storage = new ilFSStoragePoll($a_id);
         $storage->create();
@@ -429,10 +424,9 @@ class ilObjPoll extends ilObject2
     /**
      * Upload new image file
      *
-     * @param array $a_upload
      * @return bool
      */
-    public function uploadImage(array $a_upload, $a_clone = false)
+    public function uploadImage(array $a_upload, bool $a_clone = false)
     {
         if (!$this->id) {
             return false;
@@ -441,7 +435,9 @@ class ilObjPoll extends ilObject2
         $this->deleteImage();
         
         // #10074
-        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
+        $name = (string) ($a_upload['name'] ?? '');
+        $tmp_name = (string) ($a_upload['tmp_name'] ?? '');
+        $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $name);
     
         $path = $this->initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
@@ -450,9 +446,9 @@ class ilObjPoll extends ilObject2
         
         $success = false;
         if (!$a_clone) {
-            $success = ilUtil::moveUploadedFile($a_upload["tmp_name"], $original, $path . $original);
+            $success = ilUtil::moveUploadedFile($tmp_name, $original, $path . $original);
         } else {
-            $success = copy($a_upload["tmp_name"], $path . $original);
+            $success = copy($tmp_name, $path . $original);
         }
         
         if ($success) {
@@ -508,13 +504,13 @@ class ilObjPoll extends ilObject2
         $set = $ilDB->query($sql);
         return (array) $ilDB->fetchAssoc($set);
     }
-    
-    public function saveAnswer($a_text, $a_pos = null)
+
+    public function saveAnswer($a_text, $a_pos = null) : ?int
     {
         $ilDB = $this->db;
         
         if (!trim($a_text)) {
-            return;
+            return null;
         }
         
         $id = $ilDB->nextId("il_poll_answer");
@@ -526,7 +522,7 @@ class ilObjPoll extends ilObject2
                 " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer");
             $set = $ilDB->query($sql);
             $a_pos = $ilDB->fetchAssoc($set);
-            $a_pos = (int) $a_pos["pos"] + 10;
+            $a_pos = (int) ($a_pos["pos"] ?? 0) + 10;
         }
         
         $fields = array(
@@ -557,7 +553,8 @@ class ilObjPoll extends ilObject2
         
         $pos = array();
         foreach ($answers as $item) {
-            $pos[$item["id"]] = $item["pos"];
+            $id = (int) ($item['id'] ?? 0);
+            $pos[$id] = (int) ($item["pos"] ?? 10);
         }
         
         $this->updateAnswerPositions($pos);
@@ -622,16 +619,17 @@ class ilObjPoll extends ilObject2
                         
         $ids = array();
         $pos = 0;
+        $id = null;
         foreach ($a_answers as $answer) {
             if (trim($answer)) {
                 // existing answer?
                 $found = false;
                 foreach ($existing as $idx => $item) {
-                    if (trim($answer) == $item["answer"]) {
+                    if (trim($answer) == (string) ($item["answer"] ?? '')) {
                         $found = true;
                         unset($existing[$idx]);
 
-                        $id = $item["id"];
+                        $id = (int) ($item["id"] ?? 0);
                     }
                 }
 
@@ -641,7 +639,7 @@ class ilObjPoll extends ilObject2
                 }
 
                 // add existing answer id to order
-                if ($id) {
+                if (isset($id) && is_int($id)) {
                     $ids[$id] = ++$pos;
                 }
             }
@@ -650,7 +648,9 @@ class ilObjPoll extends ilObject2
         // remove obsolete answers
         if (sizeof($existing)) {
             foreach ($existing as $item) {
-                $this->deleteAnswer($item["id"]);
+                if(isset($item["id"]) && is_int($item["id"])) {
+                    $this->deleteAnswer($item["id"]);
+                }
             }
         }
         
@@ -669,8 +669,6 @@ class ilObjPoll extends ilObject2
     
     public function saveVote($a_user_id, $a_answers)
     {
-        $ilDB = $this->db;
-        
         if ($this->hasUserVoted($a_user_id)) {
             return;
         }
@@ -683,54 +681,54 @@ class ilObjPoll extends ilObject2
             $fields = array("user_id" => array("integer", $a_user_id),
                 "poll_id" => array("integer", $this->getId()),
                 "answer_id" => array("integer", $answer_id));
-            $ilDB->insert("il_poll_vote", $fields);
+            $this->db->insert("il_poll_vote", $fields);
         }
     }
     
     public function hasUserVoted($a_user_id)
     {
-        $ilDB = $this->db;
-        
         $sql = "SELECT user_id" .
             " FROM il_poll_vote" .
-            " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer") .
-            " AND user_id = " . $ilDB->quote($a_user_id, "integer");
-        $ilDB->setLimit(1);
-        $set = $ilDB->query($sql);
-        return (bool) $ilDB->numRows($set);
+            " WHERE poll_id = " . $this->db->quote($this->getId(), "integer") .
+            " AND user_id = " . $this->db->quote($a_user_id, "integer");
+        $this->db->setLimit(1);
+        $set = $this->db->query($sql);
+        return (bool) $this->db->numRows($set);
     }
     
     public function countVotes()
     {
-        $ilDB = $this->db;
-        
         $sql = "SELECT COUNT(DISTINCT(user_id)) cnt" .
             " FROM il_poll_vote" .
-            " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer");
-        $set = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($set);
+            " WHERE poll_id = " . $this->db->quote($this->getId(), "integer");
+        $set = $this->db->query($sql);
+        $row = $this->db->fetchAssoc($set);
         return (int) $row["cnt"];
     }
     
     public function getVotePercentages()
     {
-        $ilDB = $this->db;
-        
         $res = array();
         $cnt = 0;
         
         $sql = "SELECT answer_id, count(*) cnt" .
             " FROM il_poll_vote" .
-            " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer") .
+            " WHERE poll_id = " . $this->db->quote($this->getId(), "integer") .
             " GROUP BY answer_id";
-        $set = $ilDB->query($sql);
-        while ($row = $ilDB->fetchAssoc($set)) {
+        $set = $this->db->query($sql);
+        while ($row = $this->db->fetchAssoc($set)) {
             $cnt += $row["cnt"];
             $res[$row["answer_id"]] = array("abs" => $row["cnt"], "perc" => 0);
         }
-        
+
         foreach ($res as $id => $item) {
-            $res[$id]["perc"] = $item["abs"] / $cnt * 100;
+            $abs = (int) ($item['abs'] ?? 0);
+            $id = (int) ($id ?? 0);
+            if ($cnt === 0) {
+                $res[$id]["perc"] = 0;
+            } else {
+                $res[$id]["perc"] = $abs / $cnt * 100;
+            }
         }
         
         return array("perc" => $res, "total" => $this->countVotes());
@@ -748,10 +746,11 @@ class ilObjPoll extends ilObject2
             " WHERE poll_id = " . $ilDB->quote($this->getId(), "integer");
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
-            if (!isset($res[$row["user_id"]])) {
-                $res[$row["user_id"]] = $row;
+            $user_id = (int) ($row["user_id"] ?? 0);
+            if (!isset($res[$user_id])) {
+                $res[$user_id] = $row;
             }
-            $res[$row["user_id"]]["answers"][] = $row["answer_id"];
+            $res[$user_id]["answers"][] = (int) ($row["answer_id"] ?? 0);
         }
     
         return $res;

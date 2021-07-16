@@ -94,7 +94,7 @@ class ilStudyProgrammeDashboardViewGUI
             $current_prg_settings = $current_prg->getRawSettings();
 
             /** @var ilStudyProgrammeUserProgress $current_progress */
-            $current_progress = $current->getRootProgress();
+            $current_progress = $current_prg->getProgressForAssignment($current->getId());
 
             list($valid, $validation_date) = $this->findValidationValues($assignments);
 
@@ -349,7 +349,9 @@ class ilStudyProgrammeDashboardViewGUI
         ];
         /** @var ilStudyProgrammeAssignment $assignment */
         foreach ($assignments as $key => $assignment) {
-            $progress = $assignment->getRootProgress();
+            $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+            $progress = $prg->getProgressForAssignment($assignment->getId());
+            
             if (in_array($progress->getStatus(), $status)) {
                 return $progress->getValidityOfQualification();
             }

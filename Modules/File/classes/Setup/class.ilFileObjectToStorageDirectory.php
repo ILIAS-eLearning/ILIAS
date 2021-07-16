@@ -52,7 +52,7 @@ class ilFileObjectToStorageDirectory
             $title = $history_data[$version]['filename'] ?? $item[2];
             $action = $history_data[$version]['action'] ?? 'create';
             $owner = $history_data[$version]['owner_id'] ?? 13;
-            $ceation_date_timestamp = strtotime($history_data[$version]['date']) ?? 0;
+            $ceation_date_timestamp = strtotime($history_data[$version]['date'] ?? '0') ?? 0;
             $this->versions[$version] = new ilFileObjectToStorageVersion(
                 $version,
                 $item[0],

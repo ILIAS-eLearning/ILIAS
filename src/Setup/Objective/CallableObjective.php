@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -19,20 +19,14 @@ class CallableObjective implements Setup\Objective
      */
     protected $callable;
 
-    /**
-     * @var string
-     */
-    protected $label;
+    protected string $label;
 
-    /**
-     * @var bool
-     */
-    protected $is_notable;
+    protected bool $is_notable;
 
     /**
      * @var	Setup\Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     public function __construct(callable $callable, string $label, bool $is_notable, Setup\Objective ...$preconditions)
     {

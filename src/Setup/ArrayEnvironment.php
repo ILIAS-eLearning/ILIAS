@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,12 +11,12 @@ class ArrayEnvironment implements Environment
     /**
      * @var	array<string,mixed>
      */
-    protected $resources;
+    protected array $resources;
 
     /**
      * @var array<string,mixed>
      */
-    protected $configs;
+    protected array $configs;
 
     public function __construct(array $resources)
     {

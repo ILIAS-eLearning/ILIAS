@@ -300,7 +300,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 */
                 break;
                 
-				// @fix changed from AUTH_SHIB > is not defined
+                // @fix changed from AUTH_SHIB > is not defined
                 case AUTH_SHIBBOLETH:
                 if ($this->object->checkAuthSHIB() !== true) {
                     ilUtil::sendFailure($this->lng->txt("auth_shib_not_configured"), true);
@@ -527,7 +527,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 ilUtil::stripSlashes($_POST["ext_uid"]),
                 ilUtil::stripSlashes($_POST["soap_pw"]),
                 (boolean) $_POST["new_user"]
-                );
+            );
         }
         $this->tpl->setVariable("TEST_FORM", $form->getHTML() . $ret);
     }
@@ -874,8 +874,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             case 'ilsamlsettingsgui':
                 $this->tabs_gui->setTabActive('auth_saml');
 
-                require_once './Services/Saml/classes/class.ilSamlSettingsGUI.php';
-                $os = new ilSamlSettingsGUI($this->object->getRefId());
+                $os = new ilSamlSettingsGUI((int) $this->object->getRefId());
                 $this->ctrl->forwardCommand($os);
                 break;
 

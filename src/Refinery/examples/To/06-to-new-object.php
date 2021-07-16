@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,7 +7,7 @@
  */
 function toNewObject()
 {
-    class SomeClass
+    class SomeOtherClass
     {
         private $firstParameter;
         private $secondParameter;
@@ -22,7 +23,7 @@ function toNewObject()
             $this->thirdParameter = $thirdParameter;
         }
 
-        public function say()
+        public function say() : string
         {
             return $this->firstParameter;
         }
@@ -33,7 +34,7 @@ function toNewObject()
     $refinery = $DIC->refinery();
 
     $transformation = $refinery->to()->toNew(
-        'SomeClass'
+        'SomeOtherClass'
     );
 
     $result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));

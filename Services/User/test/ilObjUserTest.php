@@ -5,16 +5,15 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilObjUserTest
- * @group needsInstalledILIAS
  */
-class ilObjUserTest extends TestCase
+class ilObjUserTest //extends TestCase
 {
     protected $backupGlobals = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
     
     /**

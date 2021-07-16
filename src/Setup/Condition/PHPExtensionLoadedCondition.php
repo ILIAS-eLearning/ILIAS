@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,7 +8,7 @@ use ILIAS\Setup;
 
 class PHPExtensionLoadedCondition extends ExternalConditionObjective
 {
-    public function __construct($which)
+    public function __construct(string $which)
     {
         $ilias_version = ILIAS_VERSION_NUMERIC;
 

@@ -4,26 +4,54 @@
 <!-- BEGIN generate_btn -->
 <br />
 <button id="{ID_BTN}" type="button" class="btn btn-default">{TXT_BTN}</button>
-<script type="text/javascript">
-(function($) {
+<script>
+(function() {
+    const getUrl = function (url) {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
 
-    var fields = ["{ID_AUTH_PROP_1_BTN}", "{ID_AUTH_PROP_2_BTN}"];
+            xhr.onload = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    resolve(this);
+                } else {
+                    reject(Error(this.statusText));
+                }
+            };
 
-    $("#{ID_BTN}").on('click', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
+            xhr.onerror = () => {
+                reject(Error("Network Error"));
+            };
 
-        $.ajax({
-            "url": "{URL}",
-            "type": "GET",
-            "dataType": "json"
-        }).done(function (resp) {
-            $(fields).each(function () {
-                $("#" + this.toString()).val(resp[this.toString()]);
-            });
+            xhr.send();
+        });
+    };
+
+    document.addEventListener("DOMContentLoaded", (event) => {
+        const fields = ["{ID_AUTH_PROP_1_BTN}", "{ID_AUTH_PROP_2_BTN}"];
+
+        document.getElementById("{ID_BTN}").addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            try {
+                getUrl("{URL}")
+                    .then(function (response) {
+                        const data = JSON.parse(response.responseText);
+
+                        fields.forEach(function (item) {
+                            let value = "";
+                            if (data.hasOwnProperty(item)) {
+                                value = data[item];
+                            }
+                            document.getElementById(item).value = value;
+                        });
+                    });
+            } catch (e) {
+                alert(e);
+            }
         });
     });
-
-})(jQuery);
+})();
 </script>
 <!-- END generate_btn -->

@@ -54,7 +54,7 @@ class ilMemcacheServer extends ActiveRecord
      * @con_length     8
      * @con_sequence   true
      */
-    protected int $id = 0;
+    protected ?int $id = 0;
     /**
      * @var string
      *

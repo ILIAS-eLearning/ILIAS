@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -48,24 +48,22 @@ final class Metric
     const TYPE_COLLECTION = "collection";
 
     /**
-     * @var mixed one of STABILITY_*
+     * @var string one of STABILITY_*
      */
-    protected $stability;
+    protected string $stability;
 
     /**
-     * @var mixed one of TYPE_*
+     * @var string one of TYPE_*
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var mixed
      */
     protected $value;
 
-    /**
-     * @var string|null
-     */
-    protected $description;
+
+    protected ?string $description;
 
     public function __construct(
         string $stability,
@@ -191,7 +189,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function ($k, $v) use ($indentation) {
+                        function (string $k, Metric $v) use ($indentation) {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {
@@ -216,14 +214,15 @@ final class Metric
             case self::TYPE_BOOL:
                 if ($value) {
                     return "true";
-                }  else {
+                } else {
                     return "false";
                 }
+                // no break
             case self::TYPE_COUNTER:
-                return (string)$value;
+                return (string) $value;
             case self::TYPE_GAUGE:
                 if (is_int($value)) {
-                    return (string)$value;
+                    return (string) $value;
                 }
                 return sprintf("%.03f", $value);
             case self::TYPE_TIMESTAMP:

@@ -6,7 +6,7 @@
  */
 class ilSamlAuthFactory
 {
-    const METADATA_PATH = 'auth/saml/config';
+    private const METADATA_PATH = 'auth/saml/config';
 
     /**
      * @param string $authSourceName

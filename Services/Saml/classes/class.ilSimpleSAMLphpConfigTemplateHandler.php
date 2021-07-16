@@ -5,18 +5,12 @@ use ILIAS\Filesystem\Filesystem;
 
 /**
  * Class ilSimpleSAMLphpConfigTemplateHandler
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSimpleSAMLphpConfigTemplateHandler
 {
-    /**
-     * @var Filesystem
-     */
-    protected $fs;
+    protected Filesystem $fs;
 
-    /**
-     * ilSimpleSAMLphpConfigTemplateHandler constructor.
-     * @param Filesystem $fs
-     */
     public function __construct(Filesystem $fs)
     {
         $this->fs = $fs;
@@ -25,7 +19,7 @@ class ilSimpleSAMLphpConfigTemplateHandler
     /**
      * @param string $sourcePath
      * @param string $destinationPath
-     * @param array $placeholders A key value map where the key should be the name of a placeholder, and the value is a primitive type or a callable
+     * @param array $placeholders A key/value map where the key is the name of a placeholder, and the value is a primitive type or a callable
      */
     public function copy(string $sourcePath, string $destinationPath, array $placeholders = []) : void
     {

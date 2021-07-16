@@ -3,9 +3,10 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilTermsOfServiceDocumentGUI

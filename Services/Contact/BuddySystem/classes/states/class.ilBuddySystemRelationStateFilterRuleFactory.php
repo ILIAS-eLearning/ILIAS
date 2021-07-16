@@ -7,19 +7,12 @@
  */
 class ilBuddySystemRelationStateFilterRuleFactory
 {
-    /** @var self */
-    protected static $instance;
+    protected static ?self $instance = null;
 
-    /**
-     * ilBuddySystemRelationStateFilterRuleFactory constructor.
-     */
     protected function __construct()
     {
     }
 
-    /**
-     * @return self
-     */
     public static function getInstance() : self
     {
         if (null === self::$instance) {
@@ -29,10 +22,6 @@ class ilBuddySystemRelationStateFilterRuleFactory
         return self::$instance;
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     * @return ilBuddySystemRelationStateFilterRule
-     */
     public function getFilterRuleByRelation(ilBuddySystemRelation $relation) : ilBuddySystemRelationStateFilterRule
     {
         $filters = [
@@ -40,7 +29,7 @@ class ilBuddySystemRelationStateFilterRuleFactory
             new ilBuddySystemRelationStateReceiverShouldNotBeAbleToCancelRequestRule($relation),
             new ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestRule($relation),
             new ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestRule($relation),
-            new ilBuddySystemRelationStateNullFilterRule($relation)
+            new ilBuddySystemRelationStateNullFilterRule($relation),
         ];
 
         foreach ($filters as $filter) {

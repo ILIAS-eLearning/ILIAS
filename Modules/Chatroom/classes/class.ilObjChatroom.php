@@ -12,29 +12,11 @@ require_once 'Services/Object/classes/class.ilObjectActivation.php';
  */
 class ilObjChatroom extends ilObject
 {
-    /**
-     * @var int
-     */
-    protected $access_type;
+    protected ?int $access_type = null;
+    protected ?int $access_begin = null;
+    protected ?int $access_end = null;
+    protected ?int $access_visibility = null;
 
-    /**
-     * @var int
-     */
-    protected $access_begin;
-
-    /**
-     * @var int
-     */
-    protected $access_end;
-
-    /**
-     * @var int
-     */
-    protected $access_visibility;
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
@@ -43,73 +25,46 @@ class ilObjChatroom extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-     * @param int $a_value
-     */
-    public function setAccessVisibility($a_value)
+    public function setAccessVisibility(int $a_value) : void
     {
-        $this->access_visibility = (bool) $a_value;
+        $this->access_visibility = $a_value;
     }
 
-    /**
-     * @return int
-     */
-    public function getAccessVisibility()
+    public function getAccessVisibility() : ?int
     {
         return $this->access_visibility;
     }
 
-    /**
-     * @return int
-     */
-    public function getAccessType()
+    public function getAccessType() : ?int
     {
         return $this->access_type;
     }
 
-    /**
-     * @param int $access_type
-     */
-    public function setAccessType($access_type)
+    public function setAccessType(int $access_type) : void
     {
         $this->access_type = $access_type;
     }
 
-    /**
-     * @return int
-     */
-    public function getAccessBegin()
+    public function getAccessBegin() : ?int
     {
         return $this->access_begin;
     }
 
-    /**
-     * @param int $access_begin
-     */
-    public function setAccessBegin($access_begin)
+    public function setAccessBegin(?int $access_begin) : void
     {
         $this->access_begin = $access_begin;
     }
 
-    /**
-     * @return int
-     */
-    public function getAccessEnd()
+    public function getAccessEnd() : ?int
     {
         return $this->access_end;
     }
 
-    /**
-     * @param int $access_end
-     */
-    public function setAccessEnd($access_end)
+    public function setAccessEnd(?int $access_end) : void
     {
         $this->access_end = $access_end;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function update()
     {
         if ($this->ref_id) {
@@ -117,25 +72,22 @@ class ilObjChatroom extends ilObject
             $activation->setTimingType($this->getAccessType());
             $activation->setTimingStart($this->getAccessBegin());
             $activation->setTimingEnd($this->getAccessEnd());
-            $activation->toggleVisible($this->getAccessVisibility());
+            $activation->toggleVisible((bool) $this->getAccessVisibility());
             $activation->update($this->ref_id);
         }
 
         return parent::update();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function read()
     {
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
-            $this->setAccessType($activation['timing_type']);
-            if ($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION) {
-                $this->setAccessBegin($activation['timing_start']);
-                $this->setAccessEnd($activation['timing_end']);
-                $this->setAccessVisibility($activation['visible']);
+            $this->setAccessType((int) $activation['timing_type']);
+            if ($this->getAccessType() === ilObjectActivation::TIMINGS_ACTIVATION) {
+                $this->setAccessBegin((int) $activation['timing_start']);
+                $this->setAccessEnd((int) $activation['timing_end']);
+                $this->setAccessVisibility((int) $activation['visible']);
             }
         }
 
@@ -163,12 +115,7 @@ class ilObjChatroom extends ilObject
         return 0;
     }
 
-    /**
-     * Prepares and returns $userInfo using given $user object.
-     * @param ilChatroomUser $user
-     * @return stdClass
-     */
-    public function getPersonalInformation(ilChatroomUser $user)
+    public function getPersonalInformation(ilChatroomUser $user) : stdClass
     {
         $userInfo = new stdClass();
         $userInfo->username = $user->getUsername();
@@ -177,39 +124,25 @@ class ilObjChatroom extends ilObject
         return $userInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function initDefaultRoles()
     {
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
-
         $role = $this->createDefaultRole();
 
-        return array();
+        return [];
     }
 
-    /**
-     * @return ilObjRole
-     */
-    protected function createDefaultRole()
+    protected function createDefaultRole() : ilObjRole
     {
         return ilObjRole::createDefaultRole(
             'il_chat_moderator_' . $this->getRefId(),
-            "Moderator of chat obj_no." . $this->getId(),
+            'Moderator of chat obj_no.' . $this->getId(),
             'il_chat_moderator',
             $this->getRefId()
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
-        global $DIC;
-
-        require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
         $original_room = ilChatroom::byObjectId($this->getId());
 
         $newObj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -223,14 +156,9 @@ class ilObjChatroom extends ilObject
 
         $room->saveSettings($original_settings);
 
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
-        $rbac_log_roles = $DIC->rbac()->review()->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId(), false);
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
-
-        require_once 'Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
-        require_once 'Modules/Chatroom/classes/class.ilChatroomServerSettings.php';
-        require_once 'Modules/Chatroom/classes/class.ilChatroomAdmin.php';
 
         $settings = ilChatroomAdmin::getDefaultConfiguration()->getServerSettings();
         $connector = new ilChatroomServerConnector($settings);
@@ -240,38 +168,33 @@ class ilObjChatroom extends ilObject
         return $newObj;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function delete()
     {
-        global $DIC;
-
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_users WHERE chatroom_users.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_history WHERE chatroom_history.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_bans WHERE chatroom_bans.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_sessions WHERE chatroom_sessions.room_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             '
 			DELETE FROM chatroom_proomaccess
 			WHERE chatroom_proomaccess.proom_id IN (
@@ -282,11 +205,11 @@ class ilObjChatroom extends ilObject
 					WHERE chatroom_settings.object_id = %s
 				)
 			)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             '
 			DELETE FROM chatroom_psessions
 			WHERE chatroom_psessions.proom_id IN (
@@ -297,27 +220,25 @@ class ilObjChatroom extends ilObject
 					WHERE chatroom_settings.object_id = %s
 				)
 			)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_prooms WHERE chatroom_prooms.parent_id IN (SELECT chatroom_settings.room_id FROM chatroom_settings WHERE chatroom_settings.object_id = %s)',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
         // Finally delete rooms
-        $DIC->database()->manipulateF(
+        $this->db->manipulateF(
             'DELETE FROM chatroom_settings WHERE object_id = %s',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        if ($this->getId()) {
-            if ($this->ref_id) {
-                ilObjectActivation::deleteAllEntries($this->ref_id);
-            }
+        if ($this->ref_id && $this->getId()) {
+            ilObjectActivation::deleteAllEntries($this->ref_id);
         }
 
         return parent::delete();

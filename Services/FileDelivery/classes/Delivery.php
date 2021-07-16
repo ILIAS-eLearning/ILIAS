@@ -9,10 +9,9 @@ require_once('./Services/Http/classes/class.ilHTTPS.php');
 require_once('./Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php');
 require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services;
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
@@ -94,7 +93,7 @@ final class Delivery
      */
     private static $DEBUG = false;
     /**
-     * @var HTTPServices $httpService
+     * @var Services $httpService
      */
     private $httpService;
     /**
@@ -105,9 +104,9 @@ final class Delivery
 
     /**
      * @param string          $path_to_file
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      */
-    public function __construct($path_to_file, GlobalHttpState $httpState)
+    public function __construct($path_to_file, Services $httpState)
     {
         assert(is_string($path_to_file));
         $this->httpService = $httpState;

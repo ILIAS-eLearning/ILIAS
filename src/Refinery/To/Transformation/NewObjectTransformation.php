@@ -1,25 +1,21 @@
-<?php
-declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class NewObjectTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
 
-    private $className;
+    private string $className;
 
-    /**
-     * @param string $className
-     */
     public function __construct(string $className)
     {
         $this->className = $className;

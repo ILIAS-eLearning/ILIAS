@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees, Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
@@ -31,10 +30,7 @@ use ILIAS\Refinery\Transformation;
  */
 class Group
 {
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    private $dataFactory;
+    private \ILIAS\Data\Factory $dataFactory;
 
     public function __construct(\ILIAS\Data\Factory $dataFactory)
     {

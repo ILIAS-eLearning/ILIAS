@@ -21,8 +21,8 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     public function __construct(ilObjComponentSettingsGUI $a_parent_obj, array $filter_data, string $a_parent_cmd = "")
     {
         global $DIC;
-        $this->lng         = $DIC->language();
-        $this->ctrl        = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
         $this->filter_data = $filter_data;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -72,7 +72,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
                 $matches_filter = strpos($plugin_data[self::F_PLUGIN_ID], $active_filters[self::F_PLUGIN_ID]) !== false;
             }
             if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
-                $v              = (int)$active_filters[self::F_PLUGIN_ACTIVE] === 1;
+                $v = (int) $active_filters[self::F_PLUGIN_ACTIVE] === 1;
                 $matches_filter = $plugin_data[self::F_PLUGIN_ACTIVE] === $v && $matches_filter;
             }
             if (isset($active_filters[self::F_SLOT_NAME])) {
@@ -141,18 +141,18 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         }
 
         return array(
-            self::F_SLOT_NAME      => $a_slot->getSlotName(),
-            "component_type"       => $a_type,
+            self::F_SLOT_NAME => $a_slot->getSlotName(),
+            "component_type" => $a_type,
             self::F_COMPONENT_NAME => $a_slot_subdir,
-            "slot_id"              => $a_slot->getSlotId(),
-            self::F_PLUGIN_ID      => $a_plugin["id"],
-            self::F_PLUGIN_NAME    => $a_plugin["name"],
-            "must_install"         => $a_plugin["must_install"],
-            self::F_PLUGIN_ACTIVE  => $a_plugin["is_active"],
-            "activation_possible"  => $a_plugin["activation_possible"],
-            "needs_update"         => $a_plugin["needs_update"],
-            "config_class"         => $config_class,
-            "has_lang"             => (bool) sizeof(
+            "slot_id" => $a_slot->getSlotId(),
+            self::F_PLUGIN_ID => $a_plugin["id"],
+            self::F_PLUGIN_NAME => $a_plugin["name"],
+            "must_install" => $a_plugin["must_install"],
+            self::F_PLUGIN_ACTIVE => $a_plugin["is_active"],
+            "activation_possible" => $a_plugin["activation_possible"],
+            "needs_update" => $a_plugin["needs_update"],
+            "config_class" => $config_class,
+            "has_lang" => (bool) sizeof(
                 ilPlugin::getAvailableLangFiles(
                     $a_slot->getPluginsDirectory() . "/" . $a_plugin["name"] . "/lang"
                 )

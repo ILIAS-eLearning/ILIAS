@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\Setup;
 
@@ -9,15 +9,12 @@ namespace ILIAS\Setup;
  */
 class ImplementationOfInterfaceFinder
 {
-    /**
-     * @var string
-     */
-    protected $root;
+    protected string $root;
 
     /**
      * @var string[]
      */
-    protected $ignore = [
+    protected array $ignore = [
         '.*/src/',
         '.*/libs/',
         '.*/test/',
@@ -32,7 +29,7 @@ class ImplementationOfInterfaceFinder
     /**
      * @var string[]|null
      */
-    protected $classmap = null;
+    protected ?array $classmap = null;
 
     public function __construct()
     {
@@ -47,8 +44,10 @@ class ImplementationOfInterfaceFinder
      * Patterns are regexps (without delimiters) to define complete paths on the
      * filesystem to be ignored or selected.
      *
+     * @param   string $interface
      * @param   string[] $additional_ignore
-     * @param   string $matching_path
+     * @param   string|null $matching_path
+     * @return  \Iterator
      */
     public function getMatchingClassNames(
         string $interface,

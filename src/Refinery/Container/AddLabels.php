@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Container;
@@ -18,16 +19,11 @@ class AddLabels implements Transformation
     /**
      * @var string[] | int[]
      */
-    protected $labels;
-
-    /**
-     * @var Factory
-     */
-    private $factory;
+    protected array $labels;
+    private Factory $factory;
 
     /**
      * @param string[] | int[] $labels
-     * @param Factory|null $factory
      */
     public function __construct(array $labels, Factory $factory)
     {
@@ -44,7 +40,7 @@ class AddLabels implements Transformation
             throw new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
         }
 
-        if (count($from) != count($this->labels)) {
+        if (count($from) !== count($this->labels)) {
             throw new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
         }
 
@@ -54,15 +50,15 @@ class AddLabels implements Transformation
     /**
      * @inheritdoc
      */
-    public function applyTo(Result $data) : Result
+    public function applyTo(Result $result) : Result
     {
-        $dataValue = $data->value();
+        $dataValue = $result->value();
         if (false === is_array($dataValue)) {
             $exception = new \InvalidArgumentException(__METHOD__ . " argument is not an array.");
             return $this->factory->error($exception);
         }
 
-        if (count($dataValue) != count($this->labels)) {
+        if (count($dataValue) !== count($this->labels)) {
             $exception = new \InvalidArgumentException(__METHOD__ . " number of items in arrays are not equal.");
             return $this->factory->error($exception);
         }

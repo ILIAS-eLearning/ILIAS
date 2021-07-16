@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,15 +13,12 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class AgentCollection implements Agent
 {
-    /**
-     * @var Refinery
-     */
-    protected $refinery;
+    protected Refinery $refinery;
 
     /**
      * @var Agent[]
      */
-    protected $agents;
+    protected array $agents;
 
     public function __construct(
         Refinery $refinery,
@@ -46,7 +43,7 @@ class AgentCollection implements Agent
     public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
     {
         if (isset($this->agents[$key])) {
-            throw new \LogicException("An agent with the name '$name' already exists.");
+            throw new \LogicException("An agent with the name '$key' already exists.");
         }
         $clone = clone $this;
         $clone->agents[$key] = $agent;
@@ -96,7 +93,9 @@ class AgentCollection implements Agent
      */
     public function getInstallObjective(Config $config = null) : Objective
     {
-        $this->checkConfig($config);
+        if (!is_null($config)) {
+            $this->checkConfig($config);
+        }
 
         return new ObjectiveCollection(
             "Collected Install Objectives",
@@ -196,7 +195,7 @@ class AgentCollection implements Agent
         return $migrations;
     }
 
-    protected function getKey(Setup\Migration $migration) : string
+    protected function getKey(Migration $migration) : string
     {
         $names = explode("\\", get_class($migration));
         return array_pop($names);

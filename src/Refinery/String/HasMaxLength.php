@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
@@ -7,12 +8,9 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class HasMaxLength extends CustomConstraint implements Constraint
+class HasMaxLength extends CustomConstraint
 {
-    /**
-     * @var int
-     */
-    protected $max_length;
+    protected int $max_length;
 
     public function __construct(int $max_length, Data\Factory $data_factory, \ilLanguage $lng)
     {

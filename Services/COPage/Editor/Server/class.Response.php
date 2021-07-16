@@ -16,7 +16,7 @@ class Response
     protected $data = [];
 
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     protected $http;
 

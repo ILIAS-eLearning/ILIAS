@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,10 +10,12 @@
  */
 class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {
-    /**
-     * @inheritDoc
-     */
-    public function executeDefault($requestedMethod)
+    protected function createInfoScreenGUI(ilChatroomObjectGUI $gui) : ilInfoScreenGUI
+    {
+        return new ilInfoScreenGUI($gui);
+    }
+
+    public function executeDefault(string $requestedMethod) : void
     {
         $this->redirectIfNoPermission('visible');
 
@@ -22,8 +24,9 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
         $info = $this->createInfoScreenGUI($this->gui);
 
         $info->enablePrivateNotes();
-
-        if (ilChatroom::checkUserPermissions("read", (int) $_GET["ref_id"], false)) {
+        
+        $refId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('ref_id'));
+        if (ilChatroom::checkUserPermissions('read', $refId, false)) {
             $info->enableNews();
         }
 
@@ -32,20 +35,11 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
             0,
             $this->gui->object->getType()
         );
-        if (!$method) {
+        if ($requestedMethod === '') {
             $this->ilCtrl->setCmd('showSummary');
         } else {
-            $this->ilCtrl->setCmd($method);
+            $this->ilCtrl->setCmd($requestedMethod);
         }
         $this->ilCtrl->forwardCommand($info);
-    }
-
-    /**
-     * @param ilChatroomObjectGui $gui
-     * @return ilInfoScreenGUI
-     */
-    protected function createInfoScreenGUI($gui)
-    {
-        return new ilInfoScreenGUI($gui);
     }
 }

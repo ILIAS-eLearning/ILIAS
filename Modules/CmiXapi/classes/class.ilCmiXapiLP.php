@@ -14,7 +14,17 @@
  */
 class ilCmiXapiLP extends ilObjectLP
 {
-    public function initModeOptions(ilRadioGroupInputGUI $modeRadio)
+    public function hasIndividualModeOptions() : bool
+    {
+        return true;
+    }
+
+    public function shouldFetchIndividualModeFromFormSubmission() : bool
+    {
+        return true;
+    }
+
+    public function initInvidualModeOptions(ilRadioGroupInputGUI $modeRadio) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -89,7 +99,7 @@ class ilCmiXapiLP extends ilObjectLP
         }
     }
     
-    public function fetchModeOption(ilPropertyFormGUI $form)
+    public function fetchIndividualModeFromFormSubmission(ilPropertyFormGUI $form) : int
     {
         $mainMode = (int) $form->getInput('modus');
         $failedOpt = (int) $form->getInput('modus_' . $mainMode . '_failed');

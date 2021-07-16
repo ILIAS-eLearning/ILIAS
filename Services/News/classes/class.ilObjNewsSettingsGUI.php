@@ -202,15 +202,8 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         
         // PD News Period
         $per_opts = array(
-            2 => "2 " . $lng->txt("days"),
-            3 => "3 " . $lng->txt("days"),
-            5 => "5 " . $lng->txt("days"),
             7 => "1 " . $lng->txt("week"),
-            14 => "2 " . $lng->txt("weeks"),
             30 => "1 " . $lng->txt("month"),
-            60 => "2 " . $lng->txt("months"),
-            120 => "4 " . $lng->txt("months"),
-            180 => "6 " . $lng->txt("months"),
             366 => "1 " . $lng->txt("year"));
         $per_sel = new ilSelectInputGUI(
             $lng->txt("news_pd_period"),

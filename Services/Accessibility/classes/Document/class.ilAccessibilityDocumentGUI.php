@@ -3,7 +3,7 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -45,7 +45,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
     /** @var Renderer */
     protected $uiRenderer;
 
-    /** @var ILIAS\HTTP\GlobalHttpState */
+    /** @var ILIAS\HTTP\Services */
     protected $httpState;
 
     /** @var ilToolbarGUI */
@@ -75,7 +75,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
      * @param ilErrorHandling                               $error
      * @param ilLogger                                      $log
      * @param ilToolbarGUI                                  $toolbar
-     * @param GlobalHttpState                               $httpState
+     * @param Services                               $httpState
      * @param Factory                                       $uiFactory
      * @param Renderer                                      $uiRenderer
      * @param Filesystems                                   $fileSystems ,
@@ -94,7 +94,7 @@ class ilAccessibilityDocumentGUI implements ilAccessibilityControllerEnabled
         ilErrorHandling $error,
         ilLogger $log,
         ilToolbarGUI $toolbar,
-        GlobalHttpState $httpState,
+        Services $httpState,
         Factory $uiFactory,
         Renderer $uiRenderer,
         Filesystems $fileSystems,

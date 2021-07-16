@@ -22,12 +22,7 @@ class InitHttpServices
         };
 
         $container['http'] = function ($c) {
-            return new \ILIAS\DI\HTTPServices(
-                $c['http.response_sender_strategy'],
-                $c['http.cookie_jar_factory'],
-                $c['http.request_factory'],
-                $c['http.response_factory']
-            );
+            return new \ILIAS\HTTP\Services($c);
         };
     }
 

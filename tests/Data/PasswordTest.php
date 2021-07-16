@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
@@ -27,11 +28,7 @@ class PasswordTest extends TestCase
 
     public function testWrongParam()
     {
-        try {
-            $pwd = $this->f->password(123);
-            $this->assertFalse("This should not happen");
-        } catch (\InvalidArgumentException $e) {
-            $this->assertTrue(true);
-        }
+        $this->expectException(TypeError::class);
+        $pwd = $this->f->password(123);
     }
 }

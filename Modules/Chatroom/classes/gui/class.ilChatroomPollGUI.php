@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,16 +6,11 @@
  * @author  Jan Posselt <jposselt@databay.de>
  * @version $Id$
  * @ingroup ModulesChatroom
- * @TODO    DELETE THIS
  */
 class ilChatroomPollGUI extends ilChatroomGUIHandler
 {
-    /**
-     * @inheritDoc
-     */
-    public function executeDefault($requestedMethod)
+    public function executeDefault(string $requestedMethod) : void
     {
-        echo "{success: true}";
-        exit;
+        $this->sendResponse(['success' => true]);
     }
 }

@@ -4,9 +4,10 @@
 use ILIAS\HTTP\Cookies\Cookie;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\WebAccessChecker\HttpServiceAware;
 use ILIAS\WebAccessChecker\PathType;
+use ILIAS\HTTP\GlobalHttpState;
 
 require_once('./Services/WebAccessChecker/class.ilWACException.php');
 require_once('class.ilWACToken.php');
@@ -54,7 +55,7 @@ class ilWACSignedPath
      */
     protected $checked = false;
     /**
-     * @var \ILIAS\DI\HTTPServices $httpService
+     * @var \ILIAS\HTTP\Services $httpService
      */
     private $httpService;
     /**

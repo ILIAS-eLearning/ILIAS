@@ -17,12 +17,16 @@ trait HasConfigReader
     /**
      * @var ConfigReader
      */
-    protected $config_reader;
+    protected ConfigReader $config_reader;
 
     protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
     {
         if (!($this->config_reader instanceof ConfigReader)) {
             throw new \LogicException("\$this->config_reader not properly initialized.");
+        }
+
+        if (!$agent->hasConfig()) {
+            return null;
         }
 
         $config_file = $input->getArgument("config");
@@ -35,7 +39,9 @@ trait HasConfigReader
             }
             $config_overwrites[$vs[0]] = $vs[1];
         }
+
         $config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
+
         $trafo = $agent->getArrayToConfigTransformation();
         return $trafo->transform($config_content);
     }

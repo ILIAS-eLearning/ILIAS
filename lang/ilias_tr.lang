@@ -300,7 +300,6 @@ assessment#:#assessment_pool_selection#:#Havuz Seçimi
 assessment#:#assFileUpload#:#Dosya Yükleme Sorusu
 assessment#:#assFlashQuestion#:#Flash Soru
 assessment#:#assImagemapQuestion#:#Sıcak Nokta / Resim Harita Soru
-assessment#:#assJavaApplet#:#Java Applet Soru
 assessment#:#assMatchingQuestion#:#Eşleştirme Soru
 assessment#:#assMultipleChoice#:#Çoktan Seçmeli Soru (Çoklu Yanıtlar)
 assessment#:#assNumeric#:#Sayısal Soru

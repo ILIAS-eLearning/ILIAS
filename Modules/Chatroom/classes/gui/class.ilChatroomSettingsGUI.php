@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,31 +9,7 @@
  */
 class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 {
-    /**
-     * @var \ilObjChatroom
-     */
-    protected $object;
-
-    /**
-     * Constructor
-     * Requires ilChatroomFormFactory, ilChatroom and ilChatroomInstaller,
-     * sets $this->gui using given $gui and calls ilChatroomInstaller::install()
-     * method.
-     * @param ilChatroomObjectGUI $gui
-     */
-    public function __construct(ilChatroomObjectGUI $gui)
-    {
-        parent::__construct($gui);
-
-        require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
-        require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-        require_once 'Modules/Chatroom/classes/class.ilChatroomInstaller.php';
-    }
-
-    /**
-     * Saves settings fetched from $_POST.
-     */
-    public function saveGeneral()
+    public function saveGeneral() : void
     {
         $formFactory = new ilChatroomFormFactory();
         $settingsForm = $formFactory->getSettingsForm();
@@ -45,8 +21,6 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         } else {
             $this->gui->object->setTitle($settingsForm->getInput('title'));
             $this->gui->object->setDescription($settingsForm->getInput('desc'));
-
-            require_once 'Services/Object/classes/class.ilObjectActivation.php';
 
             $period = $settingsForm->getItemByPostVar('access_period');
             if ($period->getStart() && $period->getEnd()) {
@@ -61,9 +35,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             $this->gui->object->update();
             $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->saveTileImage();
             // @todo: Do not rely on raw post data
-            $settings = $_POST;
+            $settings = $this->httpServices->request()->getParsedBody();
             $room = ilChatRoom::byObjectId($this->gui->object->getId());
-
             if (!$room) {
                 $room = new ilChatRoom();
                 $settings['object_id'] = $this->gui->object->getId();
@@ -75,20 +48,11 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
     }
 
-    /**
-     * Prepares and displays settings form.
-     * @param ilPropertyFormGUI $settingsForm
-     * @throws ilDateTimeException
-     */
-    public function general(ilPropertyFormGUI $settingsForm = null)
+    public function general(ilPropertyFormGUI $settingsForm = null) : void
     {
-        if (!ilChatroom::checkUserPermissions(array(
-            'visible',
-            'read'
-        ), $this->gui->ref_id)
-        ) {
-            $this->ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-            $this->ilCtrl->redirectByClass('ilrepositorygui', '');
+        if (!ilChatroom::checkUserPermissions(['visible', 'read'], $this->gui->ref_id)) {
+            $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+            $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
 
         $chatSettings = new ilSetting('chatroom');
@@ -105,11 +69,10 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         if (!$settingsForm) {
             $settingsForm = $formFactory->getSettingsForm();
 
-            require_once 'Services/Object/classes/class.ilObjectActivation.php';
-            $settings = array(
+            $settings = [
                 'title' => $this->gui->object->getTitle(),
                 'desc' => $this->gui->object->getDescription(),
-                'access_period' => array(
+                'access_period' => [
                     'start' => $this->gui->object->getAccessBegin() ? new ilDateTime(
                         $this->gui->object->getAccessBegin(),
                         IL_CAL_UNIX
@@ -118,9 +81,9 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                         $this->gui->object->getAccessEnd(),
                         IL_CAL_UNIX
                     ) : null
-                ),
+                ],
                 'access_visibility' => $this->gui->object->getAccessVisibility()
-            );
+            ];
 
             $presentationHeader = new ilFormSectionHeaderGUI();
             $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
@@ -144,12 +107,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $this->mainTpl->setVariable('ADM_CONTENT', $settingsForm->getHtml());
     }
 
-    /**
-     * @param string $requestedMethod
-     * @return void
-     * @throws ilDateTimeException
-     */
-    public function executeDefault($requestedMethod)
+    public function executeDefault(string $requestedMethod) : void
     {
         $this->general();
     }

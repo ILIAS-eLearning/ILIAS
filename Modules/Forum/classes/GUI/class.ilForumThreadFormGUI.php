@@ -22,15 +22,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     private bool $isDraftContext;
     private int $draftId;
 
-    /**
-     * ilForumThreadFormGUI constructor.
-     * @param ilObjForumGUI     $delegatingGui
-     * @param ilForumProperties $properties
-     * @param bool               $allowPseudonyms
-     * @param bool               $allowNotification
-     * @param bool               $isDraftContext
-     * @param int                $draftId
-     */
     public function __construct(
         ilObjForumGUI $delegatingGui,
         ilForumProperties $properties,
@@ -113,23 +104,21 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             $files->setFilenames([0 => '']);
             $this->addItem($files);
             
-            if ($this->isDraftContext) {
-                if ($this->draftId > 0) {
-                    $threadDraft = ilForumPostDraft::newInstanceByDraftId($this->draftId);
-                    if ((int) $threadDraft->getDraftId() > 0) {
-                        $draftFileData = new ilFileDataForumDrafts(0, $threadDraft->getDraftId());
-                        if (count($draftFileData->getFilesOfPost()) > 0) {
-                            $existingFileSelection = new ilCheckboxGroupInputGUI(
-                                $this->lng->txt('forums_delete_file'),
-                                'del_file'
-                            );
-                            foreach ($draftFileData->getFilesOfPost() as $file) {
-                                $currentAttachment = new ilCheckboxInputGUI($file['name'], 'del_file');
-                                $currentAttachment->setValue($file['md5']);
-                                $existingFileSelection->addOption($currentAttachment);
-                            }
-                            $this->addItem($existingFileSelection);
+            if ($this->isDraftContext && $this->draftId > 0) {
+                $threadDraft = ilForumPostDraft::newInstanceByDraftId($this->draftId);
+                if ((int) $threadDraft->getDraftId() > 0) {
+                    $draftFileData = new ilFileDataForumDrafts(0, $threadDraft->getDraftId());
+                    if (count($draftFileData->getFilesOfPost()) > 0) {
+                        $existingFileSelection = new ilCheckboxGroupInputGUI(
+                            $this->lng->txt('forums_delete_file'),
+                            'del_file'
+                        );
+                        foreach ($draftFileData->getFilesOfPost() as $file) {
+                            $currentAttachment = new ilCheckboxInputGUI($file['name'], 'del_file');
+                            $currentAttachment->setValue($file['md5']);
+                            $existingFileSelection->addOption($currentAttachment);
                         }
+                        $this->addItem($existingFileSelection);
                     }
                 }
             }
