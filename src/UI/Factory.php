@@ -294,8 +294,9 @@ interface Factory
      *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
      *           element. This differs from the behaviour in Popovers and Modals.
      *      8: >
-     *           Dropdowns MUST set the aria-label describing the contained options, if the
-     *           term "Actions" does not describe the contained options well.
+     *           If the description of the contained options are not already given by the component containing the
+     *           dropdown or the Button triggering it, then it MUST be set with the aria-label.
+     *           If the aria-label is just a the Buttons title, it MUST be omitted.
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
