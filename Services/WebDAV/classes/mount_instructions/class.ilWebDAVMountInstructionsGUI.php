@@ -53,8 +53,7 @@ class ilWebDAVMountInstructionsGUI
             . "obj.siblings().removeClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'false');"
             . "obj.siblings().removeAttr('disabled');"
             // Sets the clicked button into the "clicked" state
-            . "obj.addClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'true');"
-            . "obj.attr('disabled', 'disabled');"
+            . "obj.addClass('engaged ilSubmitInactive').attr('aria-pressed', 'true');"
             // Hide all instruction divs at first
             . '$(".instructions").hide();'
             // Show the div which is given as an argument
