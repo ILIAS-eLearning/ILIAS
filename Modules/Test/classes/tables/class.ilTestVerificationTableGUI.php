@@ -16,15 +16,10 @@ class ilTestVerificationTableGUI extends ilTable2GUI
      */
     private $userCertificateRepository;
 
-    /**
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        ilUserCertificateRepository $userCertificateRepository = null
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
