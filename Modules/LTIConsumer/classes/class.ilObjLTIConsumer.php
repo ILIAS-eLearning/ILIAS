@@ -353,9 +353,30 @@ class ilObjLTIConsumer extends ilObject2
         $this->statementsReportEnabled = $statementsReportEnabled;
     }
 
-    
-    
-    
+    /**
+     * @return string[]
+     */
+    private function getCustomParams() : array
+    {
+        $paramsAsArray = [];
+
+        $params = $this->getProvider()->getCustomParams();
+        // allows   foo=bar;foo2=baz2; foo3=baz3
+        $params = preg_split('/; ?/', $params);
+
+        foreach ($params as $param) {
+            $param = explode('=', $param);
+            // empty field, duplicate/leading/trailing semicolon?
+            if ($param[0] != '') {
+                $value = isset($param[1]) ? $param[1] : '';
+                $paramsAsArray[$param[0]] = $value;
+            }
+        }
+
+        return $paramsAsArray;
+    }
+
+
     public function doRead()
     {
         $this->load();
@@ -769,6 +790,8 @@ class ilObjLTIConsumer extends ilObject2
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
         
+        $custom_params = $this->getCustomParams();
+
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -812,7 +835,7 @@ class ilObjLTIConsumer extends ilObject2
             "http_method" => "POST",
             "sign_method" => "HMAC_SHA1",
             "token" => "",
-            "data" => $launch_vars //Todo Specialparameters für ProviderObject reinmergen
+            "data" => ($launch_vars + $custom_params)
         ];
         
         $launchParameters = ilLTIConsumerLaunch::signOAuth($OAuthParams);
