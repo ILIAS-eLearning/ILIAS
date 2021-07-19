@@ -129,6 +129,8 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
+
+        return "";
     }
     
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
