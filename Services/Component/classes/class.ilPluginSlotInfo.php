@@ -55,7 +55,7 @@ class ilPluginSlotInfo
         }
     }
 
-    public function hasPlugin(string $id) : bool
+    public function hasPluginId(string $id) : bool
     {
         return isset($this->plugins[$id]);
     }
@@ -63,13 +63,38 @@ class ilPluginSlotInfo
     /**
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPlugin(string $id) : \ilPluginInfo
+    public function getPluginById(string $id) : \ilPluginInfo
     {
-        if (!$this->hasPlugin($id)) {
+        if (!$this->hasPluginId($id)) {
             throw new \InvalidArgumentException(
                 "No plugin $id in slot {$this->getQualifiedName()}."
             );
         }
         return $this->plugins[$id];
+    }
+
+    public function hasPluginName(string $name) : bool
+    {
+        foreach ($this->getPlugins() as $plugin) {
+            if ($plugin->getName() === $name) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @throws \InvalidArgumentException if plugin does not exist
+     */
+    public function getPluginByName(string $name) : \ilPluginInfo
+    {
+        foreach ($this->getPlugins() as $plugin) {
+            if ($plugin->getName() === $name) {
+                return $plugin;
+            }
+        }
+        throw new \InvalidArgumentException(
+            "No plugin with name $name in slot {$this->getQualifiedName()}."
+        );
     }
 }

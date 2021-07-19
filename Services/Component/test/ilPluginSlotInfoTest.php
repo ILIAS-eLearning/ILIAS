@@ -28,7 +28,7 @@ class ilPluginSlotInfoTest extends TestCase
         $this->plugin1 = new ilPluginInfo(
             $this->pluginslot,
             "plg1",
-            "",
+            "Plugin1",
             true,
             $v,
             0,
@@ -47,7 +47,7 @@ class ilPluginSlotInfoTest extends TestCase
         $this->plugin2 = new ilPluginInfo(
             $this->pluginslot,
             "plg2",
-            "",
+            "Plugin2",
             true,
             $v,
             0,
@@ -81,22 +81,41 @@ class ilPluginSlotInfoTest extends TestCase
         $this->assertEquals($this->plugin2, $plugins["plg2"]);
     }
 
-    public function testHasPlugin()
+    public function testHasPluginId()
     {
-        $this->assertTrue($this->pluginslot->hasPlugin("plg1"));
-        $this->assertTrue($this->pluginslot->hasPlugin("plg2"));
-        $this->assertFalse($this->pluginslot->hasPlugin("plg3"));
+        $this->assertTrue($this->pluginslot->hasPluginId("plg1"));
+        $this->assertTrue($this->pluginslot->hasPluginId("plg2"));
+        $this->assertFalse($this->pluginslot->hasPluginId("plg3"));
     }
 
-    public function testGetPlugin()
+    public function testGetPluginById()
     {
-        $this->assertEquals($this->plugin1, $this->pluginslot->getPlugin("plg1"));
-        $this->assertEquals($this->plugin2, $this->pluginslot->getPlugin("plg2"));
+        $this->assertEquals($this->plugin1, $this->pluginslot->getPluginById("plg1"));
+        $this->assertEquals($this->plugin2, $this->pluginslot->getPluginById("plg2"));
     }
 
-    public function testGetUnknownPlugin()
+    public function testGetUnknownPluginId()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->pluginslot->getPlugin("plg3");
+        $this->pluginslot->getPluginById("plg3");
+    }
+
+    public function testHasPluginName()
+    {
+        $this->assertTrue($this->pluginslot->hasPluginName("Plugin1"));
+        $this->assertTrue($this->pluginslot->hasPluginName("Plugin2"));
+        $this->assertFalse($this->pluginslot->hasPluginName("Plugin3"));
+    }
+
+    public function testGetPluginByName()
+    {
+        $this->assertEquals($this->plugin1, $this->pluginslot->getPluginByName("Plugin1"));
+        $this->assertEquals($this->plugin2, $this->pluginslot->getPluginByName("Plugin2"));
+    }
+
+    public function testGetUnknownPluginName()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->pluginslot->getPluginByName("Plugin3");
     }
 }
