@@ -249,7 +249,7 @@ lti#:#lti_obj_active#:#LTI-Tool-Provider
 lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
 lti#:#lti_admin#:#LTI-Rolle Administrator
 lti#:#lti_tutor#:#LTI-Rolle Tutor
-lti#:#lti_member#:#LTI-Rolle Mitglied
+lti#:#lti_member#:#LTI-Rolle Mitglied / Lerner
 auth#:#lti_consumer_inactive#:#LTI-Tool-Consumer ist deaktivert
 crs#:#crs_timings_activate_optional#:#Freiwilligen-Modus des studyplans des Benutzers
 crs#:#crs_timings_activate_optional_own#:#Freiwilligen-Modus meines studyplans
@@ -16244,3 +16244,6 @@ lti#:#toplist_your_result#:#Eigener Rang
 rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
 dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User

@@ -294,7 +294,7 @@ lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
-lti#:#lti_member#:#LTI Member
+lti#:#lti_member#:#LTI Member / Learner
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
@@ -16244,3 +16244,6 @@ lti#:#toplist_your_result#:#Own Rank
 rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User
