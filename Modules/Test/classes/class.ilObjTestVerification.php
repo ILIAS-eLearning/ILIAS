@@ -14,12 +14,12 @@ include_once('./Services/Verification/classes/class.ilVerificationObject.php');
 */
 class ilObjTestVerification extends ilVerificationObject
 {
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "tstv";
     }
 
-    protected function getPropertyMap()
+    protected function getPropertyMap() : array
     {
         return array("issued_on" => self::TYPE_DATE,
             "file" => self::TYPE_STRING

@@ -17,7 +17,7 @@ class ilObjTestVerificationListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -33,7 +33,7 @@ class ilObjTestVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjTestVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
