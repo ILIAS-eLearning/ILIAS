@@ -88,14 +88,14 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
             ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
         }
     }
-    
+
     /**
      * Render content
-     *
      * @param bool $a_return
-     * @param string $a_url
+     * @param bool|string $a_url
+     * @return string
      */
-    public function render($a_return = false, $a_url = false) : string
+    public function render(bool $a_return = false, $a_url = false) : string
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -140,7 +140,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         throw new ilExerciseException($this->lng->txt('permission_denied'));
     }
 
-    public static function _goto($a_target) : void
+    public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
         

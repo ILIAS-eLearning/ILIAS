@@ -26,8 +26,8 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
      * @param ilUserCertificateRepository|null $userCertificateRepository
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
         ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
