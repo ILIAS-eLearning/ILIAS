@@ -172,7 +172,8 @@
             
             $req_opts = array(
                 RequestOptions::VERIFY => false,
-                RequestOptions::CONNECT_TIMEOUT => 5
+                RequestOptions::CONNECT_TIMEOUT => 5,
+                RequestOptions::HTTP_ERRORS => false
             );
             $cmd = $this->xapiproxy->cmdParts()[2];
             $upstreamDefault = $endpointDefault.$cmd;
