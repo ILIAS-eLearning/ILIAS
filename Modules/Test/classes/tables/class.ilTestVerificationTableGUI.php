@@ -11,7 +11,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestVerificationTableGUI extends ilTable2GUI
 {
-    private ilUserCertificateRepository $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
         ilObject $a_parent_obj,
