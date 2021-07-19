@@ -9,26 +9,13 @@
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
+    private ?ilUserCertificateRepository $userCertificateRepository;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
     public function __construct(
         ilObject $a_parent_obj,
         string $a_parent_cmd = "",
-        ilUserCertificateRepository $userCertificateRepository = null
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
