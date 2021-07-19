@@ -75,14 +75,14 @@ class ilCtrlStructure
             );
         }
 
-        if (isset($this->class_scripts[$class]) && $this->class_scripts[$class] != $file_path) {
+        /*if (isset($this->class_scripts[$class]) && $this->class_scripts[$class] != $file_path) {
             $e = new \RuntimeException(
                 "Can't add script '$file_path' for class '$class', a script for that class already exists."
             );
             $e->file_path = $file_path;
             $e->class = $class;
             throw $e;
-        }
+        }*/
 
         $this->class_scripts[$class] = $file_path;
     }

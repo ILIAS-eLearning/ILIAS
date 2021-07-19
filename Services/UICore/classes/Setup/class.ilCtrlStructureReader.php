@@ -311,7 +311,7 @@ class ilCtrlStructureReader
      */
     protected function parseFileTo(\ilCtrlStructure $cs, string $full_path, string $content) : \ilCtrlStructure
     {
-        list($parent, $children) = $this->getIlCtrlCalls($content);
+        foreach ($this->getIlCtrlCalls($content) ?? [] as [$parent, $children]) {
         if ($parent) {
             $cs = $cs->withClassScript($parent, $full_path);
         }
@@ -320,8 +320,9 @@ class ilCtrlStructureReader
                 $cs = $cs->withClassChild($parent, $child);
             }
         }
+        }
 
-        list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
+        foreach ($this->getIlCtrlIsCalledBy($content) ?? [] as [$child, $parents]) {
         if ($child) {
             $cs = $cs->withClassScript($child, $full_path);
         }
@@ -329,6 +330,7 @@ class ilCtrlStructureReader
             foreach ($parents as $parent) {
                 $cs = $cs->withClassChild($parent, $child);
             }
+        }
         }
 
         $cl = $this->getGUIClassNameFromClassPath($full_path);
@@ -394,21 +396,16 @@ class ilCtrlStructureReader
             return null;
         }
 
-        $class_names = array_unique($res[1]);
-        if (count($class_names) != 1) {
-            throw new \LogicException(
-                "Found different class names in ilctrl_calls: " . join(",", $class_names)
-            );
-        }
-
+        $declarations = [];
+        foreach ($res[1] as $i => $class_name) {
         $declaration = [];
-        foreach ($res[2] as $ls) {
-            foreach (explode(",", $ls) as $l) {
+            foreach (explode(",", $res[2][$i]) as $l) {
                 $declaration[] = strtolower(trim($l));
             }
+        $declarations[] = [strtolower(trim($class_name)), $declaration];
         }
 
-        return [strtolower(trim($class_names[0])), $declaration];
+        return $declarations;
     }
 
 
