@@ -784,19 +784,19 @@ This list is prepared to be worked thorugh by developers implementing specific p
 Please manually check your project for tabbing and focus quality: 
 1. All functionality must be operable by keyboard, mainly tab, arrow, space or return keys are used. (2.1.1) 
 2. Users can move to any control, operate it, and move away again. (2.1.2) 
-3. Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) Mouse focus must also be visible.
+3. Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) Mouse on-active focus must also be visible.
 4. Keyboard control order must be sensible and predictable. The focus moves following the meaning of the content. Moving focus should not jump around unpredictably. (2.4.3)
 5. If an element gains focus it must not
 	* transfer users to a different context automatically and without warning i.e. open a new window. (3.2.1)
 	* carry out an action automatically i.e. submit a form after a save-button received focus. (3.2.1)
 ## Structure 
 Check how your project complies with our semantic structures: 
-6. Write “well formed” HTML, employ HTML according to the specification. The proper functioning of all user agents depends on well formed HTML. (4.1.1). Use [validator](https://validator.w3.org/) to verify.  Always prefer employing semantic HTML over aria i.e. use HTML lists instead of divs. 
+6. Write “well formed” HTML, employ HTML according to the specification. The proper functioning of all user agents depends on well formed HTML. (4.1.1). Use [validator](https://validator.w3.org/) to verify. Always prefer employing semantic HTML over aria i.e. use HTML lists instead of divs. 
 7. We use aria landmarks and [headlines](headlines.md) to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by [aria landmarks](https://docu.ilias.de/goto_docu_pg_124778_459.html). User generated content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).
 8. Regardless of the visual presentation the DOM order must be presented in a meaningful and usable sequence. When in doubt make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same correct order. 
 ## Headings, Labels, and Language Attributes
 9. Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or the editorial team. 
-10. Provide clear and descriptive labels for any form field. If a specific input format is required, users get specific instructions. (3.3.2)
+10. Provide clear and descriptive labels for any form field. If a specific input format is required, specific instructions need to be provided for users. (3.3.2)
 11. Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
 ## Colour and Contrast
 Please check your project for colour and contrast issues: 
@@ -804,6 +804,6 @@ Please check your project for colour and contrast issues:
 13. Ensure contrast requirements are met. Use for example Wave or Lighthouse to verify. 
 ## Alt-Texts and aria labels
 Please check if your project labels the GUI for all target groups:
-14. Non-text elements like icons, images, graphs and the like must have alt-texts (1.1.1). 
+14. Non-text elements like icons, images, graphs and the like must have an alt-attribute (1.1.1). If the non-text element is merely decorative this attribute may be empty. 
 15. Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
-16. Ensure labeling requirements are met. Use for example Wave or Lighthouse to verify. 
+16. If labels are used with interactive elements, always use Wave to check whether labeling requirements are met.
