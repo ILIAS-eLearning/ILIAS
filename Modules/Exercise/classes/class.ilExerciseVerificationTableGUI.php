@@ -61,7 +61,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
     /**
      * Get all achieved test certificates for the current user
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         $ilUser = $this->user;
         $userId = $ilUser->getId();
@@ -87,7 +87,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

@@ -23,14 +23,14 @@ class ilObjExerciseVerificationAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
         return $commands;
     }
     
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 

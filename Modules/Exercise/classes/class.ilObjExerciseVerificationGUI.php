@@ -11,7 +11,7 @@
  */
 class ilObjExerciseVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    public function getType() : string
     {
         return "excv";
     }
@@ -19,7 +19,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     /**
      * List all exercises in which current user participated
      */
-    public function create()
+    public function create() : void
     {
         $ilTabs = $this->tabs_gui;
 
@@ -37,7 +37,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
@@ -63,7 +63,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
             }
 
             if ($newObj) {
@@ -81,7 +81,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -95,7 +95,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
      * @param bool $a_return
      * @param string $a_url
      */
-    public function render($a_return = false, $a_url = false)
+    public function render($a_return = false, $a_url = false) : string
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -131,7 +131,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         }
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
@@ -140,7 +140,7 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         throw new ilExerciseException($this->lng->txt('permission_denied'));
     }
 
-    public static function _goto($a_target)
+    public static function _goto($a_target) : void
     {
         $id = explode("_", $a_target);
         

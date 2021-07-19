@@ -16,7 +16,7 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -31,7 +31,7 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjExerciseVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         $lng = $this->lng;
         
