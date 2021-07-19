@@ -205,6 +205,24 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	// create global role LTI-User
 	protected function createLtiUserRole()
 	{
+        global $DIC;
+        $rbacadmin = $DIC['rbacadmin'];
+        // include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        $role = new ilObjRole();
+        $role->setTitle("il_lti_global_role");
+        $role->setDescription("This global role should only contain the permission 'read' for repository and categories.");
+        $role->create();
+        $rbacadmin->assignRoleToFolder($role->getId(), 8, 'y');
+        $rbacadmin->setProtected(8, $role->getId(), 'y');
+        $rbacadmin->setRolePermission($role->getId(), 'root', [3], 8);
+        $rbacadmin->setRolePermission($role->getId(), 'cat', [3], 8);
+        $rbacadmin->grantPermission($role->getId(), [3], ROOT_FOLDER_ID);
+        $role->changeExistingObjects(
+            ROOT_FOLDER_ID,
+            ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES,
+            array('cat'),
+            array());
+        
 		ilUtil::sendSuccess($this->lng->txt("lti_user_role_created"), true);
 		$this->listConsumers();
 	}
@@ -426,12 +444,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $this->lng->txt('lti_create_consumer'),
                 $this->ctrl->getLinkTarget($this, 'createconsumer')
             );
-			//if not exist global role lti_user
-			$ilToolbar->addButton(
-                $this->lng->txt('lti_create_lti_user_role'),
-                $this->ctrl->getLinkTarget($this, 'createLtiUserRole')
-            );
-			$ilToolbar->addText($this->lng->txt('lti_user_role_info'));
+            if (ilObject::_getIdsForTitle("il_lti_global_role", "role", false) == false) {
+                $ilToolbar->addButton(
+                    $this->lng->txt('lti_create_lti_user_role'),
+                    $this->ctrl->getLinkTarget($this, 'createLtiUserRole')
+                );
+                $ilToolbar->addText($this->lng->txt('lti_user_role_info'));
+            }
 			
         }
 
