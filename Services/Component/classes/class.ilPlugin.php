@@ -709,8 +709,6 @@ abstract class ilPlugin
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilCachedComponentData::flush();
-
         $q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)" .
             " VALUES (" . $ilDB->quote($a_ctype, "text") . "," .
             $ilDB->quote($a_cname, "text") . "," .
@@ -732,12 +730,25 @@ abstract class ilPlugin
      */
     public static function getPluginRecord(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : array
     {
-        $cached_component = ilCachedComponentData::getInstance();
-        $rec = $cached_component->lookupPluginByName($a_pname);
-
-        if ($rec['component_type'] == $a_ctype and $rec['component_name'] == $a_cname and $rec['slot_id'] == $a_slot_id) {
-            return $rec;
-        } else {
+        global $DIC;
+        $component_data_db = $DIC["component.db"];
+        try {
+            $plugin = $component_data_db
+                ->getComponentByTypeAndName($a_ctype, $a_cname)
+                ->getPluginSlotById($a_slot_id)
+                ->getPluginByName($a_pname);
+            return [
+                "component_type" => $plugin->getComponent()->getType(),
+                "component_name" => $plugin->getComponent()->getName(),
+                "slot_id" => $plugin->getPluginSlot()->getId(),
+                "name" => $plugin->getName(),
+                "last_update_version" => (string)$plugin->getCurrentVersion(),
+                "active" => $plugin->isActivated() ? 1 : 0,
+                "db_version" => $plugin->getCurrentDBVersion(),
+                "plugin_id" => $plugin->getId()
+            ];
+        }
+        catch (\InvalidArgumentException $e) {
             throw new ilPluginException("No plugin record found for '{$a_ctype}', '{$a_cname}', '{$a_slot_id}', '{$a_pname}");
         }
     }
@@ -879,7 +890,6 @@ abstract class ilPlugin
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilCachedComponentData::flush();
         $q = "UPDATE il_plugin SET plugin_id = " . $ilDB->quote($this->getId(), "text") .
             " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
             " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
@@ -898,8 +908,6 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilDB = $DIC->database();
-
-        ilCachedComponentData::flush();
 
         $result = true;
 
@@ -926,7 +934,6 @@ abstract class ilPlugin
                 $this->afterActivation();
             }
         }
-        ilCachedComponentData::flush();
 
         return $result;
     }
@@ -969,8 +976,6 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilDB = $DIC->database();
-
-        ilCachedComponentData::flush();
 
         $result = true;
 
@@ -1038,8 +1043,6 @@ abstract class ilPlugin
             $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
 
             $this->afterUninstall();
-
-            ilCachedComponentData::flush();
 
             return true;
         }
@@ -1160,9 +1163,10 @@ abstract class ilPlugin
      */
     public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : ilPlugin
     {
+        global $DIC;
         $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
+        $component_data_db = $DIC["component.db"];
         if (!$component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)) {
             return null;
         }
@@ -1225,15 +1229,12 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
 
         $plugins = array();
-
-        $cached_component = ilCachedComponentData::getInstance();
-
-        $lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
-        foreach ($lookupActivePluginsBySlotId as $rec) {
-            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"])) {
-                $plugins[] = $rec["name"];
+        foreach ($component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)->getPluginSlotById($a_slot_id)->getPlugins() as $plugin) {
+            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $plugin->getName())) {
+                $plugins[] = $plugin->getName();
             }
         }
 
@@ -1254,13 +1255,12 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
 
         $plugins = array();
-        $cached_component = ilCachedComponentData::getInstance();
-        $lookupActivePluginsBySlotId = $cached_component->lookupActivePluginsBySlotId($a_slot_id);
-        foreach ($lookupActivePluginsBySlotId as $rec) {
-            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $rec["name"])) {
-                $plugins[] = $rec["plugin_id"];
+        foreach ($component_data_db->getComponentByTypeAndName($a_ctype, $a_name)->getPluginSlotById($a_slot_id)->getPlugins() as $plugin) {
+            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $plugin->getName())) {
+                $plugins[] = $plugin->getId();
             }
         }
 

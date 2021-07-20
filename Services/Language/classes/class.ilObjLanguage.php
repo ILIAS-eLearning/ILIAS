@@ -269,8 +269,8 @@ class ilObjLanguage extends ilObject
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
 
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         foreach ($component_data_db->getPluginSlots() as $slot) {
             $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
                 $slot->getComponent()->getType(),

@@ -56,8 +56,19 @@ class ilArtifactComponentDataDBTest extends TestCase
     protected function setUp() : void
     {
         $this->data_factory = new Data\Factory();
+        $this->plugin_state_db = new class() implements ilPluginStateDB {
+            public function isPluginActivated(string $id) : bool {
+                return false;
+            }
+            public function getCurrentPluginVersion(string $id) : ?Data\Version {
+                return (new Data\Factory())->version("0.9.1");
+            }
+            public function getCurrentPluginDBVersion(string $id) : ?int {
+                return 13;
+            }
+        };
 
-        $this->db = new class($this->data_factory) extends ilArtifactComponentDataDB {
+        $this->db = new class($this->data_factory, $this->plugin_state_db) extends ilArtifactComponentDataDB {
             protected function readComponentData() : array
             {
                 return ilArtifactComponentDataDBTest::$component_data;
@@ -87,8 +98,8 @@ class ilArtifactComponentDataDBTest extends TestCase
             "plg1",
             "Plugin1",
             false,
-            $this->data_factory->version("1.9.1"),
-            0,
+            $this->data_factory->version("0.9.1"),
+            13,
             $this->data_factory->version("1.9.1"),
             0,
             $this->data_factory->version("8.0"),
@@ -154,8 +165,8 @@ class ilArtifactComponentDataDBTest extends TestCase
             "plg2",
             "Plugin2",
             false,
-            $this->data_factory->version("2.9.1"),
-            0,
+            $this->data_factory->version("0.9.1"),
+            13,
             $this->data_factory->version("2.9.1"),
             0,
             $this->data_factory->version("8.1"),
@@ -279,7 +290,7 @@ class ilArtifactComponentDataDBTest extends TestCase
 
     public function testNoPluginSlot()
     {
-        $db = new class($this->data_factory) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $this->plugin_state_db) extends ilArtifactComponentDataDB {
             protected function readComponentData() : array
             {
                 return ["mod2" => ["Modules", "Module2", []]];
@@ -309,15 +320,66 @@ class ilArtifactComponentDataDBTest extends TestCase
         $this->assertEquals($this->plg2, $plugins["plg2"]);
     }
 
-    public function testGetPlugin()
+    public function testGetPluginById()
     {
-        $this->assertEquals($this->plg1, $this->db->getPlugin("plg1"));
-        $this->assertEquals($this->plg2, $this->db->getPlugin("plg2"));
+        $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
+        $this->assertEquals($this->plg2, $this->db->getPluginById("plg2"));
     }
 
     public function testUnknownPlugin()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->db->getPlugin("some_id");
+        $this->db->getPluginById("some_id");
+    }
+
+    public function testUsesPluginStateDB()
+    {
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $plugin_state_db->expects($this->once())
+            ->method("isPluginActivated")
+            ->with("plg1")
+            ->willReturn(true);
+        $plugin_state_db->expects($this->once())
+            ->method("getCurrentPluginVersion")
+            ->with("plg1")
+            ->willReturn($this->data_factory->version("1.8.0"));
+        $plugin_state_db->expects($this->once())
+            ->method("getCurrentPluginDBVersion")
+            ->with("plg1")
+            ->willReturn(42);
+
+        $db = new class($this->data_factory, $plugin_state_db) extends ilArtifactComponentDataDB {
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $plugin = $db->getPluginById("plg1");
+        $this->assertTrue($plugin->isActivated());
+        $this->assertEquals(
+            $this->data_factory->version("1.8.0"),
+            $plugin->getCurrentVersion()
+        );
+        $this->assertEquals(42, $plugin->getCurrentDBVersion());
     }
 }

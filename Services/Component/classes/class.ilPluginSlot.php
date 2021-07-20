@@ -20,11 +20,16 @@ class ilPluginSlot
 {
     protected $prefix = "";
 
+    protected ilComponentDataDB $component_data_db;
+
     /**
     * Constructor
     */
     public function __construct($a_c_type, $a_c_name, $a_slot_id)
     {
+        globaL $DIC;
+        $this->component_data_db = $DIC["component.db"];
+
         $this->setComponentType($a_c_type);
         $this->setComponentName($a_c_name);
         $this->setSlotId($a_slot_id);
@@ -39,7 +44,7 @@ class ilPluginSlot
     */
     public function read()
     {
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
+        $component_data_db = $this->component_data_db;
         $this->setSlotName($component_data_db->getPluginSlotById($this->getSlotId())->getName());
     }
     
@@ -293,7 +298,8 @@ class ilPluginSlot
     */
     public static function lookupSlotName($a_ctype, $a_cname, $a_slot_id)
     {
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
+        global $DIC;
+        $component_data_db = $DIC["component.db"];
         return $component_data_db->getPluginSlotById($a_slot_id)->getName();
     }
 

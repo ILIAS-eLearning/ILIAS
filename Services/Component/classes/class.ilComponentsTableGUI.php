@@ -51,7 +51,8 @@ class ilComponentsTableGUI extends ilTable2GUI
     */
     public function getComponents()
     {
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
+        global $DIC;
+        $component_data_db = $DIC["component.db"];
         $data = array();
 
         include_once("./Services/Component/classes/class.ilService.php");

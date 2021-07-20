@@ -37,7 +37,9 @@ class ilBadgeHandler
     {
         global $DIC;
 
-        $this->component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory);
+        if (isset($DIC["component.db"])) {
+            $this->component_data_db = $DIC["component.db"];
+        }
         $this->db = $DIC->database();
         if (isset($DIC["tree"])) {
             $this->tree = $DIC->repositoryTree();

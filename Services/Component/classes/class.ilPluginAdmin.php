@@ -55,7 +55,7 @@ class ilPluginAdmin
         global $DIC;
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("cmps");
-        $this->component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
+        $this->component_data_db = $DIC["component.db"];
     }
 
 
@@ -526,9 +526,23 @@ class ilPluginAdmin
     public static function getAllPlugins()
     {
         static $all_plugins;
+
+        global $DIC;
+        $component_data_db = $DIC["component.db"];
         if (!isset($all_plugins)) {
-            $cached_component = ilCachedComponentData::getInstance();
-            $all_plugins = $cached_component->getIlPluginById();
+            $all_plugins = [];
+            foreach ($component_data_db->getPlugins() as $id => $plugin) {
+                $all_plugins[$id] = [
+                    "component_type" => $plugin->getComponent()->getType(),
+                    "component_name" => $plugin->getComponent()->getName(),
+                    "slot_id" => $plugin->getPluginSlot()->getId(),
+                    "name" => $plugin->getName(),
+                    "last_update_version" => (string)$plugin->getCurrentVersion(),
+                    "active" => $plugin->isActivated() ? "1" : "0",
+                    "db_version" => $plugin->getCurrentDBVersion(),
+                    "plugin_id" => $plugin->getId()
+                ];
+            }
         }
 
         return $all_plugins;
@@ -542,18 +556,28 @@ class ilPluginAdmin
      */
     public static function getActivePlugins()
     {
-        static $active_plugins;
-        if (!isset($active_plugins)) {
-            $cached_component = ilCachedComponentData::getInstance();
-            $plugins = $cached_component->getIlPluginActive();
-            $buf = array();
-            foreach ($plugins as $slot => $plugs) {
-                $buf[] = $plugs;
+        static $active_plugins = null;
+        if ($active_plugins === null) {
+            global $DIC;
+            $component_data_db = $DIC["component.db"];
+            $active_plugins = [];
+
+            foreach ($component_data_db->getPlugins() as $id => $plugin) {
+                if (!$plugin->isActivated()) {
+                    continue;
+                }
+                $active_plugins[] = [
+                    "component_type" => $plugin->getComponent()->getType(),
+                    "component_name" => $plugin->getComponent()->getName(),
+                    "slot_id" => $plugin->getPluginSlot()->getId(),
+                    "name" => $plugin->getName(),
+                    "last_update_version" => (string)$plugin->getCurrentVersion(),
+                    "active" => $plugin->isActivated() ? "1" : "0",
+                    "db_version" => $plugin->getCurrentDBVersion(),
+                    "plugin_id" => $plugin->getId()
+                ];
             }
-
-            $active_plugins = array_merge([], ...$buf);
         }
-
         return $active_plugins;
     }
 
@@ -565,16 +589,14 @@ class ilPluginAdmin
      *
      * @return    boolean
      */
-    public static function isPluginActive($id)
+    public static function isPluginActive(string $id)
     {
-        assert(is_string($id));
-        $cached_component = ilCachedComponentData::getInstance();
-        $plugs = $cached_component->getIlPluginById();
-        if (array_key_exists($id, $plugs) && $plugs[$id]['active']) {
-            return true;
-        }
+        global $DIC;
+        $component_data_db = $DIC["component.db"];
 
-        return false;
+        return
+            $component_data_db->hasPluginId($id)
+            && $component_data_db->getPluginById($id)->isActivated();
     }
 
 
@@ -685,6 +707,5 @@ class ilPluginAdmin
     {
         unset($this->data);
         unset($this->got_data);
-        ilCachedComponentData::flush();
     }
 }

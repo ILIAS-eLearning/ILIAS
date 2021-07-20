@@ -15,7 +15,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     protected array $pluginslot_by_id;
     protected array $plugin_by_id;
 
-    public function __construct(Data\Factory $data_factory)
+    public function __construct(Data\Factory $data_factory, ilPluginStateDB $plugin_state_db)
     {
         $component_data = $this->readComponentData();
         $plugin_data = $this->readPluginData();
@@ -49,12 +49,12 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             unset($slots);
         }
         $this->plugin_by_id = [];
-        foreach ($plugin_data as $plugin_id => $plugin_data) {
+        foreach ($plugin_data as $plugin_id => $data) {
             list(
                 $type, $comp_name, $slot_name, $plugin_name, $plugin_version,
                 $ilias_min_version, $ilias_max_version, $responsible, $responsible_mail,
                 $learning_progress, $supports_export, $supports_cli_setup
-            ) = $plugin_data;
+            ) = $data;
             if (!$this->hasComponent($type, $comp_name)) {
                 throw new \InvalidArgumentException(
                     "Can't find component $type/$comp_name for plugin $plugin_name"
@@ -71,9 +71,9 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 $slot,
                 $plugin_id,
                 $plugin_name,
-                false,
-                $data_factory->version($plugin_version),
-                0,
+                $plugin_state_db->isPluginActivated($plugin_id),
+                $plugin_state_db->getCurrentPluginVersion($plugin_id),
+                $plugin_state_db->getCurrentPluginDBVersion($plugin_id),
                 $data_factory->version($plugin_version),
                 0,
                 $data_factory->version($ilias_min_version),
@@ -191,7 +191,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     /**
      * Check if a plugin exists.
      */
-    public function hasPlugin(string $id) : bool
+    public function hasPluginId(string $id) : bool
     {
         return isset($this->plugin_by_id[$id]);
     }
@@ -215,9 +215,9 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
      *
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPlugin(string $id) : ilPluginInfo
+    public function getPluginById(string $id) : ilPluginInfo
     {
-        if (!$this->hasPlugin($id)) {
+        if (!$this->hasPluginId($id)) {
             throw new \InvalidArgumentException(
                 "Unknown plugin $id."
             );
