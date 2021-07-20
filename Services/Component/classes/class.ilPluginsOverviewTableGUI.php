@@ -18,12 +18,15 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected $filter_data;
 
+    protected ilComponentDataDB $component_data_db;
+
     public function __construct(ilObjComponentSettingsGUI $a_parent_obj, array $filter_data, string $a_parent_cmd = "")
     {
         global $DIC;
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->filter_data = $filter_data;
+        $this->component_data_db = $DIC["component.db"];
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -105,9 +108,8 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected function addPluginData(array &$plugins, array $core_items, string $core_type)
     {
-        $component_data_db = new ilArtifactComponentDataDB(new ILIAS\Data\Factory());
         foreach ($core_items as $core_item) {
-            $plugin_slots = $component_data_db->getComponentByTypeAndName($core_type, $core_item["subdir"]);
+            $plugin_slots = $this->component_data_db->getComponentByTypeAndName($core_type, $core_item["subdir"])->getPluginSlots();
             foreach ($plugin_slots as $plugin_slot) {
                 $slot = new ilPluginSlot($core_type, $core_item["subdir"], $plugin_slot->getId());
                 foreach ($slot->getPluginsInformation() as $plugin) {

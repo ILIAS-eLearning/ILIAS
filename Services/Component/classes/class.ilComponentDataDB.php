@@ -64,7 +64,7 @@ interface ilComponentDataDB
     /**
      * Check if a plugin exists.
      */
-    public function hasPlugin(string $id) : bool;
+    public function hasPluginId(string $id) : bool;
 
     /**
      * Get all plugins.
@@ -80,5 +80,5 @@ interface ilComponentDataDB
      *
      * @throws \InvalidArgumentException if plugin does not exist
      */
-    public function getPlugin(string $id) : ilPluginInfo;
+    public function getPluginById(string $id) : ilPluginInfo;
 }

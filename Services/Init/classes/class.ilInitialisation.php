@@ -1248,6 +1248,8 @@ class ilInitialisation
 
         self::initDatabase();
 
+        self::initComponentService($DIC);
+
         // init dafault language
         self::initLanguage(false);
 
@@ -1492,6 +1494,12 @@ class ilInitialisation
         $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
         $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
         $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
+    }
+
+    protected static function initComponentService(\ILIAS\DI\Container $container)
+    {
+        $init = new InitComponentService();
+        $init->init($container);
     }
 
     /**
