@@ -32,6 +32,10 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
+    /**
+     * @param string $a_target
+     * @return bool
+     */
     public static function _checkGoto($a_target) : bool
     {
         global $DIC;
