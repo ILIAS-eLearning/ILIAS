@@ -55,7 +55,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
     /**
      * Get all achieved certificates of SCORM modules for current user
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         global $DIC;
 
@@ -82,7 +82,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

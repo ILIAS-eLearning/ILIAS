@@ -13,7 +13,7 @@ include_once('./Services/Object/classes/class.ilObject2GUI.php');
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    public function getType() : string
     {
         return "scov";
     }
@@ -21,7 +21,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     /**
      * List all tests in which current user participated
      */
-    public function create()
+    public function create() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -41,7 +41,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
@@ -67,7 +67,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
             }
 
             if ($newObj) {
@@ -85,7 +85,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -99,7 +99,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
      * @param bool $a_return
      * @param string $a_url
      */
-    public function render($a_return = false, $a_url = false)
+    public function render($a_return = false, $a_url = false) : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -135,9 +135,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
                 return '<div>' . $caption . ' (' . $message . ')</div>';
             }
         }
+
+        return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -150,7 +152,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto($a_target)
+    public static function _goto($a_target) : void
     {
         $id = explode("_", $a_target);
 
