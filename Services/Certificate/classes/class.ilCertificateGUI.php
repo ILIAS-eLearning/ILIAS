@@ -136,7 +136,7 @@ class ilCertificateGUI
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule("trac");
 
-        $this->ref_id = (int) $_GET['ref_id'];
+        $this->ref_id = (int) $DIC->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int());
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 

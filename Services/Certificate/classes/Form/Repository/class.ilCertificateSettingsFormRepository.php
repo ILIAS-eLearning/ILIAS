@@ -5,6 +5,9 @@ use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\DI\Container;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -24,6 +27,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private string $certificatePath;
     private bool $hasAdditionalElements;
     private ?ilCertificateBackgroundImageFileService $backGroundImageFileService;
+    private WrapperFactory $httpWrapper;
+    private Factory $refinery;
 
     public function __construct(
         int $objectId,
@@ -43,7 +48,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ?ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
-
+        $this->httpWrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->objectId = $objectId;
         $this->language = $language;
         $this->controller = $controller;
@@ -277,7 +283,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $form->addItem($formSection);
         }
 
-        if ($this->access->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($this->access->checkAccess("write", "", $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string()))) {
             if ($certificateTemplate->isCurrentlyActive()) {
                 $this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 
