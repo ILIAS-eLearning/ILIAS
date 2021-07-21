@@ -45,6 +45,11 @@ class ilPluginSlotInfo
         return $this->component->getQualifiedName() . "/" . $this->getName();
     }
 
+    public function getPath() : string
+    {
+        return ilComponentDataDB::PLUGIN_BASE_PATH . "/" . $this->getQualifiedName();
+    }
+
     /**
      * @return Iterator <ilPluginInfo>
      */
