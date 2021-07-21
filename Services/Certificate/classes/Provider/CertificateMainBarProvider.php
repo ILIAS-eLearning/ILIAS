@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Certificate\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Certificate\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
