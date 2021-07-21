@@ -47,7 +47,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 
         $ilUser = $DIC->user();
 
-        $objectId = $_REQUEST["lm_id"];
+        $objectId = $this->getRequestValue("lm_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $DIC->language(),
@@ -160,5 +160,22 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
         exit;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed   $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null) {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }
