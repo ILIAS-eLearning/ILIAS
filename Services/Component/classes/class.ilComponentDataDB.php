@@ -5,6 +5,8 @@
  */
 interface ilComponentDataDB
 {
+    public const PLUGIN_BASE_PATH = "Customizing/global/plugins";
+
     /**
      * Check if a component exists.
      *

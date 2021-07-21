@@ -153,4 +153,12 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($this->plugin->isCompliantToILIAS($this->data_factory->version("6.5")));
         $this->assertFalse($this->plugin->isCompliantToILIAS($this->data_factory->version("7.1")));
     }
+
+    public function testGetPath()
+    {
+        $this->assertEquals(
+            ilComponentDataDB::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1/Plugin1",
+            $this->plugin->getPath()
+        );
+    }
 }

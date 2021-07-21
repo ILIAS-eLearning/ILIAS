@@ -118,4 +118,12 @@ class ilPluginSlotInfoTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->pluginslot->getPluginByName("Plugin3");
     }
+
+    public function testGetPath()
+    {
+        $this->assertEquals(
+            ilComponentDataDB::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
+            $this->pluginslot->getPath()
+        );
+    }
 }
