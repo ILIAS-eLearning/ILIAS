@@ -95,11 +95,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
 
     /**
      * Render content
-     *
-     * @param bool $a_return
-     * @param string $a_url
+     * @param bool        $a_return
+     * @param string|bool $a_url
+     * @return string
      */
-    public function render($a_return = false, $a_url = false) : string
+    public function render(bool $a_return = false, $a_url = false) : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -152,7 +152,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto($a_target) : void
+    public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
 

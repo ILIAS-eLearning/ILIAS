@@ -19,12 +19,12 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
     /**
      * @param ilObject $a_parent_obj
      * @param string $a_parent_cmd
-     * @param null $userCertificateRepository
+     * @param ilUserCertificateRepository|null $userCertificateRepository
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $userCertificateRepository = null
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
