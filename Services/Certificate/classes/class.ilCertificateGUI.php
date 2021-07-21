@@ -21,8 +21,11 @@
    +----------------------------------------------------------------------------+
 */
 
-ilTemplate $use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\FileUpload;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
 * GUI class to create PDF certificates
@@ -34,8 +37,8 @@ use ILIAS\FileUpload\FileUpload;
 */
 class ilCertificateGUI
 {
-    private ilCertificateBackgroundImageDelete $backgroundImageDelete;
-    private Filesystem $fileSystem;
+    private ?ilCertificateBackgroundImageDelete $backgroundImageDelete;
+    private ?Filesystem $fileSystem;
 
     /**
     * The reference to the ILIAS control class
@@ -81,19 +84,19 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ?ilCertificateTemplateRepository $templateRepository;
-    private ilXlsFoParser $formFieldParser;
+    private ?ilXlsFoParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
     private ?ilCertificateSettingsFormRepository $settingsFormFactory;
     private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ?ilXlsFoParser $xlsFoParser;
-    private ilCertificateDeleteAction $deleteAction;
+    private ?ilCertificateDeleteAction $deleteAction;
     private ?ilCertificateTemplateExportAction $exportAction;
-    private ilCertificateBackgroundImageUpload $backgroundImageUpload;
+    private ?ilCertificateBackgroundImageUpload $backgroundImageUpload;
     private ?ilCertificateTemplatePreviewAction $previewAction;
     private ?FileUpload $fileUpload;
     private string $certificatePath;
-    private ilSetting $settings;
+    private ?ilSetting $settings;
     private ?ilPageFormats $pageFormats;
     private ?Filesystem $tmp_file_system;
 
@@ -102,21 +105,21 @@ class ilCertificateGUI
         ilCertificatePlaceholderValues $placeholderValuesObject,
         $objectId,
         $certificatePath,
-        ilCertificateFormRepository $settingsFormFactory = null,
-        ilCertificateDeleteAction $deleteAction = null,
-        ilCertificateTemplateRepository $templateRepository = null,
-        ilPageFormats $pageFormats = null,
-        ilXlsFoParser $xlsFoParser = null,
-        ilFormFieldParser $formFieldParser = null,
-        ilCertificateTemplateExportAction $exportAction = null,
-        ilCertificateBackgroundImageUpload $upload = null,
-        ilCertificateTemplatePreviewAction $previewAction = null,
-        FileUpload $fileUpload = null,
-        ilSetting $settings = null,
-        ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
-        Filesystem $fileSystem = null,
-        ilCertificateBackgroundImageFileService $imageFileService = null,
-        Filesystem $tmp_file_system = null
+        ?ilCertificateFormRepository $settingsFormFactory = null,
+        ?ilCertificateDeleteAction $deleteAction = null,
+        ?ilCertificateTemplateRepository $templateRepository = null,
+        ?ilPageFormats $pageFormats = null,
+        ?ilXlsFoParser $xlsFoParser = null,
+        ?ilFormFieldParser $formFieldParser = null,
+        ?ilCertificateTemplateExportAction $exportAction = null,
+        ?ilCertificateBackgroundImageUpload $upload = null,
+        ?ilCertificateTemplatePreviewAction $previewAction = null,
+        ?FileUpload $fileUpload = null,
+        ?ilSetting $settings = null,
+        ?ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
+        ?Filesystem $fileSystem = null,
+        ?ilCertificateBackgroundImageFileService $imageFileService = null,
+        ?Filesystem $tmp_file_system = null
     ) {
         global $DIC;
 
@@ -247,12 +250,21 @@ class ilCertificateGUI
     }
 
     /**
-    * execute command
-    */
+     * @return mixed|null
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilWACException
+     */
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
+
+        $ret = null;
 
         $cmd = $this->getCommand($cmd);
         switch ($next_class) {
@@ -279,7 +291,7 @@ class ilCertificateGUI
     /**
     * Import a certificate from a ZIP archive
     */
-    public function certificateImport()
+    public function certificateImport() : void
     {
         $this->certificateEditor();
     }
@@ -287,7 +299,7 @@ class ilCertificateGUI
     /**
     * Creates a certificate preview
     */
-    public function certificatePreview()
+    public function certificatePreview() : void
     {
         try {
             $this->previewAction->createPreviewPdf($this->objectId);
@@ -298,9 +310,12 @@ class ilCertificateGUI
     }
 
     /**
-    * Exports the certificate
-    */
-    public function certificateExportFO()
+     * Exports the certificate
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public function certificateExportFO() : void
     {
         $this->exportAction->export();
     }
@@ -308,7 +323,7 @@ class ilCertificateGUI
     /**
     * Removes the background image of a certificate
     */
-    public function certificateRemoveBackground()
+    public function certificateRemoveBackground() : void
     {
         $this->backgroundImageDelete->deleteBackgroundImage('');
         $this->certificateEditor();
@@ -317,7 +332,7 @@ class ilCertificateGUI
     /**
     * Deletes the certificate and all its data
     */
-    public function certificateDelete()
+    public function certificateDelete() : void
     {
         // display confirmation message
         $cgui = new ilConfirmationGUI();
@@ -328,11 +343,12 @@ class ilCertificateGUI
         
         $this->tpl->setContent($cgui->getHTML());
     }
-    
+
     /**
-    * Deletes the certificate and all its data
-    */
-    public function certificateDeleteConfirm()
+     * Deletes the certificate and all its data
+     * @throws ilDatabaseException
+     */
+    public function certificateDeleteConfirm() : void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
         $templateId = $template->getId();
@@ -340,11 +356,17 @@ class ilCertificateGUI
         $this->deleteAction->delete($templateId, $this->objectId);
         $this->ctrl->redirect($this, "certificateEditor");
     }
-    
+
     /**
-    * Saves the certificate
-    */
-    public function certificateSave()
+     * Saves the certificate
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilWACException
+     */
+    public function certificateSave() : void
     {
         global $DIC;
 
@@ -366,21 +388,21 @@ class ilCertificateGUI
     /**
     * Uploads the certificate
     */
-    public function certificateUpload()
+    public function certificateUpload() : void
     {
         $this->certificateEditor();
     }
 
     /**
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    private function getEditorForm() : \ilPropertyFormGUI
+    private function getEditorForm() : ilPropertyFormGUI
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -398,9 +420,16 @@ class ilCertificateGUI
     }
 
     /**
-    * Shows the certificate editor for ILIAS tests
-    */
-    public function certificateEditor()
+     * Shows the certificate editor for ILIAS tests
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     * @throws ilWACException
+     */
+    public function certificateEditor() : void
     {
         $form = $this->getEditorForm();
         $enabledGlobalLearningProgress = \ilObjUserTracking::_enabledLearningProgress();
@@ -431,12 +460,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml . $formHtml);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param array $form_fields
-     * @param $objId
-     */
-    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId)
+    private function saveCertificate(ilPropertyFormGUI $form, array $form_fields, $objId) : void
     {
         $previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $previousCertificateTemplate->getVersion();
@@ -578,12 +602,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
-    /**
-     * @param $content
-     * @param $certificate
-     * @param $form
-     */
-    private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form)
+    private function setTemplateContent(ilCertificateTemplate $certificate, ilPropertyFormGUI $form) : void
     {
         $form_fields = $this->settingsFormFactory->fetchFormFieldData($certificate->getCertificateContent());
         $form_fields['active'] = $certificate->isCurrentlyActive();

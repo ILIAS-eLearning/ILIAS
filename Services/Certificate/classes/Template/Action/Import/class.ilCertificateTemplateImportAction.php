@@ -3,6 +3,9 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -11,38 +14,26 @@ class ilCertificateTemplateImportAction
 {
     private int $objectId;
     private string $certificatePath;
-    private ilCertificateTemplateRepository $templateRepository;
+    private ?ilCertificateTemplateRepository $templateRepository;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private ilLogger $logger;
     private ?Filesystem $filesystem;
     private ?ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateUtilHelper $utilHelper;
     private string $installationID;
-    private ilCertificateBackgroundImageFileService $fileService;
+    private ?ilCertificateBackgroundImageFileService $fileService;
 
-    /**
-     * @param integer $objectId
-     * @param string $certificatePath
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilLogger $logger
-     * @param Filesystem|null $filesystem
-     * @param ilCertificateTemplateRepository|null $templateRepository
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilDBInterface|null $database
-     * @param string $installationID
-     */
     public function __construct(
         int $objectId,
         string $certificatePath,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilLogger $logger,
         Filesystem $filesystem,
-        ilCertificateTemplateRepository $templateRepository = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilDBInterface $database = null,
-        ilCertificateBackgroundImageFileService $fileService = null
+        ?ilCertificateTemplateRepository $templateRepository = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilDBInterface $database = null,
+        ?ilCertificateBackgroundImageFileService $fileService = null
     ) {
         $this->objectId = $objectId;
         $this->certificatePath = $certificatePath;
@@ -82,15 +73,15 @@ class ilCertificateTemplateImportAction
     }
 
     /**
-     * @param string $zipFile
-     * @param string $filename
-     * @param string $rootDir
-     * @param string $iliasVerision
-     * @param string $installationID
+     * @param string       $zipFile
+     * @param string       $filename
+     * @param string       $rootDir
+     * @param string       $iliasVerision
+     * @param string|false $installationID
      * @return bool
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      */
@@ -100,7 +91,7 @@ class ilCertificateTemplateImportAction
         string $rootDir = CLIENT_WEB_DIR,
         string $iliasVerision = ILIAS_VERSION_NUMERIC,
         string $installationID = IL_INST_ID
-    ) {
+    ) : bool {
         $importPath = $this->createArchiveDirectory($installationID);
 
         $result = $this->utilHelper->moveUploadedFile($zipFile, $filename, $rootDir . $importPath . $filename);
@@ -235,7 +226,7 @@ class ilCertificateTemplateImportAction
      *
      * @param string $installationID
      * @return string The created archive directory
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
     private function createArchiveDirectory(string $installationID) : string
     {
@@ -248,10 +239,6 @@ class ilCertificateTemplateImportAction
         return $dir;
     }
 
-
-    /**
-     * @return string
-     */
     private function getBackgroundImageThumbnailPath() : string
     {
         return $this->certificatePath . 'background.jpg.thumb.jpg';

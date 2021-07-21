@@ -6,19 +6,14 @@
  */
 class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ?ilLanguage $language;
     private array $placeholder;
 
-    /**
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -52,7 +47,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
      * the the description as array value.
      *
      * @param ilTemplate|null $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return string
      */
     public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
     {

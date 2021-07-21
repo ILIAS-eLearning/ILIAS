@@ -10,15 +10,10 @@ class ilUserCertificateRepository
     private ilLogger $logger;
     private ?string $defaultTitle;
 
-    /**
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     * @param string|null $defaultTitle
-     */
     public function __construct(
-        \ilDBInterface $database = null,
-        ilLogger $logger = null,
-        string $defaultTitle = null
+        ?ilDBInterface $database = null,
+        ?ilLogger $logger = null,
+        ?string $defaultTitle = null
     ) {
         if (null === $database) {
             global $DIC;
@@ -85,7 +80,6 @@ class ilUserCertificateRepository
 
     /**
      * @param int $userId
-     * @param string $orderBy
      * @return ilUserCertificatePresentation[]
      */
     public function fetchActiveCertificates(int $userId) : array
@@ -148,7 +142,8 @@ AND currently_active = 1';
 
     /**
      * @param int $userId
-     * @param string $orderBy
+     * @param int $startTimestamp
+     * @param int $endTimeStamp
      * @return ilUserCertificatePresentation[]
      */
     public function fetchActiveCertificatesInIntervalForPresentation(int $userId, int $startTimestamp, int $endTimeStamp) : array
@@ -211,6 +206,9 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
         return $result;
     }
 
+    /**
+     * @throws ilException
+     */
     public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
     {
         $this->logger->info(sprintf('START - Fetching all active certificates for user: "%s" and object: "%s"', $userId, $objectId));
@@ -385,7 +383,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         throw new ilException('No certificate found for user certificate id: ' . $id);
     }
 
-    public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds)
+    public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds) : array
     {
         $this->logger->info(sprintf('START - Fetch certificate for user("%s") and ids: "%s"', $userId, json_encode($objectIds)));
 
@@ -417,7 +415,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         return $result;
     }
 
-    public function fetchUserIdsWithCertificateForObject(int $objectId)
+    public function fetchUserIdsWithCertificateForObject(int $objectId) : array
     {
         $this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
 
@@ -437,7 +435,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
         return $result;
     }
 
-    public function deleteUserCertificates(int $userId)
+    public function deleteUserCertificates(int $userId) : void
     {
         $this->logger->info(sprintf('START - Delete certificate for user("%s")"', $userId));
 
@@ -448,11 +446,6 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
         $this->logger->info(sprintf('END - Successfully deleted certificate for user("%s")"', $userId));
     }
 
-    /**
-     * @param int $objId
-     * @param int $userId
-     * @return array
-     */
     private function fetchCertificatesOfObject(int $objId, int $userId) : array
     {
         $this->logger->info(sprintf(
@@ -488,11 +481,6 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
         return $result;
     }
 
-    /**
-     * @param int $objId
-     * @param int $userId
-     * @return string
-     */
     private function fetchLatestVersion(int $objId, int $userId) : string
     {
         $this->logger->info(sprintf(
@@ -517,15 +505,10 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
             $version
         ));
 
-        return $version;
+        return (string) $version;
     }
 
-    /**
-     * @param $objId
-     * @param $userId
-     * @throws ilDatabaseException
-     */
-    private function deactivatePreviousCertificates(int $objId, int $userId)
+    private function deactivatePreviousCertificates(int $objId, int $userId) : void
     {
         $this->logger->info(sprintf('START - deactivating previous certificates for user id: "%s" and object id: "%s"', $userId, $objId));
 

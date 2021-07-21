@@ -9,10 +9,6 @@ class ilCertificateObjectsForUserPreloader
     private static array $certificates = [];
     private ilUserCertificateRepository $userCertificateRepository;
 
-    /**
-     * ilCertificateObjectsForUserPreloader constructor.
-     * @param ilUserCertificateRepository $userCertificateRepository
-     */
     public function __construct(ilUserCertificateRepository $userCertificateRepository)
     {
         $this->userCertificateRepository = $userCertificateRepository;
@@ -22,7 +18,7 @@ class ilCertificateObjectsForUserPreloader
      * @param int $userId
      * @param int[] $objIds
      */
-    public function preLoad(int $userId, array $objIds)
+    public function preLoad(int $userId, array $objIds) : void
     {
         if (!array_key_exists($userId, self::$certificates)) {
             self::$certificates[$userId] = [];
@@ -39,11 +35,6 @@ class ilCertificateObjectsForUserPreloader
         ));
     }
 
-    /**
-     * @param int $userId
-     * @param int $objId
-     * @return bool
-     */
     public function isPreloaded(int $userId, int $objId) : bool
     {
         if (false === array_key_exists($userId, self::$certificates)) {

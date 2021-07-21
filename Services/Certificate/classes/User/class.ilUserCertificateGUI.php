@@ -15,20 +15,23 @@ use GuzzleHttp\Psr7\Request;
  */
 class ilUserCertificateGUI
 {
-    private ilGlobalPageTemplate $template;
-    private ilCtrl $controller;
-    private ilLanguage $language;
+    /**
+     * @var ilGlobalTemplateInterface|ilTemplate|null
+     */
+    private $template;
+    private ?ilCtrl $controller;
+    private ?ilLanguage $language;
     private ?ilUserCertificateRepository $userCertificateRepository;
     private ?ilObjUser $user;
     /**
      * @var Request|RequestInterface|ServerRequestInterface|null
      */
     private $request;
-    private ilLogger $certificateLogger;
-    protected ilSetting $certificateSettings;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
-    protected ilAccessHandler $access;
+    private ?ilLogger $certificateLogger;
+    protected ?ilSetting $certificateSettings;
+    protected ?Factory $uiFactory;
+    protected ?Renderer $uiRenderer;
+    protected ?ilAccessHandler $access;
     public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
@@ -37,35 +40,21 @@ class ilUserCertificateGUI
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
     protected string $defaultSorting = 'date_DESC';
-    private Filesystem $filesystem;
+    private ?Filesystem $filesystem;
 
-    /**
-     * @param ilTemplate|null $template
-     * @param ilCtrl|null $controller
-     * @param ilLanguage|null $language
-     * @param ilObjUser $user
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     * @param Request|null $request
-     * @param ilLogger $certificateLogger
-     * @param ilSetting|null $certificateSettings
-     * @param Factory|null $uiFactory
-     * @param Renderer|null $uiRenderer
-     * @param \ilAccessHandler|null $access
-     * @param Filesystem|null $filesystem
-     */
     public function __construct(
-        ilTemplate $template = null,
-        ilCtrl $controller = null,
-        ilLanguage $language = null,
-        ilObjUser $user = null,
-        ilUserCertificateRepository $userCertificateRepository = null,
-        GuzzleHttp\Psr7\Request $request = null,
-        ilLogger $certificateLogger = null,
-        ilSetting $certificateSettings = null,
-        Factory $uiFactory = null,
-        Renderer $uiRenderer = null,
-        \ilAccessHandler $access = null,
-        Filesystem $filesystem = null
+        ?ilTemplate $template = null,
+        ?ilCtrl $controller = null,
+        ?ilLanguage $language = null,
+        ?ilObjUser $user = null,
+        ?ilUserCertificateRepository $userCertificateRepository = null,
+        ?GuzzleHttp\Psr7\Request $request = null,
+        ?ilLogger $certificateLogger = null,
+        ?ilSetting $certificateSettings = null,
+        ?Factory $uiFactory = null,
+        ?Renderer $uiRenderer = null,
+        ?ilAccessHandler $access = null,
+        ?Filesystem $filesystem = null
     ) {
         global $DIC;
 
@@ -136,20 +125,12 @@ class ilUserCertificateGUI
         $this->language->loadLanguageModule('cert');
     }
 
-    /**
-     * @return string
-     */
     private function getDefaultCommand() : string
     {
         return 'listCertificates';
     }
 
-    /**
-     * @return bool
-     * @throws ilDateTimeException
-     * @throws ilException
-     */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         $nextClass = $this->controller->getNextClass($this);
         $cmd = $this->controller->getCmd();
@@ -175,7 +156,7 @@ class ilUserCertificateGUI
      * @throws ilDateTimeException
      * @throws ilWACException
      */
-    public function listCertificates()
+    public function listCertificates() : void
     {
         global $DIC;
 
@@ -226,7 +207,7 @@ class ilUserCertificateGUI
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
                 ) {
-                    $imagePath = \ilUtil::getImagePath('icon_cert.svg');
+                    $imagePath = ilUtil::getImagePath('icon_cert.svg');
                 }
 
                 $cardImage = $this->uiFactory->image()->standard(
@@ -295,15 +276,12 @@ class ilUserCertificateGUI
 
             $uiComponents[] = $deck;
         } else {
-            \ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
+            ilUtil::sendInfo($this->language->txt('cert_currently_no_certs'));
         }
 
         $this->template->setContent($this->uiRenderer->render($uiComponents));
     }
 
-    /**
-     * @return string
-     */
     protected function getCurrentSortation() : string
     {
         $sorting = \ilSession::get(self::SORTATION_SESSION_KEY);
@@ -315,9 +293,10 @@ class ilUserCertificateGUI
     }
 
     /**
-     *
+     * @throws ilWACException
+     * @throws ilDateTimeException
      */
-    protected function applySortation()
+    protected function applySortation() : void
     {
         $sorting = $this->request->getQueryParams()['sort_by'] ?? $this->defaultSorting;
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -329,9 +308,9 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws \ilException
+     * @throws ilException
      */
-    public function download()
+    public function download() : void
     {
         global $DIC;
 

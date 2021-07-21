@@ -8,15 +8,11 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
 {
     private array $placeholder;
     private ?ilCertificateObjectHelper $objectHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilCertificateUtilHelper $ilUtilHelper;
 
-    /**
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateUtilHelper|null $ilUtilHelper
-     */
     public function __construct(
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         $this->placeholder = array();
 
@@ -76,8 +72,6 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
      * @param int $user_id
      * @param int $obj_id
      * @return array - [PLACEHOLDER] => 'dummy value'
-     * @throws ilException
-     * @throws ilInvalidCertificateException
      */
     public function getPlaceholderValuesForPreview(int $user_id, int $obj_id) : array
     {

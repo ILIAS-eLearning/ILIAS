@@ -41,14 +41,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
      */
     protected $access;
     protected ilErrorHandling $error;
-    private static $ERROR_MESSAGE;
 
-
-    /**
-     * Contructor
-     *
-     * @access public
-     */
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
@@ -70,7 +63,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -105,7 +98,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     /**
      * Get tabs
      */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->access->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -129,7 +122,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function settings()
+    public function settings() : void
     {
         $this->tabs_gui->setTabActive('settings');
         $form_settings = new ilSetting("certificate");
@@ -218,7 +211,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function save()
+    public function save() : void
     {
         $form_settings = new ilSetting("certificate");
 

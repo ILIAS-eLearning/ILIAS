@@ -1,6 +1,11 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -12,28 +17,14 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private ilAccess $access;
     private ilToolbarGUI $toolbar;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
-    private ilPageFormats $pageFormats;
-    private ilFormFieldParser $formFieldParser;
+    private ?ilPageFormats $pageFormats;
+    private ?ilFormFieldParser $formFieldParser;
     private ?ilCertificateTemplateImportAction $importAction;
-    private ilCertificateTemplateRepository $templateRepository;
+    private ?ilCertificateTemplateRepository $templateRepository;
     private string $certificatePath;
     private bool $hasAdditionalElements;
-    private ilCertificateBackgroundImageFileService $backGroundImageFileService;
+    private ?ilCertificateBackgroundImageFileService $backGroundImageFileService;
 
-    /**
-     * @param integer $objectId
-     * @param string $certificatePath
-     * @param ilLanguage $language
-     * @param ilCtrl $controller
-     * @param ilAccess $access
-     * @param ilToolbarGUI $toolbar
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilPageFormats|null $pageFormats
-     * @param ilFormFieldParser|null $formFieldParser
-     * @param ilCertificateTemplateImportAction|null $importAction
-     * @param ilLogger|null $logger
-     * @param ilCertificateTemplateRepository|null $templateRepository
-     */
     public function __construct(
         int $objectId,
         string $certificatePath,
@@ -43,13 +34,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilPageFormats $pageFormats = null,
-        ilFormFieldParser $formFieldParser = null,
-        ilCertificateTemplateImportAction $importAction = null,
-        ilLogger $logger = null,
-        ilCertificateTemplateRepository $templateRepository = null,
-        \ILIAS\Filesystem\Filesystem $filesystem = null,
-        ilCertificateBackgroundImageFileService $backgroundImageFileService = null
+        ?ilPageFormats $pageFormats = null,
+        ?ilFormFieldParser $formFieldParser = null,
+        ?ilCertificateTemplateImportAction $importAction = null,
+        ?ilLogger $logger = null,
+        ?ilCertificateTemplateRepository $templateRepository = null,
+        ?Filesystem $filesystem = null,
+        ?ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
         global $DIC;
 
@@ -110,17 +101,15 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate    $certificateObject
-     * @param string           $certificatePath
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -313,19 +302,15 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         return $form;
     }
 
-    /**
-     * @param array $formFields
-     * @return mixed|void
-     */
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
     }
 
     /**
      * @param string $content
-     * @return array|mixed
+     * @return array
      */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         return $this->formFieldParser->fetchDefaultFormFields($content);
     }

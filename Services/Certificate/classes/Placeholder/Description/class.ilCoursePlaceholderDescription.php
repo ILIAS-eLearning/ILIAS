@@ -6,24 +6,17 @@
  */
 class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
+    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
     private ?ilLanguage $language;
     private array $placeholder;
 
-    /**
-     * @param int $objectId
-     * @param ilDefaultPlaceholderDescription|null           $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null                                $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     * @param ilObjectCustomUserFieldsPlaceholderDescription|null $customUserFieldsPlaceholderDescriptionObject
-     */
     public function __construct(
         int $objectId,
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
-        ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ?ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -55,8 +48,8 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     * @param null $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @param ilTemplate|null $template
+     * @return string - [PLACEHOLDER] => 'description'
      */
     public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
     {
@@ -79,7 +72,7 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {

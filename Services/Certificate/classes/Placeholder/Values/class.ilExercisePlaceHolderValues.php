@@ -15,25 +15,15 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
     private ?ilCertificateUtilHelper $utilHelper;
     private ?ilCertificateDateHelper $dateHelper;
 
-    /**
-     * @param ilDefaultPlaceholderValues|null $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateLPMarksHelper|null $lpMarksHelper
-     * @param ilCertificateExerciseMembersHelper|null $exerciseMembersHelper
-     * @param ilCertificateLPStatusHelper|null $lpStatusHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateDateHelper|null $dateHelper
-     */
     public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateLPMarksHelper $lpMarksHelper = null,
-        ilCertificateExerciseMembersHelper $exerciseMembersHelper = null,
-        ilCertificateLPStatusHelper $lpStatusHelper = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateDateHelper $dateHelper = null
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateLPMarksHelper $lpMarksHelper = null,
+        ?ilCertificateExerciseMembersHelper $exerciseMembersHelper = null,
+        ?ilCertificateLPStatusHelper $lpStatusHelper = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateDateHelper $dateHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -84,16 +74,16 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
-     * @param $userId
-     * @param $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @param int $userId
+     * @param int $objId
+     * @return array - [PLACEHOLDER] => 'actual value'
+     * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {

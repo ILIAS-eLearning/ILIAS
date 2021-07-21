@@ -11,19 +11,12 @@ class ilPdfGenerator
     private ?ilCertificateRpcClientFactoryHelper $rpcHelper;
     private ?ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
-    /**
-     * @param ilUserCertificateRepository $userCertificateRepository
-     * @param ilLogger $logger
-     * @param ilCertificateRpcClientFactoryHelper|null $rpcHelper
-     * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
-     * @param ilLanguage|null $lng
-     */
     public function __construct(
         ilUserCertificateRepository $userCertificateRepository,
         ilLogger $logger,
-        ilCertificateRpcClientFactoryHelper $rpcHelper = null,
-        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
-        ilLanguage $lng = null
+        ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
+        ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 
@@ -46,7 +39,7 @@ class ilPdfGenerator
     }
 
     /**
-     * @param $userCertificateId
+     * @param int $userCertificateId
      * @return mixed
      * @throws ilException
      */
@@ -58,8 +51,8 @@ class ilPdfGenerator
     }
 
     /**
-     * @param $userId
-     * @param $objId
+     * @param int $userId
+     * @param int $objId
      * @return mixed
      * @throws ilException
      */
@@ -70,6 +63,14 @@ class ilPdfGenerator
         return $this->createPDFScalar($certificate);
     }
 
+    /**
+     * @param int $userId
+     * @param int $objId
+     * @return string
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     */
     public function generateFileName(int $userId, int $objId) : string
     {
         $certificate = $this->certificateRepository->fetchActiveCertificateForPresentation($userId, $objId);
@@ -85,8 +86,8 @@ class ilPdfGenerator
     }
 
     /**
-     * @param $certificate
-     * @return mixed
+     * @param ilUserCertificate $certificate
+     * @return string
      */
     private function createPDFScalar(ilUserCertificate $certificate) : string
     {

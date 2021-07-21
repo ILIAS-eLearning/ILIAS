@@ -8,10 +8,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
 {
     private array $placeholder;
 
-    /**
-     * @param ilUserDefinedFields|null $userDefinedFieldsObject
-     */
-    public function __construct(ilUserDefinedFields $userDefinedFieldsObject = null)
+    public function __construct(?ilUserDefinedFields $userDefinedFieldsObject = null)
     {
         $this->placeholder = array();
 

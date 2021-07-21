@@ -8,12 +8,9 @@ use ILIAS\DI\Container;
  */
 class ilCertificateGUIFactory
 {
-    private Container $dic;
+    private ?Container $dic;
 
-    /**
-     * @param \ILIAS\DI\Container|null $dic
-     */
-    public function __construct(\ILIAS\DI\Container $dic = null)
+    public function __construct(?Container $dic = null)
     {
         if (null === $dic) {
             global $DIC;
@@ -27,7 +24,7 @@ class ilCertificateGUIFactory
      * @return ilCertificateGUI
      * @throws ilException
      */
-    public function create(\ilObject $object) : ilCertificateGUI
+    public function create(ilObject $object) : ilCertificateGUI
     {
         global $DIC;
 

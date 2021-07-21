@@ -63,7 +63,7 @@ class ilXMLChecker extends ilSaxParser
     * should be overwritten by inherited class
     * @access	private
     */
-    public function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -73,7 +73,7 @@ class ilXMLChecker extends ilSaxParser
     /**
     * start the parser
     */
-    public function startParsing()
+    public function startParsing() : void
     {
         parent::startParsing();
     }
@@ -83,7 +83,7 @@ class ilXMLChecker extends ilSaxParser
     *
     * @access	private
     */
-    public function parse($a_xml_parser, $a_fp = null)
+    public function parse($a_xml_parser, $a_fp = null) : bool
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -112,7 +112,7 @@ class ilXMLChecker extends ilSaxParser
     /**
     * handler for begin of element
     */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->elements++;
         $this->attributes += count($a_attribs);
@@ -121,14 +121,14 @@ class ilXMLChecker extends ilSaxParser
     /**
     * handler for end of element
     */
-    public function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name) : void
     {
     }
 
     /**
     * handler for character data
     */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
@@ -154,7 +154,7 @@ class ilXMLChecker extends ilSaxParser
         return $this->error_msg;
     }
   
-    public function getFullError()
+    public function getFullError() : string
     {
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
@@ -184,7 +184,7 @@ class ilXMLChecker extends ilSaxParser
         return $this->text_size;
     }
   
-    public function hasError()
+    public function hasError() : bool
     {
         return $this->has_error;
     }

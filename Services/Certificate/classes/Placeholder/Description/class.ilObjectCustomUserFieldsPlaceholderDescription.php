@@ -7,9 +7,6 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
     private array $placeholder;
     private int $objectId;
 
-    /**
-     * @param int $objectId
-     */
     public function __construct(int $objectId)
     {
         $this->placeholder = array();
@@ -18,7 +15,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
         $this->initPlaceholders();
     }
 
-    private function initPlaceholders()
+    private function initPlaceholders() : void
     {
         $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($this->objectId);
 

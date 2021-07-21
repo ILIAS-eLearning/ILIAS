@@ -12,19 +12,12 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
     private ?ilCertificateObjectHelper $objectHelper;
     private string $iliasVersion;
 
-    /**
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param string $rootDirectory
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param string $iliasVersion
-     */
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,
         string $rootDirectory = CLIENT_WEB_DIR,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        $iliasVersion = ILIAS_VERSION_NUMERIC
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        string $iliasVersion = ILIAS_VERSION_NUMERIC
     ) {
         $this->templateRepository = $templateRepository;
 
@@ -46,11 +39,10 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
     /**
      * @param $templateTemplateId
      * @param $objectId
-     * @param string $iliasVersion
-     * @return mixed
+     * @return void
      * @throws ilDatabaseException
      */
-    public function delete($templateTemplateId, $objectId)
+    public function delete($templateTemplateId, $objectId) : void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -76,10 +68,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
         $this->overwriteBackgroundImageThumbnail($certificateTemplate);
     }
 
-    /**
-     * @param $previousTemplate
-     */
-    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate)
+    private function overwriteBackgroundImageThumbnail(ilCertificateTemplate $previousTemplate) : void
     {
         $relativePath = $previousTemplate->getBackgroundImagePath();
 
@@ -95,7 +84,7 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
             $this->rootDirectory . $relativePath,
             $this->rootDirectory . $newFilePath,
             'JPEG',
-            100
+            (string) 100
         );
     }
 }

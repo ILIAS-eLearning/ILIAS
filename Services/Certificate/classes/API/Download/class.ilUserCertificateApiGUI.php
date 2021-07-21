@@ -11,25 +11,19 @@ use Psr\Http\Message\RequestInterface;
 class ilUserCertificateApiGUI
 {
     public const CMD_DOWNLOAD = 'download';
-    private ilLogger $certificateLogger;
+    private ?ilLogger $certificateLogger;
     /**
      * @var RequestInterface|ServerRequestInterface|null
      */
     private $request;
-    private ilLanguage $language;
-    private ilCtrl $controller;
+    private ?ilLanguage $language;
+    private ?ilCtrl $controller;
 
-    /**
-     * @param ilLanguage|null $language
-     * @param ServerRequestInterface $request
-     * @param ilLogger $certificateLogger
-     * @param ilCtrl $controller
-     */
     public function __construct(
-        ilLanguage $language = null,
-        ServerRequestInterface $request = null,
-        ilLogger $certificateLogger = null,
-        ilCtrl $controller = null
+        ?ilLanguage $language = null,
+        ?ServerRequestInterface $request = null,
+        ?ilLogger $certificateLogger = null,
+        ?ilCtrl $controller = null
     ) {
         global $DIC;
 
@@ -57,10 +51,6 @@ class ilUserCertificateApiGUI
         $this->language->loadLanguageModule('cert');
     }
 
-
-    /**
-     *
-     */
     public function executeCommand() : void
     {
         $cmd = $this->controller->getCmd();
@@ -77,7 +67,7 @@ class ilUserCertificateApiGUI
 
 
     /**
-     * @throws \ilException
+     * @throws ilException
      */
     public function download() : void
     {

@@ -10,21 +10,13 @@ class ilCertificateUserForObjectPreloader
     private ilUserCertificateRepository $userCertificateRepository;
     private ilCertificateActiveValidator $activeValidator;
 
-    /**
-     * @param ilUserCertificateRepository $userCertificateRepository
-     * @param ilCertificateActiveValidator $activeValidator
-     */
     public function __construct(ilUserCertificateRepository $userCertificateRepository, ilCertificateActiveValidator $activeValidator)
     {
         $this->userCertificateRepository = $userCertificateRepository;
         $this->activeValidator = $activeValidator;
     }
 
-    /**
-     * @param int $objectId
-     * @param array $userIds
-     */
-    public function preLoadDownloadableCertificates(int $objectId)
+    public function preLoadDownloadableCertificates(int $objectId) : void
     {
         if (true === $this->activeValidator->validate()) {
             $objectIdsWithUserCertificate = $this->userCertificateRepository->fetchUserIdsWithCertificateForObject($objectId);
@@ -32,12 +24,7 @@ class ilCertificateUserForObjectPreloader
         }
     }
 
-    /**
-     * @param int $objId
-     * @param int $userId
-     * @return bool
-     */
-    public function isPreloaded(int $objId, int $userId)
+    public function isPreloaded(int $objId, int $userId) : bool
     {
         if (false === array_key_exists($objId, self::$certificates)) {
             return false;

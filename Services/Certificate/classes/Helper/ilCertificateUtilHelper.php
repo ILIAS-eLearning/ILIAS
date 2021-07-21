@@ -9,12 +9,7 @@
  */
 class ilCertificateUtilHelper
 {
-    /**
-     * @param string $data
-     * @param string $fileName
-     * @param string $mimeType
-     */
-    public function deliverData(string $data, string $fileName, string $mimeType)
+    public function deliverData(string $data, string $fileName, string $mimeType) : void
     {
         ilUtil::deliverData(
             $data,
@@ -23,30 +18,19 @@ class ilCertificateUtilHelper
         );
     }
 
-    /**
-     * @param string $string
-     * @return string
-     */
     public function prepareFormOutput(string $string) : string
     {
         return ilUtil::prepareFormOutput($string);
     }
 
-    /**
-     * @param string $from
-     * @param string $to
-     * @param string $targetFormat
-     * @param string $geometry
-     * @param string $backgroundColor
-     */
     public function convertImage(
         string $from,
         string $to,
         string $targetFormat = '',
         string $geometry = '',
         string $backgroundColor = ''
-    ) {
-        return ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
+    ) : void {
+        ilUtil::convertImage($from, $to, $targetFormat, $geometry, $backgroundColor);
     }
 
     /**
@@ -62,43 +46,27 @@ class ilCertificateUtilHelper
      * @param string $exportPath
      * @param string $zipPath
      */
-    public function zip(string $exportPath, string $zipPath)
+    public function zip(string $exportPath, string $zipPath) : void
     {
         ilUtil::zip($exportPath, $zipPath);
     }
 
-    /**
-     * @param string $zipPath
-     * @param string $zipFileName
-     * @param string $mime
-     */
-    public function deliverFile(string $zipPath, string $zipFileName, string $mime)
+    public function deliverFile(string $zipPath, string $zipFileName, string $mime) : void
     {
         ilUtil::deliverFile($zipPath, $zipFileName, $mime);
     }
 
-    /**
-     * @param string $copyDirectory
-     * @return array
-     */
     public function getDir(string $copyDirectory) : array
     {
         return ilUtil::getDir($copyDirectory);
     }
 
-    /**
-     * @param string $file
-     * @param bool $overwrite
-     */
-    public function unzip(string $file, bool $overwrite)
+    public function unzip(string $file, bool $overwrite) : void
     {
         ilUtil::unzip($file, $overwrite);
     }
 
-    /**
-     * @param string $path
-     */
-    public function delDir(string $path)
+    public function delDir(string $path) : void
     {
         ilUtil::delDir($path);
     }
@@ -118,7 +86,7 @@ class ilCertificateUtilHelper
         string $target,
         bool $raise_errors = true,
         string $mode = 'move_uploaded'
-    ) {
+    ) : bool {
         return ilUtil::moveUploadedFile(
             $file,
             $name,
@@ -128,14 +96,7 @@ class ilCertificateUtilHelper
         );
     }
 
-    /**
-     * @param $img
-     * @param string $module_path
-     * @param string $mode
-     * @param bool $offline
-     * @return string
-     */
-    public function getImagePath($img, $module_path = "", $mode = "output", $offline = false)
+    public function getImagePath($img, string $module_path = "", string $mode = "output", bool $offline = false) : string
     {
         return ilUtil::getImagePath(
             $img,

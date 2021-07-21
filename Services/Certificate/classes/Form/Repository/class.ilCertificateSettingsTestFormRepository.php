@@ -1,27 +1,19 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilLanguage $language;
     private ilObjTest $testObject;
 
-    /**
-     * @param int                                      $objectId
-     * @param string                                   $certificatePath
-     * @param bool                                     $hasAdditionalElements
-     * @param ilObjTest                                $testObject
-     * @param ilLanguage                               $language
-     * @param ilCtrl                                   $controller
-     * @param ilAccess                                 $access
-     * @param ilToolbarGUI                             $toolbar
-     * @param ilCertificatePlaceholderDescription      $placeholderDescriptionObject
-     * @param ilCertificateSettingsFormRepository|null $settingsFormRepository
-     */
     public function __construct(
         int $objectId,
         string $certificatePath,
@@ -32,7 +24,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilCertificateSettingsFormRepository $settingsFormRepository = null
+        ?ilCertificateSettingsFormRepository $settingsFormRepository = null
     ) {
         $this->testObject = $testObject;
         $this->language = $language;
@@ -54,27 +46,22 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate    $certificateObject
-     * @param string           $certificatePath
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         return $form;
     }
 
-    /**
-     * @param array $formFields
-     */
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
     }
 

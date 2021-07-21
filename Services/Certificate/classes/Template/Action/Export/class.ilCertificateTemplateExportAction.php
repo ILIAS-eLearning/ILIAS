@@ -2,6 +2,9 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -15,21 +18,13 @@ class ilCertificateTemplateExportAction
     private ?ilCertificateObjectHelper $objectHelper;
     private ?ilCertificateUtilHelper $utilHelper;
 
-    /**
-     * @param integer $objectId
-     * @param string $certificatePath
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param Filesystem $filesystem
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
-     */
     public function __construct(
         int $objectId,
         string $certificatePath,
         ilCertificateTemplateRepository $templateRepository,
         Filesystem $filesystem,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateUtilHelper $utilHelper = null
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateUtilHelper $utilHelper = null
     ) {
         $this->objectId = $objectId;
         $this->certificatePath = $certificatePath;
@@ -51,11 +46,11 @@ class ilCertificateTemplateExportAction
      * Creates an downloadable file via the browser
      * @param string $rootDir
      * @param string $installationId
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function export($rootDir = CLIENT_WEB_DIR, $installationId = IL_INST_ID)
+    public function export(string $rootDir = CLIENT_WEB_DIR, string $installationId = IL_INST_ID) : void
     {
         $time = time();
 

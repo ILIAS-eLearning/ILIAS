@@ -7,23 +7,18 @@
 class ilCertificateCourseLearningProgressEvaluation
 {
     private ilCertificateTemplateRepository $templateRepository;
-    private ilSetting $setting;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateLPStatusHelper $statusHelper;
-    private ilCertificateObjUserTrackingHelper $trackingHelper;
+    private ?ilSetting $setting;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateLPStatusHelper $statusHelper;
+    private ?ilCertificateObjUserTrackingHelper $trackingHelper;
 
-    /**
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param ilSetting|null $setting
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateLPStatusHelper|null $statusHelper
-     */
+
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,
-        ilSetting $setting = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateLPStatusHelper $statusHelper = null,
-        ilCertificateObjUserTrackingHelper $trackingHelper = null
+        ?ilSetting $setting = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateLPStatusHelper $statusHelper = null,
+        ?ilCertificateObjUserTrackingHelper $trackingHelper = null
     ) {
         $this->templateRepository = $templateRepository;
 
@@ -48,8 +43,8 @@ class ilCertificateCourseLearningProgressEvaluation
     }
 
     /**
-     * @param $refId
-     * @param $userId
+     * @param int $refId
+     * @param int $userId
      * @return ilCertificateTemplate[]
      */
     public function evaluate(int $refId, int $userId) : array

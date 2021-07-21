@@ -8,10 +8,10 @@ class ilCertificateDateHelper
 {
     /**
      * @param string $date
-     * @param int $dateFormat
+     * @param ?int $dateFormat
      * @return string
      */
-    public function formatDate(string $date, $dateFormat = null) : string
+    public function formatDate(string $date, ?int $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;
@@ -29,11 +29,11 @@ class ilCertificateDateHelper
 
     /**
      * @param string $dateTime
-     * @param int $format
+     * @param ?int $dateFormat
      * @return string
      * @throws ilDateTimeException
      */
-    public function formatDateTime(string $dateTime, $dateFormat = null) : string
+    public function formatDateTime(string $dateTime, ?int $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;

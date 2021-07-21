@@ -6,31 +6,22 @@
  */
 class ilCertificateQueueEntry
 {
-    private int$objId;
+    private int $objId;
     private int $userId;
     private string $adapterClass;
     private string $state;
-    private int $startedTimestamp;
+    private ?int $startedTimestamp;
     private ?int $id;
     private int $templateId;
 
-    /**
-     * @param integer $objId
-     * @param integer $userId
-     * @param string $adapterClass
-     * @param string $state
-     * @param $templateId
-     * @param integer|null $startedTimestamp
-     * @param integer|null $id
-     */
     public function __construct(
         int $objId,
         int $userId,
         string $adapterClass,
         string $state,
         int $templateId,
-        int $startedTimestamp = null,
-        int $id = null
+        ?int $startedTimestamp = null,
+        ?int $id = null
     ) {
         $this->objId = $objId;
         $this->userId = $userId;
@@ -41,57 +32,36 @@ class ilCertificateQueueEntry
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->objId;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function getAdapterClass() : string
     {
         return $this->adapterClass;
     }
 
-    /**
-     * @return string
-     */
     public function getState() : string
     {
         return $this->state;
     }
 
-    /**
-     * @return int
-     */
-    public function getStartedTimestamp()
+    public function getStartedTimestamp() : int
     {
         return $this->startedTimestamp;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return int
-     */
     public function getTemplateId() : int
     {
         return $this->templateId;

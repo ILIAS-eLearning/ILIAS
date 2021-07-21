@@ -17,15 +17,10 @@ class ilCertificateBackgroundImageFileService
     private string $certificatePath;
     private string $webDirectory;
 
-    /**
-     * @param string                       $certificatePath
-     * @param Filesystem $filesystem
-     * @param string                       $webDirectory
-     */
     public function __construct(
         string $certificatePath,
         Filesystem $filesystem,
-        $webDirectory = CLIENT_WEB_DIR
+        string $webDirectory = CLIENT_WEB_DIR
     ) {
         $this->certificatePath = $certificatePath;
         $this->fileSystem = $filesystem;
@@ -37,7 +32,7 @@ class ilCertificateBackgroundImageFileService
      * @param ilCertificateTemplate $template
      * @return boolean Returns TRUE if the certificate has a background image, FALSE otherwise
      */
-    public function hasBackgroundImage(ilCertificateTemplate $template)
+    public function hasBackgroundImage(ilCertificateTemplate $template) : bool
     {
         $backgroundImagePath = $template->getBackgroundImagePath();
         if ($backgroundImagePath === '') {
@@ -51,11 +46,7 @@ class ilCertificateBackgroundImageFileService
         return false;
     }
 
-    /**
-     * @param ilCertificateTemplate $template
-     * @return bool
-     */
-    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template)
+    public function hasBackgroundImageThumbnail(ilCertificateTemplate $template) : bool
     {
         $backgroundImagePath = $template->getThumbnailImagePath();
         if ($backgroundImagePath === '') {
@@ -73,7 +64,7 @@ class ilCertificateBackgroundImageFileService
      * Returns the filesystem path of the background image thumbnail
      * @return string The filesystem path of the background image thumbnail
      */
-    public function getBackgroundImageThumbPath()
+    public function getBackgroundImageThumbPath() : string
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_IMAGE_NAME . self::BACKGROUND_THUMBNAIL_FILE_ENDING;
     }
@@ -83,7 +74,7 @@ class ilCertificateBackgroundImageFileService
      * @param string $backgroundImagePath
      * @return string The filesystem path of the background image
      */
-    public function getBackgroundImageDirectory($backgroundImagePath = '')
+    public function getBackgroundImageDirectory(string $backgroundImagePath = '') : string
     {
         return str_replace(
             array($this->webDirectory, '//'),
@@ -97,7 +88,7 @@ class ilCertificateBackgroundImageFileService
      *
      * @return string The filesystem path of the background image temp file
      */
-    public function getBackgroundImageTempfilePath()
+    public function getBackgroundImageTempfilePath() : string
     {
         return $this->webDirectory . $this->certificatePath . self::BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME;
     }

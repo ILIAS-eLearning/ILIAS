@@ -8,31 +8,22 @@
 class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private array $placeholder;
-    private ilCertificateObjectHelper $objectHelper;
-    private ilCertificateDateHelper $dateHelper;
-    private int $dateFormat;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateDateHelper $dateHelper;
+    private ?int $dateFormat;
     private ?ilLanguage $language;
     private ?ilCertificateUtilHelper $utilHelper;
     private ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
     private int $birthdayDateFormat;
 
-    /**
-     * @param ilCertificateObjectHelper                 $objectHelper
-     * @param ilCertificateDateHelper                   $dateHelper
-     * @param int                                       $dateFormat
-     * @param ilLanguage|null                           $language
-     * @param ilCertificateUtilHelper|null              $utilHelper
-     * @param ilUserDefinedFieldsPlaceholderValues|null $userDefinedFieldsPlaceholderValues
-     * @param int                                       $birthdayDateFormat
-     */
     public function __construct(
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateDateHelper $dateHelper = null,
-        int $dateFormat = null,
-        ilLanguage $language = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
-        $birthdayDateFormat = IL_CAL_DATE
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateDateHelper $dateHelper = null,
+        ?int $dateFormat = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues = null,
+        int $birthdayDateFormat = IL_CAL_DATE
     ) {
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -91,10 +82,14 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
     }
 
     /**
-     * @param $userId
-     * @param $objId
+     * @param int $userId
+     * @param int $objId
      * @return array - Array with a mapping of [placholder_key] => actual value
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
      * @throws ilException
+     * @throws ilInvalidCertificateException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
@@ -153,7 +148,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      * @return mixed
      * @throws ilDateTimeException
      * @throws ilException
-     * @throws ilInvalidCertificateException
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {

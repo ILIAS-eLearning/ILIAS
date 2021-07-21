@@ -6,34 +6,24 @@
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
-    private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private ?ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
     private ?ilLanguage $language;
     private ?ilCertificateObjectHelper $objectHelper;
     private ?ilCertificateParticipantsHelper $participantsHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilCertificateUtilHelper $ilUtilHelper;
     private ?ilCertificateDateHelper $dateHelper;
     private ?ilCertificateLPStatusHelper $lpStatusHelper;
 
-    /**
-     * @param ilObjectCustomUserFieldsPlaceholderValues|null    $customUserFieldsPlaceholderValues
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateParticipantsHelper|null $participantsHelper
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilCertificateDateHelper|null $dateHelper
-     * @param ilCertificateLPStatusHelper|null $lpStatusHelper
-     */
     public function __construct(
-        ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateParticipantsHelper $participantsHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null,
-        ilCertificateDateHelper $dateHelper = null,
-        ilCertificateLPStatusHelper $lpStatusHelper = null
+        ?ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateParticipantsHelper $participantsHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null,
+        ?ilCertificateDateHelper $dateHelper = null,
+        ?ilCertificateLPStatusHelper $lpStatusHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -98,10 +88,14 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param $userId
-     * @param $objId
+     * @param int $userId
+     * @param int $objId
      * @return array - [PLACEHOLDER] => 'actual value'
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
      * @throws ilException
+     * @throws ilInvalidCertificateException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {

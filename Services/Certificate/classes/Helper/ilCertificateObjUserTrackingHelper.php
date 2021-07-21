@@ -6,8 +6,8 @@
  */
 class ilCertificateObjUserTrackingHelper
 {
-    public function enabledLearningProgress()
+    public function enabledLearningProgress() : bool
     {
-        return \ilObjUserTracking::_enabledLearningProgress();
+        return ilObjUserTracking::_enabledLearningProgress();
     }
 }

@@ -6,12 +6,9 @@
  */
 class ilFormFieldParser
 {
-    private ilCertificateXlstProcess $xlstProcess;
+    private ?ilCertificateXlstProcess $xlstProcess;
 
-    /**
-     * @param ilCertificateXlstProcess|null $xlstProcess
-     */
-    public function __construct(ilCertificateXlstProcess $xlstProcess = null)
+    public function __construct(?ilCertificateXlstProcess $xlstProcess = null)
     {
         if (null === $xlstProcess) {
             $xlstProcess = new ilCertificateXlstProcess();
@@ -19,10 +16,6 @@ class ilFormFieldParser
         $this->xlstProcess = $xlstProcess;
     }
 
-    /**
-     * @param string $content
-     * @return array
-     */
     public function fetchDefaultFormFields(string $content) : array
     {
         $pagewidth = "21cm";

@@ -8,19 +8,12 @@ class ilCertificateActiveAction
 {
     private ilDBInterface $database;
 
-    /**
-     * @param ilDBInterface $database
-     */
     public function __construct(ilDBInterface $database)
     {
         $this->database = $database;
     }
 
-    /**
-     * @param $objId
-     * @return boolean
-     */
-    public function isObjectActive($objId)
+    public function isObjectActive($objId) : bool
     {
         $sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objId, 'integer');
 

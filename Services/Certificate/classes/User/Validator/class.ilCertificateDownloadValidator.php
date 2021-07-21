@@ -10,16 +10,12 @@
  */
 class ilCertificateDownloadValidator
 {
-    private ilUserCertificateRepository $userCertificateAccessValidator;
+    private ?ilUserCertificateRepository $userCertificateAccessValidator;
     private ?ilCertificateActiveValidator $activeValidator;
 
-    /**
-     * @param ilCertificateUserCertificateAccessValidator|null $userCertificateAccessValidator
-     * @param ilCertificateActiveValidator|null $activeValidator
-     */
     public function __construct(
-        ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
-        ilCertificateActiveValidator $activeValidator = null
+        ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,
+        ?ilCertificateActiveValidator $activeValidator = null
     ) {
         if (null === $userCertificateAccessValidator) {
             $userCertificateAccessValidator = new ilCertificateUserCertificateAccessValidator();
@@ -37,7 +33,7 @@ class ilCertificateDownloadValidator
      * @param int $objId
      * @return bool
      */
-    public function isCertificateDownloadable(int $userId, int $objId)
+    public function isCertificateDownloadable(int $userId, int $objId) : bool
     {
         if (false === $this->activeValidator->validate()) {
             return false;

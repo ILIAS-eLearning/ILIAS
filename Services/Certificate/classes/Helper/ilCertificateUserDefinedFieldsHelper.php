@@ -6,7 +6,7 @@
  */
 class ilCertificateUserDefinedFieldsHelper
 {
-    public function createInstance()
+    public function createInstance() : ilUserDefinedFields
     {
         return ilUserDefinedFields::_getInstance();
     }

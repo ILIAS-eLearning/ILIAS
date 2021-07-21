@@ -3,19 +3,14 @@
 
 class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ?ilLanguage $language;
     private array $placeholder;
 
-    /**
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -44,10 +39,10 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
      * This methods MUST return an array containing an array with
      * the the description as array value.
      *
-     * @param null $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @param ilTemplate|null $template
+     * @return string - [PLACEHOLDER] => 'description'
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');

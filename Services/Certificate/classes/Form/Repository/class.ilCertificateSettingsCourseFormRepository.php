@@ -1,13 +1,17 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilObjCourse $object;
     /**
      * @var ilObjectLP|mixed
@@ -15,31 +19,15 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     private $learningProgressObject;
     private ?ilCertificateObjUserTrackingHelper $trackingHelper;
     private ?ilCertificateObjectHelper $objectHelper;
-    private ilCertificateObjectLPHelper $lpHelper;
+    private ?ilCertificateObjectLPHelper $lpHelper;
     /**
      * @var ilTree|mixed|null
      */
     private $tree;
     private ?ilSetting $setting;
 
-    /**
-     * @param ilObject $object
-     * @param string $certificatePath
-     * @param ilLanguage $language
-     * @param ilCtrl $controller
-     * @param ilAccess $access
-     * @param ilToolbarGUI $toolbar
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilObjectLP|null $learningProgressObject
-     * @param ilCertificateSettingsFormRepository|null $settingsFromFactory
-     * @param ilCertificateObjUserTrackingHelper|null $trackingHelper
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateObjectLPHelper|null $lpHelper
-     * @param ilTree|null $tree
-     * @param ilSetting|null $setting
-     */
     public function __construct(
-        \ilObject $object,
+        ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
@@ -47,13 +35,13 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilObjectLP $learningProgressObject = null,
-        ilCertificateSettingsFormRepository $settingsFromFactory = null,
-        ilCertificateObjUserTrackingHelper $trackingHelper = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateObjectLPHelper $lpHelper = null,
-        ilTree $tree = null,
-        ilSetting $setting = null
+        ?ilObjectLP $learningProgressObject = null,
+        ?ilCertificateSettingsFormRepository $settingsFromFactory = null,
+        ?ilCertificateObjUserTrackingHelper $trackingHelper = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateObjectLPHelper $lpHelper = null,
+        ?ilTree $tree = null,
+        ?ilSetting $setting = null
     ) {
         $this->object = $object;
 
@@ -108,14 +96,14 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     /**
      * @param ilCertificateGUI $certificateGUI
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 
@@ -162,8 +150,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     /**
      * @param array $formFields
+     * @throws ilException
      */
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
         $invalidModes = $this->getInvalidLPModes();
 
@@ -190,11 +179,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         $this->setting->set('cert_subitems_' . $this->object->getId(), json_encode($formFields['subitems']));
     }
 
-    /**
-     * @param string $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
@@ -205,10 +190,6 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         return $formFields;
     }
 
-    /**
-     * @param int $a_parent_ref_id
-     * @return array
-     */
     private function getLPTypes(int $a_parent_ref_id) : array
     {
         $result = array();
@@ -231,10 +212,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         return $result;
     }
 
-    /**
-     * @return array
-     */
-    private function getInvalidLPModes()
+    private function getInvalidLPModes() : array
     {
         $invalid_modes = array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,

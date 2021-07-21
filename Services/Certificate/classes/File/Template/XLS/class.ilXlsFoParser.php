@@ -8,29 +8,20 @@ class ilXlsFoParser
 {
     private ilSetting $settings;
     private ilPageFormats $pageFormats;
-    private ilXMLChecker $xmlChecker;
+    private ?ilXMLChecker $xmlChecker;
     private ?ilCertificateUtilHelper $utilHelper;
     private ?ilCertificateXlstProcess $xlstProcess;
     private ?ilLanguage $language;
     private ?ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
-    /**
-     * @param ilSetting $settings
-     * @param ilPageFormats $pageFormats
-     * @param ilXMLChecker $xmlChecker
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateXlstProcess|null $xlstProcess
-     * @param ilLanguage|null $language
-     * @param ilCertificateXlsFileLoader|null $certificateXlsFileLoader
-     */
     public function __construct(
         ilSetting $settings,
         ilPageFormats $pageFormats,
-        ilXMLChecker $xmlChecker = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateXlstProcess $xlstProcess = null,
-        ilLanguage $language = null,
-        ilCertificateXlsFileLoader $certificateXlsFileLoader = null
+        ?ilXMLChecker $xmlChecker = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateXlstProcess $xlstProcess = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateXlsFileLoader $certificateXlsFileLoader = null
     ) {
         $this->settings = $settings;
         $this->pageFormats = $pageFormats;
@@ -64,7 +55,6 @@ class ilXlsFoParser
 
     /**
      * @param array $formData
-     * @param string $backgroundImageName
      * @return string
      * @throws Exception
      */
@@ -127,11 +117,7 @@ class ilXlsFoParser
         return $output;
     }
 
-    /**
-     * @param string $a_number
-     * @return string
-     */
-    private function formatNumberString($a_number) : string
+    private function formatNumberString(string $a_number) : string
     {
         return str_replace(',', '.', $a_number);
     }

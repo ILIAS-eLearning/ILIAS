@@ -6,7 +6,7 @@
  */
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ?ilLanguage $language;
     private array $placeholder;
     private ilObject $object;
@@ -16,19 +16,12 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      */
     private $learningProgressObject;
 
-    /**
-     * @param ilObject $object
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilObjectLP|null $learningProgressObject
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
         ilObject $object,
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilObjectLP $learningProgressObject = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilObjectLP $learningProgressObject = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -64,7 +57,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * the the description as array value.
      *
      * @param ilTemplate|null $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return string - [PLACEHOLDER] => 'description'
      */
     public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
     {
@@ -127,7 +120,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
      * This method MUST return an array containing an array with
      * the the description as array value.
      *
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {

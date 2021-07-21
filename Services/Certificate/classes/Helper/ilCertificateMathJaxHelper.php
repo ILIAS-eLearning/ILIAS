@@ -6,7 +6,7 @@
  */
 class ilCertificateMathJaxHelper
 {
-    public function fillXlsFoContent($xslfo)
+    public function fillXlsFoContent($xslfo) : string
     {
         $xlsfo = ilMathJax::getInstance()
             ->init(ilMathJax::PURPOSE_PDF)

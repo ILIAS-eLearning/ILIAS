@@ -38,9 +38,9 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     *
     * @return boolean TRUE if a background image exists, FALSE otherwise
     */
-    public static function hasBackgroundImage()
+    public static function hasBackgroundImage() : bool
     {
-        if (@file_exists(ilObjCertificateSettingsAccess::getBackgroundImagePath()) && (@filesize(ilObjCertificateSettingsAccess::getBackgroundImagePath()) > 0)) {
+        if (@file_exists(self::getBackgroundImagePath()) && (@filesize(self::getBackgroundImagePath()) > 0)) {
             return true;
         }
         return false;
@@ -51,7 +51,7 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     *
     * @return string The filesystem path of the background image
     */
-    public static function getBackgroundImageDefaultFolder()
+    public static function getBackgroundImageDefaultFolder() : string
     {
         return CLIENT_WEB_DIR . "/certificates/default/";
     }
@@ -61,9 +61,9 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     * @param bool $asRelative
     * @return string The filesystem path of the background image
     */
-    public static function getBackgroundImagePath($asRelative = false)
+    public static function getBackgroundImagePath(bool $asRelative = false) : string
     {
-        $imagePath = ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
+        $imagePath = self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName();
 
         if ($asRelative) {
             return str_replace(
@@ -81,7 +81,7 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     *
     * @return string The filename of the background image
     */
-    public static function getBackgroundImageName()
+    public static function getBackgroundImageName() : string
     {
         return "background.jpg";
     }
@@ -91,9 +91,9 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     *
     * @return string The filesystem path of the background image thumbnail
     */
-    public static function getBackgroundImageThumbPath()
+    public static function getBackgroundImageThumbPath() : string
     {
-        return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName() . ".thumb.jpg";
+        return self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName() . ".thumb.jpg";
     }
 
 
@@ -102,14 +102,14 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     *
     * @return string The web path of the background image thumbnail
     */
-    public static function getBackgroundImageThumbPathWeb()
+    public static function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
             ilUtil::removeTrailingPathSeparators(
                 ILIAS_ABSOLUTE_PATH
         ),
             ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            ilObjCertificateSettingsAccess::getBackgroundImageThumbPath()
+            self::getBackgroundImageThumbPath()
         );
     }
 }

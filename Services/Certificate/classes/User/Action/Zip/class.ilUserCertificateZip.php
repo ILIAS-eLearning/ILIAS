@@ -6,7 +6,7 @@
  */
 class ilUserCertificateZip
 {
-ilTemplate    private int $objectId;
+    private int $objectId;
     private string $webDirectory;
     private string $certificatePath;
     private string $typeInFileName;
@@ -46,7 +46,7 @@ ilTemplate    private int $objectId;
      *
      * @return string The created archive directory
      */
-    public function createArchiveDirectory()
+    public function createArchiveDirectory() : string
     {
         $type = ilObject::_lookupType($this->objectId);
         $certificateId = $this->objectId;
@@ -64,7 +64,7 @@ ilTemplate    private int $objectId;
      * @param string $dir Directory to contain the PDF data
      * @param string $filename The filename to save the PDF data
      */
-    public function addPDFtoArchiveDirectory($pdfdata, $dir, $filename)
+    public function addPDFtoArchiveDirectory(string $pdfdata, string $dir, string $filename) : void
     {
         $fh = fopen($dir . $filename, 'wb');
         fwrite($fh, $pdfdata);
@@ -78,7 +78,7 @@ ilTemplate    private int $objectId;
      * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
      * @return string The created ZIP archive path
      */
-    public function zipCertificatesInArchiveDirectory($dir, $deliver = true)
+    public function zipCertificatesInArchiveDirectory(string$dir,  bool $deliver = true) : string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;

@@ -3,44 +3,32 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\DI\Container;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrl $controller;
+    private ?ilUserCertificateRepository $userCertificateRepository;
+    private ?ilCtrl $controller;
     private ?ilSetting $certificateSettings;
-    protected Factory $uiFactory;
-    protected Renderer $uiRenderer;
+    protected ?Factory $uiFactory;
+    protected ?Renderer $uiRenderer;
     private ?ilCertificateUtilHelper $utilHelper;
 
-    /**
-     * @param int $user_id
-     * @param ilLearningHistoryFactory $factory
-     * @param ilLanguage $lng
-     * @param ilTemplate|null $template
-     * @param \ILIAS\DI\Container|null $dic
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     * @param ilCtrl $controller
-     * @param ilSetting|null $certificateSettings
-     * @param Factory|null $uiFactory
-     * @param Renderer|null $uiRenderer
-     * @param ilCertificateUtilHelper|null $utilHelper
-     */
     public function __construct(
         int $user_id,
         ilLearningHistoryFactory $factory,
         ilLanguage $lng,
-        ilTemplate $template = null,
-        \ILIAS\DI\Container $dic = null,
-        ilUserCertificateRepository $userCertificateRepository = null,
-        ilCtrl $controller = null,
-        ilSetting $certificateSettings = null,
-        Factory $uiFactory = null,
-        Renderer $uiRenderer = null,
-        ilCertificateUtilHelper $utilHelper = null
+        ?ilTemplate $template = null,
+        ?Container $dic = null,
+        ?ilUserCertificateRepository $userCertificateRepository = null,
+        ?ilCtrl $controller = null,
+        ?ilSetting $certificateSettings = null,
+        ?Factory $uiFactory = null,
+        ?Renderer $uiRenderer = null,
+        ?ilCertificateUtilHelper $utilHelper = null
     ) {
         $lng->loadLanguageModule("cert");
 
@@ -89,7 +77,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
      *
      * @return bool
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return (bool) $this->certificateSettings->get('active');
     }
@@ -101,7 +89,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
      * @param int $ts_end
      * @return ilLearningHistoryEntry[]
      */
-    public function getEntries($ts_start, $ts_end)
+    public function getEntries($ts_start, $ts_end) : array
     {
         $entries = array();
 

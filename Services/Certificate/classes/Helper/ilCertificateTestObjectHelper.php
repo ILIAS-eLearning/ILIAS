@@ -6,7 +6,7 @@
  */
 class ilCertificateTestObjectHelper
 {
-    public function getResultPass($active_id)
+    public function getResultPass($active_id) : ?int
     {
         return ilObjTest::_getResultPass($active_id);
     }

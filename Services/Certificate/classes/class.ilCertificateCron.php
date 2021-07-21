@@ -11,37 +11,26 @@ class ilCertificateCron extends \ilCronJob
 {
     public const DEFAULT_SCHEDULE_HOURS = 1;
 
-    protected ilLanguage $lng;
-    private ilCertificateQueueRepository $queueRepository;
-    private ilCertificateTemplateRepository $templateRepository;
-    private ilUserCertificateRepository $userRepository;
+    protected ?ilLanguage $lng;
+    private ?ilCertificateQueueRepository $queueRepository;
+    private ?ilCertificateTemplateRepository $templateRepository;
+    private ?ilUserCertificateRepository $userRepository;
     private ?ilLogger $logger;
-    private ilCertificateValueReplacement $valueReplacement;
+    private ?ilCertificateValueReplacement $valueReplacement;
     private ?ilCertificateObjectHelper $objectHelper;
-    private Container $dic;
-    private ilSetting $settings;
+    private ?Container $dic;
+    private ?ilSetting $settings;
 
-    /**
-     * @param ilCertificateQueueRepository $queueRepository
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param ilUserCertificateRepository $userRepository
-     * @param ilCertificateValueReplacement|null $valueReplacement
-     * @param ilLogger|null $logger
-     * @param Container|null $dic
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilSetting|null $setting
-     */
     public function __construct(
-        ilCertificateQueueRepository $queueRepository = null,
-        ilCertificateTemplateRepository $templateRepository = null,
-        ilUserCertificateRepository $userRepository = null,
-        ilCertificateValueReplacement $valueReplacement = null,
-        ilLogger $logger = null,
-        Container $dic = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilSetting $setting = null
+        ?ilCertificateQueueRepository $queueRepository = null,
+        ?ilCertificateTemplateRepository $templateRepository = null,
+        ?ilUserCertificateRepository $userRepository = null,
+        ?ilCertificateValueReplacement $valueReplacement = null,
+        ?ilLogger $logger = null,
+        ?Container $dic = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilSetting $setting = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -77,7 +66,7 @@ class ilCertificateCron extends \ilCronJob
         return $this->lng->txt('cert_cron_task_desc');
     }
 
-    public function init()
+    public function init() : void
     {
         if (null === $this->dic) {
             global $DIC;
@@ -205,13 +194,14 @@ class ilCertificateCron extends \ilCronJob
     }
 
     /**
-     * @param $entryCounter
-     * @param $entry
-     * @param $succeededGenerations
+     * @param int                     $entryCounter
+     * @param ilCertificateQueueEntry $entry
+     * @param array                   $succeededGenerations
      * @return array
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
+     * @throws ilObjectNotFoundException
      */
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {

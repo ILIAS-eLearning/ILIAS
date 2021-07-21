@@ -86,11 +86,10 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * @param int $objectId
-     * @return bool
      * @throws ilException
      * @throws Exception
      */
-    public function createPreviewPdf(int $objectId)
+    public function createPreviewPdf(int $objectId) : void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
@@ -135,7 +134,7 @@ class ilCertificateTemplatePreviewAction
         string $certificate_text,
         ilCertificateTemplate $template,
         int $objectId
-    ) {
+    ) : string {
         $insert_tags = $this->placeholderValuesObject->getPlaceholderValuesForPreview($this->user->getId(), $objectId);
 
         foreach ($this->getCustomCertificateFields() as $key => $value) {
@@ -168,7 +167,7 @@ class ilCertificateTemplatePreviewAction
      *
      * @return array
      */
-    private function getCustomCertificateFields()
+    private function getCustomCertificateFields() : array
     {
         $user_field_definitions = $this->userDefinedFieldsHelper->createInstance();
         $fds = $user_field_definitions->getDefinitions();

@@ -8,14 +8,14 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private Container $dic;
-    private ilPortfolioCertificateFileService $fileService;
-    private ilLanguage $language;
+    private ?Container $dic;
+    private ?ilPortfolioCertificateFileService $fileService;
+    private ?ilLanguage $language;
 
     public function __construct(
-        \ILIAS\DI\Container $dic = null,
-        ilPortfolioCertificateFileService $fileService = null,
-        ilLanguage $language = null
+        ?Container $dic = null,
+        ?ilPortfolioCertificateFileService $fileService = null,
+        ?ilLanguage $language = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -41,7 +41,7 @@ class ilObjPersistentCertificateVerificationGUI
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId) : void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, 'crta', (int) $objectId)) {
             $this->fileService->deliverCertificate((int) $userId, (int) $objectId);

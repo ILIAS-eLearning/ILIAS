@@ -9,20 +9,13 @@ class ilCertificateQueueRepository
     private ilDBInterface $database;
     private ilLogger $logger;
 
-    /**
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     */
     public function __construct(\ilDBInterface $database, ilLogger $logger)
     {
         $this->database = $database;
         $this->logger = $logger;
     }
 
-    /**
-     * @param ilCertificateQueueEntry $certificateQueueEntry
-     */
-    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry)
+    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry) : void
     {
         $this->logger->info('START - Add new entry to certificate cron job queue');
 
@@ -45,11 +38,7 @@ class ilCertificateQueueRepository
         $this->database->insert('il_cert_cron_queue', $row);
     }
 
-    /**
-     * @param integer $id
-     * @throws ilDatabaseException
-     */
-    public function removeFromQueue($id)
+    public function removeFromQueue(int $id) : void
     {
         $this->logger->info(sprintf('START - Remove entry(id: "%s") from queue', $id));
 
@@ -60,10 +49,7 @@ class ilCertificateQueueRepository
         $this->logger->info(sprintf('END - Entry(id: "%s") deleted from queue', $id));
     }
 
-    /**
-     * @return array
-     */
-    public function getAllEntriesFromQueue()
+    public function getAllEntriesFromQueue() : array
     {
         $this->logger->info('START - Fetch all entries from queue');
 
@@ -90,10 +76,7 @@ class ilCertificateQueueRepository
         return $result;
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function removeFromQueueByUserId(int $user_id)
+    public function removeFromQueueByUserId(int $user_id) : void
     {
         $this->logger->info(sprintf('START - Remove entries for user(user_id: "%s") from queue', $user_id));
 

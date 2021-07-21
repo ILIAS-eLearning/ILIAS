@@ -3,26 +3,18 @@
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ?ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
     private ?ilLanguage $language;
     private ?ilCertificateObjectHelper $objectHelper;
     private ?ilCertificateParticipantsHelper $participantsHelper;
-    private ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilCertificateUtilHelper $ilUtilHelper;
 
-    /**
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateParticipantsHelper|null $participantsHelper
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilCertificateDateHelper|null $ilDateHelper
-     */
     public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateParticipantsHelper $participantsHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateParticipantsHelper $participantsHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -56,15 +48,15 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
-     * @param $userId
-     * @param $objId
+     * @param int $userId
+     * @param int $objId
      * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @throws ilDatabaseException
      * @throws ilException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
@@ -106,9 +98,9 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      *
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 

@@ -1,25 +1,19 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilObject $object;
 
-    /**
-     * @param ilObject $object
-     * @param string $certificatePath
-     * @param ilLanguage $language
-     * @param ilCtrl $controller
-     * @param ilAccess $access
-     * @param ilToolbarGUI $toolbar
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilCertificateSettingsFormRepository|null $settingsFormFactory
-     */
     public function __construct(
         ilObject $object,
         string $certificatePath,
@@ -29,7 +23,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
         ilAccessHandler $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilCertificateSettingsFormRepository $settingsFormFactory = null
+        ?ilCertificateSettingsFormRepository $settingsFormFactory = null
     ) {
         $this->object = $object;
         $this->language = $language;
@@ -52,35 +46,26 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
 
     /**
      * @param ilCertificateGUI $certificateGUI
-     * @param ilCertificate    $certificateObject
-     * @param string           $certificatePath
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 
         return $form;
     }
 
-    /**
-     * @param array $formFields
-     */
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
     }
 
-    /**
-     * @param $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 

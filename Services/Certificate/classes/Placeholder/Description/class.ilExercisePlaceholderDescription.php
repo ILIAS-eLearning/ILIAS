@@ -6,19 +6,14 @@
  */
 class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
     private ?ilLanguage $language;
     private array $placeholder;
 
-    /**
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -42,15 +37,13 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
 
-
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
-     * @param ilTemplate $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @param ilTemplate|null $template
+     * @return string - [PLACEHOLDER] => 'description'
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
@@ -72,7 +65,7 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
      * This method MUST return an array containing an array with
      * the the description as array value.
      *
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {

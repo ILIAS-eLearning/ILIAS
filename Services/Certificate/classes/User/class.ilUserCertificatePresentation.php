@@ -13,15 +13,6 @@ class ilUserCertificatePresentation
     private string $objectDescription;
     private string $userName;
 
-    /**
-     * ilUserCertificatePresentation constructor.
-     * @param int $objId
-     * @param string $objType
-     * @param ilUserCertificate|null $userCertificate
-     * @param string $objectTitle
-     * @param string $objectDescription
-     * @param string $userName
-     */
     public function __construct(
         int $objId,
         string $objType,
@@ -38,49 +29,31 @@ class ilUserCertificatePresentation
         $this->userName = $userName;
     }
 
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->objId;
     }
 
-    /**
-     * @return string
-     */
     public function getObjType() : string
     {
         return $this->objType;
     }
 
-    /**
-     * @return ilUserCertificate|null
-     */
     public function getUserCertificate() : ?ilUserCertificate
     {
         return $this->userCertificate;
     }
 
-    /**
-     * @return string
-     */
     public function getObjectTitle() : string
     {
         return $this->objectTitle;
     }
 
-    /**
-     * @return string
-     */
     public function getObjectDescription() : string
     {
         return $this->objectDescription;
     }
 
-    /**
-     * @return string
-     */
     public function getUserName() : string
     {
         return $this->userName;

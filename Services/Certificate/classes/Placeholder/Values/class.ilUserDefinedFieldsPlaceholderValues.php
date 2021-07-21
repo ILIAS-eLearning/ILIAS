@@ -12,17 +12,12 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * @var ilUserDefinedFields|null|object
      */
     private $userDefinedFieldsObject;
-    private ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilCertificateUtilHelper $ilUtilHelper;
 
-    /**
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilUserDefinedFields|null $userDefinedFieldsObject
-     * @param ilCertificateUtilHelper|null $ilUtilHelper
-     */
     public function __construct(
-        ilCertificateObjectHelper $objectHelper = null,
-        ilUserDefinedFields $userDefinedFieldsObject = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilUserDefinedFields $userDefinedFieldsObject = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         $this->placeholder = array();
 
@@ -93,8 +88,6 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * @param int $userId
      * @param int $objId
      * @return array - [PLACEHOLDER] => 'dummy value'
-     * @throws ilException
-     * @throws ilInvalidCertificateException
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {

@@ -30,5 +30,5 @@ interface ilCertificatePlaceholderValues
      * @param int $objId
      * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId);
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array;
 }

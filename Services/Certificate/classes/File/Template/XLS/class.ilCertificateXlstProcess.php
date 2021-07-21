@@ -6,11 +6,6 @@
  */
 class ilCertificateXlstProcess
 {
-    /**
-     * @param array $args
-     * @param array $params
-     * @return string
-     */
     public function process(array $args, array $params) : string
     {
         $xh = xslt_create();

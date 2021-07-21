@@ -10,11 +10,6 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
     private ilCertificateFilename $origin;
     private ilLanguage $lng;
 
-    /**
-     * @param ilCertificateFilename $origin
-     * @param ilLanguage $lng
-     * @param ilSetting $scormSetting
-     */
     public function __construct(ilCertificateFilename $origin, ilLanguage $lng, ilSetting $scormSetting)
     {
         $this->scormSetting = $scormSetting;

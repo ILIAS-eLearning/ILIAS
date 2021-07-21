@@ -8,16 +8,12 @@ class ilCertificatePdfFileNameFactory
 {
     private ilLanguage $lng;
 
-    /**
-     * ilCertificatePdfFileNameFactory constructor.
-     * @param ilLanguage $lng
-     */
-    public function __construct(\ilLanguage $lng)
+    public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
     }
 
-    public function create(ilUserCertificatePresentation $presentation)
+    public function create(ilUserCertificatePresentation $presentation) : string
     {
         $objectType = $presentation->getObjType();
         $pdfFileGenerator = $this->fetchCertificateGenerator($objectType);
@@ -25,10 +21,6 @@ class ilCertificatePdfFileNameFactory
         return $pdfFileGenerator->createFileName($presentation);
     }
 
-    /**
-     * @param string $objectType
-     * @return ilCertificateFilename
-     */
     private function fetchCertificateGenerator(string $objectType) : ilCertificateFilename
     {
         $generator = new ilCertificatePdfFilename($this->lng);

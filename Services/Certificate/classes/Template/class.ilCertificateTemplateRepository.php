@@ -10,21 +10,16 @@
 class ilCertificateTemplateRepository
 {
     private ilDBInterface $database;
-    private ilLogger $logger;
+    private ?ilLogger $logger;
     /**
-     * @var ilObjectDataCache|mixed
+     * @var ilObjectDataCache|mixed|null
      */
     private $objectDataCache;
 
-    /**
-     * @param \ilDBInterface         $database
-     * @param \ilLogger              $logger
-     * @param ilObjectDataCache|null $objectDataCache
-     */
     public function __construct(
-        \ilDBInterface $database,
-        \ilLogger $logger = null,
-        ilObjectDataCache $objectDataCache = null
+        ilDBInterface $database,
+        ?ilLogger $logger = null,
+        ?ilObjectDataCache $objectDataCache = null
     ) {
         $this->database = $database;
 
@@ -45,7 +40,7 @@ class ilCertificateTemplateRepository
      * @param ilCertificateTemplate $certificateTemplate
      * @throws ilDatabaseException
      */
-    public function save(ilCertificateTemplate $certificateTemplate)
+    public function save(ilCertificateTemplate $certificateTemplate) : void
     {
         $this->logger->info('START - Save new certificate template');
 
@@ -76,7 +71,11 @@ class ilCertificateTemplateRepository
         $this->logger->info('END - certificate template saved with columns: ', json_encode($columns));
     }
 
-
+    /**
+     * @param ilCertificateTemplate $certificateTemplate
+     * @param bool                  $currentlyActive
+     * @return int|void
+     */
     public function updateActivity(ilCertificateTemplate $certificateTemplate, bool $currentlyActive)
     {
         $sql = 'UPDATE il_cert_template SET currently_active = ' . $this->database->quote($currentlyActive, 'integer') .
@@ -85,6 +84,11 @@ class ilCertificateTemplateRepository
         return $this->database->manipulate($sql);
     }
 
+    /**
+     * @param int $templateId
+     * @return ilCertificateTemplate
+     * @throws ilException
+     */
     public function fetchTemplate(int $templateId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch certificate template with id: "%s"', $templateId));
@@ -106,7 +110,7 @@ ORDER BY version ASC';
 
     /**
      * @param int $objId
-     * @return \ilCertificateTemplate[]
+     * @return ilCertificateTemplate[]
      */
     public function fetchCertificateTemplatesByObjId(int $objId) : array
     {
@@ -132,11 +136,7 @@ ORDER BY version ASC';
         return $result;
     }
 
-    /**
-     * @param int $objId
-     * @return \ilCertificateTemplate
-     */
-    public function fetchCurrentlyUsedCertificate(int $objId) : \ilCertificateTemplate
+    public function fetchCurrentlyUsedCertificate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
@@ -176,10 +176,10 @@ ORDER BY id DESC
 
     /**
      * @param int $objId
-     * @return \ilCertificateTemplate
+     * @return ilCertificateTemplate
      * @throws ilException
      */
-    public function fetchCurrentlyActiveCertificate(int $objId) : \ilCertificateTemplate
+    public function fetchCurrentlyActiveCertificate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch currently active certificate template for object: "%s"', $objId));
 
@@ -203,11 +203,10 @@ AND currently_active = 1
 
     /**
      * Fetch latest created certificate EVEN IF it is deleted
-     *
      * @param int $objId
-     * @return \ilCertificateTemplate
+     * @return ilCertificateTemplate
      */
-    public function fetchPreviousCertificate(int $objId) : \ilCertificateTemplate
+    public function fetchPreviousCertificate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));
 
@@ -240,12 +239,7 @@ AND currently_active = 1
         return $resultTemplate;
     }
 
-    /**
-     * @param int $templateId
-     * @param int $objectId
-     * @throws ilDatabaseException
-     */
-    public function deleteTemplate(int $templateId, int $objectId)
+    public function deleteTemplate(int $templateId, int $objectId) : void
     {
         $this->logger->info(sprintf('START - Set deleted flag for certificate template("%s") for object: "%s"', $templateId, $objectId));
 
@@ -260,12 +254,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
         $this->logger->info(sprintf('END - Deleted flag set fo certificate template("%s") for object: "%s"', $templateId, $objectId));
     }
 
-    /**
-     * @param int $objId
-     * @return \ilCertificateTemplate
-     * @throws ilDatabaseException
-     */
-    public function activatePreviousCertificate(int $objId) : \ilCertificateTemplate
+    public function activatePreviousCertificate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Activate previous certificate template for object: "%s"', $objId));
 
@@ -316,10 +305,10 @@ AND currently_active = 1';
 
     /**
      * @param int $objId
-     * @return \ilCertificateTemplate
-     * @throws \ilException
+     * @return ilCertificateTemplate
+     * @throws ilException
      */
-    public function fetchFirstCreatedTemplate(int $objId) : \ilCertificateTemplate
+    public function fetchFirstCreatedTemplate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch first create certificate template for object: "%s"', $objId));
 
@@ -340,11 +329,7 @@ ORDER BY id ASC ';
         throw new ilException('No matching template found. MAY missing DBUpdate. Please check if the correct version is installed.');
     }
 
-    /**
-     * @param int $objId
-     * @throws ilDatabaseException
-     */
-    private function deactivatePreviousTemplates(int $objId)
+    private function deactivatePreviousTemplates(int $objId) : void
     {
         $this->logger->info(sprintf('START - Deactivate previous certificate template for object: "%s"', $objId));
 
@@ -358,10 +343,6 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         $this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
     }
 
-    /**
-     * @param array $row
-     * @return ilCertificateTemplate
-     */
     private function createCertificateTemplate(array $row) : ilCertificateTemplate
     {
         return new ilCertificateTemplate(

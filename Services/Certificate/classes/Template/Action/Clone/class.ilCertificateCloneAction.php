@@ -2,13 +2,16 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCloneAction
 {
-    private ilLogger $logger;
+    private ?ilLogger $logger;
     private ilCertificatePathFactory $pathFactory;
     private ilCertificateTemplateRepository $templateRepository;
     private ilDBInterface $database;
@@ -16,22 +19,13 @@ class ilCertificateCloneAction
     private ?ilCertificateObjectHelper $objectHelper;
     private string $webDirectory;
 
-    /**
-     * @param ilDBInterface $database
-     * @param ilCertificateFactory $certificateFactory
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param Filesystem|null $fileSystem
-     * @param illLogger $logger
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param string $rootDirectory
-     */
     public function __construct(
         ilDBInterface $database,
         ilCertificatePathFactory $pathFactory,
         ilCertificateTemplateRepository $templateRepository,
-        Filesystem $fileSystem = null,
-        ilLogger $logger = null,
-        ilCertificateObjectHelper $objectHelper = null,
+        ?Filesystem $fileSystem = null,
+        ?ilLogger $logger = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
         string $webDirectory = CLIENT_WEB_DIR
     ) {
         $this->database = $database;
@@ -61,10 +55,11 @@ class ilCertificateCloneAction
     /**
      * @param ilObject $oldObject
      * @param ilObject $newObject
-     * @param string $iliasVersion
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @param string   $iliasVersion
+     * @param string   $webDir
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      */
@@ -73,7 +68,7 @@ class ilCertificateCloneAction
         ilObject $newObject,
         string $iliasVersion = ILIAS_VERSION_NUMERIC,
         string $webDir = CLIENT_WEB_DIR
-    ) {
+    ) : void {
         $oldType = $oldObject->getType();
         $newType = $newObject->getType();
 
@@ -172,10 +167,6 @@ class ilCertificateCloneAction
         }
     }
 
-    /**
-     * @param integer $objectId
-     * @return int
-     */
     private function readActive(int $objectId) : int
     {
         $sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
@@ -190,14 +181,14 @@ class ilCertificateCloneAction
      *
      * @return string The filename of the background image
      */
-    private function getBackgroundImageName()
+    private function getBackgroundImageName() : string
     {
         return "background.jpg";
     }
 
     /**
      * Returns the filesystem path of the background image thumbnail
-     * @param $certificatePath
+     * @param string $certificatePath
      * @return string The filesystem path of the background image thumbnail
      */
     private function getBackgroundImageThumbPath(string $certificatePath) : string

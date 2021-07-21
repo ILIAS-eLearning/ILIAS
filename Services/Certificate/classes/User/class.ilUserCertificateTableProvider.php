@@ -12,13 +12,6 @@ class ilUserCertificateTableProvider
     private ?ilCertificateObjectHelper $objectHelper;
     private string $defaultTitle;
 
-    /**
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     * @param ilCtrl $controller
-     * @param string $defaultTitle
-     * @param ilCertificateObjectHelper|null $objectHelper
-     */
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
@@ -44,7 +37,7 @@ class ilUserCertificateTableProvider
      * @param $filter
      * @return array
      */
-    public function fetchDataSet($userId, $params, $filter)
+    public function fetchDataSet($userId, $params, $filter) : array
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
@@ -146,12 +139,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
         return $data;
     }
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
-    protected function getOrderByPart(array $params, array $filter)
+    protected function getOrderByPart(array $params, array $filter) : string
     {
         if (isset($params['order_field'])) {
             if (!is_string($params['order_field'])) {

@@ -8,15 +8,11 @@ class ilCertificateActiveValidator
 {
     private ?ilSetting $setting;
     /**
-     * @var ilRPCServerSettings|null|object
+     * @var ilRPCServerSettings|object|null
      */
     private $rpcSettings;
 
-    /**
-     * @param ilSetting|null $setting
-     * @param ilRPCServerSettings|null $rpcSettings
-     */
-    public function __construct(ilSetting $setting = null, ilRPCServerSettings $rpcSettings = null)
+    public function __construct(?ilSetting $setting = null, ?ilRPCServerSettings $rpcSettings = null)
     {
         if (null === $setting) {
             $setting = new ilSetting("certificate");
@@ -29,7 +25,7 @@ class ilCertificateActiveValidator
         $this->rpcSettings = $rpcSettings;
     }
 
-    public function validate()
+    public function validate() : bool
     {
         $globalCertificateActive = (bool) $this->setting->get('active');
 

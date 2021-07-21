@@ -8,23 +8,16 @@ class ilCertificatePdfAction
 {
     private ilLogger $logger;
     private ilPdfGenerator $pdfGenerator;
-    private ilCertificateUtilHelper $ilUtilHelper;
-    private ilErrorHandling $errorHandler;
+    private ?ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilErrorHandling $errorHandler;
     private string $translatedErrorText;
 
-    /**
-     * @param ilLogger $logger
-     * @param ilPdfGenerator $pdfGenerator
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilErrorHandling|null $errorHandler
-     * @param string $translatedErrorText
-     */
     public function __construct(
         ilLogger $logger,
         ilPdfGenerator $pdfGenerator,
-        ilCertificateUtilHelper $ilUtilHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null,
         string $translatedErrorText = '',
-        ilErrorHandling $errorHandler = null
+        ?ilErrorHandling $errorHandler = null
     ) {
         $this->logger = $logger;
         $this->pdfGenerator = $pdfGenerator;
@@ -55,12 +48,6 @@ class ilCertificatePdfAction
         return $pdfScalar;
     }
 
-    /**
-     * @param int $userId
-     * @param int $objectId
-     * @param string $pdfDownloadName
-     * @return string
-     */
     public function downloadPdf(int $userId, int $objectId) : string
     {
         try {

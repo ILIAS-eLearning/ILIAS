@@ -10,7 +10,7 @@ class ilCertificateObjectLPHelper
      * @param $objId
      * @return ilObjectLP
      */
-    public function getInstance($objId)
+    public function getInstance($objId) : ilObjectLP
     {
         return ilObjectLP::getInstance($objId);
     }
@@ -19,7 +19,7 @@ class ilCertificateObjectLPHelper
      * @param $type
      * @return string
      */
-    public function getTypeClass($type)
+    public function getTypeClass($type) : string
     {
         return ilObjectLP::getTypeClass($type);
     }
@@ -28,7 +28,7 @@ class ilCertificateObjectLPHelper
      * @param $type
      * @return bool
      */
-    public function isSupportedObjectType($type)
+    public function isSupportedObjectType($type) : bool
     {
         return ilObjectLP::isSupportedObjectType($type);
     }

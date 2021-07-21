@@ -6,7 +6,7 @@
  */
 class ilCertificatePathFactory
 {
-    public function create(ilObject $object)
+    public function create(ilObject $object) : string
     {
         $type = $object->getType();
 
