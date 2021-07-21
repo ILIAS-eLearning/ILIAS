@@ -3,6 +3,10 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Filesystem\Filesystem;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * @ingroup ServicesCertificate
@@ -11,56 +15,29 @@ use ILIAS\UI\Renderer;
  */
 class ilUserCertificateGUI
 {
-    /** @var ilTemplate */
-    private $template;
-
-    /** @var ilCtrl */
-    private $controller;
-
-    /** @var ilLanguage */
-    private $language;
-
-    /** @var ilUserCertificateRepository|null */
-    private $userCertificateRepository;
-
-    /** @var ilObjUser|null */
-    private $user;
-
-    /** @var \GuzzleHttp\Psr7\Request|null|\Psr\Http\Message\ServerRequestInterface */
-    private $request;
-
-    /** @var ilLogger */
-    private $certificateLogger;
-
-    /** @var ilSetting */
-    protected $certificateSettings;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var ilAccessHandler */
-    protected $access;
-    
-    const SORTATION_SESSION_KEY = 'my_certificates_sorting';
-
+    private ilGlobalPageTemplate $template;
+    private ilCtrl $controller;
+    private ilLanguage $language;
+    private ?ilUserCertificateRepository $userCertificateRepository;
+    private ?ilObjUser $user;
     /**
-     * @var array
+     * @var Request|RequestInterface|ServerRequestInterface|null
      */
-    protected $sortationOptions = [
+    private $request;
+    private ilLogger $certificateLogger;
+    protected ilSetting $certificateSettings;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ilAccessHandler $access;
+    public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
+    protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
         'title_DESC' => 'cert_sortable_by_title_desc',
         'date_ASC' => 'cert_sortable_by_issue_date_asc',
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
-
-    /** @var string */
-    protected $defaultSorting = 'date_DESC';
-
-    /** @var \ILIAS\Filesystem\Filesystem */
-    private $filesystem;
+    protected string $defaultSorting = 'date_DESC';
+    private Filesystem $filesystem;
 
     /**
      * @param ilTemplate|null $template
@@ -68,13 +45,13 @@ class ilUserCertificateGUI
      * @param ilLanguage|null $language
      * @param ilObjUser $user
      * @param ilUserCertificateRepository|null $userCertificateRepository
-     * @param \GuzzleHttp\Psr7\Request|null $request
+     * @param Request|null $request
      * @param ilLogger $certificateLogger
      * @param ilSetting|null $certificateSettings
      * @param Factory|null $uiFactory
      * @param Renderer|null $uiRenderer
      * @param \ilAccessHandler|null $access
-     * @param \ILIAS\Filesystem\Filesystem|null $filesystem
+     * @param Filesystem|null $filesystem
      */
     public function __construct(
         ilTemplate $template = null,
@@ -88,7 +65,7 @@ class ilUserCertificateGUI
         Factory $uiFactory = null,
         Renderer $uiRenderer = null,
         \ilAccessHandler $access = null,
-        \ILIAS\Filesystem\Filesystem $filesystem = null
+        Filesystem $filesystem = null
     ) {
         global $DIC;
 

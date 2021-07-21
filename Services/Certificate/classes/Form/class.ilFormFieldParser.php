@@ -6,10 +6,7 @@
  */
 class ilFormFieldParser
 {
-    /**
-     * @var ilCertificateXlstProcess
-     */
-    private $xlstProcess;
+    private ilCertificateXlstProcess $xlstProcess;
 
     /**
      * @param ilCertificateXlstProcess|null $xlstProcess

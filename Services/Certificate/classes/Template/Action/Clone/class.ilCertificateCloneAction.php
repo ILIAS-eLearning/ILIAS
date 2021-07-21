@@ -1,51 +1,26 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCloneAction
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCertificatePathFactory
-     */
-    private $pathFactory;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem|null
-     */
-    private $fileSystem;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var string
-     */
-    private $webDirectory;
+    private ilLogger $logger;
+    private ilCertificatePathFactory $pathFactory;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilDBInterface $database;
+    private ?Filesystem $fileSystem;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private string $webDirectory;
 
     /**
      * @param ilDBInterface $database
      * @param ilCertificateFactory $certificateFactory
      * @param ilCertificateTemplateRepository $templateRepository
-     * @param \ILIAS\Filesystem\Filesystem|null $fileSystem
+     * @param Filesystem|null $fileSystem
      * @param illLogger $logger
      * @param ilCertificateObjectHelper|null $objectHelper
      * @param string $rootDirectory
@@ -54,7 +29,7 @@ class ilCertificateCloneAction
         ilDBInterface $database,
         ilCertificatePathFactory $pathFactory,
         ilCertificateTemplateRepository $templateRepository,
-        \ILIAS\Filesystem\Filesystem $fileSystem = null,
+        Filesystem $fileSystem = null,
         ilLogger $logger = null,
         ilCertificateObjectHelper $objectHelper = null,
         string $webDirectory = CLIENT_WEB_DIR

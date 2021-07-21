@@ -6,50 +6,21 @@
  */
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFromFactory;
-
-    /**
-     * @var \ilObjCourse
-     */
-    private $object;
-
+    private ilLanguage $language;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilObjCourse $object;
     /**
      * @var ilObjectLP|mixed
      */
     private $learningProgressObject;
-
-    /**
-     * @var ilCertificateObjUserTrackingHelper|null
-     */
-    private $trackingHelper;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateObjectLPHelper
-     */
-    private $lpHelper;
-
+    private ?ilCertificateObjUserTrackingHelper $trackingHelper;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ilCertificateObjectLPHelper $lpHelper;
     /**
      * @var ilTree|mixed|null
      */
     private $tree;
-
-    /**
-     * @var ilSetting|null
-     */
-    private $setting;
+    private ?ilSetting $setting;
 
     /**
      * @param ilObject $object

@@ -6,15 +6,8 @@
  */
 class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    /**
-     * @var ilCertificateDeleteAction
-     */
-    private $deleteAction;
-
-    /**
-     * @var ilCertificateObjectHelper
-     */
-    private $objectHelper;
+    private ilCertificateDeleteAction $deleteAction;
+    private ilCertificateObjectHelper $objectHelper;
 
     public function __construct(
         ilCertificateDeleteAction $deleteAction,

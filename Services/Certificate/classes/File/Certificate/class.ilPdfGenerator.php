@@ -6,25 +6,10 @@
  */
 class ilPdfGenerator
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $certificateRepository;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCertificateRpcClientFactoryHelper|null
-     */
-    private $rpcHelper;
-
-    /**
-     * @var ilCertificatePdfFileNameFactory|null
-     */
-    private $pdfFilenameFactory;
+    private ilUserCertificateRepository $certificateRepository;
+    private ilLogger $logger;
+    private ?ilCertificateRpcClientFactoryHelper $rpcHelper;
+    private ?ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
     /**
      * @param ilUserCertificateRepository $userCertificateRepository

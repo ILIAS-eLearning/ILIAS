@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @ingroup ServicesCertificate
@@ -9,19 +10,14 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUI
 {
-    const CMD_DOWNLOAD = 'download';
-
-    /** @var ilLogger */
-    private $certificateLogger;
-
-    /** @var ServerRequestInterface */
+    public const CMD_DOWNLOAD = 'download';
+    private ilLogger $certificateLogger;
+    /**
+     * @var RequestInterface|ServerRequestInterface|null
+     */
     private $request;
-
-    /** @var ilLanguage */
-    private $language;
-
-    /** @var ilCtrl */
-    private $controller;
+    private ilLanguage $language;
+    private ilCtrl $controller;
 
     /**
      * @param ilLanguage|null $language

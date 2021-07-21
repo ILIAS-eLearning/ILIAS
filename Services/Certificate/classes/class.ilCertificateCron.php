@@ -1,39 +1,25 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\LoggingServices;
+use ILIAS\DI\Container;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateCron extends \ilCronJob
 {
-    const DEFAULT_SCHEDULE_HOURS = 1;
+    public const DEFAULT_SCHEDULE_HOURS = 1;
 
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /** \@var ilCertificateQueueRepository */
-    private $queueRepository;
-
-    /** @var \ilCertificateTemplateRepository */
-    private $templateRepository;
-
-    /** @var \ilUserCertificateRepository */
-    private $userRepository;
-
-    /** @var \ILIAS\DI\LoggingServices|ilLogger logger */
-    private $logger;
-
-    /** @var \ilCertificateValueReplacement */
-    private $valueReplacement;
-
-    /** @var ilCertificateObjectHelper|null */
-    private $objectHelper;
-
-    /** @var \ILIAS\DI\Container */
-    private $dic;
-
-    /** @var ilSetting */
-    private $settings;
+    protected ilLanguage $lng;
+    private ilCertificateQueueRepository $queueRepository;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilUserCertificateRepository $userRepository;
+    private ?ilLogger $logger;
+    private ilCertificateValueReplacement $valueReplacement;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private Container $dic;
+    private ilSetting $settings;
 
     /**
      * @param ilCertificateQueueRepository $queueRepository
@@ -41,7 +27,7 @@ class ilCertificateCron extends \ilCronJob
      * @param ilUserCertificateRepository $userRepository
      * @param ilCertificateValueReplacement|null $valueReplacement
      * @param ilLogger|null $logger
-     * @param \ILIAS\DI\Container|null $dic
+     * @param Container|null $dic
      * @param ilLanguage|null $language
      * @param ilCertificateObjectHelper|null $objectHelper
      * @param ilSetting|null $setting
@@ -52,7 +38,7 @@ class ilCertificateCron extends \ilCronJob
         ilUserCertificateRepository $userRepository = null,
         ilCertificateValueReplacement $valueReplacement = null,
         ilLogger $logger = null,
-        \ILIAS\DI\Container $dic = null,
+        Container $dic = null,
         ilLanguage $language = null,
         ilCertificateObjectHelper $objectHelper = null,
         ilSetting $setting = null

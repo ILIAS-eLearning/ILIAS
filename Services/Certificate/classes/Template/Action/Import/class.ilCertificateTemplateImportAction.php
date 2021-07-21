@@ -9,55 +9,16 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilCertificateTemplateImportAction
 {
-    /**
-     * @var integer
-     */
-    private $objectId;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilCertificatePlaceholderDescription
-     */
-    private $placeholderDescriptionObject;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var Filesystem|null
-     */
-    private $filesystem;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $utilHelper;
-
-    /**
-     * @var string
-     */
-    private $installationID;
-
-    /**
-     * @var ilCertificateBackgroundImageFileService
-     */
-    private $fileService;
+    private int $objectId;
+    private string $certificatePath;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
+    private ilLogger $logger;
+    private ?Filesystem $filesystem;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
+    private string $installationID;
+    private ilCertificateBackgroundImageFileService $fileService;
 
     /**
      * @param integer $objectId

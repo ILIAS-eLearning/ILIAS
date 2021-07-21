@@ -6,30 +6,11 @@
  */
 class ilCertificatePdfAction
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilPdfGenerator
-     */
-    private $pdfGenerator;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
-
-    /**
-     * @var ilErrorHandling
-     */
-    private $errorHandler;
-
-    /**
-     * @var string
-     */
-    private $translatedErrorText;
+    private ilLogger $logger;
+    private ilPdfGenerator $pdfGenerator;
+    private ilCertificateUtilHelper $ilUtilHelper;
+    private ilErrorHandling $errorHandler;
+    private string $translatedErrorText;
 
     /**
      * @param ilLogger $logger

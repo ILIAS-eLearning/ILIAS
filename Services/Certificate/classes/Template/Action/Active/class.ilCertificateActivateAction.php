@@ -6,10 +6,7 @@
  */
 class ilCertificateActiveAction
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
+    private ilDBInterface $database;
 
     /**
      * @param ilDBInterface $database

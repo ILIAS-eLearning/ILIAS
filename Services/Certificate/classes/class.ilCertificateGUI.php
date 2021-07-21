@@ -21,6 +21,9 @@
    +----------------------------------------------------------------------------+
 */
 
+ilTemplate $use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\FileUpload;
+
 /**
 * GUI class to create PDF certificates
 *
@@ -31,36 +34,29 @@
 */
 class ilCertificateGUI
 {
-    /**
-     * @var ilCertificateBackgroundImageDelete
-     */
-    private $backgroundImageDelete;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    private $fileSystem;
+    private ilCertificateBackgroundImageDelete $backgroundImageDelete;
+    private Filesystem $fileSystem;
 
     /**
     * The reference to the ILIAS control class
     *
-    * @var object
+    * @var ilCtrl
     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
     /**
     * The reference to the ILIAS tree class
     *
-    * @var object
+    * @var ilTree
     */
-    protected $tree;
+    protected ilTree $tree;
 
     /**
     * The reference to the ILIAS class
     *
-    * @var object
+    * @var ILIAS
     */
-    protected $ilias;
+    protected ILIAS $ilias;
 
     /**
     * The reference to the Template class
@@ -72,109 +68,34 @@ class ilCertificateGUI
     /**
     * The reference to the Language class
     *
-    * @var object
+    * @var ilLanguage
     */
-    protected $lng;
-    
+    protected ilLanguage $lng;
+
     /**
     * The reference ID of the object
     *
-    * @var object
+    * @var int
     */
-    protected $ref_id;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilXlsFoParser
-     */
-    private $formFieldParser;
-
-    /**
-     * @var ilCertificatePlaceholderDescription
-     */
-    private $placeholderDescriptionObject;
-
-    /**
-     * @var integer
-     */
-    private $objectId;
-
-    /**
-     * @var ilCertificateSettingsFormRepository|null
-     */
-    private $settingsFormFactory;
-
-    /**
-     * @var ilCertificatePlaceholderValues
-     */
-    private $placeholderValuesObject;
-
-    /**
-     * @var ilXlsFoParser|null
-     */
-    private $xlsFoParser;
-
-    /**
-     * @var ilCertificateDeleteAction
-     */
-    private $deleteAction;
-
-    /**
-     * @var ilCertificateTemplateExportAction|null
-     */
-    private $exportAction;
-
-    /**
-     * @var ilCertificateBackgroundImageUpload
-     */
-    private $backgroundImageUpload;
-
-    /**
-     * @var ilCertificateTemplatePreviewAction|null
-     */
-    private $previewAction;
-
-    /**
-     * @var ilCertificateThumbnailImageUpload|null
-     */
-    private $thumbnailImageUpload;
-
-    /**
-     * @var \ILIAS\FileUpload\FileUpload|null
-     */
-    private $fileUpload;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilSetting
-     */
-    private $settings;
-
-    /**
-     * @var ilPageFormats|null
-     */
-    private $pageFormats;
- 
-    /** @var \ILIAS\Filesystem\Filesystem|null */
-    private $tmp_file_system;
+    protected int $ref_id;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
+    private ?ilCertificateTemplateRepository $templateRepository;
+    private ilXlsFoParser $formFieldParser;
+    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
+    private int $objectId;
+    private ?ilCertificateSettingsFormRepository $settingsFormFactory;
+    private ilCertificatePlaceholderValues $placeholderValuesObject;
+    private ?ilXlsFoParser $xlsFoParser;
+    private ilCertificateDeleteAction $deleteAction;
+    private ?ilCertificateTemplateExportAction $exportAction;
+    private ilCertificateBackgroundImageUpload $backgroundImageUpload;
+    private ?ilCertificateTemplatePreviewAction $previewAction;
+    private ?FileUpload $fileUpload;
+    private string $certificatePath;
+    private ilSetting $settings;
+    private ?ilPageFormats $pageFormats;
+    private ?Filesystem $tmp_file_system;
 
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -190,12 +111,12 @@ class ilCertificateGUI
         ilCertificateTemplateExportAction $exportAction = null,
         ilCertificateBackgroundImageUpload $upload = null,
         ilCertificateTemplatePreviewAction $previewAction = null,
-        \ILIAS\FileUpload\FileUpload $fileUpload = null,
+        FileUpload $fileUpload = null,
         ilSetting $settings = null,
         ilCertificateBackgroundImageDelete $backgroundImageDelete = null,
-        \ILIAS\Filesystem\Filesystem $fileSystem = null,
+        Filesystem $fileSystem = null,
         ilCertificateBackgroundImageFileService $imageFileService = null,
-        \ILIAS\Filesystem\Filesystem $tmp_file_system = null
+        Filesystem $tmp_file_system = null
     ) {
         global $DIC;
 
@@ -203,6 +124,7 @@ class ilCertificateGUI
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
         $this->ilias = $DIC['ilias'];
+
         $this->tree = $DIC['tree'];
         $this->access = $DIC['ilAccess'];
         $this->toolbar = $DIC['ilToolbar'];

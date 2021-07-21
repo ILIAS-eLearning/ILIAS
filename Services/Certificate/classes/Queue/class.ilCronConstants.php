@@ -6,8 +6,8 @@
  */
 class ilCronConstants
 {
-    const ATTACHED = 'attached';
-    const IN_PROGRESS = 'in_progress';
-    const FAILED = 'failed';
-    const FINISHED = 'finished';
+    public const ATTACHED = 'attached';
+    public const IN_PROGRESS = 'in_progress';
+    public const FAILED = 'failed';
+    public const FINISHED = 'finished';
 }

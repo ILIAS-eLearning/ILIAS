@@ -6,80 +6,21 @@
  */
 class ilUserCertificate
 {
-    /**
-     * @var int
-     */
-    private $patternCertificateId;
-
-    /**
-     * @var int
-     */
-    private $objId;
-
-    /**
-     * @var string
-     */
-    private $objType;
-
-    /**
-     * @var int
-     */
-    private $userId;
-
-    /**
-     * @var string
-     */
-    private $userName;
-
-    /**
-     * @var int
-     */
-    private $acquiredTimestamp;
-
-    /**
-     * @var string
-     */
-    private $certificateContent;
-
-    /**
-     * @var string
-     */
-    private $templateValues;
-
-    /**
-     * @var int
-     */
-    private $validUntil;
-
-    /**
-     * @var string
-     */
-    private $version;
-
-    /**
-     * @var string
-     */
-    private $iliasVersion;
-
-    /**
-     * @var bool
-     */
-    private $currentlyActive;
-
-    /**
-     * @var int|null
-     */
-    private $id;
-
-    /**
-     * @var string|null
-     */
-    private $backgroundImagePath;
-
-    /**
-     * @var string
-     */
-    private $thumbnailImagePath;
+    private int $patternCertificateId;
+    private int $objId;
+    private string $objType;
+    private int $userId;
+    private string $userName;
+    private int $acquiredTimestamp;
+    private string $certificateContent;
+    private string $templateValues;
+    private int $validUntil;
+    private string $version;
+    private string $iliasVersion;
+    private bool $currentlyActive;
+    private ?int $id;
+    private ?string $backgroundImagePath;
+    private string $thumbnailImagePath;
 
     /**
      * @param integer $patternCertificateId

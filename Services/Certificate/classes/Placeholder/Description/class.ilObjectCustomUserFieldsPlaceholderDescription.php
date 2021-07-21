@@ -4,15 +4,8 @@
 
 class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var array
-     */
-    private $placeholder;
-
-    /**
-     * @var int
-     */
-    private $objectId;
+    private array $placeholder;
+    private int $objectId;
 
     /**
      * @param int $objectId

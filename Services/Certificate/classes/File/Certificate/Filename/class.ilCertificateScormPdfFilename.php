@@ -6,12 +6,9 @@
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
-    /** @var ilSetting*/
-    private $scormSetting;
-    /** @var ilCertificateFilename */
-    private $origin;
-    /** @var ilLanguage */
-    private $lng;
+    private ilSetting $scormSetting;
+    private ilCertificateFilename $origin;
+    private ilLanguage $lng;
 
     /**
      * @param ilCertificateFilename $origin

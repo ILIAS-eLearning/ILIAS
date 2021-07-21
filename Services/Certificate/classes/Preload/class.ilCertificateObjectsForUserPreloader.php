@@ -6,11 +6,8 @@
  */
 class ilCertificateObjectsForUserPreloader
 {
-    /** @var array */
-    private static $certificates = [];
-
-    /** @var ilUserCertificateRepository */
-    private $userCertificateRepository;
+    private static array $certificates = [];
+    private ilUserCertificateRepository $userCertificateRepository;
 
     /**
      * ilCertificateObjectsForUserPreloader constructor.

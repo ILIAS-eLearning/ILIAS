@@ -4,80 +4,45 @@
 use ILIAS\FileUpload\Collection\EntryLockingStringMap;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Filesystems;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateBackgroundImageUpload
 {
-    const BACKGROUND_IMAGE_NAME = 'background.jpg';
-    const BACKGROUND_THUMBNAIL_IMAGE_NAME = 'background.jpg.thumb.jpg';
-    const BACKGROUND_TEMPORARY_FILENAME = 'background_upload.tmp';
-
+    private const BACKGROUND_IMAGE_NAME = 'background.jpg';
+    private const BACKGROUND_THUMBNAIL_IMAGE_NAME = 'background.jpg.thumb.jpg';
+    private const BACKGROUND_TEMPORARY_FILENAME = 'background_upload.tmp';
+    private FileUpload $fileUpload;
+    private string $certificatePath;
+    private ilLanguage $language;
+    private string $rootDirectory;
     /**
-     * @var \ILIAS\FileUpload\FileUpload
-     */
-    private $fileUpload;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var string
-     */
-    private $rootDirectory;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem|\ILIAS\Filesystem\Filesystems
+     * @var Filesystem|Filesystems
      */
     private $fileSystem;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateFileUtilsHelper|null
-     */
-    private $fileUtilsHelper;
-
-    /**
-     * @var string
-     */
-    private $clientId;
-
-    /**
-     * @var LegacyPathHelperHelper
-     */
-    private $legacyPathHelper;
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /** @var \ILIAS\Filesystem\Filesystem|null */
-    private $tmp_file_system;
+    private ?ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateFileUtilsHelper $fileUtilsHelper;
+    private string $clientId;
+    private LegacyPathHelperHelper $legacyPathHelper;
+    private ilLogger $logger;
+    private ?Filesystem $tmp_file_system;
 
     public function __construct(
-        \ILIAS\FileUpload\FileUpload $fileUpload,
+        FileUpload $fileUpload,
         string $certificatePath,
         ilLanguage $language,
         ilLogger $logger,
-        \ILIAS\Filesystem\Filesystem $fileSystem = null,
+        Filesystem $fileSystem = null,
         ilCertificateUtilHelper $utilHelper = null,
         ilCertificateFileUtilsHelper $certificateFileUtilsHelper = null,
         LegacyPathHelperHelper $legacyPathHelper = null,
         string $rootDirectory = CLIENT_WEB_DIR,
         string $clientID = CLIENT_ID,
-        \ILIAS\Filesystem\Filesystem $tmp_file_system = null
+        Filesystem $tmp_file_system = null
     ) {
         $this->fileUpload = $fileUpload;
         $this->certificatePath = $certificatePath;

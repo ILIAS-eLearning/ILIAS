@@ -35,18 +35,12 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $hierarchical_access;
+    protected ilAccessHandler $hierarchical_access;
     /**
      * @var ilRbacSystem
      */
     protected $access;
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
+    protected ilErrorHandling $error;
     private static $ERROR_MESSAGE;
 
 

@@ -6,35 +6,12 @@
  */
 class ilUserCertificatePresentation
 {
-    /**
-     * @var int
-     */
-    private $objId;
-
-    /**
-     * @var string
-     */
-    private $objType;
-    
-    /**
-     * @var ilUserCertificate|null
-     */
-    private $userCertificate;
-
-    /**
-     * @var string
-     */
-    private $objectTitle;
-
-    /**
-     * @var string
-     */
-    private $objectDescription;
-
-    /**
-     * @var string
-     */
-    private $userName;
+    private int $objId;
+    private string $objType;
+    private ?ilUserCertificate $userCertificate;
+    private string $objectTitle;
+    private string $objectDescription;
+    private string $userName;
 
     /**
      * ilUserCertificatePresentation constructor.

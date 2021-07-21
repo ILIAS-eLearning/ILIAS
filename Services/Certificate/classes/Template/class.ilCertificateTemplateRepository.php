@@ -9,30 +9,22 @@
  */
 class ilCertificateTemplateRepository
 {
+    private ilDBInterface $database;
+    private ilLogger $logger;
     /**
-     * @var \ilDBInterface
-     */
-    private $database;
-
-    /**
-     * @var \ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var \ilObjectDataCache|mixed
+     * @var ilObjectDataCache|mixed
      */
     private $objectDataCache;
 
     /**
-     * @param \ilDBInterface $database
-     * @param \ilLogger $logger
-     * @param \ilObjectDataCache|null $objectDataCache
+     * @param \ilDBInterface         $database
+     * @param \ilLogger              $logger
+     * @param ilObjectDataCache|null $objectDataCache
      */
     public function __construct(
         \ilDBInterface $database,
         \ilLogger $logger = null,
-        \ilObjectDataCache $objectDataCache = null
+        ilObjectDataCache $objectDataCache = null
     ) {
         $this->database = $database;
 

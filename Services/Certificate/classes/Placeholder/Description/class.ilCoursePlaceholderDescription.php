@@ -6,24 +6,10 @@
  */
 class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
-
-    /**
-     * @var ilObjectCustomUserFieldsPlaceholderDescription
-     */
-    private $customUserFieldsPlaceholderDescriptionObject;
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
+    private ?ilLanguage $language;
+    private array $placeholder;
 
     /**
      * @param int $objectId

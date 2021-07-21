@@ -7,15 +7,8 @@
  */
 class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var array
-     */
-    private $placeholder;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private array $placeholder;
+    private ilLanguage $language;
 
     /**
      * @param ilLanguage $language

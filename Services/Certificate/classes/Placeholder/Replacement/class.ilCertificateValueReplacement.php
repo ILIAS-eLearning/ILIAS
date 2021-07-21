@@ -6,10 +6,7 @@
  */
 class ilCertificateValueReplacement
 {
-    /**
-     * @var string
-     */
-    private $clientWebDirectory;
+    private string $clientWebDirectory;
 
     /**
      * @param string $clientWebDirectory - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty

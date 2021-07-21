@@ -3,30 +3,11 @@
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilDefaultPlaceholderValues
-     */
-    private $defaultPlaceHolderValuesObject;
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateParticipantsHelper|null
-     */
-    private $participantsHelper;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
+    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ?ilLanguage $language;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateParticipantsHelper $participantsHelper;
+    private ilCertificateUtilHelper $ilUtilHelper;
 
     /**
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues

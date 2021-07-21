@@ -6,20 +6,9 @@
  */
 class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ?ilLanguage $language;
+    private array $placeholder;
 
     /**
      * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject

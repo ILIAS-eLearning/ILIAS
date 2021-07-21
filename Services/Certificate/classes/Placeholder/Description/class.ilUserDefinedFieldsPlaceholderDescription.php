@@ -6,7 +6,7 @@
  */
 class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private $placeholder;
+    private array $placeholder;
 
     /**
      * @param ilUserDefinedFields|null $userDefinedFieldsObject

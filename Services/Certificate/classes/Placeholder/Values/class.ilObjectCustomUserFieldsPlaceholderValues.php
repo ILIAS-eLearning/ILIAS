@@ -6,20 +6,9 @@
  */
 class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var array
-     */
-    private $placeholder;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
+    private array $placeholder;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $ilUtilHelper;
 
     /**
      * @param ilCertificateObjectHelper|null $objectHelper

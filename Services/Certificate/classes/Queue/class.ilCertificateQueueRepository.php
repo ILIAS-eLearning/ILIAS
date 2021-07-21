@@ -6,15 +6,8 @@
  */
 class ilCertificateQueueRepository
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
+    private ilDBInterface $database;
+    private ilLogger $logger;
 
     /**
      * @param ilDBInterface $database

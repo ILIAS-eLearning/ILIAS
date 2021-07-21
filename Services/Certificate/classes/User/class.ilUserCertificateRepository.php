@@ -6,20 +6,9 @@
  */
 class ilUserCertificateRepository
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var null|string
-     */
-    private $defaultTitle;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private ?string $defaultTitle;
 
     /**
      * @param ilDBInterface $database

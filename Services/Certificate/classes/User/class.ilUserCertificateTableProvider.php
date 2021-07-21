@@ -6,30 +6,11 @@
  */
 class ilUserCertificateTableProvider
 {
-    /**
-     * @var
-     */
-    private $database;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCtrl
-     */
-    private $controller;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var string
-     */
-    private $defaultTitle;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private ilCtrl $controller;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private string $defaultTitle;
 
     /**
      * @param ilDBInterface $database

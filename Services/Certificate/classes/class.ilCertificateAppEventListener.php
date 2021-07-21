@@ -11,43 +11,16 @@
  */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
-    /** @var \ilDBInterface */
-    protected $db;
-
-    /** @var ilObjectDataCache */
-    private $objectDataCache;
-
-    /** @var ilLogger */
-    private $logger;
-
-    /** @var string */
-    protected $component = '';
-
-    /** @var string */
-    protected $event = '';
-
-    /** @var array */
-    protected $parameters = [];
-
-    /**
-     * @var ilCertificateQueueRepository
-     */
-    private $certificateQueueRepository;
-
-    /**
-     * @var ilCertificateTypeClassMap
-     */
-    private $certificateClassMap;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
+    protected ilDBInterface $db;
+    private ilObjectDataCache $objectDataCache;
+    private ilLogger $logger;
+    protected string $component = '';
+    protected string $event = '';
+    protected array $parameters = [];
+    private ilCertificateQueueRepository $certificateQueueRepository;
+    private ilCertificateTypeClassMap $certificateClassMap;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
     /**
      * ilCertificateAppEventListener constructor.

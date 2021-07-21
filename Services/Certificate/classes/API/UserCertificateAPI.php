@@ -12,8 +12,7 @@ use Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPI
 {
-    /** @var UserDataRepository */
-    private $userCertificateRepository;
+    private UserDataRepository $userCertificateRepository;
 
     /**
      * UserCertificateAPI constructor.

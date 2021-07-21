@@ -1,39 +1,30 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateBackgroundImageFileService
 {
-    const BACKGROUND_IMAGE_NAME = 'background.jpg';
-    const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
-    const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
-    const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
+    public const BACKGROUND_IMAGE_NAME = 'background.jpg';
+    public const BACKGROUND_TEMPORARY_UPLOAD_FILE_NAME = 'background_upload.tmp';
+    public const BACKGROUND_THUMBNAIL_FILE_ENDING = '.thumb.jpg';
+    public const PLACEHOLDER_CLIENT_WEB_DIRECTORY = '[CLIENT_WEB_DIR]';
 
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    private $fileSystem;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var string
-     */
-    private $webDirectory;
+    private Filesystem $fileSystem;
+    private string $certificatePath;
+    private string $webDirectory;
 
     /**
      * @param string                       $certificatePath
-     * @param \ILIAS\Filesystem\Filesystem $filesystem
+     * @param Filesystem $filesystem
      * @param string                       $webDirectory
      */
     public function __construct(
         string $certificatePath,
-        \ILIAS\Filesystem\Filesystem $filesystem,
+        Filesystem $filesystem,
         $webDirectory = CLIENT_WEB_DIR
     ) {
         $this->certificatePath = $certificatePath;

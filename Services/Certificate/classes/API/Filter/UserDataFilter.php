@@ -8,59 +8,31 @@ namespace Certificate\API\Filter;
  */
 class UserDataFilter
 {
-    const SORT_FIELD_ISSUE_TIMESTAMP = 1;
-    const SORT_FIELD_USR_LOGIN = 2;
-    const SORT_FIELD_USR_LASTNAME = 3;
-    const SORT_FIELD_USR_FIRSTNAME = 4;
-    const SORT_FIELD_OBJ_TITLE = 5;
-    const SORT_DIRECTION_ASC = 1;
-    const SORT_DIRECTION_DESC = 2;
+    public const SORT_FIELD_ISSUE_TIMESTAMP = 1;
+    public const SORT_FIELD_USR_LOGIN = 2;
+    public const SORT_FIELD_USR_LASTNAME = 3;
+    public const SORT_FIELD_USR_FIRSTNAME = 4;
+    public const SORT_FIELD_OBJ_TITLE = 5;
+    public const SORT_DIRECTION_ASC = 1;
+    public const SORT_DIRECTION_DESC = 2;
 
-    /** @var string|null */
-    private $objectTitle;
-
-    /** @var int|null */
-    private $issuedBeforeTimestamp;
-
-    /** @var int|null */
-    private $issuedAfterTimestamp;
-
-    /** @var bool */
-    private $onlyCertActive = true;
-
-    /** @var string|null */
-    private $userFirstName;
-
-    /** @var string|null */
-    private $userLastName;
-
-    /** @var string|null */
-    private $userLogin;
-
-    /** @var string|null */
-    private $userEmail;
-
+    private ?string $objectTitle;
+    private ?int $issuedBeforeTimestamp;
+    private ?int $issuedAfterTimestamp;
+    private bool $onlyCertActive = true;
+    private ?string $userFirstName;
+    private ?string $userLastName;
+    private ?string $userLogin;
+    private ?string $userEmail;
     /** @var int[] */
-    private $userIds = [];
-
+    private array $userIds = [];
     /** @var int[] */
-    private $objIds = [];
+    private array $objIds = [];
+    private array $sorts = [];
+    private ?int $limitOffset = null;
+    private ?int $limitCount = null;
+    private bool $shouldIncludeDeletedObjects = true;
 
-    /** @var array */
-    private $sorts = [];
-
-    /** @var int|null */
-    private $limitOffset = null;
-
-    /** @var int|null */
-    private $limitCount = null;
-
-    /** @var bool */
-    private $shouldIncludeDeletedObjects = true;
-
-    /**
-     *
-     */
     public function __construct()
     {
     }

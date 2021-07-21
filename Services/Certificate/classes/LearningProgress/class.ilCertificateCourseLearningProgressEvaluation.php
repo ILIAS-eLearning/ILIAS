@@ -6,30 +6,11 @@
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilSetting
-     */
-    private $setting;
-
-    /**
-     * @var ilCertificateObjectHelper
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateLPStatusHelper
-     */
-    private $statusHelper;
-
-    /**
-     * @var ilCertificateObjUserTrackingHelper
-     */
-    private $trackingHelper;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilSetting $setting;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateLPStatusHelper $statusHelper;
+    private ilCertificateObjUserTrackingHelper $trackingHelper;
 
     /**
      * @param ilCertificateTemplateRepository $templateRepository

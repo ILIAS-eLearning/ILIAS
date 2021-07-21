@@ -6,10 +6,7 @@
  */
 class ilCertificateUserCertificateAccessValidator
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
     /**
      * ilCertificateHasUserCertificateValidator constructor.

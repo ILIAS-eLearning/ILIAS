@@ -1,25 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    /**
-     * @var
-     */
-    private $dic;
-
-    /**
-     * @var ilPortfolioCertificateFileService
-     */
-    private $fileService;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private Container $dic;
+    private ilPortfolioCertificateFileService $fileService;
+    private ilLanguage $language;
 
     public function __construct(
         \ILIAS\DI\Container $dic = null,

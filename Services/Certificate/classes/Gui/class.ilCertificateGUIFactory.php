@@ -1,15 +1,14 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateGUIFactory
 {
-    /**
-     * @var
-     */
-    private $dic;
+    private Container $dic;
 
     /**
      * @param \ILIAS\DI\Container|null $dic

@@ -6,45 +6,14 @@
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilDefaultPlaceholderValues
-     */
-    private $defaultPlaceHolderValuesObject;
-
-    /**
-     * @var ilObjectCustomUserFieldsPlaceholderValues
-     */
-    private $customUserFieldsPlaceholderValuesObject;
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateParticipantsHelper|null
-     */
-    private $participantsHelper;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
-
-    /**
-     * @var ilCertificateDateHelper|null
-     */
-    private $dateHelper;
-
-    /**
-     * @var ilCertificateLPStatusHelper|null
-     */
-    private $lpStatusHelper;
+    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
+    private ?ilLanguage $language;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateParticipantsHelper $participantsHelper;
+    private ilCertificateUtilHelper $ilUtilHelper;
+    private ?ilCertificateDateHelper $dateHelper;
+    private ?ilCertificateLPStatusHelper $lpStatusHelper;
 
     /**
      * @param ilObjectCustomUserFieldsPlaceholderValues|null    $customUserFieldsPlaceholderValues

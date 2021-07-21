@@ -6,40 +6,13 @@
  */
 class ilCertificateQueueEntry
 {
-    /**
-     * @var int
-     */
-    private $objId;
-
-    /**
-     * @var int
-     */
-    private $userId;
-
-    /**
-     * @var string
-     */
-    private $adapterClass;
-
-    /**
-     * @var string
-     */
-    private $state;
-
-    /**
-     * @var int
-     */
-    private $startedTimestamp;
-
-    /**
-     * @var int|null
-     */
-    private $id;
-
-    /**
-     * @var int
-     */
-    private $templateId;
+    private int$objId;
+    private int $userId;
+    private string $adapterClass;
+    private string $state;
+    private int $startedTimestamp;
+    private ?int $id;
+    private int $templateId;
 
     /**
      * @param integer $objId

@@ -6,25 +6,10 @@
  */
 class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilObject
-     */
-    private $object;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFromFactory;
-
-    /**
-     * @var ilSetting
-     */
-    private $setting;
+    private ilObject $object;
+    private ilLanguage $language;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilSetting $setting;
 
     /**
      * @param ilObject $object

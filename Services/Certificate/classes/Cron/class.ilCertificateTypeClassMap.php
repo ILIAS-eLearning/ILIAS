@@ -6,7 +6,7 @@
  */
 class ilCertificateTypeClassMap
 {
-    private $typeClassMap = array(
+    private array $typeClassMap = array(
         'crs' => array('placeholder' => ilCoursePlaceholderValues::class),
         'tst' => array('placeholder' => ilTestPlaceHolderValues::class),
         'exc' => array('placeholder' => ilExercisePlaceHolderValues::class),

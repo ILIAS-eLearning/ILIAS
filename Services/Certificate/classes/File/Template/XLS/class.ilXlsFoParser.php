@@ -6,40 +6,13 @@
  */
 class ilXlsFoParser
 {
-    /**
-     * @var ilSetting
-     */
-    private $settings;
-
-    /**
-     * @var ilPageFormats
-     */
-    private $pageFormats;
-
-    /**
-     * @var ilXMLChecker
-     */
-    private $xmlChecker;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateXlstProcess|null
-     */
-    private $xlstProcess;
-
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateXlsFileLoader|null
-     */
-    private $certificateXlsFileLoader;
+    private ilSetting $settings;
+    private ilPageFormats $pageFormats;
+    private ilXMLChecker $xmlChecker;
+    private ?ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateXlstProcess $xlstProcess;
+    private ?ilLanguage $language;
+    private ?ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
     /**
      * @param ilSetting $settings

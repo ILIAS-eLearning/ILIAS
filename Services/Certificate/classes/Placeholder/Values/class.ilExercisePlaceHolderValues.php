@@ -6,45 +6,14 @@
  */
 class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilDefaultPlaceholderValues|null
-     */
-    private $defaultPlaceHolderValuesObject;
-
-    /**
-     * @var ilCertificateLPMarksHelper|null
-     */
-    private $lpMarksHelper;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateExerciseMembersHelper|null
-     */
-    private $exerciseMembersHelper;
-
-    /**
-     * @var ilCertificateLPStatusHelper|null
-     */
-    private $lpStatusHelper;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateDateHelper|null
-     */
-    private $dateHelper;
+    private ?ilLanguage $language;
+    private ?ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ?ilCertificateLPMarksHelper $lpMarksHelper;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateExerciseMembersHelper $exerciseMembersHelper;
+    private ?ilCertificateLPStatusHelper $lpStatusHelper;
+    private ?ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateDateHelper $dateHelper;
 
     /**
      * @param ilDefaultPlaceholderValues|null $defaultPlaceholderValues

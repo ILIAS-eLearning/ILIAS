@@ -8,35 +8,12 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilCertificateTemplateExportAction
 {
-    /**
-     * @var int
-     */
-    private $objectId;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
+    private int $objectId;
+    private string $certificatePath;
+    private ilCertificateTemplateRepository $templateRepository;
+    private Filesystem $filesystem;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private ?ilCertificateUtilHelper $utilHelper;
 
     /**
      * @param integer $objectId

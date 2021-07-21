@@ -6,55 +6,16 @@
  */
 class ilCertificateTemplatePreviewAction
 {
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilCertificatePlaceholderValues
-     */
-    private $placeholderValuesObject;
-
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilObjUser|null
-     */
-    private $user;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateMathJaxHelper|null
-     */
-    private $mathJaxHelper;
-
-    /**
-     * @var ilCertificateUserDefinedFieldsHelper|null
-     */
-    private $userDefinedFieldsHelper;
-
-    /**
-     * @var ilCertificateRpcClientFactoryHelper|null
-     */
-    private $rpcClientFactoryHelper;
-
-    /**
-     * @var string
-     */
-    private $rootDirectory;
-
-    /**
-     * @var ilCertificatePdfFileNameFactory
-     */
-    private $pdfFileNameFactory;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilCertificatePlaceholderValues $placeholderValuesObject;
+    private ilLogger $logger;
+    private ?ilObjUser $user;
+    private ?ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateMathJaxHelper $mathJaxHelper;
+    private ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
+    private ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
+    private string $rootDirectory;
+    private ilCertificatePdfFileNameFactory $pdfFileNameFactory;
 
     /**
      * @param ilCertificateTemplateRepository $templateRepository

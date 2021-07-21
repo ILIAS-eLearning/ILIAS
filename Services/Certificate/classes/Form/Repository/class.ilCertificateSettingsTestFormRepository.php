@@ -6,20 +6,9 @@
  */
 class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFromFactory;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilObjTest
-     */
-    private $testObject;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilLanguage $language;
+    private ilObjTest $testObject;
 
     /**
      * @param int                                      $objectId

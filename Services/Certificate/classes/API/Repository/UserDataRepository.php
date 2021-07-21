@@ -7,37 +7,33 @@ use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 use ilDBConstants;
 use ilUserCertificateApiGUI;
+use ilDBInterface;
+use ilLogger;
+use ilCtrl;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class UserDataRepository
 {
-    /** @var \ilDBInterface */
-    private $database;
-
-    /** @var \ilLogger */
-    private $logger;
-
-    /** @var null|string */
-    private $defaultTitle;
-
-    /** @var \ilCtrl */
-    private $controller;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private ?string $defaultTitle;
+    private ilCtrl $controller;
 
     /**
-     * @param \ilDBInterface $database
-     * @param \ilLogger $logger
-     * @param \ilCtrl $controller
-     * @param string|null $defaultTitle The default title is use if the title of an repository object could not be
+     * @param ilDBInterface $database
+     * @param ilLogger      $logger
+     * @param ilCtrl        $controller
+     * @param string|null   $defaultTitle The default title is use if the title of an repository object could not be
      *                                  determined. This could be the case if the object is deleted from system and
      *                                  mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        \ilDBInterface $database,
-        \ilLogger $logger,
-        \ilCtrl $controller,
-        string $defaultTitle = null
+        ilDBInterface $database,
+        ilLogger $logger,
+        ilCtrl $controller,
+        ?string $defaultTitle = null
     ) {
         $this->database = $database;
         $this->logger = $logger;

@@ -10,15 +10,8 @@
  */
 class ilCertificateDownloadValidator
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateAccessValidator;
-
-    /**
-     * @var ilCertificateActiveValidator|null
-     */
-    private $activeValidator;
+    private ilUserCertificateRepository $userCertificateAccessValidator;
+    private ?ilCertificateActiveValidator $activeValidator;
 
     /**
      * @param ilCertificateUserCertificateAccessValidator|null $userCertificateAccessValidator

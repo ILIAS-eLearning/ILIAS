@@ -6,15 +6,8 @@
  */
 class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    /**
-     * @var ilCertificateTemplateDeleteAction
-     */
-    private $deleteAction;
-
-    /**
-     * @var ilSetting|null
-     */
-    private $setting;
+    private ilCertificateTemplateDeleteAction $deleteAction;
+    private ?ilSetting $setting;
 
     /**
      * @param ilCertificateTemplateDeleteAction $deleteAction

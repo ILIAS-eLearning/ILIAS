@@ -6,30 +6,11 @@
  */
 class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var string
-     */
-    private $rootDirectory;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var string
-     */
-    private $iliasVersion;
+    private ilCertificateTemplateRepository $templateRepository;
+    private string $rootDirectory;
+    private ?ilCertificateUtilHelper $utilHelper;
+    private ?ilCertificateObjectHelper $objectHelper;
+    private string $iliasVersion;
 
     /**
      * @param ilCertificateTemplateRepository $templateRepository

@@ -6,20 +6,9 @@
  */
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFromFactory;
-
-    /**
-     * @var ilObject
-     */
-    private $object;
+    private ilLanguage $language;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilObject $object;
 
     /**
      * @param ilObject $object

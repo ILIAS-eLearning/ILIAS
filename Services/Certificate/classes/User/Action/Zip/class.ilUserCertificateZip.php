@@ -6,31 +6,11 @@
  */
 class ilUserCertificateZip
 {
-
-    /**
-     * @var int
-     */
-    private $objectId;
-
-    /**
-     * @var string
-     */
-    private $webDirectory;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var string
-     */
-    private $typeInFileName;
-
-    /**
-     * @var string
-     */
-    private $installionId;
+ilTemplate    private int $objectId;
+    private string $webDirectory;
+    private string $certificatePath;
+    private string $typeInFileName;
+    private string $installionId;
 
     public function __construct(
         int $objectId,

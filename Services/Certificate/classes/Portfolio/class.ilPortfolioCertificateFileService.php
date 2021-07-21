@@ -8,20 +8,10 @@ use ILIAS\Filesystem\Filesystem;
  */
 class ilPortfolioCertificateFileService
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var ilLogger|null
-     */
-    private $logger;
-
-
-    const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
-
-    const CERTIFICATE_FILENAME = 'certificate.pdf';
+    private Filesystem $filesystem;
+    private ?ilLogger $logger;
+    private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
+    private const CERTIFICATE_FILENAME = 'certificate.pdf';
 
     /**
      * @param Filesystem|null $filesystem

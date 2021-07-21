@@ -6,70 +6,19 @@
  */
 class ilCertificateTemplate
 {
-    /**
-     * @var int
-     */
-    private $obj_id;
-
-    /**
-     * @var string
-     */
-    private $certificateContent;
-
-    /**
-     * @var string
-     */
-    private $certificateHash;
-
-    /**
-     * @var string
-     */
-    private $templateValues;
-
-    /**
-     * @var string
-     */
-    private $version;
-
-    /**
-     * @var string
-     */
-    private $iliasVersion;
-
-    /**
-     * @var int
-     */
-    private $createdTimestamp;
-
-    /**
-     * @var bool
-     */
-    private $currentlyActive;
-
-    /**
-     * @var int|null
-     */
-    private $id;
-
-    /**
-     * @var string|null
-     */
-    private $backgroundImagePath;
-
-    /**
-     * @var string
-     */
-    private $obj_type;
-
-    /**
-     * @var bool
-     */
-    private $deleted;
-
-    /**
-     * @var string
-     */
-    private $thumbnailImagePath;
+    private int $obj_id;
+    private string $certificateContent;
+    private string $certificateHash;
+    private string $templateValues;
+    private string $version;
+    private string $iliasVersion;
+    private int $createdTimestamp;
+    private bool $currentlyActive;
+    private ?int $id;
+    private ?string $backgroundImagePath;
+    private string $obj_type;
+    private bool $deleted;
+    private string $thumbnailImagePath;
 
     /**
      * @param integer $obj_id

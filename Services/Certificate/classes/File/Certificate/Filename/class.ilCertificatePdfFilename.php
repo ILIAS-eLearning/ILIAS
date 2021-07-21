@@ -6,8 +6,7 @@
  */
 class ilCertificatePdfFilename implements ilCertificateFilename
 {
-    /** @var ilLanguage */
-    private $lng;
+    private ilLanguage $lng;
 
     /**
      * ilCertificatePdfFileNameFactory constructor.

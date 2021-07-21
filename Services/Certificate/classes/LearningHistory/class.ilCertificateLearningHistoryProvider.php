@@ -9,29 +9,12 @@ use ILIAS\UI\Renderer;
  */
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
-
-    /**
-     * @var ilCtrl
-     */
-    private $controller;
-
-    /**
-     * @var ilSetting|null
-     */
-    private $certificateSettings;
-    
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var ilCertificateUtilHelper|null */
-    private $utilHelper;
+    private ilUserCertificateRepository $userCertificateRepository;
+    private ilCtrl $controller;
+    private ?ilSetting $certificateSettings;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    private ?ilCertificateUtilHelper $utilHelper;
 
     /**
      * @param int $user_id

@@ -6,70 +6,19 @@
  */
 class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var int
-     */
-    private $objectId;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @var ilCtrl
-     */
-    private $controller;
-
-    /**
-     * @var ilAccess
-     */
-    private $access;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    private $toolbar;
-
-    /**
-     * @var ilCertificatePlaceholderDescription
-     */
-    private $placeholderDescriptionObject;
-
-    /**
-     * @var ilPageFormats
-     */
-    private $pageFormats;
-
-    /**
-     * @var ilFormFieldParser
-     */
-    private $formFieldParser;
-
-    /**
-     * @var ilCertificateTemplateImportAction|null
-     */
-    private $importAction;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var bool
-     */
-    private $hasAdditionalElements;
-
-    /**
-     * @var ilCertificateBackgroundImageFileService
-     */
-    private $backGroundImageFileService;
+    private int $objectId;
+    private ilLanguage $language;
+    private ilCtrl $controller;
+    private ilAccess $access;
+    private ilToolbarGUI $toolbar;
+    private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
+    private ilPageFormats $pageFormats;
+    private ilFormFieldParser $formFieldParser;
+    private ?ilCertificateTemplateImportAction $importAction;
+    private ilCertificateTemplateRepository $templateRepository;
+    private string $certificatePath;
+    private bool $hasAdditionalElements;
+    private ilCertificateBackgroundImageFileService $backGroundImageFileService;
 
     /**
      * @param integer $objectId

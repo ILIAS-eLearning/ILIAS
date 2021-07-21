@@ -8,41 +8,19 @@ namespace Certificate\API\Data;
  */
 class UserCertificateDto
 {
-    /** @var string */
-    private $objectTitle = '';
-
+    private string $objectTitle = '';
     /** @var int[] */
-    private $objectRefIds = [];
-
-    /** @var int */
-    private $objectId = 0;
-
-    /** @var int */
-    private $issuedOnTimestamp = 0;
-
-    /** @var int */
-    private $userId = 0;
-
-    /** @var string */
-    private $downloadLink = '';
-
-    /** @var int */
-    private $certificateId = 0;
-
-    /** @var string */
-    private $userFirstName = '';
-
-    /** @var string */
-    private $userLastName = '';
-
-    /** @var string */
-    private $userLogin = '';
-
-    /** @var string */
-    private $userEmail = '';
-
-    /** @var string */
-    private $userSecondEmail = '';
+    private array $objectRefIds = [];
+    private int $objectId = 0;
+    private int $issuedOnTimestamp = 0;
+    private int $userId = 0;
+    private string $downloadLink = '';
+    private int $certificateId = 0;
+    private string $userFirstName = '';
+    private string $userLastName = '';
+    private string $userLogin = '';
+    private string $userEmail = '';
+    private string $userSecondEmail = '';
 
     /**
      * @param int $certificateId

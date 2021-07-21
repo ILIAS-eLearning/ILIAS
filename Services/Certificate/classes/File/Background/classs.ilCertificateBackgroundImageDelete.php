@@ -6,16 +6,8 @@
  */
 class ilCertificateBackgroundImageDelete
 {
-
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilCertificateBackgroundImageFileService
-     */
-    private $fileService;
+    private string $certificatePath;
+    private ilCertificateBackgroundImageFileService $fileService;
 
     /**
      * @param string                                  $certificatePath
