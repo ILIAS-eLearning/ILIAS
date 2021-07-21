@@ -110,7 +110,7 @@ class ilArtifactComponentDataDBTest extends TestCase
             false,
             true
         );
-        $plugins1[] = $this->plg1;
+        $plugins1["plg1"] = $this->plg1;
         $plugins2 = [];
         $this->slt2 = new ilPluginSlotInfo(
             $this->mod1,
@@ -177,7 +177,7 @@ class ilArtifactComponentDataDBTest extends TestCase
             true,
             false
         );
-        $plugins4[] = $this->plg2;
+        $plugins4["plg2"] = $this->plg2;
     }
 
     public function testHasComponent()
@@ -381,5 +381,15 @@ class ilArtifactComponentDataDBTest extends TestCase
             $plugin->getCurrentVersion()
         );
         $this->assertEquals(42, $plugin->getCurrentDBVersion());
+    }
+
+    public function testGetPluginViaComponentAndPluginSlot()
+    {
+        $plg1 = $this->db
+            ->getComponentByTypeAndName("Modules", "Module1")
+            ->getPluginSlotById("slt1")
+            ->getPluginById("plg1");
+
+        $this->assertEquals($this->plg1, $plg1);
     }
 }
