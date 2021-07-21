@@ -11,10 +11,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilUserCertificateRepository|null
-     */
-    private $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
 
     /**
      * @param ilObject $a_parent_obj
