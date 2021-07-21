@@ -84,7 +84,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 $supports_export ?? false,
                 $supports_cli_setup ?? true
             );
-            $plugins_per_slot[$slot->getId()][] = $this->plugin_by_id[$plugin_id];
+            $plugins_per_slot[$slot->getId()][$plugin_id] = $this->plugin_by_id[$plugin_id];
         }
     }
 
