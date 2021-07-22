@@ -524,27 +524,27 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
     }
 
     /**
-     * @param $row
+     * @param string[] $row
      * @return ilUserCertificate
      */
-    private function createUserCertificate($row) : ilUserCertificate
+    private function createUserCertificate(array $row) : ilUserCertificate
     {
         return new ilUserCertificate(
-            $row['pattern_certificate_id'],
-            $row['obj_id'],
+            (int) $row['pattern_certificate_id'],
+            (int) $row['obj_id'],
             $row['obj_type'],
-            $row['user_id'],
+            (int) $row['user_id'],
             $row['user_name'],
             (int) $row['acquired_timestamp'],
             $row['certificate_content'],
             $row['template_values'],
-            $row['valid_until'],
+            (int) $row['valid_until'],
             $row['version'],
             $row['ilias_version'],
-            $row['currently_active'],
+            (bool) $row['currently_active'],
             $row['background_image_path'],
             $row['thumbnail_image_path'],
-            $row['id']
+            isset($row['id']) ? (int) $row['id'] : null
         );
     }
 }

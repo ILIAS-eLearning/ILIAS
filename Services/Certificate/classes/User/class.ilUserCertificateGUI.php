@@ -240,7 +240,7 @@ class ilUserCertificateGUI
                     ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
 
                 $objectTitle = $certificateData['title'];
-                $refIds = \ilObject::_getAllReferences($certificateData['obj_id']);
+                $refIds = \ilObject::_getAllReferences((int) $certificateData['obj_id']);
                 if (count($refIds) > 0) {
                     foreach ($refIds as $refId) {
                         if ($this->access->checkAccess('read', '', $refId)) {
