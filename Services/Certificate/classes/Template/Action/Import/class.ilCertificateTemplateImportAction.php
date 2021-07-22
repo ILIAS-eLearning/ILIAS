@@ -206,7 +206,7 @@ class ilCertificateTemplateImportAction
             $xsl,
             $newHashValue,
             $jsonEncodedTemplateValues,
-            $newVersion,
+            (string) $newVersion,
             $iliasVerision,
             time(),
             true,
