@@ -218,8 +218,8 @@ AND currently_active = 1
             '',
             '',
             '',
-            0,
-            0,
+            (string) 0,
+            (string) 0,
             0,
             true,
             '',
@@ -346,18 +346,18 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
     private function createCertificateTemplate(array $row) : ilCertificateTemplate
     {
         return new ilCertificateTemplate(
-            $row['obj_id'],
+            (int) $row['obj_id'],
             $row['obj_type'],
             $row['certificate_content'],
             $row['certificate_hash'],
             $row['template_values'],
             $row['version'],
             $row['ilias_version'],
-            $row['created_timestamp'],
+            (int) $row['created_timestamp'],
             (boolean) $row['currently_active'],
             $row['background_image_path'],
             $row['thumbnail_image_path'],
-            $row['id']
+            isset($row['id']) ? (int) $row['id'] : null
         );
     }
 }

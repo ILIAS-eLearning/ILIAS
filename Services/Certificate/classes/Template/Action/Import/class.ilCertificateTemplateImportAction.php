@@ -175,7 +175,7 @@ class ilCertificateTemplateImportAction
                         $originalImagePath,
                         $thumbnailImagePath,
                         'JPEG',
-                        100
+                        (string) 100
                     );
                 } elseif (strpos($file['entry'], '.svg') !== false) {
                     $newCardThumbnailName = 'thumbnail_' . $newVersion . '.svg';

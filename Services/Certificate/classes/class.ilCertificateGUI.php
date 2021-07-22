@@ -26,6 +26,9 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
 * GUI class to create PDF certificates
@@ -39,6 +42,8 @@ class ilCertificateGUI
 {
     private ?ilCertificateBackgroundImageDelete $backgroundImageDelete;
     private ?Filesystem $fileSystem;
+    private WrapperFactory $httpWrapper;
+    private Factory $refinery;
 
     /**
     * The reference to the ILIAS control class
@@ -122,7 +127,8 @@ class ilCertificateGUI
         ?Filesystem $tmp_file_system = null
     ) {
         global $DIC;
-
+        $this->httpWrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->lng = $DIC['lng'];
         $this->tpl = $DIC['tpl'];
         $this->ctrl = $DIC['ilCtrl'];
@@ -464,9 +470,11 @@ class ilCertificateGUI
     {
         $previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $previousCertificateTemplate->getVersion();
-        $nextVersion = $currentVersion + 1;
+        $nextVersion = (string) (((int) $currentVersion) + 1);
 
-        if ($_POST["background_delete"]) {
+        $aaa = $_POST["background_delete"];
+
+        if ($this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool())) {
             $this->backgroundImageDelete->deleteBackgroundImage($currentVersion);
         }
 
@@ -479,11 +487,11 @@ class ilCertificateGUI
                 // handle the background upload
                 $backgroundImagePath = '';
                 $temporaryFileName = $_FILES['background']['tmp_name'];
-                if (strlen($temporaryFileName)) {
+                if ($temporaryFileName != '') {
                     try {
                         $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage(
                             $temporaryFileName,
-                            $nextVersion,
+                            (int) $nextVersion,
                             $form->getInput('background')
                         );
                     } catch (ilException $exception) {
@@ -512,7 +520,7 @@ class ilCertificateGUI
                             $this->fileUpload->process();
                         }
 
-                        /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+                        /** @var UploadResult $result */
                         $uploadResults = $this->fileUpload->getResults();
                         $pending_card_file = $form->getInput('certificate_card_thumbnail_image');
                         $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';

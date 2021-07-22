@@ -22,7 +22,7 @@ class ilCertificateTemplate
 
     public function __construct(
         int $obj_id,
-        $obj_type,
+        string $obj_type,
         string $certificateContent,
         string $certificateHash,
         string $templateValues,
