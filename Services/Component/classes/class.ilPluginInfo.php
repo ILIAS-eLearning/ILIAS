@@ -187,4 +187,13 @@ class ilPluginInfo
             && $this->isInstalled()
             && !$this->isUpdateRequired();
     }
+
+    /**
+     * Is this plugin active right now?
+     */
+    public function isActive(Version $version) : bool
+    {
+        return $this->isActivationPossible($version)
+            && $this->isActivated();
+    }
 }

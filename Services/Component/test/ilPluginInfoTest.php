@@ -208,4 +208,65 @@ class ilPluginInfoTest extends TestCase
             [true, true, true, false]
         ];
     }
+
+    /**
+     * @dataProvider isActiveTruthTable
+     */
+    public function testIsActive($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_activation_possible)
+    {
+        $version = $this->createMock(Data\Version::class);
+        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated) extends ilPluginInfo {
+            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated) {
+                $this->is_installed = $is_installed;
+                $this->supports_current_ilias = $supports_current_ilias;
+                $this->needs_update = $needs_update;
+                $this->is_activated = $is_activated;
+            }
+
+            public function isActivated() : bool
+            {
+                return $this->is_activated;
+            }
+
+            public function isInstalled() : bool
+            {
+                return $this->is_installed;
+            }
+
+            public function isUpdateRequired() : bool
+            {
+                return $this->needs_update;
+            }
+
+            public function isCompliantToILIAS(Data\Version $version) : bool
+            {
+                return $this->supports_current_ilias;
+            }
+        };
+
+        $this->assertEquals($is_activation_possible, $plugin->isActive($version));
+    }
+
+    public function isActiveTruthTable() : array
+    {
+        // is_installed, supports_current_ilias, needs_update, is_activated => is_active
+        return [
+            [false, false, false, false, false],
+            [false, false, false, true, false],
+            [false, false, true , false, false],
+            [false, false, true , true, false],
+            [false, true, false, false, false],
+            [false, true, false, true, false],
+            [false, true, true , false, false],
+            [false, true, true , true, false],
+            [true, false, false, false, false],
+            [true, false, false, true, false],
+            [true, false, true , false, false],
+            [true, false, true , true, false],
+            [true, true, false, false, false],
+            [true, true, false, true, true],
+            [true, true, true , false, false],
+            [true, true, true , true, false],
+        ];
+    }
 }
