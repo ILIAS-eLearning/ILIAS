@@ -9531,6 +9531,9 @@ footer {
   .il-maincontrols-slate .il-avatar-picture {
     margin-right: 22.5px;
   }
+  .il-maincontrols-slate .link-bulky .icon.small {
+    margin-right: 25px;
+  }
 }
 .il-maincontrols-metabar {
   display: flex;
