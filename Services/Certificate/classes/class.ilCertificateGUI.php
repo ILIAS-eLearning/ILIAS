@@ -472,9 +472,10 @@ class ilCertificateGUI
         $currentVersion = $previousCertificateTemplate->getVersion();
         $nextVersion = (string) (((int) $currentVersion) + 1);
 
-        $aaa = $_POST["background_delete"];
+        $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool());
+        $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve("certificate_card_thumbnail_image_delete", $this->refinery->kindlyTo()->bool());
 
-        if ($this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool())) {
+        if ($backgroundDelete) {
             $this->backgroundImageDelete->deleteBackgroundImage($currentVersion);
         }
 
@@ -487,7 +488,7 @@ class ilCertificateGUI
                 // handle the background upload
                 $backgroundImagePath = '';
                 $temporaryFileName = $_FILES['background']['tmp_name'];
-                if ($temporaryFileName != '') {
+                if ($temporaryFileName !== '') {
                     try {
                         $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage(
                             $temporaryFileName,
@@ -503,7 +504,7 @@ class ilCertificateGUI
                     }
                 }
                 if ($backgroundImagePath === '') {
-                    if ($_POST['background_delete'] || $previousCertificateTemplate->getBackgroundImagePath() === '') {
+                    if ($backgroundDelete || $previousCertificateTemplate->getBackgroundImagePath() === '') {
                         $globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
                         $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
                     } else {
@@ -514,7 +515,7 @@ class ilCertificateGUI
                 // handle the card thumbnail upload
                 $cardThumbnailImagePath = '';
                 $temporaryFileName = $_FILES['certificate_card_thumbnail_image']['tmp_name'];
-                if (strlen($temporaryFileName) && $this->fileUpload->hasUploads()) {
+                if ($temporaryFileName !== '' && $this->fileUpload->hasUploads()) {
                     try {
                         if (false === $this->fileUpload->hasBeenProcessed()) {
                             $this->fileUpload->process();
@@ -552,7 +553,7 @@ class ilCertificateGUI
                         $cardThumbnailImagePath = '';
                     }
                 }
-                if ($cardThumbnailImagePath === '' && !$_POST['certificate_card_thumbnail_image_delete']) {
+                if ($cardThumbnailImagePath === '' && !$certificateCardThumbnailImageDelete) {
                     $cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
                 }
 
