@@ -493,15 +493,6 @@ class ilObjOrgUnit extends ilContainer
         $ilDB = $DIC['ilDB'];
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-        //Delete all Childs
-        foreach (ilObjOrgUnitTree::_getInstance()->getAllChildren($this->ref_id) as $child_ref_id) {
-            if (!ilObjOrgUnit::_exists($child_ref_id, true) || $this->ref_id == $child_ref_id) {
-                continue; //already deleted || the current org_unit
-            }
-            $org_unit = new ilObjOrgUnit($child_ref_id);
-            $org_unit->delete();
-        }
-
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
