@@ -177,4 +177,14 @@ class ilPluginInfo
             $version->isGreaterThanOrEquals($this->minimum_ilias_version)
             && $version->isSmallerThanOrEquals($this->maximum_ilias_version);
     }
+
+    /**
+     * Can this plugin be activated right now.
+     */
+    public function isActivationPossible(Version $version) : bool
+    {
+        return $this->isCompliantToILIAS($version)
+            && $this->isInstalled()
+            && !$this->isUpdateRequired();
+    }
 }

@@ -161,4 +161,51 @@ class ilPluginInfoTest extends TestCase
             $this->plugin->getPath()
         );
     }
+
+    /**
+     * @dataProvider isActivationPossibleTruthTable
+     */
+    public function testIsActivationPossible($is_installed, $supports_current_ilias, $needs_update, $is_activation_possible)
+    {
+        $version = $this->createMock(Data\Version::class);
+        $plugin = new class($is_installed, $supports_current_ilias, $needs_update) extends ilPluginInfo {
+            public function __construct($is_installed, $supports_current_ilias, $needs_update) {
+                $this->is_installed = $is_installed;
+                $this->supports_current_ilias = $supports_current_ilias;
+                $this->needs_update = $needs_update;
+            }
+
+            public function isInstalled() : bool
+            {
+                return $this->is_installed;
+            }
+
+            public function isUpdateRequired() : bool
+            {
+                return $this->needs_update;
+            }
+
+            public function isCompliantToILIAS(Data\Version $version) : bool
+            {
+                return $this->supports_current_ilias;
+            }
+        };
+
+        $this->assertEquals($is_activation_possible, $plugin->isActivationPossible($version));
+    }
+
+    public function isActivationPossibleTruthTable() : array
+    {
+        // is_installed, supports_current_ilias, needs_update => is_activation_possible
+        return [
+            [false, false, false, false],
+            [false, false, true, false],
+            [false, true, false, false],
+            [false, true, true, false],
+            [true, false, false, false],
+            [true, false, true, false],
+            [true, true, false, true],
+            [true, true, true, false]
+        ];
+    }
 }
