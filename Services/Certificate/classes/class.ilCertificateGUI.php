@@ -84,10 +84,10 @@ class ilCertificateGUI
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
     private ?ilCertificateTemplateRepository $templateRepository;
-    private ?ilXlsFoParser $formFieldParser;
+    private ?ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
-    private ?ilCertificateSettingsFormRepository $settingsFormFactory;
+    private ?ilCertificateFormRepository $settingsFormFactory;
     private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ?ilXlsFoParser $xlsFoParser;
     private ?ilCertificateDeleteAction $deleteAction;
@@ -103,8 +103,8 @@ class ilCertificateGUI
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
         ilCertificatePlaceholderValues $placeholderValuesObject,
-        $objectId,
-        $certificatePath,
+        int $objectId,
+        string $certificatePath,
         ?ilCertificateFormRepository $settingsFormFactory = null,
         ?ilCertificateDeleteAction $deleteAction = null,
         ?ilCertificateTemplateRepository $templateRepository = null,
