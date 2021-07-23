@@ -1,13 +1,20 @@
 <?php declare(strict_types=1);
 
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+
+use ILIAS\KioskMode\View;
+
 /**
  * This combines calls to ProgressDB and StateDB to handle learner-items
  * in the context of a specific LSObject and a specific user.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLSLearnerItemsQueries
 {
+    protected ilLearnerProgressDB $progress_db;
+    protected ilLSStateDB $states_db;
+    protected int $ls_ref_id;
+    protected int $usr_id;
+
     public function __construct(
         ilLearnerProgressDB $progress_db,
         ilLSStateDB $states_db,
@@ -47,7 +54,7 @@ class ilLSLearnerItemsQueries
         return $current_position;
     }
 
-    public function getStateFor(LSItem $ls_item, \ILIAS\KioskMode\View $view) : ILIAS\KioskMode\State
+    public function getStateFor(LSItem $ls_item, View $view) : ILIAS\KioskMode\State
     {
         $states = $this->states_db->getStatesFor($this->ls_ref_id, [$this->usr_id]);
         $states = $states[$this->usr_id];
@@ -64,7 +71,7 @@ class ilLSLearnerItemsQueries
         ILIAS\KioskMode\State $state,
         int $state_item_ref_id,
         int $current_item_ref_id
-    ) {
+    ) : void {
         $this->states_db->updateState(
             $this->ls_ref_id,
             $this->usr_id,
@@ -74,7 +81,7 @@ class ilLSLearnerItemsQueries
         );
     }
 
-    public function getFirstAccess()
+    public function getFirstAccess() : string
     {
         $first_access = $this->states_db->getFirstAccessFor($this->ls_ref_id, [$this->usr_id]);
         return $first_access[$this->usr_id];

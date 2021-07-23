@@ -1,89 +1,48 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\LocatorBuilder;
 use ILIAS\KioskMode\TOCBuilder;
-use ILIAS\KioskMode\URLBuilder;
-
 use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\JavaScriptBindable;
 
-/**
- * Class LSControlBuilder
- */
 class LSControlBuilder implements ControlBuilder
 {
     const CMD_START_OBJECT = 'start_legacy_obj';
     const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
     const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
 
-
     /**
-     * @var Component|null
+     * @var Component[]
      */
-    protected $exit_control;
-
-    /**
-     * @var Component|null
-     */
-    protected $previous_control;
-
-    /**
-     * @var Component|null
-     */
-    protected $next_control;
-
-    /**
-     * @var Component|null
-     */
-    protected $done_control;
+    protected array $controls = [];
 
     /**
      * @var Component[]
      */
-    protected $controls = [];
+    protected array $toggles = [];
 
     /**
      * @var Component[]
      */
-    protected $toggles = [];
+    protected array $mode_controls = [];
 
-    /**
-     * @var Component[]
-     */
-    protected $mode_controls = [];
+    protected ?Component $exit_control = null;
+    protected ?Component $previous_control = null;
+    protected ?Component $next_control = null;
+    protected ?Component $done_control = null;
+    protected ?TOCBuilder $toc = null;
+    protected ?LocatorBuilder $loc = null;
+    protected ?JavaScriptBindable $start = null;
+    protected ?string $additional_js = null;
 
-    /**
-     * @var TOCBuilder|null
-     */
-    protected $toc;
-
-    /**
-     * @var LocatorBuilder|null
-     */
-    protected $loc;
-
-    /**
-     * @var Factory
-     */
-    protected $ui_factory;
-
-    /**
-     * @var URLBuilder
-     */
-    protected $url_builder;
-
-    /**
-     * @var Component|null
-     */
-    protected $start;
-
-    /**
-     * @var string | null
-     */
-    protected $additional_js;
+    protected Factory $ui_factory;
+    protected LSURLBuilder $url_builder;
+    protected ilLanguage $lng;
 
     public function __construct(
         Factory $ui_factory,
@@ -95,49 +54,58 @@ class LSControlBuilder implements ControlBuilder
         $this->lng = $language;
     }
 
-    public function getExitControl()
-    {
-        return $this->exit_control;
-    }
-
-    public function getPreviousControl()
-    {
-        return $this->previous_control;
-    }
-
-    public function getNextControl()
-    {
-        return $this->next_control;
-    }
-
-    public function getDoneControl()
-    {
-        return $this->done_control;
-    }
-
-    public function getToggles()
+    /**
+     * @var array Component[]
+     */
+    public function getToggles() : array
     {
         return $this->toggles;
     }
 
-    public function getModeControls()
+    /**
+     * @var array Component[]
+     */
+    public function getModeControls() : array
     {
         return $this->mode_controls;
     }
 
+    /**
+     * @var array Component[]
+     */
     public function getControls() : array
     {
         return $this->controls;
     }
 
-    public function getLocator()
+    public function getExitControl() : ?Component
     {
-        return $this->loc;
+        return $this->exit_control;
     }
 
-    public function getToc()
+    public function getPreviousControl() : ?Component
+    {
+        return $this->previous_control;
+    }
+
+    public function getNextControl() : ?Component
+    {
+        return $this->next_control;
+    }
+
+    public function getDoneControl() : ?Component
+    {
+        return $this->done_control;
+    }
+
+    public function getToc() : ?TOCBuilder
     {
         return $this->toc;
+    }
+
+    public function getLocator() : ?LocatorBuilder
+    {
+        return $this->loc;
     }
 
     /**
@@ -239,11 +207,6 @@ class LSControlBuilder implements ControlBuilder
     public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder
     {
         throw new \Exception("NYI: Toggles", 1);
-
-        $cmd_on = $this->url_builder->getHref($on_command, 0);
-        $cmd_off = $this->url_builder->getHref($off_command, 0);
-        //build toggle and add to $this->toggles
-        //return $this;
     }
 
     /**
@@ -311,7 +274,7 @@ class LSControlBuilder implements ControlBuilder
             ->primary($label, '')
             ->withOnLoadCode(function ($id) use ($url) {
                 $interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
-                return "$('#{$id}').on('click', function(ev) {
+                return "$('#$id').on('click', function(ev) {
 					var il_ls_win = window.open('$url');
 					window._lso_current_item_lp = -1;
 					window.setInterval(lso_checkLPOfObject, $interval);
@@ -321,7 +284,7 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    public function getStartControl()
+    public function getStartControl() : ?JavaScriptBindable
     {
         return $this->start;
     }
@@ -334,7 +297,7 @@ class LSControlBuilder implements ControlBuilder
     protected function setListenerJS(
         string $check_lp_url,
         string $on_lp_change_url
-    ) {
+    ) : void {
         $this->additional_js =
 <<<JS
 function lso_checkLPOfObject() {

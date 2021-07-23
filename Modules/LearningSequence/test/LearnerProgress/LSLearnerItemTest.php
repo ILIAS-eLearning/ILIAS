@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use PHPUnit\Framework\TestCase;
-use ILIAS\KioskMode\State;
 
 class LSLearnerItemTest extends TestCase
 {
@@ -18,12 +17,9 @@ class LSLearnerItemTest extends TestCase
     const LP_STATUS = 2;
     const AVAILABILITY_STATUS = 3;
 
-    /**
-     * @var ilLSPostCondition
-     */
-    protected $post_condition;
+    protected ilLSPostCondition $post_condition;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->post_condition = new ilLSPostCondition(666, 'always');
     }
@@ -48,9 +44,9 @@ class LSLearnerItemTest extends TestCase
             $ls_item
         );
 
-        $this->assertEquals($object->getUserId(), self::USER_ID);
-        $this->assertEquals($object->getLearningProgressStatus(), self::LP_STATUS);
-        $this->assertEquals($object->getAvailability(), self::AVAILABILITY_STATUS);
+        $this->assertEquals(self::USER_ID, $object->getUserId());
+        $this->assertEquals(self::LP_STATUS, $object->getLearningProgressStatus());
+        $this->assertEquals(self::AVAILABILITY_STATUS, $object->getAvailability());
 
         return $object;
     }

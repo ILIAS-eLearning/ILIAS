@@ -1,16 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\KioskMode\URLBuilder;
 
-/**
- * Class LSUrlBuilder
- */
 class LSUrlBuilder implements URLBuilder
 {
     const PARAM_LSO_COMMAND = 'lsocmd';
     const PARAM_LSO_PARAMETER = 'lsov';
+
+    protected ILIAS\Data\URI $base_url;
 
     public function __construct(ILIAS\Data\URI $base_url)
     {

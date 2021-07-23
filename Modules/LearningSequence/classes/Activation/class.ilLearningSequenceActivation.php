@@ -1,39 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Activation-Settings for an LSO
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLearningSequenceActivation
 {
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var bool
-     */
-    protected $online;
-
-    /**
-     * @var bool
-     */
-    protected $effective_online;
-
-    /**
-     * @var \DateTime | null
-     */
-    protected $activation_start;
-
-    /**
-     * @var \DateTime | null
-     */
-    protected $activation_end;
-
+    protected int $ref_id;
+    protected bool $online;
+    protected bool $effective_online;
+    protected ?\DateTime $activation_start;
+    protected ?\DateTime $activation_end;
 
     public function __construct(
         int $ref_id,
@@ -71,10 +49,7 @@ class ilLearningSequenceActivation
         return $this->effective_online;
     }
 
-    /**
-     * @return \DateTime | null
-     */
-    public function getActivationStart()
+    public function getActivationStart() : ?\DateTime
     {
         return $this->activation_start;
     }
@@ -86,10 +61,7 @@ class ilLearningSequenceActivation
         return $clone;
     }
 
-    /**
-     * @return \DateTime | null
-     */
-    public function getActivationEnd()
+    public function getActivationEnd() : ?\DateTime
     {
         return $this->activation_end;
     }

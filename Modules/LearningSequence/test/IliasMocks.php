@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\UI\Factory as UIFactory;
 use ILIAS\UI\Implementation\Component as CImpl;

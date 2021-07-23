@@ -1,49 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilLearningSequenceMembershipGUI
-     */
-    protected $parent_gui;
-
-    /**
-     * @var ilObjLearningSequence
-     */
-    protected $ls_object;
-
-    /**
-     * @var ilLearningSequenceParticipants
-     */
-    protected $ls_participants;
-
-    /**
-     * @var ilPrivacySettings
-     */
-    protected $privacy_settings;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilLearningSequenceMembershipGUI $parent_gui;
+    protected ilObjLearningSequence $ls_object;
+    protected ilLearningSequenceParticipants $ls_participants;
+    protected ilPrivacySettings $privacy_settings;
 
     public function __construct(
         ilLearningSequenceMembershipGUI $parent_gui,
         ilObjLearningSequence $ls_object,
         ilLearningSequenceParticipants $ls_participants,
-        ilPrivacySettings $privacy_settings,
-        ilLanguage $lng,
-        ilCtrl $ctrl
+        ilPrivacySettings $privacy_settings
     ) {
         parent::__construct($parent_gui, 'editMembers');
 
@@ -51,8 +21,6 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
         $this->ls_object = $ls_object;
         $this->ls_participants = $ls_participants;
         $this->privacy_settings = $privacy_settings;
-        $this->lng = $lng;
-        $this->ctrl = $ctrl;
 
         $this->setFormName('participants');
         $this->setFormAction($this->ctrl->getFormAction($parent_gui));
@@ -76,7 +44,7 @@ class ilLearningSequenceEditParticipantsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    public function fillRow($set)
+    protected function fillRow($set)
     {
         $this->tpl->setVariable('VAL_ID', $set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $set['lastname'] . ', ' . $set['firstname']);

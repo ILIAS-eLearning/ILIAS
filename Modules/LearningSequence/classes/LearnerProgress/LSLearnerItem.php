@@ -1,29 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Add learning progress and availability information to the LSItem
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class LSLearnerItem extends LSItem
 {
-    /**
-     * @var int
-     */
-    protected $usr_id;
-
-    /**
-     * @var int
-     */
-    protected $learning_progress_status;
-
-    /**
-     * @var int
-     */
-    protected $availability_status;
+    protected int $usr_id;
+    protected int $learning_progress_status;
+    protected int $availability_status;
 
     public function __construct(
         int $usr_id,
@@ -61,12 +48,12 @@ class LSLearnerItem extends LSItem
         return $this->availability_status;
     }
 
-    public function withPostCondition(ilLSPostCondition $postcondition) : LSItem
+    public function withPostCondition(ilLSPostCondition $post_condition) : LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }
 
-    public function withOrderNumber(int $position) : LSItem
+    public function withOrderNumber(int $order_number) : LSItem
     {
         throw new \LogicException('keep this item receptive only');
     }

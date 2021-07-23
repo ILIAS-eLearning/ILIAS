@@ -224,7 +224,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $ret;
     }
 
-    protected function fillRestartFrom(DateTime $value = null) : array
+    protected function fillRestartFrom(DateTimeImmutable $value = null) : array
     {
         $ret = [];
         if (!is_null($value)) {

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * A PostCondition does restrict the progression of a user through the learning sequence.
@@ -8,30 +8,17 @@ declare(strict_types=1);
  * a PostCondition says "you may only _leave_ this object if you did this".
  *
  * LSPostConditions are being applied by the LearningSequenceConditionController.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLSPostCondition
 {
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var string
-     */
-    protected $operator;
-
-    /**
-     * @var mixed
-     */
-    protected $value;
+    protected int $ref_id;
+    protected string $operator;
+    protected ?int $value;
 
     public function __construct(
         int $ref_id,
         string $operator,
-        $value = null
+        ?int $value = null
     ) {
         $this->ref_id = $ref_id;
         $this->operator = $operator;
@@ -42,7 +29,6 @@ class ilLSPostCondition
     {
         return $this->ref_id;
     }
-
 
     public function getConditionOperator() : string
     {
@@ -56,12 +42,12 @@ class ilLSPostCondition
         return $clone;
     }
 
-    public function getValue()
+    public function getValue() : ?int
     {
         return $this->value;
     }
 
-    public function withValue($value) : ilLSPostCondition
+    public function withValue(int $value) : ilLSPostCondition
     {
         $clone = clone $this;
         $clone->value = $value;
