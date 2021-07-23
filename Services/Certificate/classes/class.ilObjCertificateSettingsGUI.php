@@ -20,6 +20,10 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
+
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
 /**
@@ -35,6 +39,8 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
+    protected Factory $refinery;
+    protected WrapperFactory $httpWrapper;
     protected ilAccessHandler $hierarchical_access;
     /**
      * @var ilRbacSystem
@@ -47,6 +53,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         global $DIC;
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+        $this->httpWrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->type = 'cert';
         $this->lng->loadLanguageModule("certificate");
         $this->lng->loadLanguageModule("trac");
@@ -206,7 +215,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
 
         if (strcmp($this->ctrl->getCmd(), "save") == 0) {
-            if ($_POST["background_delete"]) {
+            $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool());
+            if ($backgroundDelete) {
                 $this->object->deleteBackgroundImage();
             }
         }
@@ -216,7 +226,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     {
         $form_settings = new ilSetting("certificate");
 
-        $mode = $_POST["persistent_certificate_mode"];
+        $mode = $this->httpWrapper->post()->retrieve("persistent_certificate_mode", $this->refinery->kindlyTo()->string());
         $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
             $cron = new ilCertificateCron();
@@ -224,8 +234,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $cron->run();
         }
 
-        $form_settings->set("pageformat", $_POST["pageformat"]);
-        $form_settings->set("active", $_POST["active"]);
+        $form_settings->set("pageformat", $this->httpWrapper->post()->retrieve("pageformat", $this->refinery->kindlyTo()->string()));
+        $form_settings->set("active", $this->httpWrapper->post()->has("active") && $this->httpWrapper->post()->retrieve("active", $this->refinery->kindlyTo()->bool()));
         $form_settings->set("persistent_certificate_mode", $mode);
 
         ilUtil::sendSuccess($this->lng->txt("settings_saved"));
