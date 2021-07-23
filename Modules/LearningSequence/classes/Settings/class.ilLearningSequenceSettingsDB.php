@@ -1,25 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Persistence for Settings (like abstract, extro)
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLearningSequenceSettingsDB
 {
     const TABLE_NAME = 'lso_settings';
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
-
-    /**
-     * @var ilLearningSequenceFilesystem
-     */
-    protected $ls_filesystem;
+    protected ilDBInterface $database;
+    protected ilLearningSequenceFilesystem $ls_filesystem;
 
     public function __construct(ilDBInterface $database, ilLearningSequenceFilesystem $ls_filesystem)
     {
@@ -27,7 +18,7 @@ class ilLearningSequenceSettingsDB
         $this->ls_filesystem = $ls_filesystem;
     }
 
-    public function store(ilLearningSequenceSettings $settings)
+    public function store(ilLearningSequenceSettings $settings) : void
     {
         $uploads = $settings->getUploads();
         if (count($uploads) > 0) {
@@ -43,22 +34,22 @@ class ilLearningSequenceSettingsDB
             }
         }
 
-        $where = array(
-            "obj_id" => array("integer", $settings->getObjId())
-        );
+        $where = [
+            "obj_id" => ["integer", $settings->getObjId()]
+        ];
 
-        $values = array(
-            "abstract" => array("text", $settings->getAbstract()),
-            "extro" => array("text", $settings->getExtro()),
-            "abstract_image" => array("text", $settings->getAbstractImage()),
-            "extro_image" => array("text", $settings->getExtroImage()),
-            "gallery" => array("integer", $settings->getMembersGallery())
-        );
+        $values = [
+            "abstract" => ["text", $settings->getAbstract()],
+            "extro" => ["text", $settings->getExtro()],
+            "abstract_image" => ["text", $settings->getAbstractImage()],
+            "extro_image" => ["text", $settings->getExtroImage()],
+            "gallery" => ["integer", $settings->getMembersGallery()]
+        ];
 
         $this->database->update(static::TABLE_NAME, $values, $where);
     }
 
-    public function delete(int $obj_id)
+    public function delete(int $obj_id) : void
     {
         $settings = $this->getSettingsFor($obj_id);
 
@@ -67,7 +58,7 @@ class ilLearningSequenceSettingsDB
         }
 
         $query =
-             "DELETE FROM " . static::TABLE_NAME . PHP_EOL
+              "DELETE FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE obj_id = " . $this->database->quote($obj_id, "integer") . PHP_EOL
         ;
 
@@ -95,18 +86,21 @@ class ilLearningSequenceSettingsDB
         return $settings;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     protected function select(int $obj_id) : array
     {
         $ret = [];
         $query =
-             "SELECT abstract, extro, abstract_image, extro_image, gallery" . PHP_EOL
+              "SELECT abstract, extro, abstract_image, extro_image, gallery" . PHP_EOL
             . "FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE obj_id = " . $this->database->quote($obj_id, "integer") . PHP_EOL
         ;
 
         $result = $this->database->query($query);
 
-        if ($result->numRows() !== 0) {
+        if ($this->database->numRows($result) !== 0) {
             $ret = $this->database->fetchAssoc($result);
         }
 
@@ -120,7 +114,6 @@ class ilLearningSequenceSettingsDB
         string $abstract_image = null,
         string $extro_image = null,
         bool $gallery = false
-
     ) : ilLearningSequenceSettings {
         return new ilLearningSequenceSettings(
             $obj_id,
@@ -132,14 +125,14 @@ class ilLearningSequenceSettingsDB
         );
     }
 
-    protected function insert(ilLearningSequenceSettings $settings)
+    protected function insert(ilLearningSequenceSettings $settings) : void
     {
-        $values = array(
-            "obj_id" => array("integer", $settings->getObjId()),
-            "abstract" => array("text", $settings->getAbstract()),
-            "extro" => array("text", $settings->getExtro()),
-            "gallery" => array("integer", $settings->getMembersGallery())
-        );
+        $values = [
+            "obj_id" => ["integer", $settings->getObjId()],
+            "abstract" => ["text", $settings->getAbstract()],
+            "extro" => ["text", $settings->getExtro()],
+            "gallery" => ["integer", $settings->getMembersGallery()]
+        ];
         $this->database->insert(static::TABLE_NAME, $values);
     }
 }

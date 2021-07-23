@@ -1,34 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Class ilLSItemsDB
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLSItemsDB
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilContainerSorting
-     */
-    protected $container_sorting;
-
-    /**
-     * @var ilLSPostConditionDB
-     */
-    protected $post_conditions_db;
-
-    /**
-     * @var LSItemOnlineStatus
-     */
-    protected $ls_item_online_status;
+    protected ilTree $tree;
+    protected ilContainerSorting $container_sorting;
+    protected ilLSPostConditionDB $post_conditions_db;
+    protected LSItemOnlineStatus $ls_item_online_status;
 
     public function __construct(
         ilTree $tree,
@@ -42,13 +25,16 @@ class ilLSItemsDB
         $this->ls_item_online_status = $ls_item_online_status;
     }
 
+    /**
+     * @return LSItem[]
+     */
     public function getLSItems(int $ref_id) : array
     {
         $children = $this->tree->getChilds($ref_id);
 
         $sorting_settings = $this->container_sorting->getSortingSettings();
         $sorting_settings->setSortMode(ilContainer::SORT_MANUAL);
-        $sorted = $this->container_sorting->sortItems(array('lsitems' => $children));
+        $sorted = $this->container_sorting->sortItems(['lsitems' => $children]);
         $children = $sorted['lsitems'];
 
         $conditions = $this->getConditionsForChildren($children);
@@ -56,12 +42,11 @@ class ilLSItemsDB
         $items = [];
         foreach ($children as $position => $child) {
             $ref_id = (int) $child['child'];
-            $icon_path = ilObject2::_getIcon("", "big", $child['type']);
             $items[] = new LSItem(
                 $child['type'],
                 $child['title'],
                 $child['description'] ?? "",
-                $icon_path = $this->getIconPathForType($child['type']),
+                $this->getIconPathForType($child['type']),
                 $this->ls_item_online_status->getOnlineStatus($ref_id),
                 $position,
                 $conditions[$ref_id],
@@ -98,7 +83,7 @@ class ilLSItemsDB
         return $conditions;
     }
 
-    protected function storeItemsOrder(array $ls_items)
+    protected function storeItemsOrder(array $ls_items) : void
     {
         $type_positions = [];
         foreach ($ls_items as $item) {
@@ -107,7 +92,7 @@ class ilLSItemsDB
         $this->container_sorting->savePost($type_positions);
     }
 
-    protected function storeOnlineStatus(array $ls_items)
+    protected function storeOnlineStatus(array $ls_items) : void
     {
         foreach ($ls_items as $item) {
             $this->ls_item_online_status->setOnlineStatus(
@@ -117,7 +102,7 @@ class ilLSItemsDB
         }
     }
 
-    protected function storePostconditions(array $ls_items)
+    protected function storePostconditions(array $ls_items) : void
     {
         $conditions = [];
         foreach ($ls_items as $item) {
@@ -129,7 +114,7 @@ class ilLSItemsDB
     /**
      * Use this to apply settings made in ContentGUI
      */
-    public function storeItems(array $ls_items)
+    public function storeItems(array $ls_items) : void
     {
         $this->storeOnlineStatus($ls_items);
         $this->storeItemsOrder($ls_items);

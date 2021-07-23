@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
 
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 use Pimple\Container;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 
-/**
-  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
 class ilLSDI extends Container
 {
-    public function init(ArrayAccess $dic)
+    public function init(ArrayAccess $dic) : void
     {
         foreach ($dic->keys() as $key) {
             $this[$key] = $dic[$key];

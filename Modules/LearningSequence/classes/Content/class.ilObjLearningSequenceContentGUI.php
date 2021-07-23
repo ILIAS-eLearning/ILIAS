@@ -1,13 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * Class ilObjLearningSequenceContentGUI
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
 class ilObjLearningSequenceContentGUI
 {
     const CMD_MANAGE_CONTENT = "manageContent";
@@ -19,6 +14,14 @@ class ilObjLearningSequenceContentGUI
     const FIELD_ORDER = 'f_order';
     const FIELD_ONLINE = 'f_online';
     const FIELD_POSTCONDITION_TYPE = 'f_pct';
+
+    protected ilObjLearningSequenceGUI $parent_gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
+    protected ilConfirmationGUI $confirmation_gui;
+    protected LSItemOnlineStatus $ls_item_online_status;
 
     public function __construct(
         ilObjLearningSequenceGUI $parent_gui,
@@ -57,7 +60,7 @@ class ilObjLearningSequenceContentGUI
         }
     }
 
-    protected function manageContent()
+    protected function manageContent() : void
     {
         // Adds a btn to the gui which allows adding possible objects.
         $this->parent_gui->showPossibleSubObjects();
@@ -66,10 +69,11 @@ class ilObjLearningSequenceContentGUI
         $this->renderTable($data);
     }
 
-    protected function renderTable(array $ls_items)
+    protected function renderTable(array $ls_items) : void
     {
         $table = new ilObjLearningSequenceContentTableGUI(
             $this,
+            $this->parent_gui,
             self::CMD_MANAGE_CONTENT,
             $this->ctrl,
             $this->lng,
@@ -88,10 +92,8 @@ class ilObjLearningSequenceContentGUI
 
     /**
      * Handle the confirmDelete command
-     *
-     * @return 	void
      */
-    protected function confirmDelete()
+    protected function confirmDelete() : void
     {
         $ref_ids = $_POST["id"];
 
@@ -113,7 +115,7 @@ class ilObjLearningSequenceContentGUI
         $this->tpl->setContent($this->confirmation_gui->getHTML());
     }
 
-    protected function delete()
+    protected function delete() : void
     {
         $ref_ids = $_POST["id"];
 
@@ -127,7 +129,9 @@ class ilObjLearningSequenceContentGUI
         $this->ctrl->redirect($this, self::CMD_MANAGE_CONTENT);
     }
 
-
+    /**
+     * @return array<"value" => "option_text">
+     */
     public function getPossiblePostConditionsForType(string $type) : array
     {
         return $this->parent_gui->getObject()->getPossiblePostConditionsForType($type);
@@ -139,7 +143,7 @@ class ilObjLearningSequenceContentGUI
         return implode('_', [$field_name, (string) $ref_id]);
     }
 
-    protected function save()
+    protected function save() : void
     {
         $post = $_POST;
         $data = $this->parent_gui->getObject()->getLSItems();

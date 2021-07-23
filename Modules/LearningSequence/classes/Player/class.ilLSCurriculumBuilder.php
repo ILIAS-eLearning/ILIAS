@@ -1,14 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Builds the overview (curriculum) of a LearningSequence.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLSCurriculumBuilder
 {
+    protected ilLSLearnerItemsQueries $ls_items;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ilLanguage $lng;
+    protected string $goto_command;
+    protected ?LSUrlBuilder $url_builder;
+
     public function __construct(
         ilLSLearnerItemsQueries $ls_items,
         ILIAS\UI\Factory $ui_factory,
@@ -23,13 +27,12 @@ class ilLSCurriculumBuilder
         $this->url_builder = $url_builder;
     }
 
-    public function getLearnerCurriculum(bool $with_action = false)//: ILIAS\UI\Component\Listing\Workflow
+    public function getLearnerCurriculum(bool $with_action = false) : ILIAS\UI\Component\Listing\Workflow\Linear
     {
         $steps = [];
         foreach ($this->ls_items->getItems() as $item) {
             $action = '#';
             if ($with_action) {
-                $action = $this->query . $item->getRefId();
                 $action = $this->url_builder->getHref($this->goto_command, $item->getRefId());
             }
 
@@ -77,13 +80,10 @@ class ilLSCurriculumBuilder
         switch ($il_lp_status) {
             case \ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
                 return ILIAS\UI\Component\Listing\Workflow\Step::IN_PROGRESS;
-                break;
             case \ilLPStatus::LP_STATUS_COMPLETED_NUM:
                 return ILIAS\UI\Component\Listing\Workflow\Step::SUCCESSFULLY;
-                break;
             case \ilLPStatus::LP_STATUS_FAILED_NUM:
                 return ILIAS\UI\Component\Listing\Workflow\Step::UNSUCCESSFULLY;
-                break;
             case \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
             default:
                 return ILIAS\UI\Component\Listing\Workflow\Step::NOT_STARTED;

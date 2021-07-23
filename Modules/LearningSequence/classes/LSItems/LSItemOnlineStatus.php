@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 class LSItemOnlineStatus
 {
@@ -31,7 +31,7 @@ class LSItemOnlineStatus
 
     public function getOnlineStatus(int $ref_id) : bool
     {
-        if(!$this->hasOnlineStatus($ref_id)) {
+        if (!$this->hasOnlineStatus($ref_id)) {
             return true;
         }
         return !\ilObject::lookupOfflineStatus(\ilObject::_lookupObjId($ref_id));

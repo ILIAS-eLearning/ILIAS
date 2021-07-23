@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Implementation\Component\BreadCrumbs\Breadcrumbs;
@@ -12,6 +13,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
 {
     use IliasMocks;
 
+    protected LSLocatorBuilder $lb;
 
     public function stripHTML(string $html) : string
     {
@@ -69,7 +71,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
     public function testGUI()
     {
         $data_factory = new DataFactory();
-        $uri = $data_factory->uri('http://ilias.de/somepath');
+        $uri = $data_factory->uri('https://ilias.de/somepath');
         $url_builder = new LSUrlBuilder($uri);
         $ui_factory = $this->mockUIFactory();
 
@@ -86,7 +88,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
             '<nav aria-label="breadcrumbs_aria_label" class="breadcrumb_wrapper"> ' .
             '	<div class="breadcrumb"> ' .
             '		<span class="crumb"> ' .
-            '			<a href="http://ilias.de/somepath?lsocmd=cmd&lsov=1" >item 1</a>' .
+            '			<a href="https://ilias.de/somepath?lsocmd=cmd&lsov=1" >item 1</a>' .
             '		</span> ' .
             '	</div>' .
             '</nav>'
