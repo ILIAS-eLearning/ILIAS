@@ -142,9 +142,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $bgimage = new ilImageFileInputGUI($this->lng->txt("certificate_background_image"), "background");
         $bgimage->setRequired(false);
-        if (count($_POST)) {
+        if (isset($_POST)) {
             // handle the background upload
-            if (strlen($_FILES["background"]["tmp_name"])) {
+            if (isset($_FILES["background"]["tmp_name"])) {
                 if ($bgimage->checkInput()) {
                     $result = $this->object->uploadBackgroundImage($_FILES["background"]["tmp_name"]);
                     if ($result == false) {
@@ -153,7 +153,8 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
                 }
             }
         }
-        if (strlen($this->object->hasBackgroundImage())) {
+
+        if ($this->object->hasBackgroundImage()) {
             require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
             $bgimage->setImage(ilWACSignedPath::signFile($this->object->getDefaultBackgroundImagePathWeb()));
