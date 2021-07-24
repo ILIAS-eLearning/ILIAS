@@ -126,6 +126,14 @@ class ilCmiXapiSettingsGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('type'), "");
+        $ne->setValue($DIC->language()->txt('type_'.$this->object->getcontenttype()));
+        $form->addItem($ne);
+
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('cmix_lrs_type'), "");
+        $ne->setValue($this->object->getLrsType()->getTitle());
+        $form->addItem($ne);
+        
         $item = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
         $item->setSize(40);
         $item->setMaxLength(128);
@@ -190,8 +198,8 @@ class ilCmiXapiSettingsGUI
             $optOwnWindow = new ilRadioOption($DIC->language()->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
             $optOwnWindow->setInfo($DIC->language()->txt('conf_own_window_info'));
             $display->addOption($optOwnWindow);
-            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_any_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
-            $optAnyWindow->setInfo($DIC->language()->txt('conf_any_window_info'));
+            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_new_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
+            $optAnyWindow->setInfo($DIC->language()->txt('conf_new_window_info'));
             $display->addOption($optAnyWindow);
             $form->addItem($display);
             

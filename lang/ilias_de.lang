@@ -15840,8 +15840,10 @@ cmix#:#conf_lrs_secret#:#Secret / Passwort
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
-cmix#:#conf_any_window#:#Neues Fenster
-cmix#:#conf_any_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+cmix#:#conf_new_window#:#Neues Fenster
+cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+cmix#:#type_cmi5#:#cmi5 Lernmodul
+cmix#:#type_generic#:#xAPI Standardobjekt
 cmix#:#conf_launch_mode#:#Startmodus
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts
