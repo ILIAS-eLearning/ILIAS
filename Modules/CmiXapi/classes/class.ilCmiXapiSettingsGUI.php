@@ -173,14 +173,16 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($item);
             }
             
-            $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
-            $item->setInfo($DIC->language()->txt("use_fetch_info"));
-            $item->setValue("1");
-            
-            if ($this->object->isAuthFetchUrlEnabled()) {
-                $item->setChecked(true);
+            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
+                $item->setInfo($DIC->language()->txt("use_fetch_info"));
+                $item->setValue("1");
+                
+                if ($this->object->isAuthFetchUrlEnabled()) {
+                    $item->setChecked(true);
+                }
+                $form->addItem($item);
             }
-            $form->addItem($item);
             
             $display = new ilRadioGroupInputGUI($DIC->language()->txt('launch_options'), 'display');
             $display->setRequired(true);
@@ -485,8 +487,12 @@ class ilCmiXapiSettingsGUI
                 $this->object->setLaunchUrl($form->getInput('launch_url'));
             }
             
-            $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
-            
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $this->object->setAuthFetchUrlEnabled(true);
+            } else {
+                $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
+            }
+
             if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
                 $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
             }

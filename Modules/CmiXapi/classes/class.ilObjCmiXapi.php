@@ -43,7 +43,7 @@ class ilObjCmiXapi extends ilObject2
      */
     protected $contentType;
     const CONT_TYPE_GENERIC = 'generic';
-    const CONT_TYPE_LEARNING = 'learning';
+    const CONT_TYPE_CMI5 = 'cmi5';
     
     /**
      * @var string
@@ -358,6 +358,10 @@ class ilObjCmiXapi extends ilObject2
      */
     public function setContentType($contentType)
     {
+        //bug before 21-07-24
+        if ($contentType == "learning") {
+            $contentType = self::CONT_TYPE_GENERIC;
+        }
         $this->contentType = $contentType;
     }
     

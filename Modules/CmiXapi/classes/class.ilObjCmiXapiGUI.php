@@ -90,11 +90,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         $type = new ilRadioGroupInputGUI('Type', 'content_type');
         $type->setRequired(true);
         
-        $typeLearningModule = new ilRadioOption($this->lng->txt('cmix_add_cmi5_lm'), ilObjCmiXapi::CONT_TYPE_LEARNING);
+        $typeLearningModule = new ilRadioOption($this->lng->txt('cmix_add_cmi5_lm'), ilObjCmiXapi::CONT_TYPE_CMI5);
         $typeLearningModule->setInfo($this->lng->txt('cmix_add_cmi5_lm_info'));
         $type->addOption($typeLearningModule);
         
-        $typeGenericModule = new ilRadioOption($this->lng->txt('cmix_add_xapi_standard_object'), ilObjCmiXapi::CONT_TYPE_LEARNING);
+        $typeGenericModule = new ilRadioOption($this->lng->txt('cmix_add_xapi_standard_object'), ilObjCmiXapi::CONT_TYPE_GENERIC);
         $typeGenericModule->setInfo($this->lng->txt('cmix_add_xapi_standard_object_info'));
         $type->addOption($typeGenericModule);
 
