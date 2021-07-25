@@ -349,7 +349,7 @@ class ilCmiXapiUser
             case ilObjCmiXapi::PRIVACY_NAME_NONE:
             default:
                 
-                $usrName = '';
+                $usrName = '-';
                 break;
         }
         
