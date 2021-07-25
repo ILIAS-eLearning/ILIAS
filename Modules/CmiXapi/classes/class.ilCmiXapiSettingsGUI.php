@@ -127,7 +127,7 @@ class ilCmiXapiSettingsGUI
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
         $ne = new ilNonEditableValueGUI($DIC->language()->txt('type'), "");
-        $ne->setValue($DIC->language()->txt('type_'.$this->object->getcontenttype()));
+        $ne->setValue($DIC->language()->txt('type_'.$this->object->getContentType()));
         $form->addItem($ne);
 
         $ne = new ilNonEditableValueGUI($DIC->language()->txt('cmix_lrs_type'), "");

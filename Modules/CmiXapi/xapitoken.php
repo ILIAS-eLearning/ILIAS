@@ -57,7 +57,7 @@ if (!$object) {
 }
 
 if ($object->isBypassProxyEnabled()) {
-    $authToken = $object->getLrsType()->getBasicAuth();
+    $authToken = $object->getLrsType()->getBasicAuthWithoutBasic();
 } else {
     $authToken = base64_encode(CLIENT_ID . ':' . $token->getToken());
 }
