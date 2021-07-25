@@ -601,7 +601,6 @@ class ilCalendarUtil
     public static function initDateTimePicker()
     {
         global $DIC;
-
         $tpl = $DIC['tpl'];
         
         if (!self::$init_datetimepicker) {
@@ -627,17 +626,38 @@ class ilCalendarUtil
      * @param array $a_custom_config2
      * @param string $a_toggle_id
      * @param string $a_subform_id
-     * @return string
      */
     public static function addDateTimePicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null)
     {
         global $DIC;
 
         $tpl = $DIC['tpl'];
+
+        foreach(self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id, $a_subform_id) as $code) {
+            $tpl->addOnLoadCode($code);
+        }
+    }
+
+    /**
+     * Add date time picker to element
+     *
+     * @param string $a_id
+     * @param int $a_add_time 1=hh:mm, 2=hh:mm:ss
+     * @param array $a_custom_config
+     * @param string $a_id2
+     * @param array $a_custom_config2
+     * @param string $a_toggle_id
+     * @param string $a_subform_id
+     * @return string
+     */
+    public static function getCodeForPicker($a_id, $a_add_time = null, array $a_custom_config = null, $a_id2 = null, $a_custom_config2 = null, $a_toggle_id = null, $a_subform_id = null) : array
+    {
+        global $DIC;
+
         $ilUser = $DIC['ilUser'];
-        
+
         self::initDateTimePicker();
-        
+
         // weekStart is currently governed by locale and cannot be changed
 
         // fix for mantis 22994 => default to english language
@@ -659,32 +679,35 @@ class ilCalendarUtil
             // ,'collapse' => false
             ,'format' => self::getUserDateFormat($a_add_time)
         );
-        
+
         $config = (!$a_custom_config)
             ? $default
             : array_merge($default, $a_custom_config);
-                    
-        $tpl->addOnLoadCode('$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')');
-        
+
+        $code = [];
+        $code[] = '$("#' . $a_id . '").datetimepicker(' . json_encode($config) . ')';
+
 
         // optional 2nd picker aka duration
         if ($a_id2) {
             $config2 = (!$a_custom_config2)
                 ? $default
                 : array_merge($default, $a_custom_config2);
-            
+
             $config2["useCurrent"] = false; //Important! See issue #1075
-            
-            $tpl->addOnLoadCode('$("#' . $a_id2 . '").datetimepicker(' . json_encode($config2) . ')');
-                        
+
+            $code[] = '$("#' . $a_id2 . '").datetimepicker(' . json_encode($config2) . ')';
+
             // duration limits, diff and subform handling
-            $tpl->addOnLoadCode('il.Form.initDateDurationPicker("' . $a_id . '","' . $a_id2 . '","' . $a_toggle_id . '","' . $a_subform_id . '");');
+            $code[] = 'il.Form.initDateDurationPicker("' . $a_id . '","' . $a_id2 . '","' . $a_toggle_id . '","' . $a_subform_id . '");';
+
         } elseif ($a_subform_id) {
             // subform handling
-            $tpl->addOnLoadCode('il.Form.initDatePicker("' . $a_id . '","' . $a_subform_id . '");');
+            $code[] = 'il.Form.initDatePicker("' . $a_id . '","' . $a_subform_id . '");';
         }
+        return $code;
     }
-    
+
     /**
      * Parse (incoming) string to date/time object
      * @param string $a_date

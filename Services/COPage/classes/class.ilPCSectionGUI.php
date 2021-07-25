@@ -48,10 +48,23 @@ class ilPCSectionGUI extends ilPageContentGUI
             $insert = (bool) !($this->content_obj);
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
+
+            $from = $form->getItemByPostVar("active_from");
+            $from->setSideBySide(false);
+            $on_load_code1 = $from->getOnloadCode();
+            $to = $form->getItemByPostVar("active_to");
+            $to->setSideBySide(false);
+            $on_load_code2 = $to->getOnloadCode();
+
             $html = $params["ui_wrapper"]->getRenderedForm(
                 $form,
                 $params["buttons"]
             );
+
+            $html .= "<script>" .
+                implode("\n", array_merge($on_load_code1, $on_load_code2)) .
+                "</script>";
+
             return $html;
         }
         return "";

@@ -29,6 +29,11 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     protected $invalid_input = '';
 
     /**
+     * @var bool
+     */
+    protected $side_by_side = true;
+
+    /**
     * Constructor
     *
     * @param	string	$a_title	Title
@@ -238,7 +243,26 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         
         return $valid;
     }
-    
+
+    /**
+     * Set side by side
+     * @param bool $a_val side by side
+     */
+    public function setSideBySide(bool $a_val)
+    {
+        $this->side_by_side = $a_val;
+    }
+
+    /**
+     * Get side by side
+     * @return bool side by side
+     */
+    public function getSideBySide() : bool
+    {
+        return $this->side_by_side;
+    }
+
+
     /**
      * parse properties to datepicker config
      *
@@ -253,6 +277,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         if ($this->getStartYear()) {
             $config['minDate'] = $this->getStartYear() . '-01-01';
         }
+        $config['sideBySide'] = $this->getSideBySide();
         return $config;
     }
 
@@ -311,6 +336,29 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         }
         
         return $tpl->get();
+    }
+
+    /**
+     * Get onload code
+     * @return array
+     */
+    public function getOnloadCode() : array
+    {
+        $code = [];
+        if (!$this->getDisabled()) {
+            $picker_id = md5($this->getPostVar());
+
+            $code = ilCalendarUtil::getCodeForPicker(
+                $picker_id,
+                $this->getDatePickerTimeFormat(),
+                $this->parseDatePickerConfig(),
+                null,
+                null,
+                null,
+                "subform_" . $this->getPostVar()
+            );
+        }
+        return $code;
     }
 
     /**
