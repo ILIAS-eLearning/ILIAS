@@ -19,14 +19,23 @@ include_once("./Services/Container/classes/class.ilContainerPage.php");
 class ilContainerPageGUI extends ilPageObjectGUI
 {
     /**
+     * @var ilObjectDefinition
+     */
+    protected $obj_definition;
+
+    /**
     * Constructor
     */
     public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
         $tpl = $DIC["tpl"];
+        $this->obj_definition = $DIC["objDefinition"];
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
 
         parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
     }
@@ -48,4 +57,34 @@ class ilContainerPageGUI extends ilPageObjectGUI
     {
         $this->ctrl->returnToParent($this);
     }
+
+    /**
+     * Get additional page actions
+     * @return array
+     */
+    public function getAdditionalPageActions() : array
+    {
+        $ctrl = $this->ctrl;
+        $ui = $this->ui;
+        $lng = $this->lng;
+
+        $type = ilObject::_lookupType(
+            ilObject::_lookupObjectId($this->requested_ref_id)
+        );
+
+        $class = $this->obj_definition->getClassName($type);
+
+        $items = [];
+        if ($class != "") {
+            $items[] = $ui->factory()->link()->standard(
+                $lng->txt("obj_sty"),
+                $ctrl->getLinkTargetByClass([
+                    "ilRepositoryGUI",
+                    "ilObj".$class."GUI"
+                ], "editStyleProperties")
+            );
+        }
+        return $items;
+    }
+
 }
