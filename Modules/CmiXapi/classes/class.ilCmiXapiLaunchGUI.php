@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Class ilCmiXapiLaunchGUI
  *
@@ -61,12 +60,16 @@ class ilCmiXapiLaunchGUI
         if ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE) {
             $launchLink = $this->object->getLaunchUrl();
         } elseif ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_LOCAL) {
-            $launchLink = implode('/', [
-                ILIAS_HTTP_PATH, ilUtil::getWebspaceDir(),
-                ilCmiXapiContentUploadImporter::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId()
-            ]);
+            if (preg_match("/^(https?:\/\/)/",$this->object->getLaunchUrl()) == 1) {
+                $launchLink = $this->object->getLaunchUrl();
+            } else {
+                $launchLink = implode('/', [
+                    ILIAS_HTTP_PATH, ilUtil::getWebspaceDir(),
+                    ilCmiXapiContentUploadImporter::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId()
+                ]);
 
-            $launchLink .= DIRECTORY_SEPARATOR . $this->object->getLaunchUrl();
+                $launchLink .= DIRECTORY_SEPARATOR . $this->object->getLaunchUrl();
+            }
         }
         
         foreach ($this->getLaunchParameters() as $paramName => $paramValue) {
