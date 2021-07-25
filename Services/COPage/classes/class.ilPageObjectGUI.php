@@ -3472,4 +3472,13 @@ class ilPageObjectGUI
             $tpl->addOnloadCode($code);
         }
     }
+
+    /**
+     * Get additional page actions
+     * @return array
+     */
+    public function getAdditionalPageActions() : array
+    {
+        return [];
+    }
 }
