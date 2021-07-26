@@ -31,7 +31,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     
     // needs PH P5.6 for array support
     protected $cols_mandatory = array("name", "status");
-    protected $cols_default = array("login", "submission_date", "idl", "calc_deadline");
+    protected $cols_default = array("login", "submission", "idl", "calc_deadline");
     protected $cols_order = array("image", "name", "login", "team_members",
             "sent_time", "submission", "calc_deadline", "idl", "status", "mark", "status_time",
             "feedback_time", "comment", "notice");
@@ -187,7 +187,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 );
             }
         }
-        
         return $cols;
     }
             
