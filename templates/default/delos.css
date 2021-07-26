@@ -9472,6 +9472,9 @@ footer {
 .il-maincontrols-slate-content li {
   padding: 10px 20px;
 }
+.il-maincontrols-slate-content > hr {
+  margin: 10px 0;
+}
 .il-maincontrols-slate-content li.jstree-node {
   padding: 4px 0;
 }
