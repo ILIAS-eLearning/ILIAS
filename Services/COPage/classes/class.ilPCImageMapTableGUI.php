@@ -109,7 +109,7 @@ class ilPCImageMapTableGUI extends ilImageMapTableGUI
         
         $this->tpl->setVariable(
             "VAL_COORDS",
-            implode(explode(",", $a_set["Coords"]), ", ")
+            implode(", ", explode(",", $a_set["Coords"]))
         );
         switch ($a_set["Link"]["LinkType"]) {
             case "ExtLink":

@@ -146,7 +146,7 @@ class ilPCIIMTriggerTableGUI extends ilImageMapTableGUI
             $this->tpl->setCurrentBlock("coords");
             $this->tpl->setVariable(
                 "VAL_COORDS",
-                implode(explode(",", $this->area[$a_set["Nr"]]["Coords"]), ", ")
+                implode(", ", explode(",", $this->area[$a_set["Nr"]]["Coords"]))
             );
             $this->tpl->parseCurrentBlock();
             
