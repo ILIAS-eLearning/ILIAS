@@ -17,6 +17,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 require_once('DummyIDGenerator.php');
 
@@ -66,11 +67,16 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
      * @var LockHandler|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $locking;
+    /**
+     * @var StorageHandlerFactory|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $storage_handler_factory;
 
     protected function setUp() : void
     {
         parent::setUp();
         $this->storage_handler = $this->createMock(StorageHandler::class);
+        $this->storage_handler_factory = $this->createMock(StorageHandlerFactory::class);
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);

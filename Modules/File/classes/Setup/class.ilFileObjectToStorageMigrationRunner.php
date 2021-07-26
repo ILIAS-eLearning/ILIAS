@@ -7,7 +7,6 @@ use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
@@ -15,10 +14,15 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
-use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandlerV2;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 
 class ilFileObjectToStorageMigrationRunner
 {
+    /**
+     * @var string
+     */
+    protected $movement_implementation;
 
     /**
      * @var ConsumerFactory
@@ -68,9 +72,15 @@ class ilFileObjectToStorageMigrationRunner
         $this->database = $database;
         $this->migration_log_handle = fopen($log_file_path, 'ab');
 
-        $storage_handler = new FileSystemStorageHandler($this->file_system, Location::STORAGE);
+        $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system, Location::STORAGE, true);
+        $storage_handler_factory = new StorageHandlerFactory([
+            $storage_handler
+        ]);
+
+        $this->movement_implementation = $storage_handler->movementImplementation();
+
         $builder = new ResourceBuilder(
-            $storage_handler,
+            $storage_handler_factory,
             new RevisionARRepository(),
             new ResourceARRepository(),
             new InformationARRepository(),
@@ -79,7 +89,7 @@ class ilFileObjectToStorageMigrationRunner
         );
         $this->resource_builder = $builder;
         $this->storage_manager = new Manager($builder);
-        $this->consumer_factory = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
+        $this->consumer_factory = new ConsumerFactory($storage_handler_factory);
         $this->stakeholder = new ilObjFileStakeholder();
     }
 
@@ -123,6 +133,7 @@ class ilFileObjectToStorageMigrationRunner
                 $version->getVersion(),
                 $version->getPath(),
                 $status,
+                $this->movement_implementation,
                 $aditional_info
             );
         }
@@ -149,6 +160,7 @@ class ilFileObjectToStorageMigrationRunner
         int $version,
         string $old_path,
         string $status,
+        string $movement_implementation,
         string $aditional_info = null
     ) : void {
         fputcsv($this->migration_log_handle, [
@@ -157,6 +169,7 @@ class ilFileObjectToStorageMigrationRunner
             $rid,
             $version,
             $status,
+            $movement_implementation,
             $aditional_info
         ], ";");
     }

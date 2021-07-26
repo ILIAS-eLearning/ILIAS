@@ -16545,6 +16545,7 @@ file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#upload_info#:#File
 file#:#resource_id#:#Resource ID
+file#:#storage_id#:#Storage ID
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#file_import#:#Import File

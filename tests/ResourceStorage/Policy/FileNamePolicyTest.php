@@ -20,7 +20,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
     {
         $policy = $this->getFileNamePolicy($denied_ending);
         $resource_builder = new ResourceBuilder(
-            $this->storage_handler,
+            $this->storage_handler_factory,
             $this->revision_repository,
             $this->resource_repository,
             $this->information_repository,
