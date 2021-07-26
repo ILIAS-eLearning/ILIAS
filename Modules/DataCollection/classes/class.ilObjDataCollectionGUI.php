@@ -355,15 +355,35 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      */
     public static function _goto($a_target)
     {
+        global $DIC;
+
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
+
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilRepositoryGUI";
-        $_GET[self::GET_REF_ID] = $id[0];  // ref_id
-        $_GET[self::GET_VIEW_ID] = $id[1]; // view_id
-        $_GET[self::GET_DCL_GTR] = $id[2]; // record_id
-        $_GET["cmd"] = "listRecords";
-        require_once('./ilias.php');
-        exit;
+        if ($ilAccess->checkAccess('read', "", $a_target)) {
+            $_GET["baseClass"] = "ilRepositoryGUI";
+            $_GET[self::GET_REF_ID] = $id[0];  // ref_id
+            $_GET[self::GET_VIEW_ID] = $id[1]; // view_id
+            $_GET[self::GET_DCL_GTR] = $id[2]; // record_id
+            $_GET["cmd"] = "listRecords";
+            require_once('./ilias.php');
+            exit;
+        }
+
+        if ($ilAccess->checkAccess('visible', "", $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+        }
+
+        ilUtil::sendFailure(
+            sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+            ),
+            true
+        );
+        ilObjectGUI::_gotoRepositoryRoot();
     }
 
 
