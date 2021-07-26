@@ -83,9 +83,9 @@ class ilLTIConsumerXapiStatementsGUI
             $this->initActorFilter($statementsFilter, $table);
             $this->initVerbFilter($statementsFilter, $table);
             $this->initPeriodFilter($statementsFilter, $table);
-            
             $this->initTableData($table, $statementsFilter);
-        } catch (ilCmiXapiInvalidStatementsFilterException $e) {
+        } catch (Exception $e) {
+            ilUtil::sendFailure($e->getMessage());
             $table->setData(array());
             $table->setMaxCount(0);
             $table->resetOffset();
@@ -116,7 +116,7 @@ class ilLTIConsumerXapiStatementsGUI
                 $usrId = ilObjUser::getUserIdByLogin($actor);
                 
                 if ($usrId) {
-                    $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId));
+                    $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId, $this->object->getProvider()->getPrivacyIdent()));
                 } else {
                     throw new ilCmiXapiInvalidStatementsFilterException(
                         "given actor ({$actor}) is not a valid actor for object ({$this->object->getId()})"
@@ -124,7 +124,7 @@ class ilLTIConsumerXapiStatementsGUI
                 }
             }
         } else {
-            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId()));
+            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getProvider()->getPrivacyIdent()));
         }
     }
     

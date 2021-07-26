@@ -123,7 +123,7 @@
                         'lrs endpoint (id=' . $this->authToken->getLrsTypeId() . ') unavailable (responded 401-unauthorized)'
                     );
                 }
-                \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId());
+                \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId(),$this->lrsType->getPrivacyIdent());
             } catch (\ilCmiXapiException $e) {
                 $this->log()->error($this->msg($e->getMessage()));
                 header('HTTP/1.1 401 Unauthorized');
@@ -153,7 +153,7 @@
                 header('HTTP/1.1 401 Unauthorized');
                 exit;
             }
-            \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId());
+            \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId(),$this->lrsType->getPrivacyIdent());
             return $lrsType;
         }
         /**
@@ -178,7 +178,8 @@
                                 xxcf_data_settings.hide_data, 
                                 xxcf_data_settings.c_timestamp, 
                                 xxcf_data_settings.duration, 
-                                xxcf_data_settings.no_substatements 
+                                xxcf_data_settings.no_substatements,
+                                xxcf_data_settings.privacy_ident
                         FROM xxcf_data_settings, xxcf_data_token 
                         WHERE xxcf_data_settings.obj_id = xxcf_data_token.obj_id AND xxcf_data_token.token = " . $db->quote($this->token, 'text');
             }
@@ -197,7 +198,8 @@
                                 cmix_settings.hide_data, 
                                 cmix_settings.c_timestamp, 
                                 cmix_settings.duration, 
-                                cmix_settings.no_substatements 
+                                cmix_settings.no_substatements,
+                                cmix_settings.privacy_ident
                         FROM cmix_settings, cmix_token 
                         WHERE cmix_settings.obj_id = cmix_token.obj_id AND cmix_token.token = " . $db->quote($this->token, 'text');
             }
@@ -260,6 +262,7 @@
                     $this->blockSubStatements = true;
                     $this->log()->debug($this->msg('getBlockSubStatements: ' . $this->blockSubStatements));
                 }
+                $lrs->setPrivacyIdent((int)$row->privacy_ident);
             }
             return $lrs;
         }

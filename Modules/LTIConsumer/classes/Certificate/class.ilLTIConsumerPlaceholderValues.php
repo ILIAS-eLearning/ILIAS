@@ -112,7 +112,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders['MASTERY_SCORE'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_mastery_score'));
         $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_reached_score'));
-
+        
         return $placeholders;
     }
 
@@ -128,6 +128,15 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders['MASTERY_SCORE'] = $this->utilHelper->prepareFormOutput($this->getMasteryScore($object));
         $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->getReachedScore($object, $userId));
+        
+        $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
+        if ($completionDate !== false &&
+            $completionDate !== null &&
+            $completionDate !== ''
+        ) {
+            $placeHolders['DATE_COMPLETED'] = $this->dateHelper->formatDate($completionDate);
+            $placeHolders['DATETIME_COMPLETED'] = $this->dateHelper->formatDateTime($completionDate);
+        }
 
         return $placeholders;
     }

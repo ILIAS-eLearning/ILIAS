@@ -75,7 +75,7 @@ class ilLTIConsumerScoringGUI
                 ->initUserRankTable()
             ;
         } catch (Exception $e) {
-            ilUtil::sendFailure($e);
+            ilUtil::sendFailure($e->getMessage());
             //$DIC->ui()->mainTemplate()->
             $table = $this->buildTableGUI('fallback');
             $table->setData(array());
@@ -118,6 +118,7 @@ class ilLTIConsumerScoringGUI
         );
 
         $scoringReport = $request->queryReport($this->object->getId());
+
         if (true === $scoringReport->initTableData()) {
             $this->tableData = $scoringReport->getTableData();
             $this->userRank = $scoringReport->getUserRank();

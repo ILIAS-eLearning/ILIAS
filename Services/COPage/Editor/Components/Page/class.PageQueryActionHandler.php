@@ -362,6 +362,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
 
+        // additional page actions
+        foreach ($this->page_gui->getAdditionalPageActions() as $item) {
+            $items[] = $item;
+        }
+
         return $ui->factory()->dropdown()->standard($items);
     }
 

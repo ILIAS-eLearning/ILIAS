@@ -7855,6 +7855,13 @@ ul.dropdown-menu > li > .btn:focus {
   pointer-events: none;
   cursor: default;
 }
+.panel-secondary .il-viewcontrol-section .btn-default,
+.panel-secondary .il-viewcontrol-section .btn-default:active {
+  background-color: transparent;
+  border-color: transparent;
+  color: #4c6586;
+  box-shadow: none;
+}
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
@@ -9524,6 +9531,9 @@ footer {
   .il-maincontrols-slate .il-avatar-picture {
     margin-right: 22.5px;
   }
+  .il-maincontrols-slate .link-bulky .icon.small {
+    margin-right: 25px;
+  }
 }
 .il-maincontrols-metabar {
   display: flex;
@@ -9740,26 +9750,34 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover,
 .il-mainbar-triggers .btn-bulky.engaged,
-.il-mainbar-triggers .il-link.link-bulky.engaged {
+.il-mainbar-triggers .il-link.link-bulky.engaged,
+.il-mainbar-triggers .btn-bulky:focus-visible,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible {
   background-color: white;
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover .glyph,
 .il-mainbar-triggers .il-link.link-bulky:hover .glyph,
 .il-mainbar-triggers .btn-bulky.engaged .glyph,
-.il-mainbar-triggers .il-link.link-bulky.engaged .glyph {
+.il-mainbar-triggers .il-link.link-bulky.engaged .glyph,
+.il-mainbar-triggers .btn-bulky:focus-visible .glyph,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .glyph {
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover .icon,
 .il-mainbar-triggers .il-link.link-bulky:hover .icon,
 .il-mainbar-triggers .btn-bulky.engaged .icon,
-.il-mainbar-triggers .il-link.link-bulky.engaged .icon {
+.il-mainbar-triggers .il-link.link-bulky.engaged .icon,
+.il-mainbar-triggers .btn-bulky:focus-visible .icon,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .icon {
   filter: invert(50%);
 }
 .il-mainbar-triggers .btn-bulky:hover .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label,
 .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
-.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
+.il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label,
+.il-mainbar-triggers .btn-bulky:focus-visible .bulky-label,
+.il-mainbar-triggers .il-link.link-bulky:focus-visible .bulky-label {
   color: #434343;
 }
 .il-mainbar-triggers .btn-bulky:hover,
@@ -18652,8 +18670,8 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewStatusNone {
   filter: alpha(opacity=60);
-  -moz-opacity: 0.60;
-  opacity: 0.60;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
 }
 /* tooltip */
 #qtip-preview {

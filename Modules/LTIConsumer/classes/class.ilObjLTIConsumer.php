@@ -353,9 +353,30 @@ class ilObjLTIConsumer extends ilObject2
         $this->statementsReportEnabled = $statementsReportEnabled;
     }
 
-    
-    
-    
+    /**
+     * @return string[]
+     */
+    private function getCustomParams() : array
+    {
+        $paramsAsArray = [];
+
+        $params = $this->getProvider()->getCustomParams();
+        // allows   foo=bar;foo2=baz2; foo3=baz3
+        $params = preg_split('/; ?/', $params);
+
+        foreach ($params as $param) {
+            $param = explode('=', $param);
+            // empty field, duplicate/leading/trailing semicolon?
+            if ($param[0] != '') {
+                $value = isset($param[1]) ? $param[1] : '';
+                $paramsAsArray[$param[0]] = $value;
+            }
+        }
+
+        return $paramsAsArray;
+    }
+
+
     public function doRead()
     {
         $this->load();
@@ -745,30 +766,32 @@ class ilObjLTIConsumer extends ilObject2
         $nameGiven = '-';
         $nameFamily = '-';
         $nameFull = '-';
-        switch ($this->getProvider()->getUserName()) {
-            case ilLTIConsumeProvider::USER_NAME_FIRSTNAME:
+        switch ($this->getProvider()->getPrivacyName()) {
+            case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFull = $DIC->user()->getFirstname();
                 break;
-            case ilLTIConsumeProvider::USER_NAME_LASTNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
                 $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
                 $usrName .= $DIC->user()->getLastname();
                 $nameFamily = $usrName;
                 $nameFull = $usrName;
                 break;
-            case ilLTIConsumeProvider::USER_NAME_FULLNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFamily = $DIC->user()->getLastname();
                 $nameFull = $DIC->user()->getFullname();
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getUserIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
 
         $emailPrimary = $cmixUser->getUsrIdent();
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
         
+        $custom_params = $this->getCustomParams();
+
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -812,7 +835,7 @@ class ilObjLTIConsumer extends ilObject2
             "http_method" => "POST",
             "sign_method" => "HMAC_SHA1",
             "token" => "",
-            "data" => $launch_vars //Todo Specialparameters für ProviderObject reinmergen
+            "data" => ($launch_vars + $custom_params)
         ];
         
         $launchParameters = ilLTIConsumerLaunch::signOAuth($OAuthParams);

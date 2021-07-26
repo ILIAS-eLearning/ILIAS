@@ -2699,6 +2699,7 @@ class ilPageObjectGUI
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        \ilCalendarUtil::initDateTimePicker();
     }
 
     /**
@@ -3471,5 +3472,14 @@ class ilPageObjectGUI
         foreach ($collector->getOnloadCode() as $code) {
             $tpl->addOnloadCode($code);
         }
+    }
+
+    /**
+     * Get additional page actions
+     * @return array
+     */
+    public function getAdditionalPageActions() : array
+    {
+        return [];
     }
 }

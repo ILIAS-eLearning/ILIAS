@@ -309,7 +309,7 @@ lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
-lti#:#lti_member#:#LTI Member
+lti#:#lti_member#:#LTI Member / Learner
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
@@ -15929,8 +15929,10 @@ cmix#:#conf_lrs_secret#:#Secret / Password
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_new_window#:#New Window
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Browse
@@ -16555,3 +16557,6 @@ file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User

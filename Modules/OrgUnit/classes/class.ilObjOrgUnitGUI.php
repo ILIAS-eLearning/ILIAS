@@ -107,7 +107,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(OrgUnitToolProvider::SHOW_ORGU_TREE, true);
     }
 
-
+    /**
+     * @throws ilCtrlException
+     * @throws ilException
+     * @throws ilRepositoryException
+     */
     public function executeCommand()
     {
         $cmd = $this->ctrl->getCmd();
@@ -724,18 +728,17 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         return parent::__initTableGUI();
     }
 
-
     /**
      * confirmed deletion of org units -> org units are deleted immediately, without putting them to the trash
+     * @throws ilRepositoryException
      */
     public function confirmedDeleteObject()
     {
         global $DIC;
-        if (count($_POST['id']) > 0) {
-            foreach ($_POST['id'] as $ref_id) {
-                $il_obj_orgunit = ilObjectFactory::getInstanceByRefId($ref_id);
-                $il_obj_orgunit->delete();
-            }
+
+        $ids = filter_input(INPUT_POST, 'id', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
+        if (count($ids) > 0) {
+            ilRepUtil::removeObjectsFromSystem($ids);
             ilUtil::sendSuccess($DIC->language()->txt("info_deleted"), true);
         }
         $this->ctrl->returnToParent($this);
