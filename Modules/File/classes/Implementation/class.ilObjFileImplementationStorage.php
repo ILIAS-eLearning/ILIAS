@@ -166,4 +166,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         throw new NotImplementedException();
     }
 
+    public function getStorageID() : ?string
+    {
+        return $this->resource->getStorageID();
+    }
+
 }

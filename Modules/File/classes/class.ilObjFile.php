@@ -279,7 +279,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     public function getResourceId() : ?string
     {
-        return $this->resource_id;
+        return $this->resource_id ?? '-';
+    }
+
+    public function getStorageID() : ?string
+    {
+        return $this->implementation->getStorageID();
     }
 
     /**

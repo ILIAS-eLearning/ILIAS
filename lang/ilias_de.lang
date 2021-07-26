@@ -16550,6 +16550,7 @@ file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
 file#:#upload_info#:#Datei
 file#:#resource_id#:#Ressourcen ID
+file#:#storage_id#:#Storage ID
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.

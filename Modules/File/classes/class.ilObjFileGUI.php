@@ -529,6 +529,7 @@ class ilObjFileGUI extends ilObject2GUI
         $info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
         $info->addProperty($this->lng->txt("type"), $this->object->getFileType());
         $info->addProperty($this->lng->txt("resource_id"), $this->object->getResourceId());
+        $info->addProperty($this->lng->txt("storage_id"), $this->object->getStorageID());
 
         $info->addProperty($this->lng->txt("size"),
             ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long'));
