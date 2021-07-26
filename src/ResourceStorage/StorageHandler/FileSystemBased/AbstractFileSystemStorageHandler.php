@@ -60,6 +60,48 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
 
     private function determineLinksPossible() : bool
     {
+        $random_filename = "test_" . random_int(10000, 99999);
+
+        $original_filename = $this->getStorageLocationBasePath() . "/" . $random_filename . '_orig';
+        $linked_filename = $this->getStorageLocationBasePath() . "/" . $random_filename . '_link';
+        $cleaner = function () use ($original_filename, $linked_filename) {
+            try {
+                $this->fs->delete($original_filename);
+            } catch (\Throwable $t) {
+            }
+            try {
+                $this->fs->delete($linked_filename);
+            } catch (\Throwable $t) {
+            }
+        };
+
+        try {
+            // remove existing files
+            $cleaner();
+
+            // create file
+            $this->fs->write($original_filename, 'data');
+            $stream = $this->fs->readStream($original_filename);
+
+            // determine absolute pathes
+            $original_absolute_path = $stream->getMetadata('uri');
+            $linked_absolute_path = dirname($original_absolute_path) . "/" . $random_filename . '_link';
+
+            // try linking and unlinking
+            /** @noinspection PhpUsageOfSilenceOperatorInspection */
+            $linking = @link($original_absolute_path, $linked_absolute_path);
+            /** @noinspection PhpUsageOfSilenceOperatorInspection */
+            $unlinking = @unlink($original_absolute_path);
+
+            if ($linking && $unlinking && $this->fs->has($linked_filename)) {
+                $cleaner();
+
+                return true;
+            }
+            $cleaner();
+        } catch (\Throwable $t) {
+            return false;
+        }
         return false;
     }
 
