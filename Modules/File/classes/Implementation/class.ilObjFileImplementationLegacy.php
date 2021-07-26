@@ -375,4 +375,9 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
         return '';
     }
 
+    public function getStorageID() : ?string
+    {
+        return '-';
+    }
+
 }

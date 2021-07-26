@@ -52,6 +52,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             new ilIniFilesLoadedObjective(),
             new ilDatabaseInitializedObjective(),
             new ilDatabaseUpdatedObjective(),
+            new ilStorageContainersExistingObjective()
         ];
     }
 
