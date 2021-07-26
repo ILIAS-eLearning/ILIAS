@@ -11,4 +11,4 @@
 ### Business Rules
 
 - All properties in the tile view are hidden, except alerts, https://mantis.ilias.de/view.php?id=25903#c63314
-- If READ permission is given but access restricted due to timings or preconditions, users still can click on object title but are re-directed to the Info screen where related restrictions of availability are presented, https://mantis.ilias.de/view.php?id=25903#c63314
+- If READ permission is given but access restricted due to timings or preconditions, users still can click on object title but are re-directed to the Info screen where related restrictions of availability are presented, https://mantis.ilias.de/view.php?id=25903#c63314 (see also Services/InfoScreen)
