@@ -116,6 +116,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 'ilRepositoryGUI',
                 __CLASS__,
             ], self::UI_CMD_VIEW);
+        } elseif ($DIC->access()->checkAccess("visible", "", $target)) {
+            ilObjectGUI::_gotoRepositoryNode($target, "infoScreen");
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
