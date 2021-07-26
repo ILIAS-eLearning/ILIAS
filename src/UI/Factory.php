@@ -295,8 +295,8 @@ interface Factory
      *           element. This differs from the behaviour in Popovers and Modals.
      *      8: >
      *           If the description of the contained options are not already given by the component containing the
-     *           dropdown or the Button triggering it, then it MUST be set with the aria-label.
-     *           If the aria-label is just the title of the corresponding Button, it MUST be omitted.
+     *           dropdown or the button triggering it, then it MUST be set with the aria-label.
+     *           If the aria-label is just the title of the corresponding button, it MUST be omitted.
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
