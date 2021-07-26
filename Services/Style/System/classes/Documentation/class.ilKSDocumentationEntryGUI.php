@@ -141,7 +141,11 @@ class ilKSDocumentationEntryGUI
                 include_once($path);
                 $title = "Example " . $nr . ": " . ucfirst(str_replace("_", " ", $name));
                 $nr++;
-                $example = "<div class='well'>" . $name() . "</div>"; //Executes function loaded in file indicated by 'path'
+                try{
+                    $example = "<div class='well'>" . $name() . "</div>"; //Executes function loaded in file indicated by 'path'
+                }catch(\ILIAS\UI\NotImplementedException $e){
+                    $example = "<div class='well'>This component is not yet fully implemented.</div>";
+                }
                 $content_part_1 = $this->f->legacy($example);
                 $code = str_replace("<?php\n", "", file_get_contents($path));
                 $geshi = new GeSHi($code, "php");
