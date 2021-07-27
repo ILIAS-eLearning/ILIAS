@@ -296,6 +296,15 @@ class ilTable2GUI extends ilTableGUI
                     $this->selected_column[$k] = true;
                 }
             }
+
+            // Optional filters
+            if ($_POST["tblff" . $this->getId()]) {
+                $set = true;
+                if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
+                    $this->selected_column[$k] = true;
+                }
+            }
+
         }
 
         if ($old_sel != serialize($this->selected_column) && $set) {
