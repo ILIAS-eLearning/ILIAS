@@ -631,7 +631,10 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      */
     public function edit()
     {
-        $this->editAlias();
+        if ($this->content_obj->checkInstanceEditing()) {
+            $this->ctrl->redirect($this, "editAlias");
+        }
+        $this->ctrl->redirectByClass("ilobjmediaobjectgui", "edit");
     }
 
     /**
@@ -1239,7 +1242,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
         return false;
     }
-    
+
     /**
     * Edit Style
     */
@@ -1370,25 +1373,27 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                     get_class($this)
                 );
             }
-            
-            $ilTabs->addTarget(
-                "cont_mob_inst_prop",
-                $ilCtrl->getLinkTarget($this, "editAlias"),
-                "editAlias",
-                get_class($this)
-            );
 
-            if ($this->getEnabledMapAreas()) {
-                $st_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
-                if (is_object($st_item)) {
-                    $format = $st_item->getFormat();
-                    if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg"))) {
-                        $ilTabs->addTarget(
-                            "cont_inst_map_areas",
-                            $ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"),
-                            array(),
-                            "ilpcimagemapeditorgui"
-                        );
+            if ($this->content_obj->checkInstanceEditing()) {
+                $ilTabs->addTarget(
+                    "cont_mob_inst_prop",
+                    $ilCtrl->getLinkTarget($this, "editAlias"),
+                    "editAlias",
+                    get_class($this)
+                );
+
+                if ($this->getEnabledMapAreas()) {
+                    $st_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
+                    if (is_object($st_item)) {
+                        $format = $st_item->getFormat();
+                        if (substr($format, 0, 5) == "image" && !is_int(strpos($format, "svg"))) {
+                            $ilTabs->addTarget(
+                                "cont_inst_map_areas",
+                                $ilCtrl->getLinkTargetByClass("ilpcimagemapeditorgui", "editMapAreas"),
+                                array(),
+                                "ilpcimagemapeditorgui"
+                            );
+                        }
                     }
                 }
             }

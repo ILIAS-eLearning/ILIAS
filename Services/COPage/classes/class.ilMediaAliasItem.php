@@ -979,4 +979,16 @@ class ilMediaAliasItem
         
         return true;
     }
+
+    /**
+     * Has the alias any properties set?
+     */
+    public function hasAnyPropertiesSet() : bool
+    {
+        return ($this->definesSize() ||
+            $this->definesCaption() ||
+            $this->definesTextRepresentation() ||
+            $this->definesParameters());
+    }
+
 }

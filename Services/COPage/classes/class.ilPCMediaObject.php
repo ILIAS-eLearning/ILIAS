@@ -524,4 +524,41 @@ class ilPCMediaObject extends ilPageContent
         );
         return $std_alias_item;
     }
+
+    /**
+     * Check if instance editing is offered.
+     */
+    public function checkInstanceEditing() : bool
+    {
+        // if any properties are set on the instance,
+        // that are not accessible through the quick editing screen
+        // -> offer instance editing
+        $std_alias_item = $this->getStandardMediaAliasItem();
+        if ($std_alias_item->hasAnyPropertiesSet()) {
+            return true;
+        }
+        if ($this->getMediaObject()->hasFullScreenItem()) {
+            $full_alias_item = $this->getFullscreenMediaAliasItem();
+            if ($full_alias_item->hasAnyPropertiesSet()) {
+                return true;
+            }
+        }
+
+        // if the media object has any other use outside of the current page
+        // -> offer instance editing
+        /** @var $mob ilObjMediaObject */
+        $mob = $this->getMediaObject();
+        $page = $this->getPage();
+        if (is_object($mob)) {
+            $usages = $mob->getUsages();
+            $other_usages = array_filter($usages, function ($usage) use ($page) {
+                return ($usage["type"] != $page->getParentType() . ":pg" || $usage["id"] != $page->getId());
+            });
+            if (count($other_usages) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
