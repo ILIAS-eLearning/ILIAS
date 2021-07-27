@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@andxor/jquery-ui-touch-punch-fix": "^1.0.2",
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "bootstrap-tagsinput": "^0.7.1",
     "dropzone": "^5.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
