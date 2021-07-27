@@ -2,77 +2,81 @@ il = il || {};
 il.UI = il.UI || {};
 il.UI.menu = il.UI.menu || {};
 
-(function($, UI) {
-	UI.menu.drilldown = (function($) {
+il.UI.menu.drilldown = {
 
-		var init = function (component_id) {
-			var dd = $('#' + component_id),
-				structure = dd.children('.il-drilldown-structure'),
-				visible = dd.children('.il-drilldown-visible'),
-				current = dd.children('.il-drilldown-current'),
+	classes : {
+		MENU: 'il-drilldown',
+		BUTTON: 'menulevel',
+		ACTIVE: 'engaged',
+		WITH_BACKLINK: 'show-backnav',
+	},
 
-				firstentry = structure.children('.il-menu-item'),
-				firstlevel = firstentry.children('.il-menu-level');
+	init : function (component_id, back_signal) {
+		var i,
+			dd = document.getElementById(component_id),
+			parts = this.getMenuParts(dd);
+		
+		$(document).on(back_signal, this.menuOnUplevel);
+		for (i = 0; i < parts.buttons.length; i = i + 1) { 
+			parts.buttons[i].addEventListener('click', this.menulevelOnClick);
+		}
+		
+		parts.buttons[0].classList.add(this.classes.ACTIVE);
+		parts.header.classList.remove(this.classes.WITH_BACKLINK);
+		parts.title.innerHTML = parts.buttons[0].innerHTML;
+	},
+	
+	getMenuParts : function(menu_inner_element) {
+		var classes = il.UI.menu.drilldown.classes,
+			dd = menu_inner_element.closest('.' + classes.MENU),
+			parts = {
+				title : dd.getElementsByTagName('h2')[0],
+				buttons : dd.getElementsByClassName(classes.BUTTON),
+				active : dd.getElementsByClassName(classes.ACTIVE).item(0),
+				header : dd.getElementsByTagName('header')[0],
+				upper : null
+			};
 
-			current.html(firstentry.clone());
-			visible.html(
-				firstlevel.children('.il-menu-item').clone()
-			);
-			initEntries(dd);
-			initInitiallyActive(dd);
-		};
-
-		var initEntries= function (drilldown) {
-			var entries = drilldown.children('.il-drilldown-visible').children('.il-menu-item'),
-				backlinks = drilldown.children('.il-drilldown-backlink').children('.il-menu-item');
-
-			$.merge(entries, backlinks);
-
-			entries.children('.il-menu-item-label').click(
-				function() {
-					var entry = $(this).parent('.il-menu-item');
-					if(entry.attr('id')) {
-						setActive(entry);
-					}
-				}
-			);
-		};
-
-		var setActive = function(entry) {
-
-			var dd = entry.parents('.il-drilldown'),
-				structure = dd.children('.il-drilldown-structure'),
-				all_entries = structure.children('.il-menu-item');
-				struct_entry = structure.find('#' + entry.attr('id')),
-				backlink = dd.children('.il-drilldown-backlink'),
-				visible = dd.children('.il-drilldown-visible')
-				current = dd.children('.il-drilldown-current')
-				back_entry = struct_entry.parents('.il-menu-item');
-
-			if(back_entry.length > 1) {
-				back_entry = $(back_entry[0]);
+			if(parts.active) {
+				parts.upper = parts.active.closest('ul').parentElement.getElementsByClassName(classes.BUTTON).item(0);
 			}
+			return parts;
+	},
 
-			all_entries.attr('data-active', false);
-			struct_entry.attr('data-active', true);
+	menulevelOnClick : function(event) {
+		var classes = il.UI.menu.drilldown.classes,
+			parts = il.UI.menu.drilldown.getMenuParts(event.currentTarget);
+			
+		for (i = 0; i < parts.buttons.length; i = i + 1) { 
+			parts.buttons[i].classList.remove(classes.ACTIVE);
+		}
+		event.currentTarget.classList.add(classes.ACTIVE);
+		parts.title.innerHTML = event.currentTarget.innerHTML;
 
-			visible.html(
-				struct_entry.children('.il-menu-level').children('.il-menu-item').clone(true)
-			);
-			backlink.html(back_entry.clone());
-			current.html(struct_entry.clone());
+		if(event.currentTarget == parts.buttons[0]) {
+			parts.header.classList.remove(classes.WITH_BACKLINK);
+		} else {
+			parts.header.classList.add(classes.WITH_BACKLINK);
+		}
+	},
 
-			initEntries(dd);
-		};
+	menuOnUplevel : function(event) {
+		var classes = il.UI.menu.drilldown.classes,
+			parts = il.UI.menu.drilldown.getMenuParts(event.target);
 
-		var initInitiallyActive = function(dd) {
-			var node = dd.find(".il-menu-item[data-active='true']").first();
-			setActive(node);
+		for (i = 0; i < parts.buttons.length; i = i + 1) { 
+			parts.buttons[i].classList.remove(classes.ACTIVE);
 		}
 
-		return {
-			init: init
+		if(parts.upper) {
+			parts.title.innerHTML = parts.upper.innerHTML;
+			parts.upper.classList.add(classes.ACTIVE);
 		}
 
-	})($);
-})($, il.UI);
+		if(parts.upper == parts.buttons[0]) {
+			parts.header.classList.remove(classes.WITH_BACKLINK);
+		} else {
+			parts.header.classList.add(classes.WITH_BACKLINK);
+		}
+	}
+};

@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -25,15 +24,25 @@ class Renderer extends AbstractComponentRenderer
         $html = $this->renderMenu($component, $default_renderer);
 
         if ($component instanceof Menu\Drilldown) {
+            $ui_factory = $this->getUIFactory();
+            $back_signal = $component->getBacklinkSignal();
+            $glyph = $ui_factory->symbol()->glyph()->back();
+            $btn = $ui_factory->button()->bulky($glyph, '', '#')->withOnClick($back_signal);
+            $back_button_html = $default_renderer->render($btn);
+
+            $component = $component->withAdditionalOnLoadCode(
+                function ($id) use ($back_signal) {
+                    return "il.UI.menu.drilldown.init('$id', '$back_signal');";
+                }
+            );
+            $id = $this->bindJavaScript($component);
+
             $tpl_name = "tpl.drilldown.html";
             $tpl = $this->getTemplate($tpl_name, true, true);
-            $tpl->setVariable('DRILLDOWN', $html);
-
-            $component = $component->withAdditionalOnLoadCode(function ($id) {
-                return "il.UI.menu.drilldown.init('$id');";
-            });
-            $id = $this->bindJavaScript($component);
             $tpl->setVariable("ID", $id);
+            $tpl->setVariable('TITLE', $component->getLabel());
+            $tpl->setVariable('BACKNAV', $back_button_html);
+            $tpl->setVariable('DRILLDOWN', $html);
 
             return $tpl->get();
         }
@@ -48,71 +57,29 @@ class Renderer extends AbstractComponentRenderer
         Menu\Menu $component,
         RendererInterface $default_renderer
     ) : string {
-        $tpl_name = "tpl.menuitem.html";
-        $tpl = $this->getTemplate($tpl_name, true, true);
+        $tpl_menu = $this->getTemplate('tpl.menu.html', true, true);
 
-        /**
-         * @var $label Component\Component
-         */
-        $label = $this->maybeConvertLabelToShy($component->getLabel());
-        $tpl->setVariable('LABEL', $default_renderer->render($label));
+        $label = $component->getLabel();
+        if (!is_string($label)) {
+            $label = $default_renderer->render($label);
+        }
+        $tpl_menu->setVariable('LABEL', $label);
 
-        if ($component instanceof Menu\Sub) {
+        /*
             if ($component->isInitiallyActive()) {
                 $tpl->touchBlock('active');
             }
+        */
+  
+        $html = '';
+        foreach ($component->getItems() as $item) {
+            $tpl_item = $this->getTemplate('tpl.menuitem.html', true, true);
+            $tpl_item->setVariable('ITEM', $default_renderer->render($item));
+            $html .= $tpl_item->get();
         }
-        /**
-         * @var $component Menu\Menu
-         */
-        $component = $component->withAdditionalOnLoadCode(function ($id) {
-            return '';
-        });
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable("ID", $id);
-
-        foreach ($component->getItems() as $subitem) {
-            if ($subitem instanceof Menu\Menu) {
-                $html = $default_renderer->render($subitem);
-            } else {
-                $html = $this->wrapMenuEntry($subitem, $default_renderer);
-            }
-            $tpl->setCurrentBlock('subitems');
-            $tpl->setVariable('SUBITEMS', $html);
-            $tpl->parseCurrentBlock();
-        }
-
-        return $tpl->get();
+        $tpl_menu->setVariable('ITEMS', $html);
+        return $tpl_menu->get();
     }
-
-    /**
-     * Wrap an entry like Clickable or Divider to fit the menu-structure.
-     */
-    protected function wrapMenuEntry(
-        Component\Component $component,
-        RendererInterface $default_renderer
-    ) : string {
-        $tpl_name = "tpl.menuitem.html";
-        $tpl = $this->getTemplate($tpl_name, true, true);
-
-        $label = $default_renderer->render($component);
-        $tpl->setVariable('LABEL', $label);
-        return $tpl->get();
-    }
-
-
-    /**
-     * A string will be converted to a Shy Button, any Clickables
-     * will be returned as they are.
-     */
-    protected function maybeConvertLabelToShy($label) : Component\Clickable
-    {
-        if (is_string($label)) {
-            $label = $this->getUIFactory()->button()->shy($label, '');
-        }
-        return $label;
-    }
-
 
     /**
      * @inheritdoc

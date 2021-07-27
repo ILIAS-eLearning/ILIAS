@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -17,10 +16,24 @@ abstract class Menu implements IMenu\Menu
 {
     use ComponentHelper;
     use JavaScriptBindable;
+
     /**
-     * @var \ILIAS\UI\Component\Component []
+     * @var string
+     */
+    protected $label;
+
+    /**
+     * @var Component[]
      */
     protected $items = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
+    }
 
     /**
      * @inheritdoc
@@ -30,9 +43,6 @@ abstract class Menu implements IMenu\Menu
         return $this->items;
     }
 
-    /**
-     * @param array	$items
-     */
     protected function checkItemParameter(array $items)
     {
         $classes = [

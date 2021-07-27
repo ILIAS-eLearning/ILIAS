@@ -13,7 +13,7 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 /**
  * Level of Drilldown Control
  */
-class Sub extends LabeledMenu implements IMenu\Sub
+class Sub extends Menu implements IMenu\Sub
 {
     /**
      * @var bool
@@ -24,9 +24,8 @@ class Sub extends LabeledMenu implements IMenu\Sub
      * @param \ILIAS\UI\Component\Clickable | string $label
      * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
      */
-    public function __construct($label, array $items)
+    public function __construct(string $label, array $items)
     {
-        $this->checkLabelParameter($label);
         $this->checkItemParameter($items);
         $this->label = $label;
         $this->items = $items;
