@@ -110,6 +110,18 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  componentAfterSave(afterPcid, pcid, component, data) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_AFTER_SAVE, {
+      afterPcid: afterPcid,
+      pcid: pcid,
+      component: component,
+      data: data
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   componentUpdate(pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_UPDATE, {
       pcid: pcid,

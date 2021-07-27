@@ -115,6 +115,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
         $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
             count($this->user->getPCClipboardContent()) > 0;
+        $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
         return new Server\Response($o);
     }
 
