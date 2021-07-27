@@ -346,7 +346,7 @@ export default class PageUI {
     const action = this.actionFactory;
 
     if (!draggableSelector) {
-      draggableSelector = ".il_editarea";
+      draggableSelector = ".il_editarea, .il_editarea_disabled";
     }
 
     if (!droppableSelector) {
