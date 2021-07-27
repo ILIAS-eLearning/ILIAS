@@ -50,7 +50,7 @@ class Migrator
         $destination_path = $this->filesystem_base_path . '/' . $new_handler->getFullContainerPath($resource->getIdentification());
 
         if (!file_exists($existing_path)) {
-            throw new \LogicException("Cannot migrate file since it's not available: $existing_path");
+            return false;
         }
 
         if (!is_dir(dirname($destination_path))) {
