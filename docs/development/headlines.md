@@ -2,8 +2,7 @@
 The headings SHOULD allow for overview and not create noise. 
 If it is a visually-whole section is not a control then it MUST have a heading to act as a label. 
 * There MUST be exactly one single h1 level per page. This is not necessarily the first element. 
-* There can be more than one H1 level per page. 
-* Nesting MUST not have holes in it like h3 following h1 or h5 following h3 . 
+* Nesting SHOULD not have holes in it like h3 following h1 or h5 following h3 . 
 * The Breadcrumb does no longer bearing a h2 and thus h2 is freed up for use. 
 * Same UI-Elements MUST have the same headline level throughout ILIAS.
 
