@@ -154,7 +154,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
 
         $html = $ui_wrapper->getRenderedForm(
             $form,
-            [["Page", "component.save", $lng->txt("save")],
+            [["Page", "component.save", $lng->txt("insert")],
              ["Page", "component.cancel", $lng->txt("cancel")]]
         );
 
@@ -194,7 +194,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
 
         $html = $ui_wrapper->getRenderedForm(
             $form,
-            [["Page", "component.save", $lng->txt("save")],
+            [["Page", "component.save", $lng->txt("insert")],
              ["Page", "component.cancel", $lng->txt("cancel")]]
         );
 
