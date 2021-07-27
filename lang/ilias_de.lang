@@ -10013,7 +10013,7 @@ dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
-dcl#:#dcl_view_viewdefinition#:#Seitenvorlage
+dcl#:#dcl_view_viewdefinition#:#Vorlage zur Einzelansicht
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
@@ -10471,7 +10471,7 @@ common#:#obj_sahs_duplicate#:#Lernmodule kopieren
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail Adresse ein.
-dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
+dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import durchzuführen.
@@ -10550,7 +10550,7 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
-dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
+dcl#:#dcl_reference_link_info#:#Die Vorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein.
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
@@ -10568,11 +10568,11 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
-dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
-dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view#:#Vorlage zur Einzelansicht löschen
+dcl#:#dcl_activate_view#:#Vorlage zur Einzelansicht aktivieren
+dcl#:#dcl_deactivate_view#:#Vorlage zur Einzelansicht deaktivieren
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Vorlage zur Einzelansicht wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Vorlage zur Einzelansicht wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
