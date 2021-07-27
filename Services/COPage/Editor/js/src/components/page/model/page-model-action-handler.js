@@ -124,7 +124,7 @@ export default class ModelActionHandler {
         // we do nothing here, the components decide whether to perform the switch or not
         break;
 
-      case "component.save":
+      case "component.saved":
         this.model.setState(this.model.STATE_PAGE);
         break;
 
