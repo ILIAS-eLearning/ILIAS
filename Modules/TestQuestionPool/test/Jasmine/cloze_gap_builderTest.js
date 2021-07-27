@@ -47,7 +47,7 @@ describe("cloze_gap_builder", function() {
 		});
 		it("after the call div should be empty fake footer should be in place", function () {
 			ClozeGapBuilder.protect.addModalFakeFooter();
-			expect($('.modal-content').html()).toEqual('<div class="modal-fake-footer"><input type="button" id="modal_ok_button" class="btn btn-default btn-sm btn-dummy" value="undefined"> <input type="button" id="modal_cancel_button" class="btn btn-default btn-sm btn-dummy" value="undefined"></div>');
+			expect($('.modal-content').html()).toEqual('<div class="modal-fake-footer"><input type="button" class="btn btn-default btn-sm btn-dummy modal_ok_button" value="undefined"> <input type="button" class="btn btn-default btn-sm btn-dummy modal_cancel_button" value="undefined"></div>');
 		});
 	});
 
