@@ -47,7 +47,7 @@ export default class PageModifier {
     d.parentNode.insertBefore(newAddArea, d.nextSibling);
 
     let addSelector = "[data-copg-ed-type='add-area'][data-pcid='" + pcid + "']";
-    let pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    let pcSelector = "[data-pcid='" + pcid + "']";
 
     this.pageUI.initComponentClick(pcSelector);
     this.pageUI.initAddButtons(addSelector);

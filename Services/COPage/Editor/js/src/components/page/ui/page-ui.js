@@ -233,13 +233,18 @@ export default class PageUI {
    * dblclick, time period for dblclick varies)
    */
   initComponentClick(selector) {
+    let areaSelector, coverSelector, area;
 
     if (!selector) {
-      selector = "[data-copg-ed-type='pc-area']";
+      areaSelector = "[data-copg-ed-type='pc-area']";
+      coverSelector = "[data-copg-ed-type='media-cover']";
+    } else {
+      areaSelector = selector + "[data-copg-ed-type='pc-area']";
+      coverSelector = selector + "[data-copg-ed-type='media-cover']";
     }
 
     // init add buttons
-    document.querySelectorAll(selector).forEach(area => {
+    document.querySelectorAll(areaSelector).forEach(area => {
       area.addEventListener("click", (event) => {
         if (event.isDropDownToggleEvent === true ||
           event.isDropDownSelectionEvent === true) {
@@ -254,6 +259,25 @@ export default class PageUI {
         }
       });
     });
+
+    // init add buttons
+    document.querySelectorAll(coverSelector).forEach(cover => {
+      cover.addEventListener("click", (event) => {
+        console.log("---COVER CLICKED---");
+        if (event.isDropDownToggleEvent === true ||
+            event.isDropDownSelectionEvent === true) {
+          return;
+        }
+        event.stopPropagation();
+        area = cover.closest("[data-copg-ed-type='pc-area']");
+        if (event.shiftKey || event.ctrlKey || event.metaKey) {
+          area.dispatchEvent(new Event("areaCmdClick"));
+        } else {
+          area.dispatchEvent(new Event("areaClick"));
+        }
+      });
+    });
+
   }
 
   initComponentEditing(selector) {
