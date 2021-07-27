@@ -641,7 +641,8 @@ class ilObjExercise extends ilObject
         $row = $cnt = 1;
         $excel->setCell($row, 0, $this->lng->txt("name"));
         foreach ($ass_data as $ass) {
-            $excel->setCell($row, $cnt++, $cnt - 1);
+            $excel->setCell($row, $cnt++, ($cnt / 2) . " - ". $this->lng->txt("exc_tbl_status"));
+            $excel->setCell($row, $cnt++, (($cnt - 1) / 2) . " - ". $this->lng->txt("exc_tbl_mark"));
         }
         $excel->setCell($row, $cnt++, $this->lng->txt("exc_total_exc"));
         $excel->setCell($row, $cnt++, $this->lng->txt("exc_mark"));
@@ -672,7 +673,9 @@ class ilObjExercise extends ilObject
             reset($ass_data);
             foreach ($ass_data as $ass) {
                 $status = $ass->getMemberStatus($user_id)->getStatus();
+                $mark = $ass->getMemberStatus($user_id)->getMark();
                 $excel->setCell($row, $col++, $this->lng->txt("exc_" . $status));
+                $excel->setCell($row, $col++, $mark);
             }
             
             // total status
