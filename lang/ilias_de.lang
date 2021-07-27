@@ -15527,8 +15527,8 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
-common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage.
-common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen.
+common#:#nc_contact_requests_number_s#:#Sie haben eine Kontaktanfrage.
+common#:#nc_contact_requests_number_p#:#Sie haben %s Kontaktanfragen.
 common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
