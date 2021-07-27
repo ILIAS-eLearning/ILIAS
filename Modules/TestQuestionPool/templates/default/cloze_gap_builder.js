@@ -66,13 +66,14 @@ var ClozeGapBuilder = (function () {
 	pro.addModalFakeFooter = function () {
 		if (ClozeGlobals.jour_fixe_incompatible === false) {
 			if ($('.modal-fake-footer').length === 0) {
-				$('<div class="modal-fake-footer"><input type="button" id="modal_ok_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.ok_text + '"> <input type="button" id="modal_cancel_button" class="btn btn-default btn-sm btn-dummy" value="' + ClozeSettings.cancel_text + '"></div>').appendTo('.modal-content');
-				$('#modal_ok_button').on('click', function () {
+				var footer = $('<div class="modal-fake-footer"><input type="button" class="btn btn-default btn-sm btn-dummy modal_ok_button" value="' + ClozeSettings.ok_text + '"> <input type="button" class="btn btn-default btn-sm btn-dummy modal_cancel_button" value="' + ClozeSettings.cancel_text + '"></div>');
+				$(footer).find('.modal_ok_button').on('click', function () {
 					pro.closeModalWithOkButton();
 				});
-				$('#modal_cancel_button').on('click', function () {
+				$(footer).find('.modal_cancel_button').on('click', function () {
 					pro.closeModalWithCancelButton();
 				});
+				footer.appendTo('.modal-content');
 			}
 		}
 	};
