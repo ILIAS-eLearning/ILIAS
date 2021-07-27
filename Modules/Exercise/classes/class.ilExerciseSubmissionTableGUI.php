@@ -80,7 +80,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $this->ass_type = $this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
 
         $this->initMode($a_item_id);
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
         $this->setShowTemplates(true);
