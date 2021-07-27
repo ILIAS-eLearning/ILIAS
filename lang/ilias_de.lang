@@ -10937,7 +10937,7 @@ dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
-dcl#:#dcl_link_detail_page#:#Link zur Detailseite
+dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 crs#:#crs_notification_list_title#:#Benachrichtigung
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
