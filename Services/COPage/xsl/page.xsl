@@ -2182,7 +2182,7 @@
 				</xsl:otherwise>
 			</xsl:choose>
 			<xsl:if test="$mode = 'edit'">
-				<div style="position: absolute; opacity: 0; background: white; width: 100%; height: 100%; top: 0;"></div>
+				<div class="il-copg-media-cover" data-copg-ed-type="media-cover"></div>
 			</xsl:if>
 
 			<!-- command selectbox -->

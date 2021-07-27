@@ -5451,6 +5451,26 @@ button.list-group-item {
   width: 100%;
   text-align: left;
 }
+a.list-group-item,
+button.list-group-item {
+  color: #555;
+}
+a.list-group-item .list-group-item-heading,
+button.list-group-item .list-group-item-heading {
+  color: #333;
+}
+a.list-group-item:hover,
+button.list-group-item:hover,
+a.list-group-item:focus,
+button.list-group-item:focus {
+  color: #555;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+button.list-group-item {
+  width: 100%;
+  text-align: left;
+}
 .list-group-item-success {
   color: #3c763d;
   background-color: #dff0d8;
@@ -14206,6 +14226,13 @@ p#copg-auto-save {
   border: 1px solid #4c6586;
   height: 30px;
   z-index: 100000;
+}
+.il-copg-media-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 10000;
 }
 /* Services/Calendar */
 td.even {
