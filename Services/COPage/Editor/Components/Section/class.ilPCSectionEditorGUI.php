@@ -58,7 +58,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
             [
             "form" => true,
             "ui_wrapper" => $ui_wrapper,
-            "buttons" => [["Page", "component.save", $lng->txt("save")],
+            "buttons" => [["Page", "component.save", $lng->txt("insert")],
                 ["Page", "component.cancel", $lng->txt("cancel")]]
             ]
         );

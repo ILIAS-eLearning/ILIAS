@@ -59,7 +59,7 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
         $html = $ui_wrapper->getRenderedForm(
             $form,
             [
-                ["Page", "component.save", $lng->txt("save")],
+                ["Page", "component.save", $lng->txt("insert")],
                 ["Page", "component.cancel", $lng->txt("cancel")]
             ]
         );
