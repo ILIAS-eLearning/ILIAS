@@ -2710,7 +2710,7 @@ common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#No salutation desired
+common#:#gender_n#:#Not stated
 common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
