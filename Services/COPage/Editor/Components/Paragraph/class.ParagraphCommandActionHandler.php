@@ -266,6 +266,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      */
     protected function getContentForSaving($pcid, $content, $characteristic)
     {
+        $content = str_replace("&nbsp;", " ", $content);
         return "<div id='" .
             $pcid . "' class='ilc_text_block_" .
             $characteristic . "'>" . $content . "</div>";
