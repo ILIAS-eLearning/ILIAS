@@ -118,7 +118,9 @@ class ilStorageHandlerV1Migration implements Migration
         $d = $this->database->fetchObject($r);
         if ($d->identification) {
             $resource = $this->resource_builder->get(new ResourceIdentification($d->identification));
-            $this->migrator->migrate($resource, $this->to);
+            if (!$this->migrator->migrate($resource, $this->to)) {
+                $io->text('Resource ' . $resource->getIdentification()->serialize() . ' not migrated, file not found');
+            }
         }
     }
 
