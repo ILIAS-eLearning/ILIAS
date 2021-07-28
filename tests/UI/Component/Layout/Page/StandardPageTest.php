@@ -196,7 +196,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <title>Short Title: View Title</title>
-      <style type="text/css"></style>
+      <style></style>
    </head>
    <body>
       <div class="il-layout-page">
@@ -212,7 +212,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             <div>some content</div>
          </main>
       </div>
-      <script type="text/javascript">il.Util.addOnLoad(function() {});</script>
+      <script>il.Util.addOnLoad(function() {});</script>
    </body>
 </html>');
         $this->assertEquals($exptected, $html);
@@ -233,7 +233,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       <title>: </title>
-      <style type="text/css"></style>
+      <style></style>
    </head>
    <body>
       <div class="il-layout-page">
@@ -249,7 +249,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             <div>some content</div>
          </main>
       </div>
-      <script type="text/javascript">il.Util.addOnLoad(function() {});</script>
+      <script>il.Util.addOnLoad(function() {});</script>
    </body>
 </html>');
         $this->assertEquals($exptected, $html);
