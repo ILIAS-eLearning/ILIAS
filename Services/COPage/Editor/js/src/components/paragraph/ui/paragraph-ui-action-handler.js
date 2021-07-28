@@ -413,9 +413,11 @@ export default class ParagraphUIActionHandler {
       if (oldCharacteristic === "" && newCharacteristic !== "") {
         this.ui.pageModifier.handlePageReloadResponse(result);
         let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + page_model.getCurrentPCId() + "']");
-        this.ui.tinyWrapper.setGhostAt(content_el);
-        this.ui.tinyWrapper.synchInputRegion();
-        this.ui.tinyWrapper.copyInputToGhost();
+        //this.ui.tinyWrapper.setGhostAt(content_el);
+        //this.ui.tinyWrapper.synchInputRegion();
+        //this.ui.tinyWrapper.copyInputToGhost();
+        this.ui.tinyWrapper.stopEditing();
+        this.ui.editParagraph(page_model.getCurrentPCId());
       }
     });
 
