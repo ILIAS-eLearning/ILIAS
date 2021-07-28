@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilObjFileStakeholder
@@ -10,6 +11,10 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
     protected $owner = 6;
+    /**
+     * @var ilDBInterface
+     */
+    protected $database;
 
     /**
      * ilObjFileStakeholder constructor.
@@ -17,7 +22,9 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
      */
     public function __construct(int $owner = 6)
     {
+        global $DIC;
         $this->owner = $owner;
+        $this->database = $DIC->database();
     }
 
     /**
@@ -31,6 +38,17 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
     public function getOwnerOfNewResources() : int
     {
         return $this->owner;
+    }
+
+    public function resourceHasBeenDeleted(ResourceIdentification $identification) : void
+    {
+        $r = $this->database->queryF("SELECT file_id FROM file_data WHERE rid = %s", ['text'],
+            [$identification->serialize()]);
+        $d = $this->database->fetchObject($r);
+        if ($d->file_id) {
+            $this->database->manipulateF("UPDATE object_data SET offline = 1 WHERE obj_id = %s", ['text'],
+                [$d->file_id]);
+        }
     }
 
 }

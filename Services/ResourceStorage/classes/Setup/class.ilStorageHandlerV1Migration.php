@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\DI\Container;
 
 /**
  * Class ilStorageHandlerV1Migration
@@ -56,7 +57,7 @@ class ilStorageHandlerV1Migration implements Migration
 
     public function getDefaultAmountOfStepsPerRun() : int
     {
-        return 1000;
+        return 10000;
     }
 
     public function getPreconditions(Environment $environment) : array
@@ -82,16 +83,19 @@ class ilStorageHandlerV1Migration implements Migration
 
         $this->database = $environment->getResource(Environment::RESOURCE_DATABASE);
 
+        // ATTENTION: This is a total abomination. It only exists to allow the db-
+        // update to run. This is a memento to the fact, that dependency injection
+        // is something we want. Currently, every component could just service
+        // locate the whole world via the global $DIC.
+        $DIC = $GLOBALS["DIC"] ?? [];
+        $GLOBALS["DIC"] = new Container();
+        $GLOBALS["DIC"]["ilDB"] = $this->database;
+        $GLOBALS["ilDB"] = $this->database;
+
         $storage_handler_factory = new StorageHandlerFactory([
             new MaxNestingFileSystemStorageHandler($filesystem, Location::STORAGE),
             new FileSystemStorageHandler($filesystem, Location::STORAGE)
         ]);
-
-        $this->migrator = new Migrator(
-            $storage_handler_factory,
-            $this->database,
-            $this->data_dir
-        );
 
         $this->resource_builder = new ResourceBuilder(
             $storage_handler_factory,
@@ -101,6 +105,13 @@ class ilStorageHandlerV1Migration implements Migration
             new StakeholderARRepository(),
             new LockHandlerilDB($this->database),
             new FileNamePolicyStack()
+        );
+
+        $this->migrator = new Migrator(
+            $storage_handler_factory,
+            $this->resource_builder,
+            $this->database,
+            $this->data_dir
         );
 
     }

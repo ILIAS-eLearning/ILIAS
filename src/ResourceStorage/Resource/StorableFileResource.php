@@ -137,6 +137,18 @@ class StorableFileResource implements StorableResource
     }
 
     /**
+     * @inheritDoc
+     */
+    public function removeStakeholder(ResourceStakeholder $s) : void
+    {
+        foreach ($this->stakeholders as $k => $stakeholder) {
+            if ($stakeholder->getId() === $s->getId()) {
+                unset($this->stakeholders[$k]);
+            }
+        }
+    }
+
+    /**
      * @param ResourceStakeholder[] $stakeholders
      * @return StorableFileResource
      */

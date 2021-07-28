@@ -52,6 +52,11 @@ interface StorableResource
     public function addStakeholder(ResourceStakeholder $s) : void;
 
     /**
+     * @param ResourceStakeholder $s
+     */
+    public function removeStakeholder(ResourceStakeholder $s) : void;
+
+    /**
      * @param Revision $revision
      */
     public function addRevision(Revision $revision) : void;
