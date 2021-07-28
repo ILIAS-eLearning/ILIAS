@@ -182,6 +182,11 @@ class ilLMPresentationGUI
      */
     protected $additional_content = [];
 
+    /**
+     * @var ilObjectTranslation
+     */
+    protected $ot;
+
     public function __construct(
         $a_export_format = "",
         $a_all_languages = false,
@@ -311,6 +316,7 @@ class ilLMPresentationGUI
 
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
+        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
     /**
@@ -2990,6 +2996,9 @@ class ilLMPresentationGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang);
+        }
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
         }
         return new ilLMPageGUI($a_id);
     }

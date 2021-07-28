@@ -90,6 +90,11 @@ class ilLMContentRendererGUI
     protected $linker;
 
     /**
+     * @var ilObjectTranslation
+     */
+    protected $ot;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -125,6 +130,8 @@ class ilLMContentRendererGUI
         $this->search_string = $service->getPresentationStatus()->getSearchString();
         $this->requested_obj_id = $requested_obj_id;
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
+
+        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
     /**
@@ -362,7 +369,11 @@ class ilLMContentRendererGUI
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang);
         } else {
-            $page_gui = new ilLMPageGUI($a_id);
+            if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
+                $page_gui = new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
+            } else {
+                $page_gui = new ilLMPageGUI($a_id);
+            }
         }
         if ($this->offline) {
             $page_gui->setOutputMode(ilPageObjectGUI::OFFLINE);
