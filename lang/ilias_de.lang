@@ -2357,11 +2357,8 @@ cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
 cmps#:#no_changes#:#Keine Änderungen
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
-cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
 cntr#:#cntr_manage#:#Verwalten
-cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
-cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
 cntr#:#cntr_ordering#:#Sortieren
 cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.

@@ -278,7 +278,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * forward command to page object
      */
-    public function &forwardToPageObject()
+    public function forwardToPageObject()
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -298,24 +298,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             exit;
         }
 
-        $xpage_id = ilContainer::_lookupContainerSetting(
-            $this->object->getId(),
-            "xhtml_page"
+        $ilTabs->setBackTarget(
+            $lng->txt("back"),
+            "./goto.php?target=" . $this->object->getType() . "_" .
+            $this->object->getRefId(),
+            "_top"
         );
-        if ($xpage_id > 0) {
-            $ilTabs->setBackTarget(
-                $lng->txt("cntr_back_to_old_editor"),
-                $ilCtrl->getLinkTarget($this, "switchToOldEditor"),
-                "_top"
-            );
-        } else {
-            $ilTabs->setBackTarget(
-                $lng->txt("back"),
-                "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(),
-                "_top"
-            );
-        }
 
         // page object
 
@@ -352,36 +340,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
-
-        // old editor information text
-        $xpage_id = ilContainer::_lookupContainerSetting(
-            $this->object->getId(),
-            "xhtml_page"
-        );
-        if ($xpage_id > 0) {
-            $wtpl = new ilTemplate(
-                "tpl.cntr_old_editor_message.html",
-                true,
-                true,
-                "Services/Container"
-            );
-            $wtpl->setVariable("ALT_WARNING", $lng->txt("warning"));
-            $wtpl->setVariable(
-                "IMG_WARNING",
-                ilUtil::getImagePath("icon_alert.svg")
-            );
-            $wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
-            $wtpl->setVariable("TXT_MIGRATION_INFO", $lng->txt("cntr_switch_to_new_editor_message"));
-            $wtpl->setVariable(
-                "HREF_SWITCH_TO_NEW_EDITOR",
-                $ilCtrl->getLinkTarget($this, "useNewEditor")
-            );
-            $wtpl->setVariable(
-                "TXT_MIGRATION_SWITCH",
-                $lng->txt("cntr_switch_to_new_editor_cmd")
-            );
-            $page_gui->setPrependingHtml($wtpl->get());
-        }
 
         // style tab
         $page_gui->setTabHook($this, "addPageTabs");
@@ -2647,24 +2605,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $tpl->setTreeFlatIcon("", "");
         $ilTabs->clearTargets();
-        $xpage_id = ilContainer::_lookupContainerSetting(
-            $this->object->getId(),
-            "xhtml_page"
+        $ilTabs->setBackTarget(
+            $lng->txt("back"),
+            "./goto.php?target=" . $this->object->getType() . "_" .
+            $this->object->getRefId(),
+            "_top"
         );
-        if ($xpage_id > 0) {
-            $ilTabs->setBackTarget(
-                $lng->txt("cntr_back_to_old_editor"),
-                $ilCtrl->getLinkTarget($this, "switchToOldEditor"),
-                "_top"
-            );
-        } else {
-            $ilTabs->setBackTarget(
-                $lng->txt("back"),
-                "./goto.php?target=" . $this->object->getType() . "_" .
-                $this->object->getRefId(),
-                "_top"
-            );
-        }
 
         $page_gui = new ilContainerPageGUI($this->object->getId());
         $style_id = $this->object->getStyleSheetId();
