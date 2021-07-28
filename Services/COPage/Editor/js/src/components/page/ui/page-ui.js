@@ -520,6 +520,12 @@ export default class PageUI {
             ));
           });
           break;
+
+        case "format.cancel":
+          multi_button.addEventListener("click", (event) => {
+            dispatch.dispatch(action.page().editor().formatCancel());
+          });
+          break;
       }
     });
 

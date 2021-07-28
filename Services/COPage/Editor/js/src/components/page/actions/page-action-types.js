@@ -36,6 +36,7 @@ const ACTIONS = {
   MULTI_ACTION: "multi.action",   // perform multi action
   MULTI_PASTE: "multi.paste",   // paste multi items
   FORMAT_SAVE: "format.save",             // save selected formats
+  FORMAT_CANCEL: "format.cancel",             // cancel format selection
   FORMAT_PARAGRAPH: "format.paragraph",   // select paragraph format
   FORMAT_SECTION: "format.section",       // select section format
   MULTI_DELETE: "multi.delete",       // delete selection
