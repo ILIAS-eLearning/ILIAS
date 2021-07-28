@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ResourceStorage\Services;
+use ILIAS\DI\Container;
+
 /**
  * Class ilObjBibliographicGUI
  *
@@ -9,6 +12,7 @@
  * @author            Gabriel Comte <gc@studer-raimann.ch>
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Fabian Schmid <fs@studer-raimann.ch>
+ * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilInfoScreenGUI, ilNoteGUI
  * @ilCtrl_Calls      ilObjBibliographicGUI: ilCommonActionDispatcherGUI
@@ -62,6 +66,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
      */
     protected $type_factory;
     /**
+     * @var Services
+     */
+    protected $storage;
+    /**
+     * @var ilObjBibliographicStakeholder
+     */
+    protected $stakeholder;
+    /**
      * @var string
      */
     protected $cmd = self::CMD_SHOW_CONTENT;
@@ -76,6 +88,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     {
         global $DIC;
 
+        $this->storage = $DIC['resource_storage'];
+        $this->stakeholder = new ilObjBibliographicStakeholder();
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         $DIC->language()->loadLanguageModule('bibl');
         $DIC->language()->loadLanguageModule('content');
@@ -86,7 +101,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             $this->facade = new ilBiblFactoryFacade($this->object);
         }
     }
-
 
     /**
      * getStandardCmd
@@ -216,6 +230,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     public function infoScreenForward()
     {
         global $DIC;
+        /**
+         * @var $DIC Container
+         */
 
         if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
             ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
@@ -223,8 +240,14 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
         $info = new ilInfoScreenGUI($this);
+
         $info->enablePrivateNotes();
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
+
+        // Storage Info
+        $irss = new ilResourceStorageInfoGUI($this->object->getResourceId());
+        $irss->append($info);
+
         $this->ctrl->forwardCommand($info);
     }
 
@@ -576,14 +599,18 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         global $DIC;
 
         if ($DIC['ilAccess']->checkAccess('read', "", $this->object->getRefId())) {
-            $file_path = $this->object->getLegacyAbsolutePath();
-            if ($file_path) {
-                if (is_file($file_path)) {
-                    ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(), 'application/octet-stream');
-                } else {
-                    ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
-                    $this->showContent();
+            if (!$this->object->isMigrated()) {
+                $file_path = $this->object->getLegacyAbsolutePath();
+                if ($file_path) {
+                    if (is_file($file_path)) {
+                        ilFileDelivery::deliverFileAttached($file_path, $this->object->getFilename(), 'application/octet-stream');
+                    } else {
+                        ilUtil::sendFailure($DIC['lng']->txt("file_not_found"));
+                        $this->showContent();
+                    }
                 }
+            } else {
+                $this->storage->consume()->download($this->object->getResourceId())->run();
             }
         } else {
             $this->handleNonAccess();

@@ -46,13 +46,25 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
         global $DIC;
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
+
         $props = array();
+        $obj = new ilObjBibliographic($this->obj_id);
+        if (!$obj->isMigrated()) {
+            $props[] = [
+                "alert"    => true,
+                "property" => $lng->txt("migrated"),
+                "value"    => $lng->txt("not_yet_migrated"),
+                "propertyNameVisible" => false,
+            ];
+        }
+
         include_once("./Modules/Bibliographic/classes/class.ilObjBibliographicAccess.php");
         if (!ilObjBibliographicAccess::_lookupOnline($this->obj_id)) {
             $props[] = array(
                 "alert" => true,
                 "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"),
+                "newline" => true
             );
         }
 

@@ -6779,3 +6779,12 @@ if ( $ilDB->tableColumnExists('cmix_lrs_types', 'user_ident') ) {
     $ilDB->dropTableColumn("cmix_lrs_types", "user_name");
 }
 ?>
+<#5796>
+<?php
+if (!$ilDB->tableColumnExists('il_bibl_data', 'rid')) {
+    $ilDB->addTableColumn('il_bibl_data', 'rid', [
+        'type' => 'text',
+        'length' => 255
+    ]);
+}
+?>

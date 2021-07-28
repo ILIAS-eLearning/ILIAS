@@ -16558,3 +16558,8 @@ file#:#not_yet_migrated#:#This file object has not yet been migrated and no new 
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+irss#:#storage_info#:#Storage Information
+irss#:#resource_id#:#Resource ID
+irss#:#storage_id#:#Storage ID
+irss#:#max_revision#:#Max. Revision
+irss#:#stakeholders#:#Stakeholders
