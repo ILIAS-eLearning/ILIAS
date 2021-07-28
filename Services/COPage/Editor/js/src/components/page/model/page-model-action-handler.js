@@ -155,6 +155,12 @@ export default class ModelActionHandler {
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
+      case "format.cancel":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_PAGE);
+        this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
       case "multi.delete":
         this.model.selectNone();
         this.model.setState(this.model.STATE_PAGE);

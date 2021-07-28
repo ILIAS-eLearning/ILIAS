@@ -134,6 +134,7 @@ export default class PageUIActionHandler {
         break;
 
       case "multi.toggle":
+      case "format.cancel":
         this.ui.highlightSelected(model.getSelected());
         break;
 

@@ -186,6 +186,13 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  formatCancel() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_CANCEL, {});
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   multiDelete(pcids) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MULTI_DELETE, {
       pcids: pcids

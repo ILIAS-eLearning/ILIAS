@@ -525,6 +525,14 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 "format.save"
             )
         );
+        $tpl->setVariable(
+            "CANCEL_BUTTON",
+            $this->ui_wrapper->getRenderedButton(
+                $lng->txt("cancel"),
+                "format",
+                "format.cancel"
+            )
+        );
         return $tpl->get();
     }
 
