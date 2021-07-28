@@ -96,7 +96,7 @@ class ResourceBuilder
         $this->information_repository = $information_repository;
         $this->stakeholder_repository = $stakeholder_repository;
         $this->lock_handler = $lock_handler;
-        $this->file_name_policy = $file_name_policy?? new NoneFileNamePolicy();
+        $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
     //
@@ -355,16 +355,24 @@ class ResourceBuilder
      * @param StorableResource    $resource
      * @param ResourceStakeholder $stakeholder
      */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null) : void
     {
-        $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
-        if (count($resource->getStakeholders()) > 1) {
-            return;
+        if ($stakeholder instanceof ResourceStakeholder) {
+            $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
+            $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
+            $resource->removeStakeholder($stakeholder);
+            if (count($resource->getStakeholders()) > 0) {
+                return;
+            }
+        }
+        foreach ($resource->getStakeholders() as $s) {
+            $s->resourceHasBeenDeleted($resource->getIdentification());
         }
 
         foreach ($resource->getAllRevisions() as $revision) {
             $this->deleteRevision($resource, $revision);
         }
+
         $this->storage_handler_factory->getHandlerForResource($resource)->deleteResource($resource);
         $this->resource_repository->delete($resource);
     }
@@ -380,7 +388,11 @@ class ResourceBuilder
 
     private function deleteRevision(StorableResource $resource, Revision $revision) : void
     {
-        $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
+        try {
+            $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
+        } catch (\Throwable $t) {
+        }
+
         $this->information_repository->delete($revision->getInformation(), $revision);
         $this->revision_repository->delete($revision);
         $resource->removeRevision($revision);

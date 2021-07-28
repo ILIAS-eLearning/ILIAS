@@ -139,7 +139,12 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
      */
     public function deleteRevision(Revision $revision) : void
     {
-        $this->fs->deleteDir($this->getRevisionPath($revision));
+        try {
+            $this->fs->deleteDir($this->getRevisionPath($revision));
+        } catch (\Throwable $t) {
+
+        }
+
     }
 
     /**
@@ -147,8 +152,15 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
      */
     public function deleteResource(StorableResource $resource) : void
     {
-        $this->fs->deleteDir($this->getFullContainerPath($resource->getIdentification()));
-        $this->cleanUpContainer($resource);
+        try {
+            $this->fs->deleteDir($this->getFullContainerPath($resource->getIdentification()));
+        } catch (\Throwable $t) {
+        }
+        try {
+            $this->cleanUpContainer($resource);
+        } catch (\Throwable $t) {
+        }
+
     }
 
     public function cleanUpContainer(StorableResource $resource) : void

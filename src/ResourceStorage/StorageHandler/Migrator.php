@@ -3,6 +3,7 @@
 namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 
 /**
  * Class Migrator
@@ -25,6 +26,10 @@ class Migrator
     protected $filesystem_base_path;
 
     protected $clean_up = true;
+    /**
+     * @var ResourceBuilder
+     */
+    protected $resource_builder;
 
     /**
      * Migrator constructor.
@@ -33,10 +38,12 @@ class Migrator
      */
     public function __construct(
         StorageHandlerFactory $handler_factory,
+        ResourceBuilder $resource_builder,
         \ilDBInterface $database,
         string $filesystem_base_path
     ) {
         $this->handler_factory = $handler_factory;
+        $this->resource_builder = $resource_builder;
         $this->database = $database;
         $this->filesystem_base_path = $filesystem_base_path;
     }
@@ -50,6 +57,8 @@ class Migrator
         $destination_path = $this->filesystem_base_path . '/' . $new_handler->getFullContainerPath($resource->getIdentification());
 
         if (!file_exists($existing_path)) {
+            // File is not existing, we MUST delete the resource
+            $this->resource_builder->remove($resource);
             return false;
         }
 
