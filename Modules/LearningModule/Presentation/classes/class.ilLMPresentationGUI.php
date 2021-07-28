@@ -188,6 +188,7 @@ class ilLMPresentationGUI
     protected int $requested_mob_id = 0;
     protected int $requested_notification_switch = 0;
     protected bool $abstract = false;
+    protected ilObjectTranslation $ot;
 
     public function __construct(
         $a_export_format = "",
@@ -322,6 +323,7 @@ class ilLMPresentationGUI
 
         $this->lm_tree = $this->service->getLMTree();
         $this->focus_id = $this->service->getPresentationStatus()->getFocusId();
+        $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
     /**
@@ -2981,6 +2983,9 @@ class ilLMPresentationGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang);
+        }
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
+            return new ilLMPageGUI($a_id, 0, false, $this->ot->getFallbackLanguage());
         }
         return new ilLMPageGUI($a_id);
     }
