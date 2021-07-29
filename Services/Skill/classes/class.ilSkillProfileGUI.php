@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Skill\Access\SkillAccess;
+use ILIAS\Skill\Access\SkillTreeAccess;
 
 
 /**
@@ -45,10 +45,6 @@ class ilSkillProfileGUI
 
     protected $profile = null;
     /**
-     * @var ilAccessHandler
-     */
-    public $access;
-    /**
      * @var int
      */
     public $ref_id;
@@ -58,9 +54,14 @@ class ilSkillProfileGUI
     public $local_context = false;
 
     /**
-     * @var SkillAccess
+     * @var \ILIAS\Skill\Service\SkillTreeService
      */
-    protected $skill_access_manager;
+    protected $tree_service;
+
+    /**
+     * @var SkillTreeAccess
+     */
+    protected $skill_tree_access_manager;
 
     /**
      * @var int
@@ -70,7 +71,7 @@ class ilSkillProfileGUI
     /**
      * Constructor
      */
-    public function __construct(SkillAccess $skill_access_manager, int $skill_tree_id = 0)
+    public function __construct(SkillTreeAccess $skill_tree_access_manager, int $skill_tree_id = 0)
     {
         global $DIC;
 
@@ -81,12 +82,11 @@ class ilSkillProfileGUI
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
         $ilCtrl = $DIC->ctrl();
-        $ilAccess = $DIC->access();
-        $this->skill_access_manager = $skill_access_manager;
+        $this->tree_service = $DIC->skills()->tree();
+        $this->skill_tree_access_manager = $skill_tree_access_manager;
         $this->skill_tree_id = $skill_tree_id;
         
         $ilCtrl->saveParameter($this, ["sprof_id", "local_context"]);
-        $this->access = $ilAccess;
         $this->ref_id = (int) $_GET["ref_id"];
 
         if ((int) $_GET["sprof_id"] > 0) {
@@ -99,17 +99,6 @@ class ilSkillProfileGUI
                 $this->local_context = true;
             }
         }
-    }
-
-    /**
-     * Check permission pool
-     *
-     * @param string $a_perm
-     * @return bool
-     */
-    public function checkPermissionBool($a_perm)
-    {
-        return $this->access->checkAccess($a_perm, "", $this->ref_id);
     }
 
     /**
@@ -166,7 +155,7 @@ class ilSkillProfileGUI
         
         $tpl->setTitle($lng->txt("skmg_profile") . ": " .
             $this->profile->getTitle());
-        $tpl->setDescription("");
+        $tpl->setDescription($this->profile->getDescription());
         
         $ilTabs->clearTargets();
         $ilHelp->setScreenIdComponent("skmg_prof");
@@ -198,7 +187,7 @@ class ilSkillProfileGUI
         );
         
         // settings
-        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             $ilTabs->addTab(
                 "settings",
                 $lng->txt("settings"),
@@ -220,7 +209,7 @@ class ilSkillProfileGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             $ilToolbar->addButton(
                 $lng->txt("skmg_add_profile"),
                 $ilCtrl->getLinkTarget($this, "create")
@@ -309,9 +298,22 @@ class ilSkillProfileGUI
         $desc->setCols(40);
         $desc->setRows(4);
         $form->addItem($desc);
+
+        // skill trees (if local profile)
+        if ($a_mode == "createLocal") {
+            $options = [];
+            $trees = $this->tree_service->getObjSkillTrees();
+            foreach ($trees as $tree) {
+                $options[$tree->getId()] = $tree->getTitle();
+            }
+            $se = new ilSelectInputGUI($lng->txt("skmg_skill_tree"), "skill_tree");
+            $se->setRequired(true);
+            $se->setOptions($options);
+            $form->addItem($se);
+        }
     
         // save and cancel commands
-        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             if ($a_mode == "create") {
                 $form->addCommandButton("save", $lng->txt("save"));
                 $form->addCommandButton("listProfiles", $lng->txt("cancel"));
@@ -345,7 +347,7 @@ class ilSkillProfileGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -370,7 +372,7 @@ class ilSkillProfileGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -380,7 +382,7 @@ class ilSkillProfileGUI
             $prof->setTitle($form->getInput("title"));
             $prof->setDescription($form->getInput("description"));
             $prof->setRefId($this->ref_id);
-            //$prof->setSkeeId();
+            $prof->setSkeeId($form->getInput("skill_tree"));
             $prof->create();
             $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($this->ref_id));
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -400,7 +402,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -411,7 +413,7 @@ class ilSkillProfileGUI
             $this->profile->update();
             
             ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
-            $ilCtrl->redirect($this, "listProfiles");
+            $ilCtrl->redirect($this, "edit");
         } else {
             $form->setValuesByPost();
             $tpl->setContent($form->getHtml());
@@ -454,7 +456,7 @@ class ilSkillProfileGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -488,7 +490,7 @@ class ilSkillProfileGUI
         
         $this->setTabs("levels");
 
-        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             $ilToolbar->addButton(
                 $lng->txt("skmg_assign_level"),
                 $ilCtrl->getLinkTarget($this, "assignLevel")
@@ -517,7 +519,7 @@ class ilSkillProfileGUI
             $ctrl->getLinkTargetByClass("ilcontskilladmingui", "listProfiles")
         );
 
-        if ($this->skill_access_manager->hasManageProfilesPermission()) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             $toolbar->addButton(
                 $lng->txt("skmg_assign_level"),
                 $ctrl->getLinkTarget($this, "assignLevel")
@@ -618,7 +620,7 @@ class ilSkillProfileGUI
         $lng = $this->lng;
         $local = $this->local_context;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -699,7 +701,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $local = $this->local_context;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -727,7 +729,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $local = $this->local_context;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -751,7 +753,7 @@ class ilSkillProfileGUI
         $ilToolbar = $this->toolbar;
         
         // add member
-        if ($this->skill_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             ilRepositorySearchGUI::fillAutoCompleteToolbar(
                 $this,
                 $ilToolbar,
@@ -790,7 +792,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -823,7 +825,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -850,7 +852,7 @@ class ilSkillProfileGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -905,7 +907,7 @@ class ilSkillProfileGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!$this->skill_access_manager->hasManageProfilesPermission()) {
+        if (!$this->skill_tree_access_manager->hasManageProfilesPermission()) {
             return;
         }
 
@@ -968,13 +970,13 @@ class ilSkillProfileGUI
         $conf = $exp->getConfig("Services/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
         $conf->setSelectedProfiles($_POST["id"]);
-        $exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
+        $exp->exportObject("skee", ilObject::_lookupObjId((int) $_GET["ref_id"]));
 
         //ilExport::_createExportDirectory(0, "xml", "");
         //$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
         //$exp->exportEntity("skprof", $_POST["id"], "", "Services/Skill", $a_title, $a_export_dir, "skprof");
 
-        $ilCtrl->redirectByClass(array("iladministrationgui", "ilobjskillmanagementgui", "ilexportgui"), "");
+        $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
     }
 
     /**
@@ -1025,7 +1027,7 @@ class ilSkillProfileGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
-            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skee", "Services/Skill");
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");

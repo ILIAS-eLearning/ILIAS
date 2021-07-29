@@ -25,6 +25,11 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
     protected $tree;
 
     /**
+     * @var bool
+     */
+    protected $write_permission = false;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -46,14 +51,17 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         $this->level_id = $a_level_id;
+        $this->write_permission = $a_write_permission;
         
         $this->resources = new ilSkillResources($a_skill_id, $a_tref_id);
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->resources->getResourcesOfLevel($a_level_id));
         $this->setTitle($lng->txt("resources"));
-        
-        $this->addColumn("", "", "1px", true);
+
+        if ($this->write_permission) {
+            $this->addColumn("", "", "1px", true);
+        }
         $this->addColumn($this->lng->txt("type"), "", "1px");
         $this->addColumn($this->lng->txt("title"), "");
         $this->addColumn($this->lng->txt("path"));
@@ -63,7 +71,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.level_resources_row.html", "Services/Skill");
 
-        if ($a_write_permission) {
+        if ($this->write_permission) {
             $this->addMultiCommand("confirmLevelResourcesRemoval", $lng->txt("remove"));
             $this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
         }
@@ -96,7 +104,11 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TITLE", ilObject::_lookupTitle($obj_id));
         $this->tpl->setVariable("IMG", ilUtil::img(ilObject::_getIcon($obj_id, "tiny")));
-        $this->tpl->setVariable("ID", $ref_id);
+        if ($this->write_permission) {
+            $this->tpl->setCurrentBlock("checkbox");
+            $this->tpl->setVariable("ID", $ref_id);
+            $this->tpl->parseCurrentBlock();
+        }
         
         $path = $tree->getPathFull($ref_id);
         $path_items = array();

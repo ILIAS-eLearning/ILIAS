@@ -26,9 +26,20 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     protected $in_use = false;
 
     /**
+     * @var bool
+     */
+    protected $manage_perm = false;
+
+    /**
      * Constructor
      */
-    public function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0, $a_in_use = false)
+    public function __construct(
+        $a_skill_id,
+        $a_parent_obj,
+        $a_parent_cmd,
+        $a_tref_id = 0,
+        $a_in_use = false,
+        $a_manage_perm = false)
     {
         global $DIC;
 
@@ -37,13 +48,13 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
 
         $this->skill_id = $a_skill_id;
         $this->skill = new ilBasicSkill($a_skill_id);
         $this->tref_id = $a_tref_id;
         $this->in_use = $a_in_use;
+        $this->manage_perm = $a_manage_perm;
+
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
@@ -54,7 +65,9 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
 
         if ($this->tref_id == 0 && !$this->in_use) {
-            $this->addColumn("", "", "1", true);
+            if ($this->manage_perm) {
+                $this->addColumn("", "", "1", true);
+            }
             $this->addColumn($this->lng->txt("skmg_nr"));
         }
         $this->addColumn($this->lng->txt("title"));
@@ -71,7 +84,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.skill_level_row.html", "Services/Skill");
         $this->setEnableTitle(true);
 
-        if ($this->tref_id == 0 && !$this->in_use && $a_parent_obj->checkPermissionBool("write")) {
+        if ($this->tref_id == 0 && !$this->in_use && $this->manage_perm) {
             $this->addMultiCommand("confirmLevelDeletion", $lng->txt("delete"));
             if (count($this->getData()) > 0) {
                 $this->addCommandButton("updateLevelOrder", $lng->txt("skmg_update_order"));
@@ -125,9 +138,11 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         if ($this->tref_id == 0 && !$this->in_use) {
-            $this->tpl->setCurrentBlock("cb");
-            $this->tpl->setVariable("CB_ID", $a_set["id"]);
-            $this->tpl->parseCurrentBlock();
+            if ($this->manage_perm) {
+                $this->tpl->setCurrentBlock("cb");
+                $this->tpl->setVariable("CB_ID", $a_set["id"]);
+                $this->tpl->parseCurrentBlock();
+            }
 
             $this->tpl->setCurrentBlock("nr");
             $this->tpl->setVariable("ORD_ID", $a_set["id"]);
@@ -136,7 +151,11 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
         
         $this->tpl->setCurrentBlock("cmd");
-        $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+        if ($this->manage_perm) {
+            $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+        } else {
+            $this->tpl->setVariable("TXT_CMD", $lng->txt("show"));
+        }
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         if ($this->tref_id == 0) {
             $this->tpl->setVariable(

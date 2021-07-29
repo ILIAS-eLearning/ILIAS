@@ -19,6 +19,26 @@ class ilSkillCatTableGUI extends ilTable2GUI
      */
     protected $access;
 
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $requested_ref_id;
+
+    /**
+     * @var \ILIAS\Skill\Access\SkillTreeAccess
+     */
+    protected $tree_access_manager;
+
+    /**
+     * @var bool
+     */
+    protected $manage_perm;
+
     const MODE_SCAT = 0;
     const MODE_SCTP = 1;
     protected $tref_id = 0;
@@ -38,19 +58,24 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+        $this->request = $DIC->http()->request();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
         $this->tref_id = $a_tref_id;
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
+        $params = $this->request->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
         
         $this->mode = $a_mode;
         $this->skill_tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId((int) $a_obj_id);
+        $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
         $this->obj_id = $a_obj_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         if ($this->mode == self::MODE_SCAT) {
+            $this->manage_perm = $this->tree_access_manager->hasManageCompetencesPermission();
             $childs = $this->skill_tree->getChildsByTypeFilter(
                 $a_obj_id,
                 array("skrt", "skll", "scat", "sktr")
@@ -58,6 +83,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
             $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
             $this->setData($childs);
         } elseif ($this->mode == self::MODE_SCTP) {
+            $this->manage_perm = $this->tree_access_manager->hasManageCompetenceTemplatesPermission();
             $childs = $this->skill_tree->getChildsByTypeFilter(
                 $a_obj_id,
                 array("skrt", "sktp", "sctp")
@@ -71,7 +97,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         }
         $this->setTitle($lng->txt("skmg_items"));
         
-        if ($this->tref_id == 0) {
+        if ($this->tref_id == 0 && $this->manage_perm) {
             $this->addColumn($this->lng->txt(""), "", "1px", true);
         }
         $this->addColumn($this->lng->txt("type"), "", "1px");
@@ -83,7 +109,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_cat_row.html", "Services/Skill");
 
-        if ($this->tref_id == 0 && $this->parent_obj->checkPermissionBool("write")) {
+        if ($this->tref_id == 0 && $this->manage_perm) {
             $this->addMultiCommand("cutItems", $lng->txt("cut"));
             $this->addMultiCommand("copyItems", $lng->txt("copy"));
             $this->addMultiCommand("deleteNodes", $lng->txt("delete"));
@@ -145,9 +171,11 @@ class ilSkillCatTableGUI extends ilTable2GUI
         }
 
         if ($this->tref_id == 0) {
-            $this->tpl->setCurrentBlock("cb");
-            $this->tpl->setVariable("CB_ID", $a_set["child"]);
-            $this->tpl->parseCurrentBlock();
+            if ($this->manage_perm) {
+                $this->tpl->setCurrentBlock("cb");
+                $this->tpl->setVariable("CB_ID", $a_set["child"]);
+                $this->tpl->parseCurrentBlock();
+            }
 
             $this->tpl->setCurrentBlock("nr");
             $this->tpl->setVariable("OBJ_ID", $a_set["child"]);

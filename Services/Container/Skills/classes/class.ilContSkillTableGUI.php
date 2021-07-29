@@ -64,8 +64,6 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
 
-        $this->skill_tree = new ilSkillTree();
-
         $this->container_skills = $a_cont_skills;
         $this->container_global_profiles = $a_cont_glb_profiles;
         $this->container_local_profiles = $a_cont_lcl_profiles;
@@ -113,7 +111,6 @@ class ilContSkillTableGUI extends ilTable2GUI
     protected function fillRow($a_set)
     {
         $tpl = $this->tpl;
-        $skill_tree = $this->skill_tree;
 
         $tpl->setVariable("TITLE", $a_set["title"]);
 

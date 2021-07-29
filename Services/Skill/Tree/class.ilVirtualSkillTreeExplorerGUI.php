@@ -19,13 +19,18 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
      */
     protected $ctrl;
 
+    /**
+     * @var \ILIAS\Skill\Tree\SkillTreeManager
+     */
+    protected $skill_tree_manager;
+
     protected $show_draft_nodes = false;
     protected $show_outdated_nodes = false;
     
     /**
      * Constructor
      */
-    public function __construct($a_id, $a_parent_obj, $a_parent_cmd, int $tree_id)
+    public function __construct($a_id, $a_parent_obj, $a_parent_cmd, int $tree_id = 0)
     {
         global $DIC;
 
@@ -33,7 +38,14 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 
-        $this->vtree = new ilVirtualSkillTree($tree_id);
+        $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
+
+        if ($tree_id == 0) {
+            $this->vtree = new ilGlobalVirtualSkillTree();
+        }
+        else {
+            $this->vtree = new ilVirtualSkillTree($tree_id);
+        }
         
         $this->setSkipRootNode(false);
         $this->setAjax(false);
@@ -146,17 +158,18 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
         
         // title
-        $title = $a_node["title"];
+        if ((int) $a_node["parent"] == 0) {
+            $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
+            $title = $tree_obj->getTitle();
+        } else {
+            $title = $a_node["title"];
+        }
         
         // root?
         if ($a_node["type"] == "skrt") {
             $lng->txt("skmg_skills");
-        } else {
-            if ($a_node["type"] == "sktr") {
-                //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
-            }
         }
-        
+
         return $title;
     }
     

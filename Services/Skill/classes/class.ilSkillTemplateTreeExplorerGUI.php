@@ -31,7 +31,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $tree = $DIC->skills()->internal()->factory()->tree()->getById($tree_id);
+        $tree = $DIC->skills()->internal()->factory()->tree()->getTreeById($tree_id);
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
@@ -159,7 +159,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             // root
             case "skrt":
                 $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $a_node["child"]);
-                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilskillrootgui"], "listTemplates");
+                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                    "SkillTreeAdminGUI", "ilObjSkillTreeGUI", "ilskillrootgui"], "listTemplates");
                 $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $_GET["obj_id"]);
                 return $ret;
                 break;
@@ -167,7 +168,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             // template
             case "sktp":
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $a_node["child"]);
-                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilbasicskilltemplategui"], "edit");
+                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                    "SkillTreeAdminGUI", "ilObjSkillTreeGUI", "ilbasicskilltemplategui"], "edit");
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $_GET["obj_id"]);
                 return $ret;
                 break;
@@ -175,7 +177,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
             // template category
             case "sctp":
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $a_node["child"]);
-                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilskilltemplatecategorygui"], "listItems");
+                $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                    "SkillTreeAdminGUI", "ilObjSkillTreeGUI", "ilskilltemplatecategorygui"], "listItems");
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $_GET["obj_id"]);
                 return $ret;
                 break;

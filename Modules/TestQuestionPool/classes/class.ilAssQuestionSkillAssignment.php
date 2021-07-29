@@ -63,15 +63,23 @@ class ilAssQuestionSkillAssignment
     private $evalMode;
 
     /**
+     * @var \ILIAS\Skill\Service\SkillTreeService
+     */
+    protected $skill_tree_service;
+
+    /**
      * @var ilAssQuestionSolutionComparisonExpressionList
      */
     private $solutionComparisonExpressionList;
     
     public function __construct(ilDBInterface $db)
     {
+        global $DIC;
+
         $this->db = $db;
         
         $this->solutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionList($this->db);
+        $this->skill_tree_service = $DIC->skills()->tree();
     }
 
     public function loadFromDb()
@@ -280,9 +288,7 @@ class ilAssQuestionSkillAssignment
             ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
         );
 
-        $tree = new ilSkillTree();
-
-        $path = $tree->getSkillTreePath(
+        $path = $this->skill_tree_service->getSkillTreePath(
             $this->getSkillBaseId(),
             $this->getSkillTrefId()
         );

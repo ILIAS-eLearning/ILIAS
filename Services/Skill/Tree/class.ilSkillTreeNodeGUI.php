@@ -53,7 +53,17 @@ class ilSkillTreeNodeGUI
      */
     protected $skill_tree_node_manager;
 
+    /**
+     * @var \ILIAS\Skill\Access\SkillTreeAccess
+     */
+    protected $tree_access_manager;
+
     protected $requested_obj_id;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs;
 
     /**
     * constructor
@@ -71,11 +81,13 @@ class ilSkillTreeNodeGUI
         $this->user = $DIC->user();
         $ilAccess = $DIC->access();
         $this->tree = $DIC->repositoryTree();
+        $this->tabs = $DIC->tabs();
 
         $this->node_object = null;
         $this->access = $ilAccess;
         $this->ref_id = (int) $_GET["ref_id"];
         $this->skill_tree_node_manager = $node_manager;
+        $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->ref_id);
         $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
 
         if ($a_node_id > 0 &&
@@ -108,18 +120,6 @@ class ilSkillTreeNodeGUI
         }
         return $this->in_use;
     }
-
-    /**
-     * Check permission pool
-     *
-     * @param string $a_perm
-     * @return bool
-     */
-    public function checkPermissionBool($a_perm)
-    {
-        return $this->access->checkAccess($a_perm, "", $this->ref_id);
-    }
-
 
     /**
     * Set Parent GUI class
@@ -261,7 +261,7 @@ class ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -347,7 +347,7 @@ class ilSkillTreeNodeGUI
     public function setSkillNodeDescription()
     {
         $tpl = $this->tpl;
-        $tpl->setDescription($this->skill_tree_node_manager->getWrittenPath($this->node_object->getId(), $this->tref_id));
+        $tpl->setDescription($this->skill_tree_node_manager->getWrittenPath($this->node_object->getId(), (int) $this->tref_id));
     }
 
     /**
@@ -355,7 +355,15 @@ class ilSkillTreeNodeGUI
      */
     public function create()
     {
+        $lng = $this->lng;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+        $ilCtrl = $this->ctrl;
+
+        $tabs->setBackTarget(
+            $lng->txt("back"),
+            $ilCtrl->getLinkTarget($this, "redirectToParent")
+        );
         
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
@@ -422,7 +430,7 @@ class ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -461,7 +469,7 @@ class ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -511,15 +519,13 @@ class ilSkillTreeNodeGUI
         $this->form->addItem($ta);
         
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
-            if ($a_mode == "create") {
-                $this->form->addCommandButton("save", $lng->txt("save"));
-                $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
-                $this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
-            } else {
-                $this->form->addCommandButton("update", $lng->txt("save"));
-                $this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
-            }
+        if ($a_mode == "create") {
+            $this->form->addCommandButton("save", $lng->txt("save"));
+            $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+            $this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
+        } else {
+            $this->form->addCommandButton("update", $lng->txt("save"));
+            $this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
         }
         
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
@@ -582,7 +588,7 @@ class ilSkillTreeNodeGUI
     {
         $lng = $this->lng;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -755,8 +761,8 @@ class ilSkillTreeNodeGUI
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setSelectedNodes($_POST["id"]);
-        $exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
+        $exp->exportObject("skee", ilObject::_lookupObjId((int) $_GET["ref_id"]));
 
-        $ilCtrl->redirectByClass(array("iladministrationgui", "ilobjskillmanagementgui", "ilexportgui"), "");
+        $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
     }
 }

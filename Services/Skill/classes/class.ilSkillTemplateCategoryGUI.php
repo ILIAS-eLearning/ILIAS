@@ -155,8 +155,37 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function initForm($a_mode = "edit")
     {
-        $r = parent::initForm($a_mode);
-        return $r;
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        $this->form = new ilPropertyFormGUI();
+
+        // title
+        $ti = new ilTextInputGUI($lng->txt("title"), "title");
+        $ti->setMaxLength(200);
+        $ti->setSize(50);
+        $ti->setRequired(true);
+        $this->form->addItem($ti);
+
+        // description
+        $ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
+        $ta->setRows(5);
+        $this->form->addItem($ta);
+
+        // save and cancel commands
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
+            if ($a_mode == "create") {
+                $this->form->addCommandButton("save", $lng->txt("save"));
+                $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
+                $this->form->setTitle($lng->txt("skmg_create_" . $this->getType()));
+            } else {
+                $this->form->addCommandButton("update", $lng->txt("save"));
+                $this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
+            }
+        }
+
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
+        $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
     /**
@@ -174,7 +203,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         }
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             if ($this->tref_id == 0) {
                 self::addCreationButtons();
             }
@@ -268,7 +297,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function saveItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             return;
         }
 
@@ -284,7 +313,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function updateItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             return;
         }
 
@@ -329,5 +358,16 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         }
 
         $tpl->setContent($html);
+    }
+
+    /**
+     * Redirect to parent (identified by current obj_id)
+     */
+    public function redirectToParent($a_tmp_mode = false)
+    {
+        $ilCtrl = $this->ctrl;
+
+        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $this->requested_obj_id);
+        $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 }

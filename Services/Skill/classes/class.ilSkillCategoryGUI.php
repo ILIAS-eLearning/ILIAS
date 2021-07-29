@@ -200,7 +200,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->form->addItem($cb);
 
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
                 $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
@@ -220,7 +220,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function saveItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -251,7 +251,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function updateItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -299,7 +299,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         }
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             self::addCreationButtons();
         }
         $this->setTabs("content");
@@ -402,19 +402,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             $lng->txt("skmg_import_skills"),
             $ilCtrl->getLinkTargetByClass("ilskillrootgui", "showImportForm")
         );
-    }
-
-    /**
-     * Cancel
-     *
-     * @param
-     * @return
-     */
-    public function cancel()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
     }
     
     /**

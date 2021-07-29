@@ -69,7 +69,7 @@ class ilContSkillCollector
         $this->tab_skills = array_merge($s_skills, $p_skills);
 
         // order skills per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
+        $vtree = new ilGlobalVirtualSkillTree();
         $this->tab_skills = $vtree->getOrderedNodeset($this->tab_skills, "base_skill_id", "tref_id");
 
         return $this->tab_skills;

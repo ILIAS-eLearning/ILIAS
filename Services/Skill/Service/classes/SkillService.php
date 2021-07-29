@@ -35,7 +35,6 @@ class SkillService implements SkillServiceInterface
      */
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->repository_tree = $DIC->repositoryTree();
@@ -60,6 +59,11 @@ class SkillService implements SkillServiceInterface
     public function ui() : SkillUIService
     {
         return new SkillUIService();
+    }
+
+    public function tree() : SkillTreeService
+    {
+        return new SkillTreeService($this->internal());
     }
 
     /**

@@ -20,6 +20,11 @@ class ilSurveySkillExplorer extends ilExplorer
     protected $ctrl;
 
     /**
+     * @var \ILIAS\Skill\Service\SkillTreeService
+     */
+    protected $skill_tree_service;
+
+    /**
      * id of root folder
      * @var int root folder id
      * @access private
@@ -51,8 +56,9 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->addFilter("scat");
         //		$this->addFilter("sktr");
         $this->setTitleLength(999);
-        
-        $this->tree = new ilSkillTree();
+
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->tree = $this->skill_tree_service->getGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
         
         $this->setSessionExpandVariable("skpexpand");
@@ -63,13 +69,19 @@ class ilSurveySkillExplorer extends ilExplorer
         //		$this->textwidth = 200;
 
         $this->force_open_path = array();
-        
-        $this->all_nodes = $this->tree->getSubTree($this->tree->getNodeData($this->root_id));
-        foreach ($this->all_nodes as $n) {
-            $this->node[$n["child"]] = $n;
-            $this->child_nodes[$n["parent"]][] = $n;
-            $this->parent[$n["child"]] = $n["parent"];
-            //echo "-$k-"; var_dump($n);
+
+        $this->all_nodes = [];
+
+        foreach ($this->tree->getChilds(0) as $c) {
+            $tree = $this->skill_tree_service->getSkillTreeForNodeId($c["child"]);
+            $all_nodes = $tree->getSubTree($tree->getNodeData($c["child"]));
+            foreach ($all_nodes as $n) {
+                $this->node[$n["child"]] = $n;
+                $this->child_nodes[$n["parent"]][] = $n;
+                $this->parent[$n["child"]] = $n["parent"];
+                $this->all_nodes[] = $n;
+                //echo "-$k-"; var_dump($n);
+            }
         }
         
         //		$this->buildSelectableTree($this->root_id);

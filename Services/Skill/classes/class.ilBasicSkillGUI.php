@@ -135,7 +135,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     public function saveItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -171,7 +171,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     public function updateItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -197,7 +198,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         if ($this->isInUse()) {
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         } else {
-            if ($this->checkPermissionBool("write")) {
+            if ($this->tree_access_manager->hasManageCompetencesPermission()) {
                 $ilToolbar->addButton(
                     $lng->txt("skmg_add_level"),
                     $ilCtrl->getLinkTarget($this, "addLevel")
@@ -205,7 +206,14 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             }
         }
 
-        $table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit", 0, $this->isInUse());
+        $table = new ilSkillLevelTableGUI(
+            $this->base_skill_id,
+            $this,
+            "edit",
+            0,
+            $this->isInUse(),
+            $this->tree_access_manager->hasManageCompetencesPermission()
+        );
         $tpl->setContent($table->getHTML());
     }
 
@@ -242,7 +250,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->form->addItem($cb);
 
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
                 $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
@@ -310,7 +318,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -339,7 +348,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -392,7 +402,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->form->addItem($ta);
 
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("saveLevel", $lng->txt("save"));
                 $this->form->addCommandButton("edit", $lng->txt("cancel"));
@@ -428,7 +439,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -447,7 +459,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -479,7 +492,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -667,7 +681,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tree = $this->tree;
         $tpl = $this->tpl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -695,7 +710,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || !$this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             return;
         }
 
@@ -749,7 +765,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission() && $this->getType() == "skll"
+            || $this->tree_access_manager->hasManageCompetenceTemplatesPermission() && $this->getType() == "sktp") {
             $ilToolbar->addButton(
                 $lng->txt("skmg_add_resource"),
                 $ilCtrl->getLinkTarget($this, "addLevelResource")
@@ -765,7 +782,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $this->base_skill_id,
             $this->tref_id,
             (int) $_GET["level_id"],
-            $this->checkPermissionBool("write")
+            $this->tree_access_manager->hasManageCompetencesPermission()
         );
         
         $tpl->setContent($tab->getHTML());
@@ -804,7 +821,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $ref_id = (int) $_GET["root_id"];
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -829,7 +846,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $lng = $this->lng;
         $ilTabs = $this->tabs;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -863,7 +880,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 

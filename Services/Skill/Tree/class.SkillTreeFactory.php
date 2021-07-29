@@ -19,13 +19,41 @@ class SkillTreeFactory
     }
 
     /**
-     * Get tree by skill id
+     * Get global tree
+     * @return \ilGlobalSkillTree
+     */
+    public function getGlobalTree() : \ilGlobalSkillTree
+    {
+        return new \ilGlobalSkillTree();
+    }
+
+    /**
+     * Get tree by tree id
      * @param int $id
      * @return \ilSkillTree
      */
-    public function getById(int $id) : \ilSkillTree
+    public function getTreeById(int $id) : \ilSkillTree
     {
         return new \ilSkillTree($id);
+    }
+
+    /**
+     * Get global tree
+     * @return \ilGlobalVirtualSkillTree
+     */
+    public function getGlobalVirtualTree() : \ilGlobalVirtualSkillTree
+    {
+        return new \ilGlobalVirtualSkillTree();
+    }
+
+    /**
+     * Get virtual tree by tree id
+     * @param int $id
+     * @return \ilVirtualSkillTree
+     */
+    public function getVirtualTreeById(int $id) : \ilVirtualSkillTree
+    {
+        return new \ilVirtualSkillTree($id);
     }
 
 }

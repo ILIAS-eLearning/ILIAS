@@ -139,7 +139,7 @@ class ilContainerMemberSkills
             return array("level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]);
         }, $this->getSkillLevels(), array_keys($this->getSkillLevels()));
 
-        $vtree = new ilVirtualSkillTree();
+        $vtree = new ilGlobalVirtualSkillTree();
         return $vtree->getOrderedNodeset($skill_levels, "skill_id", "tref_id");
     }
 

@@ -118,13 +118,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             }
 
             // back link
-            /*
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $this->node_object->skill_tree->getRootId());
-                        $ilTabs->setBackTarget($lng->txt("obj_skmg"),
-                            $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $_GET["obj_id"]);*/
+            $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+                $this->skill_tree_node_manager->getRootId());
+            $ilTabs->setBackTarget($lng->txt("obj_skmg"),
+                $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
+            $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
+                $_GET["obj_id"]);
             
             $tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
             $add = " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
@@ -228,10 +227,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $cb->setInfo($lng->txt("skmg_selectable_info"));
         $this->form->addItem($cb);
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
-                $this->form->addCommandButton("cancel", $lng->txt("cancel"));
+                $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
                 $this->form->setTitle($lng->txt("skmg_new_sktr"));
             } else {
                 $this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
@@ -261,7 +260,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
      */
     public function saveItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -282,6 +281,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
     public function afterSave()
     {
         $ilCtrl = $this->ctrl;
+
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
+            return;
+        }
 
         $ilCtrl->setParameterByClass(
             "ilskilltemplatereferencegui",
@@ -305,7 +308,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
 
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetencesPermission()) {
             return;
         }
 
@@ -325,19 +328,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
-    }
-
-    /**
-     * Cancel
-     *
-     * @param
-     * @return
-     */
-    public function cancel()
-    {
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
     }
     
     /**
@@ -367,7 +357,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             );
             $tpl->setContent($table->getHTML());
         } elseif ($obj_type == "sktp") {
-            $table = new ilSkillLevelTableGUI((int) $sk_id, $this, "edit", $this->node_object->getId());
+            $table = new ilSkillLevelTableGUI(
+                (int) $sk_id,
+                $this,
+                "edit",
+                $this->node_object->getId(),
+                false,
+                $this->tree_access_manager->hasManageCompetencesPermission()
+            );
             $tpl->setContent($table->getHTML());
         }
     }
@@ -387,5 +384,16 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tab = new ilSkillAssignedObjectsTableGUI($this, "showObjects", $objects);
 
         $tpl->setContent($tab->getHTML());
+    }
+
+    /**
+     * Redirect to parent (identified by current obj_id)
+     */
+    public function redirectToParent($a_tmp_mode = false)
+    {
+        $ilCtrl = $this->ctrl;
+
+        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $this->requested_obj_id);
+        $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
     }
 }

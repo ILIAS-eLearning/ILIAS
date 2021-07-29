@@ -462,7 +462,7 @@ class ilSkillProfile implements ilSkillUsageInfo
      *
      * @return array
      */
-    public static function getGlobalProfiles() //nur für Skill Tree?
+    public static function getAllGlobalProfiles()
     {
         global $DIC;
 
@@ -487,7 +487,7 @@ class ilSkillProfile implements ilSkillUsageInfo
      * @param int $a_ref_id
      * @return array
      */
-    public static function getLocalProfiles(int $a_ref_id) //nur für Skill Tree?
+    public static function getLocalProfilesForObject(int $a_ref_id)
     {
         global $DIC;
 

@@ -4,7 +4,8 @@
 
 namespace ILIAS\Skill\Service;
 
-use ILIAS\Skill\Access\SkillAccess;
+use ILIAS\Skill\Access\SkillManagementAccess;
+use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Tree;
 
 /**
@@ -95,9 +96,22 @@ class SkillInternalManagerService
         );
     }
 
-    public function getAccessManager(int $obj_skill_tree_ref_id) : SkillAccess
+    /**
+     * @param int $obj_skill_tree_ref_id
+     * @return SkillTreeAccess
+     */
+    public function getTreeAccessManager(int $obj_skill_tree_ref_id) : SkillTreeAccess
     {
-        return new SkillAccess($this->rbac_system, $obj_skill_tree_ref_id, $this->usr_id);
+        return new SkillTreeAccess($this->rbac_system, $obj_skill_tree_ref_id, $this->usr_id);
+    }
+
+    /**
+     * @param int $skmg_ref_id
+     * @return SkillManagementAccess
+     */
+    public function getManagementAccessManager(int $skmg_ref_id) : SkillManagementAccess
+    {
+        return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
     }
 
 }

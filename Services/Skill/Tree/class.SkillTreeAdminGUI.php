@@ -68,11 +68,15 @@ class SkillTreeAdminGUI
     protected $skill_tree_manager;
 
     /**
+     * @var \ILIAS\Skill\Access\SkillTreeAccess
+     */
+    protected $skill_management_access_manager;
+
+    /**
      * Constructor
      */
     public function __construct(SkillInternalManagerService $skill_manager)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->toolbar = $DIC->toolbar();
@@ -87,6 +91,7 @@ class SkillTreeAdminGUI
 
         $this->skill_manager  = $skill_manager;
         $this->skill_tree_manager = $skill_manager->getTreeManager();
+        $this->skill_management_access_manager = $skill_manager->getManagementAccessManager($this->requested_ref_id);
     }
 
     /**
@@ -131,11 +136,11 @@ class SkillTreeAdminGUI
             $ctrl->getLinkTargetByClass("ilobjskilltreegui", "create")
         );
 
-        $toolbar->addComponent($add_tree_button);
+        if ($this->skill_management_access_manager->hasCreateTreePermission()) {
+            $toolbar->addComponent($add_tree_button);
+        }
 
-        $tab = new Tree\SkillTreeTableGUI($this, "listTrees", $this->skill_tree_manager);
+        $tab = new Tree\SkillTreeTableGUI($this, "listTrees", $this->skill_manager);
         $mtpl->setContent($tab->getHTML());
     }
-
-
 }

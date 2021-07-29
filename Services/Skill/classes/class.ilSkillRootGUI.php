@@ -104,7 +104,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->getParentGUI()->showTree(true, $this, "listTemplates");
         $ilTabs->activateTab("skill_templates");
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             ilSkillTemplateCategoryGUI::addCreationButtons();
         }
 
@@ -137,7 +137,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->getParentGUI()->showTree(false, $this, "listSkills");
         $ilTabs->activateTab("skills");
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetencesPermission()) {
             ilSkillCategoryGUI::addCreationButtons();
         }
 
@@ -172,6 +172,13 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $ilTabs->setBackTarget(
+            $lng->txt("obj_skmg"),
+            $ctrl->getLinkTarget($this, "listSkills")
+        );
 
         $ilTabs->activateTab("skills");
         $tpl->setContent($this->initInputForm()->getHTML());
@@ -215,7 +222,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
-            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skmg", "Services/Skill");
+            $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skee", "Services/Skill");
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listSkills");

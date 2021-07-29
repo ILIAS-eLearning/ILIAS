@@ -10,6 +10,11 @@
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
     /**
+     * @var \ILIAS\Skill\Service\SkillTreeService
+     */
+    protected $skill_tree_service;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_survey)
@@ -27,7 +32,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
 
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree_service = $DIC->skills()->tree();
 
         $this->skill_thres = new ilSurveySkillThresholds($a_survey);
         $this->thresholds = $this->skill_thres->getThresholds();
@@ -89,7 +94,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             "COMPETENCE",
             ilBasicSkill::_lookupTitle($a_set["base_skill"], $a_set["tref_id"])
         );
-        $path = $this->skill_tree->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
+        $path = $this->skill_tree_service->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
         $path_nodes = array();
         foreach ($path as $p) {
             if ($p["child"] > 1 && $p["skill_id"] != $a_set["base_skill"]) {

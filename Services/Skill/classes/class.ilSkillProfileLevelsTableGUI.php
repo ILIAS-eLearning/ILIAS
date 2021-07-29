@@ -67,7 +67,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $this->setData($this->profile->getSkillLevels());
         $this->setTitle($lng->txt("skmg_target_levels"));
 
-        $access_manager = $this->skill_manager->getAccessManager($this->requested_ref_id);
+        $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
         if ($access_manager->hasManageProfilesPermission()) {
             $this->addColumn("", "", "1", true);
             $this->addColumn($this->lng->txt("skmg_order"), "", "1px");
@@ -103,7 +103,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));
 
-        $access_manager = $this->skill_manager->getAccessManager($this->requested_ref_id);
+        $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
         if ($access_manager->hasManageProfilesPermission()) {
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable(

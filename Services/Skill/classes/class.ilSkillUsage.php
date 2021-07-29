@@ -188,6 +188,28 @@ class ilSkillUsage implements ilSkillUsageInfo
     }
 
     /**
+     * Get all usages info of tree
+     *
+     * @param array $a_tree_ids array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
+     * @return array usages
+     */
+    public function getAllUsagesInfoOfTrees($a_tree_ids)
+    {
+        // get nodes
+
+        $allnodes = array();
+        foreach ($a_tree_ids as $t) {
+            $vtree = new ilGlobalVirtualSkillTree();
+            $nodes = $vtree->getSubTreeForTreeId($t);
+            foreach ($nodes as $n) {
+                $allnodes[] = $n;
+            }
+        }
+
+        return $this->getAllUsagesInfo($allnodes);
+    }
+
+    /**
      * Get all usages info of subtree
      *
      * @param int $a_skill_id skill node id
@@ -320,6 +342,8 @@ class ilSkillUsage implements ilSkillUsageInfo
     {
         $usages = $this->getAllUsagesOfTemplate($a_template_id);
         $obj_usages = array_column($usages, "gen");
+        $objects = [];
+        $objects["objects"] = [];
         foreach ($obj_usages as $obj) {
             $objects["objects"] = array_column($obj, "key");
         }

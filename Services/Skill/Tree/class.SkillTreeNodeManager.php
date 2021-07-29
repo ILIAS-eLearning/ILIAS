@@ -36,7 +36,7 @@ class SkillTreeNodeManager
         $this->user = $DIC->user();
 
         $this->skill_tree_id = $skill_tree_id;
-        $this->tree = $tree_factory->getById($skill_tree_id);
+        $this->tree = $tree_factory->getTreeById($skill_tree_id);
     }
 
     /**
@@ -45,15 +45,15 @@ class SkillTreeNodeManager
      * @param int              $parent_node_id
      * @param int              $a_target_node_id
      */
-    public function putIntoTree(\ilSkillTreeNode $node, int $parent_node_id, int $a_target_node_id) : void
+    public function putIntoTree(\ilSkillTreeNode $node, int $parent_node_id, int $a_target_node_id = 0) : void
     {
         $tree = $this->tree;
         $node->setOrderNr($tree->getMaxOrderNr((int) $parent_node_id) + 10);
         $node->update();
         // determine parent
         $parent_id = ($parent_node_id <= 0)
-            ? $parent_node_id
-            : $tree->readRootId();
+            ? $tree->readRootId()
+            : $parent_node_id;
 
         // make a check, whether the type of object is allowed under
         // the parent
@@ -68,7 +68,7 @@ class SkillTreeNodeManager
         }
 
         // determine target
-        if ($a_target_node_id != "") {
+        if ($a_target_node_id != 0) {
             $target = $a_target_node_id;
         } else {
             // determine last child that serves as predecessor
@@ -120,9 +120,6 @@ class SkillTreeNodeManager
      */
     public function clipboardCut(array $a_ids) : void
     {
-        // @todo check if needed
-        \ilEditClipboard::setAction("cut");
-
         $this->clearClipboard();
         $tree = $this->tree;
 
@@ -156,6 +153,8 @@ class SkillTreeNodeManager
                 $tree->deleteTree($curnode);
             }
         }
+        // @todo check if needed
+        \ilEditClipboard::setAction("cut");
     }
 
 
@@ -164,9 +163,6 @@ class SkillTreeNodeManager
      */
     public function clipboardCopy(array $a_ids) : void
     {
-        // @todo: move this to a service since it can be used here, too
-        \ilEditClipboard::setAction("copy");
-
         $ilUser = $this->user;
 
         $this->clearClipboard();
@@ -205,6 +201,7 @@ class SkillTreeNodeManager
                 $order
             );
         }
+        \ilEditClipboard::setAction("copy");
     }
 
 
@@ -225,7 +222,7 @@ class SkillTreeNodeManager
             // if skill was already copied as part of tree - do not copy it again
             if (!in_array($skill["id"], array_keys($copied_nodes))) {
                 $cid = $this->pasteTree(
-                    $skill["id"],
+                    (int) $skill["id"],
                     $parent_id,
                     $target,
                     $skill["insert_time"],
@@ -322,7 +319,7 @@ class SkillTreeNodeManager
 
         foreach ($childs as $child) {
             $this->pasteTree(
-                $child["id"],
+                (int) $child["id"],
                 $target_item->getId(),
                 IL_LAST_NODE,
                 $a_insert_time,

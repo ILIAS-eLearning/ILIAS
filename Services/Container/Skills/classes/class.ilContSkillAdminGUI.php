@@ -62,9 +62,14 @@ class ilContSkillAdminGUI
     protected $skmg_settings;
 
     /**
-     * @var \ILIAS\Skill\Access\SkillAccess
+     * @var \ILIAS\Skill\Access\SkillTreeAccess
      */
     protected $skill_access_manager;
+
+    /**
+     * @var \ILIAS\Skill\Service\SkillTreeService
+     */
+    protected $skill_tree_service;
 
     /**
      * @var ilToolbarGUI
@@ -101,14 +106,14 @@ class ilContSkillAdminGUI
         $this->container = $a_container_gui->object;
         $this->ref_id = $this->container->getRefId();
 
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree_service = $DIC->skills()->tree();
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
         $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
         $this->skmg_settings = new ilSkillManagementSettings();
-        $this->skill_access_manager = $DIC->skills()->internal()->manager()->getAccessManager($this->ref_id);
+        $this->skill_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->ref_id);
 
         $this->user_id = (int) $_GET["usr_id"];
 
@@ -241,9 +246,7 @@ class ilContSkillAdminGUI
      */
     public function getPathString($a_skill_id, $a_tref_id = 0)
     {
-        $skill_tree = $this->skill_tree;
-
-        $path = $skill_tree->getSkillTreePath($a_skill_id, $a_tref_id);
+        $path = $this->skill_tree_service->getSkillTreePath($a_skill_id, $a_tref_id);
         $titles = array();
         foreach ($path as $v) {
             if ($v["type"] != "skrt" && !($v["skill_id"] == $a_skill_id && $v["tref_id"] == $a_tref_id)) {
@@ -421,7 +424,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("competences");
 
-        $sel = new ilSkillSelectorGUI($this, "selectSkill", $this, "saveSelectedSkill");
+        $sel = new ilSkillSelectorGUI(0, $this, "selectSkill", $this, "saveSelectedSkill");
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
         }
@@ -519,7 +522,7 @@ class ilContSkillAdminGUI
         $options[0] = $lng->txt("please_select");
 
         $selectable_profiles = array();
-        $all_profiles = ilSkillProfile::getGlobalProfiles();
+        $all_profiles = ilSkillProfile::getAllGlobalProfiles();
         $selected_profiles = $this->container_global_profiles->getProfiles();
         foreach ($all_profiles as $id => $profile) {
             if (!array_key_exists($id, $selected_profiles)) {
@@ -528,7 +531,9 @@ class ilContSkillAdminGUI
         }
 
         foreach ($selectable_profiles as $profile) {
-            $options[$profile["id"]] = $profile["title"];
+            $tree = $this->skill_tree_service->getObjSkillTreeById($profile["skee_id"]);
+            $tree_title = $tree->getTitle();
+            $options[$profile["id"]] = $tree_title . ": " . $profile["title"];
         }
 
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {

@@ -61,7 +61,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
             $matching_trefs = array();
             if ($a_tref_import_id > 0) {
 
-                $tree = $this->tree_factory->getById($rec["skl_tree_id"]);
+                $tree = $this->tree_factory->getTreeById($rec["skl_tree_id"]);
                 $skill_template_id = $tree->getTopParentNodeId($rec["obj_id"]);
 
                 // check of skill is in template
@@ -136,7 +136,13 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
     public function getTreeForNodeId(int $node_id) : ilSkillTree
     {
         $tree_id = $this->getTreeIdForNodeId($node_id);
-        return $this->tree_factory->getById($tree_id);
+        return $this->tree_factory->getTreeById($tree_id);
+    }
+
+    public function getVirtualTreeForNodeId(int $node_id): ilVirtualSkillTree
+    {
+        $tree_id = $this->getTreeIdForNodeId($node_id);
+        return $this->tree_factory->getVirtualTreeById($tree_id);
     }
 
 }

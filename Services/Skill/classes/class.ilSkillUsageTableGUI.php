@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+
 /**
  * TableGUI class for skill usages
  *
@@ -19,11 +21,26 @@ class ilSkillUsageTableGUI extends ilTable2GUI
      */
     protected $access;
 
+    /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var Tree\SkillTreeFactory
+     */
+    protected $tree_factory;
+
+    /**
+     * @var Tree\SkillTreeManager
+     */
+    protected $tree_manager;
+
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage)
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage, $a_mode = "")
     {
         global $DIC;
 
@@ -31,6 +48,10 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
+        $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $id_parts = explode(":", $a_cskill_id);
         $this->skill_id = $id_parts[0];
@@ -43,9 +64,16 @@ class ilSkillUsageTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($data);
-        $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
 
-        $tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($this->skill_id);
+        $tree = $this->tree_repo->getTreeForNodeId($this->skill_id);
+        if ($a_mode == "tree") {
+            $tree_obj = $this->tree_manager->getTree($tree->getTreeId());
+            $title = $tree_obj->getTitle() . " > " . ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id);
+            $this->setTitle($title);
+        } else {
+            $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
+        }
+
         $path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
         $this->setDescription($path);
 

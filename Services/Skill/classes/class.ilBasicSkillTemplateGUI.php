@@ -98,7 +98,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $this->form->addItem($ta);
 
         // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
+        if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             if ($a_mode == "create") {
                 $this->form->addCommandButton("save", $lng->txt("save"));
                 $this->form->addCommandButton("cancelSave", $lng->txt("cancel"));
@@ -197,7 +197,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         if ($this->tref_id == 0) {
             $ilTabs->setBackTarget(
                 $lng->txt("skmg_skill_templates"),
-                $ilCtrl->getLinkTargetByClass("ilobjskillmanagementgui", "editSkillTemplates")
+                $ilCtrl->getLinkTargetByClass("ilobjskilltreegui", "editSkillTemplates")
             );
         }
 
@@ -252,7 +252,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
      */
     public function saveItem()
     {
-        if (!$this->checkPermissionBool("write")) {
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
             return;
         }
 
@@ -270,6 +270,10 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
     public function afterSave()
     {
         $ilCtrl = $this->ctrl;
+
+        if (!$this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
+            return;
+        }
         
         $ilCtrl->setParameterByClass(
             "ilbasicskilltemplategui",
@@ -297,7 +301,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         if ($this->isInUse()) {
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         } else {
-            if ($this->checkPermissionBool("write")) {
+            if ($this->tree_access_manager->hasManageCompetenceTemplatesPermission()) {
                 if ($this->tref_id == 0) {
                     $ilToolbar->addButton(
                         $lng->txt("skmg_add_level"),
@@ -307,7 +311,13 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
 
-        $table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id, $this->isInUse());
+        $table = new ilSkillLevelTableGUI(
+            (int) $_GET["obj_id"],
+            $this,
+            "edit",
+            $this->tref_id,
+            $this->isInUse(),
+            $this->tree_access_manager->hasManageCompetenceTemplatesPermission());
         $tpl->setContent($table->getHTML());
     }
 
@@ -362,5 +372,16 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $tab = new ilSkillAssignedObjectsTableGUI($this, "showObjects", $objects);
 
         $tpl->setContent($tab->getHTML());
+    }
+
+    /**
+     * Redirect to parent (identified by current obj_id)
+     */
+    public function redirectToParent($a_tmp_mode = false)
+    {
+        $ilCtrl = $this->ctrl;
+
+        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $this->requested_obj_id);
+        $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 }

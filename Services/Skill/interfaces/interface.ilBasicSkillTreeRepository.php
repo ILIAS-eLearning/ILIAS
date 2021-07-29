@@ -51,4 +51,11 @@ interface ilBasicSkillTreeRepository
      */
     public function getTreeForNodeId(int $node_id) : ilSkillTree;
 
+    /**
+     * Get virtual tree for node id
+     * @param int $node_id
+     * @return ilVirtualSkillTree
+     */
+    public function getVirtualTreeForNodeId(int $node_id) : ilVirtualSkillTree;
+
 }

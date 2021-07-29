@@ -31,24 +31,17 @@ if (!$skill_tree_type_id) {
     );
 
     $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
-        'manage_comp_cat',
-        'Manage Competence Categories',
-        'object',
-        8510
-    );
-
-    $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
         'manage_comp_temp',
         'Manage Competence Templates',
         'object',
-        8520
+        8510
     );
 
     $opsId[] = ilDBUpdateNewObjectType::addCustomRBACOperation(
         'manage_profiles',
         'Manage Competence Profiles',
         'object',
-        8530
+        8520
     );
 
     // addRBACOperations only accepts standard not custom ops, fix see step 2/3
@@ -91,8 +84,6 @@ $skill_tree_type_id = ilDBUpdateNewObjectType::getObjectTypeId('skee');
 $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_profiles');
 ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
 $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_comp');
-ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
-$ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_comp_cat');
 ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
 $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('manage_comp_temp');
 ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
