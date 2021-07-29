@@ -5451,26 +5451,6 @@ button.list-group-item {
   width: 100%;
   text-align: left;
 }
-a.list-group-item,
-button.list-group-item {
-  color: #555;
-}
-a.list-group-item .list-group-item-heading,
-button.list-group-item .list-group-item-heading {
-  color: #333;
-}
-a.list-group-item:hover,
-button.list-group-item:hover,
-a.list-group-item:focus,
-button.list-group-item:focus {
-  color: #555;
-  text-decoration: none;
-  background-color: #f5f5f5;
-}
-button.list-group-item {
-  width: 100%;
-  text-align: left;
-}
 .list-group-item-success {
   color: #3c763d;
   background-color: #dff0d8;
@@ -10502,6 +10482,7 @@ footer {
 .il-avatar {
   height: 45px;
   width: 45px;
+  display: inline-block;
   border-radius: 50%;
   border-style: solid;
   border-width: 2px;

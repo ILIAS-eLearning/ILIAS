@@ -193,14 +193,6 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function brutallyTrimHTML($html)
-    {
-        $html = str_replace(["\n", "\r", "\t"], "", $html);
-        $html = preg_replace('# {2,}#', " ", $html);
-        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
-        return trim($html);
-    }
-
     public function testRendering()
     {
         $r = $this->getDefaultRenderer();
@@ -230,7 +222,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button></li>
-							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
+							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
 						</ul>
 					</div>
 				</nav>
@@ -261,7 +253,9 @@ class MainBarTest extends ILIAS_UI_TestBase
 					</div>
 
 					<div class="il-mainbar-close-slates">
-						<button class="btn btn-bulky" id="id_11" ><span class="glyph" href="#" aria-label="back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span><span class="bulky-label">close</span></button>
+						<button class="btn btn-bulky" id="id_11" >
+						    <span class="glyph" href="#" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+						    <span class="bulky-label">close</span></button>
 					</div>
 				</div>
 			</div>
