@@ -66,15 +66,19 @@ class RoundTripTest extends ModalBase
     protected function getExpectedHTML()
     {
         $expected = <<<EOT
-<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1"><div class="modal-dialog" role="document" data-replace-marker="component"><div class="modal-content">
- <div class="modal-header">
- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><span class="modal-title">Title</span>
- </div>
- <div class="modal-body">Content</div>
- <div class="modal-footer">
- <button class="btn btn-default btn-primary" data-action="">Action 1</button><button class="btn btn-default" data-action="">Action 2</button><a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
- </div>
- </div></div></div>
+<div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
+   <div class="modal-dialog" role="document" data-replace-marker="component">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button><span class="modal-title">Title</span>
+         </div>
+         <div class="modal-body">Content</div>
+         <div class="modal-footer">
+            <button class="btn btn-default btn-primary" data-action="">Action 1</button><button class="btn btn-default" data-action="">Action 2</button><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
+         </div>
+      </div>
+   </div>
+</div>
 EOT;
         return $expected;
     }
