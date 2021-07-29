@@ -7521,6 +7521,15 @@ a fieldset[disabled] .active {
   background-position: right center;
   padding-right: 18px;
 }
+.close {
+  color: #757575;
+  opacity: 1;
+}
+.close:hover,
+.close:focus {
+  color: #434343;
+  opacity: 1;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
