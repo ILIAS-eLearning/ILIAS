@@ -10451,6 +10451,7 @@ footer {
 .il-avatar {
   height: 45px;
   width: 45px;
+  display: inline-block;
   border-radius: 50%;
   border-style: solid;
   border-width: 2px;
