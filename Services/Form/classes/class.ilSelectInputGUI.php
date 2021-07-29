@@ -12,6 +12,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     protected $cust_attr = array();
     protected $options = array();
     protected $value;
+    protected bool $hide_sub = false;
     
     /**
     * Constructor
@@ -51,7 +52,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     /**
     * Set Value.
     *
-    * @param	string	$a_value	Value
+    * @param	string|array	$a_value	Value
     */
     public function setValue($a_value)
     {
@@ -65,7 +66,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     /**
     * Get Value.
     *
-    * @return	string	Value
+    * @return	string|array	Value
     */
     public function getValue()
     {
@@ -80,7 +81,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }

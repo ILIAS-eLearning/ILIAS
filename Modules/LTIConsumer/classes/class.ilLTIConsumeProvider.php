@@ -75,17 +75,17 @@ class ilLTIConsumeProvider
     
     protected $keep_lp = false;
     
-    const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
-    const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
-    const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
-    const USER_IDENT_REAL_EMAIL = 'real_email';
-    protected $user_ident = self::USER_IDENT_IL_UUID_USER_ID;
+    const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
+    const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
+    const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
+    const PRIVACY_IDENT_REAL_EMAIL = 3;
+    protected $privacy_ident = self::PRIVACY_IDENT_IL_UUID_USER_ID;
     
-    const USER_NAME_NONE = 'none';
-    const USER_NAME_FIRSTNAME = 'firstname';
-    const USER_NAME_LASTNAME = 'lastname';
-    const USER_NAME_FULLNAME = 'fullname';
-    protected $user_name = self::USER_NAME_NONE;
+    const PRIVACY_NAME_NONE = 0;
+    const PRIVACY_NAME_FIRSTNAME = 1;
+    const PRIVACY_NAME_LASTNAME = 2;
+    const PRIVACY_NAME_FULLNAME = 3;
+    protected $privacy_name = self::PRIVACY_NAME_NONE;
     
     /**
      * @var bool
@@ -578,33 +578,33 @@ class ilLTIConsumeProvider
     /**
      * @return mixed
      */
-    public function getUserIdent()
+    public function getPrivacyIdent()
     {
-        return $this->user_ident;
+        return $this->privacy_ident;
     }
     
     /**
-     * @param mixed $user_ident
+     * @param mixed $privacy_ident
      */
-    public function setUserIdent($user_ident)
+    public function setPrivacyIdent($privacy_ident)
     {
-        $this->user_ident = $user_ident;
+        $this->privacy_ident = $privacy_ident;
     }
 
     /**
      * @return string
      */
-    public function getUserName() : string
+    public function getPrivacyName() : string
     {
-        return $this->user_name;
+        return $this->privacy_name;
     }
     
     /**
-     * @param string $user_name
+     * @param string $privacy_name
      */
-    public function setUserName(string $user_name)
+    public function setPrivacyName(string $privacy_name)
     {
-        $this->user_name = $user_name;
+        $this->privacy_name = $privacy_name;
     }
     
     /**
@@ -872,8 +872,8 @@ class ilLTIConsumeProvider
                 case 'has_outcome': $this->setHasOutcome((bool) $value); break;
                 case 'mastery_score': $this->setMasteryScore((float) $value); break;
                 case 'keep_lp': $this->setKeepLp((bool) $value); break;
-                case 'user_ident': $this->setUserIdent($value); break;
-                case 'user_name': $this->setUserName($value); break;
+                case 'privacy_ident': $this->setPrivacyIdent($value); break;
+                case 'privacy_name': $this->setPrivacyName($value); break;
                 case 'inc_usr_pic': $this->setIncludeUserPicture((bool) $value); break;
                 case 'privacy_comment_default': $this->setPrivacyCommentDefault($value); break;
                 case 'always_learner': $this->setAlwaysLearner((bool) $value); break;
@@ -980,8 +980,8 @@ class ilLTIConsumeProvider
             'has_outcome' => array('integer', $this->getHasOutcome()),
             'mastery_score' => array('float', $this->getMasteryScore()),
             'keep_lp' => array('integer', $this->isKeepLp()),
-            'user_ident' => array('text', $this->getUserIdent()),
-            'user_name' => array('text', $this->getUserName()),
+            'privacy_ident' => array('integer', $this->getPrivacyIdent()),
+            'privacy_name' => array('integer', $this->getPrivacyName()),
             'inc_usr_pic' => array('integer', $this->getIncludeUserPicture()),
             'privacy_comment_default' => array('text', $this->getPrivacyCommentDefault()),
             'always_learner' => array('integer', $this->getAlwaysLearner()),

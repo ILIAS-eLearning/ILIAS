@@ -201,7 +201,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     
     public function saveCustom()
     {
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
+        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
             throw new ilLtiConsumerException('permission denied!');
         }
         
@@ -713,13 +713,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
 
         $info->addProperty(
-            $DIC->language()->txt("conf_user_name"),
-            $DIC->language()->txt('conf_user_name_' . $this->object->getProvider()->getUserName())
+            $DIC->language()->txt("conf_privacy_name"),
+            $DIC->language()->txt('conf_privacy_name_' . ilObjCmiXapiGUI::getPrivacyNameString($this->object->getProvider()->getPrivacyName()))
         );
 
         $info->addProperty(
-            $DIC->language()->txt("conf_user_ident"),
-            $DIC->language()->txt('conf_user_ident_' . $this->object->getProvider()->getUserIdent())
+            $DIC->language()->txt("conf_privacy_ident"),
+            $DIC->language()->txt('conf_privacy_ident_' . ilObjCmiXapiGUI::getPrivacyIdentString($this->object->getProvider()->getPrivacyIdent()))
         );
         if ($this->object->getProvider()->isExternalProvider()) {
             $info->addProperty(
@@ -749,9 +749,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             return;
         }
         
-        $cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId());
-        $cmixUser->setUsrIdent(ilCmiXapiUser::getIdent($this->object->getProvider()->getUserIdent(), $DIC->user()));
-        $cmixUser->save();
+        $cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(), $this->object->getProvider()->getPrivacyIdent());
+        $user_ident = $cmixUser->getUsrIdent();
+        if ($user_ident == '' || $user_ident == null) {
+			$user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());
+			$cmixUser->setUsrIdent($user_ident);
+			$cmixUser->save();
+		}
         
         include_once("./Modules/LTIConsumer/classes/class.ilLTIConsumerLaunch.php");
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());

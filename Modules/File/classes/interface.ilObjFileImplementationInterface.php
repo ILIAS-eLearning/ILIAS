@@ -52,6 +52,8 @@ interface ilObjFileImplementationInterface
      */
     public function getFileType();
 
+    public function getStorageID() : ?string;
+
     /**
      * @param $a_size
      * @deprecated

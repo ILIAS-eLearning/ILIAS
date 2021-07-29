@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,10 +11,7 @@ use ILIAS\Setup;
  */
 class AdminConfirmedObjective implements Setup\Objective
 {
-    /**
-     * @var string
-     */
-    protected $message;
+    protected string $message;
 
     public function __construct(string $message)
     {

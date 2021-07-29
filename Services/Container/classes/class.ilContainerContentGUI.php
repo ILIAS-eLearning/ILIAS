@@ -79,6 +79,8 @@ abstract class ilContainerContentGUI
     public $container_gui;
     public $container_obj;
 
+    public $adminCommands = false;
+
     /**
      * @var ilLogger
      */
@@ -202,8 +204,10 @@ abstract class ilContainerContentGUI
         );
         // END ChangeEvent: record read event.
         
-
-        $tpl->setContent($this->getCenterColumnHTML());
+        $html = $this->getCenterColumnHTML();
+        if (strlen($html)) {
+            $tpl->setContent($html);
+        }
 
         // see above, all other cases (this was the old position of setRightContent,
         // maybe the position above is ok and all ifs can be removed)
@@ -219,6 +223,7 @@ abstract class ilContainerContentGUI
     protected function getRightColumnHTML()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         $ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -313,7 +318,7 @@ abstract class ilContainerContentGUI
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
         
         $this->renderer = new ilContainerRenderer(
-            ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]),
+            ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
             $this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
             ,
@@ -329,6 +334,7 @@ abstract class ilContainerContentGUI
     private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         // this gets us the subitems we need in setColumnSettings()
         // todo: this should be done in ilCourseGUI->getSubItems
@@ -556,7 +562,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableIcon(true);
         }
         
-        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
+        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
@@ -873,7 +879,7 @@ abstract class ilContainerContentGUI
      * @param
      * @return
      */
-    public function getItemGroupsHTML(int $a_pos = 0):int
+    public function getItemGroupsHTML(int $a_pos = 0) : int
     {
         if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
             foreach ($this->items["itgr"] as $itgr) {

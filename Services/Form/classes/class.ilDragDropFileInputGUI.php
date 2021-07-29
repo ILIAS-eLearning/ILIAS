@@ -9,11 +9,6 @@
  */
 class ilDragDropFileInputGUI extends ilFileInputGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     private $uniqueId = 0;
     private $archive_suffixes = array();
     private $submit_button_name = null;

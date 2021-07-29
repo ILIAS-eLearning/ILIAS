@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -57,10 +56,6 @@ class ClientIdReadObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        if ($environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID) !== null) {
-            return $environment;
-        }
-
         $dir = $this->getDataDirectoryPath();
         $candidates = array_filter(
             $this->scanDirectory($dir),

@@ -10,7 +10,7 @@
 			box-shadow: none; 
 		}
 		&:focus-visible {
-			border: 2px solid @il-focus-color;
+			border: 3px solid @il-focus-color;
 			outline: none;
 		}
 	}
@@ -61,7 +61,8 @@
 			filter: invert(100%);
 		}
 		&:hover,
-		&.engaged {
+		&.engaged,
+		&:focus-visible{
 			background-color: @il-mainbar-btn-bg-color-engaged;
 			color: @il-mainbar-btn-bg-color;
 			.glyph{

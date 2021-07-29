@@ -2077,6 +2077,7 @@
 		</xsl:variable>
 
 		<xsl:variable name="figuredisplay">
+			position: relative;
 			<xsl:choose>
 				<!-- all images use table as container since they expand the table even without width/height -->
 				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">display:table;</xsl:when>
@@ -2180,6 +2181,9 @@
 					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
+			<xsl:if test="$mode = 'edit'">
+				<div class="il-copg-media-cover" data-copg-ed-type="media-cover"></div>
+			</xsl:if>
 
 			<!-- command selectbox -->
 			<xsl:if test="$mode = 'edit' and $javascript='disable'">
@@ -2203,7 +2207,6 @@
 				</div>
 			</xsl:if>
 		</figure>
-
 	</xsl:for-each>
 
 	<!-- menu -->
@@ -2751,7 +2754,7 @@
 		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video class="ilPageVideo" controls="controls" preload="none">
+			<video class="ilPageVideo" controls="controls" preload="metadata">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
@@ -3385,8 +3388,15 @@
 		<xsl:if test="@Type = 'VerticalAccordion' and $cwidth != 'null'">
 			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /><xsl:if test="$mode='edit'"> background-color:white;</xsl:if></xsl:attribute>
 		</xsl:if>
-		<xsl:if test="@Type = 'Carousel' and $cwidth != 'null'">
-			<xsl:attribute name="style">width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
+		<xsl:if test="@Type = 'Carousel'">
+			<xsl:choose>
+				<xsl:when test="$cwidth != 'null'">
+					<xsl:attribute name="style">display: grid; width: <xsl:value-of select="$cwidth" />px; <xsl:value-of select="$halign" /></xsl:attribute>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:attribute name="style">display: grid;</xsl:attribute>
+				</xsl:otherwise>
+			</xsl:choose>
 		</xsl:if>
 		<xsl:variable name="cheight">
 			<xsl:choose>
@@ -3420,6 +3430,7 @@
 			<xsl:if test="@Template and //StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value">
 				<xsl:attribute name = "class">ilc_ca_cntr_<xsl:value-of select = "//StyleTemplates/StyleTemplate[@Name=$ttemp]/StyleClass[@Type='ca_cntr']/@Value"/> owl-carousel</xsl:attribute>
 			</xsl:if>
+			<xsl:attribute name="style">overflow: hidden;</xsl:attribute>
 		</xsl:when>
 		</xsl:choose>
 			<xsl:apply-templates select="Tab">

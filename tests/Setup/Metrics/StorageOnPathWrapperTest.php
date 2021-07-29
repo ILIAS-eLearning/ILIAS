@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -18,7 +18,7 @@ class StorageOnPathWrapperTest extends TestCase
         $this->wrapper = new Metrics\StorageOnPathWrapper(self::PATH, $this->storage);
     }
 
-    public function testStoresToPath()
+    public function testStoresToPath() : void
     {
         $key = "key";
         $m = new M(M::STABILITY_CONFIG, M::TYPE_BOOL, true, "desc");

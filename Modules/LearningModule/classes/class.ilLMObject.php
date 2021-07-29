@@ -329,6 +329,7 @@ class ilLMObject
             }
         }
 
+        $and = "";
         if ($a_lm_id) {
             $and = ' AND lm_id = ' . $ilDB->quote($a_lm_id, 'integer');
         }
@@ -337,7 +338,7 @@ class ilLMObject
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["type"];
+        return $obj_rec["type"] ?? "";
     }
 
 

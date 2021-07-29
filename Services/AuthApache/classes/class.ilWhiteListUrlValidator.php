@@ -7,11 +7,9 @@
  */
 class ilWhiteListUrlValidator
 {
-    /** @var string */
-    protected $url = '';
-
+    protected string $url = '';
     /** @var string[] */
-    protected $whitelist = [];
+    protected array $whitelist = [];
 
     /**
      * ilWhiteListUrlValidator constructor.
@@ -21,15 +19,11 @@ class ilWhiteListUrlValidator
     public function __construct(string $url, array $whitelist)
     {
         $this->url = $url;
-        $this->whitelist = array_filter(array_map(function (string $domain) {
+        $this->whitelist = array_filter(array_map(static function (string $domain) {
             return trim($domain); // Used for trimming and type validation (strict primitive type hint)
         }, $whitelist));
     }
 
-    /**
-     * @param string $domain
-     * @return bool
-     */
     private function isValidDomain(string $domain) : bool
     {
         foreach ($this->whitelist as $validDomain) {
@@ -52,9 +46,6 @@ class ilWhiteListUrlValidator
         return false;
     }
 
-    /**
-     * @return bool
-     */
     public function isValid() : bool
     {
         $redirectDomain = parse_url($this->url, PHP_URL_HOST);

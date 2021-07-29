@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 namespace ILIAS\Setup;
 
@@ -13,38 +11,19 @@ use ilSetupLanguage;
 
 class ImplementationOfAgentFinder implements AgentFinder
 {
-    /**
-     * @var Refinery|null
-     */
-    protected $refinery;
+    protected Refinery $refinery;
+    protected Data\Factory $data_factory;
+    protected \ilSetupLanguage $lng;
+    protected ImplementationOfInterfaceFinder $interface_finder;
+    protected \ilPluginRawReader $plugin_raw_reader;
 
     /**
-     * @var Data\Factory|null
+     * @var array<string, Agent> $predefined_agents
      */
-    protected $data_factory;
-
-    /**
-     * @var \ilSetupLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPluginRawReader|null
-     */
-    protected $plugin_raw_reader;
-
-    /**
-     * @var ImplementationOfInterfaceFinder|null
-     */
-    protected $interface_finder;
-
-    /**
-     * @var array<string, Setup\Agent> $predefined_agents
-     */
-    protected $predefined_agents;
+    protected array $predefined_agents;
     
     /**
-     * @var array<string, Setup\Agent> $predefined_agents
+     * @var array<string, Agent> $predefined_agents
      */
     public function __construct(
         Refinery $refinery,
@@ -142,8 +121,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         ));
 
         if (count($agent_classes) === 0) {
-            return new class($name) extends \ilPluginDefaultAgent {
-            };
+            return new class($name) extends \ilPluginDefaultAgent {};
         }
 
         $agents = [];

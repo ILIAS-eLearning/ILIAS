@@ -7,22 +7,11 @@
  */
 abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBuddySystemRelationStateButtonRenderer
 {
-    /** @var ilBuddySystemRelation */
-    protected $relation;
+    protected ilBuddySystemRelation $relation;
+    protected int $usrId;
+    protected ilTemplate $tpl;
+    protected ilLanguage $lng;
 
-    /** @var int */
-    protected $usrId;
-
-    /** @var ilTemplate */
-    protected $tpl;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /**
-     * @param int $usrId
-     * @param ilBuddySystemRelation $relation
-     */
     public function __construct(int $usrId, ilBuddySystemRelation $relation)
     {
         global $DIC;
@@ -40,9 +29,6 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         $this->lng = $DIC['lng'];
     }
 
-    /**
-     * @return string
-     */
     protected function getLanguageVariableSuffix() : string
     {
         $suffix = '_p';
@@ -53,9 +39,6 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         return $suffix;
     }
 
-    /**
-     *
-     */
     protected function render() : void
     {
         $this->renderStateButton();
@@ -65,17 +48,11 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getTemplateVariablePrefix() : string
     {
         return '';
     }
 
-    /**
-     *
-     */
     protected function renderStateButton() : void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
@@ -88,9 +65,6 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    /**
-     * @param ilBuddySystemRelationState $target_state
-     */
     protected function renderTargetState(ilBuddySystemRelationState $target_state) : void
     {
         $state_id = ilStr::convertUpperCamelCaseToUnderscoreCase($this->relation->getState()->getName());
@@ -112,9 +86,6 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
         );
     }
 
-    /**
-     * @return string
-     */
     public function getHtml() : string
     {
         $this->render();

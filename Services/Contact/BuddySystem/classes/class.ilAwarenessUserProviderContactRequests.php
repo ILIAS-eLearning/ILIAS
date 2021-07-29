@@ -8,12 +8,8 @@
  */
 class ilAwarenessUserProviderContactRequests extends ilAwarenessUserProvider
 {
-    /** @var ilObjUser */
-    protected $user;
+    protected ilObjUser $user;
 
-    /**
-     * ilAwarenessUserProviderApprovedContacts constructor.
-     */
     public function __construct()
     {
         global $DIC;

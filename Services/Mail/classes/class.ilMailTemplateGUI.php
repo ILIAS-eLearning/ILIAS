@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -41,7 +41,7 @@ class ilMailTemplateGUI
     /** @var ilMailTemplateService */
     protected $service;
 
-    /** @var HTTPServices */
+    /** @var Services */
     protected $http;
 
     /** @var Factory */
@@ -59,7 +59,7 @@ class ilMailTemplateGUI
      * @param ilToolbarGUI|null $toolbar
      * @param ilRbacSystem|null $rbacsystem
      * @param ilErrorHandling|null $error
-     * @param HTTPServices|null $http
+     * @param Services|null $http
      * @param Factory|null $uiFactory
      * @param Renderer|null $uiRenderer
      * @param ilMailTemplateService|null $templateService
@@ -72,7 +72,7 @@ class ilMailTemplateGUI
         ilToolbarGUI $toolbar = null,
         ilRbacSystem $rbacsystem = null,
         ilErrorHandling $error = null,
-        HTTPServices $http = null,
+        Services $http = null,
         Factory $uiFactory = null,
         Renderer $uiRenderer = null,
         ilMailTemplateService $templateService = null

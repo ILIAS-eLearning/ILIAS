@@ -217,7 +217,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             \ilUtil::stripSlashes($body["data"]["characteristic"]),
             \ilUtil::stripSlashes($pcid),
             $insert_id,
-            $body["data"]["fromPlaceholder"]
+            $body["data"]["fromPlaceholder"] ?? false
         );
         $current_after_id = $body["data"]["pcid"];
         $all_pc_ids[] = $current_after_id;
@@ -266,6 +266,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      */
     protected function getContentForSaving($pcid, $content, $characteristic)
     {
+        $content = str_replace("&nbsp;", " ", $content);
         return "<div id='" .
             $pcid . "' class='ilc_text_block_" .
             $characteristic . "'>" . $content . "</div>";

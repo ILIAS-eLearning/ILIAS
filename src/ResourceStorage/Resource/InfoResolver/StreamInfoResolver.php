@@ -63,6 +63,7 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
                 return;
             }
         }
+        /** @noRector  */
         if (class_exists('finfo')) {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $this->mime_type = finfo_buffer($finfo, $this->file_stream->getContents());

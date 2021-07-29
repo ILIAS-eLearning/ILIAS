@@ -70,13 +70,13 @@ For best results we recommend:
 
   * a current version of Debian GNU Linux, Ubuntu or RHEL
   * MySQL 5.7.x or MariaDB 10.2
-  * PHP 7.4
+  * PHP 8.0
   * Apache 2.4.x with `mod_php`
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
   * OpenJDK 11
   * zip, unzip
-  * Node.js: 12 (LTS)
+  * Node.js: 14 (LTS)
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
@@ -115,7 +115,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 |----------------|-----------------------------|
 | Distribution   | Ubuntu 20.04 LTS            |
 | MariaDB        | 10.0.38                     |
-| PHP            | 7.3                         |
+| PHP            | 8.0                         |
 | Apache2        | 2.4.18                      |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
@@ -208,8 +208,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-Refer to the to documentation of your installation to install either PHP 7.3 to
-PHP 7.4 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
+Refer to the to documentation of your installation to install either PHP 7.4 to
+PHP 8.0 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -283,7 +283,7 @@ We recommend to create a dedicated database user for ILIAS:
 mysql -u root -p
 CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER 'ilias'@'localhost' IDENTIFIED BY 'password';
-GRANT LOCK TABLES on *.* TO 'ilias@localhost';
+GRANT LOCK TABLES on *.* TO 'ilias'@'localhost';
 GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';
 FLUSH PRIVILEGES;
 ```
@@ -348,10 +348,10 @@ Restart the apache webserver after you installed dependencies!
 
 Depending on your use case, you MAY want to install further dependencies (exact package names vary by distribution and PHP version you are using):
 
-* php7.3-curl
-* php7.3-xmlrpc
-* php7.3-soap
-* php7.3-ldap
+* php7.4-curl
+* php7.4-xmlrpc
+* php7.4-soap
+* php7.4-ldap
 * ffmpeg
 * mimetex
 
@@ -433,7 +433,7 @@ configuration might look like this afterwards:
         "default_language" : "de",
         "install_languages" : ["de"]
     },
-    "loggin" : {
+    "logging" : {
         "enable" : true,
         "path_to_logfile" : "/var/www/logs/ilias.log",
         "errorlog_dir" : "/var/www/logs/"
@@ -728,6 +728,7 @@ each ILIAS release.
 
 | ILIAS Version   | PHP Version                           |
 |-----------------|---------------------------------------|
+| 8.x             | 7.4.x, 8.0.x                          |
 | 7.x             | 7.3.x, 7.4.x                          |
 | 6.x             | 7.2.x, 7.3.x, 7.4.x                   |
 | 5.4.x           | 7.0.x, 7.1.x, 7.2.x, 7.3.x            |

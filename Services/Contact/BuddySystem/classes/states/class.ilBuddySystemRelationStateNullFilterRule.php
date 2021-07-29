@@ -7,17 +7,11 @@
  */
 class ilBuddySystemRelationStateNullFilterRule extends ilBuddySystemRelationStateFilterRule
 {
-    /**
-     * @inheritDoc
-     */
     public function matches() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __invoke(ilBuddySystemRelationState $state) : bool
     {
         return true;

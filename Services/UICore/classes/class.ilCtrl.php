@@ -105,6 +105,8 @@ class ilCtrl
      */
     protected $verified_cmd = '';
 
+    protected string $cmdMode = "";
+
     /**
      * control class constructor
      */
@@ -116,6 +118,8 @@ class ilCtrl
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
+
+        $this->cmdMode = ($_GET["cmdMode"] ?? "");
     }
     
     /**
@@ -1345,7 +1349,7 @@ class ilCtrl
      */
     public function isAsynch()
     {
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if ($this->cmdMode == "asynch") {
             return true;
         } else {
             return false;
@@ -1455,7 +1459,7 @@ class ilCtrl
         );
         $script = ilUtil::appendUrlParameterString(
             $script,
-            "cmdMode=" . $_GET["cmdMode"]
+            "cmdMode=" . $this->cmdMode
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
@@ -1520,7 +1524,7 @@ class ilCtrl
         $node = $node["node_id"];
         $n_arr = explode(":", $node);
         for ($i = count($n_arr) - 2; $i >= 0; $i--) {
-            if ($this->return[$this->getClassForCid($n_arr[$i])] != "") {
+            if (isset($this->return[$this->getClassForCid($n_arr[$i])])) {
                 return $this->getClassForCid($n_arr[$i]);
             }
         }
@@ -1535,7 +1539,7 @@ class ilCtrl
      */
     public function getRedirectSource()
     {
-        return $_GET["redirectSource"];
+        return $_GET["redirectSource"] ?? "";
     }
 
     /**
@@ -1672,7 +1676,7 @@ class ilCtrl
 
     private function cidClassUnknown($a_cid)
     {
-        return $this->cid_class[$a_cid] == "";
+        return (!isset($this->cid_class[$a_cid]) || $this->cid_class[$a_cid] == "");
     }
 
 
@@ -1757,7 +1761,7 @@ class ilCtrl
             $this->updateClassCidMap($a_class, $class_info['cid']);
         }
         $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        if(!isset($this->class_cid[$a_class])) {
+        if (!isset($this->class_cid[$a_class])) {
             return false;
         }
         $this->info_read_class[$a_class] = true;

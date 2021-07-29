@@ -3,7 +3,7 @@
 
 /**
  * Class ilBuddySystemRelationStateCollection
- * A collection which contains all entries of a buddy list
+ * A collection of relation states
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemRelationStateCollection extends ilBuddySystemArrayCollection

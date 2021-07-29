@@ -6,9 +6,14 @@
 
 ## Mid Term
 
-### Derived Tasks: Get rid of $provider array
+### Derived Tasks: Introduce artefact reader
 
-The `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php` should be removed by a general collector/provider/consumer pattern.
+The `$provider` array under `Services/Tasks/DerivedTasks/classes/class.ilLearningHistoryProviderFactory.php` should be replaced by using the artefact reader process.
+
+### Introduce namespace
+
+All classes should be put into a namespace.
+
 
 ### Derived Tasks: Remove Task
 

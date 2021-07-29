@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * @author  Richard Klees <richard.klees@concepts-and-training.de>
- */
 
 namespace ILIAS\Refinery;
 
 use ILIAS\Data\Result;
 
+/**
+ * @author  Richard Klees <richard.klees@concepts-and-training.de>
+ */
 trait DeriveInvokeFromTransform
 {
     /**

@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;

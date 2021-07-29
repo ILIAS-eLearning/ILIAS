@@ -7,23 +7,14 @@
  */
 class ilBuddyList
 {
-    /** @var int */
-    protected $ownerId;
-
-    /** @var ilBuddySystemRelationCollection */
-    protected $relations;
-
-    /** @var ilBuddySystemRelationRepository */
-    protected $repository;
-
     /** @var self[] */
-    protected static $instances = [];
+    protected static array $instances = [];
 
-    /** @var bool */
-    protected $relationsRead = false;
-
-    /** @var ilAppEventHandler */
-    protected $eventHandler;
+    protected int $ownerId;
+    protected ilBuddySystemRelationRepository $repository;
+    protected bool $relationsRead = false;
+    protected ilAppEventHandler $eventHandler;
+    protected ?ilBuddySystemRelationCollection $relations = null;
 
     /**
      * @param int $usrId
@@ -58,10 +49,6 @@ class ilBuddyList
         return self::getInstanceByUserId((int) $DIC->user()->getId());
     }
 
-    /**
-     * ilBuddyList constructor.
-     * @param int $ownerId
-     */
     protected function __construct(int $ownerId)
     {
         global $DIC;
@@ -82,33 +69,21 @@ class ilBuddyList
         unset(self::$instances[$this->getOwnerId()]);
     }
 
-    /**
-     * @return ilBuddySystemRelationRepository
-     */
     public function getRepository() : ilBuddySystemRelationRepository
     {
         return $this->repository;
     }
 
-    /**
-     * @param ilBuddySystemRelationRepository $repository
-     */
     public function setRepository(ilBuddySystemRelationRepository $repository) : void
     {
         $this->repository = $repository;
     }
 
-    /**
-     *
-     */
     public function readFromRepository() : void
     {
-        $this->setRelations(new ilBuddySystemRelationCollection((array) $this->getRepository()->getAll()));
+        $this->setRelations(new ilBuddySystemRelationCollection($this->getRepository()->getAll()));
     }
 
-    /**
-     *
-     */
     protected function performLazyLoading() : void
     {
         if (!$this->relationsRead) {
@@ -117,9 +92,6 @@ class ilBuddyList
         }
     }
 
-    /**
-     * @return ilBuddySystemRelationCollection
-     */
     public function getRelations() : ilBuddySystemRelationCollection
     {
         if (null === $this->relations) {
@@ -129,9 +101,6 @@ class ilBuddyList
         return $this->relations;
     }
 
-    /**
-     * @param ilBuddySystemRelationCollection $relations
-     */
     public function setRelations(ilBuddySystemRelationCollection $relations) : void
     {
         $this->relations = $relations;
@@ -152,7 +121,7 @@ class ilBuddyList
      */
     public function getLinkedRelations() : ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
             return $relation->isLinked();
         });
     }
@@ -163,7 +132,7 @@ class ilBuddyList
      */
     public function getRequestRelationsForOwner() : ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
             return $relation->getBuddyUsrId() === $this->getOwnerId();
         });
     }
@@ -174,7 +143,7 @@ class ilBuddyList
      */
     public function getRequestRelationsByOwner() : ilBuddySystemRelationCollection
     {
-        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getRequestedRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
             return $relation->getUsrId() === $this->getOwnerId();
         });
     }
@@ -185,7 +154,7 @@ class ilBuddyList
      */
     public function getRequestedRelations() : ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
             return $relation->isRequested();
         });
     }
@@ -207,7 +176,7 @@ class ilBuddyList
      */
     public function getIgnoredRelationsByOwner() : ilBuddySystemRelationCollection
     {
-        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getIgnoredRelations()->filter(function (ilBuddySystemRelation $relation) : bool {
             return $relation->getUsrId() === $this->getOwnerId();
         });
     }
@@ -218,7 +187,7 @@ class ilBuddyList
      */
     public function getIgnoredRelations() : ilBuddySystemRelationCollection
     {
-        return $this->getRelations()->filter(function (ilBuddySystemRelation $relation) {
+        return $this->getRelations()->filter(static function (ilBuddySystemRelation $relation) : bool {
             return $relation->isIgnored();
         });
     }
@@ -232,38 +201,29 @@ class ilBuddyList
         return $this->getRelations()->getKeys();
     }
 
-    /**
-     * @param int $ownerId
-     */
     public function setOwnerId(int $ownerId) : void
     {
         $this->ownerId = $ownerId;
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     * @return int
-     */
     protected function getRelationTargetUserId(ilBuddySystemRelation $relation) : int
     {
         return ($relation->getUsrId() === $this->getOwnerId() ? $relation->getBuddyUsrId() : $relation->getUsrId());
     }
 
-    /**
-     * @param int $usrId
-     * @return ilBuddySystemRelation
-     */
     public function getRelationByUserId(int $usrId) : ilBuddySystemRelation
     {
         if ($this->getRelations()->containsKey($usrId)) {
             return $this->getRelations()->get($usrId);
         }
 
-        $relation = new ilBuddySystemRelation(ilBuddySystemRelationStateFactory::getInstance()->getInitialState());
-        $relation->setIsOwnedByActor(true);
-        $relation->setUsrId($this->getOwnerId());
-        $relation->setBuddyUsrId($usrId);
-        $relation->setTimestamp(time());
+        $relation = new ilBuddySystemRelation(
+            ilBuddySystemRelationStateFactory::getInstance()->getInitialState(),
+            $this->getOwnerId(),
+            $usrId,
+            true,
+            time()
+        );
 
         $this->getRelations()->set($usrId, $relation);
 
@@ -282,7 +242,7 @@ class ilBuddyList
                 throw new ilBuddySystemRelationStateAlreadyGivenException('buddy_bs_action_already_linked');
             }
 
-            if ($this->getOwnerId() == $relation->getUsrId()) {
+            if ($this->getOwnerId() === $relation->getUsrId()) {
                 throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
             }
 
@@ -333,7 +293,8 @@ class ilBuddyList
             ));
         }
 
-        if (!strlen((string) ilObjUser::_lookupLogin($this->getRelationTargetUserId($relation)))) {
+        $login = ilObjUser::_lookupLogin($this->getRelationTargetUserId($relation));
+        if ($login === false || $login === '') {
             throw new ilBuddySystemException(sprintf(
                 'You cannot add a non existing user (id: %s)',
                 $this->getRelationTargetUserId($relation)
@@ -375,7 +336,7 @@ class ilBuddyList
                 throw new ilBuddySystemRelationStateTransitionException('buddy_bs_action_already_linked');
             }
 
-            if ($this->getOwnerId() == $relation->getUsrId()) {
+            if ($this->getOwnerId() === $relation->getUsrId()) {
                 throw new ilBuddySystemException('You can only ignore a request when you are not the initiator');
             }
 

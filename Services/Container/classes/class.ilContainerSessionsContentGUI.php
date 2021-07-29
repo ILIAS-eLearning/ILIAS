@@ -101,14 +101,15 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
         
         if (is_array($this->items["sess"]) ||
-            $this->items['sess_link']['prev']['value'] ||
-            $this->items['sess_link']['next']['value']) {
+            isset($this->items['sess_link']['prev']['value']) ||
+            isset($this->items['sess_link']['next']['value'])) {
             $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
-            
-            if ($this->items['sess_link']['prev']['value']) {
+
+            $prefix = $postfix = "";
+            if (isset($this->items['sess_link']['prev']['value'])) {
                 $prefix = $this->renderSessionLimitLink(true);
             }
-            if ($this->items['sess_link']['next']['value']) {
+            if (isset($this->items['sess_link']['next']['value'])) {
                 $postfix = $this->renderSessionLimitLink(false);
             }
             
@@ -240,7 +241,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     {
         $ilUser = $this->user;
         
-        if ($_GET['expand']) {
+        if (isset($_GET['expand'])) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
             } else {

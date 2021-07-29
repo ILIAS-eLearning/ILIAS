@@ -133,7 +133,7 @@ class ilCopyrightInputGUI extends ilFormPropertyGUI
     /**
      * Insert property html
      */
-    public function insert(&$a_tpl)
+    public function insert($a_tpl)
     {
         include_once('Services/MetaData/classes/class.ilMDCopyrightSelectionEntry.php');
         

@@ -42,7 +42,6 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
 
         $this->setRowTemplate('tpl.mail_member_search_row.html', 'Services/Contact');
 
-        // setup columns
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('login'), 'login', '22%');
         $this->addColumn($this->lng->txt('name'), 'name', '22%');

@@ -734,6 +734,8 @@ class ilTree
             $order_clause;
         
         $res = $ilDB->query($query);
+
+        $childs = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $childs[] = $this->fetchNodeData($row);
         }
@@ -880,7 +882,7 @@ class ilTree
     /**
      * Get all ids of subnodes
      * @return
-     * @param object $a_ref_id
+     * @param $a_ref_id
      */
     public function getSubTreeIds($a_ref_id)
     {
@@ -2007,11 +2009,12 @@ class ilTree
             0,
             $a_parent_id));
 
+        $saved = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $saved[] = $this->fetchNodeData($row);
         }
 
-        return $saved ? $saved : array();
+        return $saved;
     }
     
     /**

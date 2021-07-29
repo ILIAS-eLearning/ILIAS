@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 /**
  * Class ilBcryptPhpPasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
@@ -20,33 +17,26 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     /** @var string */
     private const WRONG_PASSWORD = 'wrong_password';
 
-    /**
-     *
-     */
     private function skipIfPhpVersionIsNotSupported() : void
     {
-        if (version_compare(phpversion(), '5.5.0', '<')) {
+        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
             $this->markTestSkipped('Requires PHP >= 5.5.0');
         }
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     public function costsProvider() : array
     {
         $data = [];
-        for ($i = 4; $i <= 31; $i++) {
+        for ($i = 4; $i <= 31; ++$i) {
             $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
         }
 
         return $data;
     }
 
-    /**
-     * @return ilBcryptPhpPasswordEncoder
-     * @throws ilPasswordException
-     */
     public function testInstanceCanBeCreated() : ilBcryptPhpPasswordEncoder
     {
         $this->skipIfPhpVersionIsNotSupported();
@@ -57,14 +47,14 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
         $encoder = new ilBcryptPhpPasswordEncoder([
             'cost' => self::VALID_COSTS
         ]);
-        $this->assertInstanceOf('ilBcryptPhpPasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilBcryptPhpPasswordEncoder::class, $encoder);
         $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
+
         return $encoder;
     }
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeRetrievedWhenCostsAreSet(ilBcryptPhpPasswordEncoder $encoder) : void
@@ -77,7 +67,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetAboveRange(ilBcryptPhpPasswordEncoder $encoder) : void
@@ -88,7 +77,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetBelowRange(ilBcryptPhpPasswordEncoder $encoder) : void
@@ -101,8 +89,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
      * @depends      testInstanceCanBeCreated
      * @dataProvider costsProvider
      * @doesNotPerformAssertions
-     * @param string                     $costs
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeSetInRange(string $costs, ilBcryptPhpPasswordEncoder $encoder) : void
@@ -112,8 +98,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
-     * @return ilBcryptPhpPasswordEncoder
      * @throws ilPasswordException
      */
     public function testPasswordShouldBeCorrectlyEncodedAndVerified(
@@ -123,12 +107,12 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
         $encoded_password = $encoder->encodePassword(self::PASSWORD, '');
         $this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, ''));
         $this->assertFalse($encoder->isPasswordValid($encoded_password, self::WRONG_PASSWORD, ''));
+
         return $encoder;
     }
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
@@ -141,7 +125,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
@@ -153,7 +136,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      */
     public function testNameShouldBeBcryptPhp(ilBcryptPhpPasswordEncoder $encoder) : void
     {
@@ -162,7 +144,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeDeterminedDynamically(ilBcryptPhpPasswordEncoder $encoder) : void
@@ -179,7 +160,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      */
     public function testEncoderDoesNotRelyOnSalts(ilBcryptPhpPasswordEncoder $encoder) : void
     {
@@ -188,7 +168,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPhpPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testReencodingIsDetectedWhenNecessary(ilBcryptPhpPasswordEncoder $encoder) : void

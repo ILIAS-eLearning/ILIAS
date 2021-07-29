@@ -9,7 +9,7 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Response\ResponseHeader;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -30,7 +30,7 @@ class XAccelTest extends TestCase
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
     /**
-     * @var \Mockery\MockInterface | GlobalHttpState
+     * @var \Mockery\MockInterface | Services
      */
     private $httpServiceMock;
 
@@ -39,7 +39,7 @@ class XAccelTest extends TestCase
     {
         parent::setUp();
 
-        $this->httpServiceMock = Mockery::mock(GlobalHttpState::class);
+        $this->httpServiceMock = Mockery::mock(Services::class);
         $this->httpServiceMock->shouldIgnoreMissing();
 
         //set remote address to localhost

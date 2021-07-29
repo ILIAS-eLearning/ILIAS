@@ -23,6 +23,7 @@ use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**
  * Class ResourceBuilder
@@ -45,9 +46,9 @@ class ResourceBuilder
      */
     private $revision_repository;
     /**
-     * @var StorageHandler
+     * @var StorageHandlerFactory
      */
-    private $storage_handler;
+    private $storage_handler_factory;
     /**
      * @var StakeholderRepository
      */
@@ -64,10 +65,14 @@ class ResourceBuilder
      * @var FileNamePolicy
      */
     protected $file_name_policy;
+    /**
+     * @var StorageHandler
+     */
+    protected $primary_storage_handler;
 
     /**
      * ResourceBuilder constructor.
-     * @param StorageHandler        $storage_handler
+     * @param StorageHandlerFactory $storage_handler_factory
      * @param RevisionRepository    $revision_repository
      * @param ResourceRepository    $resource_repository
      * @param InformationRepository $information_repository
@@ -76,7 +81,7 @@ class ResourceBuilder
      * @param FileNamePolicy|null   $file_name_policy
      */
     public function __construct(
-        StorageHandler $storage_handler,
+        StorageHandlerFactory $storage_handler_factory,
         RevisionRepository $revision_repository,
         ResourceRepository $resource_repository,
         InformationRepository $information_repository,
@@ -84,13 +89,14 @@ class ResourceBuilder
         LockHandler $lock_handler,
         FileNamePolicy $file_name_policy = null
     ) {
-        $this->storage_handler = $storage_handler;
+        $this->storage_handler_factory = $storage_handler_factory;
+        $this->primary_storage_handler = $storage_handler_factory->getPrimary();
         $this->revision_repository = $revision_repository;
         $this->resource_repository = $resource_repository;
         $this->information_repository = $information_repository;
         $this->stakeholder_repository = $stakeholder_repository;
         $this->lock_handler = $lock_handler;
-        $this->file_name_policy = $file_name_policy?? new NoneFileNamePolicy();
+        $this->file_name_policy = $file_name_policy ?? new NoneFileNamePolicy();
     }
 
     //
@@ -103,7 +109,7 @@ class ResourceBuilder
         UploadResult $result,
         InfoResolver $info_resolver
     ) : StorableResource {
-        $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+        $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
         return $this->append($resource, $result, $info_resolver);
     }
@@ -113,15 +119,15 @@ class ResourceBuilder
         InfoResolver $info_resolver,
         bool $keep_original = false
     ) : StorableResource {
-        $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+        $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
         return $this->appendFromStream($resource, $stream, $info_resolver, $keep_original);
     }
 
     public function newBlank() : StorableResource
     {
-        $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
-        $resource->setStorageID($this->storage_handler->getID());
+        $resource = $this->resource_repository->blank($this->primary_storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+        $resource->setStorageID($this->primary_storage_handler->getID());
 
         return $resource;
     }
@@ -139,7 +145,7 @@ class ResourceBuilder
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         $resource->addRevision($revision);
-        $resource->setStorageID($this->storage_handler->getID());
+        $resource->setStorageID($resource->getStorageID() === '' ? $this->primary_storage_handler->getID() : $resource->getStorageID());
 
         return $resource;
     }
@@ -160,7 +166,7 @@ class ResourceBuilder
         }
 
         $resource->addRevision($revision);
-        $resource->setStorageID($this->storage_handler->getID());
+        $resource->setStorageID($resource->getStorageID() === '' ? $this->primary_storage_handler->getID() : $resource->getStorageID());
 
         return $resource;
     }
@@ -175,7 +181,7 @@ class ResourceBuilder
         $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         $resource->addRevision($revision);
-        $resource->setStorageID($this->storage_handler->getID());
+        $resource->setStorageID($resource->getStorageID() === '' ? $this->primary_storage_handler->getID() : $resource->getStorageID());
 
         return $resource;
     }
@@ -194,7 +200,7 @@ class ResourceBuilder
         }
 
         $resource->addRevision($revision);
-        $resource->setStorageID($this->storage_handler->getID());
+        $resource->setStorageID($resource->getStorageID() === '' ? $this->primary_storage_handler->getID() : $resource->getStorageID());
 
         return $resource;
     }
@@ -219,7 +225,7 @@ class ResourceBuilder
             $this->populateRevisionInfo($cloned_revision, $info_resolver);
 
             $resource->addRevision($cloned_revision);
-            $resource->setStorageID($this->storage_handler->getID());
+            $resource->setStorageID($resource->getStorageID() === '' ? $this->primary_storage_handler->getID() : $resource->getStorageID());
             return $resource;
         }
         return $resource;
@@ -233,7 +239,7 @@ class ResourceBuilder
      */
     public function has(ResourceIdentification $identification) : bool
     {
-        return $this->resource_repository->has($identification) && $this->storage_handler->has($identification);
+        return $this->resource_repository->has($identification);
     }
 
     /**
@@ -290,7 +296,7 @@ class ResourceBuilder
                 $existing_revision
             );
 
-            $stream = new FileStreamConsumer($resource, $this->storage_handler);
+            $stream = new FileStreamConsumer($resource, $this->primary_storage_handler);
             $stream->setRevisionNumber($existing_revision->getVersionNumber());
 
             $cloned_revision = new FileStreamRevision($new_resource->getIdentification(), $stream->getStream(), true);
@@ -314,13 +320,13 @@ class ResourceBuilder
         if ($revision instanceof UploadedFileRevision) {
             // check policies
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
-            $this->storage_handler->storeUpload($revision);
+            $this->primary_storage_handler->storeUpload($revision);
         }
         if ($revision instanceof FileStreamRevision) {
-            $this->storage_handler->storeStream($revision);
+            $this->primary_storage_handler->storeStream($revision);
         }
         if ($revision instanceof CloneRevision) {
-            $this->storage_handler->cloneRevision($revision);
+            $this->primary_storage_handler->cloneRevision($revision);
         }
         $this->revision_repository->store($revision);
         $this->information_repository->store($revision->getInformation(), $revision);
@@ -349,17 +355,25 @@ class ResourceBuilder
      * @param StorableResource    $resource
      * @param ResourceStakeholder $stakeholder
      */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null) : void
     {
-        $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
-        if (count($resource->getStakeholders()) > 1) {
-            return;
+        if ($stakeholder instanceof ResourceStakeholder) {
+            $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
+            $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
+            $resource->removeStakeholder($stakeholder);
+            if (count($resource->getStakeholders()) > 0) {
+                return;
+            }
+        }
+        foreach ($resource->getStakeholders() as $s) {
+            $s->resourceHasBeenDeleted($resource->getIdentification());
         }
 
         foreach ($resource->getAllRevisions() as $revision) {
             $this->deleteRevision($resource, $revision);
         }
-        $this->storage_handler->deleteResource($resource);
+
+        $this->storage_handler_factory->getHandlerForResource($resource)->deleteResource($resource);
         $this->resource_repository->delete($resource);
     }
 
@@ -374,7 +388,11 @@ class ResourceBuilder
 
     private function deleteRevision(StorableResource $resource, Revision $revision) : void
     {
-        $this->storage_handler->deleteRevision($revision);
+        try {
+            $this->storage_handler_factory->getHandlerForResource($resource)->deleteRevision($revision);
+        } catch (\Throwable $t) {
+        }
+
         $this->information_repository->delete($revision->getInformation(), $revision);
         $this->revision_repository->delete($revision);
         $resource->removeRevision($revision);

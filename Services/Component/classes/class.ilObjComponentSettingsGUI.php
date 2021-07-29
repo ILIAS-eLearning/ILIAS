@@ -56,11 +56,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
-        $this->tabs        = $DIC->tabs();
-        $this->ctrl        = $DIC->ctrl();
+        $this->tabs = $DIC->tabs();
+        $this->ctrl = $DIC->ctrl();
         $this->rbac_system = $DIC->rbac()->system();
-        $this->db          = $DIC->database();
-        $this->type        = self::TYPE;
+        $this->db = $DIC->database();
+        $this->type = self::TYPE;
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule(self::TYPE);
     }
@@ -75,7 +75,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $ilErr = $DIC['ilErr'];
 
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd        = $this->ctrl->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
@@ -133,7 +133,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
      */
     public function getAdminTabs() : void
     {
-
         if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 self::TAB_PLUGINS,
@@ -179,7 +178,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->tabs->activateTab(self::TAB_PLUGINS);
 
         $filters = new ilPluginsOverviewTableFilterGUI($this);
-        $table   = new ilPluginsOverviewTableGUI($this, $filters->getData(), self::CMD_DEFAULT);
+        $table = new ilPluginsOverviewTableGUI($this, $filters->getData(), self::CMD_DEFAULT);
 
         $this->tpl->setContent($filters->getHTML() . $table->getHTML());
     }
@@ -255,7 +254,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function showPlugin() : void
     {
-
         if (!$_GET[self::P_CTYPE] ||
             !$_GET[self::P_CNAME] ||
             !$_GET[self::P_SLOT_ID] ||
@@ -292,7 +290,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $plugin["name"] . "/lang");
 
         // dbupdate
-        $file    = ilPlugin::getDBUpdateScriptName(
+        $file = ilPlugin::getDBUpdateScriptName(
             $_GET[self::P_CTYPE],
             $_GET[self::P_CNAME],
             ilPluginSlot::lookupSlotName($_GET[self::P_CTYPE], $_GET[self::P_CNAME], $_GET[self::P_SLOT_ID]),
@@ -390,15 +388,15 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $status = $this->lng->txt("cmps_inactive") . $r;
         }
 
-        $info[""][$this->lng->txt("cmps_name")]    = $plugin["name"];
-        $info[""][$this->lng->txt("cmps_id")]      = $plugin["id"];
+        $info[""][$this->lng->txt("cmps_name")] = $plugin["name"];
+        $info[""][$this->lng->txt("cmps_id")] = $plugin["id"];
         $info[""][$this->lng->txt("cmps_version")] = $plugin["version"];
         if ($resp) {
             $info[""][$this->lng->txt("cmps_responsible")] = $resp;
         }
         $info[""][$this->lng->txt("cmps_ilias_min_version")] = $plugin["ilias_min_version"];
         $info[""][$this->lng->txt("cmps_ilias_max_version")] = $plugin["ilias_max_version"];
-        $info[""][$this->lng->txt("cmps_status")]            = $status;
+        $info[""][$this->lng->txt("cmps_status")] = $status;
 
         if (sizeof($langs)) {
             $lang_files = array();
@@ -410,7 +408,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $info[""][$this->lng->txt("cmps_languages")] = $this->lng->txt("cmps_no_language_file_available");
         }
 
-        $info[$this->lng->txt("cmps_basic_files")]["plugin.php"]                       = $plugin["plugin_php_file_status"] ?
+        $info[$this->lng->txt("cmps_basic_files")]["plugin.php"] = $plugin["plugin_php_file_status"] ?
             $this->lng->txt("cmps_available") :
             $this->lng->txt("cmps_missing");
         $info[$this->lng->txt("cmps_basic_files")][$this->lng->txt("cmps_class_file")] = ($plugin["class_file_status"] ?
@@ -421,9 +419,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         if (!$db_file) {
             $info[$this->lng->txt("cmps_database")][$this->lng->txt("file")] = $this->lng->txt("cmps_no_db_update_file_available");
         } else {
-            $info[$this->lng->txt("cmps_database")][$this->lng->txt("file")]                 = "dbupdate.php";
+            $info[$this->lng->txt("cmps_database")][$this->lng->txt("file")] = "dbupdate.php";
             $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_current_version")] = $db_curr;
-            $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_file_version")]    = $db_file;
+            $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_file_version")] = $db_file;
         }
 
         $form = new ilPropertyFormGUI();
@@ -596,7 +594,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         );
 
         $activation = ((bool) $pl_meta["activation_possible"] || (bool) $pl_meta["is_active"]); // #18827
-        $reason     = $pl_meta["inactive_reason"];
+        $reason = $pl_meta["inactive_reason"];
 
         $question = $activation
             ? sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName())

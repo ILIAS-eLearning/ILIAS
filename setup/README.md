@@ -8,6 +8,7 @@ main commands to manage ILIAS installations:
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
 * `reload-control-structure` [rebuilds structure information](#reload-ilias-control-structure) of an installation
+* `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
@@ -115,6 +116,45 @@ The control structure captures information about components and GUIs of ILIAS
 in the database. Sometimes it might be necessary to refresh that information.
 Please do not invoke this function unless it is explicitly stated in update
 or patch instructions or you know what you are doing.
+
+# Migrations
+
+Migrations are major changes in the ILIAS database or file system that are 
+necessary after an update. Migrations can take quite a long time, which is 
+why they are available separately as a command. The advantage is that you can 
+perform migrations after the update when the installation is already online again. 
+For more information, see [https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html](https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html)
+
+The command lists available migrations:
+
+`php setup/setup.php migrate`
+
+
+```
+! [NOTE] There are 1 to run:
+
+ilFileObjectMigrationAgent.ilFileObjectToStorageMigration: Migration of File-Objects to Storage service [remaining steps: 1110]
+```
+
+Individual migrations can then be started as follows, e.g.:
+
+`php setup/setup.php migrate --run ilFileObjectMigrationAgent.ilFileObjectToStorageMigration`
+
+A migration must be confirmed in each case, e.g.:
+
+``` 
+Do you really want to run the following migration? Make sure you have a backup
+of all your data. You will run this migration on your own risk.
+
+Please type 'ilFileObjectToStorageMigration' to confirm and start.:
+>
+```
+
+With `--yes` migrations can be confirmed automatically.
+
+Migrations are divided into individual steps, of which there can be many depending
+on the migration. A default number of steps is executed in each case; the number 
+can be increased or set with `--steps=...`.
 
 ## About the Config File
 

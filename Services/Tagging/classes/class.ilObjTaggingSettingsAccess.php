@@ -3,9 +3,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class ilObjTaggingSettingsAccess
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjTaggingSettingsAccess extends ilObjectAccess
 {

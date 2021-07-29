@@ -13,12 +13,9 @@ class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 
     public function run() : void
     {
-
         global $DIC;
 
         $revision = $this->getRevision();
-
-//        $this->file_name_policy->check($revision->getInformation()->getSuffix());
 
         $file_name = $this->file_name_policy->prepareFileNameForConsumer($revision->getInformation()->getTitle());
         $mime_type = $revision->getInformation()->getMimeType();

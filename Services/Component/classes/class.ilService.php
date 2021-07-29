@@ -33,14 +33,35 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 *
 * @ingroup ServicesComponent
 */
-abstract class ilService extends ilComponent
+class ilService extends ilComponent
 {
+    protected string $name;
+
+    /**
+    * Constructor: read information on component
+    */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+        parent::__construct();
+    }
+
     /**
      * @inheritdoc
      */
     final public function getComponentType() : string
     {
         return IL_COMP_SERVICE;
+    }
+
+    public function getVersion()
+    {
+        return "-";
+    }
+
+    public function isCore()
+    {
+        return true;
     }
     
     /**
@@ -50,10 +71,7 @@ abstract class ilService extends ilComponent
     */
     final public function getName()
     {
-        // class is always il<ModuleName>Service
-        $class = get_class($this);
-        
-        return substr($class, 2, strlen($class) - 9);
+        return $this->name;
     }
 
     /**
@@ -66,7 +84,7 @@ abstract class ilService extends ilComponent
     */
     final public static function getAvailableCoreServices()
     {
-        $services_dir = ILIAS_ABSOLUTE_PATH . "/Services";
+        $services_dir = __DIR__ . "/../../../Services";
 
         if (!@is_dir($services_dir)) {
             return array();

@@ -414,7 +414,7 @@ class ilDBUpdate
                 $module["subdir"],
                 "Modules"
             );
-            $mr->getModules();
+            $mr->startParsing();
             unset($mr);
         }
 
@@ -426,7 +426,7 @@ class ilDBUpdate
                 $service["subdir"],
                 "Services"
             );
-            $sr->getServices();
+            $sr->startParsing();
             unset($sr);
         }
 

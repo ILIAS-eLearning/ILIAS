@@ -10,12 +10,6 @@
 class ilCombinationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
      * Constructor
      */
     public function __construct($a_title = "", $a_postvar = "")

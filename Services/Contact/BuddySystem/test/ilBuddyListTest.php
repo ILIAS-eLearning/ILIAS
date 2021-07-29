@@ -13,9 +13,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     private const BUDDY_LIST_OWNER_ID = -1;
     private const BUDDY_LIST_BUDDY_ID = -2;
 
-    /** @var ilBuddyList */
-    protected $buddyList;
-
     protected function setUp() : void
     {
         $this->setGlobalVariable(
@@ -32,9 +29,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         );
     }
 
-    /**
-     *
-     */
     public function testInstanceCanBeCreatedByGlobalUserObject() : void
     {
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(['getId'])->getMock();
@@ -44,9 +38,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         ilBuddyList::getInstanceByGlobalUser();
     }
 
-    /**
-     *
-     */
     public function testInstanceCannotBeCreatedByAnonymousGlobalUserObject() : void
     {
         $this->expectException(ilBuddySystemException::class);
@@ -57,14 +48,23 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         ilBuddyList::getInstanceByGlobalUser();
     }
 
-    /**
-     *
-     */
     public function testInstanceByBeCreatedBySingletonMethod() : void
     {
         $relations = [
-            4711 => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState()),
-            4712 => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState())
+            4711 => new ilBuddySystemRelation(
+                new ilBuddySystemUnlinkedRelationState(),
+                self::BUDDY_LIST_BUDDY_ID,
+                self::BUDDY_LIST_OWNER_ID,
+                false,
+                time()
+            ),
+            4712 => new ilBuddySystemRelation(
+                new ilBuddySystemUnlinkedRelationState(),
+                self::BUDDY_LIST_BUDDY_ID,
+                self::BUDDY_LIST_OWNER_ID,
+                false,
+                time()
+            )
         ];
 
         $buddyList = ilBuddyList::getInstanceByUserId(self::BUDDY_LIST_OWNER_ID);
@@ -75,9 +75,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEquals($buddyList, $otherBuddylist);
     }
 
-    /**
-     *
-     */
     public function testListIsInitiallyEmpty() : void
     {
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -90,14 +87,23 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEmpty($buddyList->getRelations());
     }
 
-    /**
-     *
-     */
     public function testRepositoryIsEnquiredToFetchRelationsWhenRequestedExplicitly() : void
     {
         $relations = [
-            4711 => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState()),
-            4712 => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState())
+            4711 => new ilBuddySystemRelation(
+                new ilBuddySystemUnlinkedRelationState(),
+                self::BUDDY_LIST_BUDDY_ID,
+                self::BUDDY_LIST_OWNER_ID,
+                false,
+                time()
+            ),
+            4712 => new ilBuddySystemRelation(
+                new ilBuddySystemUnlinkedRelationState(),
+                self::BUDDY_LIST_BUDDY_ID,
+                self::BUDDY_LIST_OWNER_ID,
+                false,
+                time()
+            )
         ];
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -111,14 +117,17 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEquals(new ilBuddySystemRelationCollection($relations), $buddyList->getRelations());
     }
 
-    /**
-     *
-     */
     public function testRepositoryIsEnquiredOnlyOnceToFetchRelationsWhenCalledImplicitly() : void
     {
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_BUDDY_ID,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
+        $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
@@ -145,15 +154,16 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->request($relation);
     }
 
-    /**
-     *
-     */
     public function testRelationRequestCannotBeApprovedByTheRelationOwner() : void
     {
         $this->expectException(ilBuddySystemException::class);
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
@@ -184,9 +194,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
      */
     public function testRelationRequestCanBeApprovedByTheRelationTarget() : void
     {
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
@@ -220,9 +234,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testRelationRequestCannotBeIgnoredByTheRelationOwner() : void
     {
         $this->expectException(ilBuddySystemException::class);
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
@@ -253,9 +271,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
      */
     public function testRelationRequestCanBeIgnoredByTheRelationTarget() : void
     {
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $relations = [
             $expectedRelation->getBuddyUsrId() => $expectedRelation
@@ -289,9 +311,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testRelationCannotBeRequestedForAnonymous() : void
     {
         $this->expectException(ilBuddySystemException::class);
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(ANONYMOUS_USER_ID);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            ANONYMOUS_USER_ID,
+            false,
+            time()
+        );
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
         $repo->expects($this->never())->method('getAll')->willReturn([]);
@@ -309,9 +335,15 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
     public function testRelationCannotBeRequestedForUnknownUserAccounts() : void
     {
         $this->expectException(ilBuddySystemException::class);
-        $expectedRelation = new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState());
-        $expectedRelation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $expectedRelation->setBuddyUsrId(-3);
+        $expectedRelation = new ilBuddySystemRelation(
+            new ilBuddySystemUnlinkedRelationState(),
+            self::BUDDY_LIST_BUDDY_ID,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
+        $expectedRelation->withUsrId(self::BUDDY_LIST_OWNER_ID);
+        $expectedRelation->withBuddyUsrId(-3);
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $db->expects($this->once())->method('queryF');
@@ -372,7 +404,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $this->assertEquals($repo, $buddyList->getRepository());
 
         $relations = [
-            self::BUDDY_LIST_BUDDY_ID => new ilBuddySystemRelation(new ilBuddySystemUnlinkedRelationState())
+            self::BUDDY_LIST_BUDDY_ID => new ilBuddySystemRelation(
+                new ilBuddySystemUnlinkedRelationState(),
+                self::BUDDY_LIST_BUDDY_ID,
+                self::BUDDY_LIST_OWNER_ID,
+                false,
+                time()
+            )
         ];
         $buddyList->setRelations(new ilBuddySystemRelationCollection($relations));
         $this->assertEquals(new ilBuddySystemRelationCollection($relations), $buddyList->getRelations());
@@ -388,44 +426,76 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $relations = [];
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemLinkedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID + 1);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemLinkedRelationState(),
+            self::BUDDY_LIST_BUDDY_ID + 1,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 1] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID + 2);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemLinkedRelationState(),
+            self::BUDDY_LIST_BUDDY_ID + 2,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 2] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID + 3);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemRequestedRelationState(),
+            self::BUDDY_LIST_BUDDY_ID + 3,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 3] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID + 4);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemRequestedRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID + 4,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 4] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID + 5);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemIgnoredRequestRelationState(),
+            self::BUDDY_LIST_BUDDY_ID + 5,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 5] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID + 6);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemIgnoredRequestRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID + 6,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 6] = $relation;
 
-        $relation = new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID + 7);
+        $relation = new ilBuddySystemRelation(
+            new ilBuddySystemIgnoredRequestRelationState(),
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID + 7,
+            false,
+            time()
+        );
         $relations[self::BUDDY_LIST_BUDDY_ID + 7] = $relation;
 
         $repo = $this->getMockBuilder(ilBuddySystemRelationRepository::class)->disableOriginalConstructor()->getMock();
@@ -467,18 +537,19 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $state = new ilBuddySystemLinkedRelationState();
 
-        $relation = new ilBuddySystemRelation($state);
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $relation = new ilBuddySystemRelation(
+            $state,
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $this->setPriorRelationState($relation, $state);
 
         $buddyList->link($relation);
     }
 
-    /**
-     *
-     */
     public function testAlreadyGivenStateExceptionIsThrownWhenAnIgnoredRelationShouldBeMarkedAsIgnored() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
@@ -487,18 +558,19 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $state = new ilBuddySystemIgnoredRequestRelationState();
 
-        $relation = new ilBuddySystemRelation($state);
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            $state,
+            self::BUDDY_LIST_BUDDY_ID,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
 
         $this->setPriorRelationState($relation, $state);
 
         $buddyList->ignore($relation);
     }
 
-    /**
-     *
-     */
     public function testAlreadyGivenStateExceptionIsThrownWhenAnUnlinkedRelationShouldBeMarkedAsUnlinked() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
@@ -507,18 +579,19 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $state = new ilBuddySystemUnlinkedRelationState();
 
-        $relation = new ilBuddySystemRelation($state);
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $relation = new ilBuddySystemRelation(
+            $state,
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $this->setPriorRelationState($relation, $state);
 
         $buddyList->unlink($relation);
     }
 
-    /**
-     *
-     */
     public function testAlreadyGivenStateExceptionIsThrownWhenARequestedRelationShouldBeMarkedAsRequested() : void
     {
         $this->expectException(ilBuddySystemRelationStateAlreadyGivenException::class);
@@ -527,9 +600,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $state = new ilBuddySystemRequestedRelationState();
 
-        $relation = new ilBuddySystemRelation($state);
-        $relation->setUsrId(self::BUDDY_LIST_BUDDY_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_OWNER_ID);
+        $relation = new ilBuddySystemRelation(
+            $state,
+            self::BUDDY_LIST_BUDDY_ID,
+            self::BUDDY_LIST_OWNER_ID,
+            false,
+            time()
+        );
 
         $this->setPriorRelationState($relation, $state);
 
@@ -542,9 +619,6 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
         $buddyList->request($relation);
     }
 
-    /**
-     *
-     */
     public function testStateTransitionExceptionIsThrownWhenALinkedRelationShouldBeMarkedAsIgnored() : void
     {
         $this->expectException(ilBuddySystemRelationStateTransitionException::class);
@@ -553,9 +627,13 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
 
         $state = new ilBuddySystemLinkedRelationState();
 
-        $relation = new ilBuddySystemRelation($state);
-        $relation->setUsrId(self::BUDDY_LIST_OWNER_ID);
-        $relation->setBuddyUsrId(self::BUDDY_LIST_BUDDY_ID);
+        $relation = new ilBuddySystemRelation(
+            $state,
+            self::BUDDY_LIST_OWNER_ID,
+            self::BUDDY_LIST_BUDDY_ID,
+            false,
+            time()
+        );
 
         $this->setPriorRelationState($relation, $state);
 

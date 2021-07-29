@@ -19,7 +19,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  *
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
@@ -578,9 +578,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                     break;
                 case IMAGEMAP_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt("assImagemapQuestion");
-                    break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt("assJavaApplet");
                     break;
                 case MATCHING_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt("assMatchingQuestion");

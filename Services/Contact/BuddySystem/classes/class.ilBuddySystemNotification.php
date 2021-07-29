@@ -7,14 +7,10 @@
  */
 class ilBuddySystemNotification
 {
-    /** @var ilObjUser */
-    protected $sender;
-
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var array */
-    protected $recipientIds = [];
+    protected ilObjUser $sender;
+    protected ilSetting $settings;
+    /** @var int[] */
+    protected array $recipientIds = [];
 
     /**
      * @param ilObjUser $user
@@ -37,14 +33,11 @@ class ilBuddySystemNotification
     /**
      * @param int[] $recipientIds
      */
-    public function setRecipientIds(array $recipientIds)
+    public function setRecipientIds(array $recipientIds) : void
     {
-        $this->recipientIds = $recipientIds;
+        $this->recipientIds = array_map('intval', $recipientIds);
     }
 
-    /**
-     *
-     */
     public function send() : void
     {
         foreach ($this->getRecipientIds() as $usr_id) {
@@ -57,7 +50,7 @@ class ilBuddySystemNotification
             $notification->setTitleVar('buddy_notification_contact_request', [], 'buddysystem');
 
             $personalProfileLink = $recipientLanguage->txt('buddy_noti_cr_profile_not_published');
-            if ($this->hasPublicProfile((int) $user->getId())) {
+            if ($this->hasPublicProfile($user->getId())) {
                 $personalProfileLink = ilLink::_getStaticLink($this->sender->getId(), 'usr');
             }
 
@@ -105,10 +98,6 @@ class ilBuddySystemNotification
         }
     }
 
-    /**
-     * @param int $recipientUsrId
-     * @return bool
-     */
     protected function hasPublicProfile(int $recipientUsrId) : bool
     {
         $portfolioId = ilObjPortfolio::getDefaultPortfolio($this->sender->getId());

@@ -158,7 +158,8 @@ class ilContainerNewsSettingsGUI
         // Cron Notifications (courses and groups)
         if ($this->has_cron_notifications) {
             if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
-                $ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
+                $ref_ids = ilObject::_getAllReferences($this->object->getId());
+                $ref_id = array_pop($ref_ids);
                 ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
             }
         }
@@ -246,7 +247,7 @@ class ilContainerNewsSettingsGUI
             if ($this->setting->get('block_activated_news')) {
                 //save contextblock settings
                 $context_block_settings = array(
-                    "public_feed" => $_POST["notifications_public_feed"],
+                    "public_feed" => $_POST["notifications_public_feed"] ?? "",
                     "default_visibility" => $_POST["default_visibility"],
                     "hide_news_per_date" => $_POST["hide_news_per_date"],
                     "hide_news_date" => $_POST["hide_news_date"]
@@ -258,7 +259,8 @@ class ilContainerNewsSettingsGUI
                 ilNewsForContextBlockGUI::writeSettings($context_block_settings);
 
                 if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
-                    $ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
+                    $ref_ids = ilObject::_getAllReferences($this->object->getId());
+                    $ref_id = array_pop($ref_ids);
 
                     ilMembershipNotifications::importFromForm($ref_id, $form);
                 }

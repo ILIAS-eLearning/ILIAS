@@ -44,7 +44,7 @@
 	</div>
 </div>
 <script>
-	$(function() {
+	window.setTimeout(function() {
 		$('#{ID}').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -70,5 +70,5 @@
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#{ID}').find('.modal-title').text(title);
 		});
-	});
+	}, 0);
 </script>

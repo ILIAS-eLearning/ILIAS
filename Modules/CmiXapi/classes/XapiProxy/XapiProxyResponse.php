@@ -19,7 +19,7 @@
         public function checkResponse($response, $endpoint) {
             if ($response['state'] === 'fulfilled') {
                 $status = $response['value']->getStatusCode();
-                if ($status === 200 || $status === 204) {
+                if ($status === 200 || $status === 204 || $status === 404) {
                     return true;
                 }
                 else {
@@ -84,12 +84,18 @@
         }
 
         public function exitResponseError() {
+            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            header('Access-Control-Allow-Credentials: true');
+            header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 412 Wrong Response");
             echo "HTTP/1.1 412 Wrong Response";
             exit;
         }
         
         public function exitProxyError() {
+            header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+            header('Access-Control-Allow-Credentials: true');
+            header('X-Experience-API-Version: 1.0.3');
             header("HTTP/1.1 500 XapiProxy Error (Ask For Logs)");
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;

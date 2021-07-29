@@ -256,7 +256,7 @@ class ilBadgeAssignment
             " WHERE badge_id = " . $ilDB->quote($a_badge_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        if ($row["user_id"]) {
+        if ($row && $row["user_id"]) {
             $this->importDBRow($row);
         }
     }

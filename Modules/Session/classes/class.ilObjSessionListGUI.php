@@ -146,13 +146,8 @@ class ilObjSessionListGUI extends ilObjectListGUI
     public function getProperties()
     {
         $app_info = $this->getAppointmentInfo();
-        
-        /*
-        $props[] = array(
-            'alert'		=> false,
-            'property'	=> $this->lng->txt('event_date'),
-            'value'		=> ilSessionAppointment::_appointmentToString($app_info['start'],$app_info['end'],$app_info['fullday']));
-        */
+
+        $props = [];
         include_once './Modules/Session/classes/class.ilObjSession.php';
         $session_data = new ilObjSession($this->obj_id, false);
         include_once './Modules/Session/classes/class.ilSessionParticipants.php';

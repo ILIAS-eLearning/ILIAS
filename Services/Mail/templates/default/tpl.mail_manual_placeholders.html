@@ -11,14 +11,15 @@
 <!-- END placeholder_box -->
 <!-- BEGIN js_block -->
 <script>
-	(function($) {
+document.addEventListener("DOMContentLoaded", (event) => {
+	(function ($) {
 		var $triggerElm = $('[name="{RERENDER_TRIGGER_ELM_NAME}"]');
 
 		$triggerElm["serializeObject"] = function () {
 			var obj = {};
 			$.each(this.serializeArray(), function (i, o) {
 				var n = o.name,
-					v = o.value;
+						v = o.value;
 				obj[n] = obj[n] === undefined ? v : $.isArray(obj[n]) ? obj[n].concat(v) : [obj[n], v];
 			});
 			return obj;
@@ -41,7 +42,7 @@
 					$.ajax({
 						url: "{RERENDER_URL}" + "&triggerValue=" + value,
 						type: 'GET'
-					}).done(function(placeholders) {
+					}).done(function (placeholders) {
 						$('#placeholders_box').html(placeholders);
 					});
 				}
@@ -52,5 +53,6 @@
 			$(document).ready(onCtxChange);
 		}
 	})(jQuery);
+});
 </script>
 <!-- END js_block -->

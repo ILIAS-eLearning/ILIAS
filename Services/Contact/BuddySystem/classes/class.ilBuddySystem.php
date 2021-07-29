@@ -7,21 +7,12 @@
  */
 class ilBuddySystem
 {
-    /** @var self */
-    protected static $instance;
+    protected static ?self $instance = null;
+    protected static ?bool $isEnabled = null;
 
-    /** @var bool */
-    protected static $isEnabled;
+    protected ilSetting $settings;
+    protected ilObjUser $user;
 
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilObjUser */
-    protected $user;
-
-    /**
-     * ilBuddySystem constructor.
-     */
     protected function __construct()
     {
         global $DIC;
@@ -30,9 +21,6 @@ class ilBuddySystem
         $this->user = $DIC['ilUser'];
     }
 
-    /**
-     * @return self
-     */
     public static function getInstance() : self
     {
         if (!(self::$instance instanceof self)) {
@@ -54,16 +42,13 @@ class ilBuddySystem
     /**
      * @param string $keyword
      * @param bool|false $default
-     * @return string
+     * @return string|bool
      */
     public function getSetting(string $keyword, bool $default = false)
     {
         return $this->settings->get($keyword, $default);
     }
 
-    /**
-     * @return bool
-     */
     public function isEnabled() : bool
     {
         if (self::$isEnabled !== null) {

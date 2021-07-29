@@ -181,15 +181,6 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
         $sub_text->setMaxLength(4);
         $sub_text->setRequired(true);
         $a_form->addItem($sub_text);
-        
-        /*
-        $default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
-        $sub_cb = new ilCheckboxInputGUI($lng->txt('delete_inactivated_user_accounts_include_admins'),'cron_inactivated_user_delete_include_admins');
-        $sub_cb->setChecked($ilSetting->get("cron_inactivated_user_delete_include_admins", $default_setting) ? 1 : 0 );
-        //$sub_cb->setOptionTitle($lng->txt('delete_inactivated_user_accounts_include_admins'));
-        $sub_cb->setInfo($lng->txt('delete_inactivated_user_accounts_include_admins_desc'));
-        $a_form->addItem($sub_cb);
-        */
     }
     
     public function saveCustomSettings(ilPropertyFormGUI $a_form)

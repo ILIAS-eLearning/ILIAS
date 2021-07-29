@@ -7,9 +7,9 @@ modules of ILIAS.
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Alexander Killing], [Michael Jansen], [Timon Amstutz], [Richard Klees], [Stephan Winiker]
+* **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: [Florian Suittenpointner]
+* **Documentation**: N.A.
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
@@ -47,8 +47,10 @@ by the [Issue-Tracker](https://mantis.ilias.de).
 
 Applications for maintainerships can be handed in to the product manager. The product manager together with the 
 technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
-addition the company the maintainer is working for can be listed, too. In this second case the company can suggest 
-a new maintainer to the product manager, if the employee leaves the company.
+addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
+propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
+for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
+substantially in the general condition of the component and the proposed maintainer meets the criteria.
 
 ## Current Maintainerships
 
@@ -110,7 +112,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: Manuel Müller, ZWH
+	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
 
 * **Chat**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
@@ -203,7 +205,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
 * **ECS Interface**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)

@@ -19,6 +19,15 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
             ->method('getStatus')
             ->willReturn(true);
 
+        $lng = $this->getLanguageMock();
+
+        $lng
+            ->expects($this->any())
+            ->method('txt')
+            ->willReturn('translation');
+
+        $this->setGlobalVariable('lng', $lng);
+
         $form = new ilTermsOfServiceSettingsFormGUI(
             $tos,
             '',
@@ -57,6 +66,8 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormCanBeSavedWithDisabledService() : void
     {
+        $this->initLangMock();
+
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
@@ -105,6 +116,8 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormCanBeSavedWithEnabledServiceWhenAtLeastOneDocumentExists() : void
     {
+        $this->initLangMock();
+
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
@@ -228,6 +241,8 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormCanBeSavedWithEnabledServiceWhenNoDocumentsExistButServiceIsAlreadyEnabled() : void
     {
+        $this->initLangMock();
+
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos

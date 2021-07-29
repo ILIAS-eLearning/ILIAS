@@ -11,11 +11,6 @@
 * @extends ilObject
 */
 
-// TODO: move this to class.ilias.php
-if (!defined('USER_FOLDER_ID')) {
-    define('USER_FOLDER_ID', 7);
-}
-
 class ilObjUserFolder extends ilObject
 {
     public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';

@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
 
@@ -12,17 +9,13 @@ use ILIAS\Refinery\String\HasMaxLength;
 use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\SplitString;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class Group
 {
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
+    private Factory $dataFactory;
+    private \ilLanguage $language;
 
     public function __construct(Factory $dataFactory, \ilLanguage $language)
     {
@@ -59,9 +52,6 @@ class Group
     /**
      * Creates a transformation that can be used to split a given
      * string by given delimiter.
-     *
-     * @param string $delimiter
-     * @return SplitString
      */
     public function splitString(string $delimiter) : SplitString
     {
@@ -82,10 +72,6 @@ class Group
      * Creates a transformation that can be used to format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
      *
      * Throws a LogicException in the transform method, if a not supported language is passed
-     *
-     * @param string $language_key
-     *
-     * @return CaseOfLabel
      */
     public function caseOfLabel(string $language_key) : CaseOfLabel
     {
@@ -100,11 +86,8 @@ class Group
      * and minus an additional second for each subsequent image.
      * Any images after the tenth image are counted at three seconds.
      * The reading time returned in minutes as a integer value.
-     *
-     * @param bool $withImages
-     * @return EstimatedReadingTime
      */
-    public function estimatedReadingTime($withImages = false) : EstimatedReadingTime
+    public function estimatedReadingTime(bool $withImages = false) : EstimatedReadingTime
     {
         return new EstimatedReadingTime($withImages);
     }

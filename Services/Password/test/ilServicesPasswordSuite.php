@@ -14,11 +14,7 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilServicesPasswordSuite extends TestSuite
 {
-    /**
-     * @return self
-     * @throws ReflectionException
-     */
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
 

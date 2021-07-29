@@ -42,11 +42,18 @@ class ilAccordionGUI
     public static $owl_css_path = "/assets/owl.carousel.css";
 
     /**
+     * @var \ilGlobalTemplateInterface
+     */
+    protected $main_tpl;
+
+    /**
     * Constructor
     */
     public function __construct()
     {
         global $DIC;
+
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->user = $DIC->user();
         $this->setOrientation(ilAccordionGUI::VERTICAL);
@@ -541,9 +548,11 @@ class ilAccordionGUI
         $options["show_all_element"] = $this->getShowAllElement();
         $options["hide_all_element"] = $this->getHideAllElement();
 
-        $tpl->setVariable("OPTIONS", $str = ilJsonUtil::encode($options));
         $tpl->setVariable("ACC_ID", $options["id"]);
-        //echo "<br><br><br><br><br><br>".$str;
+
+        $this->main_tpl->addOnLoadCode(
+            'il.Accordion.add(' . ilJsonUtil::encode($options) . ');'
+        );
         return $tpl->get();
     }
 }

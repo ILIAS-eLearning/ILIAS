@@ -6,11 +6,23 @@ use ILIAS\Data\UUID\Factory;
 
 /**
  * Class UniqueIDIdentificationGenerator
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class UniqueIDIdentificationGenerator implements IdentificationGenerator
 {
+    /**
+     * @var Factory
+     */
+    protected $factory;
+
+    /**
+     * UniqueIDIdentificationGenerator constructor.
+     */
+    public function __construct()
+    {
+        $this->factory = new Factory();
+    }
 
     /**
      * @return ResourceIdentification
@@ -18,9 +30,8 @@ class UniqueIDIdentificationGenerator implements IdentificationGenerator
      */
     public function getUniqueResourceIdentification() : ResourceIdentification
     {
-        $f = new Factory();
         try {
-            $unique_id = $f->uuid4AsString();
+            $unique_id = $this->factory->uuid4AsString();
         } catch (\Exception $e) {
             throw new \LogicException('Generating uuid failed: ' . $e->getMessage());
         } finally {

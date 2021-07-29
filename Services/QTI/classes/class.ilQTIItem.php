@@ -32,8 +32,6 @@ define("QT_MATCHING", "assMatchingQuestion");
 define("QT_ORDERING", "assOrderingQuestion");
 define("QT_ORDERING_HORIZONTAL", "assOrderingHorizontal");
 define("QT_IMAGEMAP", "assImagemapQuestion");
-define("QT_JAVAAPPLET", "assJavaApplet");
-define("QT_FLASHAPPLET", "assFlashApplet");
 define("QT_TEXT", "assTextQuestion");
 define("QT_FILEUPLOAD", "assFileUpload");
 define("QT_NUMERIC", "assNumeric");
@@ -250,8 +248,6 @@ class ilQTIItem
                 return QT_CLOZE;
             case "IMAGE MAP QUESTION":
                 return QT_IMAGEMAP;
-            case "JAVA APPLET QUESTION":
-                return QT_JAVAAPPLET;
             case "TEXT QUESTION":
                 return QT_TEXT;
             case "NUMERIC QUESTION":

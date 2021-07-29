@@ -259,7 +259,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->lng->txt('crs_important_info'),
                 "<strong>" . nl2br(
                     ilUtil::makeClickable($this->object->getImportantInformation(), true) . "</strong>"
-                               )
+                )
             );
         }
         if (strlen($this->object->getSyllabus())) {
@@ -385,25 +385,14 @@ class ilObjCourseGUI extends ilContainerGUI
         //
         
         // #10360
+        $info->enableAvailability(false);
         $this->lng->loadLanguageModule("rep");
         $info->addSection($this->lng->txt("rep_activation_availability"));
         $info->showLDAPRoleGroupMappingInfo();
                                 
         // activation
-        if ($this->object->getActivationUnlimitedStatus()) {
-            $info->addProperty(
-                $this->lng->txt("rep_activation_access"),
-                $this->lng->txt('crs_visibility_limitless')
-            );
-        } else {
-            $info->addProperty(
-                $this->lng->txt('rep_activation_access'),
-                ilDatePresentation::formatPeriod(
-                    new ilDateTime($this->object->getActivationStart(), IL_CAL_UNIX),
-                    new ilDateTime($this->object->getActivationEnd(), IL_CAL_UNIX)
-                )
-            );
-        }
+        $info->addAccessPeriodProperty();
+
         switch ($this->object->getSubscriptionLimitationType()) {
             case IL_CRS_SUBSCRIPTION_DEACTIVATED:
                 $txt = $this->lng->txt("crs_info_reg_deactivated");
@@ -481,7 +470,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilDatePresentation::formatPeriod(
                     $this->object->getCourseStart(),
                     $this->object->getCourseEnd()
-            )
+                )
             );
         }
         
@@ -1370,7 +1359,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getNumberOfPreviousSessions() == -1 ?
                         '' :
                         $this->object->getNumberOfPreviousSessions()
-                    );
+        );
         $prev->setSize(2);
         $prev->setMaxLength(3);
         $sess->addSubItem($prev);
@@ -1382,7 +1371,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getNumberOfNextSessions() == -1 ?
                         '' :
                         $this->object->getNumberOfnextSessions()
-                    );
+        );
         $next->setSize(2);
         $next->setMaxLength(3);
         $sess->addSubItem($next);
@@ -1488,7 +1477,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     ilObjectServiceSettingsGUI::BOOKING,
                     ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                 )
-            );
+        );
 
         $mem = new ilCheckboxInputGUI($this->lng->txt('crs_show_members'), 'show_members');
         $mem->setChecked($this->object->getShowMembers());
@@ -1778,7 +1767,7 @@ class ilObjCourseGUI extends ilContainerGUI
             (
                 ilObjUserTracking::_enabledLearningProgress() and
             ilObjUserTracking::_enabledUserRelatedData()
-        );
+            );
         if ($this->show_tracking) {
             include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->object->getId());
@@ -1983,7 +1972,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjcoursegui", "ilinfoscreengui"),
                     "showSummary"
-                                 ),
+                ),
                 "infoScreen"
             );
         }
@@ -2101,7 +2090,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjcoursegui", "ilinfoscreengui"),
                     "showSummary"
-                                 ),
+                ),
                 "infoScreen",
                 "",
                 "",
@@ -3055,16 +3044,14 @@ class ilObjCourseGUI extends ilContainerGUI
         // ilObjCourseGUI, so please use ...ByClass methods.
         // (see ilObjCourseGUI->executeCommand: case "ilcolumngui")
         
-        if (!$_SESSION['crs_timings_panel'][$this->object->getId()] or 1) {
-            if (!$this->isActiveAdministrationPanel()) {
-                $this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "view"));
-            } else {
-                $this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
-            }
+        //if (!$_SESSION['crs_timings_panel'][$this->object->getId()] or 1) {
+        if (!$this->isActiveAdministrationPanel()) {
+            $this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "view"));
+        } else {
+            $this->tabs_gui->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass("ilobjcoursegui", "disableAdministrationPanel"));
         }
-        // cognos-blu-patch: begin
-        // cognos-blu-patch: begin
-        
+        //}
+
         $this->addStandardContainerSubTabs(false);
         
 

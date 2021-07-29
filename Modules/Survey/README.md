@@ -282,7 +282,12 @@ If the constraint is met, show the question.
   * first_question: first question id of page/block -> svy_question (does not seem to point to svy_svy_qst)
   * entered_page: timestamp when page has been rendered
   * left_page: timestamp when answers of page have been saved
-  
+
+### Business Rules
+
+* **Suspend Behaviour**: Clicking suspend will leave the survey without saving the inputs of the current page. Resume will present the page left with empty input. JF decision: https://mantis.ilias.de/view.php?id=30766
+
+
 ## Answer
 * **Code**:
 * **DB Tables**: `svy_answer`

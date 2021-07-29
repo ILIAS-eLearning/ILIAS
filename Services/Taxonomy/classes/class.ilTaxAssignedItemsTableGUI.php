@@ -1,36 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for taxonomy list
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected ilObjTaxonomy $tax;
+    protected int $node_id;
+    protected string $comp_id;
+    protected int $obj_id;
+    protected string $item_type;
+    protected ilTaxAssignedItemInfo $info_obj;
 
     /**
      * Constructor
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
-        $a_node_id,
-        $a_tax,
-        $a_comp_id,
-        $a_obj_id,
-        $a_item_type,
-        $a_info_obj
+        string $a_parent_cmd,
+        int $a_node_id,
+        \ilObjTaxonomy $a_tax,
+        string $a_comp_id,
+        int $a_obj_id,
+        string $a_item_type,
+        \ilTaxAssignedItemInfo $a_info_obj
     ) {
         global $DIC;
 
@@ -52,9 +50,6 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
-        
-        include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
         $tax_ass = new ilTaxNodeAssignment($this->comp_id, $this->obj_id, $this->item_type, $this->tax->getId());
         $this->setData($tax_ass->getAssignmentsOfNode($this->node_id));
         $this->setTitle($lng->txt("tax_assigned_items"));
@@ -70,29 +65,13 @@ class ilTaxAssignedItemsTableGUI extends ilTable2GUI
         $this->addCommandButton("saveAssignedItemsSorting", $lng->txt("save"));
     }
 
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
-        if (in_array($a_field, array("order_nr"))) {
-            return true;
-        }
-        return false;
+        return $a_field == "order_nr";
     }
 
-
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->tpl->setVariable("ONODE_ID", $a_set["item_id"]);
         $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
         $this->tpl->setVariable("TITLE", $this->info_obj->getTitle(

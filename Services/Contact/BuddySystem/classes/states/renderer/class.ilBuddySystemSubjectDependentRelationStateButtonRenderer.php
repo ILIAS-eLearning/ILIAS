@@ -7,9 +7,6 @@
  */
 abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends ilAbstractBuddySystemRelationStateButtonRenderer
 {
-    /**
-     * @inheritDoc
-     */
     protected function getTemplateVariablePrefix() : string
     {
         if ($this->relation->isOwnedByActor()) {
@@ -19,9 +16,6 @@ abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends 
         return 'REQUESTEE_';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function render() : void
     {
         if ($this->relation->isOwnedByActor()) {

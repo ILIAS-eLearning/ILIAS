@@ -136,8 +136,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
-        $this->setRetypeValue($a_values[$this->getPostVar() . "_retype"]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setRetypeValue($a_values[$this->getPostVar() . "_retype"] ?? "");
     }
 
     /**

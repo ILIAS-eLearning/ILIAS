@@ -7,23 +7,13 @@ define("IL_PASSWD_PLAIN", "plain");
 define("IL_PASSWD_CRYPTED", "crypted");
 
 
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once './Services/User/exceptions/class.ilUserException.php';
-require_once './Modules/OrgUnit/classes/class.ilObjOrgUnit.php';
-require_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
-
 /**
-* @defgroup ServicesUser Services/User
-*
-* User application class
-*
-* @author	Sascha Hofmann <saschahofmann@gmx.de>
-* @author	Stefan Meyer <meyer@leifos.com>
-* @author	Peter Gabriel <pgabriel@databay.de>
-* @version	$Id$
-*
-* @ingroup ServicesUser
-*/
+ * User class
+ *
+ * @author	Sascha Hofmann <saschahofmann@gmx.de>
+ * @author	Stefan Meyer <meyer@leifos.com>
+ * @author	Peter Gabriel <pgabriel@databay.de>
+ */
 class ilObjUser extends ilObject
 {
     /**
@@ -118,7 +108,7 @@ class ilObjUser extends ilObject
     * @var		array
     * @access	public
     */
-    public $prefs;
+    public $prefs = [];
 
     /**
     * Contains template set
@@ -134,13 +124,6 @@ class ilObjUser extends ilObject
     * @access	private
     */
     public $default_role;
-
-    /**
-    * ilias object
-    * @var object ilias
-    * @access private
-    */
-    public $ilias;
 
     public static $is_desktop_item_loaded;
     public static $is_desktop_item_cache;
@@ -183,6 +166,7 @@ class ilObjUser extends ilObject
      */
     protected $first_login;	// timestamp
 
+    protected bool $profile_incomplete = false;
 
     /**
     * Constructor

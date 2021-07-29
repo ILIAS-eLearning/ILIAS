@@ -11,7 +11,9 @@
 class ilImageFileInputGUI extends ilFileInputGUI
 {
     protected $cache;
-    
+    protected string $alt = "";
+    protected string $image = "";
+
     /**
     * Constructor
     *

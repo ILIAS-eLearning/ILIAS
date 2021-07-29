@@ -41,13 +41,13 @@ class ilMDDescription extends ilMDBase
     {
         return $this->description;
     }
-    public function setDescriptionLanguage(&$lng_obj)
+    public function setDescriptionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->description_language = $lng_obj;
         }
     }
-    public function &getDescriptionLanguage()
+    public function getDescriptionLanguage()
     {
         return is_object($this->description_language) ? $this->description_language : false;
     }
@@ -149,7 +149,7 @@ class ilMDDescription extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement(
             'Description',

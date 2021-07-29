@@ -140,7 +140,8 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
             return false;
         }
 
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
             return true;
         }
         return false;

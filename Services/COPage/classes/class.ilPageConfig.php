@@ -63,6 +63,9 @@ abstract class ilPageConfig
      * @var string
      */
     protected $page_obj_key = "";
+
+    protected bool $link_filter_white_list = false;
+    protected string $localization_lang = "";
     
     /**
      * Constructor
@@ -286,9 +289,9 @@ abstract class ilPageConfig
     /**
      * Set internal links filter type list to white list
      *
-     * @param	boolean white list
+     * @param bool $a_white_list
      */
-    public function setIntLinkFilterWhiteList($a_white_list)
+    public function setIntLinkFilterWhiteList(bool $a_white_list)
     {
         $this->link_filter_white_list = $a_white_list;
         if ($a_white_list) {
@@ -301,7 +304,7 @@ abstract class ilPageConfig
      *
      * @return	boolean white list
      */
-    public function getIntLinkFilterWhiteList()
+    public function getIntLinkFilterWhiteList() : bool
     {
         return $this->link_filter_white_list;
     }
@@ -331,7 +334,7 @@ abstract class ilPageConfig
      *
      * @param string $a_val lang key
      */
-    public function setLocalizationLanguage($a_val)
+    public function setLocalizationLanguage(string $a_val)
     {
         $this->localization_lang = $a_val;
     }
@@ -341,7 +344,7 @@ abstract class ilPageConfig
      *
      * @return string lang key
      */
-    public function getLocalizationLanguage()
+    public function getLocalizationLanguage() : string
     {
         return $this->localization_lang;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,7 +12,7 @@ class ConfigCollection implements Config
     /**
      * @var array<string,Config>
      */
-    protected $configs;
+    protected array $configs;
 
     public function __construct(array $configs)
     {

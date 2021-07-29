@@ -85,7 +85,7 @@ trait DIC
 
 
     /**
-     * @return \ILIAS\DI\HTTPServices
+     * @return ILIAS\
      */
     protected function http()
     {

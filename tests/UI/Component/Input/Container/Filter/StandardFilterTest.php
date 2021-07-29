@@ -168,6 +168,8 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 		</span>
 		<span class="il-filter-bar-toggle">
 			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
+				<span class="il-toggle-label-on">toggle_on</span>
+				<span class="il-toggle-label-off">toggle_off</span>
 				<span class="il-toggle-switch"></span>
 			</button>
 		</span>
@@ -300,6 +302,8 @@ EOT;
 		</span>
 		<span class="il-filter-bar-toggle">
 			<button class="il-toggle-button off" id="id_6" aria-pressed="false">
+				<span class="il-toggle-label-on">toggle_on</span>
+				<span class="il-toggle-label-off">toggle_off</span>
 				<span class="il-toggle-switch"></span>
 			</button>
 		</span>
@@ -432,6 +436,8 @@ EOT;
 		</span>
 		<span class="il-filter-bar-toggle">
 			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
+				<span class="il-toggle-label-on">toggle_on</span>
+				<span class="il-toggle-label-off">toggle_off</span>
 				<span class="il-toggle-switch"></span>
 			</button>
 		</span>
@@ -564,6 +570,8 @@ EOT;
 		</span>
 		<span class="il-filter-bar-toggle">
 			<button class="il-toggle-button off" id="id_6" aria-pressed="false">
+				<span class="il-toggle-label-on">toggle_on</span>
+				<span class="il-toggle-label-off">toggle_off</span>
 				<span class="il-toggle-switch"></span>
 			</button>
 		</span>

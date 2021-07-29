@@ -199,7 +199,7 @@ class ilCronOerHarvester extends ilCronJob
      * @param array $a_fields
      * @param bool $a_is_active
      */
-    public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+    public function addToExternalSettingsForm($a_form_id, &$a_fields, $a_is_active)
     {
         #23901
         global $DIC;

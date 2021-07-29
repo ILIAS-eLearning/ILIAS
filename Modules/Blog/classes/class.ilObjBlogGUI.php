@@ -142,26 +142,32 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
-        $this->gtp = (int) $_GET["gtp"];
-        $this->edt = $_GET["edt"];
-        $this->blpg = (int) $_REQUEST["blpg"];
-        $this->old_nr = (int) $_GET["old_nr"];
-        $this->ppage = (int) $_GET["ppage"];
-        $this->user_page = (int) $_REQUEST["user_page"];
-        $this->new_type = ilUtil::stripSlashes($_REQUEST["new_type"]);
-        $this->prvm = ilUtil::stripSlashes($_REQUEST["prvm"]);
-        $this->ntf = (int) $_GET["ntf"];
-        $this->apid = (int) $_GET["apid"];
-        $this->month = ilUtil::stripSlashes($_REQUEST["bmn"]);
-        $this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
-        $this->author = (int) $_REQUEST["ath"];
-        $this->prt_id = (int) $_REQUEST["prt_id"];
+        $this->gtp = (int) ($_GET["gtp"] ?? 0);
+        $this->edt = $_GET["edt"] ?? "";
+        $this->blpg = (int) ($_REQUEST["blpg"] ?? 0);
+        ;
+        $this->old_nr = (int) ($_GET["old_nr"] ?? 0);
+        ;
+        $this->ppage = (int) ($_GET["ppage"] ?? 0);
+        ;
+        $this->user_page = (int) ($_REQUEST["user_page"] ?? 0);
+        ;
+        $this->new_type = ilUtil::stripSlashes($_REQUEST["new_type"] ?? "");
+        $this->prvm = ilUtil::stripSlashes($_REQUEST["prvm"] ?? "");
+        $this->ntf = (int) ($_GET["ntf"] ?? 0);
+        ;
+        $this->apid = (int) ($_GET["apid"] ?? 0);
+        ;
+        $this->month = ilUtil::stripSlashes($_REQUEST["bmn"] ?? "");
+        $this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"] ?? "");
+        $this->author = (int) ($_REQUEST["ath"] ?? 0);
+        $this->prt_id = (int) ($_REQUEST["prt_id"] ?? 0);
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         
-        if ($_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId()) {
+        if (isset($_REQUEST["blpg"]) && $_REQUEST["blpg"] > 0 && ilBlogPosting::lookupBlogId($_REQUEST["blpg"]) != $this->object->getId()) {
             throw new ilException("Posting ID does not match blog.");
         }
 
@@ -1135,7 +1141,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     }
                 }
             } else {
-                $list_items = $this->items[$this->month];
+                $list_items = $this->items[$this->month] ?? [];
             }
         }
         return $list_items;
@@ -2059,7 +2065,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             if ($this->mayContribute() && $this->mayEditPosting($this->blpg)) {
                 $ctrl->setParameter($this, "prvm", "");
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
-                $link = $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
+                if ($this->prtf_embed) {
+                    $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
+                }
+                $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
@@ -3000,6 +3009,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
+        $access = $DIC->access();
 
         if (substr($a_target, -3) == "wsp") {
             $id = explode("_", $a_target);
@@ -3037,7 +3047,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
                 }
             }
-            $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            if ($access->checkAccess("read", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
+            }
+            if ($access->checkAccess("visible", "", $id[0])) {
+                $ilCtrl->redirectByClass("ilRepositoryGUI", "infoScreen");
+            }
         }
     }
 

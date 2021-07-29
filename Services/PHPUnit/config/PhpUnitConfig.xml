@@ -1,7 +1,0 @@
-<phpunit>
-  <testsuites>
-    <testsuite name="Global ILIAS Tests">
-      <file>../test/ilGlobalSuite.php</file>
-    </testsuite>
-  </testsuites>
-</phpunit>

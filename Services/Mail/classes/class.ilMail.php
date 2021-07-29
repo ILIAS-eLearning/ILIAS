@@ -515,8 +515,12 @@ class ilMail
             return null;
         }
 
-        $row['attachments'] = unserialize(stripslashes($row['attachments']));
-        
+        if (isset($row['attachments'])) {
+            $row['attachments'] = unserialize(stripslashes($row['attachments']));
+        } else {
+            $row['attachments'] = [];
+        }
+
         if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
             $decoded = json_decode($row['tpl_ctx_params'], true);
             $row['tpl_ctx_params'] = (array) ($decoded ?? []);

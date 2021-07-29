@@ -33,13 +33,13 @@ include_once 'class.ilMDBase.php';
 class ilMDClassification extends ilMDBase
 {
     // METHODS OF CLIENT OBJECTS (TaxonPath, Keyword)
-    public function &getTaxonPathIds()
+    public function getTaxonPathIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
         return ilMDTaxonPath::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
-    public function &getTaxonPath($a_taxon_path_id)
+    public function getTaxonPath($a_taxon_path_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
@@ -51,7 +51,7 @@ class ilMDClassification extends ilMDBase
 
         return $tax;
     }
-    public function &addTaxonPath()
+    public function addTaxonPath()
     {
         include_once 'Services/MetaData/classes/class.ilMDTaxonPath.php';
 
@@ -62,13 +62,13 @@ class ilMDClassification extends ilMDBase
         return $tax;
     }
 
-    public function &getKeywordIds()
+    public function getKeywordIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
         return ilMDKeyword::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_classification');
     }
-    public function &getKeyword($a_keyword_id)
+    public function getKeyword($a_keyword_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
         
@@ -80,7 +80,7 @@ class ilMDClassification extends ilMDBase
 
         return $key;
     }
-    public function &addKeyword()
+    public function addKeyword()
     {
         include_once 'Services/MetaData/classes/class.ilMDKeyword.php';
 
@@ -123,13 +123,13 @@ class ilMDClassification extends ilMDBase
     {
         return $this->description;
     }
-    public function setDescriptionLanguage(&$lng_obj)
+    public function setDescriptionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->description_language = $lng_obj;
         }
     }
-    public function &getDescriptionLanguage()
+    public function getDescriptionLanguage()
     {
         return is_object($this->description_language) ? $this->description_language : false;
     }
@@ -239,7 +239,7 @@ class ilMDClassification extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Classification', array('Purpose' => $this->getPurpose()
                                                     ? $this->getPurpose()
@@ -248,7 +248,7 @@ class ilMDClassification extends ilMDBase
         // Taxon Path
         $taxs = $this->getTaxonPathIds();
         foreach ($taxs as $id) {
-            $tax = &$this->getTaxonPath($id);
+            $tax = $this->getTaxonPath($id);
             $tax->toXML($writer);
         }
         if (!count($taxs)) {
@@ -269,7 +269,7 @@ class ilMDClassification extends ilMDBase
         // Keyword
         $keys = $this->getKeywordIds();
         foreach ($keys as $id) {
-            $key = &$this->getKeyword($id);
+            $key = $this->getKeyword($id);
             $key->toXML($writer);
         }
         if (!count($keys)) {

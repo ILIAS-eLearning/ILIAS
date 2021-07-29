@@ -62,13 +62,13 @@ class ilMDLanguage extends ilMDBase
     }
 
     // SET/GET
-    public function setLanguage(&$lng_obj)
+    public function setLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->language = &$lng_obj;
+            $this->language = $lng_obj;
         }
     }
-    public function &getLanguage()
+    public function getLanguage()
     {
         return is_object($this->language) ? $this->language : false;
     }
@@ -167,7 +167,7 @@ class ilMDLanguage extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement(
             'Language',

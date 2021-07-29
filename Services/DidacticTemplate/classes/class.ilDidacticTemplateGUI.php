@@ -36,7 +36,6 @@ class ilDidacticTemplateGUI
 
     /**
      * Execute command
-     * @return <type>
      */
     public function executeCommand()
     {

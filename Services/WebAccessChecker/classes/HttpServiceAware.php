@@ -3,7 +3,7 @@
 
 namespace ILIAS\WebAccessChecker;
 
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 
 /**
  * Trait HttpServiceAware
@@ -31,7 +31,7 @@ trait HttpServiceAware
      * The GlobalHttpStore is stored after the first
      * invocation.
      *
-     * @return GlobalHttpState  The current http global state of ILIAS.
+     * @return Services  The current http global state of ILIAS.
      * @since 5.3
      */
     protected static function http()

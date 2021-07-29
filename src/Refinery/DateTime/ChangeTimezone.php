@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\DateTime;
@@ -17,18 +18,14 @@ class ChangeTimezone implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var \DateTimeZone
-     */
-    private $timezone;
+    private \DateTimeZone $timezone;
 
     /**
      * @param string $timezone
-     * @param Factory $factory
      */
     public function __construct(string $timezone)
     {
-        if (!in_array($timezone, timezone_identifiers_list())) {
+        if (!in_array($timezone, timezone_identifiers_list(), true)) {
             throw new \InvalidArgumentException("$timezone is not a valid timezone identifier", 1);
         }
         $this->timezone = new \DateTimeZone($timezone);

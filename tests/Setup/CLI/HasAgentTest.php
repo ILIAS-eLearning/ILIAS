@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -29,7 +29,7 @@ class HasAgentTest extends TestCase
         };
     }
 
-    public function testGetRelevantAgentWithoutOption()
+    public function testGetRelevantAgentWithoutOption() : void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);
@@ -49,7 +49,7 @@ class HasAgentTest extends TestCase
         $this->assertEquals($ac, $agent);
     }
 
-    public function testGetRelevantAgentWithNoPluginOption()
+    public function testGetRelevantAgentWithNoPluginOption() : void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);
@@ -72,7 +72,7 @@ class HasAgentTest extends TestCase
         $this->assertEquals($ac, $agent);
     }
 
-    public function testGetRelevantAgentWithPluginNameOptions()
+    public function testGetRelevantAgentWithPluginNameOptions() : void
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);

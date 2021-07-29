@@ -10,17 +10,11 @@ require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
  */
 class ilDeterministicArrayElementProvider extends ilBaseRandomElementProvider implements ilRandomArrayElementProvider
 {
-    /**
-     * @return int
-     */
     protected function getInitialSeed() : int
     {
         return 1;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function shuffle(array $array) : array
     {
         return $array;

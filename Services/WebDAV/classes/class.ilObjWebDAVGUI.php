@@ -34,7 +34,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
      */
     protected $filesystem;
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     protected $http;
     /**

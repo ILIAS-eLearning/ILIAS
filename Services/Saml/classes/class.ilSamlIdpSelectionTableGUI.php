@@ -3,16 +3,14 @@
 
 /**
  * Class ilSamlIdpSelectionTableGUI
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSamlIdpSelectionTableGUI extends \ilTable2GUI
 {
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
+    public function __construct(object $parent_gui, string $parent_cmd)
     {
         $this->setId('saml_idp_selection');
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+        parent::__construct($parent_gui, $parent_cmd);
 
         $this->disable('sort');
         $this->disable('header');

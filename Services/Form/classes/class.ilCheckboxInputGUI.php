@@ -9,11 +9,6 @@
  */
 class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $value = "1";
     protected $checked;
     protected $optiontitle = "";

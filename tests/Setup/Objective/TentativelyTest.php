@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,20 +13,9 @@ class TentativelyTest extends TestCase
 {
     use Test\Helper;
 
-    /**
-     * @var Setup\Objective;
-     */
-    protected $objective;
-
-    /**
-     * @var Setup\Objective;
-     */
-    protected $precondition;
-
-    /**
-     * @var Objective\Tentatively
-     */
-    protected $tentatively;
+    protected Setup\Objective $objective;
+    protected Setup\Objective $precondition;
+    protected Objective\Tentatively $tentatively;
 
     public function setUp() : void
     {

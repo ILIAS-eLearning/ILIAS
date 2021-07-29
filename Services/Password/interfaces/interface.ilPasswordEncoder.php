@@ -27,26 +27,21 @@ interface ilPasswordEncoder
 
     /**
      * Returns a unique name/id of the concrete password encoder
-     * @return string
      */
     public function getName() : string;
 
     /**
      * Returns whether or not the encoder requires a salt
-     * @return bool
      */
     public function requiresSalt() : bool;
 
     /**
      * Returns whether or not the a encoded password needs to be re-encoded
-     * @param string $encoded
-     * @return bool
      */
     public function requiresReencoding(string $encoded) : bool;
 
     /**
      * Returns whether or not the encoder is supported by the runtime (PHP, HHVM, ...)
-     * @return bool
      */
     public function isSupportedByRuntime() : bool;
 }

@@ -6,7 +6,7 @@
     <input aria-label="{ARIA_LABEL}" class="form-control" type="color" style="width:50px; padding:0;" id="clr-{COLOR_ID}"
            name="clr-{POST_VAR}" value="{INIT_COLOR}" {DISABLED}  {REQUIRED}/> {INPUT_SUFFIX}
     <script>
-      $(() => {
+      window.setTimeout(() => {
         document.getElementById("clr-{COLOR_ID}").addEventListener("change", (e) => {
             document.getElementById("{PROP_COLOR_ID}").value = e.target.value.substr(1).toUpperCase();
         });
@@ -15,6 +15,6 @@
             document.getElementById("clr-{COLOR_ID}").value = "#" + e.target.value;
           }
         });
-      });
+      }, 0);
     </script>
 </div>

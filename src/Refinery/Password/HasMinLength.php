@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Password;
@@ -7,12 +8,9 @@ use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 
-class HasMinLength extends CustomConstraint implements Constraint
+class HasMinLength extends CustomConstraint
 {
-    /**
-     * @var int
-     */
-    protected $min_length;
+    protected int $min_length;
 
     public function __construct(int $min_length, Data\Factory $data_factory, \ilLanguage $lng)
     {
@@ -22,7 +20,7 @@ class HasMinLength extends CustomConstraint implements Constraint
                 return strlen($value->toString()) >= $this->min_length;
             },
             function ($value) {
-                return "Password has a length less than '{$this->min_length}'.";
+                return "Password has a length less than '$this->min_length'.";
             },
             $data_factory,
             $lng

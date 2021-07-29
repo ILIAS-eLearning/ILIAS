@@ -222,8 +222,8 @@ class BasicPersistence implements Persistence
         $taskContainer->setClassPath($reflection->getFileName());
 
         // Recursivly save the inputs and link them to this task.
-        foreach ($task->getInput() as $input) {
-            $this->saveValue($input, $bucketId);
+        foreach ($task->getInput() as $k => $input) {
+            $this->saveValue($input, $bucketId, $k);
         }
         $this->saveValueToTask($task, $taskContainer, $bucketId);
 
@@ -256,9 +256,10 @@ class BasicPersistence implements Persistence
         }
 
         // We create the new 1 to n relation.
-        foreach ($task->getInput() as $inputValue) {
+        foreach ($task->getInput() as $k => $inputValue) {
             $v = new ValueToTaskContainer(0, $this->connector);
             $v->setTaskId($taskContainer->getId());
+            $v->setPosition($k);
             $v->setBucketId($bucketId);
             $v->setValueId($this->getValueContainerId($inputValue));
             $v->save();
@@ -273,7 +274,7 @@ class BasicPersistence implements Persistence
      *
      * Stores the value recursively.
      */
-    protected function saveValue(Value $value, $bucketId)
+    protected function saveValue(Value $value, $bucketId, $position)
     {
         // If we have previous values to task associations we delete them.
         if (isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
@@ -292,6 +293,7 @@ class BasicPersistence implements Persistence
         $valueContainer->setType($value->getType());
         $valueContainer->setHasParenttask($value->hasParentTask());
         $valueContainer->setBucketId($bucketId);
+        $valueContainer->setPosition($position);
         $valueContainer->setHash($value->getHash());
         $valueContainer->setSerialized($value->serialize());
 
@@ -415,7 +417,11 @@ class BasicPersistence implements Persistence
         // Added additional orderBy for the id to ensure that the items are returned in the right order.
 
         /** @var ValueToTaskContainer $valueToTask */
-        $valueToTasks = ValueToTaskContainer::where(['task_id' => $taskContainerId])->orderBy('task_id')->orderBy('id')->get();
+        $valueToTasks = ValueToTaskContainer::where(['task_id' => $taskContainerId])
+                                            ->orderBy('task_id')
+                                            ->orderBy('position')
+                                            ->orderBy('id')
+                                            ->get();
         $inputs = [];
         foreach ($valueToTasks as $valueToTask) {
             $inputs[] = $this->loadValue($valueToTask->getValueId(), $bucket, $bucketContainer);
@@ -503,7 +509,12 @@ class BasicPersistence implements Persistence
     {
         $buckets = [];
         foreach ($bucket_container_id as $bucket_id) {
-            $buckets[] = $this->loadBucket($bucket_id);
+            try {
+                $buckets[] = $this->loadBucket($bucket_id);
+            } catch (\Throwable $t) {
+                // there seem to be a problem with this container, we must delete it
+                $this->deleteBucketById($bucket_id);
+            }
         }
 
         return $buckets;

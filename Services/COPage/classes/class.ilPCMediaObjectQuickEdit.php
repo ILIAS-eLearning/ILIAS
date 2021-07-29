@@ -139,7 +139,7 @@ class ilPCMediaObjectQuickEdit
                 $full_alias->deriveParameters();
             }
         } else {
-            if ($this->usage_cnt > 1) {
+            if ($this->pcmedia->checkInstanceEditing()) {
                 if ($full_alias->exists()) {
                     $full_alias->delete();
                 }
@@ -174,7 +174,7 @@ class ilPCMediaObjectQuickEdit
     {
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
-        if ($this->usage_cnt > 1) {
+        if ($this->pcmedia->checkInstanceEditing()) {
             $std_alias->setCaption($caption);
         } else {
             $std_alias->deriveCaption();
@@ -205,7 +205,7 @@ class ilPCMediaObjectQuickEdit
     {
         $std_alias = $this->pcmedia->getStandardMediaAliasItem();
         $std_item = $this->mob->getMediaItem("Standard");
-        if ($this->usage_cnt > 1) {
+        if ($this->pcmedia->checkInstanceEditing()) {
             $std_alias->setTextRepresentation($alt_text);
         } else {
             $std_alias->deriveTextRepresentation();

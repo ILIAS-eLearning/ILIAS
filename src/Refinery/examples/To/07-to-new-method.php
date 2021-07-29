@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,7 +9,7 @@ function toList()
 {
     class SomeClass
     {
-        public function say(string $firstWord, string $secondWord)
+        public function say(string $firstWord, string $secondWord) : string
         {
             return $firstWord . $secondWord;
         }

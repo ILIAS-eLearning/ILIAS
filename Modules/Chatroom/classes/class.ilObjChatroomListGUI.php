@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObjectListGUI.php';
 
 /**
  * Class ilObjChatlistListGUI
@@ -11,31 +9,15 @@ require_once 'Services/Object/classes/class.ilObjectListGUI.php';
  */
 class ilObjChatroomListGUI extends ilObjectListGUI
 {
-    /**
-     * @var int
-     */
-    private static $publicRoomObjId;
+    private static int $publicRoomObjId;
+    private static ?bool $chat_enabled = null;
 
-    /**
-     * @var null|boolean
-     */
-    private static $chat_enabled = null;
-
-    /**
-     * {@inheritdoc}
-     */
     public function __construct($a_context = self::CONTEXT_REPOSITORY)
     {
         parent::__construct($a_context);
-
-        require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
-
         self::$publicRoomObjId = ilObjChatroom::_getPublicObjId();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function init()
     {
         $this->delete_enabled = true;
@@ -47,13 +29,9 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         $this->type = 'chtr';
         $this->gui_class_name = 'ilobjchatroomgui';
 
-        require_once 'Modules/Chatroom/classes/class.ilObjChatroomAccess.php';
         $this->commands = ilObjChatroomAccess::_getCommands();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getProperties()
     {
         global $DIC;
@@ -62,14 +40,15 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
         $DIC->language()->loadLanguageModule('chatroom');
 
-        $room = ilChatroom::byObjectId($this->obj_id);
+        $room = ilChatroom::byObjectId((int) $this->obj_id);
         if ($room) {
             $props[] = [
-                'alert' => false, 'property' => $DIC->language()->txt('chat_users_active'),
+                'alert' => false,
+                'property' => $DIC->language()->txt('chat_users_active'),
                 'value' => $room->countActiveUsers()
             ];
 
-            if ($this->obj_id == self::$publicRoomObjId) {
+            if ($this->obj_id === self::$publicRoomObjId) {
                 $props[] = [
                     'alert' => false,
                     'property' => $DIC->language()->txt('notice'),
@@ -79,7 +58,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
             if (self::$chat_enabled === null) {
                 $chatSetting = new ilSetting('chatroom');
-                self::$chat_enabled = (boolean) $chatSetting->get('chat_enabled');
+                self::$chat_enabled = (bool) $chatSetting->get('chat_enabled');
             }
 
             if (!self::$chat_enabled) {
@@ -92,7 +71,8 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
             if (!$room->getSetting('online_status')) {
                 $props[] = [
-                    'alert' => true, 'property' => $DIC->language()->txt('status'),
+                    'alert' => true,
+                    'property' => $DIC->language()->txt('status'),
                     'value' => $DIC->language()->txt('offline')
                 ];
             }

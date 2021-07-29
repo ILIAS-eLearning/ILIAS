@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-// note: the values are derived from ilObjCourse constants
-// to enable easy migration from course view setting to container view setting
 /**
  * Class ilContainer
  *
@@ -103,6 +101,11 @@ class ilContainer extends ilObject
      * @var ilObjectTranslation
      */
     protected $obj_trans = null;
+
+    protected int $style_id = 0;
+    protected bool $news_timeline_landing_page = false;
+    protected bool $news_block_activated = false;
+    protected bool $use_news = false;
 
     /**
      * @var ilRecommendedContentManager
@@ -783,7 +786,8 @@ class ilContainer extends ilObject
 
         $found = false;
         $all_ref_ids = array();
-        
+
+        $preloader = null;
         if (!self::$data_preloaded) {
             $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
         }
@@ -881,7 +885,7 @@ class ilContainer extends ilObject
     */
     public function gotItems()
     {
-        if (is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
+        if (isset($this->items["_all"]) && is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
             return true;
         }
         return false;
@@ -1202,6 +1206,7 @@ class ilContainer extends ilObject
             return [];
         }
 
+        $result = null;
 
         $obj_ids = array_map(function ($i) {
             return $i["obj_id"];
@@ -1381,6 +1386,7 @@ class ilContainer extends ilObject
             $lobj_ids = array_map(function ($i) {
                 return $i["obj_id"];
             }, $lobjects);
+            $status = [];
             switch ($type) {
                 case "glo":
                     $status = ilObjGlossaryAccess::_lookupOnlineStatus($lobj_ids);

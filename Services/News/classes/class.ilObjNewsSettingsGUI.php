@@ -202,15 +202,8 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         
         // PD News Period
         $per_opts = array(
-            2 => "2 " . $lng->txt("days"),
-            3 => "3 " . $lng->txt("days"),
-            5 => "5 " . $lng->txt("days"),
             7 => "1 " . $lng->txt("week"),
-            14 => "2 " . $lng->txt("weeks"),
             30 => "1 " . $lng->txt("month"),
-            60 => "2 " . $lng->txt("months"),
-            120 => "4 " . $lng->txt("months"),
-            180 => "6 " . $lng->txt("months"),
             366 => "1 " . $lng->txt("year"));
         $per_sel = new ilSelectInputGUI(
             $lng->txt("news_pd_period"),
@@ -353,15 +346,15 @@ class ilObjNewsSettingsGUI extends ilObjectGUI
         $news_set->set("acc_cache_mins", $_POST["news_acc_cache_mins"]);
         $news_set->set("pd_period", $_POST["news_pd_period"]);
         $news_set->set("default_visibility", $_POST["news_default_visibility"]);
-        $news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"]);
-        $news_set->set("allow_longer_periods", $_POST["allow_longer_periods"]);
+        $news_set->set("allow_shorter_periods", $_POST["allow_shorter_periods"] ?? "");
+        $news_set->set("allow_longer_periods", $_POST["allow_longer_periods"] ?? "");
         $news_set->set("rss_period", $_POST["news_rss_period"]);
         $news_set->set("rss_title_format", $_POST["rss_title_format"]);
         
-        $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"]);
+        $feed_set->set("disable_rep_feeds", $_POST["disable_repository_feeds"] ?? "");
 
         if ($_POST["enable_internal_rss"] != 0) {
-            $news_set->set("enable_private_feed", $_POST["enable_private_feed"]);
+            $news_set->set("enable_private_feed", $_POST["enable_private_feed"] ?? "");
         } else {
             $news_set->set("enable_private_feed", 0);
         }

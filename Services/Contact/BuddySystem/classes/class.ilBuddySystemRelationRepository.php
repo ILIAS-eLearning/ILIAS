@@ -11,16 +11,9 @@ class ilBuddySystemRelationRepository
     private const TYPE_REQUESTED = 'req';
     private const TYPE_IGNORED = 'ign';
 
-    /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
+    protected int $usrId;
 
-    /** @var int */
-    protected $usrId;
-
-    /**
-     * ilBuddySystemRelationRepository constructor.
-     * @param int $usrId
-     */
     public function __construct(int $usrId)
     {
         global $DIC;
@@ -63,10 +56,6 @@ class ilBuddySystemRelationRepository
 
         while ($row = $this->db->fetchAssoc($res)) {
             $relation = $this->getRelationByDatabaseRecord($row);
-            $relation->setUsrId((int) $row['usr_id']);
-            $relation->setBuddyUsrId((int) $row['buddy_usr_id']);
-            $relation->setTimestamp((int) $row['ts']);
-            $relation->setIsOwnedByActor($relation->getUsrId() === $this->usrId);
             $key = $this->usrId === $relation->getUsrId() ? $relation->getBuddyUsrId() : $relation->getUsrId();
             $relations[$key] = $relation;
         }
@@ -74,19 +63,33 @@ class ilBuddySystemRelationRepository
         return $relations;
     }
 
-    /**
-     * @param array $row
-     * @return ilBuddySystemRelation
-     */
     private function getRelationByDatabaseRecord(array $row) : ilBuddySystemRelation
     {
         if (self::TYPE_APPROVED === $row['rel_type']) {
-            return new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
+            return new ilBuddySystemRelation(
+                new ilBuddySystemLinkedRelationState(),
+                (int) $row['usr_id'],
+                (int) $row['buddy_usr_id'],
+                $row['usr_id'] === $this->usrId,
+                (int) $row['ts']
+            );
         } elseif (self::TYPE_IGNORED === $row['rel_type']) {
-            return new ilBuddySystemRelation(new ilBuddySystemIgnoredRequestRelationState());
+            return new ilBuddySystemRelation(
+                new ilBuddySystemIgnoredRequestRelationState(),
+                (int) $row['usr_id'],
+                (int) $row['buddy_usr_id'],
+                $row['usr_id'] === $this->usrId,
+                (int) $row['ts']
+            );
         }
 
-        return new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
+        return new ilBuddySystemRelation(
+            new ilBuddySystemRequestedRelationState(),
+            (int) $row['usr_id'],
+            (int) $row['buddy_usr_id'],
+            $row['usr_id'] === $this->usrId,
+            (int) $row['ts']
+        );
     }
 
     public function destroy() : void
@@ -104,9 +107,6 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     */
     private function addToApprovedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->replace(
@@ -132,9 +132,6 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     */
     private function removeFromApprovedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->manipulateF(
@@ -150,10 +147,6 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     * @param bool                  $ignored
-     */
     private function addToRequestedBuddies(ilBuddySystemRelation $relation, bool $ignored) : void
     {
         $this->db->replace(
@@ -169,9 +162,6 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     */
     private function removeFromRequestedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->manipulateF(
@@ -187,16 +177,13 @@ class ilBuddySystemRelationRepository
         );
     }
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     */
     public function save(ilBuddySystemRelation $relation) : void
     {
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('buddylist_requests');
         $ilAtomQuery->addTableLock('buddylist');
 
-        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($relation) {
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $ilDB) use ($relation) : void {
             if ($relation->isLinked()) {
                 $this->addToApprovedBuddies($relation);
             } elseif ($relation->wasLinked()) {

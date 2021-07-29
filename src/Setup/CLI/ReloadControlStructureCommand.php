@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\CLI;
@@ -9,6 +10,7 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\NoConfirmationException;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +29,7 @@ class ReloadControlStructureCommand extends Command
     /**
      * var Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -39,13 +41,13 @@ class ReloadControlStructureCommand extends Command
     }
 
 
-    public function configure()
+    protected function configure()
     {
         $this->setDescription("Reloads the control structure of the installation.");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();

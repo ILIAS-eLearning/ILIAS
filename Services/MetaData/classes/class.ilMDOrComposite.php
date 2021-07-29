@@ -59,7 +59,7 @@ class ilMDOrComposite extends ilMDRequirement
         return $this->or_composite_id;
     }
 
-    public function &getRequirementIds()
+    public function getRequirementIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -72,7 +72,7 @@ class ilMDOrComposite extends ilMDRequirement
         );
     }
 
-    public function &getRequirement($a_requirement_id)
+    public function getRequirement($a_requirement_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -85,7 +85,7 @@ class ilMDOrComposite extends ilMDRequirement
         return $req;
     }
 
-    public function &addRequirement()
+    public function addRequirement()
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -120,7 +120,7 @@ class ilMDOrComposite extends ilMDRequirement
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         // For all requirements
         $writer->xmlStartTag('OrComposite');

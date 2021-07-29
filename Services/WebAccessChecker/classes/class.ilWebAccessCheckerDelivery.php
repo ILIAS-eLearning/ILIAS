@@ -7,7 +7,7 @@ require_once('./Services/FileDelivery/classes/class.ilFileDelivery.php');
 
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\HTTP\Cookies\CookieFactory;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 
 /**
  * Class ilWebAccessCheckerDelivery
@@ -22,18 +22,18 @@ class ilWebAccessCheckerDelivery
      */
     private $ilWebAccessChecker = null;
     /**
-     * @var GlobalHttpState $http
+     * @var Services $http
      */
     private $http;
 
 
     /**
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      * @param CookieFactory   $cookieFactory
      *
      * @return void
      */
-    public static function run(GlobalHttpState $httpState, CookieFactory $cookieFactory)
+    public static function run(Services $httpState, CookieFactory $cookieFactory)
     {
         $obj = new self($httpState, $cookieFactory);
         $obj->handleRequest();
@@ -43,10 +43,10 @@ class ilWebAccessCheckerDelivery
     /**
      * ilWebAccessCheckerDelivery constructor.
      *
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      * @param CookieFactory   $cookieFactory
      */
-    public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory)
+    public function __construct(Services $httpState, CookieFactory $cookieFactory)
     {
         $this->ilWebAccessChecker = new ilWebAccessChecker($httpState, $cookieFactory);
         $this->http = $httpState;

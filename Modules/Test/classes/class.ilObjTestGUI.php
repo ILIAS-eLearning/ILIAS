@@ -29,10 +29,10 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
- * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI, assFlashQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsGeneralGUI, ilObjTestSettingsScoringResultsGUI
@@ -1248,14 +1248,6 @@ class ilObjTestGUI extends ilObjectGUI
                 case QT_IMAGEMAP:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
                     break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                case QT_JAVAAPPLET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
-                    break;
-                case FLASHAPPLET_QUESTION_IDENTIFIER:
-                case QT_FLASHAPPLET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFlashApplet"));
-                    break;
                 case MATCHING_QUESTION_IDENTIFIER:
                 case QT_MATCHING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
@@ -2184,7 +2176,7 @@ class ilObjTestGUI extends ilObjectGUI
                     
                     $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
                 }
-
+                /*
                 $ilToolbar->addSeparator();
                 $ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 
@@ -2211,7 +2203,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
                         $executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = true);
-                        
+
                         if ($executable["executable"]) {
                             if ($testSession->getActiveId() > 0) {
                                 // resume test
@@ -2235,6 +2227,7 @@ class ilObjTestGUI extends ilObjectGUI
                         }
                     }
                 }
+                */
             }
         }
 

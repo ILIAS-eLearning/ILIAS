@@ -126,6 +126,14 @@ class ilCmiXapiSettingsGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('type'), "");
+        $ne->setValue($DIC->language()->txt('type_'.$this->object->getContentType()));
+        $form->addItem($ne);
+
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('cmix_lrs_type'), "");
+        $ne->setValue($this->object->getLrsType()->getTitle());
+        $form->addItem($ne);
+        
         $item = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
         $item->setSize(40);
         $item->setMaxLength(128);
@@ -173,14 +181,16 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($item);
             }
             
-            $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
-            $item->setInfo($DIC->language()->txt("use_fetch_info"));
-            $item->setValue("1");
-            
-            if ($this->object->isAuthFetchUrlEnabled()) {
-                $item->setChecked(true);
+            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
+                $item->setInfo($DIC->language()->txt("use_fetch_info"));
+                $item->setValue("1");
+                
+                if ($this->object->isAuthFetchUrlEnabled()) {
+                    $item->setChecked(true);
+                }
+                $form->addItem($item);
             }
-            $form->addItem($item);
             
             $display = new ilRadioGroupInputGUI($DIC->language()->txt('launch_options'), 'display');
             $display->setRequired(true);
@@ -188,8 +198,8 @@ class ilCmiXapiSettingsGUI
             $optOwnWindow = new ilRadioOption($DIC->language()->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
             $optOwnWindow->setInfo($DIC->language()->txt('conf_own_window_info'));
             $display->addOption($optOwnWindow);
-            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_any_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
-            $optAnyWindow->setInfo($DIC->language()->txt('conf_any_window_info'));
+            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_new_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
+            $optAnyWindow->setInfo($DIC->language()->txt('conf_new_window_info'));
             $display->addOption($optAnyWindow);
             $form->addItem($display);
             
@@ -249,59 +259,59 @@ class ilCmiXapiSettingsGUI
             $item->setTitle($DIC->language()->txt("privacy_options"));
             $form->addItem($item);
             
-            $userIdent = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_ident'), 'user_ident');
+            $userIdent = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
             $op = new ilRadioOption(
-                $DIC->language()->txt('conf_user_ident_il_uuid_user_id'),
-                ilCmiXapiLrsType::USER_IDENT_IL_UUID_USER_ID
+                $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
             );
-            $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_user_id_info'));
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_user_id_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
-                $DIC->language()->txt('conf_user_ident_il_uuid_login'),
-                ilCmiXapiLrsType::USER_IDENT_IL_UUID_LOGIN
+                $DIC->language()->txt('conf_privacy_ident_il_uuid_login'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
             );
-            $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_login_info'));
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_login_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
-                $DIC->language()->txt('conf_user_ident_il_uuid_ext_account'),
-                ilCmiXapiLrsType::USER_IDENT_IL_UUID_EXT_ACCOUNT
+                $DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
             );
-            $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
-                $DIC->language()->txt('conf_user_ident_il_uuid_random'),
-                ilCmiXapiLrsType::USER_IDENT_IL_UUID_RANDOM
+                $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
             );
-            $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_random_info'));
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_random_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
-                $DIC->language()->txt('conf_user_ident_real_email'),
-                ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
+                $DIC->language()->txt('conf_privacy_ident_real_email'),
+                ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
             );
-            $op->setInfo($DIC->language()->txt('conf_user_ident_real_email_info'));
+            $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
             $userIdent->addOption($op);
-            $userIdent->setValue($this->object->getUserIdent());
+            $userIdent->setValue($this->object->getPrivacyIdent());
             $userIdent->setInfo(
-                $DIC->language()->txt('conf_user_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+                $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
             );
             $userIdent->setRequired(false);
             $form->addItem($userIdent);
             
-            $userName = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_name'), 'user_name');
-            $op = new ilRadioOption($DIC->language()->txt('conf_user_name_none'), ilCmiXapiLrsType::USER_NAME_NONE);
-            $op->setInfo($DIC->language()->txt('conf_user_name_none_info'));
+            $userName = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
+            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), ilCmiXapiLrsType::PRIVACY_NAME_NONE);
+            $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_user_name_firstname'), ilCmiXapiLrsType::USER_NAME_FIRSTNAME);
-            $op->setInfo($DIC->language()->txt('conf_user_name_firstname_info'));
+            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME);
+            $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_user_name_lastname'), ilCmiXapiLrsType::USER_NAME_LASTNAME);
-            $op->setInfo($DIC->language()->txt('conf_user_name_lastname_info'));
+            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME);
+            $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
             $userName->addOption($op);
-            $op = new ilRadioOption($DIC->language()->txt('conf_user_name_fullname'), ilCmiXapiLrsType::USER_NAME_FULLNAME);
-            $op->setInfo($DIC->language()->txt('conf_user_name_fullname_info'));
+            $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME);
+            $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
             $userName->addOption($op);
-            $userName->setValue($this->object->getUserName());
-            $userName->setInfo($DIC->language()->txt('conf_user_name_info'));
+            $userName->setValue($this->object->getPrivacyName());
+            $userName->setInfo($DIC->language()->txt('conf_privacy_name_info'));
             $userName->setRequired(false);
             $form->addItem($userName);
 
@@ -485,15 +495,19 @@ class ilCmiXapiSettingsGUI
                 $this->object->setLaunchUrl($form->getInput('launch_url'));
             }
             
-            $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
-            
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $this->object->setAuthFetchUrlEnabled(true);
+            } else {
+                $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
+            }
+
             if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
                 $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
             }
             
             if (!$this->object->getLrsType()->getForcePrivacySettings()) {
-                $this->object->setUserIdent($form->getInput('user_ident'));
-                $this->object->setUserName($form->getInput('user_name'));
+                $this->object->setPrivacyIdent($form->getInput('privacy_ident'));
+                $this->object->setPrivacyName($form->getInput('privacy_name'));
                 $this->object->setOnlyMoveon((bool)$form->getInput("only_moveon"));
                 $this->object->setAchieved((bool)$form->getInput("achieved"));
                 $this->object->setAnswered((bool)$form->getInput("answered"));

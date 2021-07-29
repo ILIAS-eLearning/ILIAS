@@ -27,10 +27,9 @@ class ilObjPollGUI extends ilObject2GUI
      */
     protected $nav_history;
 
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $ui;
+    protected $ui_factory;
+
+    protected $ui_renderer;
 
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
@@ -46,12 +45,12 @@ class ilObjPollGUI extends ilObject2GUI
         $this->user = $DIC->user();
         $this->tree = $DIC->repositoryTree();
         $this->locator = $DIC["ilLocator"];
-        $lng = $DIC->language();
-        $this->ui = $DIC->ui();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
         
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         
-        $lng->loadLanguageModule("poll");
+        $this->lng->loadLanguageModule("poll");
     }
 
     public function getType()
@@ -61,16 +60,12 @@ class ilObjPollGUI extends ilObject2GUI
     
     protected function afterSave(ilObject $a_new_object)
     {
-        $ilCtrl = $this->ctrl;
-        
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-        $ilCtrl->redirect($this, "render");
+        $this->ctrl->redirect($this, "render");
     }
 
     protected function initEditCustomForm(ilPropertyFormGUI $a_form)
     {
-        $lng = $this->lng;
-        
         // activation
         $this->lng->loadLanguageModule('rep');
         
@@ -104,43 +99,43 @@ class ilObjPollGUI extends ilObject2GUI
         $vdur->setShowTime(true);
         $a_form->addItem($vdur);
 
-        $results = new ilRadioGroupInputGUI($lng->txt("poll_view_results"), "results");
+        $results = new ilRadioGroupInputGUI($this->lng->txt("poll_view_results"), "results");
         $results->setRequired(true);
         $results->addOption(new ilRadioOption(
-            $lng->txt("poll_view_results_always"),
+            $this->lng->txt("poll_view_results_always"),
             ilObjPoll::VIEW_RESULTS_ALWAYS
         ));
         $results->addOption(new ilRadioOption(
-            $lng->txt("poll_view_results_never"),
+            $this->lng->txt("poll_view_results_never"),
             ilObjPoll::VIEW_RESULTS_NEVER
         ));
         $results->addOption(new ilRadioOption(
-            $lng->txt("poll_view_results_after_vote"),
+            $this->lng->txt("poll_view_results_after_vote"),
             ilObjPoll::VIEW_RESULTS_AFTER_VOTE
         ));
         $results->addOption(new ilRadioOption(
-            $lng->txt("poll_view_results_after_period"),
+            $this->lng->txt("poll_view_results_after_period"),
             ilObjPoll::VIEW_RESULTS_AFTER_PERIOD
         ));
         $a_form->addItem($results);
         
-        $show_result_as = new ilRadioGroupInputGUI($lng->txt("poll_show_results_as"), "show_results_as");
+        $show_result_as = new ilRadioGroupInputGUI($this->lng->txt("poll_show_results_as"), "show_results_as");
         $show_result_as->setRequired(true);
         $result_bar = new ilRadioOption(
-            $lng->txt("poll_barchart"),
+            $this->lng->txt("poll_barchart"),
             ilObjPoll::SHOW_RESULTS_AS_BARCHART
         );
         $show_result_as->addOption($result_bar);
         $show_result_as->addOption(new ilRadioOption(
-            $lng->txt("poll_piechart"),
+            $this->lng->txt("poll_piechart"),
             ilObjPoll::SHOW_RESULTS_AS_PIECHART
         ));
         $a_form->addItem($show_result_as);
 
-        $sort = new ilRadioGroupInputGUI($lng->txt("poll_result_sorting"), "sort");
+        $sort = new ilRadioGroupInputGUI($this->lng->txt("poll_result_sorting"), "sort");
         $sort->setRequired(true);
-        $sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_answers"), 0));
-        $sort->addOption(new ilRadioOption($lng->txt("poll_result_sorting_votes"), 1));
+        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_answers"), 0));
+        $sort->addOption(new ilRadioOption($this->lng->txt("poll_result_sorting_votes"), 1));
         $a_form->addItem($sort);
 
         $section = new ilFormSectionHeaderGUI();
@@ -216,15 +211,13 @@ class ilObjPollGUI extends ilObject2GUI
 
     public function setTabs()
     {
-        $lng = $this->lng;
-        $ilHelp = $this->help;
 
-        $ilHelp->setScreenIdComponent("poll");
+        $this->help->setScreenIdComponent("poll");
 
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
                 "content",
-                $lng->txt("content"),
+                $this->lng->txt("content"),
                 $this->ctrl->getLinkTarget($this, "")
             );
         }
@@ -232,19 +225,19 @@ class ilObjPollGUI extends ilObject2GUI
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
                 "settings",
-                $lng->txt("settings"),
+                $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
             
             $this->tabs_gui->addTab(
                 "participants",
-                $lng->txt("poll_result"),
+                $this->lng->txt("poll_result"),
                 $this->ctrl->getLinkTarget($this, "showParticipants")
             );
             
             $this->tabs_gui->addTab(
                 "export",
-                $lng->txt("export"),
+                $this->lng->txt("export"),
                 $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
@@ -255,29 +248,19 @@ class ilObjPollGUI extends ilObject2GUI
 
     public function executeCommand()
     {
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $ilNavigationHistory = $this->nav_history;
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd();
 
-        $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
-                        
-        $tpl->loadStandardTemplate();
+        $this->tpl->loadStandardTemplate();
 
         // add entry to navigation history
         if (!$this->getCreationMode() &&
             $this->getAccessHandler()->checkAccess("read", "", $this->node_id)) {
-            $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset");
-            $ilNavigationHistory->addItem($this->node_id, $link, "poll");
+            $link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", "frameset");
+            $this->nav_history->addItem($this->node_id, $link, "poll");
         }
         
         switch ($next_class) {
-            case "ilinfoscreengui":
-                $this->prepareOutput();
-                $this->infoScreenForward();
-                break;
-            
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -285,7 +268,7 @@ class ilObjPollGUI extends ilObject2GUI
             
             case "ilpermissiongui":
                 $this->prepareOutput();
-                $ilTabs->activateTab("id_permissions");
+                $this->tabs->activateTab("id_permissions");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -298,10 +281,10 @@ class ilObjPollGUI extends ilObject2GUI
             
             case 'ilexportgui':
                 $this->prepareOutput();
-                $ilTabs->activateTab("export");
+                $this->tabs->activateTab("export");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
-                $ilCtrl->forwardCommand($exp_gui);
+                $this->ctrl->forwardCommand($exp_gui);
                 break;
 
             default:
@@ -315,57 +298,44 @@ class ilObjPollGUI extends ilObject2GUI
     // --- ObjectGUI End
     
     
-    /**
-     * Render object context
-     */
     public function render($a_form = null)
     {
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilToolbar = $this->toolbar;
-        $ilUser = $this->user;
-        $ui = $this->ui;
-        
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            ilUtil::sendInfo($this->lng->txt("no_permission"));
             return;
         }
         
-        $ilTabs->activateTab("content");
-        
+        $this->tabs->activateTab("content");
+
+        $message = "";
         if (!$a_form) {
             if ($this->object->countVotes()) {
-                $url = $ilCtrl->getLinkTarget($this, "showParticipants");
+                $url = $this->ctrl->getLinkTarget($this, "showParticipants");
 
-                $mbox = $ui->factory()->messageBox()->info($lng->txt("poll_votes_no_edit"))
-                    ->withLinks([$ui->factory()->link()->standard(
-                        $lng->txt("poll_result"),
+                $mbox = $this->ui_factory->messageBox()->info($this->lng->txt("poll_votes_no_edit"))
+                    ->withLinks([$this->ui_factory->link()->standard(
+                        $this->lng->txt("poll_result"),
                         $url
                     )]);
 
-                $message = $ui->renderer()->render($mbox);
+                $message = $this->ui_renderer->render($mbox);
             }
             
             $a_form = $this->initQuestionForm($this->object->countVotes());
         }
             
-        $tpl->setPermanentLink('poll', $this->node_id);
+        $this->tpl->setPermanentLink('poll', $this->node_id);
         
-        $tpl->setContent($message . $a_form->getHTML());
+        $this->tpl->setContent($message . $a_form->getHTML());
     }
     
     protected function initQuestionForm($a_read_only = false)
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this, "saveQuestion"));
-        $form->setTitle($lng->txt("obj_poll"));
+        $form->setFormAction($this->ctrl->getFormAction($this, "saveQuestion"));
+        $form->setTitle($this->lng->txt("obj_poll"));
         
-        $question = new ilTextAreaInputGUI($lng->txt("poll_question"), "question");
+        $question = new ilTextAreaInputGUI($this->lng->txt("poll_question"), "question");
         $question->setRequired(true);
         $question->setCols(40);
         $question->setRows(2);
@@ -374,7 +344,7 @@ class ilObjPollGUI extends ilObject2GUI
         $form->addItem($question);
         
         $dimensions = " (" . ilObjPoll::getImageSize() . "px)";
-        $img = new ilImageFileInputGUI($lng->txt("poll_image") . $dimensions, "image");
+        $img = new ilImageFileInputGUI($this->lng->txt("poll_image") . $dimensions, "image");
         $img->setDisabled($a_read_only);
         $form->addItem($img);
             
@@ -384,19 +354,19 @@ class ilObjPollGUI extends ilObject2GUI
             $img->setImage($file);
         }
         
-        $anonymous = new ilRadioGroupInputGUI($lng->txt("poll_mode"), "mode");
+        $anonymous = new ilRadioGroupInputGUI($this->lng->txt("poll_mode"), "mode");
         $anonymous->setRequired(true);
-        $option = new ilRadioOption($lng->txt("poll_mode_anonymous"), 0);
-        $option->setInfo($lng->txt("poll_mode_anonymous_info"));
+        $option = new ilRadioOption($this->lng->txt("poll_mode_anonymous"), 0);
+        $option->setInfo($this->lng->txt("poll_mode_anonymous_info"));
         $anonymous->addOption($option);
-        $option = new ilRadioOption($lng->txt("poll_mode_personal"), 1);
-        $option->setInfo($lng->txt("poll_mode_personal_info"));
+        $option = new ilRadioOption($this->lng->txt("poll_mode_personal"), 1);
+        $option->setInfo($this->lng->txt("poll_mode_personal_info"));
         $anonymous->addOption($option);
         $anonymous->setValue($this->object->getNonAnonymous());
         $anonymous->setDisabled($a_read_only);
         $form->addItem($anonymous);
         
-        $nanswers = new ilNumberInputGUI($lng->txt("poll_max_number_of_answers"), "nanswers");
+        $nanswers = new ilNumberInputGUI($this->lng->txt("poll_max_number_of_answers"), "nanswers");
         $nanswers->setRequired(true);
         $nanswers->setMinValue(1);
         $nanswers->setSize(3);
@@ -404,7 +374,7 @@ class ilObjPollGUI extends ilObject2GUI
         $nanswers->setDisabled($a_read_only);
         $form->addItem($nanswers);
         
-        $answers = new ilTextInputGUI($lng->txt("poll_answers"), "answers");
+        $answers = new ilTextInputGUI($this->lng->txt("poll_answers"), "answers");
         $answers->setRequired(true);
         $answers->setMulti(true, true);
         $answers->setDisabled($a_read_only);
@@ -412,15 +382,16 @@ class ilObjPollGUI extends ilObject2GUI
                 
         $multi_answers = array();
         foreach ($this->object->getAnswers() as $idx => $item) {
+            $answer = (string) ($item['answer'] ?? '');
             if (!$idx) {
-                $answers->setValue($item["answer"]);
+                $answers->setValue($answer);
             }
-            $multi_answers[] = $item["answer"];
+            $multi_answers[] = $answer;
         }
         $answers->setMultiValues($multi_answers);
         
         if (!$a_read_only) {
-            $form->addCommandButton("saveQuestion", $lng->txt("save"));
+            $form->addCommandButton("saveQuestion", $this->lng->txt("save"));
         }
         
         return $form;
@@ -440,7 +411,7 @@ class ilObjPollGUI extends ilObject2GUI
                 $this->object->deleteImage();
             }
              
-            $nr_of_anwers = $this->object->saveAnswers($form->getInput("answers"));
+            $nr_of_anwers = $this->object->saveAnswers((array) $form->getInput("answers"));
             
             // #15073
             $this->object->setMaxNumberOfAnswers(min($form->getInput("nanswers"), $nr_of_anwers));
@@ -457,162 +428,137 @@ class ilObjPollGUI extends ilObject2GUI
     
     protected function setParticipantsSubTabs($a_active)
     {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         
         if (!$this->object->getNonAnonymous()) {
             return;
         }
         
-        $ilTabs->addSubTab(
+        $this->tabs->addSubTab(
             "result_answers",
-            $lng->txt("poll_result_answers"),
-            $ilCtrl->getLinkTarget($this, "showParticipants")
+            $this->lng->txt("poll_result_answers"),
+            $this->ctrl->getLinkTarget($this, "showParticipants")
         );
-        $ilTabs->addSubTab(
+        $this->tabs->addSubTab(
             "result_users",
-            $lng->txt("poll_result_users"),
-            $ilCtrl->getLinkTarget($this, "showParticipantVotes")
+            $this->lng->txt("poll_result_users"),
+            $this->ctrl->getLinkTarget($this, "showParticipantVotes")
         );
         
-        $ilTabs->activateSubTab($a_active);
+        $this->tabs->activateSubTab($a_active);
     }
     
     public function showParticipants()
     {
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-        $tpl = $this->tpl;
-        
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            ilUtil::sendInfo($this->lng->txt("no_permission"));
             return;
         }
         
-        $ilTabs->activateTab("participants");
+        $this->tabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_answers");
 
         $tbl = new ilPollAnswerTableGUI($this, "showParticipants");
-        $tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($tbl->getHTML());
     }
     
     public function showParticipantVotes()
     {
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        
         if (!$this->checkPermissionBool("write") ||
             !$this->object->getNonAnonymous()) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            ilUtil::sendInfo($this->lng->txt("no_permission"));
             return;
         }
         
-        $ilTabs->activateTab("participants");
+        $this->tabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_users");
 
         $tbl = new ilPollUserTableGUI($this, "showParticipantVotes");
-        $tpl->setContent($tbl->getHTML());
+        $this->tpl->setContent($tbl->getHTML());
     }
     
     public function confirmDeleteAllVotes()
     {
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-        
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            ilUtil::sendInfo($this->lng->txt("no_permission"));
             return;
         }
         
-        $ilTabs->activateTab("participants");
+        $this->tabs->activateTab("participants");
         
         $cgui = new ilConfirmationGUI();
-        $cgui->setHeaderText($lng->txt("poll_delete_votes_sure"));
+        $cgui->setHeaderText($this->lng->txt("poll_delete_votes_sure"));
 
         $cgui->setFormAction($this->ctrl->getFormAction($this));
-        $cgui->setCancel($lng->txt("cancel"), "showParticipants");
-        $cgui->setConfirm($lng->txt("confirm"), "deleteAllVotes");
+        $cgui->setCancel($this->lng->txt("cancel"), "showParticipants");
+        $cgui->setConfirm($this->lng->txt("confirm"), "deleteAllVotes");
 
-        $tpl->setContent($cgui->getHTML());
+        $this->tpl->setContent($cgui->getHTML());
     }
     
     public function deleteAllVotes()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
         if (!$this->checkPermissionBool("write")) {
-            ilUtil::sendInfo($lng->txt("no_permission"));
+            ilUtil::sendInfo($this->lng->txt("no_permission"));
             return;
         }
         
         $this->object->deleteAllVotes();
             
-        $ilCtrl->redirect($this, "showParticipants");
+        $this->ctrl->redirect($this, "showParticipants");
     }
                 
     public function vote()
     {
-        $tree = $this->tree;
-        $ilUser = $this->user;
-        
+        global $DIC;
+        $aw = (array) ($DIC->http()->request()->getParsedBody()['aw'] ?? array());
+
         $valid = true;
         if ($this->object->getMaxNumberOfAnswers() > 1) {
-            if (sizeof($_POST["aw"]) > $this->object->getMaxNumberOfAnswers()) {
+            if (sizeof($aw) > $this->object->getMaxNumberOfAnswers()) {
                 $valid = false;
             }
-            if (!sizeof($_POST["aw"])) {
+            if (!sizeof($aw)) {
                 $valid = false;
             }
         } else {
-            if ((int) !$_POST["aw"]) {
+            if ((int) !$aw) {
                 $valid = false;
             }
         }
-        
+
+        $session_last_poll_vote = ilSession::get('last_poll_vote');
         if ($valid) {
-            unset($_SESSION["last_poll_vote"][$this->object->getId()]);
-            $this->object->saveVote($ilUser->getId(), $_POST["aw"]);
+            unset($session_last_poll_vote[$this->object->getId()]);
+            ilSession::set('last_poll_vote', $session_last_poll_vote);
+            $this->object->saveVote($this->user->getId(), $aw);
             
             $this->sendNotifications();
         } else {
-            $_SESSION["last_poll_vote"][$this->object->getId()] = $_POST["aw"];
+            $session_last_poll_vote[$this->object->getId()] = $aw;
+            ilSession::set('last_poll_vote', $session_last_poll_vote);
         }
 
-        ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
+        ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
     public function subscribe()
     {
-        $ilUser = $this->user;
-        $tree = $this->tree;
-        $lng = $this->lng;
-
-        ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), true);
+        ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), true);
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-        ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
+        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
     public function unsubscribe()
     {
-        $ilUser = $this->user;
-        $tree = $this->tree;
-        $lng = $this->lng;
-
-        ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), false);
+        ilNotification::setNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->object->getId(), false);
         
-        ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-        ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
+        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+        ilUtil::redirect(ilLink::_getLink($this->tree->getParentId($this->ref_id)));
     }
     
     protected function sendNotifications()
     {
-        $ilUser = $this->user;
-        
         // recipients
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_POLL,
@@ -629,7 +575,7 @@ class ilObjPollGUI extends ilObject2GUI
         $ntf->setRefId($this->ref_id);
         
         if ($this->object->getNonAnonymous()) {
-            $ntf->setChangedByUserId($ilUser->getId());
+            $ntf->setChangedByUserId($this->user->getId());
         }
         
         $ntf->setSubjectLangId('poll_vote_notification_subject');
@@ -642,21 +588,15 @@ class ilObjPollGUI extends ilObject2GUI
         ilNotification::updateNotificationTime(ilNotification::TYPE_POLL, $this->object->getId(), $notified);
     }
     
-    /**
-     * return user view
-     *
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
+        return parent::getHTML();
     }
     
     public function addLocatorItems()
     {
-        $ilLocator = $this->locator;
-        
         if (is_object($this->object)) {
-            $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
+            $this->locator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->node_id);
         }
     }
     
@@ -673,7 +613,7 @@ class ilObjPollGUI extends ilObject2GUI
         $ilAccess = $DIC->access();
         
         $id = explode("_", $a_target);
-        $ref_id = $id[0];
+        $ref_id = (int) ($id[0] ?? 0);
                     
         // #13728 - used in notification mostly
         if ($ilAccess->checkAccess("write", "", $ref_id)) {

@@ -219,7 +219,8 @@ class ilUserCertificateGUI
             $this->user->getId(),
             [
                 'order_field' => explode('_', $sorting)[0],
-                'order_direction' => explode('_', $sorting)[1]
+                'order_direction' => explode('_', $sorting)[1],
+                'language' => $this->user->getLanguage()
             ],
             []
         );

@@ -21,7 +21,7 @@ class StorableFileResource implements StorableResource
     /**
      * @var RevisionCollection
      */
-    private $revisions = [];
+    private $revisions;
     /**
      * @var ResourceStakeholder[]
      */
@@ -134,6 +134,18 @@ class StorableFileResource implements StorableResource
     public function addStakeholder(ResourceStakeholder $s) : void
     {
         $this->stakeholders[] = $s;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeStakeholder(ResourceStakeholder $s) : void
+    {
+        foreach ($this->stakeholders as $k => $stakeholder) {
+            if ($stakeholder->getId() === $s->getId()) {
+                unset($this->stakeholders[$k]);
+            }
+        }
     }
 
     /**

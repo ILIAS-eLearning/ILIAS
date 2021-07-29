@@ -160,6 +160,9 @@ class ilPageObjectGUI
     protected bool $notes_enabled = false;
     protected string $prependinghtml = "";
 
+    protected string $header = "";
+    protected string $int_link_return = "";
+
     /**
      * Constructor
      *
@@ -439,12 +442,12 @@ class ilPageObjectGUI
         return $this->presentation_title;
     }
 
-    public function setHeader($a_title = "")
+    public function setHeader(string $a_title = "")
     {
         $this->header = $a_title;
     }
 
-    public function getHeader()
+    public function getHeader() : string
     {
         return $this->header;
     }
@@ -594,7 +597,7 @@ class ilPageObjectGUI
         return $this->fullscreen_link;
     }
 
-    public function setIntLinkReturn($a_return)
+    public function setIntLinkReturn(string $a_return)
     {
         $this->int_link_return = $a_return;
     }
@@ -2696,6 +2699,7 @@ class ilPageObjectGUI
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
+        \ilCalendarUtil::initDateTimePicker();
     }
 
     /**
@@ -3468,5 +3472,14 @@ class ilPageObjectGUI
         foreach ($collector->getOnloadCode() as $code) {
             $tpl->addOnloadCode($code);
         }
+    }
+
+    /**
+     * Get additional page actions
+     * @return array
+     */
+    public function getAdditionalPageActions() : array
+    {
+        return [];
     }
 }

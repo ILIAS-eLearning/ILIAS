@@ -1,10 +1,6 @@
-<?php
-declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\In;
 
@@ -13,6 +9,9 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class Parallel implements Transformation
 {
     use DeriveApplyToFromTransform;
@@ -21,7 +20,7 @@ class Parallel implements Transformation
     /**
      * @var Transformation[]
      */
-    private $transformationStrategies;
+    private array $transformationStrategies;
 
     /**
      * @param array $transformations

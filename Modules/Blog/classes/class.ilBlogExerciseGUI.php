@@ -43,8 +43,8 @@ class ilBlogExerciseGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         $this->node_id = $a_node_id;
-        $this->ass_id = (int) $_GET["ass"];
-        $this->file = trim(ilUtil::stripSlashes($_GET["file"]));
+        $this->ass_id = (int) ($_GET["ass"] ?? 0);
+        $this->file = trim(ilUtil::stripSlashes($_GET["file"] ?? ""));
         $this->ui = $DIC->ui();
     }
     

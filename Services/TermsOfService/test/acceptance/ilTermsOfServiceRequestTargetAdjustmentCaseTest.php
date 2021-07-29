@@ -4,7 +4,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\DI\LoggingServices;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -72,10 +72,10 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
         $http = $this
-            ->getMockBuilder(GlobalHttpState::class)
+            ->getMockBuilder(Services::class)
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $http->expects($this->any())
             ->method('request')
             ->willReturn($request);
@@ -159,7 +159,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
         $http = $this
-            ->getMockBuilder(GlobalHttpState::class)
+            ->getMockBuilder(Services::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -337,7 +337,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
         $http = $this
-            ->getMockBuilder(GlobalHttpState::class)
+            ->getMockBuilder(Services::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -453,7 +453,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
         $http = $this
-            ->getMockBuilder(GlobalHttpState::class)
+            ->getMockBuilder(Services::class)
             ->disableOriginalConstructor()
             ->getMock();
 

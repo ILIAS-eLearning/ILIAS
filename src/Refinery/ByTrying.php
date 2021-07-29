@@ -20,12 +20,9 @@ class ByTrying implements Transformation
     /**
      * @var Transformation[]
      */
-    protected $transformations;
+    protected array $transformations;
 
-    /**
-     * @var Data\Factory
-     */
-    protected $data_factory;
+    protected Data\Factory $data_factory;
 
     /**
      * @var callable
@@ -36,7 +33,7 @@ class ByTrying implements Transformation
     {
         $this->transformations = $transformations;
         $this->data_factory = $data_factory;
-        $this->error = function () {
+        $this->error = static function () : void {
             throw new ConstraintViolationException(
                 'no valid constraints',
                 'no_valid_constraints'
