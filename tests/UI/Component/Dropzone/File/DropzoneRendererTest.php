@@ -192,7 +192,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
                   </div>
                </div>
             </div>
-            <div class="modal-footer"><button class="btn btn-default btn-primary" data-action="" disabled="disabled">upload</button><a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a></div>
+            <div class="modal-footer"><button class="btn btn-default btn-primary" data-action="" disabled="disabled">upload</button><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button></div>
          </div>
       </div>
    </div>

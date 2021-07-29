@@ -261,7 +261,7 @@ EOT;
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -277,7 +277,7 @@ EOT;
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
                             </div>
                         </div>
                     </div>

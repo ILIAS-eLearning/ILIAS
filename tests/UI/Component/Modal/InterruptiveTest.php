@@ -83,7 +83,7 @@ class InterruptiveTest extends ModalBase
 				</div>
 				<div class="modal-footer">
 					<input type="submit" class="btn btn-primary" value="delete">
-					<a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+					<button class="btn btn-default" data-dismiss="modal">cancel</button>
 				</div>
 			</div>
 		</form>
