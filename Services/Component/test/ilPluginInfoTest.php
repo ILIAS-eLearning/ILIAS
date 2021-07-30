@@ -147,6 +147,49 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($this->plugin->isUpdateRequired());
     }
 
+    public function testIsVersionOld()
+    {
+        $this->assertFalse($this->plugin->isVersionToOld());
+
+        $plugin = new ilPluginInfo(
+            $this->pluginslot,
+            "plg1",
+            "Plugin1",
+            true,
+            $this->data_factory->version("1.0.0"),
+            12,
+            $this->data_factory->version("2.0.0"),
+            12,
+            $this->data_factory->version("6.0"),
+            $this->data_factory->version("6.99"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            true,
+            false,
+            true
+        );
+        $this->assertFalse($plugin->isVersionToOld());
+
+        $plugin = new ilPluginInfo(
+            $this->pluginslot,
+            "plg1",
+            "Plugin1",
+            true,
+            $this->data_factory->version("1.2.2"),
+            12,
+            $this->data_factory->version("1.0.0"),
+            12,
+            $this->data_factory->version("6.0"),
+            $this->data_factory->version("6.99"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            true,
+            false,
+            true
+        );
+        $this->assertTrue($plugin->isVersionToOld());
+    }
+
     public function testIsCompliantToILIAS()
     {
         $this->assertFalse($this->plugin->isCompliantToILIAS($this->data_factory->version("5.4")));
@@ -165,14 +208,16 @@ class ilPluginInfoTest extends TestCase
     /**
      * @dataProvider isActivationPossibleTruthTable
      */
-    public function testIsActivationPossible($is_installed, $supports_current_ilias, $needs_update, $is_activation_possible)
+    public function testIsActivationPossible($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old, $is_activation_possible)
     {
         $version = $this->createMock(Data\Version::class);
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update) extends ilPluginInfo {
-            public function __construct($is_installed, $supports_current_ilias, $needs_update) {
+        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old) extends ilPluginInfo {
+            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old)
+            {
                 $this->is_installed = $is_installed;
                 $this->supports_current_ilias = $supports_current_ilias;
                 $this->needs_update = $needs_update;
+                $this->is_version_to_old = $is_version_to_old;
             }
 
             public function isInstalled() : bool
@@ -189,6 +234,11 @@ class ilPluginInfoTest extends TestCase
             {
                 return $this->supports_current_ilias;
             }
+
+            public function isVersionToOld() : bool
+            {
+                return $this->is_version_to_old;
+            }
         };
 
         $this->assertEquals($is_activation_possible, $plugin->isActivationPossible($version));
@@ -196,31 +246,41 @@ class ilPluginInfoTest extends TestCase
 
     public function isActivationPossibleTruthTable() : array
     {
-        // is_installed, supports_current_ilias, needs_update => is_activation_possible
+        // is_installed, supports_current_ilias, needs_update, is_version_to_old => is_activation_possible
         return [
-            [false, false, false, false],
-            [false, false, true, false],
-            [false, true, false, false],
-            [false, true, true, false],
-            [true, false, false, false],
-            [true, false, true, false],
-            [true, true, false, true],
-            [true, true, true, false]
+            [false, false, false, false, false],
+            [false, false, true, false, false],
+            [false, true, false, false, false],
+            [false, true, true, false, false],
+            [true, false, false, false, false],
+            [true, false, true, false, false],
+            [true, true, false, false, true],
+            [true, true, true, true, false],
+            [false, false, false, true, false],
+            [false, false, true, true, false],
+            [false, true, false, true, false],
+            [false, true, true, true, false],
+            [true, false, false, true, false],
+            [true, false, true, true, false],
+            [true, true, false, true, false],
+            [true, true, true, true, false]
         ];
     }
 
     /**
      * @dataProvider isActiveTruthTable
      */
-    public function testIsActive($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_activation_possible)
+    public function testIsActive($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old, $is_activation_possible)
     {
         $version = $this->createMock(Data\Version::class);
-        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated) extends ilPluginInfo {
-            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated) {
+        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
+            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old)
+            {
                 $this->is_installed = $is_installed;
                 $this->supports_current_ilias = $supports_current_ilias;
                 $this->needs_update = $needs_update;
                 $this->is_activated = $is_activated;
+                $this->is_version_to_old = $is_version_to_old;
             }
 
             public function isActivated() : bool
@@ -242,6 +302,11 @@ class ilPluginInfoTest extends TestCase
             {
                 return $this->supports_current_ilias;
             }
+
+            public function isVersionToOld() : bool
+            {
+                return $this->is_version_to_old;
+            }
         };
 
         $this->assertEquals($is_activation_possible, $plugin->isActive($version));
@@ -249,24 +314,148 @@ class ilPluginInfoTest extends TestCase
 
     public function isActiveTruthTable() : array
     {
-        // is_installed, supports_current_ilias, needs_update, is_activated => is_active
+        // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => is_active
         return [
-            [false, false, false, false, false],
-            [false, false, false, true, false],
-            [false, false, true , false, false],
-            [false, false, true , true, false],
-            [false, true, false, false, false],
-            [false, true, false, true, false],
-            [false, true, true , false, false],
-            [false, true, true , true, false],
-            [true, false, false, false, false],
-            [true, false, false, true, false],
-            [true, false, true , false, false],
-            [true, false, true , true, false],
-            [true, true, false, false, false],
-            [true, true, false, true, true],
-            [true, true, true , false, false],
-            [true, true, true , true, false],
+            [false, false, false, false, false, false],
+            [false, false, false, true, false, false],
+            [false, false, true , false, false, false],
+            [false, false, true , true, false, false],
+            [false, true, false, false, false, false],
+            [false, true, false, true, false, false],
+            [false, true, true , false, false, false],
+            [false, true, true , true, false, false],
+            [true, false, false, false, false, false],
+            [true, false, false, true, false, false],
+            [true, false, true , false, false, false],
+            [true, false, true , true, false, false],
+            [true, true, false, false, false, false],
+            [true, true, false, true, false, true],
+            [true, true, true , false, false, false],
+            [true, true, true , true, false, false],
+
+            [false, false, false, false, true, false],
+            [false, false, false, true, true, false],
+            [false, false, true , false, true, false],
+            [false, false, true , true, true, false],
+            [false, true, false, false, true, false],
+            [false, true, false, true, true, false],
+            [false, true, true , false, true, false],
+            [false, true, true , true, true, false],
+            [true, false, false, false, true, false],
+            [true, false, false, true, true, false],
+            [true, false, true , false, true, false],
+            [true, false, true , true, true, false],
+            [true, true, false, false, true, false],
+            [true, true, false, true, true, false],
+            [true, true, true , false, true, false],
+            [true, true, true , true, true, false],
+        ];
+    }
+
+
+    /**
+     * @dataProvider inactivityReasonTable
+     */
+    public function testGetReasonForInactivity($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old, $inactivity_reason)
+    {
+        $version = $this->createMock(Data\Version::class);
+        $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
+            public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old)
+            {
+                $this->is_installed = $is_installed;
+                $this->supports_current_ilias = $supports_current_ilias;
+                $this->needs_update = $needs_update;
+                $this->is_activated = $is_activated;
+                $this->is_version_to_old = $is_version_to_old;
+            }
+
+            public function isActivated() : bool
+            {
+                return $this->is_activated;
+            }
+
+            public function isInstalled() : bool
+            {
+                return $this->is_installed;
+            }
+
+            public function isUpdateRequired() : bool
+            {
+                return $this->needs_update;
+            }
+
+            public function isCompliantToILIAS(Data\Version $version) : bool
+            {
+                return $this->supports_current_ilias;
+            }
+
+            public function getCurrentVersion() : ?Data\Version
+            {
+                return $this->current_version;
+            }
+
+            public function isVersionToOld() : bool
+            {
+                return $this->is_version_to_old;
+            }
+        };
+
+        $this->assertEquals($inactivity_reason, $plugin->getReasonForInactivity($version));
+    }
+
+    public function testGetReasonForInactivityThrowsOnActivePlugin()
+    {
+        $this->expectException(\LogicException::class);
+
+        $version = $this->createMock(Data\Version::class);
+        $plugin = new class() extends ilPluginInfo {
+            public function __construct()
+            {
+            }
+
+            public function isActive(Data\Version $version) : bool
+            {
+                return true;
+            }
+        };
+
+        $plugin->getReasonForInactivity($version);
+    }
+
+    public function inactivityReasonTable() : array
+    {
+        // is_installed, supports_current_ilias, needs_update, is_activated, is_version_to_old => inactivity_reason
+        return [
+            [false, false, false, false, false, "cmps_needs_matching_ilias_version"],
+            [false, false, false, true, false, "cmps_needs_matching_ilias_version"],
+            [false, false, true , false, false, "cmps_needs_matching_ilias_version"],
+            [false, false, true , true, false, "cmps_needs_matching_ilias_version"],
+            [false, true, false, false, false, "cmps_must_installed"],
+            [false, true, false, true, false, "cmps_must_installed"],
+            [false, true, true , false, false, "cmps_must_installed"],
+            [false, true, true , true, false, "cmps_must_installed"],
+            [true, false, false, false, false, "cmps_needs_matching_ilias_version"],
+            [true, false, false, true, false, "cmps_needs_matching_ilias_version"],
+            [true, false, true , false, false, "cmps_needs_matching_ilias_version"],
+            [true, false, true , true, false, "cmps_needs_matching_ilias_version"],
+            [true, true, false, false, false, "cmps_not_activated"],
+            [true, true, true , false, false, "cmps_needs_update"],
+            [true, true, true , true, false, "cmps_needs_update"],
+            [false, false, false, false, true, "cmps_needs_matching_ilias_version"],
+            [false, false, false, true, true, "cmps_needs_matching_ilias_version"],
+            [false, false, true , false, true, "cmps_needs_matching_ilias_version"],
+            [false, false, true , true, true, "cmps_needs_matching_ilias_version"],
+            [false, true, false, false, true, "cmps_must_installed"],
+            [false, true, false, true, true, "cmps_must_installed"],
+            [false, true, true , false, true, "cmps_must_installed"],
+            [false, true, true , true, true, "cmps_must_installed"],
+            [true, false, false, false, true, "cmps_needs_matching_ilias_version"],
+            [true, false, false, true, true, "cmps_needs_matching_ilias_version"],
+            [true, false, true , false, true, "cmps_needs_matching_ilias_version"],
+            [true, false, true , true, true, "cmps_needs_matching_ilias_version"],
+            [true, true, false, false, true, "cmps_needs_upgrade"],
+            [true, true, true , false, true, "cmps_needs_upgrade"],
+            [true, true, true , true, true, "cmps_needs_upgrade"],
         ];
     }
 }

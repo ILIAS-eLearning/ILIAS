@@ -106,7 +106,7 @@ class ilComponentBuildPluginInfoObjectiveTest extends TestCase
     public function testScanDir() : void
     {
         // Use the component directory without artifacts, because this should be mostly stable.
-        $expected = ["classes", "exceptions", "maintenance.json", "service.xml", "templates", "test"];
+        $expected = ["ROADMAP.md", "classes", "exceptions", "maintenance.json", "service.xml", "templates", "test"];
         $actual = array_values(array_diff($this->builder->_scanDir(__DIR__ . "/../.."), ["artifacts"]));
         $this->assertEquals($expected, $actual);
     }
@@ -126,7 +126,10 @@ $learning_progress = true;
 $supports_export = false;
 ?>
 PLUGIN;
+        $this->files["Modules/Module1/Slot1/Plugin1/classes/class.ilPlugin1Plugin.php"] = "";
+
         $this->builder->_addPlugin($data, "Modules", "Module1", "Slot1", "Plugin1");
+
         $expected = [
             "tstplg" => [
                 "Modules",

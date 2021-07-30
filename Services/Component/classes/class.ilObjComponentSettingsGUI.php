@@ -48,6 +48,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
      */
     protected $db;
 
+    protected ilComponentDataDB $component_data_db;
+    protected ILIAS\Data\Version $ilias_version;
+
     /**
      * ilObjComponentSettingsGUI constructor.
      * @param      $a_data
@@ -63,6 +66,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->rbac_system = $DIC->rbac()->system();
         $this->db = $DIC->database();
         $this->type = self::TYPE;
+        $this->component_data_db = $DIC["component.db"];
+        $this->ilias_version = $DIC["ilias.version"];
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule(self::TYPE);
     }
@@ -263,18 +268,23 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
-        $slot = new ilPluginSlot($_GET[self::P_CTYPE], $_GET[self::P_CNAME], $_GET[self::P_SLOT_ID]);
-
-        $plugin = null;
-        foreach ($slot->getPluginsInformation() as $item) {
-            if ($item["id"] === $_GET[self::P_PLUGIN_ID]) {
-                $plugin = $item;
-                break;
-            }
-        }
-        if (!$plugin) {
+        try {
+            $plugin = $this->component_data_db
+                ->getComponentByTypeAndName(
+                    $_GET[self::P_CTYPE],
+                    $_GET[self::P_CNAME]
+                )
+                ->getPluginSlotById(
+                    $_GET[self::P_SLOT_ID]
+                )
+                ->getPluginById(
+                    $_GET[self::P_PLUGIN_ID]
+                );
+        } catch (\InvalidArgumentException $e) {
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
+        $component = $plugin->getComponent();
+        $pluginslot = $plugin->getPluginSlot();
 
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
@@ -282,50 +292,41 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)
         );
 
-        $this->ctrl->setParameter($this, self::P_CTYPE, $_GET[self::P_CTYPE]);
-        $this->ctrl->setParameter($this, self::P_CNAME, $_GET[self::P_CNAME]);
-        $this->ctrl->setParameter($this, self::P_SLOT_ID, $_GET[self::P_SLOT_ID]);
-        $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $_GET[self::P_PLUGIN_ID]);
-        $this->ctrl->setParameter($this, self::P_PLUGIN_NAME, $plugin["name"]);
+        $this->ctrl->setParameter($this, self::P_CTYPE, $component->getType());
+        $this->ctrl->setParameter($this, self::P_CNAME, $component->getName());
+        $this->ctrl->setParameter($this, self::P_SLOT_ID, $pluginslot->getId());
+        $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $plugin->getId());
+        $this->ctrl->setParameter($this, self::P_PLUGIN_NAME, $plugin->getName());
 
-        $langs = ilPlugin::getAvailableLangFiles($slot->getPluginsDirectory() . "/" .
-            $plugin["name"] . "/lang");
+        $langs = ilPlugin::getAvailableLangFiles($plugin->getPath() . "/lang");
 
         // dbupdate
-        $file = ilPlugin::getDBUpdateScriptName(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            ilPluginSlot::lookupSlotName($_GET[self::P_CTYPE], $_GET[self::P_CNAME], $_GET[self::P_SLOT_ID]),
-            $plugin["name"]
-        );
+        $file = $plugin->getPath() . ilPluginDBUpdate::PLUGIN_UPDATE_FILE;
         $db_curr = $db_file = null;
         if (@is_file($file)) {
-            include_once("./Services/Component/classes/class.ilPluginDBUpdate.php");
             $dbupdate = new ilPluginDBUpdate(
-                $_GET[self::P_CTYPE],
-                $_GET[self::P_CNAME],
-                $_GET[self::P_SLOT_ID],
-                $plugin["name"],
+                $component->getType(),
+                $component->getName(),
+                $pluginslot->getId(),
+                $plugin->getName(),
                 $this->db,
                 true,
                 ""
             );
 
-            $db_curr = $dbupdate->getCurrentVersion();
+            $db_curr = $plugin->getCurrentDBVersion();
             $db_file = $dbupdate->getFileVersion();
         }
 
-        $plugin_db_data = ilPlugin::getPluginRecord($plugin["component_type"], $plugin["component_name"], $plugin[self::P_SLOT_ID], $plugin["name"]);
-
         // toolbar actions
-        if ($plugin["must_install"]) {
+        if (!$plugin->isInstalled()) {
             $this->toolbar->addButton(
                 $this->lng->txt("cmps_install"),
                 $this->ctrl->getLinkTarget($this, self::CMD_INSTALL_PLUGIN)
             );
         } else {
             // configure button
-            if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin, $plugin_db_data)) {
+            if (ilPlugin::hasConfigureClass($plugin)) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_configure"),
                     $this->ctrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin)), self::CMD_CONFIGURE)
@@ -339,7 +340,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 );
             }
 
-            if ($plugin["activation_possible"]) {
+            if ($plugin->isActivationPossible($this->ilias_version) && !$plugin->isActivated()) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_activate"),
                     $this->ctrl->getLinkTarget($this, self::CMD_ACTIVATE_PLUGIN)
@@ -347,7 +348,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             }
 
             // deactivation/refresh languages button
-            if ($plugin["is_active"]) {
+            if ($plugin->isActive($this->ilias_version)) {
                 // deactivate button
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_deactivate"),
@@ -356,7 +357,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             }
 
             // update button
-            if ($plugin["needs_update"]) {
+            if ($plugin->isUpdateRequired()) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_update"),
                     $this->ctrl->getLinkTarget($this, self::CMD_UPDATE_PLUGIN)
@@ -366,8 +367,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         // info
         $resp = array();
-        if ($plugin["responsible"] != '') {
-            $responsibles = explode('/', $plugin["responsible_mail"]);
+        if ($plugin->getResponsible() != '') {
+            $responsibles = explode('/', $plugin->getResponsibleMail());
             foreach ($responsibles as $responsible) {
                 if (!strlen($responsible = trim($responsible))) {
                     continue;
@@ -376,27 +377,27 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 $resp[] = $responsible;
             }
 
-            $resp = $plugin["responsible"] . " (" . implode(" / ", $resp) . ")";
+            $resp = $plugin->getResponsible() . " (" . implode(" / ", $resp) . ")";
         }
 
-        if ($plugin["is_active"]) {
+        if ($plugin->isActive($this->ilias_version)) {
             $status = $this->lng->txt("cmps_active");
         } else {
-            $r = ($plugin["inactive_reason"] != "")
-                ? " (" . $plugin["inactive_reason"] . ")"
-                : "";
-
-            $status = $this->lng->txt("cmps_inactive") . $r;
+            $status =
+                $this->lng->txt("cmps_inactive") .
+                " (" .
+                $this->lng->txt($plugin->getReasonForInactivity($this->ilias_version)) .
+                ")";
         }
 
-        $info[""][$this->lng->txt("cmps_name")] = $plugin["name"];
-        $info[""][$this->lng->txt("cmps_id")] = $plugin["id"];
-        $info[""][$this->lng->txt("cmps_version")] = $plugin["version"];
+        $info[""][$this->lng->txt("cmps_name")] = $plugin->getName();
+        $info[""][$this->lng->txt("cmps_id")] = $plugin->getId();
+        $info[""][$this->lng->txt("cmps_version")] = (string) $plugin->getCurrentVersion();
         if ($resp) {
             $info[""][$this->lng->txt("cmps_responsible")] = $resp;
         }
-        $info[""][$this->lng->txt("cmps_ilias_min_version")] = $plugin["ilias_min_version"];
-        $info[""][$this->lng->txt("cmps_ilias_max_version")] = $plugin["ilias_max_version"];
+        $info[""][$this->lng->txt("cmps_ilias_min_version")] = (string) $plugin->getMinimumILIASVersion();
+        $info[""][$this->lng->txt("cmps_ilias_max_version")] = (string) $plugin->getMaximumILIASVersion();
         $info[""][$this->lng->txt("cmps_status")] = $status;
 
         if (sizeof($langs)) {
@@ -409,19 +410,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $info[""][$this->lng->txt("cmps_languages")] = $this->lng->txt("cmps_no_language_file_available");
         }
 
-        $info[$this->lng->txt("cmps_basic_files")]["plugin.php"] = $plugin["plugin_php_file_status"] ?
-            $this->lng->txt("cmps_available") :
-            $this->lng->txt("cmps_missing");
-        $info[$this->lng->txt("cmps_basic_files")][$this->lng->txt("cmps_class_file")] = ($plugin["class_file_status"] ?
-                $this->lng->txt("cmps_available") :
-                $this->lng->txt("cmps_missing")) .
-            " (" . $plugin["class_file"] . ")";
-
         if (!$db_file) {
             $info[$this->lng->txt("cmps_database")][$this->lng->txt("file")] = $this->lng->txt("cmps_no_db_update_file_available");
         } else {
             $info[$this->lng->txt("cmps_database")][$this->lng->txt("file")] = "dbupdate.php";
-            $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_current_version")] = $db_curr;
+            $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_current_version")] = $db_curr ?? "-";
             $info[$this->lng->txt("cmps_database")][$this->lng->txt("cmps_file_version")] = $db_file;
         }
 

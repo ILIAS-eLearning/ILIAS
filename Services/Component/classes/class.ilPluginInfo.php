@@ -168,32 +168,81 @@ class ilPluginInfo
     }
 
     /**
+     * "Version to old" tells if the plugin code has a version that is below the
+     * version that was updated last.
+     */
+    public function isVersionToOld() : bool
+    {
+        return $this->current_version->isGreaterThan($this->available_version);
+    }
+
+    /**
      * "ILIAS Version compliance" tells if the plugin can be operated with the
      * given ILIAS version.
      */
-    public function isCompliantToILIAS(Version $version) : bool
+    public function isCompliantToILIAS(Version $ilias_version) : bool
     {
         return
-            $version->isGreaterThanOrEquals($this->minimum_ilias_version)
-            && $version->isSmallerThanOrEquals($this->maximum_ilias_version);
+            $ilias_version->isGreaterThanOrEquals($this->minimum_ilias_version)
+            && $ilias_version->isSmallerThanOrEquals($this->maximum_ilias_version);
     }
 
     /**
      * Can this plugin be activated right now.
      */
-    public function isActivationPossible(Version $version) : bool
+    public function isActivationPossible(Version $ilias_version) : bool
     {
-        return $this->isCompliantToILIAS($version)
+        return $this->isCompliantToILIAS($ilias_version)
             && $this->isInstalled()
+            && !$this->isVersionToOld()
             && !$this->isUpdateRequired();
     }
 
     /**
      * Is this plugin active right now?
      */
-    public function isActive(Version $version) : bool
+    public function isActive(Version $ilias_version) : bool
     {
-        return $this->isActivationPossible($version)
+        return $this->isActivationPossible($ilias_version)
             && $this->isActivated();
+    }
+
+    /**
+     * Which is the reason for the inactivity?
+     *
+     * @throws \LogicException if plugin is actually active.
+     * @return string to be used as identifier for language service.
+     */
+    public function getReasonForInactivity(Version $ilias_version) : string
+    {
+        if ($this->isActive($ilias_version)) {
+            throw new \LogicException(
+                "Plugin is active, so no reason for inactivity."
+            );
+        }
+
+        if (!$this->isCompliantToILIAS($ilias_version)) {
+            return "cmps_needs_matching_ilias_version";
+        }
+
+        if (!$this->isInstalled()) {
+            return "cmps_must_installed";
+        }
+
+        if ($this->isVersionToOld()) {
+            return "cmps_needs_upgrade";
+        }
+
+        if ($this->isUpdateRequired()) {
+            return "cmps_needs_update";
+        }
+
+        if (!$this->isActivated()) {
+            return "cmps_not_activated";
+        }
+
+        throw new \LogicException(
+            "Unknown reason for inactivity of the plugin."
+        );
     }
 }

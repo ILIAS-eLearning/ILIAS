@@ -1198,6 +1198,7 @@ class ilInitialisation
 
         self::requireCommonIncludes();
 
+        $GLOBALS["DIC"]["ilias.version"] = (new ILIAS\Data\Factory)->version(ILIAS_VERSION_NUMERIC);
 
         // error handler
         self::initGlobal(
