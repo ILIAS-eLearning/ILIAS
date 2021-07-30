@@ -199,7 +199,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = <<<EOT
-<span class="il-item-notification-replacement-container">
+<div class="il-item-notification-replacement-container">
 	<div class="il-item il-notification-item" id="id">
 		<div class="media">
 			<div class="media-left">
@@ -253,7 +253,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 								</button>
 							</div>
 							<div class="il-maincontrols-slate-content">
-								<span class="il-item-notification-replacement-container">
+								<div class="il-item-notification-replacement-container">
 									<div class="il-item il-notification-item" id="id">
 										<div class="media">
 											<div class="media-left">
@@ -277,14 +277,14 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 											</div>
 										</div>
 									</div>
-								</span>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</span>
+	</div>
 EOT;
 
         $this->assertEquals($this->brutallyTrimHTML($expected), $html);
