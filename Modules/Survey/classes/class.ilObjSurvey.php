@@ -3673,10 +3673,12 @@ class ilObjSurvey extends ilObject
         $mapping = array();
 
         foreach ($this->questions as $key => $question_id) {
+            /** @var $question SurveyQuestion */
             $question = self::_instanciateQuestion($question_id);
             if ($question) { // #10824
                 $question->id = -1;
                 $original_id = SurveyQuestion::_getOriginalId($question_id, false);
+                $question->setObjId($newObj->getId());
                 $question->saveToDb($original_id);
                 $newObj->questions[$key] = $question->getId();
                 $question_pointer[$question_id] = $question->getId();
