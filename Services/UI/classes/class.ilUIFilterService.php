@@ -178,7 +178,7 @@ class ilUIFilterService
 
         if ($this->request->getFilterCmd() == self::CMD_APPLY) {
             $this->handleRendering($filter_id, $inputs);
-            // always acitvate the filter when it is applied
+            // always activate the filter when it is applied
             $this->session->writeActivated($filter_id, true);
         }
     }

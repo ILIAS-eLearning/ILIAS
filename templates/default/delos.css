@@ -8307,6 +8307,9 @@ ul.dropdown-menu > li > .btn:focus {
   padding-bottom: 40px;
   margin: 0;
 }
+.il-filter-input-section .il-input-multiselect {
+  margin: 0.8em;
+}
 .il-filter-field {
   cursor: text;
   overflow: hidden;

@@ -154,13 +154,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="collapse_content">
+				<span class="glyph" aria-label="collapse_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="expand_content">
+				<span class="glyph" aria-label="expand_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -182,7 +182,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         <div class="il-filter-input-section row collapse ">
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Title</span>
+					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
@@ -193,7 +193,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Selection</span>
+					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
@@ -209,7 +209,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="col-md-4 il-popover-container">
                 <div class="input-group">
-                    <span class="input-group-addon leftaddon">Multi Selection</span>
+                    <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -222,7 +222,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -232,13 +232,13 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply">
+			        <span class="glyph" aria-label="apply" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset">
+                    <span class="glyph" aria-label="reset" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -288,13 +288,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="collapse_content">
+				<span class="glyph" aria-label="collapse_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="expand_content">
+				<span class="glyph" aria-label="expand_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -316,7 +316,7 @@ EOT;
         <div class="il-filter-input-section row collapse ">
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Title</span>
+					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
@@ -327,7 +327,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Selection</span>
+					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
@@ -343,7 +343,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
                 <div class="input-group">
-                    <span class="input-group-addon leftaddon">Multi Selection</span>
+                    <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -356,7 +356,7 @@ EOT;
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -366,13 +366,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply">
+			        <span class="glyph" aria-label="apply" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset">
+                    <span class="glyph" aria-label="reset" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -422,13 +422,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="expand_content">
+				<span class="glyph" aria-label="expand_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="collapse_content">
+				<span class="glyph" aria-label="collapse_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -450,7 +450,7 @@ EOT;
         <div class="il-filter-input-section row collapse in">
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Title</span>
+					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
@@ -461,7 +461,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Selection</span>
+					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
@@ -477,7 +477,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
                 <div class="input-group">
-                    <span class="input-group-addon leftaddon">Multi Selection</span>
+                    <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -490,7 +490,7 @@ EOT;
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -500,13 +500,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply">
+			        <span class="glyph" aria-label="apply" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset">
+                    <span class="glyph" aria-label="reset" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
@@ -556,13 +556,13 @@ EOT;
         <div class="il-filter-bar">
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
-				<span class="glyph" aria-label="expand_content">
+				<span class="glyph" aria-label="expand_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
-				<span class="glyph" aria-label="collapse_content">
+				<span class="glyph" aria-label="collapse_content" role="img">
 				    <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                 </span>
 				<span class="bulky-label">filter</span>
@@ -584,7 +584,7 @@ EOT;
         <div class="il-filter-input-section row collapse in">
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Title</span>
+					<label for="id_7" class="input-group-addon leftaddon">Title</label>
 					<input id="id_7" type="text" name="filter_input_1" class="form-control form-control-sm" />
 					<span class="input-group-addon rightaddon">
 						<a class="glyph" href="" aria-label="remove" id="id_8">
@@ -595,7 +595,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
 				<div class="input-group">
-					<span class="input-group-addon leftaddon">Selection</span>
+					<label for="id_9" class="input-group-addon leftaddon">Selection</label>
 					<select id="id_9" name="filter_input_2">
                         <option selected="selected" value="">-</option>
                         <option value="one">One</option>
@@ -611,7 +611,7 @@ EOT;
 			</div>
 			<div class="col-md-4 il-popover-container">
                 <div class="input-group">
-                    <span class="input-group-addon leftaddon">Multi Selection</span>
+                    <label class="input-group-addon leftaddon">Multi Selection</label>
                     <span role="button" tabindex="0" class="form-control il-filter-field" id="id_14" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_12"></div>
                     <span class="input-group-addon rightaddon">
@@ -624,7 +624,7 @@ EOT;
 			<div class="col-md-4 il-popover-container">
     			<div class="input-group">
 					<button class="btn btn-bulky" id="id_21">
-        				<span class="glyph" aria-label="add">
+        				<span class="glyph" aria-label="add" role="img">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
 					    <span class="bulky-label"></span>
@@ -634,13 +634,13 @@ EOT;
 			</div>
 			<div class="il-filter-controls">
 			    <button class="btn btn-bulky" data-action="" id="id_4">
-			        <span class="glyph" aria-label="apply">
+			        <span class="glyph" aria-label="apply" role="img">
 			            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">apply</span>
                 </button>
                 <button class="btn btn-bulky" data-action="#" id="id_5">
-                    <span class="glyph" aria-label="reset">
+                    <span class="glyph" aria-label="reset" role="img">
                         <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                     </span>
                     <span class="bulky-label">reset</span>
