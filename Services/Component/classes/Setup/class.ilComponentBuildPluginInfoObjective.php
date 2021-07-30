@@ -6,6 +6,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 {
     const BASE_PATH = "./Customizing/global/plugins/";
     const PLUGIN_PHP = "plugin.php";
+    const PLUGIN_CLASS_FILE = "classes/class.il%sPlugin.php";
 
     public function getArtifactPath() : string
     {
@@ -34,14 +35,21 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
     protected function addPlugin(array &$data, string $type, string $component, string $slot, string $plugin) : void
     {
         $path = static::BASE_PATH . "$type/$component/$slot/$plugin/" . static::PLUGIN_PHP;
-        $file = $this->readFile($path);
-        if (is_null($file)) {
+        $plugin_php = $this->readFile($path);
+        if (is_null($plugin_php)) {
             throw new \RuntimeException(
-                "Cannot read $path."
+                "Cannot read plugin.php of $type/$component/$slot/$plugin at $path."
             );
         }
 
-        eval("?>" . $file);
+        $path = static::BASE_PATH . "$type/$component/$slot/$plugin/" . sprintf(static::PLUGIN_CLASS_FILE, $plugin);
+        if (is_null($this->readFile($path))) {
+            throw new \RuntimeException(
+                "Cannot read plugin class file of $type/$component/$slot/$plugin at $path."
+            );
+        }
+
+        eval("?>" . $plugin_php);
         if (!isset($id)) {
             throw new \InvalidArgumentException("$path does not define \$id");
         }

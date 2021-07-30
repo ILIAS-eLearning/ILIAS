@@ -8,6 +8,8 @@
  */
 class ilPluginDBUpdate extends ilDBUpdate
 {
+    public const PLUGIN_UPDATE_FILE = "/sql/dbupdate.php";
+
     /**
      * constructor
      * @noinspection MagicMethodsValidityInspection

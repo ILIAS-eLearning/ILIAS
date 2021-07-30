@@ -61,11 +61,16 @@ abstract class ilPlugin
      */
     protected $message;
 
+    protected ilComponentDataDB $component_data_db;
+
 
     public function __construct()
     {
+        global $DIC;
+
         $this->__init();
         $this->provider_collection = new PluginProviderCollection();
+        $this->component_data_db = $DIC["component.db"];
     }
 
 
@@ -383,19 +388,16 @@ abstract class ilPlugin
      *
      * @return boolean true/false
      */
-    public static function hasConfigureClass(string $a_slot_dir, array $plugin_data, array $plugin_db_data) : bool
+    public static function hasConfigureClass(\ilPluginInfo $plugin) : bool
     {
+        global $DIC;
+
         // Mantis: 23282: Disable plugin config page for incompatible plugins
-        if (!(ilComponent::isVersionGreaterString($plugin_data["ilias_min_version"], ILIAS_VERSION_NUMERIC)
-            || ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $plugin_data["ilias_max_version"])
-            || ilComponent::isVersionGreaterString($plugin_db_data["last_update_version"], $plugin_data["version"]))
-        ) {
-            if (is_file($a_slot_dir . "/" . $plugin_data["name"] . "/classes/class.il" . $plugin_data["name"] . "ConfigGUI.php")) {
-                return true;
-            }
+        if (!$plugin->isCompliantToILIAS($DIC["ilias.version"])) {
+            return false;
         }
 
-        return false;
+        return is_file($plugin->getPath() . "/classes/" . self::getConfigureClassName($plugin));
     }
 
 
@@ -406,9 +408,9 @@ abstract class ilPlugin
      *
      * @return string
      */
-    public static function getConfigureClassName(array $plugin_data) : string
+    protected static function getConfigureClassName(\ilPluginInfo $plugin) : string
     {
-        return "il" . $plugin_data["name"] . "ConfigGUI";
+        return "il" . $plugin->getName() . "ConfigGUI";
     }
 
 
@@ -742,13 +744,12 @@ abstract class ilPlugin
                 "component_name" => $plugin->getComponent()->getName(),
                 "slot_id" => $plugin->getPluginSlot()->getId(),
                 "name" => $plugin->getName(),
-                "last_update_version" => (string)$plugin->getCurrentVersion(),
+                "last_update_version" => (string) $plugin->getCurrentVersion(),
                 "active" => $plugin->isActivated() ? 1 : 0,
                 "db_version" => $plugin->getCurrentDBVersion(),
                 "plugin_id" => $plugin->getId()
             ];
-        }
-        catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException $e) {
             throw new ilPluginException("No plugin record found for '{$a_ctype}', '{$a_cname}', '{$a_slot_id}', '{$a_pname}");
         }
     }

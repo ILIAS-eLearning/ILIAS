@@ -1996,6 +1996,7 @@ cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
 cmps#:#cmps_name#:#Name
+cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
 cmps#:#cmps_needs_update#:#Needs update.
