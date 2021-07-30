@@ -384,6 +384,7 @@ class ilSurveyEditorGUI
             $this->ctrl->redirect($this, "questions");
         } else {
             $_SESSION["move_questions"] = $move_questions;
+            $_SESSION["move_questions_survey_id"] = $this->object->getId();
             ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
             $this->questionsObject();
         }
@@ -433,6 +434,7 @@ class ilSurveyEditorGUI
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
             $this->object->moveQuestions($_SESSION["move_questions"], $insert_id, $insert_mode);
             unset($_SESSION["move_questions"]);
+            unset($_SESSION["move_questions_survey_id"]);
         }
     
         $this->ctrl->redirect($this, "questions");
