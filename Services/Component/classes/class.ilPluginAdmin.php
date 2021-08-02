@@ -537,7 +537,7 @@ class ilPluginAdmin
                     "component_name" => $plugin->getComponent()->getName(),
                     "slot_id" => $plugin->getPluginSlot()->getId(),
                     "name" => $plugin->getName(),
-                    "last_update_version" => (string)$plugin->getCurrentVersion(),
+                    "last_update_version" => (string) $plugin->getCurrentVersion(),
                     "active" => $plugin->isActivated() ? "1" : "0",
                     "db_version" => $plugin->getCurrentDBVersion(),
                     "plugin_id" => $plugin->getId()
@@ -571,7 +571,7 @@ class ilPluginAdmin
                     "component_name" => $plugin->getComponent()->getName(),
                     "slot_id" => $plugin->getPluginSlot()->getId(),
                     "name" => $plugin->getName(),
-                    "last_update_version" => (string)$plugin->getCurrentVersion(),
+                    "last_update_version" => (string) $plugin->getCurrentVersion(),
                     "active" => $plugin->isActivated() ? "1" : "0",
                     "db_version" => $plugin->getCurrentDBVersion(),
                     "plugin_id" => $plugin->getId()
@@ -659,30 +659,6 @@ class ilPluginAdmin
                 yield $pl->getGlobalScreenProviderCollection();
             }
         }
-    }
-
-    public function getRawPluginDataFor(string $name) : ?array
-    {
-        $this->clearCachedData();
-
-        $modules = ilModule::getAvailableCoreModules();
-        $services = ilService::getAvailableCoreServices();
-
-        foreach ($this->getPluginSlots($modules, IL_COMP_MODULE) as $plugin_slot) {
-            $plugin = $plugin_slot->getPluginInformationFor($name);
-            if (!is_null($plugin)) {
-                return $plugin;
-            }
-        }
-
-        foreach ($this->getPluginSlots($services, IL_COMP_SERVICE) as $plugin_slot) {
-            $plugin = $plugin_slot->getPluginInformationFor($name);
-            if (!is_null($plugin)) {
-                return $plugin;
-            }
-        }
-
-        return null;
     }
 
     protected function getPluginSlots(array $components, string $type) : \Iterator
