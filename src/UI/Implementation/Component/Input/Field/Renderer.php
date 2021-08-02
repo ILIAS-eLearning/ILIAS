@@ -315,25 +315,12 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJSandApplyId($component, $tpl);
 
-        /*
-        if ($value) {
-            $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
-            foreach ($value as $tag) {
-                $tpl->setCurrentBlock('existing_tags');
-                $tpl->setVariable("FIELD_NAME", $component->getName());
-                $tpl->setVariable("TAG_NAME", $tag);
-                $tpl->parseCurrentBlock();
-            }
-        }*/
-
         if ($component->isDisabled()) {
-            //$tpl->setCurrentBlock("disabled");
             $tpl->setVariable("DISABLED", "disabled");
-            //$tpl->parseCurrentBlock();
             $tpl->setVariable("READONLY", "readonly");
         }
 
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
     protected function renderPasswordField(F\Password $component, RendererInterface $default_renderer) : string

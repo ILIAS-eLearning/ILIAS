@@ -66,7 +66,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
@@ -92,7 +92,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
            <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
                 <div class="help-block alert alert-danger" role="alert">an_error</div>
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
@@ -117,7 +117,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
@@ -128,32 +128,6 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    /*
-        public function testRenderValue() : void
-        {
-            $f = $this->buildFactory();
-            $label = "label";
-            $value = ["lorem", "ipsum",];
-            $name = "name_0";
-            $tags = ["lorem", "ipsum", "dolor",];
-            $text = $f->tag($label, $tags)->withValue($value)->withNameFrom($this->name_source);
-
-            $r = $this->getDefaultRenderer();
-            $html = $this->brutallyTrimHTML($r->render($text));
-
-            $expected = $this->brutallyTrimHTML('
-            <div class="form-group row">
-                <label class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
-                    <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
-                        <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/>
-                    </div>
-                </div>
-            </div>
-            ');
-            $this->assertEquals($expected, $html);
-        }
-    */
     public function testRenderRequired() : void
     {
         $f = $this->buildFactory();
@@ -167,7 +141,7 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
             <div class="col-sm-9">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
@@ -191,7 +165,7 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container disabled">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" readonly value=""/> 

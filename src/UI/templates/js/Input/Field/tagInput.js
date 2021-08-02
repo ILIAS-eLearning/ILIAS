@@ -11,23 +11,7 @@ il.UI.Input = il.UI.Input || {};
     il.UI.Input.tagInput = (function ($) {
         var instances = [];
         var init = function (raw_id, config, value) {
-            var _DEBUG = false;
             var _CONFIG = {};
-
-window.top.console.group('TAG')
-window.top.console.log(config)
-window.top.console.log(value)
-window.top.console.groupEnd()
-
-            var _log = function (key, data) {
-                if (!_DEBUG) {
-                    return;
-                }
-                console.log("***********************");
-                console.log(key + ":");
-                console.log(data);
-            };
-
             var _getSettings = function() {
                 return {
                     whitelist: _CONFIG.options,
@@ -42,21 +26,17 @@ window.top.console.groupEnd()
                         highlightFirst: _CONFIG.highlight
                     }
                 }
-            }
+            };
 
             // Initialize ID and Configuration
             _CONFIG = $.extend(_CONFIG, config);
-            _DEBUG = _CONFIG.debug;
             _CONFIG.id = raw_id;
-            _log("config", _CONFIG);
-
-            var input = document.getElementById(_CONFIG.id);
 
             var settings = _getSettings();
             settings.delimiters = null;
             settings.templates = {};
             settings.templates.tag = function(tagData) {
-                return `<tag title='${tagData.display}' contenteditable='false'
+                return `<tag contenteditable='false'
                             spellcheck="false" class='tagify__tag'
                             value="${tagData.value}">
                             <x title='remove tag' class='tagify__tag__removeBtn'></x>
@@ -71,7 +51,9 @@ window.top.console.groupEnd()
                         </div>`;
             };
 
-            var tagify = new Tagify(input, settings);
+            var input = document.getElementById(_CONFIG.id),
+                tagify = new Tagify(input, settings);
+
             tagify.addTags(value);
 
             instances[raw_id] = tagify;
