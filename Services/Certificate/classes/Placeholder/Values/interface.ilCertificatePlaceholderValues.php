@@ -19,7 +19,7 @@ interface ilCertificatePlaceholderValues
      * @throws ilInvalidCertificateException
      * @return mixed - [PLACEHOLDER] => 'actual value'
      */
-    public function getPlaceholderValues(int $userId, int $objId);
+    public function getPlaceholderValues(int $userId, int $objId) : array;
 
     /**
      * This method is different then the 'getPlaceholderValues' method, this
