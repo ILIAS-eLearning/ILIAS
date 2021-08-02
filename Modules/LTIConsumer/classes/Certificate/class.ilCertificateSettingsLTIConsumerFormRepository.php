@@ -56,7 +56,7 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
         $this->settingsFormRepository = $settingsFormRepository;
     }
 
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFormRepository->createForm($certificateGUI);
 
