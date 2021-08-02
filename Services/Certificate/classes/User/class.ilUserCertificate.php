@@ -31,7 +31,7 @@ class ilUserCertificate
         int $acquiredTimestamp,
         string $certificateContent,
         string $templateValues,
-        int $validUntil,
+        ?int $validUntil,
         string $version,
         string $iliasVersion,
         bool $currentlyActive,
@@ -47,12 +47,12 @@ class ilUserCertificate
         $this->acquiredTimestamp = $acquiredTimestamp;
         $this->certificateContent = $certificateContent;
         $this->templateValues = $templateValues;
-        $this->validUntil = $validUntil;
+        $this->validUntil = (int) $validUntil;
         $this->version = $version;
         $this->iliasVersion = $iliasVersion;
         $this->currentlyActive = $currentlyActive;
-        $this->backgroundImagePath = $backgroundImagePath;
-        $this->thumbnailImagePath = $thumbnailImagePath;
+        $this->backgroundImagePath = (string) $backgroundImagePath;
+        $this->thumbnailImagePath = (string) $thumbnailImagePath;
         $this->id = $id;
     }
 
