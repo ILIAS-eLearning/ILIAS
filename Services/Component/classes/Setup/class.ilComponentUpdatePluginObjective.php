@@ -52,7 +52,8 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             new ClientIdReadObjective(),
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilComponentPluginAdminInitObjective(),
+            new \ilComponentDatabaseExistsObjective()
         ];
     }
 
@@ -61,21 +62,30 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_data_db->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (!is_null($plugin) && $plugin['needs_update'] && $plugin['supports_cli_setup']) {
-            $pl = ilPlugin::getPluginObject(
-                $plugin['component_type'],
-                $plugin['component_name'],
-                $plugin['slot_id'],
-                $plugin['name']
+        if (!$plugin->supportsCLISetup()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name does not support command line setup."
             );
-
-            $pl->update();
         }
 
+        if ($plugin->isUpdateRequired()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name is already updated."
+            );
+        }
+
+        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+        ilPlugin::getPluginObject(
+            $component->getType(),
+            $component->getName(),
+            $slot->getId(),
+            $plugin->getName()
+        )->update();
         $GLOBALS["DIC"] = $ORIG_DIC;
         $GLOBALS["ilDB"] = $ORIG_ilDB;
 
@@ -87,18 +97,10 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_data_db->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-        $GLOBALS["ilDB"] = $ORIG_ilDB;
-
-        return $plugin['needs_update'];
+        return $plugin->isUpdateRequired();
     }
 
     protected function initEnvironment(Setup\Environment $environment) : array

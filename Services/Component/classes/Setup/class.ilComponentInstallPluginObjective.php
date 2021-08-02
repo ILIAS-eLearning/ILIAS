@@ -52,7 +52,8 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             new ClientIdReadObjective(),
             new \ilIniFilesPopulatedObjective(),
             new \ilDatabaseUpdatedObjective(),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilComponentPluginAdminInitObjective(),
+            new \ilComponentDatabaseExistsObjective()
         ];
     }
 
@@ -61,21 +62,30 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
+        $plugin = $component_data_db->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (!is_null($plugin) && $plugin['must_install'] && $plugin['supports_cli_setup']) {
-            $pl = ilPlugin::getPluginObject(
-                $plugin['component_type'],
-                $plugin['component_name'],
-                $plugin['slot_id'],
-                $plugin['name']
+        if (!$plugin->supportsCLISetup()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name does not support command line setup."
             );
-
-            $pl->install();
         }
 
+        if ($plugin->isInstalled()) {
+            throw new \RuntimeException(
+                "Plugin $this->plugin_name is already installed."
+            );
+        }
+
+        $ORIG_DIC = $this->initEnvironment($environment);
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+        ilPlugin::getPluginObject(
+            $component->getType(),
+            $component->getName(),
+            $slot->getId(),
+            $plugin->getName()
+        )->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;
@@ -86,17 +96,10 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_data_db->getPluginByName($this->plugin_name);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-
-        return $plugin['must_install'];
+        return !$plugin->isInstalled();
     }
 
     protected function initEnvironment(Setup\Environment $environment) : ILIAS\DI\Container
