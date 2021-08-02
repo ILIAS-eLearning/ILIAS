@@ -55,7 +55,10 @@ class KeyValueAccess implements \ArrayAccess, \Countable
     {
         return function ($value) {
             if (is_array($value)) {
-                return $this->getApplicator()($value);
+                foreach ($value as $k => $v) {
+                    $value[$k] = $this->getApplicator()($v);
+                }
+                return $value;
             }
             return $this->trafo->transform($value);
         };
