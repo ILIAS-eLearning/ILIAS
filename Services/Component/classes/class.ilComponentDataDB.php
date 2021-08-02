@@ -83,4 +83,11 @@ interface ilComponentDataDB
      * @throws \InvalidArgumentException if plugin does not exist
      */
     public function getPluginById(string $id) : ilPluginInfo;
+
+    /**
+     * Get a plugin by name.
+     *
+     * @throws \InvalidArgumentException if plugin does not exist.
+     */
+    public function getPluginByName(string $name) : ilPluginInfo;
 }

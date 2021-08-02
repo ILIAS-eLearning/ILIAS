@@ -57,13 +57,16 @@ class ilArtifactComponentDataDBTest extends TestCase
     {
         $this->data_factory = new Data\Factory();
         $this->plugin_state_db = new class() implements ilPluginStateDB {
-            public function isPluginActivated(string $id) : bool {
+            public function isPluginActivated(string $id) : bool
+            {
                 return false;
             }
-            public function getCurrentPluginVersion(string $id) : ?Data\Version {
+            public function getCurrentPluginVersion(string $id) : ?Data\Version
+            {
                 return (new Data\Factory())->version("0.9.1");
             }
-            public function getCurrentPluginDBVersion(string $id) : ?int {
+            public function getCurrentPluginDBVersion(string $id) : ?int
+            {
                 return 13;
             }
         };
@@ -324,6 +327,12 @@ class ilArtifactComponentDataDBTest extends TestCase
     {
         $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
         $this->assertEquals($this->plg2, $this->db->getPluginById("plg2"));
+    }
+
+    public function testGetPluginByName()
+    {
+        $this->assertEquals($this->plg1, $this->db->getPluginByName("Plugin1"));
+        $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
     }
 
     public function testUnknownPlugin()

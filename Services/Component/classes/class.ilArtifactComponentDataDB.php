@@ -14,6 +14,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     protected array $component_id_by_type_and_name;
     protected array $pluginslot_by_id;
     protected array $plugin_by_id;
+    protected array $plugin_by_name;
 
     public function __construct(Data\Factory $data_factory, ilPluginStateDB $plugin_state_db)
     {
@@ -223,5 +224,22 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             );
         }
         return $this->plugin_by_id[$id];
+    }
+
+    /**
+     * Get a plugin by name.
+     *
+     * @throws \InvalidArgumentException if plugin does not exist
+     */
+    public function getPluginByName(string $name) : ilPluginInfo
+    {
+        foreach ($this->getPlugins() as $plugin) {
+            if ($plugin->getName() === $name) {
+                return $plugin;
+            }
+        }
+        throw new \InvalidArgumentException(
+            "No plugin with name $name."
+        );
     }
 }
