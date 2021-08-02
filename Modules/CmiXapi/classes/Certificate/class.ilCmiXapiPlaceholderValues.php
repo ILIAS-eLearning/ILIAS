@@ -104,7 +104,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         $this->dateHelper = $dateHelper;
     }
 
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
