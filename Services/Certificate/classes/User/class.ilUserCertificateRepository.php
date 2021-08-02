@@ -539,7 +539,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             $row['certificate_content'],
             $row['template_values'],
             (int) $row['valid_until'],
-            $row['version'],
+            (int) $row['version'],
             $row['ilias_version'],
             (bool) $row['currently_active'],
             $row['background_image_path'],

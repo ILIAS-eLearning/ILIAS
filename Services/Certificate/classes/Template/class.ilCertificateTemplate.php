@@ -10,7 +10,7 @@ class ilCertificateTemplate
     private string $certificateContent;
     private string $certificateHash;
     private string $templateValues;
-    private string $version;
+    private int $version;
     private string $iliasVersion;
     private int $createdTimestamp;
     private bool $currentlyActive;
@@ -26,7 +26,7 @@ class ilCertificateTemplate
         string $certificateContent,
         string $certificateHash,
         string $templateValues,
-        string $version,
+        int $version,
         string $iliasVersion,
         int $createdTimestamp,
         bool $currentlyActive,
@@ -70,7 +70,7 @@ class ilCertificateTemplate
         return $this->templateValues;
     }
 
-    public function getVersion() : string
+    public function getVersion() : int
     {
         return $this->version;
     }

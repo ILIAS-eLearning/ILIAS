@@ -15,7 +15,7 @@ class ilUserCertificate
     private string $certificateContent;
     private string $templateValues;
     private int $validUntil;
-    private string $version;
+    private int $version;
     private string $iliasVersion;
     private bool $currentlyActive;
     private ?int $id;
@@ -32,7 +32,7 @@ class ilUserCertificate
         string $certificateContent,
         string $templateValues,
         ?int $validUntil,
-        string $version,
+        int $version,
         string $iliasVersion,
         bool $currentlyActive,
         ?string $backgroundImagePath = null,
@@ -67,7 +67,7 @@ class ilUserCertificate
     public function withVersion(int $version) : self
     {
         $clone = clone $this;
-        $clone->version = (string) $version;
+        $clone->version = $version;
 
         return $clone;
     }
@@ -117,7 +117,7 @@ class ilUserCertificate
         return $this->validUntil;
     }
 
-    public function getVersion() : string
+    public function getVersion() : int
     {
         return $this->version;
     }
