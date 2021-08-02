@@ -276,27 +276,6 @@ abstract class ilPlugin
         return $this->dbversion;
     }
 
-
-    /**
-     * @param string $a_dbversion
-     */
-    public function writeDBVersion(int $a_dbversion)
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $this->setDBVersion($a_dbversion);
-
-        $q = "UPDATE il_plugin SET db_version = " . $ilDB->quote((int) $this->getDBVersion(), "integer") .
-            " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-            " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-            " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-            " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-
-        $ilDB->manipulate($q);
-    }
-
-
     /**
      * Get Plugin Directory
      *
