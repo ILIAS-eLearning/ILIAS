@@ -56,7 +56,7 @@ class UserCertificateDto
         $this->objectId = $objectId;
         $this->issuedOnTimestamp = $issuedOnTimestamp;
         $this->userId = $userId;
-        $this->downloadLink = $downloadLink;
+        $this->downloadLink = (string) $downloadLink;
 
         $this->userFirstName = $userFirstName;
         $this->userLastName = $userLastName;
