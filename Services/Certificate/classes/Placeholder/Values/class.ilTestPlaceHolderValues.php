@@ -119,9 +119,9 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($passed);
-        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput($result_array['test']['total_reached_points']);
+        $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput((string) $result_array['test']['total_reached_points']);
         $placeholders['RESULT_PERCENT'] = sprintf('%2.2f', $percentage) . '%';
-        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput($result_array['test']['total_max_points']);
+        $placeholders['MAX_POINTS'] = $this->utilHelper->prepareFormOutput((string) $result_array['test']['total_max_points']);
         $placeholders['RESULT_MARK_SHORT'] = $this->utilHelper->prepareFormOutput($mark_obj->getShortName());
         $placeholders['RESULT_MARK_LONG'] = $this->utilHelper->prepareFormOutput($mark_obj->getOfficialName());
         $placeholders['TEST_TITLE'] = $this->utilHelper->prepareFormOutput($testObject->getTitle());
