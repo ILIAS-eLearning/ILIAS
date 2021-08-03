@@ -18,22 +18,12 @@ class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeed
      */
     const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_sc';
 
-    /**
-     * returns the table name for specific question itself
-     *
-     * @return string $specificFeedbackTableName
-     */
-    protected function getSpecificQuestionTableName()
+    protected function getSpecificQuestionTableName() : string
     {
         return self::SPECIFIC_QUESTION_TABLE_NAME;
     }
     
-    /**
-     * @param int $index
-     * @param mixed $answer
-     * @return string
-     */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $label = array();
         

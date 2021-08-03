@@ -11,17 +11,17 @@ class ilAssLongMenuFeedback extends ilAssMultiOptionQuestionFeedback
 {
     const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_lome';
 
-    protected function getSpecificQuestionTableName()
+    protected function getSpecificQuestionTableName() : string
     {
         return self::SPECIFIC_QUESTION_TABLE_NAME;
     }
     
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         return $this->questionOBJ->getAnswers();
     }
 
-    protected function buildAnswerOptionLabel($index, $answers)
+    protected function buildAnswerOptionLabel(int $index, $answers) : string
     {
         $counter = $index + 1;
         $caption = 'Longmenu ' . $counter ;

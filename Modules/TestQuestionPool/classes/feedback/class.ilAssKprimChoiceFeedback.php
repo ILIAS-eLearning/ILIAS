@@ -13,7 +13,7 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
 {
     const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_kprim';
 
-    protected function getSpecificQuestionTableName()
+    protected function getSpecificQuestionTableName() : string
     {
         return self::SPECIFIC_QUESTION_TABLE_NAME;
     }
@@ -23,7 +23,7 @@ class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedb
      * @param ilAssKprimChoiceAnswer $answer
      * @return string
      */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $label = array();
         

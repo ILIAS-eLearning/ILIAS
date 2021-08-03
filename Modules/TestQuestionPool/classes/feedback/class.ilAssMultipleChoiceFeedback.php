@@ -23,17 +23,12 @@ class ilAssMultipleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFe
      *
      * @return string $specificFeedbackTableName
      */
-    protected function getSpecificQuestionTableName()
+    protected function getSpecificQuestionTableName() : string
     {
         return self::SPECIFIC_QUESTION_TABLE_NAME;
     }
     
-    /**
-     * @param int $index
-     * @param mixed $answer
-     * @return string
-     */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $label = array();
         

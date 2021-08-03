@@ -19,7 +19,7 @@ class ilAssMatchingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      *
      * @return array $answerOptionsByAnswerIndex
      */
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         return $this->questionOBJ->getMatchingPairs();
     }
@@ -33,7 +33,7 @@ class ilAssMatchingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param mixed $answer
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $caption = $ordinal = $index + 1;
         $caption .= '. <br />"' . $answer->term->text . '" =&gt; ';

@@ -13,13 +13,7 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  */
 class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
 {
-    /**
-     * returns the answer options mapped by answer index
-     * (can be overwritten by concrete question type class)
-     *
-     * @return array $answerOptionsByAnswerIndex
-     */
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         if (strpos($this->questionOBJ->ordertext, '::')) {
             return explode('::', $this->questionOBJ->ordertext);
@@ -27,7 +21,7 @@ class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
         return explode(' ', $this->questionOBJ->ordertext);
     }
 
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel($index, $answer) : string
     {
         return trim($answer);
     }

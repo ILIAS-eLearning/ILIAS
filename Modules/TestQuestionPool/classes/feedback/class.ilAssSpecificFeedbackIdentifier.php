@@ -12,86 +12,50 @@
  */
 class ilAssSpecificFeedbackIdentifier
 {
-    /**
-     * @var integer
-     */
-    protected $feedbackId;
+    protected int $feedbackId;
     
-    /**
-     * @var integer
-     */
-    protected $questionId;
+    protected int $questionId;
     
-    /**
-     * @var integer
-     */
-    protected $questionIndex;
+    protected int $questionIndex;
     
-    /**
-     * @var integer
-     */
-    protected $answerIndex;
+    protected int $answerIndex;
     
-    /**
-     * @return int
-     */
-    public function getFeedbackId()
+    public function getFeedbackId() : int
     {
         return $this->feedbackId;
     }
     
-    /**
-     * @param int $feedbackId
-     */
-    public function setFeedbackId($feedbackId)
+    public function setFeedbackId(int $feedbackId) : void
     {
         $this->feedbackId = $feedbackId;
     }
     
-    /**
-     * @return int
-     */
-    public function getQuestionId()
+    public function getQuestionId() : int
     {
         return $this->questionId;
     }
     
-    /**
-     * @param int $questionId
-     */
-    public function setQuestionId($questionId)
+    public function setQuestionId(int $questionId) : void
     {
         $this->questionId = $questionId;
     }
     
-    /**
-     * @return int
-     */
-    public function getQuestionIndex()
+    public function getQuestionIndex() : int
     {
         return $this->questionIndex;
     }
     
-    /**
-     * @param int $questionIndex
-     */
-    public function setQuestionIndex($questionIndex)
+    public function setQuestionIndex(int $questionIndex) : void
     {
         $this->questionIndex = $questionIndex;
     }
     
-    /**
-     * @return int
-     */
-    public function getAnswerIndex()
+    public function getAnswerIndex() : int
     {
         return $this->answerIndex;
     }
     
-    /**
-     * @param int $answerIndex
-     */
-    public function setAnswerIndex($answerIndex)
+    public function setAnswerIndex(int $answerIndex) : void
     {
         $this->answerIndex = $answerIndex;
     }

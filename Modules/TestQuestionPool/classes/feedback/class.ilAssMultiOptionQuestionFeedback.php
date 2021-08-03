@@ -297,38 +297,17 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return (bool) $row['cnt'];
     }
 
-    /**
-     * returns the table name for specific feedback
-     *
-     * @final
-     * @return string $specificFeedbackTableName
-     */
-    final protected function getSpecificFeedbackTableName()
+    final protected function getSpecificFeedbackTableName() : string
     {
         return self::TABLE_NAME_SPECIFIC_FEEDBACK;
     }
     
-    /**
-     * returns the answer options mapped by answer index
-     * (can be overwritten by concrete question type class)
-     *
-     * @return array $answerOptionsByAnswerIndex
-     */
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         return $this->questionOBJ->getAnswers();
     }
     
-    /**
-     * builds an answer option label from given (mixed type) index and answer
-     * (can be overwritten by concrete question types)
-     *
-     * @access protected
-     * @param integer $index
-     * @param mixed $answer
-     * @return string $answerOptionLabel
-     */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         return $answer->getAnswertext();
     }
@@ -337,15 +316,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
      * returns a useable page object id for specific answer feedback page objects
      * for the given question id and answer index
      * (using the id sequence of non page object specific answer feedback)
-     *
-     * @final
-     * @access protected
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @return integer $pageObjectId
      */
-    final protected function getSpecificAnswerFeedbackPageObjectId($questionId, $questionIndex, $answerIndex)
+    final protected function getSpecificAnswerFeedbackPageObjectId(int $questionId, int $questionIndex, int $answerIndex) : int
     {
         $pageObjectId = $this->getSpecificAnswerFeedbackId($questionId, $questionIndex, $answerIndex);
         
@@ -386,7 +358,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
 
-    public function specificAnswerFeedbackExists()
+    public function specificAnswerFeedbackExists() : bool
     {
         return (bool) strlen(
             $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId())
