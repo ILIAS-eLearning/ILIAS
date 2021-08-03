@@ -33,10 +33,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
     
     const SINGLE_GAP_FB_ANSWER_INDEX = -10;
 
-    /**
-     * @return boolean $isSaveableInPageObjectEditingMode
-     */
-    public function isSaveableInPageObjectEditingMode()
+    public function isSaveableInPageObjectEditingMode() : bool
     {
         return true;
     }
@@ -620,13 +617,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         );
     }
 
-    /**
-     * duplicates the SPECIFIC feedback relating to the given original question id
-     * and saves it for the given duplicate question id
-     *
-     * (overwrites the method from parent class, because of individual setting)
-     */
-    protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
         
@@ -650,7 +641,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         );
     }
     
-    protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
         parent::syncSpecificFeedback($originalQuestionId, $duplicateQuestionId);

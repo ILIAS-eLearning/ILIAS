@@ -33,11 +33,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * required by this question type
      *
      * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
      */
-    public function completeSpecificFormProperties(ilPropertyFormGUI $form)
+    public function completeSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $header = new ilFormSectionHeaderGUI();
@@ -84,11 +81,8 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * relating to this question type
      *
      * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
      */
-    public function initSpecificFormProperties(ilPropertyFormGUI $form)
+    public function initSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $form->getItemByPostVar('feedback_setting')->setValue(
@@ -112,16 +106,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         }
     }
 
-    /**
-     * saves a given form object's specific form properties
-     * relating to this question type
-     *
-     * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
-     */
-    public function saveSpecificFormProperties(ilPropertyFormGUI $form)
+    public function saveSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
         
@@ -144,7 +129,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * @access public
      * @return boolean
      */
-    public function isSaveableInPageObjectEditingMode()
+    public function isSaveableInPageObjectEditingMode() : bool
     {
         return true;
     }
@@ -165,17 +150,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
         );
     }
 
-    /**
-     * duplicates the SPECIFIC feedback relating to the given original question id
-     * and saves it for the given duplicate question id
-     *
-     * (overwrites the method from parent class, because of individual setting)
-     *
-     * @access protected
-     * @param integer $originalQuestionId
-     * @param integer $duplicateQuestionId
-     */
-    protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         // sync specific feedback setting to duplicated question
         
@@ -193,7 +168,7 @@ abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOp
      * @param integer $originalQuestionId
      * @param integer $duplicateQuestionId
      */
-    protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         // sync specific feedback setting to the original
         $this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
