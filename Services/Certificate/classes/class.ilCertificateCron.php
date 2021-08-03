@@ -278,7 +278,7 @@ class ilCertificateCron extends \ilCronJob
             $certificateContent,
             json_encode($placeholderValues),
             null,
-            (int) $template->getVersion(),
+            $template->getVersion(),
             ILIAS_VERSION_NUMERIC,
             true,
             $template->getBackgroundImagePath(),
