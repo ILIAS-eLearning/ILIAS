@@ -98,10 +98,8 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     {
         $id = $this->getId();
         if (!$id) {
-            $rec = ilPlugin::getPluginRecord($this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
-            $id = $rec['plugin_id'];
+            $id = $this->getPluginInfo()->getId();
         }
-
         return $this->getSlotObject()->getPrefix() . "_" . $id;
     }
 

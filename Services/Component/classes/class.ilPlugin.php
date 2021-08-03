@@ -4,8 +4,12 @@
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+<<<<<<< HEAD
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ArrayEnvironment;
+=======
+use ILIAS\Data\Version;
+>>>>>>> Services/Component: removed outdated code
 
 /**
  * Abstract Class ilPlugin
@@ -23,35 +27,7 @@ abstract class ilPlugin
     /**
      * @var bool
      */
-    protected $active = false;
-    /**
-     * @var string
-     */
-    protected $iliasmaxversion = "";
-    /**
-     * @var string
-     */
-    protected $iliasminversion = "";
-    /**
-     * @var string
-     */
-    protected $version = "";
-    /**
-     * @var string
-     */
-    protected $lastupdateversion = "";
-    /**
-     * @var int
-     */
-    protected $dbversion = 0;
-    /**
-     * @var bool
-     */
     protected $lang_initialised = false;
-    /**
-     * @var string
-     */
-    protected $id = '';
     /**
      * @var ProviderCollection
      */
@@ -62,6 +38,7 @@ abstract class ilPlugin
     protected $message;
 
     protected ilComponentDataDB $component_data_db;
+    protected Version $ilias_version;
 
 
     public function __construct()
@@ -71,6 +48,21 @@ abstract class ilPlugin
         $this->__init();
         $this->provider_collection = new PluginProviderCollection();
         $this->component_data_db = $DIC["component.db"];
+        $this->ilias_version = $DIC["ilias.version"];
+    }
+
+    protected function getPluginInfo() : ilPluginInfo {
+        return $this->component_data_db
+            ->getComponentByTypeAndName(
+                $this->getComponentType(),
+                $this->getComponentName()
+            )
+            ->getPluginSlotById(
+                $this->getSlotId()
+            )
+            ->getPluginByName(
+                $this->getPluginByName()
+            );
     }
 
 
@@ -124,37 +116,13 @@ abstract class ilPlugin
      */
     abstract public function getPluginName();
 
-
-    /**
-     * Set Id.
-     *
-     * @param string $a_id Id
-     */
-    private function setId($a_id)
-    {
-        $this->id = $a_id;
-    }
-
-
     /**
      * @return string
      */
     public function getId() : string
     {
-        return $this->id;
+        return $this->getPluginInfo()->getId();
     }
-
-
-    /**
-     * Set Version of last update.
-     *
-     * @param string $a_lastupdateversion Version of last update
-     */
-    private function setLastUpdateVersion(string $a_lastupdateversion)
-    {
-        $this->lastupdateversion = $a_lastupdateversion;
-    }
-
 
     /**
      * Get Version of last update.
@@ -163,54 +131,24 @@ abstract class ilPlugin
      */
     public function getLastUpdateVersion() : string
     {
-        return $this->lastupdateversion;
+        return (string) $this->getPluginInfo()->getCurrentVersion();
     }
-
-
-    /**
-     * @param string $a_version
-     */
-    private function setVersion(string $a_version)
-    {
-        $this->version = $a_version;
-    }
-
 
     /**
      * @return string
      */
     public function getVersion() : string
     {
-        return $this->version;
+        return (string) $this->getPluginInfo()->getAvailableVersion();
     }
-
-
-    /**
-     * @param $a_iliasminversion
-     */
-    private function setIliasMinVersion(string $a_iliasminversion)
-    {
-        $this->iliasminversion = $a_iliasminversion;
-    }
-
 
     /**
      * @return string
      */
     public function getIliasMinVersion() : string
     {
-        return $this->iliasminversion;
+        return (string) $this->getPluginInfo()->getMinimumILIASVersion();
     }
-
-
-    /**
-     * @param $a_iliasmaxversion
-     */
-    private function setIliasMaxVersion(string $a_iliasmaxversion)
-    {
-        $this->iliasmaxversion = $a_iliasmaxversion;
-    }
-
 
     /**
      * Get Required ILIAS max. release.
@@ -219,25 +157,15 @@ abstract class ilPlugin
      */
     public function getIliasMaxVersion()
     {
-        return $this->iliasmaxversion;
+        return (string) $this->getPluginInfo()->getMaximumILIASVersion();
     }
-
-
-    /**
-     * @param bool $a_active
-     */
-    private function setActive(bool $a_active)
-    {
-        $this->active = $a_active;
-    }
-
 
     /**
      * @return bool
      */
     public function getActive() : bool
     {
-        return $this->active;
+        return $this->getPluginInfo()->isActivated();
     }
 
 
@@ -258,22 +186,12 @@ abstract class ilPlugin
         return $this->slot;
     }
 
-
-    /**
-     * @param int $a_dbversion
-     */
-    public function setDBVersion(int $a_dbversion)
-    {
-        $this->dbversion = $a_dbversion;
-    }
-
-
     /**
      * @return int
      */
     public function getDBVersion() : int
     {
-        return $this->dbversion;
+        return $this->getPluginInfo()->getCurrentDBVersion();
     }
 
     /**
@@ -699,100 +617,11 @@ abstract class ilPlugin
         $ilDB->manipulate($q);
     }
 
-
-    /**
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     * @param string $a_pname
-     *
-     * @return array
-     * @throws ilPluginException
-     */
-    public static function getPluginRecord(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : array
-    {
-        global $DIC;
-        $component_data_db = $DIC["component.db"];
-        try {
-            $plugin = $component_data_db
-                ->getComponentByTypeAndName($a_ctype, $a_cname)
-                ->getPluginSlotById($a_slot_id)
-                ->getPluginByName($a_pname);
-            return [
-                "component_type" => $plugin->getComponent()->getType(),
-                "component_name" => $plugin->getComponent()->getName(),
-                "slot_id" => $plugin->getPluginSlot()->getId(),
-                "name" => $plugin->getName(),
-                "last_update_version" => (string) $plugin->getCurrentVersion(),
-                "active" => $plugin->isActivated() ? 1 : 0,
-                "db_version" => $plugin->getCurrentDBVersion(),
-                "plugin_id" => $plugin->getId()
-            ];
-        } catch (\InvalidArgumentException $e) {
-            throw new ilPluginException("No plugin record found for '{$a_ctype}', '{$a_cname}', '{$a_slot_id}', '{$a_pname}");
-        }
-    }
-
-
     /**
      * Default initialization
      */
     private function __init()
     {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        // read/set basic data
-        $rec = ilPlugin::getPluginRecord(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName()
-        );
-        $this->setLastUpdateVersion((string) $rec["last_update_version"]);
-        $this->setDBVersion((int) $rec["db_version"]);
-        $this->setActive((bool) $rec["active"]);
-
-        // get id
-        $this->setId(
-            $ilPluginAdmin->getId(
-                $this->getComponentType(),
-                $this->getComponentName(),
-                $this->getSlotId(),
-                $this->getPluginName()
-            )
-        );
-
-        // get version
-        $this->setVersion(
-            $ilPluginAdmin->getVersion(
-                $this->getComponentType(),
-                $this->getComponentName(),
-                $this->getSlotId(),
-                $this->getPluginName()
-            )
-        );
-
-        // get ilias min version
-        $this->setIliasMinVersion(
-            $ilPluginAdmin->getIliasMinVersion(
-                $this->getComponentType(),
-                $this->getComponentName(),
-                $this->getSlotId(),
-                $this->getPluginName()
-            )
-        );
-
-        // get ilias max version
-        $this->setIliasMaxVersion(
-            $ilPluginAdmin->getIliasMaxVersion(
-                $this->getComponentType(),
-                $this->getComponentName(),
-                $this->getSlotId(),
-                $this->getPluginName()
-            )
-        );
-
         // get slot object
         $this->setSlotObject(
             new ilPluginSlot(
@@ -836,15 +665,7 @@ abstract class ilPlugin
      */
     public function isActive()
     {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        return $ilPluginAdmin->isActive(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName()
-        );
+        return $this->getPluginInfo()->isActive($this->ilias_version);
     }
 
 
@@ -853,15 +674,7 @@ abstract class ilPlugin
      */
     public function needsUpdate()
     {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        return $ilPluginAdmin->needsUpdate(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName()
-        );
+        return $this->getPluginInfo()->isUpdateRequired();
     }
 
 
