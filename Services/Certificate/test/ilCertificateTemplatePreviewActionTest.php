@@ -79,7 +79,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $rpcClientFactoryHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
-        $mock = $this->getMockBuilder(stdClass::class)
+        $mock = $this->getMockBuilder(ScalarPdf::class)
             ->disableOriginalConstructor()
             ->getMock();
 
