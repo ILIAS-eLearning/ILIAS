@@ -17,20 +17,17 @@ use ILIAS\Refinery;
  */
 class TagInputTest extends ILIAS_UI_TestBase
 {
-
     /**
      * @var DefNamesource
      */
     private $name_source;
-
 
     public function setUp() : void
     {
         $this->name_source = new DefNamesource();
     }
 
-
-    protected function buildFactory()
+    protected function buildFactory() : ILIAS\UI\Implementation\Component\Input\Field\Factory
     {
         $df = new Data\Factory();
         $language = $this->createMock(\ilLanguage::class);
@@ -45,7 +42,7 @@ class TagInputTest extends ILIAS_UI_TestBase
     /**
      * @doesNotPerformAssertions
      */
-    public function test_implements_factory_interface()
+    public function testImplementsFactoryInterface() : void
     {
         $f = $this->buildFactory();
 
@@ -56,10 +53,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    /**
-     *
-     */
-    public function test_render()
+    public function testRender() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -72,9 +66,11 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
+                    <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
+                </div>
                 <div class="help-block">byline</div>
             </div>
         </div>
@@ -82,8 +78,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
-    public function test_render_error()
+    public function testRenderError() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -97,10 +92,12 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
            <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
                 <div class="help-block alert alert-danger" role="alert">an_error</div>
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
+                    <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
+                </div>
                 <div class="help-block">byline</div>
             </div>
         </div>     
@@ -108,8 +105,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
-    public function test_render_no_byline()
+    public function testRenderNoByline() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -121,37 +117,10 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/><input type="hidden" id="template-id_1" value="name_0[]"/></div>
-            </div>
-        </div>
-        ');
-        $this->assertEquals($expected, $html);
-    }
-
-
-    public function test_render_value()
-    {
-        $f = $this->buildFactory();
-        $label = "label";
-        $value = ["lorem", "ipsum",];
-        $name = "name_0";
-        $tags = ["lorem", "ipsum", "dolor",];
-        $text = $f->tag($label, $tags)->withValue($value)->withNameFrom($this->name_source);
-
-        $r = $this->getDefaultRenderer();
-        $html = $this->brutallyTrimHTML($r->render($text));
-
-        $expected = $this->brutallyTrimHTML('
-        <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag">
-                    <input type="text" id="id_1" value="lorem,ipsum" class="form-control form-control-sm"/> 
-                    <input type="hidden" id="template-id_1" value="name_0[]"/> 
-                    <input type="hidden" name="name_0[]" value="lorem"/>
-                    <input type="hidden" name="name_0[]" value="ipsum"/>
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
+                    <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
             </div>
         </div>
@@ -159,8 +128,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
-    public function test_render_required()
+    public function testRenderRequired() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -173,11 +141,11 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
             <div class="col-sm-9">
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag">
-                <input type="text" id="id_1" value="" class="form-control form-control-sm"/> 
-                <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
+                    <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
+                </div>
             </div>
         </div>
         ');
@@ -185,8 +153,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
-    public function test_render_disabled()
+    public function testRenderDisabled() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -198,9 +165,11 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label class="control-label col-sm-3">label</label>
+            <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
-                <div id="container-id_1" class="form-control form-control-sm il-input-tag disabled"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag-container disabled">
+                    <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" readonly value=""/> 
+                </div>
             </div>
         </div>
         ');
@@ -208,8 +177,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
-    public function test_value_required()
+    public function testValueRequired() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -218,15 +186,16 @@ class TagInputTest extends ILIAS_UI_TestBase
         /** @var \ILIAS\UI\Implementation\Component\Input\Field\Tag $tag */
         $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
-        $raw_value1 = ["lorem", "ipsum",];
+        $raw_value1 = "lorem,ipsum";
+        $expected_result = ['lorem', 'ipsum'];
         $tag1 = $tag->withInput(new DefInputData([$name => $raw_value1]));
         $value1 = $tag1->getContent();
         $this->assertTrue($value1->isOk());
         $value = $value1->value();
-        $this->assertEquals($raw_value1, $value);
+        $this->assertEquals($expected_result, $value);
     }
 
-    public function test_empty_array_as_input_lead_to_exception()
+    public function testEmptyStringAsInputLeadToException() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -235,13 +204,13 @@ class TagInputTest extends ILIAS_UI_TestBase
         /** @var \ILIAS\UI\Implementation\Component\Input\Field\Tag $tag */
         $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
-        $tag2 = $tag->withInput(new DefInputData([$name => []]));
+        $tag2 = $tag->withInput(new DefInputData([$name => '']));
         $result = $tag2->getContent();
         $this->assertTrue($result->isOk());
         $this->assertEquals([], $result->value());
     }
 
-    public function test_null_value_leads_to_exception()
+    public function testNullValueLeadsToException() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -254,8 +223,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $this->assertTrue($value2->isError());
     }
 
-
-    public function test_user_created_not_allowed()
+    public function testUserCreatedNotAllowed() : void
     {
         $f = $this->buildFactory();
         $tags = ["lorem", "ipsum", "dolor",];
@@ -263,20 +231,20 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $tag1 = $tag->withInput(
             new DefInputData(
-                ["name_0" => ["lorem", "ipsum",],]
+                ["name_0" => "lorem,ipsum"]
             )
         );
         $value1 = $tag1->getContent();
         $this->assertTrue($value1->isOk());
         $value = $value1->value();
         $this->assertEquals(
-            ["lorem", "ipsum",],
+            ["lorem", "ipsum"],
             $value
         );
 
         $tag1 = $tag->withInput(
             new DefInputData(
-                ["name_0" => ["conseptetuer", "ipsum",],]
+                ["name_0" => "conseptetuer,ipsum"]
             )
         );
         $value1 = $tag1->getContent();
@@ -284,51 +252,51 @@ class TagInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_max_tags_ok()
+    public function testMaxTagsOk() : void
     {
         $f = $this->buildFactory();
 
         $tag = $f->tag("label", [])->withMaxTags(3)->withNameFrom($this->name_source)->withInput(
-            new DefInputData(["name_0" => ["lorem", "ipsum",],])
+            new DefInputData(["name_0" => "lorem,ipsum"])
         );
         $value = $tag->getContent();
         $this->assertTrue($value->isOk());
     }
 
 
-    public function test_max_tags_not_ok()
+    public function test_max_tags_not_ok() : void
     {
         $f = $this->buildFactory();
 
         $this->expectException(\InvalidArgumentException::class);
         $f->tag("label", [])->withMaxTags(2)->withNameFrom($this->name_source)->withInput(
             new DefInputData(
-                ["name_0" => ["lorem", "ipsum", "dolor",],]
+                ["name_0" => "lorem,ipsum,dolor"]
             )
         );
     }
 
 
-    public function test_max_taglength_tags_ok()
+    public function testMaxTaglengthTagsOk() : void
     {
         $f = $this->buildFactory();
 
         $tag = $f->tag("label", [])->withTagMaxLength(10)->withNameFrom($this->name_source)->withInput(
-            new DefInputData(["name_0" => ["lorem", "ipsum",],])
+            new DefInputData(["name_0" => "lorem,ipsum"])
         );
         $value = $tag->getContent();
         $this->assertTrue($value->isOk());
     }
 
 
-    public function test_max_taglength_tags_not_ok()
+    public function testMaxTaglengthTagsNotOk() : void
     {
         $f = $this->buildFactory();
 
         $this->expectException(\InvalidArgumentException::class);
         $f->tag("label", [])->withTagMaxLength(2)->withNameFrom($this->name_source)->withInput(
             new DefInputData(
-                ["name_0" => ["lorem", "ipsum", "dolor",],]
+                ["name_0" => "lorem,ipsum,dolor"]
             )
         );
     }
