@@ -333,4 +333,36 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($c4, $cb->getAgent("c4"));
         $this->assertNull($cb->getAgent("c5"));
     }
+
+    public function testGetNamedObjective() : void
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $o = $this->newObjective();
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $conf2 = $this->newConfig();
+
+        $conf = new Setup\ConfigCollection(
+            ["sub" => new Setup\ConfigCollection(
+                [ "c2" => $conf2 ]
+            )]
+        );
+
+        $c = new Setup\AgentCollection(
+            $refinery,
+            [ "sub" => new Setup\AgentCollection(
+                $refinery,
+                ["c1" => $c1, "c2" => $c2]
+            )]
+        );
+
+        $c2->expects($this->once())
+            ->method("getNamedObjective")
+            ->with("the_objective", $conf2)
+            ->willReturn($o);
+
+        $res = $c->getNamedObjective("sub.c2.the_objective", $conf);
+        $this->assertSame($o, $res);
+    }
 }

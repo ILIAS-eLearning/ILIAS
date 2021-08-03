@@ -6,6 +6,8 @@ use ILIAS\Setup\ObjectiveCollection;
 
 class ilUICoreSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var ilCtrlStructureReader
      */

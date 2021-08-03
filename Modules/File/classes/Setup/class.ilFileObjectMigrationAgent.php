@@ -5,6 +5,7 @@ use ILIAS\Setup;
 
 class ilFileObjectMigrationAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
 
     protected $refinery;
 
@@ -70,5 +71,4 @@ class ilFileObjectMigrationAgent implements Setup\Agent
             new ilFileObjectToStorageMigration()
         ];
     }
-
 }

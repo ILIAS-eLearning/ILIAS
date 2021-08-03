@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilPrivacySecuritySetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

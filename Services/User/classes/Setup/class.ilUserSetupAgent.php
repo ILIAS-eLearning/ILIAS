@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilUserSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */
@@ -72,5 +74,4 @@ class ilUserSetupAgent implements Setup\Agent
     {
         return [];
     }
-
 }

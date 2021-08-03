@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilLearningModuleSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */

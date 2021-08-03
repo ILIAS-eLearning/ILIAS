@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilHttpSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */
@@ -70,7 +72,7 @@ class ilHttpSetupAgent implements Setup\Agent
         }
 
         return new Setup\Objective\ObjectiveWithPreconditions(
-            $http_config_stored, 
+            $http_config_stored,
             new ProxyConnectableCondition($config)
         );
     }

@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilStyleSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

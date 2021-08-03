@@ -12,6 +12,8 @@ use ILIAS\Setup\Objective;
  */
 class ilResourceStorageSetupAgent implements Agent
 {
+    use Agent\HasNoNamedObjective;
+
     public function hasConfig() : bool
     {
         return false;
@@ -46,5 +48,4 @@ class ilResourceStorageSetupAgent implements Agent
     {
         return [new ilStorageHandlerV1Migration()];
     }
-
 }

@@ -80,4 +80,11 @@ interface Agent
      * @return array<string,Migration>|Migration[]
      */
     public function getMigrations() : array;
+
+    /**
+     * Get a named objective from this agent.
+     *
+     * @throw InvalidArgumentException if there is no such objective.
+     */
+    public function getNamedObjective(string $name, Config $config = null) : Objective;
 }

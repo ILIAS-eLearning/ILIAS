@@ -6,6 +6,8 @@ use \ILIAS\Refinery\Transformation;
 
 class ilComponentsSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */

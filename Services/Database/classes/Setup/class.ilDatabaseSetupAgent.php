@@ -9,6 +9,8 @@ use ILIAS\Refinery\Transformation;
 
 class ilDatabaseSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery
      */

@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

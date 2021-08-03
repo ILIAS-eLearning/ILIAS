@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilChatroomSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     const PORT_MIN = 1;
     const PORT_MAX = 65535;
 
