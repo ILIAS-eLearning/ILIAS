@@ -11,11 +11,6 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableM
  */
 class ilAssKprimChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedback
 {
-    /**
-     * @var assKprimChoice
-     */
-    protected $questionOBJ;
-    
     const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_kprim';
 
     protected function getSpecificQuestionTableName()

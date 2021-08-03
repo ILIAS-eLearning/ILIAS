@@ -43,35 +43,24 @@ abstract class ilAssQuestionFeedback
     
     /**
      * object instance of current question
-     *
-     * @access protected
      * @var assQuestion
      */
-    protected $questionOBJ = null;
+    protected $questionOBJ;
 
     /**
-     * global $ilCtrl
-     *
-     * @access protected
      * @var ilCtrl
      */
-    protected $ctrl = null;
+    protected $ctrl;
 
     /**
-     * global $ilDB
-     *
-     * @access protected
      * @var ilDBInterface
      */
-    protected $db = null;
+    protected $db;
 
     /**
-     * global $lng
-     *
-     * @access protected
      * @var ilLanguage
      */
-    protected $lng = null;
+    protected $lng;
 
     /**
      * page object output mode
@@ -94,7 +83,6 @@ abstract class ilAssQuestionFeedback
     final public function __construct(assQuestion $questionOBJ, ilCtrl $ctrl, ilDBInterface $db, ilLanguage $lng)
     {
         $this->questionOBJ = $questionOBJ;
-        
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->db = $db;
@@ -686,7 +674,7 @@ abstract class ilAssQuestionFeedback
      * @param integer $pageObjectId
      * @return string $nonEditableValueHTML
      */
-    final protected function getPageObjectNonEditableValueHTML($pageObjectType, $pageObjectId)
+    final protected function getPageObjectNonEditableValueHTML($pageObjectType, $pageObjectId) : string
     {
         $link = $this->getPageObjectEditingLink($pageObjectType, $pageObjectId);
         $content = $this->getPageObjectContent($pageObjectType, $pageObjectId);

@@ -14,11 +14,6 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableM
 class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedback
 {
     /**
-     * @var assSingleChoice
-     */
-    protected $questionOBJ;
-    
-    /**
      * table name for specific feedback
      */
     const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_sc';
