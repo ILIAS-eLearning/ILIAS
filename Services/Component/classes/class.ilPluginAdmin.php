@@ -41,10 +41,9 @@ class ilPluginAdmin
      * @var ilLanguage
      */
     protected $lng;
-    /**
-     * @var ilComponentDataDB
-     */
-    protected $component_data_db;
+
+    protected ilComponentDataDB $component_data_db;
+    protected ILIAS\Data\Version $ilias_version;
 
 
     /**
@@ -56,262 +55,23 @@ class ilPluginAdmin
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("cmps");
         $this->component_data_db = $DIC["component.db"];
+        $this->ilias_version = $DIC["ilias.version"];
     }
 
 
-    /**
-     * Get basic data of plugin from plugin.php
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @throws ilPluginException
-     */
-    private function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
-            $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
-
-            $plugin_php_file = "./Customizing/global/plugins/" . $a_ctype . "/" . $a_cname . "/" . $slot_name . "/" . $a_pname . "/plugin.php";
-
-            if (!is_file($plugin_php_file)) {
-                throw new ilPluginException("No plugin.php file found for Plugin :" . $a_pname . ".");
-            }
-            $plugin_db_data = ilPlugin::getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname);
-            $plugin_data = $this->parsePluginPhp($plugin_php_file);
-
-            if ($plugin_db_data["plugin_id"] === null) {
-                $this->setMustInstall($plugin_data);
-            } else {
-                $this->setCurrentState($plugin_data, (bool) $plugin_db_data["active"]);
-                if ($this->pluginSupportCurrentILIAS($plugin_data)) {
-                    $this->updateRequired($plugin_data, $plugin_db_data["last_update_version"]);
-                }
-            }
-
-            $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname] = $plugin_data;
-            $this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname] = true;
-        }
+    protected function getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname) {
+        return $this->component_data_db
+            ->getComponentByTypeAndName(
+                $a_ctype,
+                $a_cname
+            )
+            ->getPluginSlotById(
+                $a_slot_id
+            )
+            ->getPluginByName(
+                $a_pname
+            );
     }
-
-
-    /**
-     * Plugin supports current ILIAS
-     *
-     * @param string[] &$plugin_data
-     *
-     * @return bool
-     */
-    protected function pluginSupportCurrentILIAS(array &$plugin_data)
-    {
-        if (ilComponent::isVersionGreaterString($plugin_data["ilias_min_version"], ILIAS_VERSION_NUMERIC)) {
-            $plugin_data["is_active"] = false;
-            $plugin_data["needs_update"] = false;
-            $plugin_data["activation_possible"] = false;
-
-            if ($this->lng instanceof ilLanguage) {
-                $inactive_reason = $this->lng->txt("cmps_needs_newer_ilias_version");
-            } else {
-                $inactive_reason = "Plugin needs a newer version of ILIAS.";
-            }
-            $plugin_data["inactive_reason"] = $inactive_reason;
-
-            return false;
-        }
-
-        if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, $plugin_data["ilias_max_version"])) {
-            $plugin_data["is_active"] = false;
-            $plugin_data["needs_update"] = false;
-            $plugin_data["activation_possible"] = false;
-            if ($this->lng instanceof ilLanguage) {
-                $inactive_reason = $this->lng->txt("cmps_needs_newer_plugin_version");
-            } else {
-                $inactive_reason = "Plugin does not support current version of ILIAS. Newer version of plugin needed.";
-            }
-            $plugin_data["inactive_reason"] = $inactive_reason;
-
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /**
-     * Should the plugin be updated
-     *
-     * @param string[] &$plugin_data
-     * @param string    $last_update_version
-     *
-     * @return void
-     */
-    protected function updateRequired(array &$plugin_data, $last_update_version)
-    {
-        if ($last_update_version == "") {
-            $plugin_data["is_active"] = false;
-            if ($this->lng instanceof ilLanguage) {
-                $inactive_reason = $this->lng->txt("cmps_needs_update");
-            } else {
-                $inactive_reason = "Update needed.";
-            }
-            $plugin_data["inactive_reason"] = $inactive_reason;
-            $plugin_data["needs_update"] = true;
-            $plugin_data["activation_possible"] = false;
-        } else {
-            if (ilComponent::isVersionGreaterString($last_update_version, $plugin_data["version"])) {
-                $plugin_data["is_active"] = false;
-                if ($this->lng instanceof ilLanguage) {
-                    $inactive_reason = $this->lng->txt("cmps_needs_upgrade");
-                } else {
-                    $inactive_reason = "Upgrade needed.";
-                }
-                $plugin_data["inactive_reason"] = $inactive_reason;
-                $plugin_data["activation_possible"] = false;
-            } else {
-                if ($last_update_version != $plugin_data["version"]) {
-                    $plugin_data["is_active"] = false;
-                    if ($this->lng instanceof ilLanguage) {
-                        $inactive_reason = $this->lng->txt("cmps_needs_update");
-                    } else {
-                        $inactive_reason = "Update needed.";
-                    }
-                    $plugin_data["inactive_reason"] = $inactive_reason;
-                    $plugin_data["needs_update"] = true;
-                    $plugin_data["activation_possible"] = false;
-                }
-            }
-        }
-    }
-
-
-    /**
-     * Set plugin data for intall
-     *
-     * @param string[] &$plugin_data
-     *
-     * @return void
-     */
-    protected function setMustInstall(array &$plugin_data)
-    {
-        $plugin_data["must_install"] = true;
-        $plugin_data["is_active"] = false;
-        $plugin_data["needs_update"] = false;
-        $plugin_data["activation_possible"] = false;
-
-        if ($this->lng instanceof ilLanguage) {
-            $inactive_reason = $this->lng->txt("cmps_must_installed");
-        } else {
-            $inactive_reason = "Plugin must be installed.";
-        }
-        $plugin_data["inactive_reason"] = $inactive_reason;
-    }
-
-
-    /**
-     * Set current state to static values,
-     * excluding active and activatoin possible. There will be set from
-     * db value $active
-     *
-     * @param string[] &$plugin_data
-     * @param bool      $active
-     *
-     * @return void
-     */
-    protected function setCurrentState(array &$plugin_data, $active)
-    {
-        $plugin_data["is_active"] = $active;
-        $plugin_data["activation_possible"] = !$active;
-        $plugin_data["must_install"] = false;
-        $plugin_data["needs_update"] = false;
-        $plugin_data["inactive_reason"] = "";
-    }
-
-
-    /**
-     * Get informations from plugin php file
-     *
-     * @param string $plugin_php_file
-     *
-     * @return string[]
-     */
-    protected function parsePluginPhp($plugin_php_file)
-    {
-        include($plugin_php_file);
-
-        $values = [
-            "version" => $version,
-            "id" => $id,
-            "ilias_min_version" => $ilias_min_version,
-            "ilias_max_version" => $ilias_max_version,
-            "responsible" => $responsible,
-            "responsible_mail" => $responsible_mail,
-            "learning_progress" => (bool) ($learning_progress ?? false),
-            "supports_export" => (bool) ($supports_export ?? false),
-            "supports_cli_setup" => (bool) ($supports_cli_setup ?? true)
-        ];
-
-        return $values;
-    }
-
-
-    /**
-     * Get version of plugin.
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return string
-     * @throws ilPluginException
-     */
-    public function getVersion($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["version"];
-    }
-
-
-    /**
-     * Get Ilias Min Version
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return string
-     * @throws ilPluginException
-     */
-    public function getIliasMinVersion($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["ilias_min_version"];
-    }
-
-
-    /**
-     * Get Ilias Max Version
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return string
-     * @throws ilPluginException
-     */
-    public function getIliasMaxVersion($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["ilias_max_version"];
-    }
-
 
     /**
      * Get ID
@@ -326,9 +86,7 @@ class ilPluginAdmin
      */
     public function getId($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["id"];
+        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->getId();
     }
 
 
@@ -345,12 +103,11 @@ class ilPluginAdmin
     public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         try {
-            $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-        } catch (ilPluginException $e) {
+            return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isActive($this->ilias_version);
+        }
+        catch (\InvalidArgumentException $e) {
             return false;
         }
-
-        return (bool) $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["is_active"];
     }
 
 
@@ -367,9 +124,13 @@ class ilPluginAdmin
      */
     public function exists($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return isset($this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]);
+        try {
+            $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname);
+            return true;
+        }
+        catch (\InvalidArgumentException $e) {
+            return false;
+        }
     }
 
 
@@ -386,28 +147,7 @@ class ilPluginAdmin
      */
     public function needsUpdate($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return (bool) $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["needs_update"];
-    }
-
-
-    /**
-     * Get all data from file in an array
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return array
-     * @throws ilPluginException
-     */
-    public function getAllData($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname];
+        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isUpdateRequired();
     }
 
 
@@ -494,9 +234,7 @@ class ilPluginAdmin
      */
     public function hasLearningProgress($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["learning_progress"];
+        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->supportsLearningProgress();
     }
 
 
@@ -513,9 +251,7 @@ class ilPluginAdmin
      */
     public function supportsExport($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
-        $this->getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname);
-
-        return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["supports_export"];
+        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->supportsExport();
     }
 
     /**

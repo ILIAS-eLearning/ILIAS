@@ -189,51 +189,7 @@ abstract class ilComponent
         $component_data_db = $DIC["component.db"];
         return $component_data_db->getComponentByTypeAndName($a_type, $a_name)->getId();
     }
-    
-    /**
-    * Check version number.
-    */
-    final public static function checkVersionNumber($a_ver)
-    {
-        $parts = explode(".", $a_ver);
 
-        if (count($parts) < 2 || count($parts) > 3) {
-            return "Version number does not conform to format a.b or a.b.c";
-        }
-        
-        if (!is_numeric($parts[0]) || !is_numeric($parts[1])) {
-            return "Not all version number parts a.b or a.b.c are numeric.";
-        }
-
-        if (isset($parts[2]) && !is_numeric($parts[2])) {
-            return "Not all version number parts a.b.c are numeric.";
-        }
-
-        return $parts;
-    }
-
-    final public static function isVersionGreaterString($a_ver1, $a_ver2)
-    {
-        $a_arr1 = ilComponent::checkVersionNumber($a_ver1);
-        $a_arr2 = ilComponent::checkVersionNumber($a_ver2);
-
-        if (is_array($a_arr1) && is_array($a_arr2)) {
-            return ilComponent::isVersionGreater($a_ver1, $a_ver2);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @param string $version1
-     * @param string $version2
-     * @return bool
-     */
-    final public static function isVersionGreater(string $version1, string $version2) : bool
-    {
-        return version_compare($version1, $version2, '>');
-    }
-    
     /**
      * lookup component name
      * @global type $ilDB

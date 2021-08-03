@@ -579,19 +579,31 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $_GET[self::P_PLUGIN_NAME]
         );
 
-        $pl_meta = $ilPluginAdmin->getAllData(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl_info = $this->component_data_db
+            ->getComponentByTypeAndName(
+                $_GET[self::P_CTYPE],
+                $_GET[self::P_CNAME]
+            )
+            ->getPluginSlotById(
+                $_GET[self::P_SLOT_ID]
+            )
+            ->getPluginByName(
+                $_GET[self::P_PLUGIN_NAME]
+            );
 
-        $activation = ((bool) $pl_meta["activation_possible"] || (bool) $pl_meta["is_active"]); // #18827
-        $reason = $pl_meta["inactive_reason"];
-
-        $question = $activation
-            ? sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName())
-            : sprintf($this->lng->txt("cmps_uninstall_inactive_confirm"), $pl->getPluginName(), $reason);
+        if ($pl_info->isActivated() || $pl_info->isActivationPossible($this->ilias_version)) {
+            $question = sprintf(
+                $this->lng->txt("cmps_uninstall_confirm"),
+                $pl->getPluginName()
+            );
+        }
+        else {
+            $question = sprintf(
+                $this->lng->txt("cmps_uninstall_inactive_confirm"),
+                $pl->getPluginName(),
+                $pl_info->getReasonForInactivity($this->ilias_version)
+            );
+        }
 
         $this->ctrl->setParameter($this, self::P_CTYPE, $_GET[self::P_CTYPE]);
         $this->ctrl->setParameter($this, self::P_CNAME, $_GET[self::P_CNAME]);
