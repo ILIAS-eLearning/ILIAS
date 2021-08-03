@@ -56,8 +56,8 @@ class AchieveCommand extends Command
 
     public function configure()
     {
-        $this->setDescription("Execute a method for an agent to achieve a specific objective.");
-        $this->addArgument("agent_method", InputArgument::REQUIRED, "Method to be execute from agent. Format: Agent::Method");
+        $this->setDescription("Achieve a named objective from an agent.");
+        $this->addArgument("objective", InputArgument::REQUIRED, "Objective to be execute from agent. Format: \$AGENT_NAME::\$OBJECTIVE_NAME");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
@@ -65,7 +65,7 @@ class AchieveCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->parseAgentMethod($input->getArgument('agent_method'));
+        $result = $this->parseAgentMethod($input->getArgument('objective'));
         if (is_null($result)) {
             throw new \InvalidArgumentException("Wrong input format for command.");
         }
@@ -73,12 +73,12 @@ class AchieveCommand extends Command
 
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
-        $io->title("Execute " . $method . " on " . $class_name);
+        $io->title("Execute " . $method . " from " . $class_name);
 
         $agent = $this->agent_finder->getAgentByClassName($class_name);
 
         if (!method_exists($agent, $method)) {
-            throw new \InvalidArgumentException("Method '" . $method . "' not found for '" . $class_name ."'.");
+            throw new \InvalidArgumentException("Method '" . $method . "' not found on '" . $class_name ."'.");
         }
 
         $config = null;
