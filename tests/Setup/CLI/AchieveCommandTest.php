@@ -77,7 +77,7 @@ class AchieveCommandTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Wrong input format for command.");
         $tester->execute([
-            "agent_method" => $wrong_command
+            "objective" => $wrong_command
         ]);
     }
 
@@ -97,7 +97,7 @@ class AchieveCommandTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Method 'foo' not found for 'ilTest'.");
         $tester->execute([
-            "agent_method" => $command
+            "objective" => $command
         ]);
     }
 
@@ -151,7 +151,7 @@ class AchieveCommandTest extends TestCase
 
         $tester = new CommandTester($this->command);
         $tester->execute([
-            "agent_method" => $command
+            "objective" => $command
         ]);
     }
 
@@ -183,7 +183,7 @@ class AchieveCommandTest extends TestCase
         $this->expectExceptionMessage("Agent 'ilTest' needs a config file.");
         $tester = new CommandTester($this->command);
         $tester->execute([
-            "agent_method" => $command
+            "objective" => $command
         ]);
     }
 
@@ -244,7 +244,7 @@ class AchieveCommandTest extends TestCase
         $obj = new TestObject($this->agent_finder, $this->config_reader, [], $this->refinery);
         $tester = new CommandTester($obj);
         $tester->execute([
-            "agent_method" => $command,
+            "objective" => $command,
             "config" => $config_file
         ]);
     }
