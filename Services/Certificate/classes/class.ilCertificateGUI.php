@@ -470,7 +470,7 @@ class ilCertificateGUI
     {
         $previousCertificateTemplate = $this->templateRepository->fetchPreviousCertificate($objId);
         $currentVersion = $previousCertificateTemplate->getVersion();
-        $nextVersion = (string) (((int) $currentVersion) + 1);
+        $nextVersion = $currentVersion + 1;
 
         $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool());
         $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve("certificate_card_thumbnail_image_delete", $this->refinery->kindlyTo()->bool());
@@ -492,7 +492,7 @@ class ilCertificateGUI
                     try {
                         $backgroundImagePath = $this->backgroundImageUpload->uploadBackgroundImage(
                             $temporaryFileName,
-                            (int) $nextVersion,
+                            $nextVersion,
                             $form->getInput('background')
                         );
                     } catch (ilException $exception) {
