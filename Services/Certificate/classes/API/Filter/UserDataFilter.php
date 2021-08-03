@@ -16,14 +16,14 @@ class UserDataFilter
     public const SORT_DIRECTION_ASC = 1;
     public const SORT_DIRECTION_DESC = 2;
 
-    private ?string $objectTitle;
-    private ?int $issuedBeforeTimestamp;
-    private ?int $issuedAfterTimestamp;
+    private ?string $objectTitle = null;
+    private ?int $issuedBeforeTimestamp = null;
+    private ?int $issuedAfterTimestamp = null;
     private bool $onlyCertActive = true;
-    private ?string $userFirstName;
-    private ?string $userLastName;
-    private ?string $userLogin;
-    private ?string $userEmail;
+    private ?string $userFirstName = null;
+    private ?string $userLastName = null;
+    private ?string $userLogin = null;
+    private ?string $userEmail = null;
     /** @var int[] */
     private array $userIds = [];
     /** @var int[] */
