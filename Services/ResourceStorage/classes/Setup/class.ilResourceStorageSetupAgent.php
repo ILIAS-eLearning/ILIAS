@@ -12,6 +12,8 @@ use ILIAS\Setup\Objective;
  */
 class ilResourceStorageSetupAgent implements Agent
 {
+    use Agent\HasNoNamedObjective;
+
     public function hasConfig() : bool
     {
         return false;

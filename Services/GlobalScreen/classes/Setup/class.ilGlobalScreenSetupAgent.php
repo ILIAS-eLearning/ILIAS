@@ -9,6 +9,8 @@ use ILIAS\Refinery\Transformation;
 
 class ilGlobalScreenSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery
      */

@@ -9,6 +9,8 @@ use ILIAS\Setup;
  */
 final class ilBibliographicSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var string component dir within ilias's data dir
      */

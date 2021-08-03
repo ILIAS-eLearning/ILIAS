@@ -9,6 +9,8 @@ use ILIAS\UI\Component\Input\Field\Input;
 
 abstract class ilPluginDefaultAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var string
      */

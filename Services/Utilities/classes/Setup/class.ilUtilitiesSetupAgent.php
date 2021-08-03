@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilUtilitiesSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

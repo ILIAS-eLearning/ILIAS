@@ -14,6 +14,8 @@ use ILIAS\UI;
  */
 class ilSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     const PHP_MEMORY_LIMIT = "128M";
 
     protected Refinery\Factory $refinery;
