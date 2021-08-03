@@ -23,6 +23,7 @@ use ILIAS\Setup\AgentCollection;
  */
 class AchieveCommand extends Command
 {
+    use HasAgent;
     use HasConfigReader;
     use ObjectiveHelper;
 
@@ -57,7 +58,7 @@ class AchieveCommand extends Command
     public function configure()
     {
         $this->setDescription("Achieve a named objective from an agent.");
-        $this->addArgument("objective", InputArgument::REQUIRED, "Objective to be execute from agent. Format: \$AGENT_NAME::\$OBJECTIVE_NAME");
+        $this->addArgument("objective", InputArgument::REQUIRED, "Objective to be execute from an agent. Format: \$AGENT::\$OBJECTIVE");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
@@ -65,36 +66,21 @@ class AchieveCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $result = $this->parseAgentMethod($input->getArgument('objective'));
-        if (is_null($result)) {
-            throw new \InvalidArgumentException("Wrong input format for command.");
-        }
-        list($class_name, $method) = $result;
+        $objective_name = $input->getArgument('objective');
 
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
-        $io->title("Execute " . $method . " from " . $class_name);
+        $io->title("Achieve objective: $objective_name");
 
-        $agent = $this->agent_finder->getAgentByClassName($class_name);
+        $agent = $this->getRelevantAgent($input);
 
-        if (!method_exists($agent, $method)) {
-            throw new \InvalidArgumentException("Method '" . $method . "' not found on '" . $class_name ."'.");
+        if ($input->getArgument("config")) {
+            $config = $this->readAgentConfig($agent, $input);
+        } else {
+            $config = null;
         }
 
-        $config = null;
-        if ($agent->hasConfig()) {
-            if (is_null($input->getArgument("config"))) {
-                throw new \InvalidArgumentException("Agent '" . $class_name . "' needs a config file.");
-            }
-            $agent_name = $this->agent_finder->getAgentNameByClassName($class_name);
-            $config = $this->readAgentConfig(
-                new AgentCollection($this->refinery, [$agent_name => $agent]),
-                $input
-            );
-            $config = $config->getConfig($agent_name);
-        }
-
-        $objective = $agent->$method($config);
+        $objective = $agent->getNamedObjective($objective_name, $config);
 
         if (count($this->preconditions) > 0) {
             $objective = new ObjectiveWithPreconditions(
@@ -112,9 +98,9 @@ class AchieveCommand extends Command
 
         try {
             $this->achieveObjective($objective, $environment, $io);
-            $io->success("Execute '" . $method . "' on '" . $class_name . "'. Thanks and have fun!");
+            $io->success("Achieved objective '$objective_name'. Thanks and have fun!");
         } catch (NoConfirmationException $e) {
-            $io->error("Aborting execute of '" . $method . "' on '" . $class_name . "', a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
+            $io->error("Aborted the attempt to achieve '$objective_name', a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
     }
 

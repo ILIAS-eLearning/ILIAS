@@ -28,11 +28,6 @@ class TestConfig implements Config
 
 class TestObject extends Setup\CLI\AchieveCommand
 {
-    public function tryParseAgentMethod(string $agent_method) : ?array
-    {
-        return $this->parseAgentMethod($agent_method);
-    }
-
     public function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
     {
         return new Setup\ConfigCollection(["Test" => new TestConfig()]);
@@ -69,203 +64,70 @@ class AchieveCommandTest extends TestCase
         $this->command = new Setup\CLI\AchieveCommand($this->agent_finder, $this->config_reader, [], $this->refinery);
     }
 
-    public function testExecuteWithWrongFormattedCommandString() : void
+    public function basicFunctionality(bool $is_applicable) : void
     {
-        $wrong_command = "ilTest:Method";
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
-        $tester = new CommandTester($this->command);
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Wrong input format for command.");
-        $tester->execute([
-            "objective" => $wrong_command
-        ]);
-    }
-
-    public function testExecuteWithAgentWithoutMethod() : void
-    {
         $agent = $this->createMock(Setup\AgentCollection::class);
-        $command = "ilTest::foo";
+        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $command = new Setup\CLI\UpdateCommand($agent_finder, $config_reader, []);
 
-        $this->agent_finder
-            ->expects($this->once())
-            ->method("getAgentByClassName")
-            ->with("ilTest")
-            ->willReturn($agent)
-        ;
+        $tester = new CommandTester($command);
 
-        $tester = new CommandTester($this->command);
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Method 'foo' not found on 'ilTest'.");
-        $tester->execute([
-            "objective" => $command
-        ]);
-    }
-
-    public function testExecuteWithoutConfig() : void
-    {
-        $agent = $this->getMockBuilder(Setup\AgentCollection::class)
-                      ->addMethods(["foo"])
-                      ->setMethods(["hasConfig"])
-                      ->disableOriginalConstructor()
-                      ->getMock()
-        ;
-
-        $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
-
-        $command = "ilTest::foo";
-
-        $this->agent_finder
-            ->expects($this->once())
-            ->method("getAgentByClassName")
-            ->with("ilTest")
-            ->willReturn($agent)
-        ;
-
-        $agent
-            ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(false)
-        ;
-        $agent
-            ->expects(($this->once()))
-            ->method("foo")
-            ->willReturn($objective)
-        ;
-
-        $objective
-            ->expects($this->once())
-            ->method("getPreconditions")
-            ->willReturn([])
-        ;
-        $objective
-            ->expects($this->once())
-            ->method("achieve")
-            ->willReturn($env)
-        ;
-        $objective
-            ->expects($this->once())
-            ->method("isApplicable")
-            ->willReturn(true)
-        ;
-
-        $tester = new CommandTester($this->command);
-        $tester->execute([
-            "objective" => $command
-        ]);
-    }
-
-    public function testExecuteWithNoConfig() : void
-    {
-        $agent = $this->getMockBuilder(Setup\AgentCollection::class)
-                      ->addMethods(["foo"])
-                      ->setMethods(["hasConfig"])
-                      ->disableOriginalConstructor()
-                      ->getMock()
-        ;
-
-        $command = "ilTest::foo";
-
-        $this->agent_finder
-            ->expects($this->once())
-            ->method("getAgentByClassName")
-            ->with("ilTest")
-            ->willReturn($agent)
-        ;
-
-        $agent
-            ->expects($this->any())
-            ->method("hasConfig")
-            ->willReturn(true)
-        ;
-
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage("Agent 'ilTest' needs a config file.");
-        $tester = new CommandTester($this->command);
-        $tester->execute([
-            "objective" => $command
-        ]);
-    }
-
-    public function testExecuteWithConfig() : void
-    {
-        $agent = $this->getMockBuilder(Setup\AgentCollection::class)
-                      ->addMethods(["foo"])
-                      ->setMethods(["hasConfig"])
-                      ->disableOriginalConstructor()
-                      ->getMock()
-        ;
-        $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
-
-        $command = "ilTest::foo";
+        $config = $this->createMock(Setup\ConfigCollection::class);
         $config_file = "config_file";
+        $config_file_content = ["config_file"];
+        $objective_name = "my.objective";
 
-        $this->agent_finder
+        $objective = $this->createMock(Setup\Objective::class);
+        $env = $this->createMock(Setup\Environment::class);
+
+        $config_reader
             ->expects($this->once())
-            ->method("getAgentByClassName")
-            ->with("ilTest")
-            ->willReturn($agent)
-        ;
-        $this->agent_finder
+            ->method("readConfigFile")
+            ->with($config_file)
+            ->willReturn($config_file_content);
+
+        $agent_finder
             ->expects($this->once())
-            ->method("getAgentNameByClassName")
-            ->willReturn("Test")
-        ;
+            ->method("getAgents")
+            ->with()
+            ->willReturn($agent);
 
         $agent
-            ->expects($this->any())
+            ->expects($this->once())
             ->method("hasConfig")
-            ->willReturn(true)
-        ;
+            ->willReturn(true);
+
         $agent
-            ->expects(($this->once()))
-            ->method("foo")
-            ->with(new TestConfig())
-            ->willReturn($objective)
-        ;
+            ->expects($this->once())
+            ->method("getArrayToConfigTransformation")
+            ->with()
+            ->willReturn($refinery->custom()->transformation(function ($v) use ($config_file_content, $config) {
+                $this->assertEquals($v, $config_file_content);
+                return $config;
+            }));
+
+        $agent
+            ->expects($this->once())
+            ->method("getNamedObjective")
+            ->with($objective_name, $config)
+            ->willReturn($objective);
 
         $objective
             ->expects($this->once())
             ->method("getPreconditions")
-            ->willReturn([])
-        ;
+            ->willReturn([]);
+
         $objective
-            ->expects($this->once())
+            ->expects($expects)
             ->method("achieve")
-            ->willReturn($env)
-        ;
-        $objective
-            ->expects($this->once())
-            ->method("isApplicable")
-            ->willReturn(true)
-        ;
+            ->willReturn($env);
 
-        $obj = new TestObject($this->agent_finder, $this->config_reader, [], $this->refinery);
-        $tester = new CommandTester($obj);
         $tester->execute([
-            "objective" => $command,
-            "config" => $config_file
+            "config" => $config_file,
+            "objective" => $objective_name
         ]);
-    }
-
-    public function testParseCommandString() : void
-    {
-        $cases = [
-            ":ilTest::Method" => null,
-            "ilTest:Method" => null,
-            "ilTest::Method" => ["ilTest", "Method"],
-            "ilTestMethod::" => null,
-            "::ilTest::Method" => null,
-            "ilTest&&Method" => null,
-            "123Test::Method" => ["123Test", "Method"]
-        ];
-
-        $obj = new TestObject($this->agent_finder, $this->config_reader, [], $this->refinery);
-
-        foreach ($cases as $method => $expected) {
-            $result = $obj->tryParseAgentMethod($method);
-            $this->assertEquals($expected, $result);
-        }
     }
 }

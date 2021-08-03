@@ -55,6 +55,10 @@ class HasAgentTest extends TestCase
         $ac = $this->createMock(AgentCollection::class);
 
         $ii
+            ->method("hasOption")
+            ->willReturn(true);
+
+        $ii
             ->method("getOption")
             ->will($this->returnValueMap([
                 ["no-plugins", true],
@@ -76,6 +80,11 @@ class HasAgentTest extends TestCase
     {
         $ii = $this->createMock(InputInterface::class);
         $ac = $this->createMock(AgentCollection::class);
+
+
+        $ii
+            ->method("hasOption")
+            ->willReturn(true);
 
         $ii
             ->method("getOption")
