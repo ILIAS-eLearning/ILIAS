@@ -283,7 +283,8 @@ class ilObjUser extends ilObject
 
             //check style-setting (skins could have more than one stylesheet
             if ($this->prefs["style"] == "" ||
-                    (!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs["style"]))) {
+                    (!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs["style"])) ||
+                    !ilStyleDefinition::styleExists($this->prefs["style"])) {
                 //load default (css)
                 $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
             }
