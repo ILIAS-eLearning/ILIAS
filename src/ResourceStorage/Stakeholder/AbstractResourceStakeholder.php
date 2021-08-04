@@ -35,9 +35,9 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     /**
      * @inheritDoc
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : void
+    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool
     {
-        // nothing to do here
+        return true;
     }
 
     /**
