@@ -7,6 +7,7 @@ use ILIAS\Data\Version;
  */
 class ilPluginInfo
 {
+    protected Version $actual_ilias_version;
     protected ilPluginSlotInfo $pluginslot;
     protected string $id;
     protected string $name;
@@ -23,6 +24,7 @@ class ilPluginInfo
     protected bool $supports_cli_setup;
 
     public function __construct(
+        Version $actual_ilias_version,
         ilPluginSlotInfo $pluginslot,
         string $id,
         string $name,
@@ -45,6 +47,7 @@ class ilPluginInfo
                 "have a db-version."
             );
         }
+        $this->actual_ilias_version = $actual_ilias_version;
         $this->pluginslot = $pluginslot;
         $this->id = $id;
         $this->name = $name;
@@ -180,19 +183,19 @@ class ilPluginInfo
      * "ILIAS Version compliance" tells if the plugin can be operated with the
      * given ILIAS version.
      */
-    public function isCompliantToILIAS(Version $ilias_version) : bool
+    public function isCompliantToILIAS() : bool
     {
         return
-            $ilias_version->isGreaterThanOrEquals($this->minimum_ilias_version)
-            && $ilias_version->isSmallerThanOrEquals($this->maximum_ilias_version);
+            $this->actual_ilias_version->isGreaterThanOrEquals($this->minimum_ilias_version)
+            && $this->actual_ilias_version->isSmallerThanOrEquals($this->maximum_ilias_version);
     }
 
     /**
      * Can this plugin be activated right now.
      */
-    public function isActivationPossible(Version $ilias_version) : bool
+    public function isActivationPossible() : bool
     {
-        return $this->isCompliantToILIAS($ilias_version)
+        return $this->isCompliantToILIAS()
             && $this->isInstalled()
             && !$this->isVersionToOld()
             && !$this->isUpdateRequired();
@@ -201,9 +204,9 @@ class ilPluginInfo
     /**
      * Is this plugin active right now?
      */
-    public function isActive(Version $ilias_version) : bool
+    public function isActive() : bool
     {
-        return $this->isActivationPossible($ilias_version)
+        return $this->isActivationPossible()
             && $this->isActivated();
     }
 
@@ -213,15 +216,15 @@ class ilPluginInfo
      * @throws \LogicException if plugin is actually active.
      * @return string to be used as identifier for language service.
      */
-    public function getReasonForInactivity(Version $ilias_version) : string
+    public function getReasonForInactivity() : string
     {
-        if ($this->isActive($ilias_version)) {
+        if ($this->isActive()) {
             throw new \LogicException(
                 "Plugin is active, so no reason for inactivity."
             );
         }
 
-        if (!$this->isCompliantToILIAS($ilias_version)) {
+        if (!$this->isCompliantToILIAS()) {
             return "cmps_needs_matching_ilias_version";
         }
 

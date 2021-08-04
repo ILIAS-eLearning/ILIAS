@@ -49,7 +49,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected $db;
 
     protected ilComponentDataDB $component_data_db;
-    protected ILIAS\Data\Version $ilias_version;
 
     /**
      * ilObjComponentSettingsGUI constructor.
@@ -67,7 +66,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->db = $DIC->database();
         $this->type = self::TYPE;
         $this->component_data_db = $DIC["component.db"];
-        $this->ilias_version = $DIC["ilias.version"];
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule(self::TYPE);
     }
@@ -340,7 +338,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 );
             }
 
-            if ($plugin->isActivationPossible($this->ilias_version) && !$plugin->isActivated()) {
+            if ($plugin->isActivationPossible() && !$plugin->isActivated()) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_activate"),
                     $this->ctrl->getLinkTarget($this, self::CMD_ACTIVATE_PLUGIN)
@@ -348,7 +346,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             }
 
             // deactivation/refresh languages button
-            if ($plugin->isActive($this->ilias_version)) {
+            if ($plugin->isActive()) {
                 // deactivate button
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_deactivate"),
@@ -380,13 +378,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $resp = $plugin->getResponsible() . " (" . implode(" / ", $resp) . ")";
         }
 
-        if ($plugin->isActive($this->ilias_version)) {
+        if ($plugin->isActive()) {
             $status = $this->lng->txt("cmps_active");
         } else {
             $status =
                 $this->lng->txt("cmps_inactive") .
                 " (" .
-                $this->lng->txt($plugin->getReasonForInactivity($this->ilias_version)) .
+                $this->lng->txt($plugin->getReasonForInactivity()) .
                 ")";
         }
 
@@ -591,7 +589,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 $_GET[self::P_PLUGIN_NAME]
             );
 
-        if ($pl_info->isActivated() || $pl_info->isActivationPossible($this->ilias_version)) {
+        if ($pl_info->isActivated() || $pl_info->isActivationPossible()) {
             $question = sprintf(
                 $this->lng->txt("cmps_uninstall_confirm"),
                 $pl->getPluginName()
@@ -601,7 +599,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $question = sprintf(
                 $this->lng->txt("cmps_uninstall_inactive_confirm"),
                 $pl->getPluginName(),
-                $pl_info->getReasonForInactivity($this->ilias_version)
+                $pl_info->getReasonForInactivity()
             );
         }
 

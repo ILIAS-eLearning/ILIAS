@@ -26,6 +26,7 @@ class ilPluginSlotInfoTest extends TestCase
 
         $v = $this->createMock(\ILIAS\Data\Version::class);
         $this->plugin1 = new ilPluginInfo(
+            $v,
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -45,6 +46,7 @@ class ilPluginSlotInfoTest extends TestCase
         $plugins["plg1"] = $this->plugin1;
 
         $this->plugin2 = new ilPluginInfo(
+            $v,
             $this->pluginslot,
             "plg2",
             "Plugin2",

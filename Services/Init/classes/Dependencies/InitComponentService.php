@@ -11,7 +11,8 @@ class InitComponentService
         $c["component.db"] = fn ($c) : \ilComponentDataDB =>
             new ilArtifactComponentDataDB(
                 $data_factory,
-                $c["component.plugin_state_db"]
+                $c["component.plugin_state_db"],
+                $c["ilias.version"]
             );
 
         $c["component.plugin_state_db"] = fn ($c) : \ilPluginStateDB =>
