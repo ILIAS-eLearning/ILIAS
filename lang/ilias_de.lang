@@ -1257,6 +1257,7 @@ assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Antwort
 assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Häufigkeit
 assessment#:#tst_corrections_answers_tbl#:#Antwortstatistik
 assessment#:#tst_corrections_answers_tbl_subindex#:#Antwortstatistik für %s
+assessment#:#tst_corrections_incompatible_question_set_type#:#Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet.
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_corrections_qst_form#:#Korrektur der Punkte
 assessment#:#tst_corrections_qst_remove_confirmation#:#Möchten Sie die Frage "%s (ID: %s)" wirklich endgültig aus dem Test entfernen?
