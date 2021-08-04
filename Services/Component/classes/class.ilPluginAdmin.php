@@ -43,7 +43,6 @@ class ilPluginAdmin
     protected $lng;
 
     protected ilComponentDataDB $component_data_db;
-    protected ILIAS\Data\Version $ilias_version;
 
 
     /**
@@ -55,7 +54,6 @@ class ilPluginAdmin
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("cmps");
         $this->component_data_db = $DIC["component.db"];
-        $this->ilias_version = $DIC["ilias.version"];
     }
 
 
@@ -103,7 +101,7 @@ class ilPluginAdmin
     public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         try {
-            return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isActive($this->ilias_version);
+            return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isActive();
         }
         catch (\InvalidArgumentException $e) {
             return false;

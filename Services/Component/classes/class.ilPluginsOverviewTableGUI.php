@@ -75,7 +75,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_SLOT_NAME", $plugin->getPluginSlot()->getName());
         $this->tpl->setVariable("TXT_COMP_NAME", $plugin->getComponent()->getQualifiedName());
 
-        if ($plugin->isActive($DIC["ilias.version"])) {
+        if ($plugin->isActive()) {
             $this->tpl->setCurrentBlock("active");
             $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("yes"));
             $this->tpl->parseCurrentBlock();
@@ -141,7 +141,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
                 $this->addCommandToActions($actions, "cmps_deactivate", ilObjComponentSettingsGUI::CMD_DEACTIVATE_PLUGIN);
             }
 
-            if ($plugin->isActivationPossible($DIC["ilias.version"]) && !$plugin->isActive($DIC["ilias.version")) {
+            if ($plugin->isActivationPossible() && !$plugin->isActive()) {
                 $this->addCommandToActions($actions, "cmps_activate", ilObjComponentSettingsGUI::CMD_ACTIVATE_PLUGIN);
             }
 

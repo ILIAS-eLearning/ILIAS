@@ -38,8 +38,6 @@ abstract class ilPlugin
     protected $message;
 
     protected ilComponentDataDB $component_data_db;
-    protected Version $ilias_version;
-
 
     public function __construct()
     {
@@ -48,7 +46,6 @@ abstract class ilPlugin
         $this->__init();
         $this->provider_collection = new PluginProviderCollection();
         $this->component_data_db = $DIC["component.db"];
-        $this->ilias_version = $DIC["ilias.version"];
     }
 
     protected function getPluginInfo() : ilPluginInfo {
@@ -290,7 +287,7 @@ abstract class ilPlugin
         global $DIC;
 
         // Mantis: 23282: Disable plugin config page for incompatible plugins
-        if (!$plugin->isCompliantToILIAS($DIC["ilias.version"])) {
+        if (!$plugin->isCompliantToILIAS()) {
             return false;
         }
 
@@ -665,7 +662,7 @@ abstract class ilPlugin
      */
     public function isActive()
     {
-        return $this->getPluginInfo()->isActive($this->ilias_version);
+        return $this->getPluginInfo()->isActive();
     }
 
 

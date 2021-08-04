@@ -29,6 +29,7 @@ class ilPluginInfoTest extends TestCase
         $slots[] = $this->pluginslot;
 
         $this->plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -76,6 +77,7 @@ class ilPluginInfoTest extends TestCase
     public function testIsNotInstalled()
     {
         $this->plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -104,6 +106,7 @@ class ilPluginInfoTest extends TestCase
     public function testUpdateIsNotRequiredNotInstalled()
     {
         $this->plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -127,6 +130,7 @@ class ilPluginInfoTest extends TestCase
     public function testUpdateIsRequired()
     {
         $this->plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -152,6 +156,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertFalse($this->plugin->isVersionToOld());
 
         $plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -171,6 +176,7 @@ class ilPluginInfoTest extends TestCase
         $this->assertFalse($plugin->isVersionToOld());
 
         $plugin = new ilPluginInfo(
+            $this->data_factory->version("6.5"),
             $this->pluginslot,
             "plg1",
             "Plugin1",
@@ -190,11 +196,40 @@ class ilPluginInfoTest extends TestCase
         $this->assertTrue($plugin->isVersionToOld());
     }
 
-    public function testIsCompliantToILIAS()
+    /**
+     * @dataProvider versionCompliance
+     */
+    public function testIsCompliantToILIAS(Data\Version $version, bool $is_compliant)
     {
-        $this->assertFalse($this->plugin->isCompliantToILIAS($this->data_factory->version("5.4")));
-        $this->assertTrue($this->plugin->isCompliantToILIAS($this->data_factory->version("6.5")));
-        $this->assertFalse($this->plugin->isCompliantToILIAS($this->data_factory->version("7.1")));
+        $plugin = new ilPluginInfo(
+            $version,
+            $this->pluginslot,
+            "plg1",
+            "Plugin1",
+            true,
+            $this->data_factory->version("1.2.2"),
+            12,
+            $this->data_factory->version("1.0.0"),
+            12,
+            $this->data_factory->version("6.0"),
+            $this->data_factory->version("6.99"),
+            "Richard Klees",
+            "richard.klees@concepts-and-training.de",
+            true,
+            false,
+            true
+        );
+        $this->assertSame($is_compliant, $plugin->isCompliantToILIAS());
+    }
+
+    public function versionCompliance() : array
+    {
+        $data_factory = new Data\Factory;
+        return [
+            [$data_factory->version("5.4"), false],
+            [$data_factory->version("6.5"), true],
+            [$data_factory->version("7.1"), false]
+        ];
     }
 
     public function testGetPath()
@@ -210,7 +245,6 @@ class ilPluginInfoTest extends TestCase
      */
     public function testIsActivationPossible($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old, $is_activation_possible)
     {
-        $version = $this->createMock(Data\Version::class);
         $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old) extends ilPluginInfo {
             public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_version_to_old)
             {
@@ -230,7 +264,7 @@ class ilPluginInfoTest extends TestCase
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS(Data\Version $version) : bool
+            public function isCompliantToILIAS() : bool
             {
                 return $this->supports_current_ilias;
             }
@@ -241,7 +275,7 @@ class ilPluginInfoTest extends TestCase
             }
         };
 
-        $this->assertEquals($is_activation_possible, $plugin->isActivationPossible($version));
+        $this->assertEquals($is_activation_possible, $plugin->isActivationPossible());
     }
 
     public function isActivationPossibleTruthTable() : array
@@ -272,7 +306,6 @@ class ilPluginInfoTest extends TestCase
      */
     public function testIsActive($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old, $is_activation_possible)
     {
-        $version = $this->createMock(Data\Version::class);
         $plugin = new class($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old) extends ilPluginInfo {
             public function __construct($is_installed, $supports_current_ilias, $needs_update, $is_activated, $is_version_to_old)
             {
@@ -298,7 +331,7 @@ class ilPluginInfoTest extends TestCase
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS(Data\Version $version) : bool
+            public function isCompliantToILIAS() : bool
             {
                 return $this->supports_current_ilias;
             }
@@ -309,7 +342,7 @@ class ilPluginInfoTest extends TestCase
             }
         };
 
-        $this->assertEquals($is_activation_possible, $plugin->isActive($version));
+        $this->assertEquals($is_activation_possible, $plugin->isActive());
     }
 
     public function isActiveTruthTable() : array
@@ -384,7 +417,7 @@ class ilPluginInfoTest extends TestCase
                 return $this->needs_update;
             }
 
-            public function isCompliantToILIAS(Data\Version $version) : bool
+            public function isCompliantToILIAS() : bool
             {
                 return $this->supports_current_ilias;
             }
@@ -413,7 +446,7 @@ class ilPluginInfoTest extends TestCase
             {
             }
 
-            public function isActive(Data\Version $version) : bool
+            public function isActive() : bool
             {
                 return true;
             }

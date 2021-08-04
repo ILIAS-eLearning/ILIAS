@@ -16,7 +16,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     protected array $plugin_by_id;
     protected array $plugin_by_name;
 
-    public function __construct(Data\Factory $data_factory, ilPluginStateDB $plugin_state_db)
+    public function __construct(Data\Factory $data_factory, ilPluginStateDB $plugin_state_db, Data\Version $ilias_version)
     {
         $component_data = $this->readComponentData();
         $plugin_data = $this->readPluginData();
@@ -69,6 +69,7 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             }
             $slot = $component->getPluginSlotByName($slot_name);
             $this->plugin_by_id[$plugin_id] = new ilPluginInfo(
+                $ilias_version,
                 $slot,
                 $plugin_id,
                 $plugin_name,
