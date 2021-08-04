@@ -113,8 +113,9 @@ class FileInputTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
+        $max_files = 10;
         $name = "name_0";
-        $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
+        $text = $f->file($this->getUploadHandler(), $label, $byline, $max_files)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($text));
@@ -153,9 +154,10 @@ class FileInputTest extends ILIAS_UI_TestBase
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
+        $max_files = 10;
         $name = "name_0";
         $error = "an_error";
-        $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source)->withError($error);
+        $text = $f->file($this->getUploadHandler(), $label, $byline, $max_files)->withNameFrom($this->name_source)->withError($error);
 
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($text));
@@ -359,6 +361,27 @@ class FileInputTest extends ILIAS_UI_TestBase
         ');
 
         $this->assertEquals($expected, $html);
+    }
+
+    public function test_get_max_files_with_default()
+    {
+        $f = $this->buildFactory();
+        $input = $f->file($this->getUploadHandler(), "label", "byline");
+        $this->assertEquals(1, $input->getMaxFiles());
+    }
+
+    public function test_get_max_files_with_zero()
+    {
+        $f = $this->buildFactory();
+        $input = $f->file($this->getUploadHandler(), "label", "byline", 0);
+        $this->assertEquals(1, $input->getMaxFiles());
+    }
+
+    public function test_get_max_files_with_value()
+    {
+        $f = $this->buildFactory();
+        $input = $f->file($this->getUploadHandler(), "label", "byline", 7);
+        $this->assertEquals(7, $input->getMaxFiles());
     }
 
     protected function buildButtonFactory()

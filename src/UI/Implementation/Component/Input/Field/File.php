@@ -31,15 +31,21 @@ class File extends Input implements C\Input\Field\File
      * @var C\Input\Field\UploadHandler
      */
     private $upload_handler;
+    /**
+     * @var int|null
+     */
+    private $max_files;
 
     public function __construct(
         DataFactory $data_factory,
         Factory $refinery,
         C\Input\Field\UploadHandler $handler,
         $label,
-        $byline
+        $byline,
+        $max_files
     ) {
         $this->upload_handler = $handler;
+        $this->max_files = $max_files;
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
 
@@ -111,5 +117,14 @@ class File extends Input implements C\Input\Field\File
     public function getAcceptedMimeTypes() : array
     {
         return $this->accepted_mime_types;
+    }
+
+    public function getMaxFiles() : int
+    {
+        if (null !== $this->max_files && 1 < $this->max_files) {
+            return $this->max_files;
+        }
+
+        return 1;
     }
 }
