@@ -6,7 +6,7 @@
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
-    protected \ILIAS\DI\HTTPServices $httpServices;
+    protected \ILIAS\HTTP\Services $httpServices;
     protected ilTree $repositoryTree;
 
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
