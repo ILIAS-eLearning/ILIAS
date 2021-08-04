@@ -20,40 +20,176 @@ class File extends Input implements C\Input\Field\File
     use Triggerer;
 
     /**
-     * @var array
-     */
-    private $accepted_mime_types = [];
-    /**
-     * @var int
-     */
-    private $max_file_size;
-    /**
      * @var C\Input\Field\UploadHandler
      */
     private $upload_handler;
+
+    /**
+     * @var string[]
+     */
+    private $accepted_mime_types = [];
+
+    /**
+     * @var int|null
+     */
+    private $max_file_size;
+
     /**
      * @var int|null
      */
     private $max_files;
 
+    /**
+     * @var Input[]
+     */
+    private $inputs = [];
+
+    /**
+     * File constructor
+     *
+     * @param DataFactory                 $data_factory
+     * @param Factory                     $refinery
+     * @param C\Input\Field\UploadHandler $handler
+     * @param                             $label
+     * @param                             $byline
+     */
     public function __construct(
         DataFactory $data_factory,
         Factory $refinery,
         C\Input\Field\UploadHandler $handler,
         $label,
-        $byline,
-        $max_files
+        $byline
     ) {
         $this->upload_handler = $handler;
-        $this->max_files = $max_files;
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getUploadHandler() : C\Input\Field\UploadHandler
+    {
+        return $this->upload_handler;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withAcceptedMimeTypes(array $mime_types) : C\Input\Field\File
+    {
+        $clone = clone $this;
+        $clone->accepted_mime_types = $mime_types;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getAcceptedMimeTypes() : array
+    {
+        return $this->accepted_mime_types;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
+    {
+        $clone = clone $this;
+        $clone->max_file_size = $size_in_bytes;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaxFileSize() : int
+    {
+        return $this->max_file_size;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withMaxFiles(int $amount) : C\Input\Field\File
+    {
+        $this->checkIntArg('amount', $amount);
+
+        $clone = clone $this;
+        $clone->max_files = $amount;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaxFiles() : int
+    {
+        if (null !== $this->max_files && 1 < $this->max_files) {
+            return $this->max_files;
+        }
+
+        return 1;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withMetadataInputs(array $inputs) : C\Input\Field\File
+    {
+        $this->checkArgListElements('inputs', $inputs, Input::class);
+
+        $clone = clone $this;
+        $clone->inputs = $inputs;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMetadataInputs() : array
+    {
+        return $this->inputs;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withInput(InputData $input)
+    {
+        $value = $input->getOr($this->getName(), null);
+        if ($value === null) {
+            $this->value = null;
+        }
+
+        return parent::withInput($input);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUpdateOnLoadCode() : \Closure
+    {
+        return static function ($id) {
+            return '';
+        };
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function getConstraintForRequirement()
     {
         return $this->refinery->string();
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function isClientSideValueOk($value) : bool
     {
         if (null === $value) {
@@ -69,62 +205,5 @@ class File extends Input implements C\Input\Field\File
         }
 
         return true;
-    }
-
-    public function getUpdateOnLoadCode() : \Closure
-    {
-        return function ($id) {
-            return '';
-        };
-    }
-
-    public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
-    {
-        $clone = clone $this;
-        $clone->max_file_size = $size_in_bytes;
-
-        return $clone;
-    }
-
-    public function getMaxFileFize() : int
-    {
-        return $this->max_file_size;
-    }
-
-    public function withInput(InputData $input)
-    {
-        $value = $input->getOr($this->getName(), null);
-        if ($value === null) {
-            $this->value = null;
-        }
-
-        return parent::withInput($input);
-    }
-
-    public function getUploadHandler() : C\Input\Field\UploadHandler
-    {
-        return $this->upload_handler;
-    }
-
-    public function withAcceptedMimeTypes(array $mime_types) : \ILIAS\UI\Component\Input\Field\File
-    {
-        $clone = clone $this;
-        $clone->accepted_mime_types = $mime_types;
-
-        return $clone;
-    }
-
-    public function getAcceptedMimeTypes() : array
-    {
-        return $this->accepted_mime_types;
-    }
-
-    public function getMaxFiles() : int
-    {
-        if (null !== $this->max_files && 1 < $this->max_files) {
-            return $this->max_files;
-        }
-
-        return 1;
     }
 }

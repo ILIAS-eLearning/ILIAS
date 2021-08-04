@@ -604,10 +604,9 @@ interface Factory
      * ---
      * @param UploadHandler $handler
      * @param string        $label defines the label.
-     * @param string        $byline
-     * @param int           $max_files enables multi-upload up to this limit (default 1)
+     * @param string|null   $byline
      *
      * @return \ILIAS\UI\Component\Input\Field\File
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null, int $max_files = null) : File;
+    public function file(UploadHandler $handler, string $label, string $byline = null) : File;
 }

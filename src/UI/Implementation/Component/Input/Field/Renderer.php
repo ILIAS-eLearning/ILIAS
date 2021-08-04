@@ -753,36 +753,4 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\File::class
         ];
     }
-
-    protected function renderFileInput(F\File $input) : Component\Input\Field\File
-    {
-        $component = $this->setSignals($input);
-        /**
-         * @var $component File
-         */
-        $settings = new \stdClass();
-        $settings->upload_url = $component->getUploadHandler()->getUploadURL();
-        $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
-        $settings->info_url = $component->getUploadHandler()->getExistingFileInfoURL();
-        $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
-        $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
-        $settings->existing_file_ids = $input->getValue();
-        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue() ?? []);
-        $settings->dictInvalidFileType = $this->txt('form_msg_file_wrong_file_type');
-
-        $input = $component->withAdditionalOnLoadCode(
-            function ($id) use ($settings) {
-                $settings = json_encode($settings);
-
-                return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$settings}');
-				});";
-            }
-        );
-
-        /**
-         * @var $input Component\Input\Field\File
-         */
-        return $input;
-    }
 }
