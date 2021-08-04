@@ -352,21 +352,23 @@ class ResourceBuilder
 
     /**
      * @description Reve a complete revision. if there are other Stakeholder, only your stakeholder gets removed
-     * @param StorableResource    $resource
-     * @param ResourceStakeholder $stakeholder
+     * @param StorableResource         $resource
+     * @param ResourceStakeholder|null $stakeholder
+     * @return bool whether ResourceStakeholders handled this successful
      */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null) : void
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder = null) : bool
     {
+        $sucessful = true;
         if ($stakeholder instanceof ResourceStakeholder) {
             $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
-            $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
+            $sucessful = $sucessful && $stakeholder->resourceHasBeenDeleted($resource->getIdentification());
             $resource->removeStakeholder($stakeholder);
             if (count($resource->getStakeholders()) > 0) {
-                return;
+                return $sucessful;
             }
         }
         foreach ($resource->getStakeholders() as $s) {
-            $s->resourceHasBeenDeleted($resource->getIdentification());
+            $sucessful = $sucessful && $s->resourceHasBeenDeleted($resource->getIdentification());
         }
 
         foreach ($resource->getAllRevisions() as $revision) {
@@ -375,6 +377,8 @@ class ResourceBuilder
 
         $this->storage_handler_factory->getHandlerForResource($resource)->deleteResource($resource);
         $this->resource_repository->delete($resource);
+
+        return $sucessful;
     }
 
     public function removeRevision(StorableResource $resource, int $revision_number) : void
