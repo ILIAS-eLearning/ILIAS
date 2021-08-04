@@ -45,7 +45,7 @@ class ilObjFileStakeholder extends AbstractResourceStakeholder
         $r = $this->database->queryF("SELECT file_id FROM file_data WHERE rid = %s", ['text'],
             [$identification->serialize()]);
         $d = $this->database->fetchObject($r);
-        if ($d->file_id) {
+        if (isset($d->file_id)) {
             $this->database->manipulateF("UPDATE object_data SET offline = 1 WHERE obj_id = %s", ['text'],
                 [$d->file_id]);
         }
