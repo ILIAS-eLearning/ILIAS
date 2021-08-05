@@ -130,11 +130,13 @@ class ilAuthProviderCAS extends ilAuthProvider implements ilAuthProviderInterfac
         try {
             $internal_account = $sync->sync();
         } catch (UnexpectedValueException $e) {
-            $this->getLogger()->warning('Authentication failed with mesage: ' . $e->getMessage());
+            $this->getLogger()->warning('Authentication failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
+        } catch (ilLDAPSynchronisationFailedException $e) {
+            $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
+            return false;
         } catch (ilLDAPSynchronisationForbiddenException $e) {
-
             // No syncronisation allowed => create Error
             $this->getLogger()->warning('User creation disabled. No valid local account found');
             $this->handleAuthenticationFail($status, 'err_auth_cas_no_ilias_user');

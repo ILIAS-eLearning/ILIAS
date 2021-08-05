@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
