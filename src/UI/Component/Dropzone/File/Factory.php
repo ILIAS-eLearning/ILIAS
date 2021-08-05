@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
  * Interface Factory
@@ -11,12 +12,12 @@ use ILIAS\UI\Component\Component;
  *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
+ * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -38,7 +39,6 @@ interface Factory
      *      Rival 1: >
      *          A wrapper dropzone can hold other ILIAS UI components instead of
      *          a message.
-     *
      * rules:
      *   usage:
      *     1: Standard dropzones MUST contain a message.
@@ -52,14 +52,12 @@ interface Factory
      *     1: >
      *        Standard dropzones MUST offer the possibility to select files
      *        manually from the computer.
-     *
      * ---
      *
-     * @param string $url The url where the dropped files are being uploaded
+     * @param UploadHandler $upload_handler
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
-    public function standard($url);
-
+    public function standard(UploadHandler $upload_handler) : Standard;
 
     /**
      * ---
@@ -87,7 +85,6 @@ interface Factory
      *      Rival 1: >
      *          A standard dropzone displays a message instead of other
      *          ILIAS UI components.
-     *
      * rules:
      *   usage:
      *     1: >
@@ -101,10 +98,9 @@ interface Factory
      *        to be uploaded.
      * ---
      *
-     * @param string $url The url where the dropped files are being uploaded
-     * @param Component[]|Component $content Component(s) wrapped by the dropzone
-     *
+     * @param UploadHandler $upload_handler
+     * @param Component[]   $components Component(s) wrapped by the dropzone
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
-    public function wrapper($url, $content);
+    public function wrapper(UploadHandler $upload_handler, array $components) : Wrapper;
 }

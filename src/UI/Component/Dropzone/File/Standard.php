@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Dropzone\File;
-
-use ILIAS\UI\Component\Button\Button;
 
 /**
  * Interface Standard
@@ -10,21 +8,20 @@ use ILIAS\UI\Component\Button\Button;
  * A standard file dropzone offers the possibility to upload dropped files to the server.
  * The dropzone also displays a button to select the files manually from the hard disk.
  *
- * @author  nmaerchy <nm@studer-raimann.ch>
+ * @author nmaerchy <nm@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
-interface Standard extends File
+interface Standard extends FileDropzone
 {
-
     /**
      * Get a dropzone like this, displaying the given message in it.
      *
      * @param string $message
-     *
-     * @return $this
+     * @return Standard
      */
-    public function withMessage($message);
+    public function withMessage(string $message) : Standard;
 
 
     /**
@@ -32,22 +29,5 @@ interface Standard extends File
      *
      * @return string
      */
-    public function getMessage();
-
-
-    /**
-     * Get a dropzone like this, using the given button to upload the files to the server.
-     *
-     * @param Button $button
-     * @return $this
-     */
-    public function withUploadButton(Button $button);
-
-
-    /**
-     * Get the button to upload the files to the server.
-     *
-     * @return Button
-     */
-    public function getUploadButton();
+    public function getMessage() : string;
 }

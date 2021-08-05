@@ -10,7 +10,7 @@ namespace ILIAS\UI\Component\Input\Field;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface File extends FormInput
+interface File
 {
     /**
      * Returns the upload-handler, used to manage the uploaded files.

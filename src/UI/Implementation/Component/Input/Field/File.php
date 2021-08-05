@@ -11,10 +11,13 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Class File
- * @package ILIAS\UI\Implementation\Component\Input\Field
+ *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
+ * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * @package ILIAS\UI\Implementation\Component\Input\Field
  */
-class File extends Input implements C\Input\Field\File
+class File extends Input implements C\Input\Field\FileInput
 {
     use JavaScriptBindable;
     use Triggerer;

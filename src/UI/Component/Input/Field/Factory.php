@@ -606,7 +606,7 @@ interface Factory
      * @param string        $label defines the label.
      * @param string|null   $byline
      *
-     * @return \ILIAS\UI\Component\Input\Field\File
+     * @return \ILIAS\UI\Component\Input\Field\FileInput
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : File;
+    public function file(UploadHandler $handler, string $label, string $byline = null) : FileInput;
 }
