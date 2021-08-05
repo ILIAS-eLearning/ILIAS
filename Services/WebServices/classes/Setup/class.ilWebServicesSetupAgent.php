@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilWebServicesSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

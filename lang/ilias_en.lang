@@ -1954,11 +1954,8 @@ cmps#:#cmps_version#:#Version
 cmps#:#database_is_uptodate#:#The database is up to date.
 cmps#:#no_changes#:#No changes
 cntr#:#cntr_add_new_item#:#Add New Item
-cntr#:#cntr_back_to_old_editor#:#Back to Old Editor
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
 cntr#:#cntr_manage#:#Manage
-cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
-cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
 cntr#:#cntr_ordering#:#Sorting
 cntr#:#cntr_saved_sorting#:#Saved Sorting.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to new content of this page. Old content will be removed.
@@ -2709,7 +2706,7 @@ common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#No salutation desired
+common#:#gender_n#:#Not stated
 common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
@@ -4706,7 +4703,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln_link#:#Interal Link
+content#:#cont_text_iln_link#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -10975,7 +10972,7 @@ dcl#:#dcl_view_own_records_perm#:#View only own entries
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
-dcl#:#dcl_link_detail_page#:#Link entries to detail page
+dcl#:#dcl_link_detail_page#:#Link to detailed view
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
@@ -15929,8 +15926,10 @@ cmix#:#conf_lrs_secret#:#Secret / Password
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_new_window#:#New Window
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Browse
@@ -16535,6 +16534,7 @@ file#:#file_new_version#:#Create New Version
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#upload_info#:#File
 file#:#resource_id#:#Resource ID
+file#:#storage_id#:#Storage ID
 file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#file_import#:#Import File
@@ -16558,3 +16558,8 @@ file#:#not_yet_migrated#:#This file object has not yet been migrated and no new 
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+irss#:#storage_info#:#Storage Information
+irss#:#resource_id#:#Resource ID
+irss#:#storage_id#:#Storage ID
+irss#:#max_revision#:#Max. Revision
+irss#:#stakeholders#:#Stakeholders

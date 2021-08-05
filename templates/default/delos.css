@@ -7521,6 +7521,15 @@ a fieldset[disabled] .active {
   background-position: right center;
   padding-right: 18px;
 }
+.close {
+  color: #757575;
+  opacity: 1;
+}
+.close:hover,
+.close:focus {
+  color: #434343;
+  opacity: 1;
+}
 .btn-tag {
   display: inline-block;
   white-space: nowrap;
@@ -8134,52 +8143,43 @@ ul.dropdown-menu > li > .btn:focus {
   border-color: #ebccd1;
 }
 .il-input-tag {
+  --tags-focus-border-color: #4c6586;
+  --tag-bg: #4c6586;
+  --tag-hover: #4c6586;
+  --tag-text-color: white;
+  --tag-invalid-color: #4c6586;
+  --tag-invalid-bg: #4c6586;
+  --tag-remove-bg: #4c6586;
+  --tag-remove-btn-color: white;
+  --tag-remove-btn-bg--hover: #4c6586;
+  --tag-hide-transition: 0s;
+  line-height: 1.42857143;
+}
+.il-input-tag-container {
   height: auto;
   min-height: 1.42857143;
 }
-.il-input-tag input {
+.il-input-tag-container .il-input-tag {
   border: none;
   box-shadow: none;
   outline: none;
-  padding: 0 6px 4px;
+  padding: 0 0px 4px;
   line-height: 1.42857143;
+  font-weight: 700 !important;
+  margin-bottom: 6.6px;
 }
-.il-input-tag .tag {
-  font-size: 100%;
-  display: inline-block;
-  margin-bottom: 3px;
+.il-input-tag-container .il-input-tag .tagify__tag {
+  margin-top: 0;
 }
-.il-input-tag .tag [data-role="remove"] {
-  margin-left: 8px;
-  cursor: pointer;
-}
-.il-input-tag .tag [data-role="remove"]:after {
-  content: "x";
-  padding: 0px 2px;
-}
-.il-input-tag .bootstrap-tagsinput {
-  margin-bottom: -3px;
-}
-.il-input-tag .tt-suggestion:hover,
-.il-input-tag .tt-suggestion:focus,
-.il-input-tag .tt-cursor {
-  color: #FFFFFF;
-  text-decoration: none;
-  outline: 0;
-  background-color: #4c6586;
-}
-.il-input-tag.disabled {
+.il-input-tag-container.disabled {
   background-color: #EEEEEE;
   cursor: not-allowed;
 }
-.il-input-tag.disabled input {
+.il-input-tag-container.disabled .tagify__tag {
   cursor: not-allowed;
 }
-.il-input-tag.disabled .bootstrap-tagsinput {
-  pointer-events: none;
-}
-.il-input-tag.disabled .tag [data-role="remove"] {
-  cursor: not-allowed;
+.il-input-tag-container.disabled .form-control {
+  background-color: #EEEEEE;
 }
 .il-input-password .revelation-glyph {
   float: right;
@@ -9472,6 +9472,9 @@ footer {
 .il-maincontrols-slate-content li {
   padding: 10px 20px;
 }
+.il-maincontrols-slate-content > hr {
+  margin: 10px 0;
+}
 .il-maincontrols-slate-content li.jstree-node {
   padding: 4px 0;
 }
@@ -9528,8 +9531,11 @@ footer {
     width: 45px;
     text-align: left;
   }
-  .il-maincontrols-slate .il-avatar-picture {
+  .il-maincontrols-slate .il-avatar {
     margin-right: 22.5px;
+  }
+  .il-maincontrols-slate .link-bulky .icon.small {
+    margin-right: 25px;
   }
 }
 .il-maincontrols-metabar {
@@ -10476,6 +10482,7 @@ footer {
 .il-avatar {
   height: 45px;
   width: 45px;
+  display: inline-block;
   border-radius: 50%;
   border-style: solid;
   border-width: 2px;
@@ -13621,12 +13628,15 @@ div.ilCOPGNoPageContent {
 div.il_editarea_nojs {
   border-width: 1px dotted #999;
 }
-div.il_editarea {
+div.il_editarea,
+div.il_editarea_disabled {
   border: 2px solid transparent;
   min-height: 20px;
 }
 .copg-state-page div.il_editarea:hover,
-.copg-state-multi div.il_editarea:hover {
+.copg-state-multi div.il_editarea:hover,
+.copg-state-page div.il_editarea_disabled:hover,
+.copg-state-multi div.il_editarea_disabled:hover {
   border: 2px solid #4c6586;
 }
 div.ilEditLabel {
@@ -13644,6 +13654,8 @@ div.ilEditLabel {
 }
 .copg-state-page div.il_editarea:hover > div.ilEditLabel,
 .copg-state-multi div.il_editarea:hover > div.ilEditLabel,
+.copg-state-page div.il_editarea_disabled:hover > div.ilEditLabel,
+.copg-state-multi div.il_editarea_disabled:hover > div.ilEditLabel,
 .copg-state-page .copg-ghost-wrapper div.ilEditLabel,
 .copg-state-multi .copg-ghost-wrapper div.ilEditLabel {
   display: block;
@@ -14200,6 +14212,13 @@ p#copg-auto-save {
   border: 1px solid #4c6586;
   height: 30px;
   z-index: 100000;
+}
+.il-copg-media-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  z-index: 9;
 }
 /* Services/Calendar */
 td.even {

@@ -22,7 +22,7 @@ class ilAssTextQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param mixed $answer
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $caption = $ordinal = $index + 1;
         $caption .= '. ' . $answer->getAnswertext();

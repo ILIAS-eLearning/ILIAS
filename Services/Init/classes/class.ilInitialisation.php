@@ -15,11 +15,13 @@ use ILIAS\GlobalScreen\Services;
 use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -205,7 +207,10 @@ class ilInitialisation
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
             return new \ILIAS\ResourceStorage\Services(
-                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                new StorageHandlerFactory([
+                    new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                    new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
+                ]),
                 new RevisionARRepository(),
                 new ResourceARRepository(),
                 new InformationARRepository(),

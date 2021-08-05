@@ -2357,11 +2357,8 @@ cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
 cmps#:#no_changes#:#Keine Änderungen
 cntr#:#cntr_add_new_item#:#Neues Objekt hinzufügen
 cntr#:#cntr_adopt_content#:#Inhalte übernehmen
-cntr#:#cntr_back_to_old_editor#:#Zurück zum alten Editor
 cntr#:#cntr_hide_title_and_icon#:#Titel und Icon nicht anzeigen
 cntr#:#cntr_manage#:#Verwalten
-cntr#:#cntr_old_editor_open_standard_editor#:#Standard-Seiteneditor öffnen
-cntr#:#cntr_old_editor_warning#:#Dieser Editor wird aus technischen Gründen in einer der nächsten Versionen nicht mehr weiter unterstützt. Er kann noch für die Bearbeitung dieser Seite genutzt werden. Wir empfehlen aber, auf die Nutzung des Standard-Seiteneditors von ILIAS umzusteigen, wenn dies möglich ist.
 cntr#:#cntr_ordering#:#Sortieren
 cntr#:#cntr_saved_sorting#:#Sortierung gespeichert
 cntr#:#cntr_switch_to_new_editor_cmd#:#Zu untenstehenden Inhalten wechseln. Alte Inhalte werden gelöscht.
@@ -3172,7 +3169,7 @@ common#:#gdf_new#:#Neue Definition
 common#:#gender#:#Anrede
 common#:#gender_f#:#Frau
 common#:#gender_m#:#Herr
-common#:#gender_n#:#Keine Anrede gewünscht
+common#:#gender_n#:#Keine Anrede
 common#:#general_settings#:#Allgemeine Einstellungen
 common#:#generate#:#generieren
 common#:#glo#:#Glossar
@@ -10045,7 +10042,7 @@ dcl#:#dcl_field_datatype#:#Feld Datentyp
 dcl#:#dcl_required#:#Verpflichtend
 dcl#:#dcl_table_list_fields#:#Felder der ausgewählten Tabelle
 dcl#:#dcl_table_list_tables#:#Verfügbare Tabellen
-dcl#:#dcl_view_viewdefinition#:#Seitenvorlage
+dcl#:#dcl_view_viewdefinition#:#Vorlage für Einzelansicht
 dcl#:#dcl_new_table#:#Neue Tabelle
 dcl#:#dcl_table_create#:#Erstelle Tabelle
 dcl#:#dcl_table_edit#:#Speichern
@@ -10519,7 +10516,7 @@ common#:#obj_sahs_duplicate#:#Lernmodule kopieren
 dcl#:#dcl_checked#:#Ausgewählt
 dcl#:#dcl_not_checked#:#Nicht ausgewählt
 dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail Adresse ein.
-dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert, dadurch funktionieren unter Umständen die Platzhalter in der Seitenvorlage nicht mehr, diese müssen gegebenenfalls manuell angepasst werden.
+dcl#:#dcl_field_title_change_warning#:#Sie haben den Titel des Feldes geändert. Dadurch funktioniert der entsprechende Platzhalter in der Vorlage zur Einzelansicht nicht mehr. Sie müssen diesen noch manuell angepassen.
 dcl#:#dcl_field_title_unique#:#Es existiert bereits ein Feld mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_unique#:#Es existiert bereits eine Tabelle mit diesem Titel. Titel muss eindeutig sein.
 dcl#:#dcl_table_title_not_matching#:#Die Titel des Excel-Arbeitsblatts und der Tabelle in der Datensammlung stimmen nicht überein. Benennen Sie das Arbeitsblatt um, um einen korrekten Import durchzuführen.
@@ -10598,7 +10595,7 @@ exc#:#exc_team_notification_body_rmv#:#Sie wurden aus einer Team-Upload-Übungse
 exc#:#exc_team_notification_link#:#Link zur Übung
 poll#:#poll_absolute#:#Aktuelle Stimmen
 dcl#:#dcl_reference_link#:#Als Link zum referenzierten Eintrag darstellen
-dcl#:#dcl_reference_link_info#:#Die Seitenvorlage zur Einzelansicht muss in der referenzierten Tabelle aktiv sein
+dcl#:#dcl_reference_link_info#:#Die Vorlage für Einzelansicht muss in der referenzierten Tabelle aktiv sein.
 dcl#:#dcl_text_area#:#Mehrzeiliges Texteingabefeld
 forum#:#frm_notification_activated#:#Benachrichtigung aktiviert
 forum#:#frm_notification_deactivated#:#Benachrichtigung deaktiviert
@@ -10616,11 +10613,11 @@ blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' kön
 dcl#:#dcl_no_content_warning#:#Achtung, die Datensammlung ist bereits online, hat aber noch keinen Inhalt!
 dcl#:#dcl_visible#:#Für alle Benutzer sichtbar
 dcl#:#dcl_visible_desc#:#Benutzer haben Zugriff auf diese Tabelle.
-dcl#:#dcl_empty_detailed_view#:#Seitenvorlage löschen
-dcl#:#dcl_activate_view#:#Seitenvorlage aktivieren
-dcl#:#dcl_deactivate_view#:#Seitenvorlage deaktivieren
-dcl#:#dcl_confirm_delete_detailed_view_title#:#Seitenvorlage wirklich löschen?
-dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Seitenvorlage wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
+dcl#:#dcl_empty_detailed_view#:#Vorlage für Einzelansicht löschen
+dcl#:#dcl_activate_view#:#Vorlage für Einzelansicht aktivieren
+dcl#:#dcl_deactivate_view#:#Vorlage für Einzelansicht deaktivieren
+dcl#:#dcl_confirm_delete_detailed_view_title#:#Vorlage für Einzelansicht wirklich löschen?
+dcl#:#dcl_confirm_delete_detailed_view_text#:#Die Vorlage für Einzelansicht wird unwiderruflich gelöscht. Verwendete Felder und ihre Einträge bleiben aber erhalten.
 dcl#:#dcl_empty_detailed_view_success#:#Die Vorlage wurde erfolgreich gelöscht.
 dcl#:#dcl_permissions_form#:#Berechtigungen für diese Tabelle
 dcl#:#dcl_no_fields_yet#:#Es wurden noch keine Felder für diese Tabelle erstellt, daher können noch keine Einträge eingefügt werden.
@@ -10989,7 +10986,7 @@ dcl#:#dcl_next_record#:#Nächster Eintrag
 dcl#:#dcl_record_from_total#:#%d von %d
 dcl#:#dcl_delete_fields#:#Felder löschen
 dcl#:#dcl_view_own_records_perm#:#Nur eigene Einträge anzeigen
-dcl#:#dcl_link_detail_page#:#Link zur Detailseite
+dcl#:#dcl_link_detail_page#:#Link zur Einzelansicht
 crs#:#crs_notification_list_title#:#Benachrichtigung
 common#:#objs_bibl#:#Literaturlisten
 common#:#obj_bibl#:#Literaturliste
@@ -15527,8 +15524,8 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
-common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage.
-common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen.
+common#:#nc_contact_requests_number_s#:#Sie haben eine Kontaktanfrage.
+common#:#nc_contact_requests_number_p#:#Sie haben %s Kontaktanfragen.
 common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
@@ -15916,8 +15913,10 @@ cmix#:#conf_lrs_secret#:#Secret / Passwort
 cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
 cmix#:#conf_own_window#:#Gleiches Fenster
 cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
-cmix#:#conf_any_window#:#Neues Fenster
-cmix#:#conf_any_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+cmix#:#conf_new_window#:#Neues Fenster
+cmix#:#conf_new_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+cmix#:#type_cmi5#:#cmi5 Lernmodul
+cmix#:#type_generic#:#xAPI Standardobjekt
 cmix#:#conf_launch_mode#:#Startmodus
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts
@@ -16539,6 +16538,7 @@ file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
 file#:#upload_info#:#Datei
 file#:#resource_id#:#Ressourcen ID
+file#:#storage_id#:#Storage ID
 file#:#upload_info_desc#:#Sie können die Dateien und die Dateiversionen im Tab "Versionen" verwalten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
@@ -16557,3 +16557,8 @@ file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es k
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+irss#:#storage_info#:#Storage Information
+irss#:#resource_id#:#Resource ID
+irss#:#storage_id#:#Storage ID
+irss#:#max_revision#:#Max. Revision
+irss#:#stakeholders#:#Stakeholders

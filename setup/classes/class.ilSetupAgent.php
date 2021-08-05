@@ -130,4 +130,20 @@ class ilSetupAgent implements Setup\Agent
     {
         return [];
     }
+
+
+    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    {
+        if ($name == "registerNICKey") {
+            if (is_null($config)) {
+                throw new \RuntimeException(
+                    "Missing Config for objective '$name'."
+                );
+            }
+            return new ilNICKeyRegisteredObjective($config);
+        }
+        throw new \InvalidArgumentException(
+            "There is no named objective '$name'"
+        );
+    }
 }

@@ -18,7 +18,7 @@ class Version
         $match = [];
         if (!preg_match("/" . self::REGEXP . "/", $version, $match)) {
             throw new \InvalidArgumentException(
-                "Expected version string to match this regular expression: " . self::REGEXP
+                "Expected version string '$version' to match this regular expression: " . self::REGEXP
             );
         }
         $this->major = (int) $match["major"];

@@ -124,7 +124,7 @@ export default class ModelActionHandler {
         // we do nothing here, the components decide whether to perform the switch or not
         break;
 
-      case "component.save":
+      case "component.saved":
         this.model.setState(this.model.STATE_PAGE);
         break;
 
@@ -150,6 +150,12 @@ export default class ModelActionHandler {
         break;
 
       case "format.save":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_PAGE);
+        this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
+      case "format.cancel":
         this.model.selectNone();
         this.model.setState(this.model.STATE_PAGE);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);

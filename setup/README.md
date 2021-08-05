@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `reload-control-structure` [rebuilds structure information](#reload-ilias-control-structure) of an installation
+* `achieve` [a name objective](#achieve-method) of an agent 
 * `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
@@ -110,12 +110,17 @@ Like for `install` and `update`, plugins are included here, but can be controlle
 via options.
 
 
-## Reload ILIAS Control Structure
+## Achieve a Named Objective
 
-The control structure captures information about components and GUIs of ILIAS
-in the database. Sometimes it might be necessary to refresh that information.
-Please do not invoke this function unless it is explicitly stated in update
-or patch instructions or you know what you are doing.
+Some components of ILIAS will publish named objectives to the setup via their
+agent. The most notorious example for this is the component `UICore` which provides
+the objective `reloadCtrlStructure` that will generate routing information for the
+GUI. To achieve a single objective from an agent, e.g. for control structure reload,
+run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
+`php setup/setup.php achieve uicore.reloadCtrlStructure` to reload the
+control structure. The agent might need to a config file to work, which may be added
+as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
+
 
 # Migrations
 

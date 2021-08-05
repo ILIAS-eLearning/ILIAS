@@ -114,13 +114,13 @@ div.il_editarea_nojs {
 	border-width: 1px dotted #999;
 }
 
-div.il_editarea {
+div.il_editarea, div.il_editarea_disabled {
 	border: 2px solid transparent;
 	min-height: 20px;
 }
 
 .copg-state-page, .copg-state-multi {
-	div.il_editarea:hover {
+	div.il_editarea:hover, div.il_editarea_disabled:hover {
 		border: 2px solid @il-main-color;
 	}
 }
@@ -140,7 +140,9 @@ div.ilEditLabel {
 }
 
 .copg-state-page, .copg-state-multi {
-	div.il_editarea:hover > div.ilEditLabel, .copg-ghost-wrapper div.ilEditLabel {
+	div.il_editarea:hover > div.ilEditLabel,
+	div.il_editarea_disabled:hover > div.ilEditLabel,
+	.copg-ghost-wrapper div.ilEditLabel {
 		display: block;
 	}
 }
@@ -805,4 +807,12 @@ p#copg-auto-save {
 	border: 1px solid @il-main-color;
 	height: 30px;
 	z-index: 100000;
+}
+
+.il-copg-media-cover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	z-index: 9;
 }

@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * Interface ilBiblFileReaderInterface
  *
@@ -9,11 +11,11 @@ interface ilBiblFileReaderInterface
 {
 
     /**
-     * @param $path_to_file
+     * @param ResourceIdentification $identification
      *
      * @return bool
      */
-    public function readContent($path_to_file);
+    public function readContent(ResourceIdentification $identification);
 
 
     /**

@@ -186,7 +186,7 @@ class ilCmiXapiContentUploadImporter
         switch ($this->fetchFileExtension($uploadResult)) {
             case self::IMP_FILE_EXTENSION_XML:
                 
-                $this->handleXmlFile($uploadResult->getName());
+                $this->handleXmlFileFromUpload($uploadResult->getName(),$uploadResult->getPath());
                 break;
                 
             case self::IMP_FILE_EXTENSION_ZIP:
@@ -211,6 +211,36 @@ class ilCmiXapiContentUploadImporter
         $dom->load($xmlFilePath);
         
         switch (basename($xmlFilePath)) {
+            case self::CMI5_XML:
+                
+                $xsdFilePath = $this->getXsdFilePath(self::CMI5_XSD);
+                $this->validateXmlFile($dom, $xsdFilePath);
+                
+                $this->initObjectFromCmi5Xml($dom);
+                
+                break;
+            
+            case self::TINCAN_XML:
+                
+                $xsdFilePath = $this->getXsdFilePath(self::TINCAN_XSD);
+                $this->validateXmlFile($dom, $xsdFilePath);
+                
+                $this->initObjectFromTincanXml($dom);
+                
+                break;
+        }
+    }
+
+    /**
+     * @param string $xmlFileName
+     * @param string $xmlFilePath
+     * @throws ilCmiXapiInvalidUploadContentException
+     */
+    protected function handleXmlFileFromUpload($xmlFileName, $xmlFilePath)
+    {
+        $dom = new DOMDocument();
+        $dom->load($xmlFilePath);
+        switch (basename($xmlFileName)) {
             case self::CMI5_XML:
                 
                 $xsdFilePath = $this->getXsdFilePath(self::CMI5_XSD);

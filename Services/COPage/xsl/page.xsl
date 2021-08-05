@@ -2077,6 +2077,7 @@
 		</xsl:variable>
 
 		<xsl:variable name="figuredisplay">
+			position: relative;
 			<xsl:choose>
 				<!-- all images use table as container since they expand the table even without width/height -->
 				<xsl:when test="substring($type, 1, 5) = 'image' and not(substring($type, 1, 9) = 'image/svg')">display:table;</xsl:when>
@@ -2180,6 +2181,9 @@
 					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
+			<xsl:if test="$mode = 'edit'">
+				<div class="il-copg-media-cover" data-copg-ed-type="media-cover"></div>
+			</xsl:if>
 
 			<!-- command selectbox -->
 			<xsl:if test="$mode = 'edit' and $javascript='disable'">
@@ -2203,7 +2207,6 @@
 				</div>
 			</xsl:if>
 		</figure>
-
 	</xsl:for-each>
 
 	<!-- menu -->

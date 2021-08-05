@@ -170,11 +170,16 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             return $this->showConfirmation($form);
         }
 
+        // saving the form leads to isScoreRecalculationRequired($form)
+        // returning false, so remember whether recalculation is needed
+
+        $recalcRequired = $this->isScoreRecalculationRequired($form);
+
         // perform save
 
         $this->performSaveForm($form);
 
-        if ($this->isScoreRecalculationRequired($form)) {
+        if ($recalcRequired) {
             $this->testOBJ->recalculateScores(true);
         }
 

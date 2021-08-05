@@ -37,12 +37,16 @@ class ilFileObjectToStorageDirectory
 
         $g = new RegexIterator(
             new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($this->path,
+                new RecursiveDirectoryIterator(
+                    $this->path,
                     FilesystemIterator::KEY_AS_PATHNAME
-                    |FilesystemIterator::CURRENT_AS_FILEINFO
-                    |FilesystemIterator::SKIP_DOTS),
+                    | FilesystemIterator::CURRENT_AS_FILEINFO
+                    | FilesystemIterator::SKIP_DOTS
+                ),
                 RecursiveIteratorIterator::LEAVES_ONLY
-            ), '/.*\/file_[\d]*\/([\d]*)\/(.*)/', RegexIterator::GET_MATCH
+            ),
+            '/.*\/file_[\d]*\/([\d]*)\/(.*)/',
+            RegexIterator::GET_MATCH
         );
 
         $this->versions = [];
@@ -52,14 +56,17 @@ class ilFileObjectToStorageDirectory
             $title = $history_data[$version]['filename'] ?? $item[2];
             $action = $history_data[$version]['action'] ?? 'create';
             $owner = $history_data[$version]['owner_id'] ?? 13;
-            $ceation_date_timestamp = strtotime($history_data[$version]['date'] ?? '0') ?? 0;
+            $creation_date_timestamp = strtotime($history_data[$version]['date'] ?? '0');
+            if ($creation_date_timestamp === false) {
+                $creation_date_timestamp = 0;
+            }
             $this->versions[$version] = new ilFileObjectToStorageVersion(
                 $version,
                 $item[0],
                 $title,
                 $title,
                 $action,
-                $ceation_date_timestamp,
+                $creation_date_timestamp,
                 $owner
             );
         }
@@ -108,5 +115,4 @@ class ilFileObjectToStorageDirectory
     {
         touch(rtrim($this->path, "/") . "/" . ilFileObjectToStorageMigrationHelper::MIGRATED);
     }
-
 }

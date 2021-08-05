@@ -1356,6 +1356,8 @@ class ilObjCategoryGUI extends ilContainerGUI
         $lng = $DIC->language();
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target);
+        } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             ilUtil::sendFailure(sprintf(
                 $lng->txt("msg_no_perm_read_item"),

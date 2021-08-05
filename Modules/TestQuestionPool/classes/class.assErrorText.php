@@ -475,7 +475,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
 
         $i = 0;
         $selections = array();
-        $solutions = &$this->getSolutionValues($active_id, $pass);
+        $solutions = $this->getSolutionValues($active_id, $pass);
         if (is_array($solutions)) {
             foreach ($solutions as $solution) {
                 array_push($selections, $solution['value1']);
@@ -986,9 +986,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Get error data
     *
-    * @return array Error data
+    * @return string[] Error data
     */
-    public function getErrorData()
+    public function getErrorData() : array
     {
         return $this->errordata;
     }
@@ -1065,16 +1065,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         switch ($value) {
             case "errortext":
                 return $this->getErrorText();
-                break;
             case "textsize":
                 return $this->getTextSize();
-                break;
             case "points_wrong":
                 return $this->getPointsWrong();
-                break;
             default:
                 return parent::__get($value);
-                break;
         }
     }
 

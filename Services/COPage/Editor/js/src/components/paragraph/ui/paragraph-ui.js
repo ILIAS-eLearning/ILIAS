@@ -267,6 +267,7 @@ export default class ParagraphUI {
       );
     }
 
+    this.autoSave.resetAutoSave();
     this.tinyWrapper.stopEditing();
   }
 
@@ -794,6 +795,7 @@ export default class ParagraphUI {
 
   editParagraph(pcId, switchToEnd)
   {
+    this.autoSave.resetAutoSave();
     this.log("paragraph-ui.editParagraph");
     let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcId + "']");
     let pc_model = this.page_model.getPCModel(pcId);

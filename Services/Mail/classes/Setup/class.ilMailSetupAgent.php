@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilMailSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */

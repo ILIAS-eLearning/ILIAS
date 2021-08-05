@@ -14,17 +14,12 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
 class ilAssOrderingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
     /**
-     * @var assOrderingQuestion
-     */
-    protected $questionOBJ;
-    
-    /**
      * returns the answer options mapped by answer index
      * (can be overwritten by concrete question type class)
      *
      * @return array $answerOptionsByAnswerIndex
      */
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         return $this->questionOBJ->getOrderingElementList()->getElements();
     }
@@ -38,7 +33,7 @@ class ilAssOrderingQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param ilAssOrderingElement $orderingElement
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel($position, $orderingElement)
+    protected function buildAnswerOptionLabel(int $position, $orderingElement) : string
     {
         return $orderingElement->getContent();
     }

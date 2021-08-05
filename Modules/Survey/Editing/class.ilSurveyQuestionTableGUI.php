@@ -39,7 +39,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
         if (!$this->read_only) {
             // command dropdown
-            if (!array_key_exists("move_questions", $_SESSION)) {
+            if (!array_key_exists("move_questions", $_SESSION) ||
+                $_SESSION["move_questions_survey_id"] != $this->object->getId()) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));

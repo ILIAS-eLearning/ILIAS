@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilPDFGenerationSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

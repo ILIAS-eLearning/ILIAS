@@ -115,6 +115,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
         $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
             count($this->user->getPCClipboardContent()) > 0;
+        $o->loaderUrl = \ilUtil::getImagePath("loader.svg");
         return new Server\Response($o);
     }
 
@@ -362,6 +363,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
 
+        // additional page actions
+        foreach ($this->page_gui->getAdditionalPageActions() as $item) {
+            $items[] = $item;
+        }
+
         return $ui->factory()->dropdown()->standard($items);
     }
 
@@ -517,6 +523,14 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $lng->txt("save"),
                 "format",
                 "format.save"
+            )
+        );
+        $tpl->setVariable(
+            "CANCEL_BUTTON",
+            $this->ui_wrapper->getRenderedButton(
+                $lng->txt("cancel"),
+                "format",
+                "format.cancel"
             )
         );
         return $tpl->get();
