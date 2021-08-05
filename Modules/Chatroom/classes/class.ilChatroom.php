@@ -564,7 +564,7 @@ class ilChatroom
         ilDateTime $from = null,
         ilDateTime $to = null,
         int $restricted_session_userid = null,
-        int $proom_id = 0,
+        ?int $proom_id = 0,
         bool $respect_target = true
     ) : array {
         global $DIC;
