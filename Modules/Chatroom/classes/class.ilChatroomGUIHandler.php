@@ -3,8 +3,6 @@
 
 use ILIAS\Filesystem\Stream\Streams;
 
-require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
 /**
  * Class ilChatroomGUIHandler
  * @author  Jan Posselt <jposselt@databay.de>
