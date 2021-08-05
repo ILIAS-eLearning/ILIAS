@@ -70,16 +70,5 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
         $this->tpl->setVariable('FREQUENCY', $data['frequency_false']);
         $this->tpl->parseCurrentBlock();
 
-        if ($this->isActionsColumnEnabled()) {
-            if (isset($data['addable'])) {
-                $this->tpl->setCurrentBlock('actions');
-                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($data));
-                $this->tpl->parseCurrentBlock();
-            } else {
-                $this->tpl->setCurrentBlock('actions');
-                $this->tpl->touchBlock('actions');
-                $this->tpl->parseCurrentBlock();
-            }
-        }
     }
 }
