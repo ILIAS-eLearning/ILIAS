@@ -34,8 +34,10 @@ interface ResourceStakeholder
 
     /**
      * @param ResourceIdentification $identification
+     * @return bool true: if the Stakeholder could handle the deletion; false: if the Stakeholder could not handle
+     * the deletion of the resource.
      */
-    public function resourceHasBeenDeleted(ResourceIdentification $identification) : void;
+    public function resourceHasBeenDeleted(ResourceIdentification $identification) : bool;
 
     /**
      * @param ResourceIdentification $identification
