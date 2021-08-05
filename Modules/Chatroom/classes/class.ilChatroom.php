@@ -38,8 +38,8 @@ class ilChatroom
         'display_past_msgs' => 'integer',
         'private_rooms_enabled' => 'boolean'
     ];
-    private $roomId;
-    private $object;
+    private int $roomId = 0;
+    private ?ilObjChatroom $object;
 
     /**
      * Checks user permissions by given array and ref_id.
@@ -339,17 +339,17 @@ class ilChatroom
             $localSettings['room_type'][1] = 'repository';
         }
 
-        if ($this->roomId) {
+        if ($this->roomId > 0) {
             $DIC->database()->update(
                 self::$settingsTable,
                 $localSettings,
                 ['room_id' => ['integer', $this->roomId]]
             );
         } else {
-            $this->roomId = $DIC->database()->nextId(self::$settingsTable);
+            $this->roomId = (int) $DIC->database()->nextId(self::$settingsTable);
 
             $localSettings['room_id'] = [
-                $this->availableSettings['room_id'], $this->roomId
+                'integer', $this->roomId
             ];
 
             $DIC->database()->insert(self::$settingsTable, $localSettings);
@@ -377,7 +377,7 @@ class ilChatroom
         $subRoom = 0;
         $timestamp = 0;
         if (is_array($message)) {
-            $subRoom = (int) $message['sub'];
+            $subRoom = (int) ($message['sub'] ?? 0);
             $timestamp = (int) $message['timestamp'];
         } elseif (is_object($message)) {
             $subRoom = (int) $message->sub;
