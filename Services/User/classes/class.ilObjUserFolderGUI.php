@@ -1613,37 +1613,31 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
+                    $selectable_roles = [];
                     if ($this->object->getRefId() == USER_FOLDER_ID) {
                         // There are too many roles in a large ILIAS installation
                         // that's why whe show only a choice with the the option "ignore",
                         // and the matching roles.
-                        $selectable_roles = array();
                         $selectable_roles["ignore"] = $this->lng->txt("usrimport_ignore_role");
                         foreach ($matching_role_ids as $id) {
                             $selectable_roles[$role_id . "-" . $id] = $l_roles[$id];
                         }
-
-                        $select = $ui->input()->field()->select(
-                            $role["name"],
-                            $selectable_roles
-                        )
-                                     ->withValue($pre_select)
-                                     ->withRequired(true);
-                        array_push(
-                            $local_selects,
-                            $select
-                        );
                     } else {
-                        $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
-                        if (count($selectable_roles)) {
-                            $select = $ui->input()->field()->select($role["name"], $selectable_roles);
-                            array_push($local_selects, $select);
+                    }
+
+                    if (count($selectable_roles) > 0) {
+                        $select = $ui->input()->field()
+                            ->select($role["name"], $selectable_roles)
+                            ->withRequired(true);
+                        if (array_key_exists($pre_select, $selectable_roles)) {
+                            $select = $select->withValue($pre_select);
                         }
+                        $local_selects[] = $select;
                     }
                 }
             }
