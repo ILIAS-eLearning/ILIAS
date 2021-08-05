@@ -338,7 +338,11 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->upload_handler,
                     $this->lng->txt('upload_files_title')
                 )
-                ->withMaxFiles(10),
+                ->withMetadataInputs([
+                    $this->ui->factory()->input()->field()->text('test_txt_input'),
+                    $this->ui->factory()->input()->field()->checkbox('test_checkbox'),
+                ])
+                ->withMaxFiles(10)
             ]
         );
     }

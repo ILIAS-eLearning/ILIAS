@@ -47,7 +47,7 @@ interface File
      *
      * @return int
      */
-    public function getMaxFileSize() : int;
+    public function getMaxFileSize() : ?int;
 
     /**
      * Returns a file input like this, with a max amount of files that can be uploaded at once.

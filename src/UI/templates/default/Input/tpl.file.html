@@ -1,28 +1,53 @@
 <div class="il-input-file" id="{ID}">
-<div class="il-input-file-dropzone">
-	{BUTTON}
-</div>
-<div class="il-input-file-filelist">
-	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
-		<div class="dz-details">
-			<div class="il-input-file-fileinfo">
-				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
-				<div data-dz-size class="il-input-file-fileinfo-size"></div>
-				<div class="il-input-file-fileinfo-close">
-					<button type="button" class="close" data-dz-remove>
-						<span aria-hidden="true">&times;</span>
-						<span class="sr-only">Close</span>
-					</button>
+
+	<!-- File List -->
+	<div class="il-input-file-list container-fluid">
+		<div class="il-input-file-preview il-upload-file-item il-upload-file-item-template clearfix row standard">
+			<div class="col-xs-12 col-no-padding">
+				<!-- Additional Inputs toggle -->
+				<span class="file-info toggle">{TOGGLE}</span>
+
+				<!-- Display Filename -->
+				<span class="file-info filename" data-dz-name></span>
+
+				<!-- Display Filesize -->
+				<span class="file-info filesize" data-dz-size></span>
+
+				<!-- Remove Button -->
+				<button type="button" class="close pull-right remove" data-dz-remove>
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+
+				<div class="form-horizontal metadata">
+					{METADATA_INPUTS}
+				</div>
+
+				<!-- Progress Bar -->
+				<div class="progress" style="margin: 10px 0;">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+				</div>
+
+				<!-- Error Message -->
+				<div class="il-input-file-upload-error dz-error-message il-input-file-error">
+					<span data-dz-errormessage></span>
 				</div>
 			</div>
-
-			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
-			<!--			<div class="dz-success-mark"><span>✔</span></div>-->
-			<!--			<div class="dz-error-mark"><span>✘</span></div>-->
-			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
 		</div>
 
+		<!-- Input Template -->
+		<input class="il-input-file-template" type="hidden" name="{NAME}[]" value="" data-file-id="" />
 	</div>
-</div>
-<input class="input-template" type="hidden" name="{NAME}[]" value="" data-file-id="" />
+
+	<!-- Dropzone Element -->
+	<div class="il-input-file-dropzone container-fluid">
+		<div class="clearfix row">
+			<div class="il-input-file-clickable-container dz-default dz-message col-xs-12 col-md-3 col-sm-12 col-lg-3">
+				{SHY_BUTTON}
+			</div>
+			<div class="col-xs-12 col-md-9 col-sm-12 col-lg-9 col-no-padding">
+				<span class="pull-right dz-default dz-message">{MESSAGE}</span>
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,181 +1,323 @@
 /**
- * This wraps Drozone.js for FileInputs
+ * file.js
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * This script wraps the Dropzone.js library for the UI Component
+ * \ILIAS\UI\Implementation\Component\Input\Field.
  */
-Dropzone.autoDiscover = false;
+
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
+
+Dropzone.autoDiscover = false;
+
 (function ($, UI) {
 
-	il.UI.Input.file = (function ($) {
+    il.UI.Input.file = (function ($) {
 
-		var _default_settings = {
-			upload_url:          '',
-			removal_url:         '',
-			info_url:            '',
-			file_identifier_key: 'file_id',
-			max_files:           1,
-			accepted_files:      '',
-			existing_file_ids:   [],
-			existing_files:      [],
-			get_file_info_async: true,
-			dictInvalidFileType: 'Filetype not supported'
-		};
+        /**
+         * @type {boolean}
+         */
+        const DEBUG = true;
 
-		var debug = function (string) {
-			// console.log(string);
-		}
+        /**
+         * contains a list of all selectors used for DOM manipulations.
+         *
+         * @type {Object}
+         */
+        const SELECTOR = {
+            dropzone:       '.il-dropzone',
+            darkener:       '.il-dropzone-darkened',
+            clickable:      '.il-dropzone-clickable-container .btn',
+            file_list:      '.il-dropzone-file-list',
+            file_preview:   '.il-dropzone-file-preview',
+            file_input:     '.il-dropzone-file-input',
+            error_msg:      '.il-dropzone-file-upload-error span',
+            remove_btn:     '.il-dropzone-file-info-close button',
+            metadata:       '.il-dropzone-file-list .metadata',
+            progress:       '.progress',
+            glyph:          '.toggle .glyph',
+        };
 
-
-		var init = function (container_id, settings) {
-			var replacer = new RegExp('amp;', 'g');
-			settings = Object.assign(_default_settings, JSON.parse(settings));
-			settings.upload_url = settings.upload_url.replace(replacer, '');
-			settings.removal_url = settings.removal_url.replace(replacer, '');
-
-			var container = '#' + container_id;
-			var dropzone = container + ' .il-input-file-dropzone';
-			var preview_template = $(container + ' .il-input-file-template').clone();
-			$(container + ' .il-input-file-template').remove();
-			var input_template = $(container + ' .input-template').clone();
-			$(container + ' .input-template').remove();
-
-			if (1 < settings.max_files) {
-				input_template.prop('multiple', true);
-			}
-
-			debug(preview_template.html());
-
-			var myDropzone = new Dropzone(dropzone, {
-				url:                   encodeURI(settings.upload_url),
-				method:                'post',
-				createImageThumbnails: true,
-				maxFiles:              settings.max_files,
-				dictDefaultMessage:    '',
-				previewsContainer:     container + ' .il-input-file-filelist',
-				previewTemplate:       preview_template.html(),
-				clickable:             container + ' .il-input-file-dropzone button',
-				autoProcessQueue:      true,
-				uploadMultiple:        false,
-				parallelUploads:       1,
-				acceptedFiles:         settings.accepted_files,
-				dictInvalidFileType:   settings.dictInvalidFileType
-			});
-
-			myDropzone.on("maxfilesreached", function (file) {
-				myDropzone.removeEventListeners();
-				$(container + ' .il-input-file-dropzone button').attr("disabled", true);
-			});
-
-			var success = function (files, new_file_id) {
-				debug(files);
-				var clone = input_template.clone();
-				clone.val(new_file_id);
-				clone.attr('data-file-id', new_file_id);
-
-				files.file_id = new_file_id;
-
-				$(container).append(clone);
-			};
-
-			var successFromResponse = function (files, response) {
-				try {
-					var json = JSON.parse(response);
-				} catch (e) {
-					return;
-				}
-				if (json.hasOwnProperty(settings.file_identifier_key)) {
-					var file_id = json[settings.file_identifier_key];
-					success(files, file_id);
-				}
-			};
-			var disableForm = function () {
-				$(container).closest('form').find('button').each(function (e) {
-					$(this).prop('disabled', true);
-				});
-			};
-			var enableForm = function () {
-				$(container).closest('form').find('button').each(function (e) {
-					$(this).prop('disabled', false);
-				});
-			};
-
-			var removeFileContainer = function (file_id) {
-				$(container + ' *[data-file-id="' + file_id + '"]').remove();
-			};
+        /**
+         * contains a list of all css-classes used by DOM manipulations.
+         *
+         * @type {Object}
+         */
+        const CSS = {
+            darkened_background:         "modal-backdrop in",
+            darkened_dropzone_highlight: "darkened-highlight",
+            default_dropzone_highlight:  "default-highlight",
+            dropzone_drag_over:          "drag-hover",
+        };
 
 
-			myDropzone.on('sending', function () {
-				debug('sending');
-				disableForm();
-			});
+        /**
+         * @type {Object}
+         */
+        const SETTINGS = {
+            upload_url:     '',
+            removal_url:    '',
+            info_url:       '',
+            file_types:     {},
+            max_files:      1,
+            identifier:     'file_id',
+            type_error:     'Invalid filetype',
+        };
 
-			myDropzone.on("removedfile", function (file) {
-				debug("success");
-				myDropzone.setupEventListeners();
-				myDropzone._updateMaxFilesReachedClass();
-				$(container + ' .il-input-file-dropzone button').attr("disabled", false);
-				// remove input
-				removeFileContainer(file.file_id);
+        /**
+         * @type {Dropzone}
+         */
+        let dropzone = {};
 
-				// Call removal-URL
-				if (file.hasOwnProperty('is_existing') && file.is_existing === true) {
-					disableForm();
-					var data = {};
-					data[settings.file_identifier_key] = file.file_id;
-					$.get(settings.removal_url, data, function (response) {
-						enableForm();
-					});
-				}
-			});
-			myDropzone.on("success", function (files, response) {
-				successFromResponse(files, response);
-				enableForm();
-			});
-			myDropzone.on("errormultiple", function (files, response) {
-				debug(files);
-			});
-			myDropzone.on("error", function (file, response) {
-				debug(file);
-				$(file.previewElement).addClass('alert-danger');
-				enableForm();
-			});
+        /**
+         * @type {Object}
+         */
+        let settings = {};
 
-			// existing files
-			var addExisting = function (mockFile, response) {
-				mockFile.accepted = true;
-				mockFile.is_existing = true;
-				myDropzone.files.push(mockFile);
-				myDropzone.emit("success", mockFile, response);
-				myDropzone.emit("complete", mockFile);
-				myDropzone.emit("addedfile", mockFile);
-				myDropzone._updateMaxFilesReachedClass();
-			};
+        /**
+         * logs one or many variables to the console if debug is enabled.
+         *
+         * @param variables
+         */
+        let debug = function (...variables) {
+            if (DEBUG) {
+                for (let i in variables) {
+                    console.log(variables[i]);
+                }
+            }
+        }
 
-			if (settings.get_file_info_async) {
-				var data = {};
-				for (var i in settings.existing_file_ids) {
-					data[settings.file_identifier_key] = settings.existing_file_ids[i];
-					$.get(settings.info_url, data, function (response) {
-						var mockFile = JSON.parse(response);
-						if (mockFile.size > 0) {
-							addExisting(mockFile, response);
-						}
-					});
-				}
-			} else {
-				for (var i in settings.existing_files) {
-					addExisting(settings.existing_files[i], {});
-				}
-			}
+        /**
+         * cuts an HTML element from DOM and returns it.
+         *
+         * @param {string} id
+         * @param {string} template
+         * @returns {*|jQuery|!jQuery}
+         */
+        let cutTemplateFromDOM = function (id, template) {
 
-		};
+            let template_id    = `#${id} ${template}`,
+                template_clone = $(template_id).clone()
+            ;
 
-		return {
-			init: init
-		};
+            // remove initial HTML from DOM
+            $(template_id).remove();
 
-	})($);
-})($, il.UI.Input);
+            return template_clone;
+        }
+
+        /**
+         * initializes a dropzone component.
+         *
+         * @param {string} id               unique dropzone id
+         * @param {string} json_Settings    json settings string
+         */
+        let init = function (id, json_Settings) {
+
+            // parse settings-string to object and apply defaults if a value isn't provided
+            settings = Object.assign(SETTINGS, JSON.parse(json_Settings));
+            debug(settings);
+
+            // get plain JS objects for dropzone.js
+            let file_list = document.querySelector(`#${id} ${SELECTOR.file_list}`),
+                clickable = document.querySelector(`#${id} ${SELECTOR.clickable}`)
+            ;
+
+            debug(file_list, clickable);
+
+            // initialize dropzone.js object
+            dropzone = new Dropzone(`#${id} ${SELECTOR.dropzone}`, {
+                method:                'post',
+                url:                   encodeURI(settings.upload_url),
+                maxFiles:              settings.max_files,
+                acceptedFiles:         settings.file_types,
+                dictInvalidFileType:   settings.type_error,
+                previewTemplate:       $(`#${id} ${SELECTOR.file_list}`).html(),
+                previewsContainer:     file_list,
+                clickable:             clickable,
+                dictDefaultMessage:    '',
+                autoProcessQueue:      true,
+                createImageThumbnails: true,
+                uploadMultiple:        false,
+                parallelUploads:       1,
+            });
+
+            debug(dropzone);
+
+            // cut template elements from DOM
+            cutTemplateFromDOM(id, SELECTOR.file_preview);
+            cutTemplateFromDOM(id, SELECTOR.file_input);
+
+            initEventListeners();
+            initDragster();
+        };
+
+        /**
+         * helper function to manage all event-listeners of dropzone.js object
+         */
+        let initEventListeners = function () {
+
+            dropzone.on('uploadprogress', uploadProgressHook);
+            dropzone.on('removedfile', removedFileHook);
+            dropzone.on('success', successHook);
+            dropzone.on('error', errorHook);
+        };
+
+        /**
+         * updates the file previews progress bar periodically.
+         *
+         * @param file
+         * @param progress
+         * @param bytes
+         */
+        let uploadProgressHook = function (file, progress, bytes) {
+
+            if (file.previewElement) {
+                let progress_bar = $(file.previewElement).find('[data-dz-uploadprogress]');
+                progress_bar.css('width', progress + '%');
+                progress_bar.attr('aria-valuenow', progress);
+                debug(file, progress, bytes);
+            }
+        }
+
+        /**
+         * updates the file id to the one returned by the IRSS (upload url).
+         * if the upload wasn't successful errorHook gets called.
+         *
+         * @param file
+         * @param response
+         */
+        let successHook = function (file, response) {
+
+            response = Object.assign(JSON.parse(response));
+            if (1 === response.status) {
+                file.file_id = response[settings.identifier];
+                $(file.previewElement).addClass('alert-success');
+                $(file.previewElement).find(SELECTOR.progress).remove();
+                debug("file upload successful, new id: " + file.file_id);
+            } else {
+                errorHook(file, response.message, response);
+            }
+        };
+
+        /**
+         * changes the files preview element class and updates the error-message.
+         *
+         * @param file
+         * @param {string} error
+         * @param response
+         */
+        let errorHook = function (file, error, response) {
+
+            $(file.previewElement).addClass('alert-danger');
+            $(file.previewElement).find(SELECTOR.error_msg).text(error);
+
+            debug(file, error, response);
+        };
+
+        /**
+         * calls the configured removal URL to delete the file from the IRSS
+         * if it has been processed.
+         *
+         * @param file
+         */
+        let removedFileHook = async function (file) {
+
+            if  ('success' === file.status) {
+                await $.ajax({
+                    type: 'GET',
+                    url: settings.removal_url,
+                    data: { [settings.identifier]: file.file_id },
+                    success: function(response) {
+                        response = Object.assign(JSON.parse(response));
+                        if (1 !== response.status) {
+                            errorHook(file, response.message, response);
+                        }
+                    },
+                    error: function(response) {
+                        errorHook(file, "failed to call removal URL", response);
+                    }
+                });
+            }
+        }
+
+        /**
+         * helper function to initialise dragster and register event-listeners.
+         */
+        let initDragster = function () {
+
+            // add a darkener element to DOM for dragster events (substr removes '.')
+            $('body').prepend(`<div class="${SELECTOR.darkener.substr(1)}"></div>`);
+
+            $(SELECTOR.dropzone).dragster({
+                enter: enableHighlightHoverHook,
+                leave: disableHighlightHoverHook,
+                drop:  disableHighlightHoverHook,
+            });
+
+            $(document).dragster({
+                enter: enableHighlightHook,
+                leave: disableHighlightHook,
+                drop:  disableHighlightHook,
+            });
+        };
+
+        /**
+         * disables the hovering highlight
+         *
+         * @param dragster_event
+         * @param event
+         */
+        let disableHighlightHoverHook = function (dragster_event, event) {
+            if ('drop' !== event.type) {
+                // prevent further event-listeners to be triggered by this event (document.dragleave)
+                dragster_event.stopPropagation();
+                event.stopPropagation();
+            }
+
+            $(dragster_event.target).removeClass(CSS.dropzone_drag_over);
+            enableHighlightHook();
+        }
+
+        /**
+         * enables the hovering highlight
+         *
+         * @param dragster_event
+         */
+        let enableHighlightHoverHook = function (dragster_event) {
+            $(dragster_event.target).addClass(CSS.dropzone_drag_over);
+        };
+
+        /**
+         * disables the darkener and all dropzone highlights.
+         */
+        let disableHighlightHook = function () {
+            $(SELECTOR.darkener).removeClass(CSS.darkened_background);
+            $(SELECTOR.dropzone).removeClass(CSS.darkened_dropzone_highlight);
+        };
+
+        /**
+         * enables the darkener and highlights all dropzones.
+         */
+        let enableHighlightHook = function () {
+            $(SELECTOR.darkener).addClass(CSS.darkened_background);
+            $(SELECTOR.dropzone).addClass(CSS.darkened_dropzone_highlight);
+        };
+
+        /**
+         * @TODO: implement this render trigger.
+         *
+         * @param id
+         */
+        let toBeImplemented = function(id) {};
+
+        return {
+            init: init,
+            renderMetadataInputs: toBeImplemented,
+        };
+
+    })($);
+})($, il.UI);

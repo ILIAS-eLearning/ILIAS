@@ -98,7 +98,7 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @inheritDoc
      */
-    public function getMaxFileSize() : int
+    public function getMaxFileSize() : ?int
     {
         return $this->max_file_size;
     }

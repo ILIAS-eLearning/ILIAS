@@ -591,44 +591,70 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFileField(F\File $component, RendererInterface $default_renderer) : string
     {
-        $tpl = $this->getTemplate("tpl.file.html", true, true);
-        $this->applyName($component, $tpl);
-
         $settings = new \stdClass();
-        $settings->upload_url = $component->getUploadHandler()->getUploadURL();
-        $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
-        $settings->info_url = $component->getUploadHandler()->getExistingFileInfoURL();
-        $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
-        $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
-        $settings->existing_file_ids = $component->getValue();
-        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
-        $settings->max_files = $component->getMaxFiles();
+        $settings->existing_file_ids    = $component->getValue();
+        $settings->file_identifier_key  = $component->getUploadHandler()->getFileIdentifierParameterName();
+        $settings->upload_url           = $component->getUploadHandler()->getUploadURL();
+        $settings->removal_url          = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->info_url             = $component->getUploadHandler()->getExistingFileInfoURL();
+        $settings->max_file_amount      = $component->getMaxFiles();
+        $settings->max_file_size        = $component->getMaxFileSize();
+        $settings->mime_types           = $component->getAcceptedMimeTypes();
+        $settings->translations         = [
+            'msg_invalid_mime'   => $this->txt('msg_input_file_invalid_mime'),
+            'msg_invalid_amount' => $this->txt('msg_input_file_invalid_amount'),
+            'msg_invalid_size'   => $this->txt('msg_input_file_invalid_size'),
+            'msg_upload_failure' => $this->txt('msg_input_file_upload_failure'),
+            'msg_upload_success' => $this->txt('msg_input_file_upload_success'),
+        ];
 
         /**
-         * @var $component F\File
+         * @var $component File
          */
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($settings) {
+            static function($id) use ($settings) {
                 $settings = json_encode($settings);
-                return "$(document).ready(function() {
-                    il.UI.Input.file.init('$id', '{$settings}');
-                });";
+                return "il.UI.Input.file.init('$id', '$settings');";
             }
         );
-        $id = $this->bindJSandApplyId($component, $tpl);
 
-        $tpl->setVariable(
-            'BUTTON',
-            $default_renderer->render(
-                $this->getUIFactory()->button()->shy(
-                    $this->txt('select_files_from_computer'),
-                    "#"
-                )
-            )
-        );
+        $tpl = $this->getTemplate("tpl.file.html", true, true);
 
+        $this->applyName($component, $tpl);
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+
+        if (null !== $component->getMetadataInputs()) {
+            // TOGGLE is used to show/hide the additional metadata
+            // inputs - toggle between these states.
+            $tpl->setVariable('TOGGLE', $default_renderer->render([
+                $this->getUIFactory()->symbol()->glyph()->collapse(),
+                $this->getUIFactory()->symbol()->glyph()->expand(),
+            ]));
+
+            $inputs_html = '';
+            foreach ($component->getMetadataInputs() as $input) {
+                $inputs_html .= '<div class="form-group">';
+                $inputs_html .= $default_renderer->render($input);
+                $inputs_html .= '</div>';
+            }
+
+            $tpl->setVariable('METADATA_INPUTS', $inputs_html);
+        }
+
+        // display the action button (to choose files).
+        $tpl->setVariable('SHY_BUTTON', $default_renderer->render(
+            $this->getUIFactory()->button()->shy(
+                $this->txt('select_files_from_computer'),
+                '#'
+            )
+        ));
+
+
+        return $this->wrapInFormContext(
+            $component,
+            $tpl->get(),
+            $this->bindJSandApplyId($component, $tpl)
+        );
     }
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer) : string

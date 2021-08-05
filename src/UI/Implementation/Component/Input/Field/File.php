@@ -45,7 +45,7 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @var Input[]
      */
-    private $inputs = [];
+    private $inputs;
 
     /**
      * File constructor
@@ -108,7 +108,7 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @inheritDoc
      */
-    public function getMaxFileSize() : int
+    public function getMaxFileSize() : ?int
     {
         return $this->max_file_size;
     }
@@ -148,13 +148,13 @@ class File extends Input implements C\Input\Field\FileInput
         $clone = clone $this;
         $clone->inputs = $inputs;
 
-        return $this;
+        return $clone;
     }
 
     /**
      * @inheritDoc
      */
-    public function getMetadataInputs() : array
+    public function getMetadataInputs() : ?array
     {
         return $this->inputs;
     }
