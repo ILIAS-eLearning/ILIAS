@@ -64,14 +64,14 @@ class AchieveCommandTest extends TestCase
         $this->command = new Setup\CLI\AchieveCommand($this->agent_finder, $this->config_reader, [], $this->refinery);
     }
 
-    public function basicFunctionality(bool $is_applicable) : void
+    public function testBasicFunctionality() : void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
         $agent_finder = $this->createMock(Setup\AgentFinder::class);
-        $command = new Setup\CLI\UpdateCommand($agent_finder, $config_reader, []);
+        $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
 
         $tester = new CommandTester($command);
 
@@ -121,7 +121,11 @@ class AchieveCommandTest extends TestCase
             ->willReturn([]);
 
         $objective
-            ->expects($expects)
+            ->method("isApplicable")
+            ->willReturn(true);
+
+        $objective
+            ->expects($this->once())
             ->method("achieve")
             ->willReturn($env);
 
