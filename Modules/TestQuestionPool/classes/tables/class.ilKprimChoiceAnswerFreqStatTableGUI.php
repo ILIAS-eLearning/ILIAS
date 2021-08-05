@@ -39,35 +39,47 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
         );
     }
     
+
     public function initColumns()
     {
-        $this->addColumn('Answer', '');
+        $lng = $this->DIC->language();
+        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');
+        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getTrueOptionLabel(), '');
+        $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_frequency') . ': ' . $this->getFalseOptionLabel(), '');
         
-        $this->addColumn(
-            'Frequency: ' . $this->getTrueOptionLabel(),
-            '',
-            '25%'
-        );
-        
-        $this->addColumn(
-            'Frequency: ' . $this->getFalseOptionLabel(),
-            '',
-            '25%'
-        );
+        foreach ($this->getData() as $row) {
+            if (isset($row['addable'])) {
+                $this->setActionsColumnEnabled(true);
+                $this->addColumn('', '', '1%');
+                break;
+            }
+        }
     }
     
     public function fillRow($data)
     {
         $this->tpl->setCurrentBlock('answer');
-        $this->tpl->setVariable('ANSWER', $data['answer']);
+        $this->tpl->setVariable('ANSWER', \ilUtil::prepareFormOutput($data['answer']));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('frequency');
         $this->tpl->setVariable('FREQUENCY', $data['frequency_true']);
         $this->tpl->parseCurrentBlock();
-
+        
         $this->tpl->setCurrentBlock('frequency');
         $this->tpl->setVariable('FREQUENCY', $data['frequency_false']);
         $this->tpl->parseCurrentBlock();
+
+        if ($this->isActionsColumnEnabled()) {
+            if (isset($data['addable'])) {
+                $this->tpl->setCurrentBlock('actions');
+                $this->tpl->setVariable('ACTIONS', $this->buildAddAnswerAction($data));
+                $this->tpl->parseCurrentBlock();
+            } else {
+                $this->tpl->setCurrentBlock('actions');
+                $this->tpl->touchBlock('actions');
+                $this->tpl->parseCurrentBlock();
+            }
+        }
     }
 }
