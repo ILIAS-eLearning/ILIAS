@@ -4,6 +4,9 @@ namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\File;
 
 /**
  * Class Wrapper
@@ -12,54 +15,53 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
-class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
+class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\Wrapper
 {
-
     /**
      * @var Component[]
      */
-    protected $components;
+    private $components;
 
     /**
-     * @var string
+     * @var Input[]|null
      */
-    protected $title = "";
-
+    private $inputs;
 
     /**
-     * @param string                $url
-     * @param Component[]|Component $content Component(s) being wrapped by this dropzone
+     * @var string|null
      */
-    public function __construct($url, $content)
+    private $title;
+
+    /**
+     * Wrapper constructor.
+     *
+     * @param UploadHandler $upload_handler
+     * @param array         $components
+     */
+    public function __construct(UploadHandler $upload_handler, array $components)
     {
-        parent::__construct($url);
-        $this->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $this->components, $types);
-        $this->checkEmptyArray($this->components);
+        $this->checkArgListElements('components', $components, Component::class);
+
+        $this->components = $components;
+
+        parent::__construct($upload_handler);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getComponents() : array
+    {
+        return $this->components;
+    }
 
     /**
      * @inheritdoc
      */
-    public function withContent($content)
-    {
-        $clone = clone $this;
-        $clone->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $clone->components, $types);
-        $this->checkEmptyArray($clone->components);
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withTitle($title)
+    public function withTitle(string $title) : Wrapper
     {
         $this->checkStringArg("title", $title);
+
         $clone = clone $this;
         $clone->title = $title;
 
@@ -69,7 +71,7 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
@@ -77,24 +79,21 @@ class Wrapper extends File implements \ILIAS\UI\Component\Dropzone\File\Wrapper
     /**
      * @inheritDoc
      */
-    public function getContent()
+    public function withMetadataInputs(array $inputs) : Wrapper
     {
-        return $this->components;
+        $this->checkArgListElements('inputs', $inputs, Input::class);
+
+        $clone = clone $this;
+        $clone->inputs = $inputs;
+
+        return $clone;
     }
 
-
     /**
-     * Checks if the passed array contains at least one element, throws a LogicException otherwise.
-     *
-     * @param array $array
-     *
-     * @throws \LogicException if the passed in argument counts 0
+     * @inheritDoc
      */
-    private function checkEmptyArray(array $array)
+    public function getMetadataInputs() : ?array
     {
-        if (count($array) === 0) {
-            throw new \LogicException("At least one component from the UI framework is required, otherwise
-			the wrapper dropzone is not visible.");
-        }
+        return $this->inputs;
     }
 }

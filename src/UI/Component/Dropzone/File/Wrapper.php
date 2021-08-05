@@ -2,8 +2,8 @@
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
  * Interface Wrapper
@@ -20,6 +20,13 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 interface Wrapper extends FileDropzone
 {
     /**
+     * Returns the component(s) wrapped by this dropzone.
+     *
+     * @return Component[]
+     */
+    public function getComponents() : array;
+
+    /**
      * Get a wrapper dropzone like this, but showing a custom title in the appearing modal.
      *
      * @param string $title
@@ -33,5 +40,20 @@ interface Wrapper extends FileDropzone
      *
      * @return string
      */
-    public function getTitle() : string;
+    public function getTitle() : ?string;
+
+    /**
+     * Returns a file input like this, with additional (metadata) inputs.
+     *
+     * @param Input[] $inputs
+     * @return Wrapper
+     */
+    public function withMetadataInputs(array $inputs) : Wrapper;
+
+    /**
+     * Returns additional (metadata) inputs of this input.
+     *
+     * @return Input[]|null
+     */
+    public function getMetadataInputs() : ?array;
 }

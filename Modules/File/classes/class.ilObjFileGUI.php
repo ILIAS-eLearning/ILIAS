@@ -17,23 +17,43 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as UIComponentForm;
  */
 class ilObjFileGUI extends ilObject2GUI
 {
-    const CMD_EDIT = "edit";
-    const CMD_VERSIONS = "versions";
-    const CMD_UPLOAD_FILES = "uploadFiles";
+    public const CMD_EDIT = "edit";
+    public const CMD_VERSIONS = "versions";
+    public const CMD_UPLOAD_FILES = "uploadFiles";
+
     /**
      * @var \ilObjFile
      */
     public $object;
+
+    /**
+     * @var ilLanguage
+     */
+    public $lng;
+
     /**
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
-    public $lng;
-    protected $log = null;
+
+    /**
+     * @var ilComponentLogger|ilLogger
+     */
+    protected $log;
+
+    /**
+     * @var ilObjectService
+     */
     protected $obj_service;
 
     /**
-     * Constructor
+     * @var ilObjFileUploadHandler
+     */
+    protected $upload_handler;
+
+    /**
+     * ilObjFileGUI Constructor
+     *
      * @param int $a_id
      * @param int $a_id_type
      * @param int $a_parent_node_id
@@ -41,11 +61,14 @@ class ilObjFileGUI extends ilObject2GUI
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->ui = $DIC->ui();
-        $this->log = ilLoggerFactory::getLogger('file');
+
+        $this->lng            = $DIC->language();
+        $this->ui             = $DIC->ui();
+        $this->obj_service    = $DIC->object();
+        $this->log            = ilLoggerFactory::getLogger('file');
+        $this->upload_handler = new ilObjFileUploadHandler();
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-        $this->obj_service = $DIC->object();
         $this->lng->loadLanguageModule("file");
     }
 
@@ -155,6 +178,11 @@ class ilObjFileGUI extends ilObject2GUI
                 }
                 $this->ctrl->forwardCommand(new ilFileVersionsGUI($this->object));
                 break;
+
+            case strtolower(ilObjFileUploadHandler::class):
+                $this->ctrl->forwardCommand($this->upload_handler);
+                break;
+
             default:
                 // in personal workspace use object2gui
                 if ((int)$this->id_type === self::WORKSPACE_NODE_ID) {
@@ -299,6 +327,23 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     /**
+     * @return UIComponentForm
+     */
+    protected function initMultiUploadForm() : UIComponentForm
+    {
+        return $this->ui->factory()->input()->container()->form()->standard(
+            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
+            [
+                $this->ui->factory()->input()->field()->file(
+                    $this->upload_handler,
+                    $this->lng->txt('upload_files_title')
+                )
+                ->withMaxFiles(10),
+            ]
+        );
+    }
+
+    /**
      * MUST be protected, since this is Called from ilObject2GUI when used in Personal Workspace
      * @throws JsonException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
@@ -308,7 +353,7 @@ class ilObjFileGUI extends ilObject2GUI
         // Response
         $response = new ilObjFileUploadResponse();
 
-        $dnd_form_gui = $this->initMultiUploadForm();
+        $dnd_form_gui = $this->initLegacyMultiUploadForm();
         // Form not valid, abort
         if (!$dnd_form_gui->checkInput()) {
             $dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
@@ -803,13 +848,8 @@ class ilObjFileGUI extends ilObject2GUI
      * Initializes the upload form for multiple files.
      * @return object The created property form.
      */
-    public function initMultiUploadForm()
+    public function initLegacyMultiUploadForm()
     {
-        return $this->ui->factory()->input()->container()->form()->standard(
-            "",
-            [$this->ui->factory()->input()->field()->text('test')]
-        );
-
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);

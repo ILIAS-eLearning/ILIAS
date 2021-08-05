@@ -182,7 +182,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : File
+    public function file(UploadHandler $handler, string $label, string $byline = null) : Field\FileInput
     {
         return new \ILIAS\UI\Implementation\Component\Input\Field\File($this->data_factory, $this->refinery, $handler, $label, $byline);
     }

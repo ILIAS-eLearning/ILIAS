@@ -29,5 +29,5 @@ interface Standard extends FileDropzone
      *
      * @return string
      */
-    public function getMessage() : string;
+    public function getMessage() : ?string;
 }

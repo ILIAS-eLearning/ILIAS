@@ -63,19 +63,4 @@ interface File
      * @return int
      */
     public function getMaxFiles() : int;
-
-    /**
-     * Returns a file input like this, with additional (metadata) inputs.
-     *
-     * @param Input[] $inputs
-     * @return File
-     */
-    public function withMetadataInputs(array $inputs) : File;
-
-    /**
-     * Returns additional (metadata) inputs of this input.
-     *
-     * @return Input[]
-     */
-    public function getMetadataInputs() : array;
 }

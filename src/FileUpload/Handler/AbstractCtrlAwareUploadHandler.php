@@ -4,6 +4,7 @@ namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\FileUpload;
+use ilCtrl;
 
 /**
  * Class ilCtrlAwareUploadHandler

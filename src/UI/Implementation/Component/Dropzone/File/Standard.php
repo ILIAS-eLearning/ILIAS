@@ -2,9 +2,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-
 /**
  * Class Standard
  *
@@ -12,25 +9,20 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
-class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standard
+class Standard extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\Standard
 {
-
     /**
-     * @var string
+     * @var string|null
      */
-    protected $message = "";
-    /**
-     * @var Button
-     */
-    protected $upload_button;
-
+    private $message;
 
     /**
      * @inheritdoc
      */
-    public function withMessage($message)
+    public function withMessage(string $message) : Standard
     {
         $this->checkStringArg("message", $message);
+
         $clone = clone $this;
         $clone->message = $message;
 
@@ -41,29 +33,8 @@ class Standard extends File implements \ILIAS\UI\Component\Dropzone\File\Standar
     /**
      * @inheritdoc
      */
-    public function getMessage()
+    public function getMessage() : ?string
     {
         return $this->message;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function withUploadButton(Button $button)
-    {
-        $clone = clone $this;
-        $clone->upload_button = $button;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function getUploadButton()
-    {
-        return $this->upload_button;
     }
 }
