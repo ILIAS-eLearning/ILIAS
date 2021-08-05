@@ -177,7 +177,11 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
-        } catch (ilLDAPSynchronisationForbiddenException $e) {
+        } catch (ilLDAPSynchronisationFailedException $e) {
+            $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
+            return false;
+        }
+        catch (ilLDAPSynchronisationForbiddenException $e) {
             // No syncronisation allowed => create Error
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'err_auth_ldap_no_ilias_user');
