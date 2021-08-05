@@ -104,6 +104,8 @@ class ilCurlConnection
      */
     final public function init()
     {
+        // teminate existing handles
+        $this->close();
         if (strlen($this->url)) {
             $this->ch = curl_init($this->url);
         #$GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->url);
