@@ -212,11 +212,10 @@ class ilLDAPUserSynchronisation
     {
         // Add internal account to user data
         $this->user_data['ilInternalAccount'] = $this->getInternalAccount();
-        if (!$this->force_read_ldap_data) {
-            if (substr($this->getAuthMode(), 0, 4) == 'ldap') {
-                return true;
-            }
+        if (!$this->force_read_ldap_data && strpos($this->getAuthMode(), 'ldap') === 0) {
+            return true;
         }
+
         try {
             $query = new ilLDAPQuery($this->getServer());
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
@@ -227,6 +226,8 @@ class ilLDAPUserSynchronisation
             $this->logger->error('LDAP bind failed with message: ' . $e->getMessage());
             throw new ilLDAPSynchronisationFailedException($e->getMessage());
         }
+
+        return true;
     }
 
 
