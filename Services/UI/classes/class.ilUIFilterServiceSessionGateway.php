@@ -10,10 +10,10 @@
  */
 class ilUIFilterServiceSessionGateway
 {
-    const TYPE_VALUE = "value";				// value of an input
-    const TYPE_RENDERED = "rendered";		// is input rendered or not?
-    const TYPE_ACTIVATED = "activated";		// is filter activated?
-    const TYPE_EXPANDED = "expanded";		// is filter expanded?
+    public const TYPE_VALUE = "value";                // value of an input
+    public const TYPE_RENDERED = "rendered";        // is input rendered or not?
+    public const TYPE_ACTIVATED = "activated";        // is filter activated?
+    public const TYPE_EXPANDED = "expanded";        // is filter expanded?
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ class ilUIFilterServiceSessionGateway
     public function writeValue(string $filter_id, string $input_id, $value)
     {
         $value = serialize($value);
-        $_SESSION["ui"]["filter"][self::TYPE_VALUE][$filter_id][$input_id] = $value;
+        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id] = $value;
     }
 
     /**
@@ -44,8 +44,8 @@ class ilUIFilterServiceSessionGateway
      */
     public function getValue(string $filter_id, string $input_id)
     {
-        if (isset($_SESSION["ui"]["filter"][self::TYPE_VALUE][$filter_id][$input_id])) {
-            return unserialize($_SESSION["ui"]["filter"][self::TYPE_VALUE][$filter_id][$input_id]);
+        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id])) {
+            return unserialize($_SESSION["ui"]["filter"][$filter_id][self::TYPE_VALUE][$input_id]);
         }
         return null;
     }
@@ -60,7 +60,7 @@ class ilUIFilterServiceSessionGateway
      */
     public function writeRendered(string $filter_id, string $input_id, bool $value)
     {
-        $_SESSION["ui"]["filter"][self::TYPE_RENDERED][$filter_id][$input_id] = $value;
+        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id] = $value;
     }
 
     /**
@@ -73,23 +73,20 @@ class ilUIFilterServiceSessionGateway
      */
     public function isRendered(string $filter_id, string $input_id, bool $default) : bool
     {
-        if (isset($_SESSION["ui"]["filter"][self::TYPE_RENDERED][$filter_id][$input_id])) {
-            return $_SESSION["ui"]["filter"][self::TYPE_RENDERED][$filter_id][$input_id];
+        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id])) {
+            return $_SESSION["ui"]["filter"][$filter_id][self::TYPE_RENDERED][$input_id];
         }
         return $default;
     }
 
 
     /**
-     * Resets values and rendered status
+     * Resets filter to its default state
      * @param string $filter_id
      */
     public function reset(string $filter_id)
     {
-        if (is_array($_SESSION["ui"]["filter"][self::TYPE_VALUE][$filter_id])) {
-            unset($_SESSION["ui"]["filter"][self::TYPE_VALUE][$filter_id]);
-        }
-        unset($_SESSION["ui"]["filter"][self::TYPE_RENDERED][$filter_id]);
+        unset($_SESSION["ui"]["filter"][$filter_id]);
     }
 
 
@@ -101,7 +98,7 @@ class ilUIFilterServiceSessionGateway
      */
     public function writeActivated(string $filter_id, bool $value)
     {
-        $_SESSION["ui"]["filter"][self::TYPE_ACTIVATED][$filter_id] = $value;
+        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED] = $value;
     }
 
     /**
@@ -112,7 +109,7 @@ class ilUIFilterServiceSessionGateway
      */
     public function writeExpanded(string $filter_id, bool $value)
     {
-        $_SESSION["ui"]["filter"][self::TYPE_EXPANDED][$filter_id] = $value;
+        $_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED] = $value;
     }
 
     /**
@@ -124,8 +121,8 @@ class ilUIFilterServiceSessionGateway
      */
     public function isActivated(string $filter_id, bool $default) : bool
     {
-        if (isset($_SESSION["ui"]["filter"][self::TYPE_ACTIVATED][$filter_id])) {
-            return (bool) $_SESSION["ui"]["filter"][self::TYPE_ACTIVATED][$filter_id];
+        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED])) {
+            return (bool) $_SESSION["ui"]["filter"][$filter_id][self::TYPE_ACTIVATED];
         }
         return $default;
     }
@@ -139,8 +136,8 @@ class ilUIFilterServiceSessionGateway
      */
     public function isExpanded(string $filter_id, bool $default) : bool
     {
-        if (isset($_SESSION["ui"]["filter"][self::TYPE_EXPANDED][$filter_id])) {
-            return (bool) $_SESSION["ui"]["filter"][self::TYPE_EXPANDED][$filter_id];
+        if (isset($_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED])) {
+            return (bool) $_SESSION["ui"]["filter"][$filter_id][self::TYPE_EXPANDED];
         }
         return $default;
     }

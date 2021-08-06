@@ -85,15 +85,13 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     {
         return function ($id) {
             $code = "var checkedBoxes = function() {
-				var options = {};
-				var options_combined = [];
-				$('#$id').find('input').each(function() {
-					options[$(this).val()] = $(this).prop('checked').toString();
+				var options = [];
+				$('#$id').find('li').each(function() {
+				    if ($(this).find('input').prop('checked')) {
+					    options.push($(this).find('span').text());
+                    }
 				});
-				for (let [key, value] of Object.entries(options)) {
-					options_combined.push(key + ': ' + value);
-				}
-				return options_combined.join(', ');
+				return options.join(', ');
 			}
 			$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', checkedBoxes());
