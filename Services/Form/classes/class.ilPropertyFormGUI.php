@@ -49,7 +49,6 @@ class ilPropertyFormGUI extends ilFormGUI
     protected $hide_labels = false;
 
     protected $force_top_buttons = false;
-    protected $properties = [];
 
     /**
     * Constructor
@@ -549,28 +548,6 @@ class ilPropertyFormGUI extends ilFormGUI
         }
         
         return $_POST[$a_post_var] ?? '';
-    }
-    
-    /**
-    * Add a custom property.
-    *
-    * @param	string		Title
-    * @param	string		HTML.
-    * @param	string		Info text.
-    * @param	string		Alert text.
-    * @param	boolean		Required field. (Default false)
-    */
-    public function addCustomProperty(
-        $a_title,
-        $a_html,
-        $a_info = "",
-        $a_alert = "",
-        $a_required = false
-    ) {
-        $this->properties[] = array("type" => "custom",
-            "title" => $a_title,
-            "html" => $a_html,
-            "info" => $a_info);
     }
 
     /**
