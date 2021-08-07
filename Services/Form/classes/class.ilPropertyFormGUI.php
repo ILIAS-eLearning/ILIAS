@@ -49,6 +49,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected $hide_labels = false;
 
     protected $force_top_buttons = false;
+    protected $properties = [];
 
     /**
     * Constructor

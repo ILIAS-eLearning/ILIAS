@@ -15,6 +15,8 @@ class ilFileSystemTableGUI extends ilTable2GUI
 {
     protected $has_multi; // [bool]
     protected $row_commands = array();
+    protected bool $label_enable = false;
+    protected string $label_header = "";
     
     /**
     * Constructor

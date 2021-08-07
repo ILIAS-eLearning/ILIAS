@@ -50,9 +50,12 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l, $additional_data) {
+                    $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
+                        ? $additional_data->get(self::EXC_ASS_BUTTONS)
+                        : [];
                     return $l($this->getAssignmentInfo(
                         $additional_data->get(self::EXC_ASS_IDS),
-                        $additional_data->get(self::EXC_ASS_BUTTONS)
+                        $buttons
                     ));
                 });
         }
@@ -128,7 +131,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
             }
 
             // buttons
-            if (is_array($buttons[$ass_id])) {
+            if (isset($buttons[$ass_id])) {
                 $tpl->setVariable("BUTTONS", implode(" ", array_map(function ($b) use ($ui) {
                     return $ui->renderer()->render($b);
                 }, $buttons[$ass_id])));

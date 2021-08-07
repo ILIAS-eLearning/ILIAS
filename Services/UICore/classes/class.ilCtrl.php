@@ -938,7 +938,7 @@ class ilCtrl
         }
         if ($cmd == "post") {
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
-                reset($_POST["cmd"]);
+//                reset($_POST["cmd"]);
             }
             $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 

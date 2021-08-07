@@ -34,18 +34,29 @@ class ilExerciseUIRequest
      */
     protected $exc = null;
 
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+
+    protected ?array $passed_query_params;
+    protected ?array $passed_post_data;
+
     /**
      * Constructor
      */
-    public function __construct(array $query_params, array $post_data)
-    {
-        $this->requested_ref_id = (int) $query_params["ref_id"];
-        $this->requested_ass_id = ($post_data["ass_id"])
-            ? (int) $post_data["ass_id"]
-            : (int) $query_params["ass_id"];
-        $this->requested_member_id = ($post_data["member_id"])
-            ? (int) $post_data["member_id"]
-            : (int) $query_params["member_id"];
+    public function __construct(
+        \ILIAS\HTTP\Services $http,
+        \ILIAS\Refinery\Factory $refinery,
+        ?array $passed_query_params = null,
+        ?array $passed_post_data = null
+    ) {
+        $this->http = $http;
+        $this->refinery = $refinery;
+        $this->passed_post_data = $passed_post_data;
+        $this->passed_query_params = $passed_query_params;
+
+        $this->requested_ref_id = $this->int("ref_id");
+        $this->requested_ass_id = $this->int("ass_id");
+        $this->requested_member_id = $this->int("member_id");
 
         if ($this->getRequestedAssId() > 0) {
             $this->ass = new ilExAssignment($this->getRequestedAssId());
@@ -54,6 +65,53 @@ class ilExerciseUIRequest
             $this->exc = new ilObjExercise($this->getRequestedRefId());
         }
     }
+
+    /**
+     * @param $key
+     * @return int
+     */
+    protected function int($key) : int
+    {
+        $t = $this->refinery->kindlyTo()->int();
+        return (int) ($this->get($key, $t) ?? 0);
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    protected function str($key) : string
+    {
+        $t = $this->refinery->kindlyTo()->string();
+        return (string) ($this->get($key, $t) ?? "");
+    }
+
+    /**
+     * Get passed parameter, if not data passed, get key from http request
+     * @param $key
+     * @param $t
+     * @return mixed|null
+     */
+    protected function get($key, $t)
+    {
+        if ($this->passed_query_params === null && $this->passed_post_data === null) {
+            $w = $this->http->wrapper();
+            if ($w->post()->has($key)) {
+                return $w->post()->retrieve($key, $t);
+            }
+            if ($w->query()->has($key)) {
+                return $w->query()->retrieve($key, $t);
+            }
+        }
+        if (isset($this->passed_post_data[$key])) {
+            return $this->passed_post_data[$key];
+        }
+        if (isset($this->passed_query_params[$key])) {
+            return $this->passed_query_params[$key];
+        }
+        return null;
+    }
+
 
     /**
      * @return int

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Internal service factory
  *
@@ -19,11 +21,19 @@ class ilExerciseInternalFactory
      */
     protected $ui;
 
+    protected \ILIAS\HTTP\Services $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+
     /**
      * Constructor
      */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     /**
@@ -35,6 +45,8 @@ class ilExerciseInternalFactory
         return new ilExerciseInternalService();
     }
 
+
+
     /**
      * Get request
      *
@@ -42,13 +54,12 @@ class ilExerciseInternalFactory
      */
     public function request($query_params = null, $post_data = null)
     {
-        if ($query_params === null) {
-            $query_params = $_GET;
-        }
-        if ($post_data === null) {
-            $post_data = $_POST;
-        }
-        return new ilExerciseUIRequest($query_params, $post_data);
+        return new ilExerciseUIRequest(
+            $this->http,
+            $this->refinery,
+            $query_params,
+            $post_data
+        );
     }
 
     /**

@@ -120,7 +120,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 
                 $filename = $name;
                 $filename_arr = pathinfo($name);
-                $suffix = $filename_arr["extension"];
+                $suffix = $filename_arr["extension"] ?? "";
                 $temp_name = $pictures["tmp_name"][$index];
                 $error = $pictures["error"][$index];
 

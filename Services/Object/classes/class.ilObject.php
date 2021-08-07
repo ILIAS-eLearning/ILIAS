@@ -203,11 +203,6 @@ class ilObject
     }
 
 
-    /**
-    * read object data from db into object
-    * @param	boolean
-    * @access	public
-    */
     public function read()
     {
         global $DIC;
@@ -257,7 +252,6 @@ class ilObject
             if ($ilDB->numRows($object_set) == 0) {
                 throw new ilObjectNotFoundException("ilObject::read(): Object with obj_id: " . $this->id .
                     " (" . $this->type . ") not found!");
-                return;
             }
 
             $obj = $ilDB->fetchAssoc($object_set);
@@ -275,7 +269,6 @@ class ilObject
                 
             // raise error
             throw new ilObjectTypeMismatchException($message);
-            return;
         }
         
         $this->type = $obj["type"];

@@ -176,9 +176,10 @@ class ilMDDescription extends ilMDBase
             "ORDER BY meta_description_id";
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->meta_description_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

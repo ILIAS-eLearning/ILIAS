@@ -146,7 +146,7 @@ abstract class ilExcCriteria
         return $map[$this->getType()];
     }
     
-    public static function getInstanceByType($a_type)
+    public static function getInstanceByType($a_type) : ilExcCriteria
     {
         $class = "ilExcCriteria" . ucfirst($a_type);
         return new $class;

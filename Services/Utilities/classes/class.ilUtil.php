@@ -1691,14 +1691,8 @@ class ilUtil
     }
 
 
-    /**
-    * convert utf8 to ascii filename
-    *
-    * @param	string		$a_filename		utf8 filename
-    * @static
-    *
-    */
-    public static function getASCIIFilename($a_filename)
+    // convert utf8 to ascii filename
+    public static function getASCIIFilename(string $a_filename) : string
     {
         // The filename must be converted to ASCII, as of RFC 2183,
         // section 2.3.

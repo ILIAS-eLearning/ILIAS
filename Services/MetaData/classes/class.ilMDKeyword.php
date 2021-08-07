@@ -176,10 +176,11 @@ class ilMDKeyword extends ilMDBase
             "ORDER BY meta_keyword_id ";
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->meta_keyword_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
     
     /**

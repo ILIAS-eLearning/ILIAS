@@ -1,74 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Interface for assignment types
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface ilExAssignmentTypeInterface
 {
-    /**
-     * Is assignment type active?
-     *
-     * @return bool
-     */
-    public function isActive();
+    // Is assignment type active?
+    public function isActive() : bool;
 
-    /**
-     * Uses teams
-     *
-     * @return bool
-     */
-    public function usesTeams();
+    public function usesTeams() : bool;
 
-    /**
-     * Uses file upload
-     *
-     * @return bool
-     */
-    public function usesFileUpload();
+    public function usesFileUpload() : bool;
 
-    /**
-     * Get title of type
-     *
-     * @return string
-     */
-    public function getTitle();
+    // Get title of type
+    public function getTitle() : string;
 
-    /**
-     * Get submission type
-     *
-     * @return string
-     */
-    public function getSubmissionType();
+    public function getSubmissionType() : string;
 
-    /**
-     * Get submission type
-     *
-     * @return string
-     */
-    public function isSubmissionAssignedToTeam();
+    public function isSubmissionAssignedToTeam() : bool;
 
-    /**
-     * Clone type specific properties of an assignment
-     *
-     * @param ilExAssignment $source
-     * @param ilExAssignment $target
-     */
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target);
+    // Clone type specific properties of an assignment
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void;
 
-    /**
-     * Returns if the submission has support to web access directory.
-     *
-     * @return bool
-     */
+    // Returns if the submission has support to web access directory.
     public function supportsWebDirAccess() : bool;
 
-    /**
-     * Returns the short string identifier
-     * @return string
-     */
+    // Returns the short string identifier
     public function getStringIdentifier() : string;
 }

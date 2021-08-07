@@ -1,78 +1,48 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @defgroup ModulesExercise Modules/Exercise
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExercise
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Michael Jansen <mjansen@databay.de>
-*
-* @ingroup ModulesExercise
-*/
+ * Class ilObjExercise
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Michael Jansen <mjansen@databay.de>
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjExercise extends ilObject
 {
+    public const TUTOR_FEEDBACK_MAIL = 1;
+    public const TUTOR_FEEDBACK_TEXT = 2;
+    public const TUTOR_FEEDBACK_FILE = 4;
+
+    public const PASS_MODE_NR = "nr";
+    public const PASS_MODE_ALL = "all";
+    public const PASS_MODE_RANDOM = "random";
+
+    protected ilObjUser $user;
+    protected ilFileDataMail $file_obj;
+    public ilExerciseMembers $members_obj;
+    protected int $timestamp;
+    protected int  $hour;
+    protected int  $minutes;
+    protected int  $day;
+    protected int  $month;
+    protected int  $year;
+    protected string  $instruction;
+    protected int $certificate_visibility;
+    protected int $tutor_feedback = 7; // [int]
+    protected int $nr_random_mand; // number of mandatory assignments in random pass mode
+    protected bool $completion_by_submission = false; // completion by submission is enabled or not
+    protected \ILIAS\Filesystem\Filesystem $webFilesystem;
+    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected int $pass_nr = 0;
+    protected ilExerciseInternalService $service;
+    protected string $pass_mode = self::PASS_MODE_ALL;
+    protected bool $show_submissions;
+
     /**
-     * @var ilObjUser
+     * @inheritDoc
      */
-    protected $user;
-
-    public $file_obj;
-    public $members_obj;
-    public $files;
-
-    public $timestamp;
-    public $hour;
-    public $minutes;
-    public $day;
-    public $month;
-    public $year;
-    public $instruction;
-    public $certificate_visibility;
-    
-    public $tutor_feedback = 7; // [int]
-
-    /**
-     * @var int number of mandatory assignments in random pass mode
-     */
-    protected $nr_random_mand;
-    
-    const TUTOR_FEEDBACK_MAIL = 1;
-    const TUTOR_FEEDBACK_TEXT = 2;
-    const TUTOR_FEEDBACK_FILE = 4;
-
-    const PASS_MODE_NR = "nr";
-    const PASS_MODE_ALL = "all";
-    const PASS_MODE_RANDOM = "random";
-
-    /**
-     *
-     * Indicates whether completion by submission is enabled or not
-     *
-     * @var boolean
-     * @access protected
-     *
-     */
-    protected $completion_by_submission = false;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    private $webFilesystem;
-
-    /**
-     * @var ilExcMandatoryAssignmentManager
-     */
-    protected $mandatory_manager;
-
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         global $DIC;
@@ -84,138 +54,102 @@ class ilObjExercise extends ilObject
         $this->setPassMode("all");
         $this->type = "exc";
         $this->webFilesystem = $DIC->filesystem()->web();
+        $this->service = $DIC->exercise()->internal()->service();
 
         parent::__construct($a_id, $a_call_by_reference);
-        $this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this);
+        $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
     }
 
-    /**
-     * Set id
-     * @param int $id
-     */
     public function setId($id)
     {
-        global $DIC;
         parent::setId($id);
         // this is needed, since e.g. ilObjectFactory initialises the object with id 0 and later sets the id
-        $this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this);
+        $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
     }
 
-    // SET, GET METHODS
-    public function setDate($a_hour, $a_minutes, $a_day, $a_month, $a_year)
+    public function setDate(int $a_hour, int $a_minutes, int $a_day, int $a_month, int $a_year) : void
     {
-        $this->hour = (int) $a_hour;
-        $this->minutes = (int) $a_minutes;
-        $this->day = (int) $a_day;
-        $this->month = (int) $a_month;
-        $this->year = (int) $a_year;
+        $this->hour = $a_hour;
+        $this->minutes = $a_minutes;
+        $this->day = $a_day;
+        $this->month = $a_month;
+        $this->year = $a_year;
         $this->timestamp = mktime($this->hour, $this->minutes, 0, $this->month, $this->day, $this->year);
-        return true;
     }
-    public function getTimestamp()
+
+    public function getTimestamp() : int
     {
         return $this->timestamp;
     }
-    public function setTimestamp($a_timestamp)
+
+    public function setTimestamp(int $a_timestamp) : void
     {
         $this->timestamp = $a_timestamp;
     }
-    public function setInstruction($a_instruction)
+
+    public function setInstruction(string $a_instruction) : void
     {
         $this->instruction = $a_instruction;
     }
-    public function getInstruction()
+
+    public function getInstruction() : string
     {
         return $this->instruction;
     }
     
     /**
-     * Set pass mode (all | nr)
-     *
-     * @param	string		pass mode
+     * @param string $a_val (self::PASS_MODE_NR, self::PASS_MODE_ALL, self::PASS_MODE_RANDOM)
      */
-    public function setPassMode($a_val)
+    public function setPassMode(string $a_val)
     {
         $this->pass_mode = $a_val;
     }
     
-    /**
-     * Get pass mode (all | nr)
-     *
-     * @return	string		pass mode
-     */
-    public function getPassMode()
+    public function getPassMode() : string
     {
         return $this->pass_mode;
     }
     
     /**
-     * Set number of assignments that must be passed to pass the exercise
-     *
-     * @param	integer		pass nr
+     * @param int $a_val number of assignments that must be passed to pass the exercise
      */
-    public function setPassNr($a_val)
+    public function setPassNr(int $a_val) : void
     {
         $this->pass_nr = $a_val;
     }
     
-    /**
-     * Get number of assignments that must be passed to pass the exercise
-     *
-     * @return	integer		pass nr
-     */
-    public function getPassNr()
+    public function getPassNr() : int
     {
         return $this->pass_nr;
     }
     
     /**
-     * Set whether submissions of learners should be shown to other learners after deadline
-     *
-     * @param	boolean		show submissions
+     * @param bool $a_val whether submissions of learners should be shown to other learners after deadline
      */
-    public function setShowSubmissions($a_val)
+    public function setShowSubmissions(bool $a_val)
     {
         $this->show_submissions = $a_val;
     }
     
-    /**
-     * Get whether submissions of learners should be shown to other learners after deadline
-     *
-     * @return	integer		show submissions
-     */
-    public function getShowSubmissions()
+    public function getShowSubmissions() : bool
     {
         return $this->show_submissions;
     }
     
     /**
-     * Set number of mandatory assignments in random pass mode
-     *
-     * @param int $a_val
+     * @param int $a_val number of mandatory assignments in random pass mode
      */
-    public function setNrMandatoryRandom($a_val)
+    public function setNrMandatoryRandom(int $a_val) : void
     {
         $this->nr_random_mand = $a_val;
     }
     
-    /**
-     * Get number of mandatory assignments in random pass mode
-     *
-     * @return int
-     */
-    public function getNrMandatoryRandom()
+    public function getNrMandatoryRandom() : int
     {
         return $this->nr_random_mand;
     }
-    
 
-    /*	function getFiles()
-        {
-            return $this->files;
-        }*/
-
-    public function checkDate()
+    public function checkDate() : bool
     {
         return	$this->hour == (int) date("H", $this->timestamp) and
             $this->minutes == (int) date("i", $this->timestamp) and
@@ -224,32 +158,32 @@ class ilObjExercise extends ilObject
             $this->year == (int) date("Y", $this->timestamp);
     }
 
-    public function hasTutorFeedbackText()
+    public function hasTutorFeedbackText() : bool
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_TEXT;
     }
     
-    public function hasTutorFeedbackMail()
+    public function hasTutorFeedbackMail() : bool
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_MAIL;
     }
     
-    public function hasTutorFeedbackFile()
+    public function hasTutorFeedbackFile() : bool
     {
         return $this->tutor_feedback & self::TUTOR_FEEDBACK_FILE;
     }
     
-    protected function getTutorFeedback()
+    protected function getTutorFeedback() : int
     {
         return $this->tutor_feedback;
     }
     
-    public function setTutorFeedback($a_value)
+    public function setTutorFeedback(int $a_value)
     {
         $this->tutor_feedback = $a_value;
     }
     
-    public function saveData()
+    public function saveData() : void
     {
         $ilDB = $this->db;
         
@@ -265,21 +199,17 @@ class ilObjExercise extends ilObject
             "certificate_visibility" => array("integer", (int) $this->getCertificateVisibility()),
             "tfeedback" => array("integer", (int) $this->getTutorFeedback())
             ));
-        return true;
     }
     
     /**
-     * Clone exercise (no member data)
-     *
-     * @access public
-     * @param int target ref_id
-     * @param int copy id
+     * @inheritDoc
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
+    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : \ilObjExercise
     {
         $ilDB = $this->db;
         
         // Copy settings
+        /** @var  $new_obj ilObjExercise */
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $new_obj->setInstruction($this->getInstruction());
         $new_obj->setTimestamp($this->getTimestamp());
@@ -340,12 +270,9 @@ class ilObjExercise extends ilObject
     }
     
     /**
-    * delete course and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
+     * @return bool true if all object data were removed; false if only a references were removed
+     */
+    public function delete() : bool
     {
         $ilDB = $this->db;
         $ilAppEventHandler = $this->app_event_handler;
@@ -372,7 +299,7 @@ class ilObjExercise extends ilObject
         return true;
     }
 
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -383,28 +310,26 @@ class ilObjExercise extends ilObject
 
         $res = $ilDB->query($query);
         while ($row = $ilDB->fetchObject($res)) {
-            $this->setInstruction($row->instruction);
-            $this->setTimestamp($row->time_stamp);
+            $this->setInstruction((string) $row->instruction);
+            $this->setTimestamp((int) $row->time_stamp);
             $pm = ($row->pass_mode == "")
                 ? "all"
                 : $row->pass_mode;
-            $this->setPassMode($pm);
-            $this->setShowSubmissions($row->show_submissions);
+            $this->setPassMode((string) $pm);
+            $this->setShowSubmissions((bool) $row->show_submissions);
             if ($row->pass_mode == "nr") {
-                $this->setPassNr($row->pass_nr);
+                $this->setPassNr((int) $row->pass_nr);
             }
-            $this->setNrMandatoryRandom($row->nr_mandatory_random);
+            $this->setNrMandatoryRandom((int) $row->nr_mandatory_random);
             $this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
-            $this->setCertificateVisibility($row->certificate_visibility);
-            $this->setTutorFeedback($row->tfeedback);
+            $this->setCertificateVisibility((int) $row->certificate_visibility);
+            $this->setTutorFeedback((int) $row->tfeedback);
         }
         
         $this->members_obj = new ilExerciseMembers($this);
-
-        return true;
     }
 
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
 
@@ -434,10 +359,8 @@ class ilObjExercise extends ilObject
         return true;
     }
 
-    /**
-     * send exercise per mail to members
-     */
-    public function sendAssignment(ilExAssignment $a_ass, $a_members)
+    // send exercise per mail to members
+    public function sendAssignment(ilExAssignment $a_ass, array $a_members) : void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -509,14 +432,10 @@ class ilObjExercise extends ilObject
             $member_status->setSent(true);
             $member_status->update();
         }
-
-        return true;
     }
 
-    /**
-     * Determine status of user
-     */
-    public function determinStatusOfUser($a_user_id = 0)
+    // Determine status of user
+    public function determinStatusOfUser(int $a_user_id = 0) : array
     {
         $ilUser = $this->user;
 
@@ -587,10 +506,8 @@ class ilObjExercise extends ilObject
         return $ret;
     }
     
-    /**
-     * Update exercise status of user
-     */
-    public function updateUserStatus($a_user_id = 0)
+    // Update exercise status of user
+    public function updateUserStatus(int $a_user_id = 0) : void
     {
         $ilUser = $this->user;
         
@@ -607,10 +524,8 @@ class ilObjExercise extends ilObject
         );
     }
     
-    /**
-     * Update status of all users
-     */
-    public function updateAllUsersStatus()
+    // Update status of all users
+    public function updateAllUsersStatus() : void
     {
         if (!is_object($this->members_obj)) {
             $this->members_obj = new ilExerciseMembers($this);
@@ -622,17 +537,14 @@ class ilObjExercise extends ilObject
         }
     }
     
-    /**
-     * Exports grades as excel
-     */
-    public function exportGradesExcel()
+    // Exports grades as excel
+    public function exportGradesExcel() : void
     {
         $ass_data = ilExAssignment::getInstancesByExercise($this->getId());
         
         $excel = new ilExcel();
         $excel->addSheet($this->lng->txt("exc_status"));
-        
-        
+
         //
         // status
         //
@@ -726,16 +638,13 @@ class ilObjExercise extends ilObject
         $excel->sendToClient($exc_name);
     }
     
-    /**
-     * Send feedback file notification to user
-     */
-    public function sendFeedbackFileNotification($a_feedback_file, $a_user_id, $a_ass_id, $a_is_text_feedback = false)
-    {
-        $user_ids = $a_user_id;
-        if (!is_array($user_ids)) {
-            $user_ids = array($user_ids);
-        }
-        
+    // Send feedback file notification to user
+    public function sendFeedbackFileNotification(
+        string $a_feedback_file,
+        array $user_ids,
+        int $a_ass_id,
+        bool $a_is_text_feedback = false
+    ) : void {
         $type = (bool) $a_is_text_feedback
             ? ilExerciseMailNotification::TYPE_FEEDBACK_TEXT_ADDED
             : ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED;
@@ -751,39 +660,26 @@ class ilObjExercise extends ilObject
         $not->send();
     }
     
-    /**
-     *
-     * Checks whether completion by submission is enabled or not
-     *
-     * @return	boolean
-     * @access	public
-     *
-     */
-    public function isCompletionBySubmissionEnabled()
+    // Checks whether completion by submission is enabled or not
+    public function isCompletionBySubmissionEnabled() : bool
     {
         return $this->completion_by_submission;
     }
     
-    /**
-     *
-     * Enabled/Disable completion by submission
-     *
-     * @param	boolean
-     * @return	ilObjExercise
-     * @access	public
-     *
-     */
-    public function setCompletionBySubmission($bool)
+    // Enabled/Disable completion by submission
+    public function setCompletionBySubmission(bool $bool)
     {
         $this->completion_by_submission = (bool) $bool;
         
         return $this;
     }
     
-    public function processExerciseStatus(ilExAssignment $a_ass, array $a_user_ids, $a_has_submitted, array $a_valid_submissions = null)
-    {
-        $a_has_submitted = (bool) $a_has_submitted;
-        
+    public function processExerciseStatus(
+        ilExAssignment $a_ass,
+        array $a_user_ids,
+        bool $a_has_submitted,
+        array $a_valid_submissions = null
+    ) {
         foreach ($a_user_ids as $user_id) {
             $member_status = $a_ass->getMemberStatus($user_id);
             $member_status->setReturned($a_has_submitted);
@@ -811,12 +707,11 @@ class ilObjExercise extends ilObject
     }
     
     /**
-     * Get all exercises for user
-     *
-     * @param <type> $a_user_id
-     * @return array (exercise id => passed)
+     * Get all finished exercises for user
+     * @param int $a_user_id
+     * @return bool[] (exercise id => passed)
      */
-    public static function _lookupFinishedUserExercises($a_user_id)
+    public static function _lookupFinishedUserExercises(int $a_user_id) : array
     {
         global $DIC;
 
@@ -836,52 +731,32 @@ class ilObjExercise extends ilObject
     
 
     /**
-    * Returns the visibility settings of the certificate
-    *
-    * @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access public
-    */
-    public function getCertificateVisibility()
+     * @return int visibility settings (0 = always, 1 = only passed,  2 = never)
+     */
+    public function getCertificateVisibility() : int
     {
         return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
     }
 
     /**
-    * Sets the visibility settings of the certificate
-    *
-    * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access public
-    */
-    public function setCertificateVisibility($a_value)
+     * @param int $a_value visibility settings (0 = always, 1 = only passed,  2 = never)
+     */
+    public function setCertificateVisibility(int $a_value) : void
     {
         $this->certificate_visibility = $a_value;
     }
-    
+
     /**
-    * Saves the visibility settings of the certificate
-    *
-    * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access private
-    */
-    public function saveCertificateVisibility($a_value)
+     * @param int $a_value visibility settings (0 = always, 1 = only passed,  2 = never)
+     */
+    public function saveCertificateVisibility(int $a_value) : void
     {
         $ilDB = $this->db;
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "UPDATE exc_data SET certificate_visibility = %s WHERE obj_id = %s",
             array('integer', 'integer'),
             array($a_value, $this->getId())
         );
-    }
-
-    /**
-     * Add to desktop after hand-in
-     *
-     * @return bool
-     */
-    public function hasAddToDesktop()
-    {
-        $exc_set = new ilSetting("excs");
-        return (bool) $exc_set->get("add_to_pd", true);
     }
 }

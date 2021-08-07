@@ -75,10 +75,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         
         $this->exc = $a_exc;
 
-        $this->ass_types = ilExAssignmentTypes::getInstance();
-
-        $this->ass_type = $this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
-
         $this->initMode($a_item_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -106,7 +102,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 in_array($id, $selected)) {
                 if (array_key_exists($id, $columns)) {
                     $col = $columns[$id];
-                    $this->addColumn($col[0], $col[1]);
+                    $this->addColumn($col[0], $col[1] ?? "");
                 }
             }
         }
@@ -381,9 +377,10 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     break;
                     
                 case "idl":
+
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
-                        $a_row[$col]
+                        isset($a_row[$col])
                             ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
                             : "&nbsp;"
                     );
@@ -467,14 +464,14 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         
         $counter = $file_info["files"]["count"];
         if ($counter) {
-            if ($file_info["files"]["download_url"]) {
+            if (isset($file_info["files"]["download_url"])) {
                 $items[] = $this->ui_factory->button()->shy(
                     $file_info["files"]["download_txt"] . " (" . $counter . ")",
                     $file_info["files"]["download_url"]
                 );
             }
             
-            if ($file_info["files"]["download_new_url"]) {
+            if (isset($file_info["files"]["download_new_url"])) {
                 $items[] = $this->ui_factory->button()->shy(
                     $file_info["files"]["download_new_txt"],
                     $file_info["files"]["download_new_url"]
