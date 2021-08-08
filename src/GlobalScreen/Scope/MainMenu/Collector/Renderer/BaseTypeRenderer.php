@@ -129,12 +129,27 @@ class BaseTypeRenderer implements TypeRenderer
     public static function getURIChecker() : \Closure
     {
         return static function (string $v) : bool {
+            $v = self::getURIConverter()($v);
             try {
                 new URI($v);
             } catch (\Throwable $e) {
                 return false;
             }
             return true;
+        };
+    }
+    /**
+     * @return \Closure
+     */
+    public static function getURIConverter() : \Closure
+    {
+        return static function (string $v) : string {
+            if(strpos($v, './') === 0) {
+                $v = ltrim($v, './');
+                return ILIAS_HTTP_PATH . '/' . $v;
+            }
+
+            return $v;
         };
     }
 }
