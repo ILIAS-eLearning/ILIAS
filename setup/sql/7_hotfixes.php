@@ -884,3 +884,41 @@ if (!$ilDB->tableColumnExists('il_bt_value_to_task', 'position')) {
     );
 }
 ?>
+<#49>
+<?php
+if (!$ilDB->indexExistsByFields('il_resource_revision', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_revision',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('stakeholder_id'),
+        'i2'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_info', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_info',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
+    $ilDB->addIndex(
+        'il_resource',
+        array('storage_id'),
+        'i1'
+    );
+}
+?>
