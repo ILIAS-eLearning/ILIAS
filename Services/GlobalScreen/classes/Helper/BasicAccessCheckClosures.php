@@ -46,7 +46,8 @@ class BasicAccessCheckClosures
         if (!isset($repo_read)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+                $repo_read = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('read',
+                        '', ROOT_FOLDER_ID);
             } else {
                 $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             }
@@ -57,13 +58,27 @@ class BasicAccessCheckClosures
         }, $additional);
     }
 
+    public function isPublicSectionActive(?Closure $additional = null) : Closure
+    {
+        static $public_section_active;
+        if (!isset($public_section_active)) {
+            $public_section_active = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('visible',
+                    '', ROOT_FOLDER_ID);
+        }
+
+        return $this->getClosureWithOptinalClosure(function () use ($public_section_active) : bool {
+            return $public_section_active;
+        }, $additional);
+    }
+
     public function isRepositoryVisible(?Closure $additional = null) : Closure
     {
         static $repo_visible;
         if (!isset($repo_visible)) {
             $is_user_logged_in = $this->isUserLoggedIn()();
             if (!$is_user_logged_in) {
-                $repo_visible = (bool) $this->dic->settings()->get('pub_section') && $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
+                $repo_visible = (bool) ($this->isPublicSectionActive()() && $this->dic->access()->checkAccess('visible',
+                        '', ROOT_FOLDER_ID));
             } else {
                 $repo_visible = (bool) $this->dic->access()->checkAccess('visible', '', ROOT_FOLDER_ID);
             }

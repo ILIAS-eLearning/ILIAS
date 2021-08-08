@@ -5,13 +5,10 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\ComplexItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeparatorItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -108,8 +105,18 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
         $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification);
-        // ->withVisibilityCallable($this->access_helper->isUserLoggedIn()) // see Mantis 30743
-        
+
+        // See https://mantis.ilias.de/view.php?id=30743
+        if ($item instanceof Link || $item instanceof TopLinkItem) {
+            $item = $item->withVisibilityCallable(function () {
+                $active = $this->access_helper->isPublicSectionActive();
+                if ($active()) {
+                    return true;
+                }
+
+                return $this->access_helper->isUserLoggedIn()();
+            });
+        }
 
         if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
             $item = $item->withTitle($storage->getDefaultTitle());
