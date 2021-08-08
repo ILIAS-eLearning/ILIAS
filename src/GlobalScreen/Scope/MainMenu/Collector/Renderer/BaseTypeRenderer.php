@@ -92,7 +92,11 @@ class BaseTypeRenderer implements TypeRenderer
             return $item->getSymbol();
         }
         if ($item instanceof hasTitle) {
-            $abbr = strtoupper(substr($item->getTitle(), 0, 1));
+            if (function_exists('mb_substr')) {
+                $abbr = strtoupper(mb_substr($item->getTitle(), 0, 1));
+            } else {
+                $abbr = strtoupper(substr($item->getTitle(), 0, 1));
+            }
         } else {
             $abbr = strtoupper(substr(uniqid('', true), -1));
         }
