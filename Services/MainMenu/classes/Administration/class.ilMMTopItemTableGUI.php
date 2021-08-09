@@ -98,7 +98,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
             $rendered_modal = "";
             if ($item_facade->isDeletable()) {
                 $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
-                $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
+                $action = $this->ctrl->getFormActionByClass(ilMMTopItemGUI::class, ilMMTopItemGUI::CMD_DELETE);
                 $m = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);
