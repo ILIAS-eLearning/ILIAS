@@ -6826,3 +6826,7 @@ if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
     );
 }
 ?>
+<#5798>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
