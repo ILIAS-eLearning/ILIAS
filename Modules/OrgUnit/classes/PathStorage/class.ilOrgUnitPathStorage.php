@@ -54,7 +54,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
     }
 
 
-    public function store()
+    public function store() : void
     {
         if (self::where(array('ref_id' => $this->getRefId()))->hasSets()) {
             $this->update();
@@ -244,7 +244,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }

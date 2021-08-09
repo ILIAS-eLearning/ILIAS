@@ -2,24 +2,19 @@
 
 /**
  * Class arField
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- *
  * @version 2.0.7
  */
 class arField
 {
-    const FIELD_TYPE_TEXT = 'text'; // MySQL varchar, char
-    const FIELD_TYPE_INTEGER = 'integer'; // MySQL tinyint, smallint, mediumint, int, bigint
-    const FIELD_TYPE_FLOAT = 'float'; // MySQL double
-    const FIELD_TYPE_DATE = 'date'; // MySQL date
-    const FIELD_TYPE_TIME = 'time'; // MySQL time
-    const FIELD_TYPE_TIMESTAMP = 'timestamp'; // MySQL datetime
-    const FIELD_TYPE_CLOB = 'clob'; // MySQL longtext
-    /**
-     * @var array
-     */
-    protected static $allowed_attributes = array(
+    public const FIELD_TYPE_TEXT = 'text'; // MySQL varchar, char
+    public const FIELD_TYPE_INTEGER = 'integer'; // MySQL tinyint, smallint, mediumint, int, bigint
+    public const FIELD_TYPE_FLOAT = 'float'; // MySQL double
+    public const FIELD_TYPE_DATE = 'date'; // MySQL date
+    public const FIELD_TYPE_TIME = 'time'; // MySQL time
+    public const FIELD_TYPE_TIMESTAMP = 'timestamp'; // MySQL datetime
+    public const FIELD_TYPE_CLOB = 'clob';
+    protected static array $allowed_attributes = array(
         self::FIELD_TYPE_TEXT => array(
             arFieldList::LENGTH,
             arFieldList::IS_NOTNULL,
@@ -47,21 +42,13 @@ class arField
             arFieldList::IS_NOTNULL,
         ),
     );
-    /**
-     * @var array
-     */
-    protected static $date_fields = array(
+    protected static array $date_fields = array(
         self::FIELD_TYPE_DATE,
         self::FIELD_TYPE_TIME,
         self::FIELD_TYPE_TIMESTAMP
     );
 
-
-    /**
-     * @param       $name
-     * @param array $array
-     */
-    public function loadFromArray($name, array $array)
+    public function loadFromArray(string $name, array $array) : void
     {
         $this->setName($name);
         foreach ($array as $key => $value) {
@@ -79,26 +66,21 @@ class arField
         }
     }
 
-
-    /**
-     * @param          $name
-     * @param stdClass $stdClass
-     */
-    public function loadFromStdClass($name, stdClass $stdClass)
+    public function loadFromStdClass(string $name, stdClass $stdClass) : void
     {
         $array = (array) $stdClass;
         $this->loadFromArray($name, $array);
     }
 
-
     /**
-     * @return array
+     * @return array<int|string, mixed>
      */
-    public function getAttributesForConnector()
+    public function getAttributesForConnector() : array
     {
         $return = array();
         foreach (arFieldList::getAllowedConnectorFields() as $field_name) {
-            if (isset($this->{$field_name}) && $this->{$field_name} and self::isAllowedAttribute($this->getFieldType(), $field_name)) {
+            if (isset($this->{$field_name}) && $this->{$field_name} && self::isAllowedAttribute($this->getFieldType(),
+                    $field_name)) {
                 $return[arFieldList::mapKey($field_name)] = $this->{$field_name};
             }
         }
@@ -106,15 +88,14 @@ class arField
         return $return;
     }
 
-
     /**
-     * @return array
+     * @return array<int|string, mixed>
      */
-    public function getAttributesForDescription()
+    public function getAttributesForDescription() : array
     {
         $return = array();
         foreach (arFieldList::getAllowedDescriptionFields() as $field_name) {
-            if ($this->{$field_name} and self::isAllowedAttribute($this->getFieldType(), $field_name)) {
+            if ($this->{$field_name} && self::isAllowedAttribute($this->getFieldType(), $field_name)) {
                 $return[arFieldList::mapKey($field_name)] = $this->{$field_name};
             }
         }
@@ -122,217 +103,114 @@ class arField
         return $return;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function isDateField()
+    public function isDateField() : bool
     {
         return self::isDateFieldType($this->getFieldType());
     }
 
-
     /**
      * @var
      */
-    protected $fieldtype;
-    /**
-     * @var int
-     */
-    protected $length = null;
-    /**
-     * @var bool
-     */
-    protected $is_primary = false;
-    /**
-     * @var string
-     */
-    protected $name = '';
-    /**
-     * @var bool
-     */
-    protected $not_null = false;
-    /**
-     * @var bool
-     */
-    protected $has_field = false;
-    /**
-     * @var bool
-     */
-    protected $sequence = false;
-    /**
-     * @var bool
-     */
-    protected $index = false;
+    protected string $fieldtype;
+    protected ?int $length = null;
+    protected bool $is_primary = false;
+    protected string $name = '';
+    protected bool $not_null = false;
+    protected bool $has_field = false;
+    protected bool $sequence = false;
+    protected bool $index = false;
 
-
-    /**
-     * @param mixed $field_type
-     */
-    public function setFieldType($field_type)
+    public function setFieldType(string $field_type) : void
     {
         $this->fieldtype = $field_type;
     }
 
-
-    /**
-     * @return mixed
-     */
-    public function getFieldType()
+    public function getFieldType() : string
     {
         return $this->fieldtype;
     }
 
-
-    /**
-     * @param boolean $has_field
-     */
-    public function setHasField($has_field)
+    public function setHasField(bool $has_field) : void
     {
         $this->has_field = $has_field;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getHasField()
+    public function getHasField() : bool
     {
         return $this->has_field;
     }
 
-
-    /**
-     * @param int $length
-     */
-    public function setLength($length)
+    public function setLength(int $length) : void
     {
         $this->length = $length;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getLength()
+    public function getLength() : ?int
     {
         return $this->length;
     }
 
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-
-    /**
-     * @param boolean $not_null
-     */
-    public function setNotNull($not_null)
+    public function setNotNull(bool $not_null) : void
     {
         $this->not_null = $not_null;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getNotNull()
+    public function getNotNull() : bool
     {
         return $this->not_null;
     }
 
-
-    /**
-     * @param boolean $primary
-     */
-    public function setPrimary($primary)
+    public function setPrimary(bool $primary) : void
     {
         $this->is_primary = $primary;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getPrimary()
+    public function getPrimary() : bool
     {
         return $this->is_primary;
     }
 
-
-    /**
-     * @param boolean $sequence
-     */
-    public function setSequence($sequence)
+    public function setSequence(bool $sequence) : void
     {
         $this->sequence = $sequence;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getSequence()
+    public function getSequence() : bool
     {
         return $this->sequence;
     }
 
-
-    /**
-     * @param boolean $index
-     */
-    public function setIndex($index)
+    public function setIndex(bool $index) : void
     {
         $this->index = $index;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getIndex()
+    public function getIndex() : bool
     {
         return $this->index;
     }
 
-
-    /**
-     * @param $type
-     * @param $field_name
-     *
-     * @return bool
-     */
-    public static function isAllowedAttribute($type, $field_name)
+    public static function isAllowedAttribute(string $type, string $field_name) : bool
     {
-        if ($field_name == arFieldList::FIELDTYPE or $field_name == arFieldList::HAS_FIELD) {
+        if ($field_name === arFieldList::FIELDTYPE || $field_name === arFieldList::HAS_FIELD) {
             return true;
         }
 
-        return in_array($field_name, self::$allowed_attributes[$type]);
+        return in_array($field_name, self::$allowed_attributes[$type], true);
     }
 
-
-    /**
-     * @param $field_type
-     *
-     * @return bool
-     */
-    public static function isDateFieldType($field_type)
+    public static function isDateFieldType($field_type) : bool
     {
-        return in_array($field_type, self::$date_fields);
+        return in_array($field_type, self::$date_fields, true);
     }
 }

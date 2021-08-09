@@ -140,7 +140,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     /**
      * @var string
      */
-    protected $connector_container_name = "il_mm_translation";
+    protected string $connector_container_name = "il_mm_translation";
 
 
     /**

@@ -8,9 +8,6 @@
 class arOrderCollection extends arStatementCollection
 {
 
-    /**
-     * @return string
-     */
     public function asSQLStatement() : string
     {
         $return = '';

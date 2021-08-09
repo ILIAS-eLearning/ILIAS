@@ -1,19 +1,13 @@
 <?php
-require_once(dirname(__FILE__) . '/../Statement/class.arStatementCollection.php');
-require_once('class.arWhere.php');
 
 /**
  * Class arWhereCollection
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
 class arWhereCollection extends arStatementCollection
 {
 
-    /**
-     * @return string
-     */
     public function asSQLStatement() : string
     {
         $return = '';
@@ -32,11 +26,10 @@ class arWhereCollection extends arStatementCollection
         return $return;
     }
 
-
     /**
      * @return arWhere[]
      */
-    public function getWheres()
+    public function getWheres() : array
     {
         return $this->statements;
     }

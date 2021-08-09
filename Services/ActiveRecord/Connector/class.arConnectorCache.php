@@ -2,44 +2,26 @@
 
 /**
  * Class ilGSStorageCache
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  */
 class arConnectorCache extends arConnector
 {
 
-    /**
-     * @var int
-     */
-    private $ttl;
-    /**
-     * @var arConnector
-     */
-    private $arConnectorDB;
-    /**
-     * @var \ilGlobalCache
-     */
-    private $cache;
+    private \arConnector $arConnectorDB;
+    private \ilGlobalCache $cache;
     const CACHE_TTL_SECONDS = 180;
-
 
     /**
      * ilGSStorageCache constructor.
-     *
-     * @param arConnector $arConnectorDB
      * @param int         $ttl
      */
-    public function __construct(arConnector $arConnectorDB, int $ttl = self::CACHE_TTL_SECONDS)
+    public function __construct(arConnector $arConnectorDB)
     {
-        $this->ttl = $ttl;
         $this->arConnectorDB = $arConnectorDB;
         $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return mixed
      */
     public function nextID(ActiveRecord $ar)
@@ -47,10 +29,7 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->nextID($ar);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return mixed
      */
     public function checkConnection(ActiveRecord $ar)
@@ -58,68 +37,39 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->checkConnection($ar);
     }
 
-
     /**
-     * @param ActiveRecord  $ar
      * @param               $fields
-     *
-     * @return bool
      */
-    public function installDatabase(ActiveRecord $ar, $fields)
+    public function installDatabase(ActiveRecord $ar, $fields) : bool
     {
         return $this->arConnectorDB->installDatabase($ar, $fields);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public function updateDatabase(ActiveRecord $ar)
+    public function updateDatabase(ActiveRecord $ar) : bool
     {
         return $this->arConnectorDB->updateDatabase($ar);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return true
-     */
-    public function resetDatabase(ActiveRecord $ar)
+    public function resetDatabase(ActiveRecord $ar) : bool
     {
         return $this->arConnectorDB->resetDatabase($ar);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return void
-     */
-    public function truncateDatabase(ActiveRecord $ar)
+    public function truncateDatabase(ActiveRecord $ar) : void
     {
         $this->arConnectorDB->truncateDatabase($ar);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return mixed
-     *
      */
     public function checkTableExists(ActiveRecord $ar)
     {
         return $this->arConnectorDB->checkTableExists($ar);
     }
 
-
     /**
-     * @param ActiveRecord  $ar
      * @param               $field_name
-     *
      * @return mixed
      */
     public function checkFieldExists(ActiveRecord $ar, $field_name)
@@ -127,49 +77,32 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->checkFieldExists($ar, $field_name);
     }
 
-
     /**
-     * @param ActiveRecord  $ar
      * @param               $field_name
-     *
-     * @return bool
      * @throws arException
      */
-    public function removeField(ActiveRecord $ar, $field_name)
+    public function removeField(ActiveRecord $ar, $field_name) : bool
     {
         return $this->arConnectorDB->removeField($ar, $field_name);
     }
 
-
     /**
-     * @param ActiveRecord  $ar
      * @param               $old_name
      * @param               $new_name
-     *
-     * @return bool
      * @throws arException
      */
-    public function renameField(ActiveRecord $ar, $old_name, $new_name)
+    public function renameField(ActiveRecord $ar, $old_name, $new_name) : bool
     {
         return $this->arConnectorDB->renameField($ar, $old_name, $new_name);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return void
-     */
-    public function create(ActiveRecord $ar)
+    public function create(ActiveRecord $ar) : void
     {
         $this->arConnectorDB->create($ar);
         $this->storeActiveRecordInCache($ar);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return array
      */
     public function read(ActiveRecord $ar)
@@ -197,25 +130,13 @@ class arConnectorCache extends arConnector
         return $results;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return void
-     */
-    public function update(ActiveRecord $ar)
+    public function update(ActiveRecord $ar) : void
     {
         $this->arConnectorDB->update($ar);
         $this->storeActiveRecordInCache($ar);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return void
-     */
-    public function delete(ActiveRecord $ar)
+    public function delete(ActiveRecord $ar) : void
     {
         $this->arConnectorDB->delete($ar);
 
@@ -225,10 +146,7 @@ class arConnectorCache extends arConnector
         }
     }
 
-
     /**
-     * @param ActiveRecordList $arl
-     *
      * @return mixed
      */
     public function readSet(ActiveRecordList $arl)
@@ -236,51 +154,33 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->readSet($arl);
     }
 
-
-    /**
-     * @param ActiveRecordList $arl
-     *
-     * @return int
-     */
-    public function affectedRows(ActiveRecordList $arl)
+    public function affectedRows(ActiveRecordList $arl) : int
     {
         return $this->arConnectorDB->affectedRows($arl);
     }
 
-
     /**
      * @param $value
      * @param $type
-     *
-     * @return string
      */
-    public function quote($value, $type)
+    public function quote($value, $type) : string
     {
         return $this->arConnectorDB->quote($value, $type);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function updateIndices(ActiveRecord $ar)
+    public function updateIndices(ActiveRecord $ar) : void
     {
         $this->arConnectorDB->updateIndices($ar);
     }
 
-
     /**
      * Stores an active record into the Cache.
-     *
-     * @param ActiveRecord $ar
-     *
-     * @return void
      */
-    private function storeActiveRecordInCache(ActiveRecord $ar)
+    private function storeActiveRecordInCache(ActiveRecord $ar) : void
     {
         if ($this->cache->isActive()) {
             $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
-            $value = $ar->__asStdClass();
+            $value = $ar->asStdClass();
 
             $this->cache->set($key, $value, self::CACHE_TTL_SECONDS);
         }

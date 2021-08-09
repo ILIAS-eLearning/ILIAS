@@ -70,7 +70,7 @@ class ilOrgUnitOperation extends ActiveRecord
     protected $context_id = 0;
 
 
-    public function create()
+    public function create() : void
     {
         if (self::where(array(
             'context_id' => $this->getContextId(),
@@ -176,7 +176,7 @@ class ilOrgUnitOperation extends ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'il_orgu_operations';
     }

@@ -13,7 +13,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -22,7 +22,7 @@ class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInt
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }

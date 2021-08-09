@@ -37,7 +37,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @var string
      */
-    protected $connector_container_name = "il_mm_actions";
+    protected string $connector_container_name = "il_mm_actions";
 
 
     /**
@@ -118,7 +118,7 @@ class ilMMTypeActionStorage extends CachedActiveRecord
     /**
      * @return ilMMTypeActionStorage
      */
-    public static function find($primary_key, array $add_constructor_args = array())
+    public static function find($primary_key, array $add_constructor_args = array()): ilMMTypeActionStorage
     {
         $parent = parent::find($primary_key, $add_constructor_args);
         if ($parent === null) {

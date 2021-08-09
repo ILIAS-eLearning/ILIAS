@@ -1,39 +1,25 @@
 <?php
-require_once(dirname(__FILE__) . '/../../Connector/class.arConnectorDB.php');
 
 /**
  * Class arBuilder
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
 class arBuilder
 {
 
-    /**
-     * @var ActiveRecord
-     */
-    protected $ar;
-    /**
-     * @var int
-     */
-    protected $step;
+    protected ActiveRecord $ar;
+    protected ?int $step = null;
 
-
-    /**
-     * @param ActiveRecord $ar
-     * @param int          $step
-     */
-    public function __construct(ActiveRecord $ar, $step = 1)
+    public function __construct(ActiveRecord $ar, int $step = null)
     {
         $this->setAr($ar);
-        $this->setStep($step);
+        $this->setStep($step ?? 0);
     }
 
-
-    public function generateDBUpdateForInstallation()
+    public function generateDBUpdateForInstallation() : void
     {
-        $tpl = new ilTemplate(dirname(__FILE__) . '/templates/dbupdate.txt', true, true);
+        $tpl = new ilTemplate(__DIR__ . '/templates/dbupdate.txt', true, true);
         $ar = $this->getAr();
 
         $tpl->setVariable('TABLE_NAME', $ar->getConnectorContainerName());
@@ -53,7 +39,7 @@ class arBuilder
             }
         }
 
-        if ($this->getAr()->getArFieldList()->getPrimaryField()->getFieldType() == arField::FIELD_TYPE_INTEGER) {
+        if ($this->getAr()->getArFieldList()->getPrimaryField()->getFieldType() === arField::FIELD_TYPE_INTEGER) {
             $tpl->setCurrentBlock('attribute');
             $tpl->setVariable('TABLE_NAME4', $ar->getConnectorContainerName());
             $tpl->parseCurrentBlock();
@@ -65,38 +51,22 @@ class arBuilder
         exit;
     }
 
-
-    /**
-     * @param \ActiveRecord $ar
-     */
-    public function setAr($ar)
+    public function setAr(\ActiveRecord $ar) : void
     {
         $this->ar = $ar;
     }
 
-
-    /**
-     * @return \ActiveRecord
-     */
-    public function getAr()
+    public function getAr() : \ActiveRecord
     {
         return $this->ar;
     }
 
-
-    /**
-     * @param int $step
-     */
-    public function setStep($step)
+    public function setStep(int $step) : void
     {
         $this->step = $step;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getStep()
+    public function getStep() : int
     {
         return $this->step;
     }

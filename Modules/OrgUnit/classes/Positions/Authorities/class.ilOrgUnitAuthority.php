@@ -38,7 +38,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_orgu_authority";
     }

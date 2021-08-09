@@ -14,7 +14,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_orgu_positions";
     }
@@ -25,7 +25,7 @@ class ilOrgUnitPosition extends \ActiveRecord
      *
      * @return \ilOrgUnitPosition[]
      */
-    public static function get()
+    public static function get() : array
     {
         /** @noinspection PhpIncompatibleReturnTypeInspection */
         return parent::get();
@@ -186,7 +186,7 @@ class ilOrgUnitPosition extends \ActiveRecord
     }
 
 
-    public function create()
+    public function create() : void
     {
         parent::create();
         $this->storeAuthorities();

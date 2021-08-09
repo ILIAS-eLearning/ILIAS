@@ -1,6 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . '/../Statement/class.arStatementCollection.php');
-require_once('class.arSelect.php');
 
 /**
  * Class arSelectCollection
@@ -10,18 +8,13 @@ require_once('class.arSelect.php');
 class arSelectCollection extends arStatementCollection
 {
 
-    /**
-     * @return string
-     */
     public function asSQLStatement() : string
     {
         $return = 'SELECT ';
         if ($this->hasStatements()) {
             $activeRecord = $this->getAr();
-            $selectSQLs = array_map(function ($select) use ($activeRecord) {
-                return $select->asSQLStatement($activeRecord);
-            }, $this->getSelects());
-            $return .= join(', ', $selectSQLs);
+            $selectSQLs = array_map(fn($select) => $select->asSQLStatement($activeRecord), $this->getSelects());
+            $return .= implode(', ', $selectSQLs);
         }
 
         return $return;

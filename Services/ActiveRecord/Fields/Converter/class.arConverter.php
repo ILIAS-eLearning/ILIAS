@@ -1,25 +1,17 @@
 <?php
-require_once(dirname(__FILE__) . '/../class.arFieldList.php');
 
 /**
  * Class arConverter
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
- *
- *
  * @description         $arConverter = new arConverter('my_msql_table_name', 'arMyRecordClass');
  *                      $arConverter->readStructure();
  *                      $arConverter->downloadClassFile();
- *
  */
 class arConverter
 {
-    const REGEX = "/([a-z]*)\\(([0-9]*)\\)/us";
-    /**
-     * @var array
-     */
-    protected static $field_map = array(
+    public const REGEX = "/([a-z]*)\\(([0-9]*)\\)/u";
+    protected static array $field_map = array(
         'varchar' => arField::FIELD_TYPE_TEXT,
         'char' => arField::FIELD_TYPE_TEXT,
         'int' => arField::FIELD_TYPE_INTEGER,
@@ -28,10 +20,7 @@ class arConverter
         'mediumint' => arField::FIELD_TYPE_INTEGER,
         'bigint' => arField::FIELD_TYPE_INTEGER,
     );
-    /**
-     * @var array
-     */
-    protected static $length_map = array(
+    protected static array $length_map = array(
         arField::FIELD_TYPE_TEXT => false,
         arField::FIELD_TYPE_DATE => false,
         arField::FIELD_TYPE_TIME => false,
@@ -43,37 +32,19 @@ class arConverter
             4 => 1,
         )
     );
-    /**
-     * @var string
-     */
-    protected $table_name = '';
-    /**
-     * @var string
-     */
-    protected $class_name = '';
-    /**
-     * @var array
-     */
-    protected $structure = array();
-    /**
-     * @var array
-     */
-    protected $ids = array();
+    protected string $table_name = '';
+    protected string $class_name = '';
+    protected array $structure = array();
+    protected array $ids = array();
 
-
-    /**
-     * @param $table_name
-     * @param $class_name
-     */
-    public function __construct($table_name, $class_name)
+    public function __construct(string $table_name, string $class_name)
     {
         $this->setClassName($class_name);
         $this->setTableName($table_name);
         $this->readStructure();
     }
 
-
-    public function readStructure()
+    public function readStructure() : void
     {
         $sql = 'DESCRIBE ' . $this->getTableName();
         $res = self::getDB()->query($sql);
@@ -82,8 +53,7 @@ class arConverter
         }
     }
 
-
-    public function downloadClassFile()
+    public function downloadClassFile() : void
     {
         $header = "<?php
 require_once('./Services/ActiveRecord/class.ActiveRecord.php');
@@ -111,8 +81,8 @@ class {CLASS_NAME} extends ActiveRecord {
 		return '{TABLE_NAME}';
 	}
 ";
-        $txt = str_replace('{CLASS_NAME}', $this->getClassName(), $header);
-        $txt = str_replace('{TABLE_NAME}', $this->getTableName(), $txt);
+        $txt = str_replace(['{CLASS_NAME}', '{TABLE_NAME}'], [$this->getClassName(), $this->getTableName()],
+            $header);
         $all_members = '';
         foreach ($this->getStructure() as $str) {
             $member = "/**
@@ -127,8 +97,7 @@ class {CLASS_NAME} extends ActiveRecord {
 
 	";
 
-            $member = str_replace('{FIELD_NAME}', $str->Field, $member);
-            $member = str_replace('{DECLARATION}', ' ', $member);
+            $member = str_replace(['{FIELD_NAME}', '{DECLARATION}'], [$str->Field, ' '], $member);
 
             $all_members .= $member;
         }
@@ -145,119 +114,84 @@ class {CLASS_NAME} extends ActiveRecord {
         exit;
     }
 
-
     /**
-     * @param stdClass $field
-     *
-     * @return array
+     * @return array<string, string>
      */
-    protected function returnAttributesForField(stdClass $field)
+    protected function returnAttributesForField(stdClass $field) : array
     {
         $attributes = array();
         $attributes[arFieldList::HAS_FIELD] = 'true';
         $attributes[arFieldList::FIELDTYPE] = self::lookupFieldType($field->Type);
         $attributes[arFieldList::LENGTH] = self::lookupFieldLength($field->Type);
 
-        if ($field->Null == 'NO') {
+        if ($field->Null === 'NO') {
             $attributes[arFieldList::IS_NOTNULL] = 'true';
         }
 
-        if ($field->Key == 'PRI') {
+        if ($field->Key === 'PRI') {
             $attributes[arFieldList::IS_PRIMARY] = 'true';
         }
 
         return $attributes;
     }
 
-
-    /**
-     * @param $string
-     *
-     * @return string
-     */
-    protected static function lookupFieldType($string)
+    protected static function lookupFieldType(string $field_name) : string
     {
-        preg_match(self::REGEX, $string, $matches);
+        preg_match(self::REGEX, $field_name, $matches);
 
         return self::$field_map[$matches[1]];
     }
 
-
     /**
-     * @param $string
-     *
-     * @return string
+     * @return mixed|void
      */
-    protected static function lookupFieldLength($string)
+    protected static function lookupFieldLength(string $field_name)
     {
-        $field_type = self::lookupFieldType($string);
+        $field_type = self::lookupFieldType($field_name);
 
-        preg_match(self::REGEX, $string, $matches);
+        preg_match(self::REGEX, $field_name, $matches);
 
         if (self::$length_map[$field_type][$matches[2]]) {
             return self::$length_map[$field_type][$matches[2]];
-        } else {
-            return $matches[2];
         }
+
+        return $matches[2];
     }
 
-
-    /**
-     * @return ilDB
-     */
-    public static function getDB()
+    public static function getDB() : ilDBInterface
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
 
-        /**
-         * @var $ilDB ilDB
-         */
-
-        return $ilDB;
+        return $DIC['ilDB'];
     }
 
-
-    /**
-     * @param string $table_name
-     */
-    public function setTableName($table_name)
+    public function setTableName(string $table_name) : void
     {
         $this->table_name = $table_name;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName() : string
     {
         return $this->table_name;
     }
 
-
     /**
-     * @param array $structure
+     * @param mixed[] $structure
      */
-    public function setStructure($structure)
+    public function setStructure(array $structure) : void
     {
         $this->structure = $structure;
     }
 
-
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getStructure()
+    public function getStructure() : array
     {
         return $this->structure;
     }
 
-
-    /**
-     * @param stdClass $structure
-     */
-    public function addStructure(stdClass $structure)
+    public function addStructure(stdClass $structure) : void
     {
         if (!in_array($structure->Field, $this->ids)) {
             $this->structure[] = $structure;
@@ -265,20 +199,12 @@ class {CLASS_NAME} extends ActiveRecord {
         }
     }
 
-
-    /**
-     * @param string $class_name
-     */
-    public function setClassName($class_name)
+    public function setClassName(string $class_name) : void
     {
         $this->class_name = $class_name;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getClassName()
+    public function getClassName() : string
     {
         return $this->class_name;
     }

@@ -11,7 +11,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'il_bibl_attribute';
     }
@@ -20,7 +20,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return 'il_bibl_attribute';
     }

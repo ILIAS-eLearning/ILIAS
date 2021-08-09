@@ -12,7 +12,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'il_orgu_ua';
     }
@@ -91,7 +91,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         ));
     }
 
-    public function create()
+    public function create() : void
     {
         $this->raiseEvent('assignUserToPosition');
         parent::create();

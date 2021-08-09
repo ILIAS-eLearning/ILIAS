@@ -1,22 +1,22 @@
 {
-    "maintenance_model": "Classic",
-    "first_maintainer": "fschmid(21087)",
-    "second_maintainer": "",
-    "implicit_maintainers": [],
-    "coordinator": [
-        ""
-    ],
-    "tester": "",
-    "testcase_writer": "",
-    "path": "Services/ActiveRecord",
-    "belong_to_component": "ActiveRecord",
-    "used_in_components": [
-        "Bibliographic List Item",
-        "Organisational Units",
-        "Study Programme",
-        "ItemGroup",
-        "Data Collection",
-        "GlobalCache",
-        "Web Access Checker"
-    ]
+  "maintenance_model": "Classic",
+  "first_maintainer": "fschmid(21087)",
+  "second_maintainer": "",
+  "implicit_maintainers": [],
+  "coordinator": [
+    ""
+  ],
+  "tester": "",
+  "testcase_writer": "",
+  "path": "Services/ActiveRecord",
+  "belong_to_component": "ActiveRecord",
+  "used_in_components": [
+    "Bibliographic List Item",
+    "Organisational Units",
+    "Study Programme",
+    "ItemGroup",
+    "Data Collection",
+    "GlobalCache",
+    "Web Access Checker"
+  ]
 }

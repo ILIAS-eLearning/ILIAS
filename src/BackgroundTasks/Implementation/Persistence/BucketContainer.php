@@ -6,7 +6,7 @@ require_once("./Services/ActiveRecord/class.ActiveRecord.php");
 
 class BucketContainer extends \ActiveRecord
 {
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_bt_bucket";
     }

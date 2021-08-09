@@ -4,7 +4,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueContainer extends \ActiveRecord
 {
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_bt_value";
     }
@@ -254,7 +254,7 @@ class ValueContainer extends \ActiveRecord
     {
         $this->bucket_id = $bucket_id;
     }
-    
+
     /**
      * @return int
      */
@@ -262,7 +262,7 @@ class ValueContainer extends \ActiveRecord
     {
         return $this->position;
     }
-    
+
     /**
      * @param int $position
      */
@@ -270,5 +270,5 @@ class ValueContainer extends \ActiveRecord
     {
         $this->position = $position;
     }
-    
+
 }

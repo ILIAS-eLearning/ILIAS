@@ -1,30 +1,25 @@
 <?php
-require_once('./Services/Exceptions/classes/class.ilException.php');
+
 /**
  * Class arException
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- *
  * @version 2.0.7
  */
 class arException extends ilException
 {
-    const UNKNONWN_EXCEPTION = -1;
-    const COLUMN_DOES_NOT_EXIST = 1001;
-    const COLUMN_DOES_ALREADY_EXIST = 1002;
-    const RECORD_NOT_FOUND = 1003;
-    const GET_UNCACHED_OBJECT = 1004;
-    const LIST_WRONG_LIMIT = 1005;
-    const LIST_ORDER_BY_WRONG_FIELD = 1006;
-    const LIST_JOIN_ON_WRONG_FIELD = 1007;
-    const COPY_DESTINATION_ID_EXISTS = 1008;
-    const PRIVATE_CONTRUCTOR = 1009;
-    const FIELD_UNKNOWN = 1010;
-    /**
-     * @var array
-     */
-    protected static $message_strings = array(
+    public const UNKNONWN_EXCEPTION = -1;
+    public const COLUMN_DOES_NOT_EXIST = 1001;
+    public const COLUMN_DOES_ALREADY_EXIST = 1002;
+    public const RECORD_NOT_FOUND = 1003;
+    public const GET_UNCACHED_OBJECT = 1004;
+    public const LIST_WRONG_LIMIT = 1005;
+    public const LIST_ORDER_BY_WRONG_FIELD = 1006;
+    public const LIST_JOIN_ON_WRONG_FIELD = 1007;
+    public const COPY_DESTINATION_ID_EXISTS = 1008;
+    public const PRIVATE_CONTRUCTOR = 1009;
+    public const FIELD_UNKNOWN = 1010;
+    protected static array $message_strings = array(
         self::UNKNONWN_EXCEPTION => 'Unknown Exception',
         self::COLUMN_DOES_NOT_EXIST => 'Column does not exist:',
         self::COLUMN_DOES_ALREADY_EXIST => 'Column does already exist:',
@@ -44,11 +39,7 @@ class arException extends ilException
      * @var int
      */
     protected $code = self::UNKNONWN_EXCEPTION;
-    /**
-     * @var string
-     */
-    protected $additional_info = '';
-
+    protected string $additional_info = '';
 
     /**
      * @param int    $exception_code
@@ -62,18 +53,16 @@ class arException extends ilException
         parent::__construct($this->message, $this->code);
     }
 
-
-    protected function assignMessageToCode()
+    protected function assignMessageToCode() : void
     {
         $this->message = 'ActiveRecord Exeption: ' . self::$message_strings[$this->code] . $this->additional_info;
     }
-
 
     /**
      * @return string
      */
     public function __toString()
     {
-        return implode('<br>', array( get_class($this), $this->message ));
+        return implode('<br>', array(get_class($this), $this->message));
     }
 }
