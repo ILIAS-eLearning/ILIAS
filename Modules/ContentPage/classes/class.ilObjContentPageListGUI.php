@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
@@ -12,8 +12,7 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
  */
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
-    /** PageMetricsService */
-    private $pageMetricsService;
+    private PageMetricsService $pageMetricsService;
 
     /**
      * ilObjContentPageListGUI constructor.
@@ -87,7 +86,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
             $language = $ot->getEffectiveContentLang($this->user->getCurrentLanguage(), $this->type);
 
             $pageMetrics = $this->pageMetricsService->get(
-                new GetPageMetricsCommand($this->obj_id, $language)
+                new GetPageMetricsCommand((int) $this->obj_id, $language)
             );
 
             $readingTimePropertyValue = sprintf(

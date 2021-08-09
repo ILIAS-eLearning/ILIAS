@@ -1,21 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Assignments table
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ingroup ModulesExercise
-*/
+ * Assignments table
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilExAssignmentListTextTableGUI extends ilTable2GUI
 {
-    protected $ass; // [ilExAssignment]
-    protected $show_peer_review; // [bool]
-    protected $peer_review; // [ilExPeerReview]
+    protected ilExAssignment $ass;
+    protected bool $show_peer_review;
+    protected ilExPeerReview $peer_review;
     
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_show_peer_review = false, $a_disable_peer_review = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignment $a_ass,
+        bool $a_show_peer_review = false,
+        bool $a_disable_peer_review = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -24,7 +28,7 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         $this->ass = $a_ass;
-        $this->show_peer_review = (bool) $a_show_peer_review;
+        $this->show_peer_review = $a_show_peer_review;
         $this->setId("excassltxt" . $this->ass->getId());
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -63,18 +67,18 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $this->parse();
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         return ($a_field == "udate");
     }
 
-    protected function parse()
+    protected function parse() : void
     {
         $peer_data = array();
         if ($this->show_peer_review) {
             $peer_data = $this->peer_review->getAllPeerReviews();
         }
-        
+        $data = [];
         foreach (ilExSubmission::getAllAssignmentFiles($this->ass->getExerciseId(), $this->ass->getId()) as $file) {
             if (trim($file["atext"])) {
                 $data[$file["user_id"]] = array(
@@ -93,10 +97,8 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        $ilCtrl = $this->ctrl;
-        
         if ($this->show_peer_review) {
             $peer_data = "&nbsp;";
             if (isset($a_set["peer"])) {
@@ -104,9 +106,6 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
                 $acc->setId($this->ass->getId() . "_" . $a_set["uid"]);
 
                 foreach ($a_set["peer"] as $peer_id) {
-                    $peer_name = ilUserUtil::getNamePresentation($peer_id);
-                    $acc_item = $peer_name;
-                    
                     $submission = new ilExSubmission($this->ass, $a_set["uid"]);
                     $values = $submission->getPeerReview()->getPeerReviewValues($peer_id, $a_set["uid"]);
                     

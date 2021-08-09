@@ -10,33 +10,20 @@ namespace ILIAS\ContentPage\PageMetrics\Command;
  */
 final class StorePageMetricsCommand
 {
-    /** @var int */
-    private $contentPageId;
-    /** @var string */
-    private $language;
+    private int $contentPageId;
+    private string $language;
 
-    /**
-     * StorePageMetricsCommand constructor.
-     * @param int    $contentPageId
-     * @param string $language
-     */
     public function __construct(int $contentPageId, string $language)
     {
         $this->contentPageId = $contentPageId;
         $this->language = $language;
     }
 
-    /**
-     * @return int
-     */
     public function getContentPageId() : int
     {
         return $this->contentPageId;
     }
 
-    /**
-     * @return string
-     */
     public function getLanguage() : string
     {
         return $this->language;

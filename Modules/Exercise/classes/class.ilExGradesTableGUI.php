@@ -130,12 +130,12 @@ class ilExGradesTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($d)
+    protected function fillRow($a_set)
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_id = $d["user_id"];
+        $user_id = $a_set["user_id"];
         
         foreach ($this->ass_data as $ass) {
             $member_status = new ilExAssignmentMemberStatus($ass->getId(), $user_id);
@@ -198,7 +198,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         // name
         $this->tpl->setVariable(
             "TXT_NAME",
-            $d["lastname"] . ", " . $d["firstname"] . " [" . $d["login"] . "]"
+            $a_set["lastname"] . ", " . $a_set["firstname"] . " [" . $a_set["login"] . "]"
         );
         $this->tpl->setVariable("VAL_ID", $user_id);
         

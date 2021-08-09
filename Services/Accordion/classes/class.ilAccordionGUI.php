@@ -10,41 +10,38 @@
 */
 class ilAccordionGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public const VERTICAL = "vertical";
+    public const HORIZONTAL = "horizontal";
+    public const FORCE_ALL_OPEN = "ForceAllOpen";
+    public const FIRST_OPEN = "FirstOpen";
+    public const ALL_CLOSED = "AllClosed";
 
-    protected $items = array();
-    protected $force_open = array();
-    protected static $accordion_cnt = 0;
-    protected $use_session_storage = false;
-    protected $allow_multi_opened = false;
+    protected string $orientation;
+    protected ilObjUser $user;
+
+    protected array $items = array();
+    protected array $force_open = array();
+    protected static int $accordion_cnt = 0;
+    protected bool $use_session_storage = false;
+    protected bool $allow_multi_opened = false;
     protected $show_all_element = null;
     protected $hide_all_element = null;
     protected $contentwidth;
     protected $contentheight;
-    protected $headerclass;
-    protected $contentclass;
-    protected $icontainerclass;
-    protected $containerclass;
-    protected $id;
+    protected string $headerclass = "";
+    protected string $contentclass = "";
+    protected string $icontainerclass = "";
+    protected string $containerclass = "";
+    protected string $id = "";
     protected $head_class_set;
     
-    const VERTICAL = "vertical";
-    const HORIZONTAL = "horizontal";
-    const FORCE_ALL_OPEN = "ForceAllOpen";
-    const FIRST_OPEN = "FirstOpen";
-    const ALL_CLOSED = "AllClosed";
-
     public static $owl_path = "./libs/bower/bower_components/owl.carousel/dist";
     public static $owl_js_path = "/owl.carousel.js";
     public static $owl_css_path = "/assets/owl.carousel.css";
 
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $main_tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected string $active_headerclass;
+    protected string $behaviour = self::FIRST_OPEN;
 
     /**
     * Constructor
@@ -249,7 +246,7 @@ class ilAccordionGUI
      *
      * @param	string	behaviour
      */
-    public function setBehaviour($a_val)
+    public function setBehaviour(string $a_val) : void
     {
         $this->behaviour = $a_val;
     }

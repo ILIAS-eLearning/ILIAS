@@ -1,7 +1,10 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
+use ILIAS\BackgroundTasks\Task\TaskFactory;
+use ILIAS\BackgroundTasks\TaskManager;
 
 /**
  * Download submissions and feedback for exercises.
@@ -9,61 +12,23 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
  */
 class ilDownloadSubmissionsBackgroundTask
 {
-    /**
-     * @var int
-     */
-    protected $exc_ref_id;
+    protected int $exc_ref_id;
+    protected int $exc_id;
+    protected ?int $ass_id;
+    protected ?int $participant_id;
+    protected int $user_id;
+    protected ?TaskFactory $task_factory = null;
+    protected ?TaskManager $task_manager = null;
+    protected ilLanguage $lng;
+    protected ?ilLogger $logger = null;
 
-    /**
-     * @var int
-     */
-    protected $exc_id;
-
-    /**
-     * @var int|null
-     */
-    protected $ass_id;
-
-    /**
-     * @var int|null
-     */
-    protected $participant_id;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var \ILIAS\BackgroundTasks\Task\TaskFactory
-     */
-    protected $task_factory = null;
-
-    /**
-     * @var \ILIAS\BackgroundTasks\TaskManager
-     */
-    protected $task_manager = null;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var
-     */
-    private $logger = null;
-
-    /**
-     * Constructor
-     * @param integer $a_usr_id
-     * @param integer $a_exc_ref_id
-     * @param integer $a_exc_id
-     * @param integer $a_ass_id
-     * @param integer $a_participant_id
-     */
-    public function __construct($a_usr_id, $a_exc_ref_id, $a_exc_id, $a_ass_id, $a_participant_id)
-    {
+    public function __construct(
+        int $a_usr_id,
+        int $a_exc_ref_id,
+        int $a_exc_id,
+        int $a_ass_id,
+        int $a_participant_id
+    ) {
         global $DIC;
 
         $this->user_id = $a_usr_id;
@@ -77,23 +42,23 @@ class ilDownloadSubmissionsBackgroundTask
         $this->logger = $DIC->logger()->exc();
     }
 
-    public function run()
+    public function run() : bool
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
 
         $this->logger->debug("* Create task 'collect_data_job' using the following values:");
         $this->logger->debug("job class = " . ilExerciseManagementCollectFilesJob::class);
-        $this->logger->debug("exc_id = " . $this->exc_id . ", exc_ref_id = " . $this->exc_ref_id . ", ass_id = " . (int) $this->ass_id . ", participant_id = " . (int) $this->participant_id . ", user_id = " . (int) $this->user_id);
+        $this->logger->debug("exc_id = " . $this->exc_id . ", exc_ref_id = " . $this->exc_ref_id . ", ass_id = " . (int) $this->ass_id . ", participant_id = " . (int) $this->participant_id . ", user_id = " . $this->user_id);
 
         $collect_data_job = $this->task_factory->createTask(
             ilExerciseManagementCollectFilesJob::class,
             [
-                (int) $this->exc_id,
-                (int) $this->exc_ref_id,
+                $this->exc_id,
+                $this->exc_ref_id,
                 (int) $this->ass_id,
                 (int) $this->participant_id,
-                (int) $this->user_id
+                $this->user_id
             ]
         );
 
@@ -124,10 +89,9 @@ class ilDownloadSubmissionsBackgroundTask
         return true;
     }
 
-    protected function getParticipantBucketTitle()
+    protected function getParticipantBucketTitle() : string
     {
         $name = ilObjUser::_lookupName($this->participant_id);
-        $title = ucfirst($name['lastname']) . ", " . ucfirst($name['firstname']);
-        return $title;
+        return ucfirst($name['lastname']) . ", " . ucfirst($name['firstname']);
     }
 }

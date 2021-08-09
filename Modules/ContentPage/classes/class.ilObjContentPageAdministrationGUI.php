@@ -12,27 +12,21 @@ use ILIAS\UI\Component\Component;
 /**
  * Class ilObjContentPageAdministrationGUI
  * @author Michael Jansen <mjansen@databay.de>
+ * @ilCtrl_Calls ilObjContentPageAdministrationGUI: ilPermissionGUI
  */
 class ilObjContentPageAdministrationGUI extends ilObjectGUI
 {
     private const CMD_VIEW = 'view';
     private const CMD_EDIT = 'edit';
     private const CMD_SAVE = 'save';
-
     private const F_READING_TIME = 'reading_time';
 
-    /** @var ServerRequestInterface */
-    private $httpRequest;
-    /** @var Factory */
-    private $uiFactory;
-    /** @var Renderer */
-    private $uiRenderer;
-    /** @var ILIAS\Refinery\Factory */
-    private $refinery;
-    /** @var Storage */
-    private $settingsStorage;
-    /** @var ilErrorHandling */
-    private $error;
+    private ServerRequestInterface $httpRequest;
+    private Factory $uiFactory;
+    private Renderer $uiRenderer;
+    private ILIAS\Refinery\Factory $refinery;
+    private Storage $settingsStorage;
+    private ilErrorHandling $error;
 
     /**
      * @ineritdoc
@@ -63,7 +57,12 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         }
 
         if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), [], 'ilpermissiongui');
+            $this->tabs_gui->addTarget(
+                'perm_settings',
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
+                [],
+                ilPermissionGUI::class
+            );
         }
     }
 
@@ -81,7 +80,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch (strtolower($nextClass)) {
-            case 'ilpermissiongui':
+            case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
@@ -102,10 +101,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @param array $values
-     * @return Form
-     */
     private function getForm(array $values = []) : Form
     {
         $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
@@ -133,7 +128,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             ->form()
             ->standard($action, [$section])
             ->withAdditionalTransformation($this->refinery->custom()->transformation(static function ($values) : array {
-                return call_user_func_array('array_merge', $values);
+                return array_merge(...$values);
             }));
     }
 

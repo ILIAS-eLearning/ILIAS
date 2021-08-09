@@ -24,12 +24,9 @@ class ilExerciseMembers
     //	var $status_returned;
     //	var $notice;
 
-    /**
-     * @var ilRecommendedContentManager
-     */
-    protected $recommended_content_manager;
+    protected ilRecommendedContentManager $recommended_content_manager;
 
-    public function __construct($a_exc)
+    public function __construct(ilObjExercise $a_exc)
     {
         global $DIC;
 
@@ -90,10 +87,6 @@ class ilExerciseMembers
     public function assignMember($a_usr_id)
     {
         $ilDB = $this->db;
-
-        /*if($this->exc->hasAddToDesktop())
-        {
-        }*/
 
         $ilDB->manipulate("DELETE FROM exc_members " .
             "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer") . " " .

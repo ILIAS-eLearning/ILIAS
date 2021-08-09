@@ -27,6 +27,7 @@ meta#:#md_adv_int_default#:#Standardsprache:
 meta#:#md_adv_int_translation_info#:#Übersetzung:
 meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
+auth#:#err_auth_ldap_failed#:#Die Authentifizierung ist fehlgeschlagen. Bitte kontaktieren Sie Ihren ILIAS-Administrator.
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen

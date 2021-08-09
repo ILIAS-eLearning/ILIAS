@@ -9,17 +9,9 @@
  */
 class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
 {
-    /**
-     * @var ilSetting
-     */
-    protected $setting;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $identifier_str;
+    protected ilSetting $setting;
+    protected ilLanguage $lng;
+    protected string $identifier_str;
 
     /**
      * Constructor
@@ -32,18 +24,13 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
         global $DIC;
 
         $this->setting = ($a_setting)
-            ? $a_setting
-            : $DIC["ilSetting"];
+            ?: $DIC["ilSetting"];
 
         $this->lng = ($a_lng)
-            ? $a_lng
-            : $DIC->language();
+            ?: $DIC->language();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         if ($this->setting->get('user_portfolios')) {
             return true;
@@ -51,66 +38,42 @@ class ilExAssTypePortfolio implements ilExAssignmentTypeInterface
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesTeams()
+    public function usesTeams() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesFileUpload()
+    public function usesFileUpload() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_portfolio");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSubmissionType()
+    public function getSubmissionType() : string
     {
         return ilExSubmission::TYPE_OBJECT;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isSubmissionAssignedToTeam()
+    public function isSubmissionAssignedToTeam() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function supportsWebDirAccess() : bool
     {
         return true;
     }
 
-    /**
-     *  @inheritdoc
-     */
     public function getStringIdentifier() : string
     {
         return ilExAssignmentTypes::STR_IDENTIFIER_PORTFOLIO;

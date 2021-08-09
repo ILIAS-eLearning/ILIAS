@@ -23,6 +23,10 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         global $ilCtrl;
         //var_dump($ilCtrl->getCmd()); exit;
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id);
+
+        $this->ass_types = ilExAssignmentTypes::getInstance();
+        $this->ass_type = $this->ass_types->getById((int) ilExAssignment::lookupType($a_item_id));
+
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "saveStatusAll"));
     }
 

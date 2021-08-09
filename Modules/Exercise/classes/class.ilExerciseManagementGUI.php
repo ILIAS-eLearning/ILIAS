@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\BackgroundTasks\Task\TaskFactory;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+
 /**
 * Class ilExerciseManagementGUI
 *
@@ -14,79 +18,32 @@
 */
 class ilExerciseManagementGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    public const VIEW_ASSIGNMENT = 1;
+    public const VIEW_PARTICIPANT = 2;
+    public const VIEW_GRADES = 3;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
+    public const FEEDBACK_ONLY_SUBMISSION = "submission_only";
+    public const FEEDBACK_FULL_SUBMISSION = "submission_feedback";
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public const GRADE_NOT_GRADED = "notgraded";
+    public const GRADE_PASSED = "passed";
+    public const GRADE_FAILED = "failed";
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
-
-    /**
-     * @var array
-     */
-    protected $filter;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    protected $exercise; // [ilObjExercise]
-    protected $assignment; // [ilExAssignment]
-
-    /**
-     * @var \ILIAS\BackgroundTasks\Task\TaskFactory
-     */
-    protected $task_factory;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    const VIEW_ASSIGNMENT = 1;
-    const VIEW_PARTICIPANT = 2;
-    const VIEW_GRADES = 3;
-
-    const FEEDBACK_ONLY_SUBMISSION = "submission_only";
-    const FEEDBACK_FULL_SUBMISSION = "submission_feedback";
-
-    const GRADE_NOT_GRADED = "notgraded";
-    const GRADE_PASSED = "passed";
-    const GRADE_FAILED = "failed";
-
-    /**
-     * @var ilExerciseInternalService
-     */
-    protected $service;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected array $filter;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjExercise $exercise;
+    protected ilExAssignment $assignment;
+    protected TaskFactory $task_factory;
+    protected ilLogger $log;
+    protected ilObjUser $user;
+    protected ilExerciseInternalService $service;
+    protected ?\ilDBInterface $db = null;
 
     /**
      * Constructor

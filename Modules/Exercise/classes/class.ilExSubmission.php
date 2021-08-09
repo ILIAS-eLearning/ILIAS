@@ -1185,7 +1185,7 @@ class ilExSubmission
             " ORDER BY ts DESC";
         $usr_set = $ilDB->query($q);
         $array = $ilDB->fetchAssoc($usr_set);
-        return ilUtil::getMySQLTimestamp($array["ts"]);
+        return ilUtil::getMySQLTimestamp($array["ts"] ?? 0);
     }
 
     /**
@@ -1339,12 +1339,6 @@ class ilExSubmission
         } else {
             $last_sub = "---";
         }
-        /* #13741 - status_time has been reduced to grading (mark/status)
-        if (self::lookupUpdatedSubmission($a_ass_id, $a_user_id) == 1)
-        {
-            $last_sub = "<b>".$last_sub."</b>";
-        }
-        */
         $result["last_submission"]["txt"] = $lng->txt("exc_last_submission");
         $result["last_submission"]["value"] = $last_sub;
         

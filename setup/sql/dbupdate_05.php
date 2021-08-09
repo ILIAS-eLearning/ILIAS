@@ -6788,3 +6788,45 @@ if (!$ilDB->tableColumnExists('il_bibl_data', 'rid')) {
     ]);
 }
 ?>
+<#5797>
+<?php
+if (!$ilDB->indexExistsByFields('il_resource_revision', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_revision',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('stakeholder_id'),
+        'i2'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_info', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_info',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
+    $ilDB->addIndex(
+        'il_resource',
+        array('storage_id'),
+        'i1'
+    );
+}
+?>
+<#5798>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

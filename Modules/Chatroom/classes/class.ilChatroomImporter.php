@@ -12,6 +12,8 @@ class ilChatroomImporter extends ilXmlImporter
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             $newObj = new ilObjChatroom();
+            $newObj->setTitle('');
+            $newObj->setDescription('');
             $newObj->setType('chtr');
             $newObj->create();
         }
