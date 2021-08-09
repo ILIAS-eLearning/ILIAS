@@ -103,30 +103,6 @@ class ilPluginAdmin
         }
     }
 
-
-    /**
-     * Checks whether plugin exists
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return bool
-     * @throws ilPluginException
-     */
-    public function exists($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        try {
-            $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname);
-            return true;
-        }
-        catch (\InvalidArgumentException $e) {
-            return false;
-        }
-    }
-
-
     /**
      * Get version.
      *

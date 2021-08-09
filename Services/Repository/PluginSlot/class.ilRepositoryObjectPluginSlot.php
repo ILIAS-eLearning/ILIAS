@@ -63,7 +63,7 @@ class ilRepositoryObjectPluginSlot
         bool $a_active_status = true
     ) : bool {
         global $DIC;
-
+        $component_data_db = $DIC["component.db"];
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         
         $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
@@ -71,10 +71,11 @@ class ilRepositoryObjectPluginSlot
             return false;
         }
 
-        if ($ilPluginAdmin->exists(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-            if (!$a_active_status ||
-                $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-                if ($ilPluginAdmin->hasLearningProgress(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
+        $slot = $component_data_db->getPluginSlotById("robj");
+        if ($slot->hasPluginName($pname)) {
+            $plugin = $slot->getPluginByName($pname);
+            if (!$a_active_status || $plugin->isActive()) {
+                if ($plugin->supportsLearningProgress()) {
                     return true;
                 }
             }
