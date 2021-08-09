@@ -19,7 +19,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 
         $ok = parent::checkInput();
 
-        $query = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+        $query = ilUtil::stripSlashes($DIC->http()->request()->getParsedBody()[$this->getPostVar()]);
 
         if (!$ok) {
             return false;

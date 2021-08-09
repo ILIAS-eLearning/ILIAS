@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
@@ -16,6 +18,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 class ilMailSearchCoursesGUI
 {
 
+    private RequestInterface $httpRequest;
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -41,6 +44,7 @@ class ilMailSearchCoursesGUI
         $this->rbacreview = $DIC['rbacreview'];
         $this->tree = $DIC['tree'];
         $this->cache = $DIC['ilObjDataCache'];
+        $this->httpRequest = $DIC->http()->request();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -85,8 +89,9 @@ class ilMailSearchCoursesGUI
 
     public function mail(): void
     {
-        if ($_GET["view"] === "mycourses") {
-            $ids = ((int) $_GET['search_crs']) ? array((int) $_GET['search_crs']) : $_POST['search_crs'];
+        if (ilSession::get('view') === 'mycourses' ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mycourses")) {
+            $ids = ((int) $this->httpRequest->getQueryParams()['search_crs']) ? array((int) $this->httpRequest->getQueryParams()['search_crs']) : ilSession::get('search_crs');
             
             if ($ids) {
                 $this->mailCourses();
@@ -94,8 +99,9 @@ class ilMailSearchCoursesGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
                 $this->showMyCourses();
             }
-        } elseif ($_GET["view"] === "crs_members") {
-            $ids = ((int) $_GET['search_members']) ? array((int) $_GET['search_members']) : $_POST['search_members'];
+        } elseif (ilSession::get('view') === 'crs_members' ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "crs_members")) {
+            $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? array((int) $this->httpRequest->getQueryParams()['search_members']) : $this->httpRequest->getParsedBody()['search_members'];
             if ($ids) {
                 $this->mailMembers();
             } else {
@@ -128,7 +134,7 @@ class ilMailSearchCoursesGUI
 
         require_once './Services/Object/classes/class.ilObject.php';
         require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-        $ids = ((int) $_GET['search_crs']) ? array((int) $_GET['search_crs']) : $_POST['search_crs'];
+        $ids = ((int) $this->httpRequest->getQueryParams()['search_crs']) ? array((int) $this->httpRequest->getQueryParams()['search_crs']) : ilSession::get('search_crs');
         
         foreach ($ids as $crs_id) {
             $ref_ids = ilObject::_getAllReferences($crs_id);
@@ -196,7 +202,7 @@ class ilMailSearchCoursesGUI
             );
         }
     
-        $ids = ((int) $_GET['search_members']) ? array((int) $_GET['search_members']) : $_POST['search_members'];
+        $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? array((int) $this->httpRequest->getQueryParams()['search_members']) : $this->httpRequest->getParsedBody()['search_members'];
         
         foreach ($ids as $member) {
             $login = ilObjUser::_lookupLogin($member);
@@ -227,8 +233,9 @@ class ilMailSearchCoursesGUI
      */
     public function cancel(): void
     {
-        if ($_GET["view"] === "mycourses" &&
-            $_GET["ref"] === "mail") {
+        if ((ilSession::get('view') === "mycourses" ||
+                (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mycourses"))
+            && isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "mail") {
             $this->ctrl->returnToParent($this);
         } else {
             $this->showMyCourses();
@@ -245,13 +252,13 @@ class ilMailSearchCoursesGUI
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
         
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
-        
-        $_GET['view'] = 'mycourses';
+
+        ilSession::set('view', 'mycourses');
 
         $this->lng->loadLanguageModule('crs');
 
         include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-        $table = new ilMailSearchCoursesTableGUI($this, "crs", $_GET["ref"]);
+        $table = new ilMailSearchCoursesTableGUI($this, "crs", $this->httpRequest->getQueryParams()["ref"] ?? "mail");
         $table->setId('search_crs_tbl');
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         $crs_ids = ilCourseParticipants::_getMembershipByType($this->user->getId(), 'crs');
@@ -310,11 +317,11 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->setParameter($this, 'search_crs', $crs_id);
                     $this->ctrl->setParameter($this, 'view', 'mycourses');
                     
-                    if ($_GET["ref"] === "mail") {
+                    if ($this->httpRequest->getQueryParams()["ref"] === "mail") {
                         if ($this->mailing_allowed) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($_GET["ref"] === "wsp") {
+                    } elseif ($this->httpRequest->getQueryParams()["ref"] === "wsp") {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
@@ -344,14 +351,14 @@ class ilMailSearchCoursesGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         
         $table->setData($tableData);
-        if ($_GET['ref'] === 'mail') {
+        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
             $this->tpl->setVariable('BUTTON_CANCEL', $this->lng->txt('cancel'));
         }
 
         $searchTpl->setVariable('TABLE', $table->getHtml());
         $this->tpl->setContent($searchTpl->get());
 
-        if ($_GET["ref"] !== "wsp") {
+        if (!isset($this->httpRequest->getQueryParams()['ref']) || $this->httpRequest->getQueryParams()["ref"] !== "wsp") {
             $this->tpl->printToStdout();
         }
     }
@@ -363,27 +370,23 @@ class ilMailSearchCoursesGUI
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
-        if ($_GET["search_crs"] !== "") {
-            $_POST["search_crs"] = explode(",", $_GET["search_crs"]);
-            $_GET["search_crs"] = "";
-        } elseif ($_SESSION["search_crs"] !== "") {
-            $_POST["search_crs"] = explode(",", $_SESSION["search_crs"]);
-            $_SESSION["search_crs"] = "";
+        if ($this->httpRequest->getQueryParams()["search_crs"] !== "") {
+            ilSession::set('search_crs', explode(",", $this->httpRequest->getQueryParams()["search_crs"]));
         }
 
-        if (is_array($_POST['search_crs'])) {
-            $_POST['search_crs'] = array_filter(array_map('intval', $_POST['search_crs']));
+        if (is_array(ilSession::get('search_crs'))) {
+            ilSession::set('search_crs', array_filter(array_map('intval', $this->httpRequest->getParsedBody()['search_crs'])));
         }
 
-        if (!is_array($_POST["search_crs"]) ||
-            count($_POST["search_crs"]) === 0) {
+        if (!is_array(ilSession::get('search_crs')) ||
+            count(ilSession::get('search_crs')) === 0) {
             ilUtil::sendInfo($this->lng->txt("mail_select_course"));
             $this->showMyCourses();
         } else {
-            foreach ($_POST['search_crs'] as $crs_id) {
+            foreach (ilSession::get('search_crs') as $crs_id) {
                 $oTmpCrs = ilObjectFactory::getInstanceByObjId($crs_id);
                 if ($oTmpCrs->getShowMembers() === $oTmpCrs->SHOW_MEMBERS_DISABLED) {
-                    unset($_POST['search_crs']);
+                    ilSession::clear('search_crs');
                     ilUtil::sendInfo($this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                     $this->showMyCourses();
                     return;
@@ -394,22 +397,22 @@ class ilMailSearchCoursesGUI
             $this->tpl->setTitle($this->lng->txt("mail_addressbook"));
         
             $this->ctrl->setParameter($this, "view", "crs_members");
-            if ($_GET["ref"] !== "") {
-                $this->ctrl->setParameter($this, "ref", $_GET["ref"]);
+            if ($this->httpRequest->getQueryParams()["ref"] !== "") {
+                $this->ctrl->setParameter($this, "ref", $this->httpRequest->getQueryParams()["ref"]);
             }
-            if (is_array($_POST["search_crs"])) {
-                $this->ctrl->setParameter($this, "search_crs", implode(",", $_POST["search_crs"]));
+            if (is_array(ilSession::get('search_crs'))) {
+                $this->ctrl->setParameter($this, "search_crs", implode(",", ilSession::get('search_crs')));
             }
             $this->tpl->setVariable("ACTION", $this->ctrl->getFormAction($this));
             $this->ctrl->clearParameters($this);
 
             $this->lng->loadLanguageModule('crs');
             include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-            $context = $_GET["ref"] ?: "mail";
-            $table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context, $_POST["search_crs"]);
+            $context = $this->httpRequest->getQueryParams()["ref"] ?: "mail";
+            $table = new ilMailSearchCoursesMembersTableGUI($this, 'crs', $context, ilSession::get('search_crs'));
             $tableData = array();
             $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
-            foreach ($_POST["search_crs"] as $crs_id) {
+            foreach (ilSession::get('search_crs') as $crs_id) {
                 $members_obj = ilCourseParticipants::_getinstanceByObjId($crs_id);
                 $tmp_members = $members_obj->getParticipants();
                 $course_members = ilUtil::_sortIds($tmp_members, 'usr_data', 'lastname', 'usr_id');
@@ -461,7 +464,7 @@ class ilMailSearchCoursesGUI
             $searchTpl->setVariable('TABLE', $table->getHtml());
             $this->tpl->setContent($searchTpl->get());
             
-            if ($_GET["ref"] !== "wsp") {
+            if ($this->httpRequest->getQueryParams()["ref"] !== "wsp") {
                 $this->tpl->printToStdout();
             }
         }
@@ -469,7 +472,8 @@ class ilMailSearchCoursesGUI
     
     public function share(): void
     {
-        if ($_GET["view"] === "mycourses") {
+        if (ilSession::get('view') === "mycourses" ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mycourses")) {
             $ids = $_REQUEST["search_crs"];
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
@@ -480,7 +484,8 @@ class ilMailSearchCoursesGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
                 $this->showMyCourses();
             }
-        } elseif ($_GET["view"] === "crs_members") {
+        } elseif (ilSession::get('view') === "crs_members" ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "crs_members")) {
             $ids = $_REQUEST["search_members"];
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);

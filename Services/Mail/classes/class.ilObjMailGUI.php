@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Michael Jansen <mjansen@databay.de>
@@ -12,6 +14,7 @@ class ilObjMailGUI extends ilObjectGUI
     public const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
 
     public const PASSWORD_PLACE_HOLDER = '***********************';
+    private RequestInterface $httpRequest;
 
     protected ilTabsGUI $tabs;
 
@@ -41,6 +44,7 @@ class ilObjMailGUI extends ilObjectGUI
         $this->tabs = $DIC->tabs();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC['ilSetting'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -668,14 +672,15 @@ class ilObjMailGUI extends ilObjectGUI
         global $DIC;
 
         $mail = new ilMail($DIC->user()->getId());
+        $request = $DIC->http()->request();
 
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             ilUtil::redirect('ilias.php?baseClass=ilMailGUI');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            $_GET['cmd'] = '';
-            $_GET['target'] = '';
-            $_GET['ref_id'] = ROOT_FOLDER_ID;
-            $_GET['baseClass'] = 'ilRepositoryGUI';
+            $request->getQueryParams()['cmd'] = '';
+            $request->getQueryParams()['target'] = '';
+            $request->getQueryParams()['ref_id'] = ROOT_FOLDER_ID;
+            $request->getQueryParams()['baseClass'] = 'ilRepositoryGUI';
             ilUtil::sendFailure(
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),

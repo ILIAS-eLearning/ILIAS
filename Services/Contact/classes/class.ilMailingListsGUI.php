@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once "Services/Contact/classes/class.ilMailingLists.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
@@ -15,6 +17,7 @@ require_once "Services/Mail/classes/class.ilFormatMail.php";
 class ilMailingListsGUI
 {
 
+    private RequestInterface $httpRequest;
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -44,11 +47,14 @@ class ilMailingListsGUI
         $this->error = $DIC['ilErr'];
         $this->toolbar = $DIC['ilToolbar'];
         $this->tabs = $DIC['ilTabs'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
-        $this->mlists->setCurrentMailingList($_GET['ml_id']);
-        
+        if(isset($this->httpRequest->getQueryParams()['ml_id'])) {
+            $this->mlists->setCurrentMailingList($this->httpRequest->getQueryParams()['ml_id']);
+        }
+
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
     }
@@ -80,7 +86,7 @@ class ilMailingListsGUI
     
     public function confirmDelete(): bool
     {
-        $ml_ids = ((int) $_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id'];
+        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? array($this->httpRequest->getQueryParams()['ml_id']) : $this->httpRequest->getParsedBody()['ml_id'];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -110,9 +116,9 @@ class ilMailingListsGUI
 
     public function performDelete(): bool
     {
-        if (is_array($_POST['ml_id'])) {
+        if (isset($this->httpRequest->getParsedBody()['ml_id']) && is_array($this->httpRequest->getParsedBody()['ml_id'])) {
             $counter = 0;
-            foreach ($_POST['ml_id'] as $id) {
+            foreach ($this->httpRequest->getParsedBody()['ml_id'] as $id) {
                 if (ilMailingList::_isOwner($id, $this->user->getId())) {
                     $this->mlists->get(ilUtil::stripSlashes($id))->delete();
                     ++$counter;
@@ -143,7 +149,7 @@ class ilMailingListsGUI
             return true;
         }
 
-        $ml_ids = ((int) $_GET['ml_id']) ? array($_GET['ml_id']) : $_POST['ml_id'];
+        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? array($this->httpRequest->getQueryParams()['ml_id']) : $this->httpRequest->getParsedBody()['ml_id'];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -249,7 +255,7 @@ class ilMailingListsGUI
 
         $tbl->setData($result);
 
-        if (isset($_GET['ref']) && $_GET['ref'] === 'mail') {
+        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
             $tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
 
@@ -263,7 +269,7 @@ class ilMailingListsGUI
      */
     public function cancel(): void
     {
-        if (isset($_GET['ref']) && $_GET['ref'] === 'mail') {
+        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
             $this->ctrl->returnToParent($this);
         } else {
             $this->showMailingLists();
@@ -284,8 +290,8 @@ class ilMailingListsGUI
         }
         
         if ($this->form_gui->checkInput()) {
-            $this->mlists->getCurrentMailingList()->setTitle($_POST['title']);
-            $this->mlists->getCurrentMailingList()->setDescription($_POST['description']);
+            $this->mlists->getCurrentMailingList()->setTitle($this->httpRequest->getParsedBody()['title'] ?? "");
+            $this->mlists->getCurrentMailingList()->setDescription($this->httpRequest->getParsedBody()['description'] ?? "");
             if ($this->mlists->getCurrentMailingList()->getId()) {
                 $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->update();
@@ -431,7 +437,7 @@ class ilMailingListsGUI
 
     public function confirmDeleteMembers(): bool
     {
-        if (!isset($_POST['a_id'])) {
+        if (!isset($this->httpRequest->getParsedBody()['a_id'])) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMembersList();
             return true;
@@ -455,7 +461,7 @@ class ilMailingListsGUI
         $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
         foreach ($assigned_entries as $entry) {
-            if (in_array($entry['a_id'], $_POST['a_id'], true)) {
+            if (in_array($entry['a_id'], $this->httpRequest->getParsedBody()['a_id'], true)) {
                 $c_gui->addItem('a_id[]', $entry['a_id'], $names[$entry['usr_id']]);
             }
         }
@@ -474,9 +480,9 @@ class ilMailingListsGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if (is_array($_POST['a_id'])) {
+        if (is_array($this->httpRequest->getParsedBody()['a_id'])) {
             $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-            foreach ($_POST['a_id'] as $id) {
+            foreach ($this->httpRequest->getParsedBody()['a_id'] as $id) {
                 if (isset($assigned_entries[$id])) {
                     $this->mlists->getCurrentMailingList()->deleteEntry((int) $id);
                 }
@@ -559,8 +565,8 @@ class ilMailingListsGUI
         }
 
         require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-        if (ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int) $_POST['usr_id'])->isLinked()) {
-            $this->mlists->getCurrentMailingList()->assignUser((int) $_POST['usr_id']);
+        if (ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int) $this->httpRequest->getParsedBody()['usr_id'])->isLinked()) {
+            $this->mlists->getCurrentMailingList()->assignUser((int) $this->httpRequest->getParsedBody()['usr_id']);
             ilUtil::sendInfo($this->lng->txt('saved_successfully'));
             $this->showMembersList();
             return true;

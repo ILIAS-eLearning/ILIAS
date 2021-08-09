@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once './Services/User/classes/class.ilObjUser.php';
 require_once 'Services/Mail/classes/class.ilMailbox.php';
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
@@ -16,6 +18,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 class ilMailSearchGroupsGUI
 {
 
+    private RequestInterface $httpRequest;
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -41,6 +44,7 @@ class ilMailSearchGroupsGUI
         $this->rbacreview = $DIC['rbacreview'];
         $this->tree = $DIC['tree'];
         $this->cache = $DIC['ilObjDataCache'];
+        $this->httpRequest = $DIC->http()->request();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -85,16 +89,18 @@ class ilMailSearchGroupsGUI
 
     public function mail(): void
     {
-        if ($_GET["view"] === "mygroups") {
-            $ids = ((int) $_GET['search_grp']) ? array((int) $_GET['search_grp']) : $_POST['search_grp'];
+        if (ilSession::get('view') === "mygroups" ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mygroups")) {
+            $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : ilSession::get('search_grp');
             if ($ids) {
                 $this->mailGroups();
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_group"));
                 $this->showMyGroups();
             }
-        } elseif ($_GET["view"] === "grp_members") {
-            $ids = ((int) $_GET['search_members']) ? array((int) $_GET['search_members']) : $_POST['search_members'];
+        } elseif (ilSession::get('view') === "grp_members" ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "grp_members")) {
+            $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? array((int) $this->httpRequest->getQueryParams()['search_members']) : $this->httpRequest->getParsedBody()['search_members'];
             if ($ids) {
                 $this->mailMembers();
             } else {
@@ -128,7 +134,7 @@ class ilMailSearchGroupsGUI
         require_once './Services/Object/classes/class.ilObject.php';
         require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 
-        $ids = ((int) $_GET['search_grp']) ? array((int) $_GET['search_grp']) : $_POST['search_grp'];
+        $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : ilSession::get('search_grp');
         foreach ($ids as $grp_id) {
             $ref_ids = ilObject::_getAllReferences($grp_id);
             foreach ($ref_ids as $ref_id) {
@@ -192,7 +198,7 @@ class ilMailSearchGroupsGUI
             );
         }
         
-        $ids = ((int) $_GET['search_members']) ? array((int) $_GET['search_members']) : $_POST['search_members'];
+        $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? array((int) $this->httpRequest->getQueryParams()['search_members']) : $this->httpRequest->getParsedBody()['search_members'];
         
         foreach ($ids as $member) {
             $login = ilObjUser::_lookupLogin($member);
@@ -222,8 +228,9 @@ class ilMailSearchGroupsGUI
      */
     public function cancel(): void
     {
-        if ($_GET["view"] === "mygroups" &&
-            $_GET["ref"] === "mail") {
+        if ((ilSession::get('view') === "mygroups" ||
+            (isset($this->httpRequest->getQueryParams()["view"])  && $this->httpRequest->getQueryParams()["view"] === "mygroups"))
+            && isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "mail") {
             $this->ctrl->returnToParent($this);
         } else {
             $this->showMyGroups();
@@ -240,15 +247,15 @@ class ilMailSearchGroupsGUI
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
-        
-        $_GET['view'] = 'mygroups';
+
+        ilSession::set('view', 'mygroups');
 
         $this->lng->loadLanguageModule('crs');
         
         $this->ctrl->setParameter($this, 'view', 'mygroups');
         
         include_once 'Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php';
-        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $_GET["ref"]);
+        $table = new ilMailSearchCoursesTableGUI($this, 'grp', $this->httpRequest->getQueryParams()["ref"] ?? 'mail');
         $table->setId('search_grps_tbl');
         $grp_ids = ilGroupParticipants::_getMembershipByType($this->user->getId(), 'grp');
         
@@ -308,11 +315,11 @@ class ilMailSearchGroupsGUI
                     $this->ctrl->setParameter($this, 'search_grp', $grp_id);
                     $this->ctrl->setParameter($this, 'view', 'mygroups');
                     
-                    if ($_GET["ref"] === "mail") {
+                    if (isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "mail") {
                         if ($this->mailing_allowed) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($_GET["ref"] === "wsp") {
+                    } elseif ($this->httpRequest->getQueryParams()["ref"] && $this->httpRequest->getQueryParams()["ref"] === "wsp") {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
@@ -345,7 +352,7 @@ class ilMailSearchGroupsGUI
         $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
         
-        if ($_GET["ref"] !== "wsp") {
+        if (!isset($this->httpRequest->getQueryParams()['ref']) || $this->httpRequest->getQueryParams()["ref"] !== "wsp") {
             $this->tpl->printToStdout();
         }
     }
@@ -355,25 +362,26 @@ class ilMailSearchGroupsGUI
      */
     public function showMembers(): void
     {
-        if ($_GET["search_grp"] !== "") {
-            $_POST["search_grp"] = explode(",", $_GET["search_grp"]);
+        if ($this->httpRequest->getQueryParams()["search_grp"] && $this->httpRequest->getQueryParams()["search_grp"] !== "") {
+             ilSession::set('search_grp' , explode(",", $this->httpRequest->getQueryParams()["search_grp"]));
         }
 
-        if (!is_array($_POST["search_grp"]) ||
-            count($_POST["search_grp"]) === 0) {
+        $search_grp = $this->httpRequest->getParsedBody()["search_grp"] ?? ilSession::get('search_grp');
+        if (!$search_grp || !is_array($search_grp) ||
+            count($search_grp) === 0) {
             ilUtil::sendInfo($this->lng->txt("mail_select_group"));
             $this->showMyGroups();
         } else {
             $this->tpl->setTitle($this->lng->txt("mail_addressbook"));
             include_once 'Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php';
-            $context = $_GET["ref"] ?: "mail";
-            $table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context, $_POST["search_grp"]);
+            $context = $this->httpRequest->getQueryParams()["ref"] ?: "mail";
+            $table = new ilMailSearchCoursesMembersTableGUI($this, 'grp', $context, $search_grp);
             $this->lng->loadLanguageModule('crs');
 
             $tableData = array();
             $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
             
-            foreach ($_POST["search_grp"] as $grp_id) {
+            foreach ($search_grp as $grp_id) {
                 $ref_ids = ilObject::_getAllReferences($grp_id);
                 $ref_id = current($ref_ids);
 
@@ -423,7 +431,7 @@ class ilMailSearchGroupsGUI
             $searchTpl->setVariable('TABLE', $table->getHTML());
             $this->tpl->setContent($searchTpl->get());
             
-            if ($_GET["ref"] !== "wsp") {
+            if ($this->httpRequest->getQueryParams()["ref"] !== "wsp") {
                 $this->tpl->printToStdout();
             }
         }
@@ -431,7 +439,8 @@ class ilMailSearchGroupsGUI
 
     public function share(): void
     {
-        if ($_GET["view"] === "mygroups") {
+        if (ilSession::get('view') === "mygroups" ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mygroups")) {
             $ids = $_REQUEST["search_grp"];
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
@@ -442,7 +451,8 @@ class ilMailSearchGroupsGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_group"));
                 $this->showMyGroups();
             }
-        } elseif ($_GET["view"] === "grp_members") {
+        } elseif (ilSession::get('view') ||
+            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "grp_members")) {
             $ids = $_REQUEST["search_members"];
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);

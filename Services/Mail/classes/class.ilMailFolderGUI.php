@@ -55,7 +55,7 @@ class ilMailFolderGUI
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
         if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? 0);
+            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? ilSession::get('mobj_id'));
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
@@ -179,7 +179,7 @@ class ilMailFolderGUI
 
         $profile_gui = new ilPublicUserProfileGUI((int) ($this->httpRequest->getQueryParams()['user'] ?? 0));
 
-        $this->ctrl->setParameter($this, 'mail_id', (int) $this->httpRequest->getQueryParams()['mail_id']);
+        $this->ctrl->setParameter($this, 'mail_id', (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
         $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showMail'));
         $this->ctrl->clearParameters($this);
@@ -208,7 +208,7 @@ class ilMailFolderGUI
     }
 
     /**
-     * Shows current folder. Current Folder is determined by $_GET["mobj_id"]
+     * Shows current folder. Current Folder is determined by $this->httpRequest->getQueryParams()["mobj_id"]
      * @param bool $oneConfirmationDialogueRendered
      */
     protected function showFolder(bool $oneConfirmationDialogueRendered = false) : void

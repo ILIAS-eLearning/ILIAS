@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * Class ilMailMemberSearchGUI
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -9,6 +11,7 @@
 class ilMailMemberSearchGUI
 {
 
+    private RequestInterface $httpRequest;
     protected mixed $mail_roles;
     /**
      * @var ilObjGroupGUI|ilObjCourseGUI
@@ -39,6 +42,7 @@ class ilMailMemberSearchGUI
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC['lng'];
         $this->access = $DIC['ilAccess'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
         $this->lng->loadLanguageModule('search');
@@ -78,7 +82,7 @@ class ilMailMemberSearchGUI
                 break;
 
             default:
-                if (isset($_GET['returned_from_mail']) && $_GET['returned_from_mail'] === '1') {
+                if (isset($this->httpRequest->getQueryParams()['returned_from_mail']) && $this->httpRequest->getQueryParams()['returned_from_mail'] === '1') {
                     $this->redirectToParentReferer();
                 }
                 $this->showSearchForm();
@@ -128,7 +132,7 @@ class ilMailMemberSearchGUI
                         $role_mail_boxes[] = $mailbox;
                     }
 
-                    $_SESSION['mail_roles'] = $role_mail_boxes;
+                    ilSession::set('mail_roles', $role_mail_boxes);
 
                     $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
                         $this,
@@ -214,14 +218,14 @@ class ilMailMemberSearchGUI
      */
     protected function sendMailToSelectedUsers() : bool
     {
-        if (!isset($_POST['user_ids']) || !is_array($_POST['user_ids']) || 0 === count($_POST['user_ids'])) {
+        if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
             return false;
         }
 
         $rcps = [];
-        foreach ($_POST['user_ids'] as $usr_id) {
+        foreach ($this->httpRequest->getParsedBody()['user_ids'] as $usr_id) {
             $rcps[] = ilObjUser::_lookupLogin($usr_id);
         }
 

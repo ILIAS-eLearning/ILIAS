@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 include_once "./Services/Cron/classes/class.ilCronJob.php";
 include_once "./Services/Cron/classes/class.ilCronJobResult.php";
 require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
@@ -13,6 +15,7 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMails extends ilCronJob
 {
+    private RequestInterface $httpRequest;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilDBInterface $db;
@@ -31,6 +34,7 @@ class ilMailCronOrphanedMails extends ilCronJob
             $this->lng = $DIC->language();
             $this->db = $DIC->database();
             $this->user = $DIC->user();
+            $this->httpRequest = $DIC->http()->request();
 
             $this->lng->loadLanguageModule('mail');
             $this->initDone = true;
@@ -116,7 +120,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $notification->setSuffix($this->lng->txt('days'));
         $notification->setMinValue(0);
         
-        $mail_threshold = isset($_POST['mail_threshold']) ? (int) $_POST['mail_threshold'] : $this->settings->get('mail_threshold');
+        $mail_threshold = isset($this->httpRequest->getParsedBody()['mail_threshold']) ? (int) $this->httpRequest->getParsedBody()['mail_threshold'] : $this->settings->get('mail_threshold');
         $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
         $notification->setValue($this->settings->get('mail_notify_orphaned'));

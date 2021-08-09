@@ -22,6 +22,7 @@
 */
 
 use JetBrains\PhpStorm\NoReturn;
+use Psr\Http\Message\RequestInterface;
 
 /**
 * @author Jens Conze
@@ -34,6 +35,7 @@ class ilMailSearchGUI
 
     private ilGlobalPageTemplate $tpl;
     private ilCtrl $ctrl;
+    private RequestInterface $httpRequest;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
@@ -49,6 +51,7 @@ class ilMailSearchGUI
         $this->lng = $DIC['lng'];
         $this->rbacreview = $DIC['rbacreview'];
         $this->object_data_cache = $DIC['ilObjDataCache'];
+        $this->httpRequest = $DIC->http()->request();
 
         // personal workspace
         $this->wsp_access_handler = $wsp_access_handler;
@@ -80,22 +83,22 @@ class ilMailSearchGUI
      */
     private function isDefaultRequestContext() : bool
     {
-        return !isset($_GET['ref']) || $_GET['ref'] !== 'wsp';
+        return !isset($this->httpRequest->getQueryParams()['ref']) || $this->httpRequest->getQueryParams()['ref'] !== 'wsp';
     }
 
     public function adopt(): void
     {
         // necessary because of select all feature of ilTable2GUI
         $recipients = array();
-        $recipients = array_merge($recipients, (array) $_POST['search_name_to_addr']);
-        $recipients = array_merge($recipients, (array) $_POST['search_name_to_usr']);
-        $recipients = array_merge($recipients, (array) $_POST['search_name_to_grp']);
+        $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_addr']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_addr'] : []);
+        $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_usr']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_usr'] : []);
+        $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_grp']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_grp'] : []);
 
         $recipients = array_unique($recipients);
 
-        $_SESSION["mail_search_results_to"] = $recipients;
-        $_SESSION["mail_search_results_cc"] = $_POST["search_name_cc"];
-        $_SESSION["mail_search_results_bcc"] = $_POST["search_name_bcc"];
+        ilSession::set("mail_search_results_to", $recipients);
+        ilSession::set("mail_search_results_cc", $this->httpRequest->getParsedBody()["search_name_cc"] ?: null);
+        ilSession::set("mail_search_results_bcc", $this->httpRequest->getParsedBody()["search_name_bcc"] ?: null);
 
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
@@ -132,11 +135,11 @@ class ilMailSearchGUI
 
     public function search(): bool
     {
-        $_SESSION["mail_search_search"] = (string) $_POST["search"];
+        ilSession::set("mail_search_search", (string) $this->httpRequest->getParsedBody()["search"]);
 
-        if (trim($_SESSION["mail_search_search"]) === '') {
+        if (trim(ilSession::get("mail_search_search")) === '') {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
-        } elseif (strlen(trim($_SESSION["mail_search_search"])) < 3) {
+        } elseif (strlen(trim(ilSession::get("mail_search_search"))) < 3) {
             $this->lng->loadLanguageModule('search');
             ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
         }
@@ -169,11 +172,11 @@ class ilMailSearchGUI
         $inp->setDataSource($dsDataLink);
 
         if (
-            isset($_SESSION["mail_search_search"]) &&
-            is_string($_SESSION["mail_search_search"]) &&
-            trim($_SESSION["mail_search_search"]) !== ''
+            ilSession::get("mail_search_search") &&
+            is_string(ilSession::get("mail_search_search")) &&
+            trim(ilSession::get("mail_search_search")) !== ''
         ) {
-            $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
+            $inp->setValue(ilUtil::prepareFormOutput(trim(ilSession::get("mail_search_search")), true));
         }
         $form->addItem($inp);
 
@@ -190,11 +193,11 @@ class ilMailSearchGUI
         include_once 'Services/Utilities/classes/class.ilStr.php';
 
         $search = '';
-        if (isset($_GET["term"]) && is_string($_GET["term"])) {
-            $search = $_GET["term"];
+        if (isset($this->httpRequest->getQueryParams()["term"]) && is_string($this->httpRequest->getQueryParams()["term"])) {
+            $search = $this->httpRequest->getQueryParams()["term"];
         }
-        if (isset($_POST["term"]) && is_string($_POST["term"])) {
-            $search = $_POST["term"];
+        if (isset($this->httpRequest->getParsedBody()["term"]) && is_string($this->httpRequest->getParsedBody()["term"])) {
+            $search = $this->httpRequest->getParsedBody()["term"];
         }
 
         $search = trim($search);
@@ -230,9 +233,9 @@ class ilMailSearchGUI
 
         // #14109
         if (
-            !isset($_SESSION["mail_search_search"]) ||
-            !is_string($_SESSION["mail_search_search"]) ||
-            strlen(trim($_SESSION["mail_search_search"])) < 3
+            !ilSession::get("mail_search_search") ||
+            !is_string(ilSession::get("mail_search_search")) ||
+            strlen(trim(ilSession::get("mail_search_search"))) < 3
         ) {
             if ($this->isDefaultRequestContext()) {
                 $this->tpl->printToStdout();
@@ -245,7 +248,7 @@ class ilMailSearchGUI
         if (count($relations)) {
             $contacts_search_result = new ilSearchResult();
 
-            $query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
+            $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
             $query_parser->setCombination(QP_COMBINATION_AND);
             $query_parser->setMinWordLength(3);
             $query_parser->parse();
@@ -340,7 +343,7 @@ class ilMailSearchGUI
 
         $all_results = new ilSearchResult();
 
-        $query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
+        $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
@@ -438,7 +441,7 @@ class ilMailSearchGUI
 
         $group_results = new ilSearchResult();
 
-        $query_parser = new ilQueryParser(addcslashes($_SESSION['mail_search_search'], '%_'));
+        $query_parser = new ilQueryParser(addcslashes(ilSession::get('mail_search_search'), '%_'));
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();

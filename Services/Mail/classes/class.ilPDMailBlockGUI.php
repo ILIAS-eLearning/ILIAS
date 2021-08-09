@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 include_once 'Services/Block/classes/class.ilBlockGUI.php';
 include_once 'Services/Mail/classes/class.ilMailUserCache.php';
 
@@ -13,6 +15,7 @@ include_once 'Services/Mail/classes/class.ilMailUserCache.php';
 class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static $block_type = 'pdmail';
+    private RequestInterface $httpRequest;
 
     /**
      * @var \ilLanguage
@@ -45,6 +48,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl = $DIC->ctrl();
         $this->setting = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->httpRequest = $DIC->http()->request();
 
         include_once 'Services/User/classes/class.ilObjUser.php';
         include_once 'Services/Mail/classes/class.ilMailbox.php';
@@ -78,7 +82,8 @@ class ilPDMailBlockGUI extends ilBlockGUI
      */
     public static function getScreenMode(): string
     {
-        if ($_GET['cmd'] === 'showMail') {
+        global $DIC;
+        if ($DIC->http()->request()->getQueryParams()['cmd'] === 'showMail') {
             return IL_SCREEN_CENTER;
         }
 
@@ -195,23 +200,23 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $content_block = new ilDashboardContentBlockGUI();
         $content_block->setContent($mail_gui->getPDMailHTML(
-            $_GET["mail_id"],
-            $_GET["mobj_id"]
+            $this->httpRequest->getQueryParams()["mail_id"] ?? 0,
+            $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id')
         ));
         $content_block->setTitle($this->lng->txt("message"));
 
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=reply",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id') . "&type=reply",
             $this->lng->txt("reply")
         );
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $_GET["mail_id"] . "&mobj_id=" . $_GET["mobj_id"] . "&type=read",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id') . "&type=read",
             $this->lng->txt("inbox")
         );
 
-        $this->ctrl->setParameter($this, 'mail_id', (int) $_GET['mail_id']);
+        $this->ctrl->setParameter($this, 'mail_id', (int) $this->httpRequest->getQueryParams()['mail_id']);
         $content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
 
         return $content_block->getHTML();
@@ -227,11 +232,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
 
-        if (!$_GET['mobj_id']) {
-            $_GET['mobj_id'] = $mbox->getInboxFolder();
+        if (!isset($this->httpRequest->getQueryParams()['mobj_id']) || !$this->httpRequest->getQueryParams()['mobj_id']) {
+            ilSession::set('mobj_id', $mbox->getInboxFolder());
         }
 
-        if ($umail->moveMailsToFolder(array((int) $_GET['mail_id']), $mbox->getTrashFolder())) {
+        if ($umail->moveMailsToFolder(array((int) $this->httpRequest->getQueryParams()['mail_id']), $mbox->getTrashFolder())) {
             \ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
         } else {
             \ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);

@@ -4,6 +4,7 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @author  Jan Posselt <jposselt@databay.de>
@@ -12,6 +13,7 @@ use ILIAS\UI\Renderer;
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
+    private RequestInterface $httpRequest;
     protected array $_folderNode = [];
     protected ilMailFolderGUI $_parentObject;
     protected int $_currentFolderId = 0;
@@ -57,6 +59,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
+        $this->httpRequest = $DIC->http()->request();
 
         $this->_currentFolderId = $a_current_folder_id;
         $this->_parentObject = $a_parent_obj;
@@ -770,7 +773,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         foreach ($this->sub_filter as $item) {
             if ($item->checkInput()) {
-                $item->setValueByArray($_POST);
+                $item->setValueByArray($this->httpRequest->getParsedBody());
                 $item->writeToSession();
             }
         }
@@ -785,7 +788,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         foreach ($this->sub_filter as $item) {
             if ($item->checkInput()) {
-                $item->setValueByArray($_POST);
+                $item->setValueByArray($this->httpRequest->getParsedBody());
                 $item->clearFromSession();
             }
         }

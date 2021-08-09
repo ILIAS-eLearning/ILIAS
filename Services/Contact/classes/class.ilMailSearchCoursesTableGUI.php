@@ -9,11 +9,15 @@
 *
 * @ingroup ServicesMail
 */
+
+use Psr\Http\Message\RequestInterface;
+
 include_once('Services/Table/classes/class.ilTable2GUI.php');
 
 
 class ilMailSearchCoursesTableGUI extends ilTable2GUI
 {
+    private RequestInterface $httpRequest;
     /**
      * @var ilLanguage
      */
@@ -55,6 +59,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->rbacsystem = $DIC['rbacsystem'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('buddysystem');
@@ -95,11 +100,11 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->context = $context;
 
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
-        if ($_GET['ref'] !== '') {
-            $this->ctrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
+        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] !== '') {
+            $this->ctrl->setParameter($a_parent_obj, 'ref', $this->httpRequest->getQueryParams()['ref']);
         }
-        if (is_array($_POST[$mode["checkbox"]])) {
-            $this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $_POST[$mode["checkbox"]]));
+        if (isset($this->httpRequest->getParsedBody()[$mode["checkbox"]]) && is_array($this->httpRequest->getParsedBody()[$mode["checkbox"]])) {
+            $this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $this->httpRequest->getParsedBody()[$mode["checkbox"]]));
         }
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -127,7 +132,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         }
         $this->addMultiCommand('showMembers', $this->lng->txt('mail_list_members'));
         
-        if ($_GET['ref'] === 'mail') {
+        if (isset($this->httpRequest->getParsedBody()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
     }

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
@@ -16,7 +18,7 @@ class ilContactGUI
 {
     public const CONTACTS_VIEW_GALLERY = 1;
     public const CONTACTS_VIEW_TABLE = 2;
-
+    private RequestInterface $httpRequest;
 
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
@@ -46,6 +48,7 @@ class ilContactGUI
         $this->user = $DIC['ilUser'];
         $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
+        $this->httpRequest = $DIC->http()->request();
 
         $this->ctrl->saveParameter($this, "mobj_id");
 
@@ -110,7 +113,7 @@ class ilContactGUI
 
             case 'ilpublicuserprofilegui':
                 require_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
-                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($_GET['user']));
+                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['user']));
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
                 $this->ctrl->forwardCommand($profile_gui);
                 $this->tpl->printToStdout();
@@ -222,8 +225,8 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if (isset($_POST['contacts_view'])) {
-            switch ($_POST['contacts_view']) {
+        if (isset($this->httpRequest->getParsedBody()['contacts_view'])) {
+            switch ($this->httpRequest->getParsedBody()['contacts_view']) {
                 case self::CONTACTS_VIEW_GALLERY:
                     $this->ctrl->redirectByClass('ilUsersGalleryGUI');
                     break;
@@ -301,13 +304,13 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if (!isset($_POST['usr_id']) || !is_array($_POST['usr_id']) || 0 === count($_POST['usr_id'])) {
+        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || !is_array($this->httpRequest->getParsedBody()['usr_id']) || 0 === count($this->httpRequest->getParsedBody()['usr_id'])) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showContacts();
             return true;
         }
 
-        $usr_ids = $_POST['usr_id'];
+        $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
 
         $mail_data = $this->umail->getSavedData();
         if (!is_array($mail_data)) {
@@ -347,23 +350,23 @@ class ilContactGUI
      */
     public function submitInvitation(): void
     {
-        if (!isset($_POST['usr_id']) || $_POST['usr_id'] === '') {
+        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || $this->httpRequest->getParsedBody()['usr_id'] === '') {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
 
-        if (!$_POST['room_id']) {
+        if (!$this->httpRequest->getParsedBody()['room_id']) {
             ilUtil::sendInfo($this->lng->txt('select_one'));
-            $_POST['usr_id'] = explode(',', $_POST['usr_id']);
+            $this->httpRequest->getParsedBody()['usr_id'] = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
             $this->inviteToChat();
             return;
         }
 
         // get selected users (comma seperated user id list)
-        $usr_ids = explode(',', $_POST['usr_id']);
+        $usr_ids = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
 
         // get selected chatroom from POST-String, format: "room_id , scope"
-        $room_ids = explode(',', $_POST['room_id']);
+        $room_ids = explode(',', $this->httpRequest->getParsedBody()['room_id']);
         $room_id = (int) $room_ids[0];
         $scope = 0;
 
@@ -427,7 +430,7 @@ class ilContactGUI
             }
 
             ilUtil::sendFailure($message);
-            $_POST['usr_id'] = $usr_ids;
+            $this->httpRequest->getParsedBody()['usr_id'] = $usr_ids;
             $this->inviteToChat();
             return;
         }
@@ -472,11 +475,11 @@ class ilContactGUI
 
         $this->lng->loadLanguageModule('chatroom');
 
-        if (!isset($_POST['usr_id']) || !is_array($_POST['usr_id']) || 0 === count($_POST['usr_id'])) {
+        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || !is_array($this->httpRequest->getParsedBody()['usr_id']) || 0 === count($this->httpRequest->getParsedBody()['usr_id'])) {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
-        $usr_ids = $_POST['usr_id'];
+        $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
 
         require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 

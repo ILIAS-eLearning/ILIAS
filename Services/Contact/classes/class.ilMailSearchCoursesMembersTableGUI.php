@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 require_once 'Services/Utilities/classes/class.ilStr.php';
@@ -16,6 +18,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 {
+    private RequestInterface $httpRequest;
     /**
      * @var ilLanguage
      */
@@ -49,6 +52,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->user = $DIC['ilUser'];
+        $this->httpRequest = $DIC->http()->request();
 
         $tableId = $type . '_cml_' . implode('_', (array) $contextObjects);
         $this->setId($tableId);
@@ -85,11 +89,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('members'));
         $this->mode = $mode;
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
-        if ($_GET['ref'] !== '') {
-            $this->ctrl->setParameter($a_parent_obj, 'ref', $_GET['ref']);
+        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] !== '') {
+            $this->ctrl->setParameter($a_parent_obj, 'ref', $this->httpRequest->getQueryParams()['ref']);
         }
-        if (is_array($_POST[$mode["checkbox"]])) {
-            $this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $_POST[$mode["checkbox"]]));
+        if (isset($this->httpRequest->getParsedBody()[$mode["checkbox"]]) && is_array($this->httpRequest->getParsedBody()[$mode["checkbox"]])) {
+            $this->ctrl->setParameter($a_parent_obj, $mode["checkbox"], implode(',', $this->httpRequest->getParsedBody()[$mode["checkbox"]]));
         }
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));

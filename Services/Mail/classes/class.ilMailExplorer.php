@@ -44,7 +44,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
         if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? 0);
+            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? ilSession::get('mobj_id'));
         }
 
         $this->currentFolderId = $folderId;

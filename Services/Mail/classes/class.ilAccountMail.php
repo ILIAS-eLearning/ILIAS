@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
 * Class ilAccountMail
 *
@@ -12,6 +14,7 @@
 */
 class ilAccountMail
 {
+    private RequestInterface $httpRequest;
     /**
     * user password
     * @var	string	user password (plain text)
@@ -39,12 +42,15 @@ class ilAccountMail
     /** @var array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null} */
     private array $amail = [];
 
+
     /**
     * constructor
     * @access	public
     */
     public function __construct()
     {
+        global $DIC;
+        $this->httpRequest = $DIC->http()->request();
     }
     
     public function useLangVariablesAsFallback(bool $a_status): void
@@ -348,15 +354,15 @@ class ilAccountMail
         
         // target
         $tar = false;
-        if ($_GET["target"] !== "") {
-            $tarr = explode("_", $_GET["target"]);
+        if (isset($this->httpRequest->getQueryParams()['target']) && $this->httpRequest->getQueryParams()['target'] !== "") {
+            $tarr = explode("_", $this->httpRequest->getQueryParams()["target"]);
             if ($tree->isInTree($tarr[1])) {
                 $obj_id = ilObject::_lookupObjId($tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type == $tarr[0]) {
                     $a_string = str_replace(
                         array("[TARGET_TITLE]", "[TARGET]"),
-                        array(ilObject::_lookupTitle($obj_id), ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $_GET["target"]),
+                        array(ilObject::_lookupTitle($obj_id), ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $this->httpRequest->getQueryParams()["target"]),
                         $a_string
                     );
                         

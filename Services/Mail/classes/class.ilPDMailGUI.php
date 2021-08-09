@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 require_once 'Services/Mail/classes/class.ilMail.php';
 
 /**
@@ -11,6 +13,7 @@ require_once 'Services/Mail/classes/class.ilMail.php';
  */
 class ilPDMailGUI
 {
+    private RequestInterface $httpRequest;
     protected ILIAS $ilias;
     protected ilRbacSystem $rbacsystem;
     protected ilLanguage $lng;
@@ -27,6 +30,7 @@ class ilPDMailGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->ilias = $DIC['ilias'];
         $this->user = $DIC->user();
+        $this->httpRequest = $DIC->http()->request();
     }
 
     /**
@@ -54,7 +58,7 @@ class ilPDMailGUI
                 $tpl->setCurrentBlock('a_row');
                 $tpl->setVariable(
                     'HREF_DOWNLOAD',
-                    'ilias.php?baseClass=ilMailGUI&amp;type=deliverFile&amp;mail_id=' . $_GET['mail_id'] .
+                    'ilias.php?baseClass=ilMailGUI&amp;type=deliverFile&amp;mail_id=' . $this->httpRequest->getQueryParams()['mail_id'] .
                         '&amp;filename=' . md5($file)
                 );
                 $tpl->setVariable('FILE_NAME', $file);

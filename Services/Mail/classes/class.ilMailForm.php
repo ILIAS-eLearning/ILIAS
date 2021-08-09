@@ -1,12 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * @author Nadia Ahmad
  * @version $Id$
  */
 class ilMailForm
 {
+    private RequestInterface $httpRequest;
+
     /**
      * @param string $quotedTerm
      * @param string $term
@@ -15,8 +19,10 @@ class ilMailForm
      */
     public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
     {
+        global $DIC;
+        $this->httpRequest = $DIC->http()->request();
         $mode = ilMailAutoCompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES;
-        if (isset($_GET['fetchall']) && $_GET['fetchall']) {
+        if (isset($this->httpRequest->getQueryParams()['fetchall']) && $this->httpRequest->getQueryParams()['fetchall']) {
             $mode = ilMailAutoCompleteRecipientResult::MODE_FETCH_ALL;
         }
 

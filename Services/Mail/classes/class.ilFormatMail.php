@@ -131,24 +131,24 @@ class ilFormatMail extends ilMail
         $name_str = implode(',', $a_names);
         switch ($a_type) {
             case 'to':
-                $this->mail_data["rcp_to"] = trim($this->mail_data["rcp_to"]);
                 if ($this->mail_data["rcp_to"]) {
+                    $this->mail_data["rcp_to"] = trim($this->mail_data["rcp_to"]);
                     $this->mail_data["rcp_to"] .= ",";
                 }
                 $this->mail_data["rcp_to"] .= $name_str;
                 break;
 
             case 'cc':
-                $this->mail_data["rcp_cc"] = trim($this->mail_data["rcp_cc"]);
                 if ($this->mail_data["rcp_cc"]) {
+                    $this->mail_data["rcp_cc"] = trim($this->mail_data["rcp_cc"]);
                     $this->mail_data["rcp_cc"] .= ",";
                 }
                 $this->mail_data["rcp_cc"] .= $name_str;
                 break;
 
             case 'bc':
-                $this->mail_data["rcp_bcc"] = trim($this->mail_data["rcp_bcc"]);
                 if ($this->mail_data["rcp_bcc"]) {
+                    $this->mail_data["rcp_bcc"] = trim($this->mail_data["rcp_bcc"]);
                     $this->mail_data["rcp_bcc"] .= ",";
                 }
                 $this->mail_data["rcp_bcc"] .= $name_str;

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
@@ -11,6 +13,7 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilMailCronNotification extends ilCronJob
 {
+    private RequestInterface $httpRequest;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected bool $initDone = false;
@@ -25,6 +28,7 @@ class ilMailCronNotification extends ilCronJob
         if (!$this->initDone) {
             $this->settings = $DIC->settings();
             $this->lng = $DIC->language();
+            $this->httpRequest = $DIC->http()->request();
 
             $this->initDone = true;
         }
@@ -96,7 +100,7 @@ class ilMailCronNotification extends ilCronJob
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
-        $this->settings->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);
+        $this->settings->set('mail_notification_message', $this->httpRequest->getParsedBody()['mail_notification_message'] ? 1 : 0);
         return true;
     }
 

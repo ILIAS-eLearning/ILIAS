@@ -167,10 +167,10 @@ class ilMailAttachmentGUI
 
     public function uploadFile() : void
     {
-        if (trim($_FILES['userfile']['name']) !== '') {
+        if (trim($this->request->getUploadedFiles()['userfile']['name']) !== '') {
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
-                $this->mfile->storeUploadedFile($_FILES['userfile']);
+                $this->mfile->storeUploadedFile($this->request->getUploadedFiles()['userfile']);
                 ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
             } elseif ($form->getItemByPostVar('userfile')->getAlert() !== $this->lng->txt("form_msg_file_size_exceeds")) {
                 ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
