@@ -211,24 +211,6 @@ class ilPluginAdmin
         }
     }
 
-    protected function getPluginSlots(array $components, string $type) : \Iterator
-    {
-        foreach ($this->getComponentSlotsByType($components, $type) as $slot) {
-            $component = $slot->getComponent();
-            yield new ilPluginSlot($component->getType(), $component->getName(), $slot->getId());
-        }
-    }
-
-    protected function getComponentSlotsByType(array $components, string $type) : \Iterator
-    {
-        foreach ($components as $component) {
-            $component = $this->component_data_db->getComponentByTypeAndName($type, $component["subdir"]);
-            foreach ($component->getPluginSlots() as $component_slot) {
-                yield $component_slot;
-            }
-        }
-    }
-
     final public function clearCachedData()
     {
         unset($this->data);
