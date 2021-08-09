@@ -31,7 +31,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyMessage(): mixed
+    public function formatReplyMessage() : mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -50,7 +50,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplySubject(): mixed
+    public function formatReplySubject() : mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -63,7 +63,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyRecipientsForCC(): string
+    public function formatReplyRecipientsForCC() : string
     {
         global $DIC;
 
@@ -95,7 +95,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyRecipient(): mixed
+    public function formatReplyRecipient() : mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -111,7 +111,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatForwardSubject(): mixed
+    public function formatForwardSubject() : mixed
     {
         if (empty($this->mail_data)) {
             return false;
@@ -126,7 +126,7 @@ class ilFormatMail extends ilMail
     * @param string rcp type ('to','cc','bc')
     * @return array
     */
-    public function appendSearchResult(array $a_names, string $a_type): array
+    public function appendSearchResult(array $a_names, string $a_type) : array
     {
         $name_str = implode(',', $a_names);
         switch ($a_type) {

@@ -25,7 +25,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getRemoveOption(): UserInteractionOption
+    public function getRemoveOption() : UserInteractionOption
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
@@ -33,7 +33,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getInputTypes(): array
+    public function getInputTypes() : array
     {
         return [];
     }
@@ -41,7 +41,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getOutputType(): SingleType
+    public function getOutputType() : SingleType
     {
         return new SingleType(StringValue::class);
     }
@@ -49,7 +49,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket): array
+    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket) : array
     {
         return $input;
     }
@@ -57,7 +57,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getMessage(array $input): string
+    public function getMessage(array $input) : string
     {
         return '';
     }

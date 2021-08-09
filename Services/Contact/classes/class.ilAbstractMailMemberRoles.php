@@ -10,18 +10,18 @@ abstract class ilAbstractMailMemberRoles
      * @param int $ref_id
      * @return array
      */
-    abstract public function getMailRoles(int $ref_id): array;
+    abstract public function getMailRoles(int $ref_id) : array;
     
     /**
      * @return string
      */
-    abstract public function getRadioOptionTitle(): string;
+    abstract public function getRadioOptionTitle() : string;
 
     /**
      * @param int $role_id
      * @return String
      */
-    final public function getMailboxRoleAddress(int $role_id): string
+    final public function getMailboxRoleAddress(int $role_id) : string
     {
         return (new \ilRoleMailboxAddress($role_id))->value();
     }

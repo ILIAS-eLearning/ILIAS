@@ -57,7 +57,7 @@ class ilMailMemberSearchTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

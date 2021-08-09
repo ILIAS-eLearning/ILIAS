@@ -21,7 +21,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
     /**
      * @param string $a_code
      */
-    protected function initLanguageByIso2Code($a_code = ''): void
+    protected function initLanguageByIso2Code($a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');
@@ -30,7 +30,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
     /**
      *
      */
-    public function send(): void
+    public function send() : void
     {
         foreach ($this->getRecipients() as $rcp) {
             try {
@@ -54,7 +54,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         }
     }
     
-    public function appendOrphandMailsBody(): void
+    public function appendOrphandMailsBody() : void
     {
         $additional_information = $this->getAdditionalInformation();
         $mail_folders = $additional_information['mail_folders'];

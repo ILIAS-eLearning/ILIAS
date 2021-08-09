@@ -139,7 +139,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
      * @param
      *
      */
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         if ($a_set['hidden_members']) {
             $this->tpl->setCurrentBlock('caption_asterisk');
@@ -152,7 +152,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
         $this->tpl->setVariable('SHORT', $this->mode["short"]);
     }
 
-    public function numericOrdering($column): bool
+    public function numericOrdering($column) : bool
     {
         return $column === 'CRS_NO_MEMBERS';
     }

@@ -10,7 +10,7 @@ class ilContactAppEventListener implements ilAppEventListener
     /**
      * @inheritDoc
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter): void
+    public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
         global $DIC;
 

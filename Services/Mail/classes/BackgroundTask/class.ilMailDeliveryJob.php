@@ -17,7 +17,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function run(array $input, Observer $observer): BooleanValue
+    public function run(array $input, Observer $observer) : BooleanValue
     {
         global $DIC;
 
@@ -59,7 +59,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getInputTypes(): array
+    public function getInputTypes() : array
     {
         return [
             new SingleType(IntegerValue::class), // 0. User Id
@@ -79,7 +79,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function isStateless(): bool
+    public function isStateless() : bool
     {
         return true;
     }
@@ -87,7 +87,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds(): int
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }
@@ -95,7 +95,7 @@ class ilMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getOutputType(): SingleType
+    public function getOutputType() : SingleType
     {
         return new SingleType(BooleanValue::class);
     }

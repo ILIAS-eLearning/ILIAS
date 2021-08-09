@@ -13,7 +13,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
     /**
      * @return bool
      */
-    public function checkInput(): bool
+    public function checkInput() : bool
     {
         global $DIC;
 
@@ -35,7 +35,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
     }
 
-    public function render($a_mode = ""): string
+    public function render($a_mode = "") : string
     {
         global $DIC;
 

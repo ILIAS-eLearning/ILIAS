@@ -57,7 +57,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
@@ -72,7 +72,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($a_field): bool
+    public function numericOrdering($a_field) : bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
@@ -82,7 +82,7 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
      * @param string $value
      * @return string
      */
-    protected function formatValue(string $column, string $value): ?string
+    protected function formatValue(string $column, string $value) : ?string
     {
         switch ($column) {
             case 'filecreatedate':

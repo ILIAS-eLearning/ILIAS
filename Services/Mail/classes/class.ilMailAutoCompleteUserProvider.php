@@ -22,7 +22,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * "Valid" implementation of iterator interface
      * @return bool
      */
-    public function valid(): bool
+    public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
@@ -33,12 +33,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * "Current" implementation of iterator interface
      * @return  array
      */
-    public function current(): array
+    public function current() : array
     {
         return array(
-            'login' => $this->data['login'],
+            'login'     => $this->data['login'],
             'firstname' => $this->data['firstname'],
-            'lastname' => $this->data['lastname']
+            'lastname'  => $this->data['lastname']
         );
     }
 
@@ -46,7 +46,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * "Key" implementation of iterator interface
      * @return string
      */
-    public function key(): string
+    public function key() : string
     {
         return $this->data['login'];
     }
@@ -54,7 +54,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * "Rewind "implementation of iterator interface
      */
-    public function rewind(): void
+    public function rewind() : void
     {
         if ($this->res) {
             $this->db->free($this->res);
@@ -76,7 +76,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return string
      */
-    protected function getSelectPart(): string
+    protected function getSelectPart() : string
     {
         $fields = array(
             'login',
@@ -107,7 +107,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return string
      */
-    protected function getFromPart(): string
+    protected function getFromPart() : string
     {
         $joins = array();
 
@@ -132,7 +132,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * @param string
      * @return string
      */
-    protected function getWherePart(string $search_query): string
+    protected function getWherePart(string $search_query) : string
     {
         $outer_conditions = array();
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
@@ -187,7 +187,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     /**
      * @return string
      */
-    protected function getOrderByPart(): string
+    protected function getOrderByPart() : string
     {
         return 'login ASC';
     }
@@ -197,7 +197,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * @param mixed  $a_str
      * @return string
      */
-    protected function getQueryConditionByFieldAndValue(string $field, mixed $a_str): string
+    protected function getQueryConditionByFieldAndValue(string $field, mixed $a_str) : string
     {
         return $this->db->like($field, 'text', $a_str . '%');
     }
@@ -206,7 +206,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      * Get searchable fields
      * @return array
      */
-    protected function getFields(): array
+    protected function getFields() : array
     {
         $available_fields = array();
         foreach (array('firstname', 'lastname') as $field) {

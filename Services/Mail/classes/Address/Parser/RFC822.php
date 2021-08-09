@@ -292,7 +292,7 @@ class Mail_RFC822
         // Add to the addresses array.
         $this->addresses[] = array(
                                    'address' => trim($string),
-                                   'group' => $is_group
+                                   'group'   => $is_group
                                    );
 
         // Remove the now stored address from the initial line, the +1

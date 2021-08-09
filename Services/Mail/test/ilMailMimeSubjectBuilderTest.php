@@ -15,7 +15,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     {
         return [
             'Global Prefix without Brackets' => ['docu', 'docu %s'],
-            'Global Prefix with Brackets' => ['[docu]', '[docu] %s'],
+            'Global Prefix with Brackets'    => ['[docu]', '[docu] %s'],
         ];
     }
 
@@ -25,8 +25,8 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     public function subjectPrefixesProvider() : array
     {
         return [
-            'Global Prefix without Brackets and Additional Context Prefix' => ['docu', 'Course', '[docu : Course] %s'],
-            'Global Prefix with Brackets and Additional Context Prefix' => ['[docu]', 'Course', '[docu : Course] %s'],
+            'Global Prefix without Brackets and Additional Context Prefix'    => ['docu', 'Course', '[docu : Course] %s'],
+            'Global Prefix with Brackets and Additional Context Prefix'       => ['[docu]', 'Course', '[docu : Course] %s'],
             'Empty Global Prefix with Brackets and Additional Context Prefix' => [
                 '',  // The administrator saved the global email settings form with an empty global subject prefix
                 'Course',

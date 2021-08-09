@@ -128,7 +128,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
      * @param
      *
      */
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $current_selection_list = new ilAdvancedSelectionListGUI();

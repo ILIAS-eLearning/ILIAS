@@ -12,7 +12,7 @@ class ilObjContactAdministration extends ilObject2
     /**
      *
      */
-    protected function initType(): void
+    protected function initType() : void
     {
         $this->type = 'cadm';
     }
