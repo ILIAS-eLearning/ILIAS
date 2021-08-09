@@ -14,21 +14,13 @@ class StorageImpl implements Storage
 {
     private const P_READING_TIME_STATUS = 'reading_time_status';
 
-    /** @var ilSetting */
-    private $globalSettings;
+    private ilSetting $globalSettings;
 
-    /**
-     * StorageImpl constructor.
-     * @param ilSetting $globalSettings
-     */
     public function __construct(ilSetting $globalSettings)
     {
         $this->globalSettings = $globalSettings;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSettings() : Settings
     {
         $settings = new Settings();
@@ -42,9 +34,6 @@ class StorageImpl implements Storage
         return $settings;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function store(Settings $settings) : void
     {
         $this->globalSettings->set(self::P_READING_TIME_STATUS, ((string) (int) $settings->isReadingTimeEnabled()));

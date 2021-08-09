@@ -12,12 +12,6 @@ use ilException;
  */
 final class CouldNotFindPageMetrics extends ilException
 {
-    /**
-     * @param int    $contentPageId
-     * @param int    $pageId
-     * @param string $language
-     * @return static
-     */
     public static function by(int $contentPageId, int $pageId, string $language) : self
     {
         return new self(sprintf(

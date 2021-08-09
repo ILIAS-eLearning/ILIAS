@@ -19,36 +19,20 @@ use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
  */
 final class PageMetricsService implements ilContentPageObjectConstants
 {
-    /** @var PageMetricsRepository */
-    private $pageMetricsRepository;
-    /** @var Factory */
-    private $refinery;
+    private PageMetricsRepository $pageMetricsRepository;
+    private Factory $refinery;
 
-    /**
-     * PageMetricsService constructor.
-     * @param PageMetricsRepository $pageMetricsRepository
-     * @param Factory               $refinery
-     */
     public function __construct(PageMetricsRepository $pageMetricsRepository, Factory $refinery)
     {
         $this->pageMetricsRepository = $pageMetricsRepository;
         $this->refinery = $refinery;
     }
 
-    /**
-     * @param int    $contentPageId
-     * @param string $language
-     * @return bool
-     */
     protected function doesPageExistsForLanguage(int $contentPageId, string $language) : bool
     {
         return ilContentPagePage::_exists(self::OBJ_TYPE, $contentPageId, $language);
     }
 
-    /**
-     * @param int    $contentPageId
-     * @param string $language
-     */
     protected function ensurePageObjectExists(int $contentPageId, string $language) : void
     {
         if (!$this->doesPageExistsForLanguage($contentPageId, $language)) {

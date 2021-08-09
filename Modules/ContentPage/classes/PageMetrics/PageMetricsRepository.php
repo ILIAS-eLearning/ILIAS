@@ -12,14 +12,8 @@ use ILIAS\ContentPage\PageMetrics\Entity\PageMetrics;
  */
 interface PageMetricsRepository
 {
-    /**
-     * @param PageMetrics $pageMetrics
-     */
     public function store(PageMetrics $pageMetrics) : void;
 
-    /**
-     * @param PageMetrics $pageMetrics
-     */
     public function delete(PageMetrics $pageMetrics) : void;
 
     /**

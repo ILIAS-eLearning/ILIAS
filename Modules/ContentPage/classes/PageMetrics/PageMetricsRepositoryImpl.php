@@ -14,21 +14,13 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  */
 class PageMetricsRepositoryImp implements PageMetricsRepository
 {
-    /** @var ilDBInterface */
-    private $db;
+    private ilDBInterface $db;
 
-    /**
-     * PageMetricsRepositoryImp constructor.
-     * @param ilDBInterface $db
-     */
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function store(PageMetrics $pageMetrics) : void
     {
         $this->db->replace(
@@ -44,9 +36,6 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function delete(PageMetrics $pageMetrics) : void
     {
         $this->db->queryF(
