@@ -285,7 +285,7 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        if ($_SESSION['search_crs']) {
+        if (array_key_exists('search_crs', $_SESSION)) {
             $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
         }
         
@@ -435,7 +435,7 @@ class ilMailFormGUI
                 if ($_SESSION['mail_id']) {
                     $_GET['mail_id'] = $_SESSION['mail_id'];
                 }
-                $mailData = $this->umail->getMail($_GET["mail_id"]);
+                $mailData = $this->umail->getMail((int)$_GET["mail_id"]);
                 $mailData["m_subject"] = $this->umail->formatReplySubject();
                 $mailData["m_message"] = $this->umail->formatReplyMessage();
                 $mailData["m_message"] = $this->umail->prependSignature();
@@ -457,13 +457,13 @@ class ilMailFormGUI
                 unset($_SESSION["mail_search"]);
                 unset($_SESSION["mail_search_results"]);*/
 
-                if ($_SESSION["mail_search_results_to"]) {
+                if (array_key_exists('mail_search_results_to', $_SESSION)) {
                     $mailData = $this->umail->appendSearchResult($_SESSION["mail_search_results_to"], 'to');
                 }
-                if ($_SESSION["mail_search_results_cc"]) {
+                if (array_key_exists('mail_search_results_cc', $_SESSION)) {
                     $mailData = $this->umail->appendSearchResult($_SESSION["mail_search_results_cc"], 'cc');
                 }
-                if ($_SESSION["mail_search_results_bcc"]) {
+                if (array_key_exists('mail_search_results_bcc', $_SESSION)) {
                     $mailData = $this->umail->appendSearchResult($_SESSION["mail_search_results_bcc"], 'bc');
                 }
 
@@ -477,13 +477,13 @@ class ilMailFormGUI
         
             case 'draft':
                 $_SESSION["draft"] = $_GET["mail_id"];
-                $mailData = $this->umail->getMail($_GET["mail_id"]);
+                $mailData = $this->umail->getMail((int)$_GET["mail_id"]);
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;
         
             case 'forward':
-                $mailData = $this->umail->getMail($_GET["mail_id"]);
+                $mailData = $this->umail->getMail((int)$_GET["mail_id"]);
                 $mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
                 $mailData["m_subject"] = $this->umail->formatForwardSubject();
                 $mailData["m_message"] = $this->umail->prependSignature();
@@ -628,7 +628,7 @@ class ilMailFormGUI
         $inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
         $inp->setSize(50);
         $inp->setRequired(true);
-        $inp->setValue($mailData["m_subject"]);
+        //$inp->setValue($mailData["m_subject"]);
         $form_gui->addItem($inp);
 
         $att = new ilMailFormAttachmentPropertyGUI($this->lng->txt(($mailData["attachments"]) ? 'edit' : 'add'));

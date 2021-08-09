@@ -576,7 +576,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
-                $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
+                if($mail['m_subject']) {
+                    $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
+                } else {
+                    $mail['mail_subject'] = htmlspecialchars("No title");
+                }
             }
 
             $mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));

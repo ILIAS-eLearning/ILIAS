@@ -11,7 +11,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected array $placeholders = array();
     protected string $rerenderUrl;
-    protected string $rerenderTriggerElementName;
+    protected ?string $rerenderTriggerElementName = null;
     protected string $dependencyElementId;
     protected string $instructionText = '';
     protected string $adviseText = '';
@@ -51,7 +51,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @return string
      */
-    public function getRerenderTriggerElementName(): string
+    public function getRerenderTriggerElementName(): ?string
     {
         return $this->rerenderTriggerElementName;
     }

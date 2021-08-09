@@ -111,7 +111,7 @@ class ilMailSearchGUI
         $mail_data = $this->umail->getSavedData();
 
         $this->umail->savePostData(
-            $mail_data["user_id"],
+            (int)$mail_data["user_id"],
             $mail_data["attachments"],
             $mail_data["rcp_to"],
             $mail_data["rcp_cc"],

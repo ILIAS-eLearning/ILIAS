@@ -14,7 +14,7 @@ require_once './Services/Language/classes/class.ilLanguageFactory.php';
  */
 abstract class ilMailTemplateContext
 {
-    protected ?ilLanguage $language;
+    protected ?ilLanguage $language = null;
     protected ?ilMailEnvironmentHelper $envHelper;
     protected ?ilMailLanguageHelper $languageHelper;
     protected ?ilMailUserHelper $userHelper;

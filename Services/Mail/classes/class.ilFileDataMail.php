@@ -399,11 +399,9 @@ class ilFileDataMail extends ilFileData
     public static function getStorage(int $a_mail_id, int $a_usr_id) : \ilFSStorageMail
     {
         static $fsstorage_cache = array();
-        
-        if (!is_object($fsstorage_cache[$a_mail_id][$a_usr_id])) {
-            include_once 'Services/Mail/classes/class.ilFSStorageMail.php';
-            $fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
-        }
+
+        include_once 'Services/Mail/classes/class.ilFSStorageMail.php';
+        $fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
         
         return $fsstorage_cache[$a_mail_id][$a_usr_id];
     }
@@ -415,7 +413,7 @@ class ilFileDataMail extends ilFileData
     * @access	public
     * @return bool
     */
-    public function saveFile(int $a_mail_id, array $a_attachment): bool
+    public function saveFile(int $a_mail_id, string $a_attachment): bool
     {
         $oStorage = self::getStorage($a_mail_id, $this->user_id);
         $oStorage->create();

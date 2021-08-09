@@ -190,7 +190,9 @@ class ilMailBoxQuery
             [self::$userId, self::$folderId]
         );
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $row['attachments'] = unserialize(stripslashes($row['attachments']));
+            if(array_key_exists('attachments', $row) && $row['attachments']) {
+                $row['attachments'] = unserialize(stripslashes($row['attachments']));
+            }
             $mails['set'][] = $row;
         }
 

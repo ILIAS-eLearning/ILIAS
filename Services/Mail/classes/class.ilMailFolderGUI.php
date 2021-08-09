@@ -768,7 +768,7 @@ class ilMailFolderGUI
             $isTrashFolder = true;
         }
 
-        $currentFolderData = $this->mbox->getFolderData($mailData['folder_id']);
+        $currentFolderData = $this->mbox->getFolderData((int)$mailData['folder_id']);
         $actions = $this->mbox->getActions((int) $mailData['folder_id']);
 
         $selectOptions = [];
@@ -815,7 +815,7 @@ class ilMailFolderGUI
         if (is_array($prevMail) || is_array($nextMail)) {
             $this->toolbar->addSeparator();
 
-            if ($prevMail['mail_id']) {
+            if ($prevMail && $prevMail['mail_id']) {
                 $prevBtn = ilLinkButton::getInstance();
                 $prevBtn->setCaption('previous');
                 $this->ctrl->setParameter($this, 'mail_id', $prevMail['mail_id']);
@@ -825,7 +825,7 @@ class ilMailFolderGUI
                 $this->toolbar->addButtonInstance($prevBtn);
             }
 
-            if ($nextMail['mail_id']) {
+            if ($nextMail && $nextMail['mail_id']) {
                 $nextBtn = ilLinkButton::getInstance();
                 $nextBtn->setCaption('next');
                 $this->ctrl->setParameter($this, 'mail_id', $nextMail['mail_id']);

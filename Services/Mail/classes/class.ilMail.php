@@ -501,7 +501,7 @@ class ilMail
             'sender_id' => ['integer', $usrId]
         ]);
 
-        return $nextId;
+        return (int) $nextId;
     }
 
     public function updateDraft(
@@ -655,7 +655,7 @@ class ilMail
             ]);
         }
 
-        return $nextId;
+        return (int) $nextId;
     }
 
     /**
