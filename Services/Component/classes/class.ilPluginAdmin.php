@@ -210,10 +210,4 @@ class ilPluginAdmin
             }
         }
     }
-
-    final public function clearCachedData()
-    {
-        unset($this->data);
-        unset($this->got_data);
-    }
 }
