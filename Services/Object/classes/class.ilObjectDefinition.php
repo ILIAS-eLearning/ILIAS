@@ -1204,7 +1204,7 @@ class ilObjectDefinition // extends ilSaxParser
                     'workspace' => '0',
                     'administration' => $isInAdministration?'1':'0',
                     "sideblock" => "0",
-                    'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name),
+                    'export' => $plugin->supportsExport(),
                     'offline_handling' => '0',
                     'orgunit_permissions' => $pl->useOrguPermissions() ? '1' : '0'
                 );

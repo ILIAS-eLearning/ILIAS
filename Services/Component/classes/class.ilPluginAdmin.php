@@ -151,23 +151,6 @@ class ilPluginAdmin
         $pl->includeClass($a_class_file_name);
     }
 
-
-    /**
-     * Checks whether plugin supports export/import
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return    bool
-     * @throws ilPluginException
-     */
-    public function supportsExport($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->supportsExport();
-    }
-
     /**
      * Get info for all plugins.
      *
