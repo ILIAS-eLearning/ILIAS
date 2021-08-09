@@ -157,25 +157,6 @@ class ilPluginAdmin
         return $active_plugins;
     }
 
-
-    /**
-     * Check, if a plugin is active
-     *
-     * @param string $id id of the plugin
-     *
-     * @return    boolean
-     */
-    public static function isPluginActive(string $id)
-    {
-        global $DIC;
-        $component_data_db = $DIC["component.db"];
-
-        return
-            $component_data_db->hasPluginId($id)
-            && $component_data_db->getPluginById($id)->isActivated();
-    }
-
-
     /**
      * Get a plugin-object by id
      *
