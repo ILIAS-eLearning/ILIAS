@@ -193,7 +193,7 @@ class ilObjQuestionPool extends ilObject
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         
-        $question = assQuestion::_instanciateQuestion($question_id);
+        $question = assQuestion::instantiateQuestion($question_id);
         $this->addQuestionChangeListeners($question);
         $question->delete($question_id);
     }
@@ -330,11 +330,11 @@ class ilObjQuestionPool extends ilObject
         return $row["solution_count"];
     }
 
-    public function &createQuestion($question_type, $question_id = -1)
+    public function createQuestion($question_type, $question_id = -1)
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         if ($question_id > 0) {
-            return assQuestion::_instanciateQuestionGUI($question_id);
+            return assQuestion::instantiateQuestionGUI($question_id);
         }
         assQuestion::_includeClass($question_type, 1);
         $question_type_gui = $question_type . "GUI";

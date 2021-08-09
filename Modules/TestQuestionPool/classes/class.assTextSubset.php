@@ -81,7 +81,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return boolean True, if the TextSubset question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (
             strlen($this->title)
@@ -101,7 +101,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param string $original_id
      *
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -120,7 +120,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -400,7 +400,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $points = array();
         foreach ($this->answers as $answer) {
@@ -590,7 +590,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

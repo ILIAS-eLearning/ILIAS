@@ -440,11 +440,11 @@ abstract class ilAssQuestionFeedback
         );
         
         $feedbackId = -1;
-
-        while ($row = $this->db->fetchAssoc($res)) {
+        if($this->db->numRows($res)){
+            $row = $this->db->fetchAssoc($res);
             $feedbackId = (int)$row['feedback_id'];
-            break;
         }
+
         return $feedbackId;
     }
     
@@ -505,10 +505,10 @@ abstract class ilAssQuestionFeedback
 
         if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
             return "ilAssGenFeedbackPage" . $gui;
-        } else {
-        //if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
-            return "ilAssSpecFeedbackPage" . $gui;
         }
+
+        //if ($a_type == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_SPECIFIC_FEEDBACK) {
+        return "ilAssSpecFeedbackPage" . $gui;
     }
     
     private function getPageObjectEditingLink(string $pageObjectType, int $pageObjectId) : string

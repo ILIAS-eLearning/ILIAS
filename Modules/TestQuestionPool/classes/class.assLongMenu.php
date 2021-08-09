@@ -151,7 +151,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->minAutoComplete ? $this->minAutoComplete  : self::MIN_LENGTH_AUTOCOMPLETE;
     }
     
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && $this->author
@@ -165,7 +165,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
     
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -233,7 +233,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * @access public
      * @see $points
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $sum = 0;
         $points = $this->getCorrectAnswers();
@@ -357,7 +357,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         }
     }
     
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         $result = $this->ilDB->queryF(
             "SELECT qpl_questions.*, " . $this->getAdditionalTableName() . ".* FROM qpl_questions LEFT JOIN " . $this->getAdditionalTableName() . " ON " . $this->getAdditionalTableName() . ".question_fi = qpl_questions.question_id WHERE qpl_questions.question_id = %s",
@@ -644,7 +644,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         if (is_null($pass)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -739,7 +739,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $solutionSubmit;
     }
     
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         if (array_key_exists('answer', $_POST)) {
             $previewSession->setParticipantsSolution($_POST['answer']);
@@ -859,7 +859,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         );
     }
 
-    public function delete($original_id)
+    public function delete($original_id) : void
     {
         parent::delete($original_id);
         $this->clearFolder(false);

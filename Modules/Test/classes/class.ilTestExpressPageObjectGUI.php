@@ -226,7 +226,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $this->ctrl->setReturn($this, "questions");
         
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI($type);
+        $q_gui = assQuestionGUI::_getQuestionGUI($type);
         
         $obj = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
         
@@ -256,7 +256,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
         
-        $q_gui = &assQuestionGUI::_getQuestionGUI($questionType);
+        $q_gui = assQuestionGUI::_getQuestionGUI($questionType);
 
         $q_gui->object->setObjId(ilObject::_lookupObjectId($_GET['ref_id']));
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);

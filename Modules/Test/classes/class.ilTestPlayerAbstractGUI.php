@@ -992,7 +992,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                         . $question_id . ilTestArchiver::DIR_SEP
                         . 'files' . ilTestArchiver::DIR_SEP;
                 $handle = opendir($candidate_path);
-                while ($handle !== false && ($file = readdir($handle)) !== false) {
+                while ($handle != false && ($file = readdir($handle)) !== false) {
                     if ($file != null) {
                         $filename_start = 'file_' . $active . '_' . $pass . '_';
 
@@ -2286,7 +2286,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         
         $reachedPoints = $questionGui->object->getAdjustedReachedPoints(
             $this->testSession->getActiveId(),
-            null,
+            ilObjTest::_getPass($this->testSession->getActiveId()),
             $authorizedSolution
         );
         

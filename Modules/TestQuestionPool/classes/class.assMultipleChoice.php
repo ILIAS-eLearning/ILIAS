@@ -142,7 +142,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     * @return boolean True, if the multiple choice question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
             return true;
@@ -156,7 +156,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -219,7 +219,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     *
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -409,7 +409,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     * @return integer The output type of the assMultipleChoice object
     * @see $output_type
     */
-    public function getOutputType()
+    public function getOutputType() : int
     {
         return $this->output_type;
     }
@@ -421,7 +421,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see    $response
      */
-    public function setOutputType($output_type = OUTPUT_ORDER)
+    public function setOutputType($output_type = OUTPUT_ORDER) : void
     {
         $this->output_type = $output_type;
     }
@@ -548,7 +548,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see $points
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $points = 0;
         $allpoints = 0;
@@ -598,7 +598,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $points;
     }
     
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         $submit = $this->getSolutionSubmit();
         
@@ -635,7 +635,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;

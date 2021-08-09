@@ -58,13 +58,9 @@ class ilTestAverageReachedPointsTableGUI extends ilTable2GUI
     public function numericOrdering($a_field)
     {
         switch ($a_field) {
-            case 'points':
-                return true;
-
-            case 'qid':
-                return true;
-
             case 'percentage':
+            case 'qid':
+            case 'points':
                 return true;
 
             default:
