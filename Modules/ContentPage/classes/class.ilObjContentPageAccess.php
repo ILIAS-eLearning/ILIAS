@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -35,7 +35,7 @@ class ilObjContentPageAccess extends ilObjectAccess implements ilContentPageObje
     {
         $targetAttributes = explode('_', $a_target);
 
-        if (2 != count($targetAttributes) || $targetAttributes[0] != self::OBJ_TYPE || ((int) $targetAttributes[1]) <= 0) {
+        if (2 !== count($targetAttributes) || $targetAttributes[0] !== self::OBJ_TYPE || ((int) $targetAttributes[1]) <= 0) {
             return false;
         }
 
