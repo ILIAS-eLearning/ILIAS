@@ -153,23 +153,6 @@ class ilPluginAdmin
 
 
     /**
-     * Checks whether plugin has active learning progress
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return    bool
-     * @throws ilPluginException
-     */
-    public function hasLearningProgress($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->supportsLearningProgress();
-    }
-
-
-    /**
      * Checks whether plugin supports export/import
      *
      * @param string $a_ctype   Component Type
