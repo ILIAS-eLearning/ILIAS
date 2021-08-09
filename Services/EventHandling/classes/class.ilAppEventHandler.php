@@ -136,17 +136,20 @@ class ilAppEventHandler
                 if ($comp == 'Plugins') {
                     $name = substr($listener, $last_slash + 1);
 
-                    foreach (ilPluginAdmin::getActivePlugins() as $pdata) {
-                        if ($pdata['name'] == $name) {
-                            $plugin = ilPluginAdmin::getPluginObject(
-                                $pdata['component_type'],
-                                $pdata['component_name'],
-                                $pdata['slot_id'],
-                                $pdata['name']
-                            );
 
-                            $plugin->handleEvent($a_component, $a_event, $a_parameter);
+                    foreach ($this->component_data_db->getPlugins() as $pl) {
+                        if ($pl->getName() !== $name || !$pl->isActive()) {
+                            continue;
                         }
+
+                        $plugin = ilPluginAdmin::getPluginObject(
+                            $pl->getComponent()->getType(),
+                            $pl->getComponent()->getName(),
+                            $pl->getPluginSlot()->getId(),
+                            $pl->getName()
+                        );
+
+                        $plugin->handleEvent($a_component, $a_event, $a_parameter);
                     }
                 } else {
                     $class = 'il' . substr($listener, $last_slash + 1) . 'AppEventListener';

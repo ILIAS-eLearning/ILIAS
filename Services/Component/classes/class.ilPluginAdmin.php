@@ -130,7 +130,7 @@ class ilPluginAdmin
      *
      * @return    array
      */
-    public static function getActivePlugins()
+    protected static function getActivePlugins()
     {
         static $active_plugins = null;
         if ($active_plugins === null) {
