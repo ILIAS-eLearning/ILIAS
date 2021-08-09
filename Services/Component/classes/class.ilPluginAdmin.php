@@ -126,37 +126,6 @@ class ilPluginAdmin
 
 
     /**
-     * Get info for all plugins.
-     *
-     * @return    array<string, array>
-     */
-    public static function getAllPlugins()
-    {
-        static $all_plugins;
-
-        global $DIC;
-        $component_data_db = $DIC["component.db"];
-        if (!isset($all_plugins)) {
-            $all_plugins = [];
-            foreach ($component_data_db->getPlugins() as $id => $plugin) {
-                $all_plugins[$id] = [
-                    "component_type" => $plugin->getComponent()->getType(),
-                    "component_name" => $plugin->getComponent()->getName(),
-                    "slot_id" => $plugin->getPluginSlot()->getId(),
-                    "name" => $plugin->getName(),
-                    "last_update_version" => (string) $plugin->getCurrentVersion(),
-                    "active" => $plugin->isActivated() ? "1" : "0",
-                    "db_version" => $plugin->getCurrentDBVersion(),
-                    "plugin_id" => $plugin->getId()
-                ];
-            }
-        }
-
-        return $all_plugins;
-    }
-
-
-    /**
      * Get info for all active plugins.
      *
      * @return    array
@@ -210,25 +179,18 @@ class ilPluginAdmin
     /**
      * Get a plugin-object by id
      *
-     * @param string $id id of the plugin
-     *
-     * @return    ilPlugin
      * @throws    InvalidArgumentException    if no plugin with that id is found
      */
-    public static function getPluginObjectById($id)
+    public static function getPluginObjectById(string $id) : \ilPlugin
     {
-        assert(is_string($id));
-        $plugs = self::getAllPlugins();
-        if (!array_key_exists($id, $plugs)) {
-            throw new \InvalidArgumentException("Plugin does not exist: " . $id, 1);
-        }
-        $pdata = $plugs[$id];
+        global $DIC;
+        $plugin_info = $DIC["component.db"]->getPluginById($id);
 
         return self::getPluginObject(
-            $pdata['component_type'],
-            $pdata['component_name'],
-            $pdata['slot_id'],
-            $pdata['name']
+            $plugin_info->getComponent()->getType(),
+            $plugin_info->getComponent()->getName(),
+            $plugin_info->getPluginSlot()->getId(),
+            $plugin_info->getName()
         );
     }
 
