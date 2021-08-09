@@ -490,9 +490,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     protected function supportsExport() : bool
     {
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_data_db = $this->component_data_db;
 
-        return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
+        return $component_data_db->getPluginSlotById("robj")->getPluginByName($this->getPlugin()->getPluginName())->supportsExport();
     }
 
     protected function lookupParentTitleInCreationMode() : string
