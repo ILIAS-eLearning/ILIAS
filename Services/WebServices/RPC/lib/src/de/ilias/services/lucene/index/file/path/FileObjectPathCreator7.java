@@ -83,8 +83,7 @@ public class FileObjectPathCreator7  implements PathCreator
 			fullPath.append(System.getProperty("file.separator"));
 			fullPath.append(getBasePath());
 			fullPath.append(System.getProperty("file.separator"));
-			fullPath.append(rid.replaceAll("-", System.getProperty("file.separator")));
-			
+			fullPath.append(res.getString("resource_path"));
 			versionPath.append(fullPath);
 			versionPath.append(System.getProperty("file.separator"));
 			versionPath.append(String.valueOf(versionCode));
