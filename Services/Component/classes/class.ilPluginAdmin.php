@@ -104,22 +104,6 @@ class ilPluginAdmin
     }
 
     /**
-     * Get version.
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return bool
-     * @throws ilPluginException
-     */
-    public function needsUpdate($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isUpdateRequired();
-    }
-
-    /**
      * Get Plugin Object
      *
      * @param string $a_ctype   Component Type
