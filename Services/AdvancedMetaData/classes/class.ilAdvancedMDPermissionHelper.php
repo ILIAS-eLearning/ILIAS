@@ -264,15 +264,16 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         global $DIC;
 
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
+        $component_data_db = $DIC['component.db'];
+        
         $res = array();
-
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "AdvancedMetaData", "amdc") as $plugin_name) {
+        
+        foreach ($component_data_db->getPluginSlotById("amdc")->getActivePlugins() as $plugin) {
             $res[] = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 "AdvancedMetaData",
                 "amdc",
-                $plugin_name
+                $plugin->getName()
             );
         }
 

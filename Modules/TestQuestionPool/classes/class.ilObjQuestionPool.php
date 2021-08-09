@@ -1393,10 +1393,10 @@ class ilObjQuestionPool extends ilObject
                     $types[$lng->txt($row["type_tag"])] = $row;
                 } else {
                     global $DIC;
-                    $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                    $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                    foreach ($pl_names as $pl_name) {
-                        $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                    $component_data_db = $DIC['component.db'];
+                    $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+                    foreach ($plugins as $plugin) {
+                        $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $plugin->getName());
                         if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                             $types[$pl->getQuestionTypeTranslation()] = $row;
                         }
@@ -1435,6 +1435,7 @@ class ilObjQuestionPool extends ilObject
         $lng = $DIC['lng'];
         $ilLog = $DIC['ilLog'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC['component.db'];
         
         $lng->loadLanguageModule("assessment");
         $result = $ilDB->query("SELECT * FROM qpl_qst_type");
@@ -1443,9 +1444,9 @@ class ilObjQuestionPool extends ilObject
             if ($row["plugin"] == 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+                foreach ($plugins as $plugin) {
+                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $plugin->getName());
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }
@@ -1545,16 +1546,16 @@ class ilObjQuestionPool extends ilObject
     {
         /* @var ilPluginAdmin $ilPluginAdmin */
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($plugins as $pluginName) {
-            if ($pluginName == $questionType) { // plugins having pname == qtype
+        $component_data_db = $DIC['component.db'];
+
+        $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            if ($plugin->getName() == $questionType) { // plugins having pname == qtype
                 return true;
             }
             
             /* @var ilQuestionsPlugin $plugin */
-            $plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pluginName);
+            $plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $plugin->getName());
             
             if ($plugin->getQuestionType() == $questionType) { // plugins havin an independent name
                 return true;

@@ -12,12 +12,15 @@ class ilSoapHook
      */
     protected $plugin_admin;
 
+    protected ilComponentDataDB $component_data_db;
+
     /**
      * @param ilPluginAdmin $plugin_admin
      */
-    public function __construct(ilPluginAdmin $plugin_admin)
+    public function __construct(ilPluginAdmin $plugin_admin, ilComponentDataDB $component_data_db)
     {
         $this->plugin_admin = $plugin_admin;
+        $this->component_data_db = $component_data_db;
     }
 
     /**
@@ -32,7 +35,7 @@ class ilSoapHook
             return $methods;
         }
         $methods = array();
-        $plugin_names = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_SERVICE, 'WebServices', 'soaphk');
+        $plugins = $this->component_data_db->getPluginSlotById('soaphk')->getActivePlugins();
         foreach ($plugin_names as $plugin_name) {
             /** @var ilSoapHookPlugin $instance */
             $instance = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, 'WebServices', 'soaphk', $plugin_name);
@@ -55,10 +58,10 @@ class ilSoapHook
             return $types;
         }
         $types = array();
-        $plugin_names = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_SERVICE, 'WebServices', 'soaphk');
-        foreach ($plugin_names as $plugin_name) {
+        $plugins = $this->component_data_db->getPluginSlotById('soaphk');
+        foreach ($plugins as $plugin) {
             /** @var ilSoapHookPlugin $instance */
-            $instance = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, 'WebServices', 'soaphk', $plugin_name);
+            $instance = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, 'WebServices', 'soaphk', $plugin->getName());
             foreach ($instance->getWsdlTypes() as $type) {
                 $types[] = $type;
             }

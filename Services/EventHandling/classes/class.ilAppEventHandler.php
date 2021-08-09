@@ -48,6 +48,7 @@ class ilAppEventHandler
     protected ilDBInterface $db;
     protected array $listener; // [array]
     protected ilLogger $logger;
+    protected ilComponentDataDB $component_data_db;
     
     public function __construct()
     {
@@ -55,6 +56,7 @@ class ilAppEventHandler
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->component_data_db = $DIC["component.db"];
         $this->initListeners();
 
         $this->logger = \ilLoggerFactory::getLogger('evnt');
@@ -161,13 +163,13 @@ class ilAppEventHandler
         $this->logger->debug("Finished event listener handling, started event propagation for event hook plugins ...");
 
         // get all event hook plugins and forward the event to them
-        $plugins = ilPluginAdmin::getActivePluginsForSlot("Services", "EventHandling", "evhk");
+        $plugins = $this->component_data_db->getPluginSlotById("evhk")->getActivePlugins();
         foreach ($plugins as $pl) {
             $plugin = ilPluginAdmin::getPluginObject(
                 "Services",
                 "EventHandling",
                 "evhk",
-                $pl
+                $pl->getName()
             );
             $plugin->handleEvent($a_component, $a_event, $a_parameter);
         }

@@ -52,6 +52,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected ClipboardManager $clipboard;
     protected StandardGUIRequest $std_request;
     protected ViewManager $view_manager;
+    protected ilComponentDataDB $component_data_db;
 
     public function __construct(
         $a_data,
@@ -81,6 +82,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->ui = $DIC->ui();
         $this->global_screen = $DIC->globalScreen();
+        $this->component_data_db = $DIC["component.db"];
         $rbacsystem = $DIC->rbac()->system();
         $lng = $DIC->language();
 
@@ -2280,9 +2282,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // include plugin slot for async item list
         $ilPluginAdmin = $this->plugin_admin;
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $plugins = $this->component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             $gui_class = $ui_plugin->getUIClassInstance();
             $resp = $gui_class->getHTML("Services/Container", "async_item_list", array("html" => $html));
             if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {

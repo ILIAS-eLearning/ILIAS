@@ -477,8 +477,10 @@ class PageContentGUI
         // by ilTemplate, because the "phase" is template_show in this
         // case here.
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $pl = $pl->getName();
             $ui_plugin = \ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
             $gui_class = $ui_plugin->getUIClassInstance();
 

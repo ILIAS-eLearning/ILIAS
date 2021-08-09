@@ -890,14 +890,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $activePlugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'tsig');
-
-        if (!count($activePlugins)) {
-            return false;
-        }
-        
-        return true;
+        $component_data_db = $DIC["component.db"];
+        return $component_data_db->getPluginSlotById("tsig")->hasActivePlugins();
     }
 
     /**

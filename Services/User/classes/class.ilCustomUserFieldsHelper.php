@@ -27,6 +27,8 @@ class ilCustomUserFieldsHelper
      * @var ilLogger
      */
     private $logger = null;
+
+    protected ilComponentDataDB $component_data_db;
     
     public function __construct()
     {
@@ -35,6 +37,7 @@ class ilCustomUserFieldsHelper
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->usr();
         $this->plugin_admin = $DIC['ilPluginAdmin'];
+        $this->component_data_db = $DIC['component.db'];
     }
     
     /**
@@ -92,17 +95,16 @@ class ilCustomUserFieldsHelper
         
         include_once './Services/User/classes/class.ilUDFDefinitionPlugin.php';
         foreach (
-            $this->plugin_admin->getActivePluginsForSlot(
-                ilUDFDefinitionPlugin::UDF_C_TYPE,
-                ilUDFDefinitionPlugin::UDF_C_NAME,
+            $this->getPluginSlotById(
                 ilUDFDefinitionPlugin::UDF_SLOT_ID
             )
+            ->getActivePlugins()
             as $plugin) {
             $plug = $this->plugin_admin->getPluginObject(
                 ilUDFDefinitionPlugin::UDF_C_TYPE,
                 ilUDFDefinitionPlugin::UDF_C_NAME,
                 ilUDFDefinitionPlugin::UDF_SLOT_ID,
-                $plugin
+                $plugin->getName()
             );
             if ($plug instanceof ilUDFDefinitionPlugin) {
                 $plugins[] = $plug;

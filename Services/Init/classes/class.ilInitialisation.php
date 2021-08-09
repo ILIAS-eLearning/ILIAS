@@ -809,6 +809,7 @@ class ilInitialisation
     protected static function initStyle()
     {
         global $DIC, $ilPluginAdmin;
+        $component_data_db = $DIC["component.db"];
 
         // load style definitions
         self::initGlobal(
@@ -818,9 +819,9 @@ class ilInitialisation
         );
 
         // add user interface hook for style initialisation
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $plugins = $DIC["component.db"];
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             $gui_class = $ui_plugin->getUIClassInstance();
             $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
         }

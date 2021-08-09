@@ -35,7 +35,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
         $this->log = $ilLog;
         $this->plugin_admin = $ilPluginAdmin;
         if (self::$active_plugins == null) {
-            self::$active_plugins = $this->plugin_admin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk');
+            self::$active_plugins = $DIC["component.db"]->getPluginSlotById('shibhk')->getActivePlugins();
         }
     }
 
@@ -59,8 +59,8 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     protected function getPluginObjects()
     {
         $plugin_objs = array();
-        foreach (self::$active_plugins as $plugin_name) {
-            $plugin_obj = $this->plugin_admin->getPluginObject(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk', $plugin_name);
+        foreach (self::$active_plugins as $plugin) {
+            $plugin_obj = $this->plugin_admin->getPluginObject(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk', $plugin->getName());
             if ($plugin_obj instanceof ilShibbolethAuthenticationPlugin) {
                 $plugin_objs[] = $plugin_obj;
             }

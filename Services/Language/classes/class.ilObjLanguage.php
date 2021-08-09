@@ -272,18 +272,14 @@ class ilObjLanguage extends ilObject
         $component_data_db = $DIC["component.db"];
 
         foreach ($component_data_db->getPluginSlots() as $slot) {
-            $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                $slot->getComponent()->getType(),
-                $slot->getComponent()->getName(),
-                $slot->getId()
-            );
+            $act_plugins = $slot->getActivePlugins();
             foreach ($act_plugins as $plugin) {
                 include_once("./Services/Component/classes/class.ilPlugin.php");
                 $pl = ilPlugin::getPluginObject(
                     $slot["component_type"],
                     $slot["component_name"],
                     $slot["slot_id"],
-                    $plugin
+                    $plugin->getName()
                 );
                 if (is_object($pl)) {
                     $pl->updateLanguages($a_lang_keys);

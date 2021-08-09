@@ -745,18 +745,17 @@ class ilAuthUtils
      */
     public static function getAuthPlugins()
     {
-        $pls = $GLOBALS['DIC']['ilPluginAdmin']->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            'Authentication',
+        $pls = $GLOBALS['DIC']['component.db']->getPluginSlotById(
             'authhk'
-        );
+        )
+        ->getActivePlugins();
         $pl_objs = array();
         foreach ($pls as $pl) {
             $pl_objs[] = $GLOBALS['DIC']['ilPluginAdmin']->getPluginObject(
                 IL_COMP_SERVICE,
                 'Authentication',
                 'authhk',
-                $pl
+                $pl->getName()
             );
         }
         return $pl_objs;

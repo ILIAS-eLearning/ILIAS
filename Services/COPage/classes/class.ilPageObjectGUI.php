@@ -121,6 +121,8 @@ class ilPageObjectGUI
     protected string $header = "";
     protected string $int_link_return = "";
 
+    protected ilComponentDataDB $component_data_db;
+
     /**
      * @param string $a_parent_type type of parent object
      * @param int $a_id page id
@@ -148,6 +150,7 @@ class ilPageObjectGUI
         $this->help = $DIC["ilHelp"];
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
+        $this->component_data_db = $DIC["component.db"];
 
         $this->request = $DIC
             ->copage()
@@ -730,17 +733,13 @@ class ilPageObjectGUI
     {
         $xml = "";
         if ($this->getOutputMode() == "edit") {
-            $pl_names = $this->plugin_admin->getActivePluginsForSlot(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp"
-            );
-            foreach ($pl_names as $pl_name) {
+            $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
+            foreach ($plugins as $pl) {
                 $plugin = $this->plugin_admin->getPluginObject(
                     IL_COMP_SERVICE,
                     "COPage",
                     "pgcp",
-                    $pl_name
+                    $pl->getName()
                 );
                 if ($plugin->isValidParentType($this->getPageObject()->getParentType())) {
                     $xml .= '<ComponentPlugin Name="' . $plugin->getPluginName() .
@@ -2006,7 +2005,6 @@ class ilPageObjectGUI
 
     public function displayMedia($a_fullscreen = false) : void
     {
-        //$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
 

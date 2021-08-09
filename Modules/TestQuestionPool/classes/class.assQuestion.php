@@ -3185,6 +3185,7 @@ abstract class assQuestion
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
 
         $classes = array(
             $questionType,
@@ -3195,9 +3196,9 @@ abstract class assQuestion
             $classes[] = $questionType . 'GUI';
         }
 
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+        $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $plugin->getName());
             if (strcmp($pl->getQuestionType(), $questionType) == 0) {
                 foreach ($classes as $class) {
                     $pl->includeClass("class.{$class}.php");
@@ -3214,12 +3215,12 @@ abstract class assQuestion
             $lng = $DIC['lng'];
             return $lng->txt($type_tag);
         }
+        $component_data_db = $DIC['component.db'];
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-        foreach ($pl_names as $pl_name) {
+        $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+        foreach ($plugins as $plugin) {
             /** @var $pl ilQuestionsPlugin */
-            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+            $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $plugin->getName());
             if ($pl->getQuestionType() === $type_tag) {
                 return $pl->getQuestionTypeTranslation();
             }

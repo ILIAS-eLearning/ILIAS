@@ -58,9 +58,13 @@ class ExamplesTest extends ILIAS_UI_TestBase
             "type" => "crs"
         ]);
 
-        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
         $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-        $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
+
+        $empty_plugin_slot = $this->createMock(ilPluginSlotInfo::class);
+        $empty_plugin_slot->method("getActivePlugins")->willReturn(new EmptyIterator);
+        $component_data_db = $this->createMock(ilComponentDataDB::class);
+        $component_data_db->method("getPluginSlotById")->willReturn($empty_plugin_slot);
+        $this->dic["component.db"] = $component_data_db;
 
         (new InitHttpServices())->init($this->dic);
     }

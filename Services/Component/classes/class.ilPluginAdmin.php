@@ -148,28 +148,6 @@ class ilPluginAdmin
         return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isUpdateRequired();
     }
 
-
-    /**
-     * Get all active plugins for a slot
-     *
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     *
-     * @return array
-     */
-    public static function getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id)
-    {
-        // cache the list of active plugins
-        if (!isset(self::$active_plugins[$a_ctype][$a_cname][$a_slot_id])) {
-            self::$active_plugins[$a_ctype][$a_cname][$a_slot_id]
-                = ilPlugin::getActivePluginsForSlot($a_ctype, $a_cname, $a_slot_id);
-        }
-
-        return self::$active_plugins[$a_ctype][$a_cname][$a_slot_id];
-    }
-
-
     /**
      * Get Plugin Object
      *

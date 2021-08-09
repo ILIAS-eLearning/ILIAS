@@ -33,6 +33,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected Server\UIWrapper $ui_wrapper;
     protected \ilCtrl $ctrl;
     protected \ilPluginAdmin $plugin_admin;
+    protected ilComponentDataDB $component_data_db;
 
     public function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -44,6 +45,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_data_db = $DIC["component.db"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
@@ -130,17 +132,14 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         }
 
         // plugins
-        $pl_names = $this->plugin_admin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
+        $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
         );
-        foreach ($pl_names as $pl_name) {
+        foreach ($plugins as $pl) {
             $plugin = $this->plugin_admin->getPluginObject(
                 IL_COMP_SERVICE,
                 "COPage",
                 "pgcp",
-                $pl_name
+                $pl->getName()
             );
             $commands["plug_" . $plugin->getPluginName()] =
                 $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);

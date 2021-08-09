@@ -26,12 +26,11 @@ class ilRepositoryObjectPluginSlot
         global $DIC;
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl) {
-            $pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
-            if ($pl_id != "") {
-                $a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
-            }
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $pl_id = $plugin->getId();
+            $a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
         }
 
         return $a_obj_array;
@@ -44,20 +43,18 @@ class ilRepositoryObjectPluginSlot
     ) : bool {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        
-        $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
-        if ($pname == "") {
+        $component_data_db = $DIC["component.db"];
+
+        if (!$component_data_db->hasPluginId($a_type)) {
             return false;
         }
 
-        if ($ilPluginAdmin->exists(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-            if (!$a_active_status ||
-                $ilPluginAdmin->isActive(IL_COMP_SERVICE, "Repository", "robj", $pname)) {
-                return true;
-            }
+        if (!$a_active_status) {
+            return true;
         }
-        return false;
+
+        $plugin = $component_data_db->getPluginById($a_type);
+        return $plugin->isActive();
     }
     
     // Check whether a repository type is a plugin which has active learning progress

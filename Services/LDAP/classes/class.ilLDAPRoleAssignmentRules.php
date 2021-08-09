@@ -232,23 +232,21 @@ class ilLDAPRoleAssignmentRules
         global $DIC;
 
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
         
         if (self::$active_plugins == null) {
-            self::$active_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                IL_COMP_SERVICE,
-                'LDAP',
-                'ldaphk'
+            self::$active_plugins = $component_data_db->getPluginSlotById('ldaphk')->getActivePlugins();
             );
         }
         
         $assigned = false;
-        foreach (self::$active_plugins as $plugin_name) {
+        foreach (self::$active_plugins as $plugin) {
             $ok = false;
             $plugin_obj = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 'LDAP',
                 'ldaphk',
-                $plugin_name
+                $plugin->getName()
             );
             
             if ($plugin_obj instanceof ilLDAPRoleAssignmentPlugin) {
@@ -274,23 +272,21 @@ class ilLDAPRoleAssignmentRules
         global $DIC;
 
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
         
         if (self::$active_plugins == null) {
-            self::$active_plugins = $ilPluginAdmin->getActivePluginsForSlot(
-                IL_COMP_SERVICE,
-                'LDAP',
-                'ldaphk'
+            self::$active_plugins = $component_data_db->getPluginSlotById('ldaphk')->getActivePlugins();
             );
         }
 
         $attributes = array();
-        foreach (self::$active_plugins as $plugin_name) {
+        foreach (self::$active_plugins as $plugin) {
             $ok = false;
             $plugin_obj = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 'LDAP',
                 'ldaphk',
-                $plugin_name
+                $plugin->getName()
             );
             
             if ($plugin_obj instanceof ilLDAPRoleAssignmentPlugin) {

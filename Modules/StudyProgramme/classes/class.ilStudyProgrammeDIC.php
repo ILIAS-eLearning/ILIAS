@@ -74,7 +74,8 @@ class ilStudyProgrammeDIC
                 $DIC->filesystem()->web(),
                 $DIC['ilUser'],
                 $DIC['ilPluginAdmin'],
-                $DIC['lng']
+                $DIC['lng'],
+                $DIC['component.db']
             );
         };
         $dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = function ($dic) use ($DIC) {

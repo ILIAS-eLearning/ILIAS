@@ -68,9 +68,10 @@ final class ilRendererFactory
         // get registered and active plugins
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Preview", "pvre");
-        foreach ($pl_names as $pl) {
-            $plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "Preview", "pvre", $pl);
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById"pvre")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "Preview", "pvre", $pl->getId());
             $r[] = $plugin->getRendererClassInstance();
         }
         

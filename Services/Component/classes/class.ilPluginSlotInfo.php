@@ -102,4 +102,24 @@ class ilPluginSlotInfo
             "No plugin with name $name in slot {$this->getQualifiedName()}."
         );
     }
+
+    /**
+     * @return Iterator <ilPluginInfo>
+     */
+    public function getActivePlugins() : Iterator
+    {
+        foreach ($this->getPlugins() as $id => $plugin) {
+            if ($plugin->isActive()) {
+                yield $id => $plugin;
+            }
+        }
+    }
+
+    public function hasActivePlugins() : bool
+    {
+        foreach ($this->getActivePlugins() as $_) {
+            return true;
+        }
+        return false;
+    }
 }
