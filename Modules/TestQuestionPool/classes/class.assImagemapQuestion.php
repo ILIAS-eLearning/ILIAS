@@ -99,7 +99,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return boolean True, if the imagemap question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && ($this->author)
@@ -122,7 +122,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @return mixed|void
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -354,7 +354,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -623,7 +623,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $points = 0;
         foreach ($this->answers as $key => $value) {
@@ -700,7 +700,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -774,7 +774,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         $solution = $previewSession->getParticipantsSolution();
 
@@ -1047,7 +1047,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
     
     // hey: prevPassSolutions - wtf is imagemap ^^
-    public function getTestOutputSolutions($activeId, $pass)
+    public function getTestOutputSolutions($activeId, $pass) : array
     {
         $solution = parent::getTestOutputSolutions($activeId, $pass);
         

@@ -64,8 +64,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
         
         $this->answers = array();
-        
-        $this->setPoints('');
+
     }
     
     public function getQuestionType()
@@ -189,7 +188,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->answers[] = $answer;
     }
     
-    public function loadFromDb($questionId)
+    public function loadFromDb($questionId) : void
     {
         $res = $this->db->queryF($this->buildQuestionDataQuery(), array('integer'), array($questionId));
         
@@ -293,7 +292,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    public function saveToDb($originalId = '')
+    public function saveToDb($originalId = '') : void
     {
         $this->saveQuestionDataToDb($originalId);
         
@@ -343,7 +342,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->rebuildThumbnails();
     }
     
-    public function isComplete()
+    public function isComplete() : bool
     {
         foreach (array($this->title, $this->author, $this->question) as $text) {
             if (!strlen($text)) {
@@ -378,7 +377,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         /** @var ilDBInterface $ilDB */
         $ilDB = $GLOBALS['DIC']['ilDB'];
@@ -809,18 +808,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $clone->id;
     }
 
-    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
         
-        $question = self::_instanciateQuestion($origQuestionId);
+        $question = self::instantiateQuestion($origQuestionId);
 
         foreach ($question->getAnswers() as $answer) {
             $question->removeAnswerImage($answer->getPosition());
         }
     }
 
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
         

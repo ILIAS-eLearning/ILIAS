@@ -97,7 +97,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @var ilAssClozeTestFeedback
      */
-    public $feedbackOBJ;
+    public ilAssQuestionFeedback $feedbackOBJ;
 
     protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
 
@@ -137,7 +137,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return boolean TRUE, if the cloze test is complete for use, otherwise FALSE
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->getTitle())
             && $this->getAuthor()
@@ -190,7 +190,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $question_id A unique key which defines the cloze test in the database
      *
      */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id)  : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -309,7 +309,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @access public
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -874,7 +874,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $points = 0;
@@ -1297,7 +1297,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
 
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         foreach ($this->getSolutionSubmitValidation() as $gapIndex => $value) {
             $gap = $this->getGap($gapIndex);
@@ -1379,7 +1379,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

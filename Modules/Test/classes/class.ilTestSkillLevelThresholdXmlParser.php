@@ -170,15 +170,15 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 $this->setCurSkillBaseId($tagAttributes['BaseId']);
                 $this->setCurSkillTrefId($tagAttributes['TrefId']);
                 break;
-            
+
+            case 'OriginalLevelDescription':
+            case 'OriginalLevelTitle':
+            case 'ThresholdPercentage':
+            case 'OriginalSkillPath':
             case 'OriginalSkillTitle':
                 $this->resetCharacterDataBuffer();
                 break;
-            
-            case 'OriginalSkillPath':
-                $this->resetCharacterDataBuffer();
-                break;
-            
+
             case 'SkillLevel':
                 global $DIC;
                 $ilDB = $DIC['ilDB'];
@@ -189,18 +189,7 @@ class ilTestSkillLevelThresholdXmlParser extends ilSaxParser
                 $skillLevelThreshold->setOrderIndex($tagAttributes['Nr']);
                 $this->setCurSkillLevelThreshold($skillLevelThreshold);
                 break;
-            
-            case 'ThresholdPercentage':
-                $this->resetCharacterDataBuffer();
-                break;
-            
-            case 'OriginalLevelTitle':
-                $this->resetCharacterDataBuffer();
-                break;
-            
-            case 'OriginalLevelDescription':
-                $this->resetCharacterDataBuffer();
-                break;
+
         }
     }
     

@@ -57,7 +57,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 $ilTabs->activateTab('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilsettingstemplategui':
@@ -215,7 +215,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
 
         // available question types
         $allowed = new ilCheckboxGroupInputGUI($this->lng->txt('assf_allowed_questiontypes'), "chb_allowed_questiontypes");
-        $questiontypes = &ilObjQuestionPool::_getQuestionTypes(true);
+        $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = ilObjAssessmentFolder::_getForbiddenQuestionTypes();
         $allowedtypes = array();
         foreach ($questiontypes as $qt) {
@@ -284,7 +284,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->object->setExportEssayQuestionsWithHtml((int) $_POST["export_essay_qst_with_html"] == 1);
         $this->object->_setManualScoring($_POST["chb_manual_scoring"]);
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-        $questiontypes = &ilObjQuestionPool::_getQuestionTypes(true);
+        $questiontypes = ilObjQuestionPool::_getQuestionTypes(true);
         $forbidden_types = array();
         foreach ($questiontypes as $name => $row) {
             if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
@@ -358,7 +358,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $available_tests = &ilObjTest::_getAvailableTests(1);
+        $available_tests = ilObjTest::_getAvailableTests(1);
         array_push($csv, ilUtil::processCSVRow($row, true, $separator));
         $log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
         $users = array();

@@ -58,7 +58,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return boolean True, if the numeric question is complete for use, otherwise false
      */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (
             strlen($this->title)
@@ -76,7 +76,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -89,7 +89,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param integer $question_id A unique key which defines the multiple choice test in the database
      */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
@@ -300,7 +300,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @see $points
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         return $this->getPoints();
     }
@@ -395,7 +395,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return false;
     }
     
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         if (strlen($this->getSolutionSubmit()) && !$this->isValidNumericSubmitValue($this->getSolutionSubmit())) {
             ilUtil::sendFailure($this->lng->txt("err_no_numeric_value"), true);
@@ -430,7 +430,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
@@ -498,7 +498,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $returnvalue;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         $numericSolution = $this->getSolutionSubmit();
         $previewSession->setParticipantsSolution($numericSolution);

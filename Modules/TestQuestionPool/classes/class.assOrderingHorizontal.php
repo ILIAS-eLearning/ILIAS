@@ -53,7 +53,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return boolean True, if the single choice question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0)) {
             return true;
@@ -66,7 +66,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     * Saves a assOrderingHorizontal object to a database
     *
     */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -88,7 +88,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     * @param object $db A pear DB object
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -247,7 +247,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         return $this->getPoints();
     }
@@ -324,7 +324,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -424,7 +424,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @param integer $question_id The question id which should be deleted in the answers table
     */
-    public function deleteAnswers($question_id)
+    public function deleteAnswers($question_id) : void
     {
     }
 
@@ -446,7 +446,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
         $solutionvalue = "";
-        $solutions = &$this->getSolutionValues($active_id, $pass);
+        $solutions = $this->getSolutionValues($active_id, $pass);
         $solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
         $i = 1;
         $worksheet->setCell($startrow + $i, 0, $solutionvalue);
@@ -467,7 +467,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assOrderingHorizontalImport.php";
         $import = new assOrderingHorizontalImport($this);
@@ -480,7 +480,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string The QTI xml representation of the question
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assOrderingHorizontalExport.php";
         $export = new assOrderingHorizontalExport($this);
@@ -624,12 +624,12 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
     }
     
-    public function supportsJavascriptOutput()
+    public function supportsJavascriptOutput() : bool
     {
         return true;
     }
 
-    public function supportsNonJsOutput()
+    public function supportsNonJsOutput() : bool
     {
         return false;
     }

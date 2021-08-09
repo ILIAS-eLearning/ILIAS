@@ -94,7 +94,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return boolean True, if the single choice question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
             foreach ($this->answers as $answer) {
@@ -114,7 +114,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param string $original_id
      *
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -193,7 +193,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -388,7 +388,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $output_type
     */
-    public function getOutputType()
+    public function getOutputType() : int
     {
         return $this->output_type;
     }
@@ -400,7 +400,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $response
     */
-    public function setOutputType($output_type = OUTPUT_ORDER)
+    public function setOutputType($output_type = OUTPUT_ORDER) : void
     {
         $this->output_type = $output_type;
     }
@@ -531,7 +531,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         $points = 0;
         foreach ($this->answers as $key => $value) {
@@ -608,7 +608,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -656,7 +656,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return true;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         if (strlen($_POST['multiple_choice_result' . $this->getId() . 'ID'])) {
             $previewSession->setParticipantsSolution($_POST['multiple_choice_result' . $this->getId() . 'ID']);
@@ -1242,7 +1242,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 

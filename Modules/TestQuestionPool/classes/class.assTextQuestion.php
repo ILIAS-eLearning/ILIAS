@@ -91,7 +91,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     *
     * @return boolean True, if the multiple choice question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && $this->author
@@ -108,7 +108,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -123,7 +123,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @param integer $question_id A unique key which defines the text question in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -351,7 +351,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : int
     {
         if (in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion())) {
             return parent::getPoints();
@@ -611,7 +611,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

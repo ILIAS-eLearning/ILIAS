@@ -445,7 +445,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     $pass = ilObjTest::_getPass($active_id);
                 }
             }
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass);
         } else {
             if (!$this->object->getIsMultipleChoice()) {
                 $found_index = -1;

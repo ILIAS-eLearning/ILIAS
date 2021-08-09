@@ -177,7 +177,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
 
             if ($totalrows != 0) {
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                $question = assQuestion::_instanciateQuestion($question_id);
+                $question = assQuestion::instantiateQuestion($question_id);
                 $question->setProcessLocker($processLocker);
                 $question->calculateResultsFromSolution($active_id, $pass);
             }
@@ -261,7 +261,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             return $this->__raiseError("Wrong solution data. ILIAS did not execute any database queries");
         } else {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $question = assQuestion::_instanciateQuestion($question_id);
+            $question = assQuestion::instantiateQuestion($question_id);
             $question->calculateResultsFromSolution($active_id, $pass);
         }
         return "TRUE";

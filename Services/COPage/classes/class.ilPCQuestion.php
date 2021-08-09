@@ -98,9 +98,9 @@ class ilPCQuestion extends ilPageContent
      */
     public function copyPoolQuestionIntoPage($a_q_id, $a_hier_id)
     {
-        $question = assQuestion::_instanciateQuestion($a_q_id);
+        $question = assQuestion::instantiateQuestion($a_q_id);
         $duplicate_id = $question->copyObject(0, $question->getTitle());
-        $duplicate = assQuestion::_instanciateQuestion($duplicate_id);
+        $duplicate = assQuestion::instantiateQuestion($duplicate_id);
         $duplicate->setObjId(0);
 
         ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
