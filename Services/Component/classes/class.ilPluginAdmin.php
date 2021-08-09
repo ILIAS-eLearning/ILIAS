@@ -126,32 +126,6 @@ class ilPluginAdmin
 
 
     /**
-     * Get Plugin Object
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @param string $a_class_file_name
-     *
-     * @return void
-     */
-    public static function includeClass($a_ctype, $a_cname, $a_slot_id, $a_pname, $a_class_file_name)
-    {
-        // cache the plugin objects
-        if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
-            self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname]
-                = ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
-        }
-        /**
-         * @var $pl ilPlugin
-         */
-        $pl = self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
-        $pl->includeClass($a_class_file_name);
-    }
-
-    /**
      * Get info for all plugins.
      *
      * @return    array<string, array>
