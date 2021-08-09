@@ -74,6 +74,17 @@ class ilPluginAdmin
     /**
      * Checks whether plugin is active (include version checks)
      *
+     * ATTENTION: If one tries to remove this, the task doesn't look very hard initially.
+     * `grep -r "isActive([^)]*,.*)" Modules/` (or in Services) only reveals a handful
+     * of locations that actually use this function. But: If you attempt to remove these
+     * locations, you run into a dependency hell in the T&A. The T&A uses dependency
+     * injection, but not container. If you add ilComponentDataDB as dependency, you need
+     * to inject it ("courier anti pattern") in the classes above. This is super cumbersome
+     * and I started to loose track soon. This should be removed, but currently my
+     * concentration is not enough to do so.
+     *
+     * @deprecated
+     *
      * @param string $a_ctype   Component Type
      * @param string $a_cname   Component Name
      * @param string $a_slot_id Slot ID
@@ -83,6 +94,7 @@ class ilPluginAdmin
      */
     public function isActive($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
+        trigger_error("DEPRECATED: ilPluginAdmin::isActive is deprecated. Remove your usages of the method.");
         try {
             return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->isActive();
         }
