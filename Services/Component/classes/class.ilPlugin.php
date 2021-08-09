@@ -1009,30 +1009,6 @@ abstract class ilPlugin
 
 
     /**
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     *
-     * @return array
-     */
-    public static function getActivePluginsForSlot(string $a_ctype, string $a_cname, string $a_slot_id) : array
-    {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $component_data_db = $DIC["component.db"];
-
-        $plugins = array();
-        foreach ($component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)->getPluginSlotById($a_slot_id)->getPlugins() as $plugin) {
-            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $plugin->getName())) {
-                $plugins[] = $plugin->getName();
-            }
-        }
-
-        return $plugins;
-    }
-
-
-    /**
      * Get All active plugin ids for a slot.
      *
      * @param $a_ctype

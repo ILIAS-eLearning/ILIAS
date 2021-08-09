@@ -787,9 +787,10 @@ class ilObjSurveyQuestionPool extends ilObject
                 global $DIC;
 
                 $ilPluginAdmin = $DIC["ilPluginAdmin"];
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+                $component_data_db = $DIC["component.db"];
+                $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
+                foreach ($plugins as $plugin) {
+                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$pl->getQuestionTypeTranslation()] = $row;
                     }
@@ -866,6 +867,7 @@ class ilObjSurveyQuestionPool extends ilObject
         global $DIC;
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
+        $component_data_db = $DIC["component.db"];
         
         $lng->loadLanguageModule("survey");
         $result = $ilDB->query("SELECT * FROM svy_qtype");
@@ -874,9 +876,9 @@ class ilObjSurveyQuestionPool extends ilObject
             if ($row["plugin"] == 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+                $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
+                foreach ($plugins as $plugin) {
+                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }

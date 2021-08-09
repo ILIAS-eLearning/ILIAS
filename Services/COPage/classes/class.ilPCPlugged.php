@@ -24,6 +24,7 @@ class ilPCPlugged extends ilPageContent
     protected ilLanguage $lng;
     protected ilPluginAdmin $plugin_admin;
     public php4DOMElement $plug_node;
+    protected ilComponentDataDB $component_data_db;
 
     public function init() : void
     {
@@ -32,6 +33,7 @@ class ilPCPlugged extends ilPageContent
         $this->lng = $DIC->language();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->setType("plug");
+        $this->component_data_db = $DIC["component.db"];
     }
 
     public function setNode(php4DOMElement $a_node) : void
@@ -287,17 +289,15 @@ class ilPCPlugged extends ilPageContent
         
         $js_files = array();
         
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
+        $plugins = $this->component_data_db
+            ->getPluginSlotById("pgcp")
+            ->getActivePlugins();
+        foreach ($plugins as $pl) {
             $plugin = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 "COPage",
                 "pgcp",
-                $pl_name
+                $pl->getName()
             );
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();
@@ -322,17 +322,15 @@ class ilPCPlugged extends ilPageContent
         
         $css_files = array();
         
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
+        $plugins = $this->component_data_db
+            ->getPluginSlotById("pgcp")
+            ->getActivePlugins();
+        foreach ($plugins as $pl) {
             $plugin = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 "COPage",
                 "pgcp",
-                $pl_name
+                $pl->getName();
             );
             $plugin->setPageObj($this->getPage());
             $pl_dir = $plugin->getDirectory();

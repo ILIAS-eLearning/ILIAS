@@ -38,14 +38,15 @@ class ilCloudConnector
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC['component.db'];
 
-        $cloud_services = $ilPluginAdmin->getActivePluginsForSlot("Modules", "Cloud", "cldh");
-        if (!$cloud_services) {
+        $cloud_services = $component_data_db->getPluginSlotById("cldh")->getActivePlugins();
+        if (!count($cloud_services)) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_ACTIVE);
         }
         $services_names = array();
         foreach ($cloud_services as $service) {
-            $services_names[$service] = $service;
+            $services_names[$service] = $service->getName();
         }
 
         return $services_names;

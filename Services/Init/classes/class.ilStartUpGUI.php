@@ -1655,17 +1655,18 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         global $DIC;
         global $objDefinition, $ilPluginAdmin, $ilUser;
+        $component_data_db = $DIC["component.db"];
 
         $access = $DIC->access();
 
 
         if (is_object($ilPluginAdmin)) {
             // get user interface plugins
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
+            $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
 
             // search
-            foreach ($pl_names as $pl) {
-                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+            foreach ($plugins as $pl) {
+                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
                 $gui_class = $ui_plugin->getUIClassInstance();
                 $resp = $gui_class->checkGotoHook($a_target);
                 if ($resp["target"] !== false) {

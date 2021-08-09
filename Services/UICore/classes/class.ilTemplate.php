@@ -169,9 +169,10 @@ class ilTemplate extends HTML_Template_ITX
 
         // include the template output hook
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             $gui_class = $ui_plugin->getUIClassInstance();
 
             $resp = $gui_class->getHTML(
@@ -295,9 +296,10 @@ class ilTemplate extends HTML_Template_ITX
 
         // include the template input hook
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             $gui_class = $ui_plugin->getUIClassInstance();
 
             $resp = $gui_class->getHTML(
@@ -370,9 +372,10 @@ class ilTemplate extends HTML_Template_ITX
         
         // new code to include the template input hook:
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $component_data_db = $DIC["component.db"];
+        $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             $gui_class = $ui_plugin->getUIClassInstance();
             
             $resp = $gui_class->getHTML(

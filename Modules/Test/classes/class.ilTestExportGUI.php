@@ -21,6 +21,7 @@ class ilTestExportGUI extends ilExportGUI
     {
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC["component.db"];
 
         parent::__construct($a_parent_gui, $a_main_obj);
 
@@ -29,12 +30,12 @@ class ilTestExportGUI extends ilExportGUI
         $this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
         $this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
         $this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
-        foreach ($pl_names as $pl) {
+        $plugins = $component_data_db->getPluginSlotById("texp")->getActivePlugins();
+        foreach ($plugins as $pl) {
             /**
              * @var $plugin ilTestExportPlugin
              */
-            $plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'texp', $pl);
+            $plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'texp', $pl->getName());
             $plugin->setTest($this->obj);
             $this->addFormat(
                 $plugin->getFormat(),

@@ -30,6 +30,8 @@ class ilCOPageImporter extends ilXmlImporter
         global $DIC;
         /** @var ilPluginAdmin $ilPluginAdmin */
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        /** @var ilComponentDataDB $component_data_db */
+        $component_data_db = $DIC["component.db"];
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setDSPrefix("ds");
@@ -38,8 +40,9 @@ class ilCOPageImporter extends ilXmlImporter
         $this->log = ilLoggerFactory::getLogger('copg');
 
         // collect all page component plugins that have their own exporter
-        foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
-            if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+        foreach ($component_data_db->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
+            $plugin_name = $plugin->getName();
+            if ($plugin->supportsExport()) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
                     . $plugin_name . '/classes/class.il' . $plugin_name . 'Importer.php');
 

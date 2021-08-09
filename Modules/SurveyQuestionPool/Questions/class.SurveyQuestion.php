@@ -1629,9 +1629,10 @@ class SurveyQuestion
             global $DIC;
 
             $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-            foreach ($pl_names as $pl_name) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+            $component_data_db = $DIC["component.db"];
+            $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
+            foreach ($plugins as $plugin) {
+                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
                 if (strcmp($pl->getQuestionType(), $question_type) == 0) {
                     $pl->includeClass("class." . $type . ".php");
                     return true;
@@ -1658,9 +1659,10 @@ class SurveyQuestion
             global $DIC;
 
             $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-            foreach ($pl_names as $pl_name) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+            $component_data_db = $DIC["component.db"];
+            $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
+            foreach ($plugins as $plugin) {
+                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
                 if (strcmp($pl->getQuestionType(), $type_tag) == 0) {
                     return $pl->getQuestionTypeTranslation();
                 }

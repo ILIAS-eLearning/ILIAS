@@ -18,9 +18,10 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
 
         // only show, when element is created
         if (get_called_class() == 'ilDclPluginFieldRepresentation') {
-            $plugins = ilPluginAdmin::getActivePluginsForSlot(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID);
+            $plugins = $this->component_data_db->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->getActivePlugins();
             $options = array();
-            foreach ($plugins as $plugin_name) {
+            foreach ($plugins as $plugin) {
+                $plugin_name = $plugin->getName();
                 $plugin_data = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $plugin_name);
                 $options[$plugin_data->getPluginName()] = $plugin_data->getPluginName();
             }

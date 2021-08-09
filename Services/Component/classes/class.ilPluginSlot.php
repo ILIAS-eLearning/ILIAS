@@ -215,19 +215,4 @@ class ilPluginSlot
         $component_data_db = $DIC["component.db"];
         return $component_data_db->getPluginSlotById($a_slot_id)->getName();
     }
-
-    /**
-    * Get active plugins of slot
-    */
-    public function getActivePlugins()
-    {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        return $ilPluginAdmin->getActivePluginsForSlot(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId()
-        );
-    }
 }

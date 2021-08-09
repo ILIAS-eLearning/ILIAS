@@ -1635,7 +1635,8 @@ class ilNusoapUserAdministrationAdapter
         global $DIC;
 
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $soapHook = new ilSoapHook($ilPluginAdmin);
+        $component_data_db = $DIC['component.db'];
+        $soapHook = new ilSoapHook($ilPluginAdmin, $component_data_db);
         foreach ($soapHook->getWsdlTypes() as $type) {
             $this->server->wsdl->addComplexType(
                 $type->getName(),

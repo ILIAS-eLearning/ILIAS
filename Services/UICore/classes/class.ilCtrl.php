@@ -693,6 +693,10 @@ class ilCtrl implements ilCtrlInterface
         if (null === $target_url) {
             throw new ilCtrlException("ilCtrl was not yet provided with a return-target for class '$class_name'");
         }
+        $component_data_db = null;
+        if (isset($DIC["component.db"])) {
+            $component_data_db = $DIC["component.db"];
+        }
 
         // append redirect source to target url.
         $target_url = $this->appendParameterString(

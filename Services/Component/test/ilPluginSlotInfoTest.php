@@ -25,7 +25,7 @@ class ilPluginSlotInfoTest extends TestCase
         );
 
         $v = $this->createMock(\ILIAS\Data\Version::class);
-        $this->plugin1 = new ilPluginInfo(
+        $this->plugin1 = new class (
             $v,
             $this->pluginslot,
             "plg1",
@@ -42,10 +42,14 @@ class ilPluginSlotInfoTest extends TestCase
             false,
             false,
             false
-        );
+        ) extends ilPluginInfo {
+            public function isActive() : bool {
+                return true;
+            }
+        };
         $plugins["plg1"] = $this->plugin1;
 
-        $this->plugin2 = new ilPluginInfo(
+        $this->plugin2 = new class (
             $v,
             $this->pluginslot,
             "plg2",
@@ -62,7 +66,11 @@ class ilPluginSlotInfoTest extends TestCase
             false,
             false,
             false
-        );
+        ) extends ilPluginInfo {
+            public function isActive() : bool {
+                return false;
+            }
+        };
         $plugins["plg2"] = $this->plugin2;
     }
 
@@ -127,5 +135,30 @@ class ilPluginSlotInfoTest extends TestCase
             ilComponentDataDB::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
             $this->pluginslot->getPath()
         );
+    }
+
+    public function testGetActivePlugins()
+    {
+        $plugins = iterator_to_array($this->pluginslot->getActivePlugins());
+        $this->assertEquals(1, count($plugins));
+        $this->assertEquals($this->plugin1, $plugins["plg1"]);
+    }
+
+    public function testHasActivePlugins()
+    {
+        $this->assertTrue($this->pluginslot->hasActivePlugins());
+    }
+
+    public function testHasNoActivePlugins()
+    {
+        $plugins = [];
+        $other_pluginslot = new ilPluginSlotInfo(
+            $this->component,
+            "slt1",
+            "Slot1",
+            $plugins
+        );
+
+        $this->assertFalse($other_pluginslot->hasActivePlugins());
     }
 }

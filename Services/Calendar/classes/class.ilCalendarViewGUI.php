@@ -325,15 +325,16 @@ class ilCalendarViewGUI
         global $DIC;
 
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_data_db = $DIC['component.db'];
 
         $res = array();
 
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", $a_slot_id) as $plugin_name) {
+        foreach ($component_data_db->getPluginSlotById($a_slot_id)->getActivePlugins() as $plugin) {
             $res[] = $ilPluginAdmin->getPluginObject(
                 IL_COMP_SERVICE,
                 "Calendar",
                 $a_slot_id,
-                $plugin_name
+                $plugin->getName()
             );
         }
 

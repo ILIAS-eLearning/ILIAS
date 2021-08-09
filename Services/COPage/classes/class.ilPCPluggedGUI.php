@@ -24,6 +24,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
     protected ilPluginAdmin $plugin_admin;
     protected ilTabsGUI $tabs;
     protected ?ilPageComponentPlugin $current_plugin = null;
+    protected ilComponentDataDB $component_data_db;
     
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -36,6 +37,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_data_db = $DIC["component.db"];
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
@@ -73,12 +75,9 @@ class ilPCPluggedGUI extends ilPageContentGUI
 
         // get all plugins and check, whether next class belongs to one
         // of them, then forward
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(
-            IL_COMP_SERVICE,
-            "COPage",
-            "pgcp"
-        );
-        foreach ($pl_names as $pl_name) {
+        $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $pl_name = $plugins->getName();
             if ($next_class == strtolower("il" . $pl_name . "plugingui")) {
                 $plugin = $ilPluginAdmin->getPluginObject(
                     IL_COMP_SERVICE,

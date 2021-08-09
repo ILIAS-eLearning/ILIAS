@@ -21,10 +21,10 @@
 class ilUIHookProcessor
 {
     private bool $replaced = false;
-    protected ilPluginAdmin $plugin_admin;
     protected array $append = [];
     protected array $prepend = [];
     protected string $replace = '';
+    protected ilComponentDataDB $component_data_db;
 
     public function __construct(
         string $a_comp,
@@ -33,12 +33,12 @@ class ilUIHookProcessor
     ) {
         global $DIC;
 
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_data_db = $DIC["component.db"];
 
         // user interface hook [uihk]
-        $pl_names = ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-        foreach ($pl_names as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $plugins = $this->component_data_db->getPluginSlotById("uihk")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
             /**
              * @var $gui_class ilUIHookPluginGUI
              */
