@@ -72,23 +72,6 @@ class ilPluginAdmin
     }
 
     /**
-     * Get ID
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return string
-     * @throws ilPluginException
-     */
-    public function getId($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        return $this->getPluginInfo($a_ctype, $a_cname, $a_slot_id, $a_pname)->getId();
-    }
-
-
-    /**
      * Checks whether plugin is active (include version checks)
      *
      * @param string $a_ctype   Component Type
