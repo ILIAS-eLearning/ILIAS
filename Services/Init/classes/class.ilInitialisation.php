@@ -1460,9 +1460,17 @@ class ilInitialisation
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 
-        $plugins = ilPluginAdmin::getActivePlugins();
-        foreach ($plugins as $plugin_data) {
-            $plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"], $plugin_data["component_name"], $plugin_data["slot_id"], $plugin_data["name"]);
+        $component_data_db = $c["component.db"];
+        foreach ($component_data_db->getPlugins() as $pl) {
+            if (!$pl->isActive()) {
+                continue;
+            }
+            $plugin = ilPluginAdmin::getPluginObject(
+                $pl->getComponent()->getType(),
+                $pl->getComponent()->getName(),
+                $pl->getPluginSlot()->getId(),
+                $pl->getName()
+            );
 
             $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
