@@ -64,8 +64,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
         
         $this->answers = array();
-        
-        $this->setPoints('');
+
     }
     
     public function getQuestionType()

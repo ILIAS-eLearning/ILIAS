@@ -35,7 +35,7 @@ abstract class assQuestion
         self::IMG_MIME_TYPE_GIF => array('binary')
     );
 
-    protected ilLog $ilLog;
+    protected ILIAS\DI\LoggingServices $ilLog;
 
     protected int $id;
 
@@ -189,7 +189,7 @@ abstract class assQuestion
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
         $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
+        $ilLog = $DIC->logger();
 
         $this->ilias = $ilias;
         $this->lng = $lng;
