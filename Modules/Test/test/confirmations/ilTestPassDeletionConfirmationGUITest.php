@@ -1,0 +1,55 @@
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
+
+/**
+ * Class ilTestPassDeletionConfirmationGUITest
+ * @author Marvin Beym <mbeym@databay.de>
+ */
+class ilTestPassDeletionConfirmationGUITest extends TestCase
+{
+    /**
+     * @var ilTestEvaluationGUI|mixed|MockObject
+     */
+    private $testEvaluationGUI_mock;
+    /**
+     * @var ilLanguage|mixed|MockObject
+     */
+    private $lng_mock;
+    /**
+     * @var ilCtrl|mixed|MockObject
+     */
+    private $ctrl_mock;
+
+    protected function setUp() : void
+    {
+        $this->testEvaluationGUI_mock = $this->createMock(ilTestEvaluationGUI::class);
+        $this->lng_mock = $this->createMock(ilLanguage::class);
+        $this->ctrl_mock = $this->createMock(ilCtrl::class);
+    }
+
+    public function test_instantiateObject_shouldReturnInstance() : void
+    {
+        $instance = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
+
+        $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);
+    }
+    
+    public function testConstructor() : void
+    {
+        $this->ctrl_mock->expects($this->once())
+            ->method("getFormAction")
+            ->with($this->testEvaluationGUI_mock);
+
+        new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
+    }
+
+    public function testBuildFailsWithWrongContext() : void
+    {
+        $gui = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock, $this->testEvaluationGUI_mock);
+        $this->expectException(ilTestException::class);
+        $gui->build(20, 5, "invalidContext");
+    }
+}
