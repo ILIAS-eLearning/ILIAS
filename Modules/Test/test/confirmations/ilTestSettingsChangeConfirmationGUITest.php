@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilTestSettingsChangeConfirmationGUITest
@@ -12,11 +13,11 @@ class ilTestSettingsChangeConfirmationGUITest extends TestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
     /**
-     * @var ilObjTest|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilObjTest|mixed|MockObject
      */
     private $testObj_mock;
     /**
-     * @var ilLanguage|mixed|\PHPUnit\Framework\MockObject\MockObject
+     * @var ilLanguage|mixed|MockObject
      */
     private $lng_mock;
 
