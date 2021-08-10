@@ -30,9 +30,9 @@ class arConnectorDB extends arConnector
     }
 
     /**
-     * @param              $fields
+     * @param array $fields
      */
-    public function installDatabase(ActiveRecord $ar, $fields) : bool
+    public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         $ilDB = $this->returnDB();
         $ilDB->createTable($ar->getConnectorContainerName(), $fields);
@@ -48,7 +48,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function updateIndices(ActiveRecord $ar)
+    public function updateIndices(ActiveRecord $ar) : void
     {
         $ilDB = $this->returnDB();
         $arFieldList = $ar->getArFieldList();
@@ -90,7 +90,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function truncateDatabase(ActiveRecord $ar)
+    public function truncateDatabase(ActiveRecord $ar) : bool
     {
         $ilDB = $this->returnDB();
         $query = 'TRUNCATE TABLE ' . $ar->getConnectorContainerName();
@@ -99,12 +99,14 @@ class arConnectorDB extends arConnector
             $ilDB->dropSequence($ar->getConnectorContainerName());
             $ilDB->createSequence($ar->getConnectorContainerName());
         }
+
+        return true;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function checkTableExists(ActiveRecord $ar)
+    public function checkTableExists(ActiveRecord $ar) : bool
     {
         $ilDB = $this->returnDB();
 
@@ -116,40 +118,29 @@ class arConnectorDB extends arConnector
     }
 
     /**
-     * @param              $field_name
-     * @return mixed
+     * @param string $field_name
+     * @return bool
      */
-    public function checkFieldExists(ActiveRecord $ar, $field_name)
+    public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         $ilDB = $this->returnDB();
 
         return $ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name);
     }
 
-    /**
-     * @param              $field_name
-     * @return bool|void
-     * @throws arException
-     */
-    public function removeField(ActiveRecord $ar, $field_name)
+    public function removeField(ActiveRecord $ar, string $field_name) : bool
     {
         $ilDB = $this->returnDB();
-        if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
-            //throw new arException($field_name, arException::COLUMN_DOES_NOT_EXIST);
+        if (!$ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
+            throw new arException($field_name, arException::COLUMN_DOES_NOT_EXIST);
         }
         if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $field_name)) {
             $ilDB->dropTableColumn($ar->getConnectorContainerName(), $field_name);
-
-            return true;
         }
+        return true;
     }
 
-    /**
-     * @param              $old_name
-     * @param              $new_name
-     * @throws arException
-     */
-    public function renameField(ActiveRecord $ar, $old_name, $new_name) : bool
+    public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
     {
         $ilDB = $this->returnDB();
         if ($ilDB->tableColumnExists($ar->getConnectorContainerName(), $old_name)) {
@@ -164,7 +155,7 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    public function create(ActiveRecord $ar)
+    public function create(ActiveRecord $ar) : void
     {
         $ilDB = $this->returnDB();
         $ilDB->insert($ar->getConnectorContainerName(), $ar->getArrayForConnector());
@@ -189,7 +180,7 @@ class arConnectorDB extends arConnector
         return $records;
     }
 
-    public function update(ActiveRecord $ar)
+    public function update(ActiveRecord $ar) : void
     {
         $ilDB = $this->returnDB();
 
@@ -201,7 +192,7 @@ class arConnectorDB extends arConnector
         ));
     }
 
-    public function delete(ActiveRecord $ar)
+    public function delete(ActiveRecord $ar) : void
     {
         $ilDB = $this->returnDB();
 
@@ -233,7 +224,7 @@ class arConnectorDB extends arConnector
         $set = $ilDB->query($q);
 
         /** @noinspection PhpParamsInspection */
-        return $ilDB->numRows($set);
+        return (int) $ilDB->numRows($set);
     }
 
     /**
@@ -273,10 +264,10 @@ class arConnectorDB extends arConnector
     }
 
     /**
-     * @param $value
-     * @param $type
+     * @param        $value
+     * @param string $type
      */
-    public function quote($value, $type) : string
+    public function quote($value, string $type) : string
     {
         $ilDB = $this->returnDB();
 

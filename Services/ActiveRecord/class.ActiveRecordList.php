@@ -328,7 +328,7 @@ class ActiveRecordList
 
     public function hasSets() : bool
     {
-        return ($this->affectedRows() > 0) ? true : false;
+        return $this->affectedRows() > 0;
     }
 
     public function affectedRows() : int
@@ -399,7 +399,7 @@ class ActiveRecordList
     /**
      * @param string       $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
      * @param string|array $values which values should be taken? if null all are given. If only a string is given then the result is an 1D array!
-     * @return mixed[]|array<int|string, mixed[]>
+     * @return array
      */
     public function getArray(string $key = null, $values = null) : array
     {
@@ -512,7 +512,7 @@ class ActiveRecordList
         $this->ar = $ar;
     }
 
-    public function getAR() : ?\ActiveRecord
+    public function getAR() : \ActiveRecord
     {
         return $this->ar;
     }

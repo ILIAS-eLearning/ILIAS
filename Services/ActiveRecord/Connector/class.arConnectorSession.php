@@ -54,9 +54,9 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @param              $fields
+     * @param array $fields
      */
-    public function installDatabase(ActiveRecord $ar, $fields) : bool
+    public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         return $this->resetDatabase($ar);
     }
@@ -79,7 +79,7 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function checkTableExists(ActiveRecord $ar) : bool
     {
@@ -87,10 +87,10 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @param              $field_name
-     * @return mixed
+     * @param string $field_name
+     * @return bool
      */
-    public function checkFieldExists(ActiveRecord $ar, $field_name) : bool
+    public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         $session = self::getSessionForActiveRecord($ar);
 
@@ -98,20 +98,20 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @param              $field_name
+     * @param string $field_name
      * @throws arException
      */
-    public function removeField(ActiveRecord $ar, $field_name) : bool
+    public function removeField(ActiveRecord $ar, string $field_name) : bool
     {
         return true;
     }
 
     /**
-     * @param              $old_name
-     * @param              $new_name
+     * @param string $old_name
+     * @param string $new_name
      * @throws arException
      */
-    public function renameField(ActiveRecord $ar, $old_name, $new_name) : bool
+    public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
     {
         return true;
     }
@@ -174,9 +174,9 @@ class arConnectorSession extends arConnector
 
     /**
      * @param $value
-     * @param $type
+     * @param string $type
      */
-    public function quote($value, $type) : string
+    public function quote($value, string $type) : string
     {
         return $value;
     }

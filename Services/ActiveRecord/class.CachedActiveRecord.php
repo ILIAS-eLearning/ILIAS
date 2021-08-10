@@ -41,7 +41,7 @@ abstract class CachedActiveRecord extends ActiveRecord
 
         $connector = new arConnectorCache($connector);
         arConnectorMap::register($this, $connector);
-        parent::__construct($primary_key, $connector);
+        parent::__construct($primary_key);
     }
 
     public function afterObjectLoad()

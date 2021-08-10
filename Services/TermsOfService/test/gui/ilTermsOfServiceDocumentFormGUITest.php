@@ -250,6 +250,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                     ]
                 ];
             });
+        $documentConnector->method('affectedRows')->willReturn(1);
 
         $criterionConnector
             ->expects($this->once())
@@ -454,6 +455,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->setGlobalVariable('upload', $fu);
 
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector->method('affectedRows')->willReturn(0);
 
         arConnectorMap::register(new ilTermsOfServiceDocument(), $documentConnector);
         arConnectorMap::register($document, $documentConnector);

@@ -13,7 +13,7 @@ class arConnectorCache extends arConnector
 
     /**
      * ilGSStorageCache constructor.
-     * @param int         $ttl
+     * @param int $ttl
      */
     public function __construct(arConnector $arConnectorDB)
     {
@@ -30,17 +30,17 @@ class arConnectorCache extends arConnector
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function checkConnection(ActiveRecord $ar)
+    public function checkConnection(ActiveRecord $ar) : bool
     {
         return $this->arConnectorDB->checkConnection($ar);
     }
 
     /**
-     * @param               $fields
+     * @param array $fields
      */
-    public function installDatabase(ActiveRecord $ar, $fields) : bool
+    public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         return $this->arConnectorDB->installDatabase($ar, $fields);
     }
@@ -55,43 +55,27 @@ class arConnectorCache extends arConnector
         return $this->arConnectorDB->resetDatabase($ar);
     }
 
-    public function truncateDatabase(ActiveRecord $ar) : void
+    public function truncateDatabase(ActiveRecord $ar) : bool
     {
-        $this->arConnectorDB->truncateDatabase($ar);
+        return $this->arConnectorDB->truncateDatabase($ar);
     }
 
-    /**
-     * @return mixed
-     */
-    public function checkTableExists(ActiveRecord $ar)
+    public function checkTableExists(ActiveRecord $ar) : bool
     {
         return $this->arConnectorDB->checkTableExists($ar);
     }
 
-    /**
-     * @param               $field_name
-     * @return mixed
-     */
-    public function checkFieldExists(ActiveRecord $ar, $field_name)
+    public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         return $this->arConnectorDB->checkFieldExists($ar, $field_name);
     }
 
-    /**
-     * @param               $field_name
-     * @throws arException
-     */
-    public function removeField(ActiveRecord $ar, $field_name) : bool
+    public function removeField(ActiveRecord $ar, string $field_name) : bool
     {
         return $this->arConnectorDB->removeField($ar, $field_name);
     }
 
-    /**
-     * @param               $old_name
-     * @param               $new_name
-     * @throws arException
-     */
-    public function renameField(ActiveRecord $ar, $old_name, $new_name) : bool
+    public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
     {
         return $this->arConnectorDB->renameField($ar, $old_name, $new_name);
     }
@@ -102,10 +86,7 @@ class arConnectorCache extends arConnector
         $this->storeActiveRecordInCache($ar);
     }
 
-    /**
-     * @return array
-     */
-    public function read(ActiveRecord $ar)
+    public function read(ActiveRecord $ar) : array
     {
         if ($this->cache->isActive()) {
             $key = $ar->getConnectorContainerName() . "_" . $ar->getPrimaryFieldValue();
@@ -146,10 +127,7 @@ class arConnectorCache extends arConnector
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function readSet(ActiveRecordList $arl)
+    public function readSet(ActiveRecordList $arl) : array
     {
         return $this->arConnectorDB->readSet($arl);
     }
@@ -160,10 +138,10 @@ class arConnectorCache extends arConnector
     }
 
     /**
-     * @param $value
-     * @param $type
+     * @param        $value
+     * @param string $type
      */
-    public function quote($value, $type) : string
+    public function quote($value, string $type) : string
     {
         return $this->arConnectorDB->quote($value, $type);
     }
