@@ -9,7 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestSettingsChangeConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestSettingsChangeConfirmationGUITest extends TestCase
+class ilTestSettingsChangeConfirmationGUITest extends assBaseTestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
     /**
@@ -23,6 +23,7 @@ class ilTestSettingsChangeConfirmationGUITest extends TestCase
 
     protected function setUp() : void
     {
+        parent::setUp();
         $this->lng_mock = $this->createMock(ilLanguage::class);
         $this->testObj_mock = $this->createMock(ilObjTest::class);
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock,  $this->testObj_mock);

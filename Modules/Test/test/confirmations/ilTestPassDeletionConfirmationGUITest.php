@@ -8,7 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestPassDeletionConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestPassDeletionConfirmationGUITest extends TestCase
+class ilTestPassDeletionConfirmationGUITest extends assBaseTestCase
 {
     /**
      * @var ilTestEvaluationGUI|mixed|MockObject
@@ -25,6 +25,7 @@ class ilTestPassDeletionConfirmationGUITest extends TestCase
 
     protected function setUp() : void
     {
+        parent::setUp();
         $this->testEvaluationGUI_mock = $this->createMock(ilTestEvaluationGUI::class);
         $this->lng_mock = $this->createMock(ilLanguage::class);
         $this->ctrl_mock = $this->createMock(ilCtrl::class);
