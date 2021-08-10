@@ -28,8 +28,9 @@ class arWhere extends arStatement
         $type = null;
         if ($this->getType() === self::TYPE_REGULAR) {
             $arField = $ar->getArFieldList()->getFieldByName($this->getFieldname());
-            $type = $arField->getFieldType();
+            $type = 'text';
             if ($arField instanceof arField) {
+                $type = $arField->getFieldType();
                 $statement = $ar->getConnectorContainerName() . '.' . $this->getFieldname();
             } else {
                 $statement = $this->getFieldname();

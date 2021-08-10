@@ -3,73 +3,53 @@
 /**
  * Class arConnector
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @description
- * @version 2.0.7
+ * @internal
  */
 abstract class arConnector
 {
-
+    /**
+     * @return mixed
+     */
     abstract public function nextID(ActiveRecord $ar);
 
-    abstract public function checkConnection(ActiveRecord $ar);
+    abstract public function checkConnection(ActiveRecord $ar) : bool;
+
+    abstract public function installDatabase(ActiveRecord $ar, array $fields) : bool;
+
+    abstract public function updateDatabase(ActiveRecord $ar) : bool;
+
+    abstract public function resetDatabase(ActiveRecord $ar) : bool;
+
+    abstract public function truncateDatabase(ActiveRecord $ar) : bool;
+
+    abstract public function checkTableExists(ActiveRecord $ar) : bool;
+
+    abstract public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool;
+
+    abstract public function removeField(ActiveRecord $ar, string $field_name) : bool;
+
+    abstract public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool;
+
+    abstract public function create(ActiveRecord $ar) : void;
+
+    abstract public function read(ActiveRecord $ar) : array;
+
+    abstract public function update(ActiveRecord $ar) : void;
+
+    abstract public function delete(ActiveRecord $ar) : void;
+
+    abstract public function readSet(ActiveRecordList $arl) : array;
+
+    abstract public function affectedRows(ActiveRecordList $arl) : int;
 
     /**
-     * @param              $fields
+     * @param mixed $value
      */
-    abstract public function installDatabase(ActiveRecord $ar, $fields);
+    abstract public function quote($value, string $type) : string;
 
-    abstract public function updateDatabase(ActiveRecord $ar);
+    abstract public function updateIndices(ActiveRecord $ar) : void;
 
-    abstract public function resetDatabase(ActiveRecord $ar);
-
-    abstract public function truncateDatabase(ActiveRecord $ar);
-
-    abstract public function checkTableExists(ActiveRecord $ar);
-
-    /**
-     * @param              $field_name
-     */
-    abstract public function checkFieldExists(ActiveRecord $ar, $field_name);
-
-    /**
-     * @param              $field_name
-     */
-    abstract public function removeField(ActiveRecord $ar, $field_name);
-
-    /**
-     * @param              $old_name
-     * @param              $new_name
-     */
-    abstract public function renameField(ActiveRecord $ar, $old_name, $new_name);
-
-    abstract public function create(ActiveRecord $ar);
-
-    abstract public function read(ActiveRecord $ar);
-
-    abstract public function update(ActiveRecord $ar);
-
-    abstract public function delete(ActiveRecord $ar);
-
-    abstract public function readSet(ActiveRecordList $arl);
-
-    /**
-     * @return int
-     */
-    abstract public function affectedRows(ActiveRecordList $arl);
-
-    /**
-     * @param $value
-     * @param $type
-     * @return string
-     */
-    abstract public function quote($value, $type);
-
-    abstract public function updateIndices(ActiveRecord $ar);
-
-    /**
-     * @param $value
-     */
-    public function fixDate($value) : string
+    public function fixDate(string $value) : string
     {
         return $value;
     }

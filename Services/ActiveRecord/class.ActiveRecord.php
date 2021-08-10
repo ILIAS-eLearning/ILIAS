@@ -303,7 +303,7 @@ abstract class ActiveRecord
             $this->{$primary_fieldname} = $this->getArConnector()->nextID($this);
         }
 
-        $this->getArConnector()->create($this, $this->getArrayForConnector());
+        $this->getArConnector()->create($this);
         arObjectCache::store($this);
     }
 
@@ -618,15 +618,15 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param null $key
-     * @param null $values
-     * @return mixed[]|array<int|string, mixed[]>
+     * @param string|null $key
+     * @param null        $values
+     * @return array
      */
-    public static function getArray($key = null, $values = null) : array
+    public static function getArray(?string $key = null, $values = null) : array
     {
-        $srModelObjectList = new ActiveRecordList(self::getCalledClass());
+        $record_list = new ActiveRecordList(self::getCalledClass());
 
-        return $srModelObjectList->getArray($key, $values);
+        return $record_list->getArray($key, $values);
     }
 
     //
