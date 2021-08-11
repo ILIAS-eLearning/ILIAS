@@ -195,7 +195,7 @@ class ilMailbox
         );
         $this->mtree->insertNode($nextId, $parentFolderId);
 
-        return $nextId;
+        return (int)$nextId;
     }
 
     /**

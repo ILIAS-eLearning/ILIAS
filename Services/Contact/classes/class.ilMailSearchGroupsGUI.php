@@ -19,6 +19,11 @@ class ilMailSearchGroupsGUI
 {
 
     private RequestInterface $httpRequest;
+    private string|null $view = null;
+    /**
+     * @var string[]
+     */
+    private array|null $search_grp = null;
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -70,7 +75,18 @@ class ilMailSearchGroupsGUI
                 }
 
                 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
-                $this->ctrl->saveParameter($this, 'search_grp');
+
+                $search_grp = "";
+                if (isset($this->httpRequest->getParsedBody()['search_grp'])) {
+                    $search_grp = $this->httpRequest->getParsedBody()['search_grp'];
+}
+
+                if (isset($this->httpRequest->getQueryParams()['search_grp'])) {
+                        $search_grp = $this->httpRequest->getQueryParams()['search_grp'];
+}
+                $this->ctrl->setParameter($this, 'search_grp', $search_grp);
+
+
                 $this->ctrl->setReturn($this, 'showMembers');
                 $this->ctrl->forwardCommand(new ilBuddySystemGUI());
                 break;
@@ -89,17 +105,16 @@ class ilMailSearchGroupsGUI
 
     public function mail(): void
     {
-        if (ilSession::get('view') === "mygroups" ||
-            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mygroups")) {
-            $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : ilSession::get('search_grp');
+        $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
+        if ($view === "mygroups") {
+            $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : $this->search_grp;
             if ($ids) {
                 $this->mailGroups();
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_group"));
                 $this->showMyGroups();
             }
-        } elseif (ilSession::get('view') === "grp_members" ||
-            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "grp_members")) {
+        } elseif ($view === "grp_members") {
             $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? array((int) $this->httpRequest->getQueryParams()['search_members']) : $this->httpRequest->getParsedBody()['search_members'];
             if ($ids) {
                 $this->mailMembers();
@@ -134,7 +149,7 @@ class ilMailSearchGroupsGUI
         require_once './Services/Object/classes/class.ilObject.php';
         require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
 
-        $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : ilSession::get('search_grp');
+        $ids = ((int) $this->httpRequest->getQueryParams()['search_grp']) ? array((int) $this->httpRequest->getQueryParams()['search_grp']) : $this->search_grp;
         foreach ($ids as $grp_id) {
             $ref_ids = ilObject::_getAllReferences($grp_id);
             foreach ($ref_ids as $ref_id) {
@@ -228,8 +243,8 @@ class ilMailSearchGroupsGUI
      */
     public function cancel(): void
     {
-        if ((ilSession::get('view') === "mygroups" ||
-            (isset($this->httpRequest->getQueryParams()["view"])  && $this->httpRequest->getQueryParams()["view"] === "mygroups"))
+        $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
+        if ($view === "mygroups"
             && isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "mail") {
             $this->ctrl->returnToParent($this);
         } else {
@@ -248,7 +263,7 @@ class ilMailSearchGroupsGUI
 
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
 
-        ilSession::set('view', 'mygroups');
+        $this->view = 'mygroups';
 
         $this->lng->loadLanguageModule('crs');
         
@@ -363,10 +378,10 @@ class ilMailSearchGroupsGUI
     public function showMembers(): void
     {
         if ($this->httpRequest->getQueryParams()["search_grp"] && $this->httpRequest->getQueryParams()["search_grp"] !== "") {
-             ilSession::set('search_grp' , explode(",", $this->httpRequest->getQueryParams()["search_grp"]));
+             $this->search_grp = explode(",", $this->httpRequest->getQueryParams()["search_grp"]);
         }
 
-        $search_grp = $this->httpRequest->getParsedBody()["search_grp"] ?? ilSession::get('search_grp');
+        $search_grp = $this->httpRequest->getParsedBody()["search_grp"] ?? $this->search_grp;
         if (!$search_grp || !is_array($search_grp) ||
             count($search_grp) === 0) {
             ilUtil::sendInfo($this->lng->txt("mail_select_group"));
@@ -439,9 +454,9 @@ class ilMailSearchGroupsGUI
 
     public function share(): void
     {
-        if (ilSession::get('view') === "mygroups" ||
-            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "mygroups")) {
-            $ids = $_REQUEST["search_grp"];
+        $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
+        if ($view === "mygroups") {
+            $ids = $_REQUEST["search_grp"] ?? $this->search_grp;
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
             }
@@ -451,8 +466,7 @@ class ilMailSearchGroupsGUI
                 ilUtil::sendInfo($this->lng->txt("mail_select_group"));
                 $this->showMyGroups();
             }
-        } elseif (ilSession::get('view') ||
-            (isset($this->httpRequest->getQueryParams()["view"]) && $this->httpRequest->getQueryParams()["view"] === "grp_members")) {
+        } elseif ($view === "grp_members") {
             $ids = $_REQUEST["search_members"];
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);

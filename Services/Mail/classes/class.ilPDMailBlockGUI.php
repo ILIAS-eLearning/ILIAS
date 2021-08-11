@@ -16,6 +16,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static $block_type = 'pdmail';
     private RequestInterface $httpRequest;
+    private int $requestMailObjId = 0;
 
     /**
      * @var \ilLanguage
@@ -201,18 +202,18 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $content_block = new ilDashboardContentBlockGUI();
         $content_block->setContent($mail_gui->getPDMailHTML(
             $this->httpRequest->getQueryParams()["mail_id"] ?? 0,
-            $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id')
+            $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId
         ));
         $content_block->setTitle($this->lng->txt("message"));
 
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id') . "&type=reply",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=reply",
             $this->lng->txt("reply")
         );
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? ilSession::get('mobj_id') . "&type=read",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=read",
             $this->lng->txt("inbox")
         );
 
@@ -233,7 +234,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $mbox = new ilMailbox($this->user->getId());
 
         if (!isset($this->httpRequest->getQueryParams()['mobj_id']) || !$this->httpRequest->getQueryParams()['mobj_id']) {
-            ilSession::set('mobj_id', $mbox->getInboxFolder());
+            $this->requestMailObjId = $mbox->getInboxFolder();
         }
 
         if ($umail->moveMailsToFolder(array((int) $this->httpRequest->getQueryParams()['mail_id']), $mbox->getTrashFolder())) {

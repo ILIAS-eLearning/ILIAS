@@ -97,8 +97,8 @@ class ilMailSearchGUI
         $recipients = array_unique($recipients);
 
         ilSession::set("mail_search_results_to", $recipients);
-        ilSession::set("mail_search_results_cc", $this->httpRequest->getParsedBody()["search_name_cc"] ?: null);
-        ilSession::set("mail_search_results_bcc", $this->httpRequest->getParsedBody()["search_name_bcc"] ?: null);
+        ilSession::set("mail_search_results_cc", $this->httpRequest->getParsedBody()["search_name_cc"] ?? null);
+        ilSession::set("mail_search_results_bcc", $this->httpRequest->getParsedBody()["search_name_bcc"] ?? null);
 
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();

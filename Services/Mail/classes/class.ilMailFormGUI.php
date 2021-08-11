@@ -24,6 +24,9 @@ class ilMailFormGUI
     private ilMailBox $mbox;
     private ilFileDataMail $mfile;
     private RequestInterface $httpRequest;
+    private int $requestMailObjId = 0;
+    private array|null $requestAttachments = null;
+    private string $requestMailSubject = "";
     protected ?ilMailTemplateService $templateService;
     private ?ilMailBodyPurifier $purifier;
 
@@ -62,15 +65,18 @@ class ilMailFormGUI
         $this->purifier = $bodyPurifier;
 
         if (isset($this->httpRequest->getParsedBody()['mobj_id']) && (int) $this->httpRequest->getParsedBody()['mobj_id']) {
-            ilSession::set('mobj_id', $this->httpRequest->getParsedBody()['mobj_id']);
+            $this->requestMailObjId = $DIC->refinery()->kindlyTo()->int()->transform(
+                $this->httpRequest->getParsedBody()['mobj_id']
+            );
         }
 
-        if (!(int) $this->httpRequest->getQueryParams()['mobj_id']) {
-            ilSession::set('mobj_id', $this->mbox->getInboxFolder());
+        if (0 === $this->requestMailObjId && isset($this->httpRequest->getQueryParams()['mobj_id'])) {
+            $this->requestMailObjId = $DIC->refinery()->kindlyTo()->int()->transform(
+                $this->httpRequest->getQueryParams()['mobj_id']
+            );
         }
-        ilSession::set('mobj_id', (int) ilSession::get('mobj_id'));
 
-        $this->ctrl->saveParameter($this, 'mobj_id');
+        $this->ctrl->setParameter($this, 'mobj_id', $this->requestMailObjId);
     }
 
     public function executeCommand(): void
@@ -135,13 +141,15 @@ class ilMailFormGUI
 
     public function sendMessage(): void
     {
-        $message = (string) $this->httpRequest->getParsedBody()['m_message'];
+        $message = (string) $this->httpRequest->getParsedBody()['m_message'] ?? "";
 
         $mailBody = new ilMailBody($message, $this->purifier);
 
         $sanitizedMessage = $mailBody->getContent();
 
-        $files = $this->decodeAttachmentFiles(isset($this->httpRequest->getParsedBody()['attachments']) ? (array) $this->httpRequest->getParsedBody()['attachments'] : array());
+        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? [];
+
+        $files = $this->decodeAttachmentFiles($this->requestAttachments ? (array) $this->requestAttachments : $attachments);
 
         $mailer = $this->umail
             ->withContextId(ilMailFormCall::getContextId() ?: '')
@@ -150,16 +158,16 @@ class ilMailFormGUI
         $mailer->setSaveInSentbox(true);
 
         if ($errors = $mailer->enqueue(
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to']),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc']),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc']),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject']),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? ""),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject'] ?? ""),
             $sanitizedMessage,
             $files,
             isset($this->httpRequest->getParsedBody()['use_placeholders']) ? (bool) $this->httpRequest->getParsedBody()['use_placeholders'] : false
         )
         ) {
-            $this->httpRequest->getParsedBody()['attachments'] = $files;
+            $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
         } else {
             $mailer->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");
@@ -180,16 +188,18 @@ class ilMailFormGUI
     public function saveDraft(): void
     {
         if (!$this->httpRequest->getParsedBody()['m_subject']) {
-            $this->httpRequest->getParsedBody()['m_subject'] = 'No title';
+            $this->requestMailSubject = 'No title';
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
-        $files = $this->decodeAttachmentFiles(isset($this->httpRequest->getParsedBody()['attachments']) ? (array) $this->httpRequest->getParsedBody()['attachments'] : array());
+        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? [];
+
+        $files = $this->decodeAttachmentFiles($this->requestAttachments ? (array) $this->requestAttachments : $attachments);
 
         if ($errors = $this->umail->validateRecipients(
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to']),
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc']),
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'])
+            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
+            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
+            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? "")
         )) {
             $this->httpRequest->getParsedBody()['attachments'] = $files;
             $this->showSubmissionErrors($errors);
@@ -211,7 +221,7 @@ class ilMailFormGUI
             ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
             ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? ""),
             ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_email'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject']) ?? "",
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject']) ?? $this->requestMailSubject,
             ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_message']) ?? "",
             $draftId,
             isset($this->httpRequest->getParsedBody()['use_placeholders']) ? (int) $this->httpRequest->getParsedBody()['use_placeholders'] : 0,
@@ -236,8 +246,10 @@ class ilMailFormGUI
 
         if ($save) {
             $files = [];
-            if (isset($this->httpRequest->getParsedBody()['attachments']) && is_array($this->httpRequest->getParsedBody()['attachments'])) {
-                foreach ($this->httpRequest->getParsedBody()['attachments'] as $value) {
+            $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
+
+            if (is_array($attachments)) {
+                foreach ($attachments as $value) {
                     $files[] = urldecode($value);
                 }
             }
@@ -250,7 +262,7 @@ class ilMailFormGUI
                 ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_cc"] ?? ''),
                 ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_bcc"] ?? ''),
                 ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_email"] ?? ''),
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_subject"] ?? ''),
+                ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_subject"] ?? $this->requestMailSubject),
                 ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_message"] ?? ''),
                 (bool) ($this->httpRequest->getParsedBody()['use_placeholders'] ?? false),
                 ilMailFormCall::getContextId(),
@@ -288,7 +300,7 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        if (ilSession::get('search_crs')) {
+        if (isset($this->httpRequest->getParsedBody()['search_crs'])) {
             $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
         }
         
@@ -333,8 +345,9 @@ class ilMailFormGUI
     {
         // decode post values
         $files = [];
-        if (isset($this->httpRequest->getParsedBody()['attachments']) && is_array($this->httpRequest->getParsedBody()['attachments'])) {
-            foreach ($this->httpRequest->getParsedBody()['attachments'] as $value) {
+        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
+        if (is_array($attachments)) {
+            foreach ($attachments as $value) {
                 $files[] = urldecode($value);
             }
         }
@@ -343,12 +356,12 @@ class ilMailFormGUI
         $this->umail->savePostData(
             $this->user->getId(),
             $files,
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_to"]),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_cc"]),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_bcc"]),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_to"] ?? ""),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_cc"] ?? ""),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_bcc"] ?? ""),
             (bool) ($this->httpRequest->getParsedBody()["m_email"] ?? false),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_subject"]),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_message"]),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_subject"] ?? $this->requestMailSubject),
+            ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_message"] ?? ""),
             (bool) ($this->httpRequest->getParsedBody()["use_placeholders"] ?? false),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
@@ -494,7 +507,7 @@ class ilMailFormGUI
                 $mailData["m_subject"] = $this->umail->formatForwardSubject();
                 $mailData["m_message"] = $this->umail->prependSignature();
                 if (is_array($mailData["attachments"]) && count($mailData["attachments"])) {
-                    if ($error = $this->mfile->adoptAttachments($mailData["attachments"], $this->httpRequest->getQueryParams()["mail_id"] ?? 0)) {
+                    if ($error = $this->mfile->adoptAttachments($mailData["attachments"], $this->httpRequest->getQueryParams()["mail_id"] ? (int)$this->httpRequest->getQueryParams()["mail_id"] : 0)) {
                         ilUtil::sendInfo($error);
                     }
                 }
@@ -535,7 +548,7 @@ class ilMailFormGUI
         
                 if (is_array($this->httpRequest->getParsedBody()['roles'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-                    $mailData['rcp_to'] = ilUtil::securePlainString(implode(',', $this->httpRequest->getParsedBody()['roles']));
+                    $mailData['rcp_to'] = ilUtil::securePlainString(implode(',', $this->httpRequest->getParsedBody()['roles'] ?? null));
                 } elseif (is_array(ilSession::get('mail_roles'))) {
                     $mailData['rcp_to'] = ilUtil::securePlainString(implode(',', ilSession::get('mail_roles')));
                 }
@@ -546,7 +559,7 @@ class ilMailFormGUI
                     $mailData['m_message'] .= chr(13) . chr(10) . chr(13) . chr(10);
                 }
         
-                $mailData['m_message'] .= $this->httpRequest->getParsedBody()["additional_message_text"] . chr(13) . chr(10) . $this->umail->appendSignature();
+                $mailData['m_message'] .= $this->httpRequest->getParsedBody()["additional_message_text"] ?? "" . chr(13) . chr(10) . $this->umail->appendSignature();
                 $this->httpRequest->getParsedBody()["additional_message_text"] = "";
                 ilSession::set('mail_roles', []);
                 break;
@@ -640,7 +653,7 @@ class ilMailFormGUI
         $inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
         $inp->setSize(50);
         $inp->setRequired(true);
-        //$inp->setValue($mailData["m_subject"]);
+        $inp->setValue($mailData["m_subject"] ?? "");
         $form_gui->addItem($inp);
 
         $att = null;
@@ -796,8 +809,9 @@ class ilMailFormGUI
     protected function saveMailBeforeSearch(): void
     {
         $files = array();
-        if (isset($this->httpRequest->getParsedBody()['attachments']) && is_array($this->httpRequest->getParsedBody()['attachments'])) {
-            foreach ($this->httpRequest->getParsedBody()['attachments'] as $value) {
+        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
+        if (is_array($attachments)) {
+            foreach ($attachments as $value) {
                 $files[] = urldecode($value);
             }
         }

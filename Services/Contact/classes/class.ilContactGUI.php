@@ -19,6 +19,10 @@ class ilContactGUI
     public const CONTACTS_VIEW_GALLERY = 1;
     public const CONTACTS_VIEW_TABLE = 2;
     private RequestInterface $httpRequest;
+    /**
+     * @var int[]
+     */
+    private array|null $postUsrId = null;
 
     protected ilGlobalPageTemplate $tpl;
     protected ilCtrl $ctrl;
@@ -357,7 +361,7 @@ class ilContactGUI
 
         if (!$this->httpRequest->getParsedBody()['room_id']) {
             ilUtil::sendInfo($this->lng->txt('select_one'));
-            $this->httpRequest->getParsedBody()['usr_id'] = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
+            $this->postUsrId = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
             $this->inviteToChat();
             return;
         }
@@ -430,7 +434,7 @@ class ilContactGUI
             }
 
             ilUtil::sendFailure($message);
-            $this->httpRequest->getParsedBody()['usr_id'] = $usr_ids;
+            $this->postUsrId = $usr_ids;
             $this->inviteToChat();
             return;
         }
@@ -475,11 +479,25 @@ class ilContactGUI
 
         $this->lng->loadLanguageModule('chatroom');
 
-        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || !is_array($this->httpRequest->getParsedBody()['usr_id']) || 0 === count($this->httpRequest->getParsedBody()['usr_id'])) {
+        $usr_ids = $this->postUsrId;
+        if(!is_array($usr_ids)) {
+            if (isset($this->httpRequest->getParsedBody()['usr_id']) &&
+                is_array($this->httpRequest->getParsedBody()['usr_id']) &&
+                count($this->httpRequest->getParsedBody()['usr_id']) > 0) {
+                $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
+            }
+        }
+
+        if (!is_array($usr_ids) || [] === $usr_ids) {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
-        $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
+
+        /** @var $DIC \ILIAS\DI\Container */
+        global $DIC;
+        $usr_ids = $DIC->refinery()->kindlyTo()->listOf(
+            $DIC->refinery()->kindlyTo()->int()
+        )->transform($usr_ids);
 
         require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 
