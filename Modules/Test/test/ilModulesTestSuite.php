@@ -10,6 +10,10 @@ class ilModulesTestSuite extends TestSuite
 {
     public static function suite()
     {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
             include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
             ilUnitUtil::performInitialisation();
