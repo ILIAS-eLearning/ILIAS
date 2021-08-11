@@ -35,7 +35,7 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @var string[]
      */
-    private $accepted_mime_types = [];
+    private $accepted_mime_types;
 
     /**
      * @var int|null
@@ -79,7 +79,7 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @inheritDoc
      */
-    public function getAcceptedMimeTypes() : array
+    public function getAcceptedMimeTypes() : ?array
     {
         return $this->accepted_mime_types;
     }

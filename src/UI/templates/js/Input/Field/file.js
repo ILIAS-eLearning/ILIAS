@@ -28,15 +28,15 @@ Dropzone.autoDiscover = false;
          * @type {Object}
          */
         const SELECTOR = {
-            dropzone:       '.il-dropzone',
+            dropzone:       '.il-input-file-dropzone',
             darkener:       '.il-dropzone-darkened',
-            clickable:      '.il-dropzone-clickable-container .btn',
-            file_list:      '.il-dropzone-file-list',
-            file_preview:   '.il-dropzone-file-preview',
-            file_input:     '.il-dropzone-file-input',
-            error_msg:      '.il-dropzone-file-upload-error span',
-            remove_btn:     '.il-dropzone-file-info-close button',
-            metadata:       '.il-dropzone-file-list .metadata',
+            clickable:      '.il-input-file-clickable-container .btn',
+            file_list:      '.il-input-file-list',
+            file_preview:   '.il-input-file-preview',
+            file_input:     '.il-input-file-template',
+            error_msg:      '.il-input-file-upload-error span',
+            remove_btn:     '.il-input-file-preview .remove span',
+            metadata:       '.il-input-file-metadata',
             progress:       '.progress',
             glyph:          '.toggle .glyph',
         };
@@ -58,13 +58,14 @@ Dropzone.autoDiscover = false;
          * @type {Object}
          */
         const SETTINGS = {
-            upload_url:     '',
-            removal_url:    '',
-            info_url:       '',
-            file_types:     {},
-            max_files:      1,
-            identifier:     'file_id',
-            type_error:     'Invalid filetype',
+            upload_url:      '',
+            removal_url:     '',
+            info_url:        '',
+            mime_types:      null,
+            max_file_amount: 1,
+            max_file_size:   null,
+            identifier:      'file_id',
+            translations:    [],
         };
 
         /**
@@ -121,25 +122,41 @@ Dropzone.autoDiscover = false;
             settings = Object.assign(SETTINGS, JSON.parse(json_Settings));
             debug(settings);
 
-            // get plain JS objects for dropzone.js
+            // get vanilla JS objects for dropzone.js
             let file_list = document.querySelector(`#${id} ${SELECTOR.file_list}`),
                 clickable = document.querySelector(`#${id} ${SELECTOR.clickable}`)
             ;
 
             debug(file_list, clickable);
 
+            // enable multiple files to be selected if max_files
+            // is larger than 1
+            if (1 < settings.max_files) {
+                $(SELECTOR.file_preview).find(SELECTOR.file_input).prop('multiple', true);
+            }
+
+            // prepare the metadata inputs or remove them if no inputs were rendered.
+            let metadata = $(SELECTOR.file_preview).find(SELECTOR.metadata);
+            if (0 < metadata.children().length) {
+                // hide first glyph (collapse content glyph)
+                $(SELECTOR.file_preview).find(SELECTOR.glyph + ':first').hide();
+            } else {
+                metadata.remove();
+            }
+
             // initialize dropzone.js object
             dropzone = new Dropzone(`#${id} ${SELECTOR.dropzone}`, {
                 method:                'post',
                 url:                   encodeURI(settings.upload_url),
-                maxFiles:              settings.max_files,
-                acceptedFiles:         settings.file_types,
-                dictInvalidFileType:   settings.type_error,
+                maxFiles:              settings.max_file_amount,
+                maxFileSize:           settings.max_file_size,
+                acceptedFiles:         settings.mime_types,
                 previewTemplate:       $(`#${id} ${SELECTOR.file_list}`).html(),
                 previewsContainer:     file_list,
                 clickable:             clickable,
+                dictInvalidFileType:   '',
                 dictDefaultMessage:    '',
-                autoProcessQueue:      true,
+                autoProcessQueue:      (1 >= settings.max_file_amount),
                 createImageThumbnails: true,
                 uploadMultiple:        false,
                 parallelUploads:       1,
@@ -149,7 +166,6 @@ Dropzone.autoDiscover = false;
 
             // cut template elements from DOM
             cutTemplateFromDOM(id, SELECTOR.file_preview);
-            cutTemplateFromDOM(id, SELECTOR.file_input);
 
             initEventListeners();
             initDragster();
@@ -159,6 +175,8 @@ Dropzone.autoDiscover = false;
          * helper function to manage all event-listeners of dropzone.js object
          */
         let initEventListeners = function () {
+
+            $(SELECTOR.file_list).on('click', SELECTOR.glyph, toggleGlyphsHook);
 
             dropzone.on('uploadprogress', uploadProgressHook);
             dropzone.on('removedfile', removedFileHook);
@@ -197,6 +215,16 @@ Dropzone.autoDiscover = false;
                 file.file_id = response[settings.identifier];
                 $(file.previewElement).addClass('alert-success');
                 $(file.previewElement).find(SELECTOR.progress).remove();
+
+                // adjust the metadata input names to be the file_id.
+                let metadata = $(file.previewElement).find(SELECTOR.metadata);
+                if (1 < metadata.children().length) {
+                    metadata.children().each(function() {
+                        let input = $(this).children()[0];
+                        input.attr('name', file.file_id + '[]');
+                    });
+                }
+
                 debug("file upload successful, new id: " + file.file_id);
             } else {
                 errorHook(file, response.message, response);
@@ -243,6 +271,17 @@ Dropzone.autoDiscover = false;
                 });
             }
         }
+
+        /**
+         * helper function to expand/collapse additional inputs.
+         */
+        let toggleGlyphsHook = function () {
+            $(this).parent().parent().find(SELECTOR.metadata).toggle();
+            $(this).parent().find(SELECTOR.glyph).each(function () {
+                $(this).toggle();
+            });
+        };
+
 
         /**
          * helper function to initialise dragster and register event-listeners.

@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 use ILIAS\FileUpload\Handler\BasicFileInfoResult;
+use ILIAS\FileUpload\Handler\FileInfoResult;
 
 /**
  * Interface UploadHandler
@@ -41,6 +42,12 @@ interface UploadHandler
      * and the FileID of the desired file. Return a FI
      */
     public function getExistingFileInfoURL() : string;
+
+    /**
+     * @param string $identifier
+     * @return FileInfoResult
+     */
+    public function getSingleFileInfoResult(string $identifier) : FileInfoResult;
 
 
     /**

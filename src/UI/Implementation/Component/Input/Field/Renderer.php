@@ -13,6 +13,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
+use ilTemplate;
 
 /**
  * Class Renderer
@@ -591,15 +592,25 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderFileField(F\File $component, RendererInterface $default_renderer) : string
     {
+        $existing_files = $component->getValue();
+        if (null !== $existing_files) {
+            foreach ($existing_files as $file_id => $nested_input_values) {
+                // @TODO: should we just gamble that no nested input key is 'irss_file_info'? :^)
+                $existing_files[$file_id]['irss_file_info'] = $component->getUploadHandler()->getSingleFileInfoResult($file_id);
+            }
+        }
+
         $settings = new \stdClass();
-        $settings->existing_file_ids    = $component->getValue();
-        $settings->file_identifier_key  = $component->getUploadHandler()->getFileIdentifierParameterName();
-        $settings->upload_url           = $component->getUploadHandler()->getUploadURL();
-        $settings->removal_url          = $component->getUploadHandler()->getFileRemovalURL();
-        $settings->info_url             = $component->getUploadHandler()->getExistingFileInfoURL();
+        $settings->existing_files       = $existing_files;
+        $settings->file_input_name      = $component->getName(); // maybe not necessary?
+        $settings->file_identifier      = $component->getUploadHandler()->getFileIdentifierParameterName();
+        $settings->file_upload_url      = $component->getUploadHandler()->getUploadURL();
+        $settings->file_removal_url     = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->file_info_url        = $component->getUploadHandler()->getExistingFileInfoURL();
+        $settings->file_mime_types      = $component->getAcceptedMimeTypes();
         $settings->max_file_amount      = $component->getMaxFiles();
         $settings->max_file_size        = $component->getMaxFileSize();
-        $settings->mime_types           = $component->getAcceptedMimeTypes();
+        $settings->with_metadata        = (null !== $component->getNestedInputs());
         $settings->translations         = [
             'msg_invalid_mime'   => $this->txt('msg_input_file_invalid_mime'),
             'msg_invalid_amount' => $this->txt('msg_input_file_invalid_amount'),
@@ -614,7 +625,11 @@ class Renderer extends AbstractComponentRenderer
         $component = $component->withAdditionalOnLoadCode(
             static function($id) use ($settings) {
                 $settings = json_encode($settings);
-                return "il.UI.Input.file.init('$id', '$settings');";
+                return "
+                    $(document).ready(function() {
+                        il.UI.Input.file.init('$id', '$settings');
+                    });
+                ";
             }
         );
 
@@ -623,37 +638,53 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
         $this->maybeDisable($component, $tpl);
 
-        if (null !== $component->getMetadataInputs()) {
-            // TOGGLE is used to show/hide the additional metadata
-            // inputs - toggle between these states.
-            $tpl->setVariable('TOGGLE', $default_renderer->render([
-                $this->getUIFactory()->symbol()->glyph()->collapse(),
-                $this->getUIFactory()->symbol()->glyph()->expand(),
-            ]));
+        // if nested inputs were provided, the file-preview needs to be
+        //  extended by an inputs-toggle and the input templates themselves.
+        if (null !== $component->getNestedInputs()) {
+            $tpl->setVariable('NESTED_INPUTS_TOGGLE',
+                '<span class="file-info metadata-toggle">' .
+                $default_renderer->render([
+                    $this->getUIFactory()->symbol()->glyph()->collapse(),
+                    $this->getUIFactory()->symbol()->glyph()->expand(),
+                ]) .
+                '</span>'
+            );
 
-            $inputs_html = '';
-            foreach ($component->getMetadataInputs() as $input) {
-                $inputs_html .= '<div class="form-group">';
-                $inputs_html .= $default_renderer->render($input);
-                $inputs_html .= '</div>';
-            }
-
-            $tpl->setVariable('METADATA_INPUTS', $inputs_html);
+            $tpl->setVariable('NESTED_INPUTS',
+                '<div class="il-file-input-metadata form-horizontal" style="display: none;">' .
+                $default_renderer->render($component->getNestedInputTemplates()) .
+                '</div>'
+            );
         }
 
         // display the action button (to choose files).
-        $tpl->setVariable('SHY_BUTTON', $default_renderer->render(
-            $this->getUIFactory()->button()->shy(
-                $this->txt('select_files_from_computer'),
-                '#'
+        $tpl->setVariable('ACTION_BUTTON',
+            $default_renderer->render(
+                $this->getUIFactory()->button()->shy(
+                    $this->txt('select_files_from_computer'),
+                    '#'
+                )
             )
-        ));
+        );
 
+        // if an additional byline was provided it's rendered
+        // beneath the input's action button.
+        if ($component->getByline()) {
+            $tpl->setVariable('MESSAGE',
+                $default_renderer->render(
+                    $this->getUIFactory()->legacy(
+                        "<span>{$component->getByline()}</span>"
+                    )
+                )
+            );
+        }
+
+        $js_id = $this->bindJSandApplyId($component, $tpl);
 
         return $this->wrapInFormContext(
             $component,
             $tpl->get(),
-            $this->bindJSandApplyId($component, $tpl)
+            $js_id
         );
     }
 
@@ -689,18 +720,23 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry)
     {
         parent::registerResources($registry);
+
+        \iljQueryUtil::initjQuery();
+
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
+        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
+        $registry->register("./libs/bower/bower_components/jquery-dragster/jquery.dragster.js");
         
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
-        $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
 
+        $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
-        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
-        $registry->register('./src/UI/templates/js/Input/Field/file.js');
+        $registry->register('./src/UI/templates/js/Input/Field/Refactored.js');
+        // $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
 

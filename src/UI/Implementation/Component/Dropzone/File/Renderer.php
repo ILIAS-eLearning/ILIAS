@@ -122,6 +122,27 @@ class Renderer extends AbstractComponentRenderer
      */
     private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone)
     {
+        $file_input = $this->getUIFactory()->input()->field()->file($dropzone->getUploadHandler(), $dropzone->getTitle());
+
+        if (null !== $dropzone->getMaxFileSize()) {
+            $file_input = $file_input->withMaxFileSize($dropzone->getMaxFileSize());
+        }
+        if (null !== $dropzone->getMaxFiles()) {
+            $file_input = $file_input->withMaxFiles($dropzone->getMaxFiles());
+        }
+        if (null !== $dropzone->getAcceptedMimeTypes()) {
+            $file_input = $file_input->withAcceptedMimeTypes($dropzone->getAcceptedMimeTypes());
+        }
+        if (null !== $dropzone->getMetadataInputs()) {
+            $file_input = $file_input->withMetadataInputs($dropzone->getMetadataInputs());
+        }
+
+        $content = $this->getUIFactory()->input()->container()->form()->standard(
+            // @TODO: that's not quite good right? additional URL would be needed here.
+            $dropzone->getUploadHandler()->getUploadURL(),
+            [$file_input]
+        );
+
         // Create the roundtrip modal which displays the uploaded files
         $tplUploadFileList = $this->getFileListTemplate($dropzone);
         $uploadButton = $this->getUIFactory()->button()->primary($this->txt('upload'), '')->withUnavailableAction();

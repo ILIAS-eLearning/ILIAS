@@ -234,7 +234,7 @@ class ilObjFileGUI extends ilObject2GUI
         $inputs = $form->getInputs();
         // use label of first input as title, because UI Component forms don't support form-titles yet
         $title = (!empty($inputs)) ?
-            $inputs[0]->getLabel() : ''
+            $inputs[array_key_first($inputs)]->getLabel() : ''
         ;
 
         $tpl = new ilTemplate("tpl.creation_acc_head.html", true, true, "Services/Object");
@@ -334,15 +334,25 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
             [
-                $this->ui->factory()->input()->field()->file(
+                'file_input' => $this->ui->factory()->input()->field()->file(
                     $this->upload_handler,
                     $this->lng->txt('upload_files_title')
                 )
-                ->withMetadataInputs([
-                    $this->ui->factory()->input()->field()->text('test_txt_input'),
-                    $this->ui->factory()->input()->field()->checkbox('test_checkbox'),
+                ->withNestedInputs([
+                    'nested_input_1' => $this->ui->factory()->input()->field()->text('test_txt_input'),
+                    'nested_input_2' => $this->ui->factory()->input()->field()->checkbox('test_checkbox'),
                 ])
-                ->withMaxFiles(10)
+                ->withValue([
+                    '0b5b300e-ea96-4358-befd-e566deb2f025' => [
+                         'nested_input_1' => 'test 1',
+                         'nested_input_2' => false,
+                    ],
+                    'should_not_exist' => [
+                        'nested_input_1' => 'test 1',
+                        'nested_input_2' => false,
+                    ],
+                ])
+                ->withMaxFiles(10),
             ]
         );
     }
@@ -354,6 +364,21 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function uploadFiles() : void
     {
+        global $DIC;
+
+        $goal = [
+            'input_name' => [
+                'file_id' => 'paijwdpjdpiawjpiajwdp',
+                'mdinput1' => 'someval',
+                'mdinpud2' => 'somefurhtherval'
+            ],
+        ];
+
+        $f = $this->initMultiUploadForm()->withRequest($DIC->http()->request());
+        $d = $f->getData();
+
+        $k = 1;
+
         // Response
         $response = new ilObjFileUploadResponse();
 

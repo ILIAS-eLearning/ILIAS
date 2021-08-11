@@ -32,7 +32,7 @@ interface File
      *
      * @return string[]
      */
-    public function getAcceptedMimeTypes() : array;
+    public function getAcceptedMimeTypes() : ?array;
 
     /**
      * Returns a file input like this, with a max file-size.

@@ -119,9 +119,7 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     {
         $info_results = [];
         foreach ($file_ids as $identifier) {
-            if (null !== $this->storage->manage()->find($identifier)) {
-                $info_results[] = $this->getInfoResult($identifier);
-            }
+            $info_results[] = $this->getInfoResult($identifier);
         }
 
         return $info_results;
