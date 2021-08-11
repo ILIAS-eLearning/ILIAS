@@ -189,24 +189,16 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
         $certValidator = new ilCertificateDownloadValidator();
         $allowed = $certValidator->isCertificateDownloadable($this->user->getId(), $this->obj_id);
         if ($allowed) {
-            include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
             $type = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
-            switch ($type) {
-                case "scorm":
-                    $lng->loadLanguageModule('certificate');
-                    $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id .
-                            "&amp;cmd=downloadCertificate";
-                    $props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
-                        "value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
-                    break;
-                case "scorm2004":
-                    $lng->loadLanguageModule('certificate');
-                    $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&amp;ref_id=" . $this->ref_id .
-                            "&amp;cmd=downloadCertificate";
-                    $props[] = array("alert" => false, "property" => $lng->txt("condition_finished"),
-                        "value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
-                    break;
-            }
+            $lng->loadLanguageModule('certificate');
+            $cmd_link = "ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=" . $this->ref_id . "&cmd=downloadCertificate";
+            $props[] = [
+                'alert' => false,
+                'property' => $lng->txt('certificate'),
+                'value' => $DIC->ui()->renderer()->render(
+                    $DIC->ui()->factory()->link()->standard($lng->txt('download_certificate'), $cmd_link)
+                )
+            ];
         }
 
         return $props;
