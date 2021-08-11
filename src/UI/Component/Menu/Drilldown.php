@@ -6,15 +6,10 @@ namespace ILIAS\UI\Component\Menu;
 
 use \ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Signal;
 
 /**
  * This describes a Drilldown Menu Control
  */
-interface Drilldown extends Menu
+interface Drilldown extends Menu, JavaScriptBindable
 {
-    /**
-     * Get Signal triggering navigation to upper level.
-     **/
-    public function getBacklinkSignal() : Signal;
 }

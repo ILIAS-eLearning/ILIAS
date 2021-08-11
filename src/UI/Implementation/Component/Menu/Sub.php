@@ -8,7 +8,6 @@ namespace ILIAS\UI\Implementation\Component\Menu;
 use ILIAS\UI\Component\Menu as IMenu;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Level of Drilldown Control
@@ -21,7 +20,7 @@ class Sub extends Menu implements IMenu\Sub
     protected $active = false;
 
     /**
-     * @param \ILIAS\UI\Component\Clickable | string $label
+     * @param string $label
      * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
      */
     public function __construct(string $label, array $items)
@@ -29,23 +28,5 @@ class Sub extends Menu implements IMenu\Sub
         $this->checkItemParameter($items);
         $this->label = $label;
         $this->items = $items;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withInitiallyActive() : IMenu\Sub
-    {
-        $clone = clone $this;
-        $clone->active = true;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isInitiallyActive() : bool
-    {
-        return $this->active;
     }
 }

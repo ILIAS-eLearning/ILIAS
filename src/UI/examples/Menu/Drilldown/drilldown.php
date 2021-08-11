@@ -36,9 +36,7 @@ function drilldown()
 
     $items = [
         $f->menu()->sub('Schweiz (1)', [
-            $f->menu()->sub('Bachflohkrebs (1.1)', [$button, $link])
-            ->withInitiallyActive(),
-
+            $f->menu()->sub('Bachflohkrebs (1.1)', [$button, $link]),
             $f->menu()->sub('Wildkatze (1.2)', [
                 $f->menu()->sub('gewöhnliche Wildkatze (1.2.1)', [$button, $link]),
                 $f->menu()->sub('große Wildkatze (1.2.2)', [$button, $link, $divider, $link])

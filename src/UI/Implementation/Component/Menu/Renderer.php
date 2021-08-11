@@ -65,12 +65,6 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl_menu->setVariable('LABEL', $label);
 
-        /*
-            if ($component->isInitiallyActive()) {
-                $tpl->touchBlock('active');
-            }
-        */
-  
         $html = '';
         foreach ($component->getItems() as $item) {
             $tpl_item = $this->getTemplate('tpl.menuitem.html', true, true);
@@ -87,7 +81,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Menu/drilldown.js');
+        $registry->register('./src/UI/templates/js/Menu/dist/drilldown.js');
     }
     /**
      * @inheritdoc

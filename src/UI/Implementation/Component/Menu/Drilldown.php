@@ -14,6 +14,8 @@ use ILIAS\UI\Component\Signal;
  */
 class Drilldown extends Menu implements IMenu\Drilldown
 {
+    use JavaScriptBindable;
+
     /**
      * @var Signal
      */

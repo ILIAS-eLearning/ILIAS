@@ -5,12 +5,11 @@
 namespace ILIAS\UI\Component\Menu;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a Menu Control
  */
-interface Menu extends Component, JavaScriptBindable
+interface Menu extends Component
 {
     public function getLabel() : string;
     
