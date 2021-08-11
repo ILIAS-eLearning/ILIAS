@@ -28,7 +28,7 @@ class ilCtrlStructureReader
     {
         $this->ini = $a_ini_file;
     }
-    
+
     /**
     * parse code files and store call structure in db
     */
@@ -49,6 +49,11 @@ class ilCtrlStructureReader
     // READING CTRL STRUCTURE
     // ----------------------
 
+    public  function readStructureOnly():ilCtrlStructure
+    {
+
+    }
+
     public function readStructure(
         $a_force = false,
         $a_dir = "",
@@ -67,7 +72,7 @@ class ilCtrlStructureReader
         }
 
         $this->flushCaches();
-    
+
         // prefix for component
         $this->comp_prefix = $a_comp_prefix;
 

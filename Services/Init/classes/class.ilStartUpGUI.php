@@ -9,7 +9,8 @@ use ILIAS\UICore\PageContentProvider;
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI
+* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
+* @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
 *
 * @ingroup ServicesInit
 */
@@ -224,7 +225,7 @@ class ilStartUpGUI
         $credentials->setUsername(ilUtil::stripSlashes($extUid));
         $credentials->setPassword(ilUtil::stripSlashes($soapPw));
         $credentials->tryAuthenticationOnLoginPage();
-        
+
         // try apache auth
         include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
         $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);

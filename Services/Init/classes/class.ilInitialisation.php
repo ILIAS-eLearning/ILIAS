@@ -1307,8 +1307,8 @@ class ilInitialisation
 
         self::initGlobal(
             "ilCtrl",
-            "ilCtrl",
-            "./Services/UICore/classes/class.ilCtrl.php"
+            "ilCtrl2",
+            "./Services/UICore/classes/class.ilCtrl2.php"
         );
 
         self::setSessionCookieParams();

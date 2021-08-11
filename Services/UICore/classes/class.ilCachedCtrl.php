@@ -53,18 +53,7 @@ class ilCachedCtrl
      */
     public static function getInstance()
     {
-        if (!isset(self::$instance)) {
-            $global_cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_ILCTRL);
-            $cached_obj = $global_cache->get('ilCachedCtrl');
-            if ($cached_obj instanceof ilCachedCtrl) {
-                self::$instance = $cached_obj;
-            } else {
-                self::$instance = new self();
-                $global_cache->set('ilCachedCtrl', self::$instance);
-            }
-        }
-
-        return self::$instance;
+        return new self();
     }
 
 
