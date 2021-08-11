@@ -132,7 +132,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
 
     protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config) : string
     {
-        $inst_id = $settings->get("inst_id", 0);
+        $inst_id = (string) $settings->get('inst_id', '0');
         $http_path = $http_config->getHttpPath();
         $host_name = parse_url($http_path)["host"];
 
@@ -140,8 +140,8 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
                 "?cmd=getid" .
                 "&inst_id=" . rawurlencode($inst_id) .
                 "&hostname=" . rawurlencode($host_name) .
-                "&inst_name=" . rawurlencode($systemfolder_config->getClientName()) .
-                "&inst_info=" . rawurlencode($systemfolder_config->getClientDescription()) .
+                "&inst_name=" . rawurlencode($systemfolder_config->getClientName() ?? '') .
+                "&inst_info=" . rawurlencode($systemfolder_config->getClientDescription() ?? '') .
                 "&http_path=" . rawurlencode($http_path) .
                 "&contact_firstname=" . rawurlencode($systemfolder_config->getContactFirstname()) .
                 "&contact_lastname=" . rawurlencode($systemfolder_config->getContactLastname()) .
