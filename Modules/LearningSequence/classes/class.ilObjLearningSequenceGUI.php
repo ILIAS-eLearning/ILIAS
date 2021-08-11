@@ -88,11 +88,41 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         global $DIC;
 
         $ctrl = $DIC->ctrl();
-        $id = explode("_", $target);
-        $ctrl->setTargetScript("ilias.php");
-        $ctrl->initBaseClass("ilRepositoryGUI");
-        $ctrl->setParameterByClass("ilobjlearningsequencegui", "ref_id", $id[0]);
-        $ctrl->redirectByClass(array( "ilRepositoryGUI", "ilobjlearningsequencegui" ), self::CMD_VIEW);
+        $request = $DIC->http()->request();
+        $access = $DIC->access();
+        $err = $DIC['ilErr'];
+        $lng = $DIC->language();
+
+        $targetParameters = explode('_', $target);
+        $id = (int) $targetParameters[0];
+
+        if ($id <= 0) {
+            $err->raiseError($lng->txt('msg_no_perm_read'), $err->FATAL);
+        }
+
+        if ($access->checkAccess('read', '', $id)) {
+            $ctrl->setTargetScript('ilias.php');
+            $ctrl->initBaseClass(ilRepositoryGUI::class);
+            $ctrl->setParameterByClass(ilObjLearningSequenceGUI::class, 'ref_id', $id);
+            if (isset($request->getQueryParams()['gotolp'])) {
+                $ctrl->setParameterByClass(ilObjLearningSequenceGUI::class, 'gotolp', 1);
+            }
+            $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjLearningSequenceGUI::class], self::CMD_VIEW);
+        } elseif ($access->checkAccess('visible', '', $id)) {
+            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
+        } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
+            ilUtil::sendInfo(sprintf(
+                $lng->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($id))
+            ), true);
+
+            $ctrl->setTargetScript('ilias.php');
+            $ctrl->initBaseClass(ilRepositoryGUI::class);
+            $ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+            $ctrl->redirectByClass(ilRepositoryGUI::class);
+        }
+
+        $err->raiseError($lng->txt('msg_no_perm_read'), $err->FATAL);
     }
 
     public function __construct()
