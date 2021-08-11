@@ -8,7 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestRandomQuestionSetPoolDefinitionFormGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseClass
+class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCase
 {
     /**
      * @var ilCtrl|mixed|MockObject

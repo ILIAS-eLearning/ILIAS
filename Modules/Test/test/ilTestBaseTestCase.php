@@ -10,7 +10,7 @@ use ILIAS\DI\Container;
  * Class ilTestBaseClass
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestBaseClass extends TestCase
+class ilTestBaseTestCase extends TestCase
 {
     /**
      * @inheritdoc

@@ -5,7 +5,7 @@
  * Class ilTestAnswerOptionalQuestionsConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseClass
+class ilTestAnswerOptionalQuestionsConfirmationGUITest extends ilTestBaseTestCase
 {
     protected $lng_mock;
 

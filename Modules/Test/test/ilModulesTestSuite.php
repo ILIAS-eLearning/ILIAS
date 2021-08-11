@@ -4,7 +4,7 @@
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
-require_once __DIR__ . "/ilTestBaseClass.php";
+require_once __DIR__ . "/ilTestBaseTestCase.php";
 
 class ilModulesTestSuite extends TestSuite
 {

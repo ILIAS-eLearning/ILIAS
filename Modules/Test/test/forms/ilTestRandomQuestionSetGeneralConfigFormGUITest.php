@@ -7,7 +7,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestRandomQuestionSetGeneralConfigFormGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseClass
+class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
 {
     private ilTestRandomQuestionSetGeneralConfigFormGUI $formGui;
     /**

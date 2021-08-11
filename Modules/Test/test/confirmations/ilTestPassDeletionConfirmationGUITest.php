@@ -8,7 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestPassDeletionConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestPassDeletionConfirmationGUITest extends ilTestBaseClass
+class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
     /**
      * @var ilTestEvaluationGUI|mixed|MockObject
