@@ -351,7 +351,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         if (in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion())) {
             return parent::getPoints();
@@ -717,17 +717,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function createRandomSolution($test_id, $user_id)
-    {
-    }
-
     /**
     * Returns the question type of the question
     *
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assTextQuestion";
     }
@@ -784,7 +780,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -792,7 +788,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1029,7 +1025,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1046,7 +1042,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $questionId
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }

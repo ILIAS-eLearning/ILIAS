@@ -369,7 +369,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         return $this->points;
     }
@@ -504,7 +504,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assFlashQuestion";
     }
@@ -558,7 +558,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -675,8 +675,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     {
         return $this->parameters;
     }
-    
-    public function isAutosaveable()
+
+    public function isAutosaveable() : bool
     {
         return false;
     }

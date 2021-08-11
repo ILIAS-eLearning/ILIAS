@@ -520,7 +520,7 @@ abstract class assQuestionGUI
 
         assQuestion::_includeClass($question_type, 1);
 
-        $question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
+        $question_type_gui = $question_type.'GUI';
         $question = new $question_type_gui();
 
         $feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);

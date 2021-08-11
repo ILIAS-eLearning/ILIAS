@@ -233,7 +233,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * @access public
      * @see $points
      */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $sum = 0;
         $points = $this->getCorrectAnswers();
@@ -456,14 +456,14 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     
     private function getPointsForGap($question_id, $gap_id)
     {
-        $points = 0;
+        $points = 0.0;
         $res = $this->db->queryF(
             'SELECT points FROM  ' . $this->getAnswerTableName() . ' WHERE question_fi = %s AND gap_number = %s GROUP BY gap_number, points',
             array('integer', 'integer'),
             array($question_id, $gap_id)
         );
         while ($data = $this->ilDB->fetchAssoc($res)) {
-            $points = $data['points'];
+            $points = (float)$data['points'];
         }
         return $points;
     }
@@ -608,14 +608,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
             $found_values[(int) $data['value1']] = $data['value2'];
         }
 
-        $points = $this->calculateReachedPointsForSolution($found_values, $active_id);
-
-        return $points;
+        return $this->calculateReachedPointsForSolution($found_values, $active_id);
     }
 
     protected function calculateReachedPointsForSolution($found_values, $active_id = 0)
     {
-        $points = 0;
+        $points = 0.0;
         $solution_values_text = array();
         foreach ($found_values as $key => $answer) {
             if ($answer != '') {
@@ -636,15 +634,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $points;
     }
     
-    /**
-     * Saves the learners input of the question to the database.
-     *
-     * @access public
-     * @param integer $active_id Active id of the user
-     * @param integer $pass Test pass
-     * @return boolean $status
-     */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
+    public function saveWorkingData(int $active_id, int $pass = null, bool $authorized = true) : bool
     {
         if (is_null($pass)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -682,8 +672,6 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     // fau: testNav - overridden function lookupForExistingSolutions (specific for long menu question: ignore unselected values)
     /**
      * Lookup if an authorized or intermediate solution exists
-     * @param 	int 		$activeId
-     * @param 	int 		$pass
      * @return 	array		['authorized' => bool, 'intermediate' => bool]
      */
     public function lookupForExistingSolutions($activeId, $pass)
@@ -727,7 +715,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     // fau.
 
 
-    public function getSolutionSubmit()
+    public function getSolutionSubmit() : array
     {
         $solutionSubmit = array();
         $answer = ilUtil::stripSlashesRecursive($_POST['answer']);
@@ -753,17 +741,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @return integer The question type of the question
      */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assLongMenu";
     }
 
-    /**
-     * Returns the name of the additional question data table in the database
-     *
-     * @return string The additional table name
-     */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return 'qpl_qst_lome';
     }
@@ -772,7 +755,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * Collects all text in the question which could contain media objects
      * which were created with the Rich Text Editor
      */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects() . $this->getLongMenuTextValue();
     }
@@ -780,7 +763,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -868,7 +851,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         $this->setLongMenuTextValue($migrator->migrateToLmContent($this->getLongMenuTextValue()));
     }

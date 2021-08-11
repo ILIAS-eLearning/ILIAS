@@ -874,7 +874,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $points = 0;
@@ -1429,7 +1429,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() :string
     {
         return "assClozeTest";
     }
@@ -1567,7 +1567,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects() . $this->getClozeText();
     }
@@ -1594,7 +1594,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1633,7 +1633,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         // DO NOT USE SETTER FOR CLOZE TEXT -> SETTER DOES RECREATE GAP OBJECTS without having gap type info ^^
         //$this->setClozeText( $migrator->migrateToLmContent($this->getClozeText()) );

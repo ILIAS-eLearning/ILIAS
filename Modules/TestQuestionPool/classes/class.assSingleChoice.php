@@ -531,7 +531,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $points = 0;
         foreach ($this->answers as $key => $value) {
@@ -732,7 +732,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assSingleChoice";
     }
@@ -928,7 +928,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         foreach ($this->answers as $index => $answer) {
@@ -950,7 +950,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -988,7 +988,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ASS_AnswerBinaryStateImage $answer */
@@ -1053,7 +1053,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function createRandomSolution($active_id, $pass)
+    public function createRandomSolution(int $active_id, int $pass) : void
     {
         $value = rand(0, count($this->answers) - 1);
         $_POST["multiple_choice_result"] = (strlen($value)) ? (string) $value : '0';
@@ -1127,7 +1127,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1144,7 +1144,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $questionId
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }

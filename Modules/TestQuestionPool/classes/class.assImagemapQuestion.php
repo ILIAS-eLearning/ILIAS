@@ -623,7 +623,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $points = 0;
         foreach ($this->answers as $key => $value) {
@@ -687,7 +687,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    public function isAutosaveable()
+    public function isAutosaveable() : bool
     {
         return false; // #15217
     }
@@ -793,7 +793,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $previewSession->setParticipantsSolution($solution);
     }
 
-    public function syncWithOriginal()
+    public function syncWithOriginal() : void
     {
         if ($this->getOriginalId()) {
             parent::syncWithOriginal();
@@ -808,7 +808,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assImagemapQuestion";
     }
@@ -843,7 +843,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         foreach ($this->answers as $index => $answer) {
@@ -855,7 +855,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 

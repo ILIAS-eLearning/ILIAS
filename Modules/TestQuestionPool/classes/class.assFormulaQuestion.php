@@ -834,7 +834,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Returns the maximum points, a learner can reach answering the question
      * @see $points
      */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $points = 0;
         foreach ($this->results as $result) {
@@ -1113,7 +1113,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Returns the question type of the question
      * @return string The question type of the question
      */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assFormulaQuestion";
     }
@@ -1181,7 +1181,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Collects all text in the question which could contain media objects
      * which were created with the Rich Text Editor
      */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -1190,7 +1190,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 

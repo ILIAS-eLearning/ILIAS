@@ -706,7 +706,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return double Points
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         return $this->getPoints();
     }
@@ -954,7 +954,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assOrderingQuestion";
     }
@@ -985,7 +985,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         
@@ -1024,7 +1024,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 

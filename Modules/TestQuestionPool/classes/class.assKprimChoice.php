@@ -67,7 +67,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
 
     }
     
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return 'assKprimChoice';
     }
@@ -874,7 +874,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    protected function getRTETextWithMediaObjects()
+    protected function getRTETextWithMediaObjects() : string
     {
         $combinedText = parent::getRTETextWithMediaObjects();
         
@@ -888,7 +888,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ilAssKprimChoiceAnswer $answer */
@@ -970,13 +970,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         return 'feedback_correct_kprim';
     }
-    
-    public static function isObligationPossible($questionId)
+
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }
-    
-    public function isAnswered($active_id, $pass = null)
+
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -986,7 +986,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 

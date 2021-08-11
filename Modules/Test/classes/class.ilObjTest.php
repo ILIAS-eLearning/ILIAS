@@ -5486,7 +5486,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         assQuestion::_includeClass($question_type, 1);
         
-        $question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
+        $question_type_gui = $question_type.'GUI';
         $question = new $question_type_gui();
         
         if ($question_id > 0) {

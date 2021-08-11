@@ -74,22 +74,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-     * @param mixed $lastChange
-     */
-    public function setLastChange($lastChange)
-    {
-        $this->lastChange = $lastChange;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastChange()
-    {
-        return $this->lastChange;
-    }
-
-    /**
      * assMultipleChoice constructor
      *
      * The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
@@ -548,7 +532,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see $points
      */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         $points = 0;
         $allpoints = 0;
@@ -755,7 +739,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $this->rebuildThumbnails();
     }
 
-    public function syncWithOriginal()
+    public function syncWithOriginal() : void
     {
         if ($this->getOriginalId()) {
             $this->syncImages();
@@ -768,7 +752,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return integer The question type of the question
      */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assMultipleChoice";
     }
@@ -962,7 +946,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Collects all text in the question which could contain media objects which were created with the Rich Text Editor.
      */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         foreach ($this->answers as $index => $answer) {
@@ -984,7 +968,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1024,7 +1008,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ASS_AnswerBinaryStateImage $answer */
@@ -1157,7 +1141,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1175,7 +1159,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;

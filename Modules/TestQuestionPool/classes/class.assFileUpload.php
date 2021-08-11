@@ -270,7 +270,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @see $points
     */
-    public function getMaximumPoints() : int
+    public function getMaximumPoints() : float
     {
         return $this->getPoints();
     }
@@ -869,7 +869,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
                 // fau.
             }
 
-            assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, 1, $obligationsAnswered);
+            assQuestion::_setReachedPoints($active_id, $this->getId(), $points, $maxpoints, $pass, true, $obligationsAnswered);
             
             // update learning progress
             include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
@@ -886,7 +886,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @return integer The question type of the question
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assFileUpload";
     }
@@ -924,7 +924,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -933,7 +933,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1188,7 +1188,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
         
@@ -1205,12 +1205,12 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $questionId
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }
-    
-    public function isAutosaveable()
+
+    public function isAutosaveable() : bool
     {
         return false;
     }
