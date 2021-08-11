@@ -17,6 +17,11 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
         parent::setUp();
         
         $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock->expects($this->any())
+                 ->method("txt")
+                 ->willReturnCallback(function () {
+                     return "testTranslation";
+                 });
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
             ->method("getFormAction")
@@ -44,5 +49,45 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
 	public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestDynamicQuestionSetStatisticTableGUI::class, $this->tableGui);
+    }
+
+    public function testFilterSelection() : void
+    {
+        $this->assertNull($this->tableGui->getFilterSelection());
+
+        $this->tableGui->setFilterSelection(new ilTestDynamicQuestionSetFilterSelection());
+        $this->assertInstanceOf(
+            ilTestDynamicQuestionSetFilterSelection::class,
+            $this->tableGui->getFilterSelection()
+        );
+    }
+
+    public function testInitTitle() : void
+    {
+        $this->tableGui->initTitle("tastas");
+        $this->assertEquals("testTranslation", $this->tableGui->title);
+    }
+
+    public function testTaxIds() : void
+    {
+        $expected = [10, 1250, 1233591, 12350];
+        $this->tableGui->setTaxIds($expected);
+        $this->assertEquals($expected, $this->tableGui->getTaxIds());
+    }
+
+    public function testAnswerStatusFilterEnabled() : void
+    {
+        $this->tableGui->setAnswerStatusFilterEnabled(false);
+        $this->assertFalse($this->tableGui->isAnswerStatusFilterEnabled());
+        $this->tableGui->setAnswerStatusFilterEnabled(true);
+        $this->assertTrue($this->tableGui->isAnswerStatusFilterEnabled());
+    }
+
+    public function testTaxonomyFilterEnabled() : void
+    {
+        $this->tableGui->setTaxonomyFilterEnabled(false);
+        $this->assertFalse($this->tableGui->isTaxonomyFilterEnabled());
+        $this->tableGui->setTaxonomyFilterEnabled(true);
+        $this->assertTrue($this->tableGui->isTaxonomyFilterEnabled());
     }
 }

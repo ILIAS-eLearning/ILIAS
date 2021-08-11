@@ -39,4 +39,11 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilAssessmentFolderLogAdministrationTableGUI::class, $this->tableGui);
     }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertEquals(false, $this->tableGui->numericOrdering("test"));
+        $this->assertEquals(true, $this->tableGui->numericOrdering("nr"));
+
+    }
 }

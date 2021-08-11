@@ -43,4 +43,76 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPassDetailsOverviewTableGUI::class, $this->tableGui);
     }
+
+    public function testPdfGenerationRequest() : void
+    {
+        $this->tableGui->setIsPdfGenerationRequest(false);
+        $this->assertFalse($this->tableGui->isPdfGenerationRequest());
+        $this->tableGui->setIsPdfGenerationRequest(true);
+        $this->assertTrue($this->tableGui->isPdfGenerationRequest());
+    }
+
+    public function testSingleAnswerScreenCmd() : void
+    {
+        $this->tableGui->setSingleAnswerScreenCmd(false);
+        $this->assertFalse($this->tableGui->getSingleAnswerScreenCmd());
+        $this->tableGui->setSingleAnswerScreenCmd(true);
+        $this->assertTrue($this->tableGui->getSingleAnswerScreenCmd());
+    }
+
+    public function testAnswerListAnchorEnabled() : void
+    {
+        $this->tableGui->setAnswerListAnchorEnabled(false);
+        $this->assertFalse($this->tableGui->getAnswerListAnchorEnabled());
+        $this->tableGui->setAnswerListAnchorEnabled(true);
+        $this->assertTrue($this->tableGui->getAnswerListAnchorEnabled());
+    }
+
+    public function testShowHintCount() : void
+    {
+        $this->tableGui->setShowHintCount(false);
+        $this->assertFalse($this->tableGui->getShowHintCount());
+        $this->tableGui->setShowHintCount(true);
+        $this->assertTrue($this->tableGui->getShowHintCount());
+    }
+
+    public function testShowSuggestedSolution() : void
+    {
+        $this->tableGui->setShowSuggestedSolution(false);
+        $this->assertFalse($this->tableGui->getShowSuggestedSolution());
+        $this->tableGui->setShowSuggestedSolution(true);
+        $this->assertTrue($this->tableGui->getShowSuggestedSolution());
+    }
+
+    public function testActiveId() : void
+    {
+        $this->tableGui->setActiveId(false);
+        $this->assertFalse($this->tableGui->getActiveId());
+        $this->tableGui->setActiveId(true);
+        $this->assertTrue($this->tableGui->getActiveId());
+    }
+
+    public function testObjectiveOrientedPresentationEnabled() : void
+    {
+        $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
+        $this->assertFalse($this->tableGui->isObjectiveOrientedPresentationEnabled());
+        $this->tableGui->setObjectiveOrientedPresentationEnabled(true);
+        $this->assertTrue($this->tableGui->isObjectiveOrientedPresentationEnabled());
+    }
+
+    public function testMultipleObjectivesInvolved() : void
+    {
+        $this->tableGui->setMultipleObjectivesInvolved(false);
+        $this->assertFalse($this->tableGui->areMultipleObjectivesInvolved());
+        $this->tableGui->setMultipleObjectivesInvolved(true);
+        $this->assertTrue($this->tableGui->areMultipleObjectivesInvolved());
+    }
+
+    public function testPassColumnEnabled() : void
+    {
+        $this->tableGui->setPassColumnEnabled(false);
+        $this->assertFalse($this->tableGui->isPassColumnEnabled());
+        $this->tableGui->setPassColumnEnabled(true);
+        $this->assertTrue($this->tableGui->isPassColumnEnabled());
+    }
 }

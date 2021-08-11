@@ -44,4 +44,20 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI::class, $this->tableGui);
     }
+
+    public function testDefinitionEditModeEnabled() : void
+    {
+        $this->tableGui->setDefinitionEditModeEnabled(false);
+        $this->assertFalse($this->tableGui->isDefinitionEditModeEnabled());
+        $this->tableGui->setDefinitionEditModeEnabled(true);
+        $this->assertTrue($this->tableGui->isDefinitionEditModeEnabled());
+    }
+
+    public function testQuestionAmountColumnEnabled() : void
+    {
+        $this->tableGui->setQuestionAmountColumnEnabled(false);
+        $this->assertFalse($this->tableGui->isQuestionAmountColumnEnabled());
+        $this->tableGui->setQuestionAmountColumnEnabled(true);
+        $this->assertTrue($this->tableGui->isQuestionAmountColumnEnabled());
+    }
 }

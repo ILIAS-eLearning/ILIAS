@@ -45,4 +45,12 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdsTableGUI::class, $this->tableGui);
     }
+
+    public function testQuestionAssignmentColumnsEnabled() : void
+    {
+        $this->tableGui->setQuestionAssignmentColumnsEnabled(false);
+        $this->assertFalse($this->tableGui->areQuestionAssignmentColumnsEnabled());
+        $this->tableGui->setQuestionAssignmentColumnsEnabled(true);
+        $this->assertTrue($this->tableGui->areQuestionAssignmentColumnsEnabled());
+    }
 }

@@ -43,4 +43,11 @@ class ilTestExportTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestExportTableGUI::class, $this->tableGui);
     }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("size"));
+        $this->assertTrue($this->tableGui->numericOrdering("date"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomString"));
+    }
 }

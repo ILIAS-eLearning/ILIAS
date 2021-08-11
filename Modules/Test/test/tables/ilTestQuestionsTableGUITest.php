@@ -39,4 +39,64 @@ class ilTestQuestionsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestQuestionsTableGUI::class, $this->tableGui);
     }
+
+    public function testQuestionManagingEnabled() : void
+    {
+        $this->tableGui->setQuestionManagingEnabled(false);
+        $this->assertFalse($this->tableGui->isQuestionManagingEnabled());
+        $this->tableGui->setQuestionManagingEnabled(true);
+        $this->assertTrue($this->tableGui->isQuestionManagingEnabled());
+    }
+
+    public function testPositionInsertCommandsEnabled() : void
+    {
+        $this->tableGui->setPositionInsertCommandsEnabled(false);
+        $this->assertFalse($this->tableGui->isPositionInsertCommandsEnabled());
+        $this->tableGui->setPositionInsertCommandsEnabled(true);
+        $this->assertTrue($this->tableGui->isPositionInsertCommandsEnabled());
+    }
+
+    public function testQuestionPositioningEnabled() : void
+    {
+        $this->tableGui->setQuestionPositioningEnabled(false);
+        $this->assertFalse($this->tableGui->isQuestionPositioningEnabled());
+        $this->tableGui->setQuestionPositioningEnabled(true);
+        $this->assertTrue($this->tableGui->isQuestionPositioningEnabled());
+    }
+
+    public function testObligatoryQuestionsHandlingEnabled() : void
+    {
+        $this->tableGui->setObligatoryQuestionsHandlingEnabled(false);
+        $this->assertFalse($this->tableGui->isObligatoryQuestionsHandlingEnabled());
+        $this->tableGui->setObligatoryQuestionsHandlingEnabled(true);
+        $this->assertTrue($this->tableGui->isObligatoryQuestionsHandlingEnabled());
+    }
+
+    public function testTotalPoints() : void
+    {
+        $this->tableGui->setTotalPoints(125.251);
+        $this->assertEquals(125.251, $this->tableGui->getTotalPoints());
+    }
+
+    public function testTotalWorkingTime() : void
+    {
+        $this->tableGui->setTotalWorkingTime("202000");
+        $this->assertEquals("202000", $this->tableGui->getTotalWorkingTime());
+    }
+
+    public function testQuestionTitleLinksEnabled() : void
+    {
+        $this->tableGui->setQuestionTitleLinksEnabled(false);
+        $this->assertFalse($this->tableGui->isQuestionTitleLinksEnabled());
+        $this->tableGui->setQuestionTitleLinksEnabled(true);
+        $this->assertTrue($this->tableGui->isQuestionTitleLinksEnabled());
+    }
+
+    public function testQuestionRemoveRowButtonEnabled() : void
+    {
+        $this->tableGui->setQuestionRemoveRowButtonEnabled(false);
+        $this->assertFalse($this->tableGui->isQuestionRemoveRowButtonEnabled());
+        $this->tableGui->setQuestionRemoveRowButtonEnabled(true);
+        $this->assertTrue($this->tableGui->isQuestionRemoveRowButtonEnabled());
+    }
 }

@@ -46,4 +46,40 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilParticipantsTestResultsTableGUI::class, $this->tableGui);
     }
+
+    public function testAccessResultsCommandsEnabled() : void
+    {
+        $this->tableGui->setAccessResultsCommandsEnabled(true);
+        $this->assertTrue($this->tableGui->isAccessResultsCommandsEnabled());
+
+        $this->tableGui->setAccessResultsCommandsEnabled(false);
+        $this->assertFalse($this->tableGui->isAccessResultsCommandsEnabled());
+    }
+
+    public function testManageResultsCommandsEnabled() : void
+    {
+        $this->tableGui->setManageResultsCommandsEnabled(true);
+        $this->assertTrue($this->tableGui->isManageResultsCommandsEnabled());
+
+        $this->tableGui->setManageResultsCommandsEnabled(false);
+        $this->assertFalse($this->tableGui->isManageResultsCommandsEnabled());
+    }
+
+    public function testAnonymity() : void
+    {
+        $this->tableGui->setAnonymity(true);
+        $this->assertTrue($this->tableGui->getAnonymity());
+
+        $this->tableGui->setAnonymity(false);
+        $this->assertFalse($this->tableGui->getAnonymity());
+    }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("scored_pass"));
+        $this->assertTrue($this->tableGui->numericOrdering("answered_questions"));
+        $this->assertTrue($this->tableGui->numericOrdering("points"));
+        $this->assertTrue($this->tableGui->numericOrdering("percent_result"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomText"));
+    }
 }

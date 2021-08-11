@@ -39,4 +39,11 @@ class ilResultsByQuestionTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilResultsByQuestionTableGUI::class, $this->tableGui);
     }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("qid"));
+        $this->assertTrue($this->tableGui->numericOrdering("number_of_answers"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomString"));
+    }
 }

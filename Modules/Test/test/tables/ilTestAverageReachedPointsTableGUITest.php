@@ -39,4 +39,12 @@ class ilTestAverageReachedPointsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestAverageReachedPointsTableGUI::class, $this->tableGui);
     }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("points"));
+        $this->assertTrue($this->tableGui->numericOrdering("qid"));
+        $this->assertTrue($this->tableGui->numericOrdering("percentage"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomString"));
+    }
 }

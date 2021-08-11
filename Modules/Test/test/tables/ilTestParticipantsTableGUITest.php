@@ -46,4 +46,48 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestParticipantsTableGUI::class, $this->tableGui);
     }
+
+    public function testManageResultsCommandsEnabled() : void
+    {
+        $this->tableGui->setManageResultsCommandsEnabled(false);
+        $this->assertFalse($this->tableGui->isManageResultsCommandsEnabled());
+        $this->tableGui->setManageResultsCommandsEnabled(true);
+        $this->assertTrue($this->tableGui->isManageResultsCommandsEnabled());
+    }
+
+    public function testManageInviteesCommandsEnabled() : void
+    {
+        $this->tableGui->setManageInviteesCommandsEnabled(false);
+        $this->assertFalse($this->tableGui->isManageInviteesCommandsEnabled());
+        $this->tableGui->setManageInviteesCommandsEnabled(true);
+        $this->assertTrue($this->tableGui->isManageInviteesCommandsEnabled());
+    }
+
+    public function testRowKeyDataField() : void
+    {
+        $this->tableGui->setRowKeyDataField("test");
+        $this->assertEquals("test", $this->tableGui->getRowKeyDataField());
+    }
+
+    public function testAnonymity() : void
+    {
+        $this->tableGui->setAnonymity("test");
+        $this->assertEquals("test", $this->tableGui->getAnonymity());
+    }
+
+    public function testParticipantHasSolutionsFilterEnabled() : void
+    {
+        $this->tableGui->setParticipantHasSolutionsFilterEnabled(false);
+        $this->assertFalse($this->tableGui->isParticipantHasSolutionsFilterEnabled());
+        $this->tableGui->setParticipantHasSolutionsFilterEnabled(true);
+        $this->assertTrue($this->tableGui->isParticipantHasSolutionsFilterEnabled());
+    }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("access"));
+        $this->assertTrue($this->tableGui->numericOrdering("tries"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomString"));
+
+    }
 }

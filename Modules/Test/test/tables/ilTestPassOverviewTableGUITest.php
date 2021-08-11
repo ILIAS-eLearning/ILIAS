@@ -39,4 +39,54 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPassOverviewTableGUI::class, $this->tableGui);
     }
+    
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("pass"));
+        $this->assertTrue($this->tableGui->numericOrdering("date"));
+        $this->assertTrue($this->tableGui->numericOrdering("percentage"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomText"));
+    }
+    
+    public function testResultPresentationEnabled() : void
+    {
+        $this->tableGui->setResultPresentationEnabled(false);
+        $this->assertFalse($this->tableGui->isResultPresentationEnabled());
+        $this->tableGui->setResultPresentationEnabled(true);
+        $this->assertTrue($this->tableGui->isResultPresentationEnabled());
+    }
+
+    public function testPdfPresentationEnabled() : void
+    {
+        $this->tableGui->setPdfPresentationEnabled(false);
+        $this->assertFalse($this->tableGui->isPdfPresentationEnabled());
+        $this->tableGui->setPdfPresentationEnabled(true);
+        $this->assertTrue($this->tableGui->isPdfPresentationEnabled());
+    }
+
+    public function testObjectiveOrientedPresentationEnabled() : void
+    {
+        $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
+        $this->assertFalse($this->tableGui->isObjectiveOrientedPresentationEnabled());
+        $this->tableGui->setObjectiveOrientedPresentationEnabled(true);
+        $this->assertTrue($this->tableGui->isObjectiveOrientedPresentationEnabled());
+    }
+
+    public function testActiveId() : void
+    {
+        $this->tableGui->setActiveId(20);
+        $this->assertEquals(20, $this->tableGui->getActiveId());
+    }
+
+    public function testPassDetailsCommand() : void
+    {
+        $this->tableGui->setPassDetailsCommand("testString");
+        $this->assertEquals("testString", $this->tableGui->getPassDetailsCommand());
+    }
+
+    public function testPassDeletionCommand() : void
+    {
+        $this->tableGui->setPassDeletionCommand("testString");
+        $this->assertEquals("testString", $this->tableGui->getPassDeletionCommand());
+    }
 }

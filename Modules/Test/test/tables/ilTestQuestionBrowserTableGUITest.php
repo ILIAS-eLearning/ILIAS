@@ -62,4 +62,12 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestQuestionBrowserTableGUI::class, $this->tableGui);
     }
+
+    public function testWriteAccess() : void
+    {
+        $this->tableGui->setWriteAccess(false);
+        $this->assertFalse($this->tableGui->hasWriteAccess());
+        $this->tableGui->setWriteAccess(true);
+        $this->assertTrue($this->tableGui->hasWriteAccess());
+    }
 }

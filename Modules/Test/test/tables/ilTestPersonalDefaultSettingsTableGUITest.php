@@ -39,4 +39,10 @@ class ilTestPersonalDefaultSettingsTableGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPersonalDefaultSettingsTableGUI::class, $this->tableGui);
     }
+
+    public function testNumericOrdering() : void
+    {
+        $this->assertTrue($this->tableGui->numericOrdering("tstamp"));
+        $this->assertFalse($this->tableGui->numericOrdering("randomString"));
+    }
 }
