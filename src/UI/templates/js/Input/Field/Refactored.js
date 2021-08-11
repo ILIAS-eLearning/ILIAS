@@ -35,16 +35,15 @@ Dropzone.autoDiscover = false;
          * @type {object}
          */
         const DEFAULT_SETTINGS = {
-            file_input_name:    '',
             file_upload_url:    '',
             file_removal_url:   '',
             file_info_url:      '',
             file_identifier:    'file_id',
             max_file_amount:    1,
             file_mime_types:    null,
-            existing_file_info: null,
+            existing_files:     null,
             max_file_size:      null,
-            with_metadata:      false,
+            with_nested_inputs: false,
         };
 
         /**
@@ -72,12 +71,12 @@ Dropzone.autoDiscover = false;
             file_list:          '.il-file-input-list',
             file_preview:       '.il-file-input-preview',
             file_input:         '.il-file-input-template',
-            file_metadata:      '.il-file-input-metadata',
-            file_toggle:        '.il-file-input-preview .metadata-toggle',
+            nested_inputs:      '.il-file-input-metadata',
+            inputs_toggle:      '.il-file-input-preview .metadata-toggle',
             file_removal:       '.il-file-input-preview .remove',
             file_error_msg:     '.il-file-input-upload-error',
-            darkener:           '.il-file-input-darkener',
-            glyph:              '.metadata-toggle .glyph',
+            toggle_glyph:       '.metadata-toggle .glyph',
+            close_glyph:        '.remove',
         };
 
         /**
@@ -120,24 +119,34 @@ Dropzone.autoDiscover = false;
          * @param {File} file
          */
         let addFileHook = function (file) {
-            // adjust file-input value.
             $(file.previewElement).find(SELECTOR.file_input).val(file.file_id);
 
-            // adjust metadata inputs to be accessible by file-id
-            // on the server side.
-            if (settings.with_metadata) {
-                $(file.previewElement)
-                    .find(SELECTOR.file_metadata)
-                    .each(function (i, input) {
-                        input = $(input).find('input');
-                        // @TODO: either we can solve naming issue server-side or we have
-                        //        to figure out how to structure the input names here.
-                        // input.attr('name', `${settings.file_input_name}[${file.file_id}][]`);
-                    })
-                ;
-            }
-
             debug(file);
+        };
+
+        /**
+         * Removes a file from the list and server manually, if
+         * the element was not rendered by dropzone.js.
+         *
+         * @param {Event} event
+         */
+        let removeFileManuallyHook = async function (event) {
+            let preview = $(this).parent().parent();
+
+            // trigger manual removal only if the pseudo class for
+            // server-side rendering is provided.
+            if (preview.hasClass('il-file-input-server-side')) {
+                // create pseudo file object in order to work with removal hook
+                let file = Object.assign({
+                    status: 'success',
+                    file_id: preview.find(SELECTOR.file_input).val(),
+                });
+
+                // remove file preview from DOM.
+                preview.remove();
+
+                await removeFileHook(file);
+            }
         };
 
         /**
@@ -160,6 +169,8 @@ Dropzone.autoDiscover = false;
                         response = Object.assign(JSON.parse(response));
                         if (1 !== response.status) {
                             uploadFailureHook(file, response.message, response);
+                        } else {
+                            debug("File successfully removed.");
                         }
                     },
                     error: function(response) {
@@ -206,17 +217,6 @@ Dropzone.autoDiscover = false;
         };
 
         /**
-         * Handles the form-submission of the closest form to file-input.
-         *
-         * @param {Event} event
-         */
-        let formSubmissionHook = function (event) {
-
-            // currently unused, maybe do some stuff with
-            // the metadata input?
-        };
-
-        /**
          * Disables ALL submit-buttons during the upload process.
          *
          * @param {File} current_file
@@ -249,17 +249,17 @@ Dropzone.autoDiscover = false;
          * @param {Event} event
          */
         let toggleMetadataHook = function (event) {
-            if (settings.with_metadata) {
+            if (settings.with_nested_inputs) {
                 $(this)
                     .parent()
                     .parent()
-                    .find(SELECTOR.file_metadata)
+                    .find(SELECTOR.nested_inputs)
                     .toggle()
                 ;
 
                 $(this)
                     .parent()
-                    .find(SELECTOR.glyph)
+                    .find(SELECTOR.toggle_glyph)
                     .each(function () {
                         $(this).toggle();
                     }
@@ -268,17 +268,15 @@ Dropzone.autoDiscover = false;
         };
 
         /**
-         *
+         * Loads existing files if provided with the input settings.
          */
         let loadExistingFiles = function () {
-            if (null !== settings.existing_file_info) {
-                settings.existing_file_info.forEach(function (file_info) {
-                    // @TODO: how can we fetch metadata input values? we could use a further
-                    //        setting with an URL that can be used as metadata value source.
-
-                    // emit a dropped file to dropzone.js
+            if (null !== settings.existing_files) {
+                settings.existing_files.forEach(function (file_info) {
                     file_info.accepted = true;
                     file_info.is_existing = true;
+
+                    // emit a dropped file to dropzone.js
                     dropzone.files.push(file_info);
                     dropzone.emit('addedfile', file_info);
                     dropzone._updateMaxFilesReachedClass();
@@ -296,13 +294,13 @@ Dropzone.autoDiscover = false;
             let preview  = $(`#${id} ${SELECTOR.file_preview}`);
             let metadata = $(SELECTOR.file_preview).find(SELECTOR.metadata);
 
-            if (settings.with_metadata) {
+            if (settings.with_nested_inputs) {
                 // if metadata inputs were provided, the toggle is set up.
-                preview.find(SELECTOR.glyph + ':first').hide();
+                preview.find(SELECTOR.toggle_glyph + ':first').hide();
             } else {
                 // if no metadata inputs were provided, the toggle and
                 // the container are removed.
-                preview.find(SELECTOR.glyph).remove();
+                preview.find(SELECTOR.toggle_glyph).remove();
                 metadata.remove();
             }
 
@@ -311,7 +309,9 @@ Dropzone.autoDiscover = false;
                 preview.remove();
             }
 
-            return preview.html();
+            // return html of the outer element, so the whole file preview
+            // element is returned.
+            return $(`#${id} ${SELECTOR.file_list}`).html();
         };
 
         /**
@@ -319,8 +319,9 @@ Dropzone.autoDiscover = false;
          */
         let initEventListeners = function () {
             // general event-listeners
-            $(SELECTOR.dropzone).closest('form').on('click', SELECTOR.submit_btn, formSubmissionHook);
-            $(SELECTOR.file_list).on('click', SELECTOR.glyph, toggleMetadataHook);
+            // $(SELECTOR.dropzone).closest('form').on('click', SELECTOR.submit_btn, formSubmissionHook);
+            $(SELECTOR.file_list).on('click', SELECTOR.toggle_glyph, toggleMetadataHook);
+            $(SELECTOR.file_list).on('click', SELECTOR.close_glyph, removeFileManuallyHook)
 
             // dropzone.js event-listeners
             dropzone.on('queuecomplete', finishQueueHook);
@@ -366,7 +367,7 @@ Dropzone.autoDiscover = false;
             });
 
             initEventListeners();
-            loadExistingFiles();
+            // loadExistingFiles();
 
             debug(dropzone);
         };

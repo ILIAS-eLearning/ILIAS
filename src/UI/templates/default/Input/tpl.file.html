@@ -2,16 +2,17 @@
 
 	<!-- File List -->
 	<div class="il-file-input-list container-fluid">
-		<div class="il-file-input-preview il-upload-file-item il-upload-file-item-template clearfix row standard">
+		<!-- BEGIN block_file_preview -->
+		<div class="{RENDER_CLASS} il-file-input-preview il-upload-file-item il-upload-file-item-template clearfix row standard">
 			<div class="col-xs-12 col-no-padding">
 				<!-- Additional Inputs toggle -->
 				{NESTED_INPUTS_TOGGLE}
 
 				<!-- Display Filename -->
-				<span class="file-info filename" data-dz-name></span>
+				<span class="file-info filename" data-dz-name>{FILE_NAME}</span>
 
 				<!-- Display Filesize -->
-				<span class="file-info filesize" data-dz-size></span>
+				<span class="file-info filesize" data-dz-size>{FILE_SIZE}</span>
 
 				<!-- Remove Button -->
 				<button type="button" class="close pull-right remove" style="margin-right: 5px;" data-dz-remove>
@@ -19,7 +20,7 @@
 					<span class="sr-only">Close</span>
 				</button>
 
-				<!-- Additional Metadata -->
+				<!-- Additional Inputs -->
 				{NESTED_INPUTS}
 
 				<!-- Progress Bar -->
@@ -31,11 +32,12 @@
 				<div class="il-file-input-upload-error dz-error-message il-file-input-error">
 					<span data-dz-errormessage></span>
 				</div>
-
-				<!-- Input Template -->
-				<input class="il-file-input-template" type="hidden" name="{NAME}[]" value="" data-file-id="" />
 			</div>
+
+			<!-- Input Template -->
+			<input class="il-file-input-template" type="hidden" name="{NAME}[]" value="{FILE_ID}" data-file-id="" />
 		</div>
+		<!-- END block_file_preview -->
 	</div>
 
 	<!-- Dropzone Element -->

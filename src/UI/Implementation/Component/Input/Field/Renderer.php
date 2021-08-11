@@ -594,15 +594,16 @@ class Renderer extends AbstractComponentRenderer
     {
         $existing_files = $component->getValue();
         if (null !== $existing_files) {
+            $existing_file_infos = [];
             foreach ($existing_files as $file_id => $nested_input_values) {
-                // @TODO: should we just gamble that no nested input key is 'irss_file_info'? :^)
-                $existing_files[$file_id]['irss_file_info'] = $component->getUploadHandler()->getSingleFileInfoResult($file_id);
+                $existing_file_infos[] = $component->getUploadHandler()->getSingleFileInfoResult($file_id);
             }
+
+            $existing_files = $existing_file_infos;
         }
 
         $settings = new \stdClass();
         $settings->existing_files       = $existing_files;
-        $settings->file_input_name      = $component->getName(); // maybe not necessary?
         $settings->file_identifier      = $component->getUploadHandler()->getFileIdentifierParameterName();
         $settings->file_upload_url      = $component->getUploadHandler()->getUploadURL();
         $settings->file_removal_url     = $component->getUploadHandler()->getFileRemovalURL();
@@ -610,7 +611,7 @@ class Renderer extends AbstractComponentRenderer
         $settings->file_mime_types      = $component->getAcceptedMimeTypes();
         $settings->max_file_amount      = $component->getMaxFiles();
         $settings->max_file_size        = $component->getMaxFileSize();
-        $settings->with_metadata        = (null !== $component->getNestedInputs());
+        $settings->with_nested_inputs   = (null !== $component->getNestedInputs());
         $settings->translations         = [
             'msg_invalid_mime'   => $this->txt('msg_input_file_invalid_mime'),
             'msg_invalid_amount' => $this->txt('msg_input_file_invalid_amount'),
@@ -620,7 +621,7 @@ class Renderer extends AbstractComponentRenderer
         ];
 
         /**
-         * @var $component File
+         * @var $component FI\FileInput
          */
         $component = $component->withAdditionalOnLoadCode(
             static function($id) use ($settings) {
@@ -634,27 +635,62 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $tpl = $this->getTemplate("tpl.file.html", true, true);
-
-        $this->applyName($component, $tpl);
         $this->maybeDisable($component, $tpl);
 
-        // if nested inputs were provided, the file-preview needs to be
-        //  extended by an inputs-toggle and the input templates themselves.
-        if (null !== $component->getNestedInputs()) {
-            $tpl->setVariable('NESTED_INPUTS_TOGGLE',
+        // helper function to get the inputs-toggle html.
+        $getToggle = function () use ($default_renderer) : string {
+            return
                 '<span class="file-info metadata-toggle">' .
-                $default_renderer->render([
-                    $this->getUIFactory()->symbol()->glyph()->collapse(),
-                    $this->getUIFactory()->symbol()->glyph()->expand(),
-                ]) .
+                    $default_renderer->render([
+                        $this->getUIFactory()->symbol()->glyph()->collapse(),
+                        $this->getUIFactory()->symbol()->glyph()->expand(),
+                    ]) .
                 '</span>'
-            );
+            ;
+        };
 
-            $tpl->setVariable('NESTED_INPUTS',
+        // helper function to wrap nested inputs within a container.
+        $wrapNestedInputs = static function (array $inputs) use ($default_renderer) : string {
+            return
                 '<div class="il-file-input-metadata form-horizontal" style="display: none;">' .
-                $default_renderer->render($component->getNestedInputTemplates()) .
+                    $default_renderer->render($inputs) .
                 '</div>'
-            );
+            ;
+        };
+
+        // if nested inputs were provided, the file-preview needs to be
+        // extended by an inputs-toggle and the input templates themselves.
+        if (null !== $component->getNestedInputTemplates()) {
+            $tpl->setCurrentBlock('block_file_preview');
+            $tpl->setVariable('NESTED_INPUTS_TOGGLE', $getToggle());
+            $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs($component->getNestedInputTemplates()));
+            $tpl->setVariable('NAME', $component->getName());
+            $tpl->parseCurrentBlock();
+        }
+
+        // if nested inputs exist (were generated due to withValue()), we
+        // render that preview for each file entry.
+        if (null !== ($nested_inputs = $component->getNestedInputs())) {
+            $counter = 0;
+            foreach ($component->getValue() as $file_id => $nested_values) {
+                $nested_inputs_of_iteration = [];
+                foreach ($component->getNestedInputTemplates() as $key => $template) {
+                    $array_key = "{$file_id}_$key";
+                    $nested_inputs_of_iteration[] = $nested_inputs[$array_key];
+                }
+
+                $tpl->setCurrentBlock('block_file_preview');
+                $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
+                $tpl->setVariable('NESTED_INPUTS_TOGGLE', $getToggle());
+                $tpl->setVariable('FILE_NAME', $existing_files[$counter]->getName());
+                $tpl->setVariable('FILE_SIZE', $existing_files[$counter]->getSize());
+                $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs($nested_inputs_of_iteration));
+                $tpl->setVariable('NAME', $component->getName());
+                $tpl->setVariable('FILE_ID', $file_id);
+                $tpl->parseCurrentBlock();
+
+                $counter++;
+            }
         }
 
         // display the action button (to choose files).

@@ -2,9 +2,11 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\InputData;/**
+/**
  * Interface NestedInput
+ *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
  * @package ILIAS\UI\Component\Input\Field
  */
 interface NestedInput extends FormInput
@@ -23,12 +25,4 @@ interface NestedInput extends FormInput
      * @return Input[]|null
      */
     public function getNestedInputs() : ?array;
-
-    /**
-     * Get an input like this with input from post data.
-     *
-     * @param    InputData $post_input
-     * @return    NestedInput
-     */
-    public function withNestedInput(InputData $post_input) : NestedInput;
 }

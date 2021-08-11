@@ -343,13 +343,13 @@ class ilObjFileGUI extends ilObject2GUI
                     'nested_input_2' => $this->ui->factory()->input()->field()->checkbox('test_checkbox'),
                 ])
                 ->withValue([
-                    '0b5b300e-ea96-4358-befd-e566deb2f025' => [
+                    '3295632d-39e3-4bcd-afff-c7358019b057' => [
                          'nested_input_1' => 'test 1',
                          'nested_input_2' => false,
                     ],
                     'should_not_exist' => [
-                        'nested_input_1' => 'test 1',
-                        'nested_input_2' => false,
+                        'nested_input_1' => 'test 2',
+                        'nested_input_2' => true,
                     ],
                 ])
                 ->withMaxFiles(10),

@@ -228,25 +228,24 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @inheritDoc
      */
-    public function withNestedInput(InputData $post_input) : NestedInput
+    public function withInput(InputData $post_input)
     {
-        if (0 === count($this->getNestedInputs())) return $this;
-
-        $clone = clone $this;
-
-        $inputs = [];
+        $clone    = clone $this;
+        $inputs   = $this->getNestedInputs();
         $contents = [];
-        $error = false;
+        $error    = false;
 
-        foreach ($this->getNestedInputs() as $key => $input) {
-            $inputs[$key] = $input->withInput($post_input);
-            $content = $inputs[$key]->getContent();
+        foreach ($this->getValue() as $file_id => $nested_value) {
+            foreach ($this->getNestedInputTemplates() as $key => $template) {
+                $array_key = "{$file_id}_$key";
+                $input = $inputs[$array_key]->withInput($post_input);
+                $content = $input->getContent();
 
-            // null pointers can be ignored I guess.
-            if ($content->isError()) {
-                $error = true;
-            } else {
-                $contents[$key] = $content->value();
+                if (null === $content || $content->isError()) {
+                    $error = true;
+                } else {
+                    $contents[$file_id][$key] = $content->value();
+                }
             }
         }
 
