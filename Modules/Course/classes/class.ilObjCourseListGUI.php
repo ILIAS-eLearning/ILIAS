@@ -156,10 +156,14 @@ class ilObjCourseListGUI extends ilObjectListGUI
         $hasCertificate = $this->getCertificatePreloader()->isPreloaded($ilUser->getId(), $this->obj_id);
         if (true === $hasCertificate) {
             $lng->loadLanguageModule('certificate');
-            $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=" . $this->ref_id .
-                    "&amp;cmd=deliverCertificate";
-            $props[] = array("alert" => false, 
-                "value" => '<a href="' . $cmd_link . '">' . $lng->txt("download_certificate") . '</a>');
+            $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->ref_id . "&cmd=deliverCertificate";
+            $props[] = [
+                'alert' => false,
+                'property' => $lng->txt('certificate'),
+                'value' => $DIC->ui()->renderer()->render(
+                    $DIC->ui()->factory()->link()->standard($lng->txt('download_certificate'), $cmd_link)
+                )
+            ];
         }
 
         // booking information
