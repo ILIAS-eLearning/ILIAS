@@ -9,7 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  * Class ilTestSettingsChangeConfirmationGUITest
  * @author Marvin Beym <mbeym@databay.de>
  */
-class ilTestSettingsChangeConfirmationGUITest extends assBaseTestCase
+class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseClass
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
     /**
