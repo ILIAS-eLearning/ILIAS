@@ -12,7 +12,7 @@ class ilTestVerificationTableGUI extends ilTable2GUI
     private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
-        ilObject $a_parent_obj,
+        ilObjTestVerificationGUI $a_parent_obj,
         string $a_parent_cmd = "",
         ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
@@ -52,13 +52,13 @@ class ilTestVerificationTableGUI extends ilTable2GUI
 
         $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation($userId, 'tst');
 
-        $data = array();
+        $data = [];
         foreach ($certificateArray as $certificate) {
-            $data[] = array(
+            $data[] = [
                 'id' => $certificate->getUserCertificate()->getObjId(),
                 'title' => $certificate->getObjectTitle(),
                 'passed' => true
-            );
+            ];
         }
 
         $this->setData($data);
