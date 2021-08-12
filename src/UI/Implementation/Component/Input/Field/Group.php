@@ -193,8 +193,11 @@ class Group extends Input implements C\Input\Field\Group
          * @var $clone Group
          */
         $named_inputs = [];
-        foreach ($this->getInputs() as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
+
+        if (!empty($this->getInputs())) {
+            foreach ($this->getInputs() as $key => $input) {
+                $named_inputs[$key] = $input->withNameFrom($source);
+            }
         }
 
         $clone->inputs = $named_inputs;

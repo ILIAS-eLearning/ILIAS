@@ -1,251 +1,185 @@
 /**
- * Provides the behavior of all dropzone types.
+ * dropzone.js
  *
- * @author nmaerchy <nm@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * This script manages files dropped onto a Wrapper component:
+ * \ILIAS\UI\Implementation\Component\Dropzone\File\Wrapper.
  */
 
 var il = il || {};
 il.UI = il.UI || {};
+il.UI.Dropzone = il.UI.Dropzone || {};
+
 (function ($, UI) {
-    UI.dropzone = (function ($) {
+
+    /**
+     * Public interface of a Wrapper component.
+     *
+     * @type {{init: init}}
+     */
+    il.UI.Dropzone.wrapper = (function ($) {
 
         /**
-         * Contains all css classes used for dropzone manipulation.
-         * These classes MUST NOT have the . symbol at the beginning.
+         * Enables or disables the debugging of this component.
+         *
+         * @type {boolean}
          */
-        var CSS = {
-            "darkenedBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-            "darkenedDropzoneHighlight": "darkened-highlight",
-            "defaultDropzoneHighlight": "default-highlight",
-            "dropzoneDragHover": "drag-hover"
+        const DEBUG = false;
+
+        /**
+         * Holds the query selectors needed within this component.
+         *
+         * @type {object}
+         */
+        const SELECTOR = {
+            darkener:       '.il-dropzone-page-darkener',
+            modal:          '.il-modal-roundtrip',
+            dropzone:       '.il-dropzone',
+            file_input:     '.il-file-input',
+            file_dropzone:  '.il-file-input',
         };
 
         /**
-         * Contains all css selectors used for dropzone manipulation.
-         * Selectors MUST be declared like in css.
-         * e.g.
-         *  .this-is-a-class
-         *  #this-is-a-id
+         * Holds the CSS classes used for DOM manipulations of this component.
+         *
+         * @type {object}
          */
-        var SELECTOR = {
-            "darkenedBackground": "#il-dropzone-darkened",
-            "dropzones": ".il-dropzone"
+        const CSS = {
+            darkened_background:         'modal-backdrop in',
+            darkened_dropzone_highlight: 'darkened-highlight',
+            default_dropzone_highlight:  'default-highlight',
+            dropzone_drag_over:          'drag-hover',
         };
 
         /**
-         * Contains all supported dropzone types.
-         * The type MUST be equal to the full qualified class name used in php.
-         * NOTE backslashes needs to be removed.
-         * e.g. ILIAS\UI\Component\Dropzone\Standard -> Standard
+         * Keeps track of the components Dragster state.
+         *
+         * @type {boolean}
          */
-        var DROPZONE = {
-            "standard": "Standard",
-            "wrapper": "Wrapper"
-        };
-
-        var _darkenedBackground = false;
+        let dragster_active = false;
 
         /**
-         * Initializes a dropzone depending on the passed in type with the passed in options.
+         * Helper function used for debugging.
          *
-         * @param {string} type the type of the dropzone
-         *                      MUST be the full qualified class name.
-         * @param {Object} options possible settings for this dropzone
+         * @param {*} variables
          */
-        var initializeDropzone = function (type, options) {
-            // console.log("INIT DROPZONE " + options.id);
-            // disable default behavior of browsers for file drops
-            $(document).on("dragenter dragstart dragend dragleave dragover drag drop", function (e) {
-                e.preventDefault();
-            });
-
-            var settings = $.extend({
-                // default settings
-                registeredSignals: [],
-                darkenedBackground: false,
-                uploadUrl: '',
-                uploadButton: null
-            }, options);
-
-            if (settings.id === undefined) {
-                throw new Error("Missing dropzone id in parameter options: options.id not found");
-            }
-
-            switch (type) {
-                case DROPZONE.standard:
-                    _initStandardDropzone(settings);
-                    break;
-                case DROPZONE.wrapper:
-                    _configureDarkenedBackground(true);
-                    _initWrapperDropzone(settings);
-                    break;
-                default:
-                    throw new Error("Unsupported dropzone type found: " + type);
-            }
-
-        };
-
-        /**
-         * Adds a html div to enable the darkened background, if the passed in argument is true.
-         * Sets the state of the darkened background availability to the value of the passed in argument.
-         *
-         * @param {boolean} darkenedBackground true, if the darkened background should be available
-         *
-         * @private
-         */
-        var _configureDarkenedBackground = function (darkenedBackground) {
-            _darkenedBackground = darkenedBackground;
-            if (!$(SELECTOR.darkenedBackground).length && darkenedBackground) {
-                $("body").prepend("<div id=" + SELECTOR.darkenedBackground.substring(1) + "></div>"); // <- str.substring(1) removes the # symbol used in css
-            }
-        };
-
-        /**
-         * Enables the highlighting on all dropzones depending on the passed in argument.
-         * Does NOT affect the highlighting of a single dropzone on drag hover.
-         *
-         * @param {boolean} darkenedBackground true to use the darkened background for highlighting, otherwise false
-         *
-         * @private
-         */
-        var _enableHighlighting = function (darkenedBackground) {
-            if (darkenedBackground) {
-                $(SELECTOR.darkenedBackground).addClass(CSS.darkenedBackground);
-                $(SELECTOR.dropzones).addClass(CSS.darkenedDropzoneHighlight);
-            } else {
-                $(SELECTOR.dropzones).addClass(CSS.defaultDropzoneHighlight);
-            }
-        };
-
-        /**
-         * Disables the highlighting of all dropzones.
-         * Does NOT affect the highlighting of a single dropzone on drag hover.
-         *
-         * @private
-         */
-        var _disableHighlighting = function () {
-            $(SELECTOR.darkenedBackground).removeClass(CSS.darkenedBackground);
-            $(SELECTOR.dropzones).removeClass(CSS.darkenedDropzoneHighlight)
-                .removeClass(CSS.defaultDropzoneHighlight);
-        };
-
-
-        /**
-         * @private functions to initialize different types of dropzones -----------------------------------
-         *
-         * Every dropzone MUST have its own init function (improves code readability).
-         * The function for the appropriate dropzone is simply called in the switch statement
-         * from the {@link initializeDropzone} function.
-         */
-
-
-        /**
-         *
-         * @param {Object} options possible settings for this dropzone
-         *                         @see {@link initializeDropzone}
-         *
-         * @private
-         */
-        var _initStandardDropzone = function (options) {
-            var $dropzone = $("#" + options.id).find(".il-dropzone");
-            // Find the element acting as "Select Files" button/link
-            var $selectFilesButton = $dropzone.find('.il-dropzone-standard-select-files-wrapper')
-                .children('a');
-            if ($selectFilesButton.length) {
-                options.selectFilesButton = $selectFilesButton;
-            }
-
-            options.fileListContainer = $dropzone.parent().prevAll('.il-upload-file-list');
-
-            il.UI.uploader.init(options.id, options);
-
-            $dropzone.dragster({
-                enter: function (dragsterEvent, event) {
-                    $(this).addClass(CSS.dropzoneDragHover);
-                },
-                leave: function (dragsterEvent, event) {
-                    $(this).removeClass(CSS.dropzoneDragHover);
-                },
-                drop: function (dragsterEvent, event) {
-                    $(this).removeClass(CSS.dropzoneDragHover);
-                    var files = event.originalEvent.dataTransfer.files;
-                    $.each(files, function (index, file) {
-                        il.UI.uploader.addFile(options.id, file);
-                    });
+        let debug = function (...variables) {
+            if (DEBUG) {
+                for (let i in variables) {
+                    console.log(variables[i]);
                 }
-            });
+            }
         };
 
+        /**
+         * disables the hovering highlight
+         *
+         * @param dragster_event
+         * @param event
+         */
+        let disableHighlightHoverHook = function (dragster_event, event) {
+
+            // in case the file was NOT dropped, the propagation of this event
+            // must be stopped, to prevent document.dragLeave to trigger.
+            if ('drop' !== event.type) {
+                dragster_event.stopPropagation();
+                event.stopPropagation();
+            }
+
+            $(dragster_event.target).removeClass(CSS.dropzone_drag_over);
+            debug("Disable hover-highlight");
+            enableHighlightHook();
+        }
 
         /**
+         * enables the hovering highlight
          *
-         * @param {Object} options possible settings for this dropzone
-         *                         @see {@link initializeDropzone}
-         *
-         * @private
+         * @param {Event} dragster_event
          */
-        var _initWrapperDropzone = function (options) {
-            var $dropzone = $("#" + options.id);
-            var topmost = ($dropzone.find(".il-dropzone").length === 1);
+        let enableHighlightHoverHook = function (dragster_event) {
+            $(dragster_event.target).addClass(CSS.dropzone_drag_over);
+            debug("Enable hover-highlight");
+        };
 
-            if (topmost) {
-                // Highlighting handler
-                $(document).dragster({
-                    enter: function (dragsterEvent, event) {
-                        _enableHighlighting(_darkenedBackground);
-                    },
-                    leave: function (dragsterEvent, event) {
-                        _disableHighlighting();
-                    },
-                    drop: function (dragsterEvent, event) {
-                        _disableHighlighting();
-                    }
+        /**
+         * disables the darkener and all dropzone highlights.
+         */
+        let disableHighlightHook = function () {
+            $(SELECTOR.darkener).removeClass(CSS.darkened_background);
+            $(SELECTOR.dropzone).removeClass(CSS.darkened_dropzone_highlight);
+            debug("Disable highlight");
+        };
+
+        /**
+         * enables the darkener and highlights all dropzones.
+         */
+        let enableHighlightHook = function () {
+            $(SELECTOR.darkener).addClass(CSS.darkened_background);
+            $(SELECTOR.dropzone).addClass(CSS.darkened_dropzone_highlight);
+            debug("Enable highlight");
+        };
+
+        /**
+         * Manages dropped files onto a dropzone wrapper component.
+         *
+         * @param {Event} event
+         */
+        let processDroppedFilesHook = function (event) {
+            event.preventDefault();
+
+            // dataTransfer has to be fetched by triggering event (DragEvent).
+            // there's also a console bug where dataTransfer will always be
+            // shown empty, just in case you're debugging it.
+            let data_transfer = event.originalEvent.dataTransfer;
+            debug("Dropped files:", data_transfer.files);
+
+            let file_input_id = $(this).find(SELECTOR.file_dropzone).attr('id');
+            debug(file_input_id);
+
+            for (let i = 0; i < data_transfer.files.length; i++) {
+                il.UI.Input.file.renderFileListEntry(
+                    file_input_id,
+                    data_transfer.files[i]
+                );
+            }
+        };
+
+        /**
+         * Initializes a Wrapper component.
+         *
+         * @param {string} id
+         */
+        let init = function (id) {
+            // register event-listener for dropped files
+            $(`#${id} ${SELECTOR.dropzone}`).on('drop', processDroppedFilesHook);
+
+            // only initialize the dragster once, as it can be shared across
+            // multiple instances of this component.
+            if (!dragster_active) {
+                // add a darkener element to DOM for dragster events (substr removes the dot).
+                $('body').prepend(`<div class="${SELECTOR.darkener.substr(1)}"></div>`);
+
+                // @TODO: fix document.dragLeave after file was hovering dropzone-wrapper once.
+
+                $(SELECTOR.dropzone).dragster({
+                    enter: enableHighlightHoverHook,
+                    leave: disableHighlightHoverHook,
+                    drop:  disableHighlightHoverHook,
                 });
 
-                options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
-                options.uploadButton = $dropzone.find('.modal-footer button.btn-primary:first');
+                $(document).dragster({
+                    enter: enableHighlightHook,
+                    leave: disableHighlightHook,
+                    drop:  disableHighlightHook,
+                });
 
-                il.UI.uploader.init(options.id, options);
+                dragster_active = true;
             }
-
-            /*
-                * event.stopImmediatePropagation() is needed
-                * to prevent dragster to fire leave events on the document,
-                * when a user just leaves on the dropzone.
-                */
-            $dropzone.dragster({
-                enter: function (dragsterEvent, event) {
-                    dragsterEvent.stopImmediatePropagation();
-                    $(this).find(".il-dropzone").addClass(CSS.dropzoneDragHover);
-                },
-                leave: function (dragsterEvent, event) {
-                    dragsterEvent.stopImmediatePropagation();
-                    $(this).find(".il-dropzone").removeClass(CSS.dropzoneDragHover);
-                },
-                drop: function (dragsterEvent, event) {
-                    $(this).find(".il-dropzone").removeClass(CSS.dropzoneDragHover);
-                    _disableHighlighting();
-                    if (!topmost) {
-                        event.stopImmediatePropagation();
-                        return false;
-                    }
-                    // Reset the uploader in case files have been dropped before, e.g.
-                    // the user drops some files, closes the modal and drops again
-                    il.UI.uploader.reset(options.id);
-                    var files = event.originalEvent.dataTransfer.files;
-                    $.each(files, function (index, file) {
-                        il.UI.uploader.addFile(options.id, file);
-                    });
-                    // This will trigger (at least) the show signal of the modal
-                    // _triggerSignals(options.registeredSignals, event, $dropzone);
-                }
-            });
-
         };
 
         return {
-            initializeDropzone: initializeDropzone
+            init: init
         };
-
     })($);
 })($, il.UI);

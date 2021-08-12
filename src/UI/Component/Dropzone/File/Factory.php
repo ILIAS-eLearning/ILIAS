@@ -55,9 +55,10 @@ interface Factory
      * ---
      *
      * @param UploadHandler $upload_handler
+     * @param string        $post_url
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
-    public function standard(UploadHandler $upload_handler) : Standard;
+    public function standard(UploadHandler $upload_handler, string $post_url) : Standard;
 
     /**
      * ---
@@ -98,9 +99,10 @@ interface Factory
      *        to be uploaded.
      * ---
      *
-     * @param UploadHandler $upload_handler
+     * @param UploadHandler $upload_handler responsible for file uploads
+     * @param string        $post_url responsible for final submission
      * @param Component[]   $components Component(s) wrapped by the dropzone
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
-    public function wrapper(UploadHandler $upload_handler, array $components) : Wrapper;
+    public function wrapper(UploadHandler $upload_handler, string $post_url, array $components) : Wrapper;
 }

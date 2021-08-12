@@ -16,16 +16,16 @@ class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
     /**
      * @inheritdoc
      */
-    public function standard(UploadHandler $upload_handler) : Standard
+    public function standard(UploadHandler $upload_handler, string $post_url) : Standard
     {
-        return new Standard($upload_handler);
+        return new Standard($upload_handler, $post_url);
     }
 
     /**
      * @inheritdoc
      */
-    public function wrapper(UploadHandler $upload_handler, array $components) : Wrapper
+    public function wrapper(UploadHandler $upload_handler, string $post_url, array $components) : Wrapper
     {
-        return new Wrapper($upload_handler, $components);
+        return new Wrapper($upload_handler, $post_url, $components);
     }
 }

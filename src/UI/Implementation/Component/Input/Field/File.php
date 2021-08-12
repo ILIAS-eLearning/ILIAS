@@ -215,10 +215,12 @@ class File extends Input implements C\Input\Field\FileInput
         }
 
         $values = [];
-        foreach ($this->value as $file_id) {
-            foreach ($this->input_templates as $key => $template) {
-                $array_key = "{$file_id}_$key";
-                $values[$file_id][$key] = $this->inputs[$array_key]->getValue();
+        if (!empty($this->value)) {
+            foreach ($this->value as $file_id) {
+                foreach ($this->input_templates as $key => $template) {
+                    $array_key = "{$file_id}_$key";
+                    $values[$file_id][$key] = $this->inputs[$array_key]->getValue();
+                }
             }
         }
 
@@ -319,8 +321,11 @@ class File extends Input implements C\Input\Field\FileInput
         $clone = parent::withNameFrom($source);
 
         $named_inputs = [];
-        foreach ($this->inputs as $key => $input) {
-            $named_inputs[$key] = $input->withNameFrom($source);
+
+        if (!empty($this->inputs)) {
+            foreach ($this->inputs as $key => $input) {
+                $named_inputs[$key] = $input->withNameFrom($source);
+            }
         }
 
         $clone->inputs = $named_inputs;

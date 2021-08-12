@@ -279,6 +279,22 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function getCreationFormsHTML(array $a_forms)
     {
+        // DEVELOP
+
+        $test = $this->ui->factory()->dropzone()->file()->wrapper(
+            $this->upload_handler,
+            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
+            [
+                $this->ui->factory()->messageBox()->info(
+                    "TEST INFO-BOX FOR WRAPPER DROPZONE"
+                ),
+            ]
+        );
+
+        return $this->ui->renderer()->render($test);
+
+        // END DEVELOP
+
         // abort if empty array was passed
         if (empty($a_forms)) return '';
 
@@ -332,28 +348,8 @@ class ilObjFileGUI extends ilObject2GUI
     protected function initMultiUploadForm() : UIComponentForm
     {
         return $this->ui->factory()->input()->container()->form()->standard(
-            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
-            [
-                'file_input' => $this->ui->factory()->input()->field()->file(
-                    $this->upload_handler,
-                    $this->lng->txt('upload_files_title')
-                )
-                ->withNestedInputs([
-                    'nested_input_1' => $this->ui->factory()->input()->field()->text('test_txt_input'),
-                    'nested_input_2' => $this->ui->factory()->input()->field()->checkbox('test_checkbox'),
-                ])
-                ->withValue([
-                    '3295632d-39e3-4bcd-afff-c7358019b057' => [
-                         'nested_input_1' => 'test 1',
-                         'nested_input_2' => false,
-                    ],
-                    'should_not_exist' => [
-                        'nested_input_1' => 'test 2',
-                        'nested_input_2' => true,
-                    ],
-                ])
-                ->withMaxFiles(10),
-            ]
+            "",
+            []
         );
     }
 

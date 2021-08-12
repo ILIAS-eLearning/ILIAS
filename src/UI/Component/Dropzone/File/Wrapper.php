@@ -34,7 +34,6 @@ interface Wrapper extends FileDropzone
      */
     public function withTitle(string $title) : Wrapper;
 
-
     /**
      * Get the custom title if set.
      *
@@ -45,6 +44,9 @@ interface Wrapper extends FileDropzone
     /**
      * Returns a file input like this, with additional (metadata) inputs.
      *
+     * @TODO: name this withNestedInputs instead? maybe adopt NestedInput
+     *        interface as well, in order to work with dropzone too?
+     *
      * @param Input[] $inputs
      * @return Wrapper
      */
@@ -52,6 +54,9 @@ interface Wrapper extends FileDropzone
 
     /**
      * Returns additional (metadata) inputs of this input.
+     *
+     * @TODO: name this getNestedInputs instead? maybe adopt NestedInput
+     *        interface as well, in order to work with dropzone too?
      *
      * @return Input[]|null
      */

@@ -33,6 +33,11 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     private $upload_handler;
 
     /**
+     * @var string
+     */
+    private $post_url;
+
+    /**
      * @var string[]
      */
     private $accepted_mime_types;
@@ -51,10 +56,12 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
      * FileDropzone constructor.
      *
      * @param UploadHandler $upload_handler
+     * @param string        $post_url
      */
-    public function __construct(UploadHandler $upload_handler)
+    public function __construct(UploadHandler $upload_handler, string $post_url)
     {
         $this->upload_handler = $upload_handler;
+        $this->post_url = $post_url;
     }
 
     /**
@@ -63,6 +70,14 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     public function getUploadHandler() : UploadHandler
     {
         return $this->upload_handler;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPostURL() : string
+    {
+        return $this->post_url;
     }
 
     /**
@@ -119,7 +134,11 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
      */
     public function getMaxFiles() : int
     {
-        return $this->max_files;
+        if (null !== $this->max_files && 1 < $this->max_files) {
+            return $this->max_files;
+        }
+
+        return 1;
     }
 
     /**

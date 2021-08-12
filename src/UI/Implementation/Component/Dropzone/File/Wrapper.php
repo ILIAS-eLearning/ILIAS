@@ -36,15 +36,16 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
      * Wrapper constructor.
      *
      * @param UploadHandler $upload_handler
+     * @param string        $post_url
      * @param array         $components
      */
-    public function __construct(UploadHandler $upload_handler, array $components)
+    public function __construct(UploadHandler $upload_handler, string $post_url, array $components)
     {
         $this->checkArgListElements('components', $components, Component::class);
 
         $this->components = $components;
 
-        parent::__construct($upload_handler);
+        parent::__construct($upload_handler, $post_url);
     }
 
     /**

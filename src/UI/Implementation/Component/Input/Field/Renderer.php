@@ -634,7 +634,7 @@ class Renderer extends AbstractComponentRenderer
             }
         );
 
-        $tpl = $this->getTemplate("tpl.file.html", true, true);
+        $tpl = $this->getTemplate("tpl.file.html", true, false);
         $this->maybeDisable($component, $tpl);
 
         // helper function to get the inputs-toggle html.
@@ -670,8 +670,9 @@ class Renderer extends AbstractComponentRenderer
 
         // if nested inputs exist (were generated due to withValue()), we
         // render that preview for each file entry.
-        if (null !== ($nested_inputs = $component->getNestedInputs())) {
+        if (null !== $component->getValue()) {
             $counter = 0;
+            $nested_inputs = $component->getNestedInputs();
             foreach ($component->getValue() as $file_id => $nested_values) {
                 $nested_inputs_of_iteration = [];
                 foreach ($component->getNestedInputTemplates() as $key => $template) {
@@ -762,7 +763,6 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
-        $registry->register("./libs/bower/bower_components/jquery-dragster/jquery.dragster.js");
         
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
@@ -770,9 +770,8 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
-        $registry->register('./src/UI/templates/js/Input/Field/duration.js');
-        $registry->register('./src/UI/templates/js/Input/Field/Refactored.js');
-        // $registry->register('./src/UI/templates/js/Input/Field/file.js');
+        $registry->register('./src/UI/templates/js/Input/Field/duration.js');;
+        $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
 

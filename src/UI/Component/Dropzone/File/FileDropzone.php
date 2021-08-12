@@ -15,5 +15,10 @@ use ILIAS\UI\Component\Input\Field\File;
  */
 interface FileDropzone extends Droppable, Component, File
 {
-    
+    /**
+     * Returns the post-url of this dropzone.
+     *
+     * @return string
+     */
+    public function getPostURL() : string;
 }
