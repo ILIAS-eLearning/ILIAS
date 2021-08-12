@@ -1330,6 +1330,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
+        $data = &$this->object->getCompleteEvaluationData();
+		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+		$tpl->setCurrentBlock('total_score');
+		$tpl->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
+		$tpl->setVariable("TOTAL_RESULT",$result);
+        $tpl->parseCurrentBlock();
+        
         if ($this->object->canShowSolutionPrintview()) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $result_array,
