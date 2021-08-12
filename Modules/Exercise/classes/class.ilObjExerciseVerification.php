@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,12 +11,12 @@
 */
 class ilObjExerciseVerification extends ilVerificationObject
 {
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = "excv";
     }
 
-    protected function getPropertyMap()
+    protected function getPropertyMap() : array
     {
         return array("issued_on" => self::TYPE_DATE,
             "file" => self::TYPE_STRING
