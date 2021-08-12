@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once("./Services/Object/classes/class.ilObjectAccess.php");
@@ -25,14 +25,18 @@ class ilObjTestVerificationAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
         return $commands;
     }
-    
-    public static function _checkGoto($a_target)
+
+    /**
+     * @param string $a_target
+     * @return bool
+     */
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
