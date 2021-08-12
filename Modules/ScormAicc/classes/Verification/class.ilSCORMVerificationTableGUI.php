@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
@@ -11,20 +11,17 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilSCORMVerificationTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilUserCertificateRepository|null
-     */
-    private $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
 
     /**
      * @param ilObject $a_parent_obj
      * @param string $a_parent_cmd
-     * @param null $userCertificateRepository
+     * @param ilUserCertificateRepository|null $userCertificateRepository
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $userCertificateRepository = null
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
@@ -55,7 +52,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
     /**
      * Get all achieved certificates of SCORM modules for current user
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         global $DIC;
 
@@ -82,7 +79,7 @@ class ilSCORMVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

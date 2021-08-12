@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,7 +18,7 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -34,7 +34,7 @@ class ilObjSCORMVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjSCORMVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
