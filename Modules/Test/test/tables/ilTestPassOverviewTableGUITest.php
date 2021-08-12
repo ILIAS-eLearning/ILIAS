@@ -50,6 +50,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
     
     public function testResultPresentationEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isResultPresentationEnabled());
         $this->tableGui->setResultPresentationEnabled(false);
         $this->assertFalse($this->tableGui->isResultPresentationEnabled());
         $this->tableGui->setResultPresentationEnabled(true);
@@ -58,6 +59,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testPdfPresentationEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isPdfPresentationEnabled());
         $this->tableGui->setPdfPresentationEnabled(false);
         $this->assertFalse($this->tableGui->isPdfPresentationEnabled());
         $this->tableGui->setPdfPresentationEnabled(true);
@@ -66,6 +68,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testObjectiveOrientedPresentationEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
         $this->assertFalse($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(true);
@@ -80,12 +83,14 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testPassDetailsCommand() : void
     {
+        $this->assertIsString($this->tableGui->getPassDetailsCommand());
         $this->tableGui->setPassDetailsCommand("testString");
         $this->assertEquals("testString", $this->tableGui->getPassDetailsCommand());
     }
 
     public function testPassDeletionCommand() : void
     {
+        $this->assertIsString($this->tableGui->getPassDeletionCommand());
         $this->tableGui->setPassDeletionCommand("testString");
         $this->assertEquals("testString", $this->tableGui->getPassDeletionCommand());
     }

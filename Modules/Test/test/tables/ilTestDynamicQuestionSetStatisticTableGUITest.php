@@ -70,6 +70,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
 
     public function testTaxIds() : void
     {
+        $this->assertIsArray($this->tableGui->getTaxIds());
         $expected = [10, 1250, 1233591, 12350];
         $this->tableGui->setTaxIds($expected);
         $this->assertEquals($expected, $this->tableGui->getTaxIds());
@@ -77,6 +78,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
 
     public function testAnswerStatusFilterEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isAnswerStatusFilterEnabled());
         $this->tableGui->setAnswerStatusFilterEnabled(false);
         $this->assertFalse($this->tableGui->isAnswerStatusFilterEnabled());
         $this->tableGui->setAnswerStatusFilterEnabled(true);
@@ -85,6 +87,7 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
 
     public function testTaxonomyFilterEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isTaxonomyFilterEnabled());
         $this->tableGui->setTaxonomyFilterEnabled(false);
         $this->assertFalse($this->tableGui->isTaxonomyFilterEnabled());
         $this->tableGui->setTaxonomyFilterEnabled(true);

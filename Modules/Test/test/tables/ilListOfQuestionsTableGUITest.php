@@ -42,6 +42,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testShowPointsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isShowPointsEnabled());
         $this->tableGui->setShowPointsEnabled(true);
         $this->assertTrue($this->tableGui->isShowPointsEnabled());
 
@@ -51,6 +52,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testShowMarkerEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isShowMarkerEnabled());
         $this->tableGui->setShowMarkerEnabled(true);
         $this->assertTrue($this->tableGui->isShowMarkerEnabled());
 
@@ -60,6 +62,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testShowObligationsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isShowObligationsEnabled());
         $this->tableGui->setShowObligationsEnabled(true);
         $this->assertTrue($this->tableGui->isShowObligationsEnabled());
 
@@ -69,6 +72,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testObligationsFilterEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isObligationsFilterEnabled());
         $this->tableGui->setObligationsFilterEnabled(true);
         $this->assertTrue($this->tableGui->isObligationsFilterEnabled());
 
@@ -78,6 +82,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testObligationsNotAnswered() : void
     {
+        $this->assertIsBool($this->tableGui->areObligationsNotAnswered());
         $this->tableGui->setObligationsNotAnswered(true);
         $this->assertTrue($this->tableGui->areObligationsNotAnswered());
 
@@ -87,6 +92,7 @@ class ilListOfQuestionsTableGUITest extends ilTestBaseTestCase
 
     public function testFinishTestButtonEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isFinishTestButtonEnabled());
         $this->tableGui->setFinishTestButtonEnabled(true);
         $this->assertTrue($this->tableGui->isFinishTestButtonEnabled());
 

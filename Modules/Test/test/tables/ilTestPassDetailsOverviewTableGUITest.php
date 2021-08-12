@@ -46,6 +46,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testPdfGenerationRequest() : void
     {
+        $this->assertIsBool($this->tableGui->isPdfGenerationRequest());
         $this->tableGui->setIsPdfGenerationRequest(false);
         $this->assertFalse($this->tableGui->isPdfGenerationRequest());
         $this->tableGui->setIsPdfGenerationRequest(true);
@@ -54,14 +55,14 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testSingleAnswerScreenCmd() : void
     {
-        $this->tableGui->setSingleAnswerScreenCmd(false);
-        $this->assertFalse($this->tableGui->getSingleAnswerScreenCmd());
-        $this->tableGui->setSingleAnswerScreenCmd(true);
-        $this->assertTrue($this->tableGui->getSingleAnswerScreenCmd());
+        $this->assertIsString($this->tableGui->getSingleAnswerScreenCmd());
+        $this->tableGui->setSingleAnswerScreenCmd("testString");
+        $this->assertEquals("testString", $this->tableGui->getSingleAnswerScreenCmd());
     }
 
     public function testAnswerListAnchorEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->getAnswerListAnchorEnabled());
         $this->tableGui->setAnswerListAnchorEnabled(false);
         $this->assertFalse($this->tableGui->getAnswerListAnchorEnabled());
         $this->tableGui->setAnswerListAnchorEnabled(true);
@@ -70,6 +71,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testShowHintCount() : void
     {
+        $this->assertIsBool($this->tableGui->getShowHintCount());
         $this->tableGui->setShowHintCount(false);
         $this->assertFalse($this->tableGui->getShowHintCount());
         $this->tableGui->setShowHintCount(true);
@@ -78,6 +80,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testShowSuggestedSolution() : void
     {
+        $this->assertIsBool($this->tableGui->getShowSuggestedSolution());
         $this->tableGui->setShowSuggestedSolution(false);
         $this->assertFalse($this->tableGui->getShowSuggestedSolution());
         $this->tableGui->setShowSuggestedSolution(true);
@@ -86,14 +89,13 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testActiveId() : void
     {
-        $this->tableGui->setActiveId(false);
-        $this->assertFalse($this->tableGui->getActiveId());
-        $this->tableGui->setActiveId(true);
-        $this->assertTrue($this->tableGui->getActiveId());
+        $this->tableGui->setActiveId(200);
+        $this->assertEquals(200, $this->tableGui->getActiveId());
     }
 
     public function testObjectiveOrientedPresentationEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(false);
         $this->assertFalse($this->tableGui->isObjectiveOrientedPresentationEnabled());
         $this->tableGui->setObjectiveOrientedPresentationEnabled(true);
@@ -102,6 +104,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testMultipleObjectivesInvolved() : void
     {
+        $this->assertIsBool($this->tableGui->areMultipleObjectivesInvolved());
         $this->tableGui->setMultipleObjectivesInvolved(false);
         $this->assertFalse($this->tableGui->areMultipleObjectivesInvolved());
         $this->tableGui->setMultipleObjectivesInvolved(true);
@@ -110,6 +113,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testPassColumnEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isPassColumnEnabled());
         $this->tableGui->setPassColumnEnabled(false);
         $this->assertFalse($this->tableGui->isPassColumnEnabled());
         $this->tableGui->setPassColumnEnabled(true);

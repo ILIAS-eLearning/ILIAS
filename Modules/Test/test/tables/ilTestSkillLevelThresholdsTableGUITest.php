@@ -48,6 +48,7 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
 
     public function testQuestionAssignmentColumnsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->areQuestionAssignmentColumnsEnabled());
         $this->tableGui->setQuestionAssignmentColumnsEnabled(false);
         $this->assertFalse($this->tableGui->areQuestionAssignmentColumnsEnabled());
         $this->tableGui->setQuestionAssignmentColumnsEnabled(true);

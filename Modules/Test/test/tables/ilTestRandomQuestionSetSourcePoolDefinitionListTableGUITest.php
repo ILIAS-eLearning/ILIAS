@@ -47,6 +47,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
 
     public function testDefinitionEditModeEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isDefinitionEditModeEnabled());
         $this->tableGui->setDefinitionEditModeEnabled(false);
         $this->assertFalse($this->tableGui->isDefinitionEditModeEnabled());
         $this->tableGui->setDefinitionEditModeEnabled(true);
@@ -55,6 +56,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUITest extends ilTest
 
     public function testQuestionAmountColumnEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isQuestionAmountColumnEnabled());
         $this->tableGui->setQuestionAmountColumnEnabled(false);
         $this->assertFalse($this->tableGui->isQuestionAmountColumnEnabled());
         $this->tableGui->setQuestionAmountColumnEnabled(true);

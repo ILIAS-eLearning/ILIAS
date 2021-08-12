@@ -49,6 +49,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
 
     public function testManageResultsCommandsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isManageResultsCommandsEnabled());
         $this->tableGui->setManageResultsCommandsEnabled(false);
         $this->assertFalse($this->tableGui->isManageResultsCommandsEnabled());
         $this->tableGui->setManageResultsCommandsEnabled(true);
@@ -57,6 +58,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
 
     public function testManageInviteesCommandsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isManageInviteesCommandsEnabled());
         $this->tableGui->setManageInviteesCommandsEnabled(false);
         $this->assertFalse($this->tableGui->isManageInviteesCommandsEnabled());
         $this->tableGui->setManageInviteesCommandsEnabled(true);
@@ -77,6 +79,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
 
     public function testParticipantHasSolutionsFilterEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isParticipantHasSolutionsFilterEnabled());
         $this->tableGui->setParticipantHasSolutionsFilterEnabled(false);
         $this->assertFalse($this->tableGui->isParticipantHasSolutionsFilterEnabled());
         $this->tableGui->setParticipantHasSolutionsFilterEnabled(true);

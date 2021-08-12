@@ -49,6 +49,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
 
     public function testAccessResultsCommandsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isAccessResultsCommandsEnabled());
         $this->tableGui->setAccessResultsCommandsEnabled(true);
         $this->assertTrue($this->tableGui->isAccessResultsCommandsEnabled());
 
@@ -58,6 +59,7 @@ class ilParticipantsTestResultsTableGUITest extends ilTestBaseTestCase
 
     public function testManageResultsCommandsEnabled() : void
     {
+        $this->assertIsBool($this->tableGui->isManageResultsCommandsEnabled());
         $this->tableGui->setManageResultsCommandsEnabled(true);
         $this->assertTrue($this->tableGui->isManageResultsCommandsEnabled());
 
