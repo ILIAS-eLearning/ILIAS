@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -25,24 +25,28 @@ class ilObjCourseVerificationAccess extends ilObjectAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
-        $commands = array();
-        $commands[] = array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true);
+        $commands = [];
+        $commands[] = ["permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true];
         return $commands;
     }
-    
-    public static function _checkGoto($a_target)
+
+    /**
+     * @param string $a_target
+     * @return bool
+     */
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
         
         $t_arr = explode("_", $a_target);
         
         // #11021
         // personal workspace context: do not force normal login
-        if (isset($t_arr[2]) && $t_arr[2] == "wsp") {
+        if (isset($t_arr[2]) && $t_arr[2] === "wsp") {
             include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
