@@ -1022,7 +1022,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * @param 	int 		$pass
      * @return 	array		['authorized' => bool, 'intermediate' => bool]
      */
-    public function lookupForExistingSolutions($activeId, $pass)
+    public function lookupForExistingSolutions(int $activeId, int $pass) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

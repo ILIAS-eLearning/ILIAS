@@ -674,7 +674,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
      * Lookup if an authorized or intermediate solution exists
      * @return 	array		['authorized' => bool, 'intermediate' => bool]
      */
-    public function lookupForExistingSolutions($activeId, $pass)
+    public function lookupForExistingSolutions(int $activeId, int $pass) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

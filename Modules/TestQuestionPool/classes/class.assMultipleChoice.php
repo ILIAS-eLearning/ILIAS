@@ -1364,7 +1364,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
     
-    protected function buildTestPresentationConfig()
+    protected function buildTestPresentationConfig() : ilTestQuestionConfig
     {
         $config = parent::buildTestPresentationConfig();
         $config->setUseUnchangedAnswerLabel($this->lng->txt('tst_mc_label_none_above'));

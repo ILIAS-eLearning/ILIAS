@@ -1223,7 +1223,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()
+    public function buildTestPresentationConfig() : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

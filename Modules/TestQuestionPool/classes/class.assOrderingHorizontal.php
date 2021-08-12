@@ -799,7 +799,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()
+    public function buildTestPresentationConfig() : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

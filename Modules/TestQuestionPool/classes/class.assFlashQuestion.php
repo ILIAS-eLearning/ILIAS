@@ -740,7 +740,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()
+    public function buildTestPresentationConfig()  : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers
