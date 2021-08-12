@@ -921,11 +921,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -1644,7 +1644,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1994,7 +1994,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $answerValue;
     }
 
-    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
     {
         $gap = $this->getGap($qIndex);
 
@@ -2011,7 +2011,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return true;
     }
 
-    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points) : void
     {
         $gap = $this->getGap($qIndex); /* @var assClozeGap $gap */
 
@@ -2021,7 +2021,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $gap->addItem($item);
     }
 
-    public function savePartial()
+    public function savePartial() : bool
     {
         return true;
     }

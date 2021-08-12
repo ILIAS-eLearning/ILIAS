@@ -3870,14 +3870,14 @@ abstract class assQuestion
     public function removeCurrentSolution(int $active_id, int $pass, bool $authorized = true) : int
     {
         if ($this->getStep() !== null) {
-            $query = "
+            $query = '
 				DELETE FROM tst_solutions
 				WHERE active_fi = %s
 				AND question_fi = %s
 				AND pass = %s
 				AND step = %s
 				AND authorized = %s
-			";
+			';
 
             return $this->db->manipulateF(
                 $query,
@@ -3944,11 +3944,8 @@ abstract class assQuestion
     }
 
     // fau: testNav - added parameter to keep the timestamp (default: false)
-    public function updateCurrentSolutionsAuthorization($activeId, $pass, $authorized, $keepTime = false)
+    public function updateCurrentSolutionsAuthorization(int $activeId, int $pass, bool $authorized, bool $keepTime = false) : int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $fieldData = array(
             'authorized' => array('integer', (int) $authorized)
         );
@@ -3967,44 +3964,39 @@ abstract class assQuestion
             $whereData['step'] = array("integer", $this->getStep());
         }
 
-        return $ilDB->update('tst_solutions', $fieldData, $whereData);
+        return $this->db->update('tst_solutions', $fieldData, $whereData);
     }
     // fau.
     
     // hey: prevPassSolutions - motivation slowly decreases on imagemap
     const KEY_VALUES_IMPLOSION_SEPARATOR = ':';
-    protected static function getKeyValuesImplosionSeparator()
+
+    public static function implodeKeyValues(array $keyValues) : string
     {
-        return self::KEY_VALUES_IMPLOSION_SEPARATOR;
+        return implode(assQuestion::KEY_VALUES_IMPLOSION_SEPARATOR, $keyValues);
     }
-    public static function implodeKeyValues($keyValues)
+
+    public static function explodeKeyValues(string $keyValues) : array
     {
-        return implode(self::getKeyValuesImplosionSeparator(), $keyValues);
-    }
-    public static function explodeKeyValues($keyValues)
-    {
-        return explode(self::getKeyValuesImplosionSeparator(), $keyValues);
+        return explode(assQuestion::KEY_VALUES_IMPLOSION_SEPARATOR, $keyValues);
     }
     
-    protected function deleteDummySolutionRecord($activeId, $passIndex)
+    protected function deleteDummySolutionRecord(int $activeId, int $passIndex) : void
     {
         foreach ($this->getSolutionValues($activeId, $passIndex, false) as $solutionRec) {
-            if (0 == strlen($solutionRec['value1']) && 0 == strlen($solutionRec['value2'])) {
+            if ($solutionRec['value1'] == '' && $solutionRec['value2'] == '') {
                 $this->removeSolutionRecordById($solutionRec['solution_id']);
             }
         }
     }
     
-    protected function isDummySolutionRecord($solutionRecord)
+    protected function isDummySolutionRecord(array $solutionRecord) : bool
     {
         return !strlen($solutionRecord['value1']) && !strlen($solutionRecord['value2']);
     }
     
-    protected function deleteSolutionRecordByValues($activeId, $passIndex, $authorized, $matchValues)
+    protected function deleteSolutionRecordByValues(int $activeId, int $passIndex, bool $authorized, array $matchValues) : void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $ilDB = $DIC['ilDB'];
-        
         $types = array("integer", "integer", "integer", "integer");
         $values = array($activeId, $this->getId(), $passIndex, (int) $authorized);
         $valuesCondition = array();
@@ -4041,17 +4033,17 @@ abstract class assQuestion
             $values[] = $this->getStep();
         }
         
-        $ilDB->manipulateF($query, $types, $values);
+        $this->db->manipulateF($query, $types, $values);
     }
     
-    protected function duplicateIntermediateSolutionAuthorized($activeId, $passIndex)
+    protected function duplicateIntermediateSolutionAuthorized(int $activeId, int $passIndex) : void
     {
         foreach ($this->getSolutionValues($activeId, $passIndex, false) as $rec) {
             $this->saveCurrentSolution($activeId, $passIndex, $rec['value1'], $rec['value2'], true, $rec['tstamp']);
         }
     }
     
-    protected function forceExistingIntermediateSolution($activeId, $passIndex, $considerDummyRecordCreation)
+    protected function forceExistingIntermediateSolution(int $activeId, int $passIndex, bool $considerDummyRecordCreation) : void
     {
         $intermediateSolution = $this->getSolutionValues($activeId, $passIndex, false);
         
@@ -4091,7 +4083,7 @@ abstract class assQuestion
     /**
      * @param int|null $step
      */
-    public function setStep($step)
+    public function setStep($step) : void
     {
         $this->step = $step;
     }
@@ -4104,23 +4096,14 @@ abstract class assQuestion
         return $this->step;
     }
 
-    /**
-     * @param $time1
-     * @param $time2
-     * @return string
-     */
-    public static function sumTimesInISO8601FormatH_i_s_Extended($time1, $time2)
+    public static function sumTimesInISO8601FormatH_i_s_Extended(string $time1, string $time2) : string
     {
         $time = assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time1) +
                 assQuestion::convertISO8601FormatH_i_s_ExtendedToSeconds($time2);
         return gmdate('H:i:s', $time);
     }
 
-    /**
-     * @param $time
-     * @return int
-     */
-    public static function convertISO8601FormatH_i_s_ExtendedToSeconds($time)
+    public static function convertISO8601FormatH_i_s_ExtendedToSeconds(string $time) : int
     {
         $sec = 0;
         $time_array = explode(':', $time);
@@ -4132,49 +4115,42 @@ abstract class assQuestion
         return $sec;
     }
 
-    public function toJSON()
+    public function toJSON() : string
     {
         return json_encode(array());
     }
     
-    abstract public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null);
+    abstract public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int;
 
     // hey: prevPassSolutions - check for authorized solution
-    public function intermediateSolutionExists($active_id, $pass)
+    public function intermediateSolutionExists(int $active_id, int $pass) : bool
     {
         $solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
         return (bool) $solutionAvailability['intermediate'];
     }
-    public function authorizedSolutionExists($active_id, $pass)
+
+    public function authorizedSolutionExists(int $active_id, int $pass) : bool
     {
         $solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
         return (bool) $solutionAvailability['authorized'];
     }
-    public function authorizedOrIntermediateSolutionExists($active_id, $pass)
+
+    public function authorizedOrIntermediateSolutionExists(int $active_id, int $pass) : bool
     {
         $solutionAvailability = $this->lookupForExistingSolutions($active_id, $pass);
-        return (bool) $solutionAvailability['authorized'] || (bool) $solutionAvailability['intermediate'];
+        return $solutionAvailability['authorized'] || $solutionAvailability['intermediate'];
     }
     // hey.
     
-    /**
-     * @param $active_id
-     * @param $pass
-     * @return integer
-     */
-    protected function lookupMaxStep($active_id, $pass)
+    protected function lookupMaxStep(int $active_id, int $pass) : int
     {
-        /** @var ilDBInterface $ilDB */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryF(
+        $result = $this->db->queryF(
             "SELECT MAX(step) max_step FROM tst_solutions WHERE active_fi = %s AND pass = %s AND question_fi = %s",
             array("integer", "integer", "integer"),
             array($active_id, $pass, $this->getId())
         );
 
-        $row = $ilDB->fetchAssoc($res);
+        $row = $this->db->fetchAssoc($result);
 
         return (int)$row['max_step'];
     }
@@ -4182,16 +4158,10 @@ abstract class assQuestion
     // fau: testNav - new function lookupForExistingSolutions
     /**
      * Lookup if an authorized or intermediate solution exists
-     * @param 	int 		$activeId
-     * @param 	int 		$pass
      * @return 	array		['authorized' => bool, 'intermediate' => bool]
      */
-    public function lookupForExistingSolutions($activeId, $pass)
+    public function lookupForExistingSolutions(int $activeId, int $pass) : array
     {
-        /** @var $ilDB \ilDBInterface  */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $return = array(
             'authorized' => false,
             'intermediate' => false
@@ -4206,16 +4176,16 @@ abstract class assQuestion
 		";
 
         if ($this->getStep() !== null) {
-            $query .= " AND step = " . $ilDB->quote((int) $this->getStep(), 'integer') . " ";
+            $query .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
         }
 
         $query .= "
 			GROUP BY authorized
 		";
 
-        $result = $ilDB->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $this->getId(), $pass));
+        $result = $this->db->queryF($query, array('integer', 'integer', 'integer'), array($activeId, $this->getId(), $pass));
 
-        while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $this->db->fetchAssoc($result)) {
             if ($row['authorized']) {
                 $return['authorized'] = $row['cnt'] > 0;
             } else {
@@ -4226,29 +4196,23 @@ abstract class assQuestion
     }
     // fau.
 
-    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
     {
         return false;
     }
     
-    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points) : void
     {
     }
 
-    public function removeAllExistingSolutions()
+    public function removeAllExistingSolutions() : void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
         $query = "DELETE FROM tst_solutions WHERE question_fi = %s";
-        
-        $DIC->database()->manipulateF($query, array('integer'), array($this->getId()));
+        $this->db->manipulateF($query, array('integer'), array($this->getId()));
     }
     
-    public function removeExistingSolutions($activeId, $pass)
+    public function removeExistingSolutions(int $activeId, int $pass) : int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
         $query = "
 			DELETE FROM tst_solutions
 			WHERE active_fi = %s
@@ -4257,17 +4221,17 @@ abstract class assQuestion
 		";
 
         if ($this->getStep() !== null) {
-            $query .= " AND step = " . $ilDB->quote((int) $this->getStep(), 'integer') . " ";
+            $query .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
         }
 
-        return $ilDB->manipulateF(
+        return $this->db->manipulateF(
             $query,
             array('integer', 'integer', 'integer'),
             array($activeId, $this->getId(), $pass)
         );
     }
 
-    public function resetUsersAnswer($activeId, $pass)
+    public function resetUsersAnswer(int $activeId, int $pass) : void
     {
         $this->removeExistingSolutions($activeId, $pass);
         $this->removeResultRecord($activeId, $pass);
@@ -4283,11 +4247,8 @@ abstract class assQuestion
         );
     }
 
-    public function removeResultRecord($activeId, $pass)
+    public function removeResultRecord(int $activeId, int $pass) : int
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
         $query = "
 			DELETE FROM tst_test_result
 			WHERE active_fi = %s
@@ -4296,17 +4257,17 @@ abstract class assQuestion
 		";
 
         if ($this->getStep() !== null) {
-            $query .= " AND step = " . $ilDB->quote((int) $this->getStep(), 'integer') . " ";
+            $query .= " AND step = " . $this->db->quote((int) $this->getStep(), 'integer') . " ";
         }
 
-        return $ilDB->manipulateF(
+        return $this->db->manipulateF(
             $query,
             array('integer', 'integer', 'integer'),
             array($activeId, $this->getId(), $pass)
         );
     }
     
-    public static function missingResultRecordExists($activeId, $pass, $questionIds)
+    public static function missingResultRecordExists(int $activeId, int $pass, array $questionIds) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4330,7 +4291,7 @@ abstract class assQuestion
         return $row['cnt'] < count($questionIds);
     }
     
-    public static function getQuestionsMissingResultRecord($activeId, $pass, $questionIds)
+    public static function getQuestionsMissingResultRecord(int $activeId, int $pass, array $questionIds) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4365,7 +4326,7 @@ abstract class assQuestion
         return $questionsMissingResultRecordt;
     }
 
-    public static function lookupResultRecordExist($activeId, $questionId, $pass)
+    public static function lookupResultRecordExist(int $activeId, int $questionId, int $pass) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4383,11 +4344,7 @@ abstract class assQuestion
         return $row['cnt'] > 0;
     }
     
-    /**
-     * @param array $indexedValues
-     * @return array $valuePairs
-     */
-    public function fetchValuePairsFromIndexedValues(array $indexedValues)
+    public function fetchValuePairsFromIndexedValues(array $indexedValues) : array
     {
         $valuePairs = array();
         
@@ -4398,11 +4355,7 @@ abstract class assQuestion
         return $valuePairs;
     }
     
-    /**
-     * @param array $valuePairs
-     * @return array $indexedValues
-     */
-    public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+    public function fetchIndexedValuesFromValuePairs(array $valuePairs) : array
     {
         $indexedValues = array();
         
@@ -4413,28 +4366,19 @@ abstract class assQuestion
         return $indexedValues;
     }
 
-    /**
-     * @return boolean
-     */
-    public function areObligationsToBeConsidered()
+    public function areObligationsToBeConsidered() : bool
     {
         return $this->obligationsToBeConsidered;
     }
 
-    /**
-     * @param boolean $obligationsToBeConsidered
-     */
-    public function setObligationsToBeConsidered($obligationsToBeConsidered)
+    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered)
     {
         $this->obligationsToBeConsidered = $obligationsToBeConsidered;
     }
 
     public function updateTimestamp()
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulateF(
+        $this->db->manipulateF(
             "UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",
             array('integer', 'integer'),
             array(time(), $this->getId())
@@ -4447,16 +4391,9 @@ abstract class assQuestion
     //					completed: extracted instance building
     //					avoids configuring cached instances on every access
     //					allows a stable reconfigure of the instance from outside
-    /**
-     * @var ilTestQuestionConfig
-     */
-    private $testQuestionConfigInstance = null;
+    private ?ilTestQuestionConfig $testQuestionConfigInstance = null;
     
-    /**
-     * Get the test question configuration (initialised once)
-     * @return ilTestQuestionConfig
-     */
-    public function getTestPresentationConfig()
+    public function getTestPresentationConfig() : ilTestQuestionConfig
     {
         if ($this->testQuestionConfigInstance === null) {
             $this->testQuestionConfigInstance = $this->buildTestPresentationConfig();
@@ -4470,10 +4407,8 @@ abstract class assQuestion
      *
      * method can be overwritten to configure an instance
      * use parent call for building when possible
-     *
-     * @return ilTestQuestionConfig
      */
-    protected function buildTestPresentationConfig()
+    protected function buildTestPresentationConfig() : ilTestQuestionConfig
     {
         include_once('Modules/TestQuestionPool/classes/class.ilTestQuestionConfig.php');
         return new ilTestQuestionConfig();
@@ -4481,7 +4416,7 @@ abstract class assQuestion
     // hey.
     // fau.
 
-    public function savePartial()
+    public function savePartial() : bool
     {
         return false;
     }

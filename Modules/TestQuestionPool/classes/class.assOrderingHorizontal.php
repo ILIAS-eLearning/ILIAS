@@ -133,11 +133,11 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
     * Duplicates an assOrderingHorizontal
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -637,7 +637,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();

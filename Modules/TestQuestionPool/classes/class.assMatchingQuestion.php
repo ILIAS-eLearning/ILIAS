@@ -333,11 +333,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Duplicates an assMatchingQuestion
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -948,7 +948,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param array $valuePairs
      * @return array $indexedValues
      */
-    public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+    public function fetchIndexedValuesFromValuePairs(array $valuePairs) : array
     {
         $indexedValues = array();
         
@@ -1356,9 +1356,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     /**
     * Returns a JSON representation of the question
-    * TODO
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         $result = array();
         
