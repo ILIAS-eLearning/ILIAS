@@ -1,18 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Object/classes/class.ilObject2GUI.php');
-
 /**
-* GUI class for test verification
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjTestVerificationGUI: ilWorkspaceAccessGUI
-*
-* @ingroup ModulesTest
-*/
+ * GUI class for test verification
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @version $Id$
+ *
+ * @ilCtrl_Calls ilObjTestVerificationGUI: ilWorkspaceAccessGUI
+ *
+ * @ingroup ModulesTest
+ */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
     public function getType() : string
@@ -35,7 +33,6 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "cancel")
         );
 
-        include_once "Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php";
         $table = new ilTestVerificationTableGUI($this, "create");
         $this->tpl->setContent($table->getHTML());
     }
@@ -75,7 +72,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
-                
+
                 $this->afterSave($newObj);
             } else {
                 ilUtil::sendFailure($this->lng->txt("msg_failed"));
@@ -85,7 +82,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         }
         $this->create();
     }
-    
+
     public function deliver() : void
     {
         $file = $this->object->getFilePath();
@@ -96,7 +93,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     /**
      * Render content
-     * @param bool        $a_return
+     * @param bool $a_return
      * @param string|bool $a_url
      * @return string
      */
@@ -105,27 +102,26 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
-        
+
         if (!$a_return) {
             $this->deliver();
         } else {
             $tree = new ilWorkspaceTree($ilUser->getId());
             $wsp_id = $tree->lookupNodeId($this->object->getId());
             $caption = $lng->txt("wsp_type_tstv") . ' "' . $this->object->getTitle() . '"';
-            
+
             $valid = true;
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
                 $message = $lng->txt("url_not_found");
             } elseif (!$a_url) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
                     $message = $lng->txt("permission_denied");
                 }
             }
-            
+
             if ($valid) {
                 if (!$a_url) {
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
@@ -138,24 +134,23 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
         return "";
     }
-    
+
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
-        
-        include_once "Services/COPage/classes/class.ilPCVerification.php";
+
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
-        
+
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
     public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
-        
+
         $_GET["baseClass"] = "ilsharedresourceGUI";
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
@@ -164,10 +159,11 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     /**
      * @param string $key
-     * @param mixed   $default
+     * @param mixed $default
      * @return mixed|null
      */
-    protected function getRequestValue(string $key, $default = null) {
+    protected function getRequestValue(string $key, $default = null)
+    {
         if (isset($this->request->getQueryParams()[$key])) {
             return $this->request->getQueryParams()[$key];
         }

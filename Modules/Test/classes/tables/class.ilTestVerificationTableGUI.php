@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
 /**
  * List all completed tests for current user
  *
@@ -11,7 +9,7 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestVerificationTableGUI extends ilTable2GUI
 {
-    private ?ilUserCertificateRepository $userCertificateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(
         ilObject $a_parent_obj,
@@ -44,9 +42,6 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    /**
-     * Get all completed tests
-     */
     protected function getItems() : void
     {
         global $DIC;
@@ -69,19 +64,16 @@ class ilTestVerificationTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * Fill template row
-     *
-     * @param array $a_set
-     */
     protected function fillRow($a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
-        $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
-            $this->lng->txt("no"));
+        $this->tpl->setVariable(
+            "PASSED",
+            ($a_set["passed"]) ? $this->lng->txt("yes") : $this->lng->txt("no")
+        );
 
         if ($a_set["passed"]) {
             $ilCtrl->setParameter($this->parent_obj, "tst_id", $a_set["id"]);
