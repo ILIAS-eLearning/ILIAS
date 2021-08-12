@@ -38,9 +38,7 @@ class ilLoggingErrorSettings
             $this->ilias_ini = $ilIliasIniFile;
         }
 
-        if ($ilClientIniFile !== null) {
-            $this->gClientIniFile = $ilClientIniFile;
-        }
+        $this->gClientIniFile = ($ilClientIniFile !== null) ? $ilClientIniFile : null;
 
         $this->folder = null;
         $this->mail = null;
