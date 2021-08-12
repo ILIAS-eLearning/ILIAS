@@ -10,15 +10,15 @@ include_once 'Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
  */
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
-    protected array $fields = array();
+    protected array $fields = [];
     
     /**
      *
      */
-    public function parse(): void
+    public function parse() : void
     {
         if ($this->getFields()) {
-            $queried_fields = array();
+            $queried_fields = [];
             foreach ($this->getFields() as $field => $status) {
                 if ($status) {
                     $queried_fields[] = $field . ':' . $this->query_string;
@@ -38,7 +38,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     /**
      * @param array $fields
      */
-    public function setFields($fields): void
+    public function setFields($fields) : void
     {
         $this->fields = $fields;
     }
@@ -46,7 +46,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
     /**
      * @return array
      */
-    public function getFields(): array
+    public function getFields() : array
     {
         return $this->fields;
     }

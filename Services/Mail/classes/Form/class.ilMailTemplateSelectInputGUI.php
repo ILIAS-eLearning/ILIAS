@@ -9,7 +9,7 @@ require_once 'Services/JSON/classes/class.ilJsonUtil.php';
  */
 class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
 {
-    protected array $fields = array();
+    protected array $fields = [];
     protected string $url;
 
     /**
@@ -18,7 +18,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
      * @param string $url
      * @param array $fields
      */
-    public function __construct(string $a_title = '', string $a_postvar = '', string $url = '', array $fields = array())
+    public function __construct(string $a_title = '', string $a_postvar = '', string $url = '', array $fields = [])
     {
         parent::__construct($a_title, $a_postvar);
 
@@ -29,7 +29,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
     /**
      * @inheritDoc
      */
-    public function render($a_mode = ''): string
+    public function render($a_mode = '') : string
     {
         $html = parent::render($a_mode);
 

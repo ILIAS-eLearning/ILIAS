@@ -13,9 +13,9 @@ class ilMailValueObjectJsonService
      */
     public function convertToJson(array $mailValueObjects) : string
     {
-        $mailArray = array();
+        $mailArray = [];
         foreach ($mailValueObjects as $mailValueObject) {
-            $array = array();
+            $array = [];
 
             $array['from'] = $mailValueObject->getFrom();
             $array['recipients'] = $mailValueObject->getRecipients();
@@ -39,7 +39,7 @@ class ilMailValueObjectJsonService
      */
     public function convertFromJson(string $json) : array
     {
-        $result = array();
+        $result = [];
         $array = json_decode($json, true);
 
         foreach ($array as $objectValues) {

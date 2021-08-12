@@ -30,12 +30,12 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
             'Empty Global Prefix with Brackets and Additional Context Prefix' => [
                 '',  // The administrator saved the global email settings form with an empty global subject prefix
                 'Course',
-                '[Course] %s'
+                '[Course] %s',
             ],
             'Absent Global Prefix with Brackets and Additional Context Prefix' => [
                 false, // The administrator did not save the global email settings form, yet
                 'Course',
-                '[' . self::DEFAULT_PREFIX . ' : Course] %s'
+                '[' . self::DEFAULT_PREFIX . ' : Course] %s',
             ],
         ];
     }

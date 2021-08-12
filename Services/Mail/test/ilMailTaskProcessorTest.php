@@ -93,7 +93,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects = [
-            $mailValueObject
+            $mailValueObject,
         ];
 
         $userId = 100;

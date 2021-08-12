@@ -83,7 +83,7 @@ class ilMassMailTaskProcessor
         string $contextId,
         array $contextParameters,
         int $mailsPerTask = 100
-    ): void {
+    ) : void {
         $objectsServiceSize = count($mailValueObjects);
 
         if ($objectsServiceSize <= 0) {
@@ -103,7 +103,7 @@ class ilMassMailTaskProcessor
         $lastTask = null;
         $taskCounter = 0;
 
-        $remainingObjects = array();
+        $remainingObjects = [];
         foreach ($mailValueObjects as $mailValueObject) {
             $taskCounter++;
 
@@ -114,11 +114,11 @@ class ilMassMailTaskProcessor
                 $this->runTask($interaction, $userId);
 
                 $taskCounter = 0;
-                $remainingObjects = array();
+                $remainingObjects = [];
             }
         }
 
-        if (array() !== $remainingObjects) {
+        if ([] !== $remainingObjects) {
             $interaction = $this->createInteraction($userId, $contextId, $contextParameters, $remainingObjects);
 
             $this->runTask($interaction, $userId);
@@ -129,7 +129,7 @@ class ilMassMailTaskProcessor
      * @param \ILIAS\BackgroundTasks\Task $task
      * @param int $userId
      */
-    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId): void
+    private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId) : void
     {
         $bucket = new BasicBucket();
         $bucket->setUserId($userId);

@@ -90,7 +90,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
                      ['gender' => 'm', 'num_superiors' => 2,],
                      ['gender' => 'n', 'num_superiors' => 1,],
                      ['gender' => 'f', 'num_superiors' => 0,],
-                     ['gender' => '', 'num_superiors' => 3,]
+                     ['gender' => '', 'num_superiors' => 3,],
                  ] as $definition) {
             $user = $this->getMockBuilder(ilObjUser::class)
                 ->disableOriginalConstructor()

@@ -24,18 +24,18 @@ abstract class ilMailNotification
     protected string $subject = '';
     protected string $body = '';
 
-    protected array $attachments = array();
+    protected array $attachments = [];
     
     protected ilLanguage $language;
-    protected array $lang_modules = array();
+    protected array $lang_modules = [];
     
-    protected array $recipients = array();
+    protected array $recipients = [];
     
     protected int $ref_id;
     protected int $obj_id;
     protected string $obj_type;
     
-    protected array $additional_info = array();
+    protected array $additional_info = [];
     
     protected bool $is_in_wsp;
     protected ilWorkspaceTree $wsp_tree;
@@ -65,7 +65,7 @@ abstract class ilMailNotification
      * Set notification type
      * @param int $a_type
      */
-    public function setType(int $a_type): void
+    public function setType(int $a_type) : void
     {
         $this->type = $a_type;
     }
@@ -74,7 +74,7 @@ abstract class ilMailNotification
      * Get notification type
      * @return
      */
-    public function getType(): int
+    public function getType() : int
     {
         return $this->type;
     }
@@ -83,7 +83,7 @@ abstract class ilMailNotification
      * Set sender of mail
      * @param  int $a_usr_id
      */
-    public function setSender(int $a_usr_id): void
+    public function setSender(int $a_usr_id) : void
     {
         $this->sender = $a_usr_id;
     }
@@ -92,7 +92,7 @@ abstract class ilMailNotification
      * get sender of mail
      * @return
      */
-    public function getSender(): int
+    public function getSender() : int
     {
         return $this->sender;
     }
@@ -101,7 +101,7 @@ abstract class ilMailNotification
      * @param string $a_subject
      * @return string body
      */
-    protected function setSubject(string $a_subject): string
+    protected function setSubject(string $a_subject) : string
     {
         return $this->subject = $a_subject;
     }
@@ -109,7 +109,7 @@ abstract class ilMailNotification
     /**
      * @return string
      */
-    protected function getSubject(): string
+    protected function getSubject() : string
     {
         return $this->subject;
     }
@@ -117,7 +117,7 @@ abstract class ilMailNotification
     /**
      * @param string $a_body
      */
-    protected function setBody(string $a_body): void
+    protected function setBody(string $a_body) : void
     {
         $this->body = $a_body;
     }
@@ -127,7 +127,7 @@ abstract class ilMailNotification
      * @param string $a_body
      * @return string body
      */
-    protected function appendBody(string $a_body): string
+    protected function appendBody(string $a_body) : string
     {
         return $this->body .= $a_body;
     }
@@ -135,7 +135,7 @@ abstract class ilMailNotification
     /**
      * @return string
      */
-    protected function getBody(): string
+    protected function getBody() : string
     {
         return $this->body;
     }
@@ -143,7 +143,7 @@ abstract class ilMailNotification
     /**
      * @param array $a_rcp
      */
-    public function setRecipients(array $a_rcp): void
+    public function setRecipients(array $a_rcp) : void
     {
         $this->recipients = $a_rcp;
     }
@@ -152,7 +152,7 @@ abstract class ilMailNotification
      * get array of recipients
      * @return array
      */
-    public function getRecipients(): array
+    public function getRecipients() : array
     {
         return $this->recipients;
     }
@@ -161,7 +161,7 @@ abstract class ilMailNotification
      * Set attachments
      * @param array $a_att
      */
-    public function setAttachments(array $a_att): void
+    public function setAttachments(array $a_att) : void
     {
         $this->attachments = $a_att;
     }
@@ -170,7 +170,7 @@ abstract class ilMailNotification
      * Get attachments
      * @return array
      */
-    public function getAttachments(): array
+    public function getAttachments() : array
     {
         return $this->attachments;
     }
@@ -179,7 +179,7 @@ abstract class ilMailNotification
      * Set lang modules
      * @param array $a_modules
      */
-    public function setLangModules(array $a_modules): void
+    public function setLangModules(array $a_modules) : void
     {
         $this->lang_modules = $a_modules;
     }
@@ -188,7 +188,7 @@ abstract class ilMailNotification
      * Init language
      * @param int $a_usr_id
      */
-    protected function initLanguage(int $a_usr_id): void
+    protected function initLanguage(int $a_usr_id) : void
     {
         $this->language = $this->getUserLanguage($a_usr_id);
     }
@@ -199,7 +199,7 @@ abstract class ilMailNotification
      * @param int $a_usr_id
      * @return ilLanguage
      */
-    public function getUserLanguage(int $a_usr_id): ilLanguage
+    public function getUserLanguage(int $a_usr_id) : ilLanguage
     {
         $language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
         $language->loadLanguageModule('mail');
@@ -217,7 +217,7 @@ abstract class ilMailNotification
      * Init language by ISO2 code
      * @param string $a_code
      */
-    protected function initLanguageByIso2Code(string $a_code = ''): void
+    protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         $this->language = ilLanguageFactory::_getLanguage($a_code);
         $this->language->loadLanguageModule('mail');
@@ -232,7 +232,7 @@ abstract class ilMailNotification
     /**
      * @param ilLanguage $a_language
      */
-    protected function setLanguage(ilLanguage $a_language): void
+    protected function setLanguage(ilLanguage $a_language) : void
     {
         $this->language = $a_language;
     }
@@ -240,7 +240,7 @@ abstract class ilMailNotification
     /**
      * @return ilLanguage
      */
-    protected function getLanguage(): ilLanguage
+    protected function getLanguage() : ilLanguage
     {
         return $this->language;
     }
@@ -249,7 +249,7 @@ abstract class ilMailNotification
      * @param string $a_keyword
      * @return string
      */
-    protected function getLanguageText(string $a_keyword): string
+    protected function getLanguageText(string $a_keyword) : string
     {
         return str_replace('\n', "\n", $this->getLanguage()->txt($a_keyword));
     }
@@ -257,7 +257,7 @@ abstract class ilMailNotification
     /**
      * @param int $a_id
      */
-    public function setRefId(int $a_id): void
+    public function setRefId(int $a_id) : void
     {
         if (!$this->is_in_wsp) {
             $this->ref_id = $a_id;
@@ -273,7 +273,7 @@ abstract class ilMailNotification
     /**
      * @return int
      */
-    public function getRefId(): int
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
@@ -281,7 +281,7 @@ abstract class ilMailNotification
     /**
      * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -289,7 +289,7 @@ abstract class ilMailNotification
     /**
      * @param int $a_obj_id
      */
-    public function setObjId(int $a_obj_id): void
+    public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
         $this->obj_type = ilObject::_lookupType($this->obj_id);
@@ -299,7 +299,7 @@ abstract class ilMailNotification
      * Get object type
      * @return
      */
-    public function getObjType(): string
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
@@ -308,7 +308,7 @@ abstract class ilMailNotification
      * Additional information for creating notification mails
      * @param array $a_info
      */
-    public function setAdditionalInformation(array $a_info): void
+    public function setAdditionalInformation(array $a_info) : void
     {
         $this->additional_info = $a_info;
     }
@@ -316,7 +316,7 @@ abstract class ilMailNotification
     /**
      * @return array
      */
-    public function getAdditionalInformation(): array
+    public function getAdditionalInformation() : array
     {
         return $this->additional_info;
     }
@@ -325,7 +325,7 @@ abstract class ilMailNotification
      * @param bool|false $a_shorten
      * @return string
      */
-    protected function getObjectTitle(bool $a_shorten = false): string
+    protected function getObjectTitle(bool $a_shorten = false) : string
     {
         if (!$this->getObjId()) {
             return '';
@@ -341,9 +341,9 @@ abstract class ilMailNotification
      * @param array $a_rcp
      * @param bool|true $a_parse_recipients
      */
-    public function sendMail(array $a_rcp, $a_parse_recipients = true): void
+    public function sendMail(array $a_rcp, $a_parse_recipients = true) : void
     {
-        $recipients = array();
+        $recipients = [];
         foreach ($a_rcp as $rcp) {
             if ($a_parse_recipients) {
                 $recipients[] = ilObjUser::_lookupLogin($rcp);
@@ -389,7 +389,7 @@ abstract class ilMailNotification
      * @param string $a_append
      * @return string
      */
-    protected function createPermanentLink(array $a_params = array(), string $a_append = ''): ?string
+    protected function createPermanentLink(array $a_params = [], string $a_append = '') : ?string
     {
         include_once './Services/Link/classes/class.ilLink.php';
         
@@ -409,7 +409,7 @@ abstract class ilMailNotification
      * @param int $a_usr_id
      * @return string
      */
-    protected function userToString(int $a_usr_id): string
+    protected function userToString(int $a_usr_id) : string
     {
         $name = ilObjUser::_lookupName($a_usr_id);
         return ($name['title'] ? $name['title'] . ' ' : '') .
@@ -425,7 +425,7 @@ abstract class ilMailNotification
      * @param string $a_permission
      * @return bool
      */
-    protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = "read"): bool
+    protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = "read") : bool
     {
         global $DIC;
 
@@ -450,7 +450,7 @@ abstract class ilMailNotification
      * Get (ascii) block border
      * @return string
      */
-    public function getBlockBorder(): string
+    public function getBlockBorder() : string
     {
         return "----------------------------------------\n";
     }

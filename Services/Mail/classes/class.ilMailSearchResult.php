@@ -8,7 +8,7 @@
  */
 class ilMailSearchResult
 {
-    protected array $result = array();
+    protected array $result = [];
 
     /**
      *
@@ -20,7 +20,7 @@ class ilMailSearchResult
     /**
      * @param array $item
      */
-    public function addItem(int $id, array $fields): void
+    public function addItem(int $id, array $fields) : void
     {
         $this->result[$id] = $fields;
     }
@@ -28,7 +28,7 @@ class ilMailSearchResult
     /**
      * @return array
      */
-    public function getIds(): array
+    public function getIds() : array
     {
         return array_keys($this->result);
     }
@@ -38,7 +38,7 @@ class ilMailSearchResult
      * @return array
      * @throws OutOfBoundsException
      */
-    public function getFields(int $id): array
+    public function getFields(int $id) : array
     {
         if (!isset($this->result[$id])) {
             throw new OutOfBoundsException('mail_missing_result_fields');

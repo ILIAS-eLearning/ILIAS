@@ -79,7 +79,7 @@ class ilMailFormGUI
         $this->ctrl->setParameter($this, 'mobj_id', $this->requestMailObjId);
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -126,9 +126,9 @@ class ilMailFormGUI
      * @param array $files
      * @return array
      */
-    protected function decodeAttachmentFiles(array $files): array
+    protected function decodeAttachmentFiles(array $files) : array
     {
-        $decodedFiles = array();
+        $decodedFiles = [];
 
         foreach ($files as $value) {
             if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . '_' . urldecode($value))) {
@@ -139,7 +139,7 @@ class ilMailFormGUI
         return $decodedFiles;
     }
 
-    public function sendMessage(): void
+    public function sendMessage() : void
     {
         $message = (string) $this->httpRequest->getParsedBody()['m_message'] ?? "";
 
@@ -170,7 +170,7 @@ class ilMailFormGUI
             $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
         } else {
-            $mailer->savePostData($this->user->getId(), array(), "", "", "", "", "", "", "", "");
+            $mailer->savePostData($this->user->getId(), [], "", "", "", "", "", "", "", "");
 
             $this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
@@ -185,7 +185,7 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function saveDraft(): void
+    public function saveDraft() : void
     {
         if (!$this->httpRequest->getParsedBody()['m_subject']) {
             $this->requestMailSubject = 'No title';
@@ -296,7 +296,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchCoursesTo(): void
+    public function searchCoursesTo() : void
     {
         $this->saveMailBeforeSearch();
 
@@ -311,7 +311,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchGroupsTo(): void
+    public function searchGroupsTo() : void
     {
         $this->saveMailBeforeSearch();
 
@@ -319,7 +319,7 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass('ilmailsearchgroupsgui');
     }
 
-    public function search(): void
+    public function search() : void
     {
         ilSession::set("mail_search_search", $this->httpRequest->getParsedBody()["search"]);
         if (trim(ilSession::get("mail_search_search")) === '') {
@@ -335,7 +335,7 @@ class ilMailFormGUI
         }
     }
 
-    public function cancelSearch(): void
+    public function cancelSearch() : void
     {
         ilSession::clear("mail_search");
         $this->searchResults();
@@ -370,37 +370,37 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass("ilmailattachmentgui");
     }
 
-    public function returnFromAttachments(): void
+    public function returnFromAttachments() : void
     {
         ilSession::set("type", "attach");
         $this->showForm();
     }
     
-    public function searchResults(): void
+    public function searchResults() : void
     {
         ilSession::set("type", "search_res");
         $this->showForm();
     }
 
-    public function mailUser(): void
+    public function mailUser() : void
     {
         ilSession::set("type", "new");
         $this->showForm();
     }
 
-    public function mailRole(): void
+    public function mailRole() : void
     {
         ilSession::set("type", "role");
         $this->showForm();
     }
 
-    public function replyMail(): void
+    public function replyMail() : void
     {
         ilSession::set("type", "reply");
         $this->showForm();
     }
 
-    public function mailAttachment(): void
+    public function mailAttachment() : void
     {
         ilSession::set("type", "attach");
         $this->showForm();
@@ -409,14 +409,14 @@ class ilMailFormGUI
     /**
      * Called asynchronously when changing the template
      */
-    protected function getTemplateDataById(): void
+    protected function getTemplateDataById() : void
     {
         if (!isset($this->httpRequest->getQueryParams()['template_id'])) {
             exit();
         }
 
         try {
-            $template = $this->templateService->loadTemplateForId((int) ($this->httpRequest->getQueryParams()['template_id']?? 0));
+            $template = $this->templateService->loadTemplateForId((int) ($this->httpRequest->getQueryParams()['template_id'] ?? 0));
             $context = ilMailTemplateContextService::getTemplateContextById((string) $template->getContext());
 
             echo json_encode([
@@ -428,7 +428,7 @@ class ilMailFormGUI
         exit();
     }
 
-    public function showForm(): void
+    public function showForm() : void
     {
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.mail_new.html", "Services/Mail");
         $this->tpl->setTitle($this->lng->txt("mail"));
@@ -452,12 +452,12 @@ class ilMailFormGUI
                 if (ilSession::get('mail_id')) {
                     $this->httpRequest->getQueryParams()['mail_id'] = ilSession::get('mail_id');
                 }
-                $mailData = $this->umail->getMail((int)ilSession::get('mail_id'));
+                $mailData = $this->umail->getMail((int) ilSession::get('mail_id'));
                 $mailData["m_subject"] = $this->umail->formatReplySubject();
                 $mailData["m_message"] = $this->umail->formatReplyMessage();
                 $mailData["m_message"] = $this->umail->prependSignature();
                 // NO ATTACHMENTS FOR REPLIES
-                $mailData["attachments"] = array();
+                $mailData["attachments"] = [];
                 //$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();
                 $mailData["rcp_cc"] = '';
                 $mailData["rcp_to"] = $this->umail->formatReplyRecipient();
@@ -477,8 +477,8 @@ class ilMailFormGUI
                 if (ilSession::get('mail_search_results_to')) {
                     $mailData = $this->umail->appendSearchResult(ilSession::get("mail_search_results_to"), 'to');
                 }
-                if (ilSession::get( 'mail_search_results_cc')) {
-                    $mailData = $this->umail->appendSearchResult( ilSession::get("mail_search_results_cc"), 'cc');
+                if (ilSession::get('mail_search_results_cc')) {
+                    $mailData = $this->umail->appendSearchResult(ilSession::get("mail_search_results_cc"), 'cc');
                 }
                 if (ilSession::get('mail_search_results_bcc')) {
                     $mailData = $this->umail->appendSearchResult(ilSession::get("mail_search_results_bcc"), 'bc');
@@ -496,18 +496,18 @@ class ilMailFormGUI
         
             case 'draft':
                 ilSession::set("draft", $this->httpRequest->getQueryParams()["mail_id"] ?? null);
-                $mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
+                $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;
         
             case 'forward':
-                $mailData = $this->umail->getMail((int)($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
+                $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
                 $mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
                 $mailData["m_subject"] = $this->umail->formatForwardSubject();
                 $mailData["m_message"] = $this->umail->prependSignature();
                 if (is_array($mailData["attachments"]) && count($mailData["attachments"])) {
-                    if ($error = $this->mfile->adoptAttachments($mailData["attachments"], $this->httpRequest->getQueryParams()["mail_id"] ? (int)$this->httpRequest->getQueryParams()["mail_id"] : 0)) {
+                    if ($error = $this->mfile->adoptAttachments($mailData["attachments"], $this->httpRequest->getQueryParams()["mail_id"] ? (int) $this->httpRequest->getQueryParams()["mail_id"] : 0)) {
                         ilUtil::sendInfo($error);
                     }
                 }
@@ -625,7 +625,7 @@ class ilMailFormGUI
         $inp = new ilTextInputGUI($this->lng->txt('mail_to'), 'rcp_to');
         $inp->setRequired(true);
         $inp->setSize(50);
-        if(isset($mailData["rcp_to"])) {
+        if (isset($mailData["rcp_to"])) {
             $inp->setValue($mailData["rcp_to"]);
         }
         $inp->setDataSource($dsDataLink, ",");
@@ -634,7 +634,7 @@ class ilMailFormGUI
 
         $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
         $inp->setSize(50);
-        if(isset($mailData["rcp_cc"])) {
+        if (isset($mailData["rcp_cc"])) {
             $inp->setValue($mailData["rcp_cc"]);
         }
         $inp->setDataSource($dsDataLink, ",");
@@ -643,7 +643,7 @@ class ilMailFormGUI
 
         $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
         $inp->setSize(50);
-        if(isset($mailData["rcp_bcc"])) {
+        if (isset($mailData["rcp_bcc"])) {
             $inp->setValue($mailData["rcp_bcc"]);
         }
         $inp->setDataSource($dsDataLink, ",");
@@ -657,7 +657,7 @@ class ilMailFormGUI
         $form_gui->addItem($inp);
 
         $att = null;
-        if(isset($mailData["attachments"])) {
+        if (isset($mailData["attachments"])) {
             $att = new ilMailFormAttachmentPropertyGUI($this->lng->txt(($mailData["attachments"]) ? 'edit' : 'add'));
         }
 
@@ -673,7 +673,7 @@ class ilMailFormGUI
                 }
             }
         }
-        if($att) {
+        if ($att) {
             $form_gui->addItem($att);
         }
 
@@ -688,13 +688,13 @@ class ilMailFormGUI
 
                 $templates = $this->templateService->loadTemplatesForContextId($context->getId());
                 if (count($templates) > 0) {
-                    $options = array();
+                    $options = [];
 
                     $template_chb = new ilMailTemplateSelectInputGUI(
                         $this->lng->txt('mail_template_client'),
                         'template_id',
                         $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true),
-                        array('m_subject' => false, 'm_message' => true)
+                        ['m_subject' => false, 'm_message' => true]
                     );
 
                     foreach ($templates as $template) {
@@ -712,7 +712,7 @@ class ilMailFormGUI
                     asort($options);
 
                     $template_chb->setInfo($this->lng->txt('mail_template_client_info'));
-                    $template_chb->setOptions(array('' => $this->lng->txt('please_choose')) + $options);
+                    $template_chb->setOptions(['' => $this->lng->txt('please_choose')] + $options);
                     $form_gui->addItem($template_chb);
                 }
             } catch (Exception $e) {
@@ -726,7 +726,7 @@ class ilMailFormGUI
 
         $inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
         //$inp->setValue(htmlspecialchars($mailData["m_message"], false));
-        if(isset($mailData["m_message"])) {
+        if (isset($mailData["m_message"])) {
             $inp->setValue($mailData["m_message"]);
         }
         $inp->setRequired(false);
@@ -763,7 +763,7 @@ class ilMailFormGUI
         $this->tpl->printToStdout();
     }
 
-    #[NoReturn] public function lookupRecipientAsync(): void
+    #[NoReturn] public function lookupRecipientAsync() : void
     {
         $search = '';
         if (isset($this->httpRequest->getQueryParams()["term"]) && is_string($this->httpRequest->getQueryParams()["term"])) {
@@ -775,7 +775,7 @@ class ilMailFormGUI
 
         $search = trim($search);
 
-        $result = array();
+        $result = [];
 
         require_once 'Services/Utilities/classes/class.ilStr.php';
         if (ilStr::strLen($search) < 3) {
@@ -785,7 +785,7 @@ class ilMailFormGUI
 
         // #14768
         $quoted = ilUtil::stripSlashes($search);
-        $quoted = str_replace(array('%', '_'), array('\%', '\_'), $quoted);
+        $quoted = str_replace(['%', '_'], ['\%', '\_'], $quoted);
 
         $mailFormObj = new ilMailForm();
         $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
@@ -794,7 +794,7 @@ class ilMailFormGUI
         exit;
     }
 
-    public function cancelMail(): void
+    public function cancelMail() : void
     {
         if (ilMailFormCall::isRefererStored()) {
             ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
@@ -806,9 +806,9 @@ class ilMailFormGUI
     /**
      *
      */
-    protected function saveMailBeforeSearch(): void
+    protected function saveMailBeforeSearch() : void
     {
-        $files = array();
+        $files = [];
         $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
         if (is_array($attachments)) {
             foreach ($attachments as $value) {
@@ -834,7 +834,7 @@ class ilMailFormGUI
     /**
      *
      */
-    public function searchMailingListsTo(): void
+    public function searchMailingListsTo() : void
     {
         $this->saveMailBeforeSearch();
 
@@ -845,7 +845,7 @@ class ilMailFormGUI
     /**
      * @param $errors ilMailError[]
      */
-    protected function showSubmissionErrors(array $errors): void
+    protected function showSubmissionErrors(array $errors) : void
     {
         $formatter = new ilMailErrorFormatter($this->lng);
         $formattedErrors = $formatter->format($errors);

@@ -38,7 +38,7 @@ class ilMailGlobalServices
      * @static
      *
      */
-    protected static $global_mail_services_cache = array();
+    protected static $global_mail_services_cache = [];
 
     /**
      *
@@ -67,8 +67,8 @@ class ilMailGlobalServices
 				AND object_data.type = %s
 				AND object_reference.ref_id = tree.child
 				AND object_reference.obj_id = object_data.obj_id',
-                array('integer', 'text'),
-                array(SYSTEM_FOLDER_ID, 'mail')
+                ['integer', 'text'],
+                [SYSTEM_FOLDER_ID, 'mail']
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {

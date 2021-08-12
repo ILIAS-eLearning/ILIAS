@@ -20,7 +20,7 @@ class ilMail
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
-    protected ?array $mail_data = array();
+    protected ?array $mail_data = [];
     protected ?int $mail_obj_ref_id;
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
@@ -398,8 +398,8 @@ class ilMail
      */
     public function markUnread(array $mailIds) : void
     {
-        $values = array();
-        $types = array();
+        $values = [];
+        $types = [];
 
         $query = "UPDATE $this->table_mail SET m_status = %s WHERE user_id = %s ";
         array_push($types, 'text', 'integer');
@@ -495,10 +495,10 @@ class ilMail
     {
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
-            'mail_id' => ['integer', $nextId],
-            'user_id' => ['integer', $usrId],
+            'mail_id'   => ['integer', $nextId],
+            'user_id'   => ['integer', $usrId],
             'folder_id' => ['integer', $folderId],
-            'sender_id' => ['integer', $usrId]
+            'sender_id' => ['integer', $usrId],
         ]);
 
         return (int) $nextId;
@@ -521,22 +521,22 @@ class ilMail
         $this->db->update(
             $this->table_mail,
             [
-                'folder_id' => ['integer', $a_folder_id],
-                'attachments' => ['clob', serialize($a_attachments)],
-                'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
-                'rcp_to' => ['clob', $a_rcp_to],
-                'rcp_cc' => ['clob', $a_rcp_cc],
-                'rcp_bcc' => ['clob', $a_rcp_bcc],
-                'm_status' => ['text', 'read'],
-                'm_email' => ['integer', $a_m_email],
-                'm_subject' => ['text', $a_m_subject],
-                'm_message' => ['clob', $a_m_message],
+                'folder_id'        => ['integer', $a_folder_id],
+                'attachments'      => ['clob', serialize($a_attachments)],
+                'send_time'        => ['timestamp', date('Y-m-d H:i:s', time())],
+                'rcp_to'           => ['clob', $a_rcp_to],
+                'rcp_cc'           => ['clob', $a_rcp_cc],
+                'rcp_bcc'          => ['clob', $a_rcp_bcc],
+                'm_status'         => ['text', 'read'],
+                'm_email'          => ['integer', $a_m_email],
+                'm_subject'        => ['text', $a_m_subject],
+                'm_message'        => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
-                'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_context_params)]
+                'tpl_ctx_id'       => ['text', $a_tpl_context_id],
+                'tpl_ctx_params'   => ['blob', json_encode((array) $a_tpl_context_params)],
             ],
             [
-                'mail_id' => ['integer', $a_draft_id]
+                'mail_id' => ['integer', $a_draft_id],
             ]
         );
 
@@ -619,23 +619,23 @@ class ilMail
         }
 
         $nextId = $this->db->nextId($this->table_mail);
-        $this->db->insert($this->table_mail, array(
-            'mail_id' => array('integer', $nextId),
-            'user_id' => array('integer', $usrId),
-            'folder_id' => array('integer', $folderId),
-            'sender_id' => array('integer', $senderUsrId),
-            'attachments' => array('clob', serialize($attachments)),
-            'send_time' => array('timestamp', date('Y-m-d H:i:s', time())),
-            'rcp_to' => array('clob', $to),
-            'rcp_cc' => array('clob', $cc),
-            'rcp_bcc' => array('clob', $bcc),
-            'm_status' => array('text', $status),
-            'm_email' => array('integer', $email),
-            'm_subject' => array('text', $subject),
-            'm_message' => array('clob', $message),
-            'tpl_ctx_id' => array('text', $templateContextId),
-            'tpl_ctx_params' => array('blob', json_encode((array) $templateContextParameters))
-        ));
+        $this->db->insert($this->table_mail, [
+            'mail_id'        => ['integer', $nextId],
+            'user_id'        => ['integer', $usrId],
+            'folder_id'      => ['integer', $folderId],
+            'sender_id'      => ['integer', $senderUsrId],
+            'attachments'    => ['clob', serialize($attachments)],
+            'send_time'      => ['timestamp', date('Y-m-d H:i:s', time())],
+            'rcp_to'         => ['clob', $to],
+            'rcp_cc'         => ['clob', $cc],
+            'rcp_bcc'        => ['clob', $bcc],
+            'm_status'       => ['text', $status],
+            'm_email'        => ['integer', $email],
+            'm_subject'      => ['text', $subject],
+            'm_message'      => ['clob', $message],
+            'tpl_ctx_id'     => ['text', $templateContextId],
+            'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters)],
+        ]);
 
         $raiseEvent = $usrId !== $this->mailbox->getUsrId();
         if (!$raiseEvent) {
@@ -644,14 +644,14 @@ class ilMail
 
         if ($raiseEvent) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
-                'id' => $nextId,
-                'subject' => (string) $subject,
-                'body' => (string) $message,
+                'id'          => $nextId,
+                'subject'     => (string) $subject,
+                'body'        => (string) $message,
                 'from_usr_id' => (int) $senderUsrId,
-                'to_usr_id' => (int) $usrId,
-                'rcp_to' => (string) $to,
-                'rcp_cc' => (string) $cc,
-                'rcp_bcc' => (string) $bcc,
+                'to_usr_id'   => (int) $usrId,
+                'rcp_to'      => (string) $to,
+                'rcp_cc'      => (string) $cc,
+                'rcp_bcc'     => (string) $bcc,
             ]);
         }
 
@@ -975,7 +975,7 @@ class ilMail
      */
     protected function getUserIds(array $recipients) : array
     {
-        $usrIds = array();
+        $usrIds = [];
 
         $joinedRecipients = implode(',', array_filter(array_map('trim', $recipients)));
 
@@ -1001,7 +1001,7 @@ class ilMail
 
         foreach ([
                      $subject => 'mail_add_subject',
-                     $to => 'mail_add_recipient'
+                     $to => 'mail_add_recipient',
                  ] as $string => $error
         ) {
             if ($string === '') {
@@ -1068,9 +1068,8 @@ class ilMail
         ?string $a_m_message,
         mixed $a_use_placeholders,
         ?string $a_tpl_context_id = null,
-        ?array $a_tpl_ctx_params = array()
-    ): bool
-    {
+        ?array $a_tpl_ctx_params = []
+    ) : bool {
         if (!$a_attachments) {
             $a_attachments = null;
         }
@@ -1096,19 +1095,19 @@ class ilMail
         $this->db->replace(
             $this->table_mail_saved,
             [
-                'user_id' => ['integer', $this->user_id]
+                'user_id' => ['integer', $this->user_id],
             ],
             [
-                'attachments' => ['clob', serialize($a_attachments)],
-                'rcp_to' => ['clob', $a_rcp_to],
-                'rcp_cc' => ['clob', $a_rcp_cc],
-                'rcp_bcc' => ['clob', $a_rcp_bcc],
-                'm_email' => ['integer', $a_m_email],
-                'm_subject' => ['text', $a_m_subject],
-                'm_message' => ['clob', $a_m_message],
+                'attachments'      => ['clob', serialize($a_attachments)],
+                'rcp_to'           => ['clob', $a_rcp_to],
+                'rcp_cc'           => ['clob', $a_rcp_cc],
+                'rcp_bcc'          => ['clob', $a_rcp_bcc],
+                'm_email'          => ['integer', $a_m_email],
+                'm_subject'        => ['text', $a_m_subject],
+                'm_message'        => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
-                'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_ctx_params)]
+                'tpl_ctx_id'       => ['text', $a_tpl_context_id],
+                'tpl_ctx_params'   => ['blob', json_encode((array) $a_tpl_ctx_params)],
             ]
         );
 
@@ -1231,11 +1230,11 @@ class ilMail
             (bool) $a_use_placeholders,
             $this->getSaveInSentbox(),
             (string) $this->contextId,
-            serialize($this->contextParameters)
+            serialize($this->contextParameters),
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,
-            $this->user_id
+            $this->user_id,
         ]);
 
         $bucket->setTask($interaction);
@@ -1437,10 +1436,10 @@ class ilMail
         $this->db->update(
             $this->table_mail_saved,
             [
-                'attachments' => ['clob', serialize($attachments)]
+                'attachments' => ['clob', serialize($attachments)],
             ],
             [
-                'user_id' => ['integer', $this->user_id]
+                'user_id' => ['integer', $this->user_id],
             ]
         );
     }
@@ -1570,7 +1569,7 @@ class ilMail
      * @param bool|null $a_flag
      * @return self|bool
      */
-    public function appendInstallationSignature(bool $a_flag = null): mixed
+    public function appendInstallationSignature(bool $a_flag = null) : mixed
     {
         if (null === $a_flag) {
             return $this->appendInstallationSignature;

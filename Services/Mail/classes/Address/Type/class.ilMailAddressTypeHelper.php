@@ -7,7 +7,6 @@
  */
 class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
-
     protected string $installationHost = '';
 
     /**

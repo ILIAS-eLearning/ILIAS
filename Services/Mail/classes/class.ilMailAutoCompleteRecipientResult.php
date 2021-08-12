@@ -15,10 +15,10 @@ class ilMailAutoCompleteRecipientResult
 
     protected bool $allow_smtp;
     protected int $user_id;
-    protected array $handled_recipients = array();
+    protected array $handled_recipients = [];
     protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
     protected int $max_entries;
-    public array $result = array();
+    public array $result = [];
 
     /**
      * @param int $mode
@@ -31,7 +31,7 @@ class ilMailAutoCompleteRecipientResult
         $this->user_id = $DIC->user()->getId();
         $this->max_entries = ilSearchSettings::getInstance()->getAutoCompleteLength();
         
-        $this->result['items'] = array();
+        $this->result['items'] = [];
         $this->result['hasMoreResults'] = false;
 
         $this->initMode($mode);
@@ -41,9 +41,9 @@ class ilMailAutoCompleteRecipientResult
      * @param int $mode
      * @throws InvalidArgumentException
      */
-    protected function initMode(int $mode): void
+    protected function initMode(int $mode) : void
     {
-        if (!in_array($mode, array(self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES))) {
+        if (!in_array($mode, [self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES])) {
             throw new InvalidArgumentException("Wrong mode passed!");
         }
         $this->mode = $mode;
@@ -52,7 +52,7 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return bool
      */
-    public function isResultAddable(): bool
+    public function isResultAddable() : bool
     {
         if ($this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
         $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries) {
@@ -73,10 +73,10 @@ class ilMailAutoCompleteRecipientResult
      * @param string $firstname
      * @param string $lastname
      */
-    public function addResult(string $login, string $firstname, string $lastname): void
+    public function addResult(string $login, string $firstname, string $lastname) : void
     {
         if (!isset($this->handled_recipients[$login])) {
-            $recipient = array();
+            $recipient = [];
             $recipient['value'] = $login;
 
             $label = $login;
@@ -93,7 +93,7 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return array
      */
-    public function getItems(): array
+    public function getItems() : array
     {
         return $this->result;
     }
@@ -101,7 +101,7 @@ class ilMailAutoCompleteRecipientResult
     /**
      * @return int
      */
-    public function numItems(): int
+    public function numItems() : int
     {
         return count($this->result['items']);
     }

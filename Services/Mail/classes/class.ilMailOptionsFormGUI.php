@@ -67,7 +67,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $this->addItem($incoming_mail_gui);
         }
 
-        $options = array();
+        $options = [];
         for ($i = 50; $i <= 80; $i++) {
             $options[$i] = $i;
         }
@@ -137,9 +137,9 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     public function populate() : void
     {
         $data = [
-            'linebreak' => $this->options->getLinebreak(),
-            'signature' => $this->options->getSignature(),
-            'cronjob_notification' => $this->options->isCronJobNotificationEnabled()
+            'linebreak'            => $this->options->getLinebreak(),
+            'signature'            => $this->options->getSignature(),
+            'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
         ];
 
         if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {

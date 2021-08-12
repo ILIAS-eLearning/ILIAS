@@ -34,7 +34,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     protected $ctrl;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
-    protected array $mails = array();
+    protected array $mails = [];
     protected int $inbox;
 
     /**
@@ -81,7 +81,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode(): string
+    public static function getScreenMode() : string
     {
         global $DIC;
         if ($DIC->http()->request()->getQueryParams()['cmd'] === 'showMail') {
@@ -94,14 +94,14 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * execute command
      */
-    public function executeCommand(): string
+    public function executeCommand() : string
     {
         $cmd = $this->ctrl->getCmd('getHTML');
 
         return $this->$cmd();
     }
 
-    public function getHTML(): string
+    public function getHTML() : string
     {
         $umail = new ilMail($this->user->getId());
         if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
@@ -117,7 +117,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * Get Mails
      */
-    protected function getMails(): void
+    protected function getMails() : void
     {
         require_once 'Services/Mail/classes/class.ilObjMail.php';
 
@@ -127,16 +127,16 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $this->mails = $umail->getMailsOfFolder(
             $this->inbox,
-            array(
-                 'status' => 'unread'
-            )
+            [
+                 'status' => 'unread',
+            ]
         );
     }
 
     /**
      * Fill data section
      */
-    public function fillDataSection(): void
+    public function fillDataSection() : void
     {
         $this->getMails();
         $this->setData($this->mails);
@@ -153,7 +153,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow($a_set): void
+    public function fillRow($a_set) : void
     {
         $user = ilMailUserCache::getUserObjectById($a_set['sender_id']);
         
@@ -186,7 +186,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * Get overview.
      */
-    protected function getOverview(): string
+    protected function getOverview() : string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
     }
@@ -194,7 +194,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * show mail
      */
-    protected function showMail(): string
+    protected function showMail() : string
     {
         include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
         $mail_gui = new ilPDMailGUI();
@@ -226,7 +226,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * delete mail
      */
-    public function deleteMail(): void
+    public function deleteMail() : void
     {
         $this->lng->loadLanguageModule('mail');
 
@@ -237,7 +237,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->requestMailObjId = $mbox->getInboxFolder();
         }
 
-        if ($umail->moveMailsToFolder(array((int) $this->httpRequest->getQueryParams()['mail_id']), $mbox->getTrashFolder())) {
+        if ($umail->moveMailsToFolder([(int) $this->httpRequest->getQueryParams()['mail_id']], $mbox->getTrashFolder())) {
             \ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
         } else {
             \ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
@@ -248,9 +248,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * @param array $data
      */
-    protected function preloadData(array $data): void
+    protected function preloadData(array $data) : void
     {
-        $usr_ids = array();
+        $usr_ids = [];
 
         foreach ($data as $mail) {
             if ($mail['sender_id'] && $mail['sender_id'] !== ANONYMOUS_USER_ID) {

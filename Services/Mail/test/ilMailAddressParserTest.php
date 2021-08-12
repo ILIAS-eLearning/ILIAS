@@ -21,13 +21,13 @@ class ilMailAddressParserTest extends ilMailBaseTest
                 [
                     new ilMailAddress('phpunit', self::DEFAULT_HOST),
                     new ilMailAddress('phpunit', self::DEFAULT_HOST),
-                ]
+                ],
             ],
             'Email Address' => [
                 'phpunit@ilias.de',
                 [
                     new ilMailAddress('phpunit', 'ilias.de'),
-                ]
+                ],
             ],
             'Email Addresses with Umlauts' => [
                 'phpünit@ilias.de,phpnitü@ilias.de,üphpnit@iliäs.de',
@@ -35,49 +35,49 @@ class ilMailAddressParserTest extends ilMailBaseTest
                     new ilMailAddress('phpünit', 'ilias.de'),
                     new ilMailAddress('phpnitü', 'ilias.de'),
                     new ilMailAddress('üphpnit', 'iliäs.de'),
-                ]
+                ],
             ],
             'Trailing Dot in Local Part of Email Address' => [
                 'phpunit.@ilias.de',
                 [
-                    new ilMailAddress('phpunit.', 'ilias.de')
-                ]
+                    new ilMailAddress('phpunit.', 'ilias.de'),
+                ],
             ],
             'Mailing List Address' => [
                 '#il_ml_4711',
                 [
                     new ilMailAddress('#il_ml_4711', self::DEFAULT_HOST),
-                ]
+                ],
             ],
             'Role Address' => [
                 '#il_role_1000',
                 [
                     new ilMailAddress('#il_role_1000', self::DEFAULT_HOST),
-                ]
+                ],
             ],
             'Local Role Address' => [
                 '#il_crs_member_998',
                 [
                     new ilMailAddress('#il_crs_member_998', self::DEFAULT_HOST),
-                ]
+                ],
             ],
             'Course Role Address With Role Names for Course and Role' => [
                 '#member@[French Course]',
                 [
                     new ilMailAddress('#member', '[French Course]'),
-                ]
+                ],
             ],
             'Course Role Recipient with Course Role Address (Role Names for Course and Role)' => [
                 'Course Administrator <#admin@[Math Course]>',
                 [
                     new ilMailAddress('#admin', '[Math Course]'),
-                ]
+                ],
             ],
             'Course Role Recipient with Course Role Address (Numeric Id for Course Role)' => [
                 'Course Administrator <#il_crs_admin_2581>',
                 [
                     new ilMailAddress('#il_crs_admin_2581', self::DEFAULT_HOST),
-                ]
+                ],
             ],
             'sepp@some.where;done@web.de ' => [
                 // https://mantis.ilias.de/view.php?id=30306
@@ -85,7 +85,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
                 [
                     new ilMailAddress('sepp', 'some.where'),
                     new ilMailAddress('done', 'web.de'),
-                ]
+                ],
             ],
         ];
     }
@@ -97,10 +97,10 @@ class ilMailAddressParserTest extends ilMailBaseTest
     {
         return [
             'Trailing Quote in Local Part' => [
-                'phpunit"@'
+                'phpunit"@',
             ],
             'Trailing Quote in Local Part of Email Address' => [
-                'phpunit"@ilias.de'
+                'phpunit"@ilias.de',
             ],
         ];
     }

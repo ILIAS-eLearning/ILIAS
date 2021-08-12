@@ -7,7 +7,6 @@
  */
 class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
-
     protected ilRbacSystem $rbacsystem;
 
     /**
@@ -74,7 +73,7 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
         }
 
         $usrIds = array_filter([
-            $this->typeHelper->getUserIdByLogin($address)
+            $this->typeHelper->getUserIdByLogin($address),
         ]);
 
         if (count($usrIds) > 0) {

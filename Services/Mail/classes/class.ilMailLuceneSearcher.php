@@ -30,7 +30,7 @@ class ilMailLuceneSearcher
      * @param int $mail_folder_id
      * @throws Exception
      */
-    public function search(int $user_id, int $mail_folder_id): void
+    public function search(int $user_id, int $mail_folder_id) : void
     {
         if (!$this->query_parser->getQuery()) {
             throw new ilException('mail_search_query_missing');

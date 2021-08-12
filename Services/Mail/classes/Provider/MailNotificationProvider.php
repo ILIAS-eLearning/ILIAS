@@ -88,7 +88,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             $notificationItem = $notificationItem->withProperties([
                 $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
                     new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
-                )
+                ),
             ]);
         } catch (\Throwable $e) {
         }

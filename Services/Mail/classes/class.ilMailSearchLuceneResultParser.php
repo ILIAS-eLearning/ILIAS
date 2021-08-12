@@ -24,7 +24,7 @@ class ilMailSearchLuceneResultParser
     /**
      * @return string
      */
-    public function getXml(): string
+    public function getXml() : string
     {
         return $this->xml;
     }
@@ -32,7 +32,7 @@ class ilMailSearchLuceneResultParser
     /**
      * @return ilMailSearchResult
      */
-    public function getResult(): \ilMailSearchResult
+    public function getResult() : \ilMailSearchResult
     {
         return $this->result;
     }
@@ -40,7 +40,7 @@ class ilMailSearchLuceneResultParser
     /**
      *
      */
-    public function parse(): void
+    public function parse() : void
     {
         if ($this->getXml() === '') {
             return;
@@ -52,16 +52,16 @@ class ilMailSearchLuceneResultParser
                 /**
                  * @var $item SimpleXMLElement
                  */
-                $fields = array();
+                $fields = [];
                 foreach ($item->children() as $field) {
                     /**
                      * @var $field SimpleXMLElement
                      */
                     $name = (string) $field['name'];
                     $content = (string) $field;
-                    $fields[] = array(
-                        $name, $content
-                    );
+                    $fields[] = [
+                        $name, $content,
+                    ];
                 }
                 $this->getResult()->addItem((int) $item['id'], $fields);
             }

@@ -7,7 +7,6 @@
  */
 class ilMailAddressTypeFactory
 {
-
     private ilGroupNameAsMailValidator $groupNameValidator;
     private ilLogger $logger;
     protected ilRbacSystem $rbacsystem;

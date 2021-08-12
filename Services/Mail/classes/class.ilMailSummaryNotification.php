@@ -33,7 +33,7 @@ class ilMailSummaryNotification extends ilMailNotification
         parent::__construct($a_is_personal_workspace);
     }
 
-    public function send(): void
+    public function send() : void
     {
         $is_message_enabled = $this->settings->get("mail_notification_message");
 
@@ -46,11 +46,11 @@ class ilMailSummaryNotification extends ilMailNotification
 						AND mail.send_time >= %s
 						AND mail.m_status = %s
 						AND ud.active = %s',
-            array('integer', 'timestamp', 'text', 'integer'),
-            array(1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1)
+            ['integer', 'timestamp', 'text', 'integer'],
+            [1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1]
         );
         
-        $users = array();
+        $users = [];
         $user_id = 0;
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -70,7 +70,7 @@ class ilMailSummaryNotification extends ilMailNotification
 
             $this->initMail();
 
-            $this->setRecipients(array($user_id));
+            $this->setRecipients([$user_id]);
             $this->setSubject($this->getLanguageText('mail_notification_subject'));
 
             $this->setBody(ilMail::getSalutation($user_id, $user_lang));

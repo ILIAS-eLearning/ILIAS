@@ -88,36 +88,36 @@ abstract class ilMailTemplateContext
         return [
             'mail_salutation' => [
                 'placeholder' => 'MAIL_SALUTATION',
-                'label' => $this->getLanguage()->txt('mail_nacc_salutation')
+                'label'       => $this->getLanguage()->txt('mail_nacc_salutation'),
             ],
             'first_name' => [
                 'placeholder' => 'FIRST_NAME',
-                'label' => $this->getLanguage()->txt('firstname')
+                'label'       => $this->getLanguage()->txt('firstname'),
             ],
             'last_name' => [
                 'placeholder' => 'LAST_NAME',
-                'label' => $this->getLanguage()->txt('lastname')
+                'label'       => $this->getLanguage()->txt('lastname'),
             ],
             'login' => [
                 'placeholder' => 'LOGIN',
-                'label' => $this->getLanguage()->txt('mail_nacc_login')
+                'label'       => $this->getLanguage()->txt('mail_nacc_login'),
             ],
             'title' => [
-                'placeholder' => 'TITLE',
-                'label' => $this->getLanguage()->txt('mail_nacc_title'),
-                'supportsCondition' => true
+                'placeholder'       => 'TITLE',
+                'label'             => $this->getLanguage()->txt('mail_nacc_title'),
+                'supportsCondition' => true,
             ],
             'firstname_last_name_superior' => [
                 'placeholder' => 'FIRSTNAME_LASTNAME_SUPERIOR',
-                'label' => $this->getLanguage()->txt('mail_firstname_last_name_superior')
+                'label'       => $this->getLanguage()->txt('mail_firstname_last_name_superior'),
             ],
             'ilias_url' => [
                 'placeholder' => 'ILIAS_URL',
-                'label' => $this->getLanguage()->txt('mail_nacc_ilias_url')
+                'label'       => $this->getLanguage()->txt('mail_nacc_ilias_url'),
             ],
             'client_name' => [
                 'placeholder' => 'CLIENT_NAME',
-                'label' => $this->getLanguage()->txt('mail_nacc_client_name')
+                'label'       => $this->getLanguage()->txt('mail_nacc_client_name'),
             ],
         ];
     }

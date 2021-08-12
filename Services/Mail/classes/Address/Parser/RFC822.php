@@ -100,13 +100,13 @@ class Mail_RFC822
      * The array of raw addresses built up as we parse.
      * @var array $addresses
      */
-    public $addresses = array();
+    public $addresses = [];
 
     /**
      * The final array of parsed address information that we build up.
      * @var array $structure
      */
-    public $structure = array();
+    public $structure = [];
 
     /**
      * The current error message, if any.
@@ -204,8 +204,8 @@ class Mail_RFC822
             $this->limit = $limit;
         }
 
-        $this->structure = array();
-        $this->addresses = array();
+        $this->structure = [];
+        $this->addresses = [];
         $this->error = null;
         $this->index = null;
 
@@ -290,10 +290,10 @@ class Mail_RFC822
 
         // $string now contains the first full address/group.
         // Add to the addresses array.
-        $this->addresses[] = array(
+        $this->addresses[] = [
                                    'address' => trim($string),
-                                   'group'   => $is_group
-                                   );
+                                   'group'   => $is_group,
+                                   ];
 
         // Remove the now stored address from the initial line, the +1
         // is to account for the explode character.
@@ -459,7 +459,7 @@ class Mail_RFC822
     protected function _validateAddress($address)
     {
         $is_group = false;
-        $addresses = array();
+        $addresses = [];
 
         if ($address['group']) {
             $is_group = true;
@@ -467,7 +467,7 @@ class Mail_RFC822
             // Get the group part of the name
             $parts = explode(':', $address['address']);
             $groupname = $this->_splitCheck($parts, ':');
-            $structure = array();
+            $structure = [];
 
             // And validate the group part of the name.
             if (!$this->_validatePhrase($groupname)) {
@@ -541,7 +541,7 @@ class Mail_RFC822
         // Splits on one or more Tab or space.
         $parts = preg_split('/[ \\x09]+/', $phrase, -1, PREG_SPLIT_NO_EMPTY);
 
-        $phrase_parts = array();
+        $phrase_parts = [];
         while (count($parts) > 0) {
             $phrase_parts[] = $this->_splitCheck($parts, ' ');
             for ($i = 0; $i < $this->index + 1; $i++) {
@@ -636,7 +636,7 @@ class Mail_RFC822
         // A couple of defaults.
         $phrase = '';
         $comment = '';
-        $comments = array();
+        $comments = [];
 
         // Catch any RFC822 comments and store them separately.
         $_mailbox = $mailbox;
@@ -694,7 +694,7 @@ class Mail_RFC822
 
         // Add the phrase (even if empty) and comments
         $mbox->personal = $phrase;
-        $mbox->comment = isset($comments) ? $comments : array();
+        $mbox->comment = $comments ?? [];
 
         if (isset($route_addr)) {
             $mbox->mailbox = $route_addr['local_part'];
@@ -895,7 +895,7 @@ class Mail_RFC822
         }
 
         // Got here so return successful.
-        return array('local_part' => $local_part, 'domain' => $domain);
+        return ['local_part' => $local_part, 'domain' => $domain];
     }
 
     /**
@@ -909,7 +909,7 @@ class Mail_RFC822
     protected function _validateLocalPart($local_part)
     {
         $parts = explode('.', $local_part);
-        $words = array();
+        $words = [];
 
         // Split the local_part into words.
         while (count($parts) > 0) {
@@ -977,7 +977,7 @@ class Mail_RFC822
     {
         $regex = $strict ? '/^([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i' : '/^([*+!.&#$|\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i';
         if (preg_match($regex, trim($data), $matches)) {
-            return array($matches[1], $matches[2]);
+            return [$matches[1], $matches[2]];
         } else {
             return false;
         }

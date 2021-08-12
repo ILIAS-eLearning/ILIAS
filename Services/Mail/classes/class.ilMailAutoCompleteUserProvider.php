@@ -35,11 +35,11 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     public function current() : array
     {
-        return array(
+        return [
             'login'     => $this->data['login'],
             'firstname' => $this->data['firstname'],
-            'lastname'  => $this->data['lastname']
-        );
+            'lastname'  => $this->data['lastname'],
+        ];
     }
 
     /**
@@ -63,12 +63,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $select_part = $this->getSelectPart();
         $where_part = $this->getWherePart($this->quoted_term);
         $order_by_part = $this->getOrderByPart();
-        $query = implode(" ", array(
+        $query = implode(" ", [
             'SELECT ' . $select_part,
             'FROM ' . $this->getFromPart(),
             $where_part ? 'WHERE ' . $where_part : '',
-            $order_by_part ? 'ORDER BY ' . $order_by_part : ''
-        ));
+            $order_by_part ? 'ORDER BY ' . $order_by_part : '',
+        ]);
 
         $this->res = $this->db->query($query);
     }
@@ -78,7 +78,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     protected function getSelectPart() : string
     {
-        $fields = array(
+        $fields = [
             'login',
             sprintf(
                 "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN firstname ELSE '' END) firstname",
@@ -96,7 +96,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
                 $this->db->quote('g', 'text'),
                 $this->db->quote('y', 'text')
             ),
-        );
+        ];
 
         $fields[] = 'profpref.value profile_value';
         $fields[] = 'pubemail.value email_value';
@@ -109,7 +109,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     protected function getFromPart() : string
     {
-        $joins = array();
+        $joins = [];
 
         $joins[] = '
 			LEFT JOIN usr_pref profpref
@@ -134,18 +134,18 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     protected function getWherePart(string $search_query) : string
     {
-        $outer_conditions = array();
+        $outer_conditions = [];
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
         $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, 'integer');
 
-        $field_conditions = array();
+        $field_conditions = [];
         foreach ($this->getFields() as $field) {
             $field_condition = $this->getQueryConditionByFieldAndValue($field, $search_query);
 
             if ('email' === $field) {
                 // If privacy should be respected, the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
-                $email_query = array();
+                $email_query = [];
                 $email_query[] = $field_condition;
                 $email_query[] = 'pubemail.value = ' . $this->db->quote('y', 'text');
                 $field_conditions[] = '(' . implode(' AND ', $email_query) . ')';
@@ -161,10 +161,10 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         if ($field_conditions) {
             $fields = '(' . implode(' OR ', $field_conditions) . ')';
 
-            $field_conditions = ['(' . implode(' AND ', array(
+            $field_conditions = ['(' . implode(' AND ', [
                 $fields,
-                $this->db->in('profpref.value', array('y', 'g'), false, 'text')
-            )) . ')'];
+                $this->db->in('profpref.value', ['y', 'g'], false, 'text'),
+            ]) . ')'];
         }
 
         // The login field must be searchable regardless (for 'logged in' users) of any privacy settings.
@@ -208,8 +208,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
      */
     protected function getFields() : array
     {
-        $available_fields = array();
-        foreach (array('firstname', 'lastname') as $field) {
+        $available_fields = [];
+        foreach (['firstname', 'lastname'] as $field) {
             include_once 'Services/Search/classes/class.ilUserSearchOptions.php';
             if (ilUserSearchOptions::_isEnabled($field)) {
                 $available_fields[] = $field;

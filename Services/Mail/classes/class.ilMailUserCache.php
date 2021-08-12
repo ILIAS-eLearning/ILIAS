@@ -8,15 +8,15 @@
  */
 class ilMailUserCache
 {
-    protected static array $user_instances = array();
-    protected static array $requested_usr_ids = array();
-    protected static array $requested_usr_ids_key_map = array();
+    protected static array $user_instances = [];
+    protected static array $requested_usr_ids = [];
+    protected static array $requested_usr_ids_key_map = [];
 
     /**
      * @static
      * @param array $usr_ids
      */
-    public static function preloadUserObjects(array $usr_ids): void
+    public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
 
@@ -37,8 +37,8 @@ class ilMailUserCache
 
             $res = $DIC->database()->queryF(
                 $query,
-                array('text', 'text', 'text'),
-                array('public_profile', 'public_gender', 'public_upload')
+                ['text', 'text', 'text'],
+                ['public_profile', 'public_gender', 'public_upload']
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
@@ -63,14 +63,14 @@ class ilMailUserCache
      * @param int $usr_id
      * @return ilObjUser|null
      */
-    public static function getUserObjectById($usr_id): ?\ilObjUser
+    public static function getUserObjectById($usr_id) : ?\ilObjUser
     {
         if (!$usr_id) {
             return null;
         }
         
         if (!array_key_exists($usr_id, self::$requested_usr_ids_key_map)) {
-            self::preloadUserObjects(array($usr_id));
+            self::preloadUserObjects([$usr_id]);
         }
 
         return self::$user_instances[$usr_id] ?? null;

@@ -32,7 +32,6 @@ use Psr\Http\Message\RequestInterface;
 */
 class ilMailSearchGUI
 {
-
     private ilGlobalPageTemplate $tpl;
     private ilCtrl $ctrl;
     private RequestInterface $httpRequest;
@@ -63,7 +62,7 @@ class ilMailSearchGUI
         $this->umail = new ilFormatMail($DIC->user()->getId());
     }
 
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -86,7 +85,7 @@ class ilMailSearchGUI
         return !isset($this->httpRequest->getQueryParams()['ref']) || $this->httpRequest->getQueryParams()['ref'] !== 'wsp';
     }
 
-    public function adopt(): void
+    public function adopt() : void
     {
         // necessary because of select all feature of ilTable2GUI
         $recipients = array();
@@ -109,12 +108,12 @@ class ilMailSearchGUI
         $this->ctrl->returnToParent($this);
     }
 
-    private function saveMailData(): void
+    private function saveMailData() : void
     {
         $mail_data = $this->umail->getSavedData();
 
         $this->umail->savePostData(
-            (int)$mail_data["user_id"],
+            (int) $mail_data["user_id"],
             $mail_data["attachments"],
             $mail_data["rcp_to"],
             $mail_data["rcp_cc"],
@@ -128,12 +127,12 @@ class ilMailSearchGUI
         );
     }
 
-    public function cancel(): void
+    public function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    public function search(): bool
+    public function search() : bool
     {
         ilSession::set("mail_search_search", (string) $this->httpRequest->getParsedBody()["search"]);
 
@@ -149,7 +148,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    protected function initSearchForm(): ilPropertyFormGUI
+    protected function initSearchForm() : ilPropertyFormGUI
     {
         if ($this->isDefaultRequestContext()) {
             $this->saveMailData();
@@ -186,7 +185,7 @@ class ilMailSearchGUI
         return $form;
     }
 
-    #[NoReturn] public function lookupRecipientAsync(): void
+    #[NoReturn] public function lookupRecipientAsync() : void
     {
         include_once 'Services/JSON/classes/class.ilJsonUtil.php';
         include_once 'Services/Mail/classes/class.ilMailForm.php';
@@ -222,7 +221,7 @@ class ilMailSearchGUI
     }
 
 
-    public function showResults(): void
+    public function showResults() : void
     {
         $form = $this->initSearchForm();
 
@@ -539,7 +538,7 @@ class ilMailSearchGUI
         }
     }
 
-    protected function addPermission($a_obj_ids): void
+    protected function addPermission($a_obj_ids) : void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = array($a_obj_ids);

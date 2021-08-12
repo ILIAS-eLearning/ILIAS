@@ -52,7 +52,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -87,7 +87,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @return bool
      */
-    private function isEditingAllowed(): bool
+    private function isEditingAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
     }
@@ -95,7 +95,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @return bool
      */
-    private function isViewAllowed(): bool
+    private function isViewAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('read', $this->object->getRefId());
     }
@@ -103,7 +103,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @return bool
      */
-    private function isPermissionChangeAllowed(): bool
+    private function isPermissionChangeAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
     }
@@ -111,7 +111,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
@@ -119,7 +119,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    protected function getTabs(): void
+    protected function getTabs() : void
     {
         if ($this->isViewAllowed()) {
             $this->tabs->addTarget(
@@ -132,7 +132,7 @@ class ilObjMailGUI extends ilObjectGUI
                     'showExternalSettingsForm',
                     'saveExternalSettingsForm',
                     'sendTestUserMail',
-                    'sendTestSystemMail'
+                    'sendTestSystemMail',
                 ]
             );
         }
@@ -149,8 +149,8 @@ class ilObjMailGUI extends ilObjectGUI
         if ($this->isPermissionChangeAllowed()) {
             $this->tabs->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'),
-                array('perm', 'info', 'owner'),
+                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], 'perm'),
+                ['perm', 'info', 'owner'],
                 'ilpermissiongui'
             );
         }
@@ -159,7 +159,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param int $activeSubTab
      */
-    protected function buildSettingsSubTabs(int $activeSubTab): void
+    protected function buildSettingsSubTabs(int $activeSubTab) : void
     {
         if ($this->isViewAllowed()) {
             $this->tabs->addSubTab(
@@ -183,7 +183,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @inheritdoc
      */
-    public function viewObject(): void
+    public function viewObject() : void
     {
         $this->showGeneralSettingsForm();
     }
@@ -191,7 +191,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    protected function showGeneralSettingsForm(ilPropertyFormGUI $form = null): void
+    protected function showGeneralSettingsForm(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->isViewAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -210,7 +210,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @return \ilPropertyFormGUI
      */
-    protected function getGeneralSettingsForm(): \ilPropertyFormGUI
+    protected function getGeneralSettingsForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -252,10 +252,10 @@ class ilObjMailGUI extends ilObjectGUI
         $form->addItem($mn);
 
         $cron_mail = new ilSelectInputGUI($this->lng->txt('cron_mail_notification'), 'mail_notification');
-        $cron_options = array(
+        $cron_options = [
             0 => $this->lng->txt('cron_mail_notification_never'),
-            1 => $this->lng->txt('cron_mail_notification_cron')
-        );
+            1 => $this->lng->txt('cron_mail_notification_cron'),
+        ];
         $cron_mail->setOptions($cron_options);
         $cron_mail->setInfo(sprintf(
             $this->lng->txt('cron_mail_notification_desc'),
@@ -280,23 +280,23 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    protected function populateGeneralSettingsForm(ilPropertyFormGUI $form): void
+    protected function populateGeneralSettingsForm(ilPropertyFormGUI $form) : void
     {
-        $form->setValuesByArray(array(
-            'mail_allow_external' => $this->settings->get('mail_allow_external'),
-            'incoming_type' => (int) $this->settings->get('mail_incoming_mail'),
-            'mail_address_option' => $this->settings->get('mail_address_option') !== '' ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
+        $form->setValuesByArray([
+            'mail_allow_external'      => $this->settings->get('mail_allow_external'),
+            'incoming_type'            => (int) $this->settings->get('mail_incoming_mail'),
+            'mail_address_option'      => $this->settings->get('mail_address_option') !== '' ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
             'mail_address_option_both' => $this->settings->get('mail_address_option') !== '' ? $this->settings->get('mail_address_option') : ilMailOptions::FIRST_EMAIL,
-            'show_mail_settings' => $this->settings->get('show_mail_settings', 1),
-            'mail_maxsize_attach' => $this->settings->get('mail_maxsize_attach'),
-            'mail_notification' => $this->settings->get('mail_notification')
-        ));
+            'show_mail_settings'       => $this->settings->get('show_mail_settings', 1),
+            'mail_maxsize_attach'      => $this->settings->get('mail_maxsize_attach'),
+            'mail_notification'        => $this->settings->get('mail_notification'),
+        ]);
     }
 
     /**
      * @inheritdoc
      */
-    public function saveObject(): void
+    public function saveObject() : void
     {
         if (!$this->isEditingAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -332,7 +332,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI|null $form
      */
-    protected function showExternalSettingsFormObject(ilPropertyFormGUI $form = null): void
+    protected function showExternalSettingsFormObject(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->isViewAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -360,12 +360,12 @@ class ilObjMailGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function sendTestUserMailObject(): void
+    protected function sendTestUserMailObject() : void
     {
         $this->sendTestMail(true);
     }
 
-    protected function sendTestSystemMailObject(): void
+    protected function sendTestSystemMailObject() : void
     {
         $this->sendTestMail();
     }
@@ -373,7 +373,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param bool $isManualMail
      */
-    protected function sendTestMail($isManualMail = false): void
+    protected function sendTestMail($isManualMail = false) : void
     {
         if (!$this->isViewAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -414,7 +414,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @return ilPropertyFormGUI
      */
-    protected function getExternalSettingsForm(): \ilPropertyFormGUI
+    protected function getExternalSettingsForm() : \ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -443,11 +443,11 @@ class ilObjMailGUI extends ilObjectGUI
         $smtp->addSubItem($port);
 
         $encryption = new ilSelectInputGUI($this->lng->txt('mail_smtp_encryption'), 'mail_smtp_encryption');
-        $encryptionOptions = array(
-            '' => $this->lng->txt('please_choose'),
+        $encryptionOptions = [
+            ''    => $this->lng->txt('please_choose'),
             'tls' => $this->lng->txt('mail_smtp_encryption_tls'),
-            'ssl' => $this->lng->txt('mail_smtp_encryption_ssl')
-        );
+            'ssl' => $this->lng->txt('mail_smtp_encryption_ssl'),
+        ];
 
         $encryption->setOptions($encryptionOptions);
         $encryption->setDisabled(!$this->isEditingAllowed());
@@ -562,11 +562,11 @@ class ilObjMailGUI extends ilObjectGUI
         $form->addItem($signature);
 
         $placeholders = new ilManualPlaceholderInputGUI('mail_system_sys_signature');
-        foreach (array(
-                     array('placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')),
-                     array('placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')),
-                     array('placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url'))
-                 ) as $key => $value) {
+        foreach ([
+                     ['placeholder' => 'CLIENT_NAME', 'label' => $this->lng->txt('mail_nacc_client_name')],
+                     ['placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')],
+                     ['placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
+                 ] as $key => $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
         $placeholders->setDisabled(!$this->isEditingAllowed());
@@ -582,39 +582,39 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    protected function populateExternalSettingsForm(ilPropertyFormGUI $form): void
+    protected function populateExternalSettingsForm(ilPropertyFormGUI $form) : void
     {
         $subjectPrefix = $this->settings->get('mail_subject_prefix');
         if (false === $subjectPrefix) {
             $subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
         }
 
-        $form->setValuesByArray(array(
-            'mail_smtp_status' => (bool) $this->settings->get('mail_smtp_status'),
-            'mail_smtp_host' => $this->settings->get('mail_smtp_host'),
-            'mail_smtp_port' => (int) $this->settings->get('mail_smtp_port'),
-            'mail_smtp_user' => $this->settings->get('mail_smtp_user'),
-            'mail_smtp_password' => $this->settings->get('mail_smtp_password') !== '' ? self::PASSWORD_PLACE_HOLDER : '',
-            'mail_smtp_encryption' => $this->settings->get('mail_smtp_encryption'),
-            'mail_subject_prefix' => $subjectPrefix,
-            'mail_send_html' => (int) $this->settings->get('mail_send_html'),
-            'mail_system_usr_from_addr' => $this->settings->get('mail_system_usr_from_addr'),
-            'mail_system_usr_from_name' => $this->settings->get('mail_system_usr_from_name'),
+        $form->setValuesByArray([
+            'mail_smtp_status'              => (bool) $this->settings->get('mail_smtp_status'),
+            'mail_smtp_host'                => $this->settings->get('mail_smtp_host'),
+            'mail_smtp_port'                => (int) $this->settings->get('mail_smtp_port'),
+            'mail_smtp_user'                => $this->settings->get('mail_smtp_user'),
+            'mail_smtp_password'            => $this->settings->get('mail_smtp_password') !== '' ? self::PASSWORD_PLACE_HOLDER : '',
+            'mail_smtp_encryption'          => $this->settings->get('mail_smtp_encryption'),
+            'mail_subject_prefix'           => $subjectPrefix,
+            'mail_send_html'                => (int) $this->settings->get('mail_send_html'),
+            'mail_system_usr_from_addr'     => $this->settings->get('mail_system_usr_from_addr'),
+            'mail_system_usr_from_name'     => $this->settings->get('mail_system_usr_from_name'),
             'mail_system_usr_env_from_addr' => $this->settings->get('mail_system_usr_env_from_addr'),
-            'mail_system_sys_from_addr' => $this->settings->get('mail_system_sys_from_addr'),
-            'mail_system_sys_from_name' => $this->settings->get('mail_system_sys_from_name'),
+            'mail_system_sys_from_addr'     => $this->settings->get('mail_system_sys_from_addr'),
+            'mail_system_sys_from_name'     => $this->settings->get('mail_system_sys_from_name'),
             'mail_system_sys_reply_to_addr' => $this->settings->get('mail_system_sys_reply_to_addr'),
             'mail_system_sys_env_from_addr' => $this->settings->get('mail_system_sys_env_from_addr'),
-            'mail_system_sys_signature' => $this->settings->get('mail_system_sys_signature'),
-            'use_global_reply_to_addr' => (bool) $this->settings->get('use_global_reply_to_addr'),
-            'global_reply_to_addr' => $this->settings->get('global_reply_to_addr'),
-        ));
+            'mail_system_sys_signature'     => $this->settings->get('mail_system_sys_signature'),
+            'use_global_reply_to_addr'      => (bool) $this->settings->get('use_global_reply_to_addr'),
+            'global_reply_to_addr'          => $this->settings->get('global_reply_to_addr'),
+        ]);
     }
 
     /**
      *
      */
-    protected function saveExternalSettingsFormObject(): void
+    protected function saveExternalSettingsFormObject() : void
     {
         if (!$this->isEditingAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -667,7 +667,7 @@ class ilObjMailGUI extends ilObjectGUI
     /**
      * @param string $a_target
      */
-    public static function _goto($a_target): void
+    public static function _goto($a_target) : void
     {
         global $DIC;
 

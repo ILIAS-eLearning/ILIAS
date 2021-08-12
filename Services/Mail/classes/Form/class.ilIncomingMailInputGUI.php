@@ -29,7 +29,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      *
      */
-    protected function initializeOptions(): void
+    protected function initializeOptions() : void
     {
         if (!$this->optionsInitialized) {
             $this->addSubOptions();
@@ -40,7 +40,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getOptions(): array
+    public function getOptions() : array
     {
         $this->initializeOptions();
         return parent::getOptions();
@@ -49,7 +49,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function setValueByArray($a_values): void
+    public function setValueByArray($a_values) : void
     {
         $this->initializeOptions();
         parent::setValueByArray($a_values);
@@ -58,7 +58,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function checkInput(): bool
+    public function checkInput() : bool
     {
         $this->initializeOptions();
         return parent::checkInput();
@@ -67,7 +67,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function render(): string
+    public function render() : string
     {
         $this->initializeOptions();
         return parent::render();
@@ -76,7 +76,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getItemByPostVar($a_post_var): mixed
+    public function getItemByPostVar($a_post_var) : mixed
     {
         $this->initializeOptions();
         return parent::getItemByPostVar($a_post_var);
@@ -85,7 +85,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getSubInputItemsRecursive(): array
+    public function getSubInputItemsRecursive() : array
     {
         $this->initializeOptions();
         return parent::getSubInputItemsRecursive();
@@ -94,7 +94,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @return bool
      */
-    public function isFreeOptionChoice(): bool
+    public function isFreeOptionChoice() : bool
     {
         return $this->freeOptionChoice;
     }
@@ -102,7 +102,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @param bool $freeOptionChoice
      */
-    public function setFreeOptionChoice(bool $freeOptionChoice): void
+    public function setFreeOptionChoice(bool $freeOptionChoice) : void
     {
         $this->freeOptionChoice = $freeOptionChoice;
     }
@@ -110,7 +110,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      *
      */
-    private function addSubOptions(): void
+    private function addSubOptions() : void
     {
         global $DIC;
         
@@ -147,9 +147,9 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $sub_both_opt2->setDisabled($this->getDisabled());
         $sub_both_opt3 = new ilRadioOption($DIC->language()->txt('mail_both_email'), ilMailOptions::BOTH_EMAIL);
         $sub_both_opt3->setDisabled($this->getDisabled());
-        $email_info = array();
+        $email_info = [];
         if (!$this->isFreeOptionChoice()) {
-            $email_info = array();
+            $email_info = [];
             if (
 //				!strlen(ilObjUser::_lookupEmail($DIC->user()->getId())) ||
                 $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {

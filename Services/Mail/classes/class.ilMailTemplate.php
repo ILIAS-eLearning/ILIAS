@@ -37,12 +37,12 @@ class ilMailTemplate
     public function toArray() : array
     {
         return [
-            'tpl_id' => $this->getTplId(),
-            'title' => $this->getTitle(),
-            'context' => $this->getContext(),
-            'lang' => $this->getLang(),
-            'm_subject' => $this->getSubject(),
-            'm_message' => $this->getMessage(),
+            'tpl_id'     => $this->getTplId(),
+            'title'      => $this->getTitle(),
+            'context'    => $this->getContext(),
+            'lang'       => $this->getLang(),
+            'm_subject'  => $this->getSubject(),
+            'm_message'  => $this->getMessage(),
             'is_default' => $this->isDefault(),
         ];
     }
@@ -58,7 +58,7 @@ class ilMailTemplate
     /**
      * @param int $templateId
      */
-    public function setTplId(int $templateId): void
+    public function setTplId(int $templateId) : void
     {
         $this->templateId = $templateId;
     }
@@ -74,7 +74,7 @@ class ilMailTemplate
     /**
      * @param string $title
      */
-    public function setTitle(string $title): void
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
@@ -90,7 +90,7 @@ class ilMailTemplate
     /**
      * @param string $context
      */
-    public function setContext(string $context): void
+    public function setContext(string $context) : void
     {
         $this->context = $context;
     }
@@ -106,7 +106,7 @@ class ilMailTemplate
     /**
      * @param string $lang
      */
-    public function setLang(string $lang): void
+    public function setLang(string $lang) : void
     {
         $this->lang = $lang;
     }
@@ -122,7 +122,7 @@ class ilMailTemplate
     /**
      * @param string $subject
      */
-    public function setSubject(string $subject): void
+    public function setSubject(string $subject) : void
     {
         $this->subject = $subject;
     }
@@ -138,7 +138,7 @@ class ilMailTemplate
     /**
      * @param string $message
      */
-    public function setMessage(string $message): void
+    public function setMessage(string $message) : void
     {
         $this->message = $message;
     }
@@ -154,7 +154,7 @@ class ilMailTemplate
     /**
      * @param bool $isDefault
      */
-    public function setAsDefault(bool $isDefault): void
+    public function setAsDefault(bool $isDefault) : void
     {
         $this->isDefault = $isDefault;
     }

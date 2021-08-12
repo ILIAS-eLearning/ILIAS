@@ -17,7 +17,6 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchGroupsGUI
 {
-
     private RequestInterface $httpRequest;
     private string|null $view = null;
     /**
@@ -65,7 +64,7 @@ class ilMailSearchGroupsGUI
         $this->umail = new ilFormatMail($this->user->getId());
     }
 
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
@@ -79,11 +78,11 @@ class ilMailSearchGroupsGUI
                 $search_grp = "";
                 if (isset($this->httpRequest->getParsedBody()['search_grp'])) {
                     $search_grp = $this->httpRequest->getParsedBody()['search_grp'];
-}
+                }
 
                 if (isset($this->httpRequest->getQueryParams()['search_grp'])) {
-                        $search_grp = $this->httpRequest->getQueryParams()['search_grp'];
-}
+                    $search_grp = $this->httpRequest->getQueryParams()['search_grp'];
+                }
                 $this->ctrl->setParameter($this, 'search_grp', $search_grp);
 
 
@@ -103,7 +102,7 @@ class ilMailSearchGroupsGUI
         return true;
     }
 
-    public function mail(): void
+    public function mail() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mygroups") {
@@ -127,7 +126,7 @@ class ilMailSearchGroupsGUI
         }
     }
 
-    public function mailGroups(): void
+    public function mailGroups() : void
     {
         $members = array();
 
@@ -194,7 +193,7 @@ class ilMailSearchGroupsGUI
         ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
     }
 
-    public function mailMembers(): void
+    public function mailMembers() : void
     {
         $members = array();
 
@@ -241,7 +240,7 @@ class ilMailSearchGroupsGUI
     /**
      * Cancel action
      */
-    public function cancel(): void
+    public function cancel() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mygroups"
@@ -255,7 +254,7 @@ class ilMailSearchGroupsGUI
     /**
      * Show user's courses
      */
-    public function showMyGroups(): void
+    public function showMyGroups() : void
     {
         include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
 
@@ -342,12 +341,12 @@ class ilMailSearchGroupsGUI
                     $this->ctrl->clearParameters($this);
                     
                     $rowData = array(
-                        'CRS_ID' => $grp_id,
-                        'CRS_NAME' => $this->cache->lookupTitle($grp_id),
-                        'CRS_NO_MEMBERS' => count($grp_members),
-                        'CRS_PATH' => $path,
+                        'CRS_ID'                 => $grp_id,
+                        'CRS_NAME'               => $this->cache->lookupTitle($grp_id),
+                        'CRS_NO_MEMBERS'         => count($grp_members),
+                        'CRS_PATH'               => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
-                        "hidden_members" => $hiddenMembers
+                        "hidden_members"         => $hiddenMembers
                     );
                     $counter++;
                     $tableData[] = $rowData;
@@ -375,10 +374,10 @@ class ilMailSearchGroupsGUI
     /**
      * Show course members
      */
-    public function showMembers(): void
+    public function showMembers() : void
     {
         if ($this->httpRequest->getQueryParams()["search_grp"] && $this->httpRequest->getQueryParams()["search_grp"] !== "") {
-             $this->search_grp = explode(",", $this->httpRequest->getQueryParams()["search_grp"]);
+            $this->search_grp = explode(",", $this->httpRequest->getQueryParams()["search_grp"]);
         }
 
         $search_grp = $this->httpRequest->getParsedBody()["search_grp"] ?? $this->search_grp;
@@ -415,11 +414,11 @@ class ilMailSearchGroupsGUI
                         }
 
                         $rowData = array(
-                            'members_id' => $member["id"],
-                            'members_login' => $member["login"],
-                            'members_name' => $fullname,
+                            'members_id'      => $member["id"],
+                            'members_login'   => $member["login"],
+                            'members_name'    => $fullname,
                             'members_crs_grp' => $group_obj->getTitle(),
-                            'search_grp' => $grp_id,
+                            'search_grp'      => $grp_id,
                         );
 
                         if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {
@@ -452,7 +451,7 @@ class ilMailSearchGroupsGUI
         }
     }
 
-    public function share(): void
+    public function share() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mygroups") {
@@ -479,7 +478,7 @@ class ilMailSearchGroupsGUI
         }
     }
     
-    protected function addPermission($a_obj_ids): void
+    protected function addPermission($a_obj_ids) : void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = array($a_obj_ids);

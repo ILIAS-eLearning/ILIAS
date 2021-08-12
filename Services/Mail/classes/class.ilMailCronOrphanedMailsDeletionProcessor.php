@@ -29,9 +29,9 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    private function deleteAttachments(): void
+    private function deleteAttachments() : void
     {
-        $attachment_paths = array();
+        $attachment_paths = [];
 
         $res = $this->db->query('
 				SELECT path, COUNT(mail_id) cnt_mail_ids
@@ -42,8 +42,8 @@ class ilMailCronOrphanedMailsDeletionProcessor
         while ($row = $this->db->fetchAssoc($res)) {
             $usage_res = $this->db->queryF(
                 'SELECT mail_id, path FROM mail_attachment WHERE path = %s',
-                array('text'),
-                array($row['path'])
+                ['text'],
+                [$row['path']]
             );
 
             $num_rows = $this->db->numRows($usage_res);
@@ -105,7 +105,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    private function deleteMails(): void
+    private function deleteMails() : void
     {
         $this->db->manipulate('DELETE FROM mail WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
     }
@@ -113,7 +113,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      * Delete entries about notification
      */
-    private function deleteMarkedAsNotified(): void
+    private function deleteMarkedAsNotified() : void
     {
         if ((int) $this->settings->get('mail_notify_orphaned') >= 1) {
             $this->db->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
@@ -125,7 +125,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     /**
      *
      */
-    public function processDeletion(): void
+    public function processDeletion() : void
     {
         if (count($this->collector->getMailIdsToDelete()) > 0) {
             // delete possible attachments ...

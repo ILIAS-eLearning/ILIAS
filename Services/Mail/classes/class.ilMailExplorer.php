@@ -53,7 +53,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @return string
      */
-    public function getTreeLabel(): string
+    public function getTreeLabel() : string
     {
         return $this->lng->txt("mail_folders");
     }
@@ -99,7 +99,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent(mixed $a_node): string
+    public function getNodeContent(mixed $a_node) : string
     {
         $content = $a_node['title'];
 
@@ -115,7 +115,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeIcon(mixed $a_node): string
+    public function getNodeIcon(mixed $a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
@@ -134,7 +134,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeHref(mixed $a_node): string
+    public function getNodeHref(mixed $a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;

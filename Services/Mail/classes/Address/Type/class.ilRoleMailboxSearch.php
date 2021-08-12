@@ -79,7 +79,7 @@ class ilRoleMailboxSearch
         $parser = $this->parserFactory->getParser($a_address_list);
         $parsedList = $parser->parse();
 
-        $role_ids = array();
+        $role_ids = [];
         foreach ($parsedList as $address) {
             $local_part = $address->getMailbox();
             if (!str_starts_with($local_part, '#') && !($local_part[0] === '"' && $local_part[1] === "#")) {

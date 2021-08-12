@@ -8,7 +8,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
     protected ilDBInterface $db;
     protected ?ilDBStatement $res;
-    protected array $data = array();
+    protected array $data = [];
     protected $quoted_term = '';
     protected string $term = '';
     protected int $user_id = 0;
@@ -31,7 +31,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
      * "Valid" implementation of iterator interface
      * @return bool
      */
-    public function valid(): bool
+    public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
@@ -41,7 +41,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     /**
      * "Next" implementation of iterator interface
      */
-    public function next(): void
+    public function next() : void
     {
     }
 

@@ -14,7 +14,7 @@ include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
 class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 {
     public string $buttonLabel;
-    public array $items = array();
+    public array $items = [];
 
     /**
      * @var \ilLanguage
@@ -40,12 +40,12 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
      * @param	string	Label for item including additional information
      *			like Filesize.
      */
-    public function addItem(string $label): void
+    public function addItem(string $label) : void
     {
         $this->items[] = $label;
     }
     
-    public function insert(ilTemplate $a_tpl): void
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate('tpl.mail_new_attachments.html', true, true, 'Services/Mail');
 

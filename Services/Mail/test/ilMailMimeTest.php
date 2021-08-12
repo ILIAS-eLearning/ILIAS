@@ -42,7 +42,7 @@ class ilMailMimeTest extends ilMailBaseTest
 
         $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
@@ -64,7 +64,7 @@ class ilMailMimeTest extends ilMailBaseTest
 
         $settings = $this->getMockBuilder('\ilSetting')->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 
@@ -79,7 +79,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
             if ('mail_allow_external' == $key) {
@@ -105,7 +105,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
             if ('mail_allow_external' == $key) {
@@ -136,7 +136,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
 
         $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
@@ -168,7 +168,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
 
         $factory = new ilMailMimeSenderFactory($settings);
@@ -182,7 +182,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
 
         $factory = new ilMailMimeSenderFactory($settings);
@@ -212,7 +212,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
 
         $factory = new ilMailMimeSenderFactory($settings);
@@ -226,7 +226,7 @@ class ilMailMimeTest extends ilMailBaseTest
     {
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
 
         $factory = new ilMailMimeSenderFactory($settings);

@@ -39,7 +39,7 @@ class ilMailOptionsTest extends ilMailBaseTest
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 

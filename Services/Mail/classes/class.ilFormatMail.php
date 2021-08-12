@@ -71,7 +71,7 @@ class ilFormatMail extends ilMail
             return '';
         }
 
-        $newCC = array();
+        $newCC = [];
 
         $currentUserLogin = $DIC->user()->getLogin();
 

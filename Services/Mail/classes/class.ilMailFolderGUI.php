@@ -172,7 +172,7 @@ class ilMailFolderGUI
     {
         $this->tpl->setVariable('TBL_TITLE', implode(' ', [
             $this->lng->txt('profile_of'),
-            ilObjUser::_lookupLogin((int) ($this->httpRequest->getQueryParams()['user'] ?? 0))
+            ilObjUser::_lookupLogin((int) ($this->httpRequest->getQueryParams()['user'] ?? 0)),
         ]));
         $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
@@ -768,7 +768,7 @@ class ilMailFolderGUI
             $isTrashFolder = true;
         }
 
-        $currentFolderData = $this->mbox->getFolderData((int)$mailData['folder_id']);
+        $currentFolderData = $this->mbox->getFolderData((int) $mailData['folder_id']);
         $actions = $this->mbox->getActions((int) $mailData['folder_id']);
 
         $selectOptions = [];

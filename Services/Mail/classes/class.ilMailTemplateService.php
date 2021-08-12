@@ -61,8 +61,7 @@ class ilMailTemplateService
         string $subject,
         string $message,
         string $language
-    ): void
-    {
+    ) : void {
         $template = $this->repository->findById($templateId);
 
         $template->setContext($contextId);
@@ -95,7 +94,7 @@ class ilMailTemplateService
     /**
      * @param array $templateIds
      */
-    public function deleteTemplatesByIds(array $templateIds): void
+    public function deleteTemplatesByIds(array $templateIds) : void
     {
         $this->repository->deleteByIds($templateIds);
     }
@@ -117,7 +116,7 @@ class ilMailTemplateService
     /**
      * @param \ilMailTemplate $template
      */
-    public function unsetAsContextDefault(\ilMailTemplate $template): void
+    public function unsetAsContextDefault(\ilMailTemplate $template) : void
     {
         $template->setAsDefault(false);
 
@@ -127,7 +126,7 @@ class ilMailTemplateService
     /**
      * @param \ilMailTemplate $template
      */
-    public function setAsContextDefault(\ilMailTemplate $template): void
+    public function setAsContextDefault(\ilMailTemplate $template) : void
     {
         $allOfContext = $this->repository->findByContextId($template->getContext());
         foreach ($allOfContext as $otherTemplate) {

@@ -17,7 +17,6 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchCoursesGUI
 {
-
     private RequestInterface $httpRequest;
     private string|null $view = null;
     /**
@@ -68,13 +67,13 @@ class ilMailSearchCoursesGUI
         $this->umail = new ilFormatMail($this->user->getId());
     }
 
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
             case 'ilbuddysystemgui':
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
-                $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+                    $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }
 
                 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php';
@@ -107,7 +106,7 @@ class ilMailSearchCoursesGUI
         return true;
     }
 
-    public function mail(): void
+    public function mail() : void
     {
         self::$user_id = "test";
         $view = $this->httpRequest->getQueryParams()['view'] ?? $this->view;
@@ -133,7 +132,7 @@ class ilMailSearchCoursesGUI
         }
     }
 
-    public function mailCourses(): void
+    public function mailCourses() : void
     {
         $members = array();
 
@@ -203,7 +202,7 @@ class ilMailSearchCoursesGUI
         ilUtil::redirect("ilias.php?baseClass=ilMailGUI&type=search_res");
     }
 
-    public function mailMembers(): void
+    public function mailMembers() : void
     {
         $members = array();
 
@@ -251,7 +250,7 @@ class ilMailSearchCoursesGUI
     /**
      * Cancel action
      */
-    public function cancel(): void
+    public function cancel() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mycourses" &&
@@ -265,7 +264,7 @@ class ilMailSearchCoursesGUI
     /**
      * Show user's courses
      */
-    public function showMyCourses(): void
+    public function showMyCourses() : void
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
     
@@ -349,12 +348,12 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->clearParameters($this);
                     
                     $rowData = array(
-                        "CRS_ID" => $crs_id,
-                        "CRS_NAME" => $this->cache->lookupTitle($crs_id),
-                        "CRS_NO_MEMBERS" => count($crs_members),
-                        "CRS_PATH" => $path,
+                        "CRS_ID"                 => $crs_id,
+                        "CRS_NAME"               => $this->cache->lookupTitle($crs_id),
+                        "CRS_NO_MEMBERS"         => count($crs_members),
+                        "CRS_PATH"               => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
-                        "hidden_members" => $hiddenMembers,
+                        "hidden_members"         => $hiddenMembers,
                     );
                     $counter++;
                     $tableData[] = $rowData;
@@ -386,12 +385,12 @@ class ilMailSearchCoursesGUI
     /**
      * Show course members
      */
-    public function showMembers(): void
+    public function showMembers() : void
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
         if ($this->httpRequest->getQueryParams()["search_crs"] !== "") {
-            $this->requestSearchCrs =  explode(",", $this->httpRequest->getQueryParams()["search_crs"]);
+            $this->requestSearchCrs = explode(",", $this->httpRequest->getQueryParams()["search_crs"]);
         }
 
         if (is_array($this->requestSearchCrs)) {
@@ -452,11 +451,11 @@ class ilMailSearchCoursesGUI
                     }
 
                     $rowData = array(
-                        'members_id' => $member,
-                        'members_login' => $login,
-                        'members_name' => $fullname,
+                        'members_id'      => $member,
+                        'members_login'   => $login,
+                        'members_name'    => $fullname,
                         'members_crs_grp' => $this->cache->lookupTitle($crs_id),
-                        'search_crs' => $crs_id
+                        'search_crs'      => $crs_id
                     );
 
                     if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {
@@ -490,7 +489,7 @@ class ilMailSearchCoursesGUI
         }
     }
     
-    public function share(): void
+    public function share() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mycourses") {
@@ -517,7 +516,7 @@ class ilMailSearchCoursesGUI
         }
     }
     
-    protected function addPermission(mixed $a_obj_ids): void
+    protected function addPermission(mixed $a_obj_ids) : void
     {
         if (!is_array($a_obj_ids)) {
             $a_obj_ids = array($a_obj_ids);

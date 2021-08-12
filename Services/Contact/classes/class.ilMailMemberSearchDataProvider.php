@@ -9,7 +9,6 @@
  **/
 class ilMailMemberSearchDataProvider
 {
-
     protected ilAccessHandler $access;
     protected int $ref_id;
     protected string $type = 'crs';

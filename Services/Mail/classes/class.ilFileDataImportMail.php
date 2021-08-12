@@ -43,12 +43,12 @@ class ilFileDataImportMail extends ilFileDataImport
         $this->__readFiles();
     }
 
-    public function getFiles(): array
+    public function getFiles() : array
     {
-        return $this->files ?: array();
+        return $this->files ?: [];
     }
 
-    public function getXMLFile(): string
+    public function getXMLFile() : string
     {
         return $this->xml_file;
     }
@@ -59,7 +59,7 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	public
     * @return bool
     */
-    public function storeUploadedFile(array $a_http_post_file): bool
+    public function storeUploadedFile(array $a_http_post_file) : bool
     {
         // TODO:
         // CHECK UPLOAD LIMIT
@@ -101,7 +101,7 @@ class ilFileDataImportMail extends ilFileDataImport
         return $this->xml_file;
     }
 
-    public function unzip(): bool
+    public function unzip() : bool
     {
         foreach ($this->getFiles() as $file_data) {
             ilUtil::unzip($file_data["abs_path"]);
@@ -116,12 +116,12 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	public
     * @return string path
     */
-    public function getPath(): string
+    public function getPath() : string
     {
         return $this->mail_path;
     }
 
-    public function unlinkLast(): bool
+    public function unlinkLast() : bool
     {
         foreach ($this->getFiles() as $file_data) {
             if (is_dir($file_data["abs_path"])) {
@@ -133,23 +133,23 @@ class ilFileDataImportMail extends ilFileDataImport
         return true;
     }
     // PRIVATE METHODS
-    public function __readFiles(string $a_dir = ''): bool
+    public function __readFiles(string $a_dir = '') : bool
     {
         $a_dir = $a_dir ?: $this->getPath();
 
-        $this->files = array();
+        $this->files = [];
         $dp = opendir($a_dir);
 
         while ($file = readdir($dp)) {
             if ($file === "." || $file === "..") {
                 continue;
             }
-            $this->files[] = array(
-                'name' => $file,
+            $this->files[] = [
+                'name'     => $file,
                 'abs_path' => $a_dir . "/" . $file,
-                'size' => filesize($a_dir . "/" . $file),
-                'ctime' => filectime($a_dir . '/' . $file)
-            );
+                'size'     => filesize($a_dir . "/" . $file),
+                'ctime'    => filectime($a_dir . '/' . $file),
+            ];
         }
         closedir($dp);
 
@@ -162,7 +162,7 @@ class ilFileDataImportMail extends ilFileDataImport
     * @access	private
     * @return bool
     */
-    public function __checkReadWrite(): bool
+    public function __checkReadWrite() : bool
     {
         if (is_writable($this->mail_path) && is_readable($this->mail_path)) {
             return true;
@@ -175,7 +175,7 @@ class ilFileDataImportMail extends ilFileDataImport
     /**
      * @inheritDoc
      */
-    public function _initDirectory(): bool
+    public function _initDirectory() : bool
     {
         if (!is_dir($this->mail_path)) {
             ilUtil::makeDir($this->mail_path);

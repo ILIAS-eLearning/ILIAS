@@ -60,7 +60,7 @@ class ilContactGUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         $this->showSubTabs();
 
@@ -143,7 +143,7 @@ class ilContactGUI
     /**
      *
      */
-    private function showSubTabs(): void
+    private function showSubTabs() : void
     {
         if ($this->tabs_gui->hasTabs()) {
             if (ilBuddySystem::getInstance()->isEnabled()) {
@@ -153,7 +153,7 @@ class ilContactGUI
                     require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions(array(
-                        self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
+                        self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ));
                     $view_selection->setValue(
@@ -169,7 +169,7 @@ class ilContactGUI
                     $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
                 }
 
-                if ( count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
+                if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
                     $this->tabs_gui->addSubTab(
                         'mail_my_mailing_lists',
                         $this->lng->txt('mail_my_mailing_lists'),
@@ -211,7 +211,7 @@ class ilContactGUI
     /**
      * @param string $a_id
      */
-    protected function activateTab($a_id): void
+    protected function activateTab($a_id) : void
     {
         if ($this->has_sub_tabs) {
             $this->tabs_gui->activateSubTab($a_id);
@@ -223,7 +223,7 @@ class ilContactGUI
     /**
      * This method is used to switch the contacts view between gallery and table in the mail system
      */
-    protected function changeContactsView(): void
+    protected function changeContactsView() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -247,7 +247,7 @@ class ilContactGUI
     /**
      *
      */
-    protected function applyContactsTableFilter(): void
+    protected function applyContactsTableFilter() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -265,7 +265,7 @@ class ilContactGUI
     /**
      *
      */
-    protected function resetContactsTableFilter(): void
+    protected function resetContactsTableFilter() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -283,7 +283,7 @@ class ilContactGUI
     /**
      *
      */
-    protected function showContacts(): void
+    protected function showContacts() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -302,7 +302,7 @@ class ilContactGUI
     /**
      *
      */
-    protected function mailToUsers(): bool
+    protected function mailToUsers() : bool
     {
         if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
@@ -352,7 +352,7 @@ class ilContactGUI
      * Last step of chat invitations
      * check access for every selected user and send invitation
      */
-    public function submitInvitation(): void
+    public function submitInvitation() : void
     {
         if (!isset($this->httpRequest->getParsedBody()['usr_id']) || $this->httpRequest->getParsedBody()['usr_id'] === '') {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
@@ -395,7 +395,7 @@ class ilContactGUI
 
             if (
                 !ilChatroom::checkPermissionsOfUser((int) $usr_id, 'read', $ref_id) ||
-                $room->isUserBanned((int)$usr_id)
+                $room->isUserBanned((int) $usr_id)
             ) {
                 $no_access[$usr_id] = $login;
             } else {
@@ -472,7 +472,7 @@ class ilContactGUI
     /**
      * Send chat invitations to selected Users
      */
-    protected function inviteToChat(): void
+    protected function inviteToChat() : void
     {
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');
@@ -480,7 +480,7 @@ class ilContactGUI
         $this->lng->loadLanguageModule('chatroom');
 
         $usr_ids = $this->postUsrId;
-        if(!is_array($usr_ids)) {
+        if (!is_array($usr_ids)) {
             if (isset($this->httpRequest->getParsedBody()['usr_id']) &&
                 is_array($this->httpRequest->getParsedBody()['usr_id']) &&
                 count($this->httpRequest->getParsedBody()['usr_id']) > 0) {

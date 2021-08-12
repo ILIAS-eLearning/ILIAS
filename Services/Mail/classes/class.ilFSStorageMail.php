@@ -36,7 +36,7 @@ class ilFSStorageMail extends ilFileSystemStorage
      * @access protected
      *
      */
-    protected function getPathPostfix(): string
+    protected function getPathPostfix() : string
     {
         return 'mail';
     }
@@ -47,12 +47,12 @@ class ilFSStorageMail extends ilFileSystemStorage
      * @access protected
      *
      */
-    protected function getPathPrefix(): string
+    protected function getPathPrefix() : string
     {
         return 'mail';
     }
     
-    public function getRelativePathExMailDirectory(): string
+    public function getRelativePathExMailDirectory() : string
     {
         $path = '';
         switch ($this->getStorageType()) {

@@ -28,7 +28,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
      * @param int $usrId
      * @param ilObjUser $user
      */
-    public static function addUserToCache(int $usrId, ilObjUser $user): void
+    public static function addUserToCache(int $usrId, ilObjUser $user) : void
     {
         self::$userInstances[$usrId] = $user;
     }

@@ -32,7 +32,7 @@ class ilMailCronOrphanedMailsNotifier
     /**
      * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
      */
-    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj): void
+    private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         if ($this->threshold > $this->mail_notify_orphaned) {
             $notify_days_before = $this->threshold - $this->mail_notify_orphaned;
@@ -51,10 +51,10 @@ class ilMailCronOrphanedMailsNotifier
             
                 $this->db->insert(
                     'mail_cron_orphaned',
-                    array(
-                        'mail_id' => array('integer', $mail_id),
-                        'folder_id' => array('integer', $folder_id),
-                        'ts_do_delete' => array('integer', $ts_for_deletion))
+                    [
+                        'mail_id'      => ['integer', $mail_id],
+                        'folder_id'    => ['integer', $folder_id],
+                        'ts_do_delete' => ['integer', $ts_for_deletion], ]
                 );
             }
         }
@@ -63,20 +63,20 @@ class ilMailCronOrphanedMailsNotifier
     /**
      * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
      */
-    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj): void
+    private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotification.php';
         $mail = new ilMailCronOrphanedMailsNotification();
 
-        $mail->setRecipients(array($collection_obj->getUserId()));
-        $mail->setAdditionalInformation(array('mail_folders' => $collection_obj->getFolderObjects()));
+        $mail->setRecipients([$collection_obj->getUserId()]);
+        $mail->setAdditionalInformation(['mail_folders' => $collection_obj->getFolderObjects()]);
         $mail->send();
     }
 
     /**
      *
      */
-    public function processNotification(): void
+    public function processNotification() : void
     {
         foreach ($this->collector->getCollection() as $collection_obj) {
             $this->sendMail($collection_obj);

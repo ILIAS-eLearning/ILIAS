@@ -80,11 +80,11 @@ class ilMailOptions
                 'user_id' => ['integer', $this->usrId],
             ],
             [
-                'linebreak' => ['integer', $this->linebreak],
-                'signature' => ['text', $this->signature],
-                'incoming_type' => ['integer', $this->incomingType],
-                'mail_address_option' => ['integer', $this->emailAddressMode],
-                'cronjob_notification' => ['integer', (int) $this->isCronJobNotificationEnabled]
+                'linebreak'            => ['integer', $this->linebreak],
+                'signature'            => ['text', $this->signature],
+                'incoming_type'        => ['integer', $this->incomingType],
+                'mail_address_option'  => ['integer', $this->emailAddressMode],
+                'cronjob_notification' => ['integer', (int) $this->isCronJobNotificationEnabled],
             ]
         );
     }
@@ -135,13 +135,13 @@ class ilMailOptions
         }
     }
 
-    public function updateOptions(): int
+    public function updateOptions() : int
     {
         $data = [
-            'signature' => ['text', $this->getSignature()],
-            'linebreak' => ['integer', $this->getLinebreak()],
-            'incoming_type' => ['integer', $this->getIncomingType()],
-            'mail_address_option' => ['integer', $this->getEmailAddressMode()]
+            'signature'           => ['text', $this->getSignature()],
+            'linebreak'           => ['integer', $this->getLinebreak()],
+            'incoming_type'       => ['integer', $this->getIncomingType()],
+            'mail_address_option' => ['integer', $this->getEmailAddressMode()],
         ];
 
         if ($this->settings->get('mail_notification')) {
@@ -153,7 +153,7 @@ class ilMailOptions
         return $this->db->replace(
             $this->table_mail_options,
             [
-                'user_id' => ['integer', $this->usrId]
+                'user_id' => ['integer', $this->usrId],
             ],
             $data
         );

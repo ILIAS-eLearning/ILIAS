@@ -64,7 +64,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
      * @param array   $row
      * @return string
      */
-    protected function formatCellValue(string $column, array $row): string
+    protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
             return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
@@ -83,7 +83,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
                 return implode('', [
                     $this->contexts[$row[$column]]->getTitle(),
-                    $isDefaultSuffix
+                    $isDefaultSuffix,
                 ]);
             }
 
@@ -96,7 +96,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
@@ -186,7 +186,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function getHTML(): string
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

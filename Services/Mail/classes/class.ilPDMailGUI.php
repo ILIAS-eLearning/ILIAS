@@ -36,7 +36,7 @@ class ilPDMailGUI
     /**
      * Get Mail HTML for Personal Desktop Mail Display
      */
-    public function getPDMailHTML(int $a_mail_id, int $a_mobj_id): string
+    public function getPDMailHTML(int $a_mail_id, int $a_mobj_id) : string
     {
         $this->lng->loadLanguageModule('mail');
 
@@ -48,7 +48,7 @@ class ilPDMailGUI
             $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
         }
 
-        $umail->markRead(array($a_mail_id));
+        $umail->markRead([$a_mail_id]);
         $mail_data = $umail->getMail($a_mail_id);
 
         $tpl = new ilTemplate('tpl.pd_mail.html', true, true, 'Services/Mail');

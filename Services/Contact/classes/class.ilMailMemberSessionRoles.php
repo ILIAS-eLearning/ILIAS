@@ -9,7 +9,6 @@ require_once 'Services/Contact/classes/class.ilAbstractMailMemberRoles.php';
  */
 class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
 {
-
     protected ilLanguage $lng;
     protected ilRbacReview $rbacreview;
 
@@ -27,7 +26,7 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
     /**
      * @return string
      */
-    public function getRadioOptionTitle(): string
+    public function getRadioOptionTitle() : string
     {
         return $this->lng->txt('mail_sess_roles');
     }
@@ -36,7 +35,7 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
      * @param $ref_id
      * @return array sorted_roles
      */
-    public function getMailRoles(int $ref_id): array
+    public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 

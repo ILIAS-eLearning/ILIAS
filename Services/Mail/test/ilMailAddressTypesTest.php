@@ -418,7 +418,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper = $this->getMockBuilder(ilMailAddressTypeHelper::class)->getMock();
 
         $list = $this->getMockBuilder(ilMailingList::class)->disableOriginalConstructor()->onlyMethods([
-            'getAssignedEntries'
+            'getAssignedEntries',
         ])->getMock();
         $list->expects($this->exactly(2))->method('getAssignedEntries')->willReturnOnConsecutiveCalls(
             [['usr_id' => 1], ['usr_id' => 2], ['usr_id' => 3]],
@@ -427,7 +427,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $lists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->onlyMethods([
             'mailingListExists',
-            'getCurrentMailingList'
+            'getCurrentMailingList',
         ])->getMock();
         $lists->expects($this->exactly(3))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
             true,
@@ -462,7 +462,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     public function testMailingListAddressCanBeValidated() : void
     {
         $lists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->onlyMethods([
-            'mailingListExists'
+            'mailingListExists',
         ])->getMock();
         $lists->expects($this->exactly(2))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
             true,

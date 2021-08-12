@@ -126,10 +126,10 @@ class ilMailOptionsGUI
     protected function getForm() : ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(
-                new ilMailOptions($this->user->getId()),
-                $this,
-                'saveOptions'
-            );
+            new ilMailOptions($this->user->getId()),
+            $this,
+            'saveOptions'
+        );
     }
 
     /**

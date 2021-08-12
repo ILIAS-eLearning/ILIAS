@@ -96,7 +96,7 @@ class ilMailOptionsGUITest extends ilMailBaseTest
 
         $ctrl->expects($this->once())->method('redirectByClass')->with('ilPersonalSettingsGUI');
         $request->expects($this->any())->method('getQueryParams')->willReturn([
-            'referrer' => 'ilPersonalSettingsGUI'
+            'referrer' => 'ilPersonalSettingsGUI',
         ]);
 
         $gui = $this->getMailOptionsGUI($request, $ctrl, $settings);

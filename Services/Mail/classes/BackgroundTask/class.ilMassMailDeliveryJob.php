@@ -13,7 +13,6 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-
     private \ILIAS\DI\Container $dic;
     private ilMailValueObjectJsonService $mailJsonService;
 
@@ -34,7 +33,7 @@ class ilMassMailDeliveryJob extends AbstractJob
      * @inheritdoc
      * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      */
-    public function run(array $input, Observer $observer): BooleanValue
+    public function run(array $input, Observer $observer) : BooleanValue
     {
         $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
 
@@ -81,7 +80,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getInputTypes(): array
+    public function getInputTypes() : array
     {
         return [
             new SingleType(IntegerValue::class), // User Id
@@ -94,7 +93,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function isStateless(): bool
+    public function isStateless() : bool
     {
         return true;
     }
@@ -102,7 +101,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getExpectedTimeOfTaskInSeconds(): int
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 42; // The answer to life, universe and the rest
     }
@@ -110,7 +109,7 @@ class ilMassMailDeliveryJob extends AbstractJob
     /**
      * @inheritdoc
      */
-    public function getOutputType(): SingleType
+    public function getOutputType() : SingleType
     {
         return new SingleType(BooleanValue::class);
     }

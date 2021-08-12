@@ -47,20 +47,20 @@ class ilMailbox
             $this->lng->loadLanguageModule("mail");
 
             $this->actions = [
-                'moveMails' => $this->lng->txt('mail_move_to'),
-                'markMailsRead' => $this->lng->txt('mail_mark_read'),
+                'moveMails'       => $this->lng->txt('mail_move_to'),
+                'markMailsRead'   => $this->lng->txt('mail_mark_read'),
                 'markMailsUnread' => $this->lng->txt('mail_mark_unread'),
-                'deleteMails' => $this->lng->txt('delete')
+                'deleteMails'     => $this->lng->txt('delete'),
             ];
         }
 
         // array contains basic folders and there lng translation for every new user
         $this->defaultFolders = [
-            'b_inbox' => 'inbox',
-            'c_trash' => 'trash',
+            'b_inbox'  => 'inbox',
+            'c_trash'  => 'trash',
             'd_drafts' => 'drafts',
-            'e_sent' => 'sent',
-            'z_local' => 'local'
+            'e_sent'   => 'sent',
+            'z_local'  => 'local',
         ];
     }
 
@@ -195,7 +195,7 @@ class ilMailbox
         );
         $this->mtree->insertNode($nextId, $parentFolderId);
 
-        return (int)$nextId;
+        return (int) $nextId;
     }
 
     /**
@@ -294,8 +294,8 @@ class ilMailbox
 
         return [
             'obj_id' => (int) $row['obj_id'],
-            'title' => (string) $row['title'],
-            'type' => (string) $row['m_type'],
+            'title'  => (string) $row['title'],
+            'type'   => (string) $row['m_type'],
         ];
     }
 
@@ -331,8 +331,8 @@ class ilMailbox
             $row = $this->db->fetchAssoc($res);
 
             $userFolders[] = [
-                'title' => $key,
-                'type' => (string) $row['m_type'],
+                'title'  => $key,
+                'type'   => (string) $row['m_type'],
                 'obj_id' => (int) $row['obj_id'],
             ];
         }
@@ -342,7 +342,7 @@ class ilMailbox
             'WHERE ' . $this->table_mail_obj_data . '.obj_id = ' . $this->table_tree . '.child',
             'AND ' . $this->table_tree . '.depth  > %s',
             'AND ' . $this->table_tree . '.tree  = %s',
-            'ORDER BY ' . $this->table_tree . '.lft, ' . $this->table_mail_obj_data . '.title'
+            'ORDER BY ' . $this->table_tree . '.lft, ' . $this->table_mail_obj_data . '.title',
         ]);
         $res = $this->db->queryF(
             $query,
@@ -351,8 +351,8 @@ class ilMailbox
         );
         while ($row = $this->db->fetchAssoc($res)) {
             $userFolders[] = [
-                'title' => (string) $row['title'],
-                'type' => (string) $row['m_type'],
+                'title'  => (string) $row['title'],
+                'type'   => (string) $row['m_type'],
                 'obj_id' => (int) $row['child'],
             ];
         }

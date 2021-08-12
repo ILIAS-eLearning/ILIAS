@@ -7,7 +7,6 @@
  */
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
-
     protected ilMailAddressTypeHelper $typeHelper;
     protected ilMailAddress $address;
     protected ilLogger $logger;
@@ -51,7 +50,7 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
      * @param string $languageVariable
      * @param array $placeHolderValues
      */
-    protected function pushError(string $languageVariable, array $placeHolderValues = []): void
+    protected function pushError(string $languageVariable, array $placeHolderValues = []) : void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
     }

@@ -135,7 +135,7 @@ class ilMailAttachmentGUI
         } else {
             $mailData = $this->umail->getSavedData();
             if (is_array($mailData['attachments'])) {
-                $tmp = array();
+                $tmp = [];
                 foreach ($mailData['attachments'] as $attachment) {
                     if (!in_array($attachment, $decodedFiles, true)) {
                         $tmp[] = $attachment;
@@ -199,7 +199,7 @@ class ilMailAttachmentGUI
 
         $mailData = $this->umail->getSavedData();
         $files = $this->mfile->getUserFilesData();
-        $data = array();
+        $data = [];
         $counter = 0;
         foreach ($files as $file) {
             $checked = false;
@@ -207,12 +207,12 @@ class ilMailAttachmentGUI
                 $checked = true;
             }
 
-            $data[$counter] = array(
-                'checked' => $checked,
-                'filename' => $file['name'],
-                'filesize' => (int) $file['size'],
-                'filecreatedate' => (int) $file['ctime']
-            );
+            $data[$counter] = [
+                'checked'        => $checked,
+                'filename'       => $file['name'],
+                'filesize'       => (int) $file['size'],
+                'filecreatedate' => (int) $file['ctime'],
+            ];
 
             ++$counter;
         }

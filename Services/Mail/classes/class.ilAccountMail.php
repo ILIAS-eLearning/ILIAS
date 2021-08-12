@@ -36,7 +36,7 @@ class ilAccountMail
     */
     public string $target = "";
     private bool $lang_variables_as_fallback = false;
-    private array $attachments = array();
+    private array $attachments = [];
     private bool $attachConfiguredFiles = false;
 
     /** @var array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null} */
@@ -53,12 +53,12 @@ class ilAccountMail
         $this->httpRequest = $DIC->http()->request();
     }
     
-    public function useLangVariablesAsFallback(bool $a_status): void
+    public function useLangVariablesAsFallback(bool $a_status) : void
     {
         $this->lang_variables_as_fallback = $a_status;
     }
     
-    public function areLangVariablesUsedAsFallback(): bool
+    public function areLangVariablesUsedAsFallback() : bool
     {
         return $this->lang_variables_as_fallback;
     }
@@ -74,7 +74,7 @@ class ilAccountMail
     /**
      * @param bool $attachConfiguredFiles
      */
-    public function setAttachConfiguredFiles(bool $attachConfiguredFiles): void
+    public function setAttachConfiguredFiles(bool $attachConfiguredFiles) : void
     {
         $this->attachConfiguredFiles = $attachConfiguredFiles;
     }
@@ -85,7 +85,7 @@ class ilAccountMail
     * @access	public
     * @param	string	$a_pwd		users password as plain text
     */
-    public function setUserPassword(string $a_pwd): void
+    public function setUserPassword(string $a_pwd) : void
     {
         $this->u_password = $a_pwd;
     }
@@ -96,7 +96,7 @@ class ilAccountMail
     * @access	public
     * @return	string		users password as plain text
     */
-    public function getUserPassword(): string
+    public function getUserPassword() : string
     {
         return $this->u_password;
     }
@@ -108,7 +108,7 @@ class ilAccountMail
     * @access	public
     * @param	object	$a_user		user object
     */
-    public function setUser(&$a_user): void
+    public function setUser(&$a_user) : void
     {
         if (
             $this->user instanceof ilObjUser &&
@@ -127,7 +127,7 @@ class ilAccountMail
     * @access	public
     * @return	object		user object
     */
-    public function &getUser(): object
+    public function &getUser() : object
     {
         return $this->user;
     }
@@ -138,7 +138,7 @@ class ilAccountMail
     * @access	public
     * @return	string		repository item target
     */
-    public function getTarget(): string
+    public function getTarget() : string
     {
         return $this->target;
     }
@@ -146,7 +146,7 @@ class ilAccountMail
     /**
     * reset all values
     */
-    public function reset(): void
+    public function reset() : void
     {
         unset($this->u_password, $this->user, $this->target);
     }
@@ -183,7 +183,7 @@ class ilAccountMail
     /***
      * @param $mailData
      */
-    private function addAttachments($mailData): void
+    private function addAttachments($mailData) : void
     {
         if ($this->shouldAttachConfiguredFiles() && isset($mailData['att_file'])) {
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
@@ -208,7 +208,7 @@ class ilAccountMail
     * @access	public
     * @param object ilUser
     */
-    public function send(): bool
+    public function send() : bool
     {
         global $ilSetting;
         
@@ -306,7 +306,7 @@ class ilAccountMail
         // BEGIN Mail Include E-Mail Address in account mail
         // END Mail Include E-Mail Address in account mail
         $a_string = str_replace(
-            array(
+            [
                 "[MAIL_SALUTATION]",
                 "[LOGIN]",
                 "[FIRST_NAME]",
@@ -315,9 +315,9 @@ class ilAccountMail
                 "[PASSWORD]",
                 "[ILIAS_URL]",
                 "[CLIENT_NAME]",
-                "[ADMIN_MAIL]"
-            ),
-            array(
+                "[ADMIN_MAIL]",
+            ],
+            [
                 $gender_salut,
                 $a_user->getLogin(),
                 $a_user->getFirstname(),
@@ -326,7 +326,7 @@ class ilAccountMail
                 $this->getUserPassword(),
                 ILIAS_HTTP_PATH . "/login.php?client_id=" . CLIENT_ID,
                 CLIENT_NAME,
-                $ilSetting->get("admin_email")),
+                $ilSetting->get("admin_email"), ],
             $a_string
         );
             
@@ -361,8 +361,8 @@ class ilAccountMail
                 $type = ilObject::_lookupType($obj_id);
                 if ($type == $tarr[0]) {
                     $a_string = str_replace(
-                        array("[TARGET_TITLE]", "[TARGET]"),
-                        array(ilObject::_lookupTitle($obj_id), ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $this->httpRequest->getQueryParams()["target"]),
+                        ["[TARGET_TITLE]", "[TARGET]"],
+                        [ilObject::_lookupTitle($obj_id), ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $this->httpRequest->getQueryParams()["target"]],
                         $a_string
                     );
                         
@@ -390,7 +390,7 @@ class ilAccountMail
         return $a_string;
     }
     
-    public function addAttachment(string $a_filename, string $a_display_name): void
+    public function addAttachment(string $a_filename, string $a_display_name) : void
     {
         $this->attachments[$a_filename] = $a_display_name;
     }

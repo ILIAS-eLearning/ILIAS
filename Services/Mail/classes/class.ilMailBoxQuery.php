@@ -17,8 +17,8 @@ class ilMailBoxQuery
     public static int $offset = 0;
     public static string $orderDirection = '';
     public static string $orderColumn = '';
-    public static array $filter = array();
-    public static array $filtered_ids = array();
+    public static array $filter = [];
+    public static array $filtered_ids = [];
 
     /**
      * _getMailBoxListData
@@ -28,18 +28,18 @@ class ilMailBoxQuery
      * @return	array	Array of mails
      *
      */
-    public static function _getMailBoxListData(): array
+    public static function _getMailBoxListData() : array
     {
         global $DIC;
 
         $mails = ['cnt' => 0, 'cnt_unread' => 0, 'set' => []];
 
         $filter = [
-            'mail_filter_sender' => 'CONCAT(CONCAT(firstname, lastname), login)',
+            'mail_filter_sender'     => 'CONCAT(CONCAT(firstname, lastname), login)',
             'mail_filter_recipients' => 'CONCAT(CONCAT(rcp_to, rcp_cc), rcp_bcc)',
-            'mail_filter_subject' => 'm_subject',
-            'mail_filter_body' => 'm_message',
-            'mail_filter_attach' => ''
+            'mail_filter_subject'    => 'm_subject',
+            'mail_filter_body'       => 'm_message',
+            'mail_filter_attach'     => '',
         ];
 
         $filter_parts = [];
@@ -160,7 +160,7 @@ class ilMailBoxQuery
         }
 
         $orderDirection = 'ASC';
-        if (in_array(strtolower(self::$orderDirection), array('desc', 'asc'))) {
+        if (in_array(strtolower(self::$orderDirection), ['desc', 'asc'])) {
             $orderDirection = self::$orderDirection;
         }
 
@@ -190,7 +190,7 @@ class ilMailBoxQuery
             [self::$userId, self::$folderId]
         );
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            if(array_key_exists('attachments', $row) && $row['attachments']) {
+            if (array_key_exists('attachments', $row) && $row['attachments']) {
                 $row['attachments'] = unserialize(stripslashes($row['attachments']));
             }
             $mails['set'][] = $row;

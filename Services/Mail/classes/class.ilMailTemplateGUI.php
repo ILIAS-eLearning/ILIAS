@@ -317,16 +317,16 @@ class ilMailTemplateGUI
      * @param ilPropertyFormGUI $form
      * @param ilMailTemplate $template
      */
-    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template): void
+    protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template) : void
     {
-        $form->setValuesByArray(array(
-            'tpl_id' => $template->getTplId(),
-            'title' => $template->getTitle(),
-            'context' => $template->getContext(),
-            'lang' => $template->getLang(),
+        $form->setValuesByArray([
+            'tpl_id'    => $template->getTplId(),
+            'title'     => $template->getTitle(),
+            'context'   => $template->getContext(),
+            'lang'      => $template->getLang(),
             'm_subject' => $template->getSubject(),
             'm_message' => $template->getMessage(),
-        ));
+        ]);
     }
 
     /**
@@ -338,15 +338,15 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? array();
+        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? [];
         if (is_array($templateIds) && count($templateIds) > 0) {
             $templateIds = array_filter(array_map('intval', $templateIds));
         } else {
             $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? '';
             if (is_numeric($templateId) && $templateId > 0) {
-                $templateIds = array_filter(array((int) $templateId));
+                $templateIds = array_filter([(int) $templateId]);
             } else {
-                $templateIds = array();
+                $templateIds = [];
             }
         }
 
@@ -384,15 +384,15 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? array();
+        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? [];
         if (is_array($templateIds) && count($templateIds) > 0) {
             $templateIds = array_filter(array_map('intval', $templateIds));
         } else {
             $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? '';
             if (is_numeric($templateId) && $templateId > 0) {
-                $templateIds = array_filter(array((int) $templateId));
+                $templateIds = array_filter([(int) $templateId]);
             } else {
-                $templateIds = array();
+                $templateIds = [];
             }
         }
 
@@ -456,8 +456,8 @@ class ilMailTemplateGUI
             $this->ctrl->redirect($this, 'showTemplates');
         }
 
-        $context_sort = array();
-        $context_options = array();
+        $context_sort = [];
+        $context_options = [];
         $generic_context = new ilMailTemplateGenericContext();
         foreach ($contexts as $ctx) {
             if ($ctx->getId() !== $generic_context->getId()) {
@@ -576,7 +576,7 @@ class ilMailTemplateGUI
     /**
      *
      */
-    public function setAsContextDefault(): void
+    public function setAsContextDefault() : void
     {
         if (!$this->isEditingAllowed()) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);

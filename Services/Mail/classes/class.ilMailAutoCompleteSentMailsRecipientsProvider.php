@@ -12,37 +12,36 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * @var array
      */
-    protected array $users_stack = array();
+    protected array $users_stack = [];
     
     /**
      * "Current" implementation of iterator interface
      * @return  array
      */
-    public function current(): array
+    public function current() : array
     {
         if (is_array($this->data)) {
-            return array(
-                'login' => $this->data['login'],
+            return [
+                'login'     => $this->data['login'],
                 'firstname' => '',
-                'lastname' => ''
-            );
+                'lastname'  => '',
+            ];
         }
 
         if (count($this->users_stack) > 0) {
-            return array(
-                'login' => array_shift($this->users_stack),
+            return [
+                'login'     => array_shift($this->users_stack),
                 'firstname' => '',
-                'lastname' => ''
-            );
+                'lastname'  => '',
+            ];
         }
-
     }
 
     /**
      * "Key" implementation of iterator interface
      * @return string
      */
-    public function key(): string
+    public function key() : string
     {
         if (is_array($this->data)) {
             return $this->data['login'];
@@ -56,7 +55,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * @return bool
      */
-    public function valid(): bool
+    public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
         if (
@@ -84,7 +83,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     /**
      * "Rewind "implementation of iterator interface
      */
-    public function rewind(): void
+    public function rewind() : void
     {
         if ($this->res) {
             $this->db->free($this->res);

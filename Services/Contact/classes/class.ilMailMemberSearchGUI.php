@@ -10,7 +10,6 @@ use Psr\Http\Message\RequestInterface;
 **/
 class ilMailMemberSearchGUI
 {
-
     private RequestInterface $httpRequest;
     protected mixed $mail_roles;
     /**
@@ -139,9 +138,9 @@ class ilMailMemberSearchGUI
                         'showSearchForm',
                         ['type' => 'role'],
                         [
-                            'type' => 'role',
+                            'type'   => 'role',
                             'rcp_to' => implode(',', $role_mail_boxes),
-                            'sig' => $this->gui->createMailSignature()
+                            'sig'    => $this->gui->createMailSignature()
                         ],
                         $this->generateContextArray()
                     ));
@@ -174,8 +173,8 @@ class ilMailMemberSearchGUI
             case 'crs':
                 if ($this->access->checkAccess('write', '', $this->ref_id)) {
                     $contextParameters = [
-                        'ref_id' => $this->ref_id,
-                        'ts' => time(),
+                        'ref_id'                            => $this->ref_id,
+                        'ts'                                => time(),
                         ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(
                             ilObject::_lookupObjId($this->ref_id),
                             ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX,
@@ -193,8 +192,8 @@ class ilMailMemberSearchGUI
                 if ($this->access->checkAccess('write', '', $this->ref_id)) {
                     $contextParameters = [
                         ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
-                        'ref_id' => $this->ref_id,
-                        'ts' => time()
+                        'ref_id'                    => $this->ref_id,
+                        'ts'                        => time()
                     ];
                 }
                 break;
@@ -243,7 +242,7 @@ class ilMailMemberSearchGUI
             [],
             [
                 'type' => 'new',
-                'sig' => $this->gui->createMailSignature(),
+                'sig'  => $this->gui->createMailSignature(),
             ],
             $this->generateContextArray()
         ));

@@ -24,7 +24,7 @@ class ilMailAddress
     /**
      * @param string $host
      */
-    public function setHost(string $host): void
+    public function setHost(string $host) : void
     {
         $this->host = $host;
     }
@@ -32,7 +32,7 @@ class ilMailAddress
     /**
      * @param string $mailbox
      */
-    public function setMailbox(string $mailbox): void
+    public function setMailbox(string $mailbox) : void
     {
         $this->mailbox = $mailbox;
     }
