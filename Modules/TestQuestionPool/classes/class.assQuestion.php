@@ -1,7 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
+require_once './Modules/Test/classes/inc.AssessmentConstants.php';
+require_once dirname(__DIR__).'../../../libs/composer/vendor/autoload.php';
 
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
@@ -55,7 +56,7 @@ abstract class assQuestion
     /**
      * The maximum available points for the question
      */
-    protected ?float $points;
+    protected float $points;
 
     /**
      * @var array estimated working time on a question (HH MM SS)
@@ -114,12 +115,6 @@ abstract class assQuestion
     private int $nr_of_tries;
     
     /**
-     * Associative array to store random properties
-     * Seems like the __get and __set make use of these as pseudo-members
-     */
-    private $arrData;
-
-    /**
      * (Web) Path to images
      */
     private string $export_image_path;
@@ -134,7 +129,7 @@ abstract class assQuestion
     
     private string $additionalContentEditingMode;
     
-    public ilAssQuestionFeedback $feedbackOBJ;
+    public \ilAssQuestionFeedback $feedbackOBJ;
 
     public bool $prevent_rte_usage = false;
 
@@ -147,11 +142,9 @@ abstract class assQuestion
      */
     protected array $questionChangeListeners = array();
 
-    protected ilAssQuestionProcessLocker $processLocker;
+    protected \ilAssQuestionProcessLocker $processLocker;
 
     public string $questionActionCmd = 'handleQuestionAction';
-
-    private static ilObjTestGateway $resultGateway;
 
     /**
      * @var null|int
@@ -160,7 +153,7 @@ abstract class assQuestion
     
     protected $lastChange;
 
-    protected ilRandomArrayElementProvider $shuffler;
+    protected \ilRandomArrayElementProvider $shuffler;
 
     private bool $obligationsToBeConsidered = false;
 
@@ -208,14 +201,13 @@ abstract class assQuestion
         if ($this->owner <= 0) {
             $this->owner = $this->ilias->account->id;
         }
-        $this->points = 0.0; // @TODO: Check if this is risky
+
         $this->id = -1;
         $this->test_id = -1;
         $this->suggested_solutions = array();
         $this->shuffle = 1;
         $this->nr_of_tries = 0;
         $this->setEstimatedWorkingTime(0, 1, 0);
-        $this->arrData = array();
         $this->setExternalId('');
 
         $this->questionActionCmd = 'handleQuestionAction';
@@ -324,8 +316,7 @@ abstract class assQuestion
      */
     protected function lookupCurrentTestPass(int $active_id, int $pass) : int
     {
-        require_once 'Modules/Test/classes/class.ilObjTest.php';
-        return ilObjTest::_getPass($active_id);
+        return \ilObjTest::_getPass($active_id);
     }
 
     /**
@@ -1066,13 +1057,9 @@ abstract class assQuestion
 
         include_once "./Modules/Test/classes/class.ilObjTest.php";
 
-        if (self::getResultGateway() !== null) {
-            $data = self::getResultGateway()->getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-            $time = self::getResultGateway()->getWorkingTimeOfParticipantForPass($active_id, $pass);
-        } else {
-            $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
-            $time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
-        }
+        $data = ilObjTest::_getQuestionCountAndPointsForPassOfParticipant($active_id, $pass);
+        $time = ilObjTest::_getWorkingTimeOfParticipantForPass($active_id, $pass);
+
 
         
         // update test pass results
@@ -1437,23 +1424,6 @@ abstract class assQuestion
         );
         $row = $this->db->fetchAssoc($result);
         return ((int)$row["cnt"]) > 0;
-    }
-
-    /**
-    * Shuffles the values of a given array
-    *
-    * @param array $array An array which should be shuffled
-    * @access public
-    */
-    public function pcArrayShuffle(array $array) : array
-    {
-        $keys = array_keys($array);
-        shuffle($keys);
-        $result = array();
-        foreach ($keys as $key) {
-            $result[$key] = $array[$key];
-        }
-        return $result;
     }
 
     public static function getQuestionTypeFromDb(int $question_id) : string
@@ -3313,126 +3283,33 @@ abstract class assQuestion
     }
 
     /**
-    * Object getter
-    */
+     * Object getter
+     * @deprecated Simply do not use this.
+     * @removal ILIAS 9
+     */
     public function __get($value)
     {
-        switch ($value) {
-            case "id":
-                return $this->getId();
-                break;
-            case "title":
-                return $this->getTitle();
-                break;
-            case "comment":
-                return $this->getComment();
-                break;
-            case "owner":
-                return $this->getOwner();
-                break;
-            case "author":
-                return $this->getAuthor();
-                break;
-            case "question":
-                return $this->getQuestion();
-                break;
-            case "points":
-                return $this->getPoints();
-                break;
-            case "est_working_time":
-                return $this->getEstimatedWorkingTime();
-                break;
-            case "shuffle":
-                return $this->getShuffle();
-                break;
-            case "test_id":
-                return $this->getTestId();
-                break;
-            case "obj_id":
-                return $this->getObjId();
-                break;
-            case "ilias":
-                return $this->ilias;
-                break;
-            case "tpl":
-                return $this->tpl;
-                break;
-            case "page":
-                return $this->page;
-                break;
-            case "outputType":
-                return $this->getOutputType();
-                break;
-            case "suggested_solutions":
-                return $this->getSuggestedSolutions();
-                break;
-            case "original_id":
-                return $this->getOriginalId();
-                break;
-            default:
-                if (array_key_exists($value, $this->arrData)) {
-                    return $this->arrData[$value];
-                }
-
-                return null;
-                break;
-        }
+        throw new BadMethodCallException('assQuestion::__get is discouraged, used with: ' . $value);
     }
 
     /**
-    * Object setter
-    */
+     * Object setter
+     * @deprecated Simply do not use this.
+     * @removal ILIAS 9
+     */
     public function __set($key, $value)
     {
-        switch ($key) {
-            case "id":
-                $this->setId($value);
-                break;
-            case "title":
-                $this->setTitle($value);
-                break;
-            case "comment":
-                $this->setComment($value);
-                break;
-            case "owner":
-                $this->setOwner($value);
-                break;
-            case "author":
-                $this->setAuthor($value);
-                break;
-            case "question":
-                $this->setQuestion($value);
-                break;
-            case "points":
-                $this->setPoints($value);
-                break;
-            case "est_working_time":
-                if (is_array($value)) {
-                    $this->setEstimatedWorkingTime($value["h"], $value["m"], $value["s"]);
-                }
-                break;
-            case "shuffle":
-                $this->setShuffle($value);
-                break;
-            case "test_id":
-                $this->setTestId($value);
-                break;
-            case "obj_id":
-                $this->setObjId($value);
-                break;
-            case "outputType":
-                $this->setOutputType($value);
-                break;
-            case "original_id":
-                $this->setOriginalId($value);
-                break;
-            case "page":
-                $this->page = $value;
-                break;
-            default:
-                $this->arrData[$key] = $value;
-                break;
-        }
+        throw new BadMethodCallException('assQuestion::__set is discouraged, used with: ' . $key);
+    }
+
+    /**
+     * Object issetter
+     * @deprecated Simply do not use this.
+     * @removal ILIAS 9
+     */
+    public function __isset($key)
+    {
+        throw new BadMethodCallException('assQuestion::__isset is discouraged, used with: ' . $key);
     }
     
     public function getNrOfTries() : int
@@ -4064,21 +3941,7 @@ abstract class assQuestion
     }
     // hey.
 
-    /**
-     * @param \ilObjTestGateway $resultGateway
-     */
-    public static function setResultGateway($resultGateway)
-    {
-        self::$resultGateway = $resultGateway;
-    }
 
-    /**
-     * @return \ilObjTestGateway
-     */
-    public static function getResultGateway()
-    {
-        return self::$resultGateway;
-    }
 
     /**
      * @param int|null $step

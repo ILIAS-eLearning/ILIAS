@@ -1,11 +1,12 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+//require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+/*
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbackOptionLabelProvider.php';
-
+*/
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -59,8 +60,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->optionLabel = self::OPTION_LABEL_RIGHT_WRONG;
         $this->customTrueOptionLabel = '';
         $this->customFalseOptionLabel = '';
-        
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
+
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
         
         $this->answers = array();
@@ -350,7 +350,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             }
         }
         
-        if ($this->getMaximumPoints() <= 0) {
+        if (!isset($this->points)) {
             return false;
         }
 
