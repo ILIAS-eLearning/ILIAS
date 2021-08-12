@@ -7607,7 +7607,9 @@ a fieldset[disabled] .active {
 }
 .ilToolbar .il-toggle-button {
   bottom: 3px;
-  left: 6px;
+}
+.ilToolbar label {
+  font-size: 12px;
 }
 h4.il-divider {
   padding: 3px 6px;
