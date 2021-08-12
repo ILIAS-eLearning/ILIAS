@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,26 +9,13 @@
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
+    private ?ilUserCertificateRepository $userCertificateRepository;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        ilUserCertificateRepository $userCertificateRepository = null
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
+        ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
@@ -61,7 +48,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
     /**
      * Get all achieved test certificates for the current user
      */
-    protected function getItems()
+    protected function getItems() : void
     {
         $ilUser = $this->user;
         $userId = $ilUser->getId();
@@ -87,7 +74,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $ilCtrl = $this->ctrl;
 
