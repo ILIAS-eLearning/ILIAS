@@ -1,16 +1,10 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjTestVerificationAccess
-*
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-*/
+ * Class ilObjTestVerificationAccess
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjTestVerificationAccess extends ilObjectAccess
 {
     public static function _getCommands() : array
@@ -30,7 +24,7 @@ class ilObjTestVerificationAccess extends ilObjectAccess
         // #11021
         // personal workspace context: do not force normal login
         if (isset($t_arr[2]) && $t_arr[2] === 'wsp') {
-            return ilSharedResourceGUI::hasAccess($t_arr[1]);
+            return ilSharedResourceGUI::hasAccess((int) $t_arr[1]);
         }
 
         if ($ilAccess->checkAccess('read', '', (int) $t_arr[1])) {

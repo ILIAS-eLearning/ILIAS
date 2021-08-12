@@ -2,14 +2,10 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Test Verification
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesTest
-*/
+ * Test Verification
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ingroup ModulesTest
+ */
 class ilObjTestVerification extends ilVerificationObject
 {
     protected function initType() : void

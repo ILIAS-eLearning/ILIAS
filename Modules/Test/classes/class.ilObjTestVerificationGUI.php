@@ -18,9 +18,6 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         return "tstv";
     }
 
-    /**
-     * List all tests in which current user participated
-     */
     public function create() : void
     {
         global $DIC;
@@ -37,9 +34,6 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * create new instance and save it
-     */
     public function save() : void
     {
         global $DIC;
@@ -61,6 +55,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
                 (int) $objectId
             );
 
+            $newObj = null;
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
@@ -91,13 +86,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * Render content
-     * @param bool $a_return
-     * @param string|bool $a_url
-     * @return string
-     */
-    public function render(bool $a_return = false, $a_url = false) : string
+    public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -111,6 +100,7 @@ class ilObjTestVerificationGUI extends ilObject2GUI
             $caption = $lng->txt("wsp_type_tstv") . ' "' . $this->object->getTitle() . '"';
 
             $valid = true;
+            $message = '';
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
                 $message = $lng->txt("url_not_found");
@@ -127,9 +117,9 @@ class ilObjTestVerificationGUI extends ilObject2GUI
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
                 }
                 return '<div><a href="' . $a_url . '">' . $caption . '</a></div>';
-            } else {
-                return '<div>' . $caption . ' (' . $message . ')</div>';
             }
+
+            return '<div>' . $caption . ' (' . $message . ')</div>';
         }
 
         return "";
