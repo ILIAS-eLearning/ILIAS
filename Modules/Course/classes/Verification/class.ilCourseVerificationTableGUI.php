@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
 
 include_once './Services/Table/classes/class.ilTable2GUI.php';
 
@@ -11,21 +13,19 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilCourseVerificationTableGUI extends ilTable2GUI
 {
-    private $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
+    private Container $dic;
 
-    /**
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
+        ilObject $a_parent_obj,
+        string $a_parent_cmd = "",
         ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->dic = $DIC;
+
+        $ilCtrl = $DIC->ctrl();
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
 
@@ -52,25 +52,21 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
     /**
      * Get all completed tests
      */
-    protected function getItems()
+    protected function getItems() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $data = array();
+        $ilUser = $this->dic->user();
 
         $userId = $ilUser->getId();
 
         $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation($userId, 'crs');
 
-        $data = array();
+        $data = [];
         foreach ($certificateArray as $certificate) {
-            $data[] = array(
+            $data[] = [
                 'id' => $certificate->getUserCertificate()->getObjId(),
                 'title' => $certificate->getObjectTitle(),
                 'passed' => true
-            );
+            ];
         }
 
         $this->setData($data);
@@ -81,11 +77,9 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
      *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilCtrl = $this->dic->ctrl();
 
         $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :

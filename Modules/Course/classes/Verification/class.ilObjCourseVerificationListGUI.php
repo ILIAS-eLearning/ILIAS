@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,7 +18,7 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
     /**
     * initialisation
     */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -34,15 +34,18 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
         $this->commands = ilObjCourseVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
-        return array(
-            array("alert" => false, "property" => $lng->txt("type"),
-                "value" => $lng->txt("wsp_list_crsv"))
-        );
+        return [
+            [
+                "alert" => false,
+                "property" => $lng->txt("type"),
+                "value" => $lng->txt("wsp_list_crsv")
+            ]
+        ];
     }
 } // END class.ilObjTestVerificationListGUI
