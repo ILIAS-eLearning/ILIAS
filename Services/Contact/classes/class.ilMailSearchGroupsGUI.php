@@ -451,11 +451,16 @@ class ilMailSearchGroupsGUI
         }
     }
 
+    protected function getRequestValue(string $key, $default = null)
+    {
+        return $this->httpRequest->getQueryParams()[$key] ?? $this->httpRequest->getParsedBody()[$key] ?? $default ?? null;
+    }
+
     public function share() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mygroups") {
-            $ids = $_REQUEST["search_grp"] ?? $this->search_grp;
+            $ids = $this->getRequestValue("search_grp") ?? $this->search_grp;
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
             }
@@ -466,7 +471,7 @@ class ilMailSearchGroupsGUI
                 $this->showMyGroups();
             }
         } elseif ($view === "grp_members") {
-            $ids = $_REQUEST["search_members"];
+            $ids = $this->getRequestValue("search_members");
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {

@@ -488,12 +488,17 @@ class ilMailSearchCoursesGUI
             }
         }
     }
+
+    protected function getRequestValue(string $key, $default = null)
+    {
+        return $this->httpRequest->getQueryParams()[$key] ?? $this->httpRequest->getParsedBody()[$key] ?? $default ?? null;
+    }
     
     public function share() : void
     {
         $view = $this->httpRequest->getQueryParams()["view"] ?? $this->view;
         if ($view === "mycourses") {
-            $ids = $_REQUEST["search_crs"];
+            $ids = $this->getRequestValue("search_crs");
             if (!is_array($ids) && $ids !== "") {
                 $ids = [$ids];
             }
@@ -504,7 +509,7 @@ class ilMailSearchCoursesGUI
                 $this->showMyCourses();
             }
         } elseif ($view === "crs_members") {
-            $ids = $_REQUEST["search_members"];
+            $ids = $this->getRequestValue("search_members");
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {

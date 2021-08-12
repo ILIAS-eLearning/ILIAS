@@ -124,6 +124,11 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('buddysystem');
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
+
+    protected function getRequestValue(string $key, $default = null)
+    {
+        return $this->httpRequest->getQueryParams()[$key] ?? $this->httpRequest->getParsedBody()[$key] ?? $default ?? null;
+    }
     
     /**
      * Fill row
@@ -143,9 +148,9 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->ctrl->setParameter(
             $this->parent_obj,
             'search_' . $this->mode['short'],
-            is_array($_REQUEST['search_' . $this->mode['short']]) ?
-            implode(',', array_filter(array_map('intval', $_REQUEST['search_' . $this->mode['short']]))) :
-            ilUtil::stripSlashes($_REQUEST['search_' . $this->mode['short']])
+            is_array($this->getRequestValue('search_' . $this->mode['short'])) ?
+            implode(',', array_filter(array_map('intval', $this->getRequestValue('search_' . $this->mode['short'])))) :
+            ilUtil::stripSlashes($this->getRequestValue('search_' . $this->mode['short']))
         );
         $this->ctrl->setParameter($this->parent_obj, 'view', $this->mode['view']);
 
