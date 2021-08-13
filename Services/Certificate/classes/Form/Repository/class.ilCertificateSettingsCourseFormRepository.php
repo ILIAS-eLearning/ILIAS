@@ -136,7 +136,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
                 $mode = $olp->getModeText($olp->getCurrentMode());
 
-                if (in_array($olp->getCurrentMode(), $invalid_modes)) {
+                if (in_array($olp->getCurrentMode(), $invalid_modes, true)) {
                     $mode = '<strong>' . $mode . '</strong>';
                 }
                 return $objectHelper->lookupTitle($obj_id) . ' (' . $mode . ')';
@@ -157,8 +157,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     {
         $invalidModes = $this->getInvalidLPModes();
 
-        $titlesOfObjectsWithInvalidModes = array();
-        $refIds = array();
+        $titlesOfObjectsWithInvalidModes = [];
+        $refIds = [];
         if (isset($formFields['subitems'])) {
             $refIds = $formFields['subitems'];
         }
@@ -167,7 +167,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             $objectId = $this->objectHelper->lookupObjId((int) $refId);
             $learningProgressObject = $this->lpHelper->getInstance($objectId);
             $currentMode = $learningProgressObject->getCurrentMode();
-            if (in_array($currentMode, $invalidModes)) {
+            if (in_array($currentMode, $invalidModes, true)) {
                 $titlesOfObjectsWithInvalidModes[] = $this->objectHelper->lookupTitle($objectId);
             }
         }
@@ -189,17 +189,17 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
         $formFields['subitems'] = json_decode($this->setting->get(
             'cert_subitems_' . $this->object->getId(),
-            json_encode(array())
+            json_encode([])
         ));
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
-            $formFields['subitems'] = array();
+            $formFields['subitems'] = [];
         }
         return $formFields;
     }
 
     private function getLPTypes(int $a_parent_ref_id) : array
     {
-        $result = array();
+        $result = [];
 
         $root = $this->tree->getNodeData($a_parent_ref_id);
         $sub_items = $this->tree->getSubTree($root);
@@ -221,10 +221,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     private function getInvalidLPModes() : array
     {
-        $invalid_modes = array(
+        $invalid_modes = [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_UNDEFINED
-        );
+        ];
 
         // without active LP the following modes cannot be supported
         if (!$this->trackingHelper->enabledLearningProgress()) {

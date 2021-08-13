@@ -49,21 +49,21 @@ class ilCertificateTemplateRepository
 
         $this->deactivatePreviousTemplates($objId);
 
-        $columns = array(
-            'id' => array('integer', $id),
-            'obj_id' => array('integer', $objId),
-            'obj_type' => array('text', $certificateTemplate->getObjType()),
-            'certificate_content' => array('clob', $certificateTemplate->getCertificateContent()),
-            'certificate_hash' => array('text', $certificateTemplate->getCertificateHash()),
-            'template_values' => array('clob', $certificateTemplate->getTemplateValues()),
-            'version' => array('integer', $certificateTemplate->getVersion()),
-            'ilias_version' => array('text', $certificateTemplate->getIliasVersion()),
-            'created_timestamp' => array('integer', $certificateTemplate->getCreatedTimestamp()),
-            'currently_active' => array('integer', (integer) $certificateTemplate->isCurrentlyActive()),
-            'background_image_path' => array('text', $certificateTemplate->getBackgroundImagePath()),
-            'deleted' => array('integer', (integer) $certificateTemplate->isDeleted()),
-            'thumbnail_image_path' => array('text', $certificateTemplate->getThumbnailImagePath())
-        );
+        $columns = [
+            'id' => ['integer', $id],
+            'obj_id' => ['integer', $objId],
+            'obj_type' => ['text', $certificateTemplate->getObjType()],
+            'certificate_content' => ['clob', $certificateTemplate->getCertificateContent()],
+            'certificate_hash' => ['text', $certificateTemplate->getCertificateHash()],
+            'template_values' => ['clob', $certificateTemplate->getTemplateValues()],
+            'version' => ['integer', $certificateTemplate->getVersion()],
+            'ilias_version' => ['text', $certificateTemplate->getIliasVersion()],
+            'created_timestamp' => ['integer', $certificateTemplate->getCreatedTimestamp()],
+            'currently_active' => ['integer', (integer) $certificateTemplate->isCurrentlyActive()],
+            'background_image_path' => ['text', $certificateTemplate->getBackgroundImagePath()],
+            'deleted' => ['integer', (integer) $certificateTemplate->isDeleted()],
+            'thumbnail_image_path' => ['text', $certificateTemplate->getThumbnailImagePath()]
+        ];
 
         $this->database->insert('il_cert_template', $columns);
 
@@ -115,7 +115,7 @@ ORDER BY version ASC';
     {
         $this->logger->info(sprintf('START - Fetch multiple certificate templates for object: "%s"', $objId));
 
-        $result = array();
+        $result = [];
 
         $sql = '
 SELECT * FROM
@@ -304,7 +304,7 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
 AND currently_active = 1';
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $result[] = $this->createCertificateTemplate($row);
         }

@@ -21,16 +21,15 @@ class ilCertificateQueueRepository
 
         $id = $this->database->nextId('il_cert_cron_queue');
 
-        $row = array(
-            'id' => array('integer', $id),
-            'obj_id' => array('integer', $certificateQueueEntry->getObjId()),
-            'usr_id' => array('integer', $certificateQueueEntry->getUserId()),
-            'adapter_class' => array('text', $certificateQueueEntry->getAdapterClass()),
-            'state' => array('text', $certificateQueueEntry->getState()),
-            'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp()),
-            'template_id' => array('integer', $certificateQueueEntry->getTemplateId()),
-
-        );
+        $row = [
+            'id' => ['integer', $id],
+            'obj_id' => ['integer', $certificateQueueEntry->getObjId()],
+            'usr_id' => ['integer', $certificateQueueEntry->getUserId()],
+            'adapter_class' => ['text', $certificateQueueEntry->getAdapterClass()],
+            'state' => ['text', $certificateQueueEntry->getState()],
+            'started_timestamp' => ['integer', $certificateQueueEntry->getStartedTimestamp()],
+            'template_id' => ['integer', $certificateQueueEntry->getTemplateId()],
+        ];
 
         $this->logger->debug(sprintf(
             'Save queue entry with following values: %s',
@@ -59,7 +58,7 @@ class ilCertificateQueueRepository
         $sql = 'SELECT * FROM il_cert_cron_queue';
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Queue entry found: "%s"', json_encode($row, JSON_PRETTY_PRINT)));
 

@@ -59,7 +59,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $this->birthdayDateFormat = $birthdayDateFormat;
 
-        $this->placeholder = array(
+        $this->placeholder = [
             'USER_LOGIN' => '',
             'USER_FULLNAME' => '',
             'USER_FIRSTNAME' => '',
@@ -78,7 +78,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
             'DATETIME' => '',
             'DATE_COMPLETED' => '',
             'DATETIME_COMPLETED' => '',
-        );
+        ];
     }
 
     /**
@@ -160,7 +160,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $previewPlacholderValues = array(
+        $previewPlacholderValues = [
             "USER_LOGIN" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_login")),
             "USER_FULLNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_fullname")),
             "USER_FIRSTNAME" => $this->utilHelper->prepareFormOutput($this->language->txt("certificate_var_user_firstname")),
@@ -194,7 +194,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
                 time(),
                 $this->dateFormat
             ))))
-        );
+        ];
 
         return array_merge(
             $previewPlacholderValues,

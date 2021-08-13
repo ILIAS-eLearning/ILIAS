@@ -41,7 +41,7 @@ class ilCertificateObjectsForUserPreloader
             return false;
         }
 
-        if (true === in_array($objId, self::$certificates[$userId])) {
+        if (true === in_array($objId, self::$certificates[$userId], true)) {
             return true;
         }
 

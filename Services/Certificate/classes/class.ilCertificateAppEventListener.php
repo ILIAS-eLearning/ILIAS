@@ -310,7 +310,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         if ($mode === 'persistent_certificate_mode_instant') {
             $cronjob = new ilCertificateCron();
             $cronjob->init();
-            $cronjob->processEntry(0, $entry, array());
+            $cronjob->processEntry(0, $entry, []);
             return;
         }
 
@@ -337,7 +337,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 if ($mode === 'persistent_certificate_mode_instant') {
                     $cronjob = new ilCertificateCron();
                     $cronjob->init();
-                    $cronjob->processEntry(0, $entry, array());
+                    $cronjob->processEntry(0, $entry, []);
                     return;
                 }
                 $this->certificateQueueRepository->addToQueue($entry);

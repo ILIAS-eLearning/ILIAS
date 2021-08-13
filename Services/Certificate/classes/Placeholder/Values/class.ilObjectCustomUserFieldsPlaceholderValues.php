@@ -14,7 +14,7 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
         ?ilCertificateObjectHelper $objectHelper = null,
         ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
-        $this->placeholder = array();
+        $this->placeholder = [];
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -50,7 +50,7 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
         $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
         $field_values = ilCourseUserData::_getValuesByObjId($obj_id);
 
-        $placeholder = array();
+        $placeholder = [];
         foreach ($course_defined_fields as $key => $field) {
             $field_id = $field->getId();
 
@@ -78,7 +78,7 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
 
         $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
 
-        $placeholder = array();
+        $placeholder = [];
         foreach ($course_defined_fields as $key => $field) {
             $placeholderText = '+' . str_replace(' ', '_', ilStr::strToUpper($field->getName()));
 

@@ -78,8 +78,8 @@ class ilCertificateBackgroundImageFileService
     public function getBackgroundImageDirectory(string $backgroundImagePath = '') : string
     {
         return str_replace(
-            array($this->webDirectory, '//'),
-            array(self::PLACEHOLDER_CLIENT_WEB_DIRECTORY, '/'),
+            [$this->webDirectory, '//'],
+            [self::PLACEHOLDER_CLIENT_WEB_DIRECTORY, '/'],
             $backgroundImagePath
         );
     }

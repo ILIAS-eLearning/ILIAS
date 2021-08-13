@@ -53,23 +53,23 @@ class ilUserCertificateRepository
 
         $this->deactivatePreviousCertificates($objId, $userId);
 
-        $columns = array(
-            'id' => array('integer', $id),
-            'pattern_certificate_id' => array('integer', $userCertificate->getPatternCertificateId()),
-            'obj_id' => array('integer', $objId),
-            'obj_type' => array('text', $userCertificate->getObjType()),
-            'user_id' => array('integer', $userId),
-            'user_name' => array('text', $userCertificate->getUserName()),
-            'acquired_timestamp' => array('integer', $userCertificate->getAcquiredTimestamp()),
-            'certificate_content' => array('clob', $userCertificate->getCertificateContent()),
-            'template_values' => array('clob', $userCertificate->getTemplateValues()),
-            'valid_until' => array('integer', $userCertificate->getValidUntil()),
-            'version' => array('integer', $version),
-            'ilias_version' => array('text', $userCertificate->getIliasVersion()),
-            'currently_active' => array('integer', (integer) $userCertificate->isCurrentlyActive()),
-            'background_image_path' => array('text', $userCertificate->getBackgroundImagePath()),
-            'thumbnail_image_path' => array('text', $userCertificate->getThumbnailImagePath())
-        );
+        $columns = [
+            'id' => ['integer', $id],
+            'pattern_certificate_id' => ['integer', $userCertificate->getPatternCertificateId()],
+            'obj_id' => ['integer', $objId],
+            'obj_type' => ['text', $userCertificate->getObjType()],
+            'user_id' => ['integer', $userId],
+            'user_name' => ['text', $userCertificate->getUserName()],
+            'acquired_timestamp' => ['integer', $userCertificate->getAcquiredTimestamp()],
+            'certificate_content' => ['clob', $userCertificate->getCertificateContent()],
+            'template_values' => ['clob', $userCertificate->getTemplateValues()],
+            'valid_until' => ['integer', $userCertificate->getValidUntil()],
+            'version' => ['integer', $version],
+            'ilias_version' => ['text', $userCertificate->getIliasVersion()],
+            'currently_active' => ['integer', (integer) $userCertificate->isCurrentlyActive()],
+            'background_image_path' => ['text', $userCertificate->getBackgroundImagePath()],
+            'thumbnail_image_path' => ['text', $userCertificate->getThumbnailImagePath()]
+        ];
 
         $this->logger->debug(sprintf(
             'END - Save certificate with following values: %s',
@@ -123,7 +123,7 @@ AND currently_active = 1';
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
@@ -196,7 +196,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
@@ -382,7 +382,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
@@ -455,7 +455,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
@@ -475,7 +475,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
@@ -510,7 +510,7 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
 
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf(
                 'Certificate found: "%s")',

@@ -22,7 +22,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
         $language->loadLanguageModule('certificate');
         $this->language = $language;
 
-        $this->placeholder = array(
+        $this->placeholder = [
             'USER_LOGIN' => $language->txt('certificate_ph_login'),
             'USER_FULLNAME' => $language->txt('certificate_ph_fullname'),
             'USER_FIRSTNAME' => $language->txt('certificate_ph_firstname'),
@@ -39,7 +39,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
             'USER_MATRICULATION' => $language->txt('certificate_ph_matriculation'),
             'DATE' => $language->txt("certificate_ph_date"),
             'DATETIME' => $language->txt("certificate_ph_datetime"),
-        );
+        ];
 
         $this->placeholder = array_merge($this->placeholder, $userDefinedPlaceholderHtmlDescription);
     }

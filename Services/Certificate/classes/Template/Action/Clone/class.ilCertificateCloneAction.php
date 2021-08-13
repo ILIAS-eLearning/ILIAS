@@ -166,8 +166,8 @@ class ilCertificateCloneAction
         if ($this->readActive($oldObject->getId())) {
             $this->database->replace(
                 'il_certificate',
-                array('obj_id' => array('integer', $newObject->getId())),
-                array()
+                ['obj_id' => ['integer', $newObject->getId()]],
+                []
             );
         }
     }

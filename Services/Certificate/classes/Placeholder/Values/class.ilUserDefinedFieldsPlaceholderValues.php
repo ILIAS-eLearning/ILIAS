@@ -19,7 +19,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
         ?ilUserDefinedFields $userDefinedFieldsObject = null,
         ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
-        $this->placeholder = array();
+        $this->placeholder = [];
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -59,7 +59,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
 
         $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
 
-        $placeholder = array();
+        $placeholder = [];
         foreach ($userDefinedFields as $field) {
             if ($field['certificate']) {
                 $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
@@ -90,7 +90,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
     {
         $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
 
-        $placeholder = array();
+        $placeholder = [];
         foreach ($userDefinedFields as $field) {
             if ($field['certificate']) {
                 $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));

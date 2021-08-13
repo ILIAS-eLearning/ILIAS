@@ -62,8 +62,8 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 
         if ($asRelative) {
             return str_replace(
-                array(CLIENT_WEB_DIR, '//'),
-                array('[CLIENT_WEB_DIR]', '/'),
+                [CLIENT_WEB_DIR, '//'],
+                ['[CLIENT_WEB_DIR]', '/'],
                 $imagePath
             );
         }

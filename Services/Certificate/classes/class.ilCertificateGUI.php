@@ -568,12 +568,12 @@ class ilCertificateGUI
 
                 $newHashValue = hash(
                     'sha256',
-                    implode('', array(
+                    implode('', [
                         $xslfo,
                         $backgroundImagePath,
                         $jsonEncodedTemplateValues,
                         $cardThumbnailImagePath
-                    ))
+                    ])
                 );
 
                 $active = (bool) $form_fields['active'];
@@ -636,7 +636,7 @@ class ilCertificateGUI
             $format = $this->settings->get('pageformat');
             $formats = $this->pageFormats->fetchPageFormats();
 
-            $formFieldArray = array(
+            $formFieldArray = [
                 'pageformat' => $format,
                 'pagewidth' => $formats['width'],
                 'pageheight' => $formats['height'],
@@ -645,7 +645,7 @@ class ilCertificateGUI
                 'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
                 'margin_body_left' => ilPageFormats::DEFAULT_MARGIN_BODY_LEFT,
                 'certificate_text' => $certificateTemplate->getCertificateContent()
-            );
+            ];
 
             return $formFieldArray;
         }

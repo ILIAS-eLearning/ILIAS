@@ -90,7 +90,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
      */
     public function getEntries($ts_start, $ts_end) : array
     {
-        $entries = array();
+        $entries = [];
 
         $certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation(
             $this->user_id,

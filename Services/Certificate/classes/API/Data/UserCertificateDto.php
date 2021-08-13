@@ -47,7 +47,7 @@ class UserCertificateDto
         string $userLogin,
         string $userEmail,
         string $userSecondEmail,
-        array $objectRefId = array(),
+        array $objectRefId = [],
         string $downloadLink = null
     ) {
         $this->certificateId = $certificateId;

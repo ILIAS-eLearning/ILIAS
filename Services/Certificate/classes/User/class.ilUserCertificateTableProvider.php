@@ -70,7 +70,7 @@ LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
-        if (array() !== $params) {
+        if ([] !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);
         }
 
@@ -100,7 +100,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
         while ($row = $this->database->fetchAssoc($query)) {
             $title = $row['title'];
 
-            $data['items'][] = array(
+            $data['items'][] = [
                 'id' => $row['id'],
                 'title' => $title,
                 'obj_id' => $row['obj_id'],
@@ -110,7 +110,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
-            );
+            ];
         }
 
         if (isset($params['limit'])) {
@@ -144,7 +144,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
-            if (!in_array($params['order_field'], array('date', 'id', 'title'))) {
+            if (!in_array($params['order_field'], ['date', 'id', 'title'])) {
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
@@ -154,7 +154,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             if (!isset($params['order_direction'])) {
                 $params['order_direction'] = 'ASC';
-            } elseif (!in_array(strtolower($params['order_direction']), array('asc', 'desc'))) {
+            } elseif (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
                 throw new InvalidArgumentException('Please provide a valid order direction.');
             }
 

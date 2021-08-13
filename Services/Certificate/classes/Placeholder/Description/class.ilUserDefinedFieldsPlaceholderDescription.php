@@ -10,7 +10,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
 
     public function __construct(?ilUserDefinedFields $userDefinedFieldsObject = null)
     {
-        $this->placeholder = array();
+        $this->placeholder = [];
 
         if (null === $userDefinedFieldsObject) {
             $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();

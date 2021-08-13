@@ -203,7 +203,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
             $this->language->txt('lang_sep_thousand')
         );
 
-        $insert_tags = array();
+        $insert_tags = [];
         foreach ($placeholders as $id => $caption) {
             $insert_tags[$id] = $caption;
         }

@@ -6,7 +6,7 @@
  */
 class ilCertificateUserForObjectPreloader
 {
-    private static array $certificates = array();
+    private static array $certificates = [];
     private ilUserCertificateRepository $userCertificateRepository;
     private ilCertificateActiveValidator $activeValidator;
 
@@ -32,7 +32,7 @@ class ilCertificateUserForObjectPreloader
             return false;
         }
 
-        if (true === in_array($userId, self::$certificates[$objId])) {
+        if (true === in_array($userId, self::$certificates[$objId], true)) {
             return true;
         }
 

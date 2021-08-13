@@ -133,7 +133,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $import = new ilFileInputGUI($this->language->txt("import"), "certificate_import");
         $import->setRequired(false);
-        $import->setSuffixes(array("zip"));
+        $import->setSuffixes(["zip"]);
 
         // handle the certificate import
         if ($_FILES["certificate_import"]["name"] !== "") {
@@ -221,7 +221,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         );
         $thumbnailImage->setRequired(false);
         $thumbnailImage->setUseCache(false);
-        $thumbnailImage->setSuffixes(array('svg'));
+        $thumbnailImage->setSuffixes(['svg']);
 
         $allowThumbnailDeletion = false;
 
@@ -261,7 +261,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $certificate->setUseRte(true, '3.4.7');
 
-        $tags = array(
+        $tags = [
             "br",
             "em",
             "font",
@@ -272,7 +272,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             "strong",
             "u",
             "ul"
-        );
+        ];
 
         $certificate->setRteTags($tags);
 

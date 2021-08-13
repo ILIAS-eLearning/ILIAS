@@ -6,14 +6,14 @@
  */
 class ilCertificateTypeClassMap
 {
-    private array $typeClassMap = array(
-        'crs' => array('placeholder' => ilCoursePlaceholderValues::class),
-        'tst' => array('placeholder' => ilTestPlaceHolderValues::class),
-        'exc' => array('placeholder' => ilExercisePlaceHolderValues::class),
-        'cmix' => array('placeholder' => ilCmiXapiPlaceholderValues::class),
-        'lti' => array('placeholder' => ilLTIConsumerPlaceholderValues::class),
-        'sahs' => array('placeholder' => ilScormPlaceholderValues::class),
-    );
+    private array $typeClassMap = [
+        'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
+        'tst' => ['placeholder' => ilTestPlaceHolderValues::class],
+        'exc' => ['placeholder' => ilExercisePlaceHolderValues::class],
+        'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
+        'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
+        'sahs' => ['placeholder' => ilScormPlaceholderValues::class]
+    ];
 
     /**
      * @param string $type

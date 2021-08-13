@@ -52,7 +52,7 @@ class ilCertificateCourseLearningProgressEvaluation
 
         $enabledGlobalLearningProgress = $this->trackingHelper->enabledLearningProgress();
 
-        $templatesOfCompletedCourses = array();
+        $templatesOfCompletedCourses = [];
         foreach ($courseTemplates as $courseTemplate) {
             $courseObjectId = $courseTemplate->getObjId();
 
@@ -77,12 +77,12 @@ class ilCertificateCourseLearningProgressEvaluation
                 continue;
             }
 
-            $subitem_obj_ids = array();
+            $subitem_obj_ids = [];
             foreach ($subItems as $subItemRefId) {
                 $subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
             }
 
-            if (in_array($refId, $subItems)) {
+            if (in_array($refId, $subItems, true)) {
                 $completed = true;
 
                 // check if all subitems are completed now

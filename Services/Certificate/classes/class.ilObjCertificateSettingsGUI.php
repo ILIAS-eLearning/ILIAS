@@ -107,7 +107,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "settings"),
-                array("settings", "view")
+                ["settings", "view"]
             );
         }
 
@@ -115,7 +115,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }
@@ -164,14 +164,14 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $bgimage->setInfo($this->lng->txt("default_background_info"));
         $form->addItem($bgimage);
         $format = new ilSelectInputGUI($this->lng->txt("certificate_page_format"), "pageformat");
-        $defaultformats = array(
+        $defaultformats = [
             "a4" => $this->lng->txt("certificate_a4"), // (297 mm x 210 mm)
             "a4landscape" => $this->lng->txt("certificate_a4_landscape"), // (210 mm x 297 mm)",
             "a5" => $this->lng->txt("certificate_a5"), // (210 mm x 148.5 mm)
             "a5landscape" => $this->lng->txt("certificate_a5_landscape"), // (148.5 mm x 210 mm)
             "letter" => $this->lng->txt("certificate_letter"), // (11 inch x 8.5 inch)
             "letterlandscape" => $this->lng->txt("certificate_letter_landscape") // (11 inch x 8.5 inch)
-        );
+        ];
         $format->setOptions($defaultformats);
         $format->setValue($form_settings->get("pageformat"));
         $format->setInfo($this->lng->txt("certificate_page_format_info"));

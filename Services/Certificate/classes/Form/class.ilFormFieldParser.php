@@ -73,12 +73,12 @@ class ilFormFieldParser
 
         $xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
         if ((strlen($content)) && (strlen($xsl))) {
-            $args = array(
+            $args = [
                 '/_xml' => $content,
                 '/_xsl' => $xsl
-            );
+            ];
 
-            $content = $this->xlstProcess->process($args, array());
+            $content = $this->xlstProcess->process($args, []);
         }
 
         $content = preg_replace("/<\?xml[^>]+?>/", "", $content);
@@ -87,7 +87,7 @@ class ilFormFieldParser
         $content = str_replace("&#xA0;", "<br />", $content);
         $content = str_replace("&#160;", "<br />", $content);
 
-        $formFields = array(
+        $formFields = [
             'pageformat' => $pagesize,
             'pagewidth' => $pagewidth,
             'pageheight' => $pageheight,
@@ -96,7 +96,7 @@ class ilFormFieldParser
             'margin_body_bottom' => $marginBody_bottom,
             'margin_body_left' => $marginBody_left,
             'certificate_text' => $content
-        );
+        ];
 
         return $formFields;
     }

@@ -83,10 +83,10 @@ class ilXlsFoParser
             $xsl
         );
 
-        $args = array(
+        $args = [
             '/_xml' => $content,
             '/_xsl' => $xsl
-        );
+        ];
 
         if (strcmp($formData['pageformat'], 'custom') == 0) {
             $pageheight = $formData['pageheight'];
@@ -97,20 +97,20 @@ class ilXlsFoParser
             $pagewidth = $pageformats[$formData['pageformat']]['width'];
         }
 
-        $params = array(
+        $params = [
             'pageheight' => $this->formatNumberString($this->utilHelper->stripSlashes($pageheight)),
             'pagewidth' => $this->formatNumberString($this->utilHelper->stripSlashes($pagewidth)),
             'backgroundimage' => '[BACKGROUND_IMAGE]',
             'marginbody' => implode(
                 ' ',
-                array(
+                [
                     $this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['top'])),
                     $this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['right'])),
                     $this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['bottom'])),
                     $this->formatNumberString($this->utilHelper->stripSlashes($formData['margin_body']['left']))
-                )
+                ]
             )
-        );
+        ];
 
         $output = $this->xlstProcess->process($args, $params);
 

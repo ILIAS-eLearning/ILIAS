@@ -196,12 +196,12 @@ class ilCertificateTemplateImportAction
 
         $newHashValue = hash(
             'sha256',
-            implode('', array(
+            implode('', [
                 $xsl,
                 $backgroundImagePath,
                 $jsonEncodedTemplateValues,
                 $cardThumbnailImagePath
-            ))
+            ])
         );
 
         $template = new ilCertificateTemplate(

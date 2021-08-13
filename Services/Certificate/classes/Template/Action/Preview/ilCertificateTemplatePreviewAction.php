@@ -170,13 +170,13 @@ class ilCertificateTemplatePreviewAction
         $user_field_definitions = $this->userDefinedFieldsHelper->createInstance();
         $fds = $user_field_definitions->getDefinitions();
 
-        $fields = array();
+        $fields = [];
         foreach ($fds as $f) {
             if ($f['certificate']) {
-                $fields[$f['field_id']] = array(
+                $fields[$f['field_id']] = [
                     'name' => $f['field_name'],
                     'ph' => '[#' . str_replace(' ', '_', strtoupper($f['field_name'])) . ']'
-                );
+                ];
             }
         }
 
