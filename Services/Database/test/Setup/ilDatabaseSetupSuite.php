@@ -6,15 +6,15 @@ use PHPUnit\Framework\TestSuite;
 
 class ilDatabaseSetupSuite extends TestSuite
 {
-    /**
-     * @return \ilDatabaseSetupSuite
-     */
-    public static function suite()
+    public static function suite() : \ilDatabaseSetupSuite
     {
         $suite = new self();
 
         require_once(__DIR__ . "/ilDatabaseUpdateStepsExecutedObjectiveTest.php");
         $suite->addTestSuite(\ilDatabaseUpdateStepsExecutedObjectiveTest::class);
+
+        require_once(__DIR__ . "/ilDBStepExecutionDBTest.php");
+        $suite->addTestSuite(\ilDBStepExecutionDBTest::class);
 
         return $suite;
     }
