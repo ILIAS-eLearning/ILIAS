@@ -9,7 +9,7 @@ use ILIAS\Refinery\Factory;
  * Class ilCtrl2
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilCtrl2 extends ilCtrl implements ilCtrlInterface
+class ilCtrl implements ilCtrlInterface
 {
 
     const P_BASE_CLASS = 'baseClass';
@@ -39,7 +39,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
     /**
      * @return string
      */
-    protected function determineBaseClass() : string
+    private function determineBaseClass() : string
     {
         static $base_class;
         if (!isset($base_class)) {
@@ -112,13 +112,6 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         return $this->getStructureForClassName($class_name)[self::CID] ?? null;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getModuleDir()
-    {
-        // TODO: Implement getModuleDir() method.
-    }
 
     /**
      * @inheritDoc
@@ -131,225 +124,18 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         $a_gui_object->executeCommand();
     }
 
-    private function getNodeIdForTargetClass(
-        string $parent_class_cid,
-        string $target_class_name,
-        bool $a_check = false
-    ) : string {
-        $target_class_name = strtolower($target_class_name);
-        $target_class_info = $this->ctrl_structure[$target_class_name];
-        return $target_cid = $target_class_info[self::CID];
 
-        $x = 1;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getHTML($a_gui_object, array $a_parameters = null, array $class_path = [])
-    {
-        // TODO: Implement getHTML() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
-    {
-        // TODO: Implement setContext() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContextObjId()
-    {
-        // TODO: Implement getContextObjId() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContextObjType()
-    {
-        // TODO: Implement getContextObjType() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContextSubObjId()
-    {
-        // TODO: Implement getContextSubObjId() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getContextSubObjType()
-    {
-        // TODO: Implement getContextSubObjType() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function checkTargetClass($a_class)
-    {
-        // TODO: Implement checkTargetClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCmdNode() : string
-    {
-
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
-    {
-        // TODO: Implement addTab() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getTabs()
-    {
-        // TODO: Implement getTabs() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCallHistory()
-    {
-        // TODO: Implement getCallHistory() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCallStructure($a_class)
-    {
-        // TODO: Implement getCallStructure() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
-    {
-        // TODO: Implement readCallStructure() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function saveParameter($a_obj, $a_parameter)
-    {
-        // TODO: Implement saveParameter() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function saveParameterByClass($a_class, $a_parameter)
-    {
-        // TODO: Implement saveParameterByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setParameter($a_obj, $a_parameter, $a_value)
-    {
-        // TODO: Implement setParameter() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setParameterByClass($a_class, $a_parameter, $a_value)
-    {
-        // TODO: Implement setParameterByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function clearParameterByClass($a_class, $a_parameter)
-    {
-        // TODO: Implement clearParameterByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function clearParameters($a_obj)
-    {
-        // TODO: Implement clearParameters() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function clearParametersByClass($a_class)
-    {
-        // TODO: Implement clearParametersByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getNextClass($a_gui_class = null)
-    {
-        // TODO: Implement getNextClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function lookupClassPath($a_class_name)
-    {
-        // TODO: Implement lookupClassPath() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getClassForClasspath($a_class_path)
-    {
-        // TODO: Implement getClassForClasspath() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setTargetScript(string $a_target_script)
-    {
-        // TODO: Implement setTargetScript() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getTargetScript() : string
     {
         return $this->target_script ?? 'ilias.php';
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public function initBaseClass($a_base_class)
     {
         $this->fallback_baseclass = $a_base_class;
     }
+
 
     /**
      * @inheritDoc
@@ -373,29 +159,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         return $cmd;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setCmd($a_cmd)
-    {
-        // TODO: Implement setCmd() method.
-    }
 
-    /**
-     * @inheritDoc
-     */
-    public function setCmdClass($a_cmd_class)
-    {
-        // TODO: Implement setCmdClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCmdClass()
-    {
-        // TODO: Implement getCmdClass() method.
-    }
 
     /**
      * @inheritDoc
@@ -407,7 +171,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         $a_asynch = false,
         $xml_style = false
     ) {
-        // TODO: Implement getFormAction() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -420,7 +184,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         $a_asynch = false,
         $xml_style = false
     ) {
-        // TODO: Implement getFormActionByClass() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -428,7 +192,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function appendRequestTokenParameterString($a_url, $xml_style = false)
     {
-        // TODO: Implement appendRequestTokenParameterString() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -436,7 +200,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function getRequestToken()
     {
-        // TODO: Implement getRequestToken() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -444,7 +208,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function redirect($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false)
     {
-        // TODO: Implement redirect() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -452,7 +216,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function redirectToURL($a_script)
     {
-        // TODO: Implement redirectToURL() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -460,7 +224,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function redirectByClass($a_class, $a_cmd = "", $a_anchor = "", $a_asynch = false)
     {
-        // TODO: Implement redirectByClass() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -468,16 +232,16 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function isAsynch()
     {
-        // TODO: Implement isAsynch() method.
+        throw new ilException('not implemented');
     }
 
     /**
      * @inheritDoc
      */
-//    public function getLinkTarget($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false, $xml_style = false)
-//    {
-//
-//    }
+    public function getLinkTarget($a_gui_obj, $a_cmd = "", $a_anchor = "", $a_asynch = false, $xml_style = false)
+    {
+throw new ilException('not implemented');
+    }
 
     /**
      * @inheritDoc
@@ -510,61 +274,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         return $script;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setReturn($a_gui_obj, $a_cmd)
-    {
-        // TODO: Implement setReturn() method.
-    }
 
-    /**
-     * @inheritDoc
-     */
-    public function setReturnByClass($a_class, $a_cmd)
-    {
-        // TODO: Implement setReturnByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function returnToParent($a_gui_obj, $a_anchor = "")
-    {
-        // TODO: Implement returnToParent() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getParentReturn($a_gui_obj)
-    {
-        // TODO: Implement getParentReturn() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getParentReturnByClass($a_class)
-    {
-        // TODO: Implement getParentReturnByClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getReturnClass($a_class)
-    {
-        // TODO: Implement getReturnClass() method.
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRedirectSource()
-    {
-        // TODO: Implement getRedirectSource() method.
-    }
 
     /**
      * @inheritDoc
@@ -587,7 +297,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function getParameterArray($a_gui_obj, $a_cmd = "")
     {
-        // TODO: Implement getParameterArray() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -634,12 +344,335 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
         return $params;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //
+    //
+    //
+    // TODO
+    //
+    //
+    //
+    //
+    /**
+     * @inheritDoc
+     */
+    public function getModuleDir()
+    {
+        throw new ilException('not implemented');
+    }
+    /**
+     * @inheritDoc
+     */
+    public function getHTML($a_gui_object, array $a_parameters = null, array $class_path = [])
+    {
+        throw new ilException('not implemented');
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setContext($a_obj_id, $a_obj_type, $a_sub_obj_id = 0, $a_sub_obj_type = "")
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContextObjId()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContextObjType()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContextSubObjId()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getContextSubObjType()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkTargetClass($a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmdNode() : string
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTabs()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCallHistory()
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCallStructure($a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function saveParameter($a_obj, $a_parameter)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function saveParameterByClass($a_class, $a_parameter)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParameter($a_obj, $a_parameter, $a_value)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParameterByClass($a_class, $a_parameter, $a_value)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clearParameterByClass($a_class, $a_parameter)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clearParameters($a_obj)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clearParametersByClass($a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNextClass($a_gui_class = null)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function lookupClassPath($a_class_name)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getClassForClasspath($a_class_path)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setTargetScript(string $a_target_script)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setCmd($a_cmd)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setCmdClass($a_cmd_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmdClass()
+    {
+        throw new ilException('not implemented');
+    }
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setReturn($a_gui_obj, $a_cmd)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setReturnByClass($a_class, $a_cmd)
+    {
+        throw new ilException('not implemented');
+    }
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function returnToParent($a_gui_obj, $a_anchor = "")
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParentReturn($a_gui_obj)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParentReturnByClass($a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getReturnClass($a_class)
+    {
+        throw new ilException('not implemented');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRedirectSource()
+    {
+        throw new ilException('not implemented');
+    }
+
+
     /**
      * @inheritDoc
      */
     public function insertCtrlCalls($a_parent, $a_child, $a_comp_prefix)
     {
-        // TODO: Implement insertCtrlCalls() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -647,7 +680,7 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function checkCurrentPathForClass($gui_class)
     {
-        // TODO: Implement checkCurrentPathForClass() method.
+        throw new ilException('not implemented');
     }
 
     /**
@@ -655,7 +688,25 @@ class ilCtrl2 extends ilCtrl implements ilCtrlInterface
      */
     public function getCurrentClassPath() : array
     {
-        // TODO: Implement getCurrentClassPath() method.
+        throw new ilException('not implemented');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
