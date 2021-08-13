@@ -7002,3 +7002,71 @@ while ($row = $ilDB->fetchAssoc($res)) {
     );
 }
 ?>
+
+<#5806>
+<?php
+
+if (!$ilDB->tableExists(ilDBStepExecutionDB::TABLE_NAME)) {
+    $ilDB->createTable(ilDBStepExecutionDB::TABLE_NAME, [
+        ilDBStepExecutionDB::FIELD_CLASS => [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => 200,
+            'notnull' => true,
+        ],
+        ilDBStepExecutionDB::FIELD_STEP => [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 4,
+            'notnull' => true
+        ],
+        ilDBStepExecutionDB::FIELD_STARTED => [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => 23, // YYYY-MM-DD HH:MM:SS.mmm
+            'notnull' => true
+        ],
+        ilDBStepExecutionDB::FIELD_FINISHED => [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => 23, // YYYY-MM-DD HH:MM:SS.mmm
+            'notnull' => false
+        ]
+    ]);
+    $ilDB->addPrimaryKey(
+        ilDBStepExecutionDB::TABLE_NAME,
+        [ilDBStepExecutionDB::FIELD_CLASS, ilDBStepExecutionDB::FIELD_STEP]
+    );
+    $ilDB->addIndex(
+        ilDBStepExecutionDB::TABLE_NAME,
+        [ilDBStepExecutionDB::FIELD_CLASS],
+        "i1"
+    );
+}
+
+?>
+
+
+<?php
+// Dear colleague!
+//
+// The dbupdate-files will be decommissioned as decided by the JF on 2021-06-28:
+//
+// https://docu.ilias.de/goto_docu_wiki_wpage_5889_1357.html
+//
+// Please make sure to understand that, starting now, every change in this file
+// will need to be handed in via PR, just as changes in any other component
+// maintained by someone else.
+//
+// The setup and the database provide powerful new mechanisms to cater your
+// requirements that have been previously implemented via this file. Please
+// have a look into the according ressources and use the new mechanisms:
+//
+// https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/Setup/README.md
+// https://www.youtube.com/watch?v=lNYDKWqZNGc
+//
+// You might discover some reason why you absolutely still need to use this file
+// to implement your setup requirement. If so: Please move this message along so
+// it is at the bottom of this file. Please create a PR containing your change
+// and hand it in as described here:
+//
+// https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/contributing.md#how-to-contribute
+//
+// Thanks!
+?>
