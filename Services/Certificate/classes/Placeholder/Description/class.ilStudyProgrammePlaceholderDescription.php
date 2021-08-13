@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholderDescription
@@ -21,7 +22,8 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language,
+                $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
@@ -34,11 +36,9 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
         $this->placeholder['PRG_EXPIRES_AT'] = $this->language->txt('sp_certificate_progress_expires_at');
     }
 
-
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
      * @param ilTemplate|null $template
      * @return string - [PLACEHOLDER] => 'description'
      */
@@ -63,7 +63,6 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return mixed - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

@@ -18,16 +18,16 @@ class ilCertificateTemplatePreviewAction
     private ilCertificatePdfFileNameFactory $pdfFileNameFactory;
 
     /**
-     * @param ilCertificateTemplateRepository $templateRepository
-     * @param ilCertificatePlaceholderValues $placeholderValuesObject
-     * @param ilLogger|null $logger
-     * @param ilObjUser|null $user
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateMathJaxHelper|null $mathJaxHelper
+     * @param ilCertificateTemplateRepository           $templateRepository
+     * @param ilCertificatePlaceholderValues            $placeholderValuesObject
+     * @param ilLogger|null                             $logger
+     * @param ilObjUser|null                            $user
+     * @param ilCertificateUtilHelper|null              $utilHelper
+     * @param ilCertificateMathJaxHelper|null           $mathJaxHelper
      * @param ilCertificateUserDefinedFieldsHelper|null $userDefinedFieldsHelper
-     * @param ilCertificateRpcClientFactoryHelper|null $rpcClientFactoryHelper
-     * @param string $rootDirectory
-     * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
+     * @param ilCertificateRpcClientFactoryHelper|null  $rpcClientFactoryHelper
+     * @param string                                    $rootDirectory
+     * @param ilCertificatePdfFileNameFactory|null      $pdfFileNameFactory
      */
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,
@@ -124,10 +124,9 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * Exchanges the variables in the certificate text with given values
-     *
-     * @param string $certificate_text The XSL-FO certificate text
+     * @param string                $certificate_text The XSL-FO certificate text
      * @param ilCertificateTemplate $template
-     * @param int $objectId
+     * @param int                   $objectId
      * @return string XSL-FO code
      */
     private function exchangeCertificateVariables(
@@ -164,7 +163,6 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * Get custom certificate fields
-     *
      * @return array
      */
     private function getCustomCertificateFields() : array
@@ -177,7 +175,8 @@ class ilCertificateTemplatePreviewAction
             if ($f['certificate']) {
                 $fields[$f['field_id']] = array(
                     'name' => $f['field_name'],
-                    'ph' => '[#' . str_replace(' ', '_', strtoupper($f['field_name'])) . ']');
+                    'ph' => '[#' . str_replace(' ', '_', strtoupper($f['field_name'])) . ']'
+                );
             }
         }
 

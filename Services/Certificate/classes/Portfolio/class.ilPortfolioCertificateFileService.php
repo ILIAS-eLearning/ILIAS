@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
@@ -79,10 +80,10 @@ class ilPortfolioCertificateFileService
             $userCertificate = $userCertificateRepository->fetchActiveCertificateForPresentation($userId, $objectId);
 
             $downloadFilePath = CLIENT_DATA_DIR . '/' . $completePath;
-            $delivery = new \ilFileDelivery($downloadFilePath);
-            $delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__PDF);
+            $delivery = new ilFileDelivery($downloadFilePath);
+            $delivery->setMimeType(ilMimeTypeUtil::APPLICATION__PDF);
             $delivery->setConvertFileNameToAsci(true);
-            $delivery->setDownloadFileName(\ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf'));
+            $delivery->setDownloadFileName(ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf'));
 
             $delivery->deliver();
         }
@@ -117,7 +118,6 @@ class ilPortfolioCertificateFileService
             $this->filesystem->delete($completePath);
         }
     }
-
 
     /**
      * @param int $userId

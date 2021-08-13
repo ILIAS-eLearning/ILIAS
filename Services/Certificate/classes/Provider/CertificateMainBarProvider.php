@@ -7,7 +7,6 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
 /**
  * Class CertificateMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
@@ -21,7 +20,6 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
         return [];
     }
 
-
     /**
      * @inheritDoc
      */
@@ -34,10 +32,15 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
 
         $ctrl = $DIC->ctrl();
         return [
-            $this->mainmenu->link($this->if->identifier('mm_cert'))
+            $this->mainmenu
+                ->link($this->if->identifier('mm_cert'))
                 ->withTitle($title)
-                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
-                    "ilAchievementsGUI","ilUserCertificateGUI"]))
+                ->withAction($ctrl->getLinkTargetByClass(
+                    ["ilDashboardGUI",
+                     "ilAchievementsGUI",
+                     "ilUserCertificateGUI"
+                    ])
+                )
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withSymbol($icon)
                 ->withPosition(50),

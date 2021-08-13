@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
-use ILIAS\DI\Container;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
@@ -60,7 +60,6 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->hasAdditionalElements = $hasAdditionalElements;
 
         $database = $DIC->database();
-
 
         if (null === $logger) {
             $logger = $logger = $DIC->logger()->cert();
@@ -139,7 +138,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         // handle the certificate import
         if ($_FILES["certificate_import"]["name"] !== "") {
             if ($import->checkInput()) {
-                $result = $this->importAction->import($_FILES["certificate_import"]["tmp_name"], $_FILES["certificate_import"]["name"]);
+                $result = $this->importAction->import($_FILES["certificate_import"]["tmp_name"],
+                    $_FILES["certificate_import"]["name"]);
                 if ($result == false) {
                     $import->setAlert($this->language->txt("certificate_error_import"));
                 } else {
@@ -149,7 +149,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         }
         $form->addItem($import);
 
-        $formSection = new \ilFormSectionHeaderGUI();
+        $formSection = new ilFormSectionHeaderGUI();
         $formSection->setTitle($this->language->txt("cert_form_sec_layout"));
         $form->addItem($formSection);
 
@@ -213,7 +213,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($bgimage);
 
-        $thumbnailImage = new ilImageFileInputGUI($this->language->txt('certificate_card_thumbnail_image'), 'certificate_card_thumbnail_image');
+        $thumbnailImage = new ilImageFileInputGUI($this->language->txt('certificate_card_thumbnail_image'),
+            'certificate_card_thumbnail_image');
         $thumbnailImage->setRequired(false);
         $thumbnailImage->setUseCache(false);
         $thumbnailImage->setSuffixes(array('svg'));
@@ -278,12 +279,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $form->addItem($certificate);
 
         if (true === $this->hasAdditionalElements) {
-            $formSection = new \ilFormSectionHeaderGUI();
+            $formSection = new ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt("cert_form_sec_add_features"));
             $form->addItem($formSection);
         }
 
-        if ($this->access->checkAccess("write", "", $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string()))) {
+        if ($this->access->checkAccess("write", "",
+            $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string()))) {
             if ($certificateTemplate->isCurrentlyActive()) {
                 $this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 

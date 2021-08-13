@@ -8,7 +8,7 @@ class ilCertificateDateHelper
 {
     /**
      * @param string|int $date
-     * @param ?int $dateFormat
+     * @param ?int       $dateFormat
      * @return string
      */
     public function formatDate($date, ?int $dateFormat = null) : string
@@ -29,7 +29,7 @@ class ilCertificateDateHelper
 
     /**
      * @param string|int $dateTime
-     * @param ?int $dateFormat
+     * @param ?int       $dateFormat
      * @return string
      * @throws ilDateTimeException
      */

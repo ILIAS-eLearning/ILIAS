@@ -8,7 +8,7 @@ class ilCertificatePdfFilename implements ilCertificateFilename
 {
     private ilLanguage $lng;
 
-    public function __construct(\ilLanguage $lng)
+    public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
 

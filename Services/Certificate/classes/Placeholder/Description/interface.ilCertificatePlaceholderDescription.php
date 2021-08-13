@@ -9,7 +9,6 @@ interface ilCertificatePlaceholderDescription
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array<string, string> A [PLACEHOLDER] => 'description' map
      */
     public function getPlaceholderDescriptions() : array;

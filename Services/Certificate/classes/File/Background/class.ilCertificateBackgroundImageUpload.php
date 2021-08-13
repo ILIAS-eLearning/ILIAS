@@ -1,8 +1,7 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\FileUpload\Collection\EntryLockingStringMap;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\Filesystem\Filesystem;
@@ -10,6 +9,7 @@ use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\Exception\IllegalStateException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\FileUpload\Location;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -86,9 +86,8 @@ class ilCertificateBackgroundImageUpload
     /**
      * Uploads a background image for the certificate. Creates a new directory for the
      * certificate if needed. Removes an existing certificate image if necessary
-     *
-     * @param string $imageTempFilename Name of the temporary uploaded image file
-     * @param int $version - Version of the current certifcate template
+     * @param string     $imageTempFilename Name of the temporary uploaded image file
+     * @param int        $version           - Version of the current certifcate template
      * @param array|null $pending_file
      * @return string An errorcode if the image upload fails, 0 otherwise
      * @throws IllegalStateException
@@ -130,7 +129,8 @@ class ilCertificateBackgroundImageUpload
 
         if (!$this->fileSystem->has($backgroundImagePath)) {
             // something went wrong converting the file. use the original file and hope, that PDF can work with it
-            if (!ilUtil::moveUploadedFile($backgroundImageTempFilePath, $convert_filename, $this->rootDirectory . $backgroundImagePath)) {
+            if (!ilUtil::moveUploadedFile($backgroundImageTempFilePath, $convert_filename,
+                $this->rootDirectory . $backgroundImagePath)) {
                 throw new ilException('Unable to convert the file and the original file');
             }
         }
@@ -202,16 +202,16 @@ class ilCertificateBackgroundImageUpload
             case strpos($target, $this->rootDirectory . '/' . $this->clientId) === 0:
             case strpos($target, './' . $this->rootDirectory . '/' . $this->clientId) === 0:
             case strpos($target, $this->rootDirectory) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::WEB;
+                $targetFilesystem = Location::WEB;
                 break;
             case strpos($target, CLIENT_DATA_DIR . "/temp") === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::TEMPORARY;
+                $targetFilesystem = Location::TEMPORARY;
                 break;
             case strpos($target, CLIENT_DATA_DIR) === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::STORAGE;
+                $targetFilesystem = Location::STORAGE;
                 break;
             case strpos($target, ILIAS_ABSOLUTE_PATH . '/Customizing') === 0:
-                $targetFilesystem = \ILIAS\FileUpload\Location::CUSTOMIZING;
+                $targetFilesystem = Location::CUSTOMIZING;
                 break;
             default:
                 throw new InvalidArgumentException("Can not move files to \"$target\" because path can not be mapped to web, storage or customizing location.");
@@ -228,7 +228,6 @@ class ilCertificateBackgroundImageUpload
 
     /**
      * Returns the filesystem path of the background image temp file during upload
-     *
      * @return string The filesystem path of the background image temp file
      */
     private function createBackgroundImageTempfilePath() : string
@@ -238,7 +237,6 @@ class ilCertificateBackgroundImageUpload
 
     /**
      * Returns the filesystem path of the background image thumbnail
-     *
      * @return string The filesystem path of the background image thumbnail
      */
     private function createBackgroundImageThumbPath() : string

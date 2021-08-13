@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
@@ -36,8 +37,8 @@ class ilObjPersistentCertificateVerificationGUI
 
     /**
      * @param ilPortfolioPage $a_page
-     * @param int $objectId
-     * @param int $userId
+     * @param int             $objectId
+     * @param int             $userId
      * @throws ilException
      * @throws ilFileUtilsException
      */

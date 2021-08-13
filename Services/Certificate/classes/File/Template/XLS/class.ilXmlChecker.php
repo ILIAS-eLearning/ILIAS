@@ -24,14 +24,12 @@
 require_once("./Services/Xml/classes/class.ilSaxParser.php");
 
 /**
-* XML checker
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @extends ilSaxParser
-* @ingroup ModulesTest
-*/
+ * XML checker
+ * @author  Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
+ * @extends ilSaxParser
+ * @ingroup ModulesTest
+ */
 class ilXMLChecker extends ilSaxParser
 {
     public $error_code;
@@ -44,14 +42,12 @@ class ilXMLChecker extends ilSaxParser
     public $attributes;
     public $texts;
     public $text_size;
-    
+
     /**
-    * Constructor
-    *
-    * @param	string		$a_xml_file		xml file
-    *
-    * @access	public
-    */
+     * Constructor
+     * @param string $a_xml_file xml file
+     * @access    public
+     */
     public function __construct($a_xml_file = '', $throwException = false)
     {
         parent::__construct($a_xml_file, $throwException);
@@ -59,10 +55,10 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
+     * set event handler
+     * should be overwritten by inherited class
+     * @access    private
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -71,18 +67,17 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-    * start the parser
-    */
+     * start the parser
+     */
     public function startParsing() : void
     {
         parent::startParsing();
     }
 
     /**
-    * parse xml file
-    *
-    * @access	private
-    */
+     * parse xml file
+     * @access    private
+     */
     public function parse($a_xml_parser, $a_fp = null) : bool
     {
         switch ($this->getInputType()) {
@@ -92,13 +87,13 @@ class ilXMLChecker extends ilSaxParser
                     $parseOk = xml_parse($a_xml_parser, $data, feof($a_fp));
                 }
                 break;
-                
+
             case 'string':
                 $parseOk = xml_parse($a_xml_parser, $this->getXMLContent());
                 break;
         }
         if (!$parseOk
-           && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE)) {
+            && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE)) {
             $this->error_code = xml_get_error_code($a_xml_parser);
             $this->error_line = xml_get_current_line_number($a_xml_parser);
             $this->error_col = xml_get_current_column_number($a_xml_parser);
@@ -108,10 +103,10 @@ class ilXMLChecker extends ilSaxParser
         }
         return true;
     }
-    
+
     /**
-    * handler for begin of element
-    */
+     * handler for begin of element
+     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->elements++;
@@ -119,15 +114,15 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-    * handler for end of element
-    */
+     * handler for end of element
+     */
     public function handlerEndTag($a_xml_parser, $a_name) : void
     {
     }
 
     /**
-    * handler for character data
-    */
+     * handler for character data
+     */
     public function handlerCharacterData($a_xml_parser, $a_data) : void
     {
         $this->texts++;
@@ -138,52 +133,52 @@ class ilXMLChecker extends ilSaxParser
     {
         return $this->error_code;
     }
-  
+
     public function getErrorLine()
     {
         return $this->error_line;
     }
-  
+
     public function getErrorColumn()
     {
         return $this->error_col;
     }
-  
+
     public function getErrorMessage()
     {
         return $this->error_msg;
     }
-  
+
     public function getFullError() : string
     {
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
-  
+
     public function getXMLSize()
     {
         return $this->size;
     }
-  
+
     public function getXMLElements()
     {
         return $this->elements;
     }
-  
+
     public function getXMLAttributes()
     {
         return $this->attributes;
     }
-  
+
     public function getXMLTextSections()
     {
         return $this->texts;
     }
-  
+
     public function getXMLTextSize()
     {
         return $this->text_size;
     }
-  
+
     public function hasError() : bool
     {
         return $this->has_error;

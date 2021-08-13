@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
@@ -10,7 +10,7 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
     public function __construct(int $objectId)
     {
         $this->placeholder = array();
-        $this->objectId    = $objectId;
+        $this->objectId = $objectId;
 
         $this->initPlaceholders();
     }
@@ -31,7 +31,6 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

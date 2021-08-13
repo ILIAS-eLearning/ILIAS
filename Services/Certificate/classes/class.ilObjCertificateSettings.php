@@ -24,19 +24,17 @@
 require_once "./Services/Object/classes/class.ilObject.php";
 
 /**
-* Class ilObjCertificateSettings
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @ingroup ServicesCertificate
-*/
+ * Class ilObjCertificateSettings
+ * @author  Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
+ * @ingroup ServicesCertificate
+ */
 class ilObjCertificateSettings extends ilObject
 {
 
     /**
      * ilObjCertificateSettings constructor.
-     * @param int  $a_id reference_id or object_id
+     * @param int  $a_id        reference_id or object_id
      * @param bool $a_reference treat the id as reference_id (true) or object_id (false)
      */
     public function __construct(int $a_id = 0, bool $a_reference = true)
@@ -69,11 +67,14 @@ class ilObjCertificateSettings extends ilObject
                 return false;
             }
             // convert the uploaded file to JPEG
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImagePath(), "JPEG");
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImageThumbPath(), "JPEG", 100);
+            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImagePath(),
+                "JPEG");
+            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(),
+                $this->getDefaultBackgroundImageThumbPath(), "JPEG", 100);
             if (!file_exists($this->getDefaultBackgroundImagePath())) {
                 // something went wrong converting the file. use the original file and hope, that PDF can work with it
-                if (!ilUtil::moveUploadedFile($this->getDefaultBackgroundImageTempfilePath(), $convert_filename, $this->getDefaultBackgroundImagePath())) {
+                if (!ilUtil::moveUploadedFile($this->getDefaultBackgroundImageTempfilePath(), $convert_filename,
+                    $this->getDefaultBackgroundImagePath())) {
                     return false;
                 }
             }
@@ -86,21 +87,20 @@ class ilObjCertificateSettings extends ilObject
     }
 
     /**
-    * Deletes the background image of a certificate
-    *
-    * @return boolean TRUE if the process succeeds
-    */
+     * Deletes the background image of a certificate
+     * @return boolean TRUE if the process succeeds
+     */
     public function deleteBackgroundImage()
     {
         $result = true;
         if (file_exists($this->getDefaultBackgroundImageThumbPath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageThumbPath());
+            $result = $result&unlink($this->getDefaultBackgroundImageThumbPath());
         }
         if (file_exists($this->getDefaultBackgroundImagePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImagePath());
+            $result = $result&unlink($this->getDefaultBackgroundImagePath());
         }
         if (file_exists($this->getDefaultBackgroundImageTempfilePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageTempfilePath());
+            $result = $result&unlink($this->getDefaultBackgroundImageTempfilePath());
         }
         return $result;
     }
@@ -112,7 +112,6 @@ class ilObjCertificateSettings extends ilObject
 
     /**
      * Returns the filesystem path of the background image
-     *
      * @return string The filesystem path of the background image
      */
     private function getDefaultBackgroundImagePath() : string
@@ -122,7 +121,6 @@ class ilObjCertificateSettings extends ilObject
 
     /**
      * Returns the filesystem path of the background image thumbnail
-     *
      * @return string The filesystem path of the background image thumbnail
      */
     private function getDefaultBackgroundImageThumbPath() : string
@@ -132,7 +130,6 @@ class ilObjCertificateSettings extends ilObject
 
     /**
      * Returns the filesystem path of the background image temp file during upload
-     *
      * @return string The filesystem path of the background image temp file
      */
     private function getDefaultBackgroundImageTempfilePath() : string

@@ -34,7 +34,8 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language,
+                $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
@@ -55,7 +56,6 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
      * @param ilTemplate|null $template
      * @return string - [PLACEHOLDER] => 'description'
      */
@@ -119,7 +119,6 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

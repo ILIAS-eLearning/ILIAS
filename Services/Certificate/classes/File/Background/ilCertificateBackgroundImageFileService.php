@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
@@ -85,7 +86,6 @@ class ilCertificateBackgroundImageFileService
 
     /**
      * Returns the filesystem path of the background image temp file during upload
-     *
      * @return string The filesystem path of the background image temp file
      */
     public function getBackgroundImageTempfilePath() : string

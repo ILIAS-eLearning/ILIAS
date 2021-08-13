@@ -34,10 +34,10 @@ class UserCertificateAPI
 
     /**
      * @param UserDataFilter $filter
-     * @param array $ilCtrlStack - array of ilCtrl-enabled GUI class
-     *                             names that are used to create the link,
-     *                             if this is an empty array (default) no link
-     *                             will be generated
+     * @param array          $ilCtrlStack - array of ilCtrl-enabled GUI class
+     *                                    names that are used to create the link,
+     *                                    if this is an empty array (default) no link
+     *                                    will be generated
      * @return array<int, UserCertificateDto>
      */
     public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []) : array
@@ -45,10 +45,8 @@ class UserCertificateAPI
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }
 
-
     /**
      * @param UserDataFilter $filter
-     *
      * @return int
      */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int

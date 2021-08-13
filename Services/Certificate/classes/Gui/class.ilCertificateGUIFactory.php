@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
@@ -67,7 +68,6 @@ class ilCertificateGUIFactory
 
                 $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
-
 
                 $formFactory = new ilCertificateSettingsCourseFormRepository(
                     $object,
@@ -144,9 +144,9 @@ class ilCertificateGUIFactory
                 break;
             case 'prg':
                 $placeholderDescriptionObject =
-                new ilStudyProgrammePlaceholderDescription();
+                    new ilStudyProgrammePlaceholderDescription();
                 $placeholderValuesObject =
-                new ilStudyProgrammePlaceholderValues();
+                    new ilStudyProgrammePlaceholderValues();
                 $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
                     $object,
                     $certificatePath,
@@ -156,7 +156,7 @@ class ilCertificateGUIFactory
                     $DIC->access(),
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
-                 );
+                );
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

@@ -4,7 +4,6 @@
 /**
  * Just a wrapper class to create Unit Test for other classes.
  * Can be remove when the static method calls have been removed
- *
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateUtilHelper
@@ -75,7 +74,7 @@ class ilCertificateUtilHelper
      * @param string $file
      * @param string $name
      * @param string $target
-     * @param bool $raise_errors
+     * @param bool   $raise_errors
      * @param string $mode
      * @return bool
      * @throws ilException
@@ -96,8 +95,12 @@ class ilCertificateUtilHelper
         );
     }
 
-    public function getImagePath($img, string $module_path = "", string $mode = "output", bool $offline = false) : string
-    {
+    public function getImagePath(
+        $img,
+        string $module_path = "",
+        string $mode = "output",
+        bool $offline = false
+    ) : string {
         return ilUtil::getImagePath(
             $img,
             $module_path,

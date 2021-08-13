@@ -20,7 +20,6 @@ class ilPageFormats
 
     /**
      * Retrieves predefined page formats
-     *
      * @return array Associative array containing available page formats
      */
     public function fetchPageFormats() : array

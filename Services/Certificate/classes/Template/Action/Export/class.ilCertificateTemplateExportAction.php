@@ -1,10 +1,12 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Visibility;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -59,7 +61,7 @@ class ilCertificateTemplateExportAction
 
         $exportPath = $this->certificatePath . $time . '__' . $installationId . '__' . $type . '__' . $certificateId . '__certificate/';
 
-        $this->filesystem->createDir($exportPath, \ILIAS\Filesystem\Visibility::PUBLIC_ACCESS);
+        $this->filesystem->createDir($exportPath, Visibility::PUBLIC_ACCESS);
 
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 

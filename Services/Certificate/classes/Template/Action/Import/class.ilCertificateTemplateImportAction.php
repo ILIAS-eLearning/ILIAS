@@ -146,18 +146,19 @@ class ilCertificateTemplateImportAction
                     $xsl = $this->filesystem->read($filePath);
                     // as long as we cannot make RPC calls in a given directory, we have
                     // to add the complete path to every url
-                    $xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function (array $matches) use ($rootDir) {
-                        $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
-                        $fileName = basename($matches[1]);
+                    $xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/",
+                        function (array $matches) use ($rootDir) {
+                            $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
+                            $fileName = basename($matches[1]);
 
-                        if ('[BACKGROUND_IMAGE]' === $fileName) {
-                            $basePath = '';
-                        } elseif (strlen($basePath) > 0) {
-                            $basePath .= '/';
-                        }
+                            if ('[BACKGROUND_IMAGE]' === $fileName) {
+                                $basePath = '';
+                            } elseif (strlen($basePath) > 0) {
+                                $basePath .= '/';
+                            }
 
-                        return 'url(' . $basePath . $fileName . ')';
-                    }, $xsl);
+                            return 'url(' . $basePath . $fileName . ')';
+                        }, $xsl);
                 } elseif (strpos($file['entry'], '.jpg') !== false) {
                     $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
                     $newPath = $this->certificatePath . $newBackgroundImageName;
@@ -223,7 +224,6 @@ class ilCertificateTemplateImportAction
 
     /**
      * Creates a directory for a zip archive containing multiple certificates
-     *
      * @param string $installationID
      * @return string The created archive directory
      * @throws IOException

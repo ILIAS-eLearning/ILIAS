@@ -1,24 +1,25 @@
 <?php declare(strict_types=1);
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
+
+/*
+  +----------------------------------------------------------------------------+
+  | ILIAS open source                                                          |
+  +----------------------------------------------------------------------------+
+  | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
+  |                                                                            |
+  | This program is free software; you can redistribute it and/or              |
+  | modify it under the terms of the GNU General Public License                |
+  | as published by the Free Software Foundation; either version 2             |
+  | of the License, or (at your option) any later version.                     |
+  |                                                                            |
+  | This program is distributed in the hope that it will be useful,            |
+  | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
+  | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
+  | GNU General Public License for more details.                               |
+  |                                                                            |
+  | You should have received a copy of the GNU General Public License          |
+  | along with this program; if not, write to the Free Software                |
+  | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
+  +----------------------------------------------------------------------------+
 */
 
 use ILIAS\Filesystem\Filesystem;
@@ -29,15 +30,16 @@ use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\Location;
+use ILIAS\FileUpload\DTO\ProcessingStatus;
 
 /**
-* GUI class to create PDF certificates
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup Services
-* @ilCtrl_Calls: ilCertificateGUI ilPropertyFormGUI
-*/
+ * GUI class to create PDF certificates
+ * @author        Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @version       $Id$
+ * @ingroup       Services
+ * @ilCtrl_Calls  : ilCertificateGUI ilPropertyFormGUI
+ */
 class ilCertificateGUI
 {
     private ?ilCertificateBackgroundImageDelete $backgroundImageDelete;
@@ -46,45 +48,39 @@ class ilCertificateGUI
     private Factory $refinery;
 
     /**
-    * The reference to the ILIAS control class
-    *
-    * @var ilCtrl
-    */
+     * The reference to the ILIAS control class
+     * @var ilCtrl
+     */
     protected ilCtrl $ctrl;
 
     /**
-    * The reference to the ILIAS tree class
-    *
-    * @var ilTree
-    */
+     * The reference to the ILIAS tree class
+     * @var ilTree
+     */
     protected ilTree $tree;
 
     /**
-    * The reference to the ILIAS class
-    *
-    * @var ILIAS
-    */
+     * The reference to the ILIAS class
+     * @var ILIAS
+     */
     protected ILIAS $ilias;
 
     /**
-    * The reference to the Template class
-    *
-    * @var object
-    */
+     * The reference to the Template class
+     * @var object
+     */
     protected $tpl;
 
     /**
-    * The reference to the Language class
-    *
-    * @var ilLanguage
-    */
+     * The reference to the Language class
+     * @var ilLanguage
+     */
     protected ilLanguage $lng;
 
     /**
-    * The reference ID of the object
-    *
-    * @var int
-    */
+     * The reference ID of the object
+     * @var int
+     */
     protected int $ref_id;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
@@ -248,7 +244,7 @@ class ilCertificateGUI
             );
         }
         $this->backgroundImageDelete = $backgroundImageDelete;
-        
+
         if (null === $tmp_file_system) {
             $tmp_file_system = $DIC->filesystem()->temp();
         }
@@ -287,24 +283,24 @@ class ilCertificateGUI
     }
 
     /**
-    * Retrieves the ilCtrl command
-    */
+     * Retrieves the ilCtrl command
+     */
     public function getCommand($cmd)
     {
         return $cmd;
     }
-    
+
     /**
-    * Import a certificate from a ZIP archive
-    */
+     * Import a certificate from a ZIP archive
+     */
     public function certificateImport() : void
     {
         $this->certificateEditor();
     }
-    
+
     /**
-    * Creates a certificate preview
-    */
+     * Creates a certificate preview
+     */
     public function certificatePreview() : void
     {
         try {
@@ -327,17 +323,17 @@ class ilCertificateGUI
     }
 
     /**
-    * Removes the background image of a certificate
-    */
+     * Removes the background image of a certificate
+     */
     public function certificateRemoveBackground() : void
     {
         $this->backgroundImageDelete->deleteBackgroundImage('');
         $this->certificateEditor();
     }
-    
+
     /**
-    * Deletes the certificate and all its data
-    */
+     * Deletes the certificate and all its data
+     */
     public function certificateDelete() : void
     {
         // display confirmation message
@@ -346,7 +342,7 @@ class ilCertificateGUI
         $cgui->setHeaderText($this->lng->txt("certificate_confirm_deletion_text"));
         $cgui->setCancel($this->lng->txt("no"), "certificateEditor");
         $cgui->setConfirm($this->lng->txt("yes"), "certificateDeleteConfirm");
-        
+
         $this->tpl->setContent($cgui->getHTML());
     }
 
@@ -392,8 +388,8 @@ class ilCertificateGUI
     }
 
     /**
-    * Uploads the certificate
-    */
+     * Uploads the certificate
+     */
     public function certificateUpload() : void
     {
         $this->certificateEditor();
@@ -438,7 +434,7 @@ class ilCertificateGUI
     public function certificateEditor() : void
     {
         $form = $this->getEditorForm();
-        $enabledGlobalLearningProgress = \ilObjUserTracking::_enabledLearningProgress();
+        $enabledGlobalLearningProgress = ilObjUserTracking::_enabledLearningProgress();
 
         $messageBoxHtml = '';
         if ($enabledGlobalLearningProgress) {
@@ -452,9 +448,9 @@ class ilCertificateGUI
 
                 $renderer = $DIC->ui()->renderer();
                 $messageBox = $DIC->ui()
-                    ->factory()
-                    ->messageBox()
-                    ->info($this->lng->txt('learning_progress_deactivated'));
+                                  ->factory()
+                                  ->messageBox()
+                                  ->info($this->lng->txt('learning_progress_deactivated'));
 
                 $messageBoxHtml = $renderer->render($messageBox);
                 $form->clearCommandButtons();
@@ -472,8 +468,10 @@ class ilCertificateGUI
         $currentVersion = $previousCertificateTemplate->getVersion();
         $nextVersion = $currentVersion + 1;
 
-        $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete", $this->refinery->kindlyTo()->bool());
-        $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve("certificate_card_thumbnail_image_delete", $this->refinery->kindlyTo()->bool());
+        $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete",
+                $this->refinery->kindlyTo()->bool());
+        $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve("certificate_card_thumbnail_image_delete",
+                $this->refinery->kindlyTo()->bool());
 
         if ($backgroundDelete) {
             $this->backgroundImageDelete->deleteBackgroundImage($currentVersion);
@@ -527,11 +525,11 @@ class ilCertificateGUI
                         $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
                         if (isset($uploadResults[$temporaryFileName])) {
                             $result = $uploadResults[$temporaryFileName];
-                            if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                            if ($result->getStatus() == ProcessingStatus::OK) {
                                 $this->fileUpload->moveOneFileTo(
                                     $result,
                                     $this->certificatePath,
-                                    \ILIAS\FileUpload\Location::WEB,
+                                    Location::WEB,
                                     $cardThumbnailFileName,
                                     true
                                 );
@@ -540,7 +538,8 @@ class ilCertificateGUI
                             }
                         } elseif ($pending_card_file !== null && !empty($pending_card_file)) {
                             $stream = $this->tmp_file_system->readStream(basename($pending_card_file['tmp_name']));
-                            $this->fileSystem->writeStream($this->certificatePath . '/' . $cardThumbnailFileName, $stream);
+                            $this->fileSystem->writeStream($this->certificatePath . '/' . $cardThumbnailFileName,
+                                $stream);
                             $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
                         } else {
                             throw new ilException($this->lng->txt('upload_error_file_not_found'));

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
@@ -69,8 +70,8 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
                 if ($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
                     return
                         $one->getCompletionDate()->format('Y-m-d H:i:s') > $other->getCompletionDate()->format('Y-m-d H:i:s') ?
-                        $one :
-                        $other;
+                            $one :
+                            $other;
                 }
                 if ($one !== null && $one->isSuccessful()) {
                     return $one;
@@ -86,8 +87,8 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
         $placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTime ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
-        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTime ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
+        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof DateTime ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
+        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof DateTime ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
         return $placeholders;
     }
 
@@ -95,7 +96,6 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return array

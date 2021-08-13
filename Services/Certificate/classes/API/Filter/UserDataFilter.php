@@ -183,7 +183,6 @@ class UserDataFilter
 
     /**
      * @param int[] $objIds
-     *
      * @return $this
      */
     public function withObjIds(array $objIds) : self
@@ -198,7 +197,6 @@ class UserDataFilter
 
     /**
      * @param int[] $objIds
-     *
      * @return $this
      */
     public function withAdditionalObjIds(array $objIds) : self
@@ -293,7 +291,6 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     *
      * @return $this
      */
     public function withSortedLastNames(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -306,7 +303,6 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     *
      * @return $this
      */
     public function withSortedFirstNames(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -319,7 +315,6 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     *
      * @return $this
      */
     public function withSortedObjectTitles(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -332,7 +327,6 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     *
      * @return $this
      */
     public function withSortedLogins(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -345,7 +339,6 @@ class UserDataFilter
 
     /**
      * @param int $direction
-     *
      * @return $this
      */
     public function withSortedIssuedOnTimestamps(int $direction = self::SORT_DIRECTION_ASC) : self
@@ -356,7 +349,6 @@ class UserDataFilter
         return $clone;
     }
 
-
     /**
      * @return array
      */
@@ -365,10 +357,8 @@ class UserDataFilter
         return $this->sorts;
     }
 
-
     /**
      * @param int|null $limitOffset
-     *
      * @return self
      */
     public function withLimitOffset(?int $limitOffset) : self
@@ -378,7 +368,6 @@ class UserDataFilter
         return $clone;
     }
 
-
     /**
      * @return int|null
      */
@@ -387,10 +376,8 @@ class UserDataFilter
         return $this->limitOffset;
     }
 
-
     /**
      * @param int|null $limitCount
-     *
      * @return self
      */
     public function withLimitCount(?int $limitCount) : self
@@ -400,7 +387,6 @@ class UserDataFilter
         return $clone;
     }
 
-
     /**
      * @return int|null
      */
@@ -408,7 +394,6 @@ class UserDataFilter
     {
         return $this->limitCount;
     }
-
 
     /**
      * @return self
@@ -421,7 +406,6 @@ class UserDataFilter
         return $clone;
     }
 
-
     /**
      * @return self
      */
@@ -432,7 +416,6 @@ class UserDataFilter
 
         return $clone;
     }
-
 
     /**
      * @return bool

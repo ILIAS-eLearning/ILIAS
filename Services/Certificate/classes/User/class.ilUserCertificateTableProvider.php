@@ -23,7 +23,6 @@ class ilUserCertificateTableProvider
         $this->logger = $logger;
         $this->controller = $controller;
         $this->defaultTitle = $defaultTitle;
-        ;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -70,7 +69,6 @@ AND trans.lang_code = ' . $this->database->quote($params['language'], 'text') . 
 LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
-
 
         if (array() !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);

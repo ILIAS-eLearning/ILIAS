@@ -81,7 +81,8 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $points = $object->getPointsInPercent();
-        $txtPoints = number_format($points, 1, $this->language->txt('lang_sep_decimal'), $this->language->txt('lang_sep_thousand')) . ' %';
+        $txtPoints = number_format($points, 1, $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand')) . ' %';
         if (is_null($points)) {
             $txtPoints = $this->language->txt('certificate_points_notavailable');
         }
@@ -91,7 +92,8 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         if (is_null($max_points)) {
             $txtMaxPoints = $this->language->txt('certificate_points_notavailable');
         } elseif ($max_points != floor($max_points)) {
-            $txtMaxPoints = number_format($max_points, 1, $this->language->txt('lang_sep_decimal'), $this->language->txt('lang_sep_thousand'));
+            $txtMaxPoints = number_format($max_points, 1, $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand'));
         }
 
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
@@ -167,7 +169,6 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return array
@@ -181,11 +182,11 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders['SCORM_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
 
         $placeholders['SCORM_POINTS'] = number_format(
-            80.7,
-            1,
-            $this->language->txt('lang_sep_decimal'),
-            $this->language->txt('lang_sep_thousand')
-        ) . ' %';
+                80.7,
+                1,
+                $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand')
+            ) . ' %';
 
         $placeholders['SCORM_POINTS_MAX'] = number_format(
             90,
@@ -223,11 +224,11 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
                     );
 
                     $insert_tags['SCO_PP_' . $counter] = number_format(
-                        33.3333,
-                        1,
-                        $this->language->txt('lang_sep_decimal'),
-                        $this->language->txt('lang_sep_thousand')
-                    ) . ' %';
+                            33.3333,
+                            1,
+                            $this->language->txt('lang_sep_decimal'),
+                            $this->language->txt('lang_sep_thousand')
+                        ) . ' %';
 
                     $counter++;
                 }

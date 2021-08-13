@@ -9,7 +9,7 @@ class ilCertificateQueueRepository
     private ilDBInterface $database;
     private ilLogger $logger;
 
-    public function __construct(\ilDBInterface $database, ilLogger $logger)
+    public function __construct(ilDBInterface $database, ilLogger $logger)
     {
         $this->database = $database;
         $this->logger = $logger;
@@ -32,7 +32,8 @@ class ilCertificateQueueRepository
 
         );
 
-        $this->logger->debug(sprintf('Save queue entry with following values: %s', json_encode($row, JSON_PRETTY_PRINT)));
+        $this->logger->debug(sprintf('Save queue entry with following values: %s',
+            json_encode($row, JSON_PRETTY_PRINT)));
         $this->logger->info(sprintf('END - Added entry to queue'));
 
         $this->database->insert('il_cert_cron_queue', $row);

@@ -24,7 +24,8 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language,
+                $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
@@ -41,11 +42,9 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));
     }
 
-
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
      * @param ilTemplate|null $template
      * @return string
      */
@@ -70,7 +69,6 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return mixed - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

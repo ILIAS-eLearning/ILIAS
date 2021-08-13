@@ -10,8 +10,10 @@ class ilCertificateUserForObjectPreloader
     private ilUserCertificateRepository $userCertificateRepository;
     private ilCertificateActiveValidator $activeValidator;
 
-    public function __construct(ilUserCertificateRepository $userCertificateRepository, ilCertificateActiveValidator $activeValidator)
-    {
+    public function __construct(
+        ilUserCertificateRepository $userCertificateRepository,
+        ilCertificateActiveValidator $activeValidator
+    ) {
         $this->userCertificateRepository = $userCertificateRepository;
         $this->activeValidator = $activeValidator;
     }

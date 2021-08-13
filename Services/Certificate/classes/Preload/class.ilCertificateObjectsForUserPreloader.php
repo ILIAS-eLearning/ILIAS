@@ -15,7 +15,7 @@ class ilCertificateObjectsForUserPreloader
     }
 
     /**
-     * @param int $userId
+     * @param int   $userId
      * @param int[] $objIds
      */
     public function preLoad(int $userId, array $objIds) : void

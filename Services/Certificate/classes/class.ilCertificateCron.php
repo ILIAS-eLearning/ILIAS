@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\LoggingServices;
 use ILIAS\DI\Container;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateCron extends \ilCronJob
+class ilCertificateCron extends ilCronJob
 {
     public const DEFAULT_SCHEDULE_HOURS = 1;
 
@@ -244,7 +244,7 @@ class ilCertificateCron extends \ilCronJob
         $type = $object->getType();
 
         $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
-        if (!$userObject || !($userObject instanceof \ilObjUser)) {
+        if (!$userObject || !($userObject instanceof ilObjUser)) {
             throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
         }
 

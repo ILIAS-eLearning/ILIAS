@@ -9,7 +9,7 @@ class ilCertificateValueReplacement
     private string $clientWebDirectory;
 
     /**
-     * @param string $clientWebDirectory - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty
+     * @param string $clientWebDirectory   - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty
      *                                     the constant CLIENT_WEB_DIR will be tried as default value.
      *                                     If CLIENT_WEB_DIR is not defined the default value will be an empty string.
      */
@@ -23,8 +23,7 @@ class ilCertificateValueReplacement
 
     /**
      * Replaces placeholder in the certificate content with actual values
-     *
-     * @param array $placeholderValues
+     * @param array  $placeholderValues
      * @param string $certificateContent
      * @return string
      */

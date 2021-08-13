@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -47,7 +48,6 @@ class ilUserCertificateApiGUI
         }
         $this->controller = $controller;
 
-
         $this->language->loadLanguageModule('cert');
     }
 
@@ -64,7 +64,6 @@ class ilUserCertificateApiGUI
                 break;
         }
     }
-
 
     /**
      * @throws ilException

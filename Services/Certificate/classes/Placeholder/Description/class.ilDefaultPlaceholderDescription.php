@@ -10,8 +10,10 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
     private array $placeholder;
     private ilLanguage $language;
 
-    public function __construct(ilLanguage $language, ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null)
-    {
+    public function __construct(
+        ilLanguage $language,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+    ) {
         if (null === $userDefinedFieldPlaceHolderDescriptionObject) {
             $userDefinedFieldPlaceHolderDescriptionObject = new ilUserDefinedFieldsPlaceholderDescription();
         }
@@ -70,7 +72,6 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

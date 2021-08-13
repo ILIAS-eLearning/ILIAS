@@ -1,14 +1,13 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Class ilCertificateAppEventListener
- *
- * @author Niels Theen <ntheen@databay.de>
+ * @author  Niels Theen <ntheen@databay.de>
  * @version $Id:$
- *
  * @package Services/Certificate
  */
 class ilCertificateAppEventListener implements ilAppEventListener
@@ -84,9 +83,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected function isCompletedStudyProgramme() : bool
     {
         return (
-                'Modules/StudyProgramme' === $this->component &&
-                'userSuccessful' === $this->event
-                );
+            'Modules/StudyProgramme' === $this->component &&
+            'userSuccessful' === $this->event
+        );
     }
 
     /**
@@ -199,7 +198,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
             foreach (ilObject::_getAllReferences($objectId) as $refId) {
                 $templateRepository = new ilCertificateTemplateRepository($this->db, $this->logger);
-                $progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
+                $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
                 if (0 === count($templatesOfCompletedCourses)) {
@@ -280,24 +279,29 @@ class ilCertificateAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param $type
-     * @param $objectId
-     * @param int $userId
+     * @param                       $type
+     * @param                       $objectId
+     * @param int                   $userId
      * @param ilCertificateTemplate $template
-     * @param ilSetting $settings
+     * @param ilSetting             $settings
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
      */
-    private function processEntry($type, $objectId, int $userId, ilCertificateTemplate $template, ilSetting $settings) : void
-    {
+    private function processEntry(
+        $type,
+        $objectId,
+        int $userId,
+        ilCertificateTemplate $template,
+        ilSetting $settings
+    ) : void {
         $className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
         $entry = new ilCertificateQueueEntry(
             $objectId,
             $userId,
             $className,
-            \ilCronConstants::IN_PROGRESS,
+            ilCronConstants::IN_PROGRESS,
             $template->getId(),
             time()
         );
@@ -325,10 +329,10 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     $objectId,
                     $userId,
                     ilStudyProgrammePlaceholderValues::class,
-                    \ilCronConstants::IN_PROGRESS,
+                    ilCronConstants::IN_PROGRESS,
                     $template->getId(),
                     time()
-                                                      );
+                );
                 $mode = $settings->get('persistent_certificate_mode', '');
                 if ($mode === 'persistent_certificate_mode_instant') {
                     $cronjob = new ilCertificateCron();

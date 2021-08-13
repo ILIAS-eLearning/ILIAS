@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -9,8 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use GuzzleHttp\Psr7\Request;
 
 /**
- * @ingroup ServicesCertificate
- * @author  Niels Theen <ntheen@databay.de>
+ * @ingroup           ServicesCertificate
+ * @author            Niels Theen <ntheen@databay.de>
  * @ilCtrl_IsCalledBy ilUserCertificateGUI: ilAchievementsGUI
  */
 class ilUserCertificateGUI
@@ -69,7 +70,7 @@ class ilUserCertificateGUI
             $controller = $DIC->ctrl();
         }
         $this->controller = $controller;
-        
+
         if ($language === null) {
             $language = $DIC->language();
         }
@@ -79,7 +80,6 @@ class ilUserCertificateGUI
             $user = $DIC->user();
         }
         $this->user = $user;
-
 
         if ($request === null) {
             $request = $DIC->http()->request();
@@ -138,7 +138,7 @@ class ilUserCertificateGUI
         if (!$this->certificateSettings->get('active')) {
             $this->controller->returnToParent($this);
         }
-        
+
         $this->template->setTitle($this->language->txt('obj_cert'));
 
         switch ($nextClass) {
@@ -215,7 +215,6 @@ class ilUserCertificateGUI
                     $certificateData['title']
                 );
 
-
                 $sections = [];
 
                 if (strlen($certificateData['description']) > 0) {
@@ -224,15 +223,14 @@ class ilUserCertificateGUI
                     ]);
                 }
 
-
-                $oldDatePresentationStatus = \ilDatePresentation::useRelativeDates();
-                \ilDatePresentation::setUseRelativeDates(true);
+                $oldDatePresentationStatus = ilDatePresentation::useRelativeDates();
+                ilDatePresentation::setUseRelativeDates(true);
                 $sections[] = $this->uiFactory->listing()->descriptive([
-                    $this->language->txt('cert_issued_on_label') => \ilDatePresentation::formatDate(
-                        new \ilDateTime($certificateData['date'], \IL_CAL_UNIX)
+                    $this->language->txt('cert_issued_on_label') => ilDatePresentation::formatDate(
+                        new ilDateTime($certificateData['date'], IL_CAL_UNIX)
                     )
                 ]);
-                \ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
+                ilDatePresentation::setUseRelativeDates($oldDatePresentationStatus);
 
                 $objectTypeIcon = $this->uiFactory
                     ->symbol()
@@ -240,22 +238,24 @@ class ilUserCertificateGUI
                     ->standard($certificateData['obj_type'], $certificateData['obj_type'], 'small');
 
                 $objectTitle = $certificateData['title'];
-                $refIds = \ilObject::_getAllReferences((int) $certificateData['obj_id']);
+                $refIds = ilObject::_getAllReferences((int) $certificateData['obj_id']);
                 if (count($refIds) > 0) {
                     foreach ($refIds as $refId) {
                         if ($this->access->checkAccess('read', '', $refId)) {
                             $objectTitle = $this->uiRenderer->render(
-                                $this->uiFactory->link()->standard($objectTitle, \ilLink::_getLink($refId))
+                                $this->uiFactory->link()->standard($objectTitle, ilLink::_getLink($refId))
                             );
                             break;
                         }
                     }
                 }
 
-                $sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode('', [
-                    $this->uiRenderer->render($objectTypeIcon),
-                    $objectTitle
-                ])]);
+                $sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode('',
+                    [
+                        $this->uiRenderer->render($objectTypeIcon),
+                        $objectTitle
+                    ])
+                ]);
 
                 $this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
                 $downloadHref = $this->controller->getLinkTarget($this, 'download');
@@ -284,7 +284,7 @@ class ilUserCertificateGUI
 
     protected function getCurrentSortation() : string
     {
-        $sorting = \ilSession::get(self::SORTATION_SESSION_KEY);
+        $sorting = ilSession::get(self::SORTATION_SESSION_KEY);
         if (!array_key_exists($sorting, $this->sortationOptions)) {
             $sorting = $this->defaultSorting;
         }
@@ -302,7 +302,7 @@ class ilUserCertificateGUI
         if (!array_key_exists($sorting, $this->sortationOptions)) {
             $sorting = $this->defaultSorting;
         }
-        \ilSession::set(self::SORTATION_SESSION_KEY, $sorting);
+        ilSession::set(self::SORTATION_SESSION_KEY, $sorting);
 
         $this->listCertificates();
     }
@@ -324,7 +324,8 @@ class ilUserCertificateGUI
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
             if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
-                throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(), $userCertificateId));
+                throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(),
+                    $userCertificateId));
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());

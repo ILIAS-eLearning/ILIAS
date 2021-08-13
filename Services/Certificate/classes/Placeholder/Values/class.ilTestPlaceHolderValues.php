@@ -143,7 +143,6 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return array

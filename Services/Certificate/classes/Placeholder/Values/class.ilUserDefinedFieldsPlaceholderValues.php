@@ -40,15 +40,13 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
      * @param int $userId
      * @param int $objId
-     * @throws ilInvalidCertificateException
      * @return array - [PLACEHOLDER] => 'actual value'
+     * @throws ilInvalidCertificateException
      * @throws ilException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
@@ -84,7 +82,6 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return array - [PLACEHOLDER] => 'dummy value'

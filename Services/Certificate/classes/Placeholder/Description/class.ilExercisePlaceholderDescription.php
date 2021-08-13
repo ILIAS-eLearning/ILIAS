@@ -24,7 +24,8 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language,
+                $userDefinedFieldPlaceHolderDescriptionObject);
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
@@ -64,7 +65,6 @@ class ilExercisePlaceholderDescription implements ilCertificatePlaceholderDescri
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

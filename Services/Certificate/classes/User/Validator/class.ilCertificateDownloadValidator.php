@@ -5,7 +5,6 @@
  * Validates if an active certificate is stored
  * in the database and can be downloaded by the
  * user
- *
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateDownloadValidator

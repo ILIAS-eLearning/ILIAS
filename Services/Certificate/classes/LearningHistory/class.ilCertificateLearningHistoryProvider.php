@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -74,7 +75,6 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
     /**
      * Is active?
-     *
      * @return bool
      */
     public function isActive() : bool
@@ -84,7 +84,6 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
     /**
      * Get entries
-     *
      * @param int $ts_start
      * @param int $ts_end
      * @return ilLearningHistoryEntry[]
@@ -93,7 +92,8 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
     {
         $entries = array();
 
-        $certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation($this->user_id, $ts_start, $ts_end);
+        $certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation($this->user_id,
+            $ts_start, $ts_end);
 
         foreach ($certificates as $certificate) {
             $objectId = $certificate->getUserCertificate()->getObjId();
@@ -103,12 +103,16 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
                 'certificate_id',
                 $certificate->getUserCertificate()->getId()
             );
-            $href = $this->controller->getLinkTargetByClass(['ilDashboardGUI', 'ilAchievementsGUI', 'ilUserCertificateGUI'], 'download');
+            $href = $this->controller->getLinkTargetByClass(['ilDashboardGUI',
+                                                             'ilAchievementsGUI',
+                                                             'ilUserCertificateGUI'
+            ], 'download');
             $this->controller->clearParametersByClass('ilUserCertificateGUI');
 
             $prefixTextWithLink = sprintf(
                 $this->lng->txt('certificate_achievement_sub_obj'),
-                $this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()), $href))
+                $this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()),
+                    $href))
             );
 
             $text = sprintf(

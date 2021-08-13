@@ -23,17 +23,17 @@ class UserCertificateDto
     private string $userSecondEmail = '';
 
     /**
-     * @param int $certificateId
-     * @param string $objectTitle
-     * @param int $objectId
-     * @param int $issuedOnTimestamp
-     * @param int $userId
-     * @param string $userFirstName
-     * @param string $userLastName
-     * @param string $userLogin
-     * @param string $userEmail
-     * @param string $userSecondEmail
-     * @param array $objectRefId
+     * @param int         $certificateId
+     * @param string      $objectTitle
+     * @param int         $objectId
+     * @param int         $issuedOnTimestamp
+     * @param int         $userId
+     * @param string      $userFirstName
+     * @param string      $userLastName
+     * @param string      $userLogin
+     * @param string      $userEmail
+     * @param string      $userSecondEmail
+     * @param array       $objectRefId
      * @param string|null $downloadLink
      */
     public function __construct(

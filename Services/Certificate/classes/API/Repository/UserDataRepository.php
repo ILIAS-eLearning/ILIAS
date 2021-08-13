@@ -26,8 +26,8 @@ class UserDataRepository
      * @param ilLogger      $logger
      * @param ilCtrl        $controller
      * @param string|null   $defaultTitle The default title is use if the title of an repository object could not be
-     *                                  determined. This could be the case if the object is deleted from system and
-     *                                  mechanisms to store the title of deleted objects (table: object_data_del) failed.
+     *                                    determined. This could be the case if the object is deleted from system and
+     *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
         ilDBInterface $database,
@@ -48,7 +48,7 @@ class UserDataRepository
 
     /**
      * @param UserDataFilter $filter
-     * @param array $ilCtrlStack
+     * @param array          $ilCtrlStack
      * @return array
      */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
@@ -115,10 +115,8 @@ FROM
         return $result;
     }
 
-
     /**
      * @param UserDataFilter $filter
-     *
      * @return int
      */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
@@ -135,11 +133,9 @@ FROM
         return $max_count;
     }
 
-
     /**
      * @param UserDataFilter $filter
      * @param bool           $max_count_only
-     *
      * @return string
      */
     private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
@@ -190,7 +186,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
 
         return $sql;
     }
-
 
     /**
      * @param UserDataFilter $filter
@@ -284,17 +279,17 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
-                $issuedBeforeTimestamp,
-                ilDBConstants::T_INTEGER
-            );
+                    $issuedBeforeTimestamp,
+                    ilDBConstants::T_INTEGER
+                );
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
         if ($issuedAfterTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp > ' . $this->database->quote(
-                $issuedAfterTimestamp,
-                ilDBConstants::T_INTEGER
-            );
+                    $issuedAfterTimestamp,
+                    ilDBConstants::T_INTEGER
+                );
         }
 
         $title = $filter->getObjectTitle();

@@ -9,9 +9,9 @@ class ilCertificateMathJaxHelper
     public function fillXlsFoContent($xslfo) : string
     {
         $xlsfo = ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_PDF)
-            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-            ->insertLatexImages($xslfo);
+                          ->init(ilMathJax::PURPOSE_PDF)
+                          ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+                          ->insertLatexImages($xslfo);
 
         return $xlsfo;
     }

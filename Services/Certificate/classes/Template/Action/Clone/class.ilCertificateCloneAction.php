@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
@@ -96,7 +97,8 @@ class ilCertificateCloneAction
                 !$this->fileSystem->hasDir($backgroundImagePath)
             ) {
                 $newBackgroundImage = $certificatePath . $backgroundImageFile;
-                $newBackgroundImageThumbnail = str_replace($webDir, '', $this->getBackgroundImageThumbPath($certificatePath));
+                $newBackgroundImageThumbnail = str_replace($webDir, '',
+                    $this->getBackgroundImageThumbPath($certificatePath));
                 if ($this->fileSystem->has($newBackgroundImage) &&
                     !$this->fileSystem->hasDir($newBackgroundImage)
                 ) {
@@ -178,7 +180,6 @@ class ilCertificateCloneAction
 
     /**
      * Returns the filename of the background image
-     *
      * @return string The filename of the background image
      */
     private function getBackgroundImageName() : string

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
@@ -113,7 +114,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         if (!$this->trackingHelper->enabledLearningProgress() || $mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             $subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
-            $formSection = new \ilFormSectionHeaderGUI();
+            $formSection = new ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt('cert_form_sec_add_features'));
             $form->addItem($formSection);
 
@@ -172,7 +173,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         }
 
         if (sizeof($titlesOfObjectsWithInvalidModes)) {
-            $message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'), implode(', ', $titlesOfObjectsWithInvalidModes));
+            $message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'),
+                implode(', ', $titlesOfObjectsWithInvalidModes));
             throw new ilException($message);
         }
 
@@ -183,7 +185,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
-        $formFields['subitems'] = json_decode($this->setting->get('cert_subitems_' . $this->object->getId(), json_encode(array())));
+        $formFields['subitems'] = json_decode($this->setting->get('cert_subitems_' . $this->object->getId(),
+            json_encode(array())));
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
             $formFields['subitems'] = array();
         }

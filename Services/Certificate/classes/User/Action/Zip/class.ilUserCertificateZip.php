@@ -43,7 +43,6 @@ class ilUserCertificateZip
 
     /**
      * Creates a directory for a zip archive containing multiple certificates
-     *
      * @return string The created archive directory
      */
     public function createArchiveDirectory() : string
@@ -59,9 +58,8 @@ class ilUserCertificateZip
 
     /**
      * Adds PDF data as a file to a given directory
-     *
-     * @param string $pdfdata Binary PDF data
-     * @param string $dir Directory to contain the PDF data
+     * @param string $pdfdata  Binary PDF data
+     * @param string $dir      Directory to contain the PDF data
      * @param string $filename The filename to save the PDF data
      */
     public function addPDFtoArchiveDirectory(string $pdfdata, string $dir, string $filename) : void
@@ -73,12 +71,11 @@ class ilUserCertificateZip
 
     /**
      * Create a ZIP file from a directory with certificates
-     *
-     * @param string $dir Directory containing the certificates
+     * @param string  $dir     Directory containing the certificates
      * @param boolean $deliver TRUE to deliver the ZIP file, FALSE to return the filename only
      * @return string The created ZIP archive path
      */
-    public function zipCertificatesInArchiveDirectory(string$dir,  bool $deliver = true) : string
+    public function zipCertificatesInArchiveDirectory(string $dir, bool $deliver = true) : string
     {
         $zipFile = time() . '__' . $this->installionId . '__' . $this->typeInFileName . '__' . $this->objectId . '__certificates.zip';
         $zipFilePath = $this->webDirectory . $this->certificatePath . $zipFile;
