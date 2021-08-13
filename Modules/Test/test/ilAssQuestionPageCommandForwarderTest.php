@@ -21,4 +21,12 @@ class ilAssQuestionPageCommandForwarderTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilAssQuestionPageCommandForwarder::class, $this->testObj);
     }
+
+    public function testTestObj() : void
+    {
+        $testObj = $this->createMock(ilObjTest::class);
+        $this->testObj->setTestObj($testObj);
+
+        $this->assertEquals($testObj, $this->testObj->getTestObj());
+    }
 }
