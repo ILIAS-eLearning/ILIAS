@@ -146,7 +146,8 @@ class ilCertificateTemplateImportAction
                     $xsl = $this->filesystem->read($filePath);
                     // as long as we cannot make RPC calls in a given directory, we have
                     // to add the complete path to every url
-                    $xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/",
+                    $xsl = preg_replace_callback(
+                        "/url\([']{0,1}(.*?)[']{0,1}\)/",
                         function (array $matches) use ($rootDir) {
                             $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
                             $fileName = basename($matches[1]);
@@ -158,7 +159,9 @@ class ilCertificateTemplateImportAction
                             }
 
                             return 'url(' . $basePath . $fileName . ')';
-                        }, $xsl);
+                        },
+                        $xsl
+                    );
                 } elseif (strpos($file['entry'], '.jpg') !== false) {
                     $newBackgroundImageName = 'background_' . $newVersion . '.jpg';
                     $newPath = $this->certificatePath . $newBackgroundImageName;

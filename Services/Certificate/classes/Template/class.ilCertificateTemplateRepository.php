@@ -130,8 +130,11 @@ ORDER BY version ASC';
             $result[] = $this->createCertificateTemplate($row);
         }
 
-        $this->logger->info(sprintf('END - Fetching of certificate templates for object: "%s" with "%s" results',
-            $objId, count($result)));
+        $this->logger->info(sprintf(
+            'END - Fetching of certificate templates for object: "%s" with "%s" results',
+            $objId,
+            count($result)
+        ));
 
         return $result;
     }
@@ -241,8 +244,11 @@ AND currently_active = 1
 
     public function deleteTemplate(int $templateId, int $objectId) : void
     {
-        $this->logger->info(sprintf('START - Set deleted flag for certificate template("%s") for object: "%s"',
-            $templateId, $objectId));
+        $this->logger->info(sprintf(
+            'START - Set deleted flag for certificate template("%s") for object: "%s"',
+            $templateId,
+            $objectId
+        ));
 
         $sql = '
 UPDATE il_cert_template
@@ -252,8 +258,11 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
 
         $this->database->manipulate($sql);
 
-        $this->logger->info(sprintf('END - Deleted flag set fo certificate template("%s") for object: "%s"',
-            $templateId, $objectId));
+        $this->logger->info(sprintf(
+            'END - Deleted flag set fo certificate template("%s") for object: "%s"',
+            $templateId,
+            $objectId
+        ));
     }
 
     public function activatePreviousCertificate(int $objId) : ilCertificateTemplate
@@ -300,8 +309,11 @@ AND currently_active = 1';
             $result[] = $this->createCertificateTemplate($row);
         }
 
-        $this->logger->info(sprintf('END - All certificate templates for object type: "%s": "%s"', $type,
-            json_encode($result)));
+        $this->logger->info(sprintf(
+            'END - All certificate templates for object type: "%s": "%s"',
+            $type,
+            json_encode($result)
+        ));
 
         return $result;
     }

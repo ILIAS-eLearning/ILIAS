@@ -173,8 +173,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         }
 
         if (sizeof($titlesOfObjectsWithInvalidModes)) {
-            $message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'),
-                implode(', ', $titlesOfObjectsWithInvalidModes));
+            $message = sprintf(
+                $this->language->txt('certificate_learning_progress_must_be_active'),
+                implode(', ', $titlesOfObjectsWithInvalidModes)
+            );
             throw new ilException($message);
         }
 
@@ -185,8 +187,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
-        $formFields['subitems'] = json_decode($this->setting->get('cert_subitems_' . $this->object->getId(),
-            json_encode(array())));
+        $formFields['subitems'] = json_decode($this->setting->get(
+            'cert_subitems_' . $this->object->getId(),
+            json_encode(array())
+        ));
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
             $formFields['subitems'] = array();
         }

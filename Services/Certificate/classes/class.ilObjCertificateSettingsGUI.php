@@ -189,31 +189,41 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             );
         }
 
-        $persistentCertificateMode = new ilRadioGroupInputGUI($this->lng->txt('persistent_certificate_mode'),
-            'persistent_certificate_mode');
+        $persistentCertificateMode = new ilRadioGroupInputGUI(
+            $this->lng->txt('persistent_certificate_mode'),
+            'persistent_certificate_mode'
+        );
         $persistentCertificateMode->setRequired(true);
 
-        $cronJobMode = new ilRadioOption($this->lng->txt('persistent_certificate_mode_cron'),
-            'persistent_certificate_mode_cron');
+        $cronJobMode = new ilRadioOption(
+            $this->lng->txt('persistent_certificate_mode_cron'),
+            'persistent_certificate_mode_cron'
+        );
         $cronJobMode->setInfo($this->lng->txt('persistent_certificate_mode_cron_info'));
 
-        $instantMode = new ilRadioOption($this->lng->txt('persistent_certificate_mode_instant'),
-            'persistent_certificate_mode_instant');
+        $instantMode = new ilRadioOption(
+            $this->lng->txt('persistent_certificate_mode_instant'),
+            'persistent_certificate_mode_instant'
+        );
         $instantMode->setInfo($this->lng->txt('persistent_certificate_mode_instant_info'));
 
         $persistentCertificateMode->addOption($cronJobMode);
         $persistentCertificateMode->addOption($instantMode);
 
-        $persistentCertificateMode->setValue($form_settings->get('persistent_certificate_mode',
-            'persistent_certificate_mode_cron'));
+        $persistentCertificateMode->setValue($form_settings->get(
+            'persistent_certificate_mode',
+            'persistent_certificate_mode_cron'
+        ));
 
         $form->addItem($persistentCertificateMode);
 
         $this->tpl->setContent($form->getHTML());
 
         if (strcmp($this->ctrl->getCmd(), "save") == 0) {
-            $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete",
-                    $this->refinery->kindlyTo()->bool());
+            $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve(
+                "background_delete",
+                $this->refinery->kindlyTo()->bool()
+            );
             if ($backgroundDelete) {
                 $this->object->deleteBackgroundImage();
             }
@@ -224,8 +234,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     {
         $form_settings = new ilSetting("certificate");
 
-        $mode = $this->httpWrapper->post()->retrieve("persistent_certificate_mode",
-            $this->refinery->kindlyTo()->string());
+        $mode = $this->httpWrapper->post()->retrieve(
+            "persistent_certificate_mode",
+            $this->refinery->kindlyTo()->string()
+        );
         $previousMode = $form_settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($mode !== $previousMode && $mode === 'persistent_certificate_mode_instant') {
             $cron = new ilCertificateCron();
@@ -233,11 +245,17 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $cron->run();
         }
 
-        $form_settings->set("pageformat",
-            $this->httpWrapper->post()->retrieve("pageformat", $this->refinery->kindlyTo()->string()));
-        $form_settings->set("active",
-            $this->httpWrapper->post()->has("active") && $this->httpWrapper->post()->retrieve("active",
-                $this->refinery->kindlyTo()->bool()));
+        $form_settings->set(
+            "pageformat",
+            $this->httpWrapper->post()->retrieve("pageformat", $this->refinery->kindlyTo()->string())
+        );
+        $form_settings->set(
+            "active",
+            $this->httpWrapper->post()->has("active") && $this->httpWrapper->post()->retrieve(
+                "active",
+                $this->refinery->kindlyTo()->bool()
+            )
+        );
         $form_settings->set("persistent_certificate_mode", $mode);
 
         ilUtil::sendSuccess($this->lng->txt("settings_saved"));

@@ -250,11 +250,13 @@ class ilUserCertificateGUI
                     }
                 }
 
-                $sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode('',
+                $sections[] = $this->uiFactory->listing()->descriptive([$this->language->txt('cert_object_label') => implode(
+                    '',
                     [
                         $this->uiRenderer->render($objectTypeIcon),
                         $objectTitle
-                    ])
+                    ]
+                )
                 ]);
 
                 $this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
@@ -324,8 +326,11 @@ class ilUserCertificateGUI
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);
             if ((int) $userCertificate->getUserId() !== (int) $user->getId()) {
-                throw new ilException(sprintf('User "%s" tried to access certificate: "%s"', $user->getLogin(),
-                    $userCertificateId));
+                throw new ilException(sprintf(
+                    'User "%s" tried to access certificate: "%s"',
+                    $user->getLogin(),
+                    $userCertificateId
+                ));
             }
         } catch (ilException $exception) {
             $this->certificateLogger->warning($exception->getMessage());

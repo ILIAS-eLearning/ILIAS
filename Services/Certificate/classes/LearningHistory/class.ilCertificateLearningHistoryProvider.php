@@ -92,8 +92,11 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
     {
         $entries = array();
 
-        $certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation($this->user_id,
-            $ts_start, $ts_end);
+        $certificates = $this->userCertificateRepository->fetchActiveCertificatesInIntervalForPresentation(
+            $this->user_id,
+            $ts_start,
+            $ts_end
+        );
 
         foreach ($certificates as $certificate) {
             $objectId = $certificate->getUserCertificate()->getObjId();
@@ -111,8 +114,10 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
             $prefixTextWithLink = sprintf(
                 $this->lng->txt('certificate_achievement_sub_obj'),
-                $this->uiRenderer->render($this->uiFactory->link()->standard($this->getEmphasizedTitle($certificate->getObjectTitle()),
-                    $href))
+                $this->uiRenderer->render($this->uiFactory->link()->standard(
+                    $this->getEmphasizedTitle($certificate->getObjectTitle()),
+                    $href
+                ))
             );
 
             $text = sprintf(

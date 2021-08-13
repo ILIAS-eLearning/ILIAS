@@ -67,14 +67,24 @@ class ilObjCertificateSettings extends ilObject
                 return false;
             }
             // convert the uploaded file to JPEG
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(), $this->getDefaultBackgroundImagePath(),
-                "JPEG");
-            ilUtil::convertImage($this->getDefaultBackgroundImageTempfilePath(),
-                $this->getDefaultBackgroundImageThumbPath(), "JPEG", 100);
+            ilUtil::convertImage(
+                $this->getDefaultBackgroundImageTempfilePath(),
+                $this->getDefaultBackgroundImagePath(),
+                "JPEG"
+            );
+            ilUtil::convertImage(
+                $this->getDefaultBackgroundImageTempfilePath(),
+                $this->getDefaultBackgroundImageThumbPath(),
+                "JPEG",
+                100
+            );
             if (!file_exists($this->getDefaultBackgroundImagePath())) {
                 // something went wrong converting the file. use the original file and hope, that PDF can work with it
-                if (!ilUtil::moveUploadedFile($this->getDefaultBackgroundImageTempfilePath(), $convert_filename,
-                    $this->getDefaultBackgroundImagePath())) {
+                if (!ilUtil::moveUploadedFile(
+                    $this->getDefaultBackgroundImageTempfilePath(),
+                    $convert_filename,
+                    $this->getDefaultBackgroundImagePath()
+                )) {
                     return false;
                 }
             }
@@ -94,13 +104,13 @@ class ilObjCertificateSettings extends ilObject
     {
         $result = true;
         if (file_exists($this->getDefaultBackgroundImageThumbPath())) {
-            $result = $result&unlink($this->getDefaultBackgroundImageThumbPath());
+            $result = $result & unlink($this->getDefaultBackgroundImageThumbPath());
         }
         if (file_exists($this->getDefaultBackgroundImagePath())) {
-            $result = $result&unlink($this->getDefaultBackgroundImagePath());
+            $result = $result & unlink($this->getDefaultBackgroundImagePath());
         }
         if (file_exists($this->getDefaultBackgroundImageTempfilePath())) {
-            $result = $result&unlink($this->getDefaultBackgroundImageTempfilePath());
+            $result = $result & unlink($this->getDefaultBackgroundImageTempfilePath());
         }
         return $result;
     }

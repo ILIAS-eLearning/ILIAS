@@ -138,8 +138,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         // handle the certificate import
         if ($_FILES["certificate_import"]["name"] !== "") {
             if ($import->checkInput()) {
-                $result = $this->importAction->import($_FILES["certificate_import"]["tmp_name"],
-                    $_FILES["certificate_import"]["name"]);
+                $result = $this->importAction->import(
+                    $_FILES["certificate_import"]["tmp_name"],
+                    $_FILES["certificate_import"]["name"]
+                );
                 if ($result == false) {
                     $import->setAlert($this->language->txt("certificate_error_import"));
                 } else {
@@ -213,8 +215,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         $form->addItem($bgimage);
 
-        $thumbnailImage = new ilImageFileInputGUI($this->language->txt('certificate_card_thumbnail_image'),
-            'certificate_card_thumbnail_image');
+        $thumbnailImage = new ilImageFileInputGUI(
+            $this->language->txt('certificate_card_thumbnail_image'),
+            'certificate_card_thumbnail_image'
+        );
         $thumbnailImage->setRequired(false);
         $thumbnailImage->setUseCache(false);
         $thumbnailImage->setSuffixes(array('svg'));
@@ -284,8 +288,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $form->addItem($formSection);
         }
 
-        if ($this->access->checkAccess("write", "",
-            $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string()))) {
+        if ($this->access->checkAccess(
+            "write",
+            "",
+            $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string())
+        )) {
             if ($certificateTemplate->isCurrentlyActive()) {
                 $this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
 

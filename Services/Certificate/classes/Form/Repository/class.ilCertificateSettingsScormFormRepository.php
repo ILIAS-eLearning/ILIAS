@@ -93,10 +93,14 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
     public function fetchFormFieldData(string $content)
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
-        $formFields['certificate_enabled_scorm'] = $this->setting->get('certificate_' . $this->object->getId(),
-            $formFields['certificate_enabled_scorm']);
-        $formFields['short_name'] = $this->setting->get('certificate_short_name_' . $this->object->getId(),
-            $formFields['short_name']);
+        $formFields['certificate_enabled_scorm'] = $this->setting->get(
+            'certificate_' . $this->object->getId(),
+            $formFields['certificate_enabled_scorm']
+        );
+        $formFields['short_name'] = $this->setting->get(
+            'certificate_short_name_' . $this->object->getId(),
+            $formFields['short_name']
+        );
 
         return $formFields;
     }

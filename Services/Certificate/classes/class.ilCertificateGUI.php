@@ -468,10 +468,14 @@ class ilCertificateGUI
         $currentVersion = $previousCertificateTemplate->getVersion();
         $nextVersion = $currentVersion + 1;
 
-        $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve("background_delete",
-                $this->refinery->kindlyTo()->bool());
-        $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve("certificate_card_thumbnail_image_delete",
-                $this->refinery->kindlyTo()->bool());
+        $backgroundDelete = $this->httpWrapper->post()->has("background_delete") && $this->httpWrapper->post()->retrieve(
+            "background_delete",
+            $this->refinery->kindlyTo()->bool()
+        );
+        $certificateCardThumbnailImageDelete = $this->httpWrapper->post()->has("certificate_card_thumbnail_image_delete") && $this->httpWrapper->post()->retrieve(
+            "certificate_card_thumbnail_image_delete",
+            $this->refinery->kindlyTo()->bool()
+        );
 
         if ($backgroundDelete) {
             $this->backgroundImageDelete->deleteBackgroundImage($currentVersion);
@@ -538,8 +542,10 @@ class ilCertificateGUI
                             }
                         } elseif ($pending_card_file !== null && !empty($pending_card_file)) {
                             $stream = $this->tmp_file_system->readStream(basename($pending_card_file['tmp_name']));
-                            $this->fileSystem->writeStream($this->certificatePath . '/' . $cardThumbnailFileName,
-                                $stream);
+                            $this->fileSystem->writeStream(
+                                $this->certificatePath . '/' . $cardThumbnailFileName,
+                                $stream
+                            );
                             $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
                         } else {
                             throw new ilException($this->lng->txt('upload_error_file_not_found'));

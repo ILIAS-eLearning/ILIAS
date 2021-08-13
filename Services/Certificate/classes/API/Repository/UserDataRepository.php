@@ -279,17 +279,17 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
-                    $issuedBeforeTimestamp,
-                    ilDBConstants::T_INTEGER
-                );
+                $issuedBeforeTimestamp,
+                ilDBConstants::T_INTEGER
+            );
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
         if ($issuedAfterTimestamp !== null) {
             $wheres[] = 'cert.acquired_timestamp > ' . $this->database->quote(
-                    $issuedAfterTimestamp,
-                    ilDBConstants::T_INTEGER
-                );
+                $issuedAfterTimestamp,
+                ilDBConstants::T_INTEGER
+            );
         }
 
         $title = $filter->getObjectTitle();

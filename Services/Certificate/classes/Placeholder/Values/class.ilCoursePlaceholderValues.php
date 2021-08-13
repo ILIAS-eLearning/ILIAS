@@ -103,8 +103,10 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValues($userId,
-            $objId);
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValues(
+            $userId,
+            $objId
+        );
 
         $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
 
@@ -135,8 +137,10 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
-        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValuesForPreview($userId,
-            $objId);
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValuesForPreview(
+            $userId,
+            $objId
+        );
 
         $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
 
