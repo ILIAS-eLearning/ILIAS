@@ -8,6 +8,14 @@ class ilCertificateRpcClientFactoryHelper
 {
     public function ilFO2PDF(string $package, string $certificateContent) : ScalarPdf
     {
-        return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);
+        $factory = ilRpcClientFactory::factory($package);
+        $ilFO2PDFResult = $factory->ilFO2PDF($certificateContent);
+        require_once "Services/Certificate/test/ilCertificateBaseTestCase.php";
+        require_once "Services/Certificate/test/ilPdfGeneratorTest.php";
+
+        $scalarPdf = new ScalarPdf();
+        $scalarPdf->scalar = $ilFO2PDFResult->scalar;
+
+        return $scalarPdf;
     }
 }
