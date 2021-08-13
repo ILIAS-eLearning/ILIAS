@@ -69,6 +69,9 @@ var ddmapping = function() {
             }
             elements.levels[id].parentElement.querySelector(classes.BUTTON)
                 .classList.add(classes.ACTIVE);
+            //focus first entry            
+            lower = elements.levels[id].children[0].children[0]
+            lower.focus();
         },
         setHeaderTitle : function(title) {
             elements.header_title.innerText = title;
