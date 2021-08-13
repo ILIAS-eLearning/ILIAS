@@ -54,6 +54,10 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
      */
     public function getPreconditions(Environment $environment) : array
     {
+        return [
+            new \ilDBStepExecutionDBExistsObjective(),
+            new \ilDatabaseUpdatedObjective()
+        ];
     }
 
     /**
