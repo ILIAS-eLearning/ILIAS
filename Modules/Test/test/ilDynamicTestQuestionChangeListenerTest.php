@@ -21,4 +21,15 @@ class ilDynamicTestQuestionChangeListenerTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilDynamicTestQuestionChangeListener::class, $this->testObj);
     }
+
+    public function testTestObj() : void
+    {
+        $expected = [20, 1250, 1250];
+        $testObj = $this->createMock(ilObjTest::class);
+        foreach ($expected as $value) {
+            $this->testObj->addTestObjId($value);
+        }
+
+        $this->assertEquals($expected, $this->testObj->getTestObjIds());
+    }
 }
