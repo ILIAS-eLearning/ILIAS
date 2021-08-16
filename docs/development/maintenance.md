@@ -594,6 +594,12 @@ substantially in the general condition of the component and the proposed maintai
 	* Testcases: Tested separately in each module that supports taxonomies
 	* Tester: Tested separately in each module that supports taxonomies
 
+* **Terms of Services**
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: Stefania Akgül (CaT)
+	* Tester: Heinz Winter (CaT)
+
 * **Test & Assessment**
 	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
