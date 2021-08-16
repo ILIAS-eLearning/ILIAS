@@ -6,7 +6,7 @@ use ILIAS\DI\Container;
 use ILIAS\Refinery\Factory;
 
 /**
- * Class ilCtrl2
+ * Class ilCtrl
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilCtrl implements ilCtrlInterface
