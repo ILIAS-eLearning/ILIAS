@@ -1395,7 +1395,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->object->Forum->setForumId($this->object->getId());
 
-        $tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
+        $tbl = new ilForumStatisticsTableGUI($this, 'showStatistics', $this->object);
         $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
         $tbl->setTitle(
             $this->lng->txt('statistic'),
@@ -1407,6 +1407,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $result = [];
         $counter = 0;
         foreach ($data as $row) {
+            $result[$counter]['usr_id'] = $row['usr_id'];
             $result[$counter]['ranking'] = $row['num_postings'];
             $result[$counter]['login'] = $row['login'];
             $result[$counter]['lastname'] = $row['lastname'];

@@ -1317,7 +1317,7 @@ class ilForum
             INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
             INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
-            WHERE f.pos_author_id = %s
+            WHERE f.pos_author_id = %s AND f.pos_cens = %s
         ";
 
         if ($post_activation_required) {
@@ -1326,8 +1326,8 @@ class ilForum
 
         $res = $this->db->queryF(
             $query,
-            ['integer', 'integer', 'integer'],
-            [0, $this->getForumId(), $usr_id]
+            ['integer', 'integer', 'integer', 'integer'],
+            [0, $this->getForumId(), $usr_id, 0]
         );
         $row = $this->db->fetchAssoc($res);
         if (is_array($row) && !empty($row)) {
@@ -1345,7 +1345,7 @@ class ilForum
 
         $query = "
             SELECT 
-                   u.login, u.lastname, u.firstname, f.pos_author_id,
+                   u.login, u.lastname, u.firstname, f.pos_author_id, u.usr_id,
                    p.value public_profile,
                    COUNT(f.pos_author_id) num_postings
             FROM frm_posts f
@@ -1354,12 +1354,14 @@ class ilForum
             INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
             LEFT JOIN usr_pref p ON p.usr_id = u.usr_id AND p.keyword = %s
-            WHERE t.parent_pos != %s
+            WHERE t.parent_pos != %s  AND f.pos_cens = %s
         ";
     
         $data_types[] = 'text';
         $data_types[] = 'integer';
+        $data_types[] = 'integer';
         $data[] = 'public_profile';
+        $data[] = 0;
         $data[] = 0;
 
         if ($post_activation_required) {

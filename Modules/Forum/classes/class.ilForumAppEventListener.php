@@ -302,6 +302,11 @@ class ilForumAppEventListener implements ilAppEventListener
                                 '"Posting Censored" notifications will be send via cron job (if enabled) ...'
                             );
                         }
+
+                        ilLPStatusWrapper::_updateStatus(
+                            $forum->getId(),
+                            $post->getPosAuthorId()
+                        );
                         break;
 
                     case 'beforePostDeletion':
