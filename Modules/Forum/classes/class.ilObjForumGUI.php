@@ -1741,10 +1741,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $frm = $oForumObjects['frm'];
 
             if ($wasRevoked) {
-                $frm->postCensorship($message, $this->objCurrentPost->getId());
+                $frm->postCensorship($this->object, $message, $this->objCurrentPost->getId());
                 ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
             } else {
-                $frm->postCensorship($message, $this->objCurrentPost->getId(), 1);
+                $frm->postCensorship($this->object, $message, $this->objCurrentPost->getId(), 1);
                 ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
             }
 

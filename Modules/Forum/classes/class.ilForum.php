@@ -712,14 +712,7 @@ class ilForum
     }
     
     
-    /**
-    * update dataset in frm_posts with censorship info
-    * @param	string	message
-    * @param	integer	pos_pk
-    * @return	boolean
-    * @access	public
-    */
-    public function postCensorship($message, $pos_pk, $cens = 0)
+    public function postCensorship(ilObjForum $forum, string $message, int $pos_pk, int $cens = 0) : void
     {
         $cens_date = date("Y-m-d H:i:s");
 
@@ -767,9 +760,8 @@ class ilForum
                 $rec = $this->db->fetchAssoc($res);
 
                 $news_item = new ilNewsItem($news_id);
-                //$news_item->setTitle($subject);
                 $news_item->setContent(nl2br($this->prepareText($rec["pos_message"], 0)));
-                if ($rec["pos_message"] != strip_tags($rec["pos_message"])) {
+                if ($rec["pos_message"] !== strip_tags($rec["pos_message"])) {
                     $news_item->setContentHtml(true);
                 } else {
                     $news_item->setContentHtml(false);
@@ -782,13 +774,12 @@ class ilForum
         $GLOBALS['ilAppEventHandler']->raise(
             'Modules/Forum',
             'censoredPost',
-            array(
+            [
                 'ref_id' => $this->getForumRefId(),
-                'post' => new ilForumPost($pos_pk)
-            )
+                'post' => new ilForumPost($pos_pk),
+                'object' => $forum
+            ]
         );
-
-        return true;
     }
 
     /**
@@ -1312,12 +1303,13 @@ class ilForum
     public function getNumberOfPublishedUserPostings(int $usr_id, bool $post_activation_required) : int
     {
         $query = "
-            SELECT COUNT(f.pos_author_id) cnt
+            SELECT 
+                   SUM(IF(f.pos_cens = %s, 1, 0)) cnt
             FROM frm_posts f
             INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
             INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
-            WHERE f.pos_author_id = %s AND f.pos_cens = %s
+            WHERE f.pos_author_id = %s
         ";
 
         if ($post_activation_required) {
@@ -1327,7 +1319,7 @@ class ilForum
         $res = $this->db->queryF(
             $query,
             ['integer', 'integer', 'integer', 'integer'],
-            [0, $this->getForumId(), $usr_id, 0]
+            [0, 0, $this->getForumId(), $usr_id]
         );
         $row = $this->db->fetchAssoc($res);
         if (is_array($row) && !empty($row)) {
@@ -1347,21 +1339,21 @@ class ilForum
             SELECT 
                    u.login, u.lastname, u.firstname, f.pos_author_id, u.usr_id,
                    p.value public_profile,
-                   COUNT(f.pos_author_id) num_postings
+                   SUM(IF(f.pos_cens = %s, 1, 0)) num_postings
             FROM frm_posts f
             INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk
             INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk
             INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
             INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
             LEFT JOIN usr_pref p ON p.usr_id = u.usr_id AND p.keyword = %s
-            WHERE t.parent_pos != %s  AND f.pos_cens = %s
+            WHERE t.parent_pos != %s
         ";
-    
+
+        $data_types[] = 'integer';
         $data_types[] = 'text';
         $data_types[] = 'integer';
-        $data_types[] = 'integer';
-        $data[] = 'public_profile';
         $data[] = 0;
+        $data[] = 'public_profile';
         $data[] = 0;
 
         if ($post_activation_required) {

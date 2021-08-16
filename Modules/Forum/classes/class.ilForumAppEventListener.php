@@ -255,6 +255,7 @@ class ilForumAppEventListener implements ilAppEventListener
 
                     case 'censoredPost':
                         $post = $a_parameter['post'];
+                        $forum = $a_parameter['object'];
 
                         $logger->debug(sprintf(
                             "Received event '%s' for posting with id %s (subject: %s|ref_id: %s)",

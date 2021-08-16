@@ -2707,7 +2707,7 @@ common#:#frm_latest_postings#:#Latest Articles
 rbac#:#frm_moderate_frm#:#User can edit, censor and delete postings
 common#:#frm_new#:#New Forum
 rbac#:#frm_read#:#User can read forum content
-common#:#frm_statistics_ranking#:#Ranking
+common#:#frm_statistics_ranking#:#Number of Public Postings
 rbac#:#frm_visible#:#Forum is visible
 rbac#:#frm_write#:#User can edit forum settings and moderators
 common#:#frm#:#Forum
