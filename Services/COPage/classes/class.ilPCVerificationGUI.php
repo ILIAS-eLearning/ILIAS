@@ -13,8 +13,12 @@ class ilPCVerificationGUI extends ilPageContentGUI
     private const SUPPORTED_TYPES = ['excv', 'tstv', 'crsv', 'cmxv', 'ltiv', 'scov'];
     protected ilObjUser $user;
 
-    public function __construct(ilPageObject $a_pg_obj, $a_content_obj, $a_hier_id = 0, string $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPCVerification $a_content_obj,
+        string $a_hier_id = '0',
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -27,10 +31,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $this->$cmd();
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $a_form
-     * @throws ilDateTimeException
-     */
     public function insert(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->displayValidationError();
@@ -41,10 +41,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $a_form
-     * @throws ilDateTimeException
-     */
     public function edit(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->displayValidationError();
@@ -92,11 +88,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $certificates;
     }
 
-    /**
-     * @param bool $a_insert
-     * @return ilPropertyFormGUI
-     * @throws ilDateTimeException
-     */
     protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('wsp');
@@ -184,15 +175,12 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-     * @throws ilDateTimeException
-     */
     public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
             $objectId = (int) $form->getInput('persistent_object');
-            $userId = (int) $this->user->getId();
+            $userId = $this->user->getId();
 
             $certificateFileService = new ilPortfolioCertificateFileService();
             try {
@@ -254,7 +242,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
                     if (isset($validCertificates[$objectId])) {
                         $certificateFileService = new ilPortfolioCertificateFileService();
                         $certificateFileService->createCertificateFile(
-                            (int) $this->user->getId(),
+                            $this->user->getId(),
                             $objectId
                         );
                         $this->content_obj->setData('crta', $objectId);
@@ -279,7 +267,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
                 try {
                     $certificateFileService = new ilPortfolioCertificateFileService();
                     $certificateFileService->deleteCertificateFile(
-                        (int) $this->user->getId(),
+                        $this->user->getId(),
                         (int) $oldContentData['id']
                     );
                 } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {
