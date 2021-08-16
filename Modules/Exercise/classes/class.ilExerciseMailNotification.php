@@ -1,25 +1,19 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * @author Alex Killing <alex.killing@gmx.de>
- *
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseMailNotification extends ilMailNotification
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public const TYPE_FEEDBACK_FILE_ADDED = 20;
+    public const TYPE_SUBMISSION_UPLOAD = 30;
+    public const TYPE_FEEDBACK_TEXT_ADDED = 40;
 
-    const TYPE_FEEDBACK_FILE_ADDED = 20;
-    const TYPE_SUBMISSION_UPLOAD = 30;
-    const TYPE_FEEDBACK_TEXT_ADDED = 40;
+    protected ilObjUser $user;
+    protected int $ass_id;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -28,31 +22,17 @@ class ilExerciseMailNotification extends ilMailNotification
         parent::__construct();
     }
     
-    /**
-     * Set assignment id
-     *
-     * @param	int		assignment id
-     */
-    public function setAssignmentId($a_val)
+    public function setAssignmentId(int $a_val) : void
     {
         $this->ass_id = $a_val;
     }
     
-    /**
-     * Get assignment id
-     *
-     * @return	int		assignment id
-     */
-    public function getAssignmentId()
+    public function getAssignmentId() : int
     {
         return $this->ass_id;
     }
     
-    /**
-     * Send notifications
-     * @return
-     */
-    public function send()
+    public function send() : bool
     {
         $ilUser = $this->user;
         // parent::send();
@@ -130,8 +110,8 @@ class ilExerciseMailNotification extends ilMailNotification
                         $this->appendBody("\n\n");
 
                         //new files uploaded
-                        $assignment = new ilExAssignment($this->getAssignmentId());
-                        $submission = new ilExSubmission($assignment, $ilUser->getId());
+                        //$assignment = new ilExAssignment($this->getAssignmentId());
+                        //$submission = new ilExSubmission($assignment, $ilUser->getId());
 
                         // since mails are sent immediately after upload the files should always be new
                         //if($submission->lookupNewFiles($submission->getTutor()))
@@ -203,7 +183,7 @@ class ilExerciseMailNotification extends ilMailNotification
      * Add language module exc
      * @param int $a_usr_id
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage($a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('exc');

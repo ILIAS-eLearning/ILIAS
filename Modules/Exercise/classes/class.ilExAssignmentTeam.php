@@ -1,35 +1,28 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise assignment team
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentTeam
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    public const TEAM_LOG_CREATE_TEAM = 1;
+    public const TEAM_LOG_ADD_MEMBER = 2;
+    public const TEAM_LOG_REMOVE_MEMBER = 3;
+    public const TEAM_LOG_ADD_FILE = 4;
+    public const TEAM_LOG_REMOVE_FILE = 5;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilDBInterface $db;
+    protected ilObjUser $user;
+    protected ?int $id = null;
+    protected int $assignment_id;
+    protected array $members = array();
 
-    protected $id; // [int]
-    protected $assignment_id; // [int]
-    protected $members = array(); // [array]
-    
-    const TEAM_LOG_CREATE_TEAM = 1;
-    const TEAM_LOG_ADD_MEMBER = 2;
-    const TEAM_LOG_REMOVE_MEMBER = 3;
-    const TEAM_LOG_ADD_FILE = 4;
-    const TEAM_LOG_REMOVE_FILE = 5;
-    
-    public function __construct($a_id = null)
+    public function __construct(?int $a_id = null)
     {
         global $DIC;
 
@@ -40,13 +33,16 @@ class ilExAssignmentTeam
         }
     }
     
-    public static function getInstanceByUserId($a_assignment_id, $a_user_id, $a_create_on_demand = false)
-    {
+    public static function getInstanceByUserId(
+        int $a_assignment_id,
+        int $a_user_id,
+        bool $a_create_on_demand = false
+    ) : self {
         $id = self::getTeamId($a_assignment_id, $a_user_id, $a_create_on_demand);
         return new self($id);
     }
     
-    public static function getInstancesFromMap($a_assignment_id)
+    public static function getInstancesFromMap(int $a_assignment_id) : array
     {
         $teams = array();
         foreach (self::getAssignmentTeamMap($a_assignment_id) as $user_id => $team_id) {
@@ -65,17 +61,17 @@ class ilExAssignmentTeam
         return $res;
     }
     
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    private function setId($a_id)
+    private function setId(?int $a_id) : void
     {
         $this->id = $a_id;
     }
     
-    protected function read($a_id)
+    protected function read(int $a_id) : void
     {
         $ilDB = $this->db;
         
@@ -95,17 +91,12 @@ class ilExAssignmentTeam
         }
     }
     
-    /**
-     * Get team id for member id
-     *
-     * team will be created if no team yet
-     *
-     * @param int $a_user_id
-     * @param bool $a_create_on_demand
-     * @return int
-     */
-    public static function getTeamId($a_assignment_id, $a_user_id, $a_create_on_demand = false)
-    {
+    // Get team id for member id
+    public static function getTeamId(
+        int $a_assignment_id,
+        int $a_user_id,
+        bool $a_create_on_demand = false
+    ) : ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -148,8 +139,10 @@ class ilExAssignmentTeam
         return $id;
     }
 
-    public function createTeam($a_assignment_id, $a_user_id)
-    {
+    public function createTeam(
+        int $a_assignment_id,
+        int $a_user_id
+    ) : int {
         $ilDB = $this->db;
         $id = $ilDB->nextId("il_exc_team");
         $fields = array("id" => array("integer", $id),
@@ -165,22 +158,17 @@ class ilExAssignmentTeam
         return $id;
     }
     
-    /**
-     * Get members of assignment team
-     *
-     * @return array
-     */
-    public function getMembers()
+    // Get members of assignment team
+    public function getMembers() : array
     {
         return $this->members;
     }
     
     /**
      * Get members for all teams of assignment
-     *
-     * @return array
+     * @return int[] user ids
      */
-    public function getMembersOfAllTeams()
+    public function getMembersOfAllTeams() : array
     {
         $ilDB = $this->db;
         
@@ -197,14 +185,15 @@ class ilExAssignmentTeam
         return $ids;
     }
     
+    // Add new member to team
+
     /**
-     * Add new member to team
-     *
-     * @param int $a_user_id
-     * @param int $a_exc_ref_id
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function addTeamMember($a_user_id, $a_exc_ref_id = null)
-    {
+    public function addTeamMember(
+        int $a_user_id,
+        ?int $a_exc_ref_id = null
+    ) : bool {
         $ilDB = $this->db;
         
         if (!$this->id) {
@@ -234,15 +223,14 @@ class ilExAssignmentTeam
         
         return false;
     }
-    
+
     /**
-     * Remove member from team
-     *
-     * @param int $a_user_id
-     * @param int $a_exc_ref_id
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function removeTeamMember($a_user_id, $a_exc_ref_id = null)
-    {
+    public function removeTeamMember(
+        int $a_user_id,
+        ?int $a_exc_ref_id = null
+    ) : void {
         $ilDB = $this->db;
         
         if (!$this->id) {
@@ -267,13 +255,8 @@ class ilExAssignmentTeam
         $this->read($this->id);
     }
     
-    /**
-     * Get team structure for assignment
-     *
-     * @param int $a_ass_id
-     * @return array
-     */
-    public static function getAssignmentTeamMap($a_ass_id)
+    // Get team structure for assignment
+    public static function getAssignmentTeamMap(int $a_ass_id) : array
     {
         global $DIC;
 
@@ -291,20 +274,21 @@ class ilExAssignmentTeam
         return $map;
     }
     
-    public function writeLog($a_action, $a_details = null)
-    {
+    public function writeLog(
+        string $a_action,
+        string $a_details = null
+    ) : void {
         self::writeTeamLog($this->id, $a_action, $a_details);
     }
 
     /**
      * Add entry to team log
-     *
-     * @param int $a_team_id
-     * @param int $a_action
-     * @param string $a_details
      */
-    public static function writeTeamLog($a_team_id, $a_action, $a_details = null)
-    {
+    public static function writeTeamLog(
+        int $a_team_id,
+        string $a_action,
+        string $a_details = null
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -323,13 +307,8 @@ class ilExAssignmentTeam
         $ilDB->insert("il_exc_team_log", $fields);
     }
     
-    /**
-     * Get all log entries for team
-     *
-     * @param int $a_team_id
-     * @return array
-     */
-    public function getLog()
+    // Get all log entries for team
+    public function getLog() : array
     {
         $ilDB = $this->db;
         
@@ -352,7 +331,7 @@ class ilExAssignmentTeam
      *
      * As there is no proper team deletion event, we are doing it this way
      */
-    protected function cleanLog()
+    protected function cleanLog() : void
     {
         $ilDB = $this->db;
         
@@ -375,16 +354,16 @@ class ilExAssignmentTeam
             }
         }
     }
-    
+
     /**
      * Send notification about team status
-     *
-     * @param int $a_exc_ref_id
-     * @param int $a_user_id
-     * @param string $a_action
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function sendNotification($a_exc_ref_id, $a_user_id, $a_action)
-    {
+    public function sendNotification(
+        int $a_exc_ref_id,
+        int $a_user_id,
+        string $a_action
+    ) : void {
         $ilUser = $this->user;
         
         // no need to notify current user
@@ -408,8 +387,11 @@ class ilExAssignmentTeam
     }
     
     
-    public static function getAdoptableTeamAssignments($a_exercise_id, $a_exclude_ass_id = null, $a_user_id = null)
-    {
+    public static function getAdoptableTeamAssignments(
+        int $a_exercise_id,
+        int $a_exclude_ass_id = null,
+        int $a_user_id = null
+    ) : array {
         $res = array();
         
         $data = ilExAssignment::getAssignmentDataOfExercise($a_exercise_id);
@@ -455,9 +437,16 @@ class ilExAssignmentTeam
         
         return ilUtil::sortArray($res, "title", "asc", false, true);
     }
-    
-    public static function adoptTeams($a_source_ass_id, $a_target_ass_id, $a_user_id = null, $a_exc_ref_id = null)
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public static function adoptTeams(
+        int $a_source_ass_id,
+        int $a_target_ass_id,
+        int $a_user_id = null,
+        int $a_exc_ref_id = null
+    ) : void {
         $teams = array();
         
         $old_team = null;
@@ -520,8 +509,12 @@ class ilExAssignmentTeam
     //
     // GROUPS
     //
-    
-    public static function getAdoptableGroups($a_exc_ref_id)
+
+    /**
+     * @param int $a_exc_ref_id
+     * @return int[] group obj ids
+     */
+    public static function getAdoptableGroups(int $a_exc_ref_id) : array
     {
         global $DIC;
 
@@ -539,7 +532,7 @@ class ilExAssignmentTeam
         return $res;
     }
     
-    public static function getGroupMembersMap($a_exc_ref_id)
+    public static function getGroupMembersMap(int $a_exc_ref_id) : array
     {
         $res = array();
         
@@ -563,17 +556,18 @@ class ilExAssignmentTeam
      *  - number of users per team --> 9 / 4 = 2 users
      *  - users to spread over groups --> 9 % 4 = 1 user
      *  - final teams: 3 teams of 2 users and 1 team of 3 users.
-     * @param $a_exercise_id integer
-     * @param $a_assignment_id integer
-     * @param $a_number_teams integer
-     * @param $a_min_participants integer
-     * @return bool
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws Exception
      */
-    public function createRandomTeams($a_exercise_id, $a_assignment_id, $a_number_teams, $a_min_participants)
-    {
+    public function createRandomTeams(
+        int $a_exercise_id,
+        int $a_assignment_id,
+        int $a_number_teams,
+        int $a_min_participants
+    ) : void {
         //just in case...
         if (count(self::getAssignmentTeamMap($a_assignment_id))) {
-            return false;
+            return;
         }
         $exercise = new ilObjExercise($a_exercise_id, false);
         $obj_exc_members = new ilExerciseMembers($exercise);
@@ -612,6 +606,5 @@ class ilExAssignmentTeam
             $this->setId($team_id);
             $this->addTeamMember($member_id);
         }
-        return true;
     }
 }

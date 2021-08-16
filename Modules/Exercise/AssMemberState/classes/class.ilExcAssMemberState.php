@@ -41,8 +41,8 @@ class ilExcAssMemberState
      * either user id or team id, if this is a team assignment
      * and the user is member of a team, in this case is_team is true
      */
-    protected int $member_id;
-    protected int $team_id = 0;
+    protected ?int $member_id;
+    protected ?int $team_id = 0;
     protected bool $is_team = false;
     protected ilExcIndividualDeadline $idl;
 

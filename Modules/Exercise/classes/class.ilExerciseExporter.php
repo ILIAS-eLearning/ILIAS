@@ -1,20 +1,17 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for exercise
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilExerciseDataSet $ds;
 
-    /**
-     * Initialisation
-     */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilExerciseDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -29,7 +26,7 @@ class ilExerciseExporter extends ilXmlExporter
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
@@ -39,44 +36,42 @@ class ilExerciseExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions($a_entity) : array
     {
         return array(
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/4_1",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/4_1",
                 "xsd_file" => "ilias_exc_4_1.xsd",
                 "uses_dataset" => true,
                 "min" => "4.1.0",
                 "max" => "4.3.99"),
             "4.4.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/4_4",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/4_4",
                 "xsd_file" => "ilias_exc_4_4.xsd",
                 "uses_dataset" => true,
                 "min" => "4.4.0",
                 "max" => "4.4.99"),
             "5.0.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/5_0",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/5_0",
                 "xsd_file" => "ilias_exc_5_0.xsd",
                 "uses_dataset" => true,
                 "min" => "5.0.0",
                 "max" => "5.0.99"),
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/5_1",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/5_1",
                 "xsd_file" => "ilias_exc_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
                 "max" => "5.1.99"),
             "5.2.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/5_2",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/5_2",
                 "xsd_file" => "ilias_exc_5_2.xsd",
                 "uses_dataset" => true,
                 "min" => "5.2.0",
                 "max" => "5.2.99"),
             "5.3.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Exercise/exc/5_3",
+                "namespace" => "https://www.ilias.de/Modules/Exercise/exc/5_3",
                 "xsd_file" => "ilias_exc_5_3.xsd",
                 "uses_dataset" => true,
                 "min" => "5.3.0",
@@ -84,7 +79,7 @@ class ilExerciseExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) : array
     {
         $deps = [];
 
@@ -138,7 +133,7 @@ class ilExerciseExporter extends ilXmlExporter
         return $deps;
     }
 
-    protected function getActiveAdvMDRecords($a_id)
+    protected function getActiveAdvMDRecords($a_id) : array
     {
         $active = array();
 

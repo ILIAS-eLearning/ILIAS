@@ -1,40 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise derived task provider
  *
- * @author @leifos.de
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
 {
-    /**
-     * @var ilTaskService
-     */
-    protected $task_service;
+    protected ilTaskService $task_service;
+    protected ilExerciseDerivedTaskAction $task_action;
+    protected ilAccess $access;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilExerciseDerivedTaskAction
-     */
-    protected $task_action;
-
-    /**
-     * @var ilAccess
-     */
-    protected $access;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilTaskService $task_service, \ilAccess $access, \ilLanguage $lng, ilExerciseDerivedTaskAction $derived_task_action)
-    {
+    public function __construct(
+        ilTaskService $task_service,
+        ilAccess $access,
+        ilLanguage $lng,
+        ilExerciseDerivedTaskAction $derived_task_action
+    ) {
         $this->access = $access;
         $this->task_service = $task_service;
         $this->task_action = $derived_task_action;
@@ -43,16 +28,13 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
         $this->lng->loadLanguageModule("exc");
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isActive() : bool
     {
         return true;
     }
 
     /**
-     * @inheritdoc
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function getTasks(int $user_id) : array
     {
@@ -68,7 +50,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
             $tasks[] = $this->task_service->derived()->factory()->task(
                 $title,
                 $ref_id,
-                (int) $state->getOfficialDeadline(),
+                $state->getOfficialDeadline(),
                 (int) $state->getGeneralStart()
             );
         }
@@ -81,7 +63,7 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
             $tasks[] = $this->task_service->derived()->factory()->task(
                 $title,
                 $ref_id,
-                (int) $state->getPeerReviewDeadline(),
+                $state->getPeerReviewDeadline(),
                 0
             );
         }
@@ -97,15 +79,12 @@ class ilExerciseDerivedTaskProvider implements ilDerivedTaskProvider
     }
 
 
-    /**
-     * Get first ref id for an object id with permission
-     *
-     * @param int $obj_id
-     * @param int $user_id
-     * @return int
-     */
-    protected function getFirstRefIdWithPermission($perm, int $obj_id, int $user_id) : int
-    {
+    // Get first ref id for an object id with permission
+    protected function getFirstRefIdWithPermission(
+        string $perm,
+        int $obj_id,
+        int $user_id
+    ) : int {
         $access = $this->access;
 
         foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {

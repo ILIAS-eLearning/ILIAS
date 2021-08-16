@@ -2,6 +2,12 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+
 /**
  * Class ilObjExercise
  *
@@ -33,7 +39,7 @@ class ilObjExercise extends ilObject
     protected int $tutor_feedback = 7; // [int]
     protected int $nr_random_mand; // number of mandatory assignments in random pass mode
     protected bool $completion_by_submission = false; // completion by submission is enabled or not
-    protected \ILIAS\Filesystem\Filesystem $webFilesystem;
+    protected Filesystem $webFilesystem;
     protected ilExcMandatoryAssignmentManager $mandatory_manager;
     protected int $pass_nr = 0;
     protected ilExerciseInternalService $service;
@@ -60,15 +66,20 @@ class ilObjExercise extends ilObject
         $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
     }
 
-    public function setId($id)
+    public function setId($a_id)
     {
-        parent::setId($id);
+        parent::setId($a_id);
         // this is needed, since e.g. ilObjectFactory initialises the object with id 0 and later sets the id
         $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
     }
 
-    public function setDate(int $a_hour, int $a_minutes, int $a_day, int $a_month, int $a_year) : void
-    {
+    public function setDate(
+        int $a_hour,
+        int $a_minutes,
+        int $a_day,
+        int $a_month,
+        int $a_year
+    ) : void {
         $this->hour = $a_hour;
         $this->minutes = $a_minutes;
         $this->day = $a_day;
@@ -82,13 +93,15 @@ class ilObjExercise extends ilObject
         return $this->timestamp;
     }
 
-    public function setTimestamp(int $a_timestamp) : void
-    {
+    public function setTimestamp(
+        int $a_timestamp
+    ) : void {
         $this->timestamp = $a_timestamp;
     }
 
-    public function setInstruction(string $a_instruction) : void
-    {
+    public function setInstruction(
+        string $a_instruction
+    ) : void {
         $this->instruction = $a_instruction;
     }
 
@@ -192,19 +205,26 @@ class ilObjExercise extends ilObject
             "instruction" => array("clob", $this->getInstruction()),
             "time_stamp" => array("integer", $this->getTimestamp()),
             "pass_mode" => array("text", $this->getPassMode()),
-            "nr_mandatory_random" => array("integer", (int) $this->getNrMandatoryRandom()),
+            "nr_mandatory_random" => array("integer", $this->getNrMandatoryRandom()),
             "pass_nr" => array("text", $this->getPassNr()),
             "show_submissions" => array("integer", (int) $this->getShowSubmissions()),
             'compl_by_submission' => array('integer', (int) $this->isCompletionBySubmissionEnabled()),
-            "certificate_visibility" => array("integer", (int) $this->getCertificateVisibility()),
-            "tfeedback" => array("integer", (int) $this->getTutorFeedback())
+            "certificate_visibility" => array("integer", $this->getCertificateVisibility()),
+            "tfeedback" => array("integer", $this->getTutorFeedback())
             ));
     }
     
     /**
-     * @inheritDoc
+     * @throws DirectoryNotFoundException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilException
      */
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : \ilObjExercise
+    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false) : ilObjExercise
     {
         $ilDB = $this->db;
         
@@ -234,7 +254,7 @@ class ilObjExercise extends ilObject
             
         // Copy assignments
         ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId(), $crit_cat_map);
-        
+
         // Copy learning progress settings
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
@@ -299,6 +319,10 @@ class ilObjExercise extends ilObject
         return true;
     }
 
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilObjectTypeMismatchException
+     */
     public function read() : void
     {
         $ilDB = $this->db;
@@ -321,7 +345,7 @@ class ilObjExercise extends ilObject
                 $this->setPassNr((int) $row->pass_nr);
             }
             $this->setNrMandatoryRandom((int) $row->nr_mandatory_random);
-            $this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
+            $this->setCompletionBySubmission($row->compl_by_submission == 1);
             $this->setCertificateVisibility((int) $row->certificate_visibility);
             $this->setTutorFeedback((int) $row->tfeedback);
         }
@@ -329,27 +353,24 @@ class ilObjExercise extends ilObject
         $this->members_obj = new ilExerciseMembers($this);
     }
 
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function update() : bool
     {
         $ilDB = $this->db;
 
         parent::update();
 
-        if ($this->getPassMode() == "all") {
-            $pass_nr = null;
-        } else {
-            $pass_nr = $this->getPassNr();
-        }
-
         $ilDB->update("exc_data", array(
             "instruction" => array("clob", $this->getInstruction()),
             "time_stamp" => array("integer", $this->getTimestamp()),
             "pass_mode" => array("text", $this->getPassMode()),
             "pass_nr" => array("integer", $this->getPassNr()),
-            "nr_mandatory_random" => array("integer", (int) $this->getNrMandatoryRandom()),
+            "nr_mandatory_random" => array("integer", $this->getNrMandatoryRandom()),
             "show_submissions" => array("integer", (int) $this->getShowSubmissions()),
             'compl_by_submission' => array('integer', (int) $this->isCompletionBySubmissionEnabled()),
-            'tfeedback' => array('integer', (int) $this->getTutorFeedback()),
+            'tfeedback' => array('integer', $this->getTutorFeedback()),
             ), array(
             "obj_id" => array("integer", $this->getId())
             ));
@@ -360,6 +381,13 @@ class ilObjExercise extends ilObject
     }
 
     // send exercise per mail to members
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
+     */
     public function sendAssignment(ilExAssignment $a_ass, array $a_members) : void
     {
         $lng = $this->lng;
@@ -391,6 +419,7 @@ class ilObjExercise extends ilObject
         $file_names = array();
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
         $files = $storage->getFiles();
+        $mfile_obj = null;
         if (count($files)) {
             $mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
             foreach ($files as $file) {
@@ -402,6 +431,7 @@ class ilObjExercise extends ilObject
         // recipients
         $recipients = array();
         foreach ($a_members as $member_id) {
+            /** @var $tmp_obj ilObjUser */
             $tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
             $recipients[] = $tmp_obj->getLogin();
             unset($tmp_obj);
@@ -410,7 +440,7 @@ class ilObjExercise extends ilObject
     
         // send mail
         $tmp_mail_obj = new ilMail($ilUser->getId());
-        $errors = $tmp_mail_obj->enqueue(
+        $tmp_mail_obj->enqueue(
             $recipients,
             "",
             "",
@@ -421,7 +451,7 @@ class ilObjExercise extends ilObject
         unset($tmp_mail_obj);
 
         // remove tmp files
-        if (sizeof($file_names)) {
+        if (sizeof($file_names) && $mfile_obj) {
             $mfile_obj->unlinkFiles($file_names);
             unset($mfile_obj);
         }
@@ -434,7 +464,10 @@ class ilObjExercise extends ilObject
         }
     }
 
-    // Determine status of user
+    /**
+     * Determine status of user
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function determinStatusOfUser(int $a_user_id = 0) : array
     {
         $ilUser = $this->user;
@@ -473,7 +506,7 @@ class ilObjExercise extends ilObject
         if (count($ass) == 0) {
             $passed_all_mandatory = false;
         }
-        
+        $overall_stat = "notgraded";
         if ($this->getPassMode() == self::PASS_MODE_ALL) {
             $overall_stat = "notgraded";
             if ($failed_a_mandatory) {
@@ -498,15 +531,15 @@ class ilObjExercise extends ilObject
             }
         }
 
-        $ret = array(
+        return array(
             "overall_status" => $overall_stat,
             "failed_a_mandatory" => $failed_a_mandatory);
-        //echo "<br>p:".$cnt_passed.":ng:".$cnt_notgraded;
-        //var_dump($ret); exit;
-        return $ret;
     }
     
-    // Update exercise status of user
+    /**
+     * Update exercise status of user
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function updateUserStatus(int $a_user_id = 0) : void
     {
         $ilUser = $this->user;
@@ -524,7 +557,10 @@ class ilObjExercise extends ilObject
         );
     }
     
-    // Update status of all users
+    /**
+     * Update status of all users
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function updateAllUsersStatus() : void
     {
         if (!is_object($this->members_obj)) {
@@ -537,7 +573,11 @@ class ilObjExercise extends ilObject
         }
     }
     
-    // Exports grades as excel
+    /**
+     * Exports grades as excel
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function exportGradesExcel() : void
     {
         $ass_data = ilExAssignment::getInstancesByExercise($this->getId());
@@ -568,9 +608,9 @@ class ilObjExercise extends ilObject
             'edit_submissions_grades',
             'edit_submissions_grades',
             $this->getRefId(),
-            (array) $mem_obj->getMembers()
+            $mem_obj->getMembers()
         );
-        
+        $mems = [];
         foreach ((array) $filtered_members as $user_id) {
             $mems[$user_id] = ilObjUser::_lookupName($user_id);
         }
@@ -645,7 +685,7 @@ class ilObjExercise extends ilObject
         int $a_ass_id,
         bool $a_is_text_feedback = false
     ) : void {
-        $type = (bool) $a_is_text_feedback
+        $type = $a_is_text_feedback
             ? ilExerciseMailNotification::TYPE_FEEDBACK_TEXT_ADDED
             : ilExerciseMailNotification::TYPE_FEEDBACK_FILE_ADDED;
                 
@@ -667,13 +707,16 @@ class ilObjExercise extends ilObject
     }
     
     // Enabled/Disable completion by submission
-    public function setCompletionBySubmission(bool $bool)
+    public function setCompletionBySubmission(bool $bool) : ilObjExercise
     {
-        $this->completion_by_submission = (bool) $bool;
+        $this->completion_by_submission = $bool;
         
         return $this;
     }
-    
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function processExerciseStatus(
         ilExAssignment $a_ass,
         array $a_user_ids,
@@ -749,8 +792,9 @@ class ilObjExercise extends ilObject
     /**
      * @param int $a_value visibility settings (0 = always, 1 = only passed,  2 = never)
      */
-    public function saveCertificateVisibility(int $a_value) : void
-    {
+    public function saveCertificateVisibility(
+        int $a_value
+    ) : void {
         $ilDB = $this->db;
 
         $ilDB->manipulateF(

@@ -1,33 +1,27 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List all log entries of team
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
 {
-    protected $team; // [ilExAssignmentTeam]
+    protected ilExAssignmentTeam $team;
     
-    /**
-     * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param int $a_team_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExAssignmentTeam $a_team)
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $ilCtrl = $DIC->ctrl();
-                        
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignmentTeam $a_team
+    ) {
         $this->team = $a_team;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $ctrl = $this->ctrl;
         
         $this->setTitle($this->lng->txt("exc_team_log"));
 
@@ -39,20 +33,17 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("desc");
                         
         $this->setRowTemplate("tpl.exc_team_log_row.html", "Modules/Exercise");
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setFormAction($ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
         $this->getItems();
     }
 
-    /**
-     * Get all completed tests
-     */
-    protected function getItems()
+    protected function getItems() : void
     {
         $data = array();
 
         foreach ($this->team->getLog() as $item) {
-            ;
+            $mess = "";
             switch ($item["action"]) {
                 case ilExAssignmentTeam::TEAM_LOG_CREATE_TEAM:
                     $mess = "create_team";
@@ -91,11 +82,9 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
     }
 
     /**
-     * Fill template row
-     *
-     * @param array $a_set
+     * @throws ilDateTimeException
      */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $date = ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX));
         

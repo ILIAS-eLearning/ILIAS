@@ -1,41 +1,28 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\DI\UIServices;
 
 /**
  * File-based submissions
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilExSubmissionFileGUI:
- * @ingroup ModulesExercise
  */
 class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 {
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilToolbarGUI $toolbar;
+    protected ilHelpGUI $help;
+    protected ilObjUser $user;
+    protected UIServices $ui;
 
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
-    {
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExSubmission $a_submission
+    ) {
         global $DIC;
 
         parent::__construct($a_exercise, $a_submission);
@@ -43,11 +30,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->toolbar = $DIC->toolbar();
         $this->help = $DIC["ilHelp"];
         $this->user = $DIC->user();
-
         $this->ui = $DIC->ui();
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -65,8 +51,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         }
     }
     
-    public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
-    {
+    public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -106,17 +94,12 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $a_info->addProperty($lng->txt("exc_files_returned"), $files_str);
     }
 
-    /**
-    * Displays a form which allows members to deliver their solutions
-    *
-    * @access public
-    */
-    public function submissionScreenObject()
+    // Displays a form which allows members to deliver their solutions
+    public function submissionScreenObject() : void
     {
         $ilToolbar = $this->toolbar;
         $ilHelp = $this->help;
         $ilUser = $this->user;
-
 
         $this->triggerAssignmentTool();
 
@@ -165,11 +148,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->tpl->setContent($tab->getHTML());
     }
     
-    /**
-     * Display form for single file upload
-     */
-    public function uploadFormObject(ilPropertyFormGUI $a_form = null)
-    {
+    // Display form for single file upload
+    public function uploadFormObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
         }
@@ -190,11 +172,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    /**
-     * Display form for zip file upload
-     */
-    public function uploadZipFormObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function uploadZipFormObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         if (!$this->submission->canSubmit()) {
             $this->ctrl->redirect($this, "submissionScreen");
         }
@@ -214,7 +194,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Init upload form form.
      */
-    protected function initUploadForm()
+    protected function initUploadForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -239,7 +219,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Init upload form form.
      */
-    protected function initZipUploadForm()
+    protected function initZipUploadForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -263,7 +243,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Upload files
      */
-    public function uploadFileObject()
+    public function uploadFileObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -273,7 +253,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         } else {
             $form = $this->initUploadForm();
             if (!$form->checkInput()) {
-                return $this->uploadFormObject($form);
+                $this->uploadFormObject($form);
+                return;
             }
             
             $success = false;
@@ -304,7 +285,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Upload zip file
      */
-    public function uploadZipObject()
+    public function uploadZipObject() : void
     {
         $ilCtrl = $this->ctrl;
     
@@ -314,7 +295,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         } else {
             $form = $this->initZipUploadForm();
             if (!$form->checkInput()) {
-                return $this->uploadZipFormObject($form);
+                $this->uploadZipFormObject($form);
+                return;
             }
             
             if (preg_match("/zip/", $_FILES["deliver"]["type"]) == 1) {
@@ -331,7 +313,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Confirm deletion of delivered files
      */
-    public function confirmDeleteDeliveredObject()
+    public function confirmDeleteDeliveredObject() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -377,11 +359,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     
     /**
      * Delete file(s) submitted by user
-     *
-     * @param
-     * @return
      */
-    public function deleteDeliveredObject()
+    public function deleteDeliveredObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -401,12 +380,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
      * Download submitted files of user.
      */
-    public function downloadReturnedObject($a_only_new = false)
+    public function downloadReturnedObject(bool $a_only_new = false) : void
     {
         $lng = $this->lng;
 
-        $peer_review_mask_filename = false;
-        
         if ($this->submission->canView()) {
             $peer_review_mask_filename = $this->submission->hasPeerReviewAccess();
         } else {
@@ -425,18 +402,15 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     /**
     * Download newly submitted files of user.
     */
-    public function downloadNewReturnedObject()
+    public function downloadNewReturnedObject() : void
     {
         $this->downloadReturnedObject(true);
     }
 
     /**
      * User downloads (own) submitted files
-     *
-     * @param
-     * @return
      */
-    public function downloadObject()
+    public function downloadObject() : void
     {
         $ilCtrl = $this->ctrl;
 

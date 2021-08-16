@@ -1,12 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjExerciseAdministration
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
- * @package ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjExerciseAdministration extends ilObject
 {
@@ -16,7 +16,7 @@ class ilObjExerciseAdministration extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function delete()
+    public function delete() : bool
     {
         // DISABLED
         return false;

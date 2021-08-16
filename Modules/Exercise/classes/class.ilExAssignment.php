@@ -230,12 +230,12 @@ class ilExAssignment
         return $this->deadline_mode;
     }
     
-    public function setRelativeDeadline(?int $a_val) : void
+    public function setRelativeDeadline(int $a_val) : void
     {
         $this->relative_deadline = $a_val;
     }
     
-    public function getRelativeDeadline() : ?int
+    public function getRelativeDeadline() : int
     {
         return $this->relative_deadline;
     }
@@ -369,7 +369,7 @@ class ilExAssignment
         }
     }
 
-    public function getAssignmentType() : ?ilExAssignmentTypeInterface
+    public function getAssignmentType() : ilExAssignmentTypeInterface
     {
         return $this->ass_type;
     }
@@ -831,27 +831,27 @@ class ilExAssignment
         $order_val = 10;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $data[] = array(
-                "id" => $rec["id"],
-                "exc_id" => $rec["exc_id"],
-                "deadline" => $rec["time_stamp"],
-                "deadline2" => $rec["deadline2"],
-                "instruction" => $rec["instruction"],
-                "title" => $rec["title"],
-                "start_time" => $rec["start_time"],
+                "id" => (int) $rec["id"],
+                "exc_id" => (int) $rec["exc_id"],
+                "deadline" => (int) $rec["time_stamp"],
+                "deadline2" => (int) $rec["deadline2"],
+                "instruction" => (string) $rec["instruction"],
+                "title" => (string) $rec["title"],
+                "start_time" => (int) $rec["start_time"],
                 "order_val" => $order_val,
-                "mandatory" => $rec["mandatory"],
-                "type" => $rec["type"],
-                "peer" => $rec["peer"],
-                "peer_min" => $rec["peer_min"],
-                "peer_dl" => $rec["peer_dl"],
-                "peer_file" => $rec["peer_file"],
-                "peer_prsl" => $rec["peer_prsl"],
-                "fb_file" => $rec["fb_file"],
-                "fb_date" => $rec["fb_date"],
-                "fb_cron" => $rec["fb_cron"],
-                "deadline_mode" => $rec["deadline_mode"],
-                "relative_deadline" => $rec["relative_deadline"],
-                "rel_deadline_last_subm" => $rec["rel_deadline_last_subm"]
+                "mandatory" => (bool) $rec["mandatory"],
+                "type" => (int) $rec["type"],
+                "peer" => (bool) $rec["peer"],
+                "peer_min" => (int) $rec["peer_min"],
+                "peer_dl" => (int) $rec["peer_dl"],
+                "peer_file" => (bool) $rec["peer_file"],
+                "peer_prsl" => (bool) $rec["peer_prsl"],
+                "fb_file" => (string) $rec["fb_file"],
+                "fb_date" => (int) $rec["fb_date"],
+                "fb_cron" => (bool) $rec["fb_cron"],
+                "deadline_mode" => (int) $rec["deadline_mode"],
+                "relative_deadline" => (int) $rec["relative_deadline"],
+                "rel_deadline_last_subm" => (int) $rec["rel_deadline_last_subm"]
                 );
             $order_val += 10;
         }

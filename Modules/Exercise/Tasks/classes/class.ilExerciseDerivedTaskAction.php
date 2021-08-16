@@ -1,30 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Action class for derived tasks, mostly getting user reponsibilities
  * by respecting permissions as well.
  *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseDerivedTaskAction
 {
-    /**
-     * @var ilExcMemberRepository
-     */
-    protected $exc_mem_repo;
+    protected ilExcMemberRepository $exc_mem_repo;
+    protected ilExcAssMemberStateRepository $state_repo;
+    protected ilExcTutorRepository $tutor_repo;
 
-    /**
-     * @var ilExcAssMemberStateRepository
-     */
-    protected $state_repo;
-
-    /**
-     * Constructor
-     * @param ilExcMemberRepository $exc_mem_repo
-     */
     public function __construct(
         ilExcMemberRepository $exc_mem_repo,
         ilExcAssMemberStateRepository $state_repo,
@@ -37,9 +26,7 @@ class ilExerciseDerivedTaskAction
 
     /**
      * Get all open assignments of a user
-     *
-     * @param int $user_id
-     * @return ilExAssignment[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function getOpenAssignmentsOfUser(int $user_id) : array
     {
@@ -57,6 +44,7 @@ class ilExerciseDerivedTaskAction
      *
      * @param int $user_id
      * @return ilExAssignment[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function getOpenPeerReviewsOfUser(int $user_id) : array
     {
@@ -74,6 +62,7 @@ class ilExerciseDerivedTaskAction
      *
      * @param int $user_id
      * @return ilExAssignment[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function getOpenGradingsOfUser(int $user_id) : array
     {

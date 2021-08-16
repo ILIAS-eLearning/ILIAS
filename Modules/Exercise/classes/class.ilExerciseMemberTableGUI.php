@@ -1,36 +1,40 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise member table
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 {
+    protected array $teams = array();
+
     /**
-     * @var ilExAssignment
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected $ass;
-
-    protected $teams = array();
-
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjExercise $a_exc, $a_item_id)
-    {
-        /** @var ilCtrl $ilCtrl */
-        global $ilCtrl;
-        //var_dump($ilCtrl->getCmd()); exit;
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjExercise $a_exc,
+        int $a_item_id
+    ) {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id);
 
-        $this->ass_types = ilExAssignmentTypes::getInstance();
-        $this->ass_type = $this->ass_types->getById((int) ilExAssignment::lookupType($a_item_id));
+        $ctrl = $this->ctrl;
 
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "saveStatusAll"));
+        $this->ass_types = ilExAssignmentTypes::getInstance();
+        $this->ass_type = $this->ass_types->getById(ilExAssignment::lookupType($a_item_id));
+
+        $this->setFormAction($ctrl->getFormAction($a_parent_obj, "saveStatusAll"));
     }
 
-    protected function initMode($a_item_id)
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    protected function initMode(int $a_item_id) : void
     {
         $lng = $this->lng;
         
@@ -45,7 +49,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         $this->setSelectAllCheckbox("member");
     }
     
-    protected function parseData()
+    protected function parseData() : array
     {
         $this->addCommandButton("saveStatusAll", $this->lng->txt("exc_save_all"));
         
@@ -185,7 +189,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         return $data;
     }
     
-    protected function getModeColumns()
+    protected function getModeColumns() : array
     {
         $cols = array();
                         
@@ -208,7 +212,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         return $cols;
     }
     
-    protected function parseModeColumns()
+    protected function parseModeColumns() : array
     {
         $cols = array();
 
@@ -230,12 +234,17 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 
         return $cols;
     }
-    
-    protected function fillRow($member)
+
+    /**
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    protected function fillRow($a_set) : void
     {
         $ilCtrl = $this->ctrl;
 
-        $member_id = $member["usr_id"];
+        $member_id = $a_set["usr_id"];
         
         $ilCtrl->setParameter($this->parent_obj, "ass_id", $this->ass->getId());
         $ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
@@ -244,7 +253,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         $this->tpl->setVariable("NAME_ID", "member");
         $this->tpl->setVariable("VAL_ID", $member_id);
 
-        $this->parseRow($member_id, $this->ass, $member);
+        $this->parseRow($member_id, $this->ass, $a_set);
                         
         $ilCtrl->setParameter($this->parent_obj, "ass_id", $this->ass->getId()); // #17140
         $ilCtrl->setParameter($this->parent_obj, "member_id", "");

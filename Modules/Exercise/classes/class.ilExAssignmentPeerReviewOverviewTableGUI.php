@@ -1,26 +1,23 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List all peer groups for assignment
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 {
-    protected $ass; // [ilExAssignment]
-    protected $panel_info; // [array]
+    protected ilExAssignment $ass;
+    protected array $panel_info;
     
-    /**
-     * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilExAssignment $a_ass
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignment $a_ass
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -50,8 +47,9 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
         $this->addCommandButton("confirmResetPeerReview", $this->lng->txt("exc_peer_review_reset"));
     }
     
-    protected function translateUserIds($a_user_ids, $a_implode = false)
-    {
+    protected function translateUserIds(
+        array $a_user_ids
+    ) : array {
         if (!is_array($a_user_ids) && is_numeric($a_user_ids)) {
             $a_user_ids = array($a_user_ids);
         }
@@ -62,18 +60,15 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
             $res[] = ilUserUtil::getNamePresentation($user_id);
         }
         
-        if ($a_implode) {
-            $res = implode("<br />", $res);
-        }
         return $res;
     }
     
-    public function getPanelInfo()
+    public function getPanelInfo() : array
     {
         return $this->panel_info;
     }
     
-    protected function getItems()
+    protected function getItems() : void
     {
         $data = array();
         
@@ -85,11 +80,11 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
         }
         
         foreach ($tmp["reviews"] as $peer_id => $reviews) {
-            $peer = $this->translateUserIds($peer_id, true);
+            $peer = current($this->translateUserIds([$peer_id]));
             
             foreach ($reviews as $giver_id => $status) {
                 $data[] = array("recipient" => $peer,
-                    "giver" => $this->translateUserIds($giver_id, true),
+                    "giver" => current($this->translateUserIds([$giver_id])),
                     "status" => ($status ? $this->lng->txt("valid") : ""));
             }
         }
@@ -125,7 +120,7 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $this->tpl->setVariable("PEER", $a_set["recipient"]);
         $this->tpl->setVariable("GIVER", $a_set["giver"]);

@@ -1,37 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\DI\UIServices;
 
 /**
  * Exercise UI frontend presentation service class
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseUI
 {
-    /**
-     * @var ilExerciseUIRequest
-     */
-    protected $request;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilExerciseInternalService $service;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected ilExerciseUIRequest $request;
+    protected UIServices $ui;
+    protected ilExSubmissionGUI $submission_gui;
+    protected ilObjExercise $exc;
 
-    /**
-     * @var ilExSubmissionGUI
-     */
-    protected $submission_gui;
-
-    /**
-     * @var ilObjExercise
-     */
-    protected $exc;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilExerciseInternalService $service,
         ilExerciseUIRequest $request
@@ -49,20 +38,17 @@ class ilExerciseUI
     }
 
     /**
-     * @return ilObjExerciseGUI
+     * @throws ilExerciseException
      */
-    public function getExerciseGUI(int $ref_id = null)
+    public function getExerciseGUI(?int $ref_id = null) : ilObjExerciseGUI
     {
         if ($ref_id === null) {
             $ref_id = $this->request->getRequestedRefId();
         }
-        return new ilObjExerciseGUI([], $ref_id, true, false);
+        return new ilObjExerciseGUI([], $ref_id, true);
     }
 
-    /**
-     * @return ilExcRandomAssignmentGUI
-     */
-    public function getRandomAssignmentGUI(ilObjExercise $exc = null)
+    public function getRandomAssignmentGUI(ilObjExercise $exc = null) : ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
             $exc = $this->request->getRequestedExercise();
@@ -76,14 +62,11 @@ class ilExerciseUI
         );
     }
 
-    /**
-     * @return ilExSubmissionGUI
-     */
     public function getSubmissionGUI(
         ilObjExercise $exc = null,
         ilExAssignment $ass = null,
         $member_id = null
-    ) {
+    ) : ilExSubmissionGUI {
         if ($exc === null) {
             $exc = $this->request->getRequestedExercise();
         }

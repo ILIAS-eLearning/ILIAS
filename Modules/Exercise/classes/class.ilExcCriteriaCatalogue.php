@@ -1,34 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaCatalogue
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaCatalogue
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $id; // [int]
-    protected $parent; // [int]
-    protected $title; // [string]
-    protected $pos; // [int]
+    protected ilDBInterface $db;
+    protected int $id;
+    protected ?int $parent;
+    protected ?string $title;
+    protected int $pos;
     
-    public function __construct($a_id = null)
+    public function __construct(int $a_id = null)
     {
         global $DIC;
 
         $this->db = $DIC->database();
         $this->read($a_id);
     }
-    
-    public static function getInstancesByParentId($a_parent_id)
+
+    /**
+     * @param int $a_parent_id
+     * @return self[]
+     */
+    public static function getInstancesByParentId(int $a_parent_id) : array
     {
         global $DIC;
 
@@ -54,46 +54,42 @@ class ilExcCriteriaCatalogue
     // properties
     //
     
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
     
-    protected function setId($a_id)
+    protected function setId(int $a_id) : void
     {
-        $this->id = (int) $a_id;
+        $this->id = $a_id;
     }
     
-    public function setParent($a_value)
+    public function setParent(?int $a_value) : void
     {
-        $this->parent = ($a_value !== null)
-            ? (int) $a_value
-            : null;
+        $this->parent = $a_value;
     }
     
-    public function getParent()
+    public function getParent() : ?int
     {
         return $this->parent;
     }
     
-    public function setTitle($a_value)
+    public function setTitle(?string $a_value) : void
     {
-        $this->title = ($a_value !== null)
-            ? trim($a_value)
-            : null;
+        $this->title = $a_value;
     }
     
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    public function setPosition($a_value)
+    public function setPosition(int $a_value) : void
     {
-        $this->pos = (int) $a_value;
+        $this->pos = $a_value;
     }
     
-    public function getPosition()
+    public function getPosition() : int
     {
         return $this->pos;
     }
@@ -103,15 +99,15 @@ class ilExcCriteriaCatalogue
     // CRUD
     //
     
-    protected function importFromDB(array $a_row)
+    protected function importFromDB(array $a_row) : void
     {
-        $this->setId($a_row["id"]);
-        $this->setParent($a_row["parent"]);
-        $this->setTitle($a_row["title"]);
-        $this->setPosition($a_row["pos"]);
+        $this->setId((int) $a_row["id"]);
+        $this->setParent((int) $a_row["parent"]);
+        $this->setTitle((string) $a_row["title"]);
+        $this->setPosition((int) $a_row["pos"]);
     }
     
-    protected function getDBProperties()
+    protected function getDBProperties() : array
     {
         return array(
             "title" => array("text", $this->getTitle())
@@ -119,9 +115,6 @@ class ilExcCriteriaCatalogue
         );
     }
 
-    /**
-     * @return int
-     */
     protected function getLastPosition() : int
     {
         $ilDB = $this->db;
@@ -137,12 +130,11 @@ class ilExcCriteriaCatalogue
         return (int) $row["pos"];
     }
     
-    protected function read($a_id)
+    protected function read(int $a_id)
     {
         $ilDB = $this->db;
         
-        $a_id = (int) $a_id;
-        if ($a_id) {
+        if ($a_id > 0) {
             $set = $ilDB->query("SELECT *" .
                 " FROM exc_crit_cat" .
                 " WHERE id = " . $ilDB->quote($a_id, "integer"));
@@ -185,7 +177,7 @@ class ilExcCriteriaCatalogue
         $ilDB->update("exc_crit_cat", $this->getDBProperties(), $primary);
     }
     
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -199,13 +191,13 @@ class ilExcCriteriaCatalogue
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
     
-    public static function deleteByParent($a_parent_id)
+    public static function deleteByParent(int $a_parent_id) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         
-        if (!(int) $a_parent_id) {
+        if ($a_parent_id <= 0) {
             return;
         }
         
@@ -213,7 +205,7 @@ class ilExcCriteriaCatalogue
             " WHERE parent = " . $ilDB->quote($a_parent_id, "integer"));
     }
     
-    public function cloneObject($a_target_parent_id)
+    public function cloneObject(int $a_target_parent_id) : int
     {
         $new_obj = new self();
         $new_obj->setParent($a_target_parent_id);

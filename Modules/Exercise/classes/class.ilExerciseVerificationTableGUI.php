@@ -1,24 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List all completed exercises for current user
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
-    private ilUserCertificateRepository $userCertificateRepository;
+    private ?ilUserCertificateRepository $userCertificateRepository;
     protected ilObjUser $user;
 
     public function __construct(
         ilObjExerciseVerificationGUI $a_parent_obj,
-        string $a_parent_cmd = '',
+        string $a_parent_cmd,
         ?ilUserCertificateRepository $userCertificateRepository = null
     ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
@@ -44,6 +44,7 @@ class ilExerciseVerificationTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
+    // Get all achieved test certificates for the current user
     protected function getItems() : void
     {
         $ilUser = $this->user;

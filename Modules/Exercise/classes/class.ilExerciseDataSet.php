@@ -1,5 +1,10 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Exercise data set class
@@ -14,44 +19,22 @@
  * - exc_ass_reminders: Assingment reminder data
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ingroup ModulesExercise
  */
 class ilExerciseDataSet extends ilDataSet
 {
-    /**
-     * @var ilObjExercise
-     */
-    protected $current_exc;
+    protected ilObjExercise $current_exc;
 
-    /**
-     * Get supported versions
-     *
-     * @param
-     * @return
-     */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0");
     }
-    
-    /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
-     */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+
+    protected function getXmlNamespace($a_entity, $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Exercise/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Exercise/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
-     */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "exc") {
             switch ($a_version) {
@@ -288,13 +271,10 @@ class ilExerciseDataSet extends ilDataSet
                     );
             }
         }
-        return false;
+        return [];
     }
 
-    /**
-     * Read data
-     */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -422,12 +402,9 @@ class ilExerciseDataSet extends ilDataSet
     }
 
     /**
-     * Get xml record (export)
-     *
-     * @param	array	abstract data record
-     * @return	array	xml record
+     * @throws ilDateTimeException
      */
-    public function getXmlRecord($a_entity, $a_version, $a_set)
+    public function getXmlRecord($a_entity, $a_version, $a_set) : array
     {
         if ($a_entity == "exc_assignment") {
             // convert server dates to utc
@@ -470,11 +447,7 @@ class ilExerciseDataSet extends ilDataSet
         return $a_set;
     }
 
-    
-    /**
-     * Determine the dependent sets of data
-     */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
+    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids) : array
     {
         switch ($a_entity) {
             case "exc":
@@ -512,14 +485,19 @@ class ilExerciseDataSet extends ilDataSet
                 }
                 break;
         }
-        return false;
+        return [];
     }
-    
-    
+
     /**
-     * Import record
+     * @throws FileNotFoundException
+     * @throws DirectoryNotFoundException
+     * @throws ilDatabaseException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     * @throws IOException
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
     {
         //echo $a_entity;
         //var_dump($a_rec);

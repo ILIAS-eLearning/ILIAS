@@ -1,30 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilExerciseMembers
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ModulesExercise
-*/
+ * Class ilExerciseMembers
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilExerciseMembers
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    public $ref_id;
-    public $obj_id;
-    public $members;
-    public $status;
-    //	var $status_feedback;
-    //	var $status_sent;
-    //	var $status_returned;
-    //	var $notice;
-
+    protected ilDBInterface $db;
+    public int $ref_id;
+    public int $obj_id;
+    public array $members;
+    public string $status;
     protected ilRecommendedContentManager $recommended_content_manager;
+    protected ilObjExercise $exc;
 
     public function __construct(ilObjExercise $a_exc)
     {
@@ -35,56 +26,40 @@ class ilExerciseMembers
         $this->obj_id = $a_exc->getId();
         $this->ref_id = $a_exc->getRefId();
         $this->read();
-
         $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
-    /**
-     * Get exercise ref id
-     */
-    public function getRefId()
+    // Get exercise ref id
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
 
-    /**
-     * Get exercise id
-     */
-    public function getObjId()
+    // Get exercise obj id
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    /**
-     * Set exercise id
-     */
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    /**
-     * Get members array
-     */
-    public function getMembers()
+    public function getMembers() : array
     {
-        return $this->members ? $this->members : array();
+        return $this->members ?: array();
     }
     
-    /**
-     * Set members array
-     */
-    public function setMembers($a_members)
+    public function setMembers(array $a_members) : void
     {
         $this->members = $a_members;
     }
 
     /**
     * Assign a user to the exercise
-    *
-    * @param	int		$a_usr_id		user id
     */
-    public function assignMember($a_usr_id)
+    public function assignMember(int $a_usr_id) : void
     {
         $ilDB = $this->db;
 
@@ -105,22 +80,20 @@ class ilExerciseMembers
         $this->read();
         
         ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
-
-        return true;
     }
     
-    /**
-     * Is user assigned to exercise?
-     */
-    public function isAssigned($a_id)
+    // Is user assigned to exercise?
+    public function isAssigned(int $a_id) : bool
     {
         return in_array($a_id, $this->getMembers());
     }
 
     /**
      * Assign members to exercise
+     * @param int[] $a_members
+     * @return bool true, if all passed users could be assigned, false otherwise
      */
-    public function assignMembers($a_members)
+    public function assignMembers(array $a_members) : bool
     {
         $assigned = 0;
         if (is_array($a_members)) {
@@ -141,10 +114,9 @@ class ilExerciseMembers
 
     /**
      * Detaches a user from an exercise
-     *
-     * @param	int		$a_usr_id		user id
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function deassignMember($a_usr_id)
+    public function deassignMember(int $a_usr_id) : void
     {
         $ilDB = $this->db;
 
@@ -164,14 +136,9 @@ class ilExerciseMembers
         ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
 
         // @todo: delete all assignment associations (and their files)
-        
-        return false;
     }
 
-    /**
-     * Read all members
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -187,12 +154,10 @@ class ilExerciseMembers
             }
         }
         $this->setMembers($tmp_arr_members);
-
-        return true;
     }
 
     // @todo: clone also assignments
-    public function ilClone($a_new_id)
+    public function ilClone(int $a_new_id) : void
     {
         $ilDB = $this->db;
 
@@ -223,11 +188,10 @@ class ilExerciseMembers
             
             ilLPStatusWrapper::_updateStatus($a_new_id, $row["usr_id"]);
         }
-        return true;
     }
 
     // @todo: delete also assignments
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -236,11 +200,9 @@ class ilExerciseMembers
         $ilDB->manipulate($query);
         
         ilLPStatusWrapper::_refreshStatus($this->getObjId());
-
-        return true;
     }
 
-    public static function _getMembers($a_obj_id)
+    public static function _getMembers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -254,24 +216,25 @@ class ilExerciseMembers
             " AND od.type = " . $ilDB->quote("usr", "text");
 
         $res = $ilDB->query($query);
+        $usr_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $usr_ids[] = $row->ud;
         }
 
-        return $usr_ids ? $usr_ids : array();
+        return $usr_ids;
     }
 
     /**
      * Lookup current status (notgraded|passed|failed)
      *
      * This information is determined by the assignment status and saved
-     * redundtantly in this table for performance reasons.
+     * redundantly in this table for performance reasons.
      *
      * @param	int		$a_obj_id	exercise id
      * @param	int		$a_user_id	member id
-     * @return	mixed	false (if user is no member) or notgraded|passed|failed
+     * @return	?string null if user is no member,  or notgraded|passed|failed
      */
-    public static function _lookupStatus($a_obj_id, $a_user_id)
+    public static function _lookupStatus(int $a_obj_id, int $a_user_id) : ?string
     {
         global $DIC;
 
@@ -286,22 +249,20 @@ class ilExerciseMembers
             return $row["status"];
         }
 
-        return false;
+        return null;
     }
 
     /**
      * Write user status
-     *
      * This information is determined by the assignment status and saved
-     * redundtantly in this table for performance reasons.
+     * redundantly in this table for performance reasons.
      * See ilObjExercise->updateUserStatus().
-     *
-     * @param	int		exercise id
-     * @param	int		user id
-     * @param	text	status
      */
-    public static function _writeStatus($a_obj_id, $a_user_id, $a_status)
-    {
+    public static function _writeStatus(
+        int $a_obj_id,
+        int $a_user_id,
+        string $a_status
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -323,13 +284,12 @@ class ilExerciseMembers
      * by a user for any assignment of the exercise, the returned status
      * is set to 1 and it will stay that way, even if this file is deleted again.
      * -> learning progress uses this to determine "in progress" status
-     *
-     * @param	int		exercise id
-     * @param	int		user id
-     * @param	text	status
      */
-    public static function _writeReturned($a_obj_id, $a_user_id, $a_status)
-    {
+    public static function _writeReturned(
+        int $a_obj_id,
+        int $a_user_id,
+        int $a_status
+    ) {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -353,7 +313,7 @@ class ilExerciseMembers
      * Get returned status for all members (if they have anything returned for
      * any assignment)
      */
-    public static function _getReturned($a_obj_id)
+    public static function _getReturned(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -364,21 +324,18 @@ class ilExerciseMembers
             "AND returned = 1";
 
         $res = $ilDB->query($query);
+        $usr_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $usr_ids[] = $row->ud;
         }
 
-        return $usr_ids ? $usr_ids : array();
+        return $usr_ids;
     }
 
     /**
      * Has user returned anything in any assignment?
-     *
-     * @param		integer		object id
-     * @param		integer		user id
-     * @return		boolean		true/false
      */
-    public static function _hasReturned($a_obj_id, $a_user_id)
+    public static function _hasReturned(int $a_obj_id, int $a_user_id) : bool
     {
         global $DIC;
 
@@ -390,16 +347,13 @@ class ilExerciseMembers
             " returned = " . $ilDB->quote(1, "integer") . " AND " .
             " usr_id = " . $ilDB->quote($a_user_id, "integer")
         );
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return true;
-        }
-        return false;
+        return (bool) $ilDB->fetchAssoc($set);
     }
 
     /**
      * Get all users that passed the exercise
      */
-    public static function _getPassedUsers($a_obj_id)
+    public static function _getPassedUsers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -409,16 +363,17 @@ class ilExerciseMembers
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") . " " .
             "AND status = " . $ilDB->quote("passed", "text");
         $res = $ilDB->query($query);
+        $usr_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $usr_ids[] = $row->usr_id;
         }
-        return $usr_ids ? $usr_ids : array();
+        return $usr_ids;
     }
 
     /**
      * Get all users that failed the exercise
      */
-    public static function _getFailedUsers($a_obj_id)
+    public static function _getFailedUsers(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -428,9 +383,10 @@ class ilExerciseMembers
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") . " " .
             "AND status = " . $ilDB->quote("failed", "text");
         $res = $ilDB->query($query);
+        $usr_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $usr_ids[] = $row->usr_id;
         }
-        return $usr_ids ? $usr_ids : array();
+        return $usr_ids;
     }
-} //END class.ilObjExercise
+}

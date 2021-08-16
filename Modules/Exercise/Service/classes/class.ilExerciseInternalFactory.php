@@ -1,32 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-use \Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP;
+use ILIAS\Refinery;
 
 /**
  * Internal service factory
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseInternalFactory
 {
-    /**
-     * @var ilExerciseUIRequest
-     */
-    protected $request;
+    protected ilExerciseUIRequest $request;
+    protected ilExerciseUI $ui;
+    protected HTTP\Services $http;
+    protected Refinery\Factory $refinery;
 
-    /**
-     * @var ilExerciseUI
-     */
-    protected $ui;
-
-    protected \ILIAS\HTTP\Services $http;
-    protected \ILIAS\Refinery\Factory $refinery;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -37,10 +27,9 @@ class ilExerciseInternalFactory
     }
 
     /**
-     * Internal business logic stuff
-     * @return ilExerciseInternalService
+     * Internal service (mostly bl)
      */
-    public function service()
+    public function service() : ilExerciseInternalService
     {
         return new ilExerciseInternalService();
     }
@@ -48,11 +37,13 @@ class ilExerciseInternalFactory
 
 
     /**
-     * Get request
-     *
+     * Get request wrapper. If dummy data is provided the usual http wrapper will
+     * not be used.
+     * @param null $query_params    dummy query params for testing
+     * @param null $post_data       dummy post data for testing
      * @return ilExerciseUIRequest
      */
-    public function request($query_params = null, $post_data = null)
+    public function request($query_params = null, $post_data = null) : ilExerciseUIRequest
     {
         return new ilExerciseUIRequest(
             $this->http,
@@ -62,12 +53,8 @@ class ilExerciseInternalFactory
         );
     }
 
-    /**
-     * Get ui
-     *
-     * @return ilExerciseUI
-     */
-    public function ui($query_params = null, $post_data = null)
+    // get ui wrapper
+    public function ui($query_params = null, $post_data = null) : ilExerciseUI
     {
         return new ilExerciseUI($this->service(), $this->request($query_params, $post_data));
     }

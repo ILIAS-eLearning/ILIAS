@@ -1,25 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Represents search sub item lists
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ModulesExercise
-*/
+ * Represents search sub item lists
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-
-    /**
-     * Constructor
-     */
     public function __construct($a_cmd_class)
     {
         global $DIC;
@@ -28,13 +20,9 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
         $this->access = $DIC->access();
     }
 
-    /**
-     * Check if read access to assignments is granted
-     * @param int assignment id
-     * @return
-     */
-    protected function isAssignmentVisible($a_ass_id)
-    {
+    protected function isAssignmentVisible(
+        int $a_ass_id
+    ) : bool {
         $ilAccess = $this->access;
         
         if ($ilAccess->checkAccess('write', '', $this->getRefId())) {
@@ -44,11 +32,7 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
         return ilExAssignment::lookupAssignmentOnline($a_ass_id);
     }
 
-
-    /**
-     * @see ilSubItemListGUI::getHTML()
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
         
@@ -70,10 +54,6 @@ class ilObjExerciseSubItemListGUI extends ilSubItemListGUI
             $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('exc_assignment'));
             $this->tpl->setVariable('SEPERATOR', ':');
             
-            #$link_data = ilLinkResourceItems::lookupItem($this->getObjId(),$sub_item);
-            #$link_data = ilParameterAppender::_append($link_data);
-
-            #$this->getItemListGUI()->setChildId($sub_item);
             $this->tpl->setVariable('LINK', 'ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id=' . $this->getRefId() . '&ass_id=' . $sub_item);
             $this->tpl->setVariable('TITLE', ilExAssignment::lookupTitle($sub_item));
 

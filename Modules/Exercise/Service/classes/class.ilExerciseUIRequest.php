@@ -1,51 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\HTTP;
+use ILIAS\Refinery;
 
 /**
  * Exercise ui request
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseUIRequest
 {
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_ass_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_member_id;
-
-    /**
-     * @var ilExAssignment|null
-     */
-    protected $ass = null;
-
-    /**
-     * @var ilObjExercise
-     */
-    protected $exc = null;
-
-    protected \ILIAS\HTTP\Services $http;
-    protected \ILIAS\Refinery\Factory $refinery;
-
+    protected int $requested_ref_id;
+    protected int $requested_ass_id;
+    protected int $requested_member_id;
+    protected ?ilExAssignment $ass = null;
+    protected ?ilObjExercise $exc = null;
+    protected HTTP\Services $http;
+    protected Refinery\Factory $refinery;
     protected ?array $passed_query_params;
     protected ?array $passed_post_data;
 
     /**
-     * Constructor
+     * Query params and post data parameters are used for testing. If none of these is
+     * provided the usual http service wrapper is used to determine the request data.
+     * @param HTTP\Services    $http
+     * @param Refinery\Factory $refinery
+     * @param array|null       $passed_query_params
+     * @param array|null       $passed_post_data
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function __construct(
-        \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery,
+        HTTP\Services $http,
+        Refinery\Factory $refinery,
         ?array $passed_query_params = null,
         ?array $passed_post_data = null
     ) {
@@ -66,20 +54,14 @@ class ilExerciseUIRequest
         }
     }
 
-    /**
-     * @param $key
-     * @return int
-     */
+    // get integer parameter kindly
     protected function int($key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
 
-    /**
-     * @param $key
-     * @return string
-     */
+    // get string parameter kindly
     protected function str($key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
@@ -88,11 +70,11 @@ class ilExerciseUIRequest
 
     /**
      * Get passed parameter, if not data passed, get key from http request
-     * @param $key
-     * @param $t
+     * @param string                  $key
+     * @param Refinery\Transformation $t
      * @return mixed|null
      */
-    protected function get($key, $t)
+    protected function get(string $key, Refinery\Transformation $t)
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
             $w = $this->http->wrapper();
@@ -112,43 +94,27 @@ class ilExerciseUIRequest
         return null;
     }
 
-
-    /**
-     * @return int
-     */
     public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedAssId() : int
     {
         return $this->requested_ass_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedMemberId() : int
     {
         return $this->requested_member_id;
     }
 
-    /**
-     * @return ilObjExercise|null
-     */
-    public function getRequestedExercise()
+    public function getRequestedExercise() : ?ilObjExercise
     {
         return $this->exc;
     }
 
-    /**
-     * @return ilExAssignment|null
-     */
-    public function getRequestedAssignment()
+    public function getRequestedAssignment() : ?ilExAssignment
     {
         return $this->ass;
     }

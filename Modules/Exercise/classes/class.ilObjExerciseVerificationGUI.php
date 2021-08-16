@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * GUI class for exercise verification
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjExerciseVerificationGUI: ilWorkspaceAccessGUI
  */
 class ilObjExerciseVerificationGUI extends ilObject2GUI
@@ -29,6 +30,9 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
+    /**
+     * @throws ilException
+     */
     public function save() : void
     {
         global $DIC;
@@ -47,16 +51,17 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $ilUser->getId(),
+                $ilUser->getId(),
                 (int) $objectId
             );
 
             $newObj = null;
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
                 $this->create();
+                return;
             }
 
             if ($newObj) {
@@ -82,8 +87,10 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
         }
     }
 
-    public function render(bool $a_return = false, string $a_url = '') : string
-    {
+    public function render(
+        $a_return = false,
+        $a_url = false
+    ) : string {
         $ilUser = $this->user;
         $lng = $this->lng;
 
@@ -117,10 +124,13 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 
             return '<div>' . $caption . ' (' . $message . ')</div>';
         }
-
         return "";
     }
 
+
+    /**
+     * @throws ilExerciseException
+     */
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {

@@ -30,8 +30,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
             $this->file_labels,
             "",
             [],
-            $this->getPostDirPath(),
-            $this->getTableId()
+            $this->getPostDirPath()
         );
     }
 

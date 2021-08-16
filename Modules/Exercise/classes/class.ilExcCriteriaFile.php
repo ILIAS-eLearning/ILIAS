@@ -1,56 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaFile
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaFile extends ilExcCriteria
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-        parent::__construct();
-
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-    }
-
-    public function getType()
+    public function getType() : string
     {
         return "file";
     }
         
-    protected function initStorage()
+    protected function initStorage() : string
     {
         $storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
         return $storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId());
     }
     
-    public function getFiles()
+    public function getFiles() : array
     {
         $path = $this->initStorage();
         return (array) glob($path . "*.*");
     }
         
-    public function resetReview()
+    public function resetReview() : void
     {
         $storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
         $storage->deleteDirectory($storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId()));
@@ -59,7 +36,7 @@ class ilExcCriteriaFile extends ilExcCriteria
     
     // PEER REVIEW
     
-    public function addToPeerReviewForm($a_value = null)
+    public function addToPeerReviewForm($a_value = null) : void
     {
         $existing = array();
         foreach ($this->getFiles() as $file) {
@@ -73,8 +50,11 @@ class ilExcCriteriaFile extends ilExcCriteria
         $files->setALlowDeletion(true);
         $this->form->addItem($files);
     }
-    
-    public function importFromPeerReviewForm()
+
+    /**
+     * @throws ilException
+     */
+    public function importFromPeerReviewForm() : void
     {
         $path = $this->initStorage();
         
@@ -96,12 +76,12 @@ class ilExcCriteriaFile extends ilExcCriteria
         }
     }
     
-    public function hasValue($a_value)
+    public function hasValue($a_value) : bool
     {
-        return (bool) sizeof($this->getFiles());
+        return sizeof($this->getFiles());
     }
         
-    public function validate($a_value)
+    public function validate($a_value) : bool
     {
         $lng = $this->lng;
         
@@ -133,13 +113,12 @@ class ilExcCriteriaFile extends ilExcCriteria
         return false;
     }
     
-    public function getHTML($a_value)
+    public function getHTML($a_value) : string
     {
         $ilCtrl = $this->ctrl;
         
         $crit_id = $this->getId()
-            ? $this->getId()
-            : "file";
+            ?: "file";
         $ilCtrl->setParameterByClass("ilExPeerReviewGUI", "fu", $this->giver_id . "__" . $this->peer_id . "__" . $crit_id);
         
         $files = array();
