@@ -16583,5 +16583,5 @@ irss#:#resource_id#:#Resource ID
 irss#:#storage_id#:#Storage ID
 irss#:#max_revision#:#Max. Revision
 irss#:#stakeholders#:#Stakeholders
-common#:#file_system_clean_temp_dir_cron#:#Temporäres Verzeichnis säubern
-common#:#file_system_clean_temp_dir_cron_info#:#Dieser Job säubert das ILIAS temp-Verzeichnis von Dateien, welche älter als 1 Tag sind. Damit wird einer Anhäufung ungenutzter Dateien und damit einem erhöhten Speicherplatzverbrauch des temp-Verzeichnisses entgegengewirkt.
+common#:#file_system_clean_temp_dir_cron#:#Temporäres Verzeichnis aufräumen
+common#:#file_system_clean_temp_dir_cron_info#:#Dieser Job räumt das ILIAS temp-Verzeichnis auf und löscht von Dateien, welche älter als 10 Tage sind. Damit wird einer Anhäufung ungenutzter Dateien und damit einem erhöhten Speicherplatzverbrauch des temp-Verzeichnisses entgegengewirkt.

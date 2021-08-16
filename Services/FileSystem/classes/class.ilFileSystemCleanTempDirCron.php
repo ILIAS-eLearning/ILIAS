@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\DTO\Metadata;
+use ILIAS\DI\Container;
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
 
@@ -30,15 +31,24 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
      */
     public function __construct()
     {
-
+        /**
+         * @var $DIC Container
+         */
+        global $DIC;
+        if ($DIC->offsetExists('lng')) {
+            $this->language = $DIC['lng'];
+        }
+        if ($DIC->offsetExists('filesystem')) {
+            $this->filesystem = $DIC->filesystem()->temp();
+        }
+        if ($DIC->offsetExists('ilLoggerFactory')) {
+            $this->logger = $DIC->logger()->root();
+        }
     }
 
     private function initDependencies()
     {
-        global $DIC;
-        $this->language = $DIC['lng'];
-        $this->filesystem = $DIC->filesystem()->temp();
-        $this->logger = $DIC->logger()->root();
+
     }
 
     public function getId()
