@@ -119,9 +119,7 @@ FROM
 
         $query = $this->database->query($sql);
 
-        $max_count = intval($this->database->fetchAssoc($query)["count"]);
-
-        return $max_count;
+        return (int) $this->database->fetchAssoc($query)["count"];
     }
 
     /**
