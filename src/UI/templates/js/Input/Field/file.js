@@ -27,7 +27,7 @@ Dropzone.autoDiscover = false;
          *
          * @type {boolean}
          */
-        const DEBUG = true;
+        const DEBUG = false;
 
         /**
          * Default settings used for dropzone.js initialization.
@@ -43,6 +43,7 @@ Dropzone.autoDiscover = false;
             file_mime_types:    null,
             existing_files:     null,
             max_file_size:      null,
+            has_zip_options:    false,
             with_nested_inputs: false,
         };
 
@@ -73,11 +74,14 @@ Dropzone.autoDiscover = false;
             file_input:         '.il-file-input',
             file_input_tpl:     '.il-file-input-template',
             nested_inputs:      '.il-file-input-metadata',
+            zip_options:        '.il-file-input-zip-options',
             inputs_toggle:      '.il-file-input-preview .metadata-toggle',
             file_removal:       '.il-file-input-preview .remove',
             file_error_msg:     '.il-file-input-upload-error',
             toggle_glyph:       '.metadata-toggle .glyph',
+            file_name:          '.filename',
             close_glyph:        '.remove',
+            glyph:              '.glyph',
         };
 
         /**
@@ -112,6 +116,7 @@ Dropzone.autoDiscover = false;
 
         /**
          * Holds all instances of dropzones instantiated for the current context.
+         * The instances are saved as id => dropzone pairs.
          *
          * @type {Dropzone[]}
          */
@@ -146,8 +151,27 @@ Dropzone.autoDiscover = false;
          * @param {File} file
          */
         let addFileHook = function (file) {
-            $(file.previewElement).find(SELECTOR.file_input_tpl).val(file.file_id);
-            debug(file);
+            let preview  = $(file.previewElement);
+            let dropzone = $(this)[0];
+
+            // if zip-options were enabled and the file is of type zip,
+            // the inputs can be shown or they are removed entirely.
+            if ('application/zip' === file.type && $(this)[0].has_zip_options) {
+                preview.find(SELECTOR.zip_options).show();
+            } else {
+                preview.find(SELECTOR.zip_options).remove();
+            }
+
+            let inputs = $(file.previewElement).find('input');
+            for (let i = 0, i_max = inputs.length; i < i_max; i++) {
+                let input = $(inputs[i]);
+
+                // replaces the first empty brackets with one's that contain
+                // the current input count.
+                input.attr('name', input.attr('name').replace('[]', `[${dropzone.existing_files}]`));
+            }
+
+            dropzone.existing_files++;
         };
 
         /**
@@ -187,9 +211,9 @@ Dropzone.autoDiscover = false;
             if ('success' === file.status) {
                 await $.ajax({
                     type: 'GET',
-                    url:  settings.file_removal_url,
+                    url:  $(this).file_removal_url,
                     data: {
-                        [settings.file_identifier]: file.file_id
+                        [$(this).file_identifier]: file.file_id
                     },
                     success: function(response) {
                         response = Object.assign(JSON.parse(response));
@@ -218,8 +242,7 @@ Dropzone.autoDiscover = false;
             let response = Object.assign(JSON.parse(json_response));
             if (1 === response.status) {
                 // override dropzone.js file-id with IRSS file-id.
-                file.file_id = response[settings.file_identifier];
-                addFileHook(file);
+                $(file.previewElement).find(SELECTOR.file_input_tpl).val(response[$(this)[0].file_identifier]);
             } else {
                 uploadFailureHook(file, response.message, response);
             }
@@ -252,6 +275,7 @@ Dropzone.autoDiscover = false;
 
             // set the currently processed form id
             current_form = $(this).closest('form');
+            debug(current_form);
 
             // disable ALL submit buttons on the current page,
             // so the data is submitted AFTER the queue is
@@ -266,8 +290,6 @@ Dropzone.autoDiscover = false;
             // fetch dropzone(s) of the current form and process their queues.
             let file_inputs = current_form.find(SELECTOR.file_input);
 
-            // @TODO: processQueue() is not working :(.
-            //
             // in case multiple file-inputs were added to ONE form, they
             // all need to be processed.
             if (Array.isArray(file_inputs)) {
@@ -283,10 +305,23 @@ Dropzone.autoDiscover = false;
         };
 
         /**
+         * Helper function that enables auto-processing after
+         * the first file of a dropzone is processed.
+         */
+        let processFileHook = function () {
+            let dropzone = $(this)[0];
+
+            // only adjust auto-processing if there are actually
+            // more than one file.
+            if (1 !== dropzone.existing_files) {
+                dropzone.options.autoProcessQueue = true;
+            }
+        };
+
+        /**
          * Handles what happens after a dropzone's queue is processed.
          */
         let finishQueueHook = function () {
-            debug("FINISH HOOK CALLED", current_form, current_dropzone, dropzone_amount);
             // submit the currently processed form if all dropzone queues are finished.
             current_dropzone = current_dropzone + 1;
             if (current_dropzone === dropzone_amount) {
@@ -309,9 +344,9 @@ Dropzone.autoDiscover = false;
 
             $(this)
                 .parent()
-                .find(SELECTOR.toggle_glyph)
-                .each(function () {
-                        $(this).toggle();
+                .find(SELECTOR.glyph)
+                .each(function() {
+                    $(this).toggle();
                 }
             );
         };
@@ -319,26 +354,49 @@ Dropzone.autoDiscover = false;
         /**
          * Returns the prepared file previews HTML.
          *
-         * @param {string} id
+         * @param {string}  id
+         * @param {boolean} with_zip_options
          * @return {string}
          */
-        let getPreparedFilePreview = function (id) {
-            let preview  = $(`#${id} ${SELECTOR.file_preview}`);
-            let metadata = $(SELECTOR.file_preview).find(SELECTOR.metadata);
+        let getPreparedFilePreview = function (id, with_zip_options) {
+            let toggles  = $(SELECTOR.file_preview).find(SELECTOR.toggle_glyph);
+            let previews = $(`#${id} ${SELECTOR.file_preview}`);
 
-            if (undefined !== metadata) {
-                // if metadata inputs were provided, the toggle is set up.
-                preview.find(SELECTOR.toggle_glyph + ':first').hide();
+            // if toggles were rendered, they need to be set up.
+            if (0 !== toggles.length) {
+                // hide only every 2nd toggle, to hide the collapse toggles.
+                for (let i = 0; i < toggles.length; i += 2) {
+                    $(toggles[i]).hide();
+                }
+
+                // if zip options were rendered, those inputs need to
+                // be set up as well.
+                if (with_zip_options) {
+                    // zip options can be hidden, if the file-name doesn't
+                    // contain 'zip' extension.
+                    for (let i = 0; i < previews.length; i++) {
+                        let zip_options = $(previews[i]).find(SELECTOR.zip_options);
+                        let filename    = $(previews[i]).find(SELECTOR.file_name).html();
+                        // first iteration can also be set up, because it's the preview element
+                        if (i === 0 || null === filename.match('^.*\.(zip)$')) {
+                            zip_options.hide();
+                        }
+                    }
+                }
             }
 
-            // remove initial preview HTML from the page.
+            // if multiple preview elements were found, only the first one
+            // needs to be removed and returned.
+            let preview = (1 < previews.length) ? $(previews[0]) : $(previews);
+
+            // use little trick to get whole HTML of the element. HTML must
+            // be stored before the element is removed from DOM.
+            let html = $('<div />').append(preview.clone()).html();
             if (!DEBUG) {
                 preview.remove();
             }
 
-            // return html of the outer element, so the whole file preview
-            // element is returned.
-            return $(`#${id} ${SELECTOR.file_list}`).html();
+            return html;
         };
 
         /**
@@ -356,9 +414,9 @@ Dropzone.autoDiscover = false;
 
             // dropzone.js event-listeners
             dropzone.on('queuecomplete', finishQueueHook);
-            // dropzone.on('processing', processFileHook)
             dropzone.on('removedfile', removeFileHook);
-            dropzone.on('fileadded', addFileHook);
+            dropzone.on('processing', processFileHook);
+            dropzone.on('addedfile', addFileHook);
             dropzone.on('success', uploadSuccessHook);
             dropzone.on('error', uploadFailureHook);
         };
@@ -393,12 +451,26 @@ Dropzone.autoDiscover = false;
                 maxFiles:           settings.max_file_amount,
                 maxFileSize:        settings.max_file_size,
                 acceptedFiles:      settings.file_mime_types,
-                previewTemplate:    getPreparedFilePreview(id),
+                previewTemplate:    getPreparedFilePreview(id, settings.has_zip_options),
                 previewsContainer:  file_list,
                 clickable:          action_btn,
                 autoProcessQueue:   false,
                 parallelUploads:    1, // maybe allow more?
             });
+
+            // assign settings which are needed again during the process
+            // of different hooks to the dropzone. This way we can work
+            // with different instances in the same hooks.
+            dropzone.has_zip_options    = settings.has_zip_options;
+            dropzone.file_identifier    = settings.file_identifier;
+            dropzone.file_removal_url   = settings.file_removal_url;
+
+            // this setting is used for indexing the generated inputs,
+            // therefore it must either start at 0 or the amount of
+            // existing files counted from 0.
+            dropzone.existing_files = (null !== settings.existing_files) ?
+                (settings.existing_files.length - 1) : 0
+            ;
 
             initEventListeners(dropzone);
             debug(dropzone);
@@ -415,11 +487,34 @@ Dropzone.autoDiscover = false;
          */
         let renderFileListEntry = function (file_input_id, file) {
             let dropzone = instances[file_input_id];
+            // debug(dropzone);
 
-            dropzone.files.push(file);
-            dropzone.emit('drop');
-            dropzone.emit('addedfile', file);
-            dropzone._updateMaxFilesReachedClass();
+            // This may not work some day, because faked drop-events should
+            // not be processed, as they are untrusted. If this function ever
+            // breaks, it's most likely because dropzone.js fixed that.
+            let fake_drop_event = new DragEvent('drop');
+            Object.defineProperty(fake_drop_event, 'dataTransfer', {
+                value: new fakeDataTransfer(file),
+            });
+
+            dropzone.drop(fake_drop_event);
+        };
+
+        /**
+         * Helper function to create a fake dataTransfer object.
+         *
+         * @param {File} file
+         * @return {object}
+         */
+        let fakeDataTransfer = function (file) {
+            this.dropEffect = 'all';
+            this.effectAllowed = 'all';
+            this.items = [];
+            this.types = ['Files'];
+            this.files = [file];
+            this.getData = function() {
+                return file;
+            };
         };
 
         return {

@@ -53,6 +53,13 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
      */
     protected function initZip(UploadResult $result) : void
     {
+        /**
+         * @var $DIC \ILIAS\DI\Container
+         */
+        global $DIC;
+
+        $DIC->resourceStorage()->consume()->stream("")->getStream()->getMetadata('uri');
+
         $this->zip = new ZipArchive();
         $this->zip->open($result->getPath());
     }
@@ -71,9 +78,10 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
     {
         $obj = new ilObjFile();
         $obj->setTitle(basename($original_path));
+        $obj->setResourceId("");
         $obj->create();
 
-        $obj->appendStream(Streams::ofString($this->zip->getFromName($original_path)), basename($original_path));
+        // $obj->appendStream(Streams::ofString($this->zip->getFromName($original_path)), basename($original_path));
 
         if (!$this->isInWorkspace()) {
             $obj->createReference();

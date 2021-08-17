@@ -3,10 +3,9 @@
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\Input;
-use ILIAS\UI\Component\Input\Field\File;
+use ILIAS\UI\Implementation\Component\Input\Factory as InputFactory;
 
 /**
  * Class Wrapper
@@ -23,6 +22,11 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     private $components;
 
     /**
+     * @var InputFactory
+     */
+    private $input_factory;
+
+    /**
      * @var Input[]|null
      */
     private $inputs;
@@ -35,15 +39,17 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     /**
      * Wrapper constructor.
      *
+     * @param InputFactory  $input_factory
      * @param UploadHandler $upload_handler
      * @param string        $post_url
      * @param array         $components
      */
-    public function __construct(UploadHandler $upload_handler, string $post_url, array $components)
+    public function __construct(InputFactory $input_factory, UploadHandler $upload_handler, string $post_url, array $components)
     {
         $this->checkArgListElements('components', $components, Component::class);
 
         $this->components = $components;
+        $this->input_factory = $input_factory;
 
         parent::__construct($upload_handler, $post_url);
     }
@@ -96,5 +102,34 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     public function getMetadataInputs() : ?array
     {
         return $this->inputs;
+    }
+
+    /**
+     * Returns the form needed for file-submissions.
+     *
+     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     */
+    public function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $dropzone_file_input = $this->input_factory->field()->file($this->getUploadHandler(), $this->getTitle() ?? '');
+        $dropzone_file_input = $dropzone_file_input->withZipExtractOptions($this->hasZipExtractOptions());
+
+        if (null !== $this->getMaxFileSize()) {
+            $dropzone_file_input = $dropzone_file_input->withMaxFileSize($this->getMaxFileSize());
+        }
+        if (null !== $this->getMaxFiles()) {
+            $dropzone_file_input = $dropzone_file_input->withMaxFiles($this->getMaxFiles());
+        }
+        if (null !== $this->getAcceptedMimeTypes()) {
+            $dropzone_file_input = $dropzone_file_input->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
+        }
+        if (null !== $this->getMetadataInputs()) {
+            $dropzone_file_input = $dropzone_file_input->withNestedInputs($this->getMetadataInputs());
+        }
+
+        return $this->input_factory->container()->form()->standard(
+            $this->getPostURL(),
+            [$dropzone_file_input]
+        );
     }
 }

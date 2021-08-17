@@ -279,22 +279,6 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function getCreationFormsHTML(array $a_forms)
     {
-        // DEVELOP
-
-        $test = $this->ui->factory()->dropzone()->file()->wrapper(
-            $this->upload_handler,
-            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
-            [
-                $this->ui->factory()->messageBox()->info(
-                    "TEST INFO-BOX FOR WRAPPER DROPZONE"
-                ),
-            ]
-        );
-
-        return $this->ui->renderer()->render($test);
-
-        // END DEVELOP
-
         // abort if empty array was passed
         if (empty($a_forms)) return '';
 
@@ -348,8 +332,24 @@ class ilObjFileGUI extends ilObject2GUI
     protected function initMultiUploadForm() : UIComponentForm
     {
         return $this->ui->factory()->input()->container()->form()->standard(
-            "",
-            []
+            $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
+            [
+                $this->ui->factory()->input()->field()
+                    ->file(
+                        $this->upload_handler,
+                        $this->lng->txt('upload')
+                    )
+                    ->withZipExtractOptions(true)
+                    ->withMaxFiles(100)
+                    ->withNestedInputs([
+                        $this->ui->factory()->input()->field()
+                            ->text(
+                                $this->lng->txt('new_name')
+                            )
+                        ,
+                    ])
+                ,
+            ]
         );
     }
 
@@ -360,20 +360,6 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function uploadFiles() : void
     {
-        global $DIC;
-
-        $goal = [
-            'input_name' => [
-                'file_id' => 'paijwdpjdpiawjpiajwdp',
-                'mdinput1' => 'someval',
-                'mdinpud2' => 'somefurhtherval'
-            ],
-        ];
-
-        $f = $this->initMultiUploadForm()->withRequest($DIC->http()->request());
-        $d = $f->getData();
-
-        $k = 1;
 
         // Response
         $response = new ilObjFileUploadResponse();

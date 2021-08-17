@@ -91,6 +91,8 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
         $response = new ilObjFileUploadResponse();
         $response->error = null;
         return $response;
+
+        $_SERVER
     }
 
 }

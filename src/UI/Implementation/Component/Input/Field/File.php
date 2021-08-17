@@ -7,10 +7,11 @@ use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Component\Input\Field\NestedInput;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Component\Input\Field\FileInput;
+use ILIAS\Data\Result\Ok;
 
 /**
  * Class File
@@ -61,9 +62,15 @@ class File extends Input implements C\Input\Field\FileInput
     private $inputs;
 
     /**
+     * @var bool
+     */
+    private $zip_options = false;
+
+    /**
      * File constructor
      *
      * @param DataFactory                 $data_factory
+     * @param \ilLanguage                 $lang
      * @param Factory                     $refinery
      * @param C\Input\Field\UploadHandler $handler
      * @param                             $label
@@ -156,6 +163,25 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @inheritDoc
      */
+    public function withZipExtractOptions(bool $with_options) : FileInput
+    {
+        $clone = clone $this;
+        $clone->zip_options = $with_options;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasZipExtractOptions() : bool
+    {
+        return $this->zip_options;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function withNestedInputs(array $inputs) : C\Input\Field\NestedInput
     {
         $this->checkArgListElements('inputs', $inputs, Input::class);
@@ -232,36 +258,25 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function withInput(InputData $post_input)
     {
-        $clone    = clone $this;
-        $inputs   = $this->getNestedInputs();
-        $contents = [];
-        $error    = false;
+        $content = [];
+        $clone = clone $this;
+        $post_data = $post_input->get($this->getName());
 
-        foreach ($this->getValue() as $file_id => $nested_value) {
-            foreach ($this->getNestedInputTemplates() as $key => $template) {
-                $array_key = "{$file_id}_$key";
-                $input = $inputs[$array_key]->withInput($post_input);
-                $content = $input->getContent();
+        foreach ($post_data as $file_data) {
+            $file_id = $file_data['file_id'];
+            if ($this->hasZipExtractOptions()) {
+                $content[$file_id]['zip_extract'] = (isset($file_data['zip_extract']) && 'checked' === $file_data['zip_extract']);
+                $content[$file_id]['zip_structure'] = (isset($file_data['zip_structure']) && 'checked' === $file_data['zip_structure']);
+            }
 
-                if (null === $content || $content->isError()) {
-                    $error = true;
-                } else {
-                    $contents[$file_id][$key] = $content->value();
+            if (null !== ($templates = $this->getNestedInputTemplates())) {
+                foreach ($templates as $key => $template) {
+                    $content[$file_id][$key] = $file_data[$key];
                 }
             }
         }
 
-        $clone->inputs = $inputs;
-
-        if ($error) {
-            $clone->content = $clone->data_factory->error($this->lang->txt("ui_error_in_group"));
-        } else {
-            $clone->content = $clone->applyOperationsTo($contents);
-        }
-
-        if ($clone->content->isError()) {
-            $clone = $clone->withError("" . $clone->content->error());
-        }
+        $clone->content = new Ok($content);
 
         return $clone;
     }
@@ -321,14 +336,15 @@ class File extends Input implements C\Input\Field\FileInput
         $clone = parent::withNameFrom($source);
 
         $named_inputs = [];
-
-        if (!empty($this->inputs)) {
-            foreach ($this->inputs as $key => $input) {
-                $named_inputs[$key] = $input->withNameFrom($source);
+        if (!empty($this->input_templates)) {
+            foreach ($this->input_templates as $key => $input) {
+                $input_clone = clone $input;
+                $input_clone->name = $clone->getName() . "[][$key]";
+                $named_inputs[$key] = $input_clone;
             }
         }
 
-        $clone->inputs = $named_inputs;
+        $clone->input_templates = $named_inputs;
 
         return $clone;
     }
@@ -344,18 +360,24 @@ class File extends Input implements C\Input\Field\FileInput
         if (!is_array($value)) {
             return false;
         }
-        foreach ($value as $string => $array) {
-            if (!is_string($string) ||
-                !is_array($array) ||
-                count($this->input_templates) !== count($array)
-            ) {
-                return false;
-            }
 
-            foreach ($array as $key => $input_value) {
-                if (!array_key_exists($key, $this->input_templates)) {
+        foreach ($value as $string => $array) {
+            // if nested inputs exist, $value must consist of file-id => options[] pairs.
+            // the options must also contain ALL keys of input_templates.
+            if (null !== $this->input_templates) {
+                if (!is_string($string) || !is_array($array)) {
                     return false;
                 }
+                foreach ($array as $key => $nested_value) {
+                    if (!array_key_exists($key, $this->input_templates)) {
+                        return false;
+                    }
+                }
+            }
+
+            // if no nested inputs exist, the array must only consist file-id's (string[])
+            if (null === $this->input_templates && !is_string($array)) {
+                return false;
             }
         }
 

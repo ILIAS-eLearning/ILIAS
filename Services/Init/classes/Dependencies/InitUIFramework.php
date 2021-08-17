@@ -137,9 +137,6 @@ class InitUIFramework
         $c["ui.factory.progressmeter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
         };
-        $c["ui.factory.dropzone.file"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
-        };
         $c["ui.factory.input.field"] = function ($c) {
             $data_factory = new ILIAS\Data\Factory();
             $refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
@@ -174,6 +171,9 @@ class InitUIFramework
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory();
+        };
+        $c["ui.factory.dropzone.file"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory($c["ui.factory.input"]);
         };
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();

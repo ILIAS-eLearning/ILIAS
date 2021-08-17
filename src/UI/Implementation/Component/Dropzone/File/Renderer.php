@@ -69,25 +69,7 @@ class Renderer extends AbstractComponentRenderer
      */
     private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone, \ILIAS\UI\Renderer $default_renderer) : string
     {
-        $dropzone_file_input = $this->getUIFactory()->input()->field()->file($dropzone->getUploadHandler(), '');
-
-        if (null !== $dropzone->getMaxFileSize()) {
-            $dropzone_file_input = $dropzone_file_input->withMaxFileSize($dropzone->getMaxFileSize());
-        }
-        if (null !== $dropzone->getMaxFiles()) {
-            $dropzone_file_input = $dropzone_file_input->withMaxFiles($dropzone->getMaxFiles());
-        }
-        if (null !== $dropzone->getAcceptedMimeTypes()) {
-            $dropzone_file_input = $dropzone_file_input->withAcceptedMimeTypes($dropzone->getAcceptedMimeTypes());
-        }
-        if (null !== $dropzone->getMetadataInputs()) {
-            $dropzone_file_input = $dropzone_file_input->withNestedInputs($dropzone->getMetadataInputs());
-        }
-
-        $dropzone_form = $this->getUIFactory()->input()->container()->form()->standard(
-            $dropzone->getPostURL(),
-            [$dropzone_file_input]
-        );
+        $dropzone_form = $dropzone->getForm();
 
         $dropzone_modal = $this->getUIFactory()->modal()->roundtrip(
             $this->txt('upload'),
@@ -95,12 +77,17 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $tpl = $this->getTemplate('tpl.wrapper.html', true, true);
-        
+
+        $settings = new \stdClass();
+        $settings->modal_show_signal = $dropzone_modal->getShowSignal()->getId();
+        $settings->modal_close_signal = $dropzone_modal->getCloseSignal()->getId();
+
         $dropzone = $dropzone->withAdditionalDrop($dropzone_modal->getShowSignal());
-        $dropzone = $dropzone->withAdditionalOnLoadCode(static function ($id) {
+        $dropzone = $dropzone->withAdditionalOnLoadCode(static function ($id) use ($settings) {
+            $settings = json_encode($settings);
             return "
                 $(document).ready(function () {
-                    il.UI.Dropzone.wrapper.init('$id');
+                    il.UI.Dropzone.wrapper.init('$id', '$settings');
                 });
             ";
         });

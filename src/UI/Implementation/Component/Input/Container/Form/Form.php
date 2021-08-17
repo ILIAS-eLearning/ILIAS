@@ -46,14 +46,6 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
 
-        if (!empty($inputs)) {
-            foreach ($inputs as $input) {
-                if ($input instanceof C\Input\Field\NestedInput) {
-                    $input->withNameFrom($this);
-                }
-            }
-        }
-
         $this->input_group = $field_factory->group(
             $inputs
         )->withNameFrom($this);

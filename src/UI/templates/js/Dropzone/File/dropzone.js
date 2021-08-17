@@ -33,11 +33,12 @@ il.UI.Dropzone = il.UI.Dropzone || {};
          * @type {object}
          */
         const SELECTOR = {
-            darkener:       '.il-dropzone-page-darkener',
-            modal:          '.il-modal-roundtrip',
-            dropzone:       '.il-dropzone',
-            file_input:     '.il-file-input',
-            file_dropzone:  '.il-file-input',
+            darkener:           '.il-dropzone-page-darkener',
+            modal:              '.il-modal-roundtrip',
+            dropzone:           '.il-dropzone',
+            former_dropzone:    '.il-former-dropzone',
+            file_input:         '.il-file-input',
+            file_dropzone:      '.il-file-input',
         };
 
         /**
@@ -146,21 +147,34 @@ il.UI.Dropzone = il.UI.Dropzone || {};
         };
 
         /**
-         * Initializes a Wrapper component.
+         * Moves a dropzone-area to the modal it has been rendered with.
          *
-         * @param {string} id
+         * @param {Event} event
+         * @param {*}     data
          */
-        let init = function (id) {
-            // register event-listener for dropped files
-            $(`#${id} ${SELECTOR.dropzone}`).on('drop', processDroppedFilesHook);
+        let moveDropzoneAreaHook = function (event, data) {
+            let trigger  = $(event.target);
+            let dropzone = trigger.find(SELECTOR.dropzone);
+            let modal    = trigger.find(SELECTOR.modal);
 
-            // only initialize the dragster once, as it can be shared across
+            dropzone.removeClass(SELECTOR.dropzone);
+            dropzone.addClass(SELECTOR.former_dropzone);
+            modal.addClass(SELECTOR.dropzone);
+
+            initDragster(true);
+        };
+
+        /**
+         * Helper function to initialize the pages dragster.
+         *
+         * @param {boolean} force_init
+         */
+        let initDragster = function (force_init = false) {
+            // only initialize dragster once, as it can be shared across
             // multiple instances of this component.
-            if (!dragster_active) {
+            if (!dragster_active || force_init) {
                 // add a darkener element to DOM for dragster events (substr removes the dot).
                 $('body').prepend(`<div class="${SELECTOR.darkener.substr(1)}"></div>`);
-
-                // @TODO: fix document.dragLeave after file was hovering dropzone-wrapper once.
 
                 $(SELECTOR.dropzone).dragster({
                     enter: enableHighlightHoverHook,
@@ -168,6 +182,7 @@ il.UI.Dropzone = il.UI.Dropzone || {};
                     drop:  disableHighlightHoverHook,
                 });
 
+                // @TODO: fix document.dragLeave after file was hovering dropzone-wrapper once.
                 $(document).dragster({
                     enter: enableHighlightHook,
                     leave: disableHighlightHook,
@@ -176,6 +191,24 @@ il.UI.Dropzone = il.UI.Dropzone || {};
 
                 dragster_active = true;
             }
+        }
+
+        /**
+         * Initializes a Wrapper component.
+         *
+         * @param {string} id
+         * @param {string} json_settings
+         */
+        let init = function (id, json_settings) {
+            let settings = Object.assign(JSON.parse(json_settings));
+
+            $(document).on(settings.modal_show_signal, moveDropzoneAreaHook);
+
+            // register event-listener for dropped files
+            let dropzone = $(`#${id} ${SELECTOR.dropzone}`);
+            dropzone.on('drop', processDroppedFilesHook);
+
+            initDragster();
         };
 
         return {

@@ -63,4 +63,20 @@ interface File
      * @return int
      */
     public function getMaxFiles() : int;
+
+    /**
+     * Returns a file input like this, with enabled or disabled zip-
+     * extraction options.
+     *
+     * @param bool $with_options
+     * @return FileInput
+     */
+    public function withZipExtractOptions(bool $with_options) : File;
+
+    /**
+     * Returns if the file input should have zip-extraction options.
+     *
+     * @return bool
+     */
+    public function hasZipExtractOptions() : bool;
 }

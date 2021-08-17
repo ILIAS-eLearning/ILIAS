@@ -14,6 +14,15 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
 class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
 {
     /**
+     * @var \ILIAS\UI\Implementation\Component\Input\Factory
+     */
+    private $input_factory;
+
+    public function __construct(\ILIAS\UI\Implementation\Component\Input\Factory $input_factory) {
+        $this->input_factory = $input_factory;
+    }
+
+    /**
      * @inheritdoc
      */
     public function standard(UploadHandler $upload_handler, string $post_url) : Standard
@@ -26,6 +35,6 @@ class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
      */
     public function wrapper(UploadHandler $upload_handler, string $post_url, array $components) : Wrapper
     {
-        return new Wrapper($upload_handler, $post_url, $components);
+        return new Wrapper($this->input_factory, $upload_handler, $post_url, $components);
     }
 }

@@ -29,12 +29,19 @@ class Standard extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File
         return $clone;
     }
 
-
     /**
      * @inheritdoc
      */
     public function getMessage() : ?string
     {
         return $this->message;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+
     }
 }

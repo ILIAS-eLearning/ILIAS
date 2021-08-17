@@ -65,7 +65,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
     /**
      * @var    string|null
      */
-    private $name = null;
+    protected $name = null;
     /**
      * This is the current content of the input in the abstraction. This results by
      * applying the transformations and constraints to the value(s) (@see: operations)

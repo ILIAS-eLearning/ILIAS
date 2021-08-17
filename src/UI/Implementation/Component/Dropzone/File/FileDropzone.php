@@ -7,6 +7,7 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class FileDropzone
@@ -53,6 +54,16 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     private $max_files;
 
     /**
+     * @var bool
+     */
+    private $zip_options = false;
+
+    /**
+     * @var \ILIAS\UI\Component\Input\Container\Form\Standard
+     */
+    private $form;
+
+    /**
      * FileDropzone constructor.
      *
      * @param UploadHandler $upload_handler
@@ -63,6 +74,13 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
         $this->upload_handler = $upload_handler;
         $this->post_url = $post_url;
     }
+
+    /**
+     * Returns the form needed to submit the dropped/uploaded files.
+     *
+     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     */
+    abstract protected function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard;
 
     /**
      * @inheritDoc
@@ -141,6 +159,26 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
         return 1;
     }
 
+
+    /**
+     * @inheritDoc
+     */
+    public function withZipExtractOptions(bool $with_options) : FileDropzone
+    {
+        $clone = clone $this;
+        $clone->zip_options = $with_options;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasZipExtractOptions() : bool
+    {
+        return $this->zip_options;
+    }
+
     /**
      * @inheritDoc
      */
@@ -155,5 +193,24 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     public function withAdditionalDrop(\ILIAS\UI\Component\Signal $signal)
     {
         return $this->appendTriggeredSignal($signal, self::EVENT);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withRequest(ServerRequestInterface $request) : \ILIAS\UI\Component\Dropzone\File\FileDropzone
+    {
+        $clone = clone $this;
+        $clone->form = $this->getForm()->withRequest($request);
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getData()
+    {
+        return $this->form->getData();
     }
 }
