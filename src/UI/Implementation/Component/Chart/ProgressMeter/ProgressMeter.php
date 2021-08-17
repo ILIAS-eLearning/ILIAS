@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
@@ -15,45 +15,22 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
 {
     use ComponentHelper;
 
-    /**
-     * @var int
-     */
-    protected $maximum;
+    protected int $maximum;
+    private int $required;
+    protected int $main;
+    protected int $comparison;
 
-    /**
-     * @var int
-     */
-    private $required;
-
-    /**
-     * @var int
-     */
-    protected $main;
-
-    /**
-     * @var int
-     */
-    protected $comparison;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($maximum, $main, $required = null, $comparison = null)
+    public function __construct(int $maximum, int $main, int $required = null, int $comparison = null)
     {
-        $this->checkIntArg("maximum", $maximum);
         $this->maximum = $maximum;
-        $this->checkIntArg("main", $main);
         $this->main = $this->getSafe($main);
 
         if ($required != null) {
-            $this->checkIntArg("required", $required);
             $this->required = $this->getSafe($required);
         } else {
-            $this->checkIntArg("required", $maximum);
             $this->required = $this->getSafe($maximum);
         }
         if ($comparison != null) {
-            $this->checkIntArg("comparison", $comparison);
             $this->comparison = $this->getSafe($comparison);
         } else {
             $this->comparison = 0;
@@ -78,10 +55,8 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
 
     /**
      * Get required value as percent
-     *
-     * @return int
      */
-    public function getRequiredAsPercent()
+    public function getRequiredAsPercent() : int
     {
         return $this->getAsPercentage($this->required);
     }
@@ -96,33 +71,25 @@ class ProgressMeter implements C\Chart\ProgressMeter\ProgressMeter
 
     /**
      * Get main value as percent
-     *
-     * @return int
      */
-    public function getMainValueAsPercent()
+    public function getMainValueAsPercent() : int
     {
         return $this->getAsPercentage($this->main);
     }
 
     /**
-     * Get integer value "1" if a value is negative or "maximum" if value is more then maximum
-     *
-     * @param int $a_int
-     * @return int
+     * Get integer value "1" if a value is negative or "maximum" if value is more than maximum
      */
-    protected function getSafe($a_int)
+    protected function getSafe(int $int) : int
     {
-        return (($a_int < 0) ? 0 : ($a_int > $this->getMaximum() ? $this->getMaximum() : $a_int));
+        return (($int < 0) ? 0 : ($int > $this->getMaximum() ? $this->getMaximum() : $int));
     }
 
     /**
      * get an integer value as percent value
-     *
-     * @param int $a_int
-     * @return int
      */
-    protected function getAsPercentage($a_int)
+    protected function getAsPercentage(int $int) : int
     {
-        return round(100 / $this->getMaximum() * $this->getSafe($a_int), 0, PHP_ROUND_HALF_UP);
+        return (int) round(100 / $this->getMaximum() * $this->getSafe($int), 0, PHP_ROUND_HALF_UP);
     }
 }

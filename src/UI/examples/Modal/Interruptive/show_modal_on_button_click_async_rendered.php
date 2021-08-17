@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Modal\Interruptive;
 
 function show_modal_on_button_click_async_rendered()
@@ -16,7 +16,7 @@ function show_modal_on_button_click_async_rendered()
     // Check if this is the ajax request to deliver the new modal showing the affected item
     if (isset($_GET['item'])) {
         $item = $items[(int) $_GET['item']];
-        $affected_item = $factory->modal()->interruptiveItem((int) $_GET['item'], $item);
+        $affected_item = $factory->modal()->interruptiveItem($_GET['item'], $item);
         $modal = $factory->modal()->interruptive('Delete Items', $message, $form_action)
             ->withAffectedItems([$affected_item]);
         echo $renderer->render($modal);

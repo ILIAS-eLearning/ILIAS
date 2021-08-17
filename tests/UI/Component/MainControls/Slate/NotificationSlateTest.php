@@ -1,35 +1,39 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Timon Amstutz <timon.amstutz@ilub.unibe.ch Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Notification;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\Counter\Factory;
 
 /**
  * Tests for the Slate.
  */
 class NotificationSlateTest extends ILIAS_UI_TestBase
 {
+    protected I\SignalGenerator $sig_gen;
+
     public function setUp() : void
     {
         $this->sig_gen = new I\SignalGenerator();
     }
 
-    public function getIcon()
+    public function getIcon() : C\Symbol\Icon\Standard
     {
         return $this->getUIFactory()->symbol()->icon()->standard("name", "aria_label", "small", false);
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function button()
+            public I\SignalGenerator $sig_gen;
+
+            public function button() : C\Button\Factory
             {
-                return new I\Button\Factory($this->sig_gen);
+                return new I\Button\Factory();
             }
             public function symbol() : ILIAS\UI\Component\Symbol\Factory
             {
@@ -39,7 +43,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function item()
+            public function item() : C\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -49,14 +53,14 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
                     $this->sig_gen,
                     new I\MainControls\Slate\Factory(
                         $this->sig_gen,
-                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        new Factory(),
                         $this->symbol()
                     )
                 );
             }
-            public function icon() : I\Symbol\Icon\Factory
+            public function icon() : C\Symbol\Icon\Factory
             {
-                new I\Symbol\Icon\Factory();
+                return new I\Symbol\Icon\Factory();
             }
         };
         $factory->sig_gen = $this->sig_gen;
@@ -64,26 +68,27 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testImplementsFactoryInterface()
+    public function testImplementsFactoryInterface() : void
     {
         $notificatino_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", []);
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\MainControls\\Slate\\Notification", $notificatino_slate);
     }
 
-    public function testGenerationByFactory()
+    public function testGenerationByFactory() : void
     {
         $item = $this->getUIFactory()->item()->notification("title", $this->getIcon())
                                              ->withDescription("description");
 
         $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", [$item,$item]);
-        $this->assertEquals($notification_slate->getName(), "title");
+        $this->assertEquals("title", $notification_slate->getName());
         $this->assertEquals($notification_slate->getContents(), [$item,$item]);
     }
 
 
-    public function testWithAdditionalEntry()
+    public function testWithAdditionalEntry() : void
     {
+        /** @var C\Item\Notification $item */
         $item = $this->getUIFactory()->item()->notification("title", $this->getIcon())
                      ->withDescription("description");
         $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", [$item,$item]);
@@ -92,7 +97,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
         $this->assertEquals($notification_slate->getContents(), [$item,$item,$item]);
     }
 
-    public function testRenderingWithSubslateAndButton()
+    public function testRenderingWithSubslateAndButton() : void
     {
         $item = $this->getUIFactory()->item()->notification("item title", $this->getIcon());
         $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("slate title", [$item]);

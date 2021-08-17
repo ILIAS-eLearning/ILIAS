@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -8,7 +8,6 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Component\Signal;
 
 class Toggle extends Button implements C\Button\Toggle
@@ -17,24 +16,13 @@ class Toggle extends Button implements C\Button\Toggle
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var string|null
-     */
-    protected $action_off = null;
+    protected ?string $action_off = null;
+    protected ?string $action_on = null;
 
-    /**
-     * @var string|null
-     */
-    protected $action_on = null;
-
-    /**
-     * @inheritdoc
-     */
-    public function __construct($label, $action_on, $action_off, $is_on, Signal $click = null)
+    public function __construct(string $label, $action_on, $action_off, bool $is_on, Signal $click = null)
     {
         $this->checkStringOrSignalArg("action", $action_on);
         $this->checkStringOrSignalArg("action_off", $action_off);
-        $this->checkBoolArg("is_on", $is_on);
 
         // no way to resolve conflicting string actions
         $button_action = (is_null($click)) ? "" : $click;
@@ -81,18 +69,12 @@ class Toggle extends Button implements C\Button\Toggle
         return $this->getTriggeredSignalsFor("toggle_on");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withAdditionalToggleOnSignal(Signal $signal) : \ILIAS\UI\Component\Button\Toggle
+    public function withAdditionalToggleOnSignal(Signal $signal) : C\Button\Toggle
     {
         return $this->appendTriggeredSignal($signal, "toggle_on");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withAdditionalToggleOffSignal(Signal $signal) : \ILIAS\UI\Component\Button\Toggle
+    public function withAdditionalToggleOffSignal(Signal $signal) : C\Button\Toggle
     {
         return $this->appendTriggeredSignal($signal, "toggle_off");
     }

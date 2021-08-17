@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Luka Stocker <luka.stocker@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,35 +6,34 @@ require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 require_once(__DIR__ . "/InputTest.php");
 
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Data;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Data;
+use ILIAS\Refinery\Factory as Refinery;
 
 class UrlInputTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @var DefNamesource
-     */
-    private $name_source;
+    private DefNamesource $name_source;
 
     public function setUp() : void
     {
         $this->name_source = new DefNamesource();
     }
 
-    protected function buildFactory()
+    protected function buildFactory() : I\Input\Field\Factory
     {
         $data_factory = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
-        return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        $language = $this->createMock(ilLanguage::class);
+        return new I\Input\Field\Factory(
             new SignalGenerator(),
             $data_factory,
-            new ILIAS\Refinery\Factory($data_factory, $language),
+            new Refinery($data_factory, $language),
             $language
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $factory = $this->buildFactory();
         $url = $factory->url("Test Label", "Test Byline");
@@ -43,7 +42,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Field\Url::class, $url);
     }
 
-    public function test_rendering()
+    public function test_rendering() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -67,7 +66,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_error()
+    public function test_render_error() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -95,7 +94,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_no_byline()
+    public function test_render_no_byline() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -117,7 +116,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_value()
+    public function test_render_value() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -141,7 +140,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_required()
+    public function test_render_required() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();
@@ -164,7 +163,7 @@ class UrlInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_disabled()
+    public function test_render_disabled() : void
     {
         $factory = $this->buildFactory();
         $renderer = $this->getDefaultRenderer();

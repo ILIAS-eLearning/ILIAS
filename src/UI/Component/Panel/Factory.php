@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Panel;
 
-use \ILIAS\UI\Component\Component as Component;
+use ILIAS\UI\Component\Component;
 
 /**
  * This is how the factory for UI elements looks. This should provide access
@@ -12,7 +12,6 @@ use \ILIAS\UI\Component\Component as Component;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -40,7 +39,7 @@ interface Factory
      * @param Component[]|Component
      * @return \ILIAS\UI\Component\Panel\Standard
      */
-    public function standard($title, $content);
+    public function standard(string $title, $content) : Standard;
 
     /**
      * ---
@@ -67,7 +66,7 @@ interface Factory
      * @param Component[]|Component
      * @return \ILIAS\UI\Component\Panel\Sub
      */
-    public function sub($title, $content);
+    public function sub(string $title, $content) : Sub;
 
     /**
      * ---
@@ -90,7 +89,6 @@ interface Factory
      *      Presentation Table: >
      *        Presentation Tables display only a subset of the data at first glance;
      *        their entries can then be expanded to show detailed information.
-     *
      * rules:
      *   usage:
      *      1: >
@@ -101,10 +99,10 @@ interface Factory
      *      2: Buttons MAY trigger actions or inline editing.
      * ---
      * @param string $title
-     * @param \ILIAS\UI\Component\Panel\Sub[] $sub_panels
+     * @param \ILIAS\UI\Component\Panel\Sub[]|\ILIAS\UI\Component\Panel\Sub $sub_panels
      * @return \ILIAS\UI\Component\Panel\Report
      */
-    public function report($title, $sub_panels);
+    public function report(string $title, $sub_panels) : Report;
 
     /**
      * ---
@@ -138,7 +136,7 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Listing\Factory
      */
-    public function listing();
+    public function listing() : Listing\Factory;
 
     /**
      * ---
@@ -170,5 +168,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Panel\Secondary\Factory
      */
-    public function secondary();
+    public function secondary() : Secondary\Factory;
 }

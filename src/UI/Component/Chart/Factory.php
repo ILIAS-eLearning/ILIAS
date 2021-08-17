@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Chart;
 
 /**
@@ -29,7 +30,7 @@ interface Factory
      * @param array string => boolean Set of elements to be rendered, boolean should be true if highlighted
      * @return  \ILIAS\UI\Component\Chart\ScaleBar
      */
-    public function scaleBar(array $items);
+    public function scaleBar(array $items) : ScaleBar;
 
 
     /**
@@ -56,5 +57,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Factory
      */
-    public function progressMeter();
+    public function progressMeter() : ProgressMeter\Factory;
 }

@@ -1,5 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component\Item;
+
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * This is how a factory for Items looks like.
@@ -25,7 +30,7 @@ interface Factory
      * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Link $title Title of the item
      * @return \ILIAS\UI\Component\Item\Standard
      */
-    public function standard($title);
+    public function standard($title) : Standard;
 
     /**
      * ---
@@ -40,7 +45,8 @@ interface Factory
      * @param \ILIAS\UI\Component\Item\Item[] $items items
      * @return \ILIAS\UI\Component\Item\Group
      */
-    public function group($title, $items);
+    public function group(string $title, array $items) : Group;
+
     /**
      * ---
      * description:
@@ -93,5 +99,5 @@ interface Factory
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon $lead
      * @return \ILIAS\UI\Component\Item\Notification
      */
-    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $lead) : Notification;
+    public function notification($title, Icon $lead) : Notification;
 }

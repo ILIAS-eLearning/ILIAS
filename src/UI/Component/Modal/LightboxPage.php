@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Modal;
 
@@ -11,20 +11,14 @@ use ILIAS\UI\Component\Component;
  */
 interface LightboxPage
 {
-
     /**
      * Get the title of this page, displayed as title in the lightbox modal.
-     *
-     * @return string
      */
-    public function getTitle();
-
+    public function getTitle() : string;
 
     /**
      * Get the component representing the media item to be displayed in the modals
      * content section, e.g. an image.
-     *
-     * @return Component
      */
-    public function getComponent();
+    public function getComponent() : Component;
 }

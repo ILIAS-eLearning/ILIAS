@@ -1,4 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
+namespace ILIAS\UI\Component;
+
 /**
  * Interface Droppable
  *
@@ -10,19 +13,14 @@
  *
  * @package ILIAS\UI\Component
  */
-
-namespace ILIAS\UI\Component;
-
 interface Droppable extends Triggerer
 {
-
     /**
      * Get a component like this, triggering a signal of another component when files have been dropped.
      * Note: Any previous signals registered on drop are replaced.
      *
      * @param Signal $signal a ILIAS UI signal which is used on drop event
-     *
-     * @return $this
+     * @return static
      */
     public function withOnDrop(Signal $signal);
 
@@ -32,8 +30,7 @@ interface Droppable extends Triggerer
      * In contrast to withOnDrop, the signal is appended to existing signals for the click event.
      *
      * @param Signal $signal a ILIAS UI signal which is used on drop event
-     *
-     * @return $this
+     * @return static
      */
     public function withAdditionalDrop(Signal $signal);
 }

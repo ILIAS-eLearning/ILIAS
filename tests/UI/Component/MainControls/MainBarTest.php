@@ -1,24 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation\Component as I;
-use \ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy;
-use \ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Data;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Tests for the Main Bar.
  */
 class MainBarTest extends ILIAS_UI_TestBase
 {
+    protected I\Button\Factory $button_factory;
+    protected I\Link\Factory $link_factory;
+    protected I\Symbol\Icon\Factory $icon_factory;
+    protected I\MainControls\Factory $factory;
+    protected C\MainControls\MainBar $mainbar;
+
     public function setUp() : void
     {
         $sig_gen = new I\SignalGenerator();
-        $this->button_factory = new I\Button\Factory($sig_gen);
+        $this->button_factory = new I\Button\Factory();
         $this->link_factory = new I\Link\Factory();
         $this->icon_factory = new I\Symbol\Icon\Factory();
         $counter_factory = new I\Counter\Factory();
@@ -36,7 +44,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->mainbar = $this->factory->mainBar();
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\MainControls\\MainBar",
@@ -44,19 +52,22 @@ class MainBarTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function getButton()
+    protected function getButton() : C\Button\Bulky
     {
         $symbol = $this->icon_factory->custom('', '');
         return $this->button_factory->bulky($symbol, 'TestEntry', '#');
     }
 
-    protected function getLink()
+    protected function getLink() : C\Link\Bulky
     {
         $symbol = $this->icon_factory->custom('', '');
-        $target = new \ILIAS\Data\URI("http://www.ilias.de");
+        $target = new Data\URI("http://www.ilias.de");
         return $this->link_factory->bulky($symbol, 'TestEntry', $target);
     }
 
+    /**
+     * @return Legacy|mixed|MockObject
+     */
     protected function getSlate()
     {
         $mock = $this->getMockBuilder(Legacy::class)
@@ -66,7 +77,7 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $mock;
     }
 
-    public function testAddEntry()
+    public function testAddEntry() : C\MainControls\MainBar
     {
         $btn = $this->getButton();
         $lnk = $this->getLink();
@@ -83,34 +94,34 @@ class MainBarTest extends ILIAS_UI_TestBase
         return $mb;
     }
 
-    public function testDisallowedEntry()
+    public function testDisallowedEntry() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $mb = $this->mainbar->withAdditionalEntry('test', 'wrong_param');
+        $this->expectException(InvalidArgumentException::class);
+        $this->mainbar->withAdditionalEntry('test', 'wrong_param');
     }
 
-    public function testDouplicateIdEntry()
+    public function testDouplicateIdEntry() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $btn = $this->getButton();
-        $mb = $this->mainbar
+        $this->mainbar
             ->withAdditionalEntry('test', $btn)
             ->withAdditionalEntry('test', $btn);
     }
 
-    public function testDisallowedToolEntry()
+    public function testDisallowedToolEntry() : void
     {
         $this->expectException(\TypeError::class);
-        $mb = $this->mainbar->withAdditionalToolEntry('test', 'wrong_param');
+        $this->mainbar->withAdditionalToolEntry('test', 'wrong_param');
     }
 
-    public function testAddToolEntryWithoutToolsButton()
+    public function testAddToolEntryWithoutToolsButton() : void
     {
-        $this->expectException(\LogicException::class);
-        $mb = $this->mainbar->withAdditionalToolEntry('test', $this->getSlate());
+        $this->expectException(LogicException::class);
+        $this->mainbar->withAdditionalToolEntry('test', $this->getSlate());
     }
 
-    public function testAddToolEntry()
+    public function testAddToolEntry() : void
     {
         $slate = $this->getSlate();
         $mb = $this->mainbar
@@ -120,12 +131,13 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($slate, $entries['test']);
     }
 
-    public function testDouplicateIdToolEntry()
+    public function testDouplicateIdToolEntry() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $btn = $this->getButton();
         $slate = $this->getSlate();
-        $mb = $this->mainbar->withToolsButton($btn)
+        $this->mainbar
+            ->withToolsButton($btn)
             ->withAdditionalToolEntry('test', $slate)
             ->withAdditionalToolEntry('test', $slate);
     }
@@ -133,20 +145,19 @@ class MainBarTest extends ILIAS_UI_TestBase
     /**
      * @depends testAddEntry
      */
-    public function testActive($mb)
+    public function testActive(C\MainControls\MainBar $mb) : void
     {
         $mb = $mb->withActive('testbtn');
         $this->assertEquals('testbtn', $mb->getActive());
     }
 
-    public function testWithInvalidActive()
+    public function testWithInvalidActive() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $mb = $this->mainbar
-            ->withActive('this-is-not-a-valid-entry');
+        $this->expectException(InvalidArgumentException::class);
+        $this->mainbar->withActive('this-is-not-a-valid-entry');
     }
 
-    public function testSignalsPresent()
+    public function testSignalsPresent() : void
     {
         $this->assertInstanceOf(Signal::class, $this->mainbar->getEntryClickSignal());
         $this->assertInstanceOf(Signal::class, $this->mainbar->getToolsClickSignal());
@@ -154,10 +165,12 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(Signal::class, $this->mainbar->getDisengageAllSignal());
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function button()
+            public C\Button\Factory $button_factory;
+
+            public function button() : C\Button\Factory
             {
                 return $this->button_factory;
             }
@@ -181,27 +194,27 @@ class MainBarTest extends ILIAS_UI_TestBase
                 $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory, $symbol_factory);
                 return new I\MainControls\Factory($sig_gen, $slate_factory);
             }
-            public function legacy($legacy)
+            public function legacy(string $content) : C\Legacy\Legacy
             {
                 $sig_gen = new I\SignalGenerator();
-                return new I\Legacy\Legacy($legacy, $sig_gen);
+                return new I\Legacy\Legacy($content, $sig_gen);
             }
         };
         $factory->button_factory = $this->button_factory;
         return $factory;
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $r = $this->getDefaultRenderer();
         $icon = $this->icon_factory->custom('', '');
 
         $sf = $this->factory->slate();
-        $slate = $sf->combined('1', $icon, '')
+        $slate = $sf->combined('1', $icon)
             ->withAdditionalEntry(
-                $sf->combined('1.1', $icon, '')
+                $sf->combined('1.1', $icon)
                     ->withAdditionalEntry(
-                        $sf->combined('1.1.1', $icon, '')
+                        $sf->combined('1.1.1', $icon)
                     )
             );
 

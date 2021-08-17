@@ -1,20 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class ImageFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-            "standard" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "responsive" => array(
-                    "context" => false,
-                    "rules" => false
-            )
-    );
+    public array $kitchensink_info_settings = [
+        "standard" => [
+            "context" => false,
+            "rules" => false
+        ],
+        "responsive" => [
+            "context" => false,
+            "rules" => false
+        ]
+    ];
 
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Image\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Image\\Factory';
 }

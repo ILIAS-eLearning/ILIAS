@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\MainControls\Footer;
 
 use ILIAS\UI\examples\Layout\Page\Standard as PageStandardExample;

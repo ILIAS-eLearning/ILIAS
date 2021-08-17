@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
@@ -9,9 +9,10 @@ require_once 'tests/UI/AbstractFactoryTest.php';
  */
 class SlateFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = [
+    public array $kitchensink_info_settings = [
         "legacy" => ["context" => false],
         "combined" => ["rules" => false]
     ];
-    public $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Slate\\Factory';
+
+    public string $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Slate\\Factory';
 }

@@ -1,13 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Renderer as RenderInterface;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\TriggeredSignal;
-use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Droppable;
+use ReflectionClass;
 
 /**
  * Class Renderer
@@ -21,29 +25,12 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
  */
 class Renderer extends AbstractComponentRenderer
 {
-
-    /**
-     * @var $renderer DefaultRenderer
-     */
-    private $renderer;
-
+    private RenderInterface $renderer;
 
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
-    {
-        return array(
-            \ILIAS\UI\Component\Dropzone\File\Standard::class,
-            \ILIAS\UI\Component\Dropzone\File\Wrapper::class,
-        );
-    }
-
-
-    /**
-     * @inheritdoc
-     */
-    public function render(Component $component, \ILIAS\UI\Renderer $default_renderer)
+    public function render(Component $component, RenderInterface $default_renderer) : string
     {
         $this->checkComponent($component);
         $this->renderer = $default_renderer;
@@ -53,13 +40,13 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof \ILIAS\UI\Component\Dropzone\File\Standard) {
             return $this->renderStandard($component);
         }
+        return "";
     }
-
 
     /**
      * @inheritDoc
      */
-    public function registerResources(ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register("./libs/bower/bower_components/jquery-dragster/jquery.dragster.js");
@@ -68,13 +55,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register("./src/UI/templates/js/Dropzone/File/dropzone.js");
     }
 
-
-    /**
-     * @param \ILIAS\UI\Component\Dropzone\File\Standard $dropzone
-     *
-     * @return string
-     */
-    private function renderStandard(\ILIAS\UI\Component\Dropzone\File\Standard $dropzone)
+    private function renderStandard(\ILIAS\UI\Component\Dropzone\File\Standard $dropzone) : string
     {
         /**
          * @var $dropzone \ILIAS\UI\Component\Dropzone\File\Standard
@@ -101,7 +82,7 @@ class Renderer extends AbstractComponentRenderer
              * @var $button Button
              */
             $button = $button->withUnavailableAction()->withAdditionalOnLoadCode(function ($id) use ($dropzoneId) {
-                return "$ (function() {il.UI.uploader.bindUploadButton('{$dropzoneId}', $('#{$id}'));});";
+                return "$ (function() {il.UI.uploader.bindUploadButton('$dropzoneId', $('#$id'));});";
             });
             $tpl->setCurrentBlock('with_upload_button');
             $tpl->setVariable('BUTTON', $r->render($button));
@@ -113,13 +94,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
-    /**
-     * @param \ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone
-     *
-     * @return string
-     */
-    private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone)
+    private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone) : string
     {
         // Create the roundtrip modal which displays the uploaded files
         $tplUploadFileList = $this->getFileListTemplate($dropzone);
@@ -128,7 +103,10 @@ class Renderer extends AbstractComponentRenderer
         if (!$title) {
             $title = $this->txt('upload');
         }
-        $modal = $this->getUIFactory()->modal()->roundtrip($title, $this->getUIFactory()->legacy($tplUploadFileList->get()))->withActionButtons([ $uploadButton ]);
+        $modal = $this->getUIFactory()->modal()->roundtrip(
+            $title,
+            $this->getUIFactory()->legacy($tplUploadFileList->get())
+        )->withActionButtons([ $uploadButton ]);
 
         // Register JS
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
@@ -144,13 +122,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
-    /**
-     * @param \ILIAS\UI\Component\Dropzone\File\File $dropzone
-     *
-     * @return \ILIAS\UI\Component\JavaScriptBindable
-     */
-    protected function registerSignals(\ILIAS\UI\Component\Dropzone\File\File $dropzone)
+    protected function registerSignals(Droppable $dropzone) : JavaScriptBindable
     {
         $signals = array_map(function ($triggeredSignal) {
             /** @var $triggeredSignal TriggeredSignal */
@@ -170,27 +142,20 @@ class Renderer extends AbstractComponentRenderer
                     'fileSizeLimit' => $dropzone->getFileSizeLimit() ? $dropzone->getFileSizeLimit()->getSize()
                         * $dropzone->getFileSizeLimit()->getUnit() : 0,
                     'maxFiles' => $dropzone->getMaxFiles(),
-                    'identifier' => $dropzone->getParametername(),
+                    'identifier' => $dropzone->getParameterName(),
                     'typeError' => $this->txt('msg_wrong_filetypes') . " " . implode(", ", $dropzone->getAllowedFileTypes()),
                     'tooManyItemsError' => $this->txt('msg_to_many_files') . ' ' . $dropzone->getMaxFiles(),
                     'noFilesError' => $this->txt('msg_no_files_selected'),
                 ]
             );
-            $reflect = new \ReflectionClass($dropzone);
+            $reflect = new ReflectionClass($dropzone);
             $type = $reflect->getShortName();
 
-            return "il.UI.dropzone.initializeDropzone('{$type}', JSON.parse('{$options}'));";
+            return "il.UI.dropzone.initializeDropzone('$type', JSON.parse('$options'));";
         });
     }
 
-
-    /**
-     * @param string                                 $uploadId
-     * @param \ILIAS\UI\Component\Dropzone\File\File $dropzone
-     *
-     * @return \ILIAS\UI\Implementation\Render\Template
-     */
-    private function getFileListTemplate(\ILIAS\UI\Component\Dropzone\File\File $dropzone)
+    private function getFileListTemplate(\ILIAS\UI\Component\Dropzone\File\File $dropzone) : Template
     {
         $f = $this->getUIFactory();
         $r = $this->renderer;
@@ -204,7 +169,10 @@ class Renderer extends AbstractComponentRenderer
         $tplUploadFileList->setVariable("REMOVE", $r->render([$f->button()->close()]));
 
         if ($this->renderMetaData($dropzone)) {
-            $tplUploadFileList->setVariable("TOGGLE", $r->render([$f->symbol()->glyph()->collapse(), $f->symbol()->glyph()->expand()]));
+            $tplUploadFileList->setVariable(
+                "TOGGLE",
+                $r->render([$f->symbol()->glyph()->collapse(), $f->symbol()->glyph()->expand()])
+            );
             $tplUploadFileList->setCurrentBlock("with_metadata");
             $items[] = $f->button()->shy($this->txt("edit_metadata"), "")->withAriaLabel("edit_metadata");
             if ($dropzone->allowsUserDefinedFileNames()) {
@@ -221,15 +189,19 @@ class Renderer extends AbstractComponentRenderer
         return $tplUploadFileList;
     }
 
+    private function renderMetaData(\ILIAS\UI\Component\Dropzone\File\File $dropzone) : bool
+    {
+        return ($dropzone->allowsUserDefinedFileNames() || $dropzone->allowsUserDefinedFileDescriptions());
+    }
 
     /**
-     * @param \ILIAS\UI\Component\Dropzone\File\File $dropzone
-     *
-     * @return bool
+     * @inheritdoc
      */
-    private function renderMetaData(\ILIAS\UI\Component\Dropzone\File\File $dropzone)
+    protected function getComponentInterfaceName() : array
     {
-        return ($dropzone->allowsUserDefinedFileNames()
-                || $dropzone->allowsUserDefinedFileDescriptions());
+        return array(
+            \ILIAS\UI\Component\Dropzone\File\Standard::class,
+            \ILIAS\UI\Component\Dropzone\File\Wrapper::class,
+        );
     }
 }

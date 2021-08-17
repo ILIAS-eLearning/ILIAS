@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -8,12 +9,10 @@ namespace ILIAS\UI\Implementation\Component;
  */
 interface SignalGeneratorInterface
 {
-
     /**
      * Create a signal, each created signal MUST have a unique ID.
      *
-     * @param string $class Fully qualified class name (including namespace) of desired signal sub type
-     * @return Signal
+     * @param string $class Fully qualified class name (including namespace) of desired signal subtype
      */
-    public function create($class = '');
+    public function create(string $class = '') : Signal;
 }

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Layout\Page;
@@ -12,9 +13,8 @@ use ILIAS\UI\Component\Component;
  */
 interface Page extends Component
 {
-
     /**
      * @return Component[]
      */
-    public function getContent();
+    public function getContent() : array;
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -11,10 +11,7 @@ use ILIAS\UI\Component\ViewControl\HasViewControls as HasViewControlsInterface;
  */
 trait HasViewControls
 {
-    /**
-     * @var array
-     */
-    protected $view_controls;
+    protected ?array $view_controls = null;
 
     /**
      * @inheritDoc

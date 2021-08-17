@@ -1,39 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\Component;
+use ILIAS\UI\Component as C;
 
-class Factory implements Component\Input\Factory
+class Factory implements C\Input\Factory
 {
+    protected SignalGeneratorInterface $signal_generator;
+    protected Field\Factory $field_factory;
+    protected Container\Factory $container_factory;
+    protected ViewControl\Factory $control_factory;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
-
-    /**
-     * @var Field\Factory
-     */
-    protected $field_factory;
-
-    /**
-     * @var	Container\Factory
-     */
-    protected $container_factory;
-
-    /**
-     * @var ViewControl\Factory
-     */
-    protected $control_factory;
-
-    /**
-     * @param SignalGeneratorInterface $signal_generator
-     */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         Field\Factory $field_factory,
@@ -49,7 +29,7 @@ class Factory implements Component\Input\Factory
     /**
      * @inheritdoc
      */
-    public function field()
+    public function field() : C\Input\Field\Factory
     {
         return $this->field_factory;
     }
@@ -57,7 +37,7 @@ class Factory implements Component\Input\Factory
     /**
      * @inheritdoc
      */
-    public function container()
+    public function container() : C\Input\Container\Factory
     {
         return $this->container_factory;
     }
@@ -65,7 +45,7 @@ class Factory implements Component\Input\Factory
     /**
      * @inheritDoc
      */
-    public function viewControl() : Component\Input\ViewControl\Factory
+    public function viewControl() : C\Input\ViewControl\Factory
     {
         return $this->control_factory;
     }
