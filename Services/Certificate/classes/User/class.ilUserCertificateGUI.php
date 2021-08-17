@@ -17,7 +17,7 @@ use GuzzleHttp\Psr7\Request;
 class ilUserCertificateGUI
 {
     private ilGlobalTemplateInterface $template;
-    private ilCtrl $controller;
+    private ilCtrl $ctrl;
     private ilLanguage $language;
     private ilUserCertificateRepository $userCertificateRepository;
     private ilObjUser $user;
@@ -39,7 +39,7 @@ class ilUserCertificateGUI
 
     public function __construct(
         ?ilTemplate $template = null,
-        ?ilCtrl $controller = null,
+        ?ilCtrl $ctrl = null,
         ?ilLanguage $language = null,
         ?ilObjUser $user = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
@@ -60,10 +60,10 @@ class ilUserCertificateGUI
         }
         $this->template = $template;
 
-        if ($controller === null) {
-            $controller = $DIC->ctrl();
+        if ($ctrl === null) {
+            $ctrl = $DIC->ctrl();
         }
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
 
         if ($language === null) {
             $language = $DIC->language();
@@ -126,11 +126,11 @@ class ilUserCertificateGUI
 
     public function executeCommand() : bool
     {
-        $nextClass = $this->controller->getNextClass($this);
-        $cmd = $this->controller->getCmd();
+        $nextClass = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd();
 
         if (!$this->certificateSettings->get('active')) {
-            $this->controller->returnToParent($this);
+            $this->ctrl->returnToParent($this);
         }
 
         $this->template->setTitle($this->language->txt('obj_cert'));
@@ -155,14 +155,14 @@ class ilUserCertificateGUI
         global $DIC;
 
         if (!$this->certificateSettings->get('active')) {
-            $this->controller->redirect($this);
+            $this->ctrl->redirect($this);
             return;
         }
 
         $provider = new ilUserCertificateTableProvider(
             $DIC->database(),
             $this->certificateLogger,
-            $this->controller,
+            $this->ctrl,
             $this->language->txt('certificate_no_object_title')
         );
 
@@ -191,7 +191,7 @@ class ilUserCertificateGUI
                 ->viewControl()
                 ->sortation($sortationOptions)
                 ->withLabel($this->language->txt($this->sortationOptions[$sorting]))
-                ->withTargetURL($this->controller->getLinkTarget($this, 'applySortation'), 'sort_by');
+                ->withTargetURL($this->ctrl->getLinkTarget($this, 'applySortation'), 'sort_by');
             $uiComponents[] = $sortViewControl;
 
             foreach ($data['items'] as $certificateData) {
@@ -253,9 +253,9 @@ class ilUserCertificateGUI
                 )
                 ]);
 
-                $this->controller->setParameter($this, 'certificate_id', $certificateData['id']);
-                $downloadHref = $this->controller->getLinkTarget($this, 'download');
-                $this->controller->clearParameters($this);
+                $this->ctrl->setParameter($this, 'certificate_id', $certificateData['id']);
+                $downloadHref = $this->ctrl->getLinkTarget($this, 'download');
+                $this->ctrl->clearParameters($this);
                 $sections[] = $this->uiFactory->button()->standard('Download', $downloadHref);
 
                 $card = $this->uiFactory

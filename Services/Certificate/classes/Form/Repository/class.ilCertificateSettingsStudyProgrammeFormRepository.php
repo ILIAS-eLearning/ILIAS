@@ -18,7 +18,7 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -34,7 +34,7 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject

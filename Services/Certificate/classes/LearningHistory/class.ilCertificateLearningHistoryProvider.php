@@ -12,7 +12,7 @@ use ILIAS\DI\Container;
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
     private ilUserCertificateRepository $userCertificateRepository;
-    private ilCtrl $controller;
+    private ilCtrl $ctrl;
     private ilSetting $certificateSettings;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
@@ -25,7 +25,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         ?ilTemplate $template = null,
         ?Container $dic = null,
         ?ilUserCertificateRepository $userCertificateRepository = null,
-        ?ilCtrl $controller = null,
+        ?ilCtrl $ctrl = null,
         ?ilSetting $certificateSettings = null,
         ?Factory $uiFactory = null,
         ?Renderer $uiRenderer = null,
@@ -47,10 +47,10 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         }
         $this->userCertificateRepository = $userCertificateRepository;
 
-        if (null === $controller) {
-            $controller = $dic->ctrl();
+        if (null === $ctrl) {
+            $ctrl = $dic->ctrl();
         }
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
 
         if (null === $certificateSettings) {
             $certificateSettings = new ilSetting("certificate");
@@ -101,16 +101,16 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         foreach ($certificates as $certificate) {
             $objectId = $certificate->getUserCertificate()->getObjId();
 
-            $this->controller->setParameterByClass(
+            $this->ctrl->setParameterByClass(
                 'ilUserCertificateGUI',
                 'certificate_id',
                 $certificate->getUserCertificate()->getId()
             );
-            $href = $this->controller->getLinkTargetByClass(['ilDashboardGUI',
+            $href = $this->ctrl->getLinkTargetByClass(['ilDashboardGUI',
                                                              'ilAchievementsGUI',
                                                              'ilUserCertificateGUI'
             ], 'download');
-            $this->controller->clearParametersByClass('ilUserCertificateGUI');
+            $this->ctrl->clearParametersByClass('ilUserCertificateGUI');
 
             $prefixTextWithLink = sprintf(
                 $this->lng->txt('certificate_achievement_sub_obj'),

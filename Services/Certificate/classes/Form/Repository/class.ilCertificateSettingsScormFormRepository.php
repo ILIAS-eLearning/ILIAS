@@ -21,7 +21,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -38,7 +38,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject

@@ -16,7 +16,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 {
     private int $objectId;
     private ilLanguage $language;
-    private ilCtrl $controller;
+    private ilCtrl $ctrl;
     private ilAccess $access;
     private ilToolbarGUI $toolbar;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
@@ -35,7 +35,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -52,7 +52,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->refinery = $DIC->refinery();
         $this->objectId = $objectId;
         $this->language = $language;
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
         $this->access = $access;
         $this->toolbar = $toolbar;
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
@@ -118,11 +118,11 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
-        $command = $this->controller->getCmd();
+        $command = $this->ctrl->getCmd();
 
         $form = new ilPropertyFormGUI();
         $form->setPreventDoubleSubmission(false);
-        $form->setFormAction($this->controller->getFormAction($certificateGUI));
+        $form->setFormAction($this->ctrl->getFormAction($certificateGUI));
         $form->setTitle($this->language->txt("cert_form_sec_availability"));
         $form->setMultipart(true);
         $form->setTableWidth("100%");
@@ -145,7 +145,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
                 if ($result == false) {
                     $import->setAlert($this->language->txt("certificate_error_import"));
                 } else {
-                    $this->controller->redirect($certificateGUI, "certificateEditor");
+                    $this->ctrl->redirect($certificateGUI, "certificateEditor");
                 }
             }
         }
@@ -294,7 +294,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
             $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string())
         )) {
             if ($certificateTemplate->isCurrentlyActive()) {
-                $this->toolbar->setFormAction($this->controller->getFormAction($certificateGUI));
+                $this->toolbar->setFormAction($this->ctrl->getFormAction($certificateGUI));
 
                 $preview = ilSubmitButton::getInstance();
                 $preview->setCaption('certificate_preview');

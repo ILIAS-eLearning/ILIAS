@@ -20,7 +20,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccessHandler $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -35,7 +35,7 @@ class ilCertificateSettingsExerciseRepository implements ilCertificateFormReposi
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject

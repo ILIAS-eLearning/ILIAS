@@ -26,7 +26,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -48,7 +48,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject

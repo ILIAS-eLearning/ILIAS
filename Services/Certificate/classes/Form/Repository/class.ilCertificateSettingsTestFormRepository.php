@@ -21,7 +21,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
         bool $hasAdditionalElements,
         ilObjTest $testObject,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -36,7 +36,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject

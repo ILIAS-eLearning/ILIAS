@@ -8,20 +8,20 @@ class ilUserCertificateTableProvider
 {
     private ilDBInterface $database;
     private ilLogger $logger;
-    private ilCtrl $controller;
+    private ilCtrl $ctrl;
     private ilCertificateObjectHelper $objectHelper;
     private string $defaultTitle;
 
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         string $defaultTitle,
         ilCertificateObjectHelper $objectHelper = null
     ) {
         $this->database = $database;
         $this->logger = $logger;
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
         $this->defaultTitle = $defaultTitle;
 
         if (null === $objectHelper) {
