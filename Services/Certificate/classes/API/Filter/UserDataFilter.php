@@ -42,7 +42,7 @@ class UserDataFilter
      */
     private function ensureValidUniqueUsrIds(array $usrIds) : void
     {
-        array_walk($usrIds, function (int $usrId) {
+        array_walk($usrIds, static function (int $usrId) : void {
             // Do nothing, use this for type safety of array values
         });
     }
@@ -52,7 +52,7 @@ class UserDataFilter
      */
     private function ensureValidUniqueObjIds(array $objIds) : void
     {
-        array_walk($objIds, function (int $objId) {
+        array_walk($objIds, static function (int $objId) : void {
             // Do nothing, use this for type safety of array values
         });
     }
