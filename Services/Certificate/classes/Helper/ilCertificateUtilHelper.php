@@ -96,7 +96,7 @@ class ilCertificateUtilHelper
     }
 
     public function getImagePath(
-        $img,
+        string $img,
         string $module_path = "",
         string $mode = "output",
         bool $offline = false
