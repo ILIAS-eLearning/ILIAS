@@ -6,6 +6,9 @@
  */
 class ilCertificateTypeClassMap
 {
+    /**
+     * @var array<string, array{placeholder: string}>
+     */
     private array $typeClassMap = [
         'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
         'tst' => ['placeholder' => ilTestPlaceHolderValues::class],

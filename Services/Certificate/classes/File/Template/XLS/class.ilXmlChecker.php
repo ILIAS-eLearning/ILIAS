@@ -32,16 +32,16 @@ require_once("./Services/Xml/classes/class.ilSaxParser.php");
  */
 class ilXMLChecker extends ilSaxParser
 {
-    public $error_code;
-    public $error_line;
-    public $error_col;
-    public $error_msg;
-    public $has_error;
-    public $size;
-    public $elements;
-    public $attributes;
-    public $texts;
-    public $text_size;
+    public int $error_code;
+    public int $error_line;
+    public int $error_col;
+    public string $error_msg;
+    public bool $has_error;
+    public int $size;
+    public int $elements;
+    public int $attributes;
+    public int $texts;
+    public int $text_size;
 
     /**
      * Constructor
@@ -59,7 +59,7 @@ class ilXMLChecker extends ilSaxParser
      * should be overwritten by inherited class
      * @access    private
      */
-    public function setHandlers($a_xml_parser) : void
+    public function setHandlers(XmlParser $a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -68,6 +68,7 @@ class ilXMLChecker extends ilSaxParser
 
     /**
      * start the parser
+     * @throws ilSaxParserException
      */
     public function startParsing() : void
     {
@@ -78,7 +79,7 @@ class ilXMLChecker extends ilSaxParser
      * parse xml file
      * @access    private
      */
-    public function parse($a_xml_parser, $a_fp = null) : bool
+    public function parse(XmlParser $a_xml_parser, $a_fp = null) : bool
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -107,7 +108,7 @@ class ilXMLChecker extends ilSaxParser
     /**
      * handler for begin of element
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag(XmlParser $a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->elements++;
         $this->attributes += count($a_attribs);
@@ -116,35 +117,35 @@ class ilXMLChecker extends ilSaxParser
     /**
      * handler for end of element
      */
-    public function handlerEndTag($a_xml_parser, $a_name) : void
+    public function handlerEndTag(XmlParser $a_xml_parser, string $a_name) : void
     {
     }
 
     /**
      * handler for character data
      */
-    public function handlerCharacterData($a_xml_parser, $a_data) : void
+    public function handlerCharacterData(XmlParser $a_xml_parser, string $a_data) : void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
     }
 
-    public function getErrorCode()
+    public function getErrorCode() : int
     {
         return $this->error_code;
     }
 
-    public function getErrorLine()
+    public function getErrorLine() : int
     {
         return $this->error_line;
     }
 
-    public function getErrorColumn()
+    public function getErrorColumn() : int
     {
         return $this->error_col;
     }
 
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         return $this->error_msg;
     }
@@ -154,27 +155,27 @@ class ilXMLChecker extends ilSaxParser
         return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
 
-    public function getXMLSize()
+    public function getXMLSize() : int
     {
         return $this->size;
     }
 
-    public function getXMLElements()
+    public function getXMLElements() : int
     {
         return $this->elements;
     }
 
-    public function getXMLAttributes()
+    public function getXMLAttributes() : int
     {
         return $this->attributes;
     }
 
-    public function getXMLTextSections()
+    public function getXMLTextSections() : int
     {
         return $this->texts;
     }
 
-    public function getXMLTextSize()
+    public function getXMLTextSize() : int
     {
         return $this->text_size;
     }
