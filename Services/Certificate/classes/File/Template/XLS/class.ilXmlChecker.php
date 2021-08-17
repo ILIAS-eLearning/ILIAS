@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once("./Services/Xml/classes/class.ilSaxParser.php");
-
 /**
  * XML checker
  * @author  Helmut Schottmüller <ilias@aurealis.de>

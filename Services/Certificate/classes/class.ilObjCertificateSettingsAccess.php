@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
  * Class ilObjCertificateSettingsAccess
  * @author  Helmut Schottmüller <ilias@aurealis.de>

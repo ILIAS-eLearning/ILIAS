@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
  * Class ilObjCertificateSettings
  * @author  Helmut Schottmüller <ilias@aurealis.de>

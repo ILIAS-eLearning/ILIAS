@@ -25,8 +25,6 @@
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\Refinery\Factory;
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-
 /**
  * Certificate Settings.
  * @author            Helmut Schottmüller <ilias@aurealis.de>
@@ -74,7 +72,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -116,7 +113,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('settings');
         $form_settings = new ilSetting("certificate");
 
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('certificate_settings'));
@@ -144,7 +140,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
 
         if ($this->object->hasBackgroundImage()) {
-            require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
             $bgimage->setImage(ilWACSignedPath::signFile($this->object->getDefaultBackgroundImagePathWeb()));
         }
