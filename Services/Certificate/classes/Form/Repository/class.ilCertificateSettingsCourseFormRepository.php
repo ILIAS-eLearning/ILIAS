@@ -213,6 +213,9 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         return $result;
     }
 
+    /**
+     * @return int[]
+     */
     private function getInvalidLPModes() : array
     {
         $invalid_modes = [
