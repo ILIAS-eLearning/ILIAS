@@ -134,20 +134,11 @@ class ilCronManagerTableFilterMediator
 
     /**
      * @param Standard $filter
-     * @param bool $fromRequest
      * @return ilCronJobCollection
      */
-    public function filteredJobs(Standard $filter, bool $fromRequest = false) : ilCronJobCollection
+    public function filteredJobs(Standard $filter) : ilCronJobCollection
     {
-        $filterValues = [];
-        if ($fromRequest) {
-            $filterValues = $this->uiService->filter()->getData($filter);
-        } else {
-            /** @var \ILIAS\UI\Implementation\Component\Input\Field\Input $i */
-            foreach ($filter->getInputs() as $k => $i) {
-                $filterValues[$k] = $i->getValue();
-            }
-        }
+        $filterValues = $this->uiService->filter()->getData($filter);
 
         return $this->items->filter(function (ilCronJobEntity $entity) use ($filterValues) : bool {
             if (

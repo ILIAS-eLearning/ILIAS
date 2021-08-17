@@ -120,7 +120,7 @@ class ilContainerFilterService
     /**
      * User filter
      *
-     * @param array $data
+     * @param array|null $data
      * @return ilContainerUserFilter
      */
     public function userFilter($data)
