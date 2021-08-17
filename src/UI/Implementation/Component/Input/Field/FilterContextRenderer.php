@@ -200,11 +200,6 @@ class FilterContextRenderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.text.html", true, true);
         $this->applyName($component, $tpl);
-
-        if ($component->getMaxLength()) {
-            $tpl->setVariable("MAX_LENGTH", $component->getMaxLength());
-        }
-
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFilterContext($component, $tpl->get(), $default_renderer, $id);
