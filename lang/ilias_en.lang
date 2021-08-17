@@ -13535,12 +13535,12 @@ prg#:#prg_points_current#:#Points Current
 prg#:#prg_custom_plan#:#Custom Plan
 prg#:#prg_belongs_to#:#Belongs to
 prg#:#prg_show_individual_plan#:#Show Individual Plan
-prg#:#prg_remove_user#:#Remove User
+prg#:#prg_remove_user#:#Remove Assignment
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_unmark_accredited#:#Unmark Accredited
 prg#:#prg_mark_accredited_success#:#Accredited Program Node for User successfully.
 prg#:#prg_unmark_accredited_success#:#Unaccredited Program Node for User successfully.
-prg#:#prg_remove_user_success#:#Removed User successfully.
+prg#:#prg_remove_user_success#:#Assignment removed successfully.
 prg#:#prg_type_add#:#Study Programme Type
 prg#:#prg_subtypes#:#Subtypes
 prg#:#prg_subtype_add#:#Add new subtype
@@ -16058,20 +16058,7 @@ content#:#cont_page_template#:#Page Template
 content#:#cont_page_created#:#Page created
 prg#:#assignment_date#:#Assignment Date
 prg#:#completion_date#:#Completion Date
-prg#:#prg_no_deadline#:#No fixed prozessing time
-prg#:#prg_deadline_period#:#Processing time is determined inividually
-prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
-prg#:#prg_deadline_date#:#Processing time expires at fixed date
-prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
-prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
-prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
-prg#:#validity_qualification_period#:#Qualification expires individually
-prg#:#validity_qualification_period_desc#:#days after completion
-prg#:#validity_qualification_date#:#Qualification expires at fixed date
-prg#:#validity_qualification_date_desc#:#expiry date
-prg#:#prg_no_restart#:#No restart required
-prg#:#restart_period#:#Restart obligatory
-prg#:#restart_period_desc#:#days before expiry
+prg#:#prg_validity_of_qualification#:#Validity of achieved Qualifications
 prg#:#sp_certificate_title#:#Title of the Study Programme
 prg#:#sp_certificate_description#:#Description of the Study Programme
 prg#:#sp_certificate_type#:#Type of the Study Programme
@@ -16081,12 +16068,8 @@ prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
 prg#:#prg_completion_date#:#Completion date
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_validity#:#Validity
-prg#:#prg_still_valid#:#still valid
+prg#:#prg_still_valid#:#valid
 prg#:#prg_not_valid#:#not valid
-prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
-prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
-prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
-prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_orgus#:#Organisational Units
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#content_automation#:#Content Automation
@@ -16108,6 +16091,7 @@ prg#:#auto_memberships#:#Membership Automation
 prg#:#orgu#:#Organisational Unit
 prg#:#rol#:#Role
 prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.
 prg#:#add_automembership_source#:#Add Source
 prg#:#auto_membership_src_type#:#Type
 prg#:#membership_source_id#:#Id
@@ -16125,11 +16109,8 @@ orgu#:#org_op_view_individual_plan#:#View Individual Plan
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 prg#:#prg_formatted_period#:#%d days
 prg#:#deadline_information#:#Information regarding processing period
-prg#:#dealine_period_info#:#Days to process after assignment
-prg#:#dealine_date_info#:#Deadline date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
-prg#:#vq_date_info#:#Qualification expires at fixed date
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -16140,22 +16121,8 @@ prg#:#prg_title#:#Title
 prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
-prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
-prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
-prg#:#prg_processing_ends_no_success#:#Reminder mail failing
-prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of your participation in the study programm '%' will soon expire. Please sign in again.
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
-prg#:#send_re_assigned_mail#:#E-mail renewed participation
-prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
-prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
-prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
-prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
-prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
-prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
-prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
-prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
-prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
 search#:#search_for_orgu_members#:#Search for Organisational Units
 search#:#select_orgu#:#Select Organisational Units
 prg#:#prg_dash_label_valid#:#Valid:
@@ -16272,8 +16239,6 @@ mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrat
 mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.
 prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.
-prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
-prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
 common#:#collapse_content#:#Collapse Content
 common#:#expand_content#:#Expand Content
 common#:#briefcase#:#Background Tasks
@@ -16573,3 +16538,71 @@ common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+prg#:#msg_mark_relevant#:#%s users successfully marked relevant
+prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:
+prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant
+prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:
+prg#:#msg_mark_accredited#:#%s users successfully marked accredited
+prg#:#msg_mark_accredited_failed#:#Not marked accredited:
+prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.
+prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:
+prg#:#msg_update_from_settings#:#Updated %s users from settings:
+prg#:#msg_update_from_settings_failed#:#Updated from settings failed:
+prg#:#msg_change_deadline_date#:#Updated deadline for %s users.
+prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:
+prg#:#msg_change_expire_date#:#Updated expire date for %s users.
+prg#:#msg_change_expire_date_failed#:#Expire date not updated for:
+prg#:#status_transition_not_allowed#:#Status change not allowed
+prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant
+prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited
+prg#:#status_changed#:#Updated status
+prg#:#validity_updated#:#Updated validity
+prg#:#deadline_updated#:#Updated deadline
+prg#:#updated_from_settings#:#Updated from settings
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_no_deadline#:#No fixed processing time
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#the programme must be finished until a given date.
+prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
+prg#:#validity_qualification_period#:#Qualification expires individually
+prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_date#:#Qualification expires at fixed date
+prg#:#validity_qualification_date_desc#:#expiry date
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#prg_no_restart#:#No restart required
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry
+prg#:#send_re_assigned_mail#:#E-mail renewed participation
+prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
+prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
+prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
+prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
+prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
+prg#:#prg_processing_ends_no_success#:#Reminder mail failing
+prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)
+prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed
+prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.
+prg#:#msg_impossible_target_status#:#Impossible target status
+prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?
+prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.
+prg#:#assignments#:#Assignments
+prg#:#mail_assignments#:#Mail to assigned Users
+prg#:#manage_assignments#:#Manage Assignments
+prg#:#prg_manage_members_short#:#Manage Assignments
+prg#:#will_not_modify_relevant_progress#:#already relevant
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful
+prg#:#status_unchanged#:#Status unchanged

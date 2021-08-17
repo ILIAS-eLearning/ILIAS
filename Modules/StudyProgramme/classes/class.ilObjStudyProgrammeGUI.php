@@ -571,7 +571,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         if ($this->checkAccess(ilOrgUnitOperation::OP_VIEW_MEMBERS)) {
             $this->tabs_gui->addTab(
                 self::TAB_MEMBERS,
-                $this->lng->txt("members"),
+                $this->lng->txt("assignments"),
                 $this->getLinkTarget("members")
             );
         }

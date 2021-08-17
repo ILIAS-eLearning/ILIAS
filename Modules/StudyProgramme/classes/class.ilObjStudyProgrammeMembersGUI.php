@@ -778,7 +778,7 @@ class ilObjStudyProgrammeMembersGUI
         }
 
         $toolbar->addButton(
-            $this->lng->txt('mail_members'),
+            $this->lng->txt('mail_assignments'),
             $this->ctrl->getLinkTargetByClass(
                 'ilStudyProgrammeMailMemberSearchGUI',
                 'showSelectableUsers'
