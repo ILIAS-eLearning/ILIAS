@@ -10,11 +10,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     private ilLanguage $language;
     private array $placeholder;
     private ilObject $object;
-
-    /**
-     * @var ilObjectLP|mixed|null
-     */
-    private $learningProgressObject;
+    private ilObjectLP $learningProgressObject;
 
     public function __construct(
         ilObject $object,

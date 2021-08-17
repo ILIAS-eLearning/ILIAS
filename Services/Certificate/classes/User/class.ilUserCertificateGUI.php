@@ -16,10 +16,7 @@ use GuzzleHttp\Psr7\Request;
  */
 class ilUserCertificateGUI
 {
-    /**
-     * @var ilGlobalTemplateInterface|ilTemplate|null
-     */
-    private $template;
+    private ilGlobalTemplateInterface $template;
     private ilCtrl $controller;
     private ilLanguage $language;
     private ilUserCertificateRepository $userCertificateRepository;

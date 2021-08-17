@@ -7,10 +7,7 @@
 class ilCertificateActiveValidator
 {
     private ilSetting $setting;
-    /**
-     * @var ilRPCServerSettings|object|null
-     */
-    private $rpcSettings;
+    private ilRPCServerSettings $rpcSettings;
 
     public function __construct(?ilSetting $setting = null, ?ilRPCServerSettings $rpcSettings = null)
     {

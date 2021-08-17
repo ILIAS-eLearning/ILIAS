@@ -46,41 +46,11 @@ class ilCertificateGUI
     private Filesystem $fileSystem;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
-
-    /**
-     * The reference to the ILIAS control class
-     * @var ilCtrl
-     */
     protected ilCtrl $ctrl;
-
-    /**
-     * The reference to the ILIAS tree class
-     * @var ilTree
-     */
     protected ilTree $tree;
-
-    /**
-     * The reference to the ILIAS class
-     * @var ILIAS
-     */
     protected ILIAS $ilias;
-
-    /**
-     * The reference to the Template class
-     * @var object
-     */
-    protected $tpl;
-
-    /**
-     * The reference to the Language class
-     * @var ilLanguage
-     */
+    protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
-
-    /**
-     * The reference ID of the object
-     * @var int
-     */
     protected int $ref_id;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
