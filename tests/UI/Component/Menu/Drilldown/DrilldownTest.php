@@ -140,10 +140,10 @@ class DrilldownTest extends ILIAS_UI_TestBase
     </header>
     <ul> 
         <li> 
-            <button class="menulevel">root</button>
+            <button class="menulevel" aria-expanded="false">root</button>
             <ul>
                 <li> 
-                    <button class="menulevel">sub</button>
+                    <button class="menulevel" aria-expanded="false">sub</button>
                     <ul>
                         <li>
                             <button class="btn btn-default" data-action=""></button>
