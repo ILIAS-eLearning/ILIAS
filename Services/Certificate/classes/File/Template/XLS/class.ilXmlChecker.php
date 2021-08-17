@@ -55,11 +55,9 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-     * set event handler
-     * should be overwritten by inherited class
-     * @access    private
+     * @param XmlParser|resource $a_xml_parser
      */
-    public function setHandlers(XmlParser $a_xml_parser) : void
+    public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -76,10 +74,9 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-     * parse xml file
-     * @access    private
+     * @param XmlParser|resource $a_xml_parser
      */
-    public function parse(XmlParser $a_xml_parser, $a_fp = null) : bool
+    public function parse($a_xml_parser, $a_fp = null) : bool
     {
         switch ($this->getInputType()) {
             case 'file':
@@ -106,25 +103,25 @@ class ilXMLChecker extends ilSaxParser
     }
 
     /**
-     * handler for begin of element
+     * @param XmlParser|resource $a_xml_parser
      */
-    public function handlerBeginTag(XmlParser $a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
     {
         $this->elements++;
         $this->attributes += count($a_attribs);
     }
 
     /**
-     * handler for end of element
+     * @param XmlParser|resource $a_xml_parser
      */
-    public function handlerEndTag(XmlParser $a_xml_parser, string $a_name) : void
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
     }
 
     /**
-     * handler for character data
+     * @param XmlParser|resource $a_xml_parser
      */
-    public function handlerCharacterData(XmlParser $a_xml_parser, string $a_data) : void
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         $this->texts++;
         $this->text_size += strlen($a_data);
