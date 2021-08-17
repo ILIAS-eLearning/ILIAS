@@ -136,7 +136,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $import->setSuffixes(["zip"]);
 
         // handle the certificate import
-        if ($_FILES["certificate_import"]["name"] !== "") {
+        if (!empty($_FILES["certificate_import"]["name"])) {
             if ($import->checkInput()) {
                 $result = $this->importAction->import(
                     $_FILES["certificate_import"]["tmp_name"],
@@ -291,7 +291,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         if ($this->access->checkAccess(
             "write",
             "",
-            $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->to()->string())
+            $this->httpWrapper->query()->retrieve("ref_id", $this->refinery->kindlyTo()->int())
         )) {
             if ($certificateTemplate->isCurrentlyActive()) {
                 $this->toolbar->setFormAction($this->ctrl->getFormAction($certificateGUI));
