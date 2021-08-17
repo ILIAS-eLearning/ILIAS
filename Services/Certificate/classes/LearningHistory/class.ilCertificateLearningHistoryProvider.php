@@ -11,12 +11,12 @@ use ILIAS\DI\Container;
  */
 class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
-    private ?ilUserCertificateRepository $userCertificateRepository;
-    private ?ilCtrl $controller;
-    private ?ilSetting $certificateSettings;
-    protected ?Factory $uiFactory;
-    protected ?Renderer $uiRenderer;
-    private ?ilCertificateUtilHelper $utilHelper;
+    private ilUserCertificateRepository $userCertificateRepository;
+    private ilCtrl $controller;
+    private ilSetting $certificateSettings;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    private ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
         int $user_id,

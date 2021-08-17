@@ -18,13 +18,13 @@ class UserDataRepository
 {
     private ilDBInterface $database;
     private ilLogger $logger;
-    private ?string $defaultTitle;
-    private ilCtrl $controller;
+    private string $defaultTitle;
+    private ilCtrl $ctrl;
 
     /**
      * @param ilDBInterface $database
      * @param ilLogger      $logger
-     * @param ilCtrl        $controller
+     * @param ilCtrl        $ctrl
      * @param string|null   $defaultTitle The default title is use if the title of an repository object could not be
      *                                    determined. This could be the case if the object is deleted from system and
      *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
@@ -32,12 +32,12 @@ class UserDataRepository
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ?string $defaultTitle = null
     ) {
         $this->database = $database;
         $this->logger = $logger;
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
 
         if (null === $defaultTitle) {
             global $DIC;
@@ -85,9 +85,9 @@ FROM
             $link = '';
             if ([] !== $ilCtrlStack) {
                 $ilCtrlStack[] = ilUserCertificateApiGUI::class;
-                $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
-                $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
-                $this->controller->clearParametersByClass(ilUserCertificateApiGUI::class);
+                $this->ctrl->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
+                $link = $this->ctrl->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
+                $this->ctrl->clearParametersByClass(ilUserCertificateApiGUI::class);
             }
 
             $dataObject = new UserCertificateDto(

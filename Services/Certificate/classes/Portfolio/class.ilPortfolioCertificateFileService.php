@@ -12,8 +12,8 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilPortfolioCertificateFileService
 {
-    private ?Filesystem $filesystem;
-    private ?ilLogger $logger;
+    private Filesystem $filesystem;
+    private ilLogger $logger;
     private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
     private const CERTIFICATE_FILENAME = 'certificate.pdf';
 

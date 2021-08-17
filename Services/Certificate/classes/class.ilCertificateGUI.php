@@ -42,8 +42,8 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  */
 class ilCertificateGUI
 {
-    private ?ilCertificateBackgroundImageDelete $backgroundImageDelete;
-    private ?Filesystem $fileSystem;
+    private ilCertificateBackgroundImageDelete $backgroundImageDelete;
+    private Filesystem $fileSystem;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
 
@@ -84,22 +84,22 @@ class ilCertificateGUI
     protected int $ref_id;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
-    private ?ilCertificateTemplateRepository $templateRepository;
-    private ?ilFormFieldParser $formFieldParser;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilFormFieldParser $formFieldParser;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private int $objectId;
-    private ?ilCertificateFormRepository $settingsFormFactory;
+    private ilCertificateFormRepository $settingsFormFactory;
     private ilCertificatePlaceholderValues $placeholderValuesObject;
-    private ?ilXlsFoParser $xlsFoParser;
-    private ?ilCertificateDeleteAction $deleteAction;
-    private ?ilCertificateTemplateExportAction $exportAction;
-    private ?ilCertificateBackgroundImageUpload $backgroundImageUpload;
-    private ?ilCertificateTemplatePreviewAction $previewAction;
-    private ?FileUpload $fileUpload;
+    private ilXlsFoParser $xlsFoParser;
+    private ilCertificateDeleteAction $deleteAction;
+    private ilCertificateTemplateExportAction $exportAction;
+    private ilCertificateBackgroundImageUpload $backgroundImageUpload;
+    private ilCertificateTemplatePreviewAction $previewAction;
+    private FileUpload $fileUpload;
     private string $certificatePath;
-    private ?ilSetting $settings;
-    private ?ilPageFormats $pageFormats;
-    private ?Filesystem $tmp_file_system;
+    private ilSetting $settings;
+    private ilPageFormats $pageFormats;
+    private Filesystem $tmp_file_system;
 
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,

@@ -12,12 +12,12 @@ use ILIAS\Filesystem\Exception\IOException;
  */
 class ilCertificateCloneAction
 {
-    private ?ilLogger $logger;
+    private ilLogger $logger;
     private ilCertificatePathFactory $pathFactory;
     private ilCertificateTemplateRepository $templateRepository;
     private ilDBInterface $database;
-    private ?Filesystem $fileSystem;
-    private ?ilCertificateObjectHelper $objectHelper;
+    private Filesystem $fileSystem;
+    private ilCertificateObjectHelper $objectHelper;
     private string $webDirectory;
 
     public function __construct(

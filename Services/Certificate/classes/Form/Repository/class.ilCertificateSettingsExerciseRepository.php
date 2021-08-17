@@ -12,7 +12,7 @@ use ILIAS\Filesystem\Exception\IOException;
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilObject $object;
 
     public function __construct(

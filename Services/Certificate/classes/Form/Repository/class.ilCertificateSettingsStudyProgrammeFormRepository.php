@@ -9,9 +9,9 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ?ilCertificateSettingsFormRepository $settingsFormRepository;
+    private ilCertificateSettingsFormRepository $settingsFormRepository;
     private ilObject $object;
-    private ?ilSetting $setting;
+    private ilSetting $setting;
 
     public function __construct(
         ilObject $object,

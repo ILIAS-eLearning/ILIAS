@@ -7,8 +7,8 @@
 class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private array $placeholder;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateUtilHelper $ilUtilHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $ilUtilHelper;
 
     public function __construct(
         ?ilCertificateObjectHelper $objectHelper = null,

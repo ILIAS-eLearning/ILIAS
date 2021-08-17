@@ -12,20 +12,14 @@ use ILIAS\Filesystem\Exception\IOException;
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
     private ilLanguage $language;
-    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilObjCourse $object;
-    /**
-     * @var ilObjectLP|mixed
-     */
-    private $learningProgressObject;
-    private ?ilCertificateObjUserTrackingHelper $trackingHelper;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateObjectLPHelper $lpHelper;
-    /**
-     * @var ilTree|mixed|null
-     */
-    private $tree;
-    private ?ilSetting $setting;
+    private ilObjectLP $learningProgressObject;
+    private ilCertificateObjUserTrackingHelper $trackingHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateObjectLPHelper $lpHelper;
+    private ilTree $tree;
+    private ilSetting $setting;
 
     public function __construct(
         ilObject $object,

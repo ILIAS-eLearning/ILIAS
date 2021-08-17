@@ -18,7 +18,7 @@ class ilCertificateCron extends ilCronJob
     private ?ilLogger $logger;
     private ?ilCertificateValueReplacement $valueReplacement;
     private ?ilCertificateObjectHelper $objectHelper;
-    private ?Container $dic;
+    private Container $dic;
     private ?ilSetting $settings;
 
     public function __construct(

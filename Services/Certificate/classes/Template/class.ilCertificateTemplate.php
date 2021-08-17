@@ -15,7 +15,7 @@ class ilCertificateTemplate
     private int $createdTimestamp;
     private bool $currentlyActive;
     private ?int $id;
-    private ?string $backgroundImagePath;
+    private string $backgroundImagePath;
     private string $obj_type;
     private bool $deleted;
     private string $thumbnailImagePath;

@@ -8,12 +8,12 @@
 class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 {
     private array $placeholder;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateDateHelper $dateHelper;
-    private ?int $dateFormat;
-    private ?ilLanguage $language;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateDateHelper $dateHelper;
+    private int $dateFormat;
+    private ilLanguage $language;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilUserDefinedFieldsPlaceholderValues $userDefinedFieldsPlaceholderValues;
     private int $birthdayDateFormat;
 
     public function __construct(

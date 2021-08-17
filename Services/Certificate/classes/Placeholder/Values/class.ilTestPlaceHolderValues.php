@@ -6,17 +6,14 @@
  */
 class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
 {
-    private ?ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateTestObjectHelper $testObjectHelper;
-    private ?ilCertificateUserObjectHelper $userObjectHelper;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateLPStatusHelper $lpStatusHelper;
-    /**
-     * @var ilCertificateDateHelper|ilDatePresentation|null
-     */
-    private $dateHelper;
-    private ?ilLanguage $language;
+    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateTestObjectHelper $testObjectHelper;
+    private ilCertificateUserObjectHelper $userObjectHelper;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateLPStatusHelper $lpStatusHelper;
+    private ilCertificateDateHelper $dateHelper;
+    private ilLanguage $language;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,

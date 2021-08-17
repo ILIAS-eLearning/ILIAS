@@ -9,8 +9,8 @@
  */
 class ilCertificateDownloadValidator
 {
-    private ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
-    private ?ilCertificateActiveValidator $activeValidator;
+    private ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator;
+    private ilCertificateActiveValidator $activeValidator;
 
     public function __construct(
         ?ilCertificateUserCertificateAccessValidator $userCertificateAccessValidator = null,

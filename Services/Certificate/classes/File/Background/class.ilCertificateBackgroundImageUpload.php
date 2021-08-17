@@ -23,16 +23,13 @@ class ilCertificateBackgroundImageUpload
     private string $certificatePath;
     private ilLanguage $language;
     private string $rootDirectory;
-    /**
-     * @var Filesystem|Filesystems
-     */
-    private $fileSystem;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateFileUtilsHelper $fileUtilsHelper;
+    private Filesystem $fileSystem;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateFileUtilsHelper $fileUtilsHelper;
     private string $clientId;
-    private ?LegacyPathHelperHelper $legacyPathHelper;
+    private LegacyPathHelperHelper $legacyPathHelper;
     private ilLogger $logger;
-    private ?Filesystem $tmp_file_system;
+    private Filesystem $tmp_file_system;
 
     public function __construct(
         FileUpload $fileUpload,

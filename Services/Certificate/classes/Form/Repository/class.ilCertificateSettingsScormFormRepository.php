@@ -13,8 +13,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 {
     private ilObject $object;
     private ilLanguage $language;
-    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
-    private ?ilSetting $setting;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilSetting $setting;
 
     public function __construct(
         ilObject $object,

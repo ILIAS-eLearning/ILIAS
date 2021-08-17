@@ -9,7 +9,7 @@
 class ilCertificateTemplateRepository
 {
     private ilDBInterface $database;
-    private ?ilLogger $logger;
+    private ilLogger $logger;
     /**
      * @var ilObjectDataCache|mixed|null
      */

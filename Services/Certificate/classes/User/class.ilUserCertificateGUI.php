@@ -20,19 +20,16 @@ class ilUserCertificateGUI
      * @var ilGlobalTemplateInterface|ilTemplate|null
      */
     private $template;
-    private ?ilCtrl $controller;
-    private ?ilLanguage $language;
-    private ?ilUserCertificateRepository $userCertificateRepository;
-    private ?ilObjUser $user;
-    /**
-     * @var Request|RequestInterface|ServerRequestInterface|null
-     */
-    private $request;
-    private ?ilLogger $certificateLogger;
-    protected ?ilSetting $certificateSettings;
-    protected ?Factory $uiFactory;
-    protected ?Renderer $uiRenderer;
-    protected ?ilAccessHandler $access;
+    private ilCtrl $controller;
+    private ilLanguage $language;
+    private ilUserCertificateRepository $userCertificateRepository;
+    private ilObjUser $user;
+    private ServerRequestInterface $request;
+    private ilLogger $certificateLogger;
+    protected ilSetting $certificateSettings;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ilAccessHandler $access;
     public const SORTATION_SESSION_KEY = 'my_certificates_sorting';
     protected array $sortationOptions = [
         'title_ASC' => 'cert_sortable_by_title_asc',
@@ -41,7 +38,7 @@ class ilUserCertificateGUI
         'date_DESC' => 'cert_sortable_by_issue_date_desc',
     ];
     protected string $defaultSorting = 'date_DESC';
-    private ?Filesystem $filesystem;
+    private Filesystem $filesystem;
 
     public function __construct(
         ?ilTemplate $template = null,

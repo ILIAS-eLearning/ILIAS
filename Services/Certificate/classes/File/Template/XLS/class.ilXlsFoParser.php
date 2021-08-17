@@ -8,11 +8,11 @@ class ilXlsFoParser
 {
     private ilSetting $settings;
     private ilPageFormats $pageFormats;
-    private ?ilXMLChecker $xmlChecker;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateXlstProcess $xlstProcess;
-    private ?ilLanguage $language;
-    private ?ilCertificateXlsFileLoader $certificateXlsFileLoader;
+    private ilXMLChecker $xmlChecker;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateXlstProcess $xlstProcess;
+    private ilLanguage $language;
+    private ilCertificateXlsFileLoader $certificateXlsFileLoader;
 
     public function __construct(
         ilSetting $settings,

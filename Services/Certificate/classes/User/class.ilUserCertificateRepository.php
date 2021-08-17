@@ -8,7 +8,7 @@ class ilUserCertificateRepository
 {
     private ilDBInterface $database;
     private ilLogger $logger;
-    private ?string $defaultTitle;
+    private string $defaultTitle;
 
     public function __construct(
         ?ilDBInterface $database = null,

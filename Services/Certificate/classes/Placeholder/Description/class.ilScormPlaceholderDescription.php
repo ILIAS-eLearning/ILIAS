@@ -6,8 +6,8 @@
  */
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ?ilLanguage $language;
+    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ilLanguage $language;
     private array $placeholder;
     private ilObject $object;
 

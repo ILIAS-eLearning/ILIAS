@@ -6,7 +6,7 @@
  */
 class ilCertificateUserCertificateAccessValidator
 {
-    private ?ilUserCertificateRepository $userCertificateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
     public function __construct(?ilUserCertificateRepository $userCertificateRepository = null)
     {

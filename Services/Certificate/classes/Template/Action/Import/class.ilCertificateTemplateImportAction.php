@@ -14,14 +14,14 @@ class ilCertificateTemplateImportAction
 {
     private int $objectId;
     private string $certificatePath;
-    private ?ilCertificateTemplateRepository $templateRepository;
+    private ilCertificateTemplateRepository $templateRepository;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
     private ilLogger $logger;
-    private ?Filesystem $filesystem;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateUtilHelper $utilHelper;
+    private Filesystem $filesystem;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
     private string $installationID;
-    private ?ilCertificateBackgroundImageFileService $fileService;
+    private ilCertificateBackgroundImageFileService $fileService;
 
     public function __construct(
         int $objectId,

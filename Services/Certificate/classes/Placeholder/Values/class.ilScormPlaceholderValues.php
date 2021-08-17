@@ -6,13 +6,13 @@
  */
 class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ?ilLanguage $language;
-    private ?ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
-    private ?ilCertificateDateHelper $dateHelper;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateObjectLPHelper $objectLPHelper;
-    private ?ilCertificateLPStatusHelper $lpStatusHelper;
+    private ilLanguage $language;
+    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilCertificateDateHelper $dateHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateObjectLPHelper $objectLPHelper;
+    private ilCertificateLPStatusHelper $lpStatusHelper;
 
     public function __construct(
         ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,

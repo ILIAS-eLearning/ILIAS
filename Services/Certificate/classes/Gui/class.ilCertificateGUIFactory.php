@@ -9,7 +9,7 @@ use ILIAS\DI\Container;
  */
 class ilCertificateGUIFactory
 {
-    private ?Container $dic;
+    private Container $dic;
 
     public function __construct(?Container $dic = null)
     {

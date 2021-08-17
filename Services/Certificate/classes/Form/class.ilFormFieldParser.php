@@ -6,7 +6,7 @@
  */
 class ilFormFieldParser
 {
-    private ?ilCertificateXlstProcess $xlstProcess;
+    private ilCertificateXlstProcess $xlstProcess;
 
     public function __construct(?ilCertificateXlstProcess $xlstProcess = null)
     {

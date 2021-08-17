@@ -7,7 +7,7 @@
 class ilCertificateScormTemplateDeleteAction implements ilCertificateDeleteAction
 {
     private ilCertificateTemplateDeleteAction $deleteAction;
-    private ?ilSetting $setting;
+    private ilSetting $setting;
 
     public function __construct(ilCertificateTemplateDeleteAction $deleteAction, ?ilSetting $setting = null)
     {

@@ -9,9 +9,9 @@ use ILIAS\DI\Container;
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    private ?Container $dic;
-    private ?ilPortfolioCertificateFileService $fileService;
-    private ?ilLanguage $language;
+    private Container $dic;
+    private ilPortfolioCertificateFileService $fileService;
+    private ilLanguage $language;
 
     public function __construct(
         ?Container $dic = null,

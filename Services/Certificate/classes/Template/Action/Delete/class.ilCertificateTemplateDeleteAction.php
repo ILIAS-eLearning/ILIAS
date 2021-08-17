@@ -8,8 +8,8 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
 {
     private ilCertificateTemplateRepository $templateRepository;
     private string $rootDirectory;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateObjectHelper $objectHelper;
     private string $iliasVersion;
 
     public function __construct(

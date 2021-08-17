@@ -8,8 +8,8 @@ class ilPdfGenerator
 {
     private ilUserCertificateRepository $certificateRepository;
     private ilLogger $logger;
-    private ?ilCertificateRpcClientFactoryHelper $rpcHelper;
-    private ?ilCertificatePdfFileNameFactory $pdfFilenameFactory;
+    private ilCertificateRpcClientFactoryHelper $rpcHelper;
+    private ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
     public function __construct(
         ilUserCertificateRepository $userCertificateRepository,

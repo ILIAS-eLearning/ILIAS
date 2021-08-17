@@ -9,7 +9,7 @@ class ilUserCertificateTableProvider
     private ilDBInterface $database;
     private ilLogger $logger;
     private ilCtrl $controller;
-    private ?ilCertificateObjectHelper $objectHelper;
+    private ilCertificateObjectHelper $objectHelper;
     private string $defaultTitle;
 
     public function __construct(

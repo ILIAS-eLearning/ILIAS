@@ -6,9 +6,9 @@
  */
 class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private ?ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
-    private ?ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
-    private ?ilLanguage $language;
+    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject;
+    private ilLanguage $language;
     private array $placeholder;
 
     public function __construct(

@@ -9,11 +9,11 @@ class ilCertificateTemplatePreviewAction
     private ilCertificateTemplateRepository $templateRepository;
     private ilCertificatePlaceholderValues $placeholderValuesObject;
     private ilLogger $logger;
-    private ?ilObjUser $user;
-    private ?ilCertificateUtilHelper $utilHelper;
-    private ?ilCertificateMathJaxHelper $mathJaxHelper;
-    private ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
-    private ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
+    private ilObjUser $user;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateMathJaxHelper $mathJaxHelper;
+    private ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper;
+    private ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper;
     private string $rootDirectory;
     private ilCertificatePdfFileNameFactory $pdfFileNameFactory;
 

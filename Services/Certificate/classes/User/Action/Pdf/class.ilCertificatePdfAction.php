@@ -8,8 +8,8 @@ class ilCertificatePdfAction
 {
     private ilLogger $logger;
     private ilPdfGenerator $pdfGenerator;
-    private ?ilCertificateUtilHelper $ilUtilHelper;
-    private ?ilErrorHandling $errorHandler;
+    private ilCertificateUtilHelper $ilUtilHelper;
+    private ilErrorHandling $errorHandler;
     private string $translatedErrorText;
 
     public function __construct(

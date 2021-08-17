@@ -7,10 +7,10 @@
 class ilCertificateCourseLearningProgressEvaluation
 {
     private ilCertificateTemplateRepository $templateRepository;
-    private ?ilSetting $setting;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateLPStatusHelper $statusHelper;
-    private ?ilCertificateObjUserTrackingHelper $trackingHelper;
+    private ilSetting $setting;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateLPStatusHelper $statusHelper;
+    private ilCertificateObjUserTrackingHelper $trackingHelper;
 
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,

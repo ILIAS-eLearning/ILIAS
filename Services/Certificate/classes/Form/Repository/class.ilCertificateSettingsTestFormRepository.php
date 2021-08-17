@@ -11,7 +11,7 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilCertificateSettingsTestFormRepository implements ilCertificateFormRepository
 {
-    private ?ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
     private ilLanguage $language;
     private ilObjTest $testObject;
 

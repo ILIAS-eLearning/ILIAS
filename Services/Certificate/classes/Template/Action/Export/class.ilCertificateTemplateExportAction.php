@@ -17,8 +17,8 @@ class ilCertificateTemplateExportAction
     private string $certificatePath;
     private ilCertificateTemplateRepository $templateRepository;
     private Filesystem $filesystem;
-    private ?ilCertificateObjectHelper $objectHelper;
-    private ?ilCertificateUtilHelper $utilHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
 
     public function __construct(
         int $objectId,

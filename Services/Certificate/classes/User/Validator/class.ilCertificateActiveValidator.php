@@ -6,7 +6,7 @@
  */
 class ilCertificateActiveValidator
 {
-    private ?ilSetting $setting;
+    private ilSetting $setting;
     /**
      * @var ilRPCServerSettings|object|null
      */

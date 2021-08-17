@@ -20,13 +20,13 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private ilAccess $access;
     private ilToolbarGUI $toolbar;
     private ilCertificatePlaceholderDescription $placeholderDescriptionObject;
-    private ?ilPageFormats $pageFormats;
-    private ?ilFormFieldParser $formFieldParser;
-    private ?ilCertificateTemplateImportAction $importAction;
-    private ?ilCertificateTemplateRepository $templateRepository;
+    private ilPageFormats $pageFormats;
+    private ilFormFieldParser $formFieldParser;
+    private ilCertificateTemplateImportAction $importAction;
+    private ilCertificateTemplateRepository $templateRepository;
     private string $certificatePath;
     private bool $hasAdditionalElements;
-    private ?ilCertificateBackgroundImageFileService $backGroundImageFileService;
+    private ilCertificateBackgroundImageFileService $backGroundImageFileService;
     private WrapperFactory $httpWrapper;
     private Factory $refinery;
 
