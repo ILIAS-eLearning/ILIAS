@@ -14,11 +14,7 @@ class UserCertificateAPI
 {
     private UserDataRepository $userCertificateRepository;
 
-    /**
-     * UserCertificateAPI constructor.
-     * @param UserDataRepository|null $userCertificateRepository
-     */
-    public function __construct(UserDataRepository $userCertificateRepository = null)
+    public function __construct(?UserDataRepository $userCertificateRepository = null)
     {
         if (null === $userCertificateRepository) {
             global $DIC;
@@ -45,10 +41,6 @@ class UserCertificateAPI
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @return int
-     */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
         return $this->userCertificateRepository->getUserCertificateDataMaxCount($filter);

@@ -73,10 +73,6 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         $this->utilHelper = $utilHelper;
     }
 
-    /**
-     * Is active?
-     * @return bool
-     */
     public function isActive() : bool
     {
         return (bool) $this->certificateSettings->get('active');
@@ -137,10 +133,6 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
         return $entries;
     }
 
-    /**
-     * Get name of provider (in user language)
-     * @return string
-     */
     public function getName() : string
     {
         return $this->lng->txt('certificates');

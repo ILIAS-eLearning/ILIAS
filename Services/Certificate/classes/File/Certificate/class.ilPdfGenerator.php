@@ -40,10 +40,10 @@ class ilPdfGenerator
 
     /**
      * @param int $userCertificateId
-     * @return mixed
+     * @return string
      * @throws ilException
      */
-    public function generate(int $userCertificateId)
+    public function generate(int $userCertificateId) : string
     {
         $certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
 
@@ -53,7 +53,7 @@ class ilPdfGenerator
     /**
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return string
      * @throws ilException
      */
     public function generateCurrentActiveCertificate(int $userId, int $objId) : string
@@ -85,10 +85,6 @@ class ilPdfGenerator
         return $pdfFileName;
     }
 
-    /**
-     * @param ilUserCertificate $certificate
-     * @return string
-     */
     private function createPDFScalar(ilUserCertificate $certificate) : string
     {
         $certificateContent = $certificate->getCertificateContent();

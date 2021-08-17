@@ -17,10 +17,6 @@ class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
         $this->objectHelper = $objectHelper;
     }
 
-    /**
-     * @param $templateId
-     * @param $objectId
-     */
     public function delete($templateId, $objectId) : void
     {
         $this->deleteAction->delete($templateId, $objectId);

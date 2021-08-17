@@ -45,7 +45,7 @@ class ilCertificateTemplateExportAction
     }
 
     /**
-     * Creates an downloadable file via the browser
+     * Creates a downloadable file via the browser
      * @param string $rootDir
      * @param string $installationId
      * @throws FileAlreadyExistsException

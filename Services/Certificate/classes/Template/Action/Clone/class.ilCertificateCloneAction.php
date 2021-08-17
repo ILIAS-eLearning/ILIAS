@@ -181,20 +181,11 @@ class ilCertificateCloneAction
         return $this->database->numRows($query);
     }
 
-    /**
-     * Returns the filename of the background image
-     * @return string The filename of the background image
-     */
     private function getBackgroundImageName() : string
     {
         return "background.jpg";
     }
 
-    /**
-     * Returns the filesystem path of the background image thumbnail
-     * @param string $certificatePath
-     * @return string The filesystem path of the background image thumbnail
-     */
     private function getBackgroundImageThumbPath(string $certificatePath) : string
     {
         return $this->webDirectory . $certificatePath . $this->getBackgroundImageName() . ".thumb.jpg";

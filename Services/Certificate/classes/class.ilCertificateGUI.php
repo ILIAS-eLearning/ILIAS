@@ -252,25 +252,16 @@ class ilCertificateGUI
         return $ret;
     }
 
-    /**
-     * Retrieves the ilCtrl command
-     */
     public function getCommand($cmd)
     {
         return $cmd;
     }
 
-    /**
-     * Import a certificate from a ZIP archive
-     */
     public function certificateImport() : void
     {
         $this->certificateEditor();
     }
 
-    /**
-     * Creates a certificate preview
-     */
     public function certificatePreview() : void
     {
         try {
@@ -293,7 +284,13 @@ class ilCertificateGUI
     }
 
     /**
-     * Removes the background image of a certificate
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     * @throws ilWACException
      */
     public function certificateRemoveBackground() : void
     {
@@ -301,9 +298,6 @@ class ilCertificateGUI
         $this->certificateEditor();
     }
 
-    /**
-     * Deletes the certificate and all its data
-     */
     public function certificateDelete() : void
     {
         // display confirmation message
@@ -358,7 +352,13 @@ class ilCertificateGUI
     }
 
     /**
-     * Uploads the certificate
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     * @throws ilWACException
      */
     public function certificateUpload() : void
     {

@@ -36,7 +36,7 @@ class ilCertificateUtilHelper
      * @param string $string
      * @return mixed|null|string|string[]
      */
-    public function stripSlashes(string $string) : string
+    public function stripSlashes(string $string)
     {
         return ilUtil::stripSlashes($string);
     }

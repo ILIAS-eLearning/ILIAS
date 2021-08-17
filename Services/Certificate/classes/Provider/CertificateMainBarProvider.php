@@ -11,18 +11,11 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
  */
 class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         global $DIC;

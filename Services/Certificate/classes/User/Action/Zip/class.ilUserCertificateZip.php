@@ -41,10 +41,6 @@ class ilUserCertificateZip
         $this->typeInFileName = $typeInFileName;
     }
 
-    /**
-     * Creates a directory for a zip archive containing multiple certificates
-     * @return string The created archive directory
-     */
     public function createArchiveDirectory() : string
     {
         $type = ilObject::_lookupType($this->objectId);

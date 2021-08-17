@@ -46,11 +46,6 @@ class UserDataRepository
         $this->defaultTitle = $defaultTitle;
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @param array          $ilCtrlStack
-     * @return array
-     */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
         $sql = 'SELECT
@@ -115,10 +110,6 @@ FROM
         return $result;
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @return int
-     */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
         $sql = 'SELECT
@@ -187,10 +178,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         return $sql;
     }
 
-    /**
-     * @param UserDataFilter $filter
-     * @return string
-     */
     private function createOrderByClause(UserDataFilter $filter) : string
     {
         $sorts = $filter->getSorts();

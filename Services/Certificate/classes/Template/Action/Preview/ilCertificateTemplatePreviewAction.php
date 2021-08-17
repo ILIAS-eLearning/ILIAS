@@ -17,29 +17,17 @@ class ilCertificateTemplatePreviewAction
     private string $rootDirectory;
     private ilCertificatePdfFileNameFactory $pdfFileNameFactory;
 
-    /**
-     * @param ilCertificateTemplateRepository           $templateRepository
-     * @param ilCertificatePlaceholderValues            $placeholderValuesObject
-     * @param ilLogger|null                             $logger
-     * @param ilObjUser|null                            $user
-     * @param ilCertificateUtilHelper|null              $utilHelper
-     * @param ilCertificateMathJaxHelper|null           $mathJaxHelper
-     * @param ilCertificateUserDefinedFieldsHelper|null $userDefinedFieldsHelper
-     * @param ilCertificateRpcClientFactoryHelper|null  $rpcClientFactoryHelper
-     * @param string                                    $rootDirectory
-     * @param ilCertificatePdfFileNameFactory|null      $pdfFileNameFactory
-     */
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,
         ilCertificatePlaceholderValues $placeholderValuesObject,
-        ilLogger $logger = null,
-        ilObjUser $user = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateMathJaxHelper $mathJaxHelper = null,
-        ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
-        ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
+        ?ilLogger $logger = null,
+        ?ilObjUser $user = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateMathJaxHelper $mathJaxHelper = null,
+        ?ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
+        ?ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
         string $rootDirectory = CLIENT_WEB_DIR,
-        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
+        ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
         global $DIC;
 
@@ -161,10 +149,6 @@ class ilCertificateTemplatePreviewAction
         return $certificate_text;
     }
 
-    /**
-     * Get custom certificate fields
-     * @return array
-     */
     private function getCustomCertificateFields() : array
     {
         $user_field_definitions = $this->userDefinedFieldsHelper->createInstance();

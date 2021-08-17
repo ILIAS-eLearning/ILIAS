@@ -57,10 +57,6 @@ class UserDataFilter
         });
     }
 
-    /**
-     * @param string|null $title
-     * @return $this
-     */
     public function withObjectTitle(?string $title) : self
     {
         $clone = clone $this;
@@ -69,10 +65,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param string|null $firstName
-     * @return $this
-     */
     public function withUserFirstName(?string $firstName) : self
     {
         $clone = clone $this;
@@ -81,10 +73,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param string|null $lastName
-     * @return $this
-     */
     public function withUserLastName(?string $lastName) : self
     {
         $clone = clone $this;
@@ -93,10 +81,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param string|null $login
-     * @return $this
-     */
     public function withUserLogin(?string $login) : self
     {
         $clone = clone $this;
@@ -105,10 +89,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param string|null $emailAddress
-     * @return $this
-     */
     public function withUserEmailAddress(?string $emailAddress) : self
     {
         $clone = clone $this;
@@ -117,10 +97,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int|null $timestamp
-     * @return $this
-     */
     public function withIssuedBeforeTimestamp(?int $timestamp) : self
     {
         $clone = clone $this;
@@ -129,10 +105,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int|null $timestamp
-     * @return $this
-     */
     public function withIssuedAfterTimestamp(?int $timestamp) : self
     {
         $clone = clone $this;
@@ -141,10 +113,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param bool $status
-     * @return $this
-     */
     public function withOnlyCertActive(bool $status) : self
     {
         $clone = clone $this;
@@ -209,65 +177,41 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getObjectTitle() : ?string
     {
         return $this->objectTitle;
     }
 
-    /**
-     * @return int
-     */
     public function getIssuedBeforeTimestamp() : ?int
     {
         return $this->issuedBeforeTimestamp;
     }
 
-    /**
-     * @return int|null
-     */
     public function getIssuedAfterTimestamp() : ?int
     {
         return $this->issuedAfterTimestamp;
     }
 
-    /**
-     * @return bool
-     */
     public function isOnlyCertActive() : bool
     {
         return $this->onlyCertActive;
     }
 
-    /**
-     * @return string
-     */
     public function getUserFirstName() : ?string
     {
         return $this->userFirstName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLastName() : ?string
     {
         return $this->userLastName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLogin() : ?string
     {
         return $this->userLogin;
     }
 
-    /**
-     * @return string
-     */
     public function getUserEmail() : ?string
     {
         return $this->userEmail;
@@ -289,10 +233,6 @@ class UserDataFilter
         return $this->objIds;
     }
 
-    /**
-     * @param int $direction
-     * @return $this
-     */
     public function withSortedLastNames(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
@@ -301,10 +241,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int $direction
-     * @return $this
-     */
     public function withSortedFirstNames(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
@@ -313,10 +249,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int $direction
-     * @return $this
-     */
     public function withSortedObjectTitles(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
@@ -325,10 +257,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int $direction
-     * @return $this
-     */
     public function withSortedLogins(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
@@ -337,10 +265,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @param int $direction
-     * @return $this
-     */
     public function withSortedIssuedOnTimestamps(int $direction = self::SORT_DIRECTION_ASC) : self
     {
         $clone = clone $this;
@@ -349,18 +273,11 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return array
-     */
     public function getSorts() : array
     {
         return $this->sorts;
     }
 
-    /**
-     * @param int|null $limitOffset
-     * @return self
-     */
     public function withLimitOffset(?int $limitOffset) : self
     {
         $clone = clone $this;
@@ -368,18 +285,11 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLimitOffset() : ?int
     {
         return $this->limitOffset;
     }
 
-    /**
-     * @param int|null $limitCount
-     * @return self
-     */
     public function withLimitCount(?int $limitCount) : self
     {
         $clone = clone $this;
@@ -387,17 +297,11 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLimitCount() : ?int
     {
         return $this->limitCount;
     }
 
-    /**
-     * @return self
-     */
     public function withShouldIncludeDeletedObjects() : self
     {
         $clone = clone $this;
@@ -406,9 +310,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return self
-     */
     public function withoutShouldIncludeDeletedObjects() : self
     {
         $clone = clone $this;
@@ -417,9 +318,6 @@ class UserDataFilter
         return $clone;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldIncludeDeletedObjects() : bool
     {
         return $this->shouldIncludeDeletedObjects;

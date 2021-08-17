@@ -38,9 +38,6 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
         return $this->placeholder;
     }
 
-    /**
-     * @return string - HTML that can used to be displayed in the GUI
-     */
     public function createPlaceholderHtmlDescription() : string
     {
         $template = new ilTemplate(

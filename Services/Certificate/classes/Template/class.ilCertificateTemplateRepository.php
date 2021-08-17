@@ -32,10 +32,6 @@ class ilCertificateTemplateRepository
         $this->objectDataCache = $objectDataCache;
     }
 
-    /**
-     * @param ilCertificateTemplate $certificateTemplate
-     * @throws ilDatabaseException
-     */
     public function save(ilCertificateTemplate $certificateTemplate) : void
     {
         $this->logger->info('START - Save new certificate template');
@@ -201,11 +197,6 @@ AND currently_active = 1
         throw new ilException((sprintf('NO active certificate template found for: "%s"', $objId)));
     }
 
-    /**
-     * Fetch latest created certificate EVEN IF it is deleted
-     * @param int $objId
-     * @return ilCertificateTemplate
-     */
     public function fetchPreviousCertificate(int $objId) : ilCertificateTemplate
     {
         $this->logger->info(sprintf('START - Fetch previous active certificate template for object: "%s"', $objId));

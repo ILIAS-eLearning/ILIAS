@@ -15,9 +15,6 @@ class ilCertificatePdfFilename implements ilCertificateFilename
         $this->lng->loadLanguageModule('certificate');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
         $basename = $this->lng->txt('certificate_file_basename');

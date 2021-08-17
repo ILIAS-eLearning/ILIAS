@@ -32,10 +32,6 @@ class ilCertificateTypeClassMap
         return $this->typeClassMap[$type]['placeholder'];
     }
 
-    /**
-     * @param string $type
-     * @return bool
-     */
     public function typeExistsInMap(string $type) : bool
     {
         return array_key_exists($type, $this->typeClassMap);

@@ -60,10 +60,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $this->hierarchical_access = $DIC['ilAccess'];
     }
 
-    /**
-     * Execute command
-     * @access public
-     */
     public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -95,9 +91,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         return true;
     }
 
-    /**
-     * Get tabs
-     */
     public function getAdminTabs() : void
     {
         if ($this->access->checkAccess("visible,read", $this->object->getRefId())) {
@@ -118,9 +111,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Edit settings.
-     */
     public function settings() : void
     {
         $this->tabs_gui->setTabActive('settings');

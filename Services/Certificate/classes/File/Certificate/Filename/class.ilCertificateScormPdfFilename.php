@@ -17,9 +17,6 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
         $this->lng = $lng;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
         $fileName = $this->origin->createFileName($presentation);

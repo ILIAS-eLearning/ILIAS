@@ -43,12 +43,7 @@ class ilXMLChecker extends ilSaxParser
     public int $texts;
     public int $text_size;
 
-    /**
-     * Constructor
-     * @param string $a_xml_file xml file
-     * @access    public
-     */
-    public function __construct($a_xml_file = '', $throwException = false)
+    public function __construct(string $a_xml_file = '', $throwException = false)
     {
         parent::__construct($a_xml_file, $throwException);
         $this->has_error = false;

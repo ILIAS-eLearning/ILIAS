@@ -6,9 +6,5 @@
  */
 interface ilCertificateFilename
 {
-    /**
-     * @param ilUserCertificatePresentation $presentation
-     * @return string
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string;
 }

@@ -132,6 +132,10 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * @param int $userId
      * @param int $objId
      * @return array
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {

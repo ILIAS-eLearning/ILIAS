@@ -21,12 +21,6 @@ class ilCertificateValueReplacement
         $this->clientWebDirectory = $clientWebDirectory;
     }
 
-    /**
-     * Replaces placeholder in the certificate content with actual values
-     * @param array  $placeholderValues
-     * @param string $certificateContent
-     * @return string
-     */
     public function replace(array $placeholderValues, string $certificateContent) : string
     {
         foreach ($placeholderValues as $placeholder => $value) {

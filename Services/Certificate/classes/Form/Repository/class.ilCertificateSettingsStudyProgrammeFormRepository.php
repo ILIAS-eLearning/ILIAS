@@ -68,11 +68,7 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
     {
     }
 
-    /**
-     * @param string $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
         return $formFields;

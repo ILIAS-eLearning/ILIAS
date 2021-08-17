@@ -30,12 +30,6 @@ class ilUserCertificateTableProvider
         $this->objectHelper = $objectHelper;
     }
 
-    /**
-     * @param $userId
-     * @param $params
-     * @param $filter
-     * @return array
-     */
     public function fetchDataSet($userId, $params, $filter) : array
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));

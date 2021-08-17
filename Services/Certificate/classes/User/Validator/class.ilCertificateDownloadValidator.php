@@ -27,11 +27,6 @@ class ilCertificateDownloadValidator
         $this->activeValidator = $activeValidator;
     }
 
-    /**
-     * @param int $userId
-     * @param int $objId
-     * @return bool
-     */
     public function isCertificateDownloadable(int $userId, int $objId) : bool
     {
         if (false === $this->activeValidator->validate()) {

@@ -86,11 +86,7 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $this->setting->set('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
     }
 
-    /**
-     * @param string $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(

@@ -22,20 +22,6 @@ class UserCertificateDto
     private string $userEmail = '';
     private string $userSecondEmail = '';
 
-    /**
-     * @param int         $certificateId
-     * @param string      $objectTitle
-     * @param int         $objectId
-     * @param int         $issuedOnTimestamp
-     * @param int         $userId
-     * @param string      $userFirstName
-     * @param string      $userLastName
-     * @param string      $userLogin
-     * @param string      $userEmail
-     * @param string      $userSecondEmail
-     * @param array       $objectRefId
-     * @param string|null $downloadLink
-     */
     public function __construct(
         int $certificateId,
         string $objectTitle,
@@ -48,7 +34,7 @@ class UserCertificateDto
         string $userEmail,
         string $userSecondEmail,
         array $objectRefId = [],
-        string $downloadLink = null
+        ?string $downloadLink = null
     ) {
         $this->certificateId = $certificateId;
         $this->objectTitle = $objectTitle;

@@ -6,10 +6,6 @@
  */
 interface ilCertificateFormRepository
 {
-    /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
-     */
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI;
 
     /**
