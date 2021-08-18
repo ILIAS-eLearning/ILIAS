@@ -312,7 +312,8 @@ class ilCronManager implements \ilCronManagerInterface
         string $a_id,
         string $a_component,
         string $a_class,
-        ?string $a_path
+        ?string $a_path,
+        bool $isCreationContext = false
     ) : ?ilCronJob {
         if (!$a_path) {
             $a_path = $a_component . '/classes/';
@@ -323,20 +324,15 @@ class ilCronManager implements \ilCronManagerInterface
         if (file_exists($class_file)) {
             include_once $class_file;
             if (class_exists($a_class)) {
-                $refl = new ReflectionClass($a_class);
-                $job = $refl->newInstanceWithoutConstructor();
-                if ($refl->isSubclassOf(ilCronJob::class)) {
-                    if (
-                        !isset($_SERVER['PHP_SELF']) ||
-                        $job->getId() === '' ||
-                        !in_array(basename($_SERVER['PHP_SELF']), ['setup.php', 'cli.php'], true)
-                    ) {
-                        $job = new $a_class;
-                    }
+                if ($isCreationContext) {
+                    $refl = new ReflectionClass($a_class);
+                    $job = $refl->newInstanceWithoutConstructor();
+                } else {
+                    $job = new $a_class;
+                }
 
-                    if ($job->getId() === $a_id) {
-                        return $job;
-                    }
+                if ($job instanceof ilCronJob && $job->getId() === $a_id) {
+                    return $job;
                 }
             }
         }
@@ -454,7 +450,7 @@ class ilCronManager implements \ilCronManagerInterface
             return;
         }
         
-        $job = self::getJobInstance($a_id, $a_component, $a_class, $a_path);
+        $job = self::getJobInstance($a_id, $a_component, $a_class, $a_path, true);
         if ($job) {
             self::createDefaultEntry($job, $a_component, $a_class, $a_path);
         }
