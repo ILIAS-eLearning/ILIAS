@@ -7,12 +7,11 @@
  */
 class ilCronJobEntities implements ilCronJobCollection
 {
-    /** @var ArrayIterator */
-    private $jobs;
+    private ArrayIterator $jobs;
 
     /**
      * ilCronJobs constructor.
-     * @param array $jobs
+     * @param ilCronJobEntity[] $jobs
      */
     public function __construct(array $jobs = [])
     {
@@ -20,47 +19,35 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @inheritdoc
+     * @return ArrayIterator|ilCronJobEntity[]
      */
-    public function getIterator()
+    public function getIterator() : ArrayIterator
     {
         return $this->jobs;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function count()
+    public function count() : int
     {
         return iterator_count($this);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function add(ilCronJobEntity $job) : void
     {
         $this->jobs->append($job);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function filter(callable $callable) : ilCronJobCollection
     {
         return new static(array_filter(iterator_to_array($this), $callable));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function slice(int $offset, ?int $length = null) : ilCronJobCollection
     {
         return new static(array_slice(iterator_to_array($this), $offset, $length, true));
     }
 
     /**
-     * @inheritdoc
+     * @return ilCronJobEntity[]
      */
     public function toArray() : array
     {

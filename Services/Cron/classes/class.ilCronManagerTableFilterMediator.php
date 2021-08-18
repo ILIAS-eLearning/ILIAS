@@ -20,22 +20,11 @@ class ilCronManagerTableFilterMediator
     private const FILTER_STATUS_ACTIVE = 1;
     private const FILTER_STATUS_INACTIVE = 2;
 
-    /** @var ilCronJobCollection */
-    private $items;
-    /** @var Factory */
-    private $uiFactory;
-    /** @var ilUIService */
-    private $uiService;
-    /** @var ilLanguage */
-    private $lng;
+    private ilCronJobCollection $items;
+    private Factory $uiFactory;
+    private ilUIService $uiService;
+    private ilLanguage $lng;
 
-    /**
-     * ilCronManagerTableFilterMediator constructor.
-     * @param ilCronJobCollection $repository
-     * @param Factory $uiFactory
-     * @param ilUIService $uiService
-     * @param ilLanguage $lng
-     */
     public function __construct(
         ilCronJobCollection $repository,
         Factory $uiFactory,
@@ -48,10 +37,6 @@ class ilCronManagerTableFilterMediator
         $this->lng = $lng;
     }
 
-    /**
-     * @param string $action
-     * @return Standard
-     */
     public function filter(string $action) : Standard
     {
         $componentOptions = array_unique(array_map(function (ilCronJobEntity $entity) : string {
@@ -132,10 +117,6 @@ class ilCronManagerTableFilterMediator
         return $filter;
     }
 
-    /**
-     * @param Standard $filter
-     * @return ilCronJobCollection
-     */
     public function filteredJobs(Standard $filter) : ilCronJobCollection
     {
         $filterValues = $this->uiService->filter()->getData($filter);
@@ -144,7 +125,7 @@ class ilCronManagerTableFilterMediator
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) &&
-                strlen($filterValues[self::FILTER_PROPERTY_NAME_TITLE]) > 0
+                $filterValues[self::FILTER_PROPERTY_NAME_TITLE] !== ''
             ) {
                 $titleFilterValue = $filterValues[self::FILTER_PROPERTY_NAME_TITLE];
                 if (ilStr::strIPos($entity->getEffectiveTitle(), $titleFilterValue) === false) {
@@ -155,7 +136,7 @@ class ilCronManagerTableFilterMediator
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) &&
-                strlen($filterValues[self::FILTER_PROPERTY_NAME_COMPONENT]) > 0
+                $filterValues[self::FILTER_PROPERTY_NAME_COMPONENT] !== ''
             ) {
                 $component = $entity->getComponent();
                 if ($entity->isPlugin()) {
@@ -170,7 +151,7 @@ class ilCronManagerTableFilterMediator
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) &&
-                strlen($filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE]) > 0
+                $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== ''
             ) {
                 if ((int) $filterValues[self::FILTER_PROPERTY_NAME_SCHEDULE] !== $entity->getEffectiveScheduleType()) {
                     return false;
@@ -180,7 +161,7 @@ class ilCronManagerTableFilterMediator
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) &&
-                strlen($filterValues[self::FILTER_PROPERTY_NAME_STATUS]) > 0
+                $filterValues[self::FILTER_PROPERTY_NAME_STATUS] !== ''
             ) {
                 if (
                     (int) $filterValues[self::FILTER_PROPERTY_NAME_STATUS] === self::FILTER_STATUS_ACTIVE &&
@@ -198,7 +179,7 @@ class ilCronManagerTableFilterMediator
             if (
                 isset($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) &&
                 is_string($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) &&
-                strlen($filterValues[self::FILTER_PROPERTY_NAME_RESULT]) > 0
+                $filterValues[self::FILTER_PROPERTY_NAME_RESULT] !== ''
             ) {
                 if ((int) $filterValues[self::FILTER_PROPERTY_NAME_RESULT] !== $entity->getJobResultStatus()) {
                     return false;
