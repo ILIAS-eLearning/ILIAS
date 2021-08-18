@@ -475,7 +475,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
                         "assessment",
                         "log_user_entered_values",
                         ilObjAssessmentFolder::_getLogLanguage()
-                ),
+                    ),
                     $active_id,
                     $this->getId()
                 );
@@ -488,7 +488,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
                         "assessment",
                         "log_user_not_entered_values",
                         ilObjAssessmentFolder::_getLogLanguage()
-                ),
+                    ),
                     $active_id,
                     $this->getId()
                 );
