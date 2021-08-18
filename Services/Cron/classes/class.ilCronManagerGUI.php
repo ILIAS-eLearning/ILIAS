@@ -105,7 +105,6 @@ class ilCronManagerGUI
         $tbl = new ilCronManagerTableGUI(
             $this,
             'render',
-            $this->dic,
             $this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)
         );
         $this->tpl->setContent(implode('', [

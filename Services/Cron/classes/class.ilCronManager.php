@@ -736,14 +736,9 @@ class ilCronManager implements \ilCronManagerInterface
         }
     }
     
-    /**
-     * Get current microtime
-     *
-     * @return float
-     */
-    protected static function getMicrotime()
+    protected static function getMicrotime() : float
     {
-        list($usec, $sec) = explode(" ", microtime());
+        [$usec, $sec] = explode(" ", microtime());
         return ((float) $usec + (float) $sec);
     }
     
