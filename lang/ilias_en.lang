@@ -16504,6 +16504,12 @@ tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must t
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
+forum#:#notification_settings#:#Notification Settings
+forum#:#notify_modified#:#Modified Posts
+forum#:#notify_censored#:#Censored Posts
+forum#:#notify_uncensored#:#Uncensored Posts
+forum#:#notify_post_deleted#:#Deleted Posts
+forum#:#notify_thread_deleted#:#Deleted Threads
 forum#:#new_thread_with_post#:#New Thread with Posting
 forum#:#empty_thread#:#Empty Thread
 common#:#installation_status#:#Installation Status
@@ -16525,6 +16531,8 @@ common#:#user_avatar_of#:#User Avatar of
 awrn#:#awrn_filter#:#User Filter
 help#:#help_search_label#:#Search Help
 rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
+forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
+forum#:#target_select#:#Select posting for limited view
 content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.

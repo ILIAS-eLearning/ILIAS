@@ -7,6 +7,7 @@
 {GROUPED_LIST_HTML}
 <!-- BEGIN dd_content -->
 <ul class="{UL_CLASS}" role="menu" id="ilAdvSelListTable_{TABLE_ID}">
+	<!-- BEGIN item_loop -->
 	<!-- BEGIN asynch_request -->
 	<li><img src="{IMG_LOADER}" alt="loading" /></li>
 	<!-- END asynch_request -->
@@ -17,6 +18,10 @@
 	</li>
 	<!-- END item -->
 	<!-- END cmd_table -->
+	<!-- BEGIN component -->
+	<li>{COMPONENT}</li>
+	<!-- END component -->
+	<!-- END item_loop -->
 	<!-- BEGIN hidden_input -->
 	<input type="hidden" id="ilAdvSelListHidden_{HID}" />
 	<input type="hidden" id="ilAdvSelListHiddenCmd_{HID}" />

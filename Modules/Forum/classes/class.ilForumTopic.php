@@ -464,7 +464,13 @@ class ilForumTopic
         
         $data = array();
         $data_types = array();
-
+    
+        if ($a_post_node->getLft() > 1) {
+            $dummy_root_condition = 'lft >= %s AND lft < %s';
+        } else {
+            $dummy_root_condition = 'lft > %s AND lft < %s';
+        }
+        
         $query = '
 			SELECT 			is_author_moderator, pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
 							pos_display_user_id, pos_usr_alias, pos_subject,
@@ -492,7 +498,7 @@ class ilForumTopic
 				AND			fur.post_id = pos_pk
 				AND			fur.usr_id = %s
 				 
-			WHERE 			lft > %s AND lft < %s 
+			WHERE 			' . $dummy_root_condition . '
 				AND 		thr_fk = %s';
         
         array_push($data_types, 'integer', 'integer', 'integer', 'integer');

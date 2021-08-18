@@ -140,8 +140,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
      * @param $row
      * @param ilForumNotificationCache|null $notificationCache
      */
-    public function __construct($row, ilForumNotificationCache $notificationCache = null)
+    public function __construct($row, $notification_type, ilForumNotificationCache $notificationCache = null)
     {
+        $this->notification_type = $notification_type;
         $this->obj_id = $row['obj_id'];
         $this->ref_id = $row['ref_id'];
 
@@ -488,6 +489,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         string $importName
     ) {
         $cacheKey = $this->notificationCache->createKeyByValues(array(
+            $this->notification_type,
             $lng->getLangKey(),
             (int) $authorUsrId,
             (int) $displayUserId,
