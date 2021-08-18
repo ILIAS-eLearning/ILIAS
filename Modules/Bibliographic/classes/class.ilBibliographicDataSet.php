@@ -1,6 +1,18 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
+use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
+use ILIAS\FileUpload\Location;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
+use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\Filesystem\Stream\Streams;
+
 /**
  * Bibliographic dataset class
  *
@@ -11,20 +23,21 @@ class ilBibliographicDataSet extends ilDataSet
 {
 
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
+    /**
+     * @var \ILIAS\ResourceStorage\Services
+     */
+    protected $storage;
+    /**
+     * @var ilObjBibliographicStakeholder
+     */
+    protected $stakeholder;
     /**
      * @var array
      */
     protected $data = array();
-    /**
-     * Maps a given record_field ID (key) to the correct table where the value is stored
-     * (il_dcl_stloc(1|2|3)_value)
-     *
-     * @var array
-     */
-    protected $record_field_ids_2_storage = array();
     /**
      * @var ilObjBibliographic
      */
@@ -48,9 +61,12 @@ class ilBibliographicDataSet extends ilDataSet
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
+        $IRSS = $DIC['resource_storage'];
         parent::__construct();
         $this->db = $ilDB;
         $this->user = $ilUser;
+        $this->storage = $IRSS;
+        $this->stakeholder = new ilObjBibliographicStakeholder();
     }
 
 
@@ -92,6 +108,9 @@ class ilBibliographicDataSet extends ilDataSet
                 } else {
                     $new_obj = new ilObjBibliographic();
                 }
+                /**
+                 * @var $new_obj ilObjBibliographic
+                 */
                 $new_obj->setTitle($a_rec['title']);
                 $new_obj->setDescription($a_rec['description']);
                 $new_obj->setFilename($a_rec['fileName']);
@@ -124,7 +143,7 @@ class ilBibliographicDataSet extends ilDataSet
                     "title" => "text",
                     "description" => "text",
                     "filename" => "text",
-                    'is_online' => 'integer',
+                    "is_online" => "integer",
                 );
             default:
                 return array();
@@ -177,7 +196,7 @@ class ilBibliographicDataSet extends ilDataSet
         switch ($a_entity) {
             case 'bibl':
                 foreach ($a_ids as $bibl_id) {
-                    if (ilObject::_lookupType($bibl_id) == 'bibl') {
+                    if (ilObject::_lookupType($bibl_id) === 'bibl') {
                         $obj = new ilObjBibliographic($bibl_id);
                         $data = array(
                             'id' => $bibl_id,
@@ -208,15 +227,25 @@ class ilBibliographicDataSet extends ilDataSet
 
 
     /**
-     * @param ilImportMapping $a_mapping
+     * @param ilImportMapping $a_mapping (what's it for?)
      */
-    public function importLibraryFile($a_mapping)
+    public function importLibraryFile($a_mapping) : void
     {
-        $import_path = $this->getImportDirectory() . "/Modules/Bibliographic/set_1/expDir_1/"
-            . $this->import_bib_object->getFilename();
-        $new_id = $this->import_bib_object->getId();
-        $new_path = ilUtil::getDataDir() . "/bibl/" . $new_id;
-        mkdir($new_path);
-        copy($import_path, $new_path . "/" . $this->import_bib_object->getFilename());
+        $bib_id      = $this->import_bib_object->getId();
+        $filename    = $this->import_bib_object->getFilename();
+        $import_path = $this->getImportDirectory() . "/Modules/Bibliographic/set_1/expDir_1/" . $filename;
+
+        // create new resource from stream
+        $stream = Streams::ofResource(@fopen($import_path, 'rb'));
+        $identification = $this->storage->manage()->stream($stream, $this->stakeholder, $filename);
+
+        // insert rid of the new resource into the data table
+        $this->db->manipulateF(
+            'UPDATE `il_bibl_data` SET `rid` = %s WHERE `id` = %s;',
+            ['text', 'integer'], [
+                $identification->serialize(),
+                $bib_id,
+            ]
+        );
     }
 }

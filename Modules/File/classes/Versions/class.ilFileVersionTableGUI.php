@@ -3,8 +3,6 @@
 
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-
 /** @defgroup ModulesFile Modules/File
  */
 
@@ -134,7 +132,6 @@ class ilFileVersionTableGUI extends ilTable2GUI
         $link = $ilCtrl->getLinkTarget($this->parent_obj, "sendfile");
 
         // build actions
-        include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId($hist_id);
         $actions->setListTitle($lng->txt("actions"));

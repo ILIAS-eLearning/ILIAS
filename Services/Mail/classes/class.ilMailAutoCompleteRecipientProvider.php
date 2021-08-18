@@ -54,7 +54,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 
     /**
      * "Valid" implementation of iterator interface
-     * @return  boolean true/false
+     * @return bool
      */
     public function valid()
     {

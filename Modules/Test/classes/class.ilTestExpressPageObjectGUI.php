@@ -6,7 +6,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
 
 /**
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assNumericGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assTextSubsetGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: assSingleChoiceGUI
@@ -15,7 +15,7 @@ include_once 'Modules/Test/classes/class.ilTestExpressPage.php';
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilRatingGUI, ilPublicUserProfileGUI, ilAssQuestionPageGUI, ilNoteGUI
  * @ilCtrl_Calls ilTestExpressPageObjectGUI: ilObjQuestionPoolGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assNumericGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assTextSubsetGUI
  * @ilCtrl_IsCalledBy ilTestExpressPageObjectGUI: assSingleChoiceGUI
@@ -68,7 +68,6 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 
     public function executeCommand()
     {
-
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -227,7 +226,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         $this->ctrl->setReturn($this, "questions");
         
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI($type);
+        $q_gui = assQuestionGUI::_getQuestionGUI($type);
         
         $obj = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
         
@@ -257,7 +256,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
         }
         
-        $q_gui = &assQuestionGUI::_getQuestionGUI($questionType);
+        $q_gui = assQuestionGUI::_getQuestionGUI($questionType);
 
         $q_gui->object->setObjId(ilObject::_lookupObjectId($_GET['ref_id']));
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);

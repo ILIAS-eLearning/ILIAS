@@ -141,7 +141,6 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
 
@@ -172,7 +171,6 @@ class ilSelectBuilderInputGUI extends ilTextWizardInputGUI
                     " disabled=\"disabled\""
                 );
             }
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->parseCurrentBlock();

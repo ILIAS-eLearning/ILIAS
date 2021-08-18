@@ -1,7 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjRootFolderGUI
@@ -68,7 +67,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
     public function getTabs()
     {
-        global $rbacsystem, $lng, $ilHelp;
+        global $rbacsystem, $lng, $ilHelp, $DIC;
+
+        $request = $DIC->http()->request();
         
         $ilHelp->setScreenIdComponent("root");
 
@@ -83,16 +84,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
         }
         
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-            $force_active = ($_GET["cmd"] == "edit")
-                ? true
-                : false;
+            $cmd = $request->getQueryParams()['cmd'] ?? '';
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "edit"),
                 "edit",
                 get_class($this),
                 "",
-                $force_active
+                $cmd == 'edit'
             );
         }
 
@@ -117,7 +116,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 
             case 'ilcontainerlinklistgui':
-                include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
                 $link_list_gui = new ilContainerLinkListGUI();
                 $ret = &$this->ctrl->forwardCommand($link_list_gui);
                 break;
@@ -141,7 +139,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setVariable(
                     "LOCATION_CONTENT_STYLESHEET",
                     ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
@@ -151,7 +148,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
             case 'ilobjectcopygui':
                 $this->prepareOutput();
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('root');
                 $this->ctrl->forwardCommand($cp);
@@ -162,7 +158,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
             
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -170,9 +165,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case 'ilobjecttranslationgui':
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
-                //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
                 $transgui = new ilObjectTranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
@@ -181,14 +174,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 if ($cmd == "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
-                    try{
+                    try {
                         $this->checkPermission("read");
-                    }catch (ilObjectException $exception){
+                    } catch (ilObjectException $exception) {
                         $this->ctrl->redirectToURL("login.php?client_id=" . CLIENT_ID . "&cmd=force_login");
                     }
                 }
                 $this->prepareOutput();
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setVariable(
                     "LOCATION_CONTENT_STYLESHEET",
                     ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
@@ -212,8 +204,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
     public function renderObject()
     {
         global $ilTabs;
-        
-        include_once "Services/Object/classes/class.ilObjectListGUI.php";
+
         ilObjectListGUI::prepareJSLinks(
             "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
@@ -293,7 +284,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->setEditTabs();
         $obj_service = $this->getObjectService();
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("repository"));
@@ -380,14 +370,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 // custom icon
                 $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
 
-                // hide icon/title
-                //ilContainer::_writeContainerSetting($this->object->getId(),
-                //	"hide_header_icon_and_title",
-                //	$form->getInput("hide_header_icon_and_title"));
-
                 // BEGIN ChangeEvent: Record update
                 global $ilUser;
-                require_once('Services/Tracking/classes/class.ilChangeEvent.php');
                 ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
                 ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
                 // END ChangeEvent: Record update
@@ -416,7 +400,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $this->lng->loadLanguageModule($this->object->getType());
         $this->setEditTabs("settings_trans");
 
-        include_once("./Services/Object/classes/class.ilObjectTranslationTableGUI.php");
         $table = new ilObjectTranslationTableGUI(
             $this,
             "editTranslations",

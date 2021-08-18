@@ -62,6 +62,7 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
         foreach ($active_languages as $language) {
             $this->getADT()->setTranslation($language, $this->getForm()->getInput($this->getElementId() . '_' . $language));
+            $this->getADT()->setText($this->getForm()->getInput($this->getElementId() . '_' . $language));
             $input_item = $this->getForm()->getItemByPostVar($this->getElementId() . '_' . $language);
             $input_item->setValue((string) $this->getADT()->getTranslations()[$language]);
         }

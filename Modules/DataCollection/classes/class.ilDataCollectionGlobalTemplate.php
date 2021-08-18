@@ -18,7 +18,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected $permanent_link = false;
     protected $lightbox = array();
     protected $standard_template_loaded = false;
-    protected $translation_linked = false; // fix #9992: remember if a translation link is added
     /**
      * @var    \ilTemplate
      */
@@ -133,8 +132,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         // output translation link
         include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            // fix #9992: remember linked translation instead of saving language usages here
-            $this->translation_linked = true;
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
 
@@ -175,22 +172,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
             }
 
-            if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation")) {
-                require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-                $template2 = clone($this);
-                $ftpl->setCurrentBlock("xhtml_validation");
-                $ftpl->setVariable(
-                    "VALIDATION",
-                    ilValidatorAdapter::validate($template2->get(
-                        "DEFAULT",
-                        false,
-                        false,
-                        false,
-                        true
-                    ), $_GET["do_dev_validate"])
-                );
-                $ftpl->parseCurrentBlock();
-            }
 
             // controller history
             if (is_object($ilCtrl) && $ftpl->blockExists("c_entry")
@@ -1218,31 +1199,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     private function fillContentLanguage()
     {
         global $DIC;
-
         $lng = $DIC->language();
-        $ilUser = $DIC->user();
 
-        $contentLanguage = 'en';
-        $rtl = array('ar', 'fa', 'ur', 'he');//, 'de'); //make a list of rtl languages
-        /* rtl-review: add "de" for testing with ltr lang shown in rtl
-         * and set unicode-bidi to bidi-override for mirror effect */
-        $textdir = 'ltr';
-        if (is_object($ilUser)) {
-            if ($ilUser->getLanguage()) {
-                $contentLanguage = $ilUser->getLanguage();
-            } else {
-                if (is_object($lng)) {
-                    $contentLanguage = $lng->getDefaultLanguage();
-                }
-            }
+        if (is_object($lng)) {
+            $this->setVariable('META_CONTENT_LANGUAGE', $lng->getContentLanguage());
+            $this->setVariable('LANGUAGE_DIRECTION', $lng->getTextDirection());
         }
-        $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
-        if (in_array($contentLanguage, $rtl)) {
-            $textdir = 'rtl';
-        }
-        $this->setVariable('LANGUAGE_DIRECTION', $textdir);
-
-        return true;
     }
 
 
@@ -1418,10 +1380,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $html = $this->template->get($part);
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
@@ -1541,10 +1501,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     }
                 }
 
-                // fix #9992: save language usages as late as possible
-                if ($this->translation_linked) {
-                    ilObjLanguageAccess::_saveUsages();
-                }
+                // save language usages as late as possible
+                ilObjLanguageAccess::_saveUsages();
 
                 print $html;
 

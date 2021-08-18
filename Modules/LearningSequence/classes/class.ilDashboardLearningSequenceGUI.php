@@ -1,53 +1,35 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+
+use ILIAS\UI\Implementation\Factory;
+use ILIAS\UI\Implementation\DefaultRenderer;
+use ILIAS\UI\Implementation\Component\Symbol\Icon;
+use ILIAS\UI\Implementation\Component\Item;
+use ILIAS\UI\Component\Button;
 
 /**
- * Personal Desktop-Presentation for the Learningsequence
+ * Personal Desktop-Presentation for the LearningSequence
  */
 class ilDashboardLearningSequenceGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ILIAS\UI\Implementation\Factory
-     */
-    protected $factory;
-
-    /**
-     * @var ILIAS\UI\Implementation\DefaultRenderer
-     */
-    protected $renderer;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected Factory $factory;
+    protected DefaultRenderer $renderer;
 
     /**
      * @var array Object-Ids where user is assigned
      */
-    protected $assignments;
-
-    /**
-     * @var ILIAS\UI\Implementation\Component\Symbol\Icon\Custom
-     */
-    protected $icon;
+    protected array $assignments = [];
+    protected Icon\Custom $icon;
 
     public function __construct()
     {
         global $DIC;
 
         $this->lng = $DIC['lng'];
-        ;
         $this->user = $DIC['ilUser'];
         $this->access = $DIC['ilAccess'];
         $this->factory = $DIC['ui.factory'];
@@ -74,7 +56,10 @@ class ilDashboardLearningSequenceGUI
 
         $items = array();
         foreach ($this->getAssignments() as $assignment) {
-            $lso_ref_id = array_shift(ilObject::_getAllReferences($assignment));
+            $ref_ids = ilObject::_getAllReferences($assignment);
+            $lso_ref_id = array_shift($ref_ids);
+
+            /** @var ilObjLearningSequence $lso_obj */
             $lso_obj = ilObjLearningSequence::getInstanceByRefId($lso_ref_id);
 
             if (!$lso_obj) {
@@ -106,9 +91,9 @@ class ilDashboardLearningSequenceGUI
         return $this->renderer->render($std_list);
     }
 
-    protected function getLsoItem(ilObjLearningSequence $lso_obj) : ILIAS\UI\Implementation\Component\Item\Standard
+    protected function getLsoItem(ilObjLearningSequence $lso_obj) : Item\Standard
     {
-        $ref_id = (int) $lso_obj->getRefId();
+        $ref_id = $lso_obj->getRefId();
         $title = $lso_obj->getTitle();
 
         $link = $this->getLinkedTitle($ref_id, $title);
@@ -141,7 +126,7 @@ class ilDashboardLearningSequenceGUI
         return $relevant;
     }
 
-    protected function getLinkedTitle(int $ref_id, string $title) : ILIAS\UI\Component\Button\Shy
+    protected function getLinkedTitle(int $ref_id, string $title) : Button\Shy
     {
         $link = ilLink::_getLink($ref_id, 'lso');
         return $this->factory->button()->shy($title, $link);
@@ -158,7 +143,7 @@ class ilDashboardLearningSequenceGUI
         return 'Online';
     }
 
-    protected function getIcon(string $title) : ILIAS\UI\Component\Symbol\Icon\Icon
+    protected function getIcon(string $title) : Icon\Standard
     {
         if (is_null($this->icon)) {
             $this->icon = $this->factory->symbol()->icon()->standard(

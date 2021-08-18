@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,13 +7,18 @@ namespace ILIAS\Tests\Setup\Metrics;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Metrics\Metric as M;
 use PHPUnit\Framework\TestCase;
+use ILIAS\UI\Implementation\Component\Panel\Listing\Factory as LF;
+use ILIAS\UI\Implementation\Component\Panel\Factory as PF;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component\Panel\Report;
 
 class MetricTest extends TestCase
 {
     /**
      * @dataProvider metricProvider
      */
-    public function testConstructMetric($stability, $type, $value, $description, $success)
+    public function testConstructMetric($stability, $type, $value, $description, $success) : void
     {
         if (!$success) {
             $this->expectException(\InvalidArgumentException::class);
@@ -25,7 +30,7 @@ class MetricTest extends TestCase
         $this->assertEquals($description, $metric->getDescription());
     }
 
-    public function metricProvider()
+    public function metricProvider() : array
     {
         $config = Metrics\Metric::STABILITY_CONFIG;
         $stable = Metrics\Metric::STABILITY_STABLE;
@@ -97,12 +102,12 @@ class MetricTest extends TestCase
     /**
      * @dataProvider typedMetricsProvider
      */
-    public function testToYAML(M $metric, string $expected)
+    public function testToYAML(M $metric, string $expected) : void
     {
         $this->assertEquals($expected, $metric->toYAML());
     }
 
-    public function typedMetricsProvider()
+    public function typedMetricsProvider() : array
     {
         return [
             "bool_true" => [new M(M::STABILITY_STABLE, M::TYPE_BOOL, true), "true"],
@@ -118,7 +123,7 @@ class MetricTest extends TestCase
         ];
     }
 
-    public function testIndentation()
+    public function testIndentation() : void
     {
         $metrics = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
             "a" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
@@ -157,7 +162,7 @@ METRIC;
         $this->assertEquals($expected, $metrics->toYAML());
     }
 
-    public function testExtractBySeverity()
+    public function testExtractBySeverity() : void
     {
         $metrics = new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
             "a" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
@@ -205,5 +210,62 @@ METRIC;
 
         $this->assertEquals($expected_extracted, $extracted);
         $this->assertEquals($expected_rest, $rest);
+    }
+
+    /**
+     * @dataProvider typedMetricsProvider
+     */
+    public function testToArrayWithFlatValues(M $metric, string $expected) : void
+    {
+        $this->assertEquals($expected, $metric->toArray());
+    }
+
+    public function testToArrayWithDeepOne() : void
+    {
+        $metric = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+           "bool_true" => new M(M::STABILITY_STABLE, M::TYPE_BOOL, true)
+        ]);
+
+        $this->assertEquals(["bool_true" => "true"] , $metric->toArray());
+    }
+
+    public function testToArrayWithDeepTwo() : void
+    {
+        $metric = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+            "db" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+                "bool_true" => new M(M::STABILITY_STABLE, M::TYPE_BOOL, true)
+            ])
+        ]);
+
+        $this->assertEquals(["db" => ["bool_true" => "true"]] , $metric->toArray());
+    }
+
+    public function testToUIReport() : void
+    {
+        $factory = $this->createMock(Factory::class);
+        $listing_f = new LF();
+        $panel_f = new PF($listing_f);
+        $signal = new SignalGenerator();
+        $legacy_f = new \ILIAS\UI\Implementation\Component\Legacy\Factory($signal);
+        $legacy = $legacy_f->legacy("<pre>string</pre>");
+
+        $factory
+            ->expects($this->once())
+            ->method("legacy")
+            ->with("<pre>" . "string" . "</pre>")
+            ->willReturn($legacy)
+        ;
+
+        $factory
+            ->expects($this->exactly(2))
+            ->method("panel")
+            ->willReturn($panel_f)
+        ;
+
+        $metric = new M(M::STABILITY_STABLE, M::TYPE_TEXT, "string", "");
+
+        $result = $metric->toUIReport($factory, "Status");
+
+        $this->assertInstanceOf(Report::class, $result);
     }
 }

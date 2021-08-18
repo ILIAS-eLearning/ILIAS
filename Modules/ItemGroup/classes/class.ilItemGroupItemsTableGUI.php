@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Item group items table
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesItemGroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilItemGroupItemsTableGUI extends ilTable2GUI
 {
@@ -40,8 +35,7 @@ class ilItemGroupItemsTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->tree = $tree;
         $this->obj_def = $objDefinition;
-        
-        include_once 'Modules/ItemGroup/classes/class.ilItemGroupItems.php';
+
         $this->item_group_items = new ilItemGroupItems($a_parent_obj->object->getRefId());
         $this->items = $this->item_group_items->getItems();
         

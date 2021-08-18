@@ -1,23 +1,14 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* input GUI for a time span (start and end date)
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesForm
-*/
+ * input GUI for a time span (start and end date)
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     /**
      * @var ilObjUser
      */
@@ -245,19 +236,19 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     */
     public function setValueByArray($a_values)
     {
-        $incoming = $a_values[$this->getPostVar()];
-        if (is_array($incoming)) {
-            $format = $incoming['tgl'] ? 0 : $this->getDatePickerTimeFormat();
-            $this->toggle_fulltime_checked = (bool) $incoming['tgl'];
+        $incoming = $a_values[$this->getPostVar()] ?? [];
+        if (is_array($incoming) && $incoming !== []) {
+            $format = isset($incoming['tgl']) ? 0 : $this->getDatePickerTimeFormat();
+            $this->toggle_fulltime_checked = (bool) ($incoming['tgl'] ?? false);
 
             if ($this->openIntervalsAllowed()) {
-                if (is_string($incoming['start']) && trim($incoming['start']) !== '') {
+                if (isset($incoming['start']) && is_string($incoming['start']) && trim($incoming['start']) !== '') {
                     $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], $format));
                 } else {
                     $this->setStart(new ilDate(null, IL_CAL_UNIX));
                 }
 
-                if (is_string($incoming['end']) && trim($incoming['end']) !== '') {
+                if (isset($incoming['end']) && is_string($incoming['end']) && trim($incoming['end']) !== '') {
                     $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], $format));
                 } else {
                     $this->setEnd(new ilDate(null, IL_CAL_UNIX));
@@ -295,7 +286,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $end = $post["end"];
         
         // if full day is active, ignore time format
-        $format = $post['tgl']
+        $format = isset($post['tgl'])
             ? 0
             : $this->getDatePickerTimeFormat();
         
@@ -603,15 +594,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     /**
      * @inheritDoc
      */
-    public function getTableFilterLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getTableFilterLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
 
     /**
      * @inheritDoc
      */
-    public function getFormLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getFormLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
-
 }

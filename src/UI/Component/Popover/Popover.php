@@ -12,9 +12,9 @@ use ILIAS\UI\Implementation\Component\ReplaceContentSignal;
  */
 interface Popover extends Component, Triggerable
 {
-    const POS_AUTO = 'auto';
-    const POS_VERTICAL = 'vertical';
-    const POS_HORIZONTAL = 'horizontal';
+    public const POS_AUTO = 'auto';
+    public const POS_VERTICAL = 'vertical';
+    public const POS_HORIZONTAL = 'horizontal';
 
 
     /**

@@ -554,7 +554,6 @@ class ilUserProfile
 
                 case "sel_country":
                     if (ilUserProfile::userSettingVisible($f)) {
-                        include_once("./Services/Form/classes/class.ilCountrySelectInputGUI.php");
                         $ci = new ilCountrySelectInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $ci->setValue($a_user->$m());

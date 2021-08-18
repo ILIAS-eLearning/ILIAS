@@ -566,7 +566,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function exportFileUploadsForAllParticipants()
     {
         require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-        $question_object = assQuestion::_instanciateQuestion($_GET["qid"]);
+        $question_object = assQuestion::instantiateQuestion($_GET["qid"]);
         if ($question_object instanceof ilObjFileHandlingQuestionType) {
             $question_object->deliverFileUploadZIPFile(
                 $this->ref_id,
@@ -604,7 +604,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         
         $eval = &$this->object->getCompleteEvaluationData();
         $data = array();
-        $foundParticipants = &$eval->getParticipants();
+        $foundParticipants = $eval->getParticipants();
         if (count($foundParticipants)) {
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
@@ -691,7 +691,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];
@@ -1006,6 +1006,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $list_of_answers = $this->getPassListOfAnswers($result_array, $active_id, $pass, $_SESSION['tst_results_show_best_solutions'], false, false, false, true, $objectivesList, $testResultHeaderLabelBuilder);
         $template->setVariable("LIST_OF_ANSWERS", $list_of_answers);
         $template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
+
+        $data = &$this->object->getCompleteEvaluationData();
+		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+		$template->setCurrentBlock('total_score');
+		$template->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
+		$template->setVariable("TOTAL_RESULT",$result);
+        $template->parseCurrentBlock();
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
             $template->setVariable("USER_DATA", $user_data);
@@ -1323,6 +1330,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
+        $data = &$this->object->getCompleteEvaluationData();
+		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+		$tpl->setCurrentBlock('total_score');
+		$tpl->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
+		$tpl->setVariable("TOTAL_RESULT",$result);
+        $tpl->parseCurrentBlock();
+        
         if ($this->object->canShowSolutionPrintview()) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $result_array,
@@ -1573,7 +1587,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             $signature = $this->getResultsSignature();
-            $user_id = &$this->object->_getUserIdFromActiveId($active_id);
+            $user_id = $this->object->_getUserIdFromActiveId($active_id);
             $showAllAnswers = true;
             if ($this->object->isExecutable($testSession, $user_id)) {
                 $showAllAnswers = false;
@@ -1649,7 +1663,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $color_class = array("tblrow1", "tblrow2");
         $counter = 0;
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "Modules/Test");
-        $foundParticipants = &$data->getParticipants();
+        $foundParticipants = $data->getParticipants();
         if (count($foundParticipants) == 0) {
             ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
             return;
@@ -1662,7 +1676,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 foreach ($foundParticipants as $userdata) {
                     $pass = $userdata->getScoredPass();
                     if (is_object($userdata->getPass($pass))) {
-                        $question = &$userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                         }
@@ -1671,7 +1685,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $counter++;
                 $this->ctrl->setParameter($this, "qid", $question_id);
                 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-                $question_object = assQuestion::_instanciateQuestion($question_id);
+                $question_object = assQuestion::instantiateQuestion($question_id);
                 $download = "";
                 if ($question_object instanceof ilObjFileHandlingQuestionType) {
                     if ($question_object->hasFileUploads($this->object->getTestId())) {
@@ -1848,7 +1862,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         if ($pass == 0 && (
             ($lastFinishedPass == 0 && $tries == 1 && $tries != $row['pass'])
                     || ($isActivePass == true) // should be equal to || ($lastFinishedPass == -1 && $tries == 0)
-                )) {
+        )) {
             $last_pass = true;
         } else {
             $last_pass = false;
@@ -1861,14 +1875,14 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 'DELETE
 					FROM tst_active
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
-                );
+            );
         } elseif (!$isActivePass) {
             $ilDB->manipulate(
                 'UPDATE tst_active
 					SET tries = ' . $ilDB->quote($tries - 1, 'integer') . ',
 					last_finished_pass = ' . $ilDB->quote($lastFinishedPass - 1, 'integer') . '
 					WHERE active_id = ' . $ilDB->quote($active_fi, 'integer')
-                );
+            );
         }
         // tst_manual_fb
         $ilDB->manipulate(
@@ -1876,7 +1890,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_manual_fb
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -1884,7 +1898,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
             
         // tst_mark -> nothing to do
@@ -1895,7 +1909,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_pass_result
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -1903,7 +1917,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
             
         // tst_qst_solved -> nothing to do
@@ -1917,7 +1931,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_sequence
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -1925,7 +1939,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
         
         if ($this->object->isDynamicTest()) {
@@ -1957,7 +1971,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_solutions
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -1965,7 +1979,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
 
         // tst_test_result
@@ -1974,7 +1988,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_test_result
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -1982,7 +1996,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
             
         // tst_test_rnd_qst -> nothing to do
@@ -1993,7 +2007,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				FROM tst_times
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass = ' . $ilDB->quote($pass, 'integer')
-            );
+        );
             
         if ($must_renumber) {
             $ilDB->manipulate(
@@ -2001,7 +2015,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				SET pass = pass - 1
 				WHERE active_fi = ' . $ilDB->quote($active_fi, 'integer') . '
 				AND pass > ' . $ilDB->quote($pass, 'integer')
-                );
+            );
         }
             
         require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
@@ -2099,7 +2113,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             $this->redirectBackToParticipantsScreen();
         }
         
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $cgui = new ilConfirmationGUI();
         
         $cgui->setHeaderText(sprintf(
@@ -2140,7 +2153,6 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
     public function finishAllUserPasses()
     {
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("finish_pass_for_all_users"));

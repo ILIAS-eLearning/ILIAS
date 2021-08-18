@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki settings gui class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
- *
- * @ingroup ModulesWiki
  */
 class ilObjWikiSettingsGUI extends ilObject2GUI
 {
@@ -89,7 +85,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -132,8 +127,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
      */
     protected function populateWithCurrentSettings(ilPropertyFormGUI $form)
     {
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-
         $form->setValuesByArray(array(
             'activate_captcha_anonym' => ilCaptchaUtil::isActiveForWiki()
         ));
@@ -148,10 +141,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
         $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
         $cap->setInfo($this->lng->txt('adm_captcha_anonymous_wiki'));
         $cap->setValue(1);
@@ -194,7 +185,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
             return;
         }
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
         ilCaptchaUtil::setActiveForWiki((bool) $form->getInput('activate_captcha_anonym'));
 
         ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
@@ -231,7 +221,6 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-                require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
                 $fields = array(
                     'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForWiki(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
                 );

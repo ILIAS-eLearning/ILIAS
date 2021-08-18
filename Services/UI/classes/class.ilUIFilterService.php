@@ -15,12 +15,12 @@ use \ILIAS\UI\Component\Input\Field\FilterInput;
 class ilUIFilterService
 {
     // command constants
-    const CMD_TOGGLE_ON = "toggleOn";
-    const CMD_TOGGLE_OFF = "toggleOff";
-    const CMD_EXPAND = "expand";
-    const CMD_COLLAPSE = "collapse";
-    const CMD_APPLY = "apply";
-    const CMD_RESET = "reset";
+    public const CMD_TOGGLE_ON = "toggleOn";
+    public const CMD_TOGGLE_OFF = "toggleOff";
+    public const CMD_EXPAND = "expand";
+    public const CMD_COLLAPSE = "collapse";
+    public const CMD_APPLY = "apply";
+    public const CMD_RESET = "reset";
 
 
     /**
@@ -69,12 +69,12 @@ class ilUIFilterService
      * @return Filter\Standard
      */
     public function standard(
-        $filter_id,
-        $base_action,
+        string $filter_id,
+        string $base_action,
         array $inputs,
         array $is_input_initially_rendered,
-        $is_activated = false,
-        $is_expanded = false
+        bool $is_activated = false,
+        bool $is_expanded = false
     ) : Filter\Standard {
         $ui = $this->ui->factory();
 
@@ -91,6 +91,13 @@ class ilUIFilterService
         // put data from session into filter
         $inputs_with_session_data = [];
         $is_input_initially_rendered_with_session = [];
+
+        if (count($inputs) != count($is_input_initially_rendered)) {
+            throw new \ArgumentCountError(
+                "Inputs and boolean values for initial rendering must be arrays of same size."
+            );
+        }
+
         foreach ($inputs as $input_id => $i) {
             // rendering information
             $rendered =
@@ -100,7 +107,7 @@ class ilUIFilterService
 
             // values
             $val = $this->session->getValue($filter_id, $input_id);
-            if ($rendered && !is_null($val)) {
+            if (!is_null($val)) {
                 $i = $i->withValue($val);
             }
             $inputs_with_session_data[$input_id] = $i;
@@ -120,8 +127,8 @@ class ilUIFilterService
             $is_expanded
         );
 
-        // handle apply command
-        $filter = $this->handleApply($filter_id, $filter);
+        // handle apply and toggle commands
+        $filter = $this->handleApplyAndToggle($filter_id, $filter);
 
         return $filter;
     }
@@ -132,14 +139,15 @@ class ilUIFilterService
      * @param Filter\Standard $filter
      * @return array|null
      */
-    public function getData(Filter\Standard $filter)
+    public function getData(Filter\Standard $filter) : ?array
     {
-        $result = null;
+        $filter_data = null;
         if ($filter->isActivated()) {
-            $filter = $this->request->getFilterWithRequest($filter);
-            $result = $filter->getData();
+            foreach ($filter->getInputs() as $k => $i) {
+                $filter_data[$k] = $i->getValue();
+            }
         }
-        return $result;
+        return $filter_data;
     }
 
     /**
@@ -150,10 +158,12 @@ class ilUIFilterService
     protected function writeFilterStatusToSession($filter_id, $inputs)
     {
         if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
+            $this->handleRendering($filter_id, $inputs);
             $this->session->writeActivated($filter_id, true);
         }
 
         if ($this->request->getFilterCmd() == self::CMD_TOGGLE_OFF) {
+            $this->handleRendering($filter_id, $inputs);
             $this->session->writeActivated($filter_id, false);
         }
 
@@ -162,12 +172,13 @@ class ilUIFilterService
         }
 
         if ($this->request->getFilterCmd() == self::CMD_COLLAPSE) {
-            $this->handleRendering($filter_id, $inputs);
             $this->session->writeExpanded($filter_id, false);
         }
 
         if ($this->request->getFilterCmd() == self::CMD_APPLY) {
             $this->handleRendering($filter_id, $inputs);
+            // always activate the filter when it is applied
+            $this->session->writeActivated($filter_id, true);
         }
     }
 
@@ -202,19 +213,35 @@ class ilUIFilterService
 
 
     /**
-     * Handle apply command
+     * Handle apply and toggle commands
      *
      * @param string $filter_id
      * @param Filter\Standard $filter
      * @return Filter\Standard
      */
-    protected function handleApply(string $filter_id, Filter\Standard $filter) : Filter\Standard
+    protected function handleApplyAndToggle(string $filter_id, Filter\Standard $filter) : Filter\Standard
     {
         if ((in_array(
             $this->request->getFilterCmd(),
-            [self::CMD_APPLY]
+            [self::CMD_APPLY, self::CMD_TOGGLE_ON, self::CMD_TOGGLE_OFF]
         ))) {
             $filter = $this->request->getFilterWithRequest($filter);
+
+            // always expand the filter, when it is activated with empty input values
+            if ($this->request->getFilterCmd() == self::CMD_TOGGLE_ON) {
+                $result = $filter->getData();
+                $expand = true;
+                foreach ($result as $k => $v) {
+                    if (!empty($v) || $v === 0 || $v === "0") {
+                        $expand = false;
+                    }
+                }
+                if ($expand) {
+                    $this->session->writeExpanded($filter_id, true);
+                    $filter = $filter->withExpanded();
+                }
+            }
+
             foreach ($filter->getInputs() as $input_id => $i) {
                 $this->session->writeValue($filter_id, $input_id, $i->getValue());
             }

@@ -1,22 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004SeqChapter.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Chapter
-*
-* Sequencing Template class for SCORM 2004 Editing
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Class ilSCORM2004Chapter
+ *
+ * Sequencing Template class for SCORM 2004 Editing
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ */
 class ilSCORM2004SeqTemplate extends ilSCORM2004SeqNode
 {
     const SEQ_TEMPLATE_DIR = './Modules/Scorm2004/templates/editor/seq_templates';

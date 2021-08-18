@@ -47,6 +47,13 @@ final class ilDelegatingHandler extends Handler
         if (defined("IL_INITIAL_WD")) {
             chdir(IL_INITIAL_WD);
         }
+        // we must rest the superglobals back to normal arrays since the error handler needs them. they were replaced by
+        // SuperGlobalDropInReplacement
+        $_GET = (array)$_GET;
+        $_POST = (array)$_POST;
+        $_COOKIE = (array)$_COOKIE;
+        $_REQUEST = (array)$_REQUEST;
+
         $handler = $this->error_handling->getHandler();
         $handler->setRun($this->getRun());
         $handler->setException($this->getException());

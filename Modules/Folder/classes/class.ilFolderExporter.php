@@ -1,19 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Modules/Folder/classes/class.ilFolderXmlWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Folder export
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesBooking
-*/
+ * Folder export
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilFolderExporter extends ilXmlExporter
 {
     private $writer = null;
@@ -51,29 +44,6 @@ class ilFolderExporter extends ilXmlExporter
                 'ids' => $a_ids
             )
         );
-        
-        /*
-        include_once './Services/Export/classes/class.ilExportOptions.php';
-        $eo = ilExportOptions::getInstance();
-
-        $obj_id = end($a_ids);
-
-        if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
-        {
-            return array();
-        }
-        if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
-        {
-            return array(
-                array(
-                    'component'		=> 'Services/Container',
-                    'entity'		=> 'struct',
-                    'ids'			=> $a_ids
-                )
-            );
-        }
-        return array();
-        */
     }
     
     

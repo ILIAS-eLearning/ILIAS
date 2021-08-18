@@ -2,13 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Saves (mostly asynchronously) user properties of accordions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesAccordion
-* @ilCtrl_Calls ilAccordionPropertiesStorage:
-*/
+ * Saves (mostly asynchronously) user properties of accordions
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilAccordionPropertiesStorage: ilAccordionPropertiesStorage
+ */
 class ilAccordionPropertiesStorage
 {
     /**
@@ -164,7 +162,7 @@ class ilAccordionPropertiesStorage
 
         switch ($this->properties[$a_property]["storage"]) {
             case "session":
-                $r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property];
+                $r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property] ?? "";
 //echo "<br><br><br><br><br><br><br><br>get-".$r;
                 return $r;
                 break;

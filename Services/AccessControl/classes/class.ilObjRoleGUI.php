@@ -350,7 +350,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         
         if (!$rbacsystem->checkAccess('create_role', $this->obj_ref_id)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
         
         $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);
@@ -650,8 +650,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         ilUtil::sendQuestion($question);
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-        
+
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($question);

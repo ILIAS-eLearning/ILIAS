@@ -133,22 +133,13 @@ abstract class ilComponent
         
         switch ($a_ctype) {
             case IL_COMP_MODULE:
-                if (is_file("./Modules/" . $a_cname . "/classes/class.il" . $a_cname . "Module.php")) {
-                    include_once("./Modules/" . $a_cname . "/classes/class.il" . $a_cname . "Module.php");
-                    $class = "il" . $a_cname . "Module";
-                    $comp = new $class();
-                    return $comp;
-                }
-                break;
-                
+                return new ilModule($a_cname);
             case IL_COMP_SERVICE:
-                if (is_file("./Services/" . $a_cname . "/classes/class.il" . $a_cname . "Service.php")) {
-                    include_once("./Services/" . $a_cname . "/classes/class.il" . $a_cname . "Service.php");
-                    $class = "il" . $a_cname . "Service";
-                    $comp = new $class();
-                    return $comp;
-                }
-                break;
+                return new ilService($a_cname);
+            default:
+                throw new \UnexpectedValueException(
+                    "Unknown component type: $a_ctype"
+                );
         }
         
         return null;
@@ -267,7 +258,7 @@ abstract class ilComponent
         }
 
         if (isset($parts[2]) && !is_numeric($parts[2])) {
-            return "Not all version number parts a.b.c are numeric.";    
+            return "Not all version number parts a.b.c are numeric.";
         }
 
         return $parts;

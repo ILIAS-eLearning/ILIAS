@@ -45,7 +45,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
      * @var array ids of context objects (e.g. course ids)
      */
     protected $context_obj_ids;
-    
+
+    /**
+     * @var ilAdvancedMDRecordGUI
+     */
+    protected $record_gui;
+
     /**
      * Constructor
      * @param	object	$a_parent_obj
@@ -514,20 +519,64 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 return $d['user_id'];
             }, $data));
 
+            $user_columns = [];
+            $odf_ids = [];
+            foreach ($this->getSelectedUserColumns() as $field) {
+                if (substr($field, 0, 3) == 'odf') {
+                    $odf_ids[] = substr($field, 4);
+                } else {
+                    $user_columns[] = $field;
+                }
+            }
+
             // user data fields
             $query = new ilUserQuery();
             $query->setLimit(9999);
-            $query->setAdditionalFields($this->getSelectedUserColumns());
+            $query->setAdditionalFields($user_columns);
             $query->setUserFilter($user_ids);
             $ud = $query->query();
             $usr_data = [];
             foreach ($ud["set"] as $v) {
-                foreach ($this->getSelectedUserColumns() as $c) {
+                foreach ($user_columns as $c) {
                     $usr_data[$v["usr_id"]][$c] = $v[$c];
                 }
             }
             foreach ($data as $key => $v) {
-                $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                if (isset($usr_data[$v["user_id"]])) {
+                    $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                }
+            }
+
+            // object specific user data fields of parent course or group
+            if ($odf_ids) {
+                $parent = $this->getParentGroupCourse();
+                $parent_obj_id = ilObject::_lookupObjectId($parent['ref_id']);
+                $parent_obj_type = ilObject::_lookupType($parent_obj_id);
+
+                $confirmation_required = ($parent_obj_type == 'crs')
+                    ? ilPrivacySettings::_getInstance()->courseConfirmationRequired()
+                    : ilPrivacySettings::_getInstance()->groupConfirmationRequired();
+                if ($confirmation_required) {
+                    $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
+                }
+                $odf_data = ilCourseUserData::_getValuesByObjId($parent_obj_id);
+
+                $usr_data = [];
+                foreach ($odf_data as $usr_id => $fields) {
+                    if (in_array($usr_id, $user_ids)) {
+                        foreach ($fields as $field_id => $value) {
+                            if (in_array($field_id, $odf_ids)) {
+                                $usr_data[$usr_id]['odf_' . $field_id] = $value;
+                            }
+                        }
+                    }
+                }
+
+                foreach ($data as $key => $v) {
+                    if (isset($usr_data[$v["user_id"]])) {
+                        $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                    }
+                }
             }
         }
 
@@ -608,14 +657,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
             $this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);
+        } elseif (in_array(
+            $a_set['status'],
+            array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)
+        )) {
+            $this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_' . $a_set['status']));
         } else {
-            if (in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE))) {
-                $this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_' . $a_set['status']));
-            } else {
-                $this->tpl->setVariable("TXT_STATUS", "&nbsp;");
-            }
+            $this->tpl->setVariable("TXT_STATUS", "&nbsp;");
         }
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];
@@ -658,7 +708,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
 
-        if($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
             $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete'));
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");

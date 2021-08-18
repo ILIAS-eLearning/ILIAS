@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -29,6 +29,6 @@ class StorageOnPathWrapper implements Storage
      */
     public function store(string $key, Metric $metric) : void
     {
-        $this->other->store("{$this->path}.$key", $metric);
+        $this->other->store("$this->path.$key", $metric);
     }
 }

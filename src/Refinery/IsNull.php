@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery;
@@ -14,14 +15,8 @@ use ILIAS\Refinery\Constraint;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class IsNull extends CustomConstraint implements Constraint
+class IsNull extends CustomConstraint
 {
-
-    /**
-     * IsNull constructor.
-     *
-     * @param Data\Factory $data_factory
-     */
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {
         parent::__construct(

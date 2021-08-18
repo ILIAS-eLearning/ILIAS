@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjAccessibilitySettings
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesAccessibility
-*/
+ * Class ilObjAccessibilitySettings
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjAccessibilitySettings extends ilObject
 {
     /**

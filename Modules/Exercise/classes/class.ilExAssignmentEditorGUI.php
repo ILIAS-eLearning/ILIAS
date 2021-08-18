@@ -1,94 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilExAssignmentEditorGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ * Class ilExAssignmentEditorGUI
  *
-* @ingroup ModulesExercise
-*/
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilExAssignmentEditorGUI: ilExAssignmentFileSystemGUI, ilExPeerReviewGUI, ilPropertyFormGUI
+ */
 class ilExAssignmentEditorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilSetting $settings;
+    protected ilHelpGUI $help;
+    protected int $exercise_id;
+    protected ?ilExAssignment $assignment;
+    protected bool $enable_peer_review_completion;
+    protected ilExAssignmentTypes $types;
+    protected ilExcRandomAssignmentManager $random_manager;
+    protected ?ilObjExercise $exc;
+    protected ilExAssignmentTypesGUI $type_guis;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var int
-     */
-    protected $exercise_id;
-
-    /**
-     * @var ilExAssignment
-     */
-    protected $assignment;
-
-    /**
-     * @var bool
-     */
-    protected $enable_peer_review_completion;
-
-    /**
-     * @var ilExAssignmentTypes
-     */
-    protected $types;
-
-
-    /**
-     * @var ilExcRandomAssignmentManager
-     */
-    protected $random_manager;
-
-    /**
-     * @var ilObjExercise|null
-     */
-    protected $exc;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_exercise_id
-     * @param bool  $a_enable_peer_review_completion_settings
-     * @param ilExAssignment $a_ass
-     * @return object
-     */
-    public function __construct($a_exercise_id, $a_enable_peer_review_completion_settings, ilExAssignment $a_ass = null)
-    {
+    public function __construct(
+        int $a_exercise_id,
+        bool $a_enable_peer_review_completion_settings,
+        ilExAssignment $a_ass = null
+    ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -100,7 +43,7 @@ class ilExAssignmentEditorGUI
         $this->help = $DIC["ilHelp"];
         $this->exercise_id = $a_exercise_id;
         $this->assignment = $a_ass;
-        $this->enable_peer_review_completion = (bool) $a_enable_peer_review_completion_settings;
+        $this->enable_peer_review_completion = $a_enable_peer_review_completion_settings;
         $this->types = ilExAssignmentTypes::getInstance();
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $request = $DIC->exercise()->internal()->request();
@@ -109,8 +52,11 @@ class ilExAssignmentEditorGUI
             $request->getRequestedExercise()
         );
     }
-    
-    public function executeCommand()
+
+    /**
+     * @throws ilCtrlException|ilExcUnknownAssignmentTypeException
+     */
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -156,15 +102,14 @@ class ilExAssignmentEditorGUI
                 break;
         }
     }
-    
+
     /**
-     * List assignments
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function listAssignmentsObject()
+    public function listAssignmentsObject() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));
@@ -183,8 +128,9 @@ class ilExAssignmentEditorGUI
     
     /**
      * Create assignment
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function addAssignmentObject()
+    public function addAssignmentObject() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -199,13 +145,11 @@ class ilExAssignmentEditorGUI
         $form = $this->initAssignmentForm((int) $_POST["type"], "create");
         $tpl->setContent($form->getHTML());
     }
-    
+
     /**
-     * Get type selection dropdown
-     *
-     * @return ilSelectInputGUI
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function getTypeDropdown()
+    protected function getTypeDropdown() : ilSelectInputGUI
     {
         $lng = $this->lng;
 
@@ -219,15 +163,14 @@ class ilExAssignmentEditorGUI
         $ty->setRequired(true);
         return $ty;
     }
-    
+
     /**
-    * Init assignment form.
-    *
-    * @param int $a_type
-    * @param int $a_mode "create"/"edit"
-    */
-    protected function initAssignmentForm($a_type, $a_mode = "create")
-    {
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    protected function initAssignmentForm(
+        int $a_type,
+        string $a_mode = "create"
+    ) : ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -388,7 +331,7 @@ class ilExAssignmentEditorGUI
 
         // Work Instructions
         $sub_header = new ilFormSectionHeaderGUI();
-        $sub_header->setTitle($lng->txt("exc_work_instructions"), "work_instructions");
+        $sub_header->setTitle($lng->txt("exc_work_instructions"));
         $form->addItem($sub_header);
 
         $desc_input = new ilTextAreaInputGUI($lng->txt("exc_instruction"), "instruction");
@@ -406,7 +349,7 @@ class ilExAssignmentEditorGUI
 
         // Schedule
         $sub_header = new ilFormSectionHeaderGUI();
-        $sub_header->setTitle($lng->txt("exc_schedule"), "schedule");
+        $sub_header->setTitle($lng->txt("exc_schedule"));
         $form->addItem($sub_header);
 
         // start time
@@ -513,7 +456,7 @@ class ilExAssignmentEditorGUI
 
         // after submission
         $sub_header = new ilFormSectionHeaderGUI();
-        $sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
+        $sub_header->setTitle($lng->txt("exc_after_submission"));
         $form->addItem($sub_header);
 
         if (!$ass_type->usesTeams() && !$this->random_manager->isActivated()) {
@@ -557,16 +500,15 @@ class ilExAssignmentEditorGUI
         
         if ($a_mode == "create") {
             $form->addCommandButton("saveAssignment", $lng->txt("save"));
-            $form->addCommandButton("listAssignments", $lng->txt("cancel"));
         } else {
             $form->addCommandButton("updateAssignment", $lng->txt("save"));
-            $form->addCommandButton("listAssignments", $lng->txt("cancel"));
         }
-        
+        $form->addCommandButton("listAssignments", $lng->txt("cancel"));
+
         return $form;
     }
 
-    public function addMailTemplatesRadio($a_reminder_type)
+    public function addMailTemplatesRadio(string $a_reminder_type) : ilRadioGroupInputGUI
     {
         global $DIC;
 
@@ -592,7 +534,7 @@ class ilExAssignmentEditorGUI
 
         /** @var \ilMailTemplateService $templateService */
         $templateService = $DIC['mail.texttemplates.service'];
-        foreach ($templateService->loadTemplatesForContextId((string) $context->getId()) as $template) {
+        foreach ($templateService->loadTemplatesForContextId($context->getId()) as $template) {
             $r_group->addOption(new ilRadioOption($template->getTitle(), $template->getTplId()));
         }
 
@@ -601,11 +543,11 @@ class ilExAssignmentEditorGUI
 
     /**
      * Custom form validation
-     *
      * @param ilPropertyFormGUI $a_form
-     * @return array
+     * @return array|null
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function processForm(ilPropertyFormGUI $a_form)
+    protected function processForm(ilPropertyFormGUI $a_form) : ?array
     {
         $lng = $this->lng;
                 
@@ -625,7 +567,6 @@ class ilExAssignmentEditorGUI
         }
         
         $valid = $a_form->checkInput();
-        
         if ($protected_peer_review_groups) {
             // checkInput() will add alert to disabled fields
             $a_form->getItemByPostVar("deadline")->setAlert(null);
@@ -643,14 +584,6 @@ class ilExAssignmentEditorGUI
                 ? $time_start->get(IL_CAL_UNIX)
                 : null;
 
-            $time_deadline = $a_form->getItemByPostVar("deadline")->getDate();
-            $time_deadline = $time_deadline
-                ? $time_deadline->get(IL_CAL_UNIX)
-                : null;
-            $time_deadline_ext = $a_form->getItemByPostVar("deadline2")->getDate();
-            $time_deadline_ext = $time_deadline_ext
-                ? $time_deadline_ext->get(IL_CAL_UNIX)
-                : null;
             $time_fb_custom_date = $a_form->getItemByPostVar("fb_date_custom")->getDate();
             $time_fb_custom_date = $time_fb_custom_date
                 ? $time_fb_custom_date->get(IL_CAL_UNIX)
@@ -728,8 +661,7 @@ class ilExAssignmentEditorGUI
                 $time_deadline_min = $time_deadline_ext
                     ? min($time_deadline, $time_deadline_ext)
                     : $time_deadline;
-                $time_deadline_max = max($time_deadline, $time_deadline_ext);
-            
+
                 // start > any deadline ?
                 if ($time_start && $time_deadline_min && $time_start > $time_deadline_min) {
                     $a_form->getItemByPostVar("start_time")
@@ -787,29 +719,6 @@ class ilExAssignmentEditorGUI
                     }
                 }
 
-                // portfolio template
-                //if($a_form->getInput("template_id") && $a_form->getInput("template"))
-                //{
-                //	$res['template_id'] = $a_form->getInput("template_id");
-                //}
-
-                // text limitations
-                /*
-                if($a_form->getInput("limit_characters"))
-                {
-                    $res['limit_characters'] = $a_form->getInput("limit_characters");
-                }
-                if($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit"))
-                {
-                    $res['max_char_limit'] = $a_form->getInput("max_char_limit");
-                }
-                if($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit"))
-                {
-                    $res['min_char_limit'] = $a_form->getInput("min_char_limit");
-
-                }*/
-
-
                 $res["deadline_mode"] = $a_form->getInput("deadline_mode");
 
                 if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE) {
@@ -828,7 +737,7 @@ class ilExAssignmentEditorGUI
                 }
                 
                 // files
-                if (is_array($_FILES["files"])) {
+                if (isset($_FILES["files"])) {
                     // #15994 - we are keeping the upload files array structure
                     // see ilFSStorageExercise::uploadAssignmentFiles()
                     $res["files"] = $_FILES["files"];
@@ -864,16 +773,19 @@ class ilExAssignmentEditorGUI
                 ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             }
         }
+
+        return null;
     }
     
     /**
      * Import form values to assignment
-     *
-     * @param ilExAssignment $a_ass
-     * @param array $a_input
+     * @throws ilDateTimeException
+     * @throws ilException
      */
-    protected function importFormToAssignment(ilExAssignment $a_ass, array $a_input)
-    {
+    protected function importFormToAssignment(
+        ilExAssignment $a_ass,
+        array $a_input
+    ) : void {
         $is_create = !(bool) $a_ass->getId();
         
         $a_ass->setTitle($a_input["title"]);
@@ -886,11 +798,11 @@ class ilExAssignmentEditorGUI
         $a_ass->setDeadline($a_input["deadline"]);
         $a_ass->setExtendedDeadline($a_input["deadline_ext"]);
         $a_ass->setDeadlineMode($a_input["deadline_mode"]);
-        $a_ass->setRelativeDeadline($a_input["relative_deadline"]);
-        $a_ass->setRelDeadlineLastSubmission($a_input["rel_deadline_last_subm"]);
+        $a_ass->setRelativeDeadline((int) ($a_input["relative_deadline"] ?? 0));
+        $a_ass->setRelDeadlineLastSubmission((int) ($a_input["rel_deadline_last_subm"] ?? 0));
                                     
         $a_ass->setMaxFile($a_input["max_file"]);
-        $a_ass->setTeamTutor($a_input["team_creator"]);
+        $a_ass->setTeamTutor((bool) ($a_input["team_creator"] ?? false));
 
         //$a_ass->setPortfolioTemplateId($a_input['template_id']);
 
@@ -912,7 +824,7 @@ class ilExAssignmentEditorGUI
             $a_ass->setPeerReviewRating(true);
         }
         
-        if ($a_input["fb"]) {
+        if (isset($a_input["fb"])) {
             $a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
             $a_ass->setFeedbackDate($a_input["fb_date"]);
             $a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
@@ -928,7 +840,7 @@ class ilExAssignmentEditorGUI
             }
         } else {
             // remove global feedback file?
-            if (!$a_input["fb"]) {
+            if (!isset($a_input["fb"])) {
                 $a_ass->deleteGlobalFeedbackFile();
                 $a_ass->setFeedbackFile(null);
             }
@@ -937,7 +849,7 @@ class ilExAssignmentEditorGUI
         }
                             
         // add global feedback file?
-        if ($a_input["fb"]) {
+        if (isset($a_input["fb"])) {
             if (is_array($a_input["fb_file"])) {
                 $a_ass->handleGlobalFeedbackFileUpload($a_input["fb_file"]);
                 $a_ass->update();
@@ -946,8 +858,10 @@ class ilExAssignmentEditorGUI
         $this->importFormToAssignmentReminders($a_input, $a_ass->getId());
     }
 
-    protected function importFormToAssignmentReminders($a_input, $a_ass_id)
-    {
+    protected function importFormToAssignmentReminders(
+        array $a_input,
+        int $a_ass_id
+    ) : void {
         $reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::SUBMIT_REMINDER);
         $this->saveReminderData($reminder, $a_input);
 
@@ -956,33 +870,38 @@ class ilExAssignmentEditorGUI
     }
 
     //todo maybe we can refactor this method to use only one importFormToReminders
-    protected function importPeerReviewFormToAssignmentReminders($a_input, $a_ass_id)
-    {
+    protected function importPeerReviewFormToAssignmentReminders(
+        array $a_input,
+        int $a_ass_id
+    ) : void {
         $reminder = new ilExAssignmentReminder($this->exercise_id, $a_ass_id, ilExAssignmentReminder::FEEDBACK_REMINDER);
         $this->saveReminderData($reminder, $a_input);
     }
 
-    protected function saveReminderData(ilExAssignmentReminder $reminder, $a_input)
-    {
+    protected function saveReminderData(
+        ilExAssignmentReminder $reminder,
+        array $a_input
+    ) : void {
         if ($reminder->getReminderStatus() == null) {
             $action = "save";
         } else {
             $action = "update";
         }
         $type = $reminder->getReminderType();
-        $reminder->setReminderStatus((bool) $a_input["rmd_" . $type . "_status"]);
-        $reminder->setReminderStart((int) $a_input["rmd_" . $type . "_start"]);
-        $reminder->setReminderEnd((int) $a_input["rmd_" . $type . "_end"]);
-        $reminder->setReminderFrequency((int) $a_input["rmd_" . $type . "_freq"]);
-        $reminder->setReminderMailTemplate((int) $a_input["rmd_" . $type . "_template_id"]);
+        $reminder->setReminderStatus((bool) ($a_input["rmd_" . $type . "_status"] ?? false));
+        $reminder->setReminderStart((int) ($a_input["rmd_" . $type . "_start"] ?? 0));
+        $reminder->setReminderEnd((int) ($a_input["rmd_" . $type . "_end"] ?? 0));
+        $reminder->setReminderFrequency((int) ($a_input["rmd_" . $type . "_freq"] ?? 0));
+        $reminder->setReminderMailTemplate((int) ($a_input["rmd_" . $type . "_template_id"] ?? 0));
         $reminder->{$action}();
     }
-    
+
     /**
-    * Save assignment
-    *
-    */
-    public function saveAssignmentObject()
+     * @throws ilDateTimeException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilException
+     */
+    public function saveAssignmentObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -997,7 +916,6 @@ class ilExAssignmentEditorGUI
             $ass = new ilExAssignment();
             $ass->setExerciseId($this->exercise_id);
             $ass->setType($input["type"]);
-            $ass_type = $ass->getAssignmentType();
             $ass_type_gui = $this->type_guis->getById($ass->getType());
 
             $this->importFormToAssignment($ass, $input);
@@ -1015,14 +933,15 @@ class ilExAssignmentEditorGUI
             $ilCtrl->redirect($this, "editAssignment");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 
     /**
-     * Edit assignment
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
      */
-    public function editAssignmentObject()
+    public function editAssignmentObject() : void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
@@ -1034,11 +953,12 @@ class ilExAssignmentEditorGUI
         $this->getAssignmentValues($form);
         $tpl->setContent($form->getHTML());
     }
-    
+
     /**
-     * Get current values for assignment from
+     * @throws ilDateTimeException
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAssignmentValues(ilPropertyFormGUI $a_form)
+    public function getAssignmentValues(ilPropertyFormGUI $a_form) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1050,24 +970,6 @@ class ilExAssignmentEditorGUI
         $values["title"] = $this->assignment->getTitle();
         $values["mandatory"] = $this->assignment->getMandatory();
         $values["instruction"] = $this->assignment->getInstruction();
-        //$values['template_id'] = $this->assignment->getPortfolioTemplateId();
-
-        //if($this->assignment->getPortfolioTemplateId())
-        //{
-        //	$values["template"] = 1;
-        //}
-
-        /*if($this->assignment->getMinCharLimit())
-        {
-            $values['limit_characters'] = 1;
-            $values['min_char_limit'] = $this->assignment->getMinCharLimit();
-        }
-        if($this->assignment->getMaxCharLimit())
-        {
-            $values['limit_characters'] = 1;
-            $values['max_char_limit'] = $this->assignment->getMaxCharLimit();
-        }*/
-
         if ($this->assignment->getStartTime()) {
             $values["start_time"] = new ilDateTime($this->assignment->getStartTime(), IL_CAL_UNIX);
         }
@@ -1132,8 +1034,11 @@ class ilExAssignmentEditorGUI
                         
         $this->handleDisabledFields($a_form, true);
     }
-    
-    protected function setDisabledFieldValues(ilPropertyFormGUI $a_form)
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function setDisabledFieldValues(ilPropertyFormGUI $a_form) : void
     {
         // dates
         if ($this->assignment->getDeadline() > 0) {
@@ -1152,14 +1057,20 @@ class ilExAssignmentEditorGUI
             $a_form->getItemByPostVar("peer")->setChecked($this->assignment->getPeerReview());
         }
     }
-    
-    protected function handleDisabledFields(ilPropertyFormGUI $a_form, $a_force_set_values = false)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function handleDisabledFields(
+        ilPropertyFormGUI $a_form,
+        bool $a_force_set_values = false
+    ) : void {
         // potentially disabled elements are initialized here to re-use this
         // method after setValuesByPost() - see updateAssignmentObject()
         
         // team assignments do not support peer review
         // with no active peer review there is nothing to protect
+        $peer_review = null;
         if (!$this->assignment->getAssignmentType()->usesTeams() &&
             $this->assignment->getPeerReview()) {
             // #14450
@@ -1182,10 +1093,11 @@ class ilExAssignmentEditorGUI
     }
 
     /**
-     * Update assignment
-     *
+     * @throws ilException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
      */
-    public function updateAssignmentObject()
+    public function updateAssignmentObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -1225,14 +1137,11 @@ class ilExAssignmentEditorGUI
             
             $form->setValuesByPost();
             $this->handleDisabledFields($form);
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     
-    /**
-    * Confirm assignments deletion
-    */
-    public function confirmAssignmentsDeletionObject()
+    public function confirmAssignmentsDeletionObject() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -1255,11 +1164,12 @@ class ilExAssignmentEditorGUI
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
+
     /**
-     * Delete assignments
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
      */
-    public function deleteAssignmentsObject()
+    public function deleteAssignmentsObject() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1280,10 +1190,7 @@ class ilExAssignmentEditorGUI
         $ilCtrl->redirect($this, "listAssignments");
     }
     
-    /**
-     * Save assignments order
-     */
-    public function saveAssignmentOrderObject()
+    public function saveAssignmentOrderObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1294,10 +1201,7 @@ class ilExAssignmentEditorGUI
         $ilCtrl->redirect($this, "listAssignments");
     }
     
-    /**
-     * Order by deadline
-     */
-    public function orderAssignmentsByDeadlineObject()
+    public function orderAssignmentsByDeadlineObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1308,10 +1212,7 @@ class ilExAssignmentEditorGUI
         $ilCtrl->redirect($this, "listAssignments");
     }
 
-    /**
-     * Set assignment header
-     */
-    public function setAssignmentHeader()
+    public function setAssignmentHeader() : void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -1352,7 +1253,7 @@ class ilExAssignmentEditorGUI
         );
     }
     
-    public function downloadGlobalFeedbackFileObject()
+    public function downloadGlobalFeedbackFileObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -1369,7 +1270,7 @@ class ilExAssignmentEditorGUI
     // PEER REVIEW
     //
     
-    protected function initPeerReviewForm()
+    protected function initPeerReviewForm() : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1501,10 +1402,12 @@ class ilExAssignmentEditorGUI
 
         return $form;
     }
-            
-    public function editPeerReviewObject(ilPropertyFormGUI $a_form = null)
+
+    /**
+     * @throws ilDateTimeException
+     */
+    public function editPeerReviewObject(ilPropertyFormGUI $a_form = null) : void
     {
-        $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
         
@@ -1517,8 +1420,11 @@ class ilExAssignmentEditorGUI
         }
         $tpl->setContent($a_form->getHTML());
     }
-    
-    protected function getPeerReviewValues($a_form)
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function getPeerReviewValues($a_form) : void
     {
         $values = array();
         
@@ -1526,8 +1432,6 @@ class ilExAssignmentEditorGUI
             $values["peer_dl"] = new ilDateTime($this->assignment->getPeerReviewDeadline(), IL_CAL_UNIX);
         }
 
-        $this->assignment->getId();
-        $this->exercise_id;
         $reminder = new ilExAssignmentReminder($this->exercise_id, $this->assignment->getId(), ilExAssignmentReminder::FEEDBACK_REMINDER);
         if ($reminder->getReminderStatus()) {
             $values["rmd_peer_status"] = $reminder->getReminderStatus();
@@ -1542,7 +1446,7 @@ class ilExAssignmentEditorGUI
         $this->handleDisabledPeerFields($a_form, true);
     }
     
-    protected function setDisabledPeerReviewFieldValues(ilPropertyFormGUI $a_form)
+    protected function setDisabledPeerReviewFieldValues(ilPropertyFormGUI $a_form) : void
     {
         $a_form->getItemByPostVar("peer_min")->setValue($this->assignment->getPeerReviewMin());
         $a_form->getItemByPostVar("peer_prsl")->setChecked($this->assignment->hasPeerReviewPersonalized());
@@ -1567,8 +1471,10 @@ class ilExAssignmentEditorGUI
         $a_form->getItemByPostVar("crit_cat")->setValue($cat);
     }
     
-    protected function handleDisabledPeerFields(ilPropertyFormGUI $a_form, $a_force_set_values = false)
-    {
+    protected function handleDisabledPeerFields(
+        ilPropertyFormGUI $a_form,
+        bool $a_force_set_values = false
+    ) : void {
         // #14450
         $peer_review = new ilExPeerReview($this->assignment);
         if ($peer_review->hasPeerReviewGroups()) {
@@ -1600,9 +1506,14 @@ class ilExAssignmentEditorGUI
             $this->setDisabledPeerReviewFieldValues($a_form);
         }
     }
-    
-    protected function processPeerReviewForm(ilPropertyFormGUI $a_form)
-    {
+
+    /**
+     * @param ilPropertyFormGUI $a_form
+     * @return array|null
+     */
+    protected function processPeerReviewForm(
+        ilPropertyFormGUI $a_form
+    ) : ?array {
         $lng = $this->lng;
         
         $protected_peer_review_groups = false;
@@ -1690,10 +1601,16 @@ class ilExAssignmentEditorGUI
                 ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             }
         }
+        return null;
     }
-    
-    protected function importPeerReviewFormToAssignment(ilExAssignment $a_ass, array $a_input)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function importPeerReviewFormToAssignment(
+        ilExAssignment $a_ass,
+        array $a_input
+    ) : void {
         $a_ass->setPeerReviewMin($a_input["peer_min"]);
         $a_ass->setPeerReviewDeadline($a_input["peer_dl"]);
         $a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
@@ -1701,8 +1618,7 @@ class ilExAssignmentEditorGUI
         
         // #18964
         $a_ass->setPeerReviewValid($a_input["peer_valid"]
-            ? $a_input["peer_valid"]
-            : ilExAssignment::PEER_REVIEW_VALID_NONE);
+            ?: ilExAssignment::PEER_REVIEW_VALID_NONE);
 
         $a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
         $a_ass->setPeerReviewChars($a_input["peer_char"]);
@@ -1716,8 +1632,11 @@ class ilExAssignmentEditorGUI
 
         $this->importPeerReviewFormToAssignmentReminders($a_input, $a_ass->getId());
     }
-    
-    protected function updatePeerReviewObject()
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function updatePeerReviewObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -1736,7 +1655,7 @@ class ilExAssignmentEditorGUI
             
             $form->setValuesByPost();
             $this->handleDisabledPeerFields($form);
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     
@@ -1745,14 +1664,11 @@ class ilExAssignmentEditorGUI
     // TEAM
     //
 
-    /**
-     * @param $a_num_teams integer
-     * @param $a_min_participants integer
-     * @param $a_max_participants integer
-     * @return array
-     */
-    public function validationTeamsFormation($a_num_teams, $a_min_participants, $a_max_participants)
-    {
+    public function validationTeamsFormation(
+        int $a_num_teams,
+        int $a_min_participants,
+        int $a_max_participants
+    ) : array {
         $total_members = $this->getExerciseTotalMembers();
         $number_of_teams = $a_num_teams;
 
@@ -1789,11 +1705,8 @@ class ilExAssignmentEditorGUI
         return array("status" => "success", "msg" => "");
     }
 
-    /**
-     * Get the total number of exercise members
-     * @return int
-     */
-    public function getExerciseTotalMembers()
+    // Get the total number of exercise members
+    public function getExerciseTotalMembers() : int
     {
         $exercise = new ilObjExercise($this->exercise_id, false);
         $exc_members = new ilExerciseMembers($exercise);
@@ -1801,12 +1714,10 @@ class ilExAssignmentEditorGUI
         return count($exc_members->getMembers());
     }
 
-    /**
-     * @param ilExAssignment $a_assignment
-     * @param array $a_input
-     */
-    public function generateTeams(ilExAssignment $a_assignment, $a_input)
-    {
+    public function generateTeams(
+        ilExAssignment $a_assignment,
+        array $a_input
+    ) : void {
         $ass_type = $a_assignment->getAssignmentType();
         if ($ass_type->usesTeams() &&
             $a_input['team_creator'] == ilExAssignment::TEAMS_FORMED_BY_TUTOR) {

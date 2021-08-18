@@ -7,16 +7,12 @@
  */
 abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelationState
 {
-    /**
-     * @inheritDoc
-     */
     public function isInitial() : bool
     {
         return false;
     }
 
     /**
-     * @inheritDoc
      * @throws ilBuddySystemRelationStateException
      */
     public function request(ilBuddySystemRelation $relation) : void
@@ -25,7 +21,6 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     }
 
     /**
-     * @inheritDoc
      * @throws ilBuddySystemRelationStateException
      */
     public function ignore(ilBuddySystemRelation $relation) : void
@@ -34,7 +29,6 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     }
 
     /**
-     * @inheritDoc
      * @throws ilBuddySystemRelationStateException
      */
     public function link(ilBuddySystemRelation $relation) : void
@@ -43,7 +37,6 @@ abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelati
     }
 
     /**
-     * @inheritDoc
      * @throws ilBuddySystemRelationStateException
      */
     public function unlink(ilBuddySystemRelation $relation) : void

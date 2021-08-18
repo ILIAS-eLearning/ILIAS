@@ -1,19 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Derived tasks list
  *
- * @author killing@leifos.de
- * @ingroup ServicesTasks
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDerivedTasksGUI
 {
     /**
      * @var \ILIAS\DI\Container
      */
-    protected $dic;
+    protected ?\ILIAS\DI\Container $dic;
 
     /**
      * @var ilCtrl
@@ -70,7 +69,7 @@ class ilDerivedTasksGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         $main_tpl = $this->main_tpl;
@@ -79,11 +78,8 @@ class ilDerivedTasksGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
 
-        switch ($next_class) {
-            default:
-                if (in_array($cmd, array("show"))) {
-                    $this->$cmd();
-                }
+        if (in_array($cmd, array("show"))) {
+            $this->$cmd();
         }
         $main_tpl->printToStdout();
     }
@@ -91,7 +87,7 @@ class ilDerivedTasksGUI
     /**
      * Show list of tasks
      */
-    protected function show()
+    protected function show() : void
     {
         $ui = $this->ui;
         $lng = $this->lng;
@@ -108,7 +104,6 @@ class ilDerivedTasksGUI
 
         $list_items_with_deadline = [];
         $list_items_without_deadline = [];
-        $item_groups = [];
 
         // item groups from tasks
         foreach ($entries as $i) {

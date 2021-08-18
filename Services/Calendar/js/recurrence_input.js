@@ -45,5 +45,7 @@ function ilUpdateSubTypeSelection(element_id)
 		element.checked = 'checked';
 	}
 }
-YAHOO.util.Event.onDOMReady(ilHideFrequencies);
+$(() => {
+	ilHideFrequencies();
+});
 

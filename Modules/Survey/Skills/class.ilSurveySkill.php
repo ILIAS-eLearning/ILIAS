@@ -52,7 +52,7 @@ class ilSurveySkill
         $set = $ilDB->query(
             "SELECT * FROM svy_quest_skill " .
             " WHERE survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
-            );
+        );
         
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (SurveyQuestion::_questionExists($rec["q_id"])) {
@@ -115,7 +115,7 @@ class ilSurveySkill
                 "base_skill_id" => array("integer", $a_base_skill_id),
                 "tref_id" => array("integer", $a_tref_id)
                 )
-            );
+        );
         $this->q_skill[$a_question_id] = array("q_id" => $a_question_id,
             "base_skill_id" => $a_base_skill_id,
             "tref_id" => $a_tref_id);
@@ -137,7 +137,7 @@ class ilSurveySkill
         $set = $ilDB->query(
             "SELECT * FROM svy_quest_skill " .
             " WHERE q_id = " . $ilDB->quote($a_question_id, "integer")
-            );
+        );
         $skills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $skills[] = array("skill_id" => $rec["base_skill_id"],
@@ -148,7 +148,7 @@ class ilSurveySkill
         $ilDB->manipulate(
             "DELETE FROM svy_quest_skill WHERE " .
             " q_id = " . $ilDB->quote($a_question_id, "integer")
-            );
+        );
         unset($this->q_skill[$a_question_id]);
         
         $this->removeUsagesOfSkills($skills);
@@ -211,7 +211,7 @@ class ilSurveySkill
             " WHERE base_skill_id = " . $ilDB->quote($a_skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
@@ -315,7 +315,7 @@ class ilSurveySkill
                     $skills[$k]["new_level"] = $l["title"];
                     $skills[$k]["new_level_id"] = $l["id"];
                     $skills[$k]["next_level_perc"] = 0;
-                } else if ($t > 0 && $mean_sum < $t) {
+                } elseif ($t > 0 && $mean_sum < $t) {
                     // first unfulfilled level
                     if ($previous == $skills[$k]["new_level_id"] && !isset($skills[$k]["next_level_perc"])) {
                         $skills[$k]["next_level_perc"] = 1 / ($t - $previous_t) * ($mean_sum - $previous_t);

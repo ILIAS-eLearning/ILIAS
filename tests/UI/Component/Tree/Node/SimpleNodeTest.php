@@ -112,7 +112,7 @@ class SimpleNodeTest extends ILIAS_UI_TestBase
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="none">
+			<li id="" class="il-tree-node node-simple" role="treeitem">
 				<span class="node-line">
 					<span class="node-label">simple</span>
 				</span>
@@ -141,6 +141,7 @@ EOT;
 				<span class="node-line">
 					<span class="node-label">simple</span>
 				</span>
+				<ul role="group"></ul>
 			</li>
 EOT;
 
@@ -159,7 +160,7 @@ EOT;
         $html = $r->render($node);
 
         $expected = <<<EOT
-			<li id="" class="il-tree-node node-simple" role="none">
+			<li id="" class="il-tree-node node-simple" role="treeitem">
 				<span class="node-line">
 					<span class="node-label">
 						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>

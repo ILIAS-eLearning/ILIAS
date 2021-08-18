@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjMediaPoolListGUI
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * Class ilObjMediaPoolListGUI
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaPoolListGUI extends ilObjectListGUI
 {
     /**
@@ -30,7 +25,6 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjmediapoolgui";
         
         // general commands array
-        include_once('Modules/MediaPool/classes/class.ilObjMediaPoolAccess.php');
         $this->commands = ilObjMediaPoolAccess::_getCommands();
     }
 

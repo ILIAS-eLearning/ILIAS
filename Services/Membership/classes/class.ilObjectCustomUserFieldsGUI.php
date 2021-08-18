@@ -181,7 +181,6 @@ class ilObjectCustomUserFieldsGUI
             $this->listFields();
             return false;
         }
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('ps_cdf_delete_sure'));

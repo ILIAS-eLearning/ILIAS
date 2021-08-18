@@ -1,11 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Interface for assignment types
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface ilExcRepoObjAssignmentInterface
 {
@@ -16,14 +16,17 @@ interface ilExcRepoObjAssignmentInterface
      * @param int $a_user_id user id
      * @return ilExcRepoObjAssignmentInfoInterface[]
      */
-    public function getAssignmentInfoOfObj($a_ref_id, $a_user_id);
+    public function getAssignmentInfoOfObj(int $a_ref_id, int $a_user_id) : array;
 
     /**
      * Get assignment access info for a repository object
      *
-     * @param int $a_ref_id
-     * @param int $a_user_id
+     * @param int $a_ref_id ref id
+     * @param int $a_user_id user id
      * @return ilExcRepoObjAssignmentAccessInfoInterface
      */
-    public function isGranted($a_ref_id, $a_user_id);
+    public function getAccessInfo(
+        int $a_ref_id,
+        int $a_user_id
+    ) : ilExcRepoObjAssignmentAccessInfoInterface;
 }

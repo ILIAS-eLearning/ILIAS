@@ -7,14 +7,18 @@ namespace ILIAS\UI\Implementation\Component\Menu;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Menu as IMenu;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Basic Menu Control
  */
 abstract class Menu implements IMenu\Menu
 {
+    use ComponentHelper;
+    use JavaScriptBindable;
     /**
-     * @var Component[]
+     * @var \ILIAS\UI\Component\Component []
      */
     protected $items = [];
 

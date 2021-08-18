@@ -14,7 +14,7 @@ class RecordTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private $transformations;
+    private array $transformations;
 
     /**
      *@param Transformation[] $transformations
@@ -50,7 +50,7 @@ class RecordTransformation implements Transformation
     {
         if (!is_array($from)) {
             throw new ConstraintViolationException(
-                sprintf('The value "%s" is no array.', $from),
+                sprintf('The value "%s" is no array.', var_export($from, true)),
                 'value_is_no_array',
                 $from
             );

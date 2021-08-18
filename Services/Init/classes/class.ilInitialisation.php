@@ -15,9 +15,13 @@ use ILIAS\GlobalScreen\Services;
 use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
+use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -75,7 +79,7 @@ class ilInitialisation
             )
         );
     }
-    
+
     /**
      * get common include code files
      */
@@ -85,17 +89,17 @@ class ilInitialisation
         if (ilContext::usesTemplate()) {
             require_once "./Services/UICore/classes/class.ilTemplate.php";
         }
-                
+
         // really always required?
         require_once "./Services/Utilities/classes/class.ilUtil.php";
         require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
         require_once "include/inc.ilias_version.php";
-        
+
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        
+
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
-    
+
     /**
      * This is a hack for  authentication.
      *
@@ -203,12 +207,16 @@ class ilInitialisation
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
             return new \ILIAS\ResourceStorage\Services(
-                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                new StorageHandlerFactory([
+                    new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                    new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
+                ]),
                 new RevisionARRepository(),
                 new ResourceARRepository(),
                 new InformationARRepository(),
                 new StakeholderARRepository(),
-                new LockHandlerilDB($c->database())
+                new LockHandlerilDB($c->database()),
+                new WhiteAndBlacklistedFileNamePolicy([], [])
             );
         };
     }
@@ -526,10 +534,12 @@ class ilInitialisation
         global $ilClientIniFile;
 
         if (!$ilClientIniFile->readVariable("client", "access")) {
-            $mess = array("en" => "The server is not available due to maintenance." .
+            $mess = array(
+                "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
                 "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis.");
+                    " Wir bitten um Verständnis."
+            );
             $mess_id = "init_error_maintenance";
 
             if (ilContext::hasHTML() && is_file("./maintenance.html")) {
@@ -930,6 +940,7 @@ class ilInitialisation
      */
     protected static function goToLogin()
     {
+        $a_auth_stat = "";
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
         if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
@@ -939,7 +950,11 @@ class ilInitialisation
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
 
-        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . $_COOKIE["ilClientId"] .
+        $target = "";
+        if (isset($_GET["target"]) && is_string($_GET["target"]) && strlen($_GET["target"])) {
+            $target = "target=" . $_GET["target"] . "&";
+        }
+        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
@@ -973,7 +988,7 @@ class ilInitialisation
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
-        if (is_object($rbacsystem)) {
+        if (is_object($rbacsystem) && $DIC->offsetExists('tree')) {
             $rbacsystem->initMemberView();
         }
     }
@@ -1063,12 +1078,8 @@ class ilInitialisation
      */
     protected static function handleDevMode()
     {
-        if (defined(SHOWNOTICES) && SHOWNOTICES) {
-            // no further differentiating of php version regarding to 5.4 neccessary
-            // when the error reporting is set to E_ALL anyway
-
-            // add notices to error reporting
-            error_reporting(E_ALL);
+        if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
+            error_reporting(-1);
         }
 
         if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
@@ -1431,7 +1442,6 @@ class ilInitialisation
      */
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
-
         include_once "Services/Init/classes/Dependencies/InitUIFramework.php";
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
@@ -1461,6 +1471,11 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+
+        $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
+        $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
+        $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
+        $_REQUEST = new SuperGlobalDropInReplacement($container['refinery'], $_REQUEST);
     }
 
     /**
@@ -1564,7 +1579,9 @@ class ilInitialisation
     {
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
-            return array_shift(array_keys($cmd));
+            $keys = array_keys($cmd);
+
+            return array_shift($keys);
         } else {
             return $cmd;
         }
@@ -1613,16 +1630,16 @@ class ilInitialisation
             return true;
         }
 
-        $base_class = (string) ($_REQUEST["baseClass"] ?? '');
-        if (strtolower($base_class) == "ilstartupgui") {
-            $cmd_class = $_REQUEST["cmdClass"];
-
-            if ($cmd_class == "ilaccountregistrationgui" ||
-                $cmd_class == "ilpasswordassistancegui") {
-                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
+        $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
+        if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
+            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass']) ?? '');
+            if (
+                $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
+                $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
+            ) {
+                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-
             $cmd = self::getCurrentCmd();
             if (
                 $cmd == "showTermsOfService" || $cmd == "showClientList" ||
@@ -1636,8 +1653,10 @@ class ilInitialisation
         }
 
         // #12884
-        if (($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
-            $base_class == "ilImprintGUI") {
+        if (
+            ($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
+            $requestBaseClass == strtolower(ilImprintGUI::class)
+        ) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
             return true;
         }
@@ -1648,7 +1667,6 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
             return true;
         }
-
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }
@@ -1695,8 +1713,7 @@ class ilInitialisation
             }
             $message = $a_message_static[$lang];
         }
-
-        return utf8_decode($message);
+        return $message;
     }
 
     /**
@@ -1774,7 +1791,7 @@ class ilInitialisation
 
         // for password change and incomplete profile
         // see ilDashboardGUI
-        if (!$_GET["target"]) {
+        if (!isset($_GET["target"])) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
             // Redirect here to switch back to http if desired
             include_once './Services/User/classes/class.ilUserUtil.php';
@@ -1801,7 +1818,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {

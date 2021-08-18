@@ -42,6 +42,11 @@ abstract class ilAdvancedMDFieldDefinition
     const TYPE_INTERNAL_LINK = 10;
 
     /**
+     * @var ilLogger
+     */
+    protected $logger;
+
+    /**
      * Constructor
      *
      * @param init $a_field_id
@@ -52,6 +57,7 @@ abstract class ilAdvancedMDFieldDefinition
         global $DIC;
 
         $this->language = $DIC->language()->getLangKey();
+        $this->logger = $DIC->logger()->amet();
         if ($language) {
             $this->language = $language;
         }

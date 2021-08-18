@@ -115,15 +115,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $this->addObjectsTab($ilTabs);
             }
 
-            // back link
-            /*
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $this->node_object->skill_tree->getRootId());
-                        $ilTabs->setBackTarget($lng->txt("obj_skmg"),
-                            $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $_GET["obj_id"]);*/
-            
             $tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
             $add = " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
     
@@ -139,9 +130,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
     /**
      * Insert
-     *
-     * @param
-     * @return
      */
     public function insert()
     {
@@ -178,6 +166,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        //TODO: Refactoring to UI Form when non-editable input is available
 
         $this->form = new ilPropertyFormGUI();
 
@@ -270,10 +260,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $sktr->setDescription($_POST["description"]);
         $sktr->setSkillTemplateId($_POST["skill_template_id"]);
         $sktr->setSelfEvaluation($_POST["selectable"]);
-        $sktr->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
+        $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $sktr->setStatus($_POST["status"]);
         $sktr->create();
-        ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $sktr;
     }
 
@@ -325,14 +315,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
 
         $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->form->getHTML());
     }
 
     /**
      * Cancel
-     *
-     * @param
-     * @return
      */
     public function cancel()
     {

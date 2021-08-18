@@ -666,30 +666,6 @@ il.UICore = {
 			}
 		});
 		return;
-		/*
-		var n = document.getElementById('ilRightPanel');
-		if (!n) {
-			var b = $("body");
-			b.append("<div class='yui-skin-sam'><div id='ilRightPanel' class='ilOverlay ilRightPanel'>" +
-				"&nbsp;</div>");
-			var n = document.getElementById('ilRightPanel');
-			il.Overlay.add("ilRightPanel", {yuicfg: {}});
-			il.Overlay.show(null, "ilRightPanel");
-		}
-		else
-		{
-			il.Overlay.show(null, "ilRightPanel");
-		}
-		
-		il.Overlay.subscribe("ilRightPanel", "hide", function () {il.UICore.unloadWrapperFromRightPanel();});
-		
-		il.UICore.setRightPanelContent("");
-
-		n = document.getElementById('ilRightPanel');
-		n.style.width = '500px';
-		n.style.height = '100%';
-
-		 */
 	},
 	
 	setRightPanelContent: function (c) {

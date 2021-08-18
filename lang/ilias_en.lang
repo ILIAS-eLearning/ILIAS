@@ -14,6 +14,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_details#:#« Show Details
 meta#:#md_adv_field_list#:#Fields
 meta#:#md_adv_record_lng_table#:#Language Managment
 meta#:#md_adv_record_lng_table_lng#:#Language
@@ -306,7 +310,7 @@ lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
-lti#:#lti_member#:#LTI Member
+lti#:#lti_member#:#LTI Member / Learner
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
@@ -516,6 +520,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
 administration#:#log_scan#:#Log scan results
 administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
@@ -525,7 +530,7 @@ administration#:#loginname_history_info#:#If activated, login name changes will 
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
-administration#:#obj_mds_desc#:#Configure Metadata and Advanced Metadata Settings
+administration#:#obj_mds_desc#:#Configure Metadata and Custom Metadata Settings
 administration#:#obj_mds#:#Metadata
 administration#:#options#:#Options
 administration#:#output_options#:#Output options
@@ -602,7 +607,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
-assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
+assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
@@ -706,7 +711,6 @@ assessment#:#assErrorText#:#Error Text
 assessment#:#assFileUpload#:#File Upload Question
 assessment#:#assFlashQuestion#:#Flash Question
 assessment#:#assImagemapQuestion#:#Hot Spot / Image Map Question
-assessment#:#assJavaApplet#:#Java Applet Question
 assessment#:#assMatchingQuestion#:#Matching Question
 assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Answers)
 assessment#:#assKprimChoice#:#Multiple Choice Question (Kprim Answers)
@@ -739,7 +743,7 @@ assessment#:#cannot_edit_marks#:#There are already learners who ran the test. Yo
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the metadata!
 assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
@@ -1492,7 +1496,7 @@ assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
-assessment#:#tst_reached_points#:#Points
+assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
@@ -1610,6 +1614,7 @@ assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available P
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_type#:#Test Type
 assessment#:#exam_id#:#Testpass ID:
+assessment#:#exam_id_label#:#Exam Id
 assessment#:#examid_in_test_pass#:#Display Test Pass ID
 assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
 assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
@@ -1755,9 +1760,11 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editor for Feedback and Hints
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Use rich-text editor for editing feedback and hints
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Overview of Answers Given
@@ -1948,11 +1955,8 @@ cmps#:#cmps_version#:#Version
 cmps#:#database_is_uptodate#:#The database is up to date.
 cmps#:#no_changes#:#No changes
 cntr#:#cntr_add_new_item#:#Add New Item
-cntr#:#cntr_back_to_old_editor#:#Back to Old Editor
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
 cntr#:#cntr_manage#:#Manage
-cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
-cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
 cntr#:#cntr_ordering#:#Sorting
 cntr#:#cntr_saved_sorting#:#Saved Sorting.
 cntr#:#cntr_switch_to_new_editor_cmd#:#Switch to new content of this page. Old content will be removed.
@@ -2703,7 +2707,7 @@ common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#No salutation desired
+common#:#gender_n#:#Not stated
 common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
@@ -4193,7 +4197,7 @@ content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on placeholders to add new elements.
+content#:#cont_add_elements#:#Click on a plus symbol to add new elements.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_tab#:#Add Panel
 content#:#cont_added_comment#:#Comment has been added to history.
@@ -4289,12 +4293,14 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_downloads#:#Enable Download
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.
+content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b> content elements on placeholders to <b>move</b> elements.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left_float#:#Align: Left Float
 content#:#cont_ed_align_left#:#Align: Left
@@ -4698,7 +4704,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln_link#:#Interal Link
+content#:#cont_text_iln_link#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -4797,7 +4803,7 @@ crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_add_grouping#:#Add Membership Limitation
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_objective#:#Add Objective
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to their favourites
+crs#:#crs_add_remove_from_desktop_info#:#Objects within the course can be added to favourites.
 crs#:#crs_add_remove_from_desktop#:#Add to Favourites
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
@@ -5395,9 +5401,9 @@ ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
 ecs#:#ecs_key_password#:#Key Password
 ecs#:#ecs_local_settings#:#Local Settings
-ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
+ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Custom Metadata
 ecs#:#ecs_mappings#:#ECS Data Mapping
-ecs#:#ecs_meta_data#:#Meta Data
+ecs#:#ecs_meta_data#:#Metadata
 ecs#:#ecs_new_approval_subject#:#A new course has been released
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course Links to Categories
 ecs#:#ecs_new_econtent_subject#:#New E-Content created
@@ -5527,12 +5533,6 @@ feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
 feed#:#feed_no_valid_url#:#The Feed URL is not valid.
 feed#:#feed_open_source_page#:#Open in New Window
 feed#:#feed_settings#:#External Web Feeds Settings
-file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
-file#:#file_new_version#:#Create New Version
-file#:#replace_file_info#:#All previous file versions will be deleted.
-file#:#upload_info#:#File
-file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
-file#:#generate_sanitize_report#:#Report about inaccessible files
 common#:#page_count#:#Page Count
 form#:#form_days#:#Days
 form#:#form_file_input#:#File Input
@@ -5845,6 +5845,8 @@ ldap#:#ldap_deleted_rule#:#Deleted selected role assignments.
 ldap#:#ldap_dn_info#:#Enter the distinguished name of the LDAP group.
 ldap#:#ldap_edit_role_ass_rule#:#Edit Role Assignment Rule
 ldap#:#ldap_err_missing_plugin_id#:#Please enter a valid plugin id.
+ldap#:#ldap_escapedn#:#Escape DN
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.
 ldap#:#ldap_filter_info#:#Filter that will be added to the search filter this way: (&(userattr=username)<strong>(userfilter)</strong>).
 ldap#:#ldap_global_role_assignment#:#ILIAS-Role Assignment
 ldap#:#ldap_global_role_info#:#Please choose an ILIAS Role new users will be assigned to. <span class="asterisk">*</span> The role selection is <b>required</b> in case you chose a type of synchronisation.
@@ -5942,7 +5944,6 @@ ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#back_to_folder#:#Back to Folder
@@ -6050,7 +6051,7 @@ mail#:#placeholders_advise#:#Personal placeholders are only substituted for reci
 mail#:#search_recipients#:#Search Recipients
 mail#:#send_mail_to#:#Mail to
 mail#:#mail_tbl_head_attachments#:#Attachment
-mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.
+mail#:#mail_firstname_last_name_superior#:#Comma separated list for firstname and lastname of the user's superior(s)
 mail#:#mail_email_usr_subject#:#Test E-Mail User Mail
 mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.
 mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
@@ -7137,7 +7138,7 @@ sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
 search#:#search_field#:#Search Input Field
-search#:#adv_md_search_title#:#Search in Extended Metadata
+search#:#adv_md_search_title#:#Search in Custom Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
 search#:#lucene_activate_field#:#Activate Search
@@ -7188,13 +7189,13 @@ search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
-search#:#search_adv_md#:#Extended Metadata
+search#:#search_adv_md#:#Custom Metadata
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
 search#:#search_any#:#-- Any --
 search#:#search_area_info#:#Please select an area where the search should start.
-search#:#search_area#:#Area
+search#:#search_area#:#Search Area
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 search#:#search_choose_object_type#:#Please choose one object type.
 search#:#search_content#:#Page Content
@@ -8047,7 +8048,7 @@ common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be 
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only inactive users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
@@ -8055,7 +8056,7 @@ common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will 
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only inactivated users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -9136,6 +9137,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
+skmg#:#skmg_target_levels#:#Target Levels
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -9189,7 +9191,7 @@ ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
-ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
+ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Custom Metadata to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
 ecs#:#ecs_import_cms#:#Campus Management
@@ -9343,6 +9345,7 @@ chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete 
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smileys initialized
 chatroom#:#auto_scroll#:#Scroll to Bottom
+chatroom#:#chat_show_auto_messages#:#Show Status Messages
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#banned#:#You have been banned from this chat room
@@ -9921,7 +9924,6 @@ tax#:#tax_order#:#Order
 administration#:#adm_rep_shorten_description#:#Limited Length of Descriptions
 administration#:#adm_rep_shorten_description_info#:#If activated all descriptions in object lists are presented with a maximum number of characters.
 administration#:#adm_rep_shorten_description_length#:#Maximum number of characters
-file#:#file_uploaded_by#:#Uploaded by
 trac#:#trac_session_statistics_mode_year#:#Year
 assessment#:#tst_question#:#Question
 assessment#:#tst_participant#:#Participant
@@ -10197,7 +10199,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
-dcl#:#dcl_list_visibility_and_filter#:#List
+dcl#:#dcl_list_visibility_and_filter#:#Overview
 dcl#:#dcl_view_settings#:#View Settings
 dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_configuration_complete#:#Configuration Complete
@@ -10253,8 +10255,8 @@ dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_detailed_view#:#Single
-dcl#:#dcl_edit_entry_rules#:#Editing
-dcl#:#dcl_create_entry_rules#:#Creation
+dcl#:#dcl_edit_entry_rules#:#Entry Editing
+dcl#:#dcl_create_entry_rules#:#Entry Creation
 dcl#:#dcl_tableview_copy#:#View successfully copied
 dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained letters. Please try again.
 dcl#:#dcl_tableview_add#:#Add New View
@@ -10311,16 +10313,16 @@ trac#:#trac_filter_has_status#:#Show also objects with status ‘not attempted�
 cat#:#cat_import#:#Import Category
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
-objref#:#objref_edit_ref#:#Ziel des Links
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
-crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
-crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
-crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
-crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+objref#:#objref_custom_title#:#Use Own Title
+objref#:#objref_edit_ref#:#Link Target
+objref#:#objref_edit_title#:#Title
+objref#:#objref_reuse_title#:#Adopt Title of Linked Object
+objref#:#objref_title_settings#:#Title of Linked Object
+objref#:#objref_failure_target_type#:#Target of link must be of following type:
+crs#:#crs_ref_member_update#:#Add new members
+crs#:#crs_ref_member_update_info#:#All new members of the parent course are automatically entered in the course to which this course link refers.
+crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this course link does not have a parent course.
+crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either course.
 crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
 news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
@@ -10343,12 +10345,12 @@ dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_remote_url#:#URL
 dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar
-dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar
+dateplaner#:#cal_cal_sync_success#:#Synchronised calendar successfully
 style#:#sty_substyle#:#Substyle
 style#:#sty_cat_assignments#:#Style/Category Assignments
 style#:#sty_add_assignment#:#Add Assignment
 administration#:#adm_user_starting_point#:#Personal Starting Point
-administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.
+administration#:#adm_user_starting_point_info#:#Select page or object which is shown after login.
 content#:#cont_AdvancedKnowledge#:#Advanced Knowledge
 content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
@@ -10434,6 +10436,7 @@ content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 common#:#search_globally#:#Globally
 common#:#search_at_current_position#:#At Current Position
+common#:#label_search_options#:#Search Area
 ecs#:#ecs_crs_export#:#Course Releases
 ecs#:#ecs_crs_export_obj_settings#:#Course Release Settings
 ecs#:#ecs_crs_export_disabled#:#Do not release this Course
@@ -10551,7 +10554,6 @@ crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group
 forum#:#frm_copy#:#Copy Forum
-file#:#file_copy#:#Copy File
 webr#:#webr_copy#:#Copy Weblink
 exc#:#exc_copy#:#Copy Exercise
 assessment#:#tst_copy#:#Copy Test
@@ -10671,7 +10673,6 @@ dateplaner#:#cal_user_notification_info#:#Selected users will be notified about 
 dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
-file#:#file_download#:#Download File
 trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
@@ -10853,7 +10854,7 @@ tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selecte
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
 tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal 
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
 tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
@@ -10972,7 +10973,7 @@ dcl#:#dcl_view_own_records_perm#:#View only own entries
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
-dcl#:#dcl_link_detail_page#:#Link entries to detail page
+dcl#:#dcl_link_detail_page#:#Link to detailed view
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
@@ -11123,16 +11124,16 @@ survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this surve
 survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_select_appraisee#:#Select
 survey#:#survey_360_appraisee#:#Appraisee
-skmg#:#skmg_skill_profiles#:#Profiles
+skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
-skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
+skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_assigned_users#:#Assigned Roles and Users
 skmg#:#skmg_assign_user#:#Assign User
@@ -11527,7 +11528,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
 prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its content and settings for the template.
-prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.
 administration#:#vc_information#:#Show Version Control Information
@@ -11673,8 +11673,8 @@ orgu#:#orgu_orgu_type#:#Organisational Unit Type
 orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
-orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
-orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
+orgu#:#orgu_type_available_amd_sets#:#Available Custom Metadata Sets
+orgu#:#orgu_type_assign_amd_sets#:#Assign Custom Metadata Sets
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline
@@ -12098,8 +12098,8 @@ skmg#:#skmg_number#:#Number
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
 skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
-skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill
-skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
+skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Competence
+skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
 skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
@@ -12138,9 +12138,9 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_status_draft#:#Draft (Offline)
 skmg#:#skmg_status_draft_info#:#Item will be hidden.
 skmg#:#skmg_status_publish#:#Published
-skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
 skmg#:#skmg_status_outdated#:#Outdated
-skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.
+skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal competence, or newly assigned to repository objects or competence profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status#:#Status
 ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
@@ -12292,7 +12292,7 @@ assessment#:#additional_rating_info#:#Please note that the values given here are
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that the selected result unit must also be activated in ‘Available units’.
-ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.
+ecs#:#ecs_no_adv_md#:#No Custom Metadata Available.
 poll#:#poll_comments#:#Comments
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_barchart#:#Bar Chart
@@ -12350,7 +12350,7 @@ survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
-wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
+wiki#:#wiki_advmd_block_title#:#Custom Metadata of Page
 content#:#cont_ed_insert_amdpl#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
@@ -12892,7 +12892,7 @@ scormtrac#:#counter#:#counter
 scormtrac#:#student_response#:#student_response: Response
 scormtrac#:#ostatus#:#Status of the objective
 prtf#:#prtf_blog_page_created#:#Blog has been added.
-wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable meta data fields are listed.
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable metadata fields are listed.
 content#:#cont_pc_amdpl#:#Page List
 meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
@@ -12955,7 +12955,6 @@ grp#:#grp_usr_agreement#:#User Agreement
 meta#:#md_adv_confirm_definition_select_option_all#:#Handle all existing entries the same
 meta#:#md_adv_confirm_definition_select_option_single#:#Decide for each existing entry
 meta#:#md_adv_confirm_definition_select_option_all_action#:#New Value
-file#:#file_import#:#Import File
 dcl#:#dcl_boolean_desc#:#Checkbox for "True" or "False"
 dcl#:#dcl_text_desc#:#Textfield for text, links or e-mail addresses.
 dcl#:#dcl_text_selection_desc#:#Offer selection of text options.
@@ -13222,6 +13221,7 @@ note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_link#:#Link
+lng#:#language_detection#:#Language Detection
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
 trac#:#trac_mode_content_visited#:#Visited
@@ -13542,8 +13542,8 @@ prg#:#prg_subtype_add#:#Add new subtype
 prg#:#prg_type_custom_icon#:#Custom Icons
 prg#:#prg_type_custom_icon_info#:#Custom icon info
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
-prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
-prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
+prg#:#prg_type_assign_amd_sets#:#Assign Custom Metadata Sets
+prg#:#prg_type_available_amd_sets#:#Available Custom Metadata Sets
 prg#:#prg_type_edit#:#Edit subtype
 prg#:#prg_type_msg_deleted#:#Deleted subtype
 prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s
@@ -13633,6 +13633,7 @@ rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
 administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
+mail#:#mail_sel_label#:#Choose the Recipients
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#send_mail_members#:#All Members
@@ -13805,7 +13806,7 @@ rbac#:#sty_write_page_layout#:#Edit Page Layouts
 rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
-skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
+skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
@@ -14052,7 +14053,7 @@ style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:
 style#:#from_skin#:#of skin:
 style#:#dir_copied_from#:#The directory has been copied to from:
-style#:#to#:#to:
+style#:#sty_copy_to#:#to:
 style#:#dir_deleted#:#The following directory has been deleted:
 style#:#sty_create_new_system_style#:#Create new System Style
 style#:#sty_create_new_system_sub_style#:#Create new Sub Style
@@ -14323,7 +14324,7 @@ chatroom#:#chat_osc_subs_rej_msgs_p#:#The following chat partners of your conver
 chatroom#:#chat_osc_self_rej_msgs#:#You currently cannot take part in this conversation because you suppressed receiving messages in your settings.
 chatroom#:#chat_osc_search_modal_info#:#Here you can search for users you would like to add to a conversation. If the search dialogue was opened within a group chat, the new user will be added to this chat. If you started the search within a 1:1 chat, a new group chat window will be opened.
 chatroom#:#chtr_server_status#:#Server Status
-chatroom#:#chtr_ban_actor_tbl_head#:#Akteur
+chatroom#:#chtr_ban_actor_tbl_head#:#locked by
 chatroom#:#chtr_ban_ts_tbl_head#:#Timestamp
 chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
 common#:#chtr_import#:#Import Chatroom
@@ -14522,6 +14523,7 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Settings
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_contained_in#:#Contained in
@@ -14565,10 +14567,10 @@ mail#:#mail_both_email#:#Both E-Mail Addresses
 common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
-skmg#:#skmg_assigned_profiles#:#Assigned Profiles
+skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
 skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
+skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -14788,7 +14790,7 @@ sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not
 lm#:#lm_save_titles#:#Titles saved.
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
-wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable metadata fields found in the metadata sets of the wiki.
 iass#:#iass_amend_saved#:#Amended record has been saved.
 dateplaner#:#crs_cal_start#:#Course starts
 dateplaner#:#crs_cal_end#:#Course ends
@@ -14824,7 +14826,7 @@ content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
 common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
-common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
+common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#user_never_logged_in#:#Delete user accounts without login
@@ -14846,19 +14848,6 @@ content#:#cont_lpe_user_agreement_link#:#User Agreement Link
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#fold_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
-file#:#general_upload_error_occured#:#An unexpected error occured during upload.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
-file#:#file_suffix_default_white#:#Default Suffix Whitelist
-file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
-file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
-file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
-file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
-file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
-file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
-file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
-file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
@@ -15609,8 +15598,6 @@ svy#:#svy_users_invited#:#Users have been invited.
 svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 common#:#personal_resources#:#Personal Resources
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
 administration#:#adm_personal_workspace#:#Personal Workspace
 dash#:#dash_favourites#:#Favourites
@@ -15940,8 +15927,10 @@ cmix#:#conf_lrs_secret#:#Secret / Password
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_new_window#:#New Window
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Browse
@@ -16307,6 +16296,10 @@ survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
+common#:#lso_admin_form_title#:#Settings
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
 common#:#mainbar_more_label#:#More
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.
@@ -16517,3 +16510,63 @@ forum#:#notify_censored#:#Censored Posts
 forum#:#notify_uncensored#:#Uncensored Posts
 forum#:#notify_post_deleted#:#Deleted Posts
 forum#:#notify_thread_deleted#:#Deleted Threads
+forum#:#new_thread_with_post#:#New Thread with Posting
+forum#:#empty_thread#:#Empty Thread
+common#:#installation_status#:#Installation Status
+copg#:#copg_an_error_occured#:#An error occured.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Error
+copg#:#copg_page_element_not_found#:#Page element not found.
+adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
+content#:#cont_keyword#:#Keyword
+content#:#cont_footnote#:#Footnote
+content#:#cont_Book#:#Book
+content#:#cont_Numbers#:#Numbers
+content#:#cont_Verse#:#Verse/Stanza
+content#:#cont_choose_from_clipboard#:#Choose from Clipboard
+content#:#cont_open_clipboard#:#Open Clipboard
+common#:#user_avatar#:#User Avatar
+common#:#current_user_avatar#:#Your User Avatar
+common#:#user_avatar_of#:#User Avatar of
+awrn#:#awrn_filter#:#User Filter
+help#:#help_search_label#:#Search Help
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
+content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
+file#:#file_new_version#:#Create New Version
+file#:#replace_file_info#:#All previous file versions will be deleted.
+file#:#upload_info#:#File
+file#:#resource_id#:#Resource ID
+file#:#storage_id#:#Storage ID
+file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"
+file#:#generate_sanitize_report#:#Report about inaccessible files
+file#:#file_import#:#Import File
+file#:#file_download#:#Download File
+file#:#file_uploaded_by#:#Version uploaded by
+file#:#version_uploaded#:#Version uploaded
+file#:#file_copy#:#Copy File
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.
+file#:#file_suffix_custom_expl_black#:#Explizite Blacklist
+file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
+file#:#file_suffix_default_white#:#Default Suffix Whitelist
+file#:#file_suffix_default_white_info#:#Default list of accepted file suffixes.
+file#:#file_suffix_custom_black#:#Custom Suffix Blacklist
+file#:#file_suffix_custom_black_info#:#These suffixes will be removed from the default whitelist.
+file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
+file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
+file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
+file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
+file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User
+irss#:#storage_info#:#Storage Information
+irss#:#resource_id#:#Resource ID
+irss#:#storage_id#:#Storage ID
+irss#:#max_revision#:#Max. Revision
+irss#:#stakeholders#:#Stakeholders

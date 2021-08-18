@@ -3,7 +3,7 @@
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 
@@ -20,7 +20,7 @@ final class XSendfile implements ilFileDeliveryType
     const X_SENDFILE = 'X-Sendfile';
     const X_SENDFILE_TEMPORARY = 'X-Sendfile-Temporary';
     /**
-     * @var GlobalHttpState $httpService
+     * @var Services $httpService
      */
     private $httpService;
 
@@ -28,10 +28,10 @@ final class XSendfile implements ilFileDeliveryType
     /**
      * PHP constructor.
      *
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      *
      */
-    public function __construct(GlobalHttpState $httpState)
+    public function __construct(Services $httpState)
     {
         $this->httpService = $httpState;
     }

@@ -226,7 +226,6 @@ class ilRepUtilGUI
         // Remove duplicate entries
         $a_ids = array_unique((array) $a_ids);
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
 
         if (!$a_supress_message) {
@@ -545,7 +544,6 @@ class ilRepUtilGUI
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
         $tpl = $this->tpl;
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);

@@ -22,16 +22,19 @@
 		],
 		"test-php": [
 			"./CI/PHPUnit/run_tests.sh"
+		],
+		"rector": [
+			"./libs/composer/vendor/bin/rector process --config ./CI/Rector/rector.php --no-diffs"
 		]
 	},
 	"require": {
-		"php": "^7.3",
+		"php": ">=7.4",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
 		"technosophos/libris": "^2.0.2",
 		"ezyang/htmlpurifier": "4.13.0",
-		"phpmailer/phpmailer": "^6.1",
+		"phpmailer/phpmailer": "^6.5",
 		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
@@ -43,36 +46,30 @@
 		"ralouphie/getallheaders": "^2.0",
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
-		"phpoffice/phpspreadsheet": "^1.9.0",
-		"jumbojett/openid-connect-php": "^0.7.0",
-		"sabre/dav": "~3.2.2",
+		"phpoffice/phpspreadsheet": "^1.18.0",
+		"jumbojett/openid-connect-php": "^0.9.2",
+		"sabre/dav": "^4.1",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"zendframework/zend-httphandlerrunner": "^1.1.0",
 		"simplesamlphp/simplesamlphp": "^1.18"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^9",
-		"phpunit/php-code-coverage": "^8.0",
-		"mockery/mockery": "^1.2",
-		"phpunit/php-token-stream": "^4.0",
-		"phpdocumentor/reflection-docblock": "^3.3",
+		"phpunit/phpunit": "^9.5",
+		"mockery/mockery": "^1.4",
 		"friendsofphp/php-cs-fixer": "^2.15",
 		"sebastian/environment": "^5.0",
-		"phpunit/php-timer": "^3.0",
-		"phpspec/prophecy": "^1.8",
-		"theseer/tokenizer": "^1.1",
-		"myclabs/deep-copy": "^1.9",
-		"captainhook/captainhook": "^5.3"
+		"captainhook/captainhook": "^5.3",
+		"rector/rector": "^0.11.7"
 	},
 	"autoload": {
 		"psr-4" : {
 			"ILIAS\\Tests\\" : "./tests",
-			"ILIAS\\" : "./src"
+			"ILIAS\\" : "./src",
+			"ILIAS\\CI\\" : "./CI"
 		},
 		"classmap": [
 			"./Customizing/global/plugins",
@@ -142,10 +139,10 @@
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.1.8",
+			"used_version" : "v6.5.0",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2020-10-15",
+			"last_update" : "2021-06-22",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -211,7 +208,7 @@
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
-		},                
+		},
 		"imsglobal/lti" : {
 			"source": "https://github.com/ILIAS-eLearning/LTI-Tool-Provider-Library-PHP",
 			"used_version": "v3.0.2",
@@ -334,20 +331,20 @@
 		},
 		"phpoffice/phpspreadsheet" : {
 			"source" : "https://github.com/PHPOffice/PhpSpreadsheet",
-			"used_version" : "v1.9.0",
+			"used_version" : "v1.18.0",
 			"wrapped_by" : "Services/Excel",
 			"added_by" : "Jesús López <lopez@leifos.com>",
-			"last_update" : "2019-11-09",
+			"last_update" : "2021-06-19",
 			"last_update_by" : "Alex Killing <killing@leifos.com>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-01-22"
 		},
 		"jumbojett/openid-connect-php" : {
 			"source": "https://github.com/jumbojett/OpenID-Connect-PHP",
-			"used_version": "v0.7.0",
+			"used_version": "v0.9.2",
 			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"wrapped_by": null,
-			"last_update": "2018-10-20",
+			"last_update": "2021-05-10",
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de",
 			"approved_by": "Jour Fixe",
 			"approved-date": "2018-02-26"
@@ -361,16 +358,6 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
-		},
-		"zendframework/zend-httphandlerrunner" : {
-			"source": "https://github.com/zendframework/zend-httphandlerrunner",
-			"used_version": "v1.1",
-			"added_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
-			"wrapped_by": "",
-			"last_update": "2019-07-23",
-			"last_update_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
-			"approved-by": "Jour Fixe",
-			"approved-date": "YYYY-MM-DD"
 		},
 		"friendsofphp/php-cs-fixer": {
 			"source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
@@ -420,9 +407,6 @@
 			},
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
-			},
-			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
 			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"

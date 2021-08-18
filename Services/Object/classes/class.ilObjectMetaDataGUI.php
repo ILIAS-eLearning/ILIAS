@@ -84,7 +84,7 @@ class ilObjectMetaDataGUI
         
         $this->logger = $GLOBALS['DIC']->logger()->obj();
 
-        $this->in_workspace = (bool) $_REQUEST["wsp_id"];
+        $this->in_workspace = (bool) ($_REQUEST["wsp_id"] ?? false);
 
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
@@ -115,7 +115,6 @@ class ilObjectMetaDataGUI
 
             if (!$this->in_workspace) {
                 // (parent) container taxonomies?
-                include_once "Services/Taxonomy/classes/class.ilTaxMDGUI.php";
                 $this->tax_md_gui = new ilTaxMDGUI($this->md_obj->getRBACId(), $this->md_obj->getObjId(), $this->md_obj->getObjType(), $this->ref_id);
                 $tax_ids = $this->tax_md_gui->getSelectableTaxonomies();
                 if (!is_array($tax_ids) || count($tax_ids) == 0) {
@@ -138,7 +137,6 @@ class ilObjectMetaDataGUI
         switch ($next_class) {
             case 'ilmdeditorgui':
                 $this->setSubTabs("lom");
-                include_once 'Services/MetaData/classes/class.ilMDEditorGUI.php';
                 $md_gui = new ilMDEditorGUI((int) $this->obj_id, (int) $this->sub_id, $this->getLOMType());
                 // custom observers?
                 if (is_array($this->md_observers)) {
@@ -156,7 +154,6 @@ class ilObjectMetaDataGUI
 
             case 'iladvancedmdsettingsgui':
                 $this->setSubTabs("advmddef");
-                include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php';
                 $advmdgui = new ilAdvancedMDSettingsGUI($this->ref_id, $this->obj_type, $this->sub_type);
                 $ilCtrl->forwardCommand($advmdgui);
                 break;
@@ -168,7 +165,6 @@ class ilObjectMetaDataGUI
 
             case 'ilobjtaxonomygui':
                 $this->setSubTabs("tax_definition");
-                include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
                 $ilCtrl->forwardCommand($this->tax_obj_gui);
                 break;
 
@@ -190,7 +186,7 @@ class ilObjectMetaDataGUI
      *
      * @param string $a_link link traget
      */
-    public function setTaxonomySettings(closure $a_form_manipulator, closure $a_form_saver)
+    public function setTaxonomySettings(Closure $a_form_manipulator, Closure $a_form_saver)
     {
         $this->taxonomy_settings_form_manipulator = $a_form_manipulator;
         $this->taxonomy_settings_form_saver = $a_form_saver;
@@ -282,7 +278,6 @@ class ilObjectMetaDataGUI
     protected function isAdvMDAvailable()
     {
         //		$this->setAdvMdRecordObject(70,"mep", "mob");
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(false) as $item) {
             list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
@@ -329,9 +324,6 @@ class ilObjectMetaDataGUI
             return false;
         }
         
-        include_once 'Services/Container/classes/class.ilContainer.php';
-        include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-        
         return ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
@@ -345,8 +337,6 @@ class ilObjectMetaDataGUI
      */
     protected function hasActiveRecords()
     {
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-
         list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
         return
@@ -476,12 +466,10 @@ class ilObjectMetaDataGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "update"));
         $form->setTitle($lng->txt("meta_tab_advmd"));
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $this->record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
             $this->obj_type,
@@ -526,7 +514,6 @@ class ilObjectMetaDataGUI
             
             // Update ECS content
             if ($this->obj_type == "crs") {
-                include_once "Modules/Course/classes/class.ilECSCourseSettings.php";
                 $ecs = new ilECSCourseSettings($this->object);
                 $ecs->handleContentUpdate();
             }
@@ -550,9 +537,6 @@ class ilObjectMetaDataGUI
         
         $html = "";
         
-        include_once "Services/Object/classes/class.ilObjectMetaDataBlockGUI.php";
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
         list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
         foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype) as $record) {
             $block = new ilObjectMetaDataBlockGUI($record, $a_callback);
@@ -582,15 +566,10 @@ class ilObjectMetaDataGUI
         $old_dt = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
         list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
         foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype) as $record) {
             $vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
 
-
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-            include_once('Services/ADT/classes/class.ilADTFactory.php');
 
             // this correctly binds group and definitions
             $vals->read();
@@ -633,7 +612,6 @@ class ilObjectMetaDataGUI
      */
     protected function initTaxonomySettingsForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this), "saveTaxonomySettings");
         $form->setTitle($this->lng->txt("tax_tax_settings"));
@@ -657,7 +635,7 @@ class ilObjectMetaDataGUI
             $this->ctrl->redirect($this, "editTaxonomySettings");
         } else {
             $form->setValuesByPost();
-            $this->tpl->setContent($form->getHtml());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 }

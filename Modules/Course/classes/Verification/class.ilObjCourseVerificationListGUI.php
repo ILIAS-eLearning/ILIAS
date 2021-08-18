@@ -1,24 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjCourseVerificationListGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderListGUI.php 26089 2010-10-20 08:08:05Z smeyer $
-*
-* @extends ilObjectListGUI
-*/
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
+ * Class ilObjCourseVerificationListGUI
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjCourseVerificationListGUI extends ilObjectListGUI
 {
-    /**
-    * initialisation
-    */
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -26,23 +16,24 @@ class ilObjCourseVerificationListGUI extends ilObjectListGUI
         $this->subscribe_enabled = false;
         $this->link_enabled = false;
         $this->info_screen_enabled = false;
-        $this->type = "crsv";
-        $this->gui_class_name = "ilobjcourseverificationgui";
+        $this->type = 'crsv';
+        $this->gui_class_name = ilObjCourseVerificationGUI::class;
 
-        // general commands array
-        include_once('./Modules/Course/classes/Verification/class.ilObjCourseVerificationAccess.php');
         $this->commands = ilObjCourseVerificationAccess::_getCommands();
     }
     
-    public function getProperties()
+    public function getProperties() : array
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
         
-        return array(
-            array("alert" => false, "property" => $lng->txt("type"),
-                "value" => $lng->txt("wsp_list_crsv"))
-        );
+        return [
+            [
+                'alert' => false,
+                'property' => $lng->txt('type'),
+                'value' => $lng->txt('wsp_list_crsv')
+            ]
+        ];
     }
-} // END class.ilObjTestVerificationListGUI
+}

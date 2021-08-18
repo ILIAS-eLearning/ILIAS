@@ -1,20 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/COPage/classes/class.ilPageContentGUI.php';
-include_once './Services/COPage/classes/class.ilPCLoginPageElement.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilLoginPageElementGUI
-*
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPCLoginPageElementGUI:
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilLoginPageElementGUI
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls ilPCLoginPageElementGUI:
+ */
 class ilPCLoginPageElementGUI extends ilPageContentGUI
 {
     /**
@@ -86,12 +79,10 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        $objDefinition = $this->obj_definition;
-        
+
         $this->displayValidationError();
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {

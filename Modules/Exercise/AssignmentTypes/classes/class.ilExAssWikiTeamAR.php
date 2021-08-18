@@ -1,19 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Item group active record class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssWikiTeamAR extends ActiveRecord
 {
-    /**
-     * @return string
-     */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'exc_ass_wiki_team';
     }
@@ -29,7 +25,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      * @con_length     4
      * @con_sequence   false
      */
-    protected $id;
+    protected int $id;
 
     /**
      * @var int
@@ -39,7 +35,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      * @con_length    4
      * @con_is_notnull false
      */
-    protected $template_ref_id = 0;
+    protected int $template_ref_id = 0;
 
     /**
      * @var int
@@ -49,7 +45,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      * @con_length    4
      * @con_is_notnull false
      */
-    protected $container_ref_id = 0;
+    protected int $container_ref_id = 0;
 
 
     /**
@@ -57,7 +53,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @return int ID
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -68,7 +64,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @param int $id ID
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -79,7 +75,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @param int $a_template_ref_id template ref id
      */
-    public function setTemplateRefId($a_template_ref_id)
+    public function setTemplateRefId(int $a_template_ref_id) : void
     {
         $this->template_ref_id = $a_template_ref_id;
     }
@@ -90,7 +86,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @return int
      */
-    public function getTemplateRefId()
+    public function getTemplateRefId() : int
     {
         return $this->template_ref_id;
     }
@@ -101,7 +97,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @param int $a_container_ref_id container ref id
      */
-    public function setContainerRefId($a_container_ref_id)
+    public function setContainerRefId(int $a_container_ref_id) : void
     {
         $this->container_ref_id = $a_container_ref_id;
     }
@@ -112,7 +108,7 @@ class ilExAssWikiTeamAR extends ActiveRecord
      *
      * @return int
      */
-    public function getContainerRefId()
+    public function getContainerRefId() : int
     {
         return $this->container_ref_id;
     }

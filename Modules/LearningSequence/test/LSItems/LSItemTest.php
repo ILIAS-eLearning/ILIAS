@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use PHPUnit\Framework\TestCase;
 
@@ -14,12 +14,9 @@ class LSItemTest extends TestCase
     const ORDER_NUMBER = 10;
     const REF_ID = 30;
 
-    /**
-     * @var ilLSPostCondition
-     */
-    protected $post_condition;
+    protected ilLSPostCondition $post_condition;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->post_condition = new ilLSPostCondition(666, 'always');
     }
@@ -37,14 +34,14 @@ class LSItemTest extends TestCase
             self::REF_ID
         );
 
-        $this->assertEquals($object->getType(), self::TYPE);
-        $this->assertEquals($object->getTitle(), self::TITLE);
-        $this->assertEquals($object->getDescription(), self::DESC);
-        $this->assertEquals($object->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($object->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($object->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $object->getType());
+        $this->assertEquals(self::TITLE, $object->getTitle());
+        $this->assertEquals(self::DESC, $object->getDescription());
+        $this->assertEquals(self::ICON_PATH, $object->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $object->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $object->getOrderNumber());
         $this->assertEquals($object->getPostCondition(), $this->post_condition);
-        $this->assertEquals($object->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $object->getRefId());
 
         return $object;
     }
@@ -56,23 +53,23 @@ class LSItemTest extends TestCase
     {
         $new_obj = $object->withOnline(false);
 
-        $this->assertEquals($object->getType(), self::TYPE);
-        $this->assertEquals($object->getTitle(), self::TITLE);
-        $this->assertEquals($object->getDescription(), self::DESC);
-        $this->assertEquals($object->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($object->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($object->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $object->getType());
+        $this->assertEquals(self::TITLE, $object->getTitle());
+        $this->assertEquals(self::DESC, $object->getDescription());
+        $this->assertEquals(self::ICON_PATH, $object->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $object->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $object->getOrderNumber());
         $this->assertEquals($object->getPostCondition(), $this->post_condition);
-        $this->assertEquals($object->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $object->getRefId());
 
-        $this->assertEquals($new_obj->getType(), self::TYPE);
-        $this->assertEquals($new_obj->getTitle(), self::TITLE);
-        $this->assertEquals($new_obj->getDescription(), self::DESC);
-        $this->assertEquals($new_obj->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($new_obj->isOnline(), false);
-        $this->assertEquals($new_obj->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $new_obj->getType());
+        $this->assertEquals(self::TITLE, $new_obj->getTitle());
+        $this->assertEquals(self::DESC, $new_obj->getDescription());
+        $this->assertEquals(self::ICON_PATH, $new_obj->getIconPath());
+        $this->assertEquals(false, $new_obj->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $new_obj->getOrderNumber());
         $this->assertEquals($new_obj->getPostCondition(), $this->post_condition);
-        $this->assertEquals($new_obj->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $new_obj->getRefId());
     }
 
     /**
@@ -82,23 +79,23 @@ class LSItemTest extends TestCase
     {
         $new_obj = $object->withOrderNumber(20);
 
-        $this->assertEquals($object->getType(), self::TYPE);
-        $this->assertEquals($object->getTitle(), self::TITLE);
-        $this->assertEquals($object->getDescription(), self::DESC);
-        $this->assertEquals($object->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($object->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($object->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $object->getType());
+        $this->assertEquals(self::TITLE, $object->getTitle());
+        $this->assertEquals(self::DESC, $object->getDescription());
+        $this->assertEquals(self::ICON_PATH, $object->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $object->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $object->getOrderNumber());
         $this->assertEquals($object->getPostCondition(), $this->post_condition);
-        $this->assertEquals($object->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $object->getRefId());
 
-        $this->assertEquals($new_obj->getType(), self::TYPE);
-        $this->assertEquals($new_obj->getTitle(), self::TITLE);
-        $this->assertEquals($new_obj->getDescription(), self::DESC);
-        $this->assertEquals($new_obj->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($new_obj->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($new_obj->getOrderNumber(), 20);
+        $this->assertEquals(self::TYPE, $new_obj->getType());
+        $this->assertEquals(self::TITLE, $new_obj->getTitle());
+        $this->assertEquals(self::DESC, $new_obj->getDescription());
+        $this->assertEquals(self::ICON_PATH, $new_obj->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $new_obj->isOnline());
+        $this->assertEquals(20, $new_obj->getOrderNumber());
         $this->assertEquals($new_obj->getPostCondition(), $this->post_condition);
-        $this->assertEquals($new_obj->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $new_obj->getRefId());
     }
 
     /**
@@ -109,49 +106,22 @@ class LSItemTest extends TestCase
         $pc = new ilLSPostCondition(555, 'always');
         $new_obj = $object->withPostCondition($pc);
 
-        $this->assertEquals($object->getType(), self::TYPE);
-        $this->assertEquals($object->getTitle(), self::TITLE);
-        $this->assertEquals($object->getDescription(), self::DESC);
-        $this->assertEquals($object->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($object->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($object->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $object->getType());
+        $this->assertEquals(self::TITLE, $object->getTitle());
+        $this->assertEquals(self::DESC, $object->getDescription());
+        $this->assertEquals(self::ICON_PATH, $object->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $object->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $object->getOrderNumber());
         $this->assertEquals($object->getPostCondition(), $this->post_condition);
-        $this->assertEquals($object->getRefId(), self::REF_ID);
+        $this->assertEquals(self::REF_ID, $object->getRefId());
 
-        $this->assertEquals($new_obj->getType(), self::TYPE);
-        $this->assertEquals($new_obj->getTitle(), self::TITLE);
-        $this->assertEquals($new_obj->getDescription(), self::DESC);
-        $this->assertEquals($new_obj->getIconPath(), self::ICON_PATH);
-        $this->assertEquals($new_obj->isOnline(), self::IS_ONLINE);
-        $this->assertEquals($new_obj->getOrderNumber(), self::ORDER_NUMBER);
+        $this->assertEquals(self::TYPE, $new_obj->getType());
+        $this->assertEquals(self::TITLE, $new_obj->getTitle());
+        $this->assertEquals(self::DESC, $new_obj->getDescription());
+        $this->assertEquals(self::ICON_PATH, $new_obj->getIconPath());
+        $this->assertEquals(self::IS_ONLINE, $new_obj->isOnline());
+        $this->assertEquals(self::ORDER_NUMBER, $new_obj->getOrderNumber());
         $this->assertEquals($new_obj->getPostCondition(), $pc);
-        $this->assertEquals($new_obj->getRefId(), self::REF_ID);
-    }
-
-    /**
-     * @depends testCreate
-     */
-    public function testWrongValueInWithOnline(LSItem $object)
-    {
-        $this->expectException(TypeError::class);
-        $object->withOnline("wrong_value");
-    }
-
-    /**
-     * @depends testCreate
-     */
-    public function testWrongValueInWithOrderNumber(LSItem $object)
-    {
-        $this->expectException(TypeError::class);
-        $object->withOrderNumber("wrong_value");
-    }
-
-    /**
-     * @depends testCreate
-     */
-    public function testWrongValueInWithPostCondition(LSItem $object)
-    {
-        $this->expectException(TypeError::class);
-        $object->withPostCondition("wrong_value");
+        $this->assertEquals(self::REF_ID, $new_obj->getRefId());
     }
 }

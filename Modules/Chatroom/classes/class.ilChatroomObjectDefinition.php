@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,36 +10,33 @@ class ilChatroomObjectDefinition
      * Module name, defaults to 'Chatroom'
      * @var string
      */
-    private $moduleName;
+    private string $moduleName;
 
     /**
      * Module base path, set to "Modules/$this->moduleName/"
      * @var string
      */
-    private $moduleBasePath;
+    private string $moduleBasePath;
 
     /**
      * always set to 'classes'
      * @var string
      */
-    private $relativeClassPath;
+    private string $relativeClassPath;
 
     /**
      * GUIScope
      * set to '' for single instance or 'admin' for general administration
      * @var string
      */
-    private $guiScope;
+    private string $guiScope;
 
-    /**
-     * Sets class parameters using given parameters.
-     * @param string $moduleName
-     * @param string $moduleBasePath
-     * @param string $relativeClassPath Optional.
-     * @param string $guiScope          Optional.
-     */
-    public function __construct($moduleName, $moduleBasePath, $relativeClassPath = 'classes', $guiScope = '')
-    {
+    public function __construct(
+        string $moduleName,
+        string $moduleBasePath,
+        string $relativeClassPath = 'classes',
+        string $guiScope = ''
+    ) {
         $this->moduleName = $moduleName;
         $this->moduleBasePath = rtrim($moduleBasePath, '/\\');
         $this->relativeClassPath = rtrim($relativeClassPath);
@@ -52,7 +49,7 @@ class ilChatroomObjectDefinition
      * @param string $moduleName
      * @return ilChatroomObjectDefinition
      */
-    public static function getDefaultDefinition($moduleName)
+    public static function getDefaultDefinition(string $moduleName) : self
     {
         $object = new self($moduleName, 'Modules/' . $moduleName . '/');
 
@@ -66,7 +63,7 @@ class ilChatroomObjectDefinition
      * @param string $guiScope Optional. 'admin' or ''. Default ''
      * @return ilChatroomObjectDefinition
      */
-    public static function getDefaultDefinitionWithCustomGUIPath($moduleName, $guiScope = '')
+    public static function getDefaultDefinitionWithCustomGUIPath(string $moduleName, string $guiScope = '') : self
     {
         $object = new self(
             $moduleName,
@@ -81,9 +78,9 @@ class ilChatroomObjectDefinition
     /**
      * Returns true if file exists.
      * @param string $gui
-     * @return boolean
+     * @return bool
      */
-    public function hasGUI($gui)
+    public function hasGUI(string $gui) : bool
     {
         return file_exists($this->getGUIPath($gui));
     }
@@ -93,10 +90,13 @@ class ilChatroomObjectDefinition
      * @param string $gui
      * @return string
      */
-    public function getGUIPath($gui)
+    public function getGUIPath(string $gui) : string
     {
-        return $this->moduleBasePath . '/' . $this->relativeClassPath . '/' .
-        $this->guiScope . 'gui/class.' . $this->getGUIClassName($gui) . '.php';
+        return (
+            $this->moduleBasePath . '/' .
+            $this->relativeClassPath . '/' .
+            $this->guiScope . 'gui/class.' . $this->getGUIClassName($gui) . '.php'
+        );
     }
 
     /**
@@ -104,7 +104,7 @@ class ilChatroomObjectDefinition
      * @param string $gui
      * @return string
      */
-    public function getGUIClassName($gui)
+    public function getGUIClassName(string $gui) : string
     {
         return 'il' . $this->moduleName . ucfirst($this->guiScope) . ucfirst($gui) . 'GUI';
     }
@@ -114,18 +114,18 @@ class ilChatroomObjectDefinition
      * method to build the filename of the file to required.
      * @param string $gui
      */
-    public function loadGUI($gui)
+    public function loadGUI(string $gui) : void
     {
         require_once $this->getGUIPath($gui);
     }
 
     /**
      * Builds and returns new gui using given $gui and $gui
-     * @param string              $gui
+     * @param string $gui
      * @param ilChatroomObjectGUI $chatroomObjectGUI
      * @return ilChatroomGUIHandler
      */
-    public function buildGUI($gui, ilChatroomObjectGUI $chatroomObjectGUI)
+    public function buildGUI(string $gui, ilChatroomObjectGUI $chatroomObjectGUI) : ilChatroomGUIHandler
     {
         $className = $this->getGUIClassName($gui);
         $guiInstance = new $className($chatroomObjectGUI);

@@ -1,18 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjBookingPoolGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
-* @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
-* @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
-*/
+ * Class ilObjBookingPoolGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
+ * @ilCtrl_IsCalledBy ilObjBookingPoolGUI: ilRepositoryGUI, ilAdministrationGUI
+ */
 class ilObjBookingPoolGUI extends ilObjectGUI
 {
     /**
@@ -56,6 +55,26 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     protected $sseed;
 
     /**
+     * @var ilObjBookingPool
+     */
+    public $object;
+
+    /**
+     * @var int
+     */
+    protected $profile_user_id;
+
+    /**
+     * @var int
+     */
+    protected $book_obj_id;
+
+    /**
+     * @var string
+     */
+    protected $reservation_id;
+
+    /**
      * ilObjBookingPoolGUI constructor.
      * @param array $a_data
      * @param int $a_id
@@ -82,7 +101,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             $DIC["ilHelp"]->setScreenIdComponent("book");
         }
 
-        $this->user_profile_id = (int) $_GET["user_id"];
         $this->book_obj_id = (int) $_REQUEST['object_id'];
         $this->seed = ilUtil::stripSlashes($_GET['seed']);
         $this->sseed = ilUtil::stripSlashes($_GET['sseed']);
@@ -178,7 +196,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             case 'ilpublicuserprofilegui':
                 $this->checkPermission('read');
                 $ilTabs->clearTargets();
-                $profile = new ilPublicUserProfileGUI($this->user_profile_id);
+                $profile = new ilPublicUserProfileGUI($this->profile_user_id);
                 $profile->setBackUrl($this->ctrl->getLinkTargetByClass("ilbookingreservationsgui", ''));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $tpl->setContent($ret);
@@ -266,14 +284,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     public function editObject()
     {
         $this->showNoScheduleMessage();
-        return parent::editObject();
+        parent::editObject();
     }
 
     /**
      * Show no schedule message
-     *
-     * @param
-     * @return
      */
     public function showNoScheduleMessage()
     {
@@ -426,13 +441,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             $this->object->getId(),
             $a_form,
             array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
-            );
+        );
     }
     
     /**
-    * get tabs
-    */
-    public function setTabs()
+     * get tabs
+     */
+    protected function setTabs()
     {
         $ilUser = $this->user;
 
@@ -519,7 +534,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 "perm_settings",
                 $this->lng->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
-                );
+            );
         }
     }
     
@@ -535,9 +550,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             case ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES: $object_subtype = "-noschedulepref"; break;
         }
 
+        throw new Exception("ilObjBookingPoolGUI: setHelp ID Mismatch");
+        /*  strange, these methods do not exist
         $ilHelp->setScreenIdComponent('book');
         $ilHelp->setScreenId('object' . $object_subtype);
-        $ilHelp->setSubScreenId($a_id);
+        $ilHelp->setSubScreenId($a_id);*/
     }
 
     public static function _goto($a_target)
@@ -549,6 +566,8 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "render");
+        } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             ilUtil::sendFailure(sprintf(
                 $lng->txt("msg_no_perm_read_item"),
@@ -570,7 +589,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->infoScreen();
     }
 
-    public function infoScreen()
+    public function infoScreen() : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -604,6 +623,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         } else {
             return $ilCtrl->getHTML($info);
         }
+        return "";
     }
     
 
@@ -621,7 +641,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $tpl->setContent($ilCtrl->getHTML($profile));
     }
     
-    public function addLocatorItems()
+    protected function addLocatorItems()
     {
         $ilLocator = $this->locator;
         

@@ -63,8 +63,8 @@ interface Factory
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content
-     * @param  \ILIAS\UI\Component\MainControls\Metabar $metabar
-     * @param  \ILIAS\UI\Component\MainControls\Mainbar $mainbar
+     * @param  \ILIAS\UI\Component\MainControls\MetaBar $Metabar
+     * @param  \ILIAS\UI\Component\MainControls\MetaBar $mainbar
      * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
      * @param  \ILIAS\UI\Component\MainControls\Footer $footer
      * @param  string $title
@@ -72,8 +72,8 @@ interface Factory
      */
     public function standard(
         array $content,
-        MainControls\Metabar $metabar = null,
-        MainControls\Mainbar $mainbar = null,
+        MainControls\MetaBar $metabar = null,
+        MainControls\MainBar $mainbar = null,
         Breadcrumbs $locator = null,
         Image $logo = null,
         MainControls\Footer $footer = null,

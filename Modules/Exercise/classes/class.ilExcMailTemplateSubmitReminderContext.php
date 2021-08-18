@@ -1,25 +1,26 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
 /**
  * Handles exercise Submit reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
- *
  * @author Jesús López <lopez@leifos.com>
- * @package ModulesExercise
  */
 class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public const ID = 'exc_context_submit_rmd';
 
     /**
-     * @var ilObjectDataCache
+     * caution, this currently makes the ilias update fail (Aug 2021)
+     * setup > ilMailTemplateContextDefinitionProcessor > anonymous class in $DIC->language()
      */
+    // protected ilLanguage $lng;
+    // protected ilObjectDataCache $obj_data_cache;
+
+    protected $lng;
     protected $obj_data_cache;
 
     public function __construct(
@@ -28,6 +29,7 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         ilMailUserHelper $usernameHelper = null,
         ilMailLanguageHelper $languageHelper = null
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct(
@@ -43,19 +45,11 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         }
     }
 
-    const ID = 'exc_context_submit_rmd';
-
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         $lng = $this->lng;
@@ -65,9 +59,6 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_submit_reminder_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         $lng = $this->lng;
@@ -77,10 +68,6 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_submit_reminder_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
     public function getSpecificPlaceholders() : array
     {
         $lng = $this->lng;
@@ -105,9 +92,6 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,

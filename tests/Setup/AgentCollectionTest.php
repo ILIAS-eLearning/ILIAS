@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -213,7 +213,7 @@ class AgentCollectionTest extends TestCase
             ->willReturn($g2);
 
         $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
-        $conf = new Setup\ConfigCollection(["c1" => $conf1]);
+        $conf = new Setup\ConfigCollection(["c1" => $c1]);
 
         $g = $col->getStatusObjective($storage);
 
@@ -253,7 +253,7 @@ class AgentCollectionTest extends TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetAgent()
+    public function testGetAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -274,7 +274,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($c->getAgent("c5"));
     }
 
-    public function testWithRemovedAgent()
+    public function testWithRemovedAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -304,7 +304,7 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testWithAdditionalAgent()
+    public function testWithAdditionalAgent() : void
     {
         $refinery = $this->createMock(Refinery::class);
 
@@ -332,5 +332,37 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($c3, $cb->getAgent("c3"));
         $this->assertSame($c4, $cb->getAgent("c4"));
         $this->assertNull($cb->getAgent("c5"));
+    }
+
+    public function testGetNamedObjective() : void
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $o = $this->newObjective();
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $conf2 = $this->newConfig();
+
+        $conf = new Setup\ConfigCollection(
+            ["sub" => new Setup\ConfigCollection(
+                [ "c2" => $conf2 ]
+            )]
+        );
+
+        $c = new Setup\AgentCollection(
+            $refinery,
+            [ "sub" => new Setup\AgentCollection(
+                $refinery,
+                ["c1" => $c1, "c2" => $c2]
+            )]
+        );
+
+        $c2->expects($this->once())
+            ->method("getNamedObjective")
+            ->with("the_objective", $conf2)
+            ->willReturn($o);
+
+        $res = $c->getNamedObjective("sub.c2.the_objective", $conf);
+        $this->assertSame($o, $res);
     }
 }

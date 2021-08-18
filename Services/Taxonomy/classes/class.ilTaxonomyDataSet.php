@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy data set class
@@ -12,17 +11,14 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - tax_tree: data from a join on tax_tree and tax_node
  * - tax_node_assignment: data from table tax_node_assignment
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesTaxononmy
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyDataSet extends ilDataSet
 {
+    protected ilObjTaxonomy $current_obj;
+
     /**
-     * Get supported versions
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
     public function getSupportedVersions()
     {
@@ -30,23 +26,17 @@ class ilTaxonomyDataSet extends ilDataSet
     }
     
     /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Services/Taxonomy/" . $a_entity;
     }
     
     /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         // tax
         if ($a_entity == "tax") {
@@ -99,15 +89,13 @@ class ilTaxonomyDataSet extends ilDataSet
                         );
             }
         }
+        return [];
     }
 
     /**
-     * Read data
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -191,31 +179,18 @@ class ilTaxonomyDataSet extends ilDataSet
     ////
     
     
-    /**
-     * Import record
-     *
-     * @param
-     * @return
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
+    public function importRecord(
+        string $a_entity,
+        $a_types,
+        array $a_rec,
+        array $a_mapping,
+        string $a_schema_version
+    ) {
         switch ($a_entity) {
             case "tax":
-                include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+                $newObj = new ilObjTaxonomy();
+                $newObj->create();
 
-//				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
-//				{
-//					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-//				}
-//				else
-//				{
-                    $newObj = new ilObjTaxonomy();
-                    $newObj->create();
-//				}
-                
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);
                 $newObj->setSortingMode($a_rec["SortingMode"]);
@@ -266,7 +241,6 @@ class ilTaxonomyDataSet extends ilDataSet
                     $a_rec["Component"] . ":" . $a_rec["ItemType"] . ":" . $a_rec["ItemId"]
                 );
                 if ($new_item_id > 0 && $new_node_id > 0 && $new_item_id_obj > 0) {
-                    include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
                     $node_ass = new ilTaxNodeAssignment($a_rec["Component"], $new_item_id_obj, $a_rec["ItemType"], $this->current_obj->getId());
                     $node_ass->addAssignment($new_node_id, $new_item_id);
                 }

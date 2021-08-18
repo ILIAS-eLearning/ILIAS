@@ -1,38 +1,15 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Stores all mediacast relevant settings.
-*
-* @author Roland Küstermann <rkuestermann@mps.de>
-* @version $Id$
-*
-*
-* @ingroup ModulesMediaCast
-*/
+ * Stores all mediacast relevant settings.
+ *
+ * @author Roland Küstermann <rkuestermann@mps.de>
+ */
 class ilMediaCastSettings
 {
-    private  $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
+    private $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
     private $supported_mime_types = [
         "video/mp4" => "video/mp4",
         "audio/mpeg" => "audio/mpeg",
@@ -174,16 +151,11 @@ class ilMediaCastSettings
      */
     private function initStorage()
     {
-        include_once('./Services/Administration/classes/class.ilSetting.php');
         $this->storage = new ilSetting('mcst');
-        include_once('./Modules/MediaCast/classes/class.ilObjMediaCast.php');
         $this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
                
         $this->purposeSuffixes["Standard"] = $this->supported_suffixes;
-        //$this->purposeSuffixes["AudioPortable"] = array("mp3");
-        //$this->purposeSuffixes["VideoPortable"] = array("mp4","mov");
         $this->setDefaultAccess("users");
-        include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $mimeTypes = array_unique(array_values(ilMimeTypeUtil::getExt2MimeMap()));
         sort($mimeTypes);
         $this->setMimeTypes($this->supported_mime_types);

@@ -1,5 +1,10 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Exercise data set class
@@ -14,39 +19,22 @@
  * - exc_ass_reminders: Assingment reminder data
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ingroup ModulesExercise
  */
 class ilExerciseDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     *
-     * @param
-     * @return
-     */
-    public function getSupportedVersions()
+    protected ilObjExercise $current_exc;
+
+    public function getSupportedVersions() : array
     {
         return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0");
     }
-    
-    /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
-     */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+
+    protected function getXmlNamespace($a_entity, $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Exercise/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Exercise/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
-     */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "exc") {
             switch ($a_version) {
@@ -215,6 +203,8 @@ class ilExerciseDataSet extends ilDataSet
                         ,"FeedbackDate" => "integer"
                         ,"FeedbackDir" => "directory"
                         ,"FbDateCustom" => "integer"
+                        ,"DeadlineMode" => "integer"
+                        ,"RelativeDeadline" => "integer"
                         ,"RelDeadlineLastSubm" => "integer"
                     );
             }
@@ -281,16 +271,10 @@ class ilExerciseDataSet extends ilDataSet
                     );
             }
         }
-        return false;
+        return [];
     }
 
-    /**
-     * Read data
-     *
-     * @param
-     * @return
-     */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -358,7 +342,7 @@ class ilExerciseDataSet extends ilDataSet
                         " instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min," .
                         " peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid," .
                         " peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date," .
-                        " fb_date_custom, rel_deadline_last_subm" .
+                        " fb_date_custom, rel_deadline_last_subm, deadline_mode, relative_deadline" .
                         " FROM exc_assignment" .
                         " WHERE " . $ilDB->in("exc_id", $a_ids, false, "integer"));
                     break;
@@ -418,12 +402,9 @@ class ilExerciseDataSet extends ilDataSet
     }
 
     /**
-     * Get xml record (export)
-     *
-     * @param	array	abstract data record
-     * @return	array	xml record
+     * @throws ilDateTimeException
      */
-    public function getXmlRecord($a_entity, $a_version, $a_set)
+    public function getXmlRecord($a_entity, $a_version, $a_set) : array
     {
         if ($a_entity == "exc_assignment") {
             // convert server dates to utc
@@ -466,11 +447,7 @@ class ilExerciseDataSet extends ilDataSet
         return $a_set;
     }
 
-    
-    /**
-     * Determine the dependent sets of data
-     */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
+    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids) : array
     {
         switch ($a_entity) {
             case "exc":
@@ -508,17 +485,19 @@ class ilExerciseDataSet extends ilDataSet
                 }
                 break;
         }
-        return false;
+        return [];
     }
-    
-    
+
     /**
-     * Import record
-     *
-     * @param
-     * @return
+     * @throws FileNotFoundException
+     * @throws DirectoryNotFoundException
+     * @throws ilDatabaseException
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     * @throws IOException
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
     {
         //echo $a_entity;
         //var_dump($a_rec);
@@ -530,7 +509,7 @@ class ilExerciseDataSet extends ilDataSet
                 } else {
                     $newObj = new ilObjExercise();
                     $newObj->setType("exc");
-                    $newObj->create(true);
+                    $newObj->create();
                 }
                 
                 $newObj->setTitle($a_rec["Title"]);
@@ -614,7 +593,9 @@ class ilExerciseDataSet extends ilDataSet
                     // 5.3
                     $ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
                     $ass->setRelDeadlineLastSubmission($a_rec["RelDeadlineLastSubm"]);
-                    
+                    $ass->setDeadlineMode($a_rec["DeadlineMode"]);
+                    $ass->setRelativeDeadline($a_rec["RelativeDeadline"]);
+
                     // criteria catalogue
                     if ($a_rec["PeerCritCat"]) {
                         $ass->setPeerReviewCriteriaCatalogue($a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["PeerCritCat"]));

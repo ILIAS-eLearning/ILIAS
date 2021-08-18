@@ -159,6 +159,10 @@ var OSDNotifier, OSDNotifications = function (settings) {
 						max_age:  Math.abs(lastRequest - 10 - (parseInt(new Date().getTime() / 1000)))
 					},
 					function (data) {
+						if (typeof data !== "object") {
+							return;
+						}
+
 						lastRequest = parseInt(new Date().getTime() / 1000);
 
 						renderItems(data);

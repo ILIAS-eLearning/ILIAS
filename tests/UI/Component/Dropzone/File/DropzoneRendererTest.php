@@ -147,7 +147,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
          <div class="modal-content">
             <div class="modal-header">
                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-               <h4 class="modal-title">upload</h4>
+               <span class="modal-title">upload</span>
             </div>
             <div class="modal-body">
                <div class="il-upload-file-list" >
@@ -192,7 +192,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
                   </div>
                </div>
             </div>
-            <div class="modal-footer"><button class="btn btn-default btn-primary" data-action="" disabled="disabled">upload</button><a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a></div>
+            <div class="modal-footer"><button class="btn btn-default btn-primary" data-action="" disabled="disabled">upload</button><button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button></div>
          </div>
       </div>
    </div>

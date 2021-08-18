@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilMd5PasswordEncoder.php';
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 /**
  * Class ilMd5PasswordEncoderTest
  * @author  Michael Jansen <mjansen@databay.de>
@@ -11,19 +8,15 @@ require_once 'Services/Password/test/ilPasswordBaseTest.php';
  */
 class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 {
-    /**
-     * @return ilMd5PasswordEncoder
-     */
     public function testInstanceCanBeCreated() : ilMd5PasswordEncoder
     {
         $encoder = new ilMd5PasswordEncoder();
-        $this->assertInstanceOf('ilMd5PasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilMd5PasswordEncoder::class, $encoder);
         return $encoder;
     }
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordShouldBeCorrectlyEncoded(ilMd5PasswordEncoder $encoder) : void
@@ -33,7 +26,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordCanBeVerified(ilMd5PasswordEncoder $encoder) : void
@@ -43,7 +35,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testEncoderDoesNotRelyOnSalts(ilMd5PasswordEncoder $encoder) : void
     {
@@ -52,7 +43,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testEncoderDoesNotSupportReencoding(ilMd5PasswordEncoder $encoder) : void
     {
@@ -61,7 +51,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
@@ -73,7 +62,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
@@ -84,7 +72,6 @@ class ilMd5PasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMd5PasswordEncoder $encoder
      */
     public function testNameShouldBeMd5(ilMd5PasswordEncoder $encoder) : void
     {

@@ -13,6 +13,11 @@ class ilAppointmentBaseFileHandler
     protected $appointment;
 
     /**
+     * @var ilLogger
+     */
+    protected $logger;
+
+    /**
      * Constructor
      *
      * @param
@@ -24,7 +29,7 @@ class ilAppointmentBaseFileHandler
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->user = $DIC->user();
-
+        $this->logger = $DIC->logger()->cal();
         $this->appointment = $a_appointment;
     }
 

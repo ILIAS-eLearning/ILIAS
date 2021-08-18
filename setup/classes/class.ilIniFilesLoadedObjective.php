@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -21,7 +21,7 @@ class ilIniFilesLoadedObjective implements Setup\Objective
     // (abandoned) are implemented and the config is loaded in general, but this
     // is task for another day. If anyone has an idea or wants to work on getting
     // rid of these, feel free to get in contact with Richard.
-    public static $might_populate_ini_files_as_well = true;
+    public static bool $might_populate_ini_files_as_well = true;
 
     public function getHash() : string
     {

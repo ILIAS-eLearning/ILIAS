@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilLoggingSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

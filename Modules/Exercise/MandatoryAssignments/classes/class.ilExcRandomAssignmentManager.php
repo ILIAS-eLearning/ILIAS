@@ -1,53 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Manages random mandatory assignments of an exercise
- *
  * (business logic)
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcRandomAssignmentManager
 {
-    const DENIED_SUBMISSIONS = "has_submissions";
-    const DENIED_PEER_REVIEWS = "has_peer_reviews";
-    const DENIED_TEAM_ASSIGNMENTS = "has_team_assignments";
+    public const DENIED_SUBMISSIONS = "has_submissions";
+    public const DENIED_PEER_REVIEWS = "has_peer_reviews";
+    public const DENIED_TEAM_ASSIGNMENTS = "has_team_assignments";
 
-    /**
-     * @var ilObjExercise
-     */
-    protected $exc;
+    protected ilObjExercise $exc;
+    protected int $exc_id;
+    protected ilObjUser $user;
+    protected ilExcRandomAssignmentDBRepository $rand_ass_repo;
+    protected ilLanguage $lng;
+    protected ilExcSubmissionRepository $submission_repo;
 
-    /**
-     * @var int
-     */
-    protected $exc_id;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilExcRandomAssignmentDBRepository
-     */
-    protected $rand_ass_repo;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilExcSubmissionRepository
-     */
-    protected $submission_repo;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilObjExercise $exc,
         ilExcRandomAssignmentDBRepository $rand_ass_repo,
@@ -69,12 +41,8 @@ class ilExcRandomAssignmentManager
         $this->submission_repo = new ilExcSubmissionRepository($DIC->database());
     }
 
-    /**
-     * Checks if the random assignment can be activated (if no learner has already submitted stuff)
-     *
-     * @return bool
-     */
-    public function canBeActivated()
+    // Checks if the random assignment can be activated (if no learner has already submitted stuff)
+    public function canBeActivated() : bool
     {
         /** @var ilExAssignment $ass */
         foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
@@ -87,10 +55,10 @@ class ilExcRandomAssignmentManager
 
     /**
      * Get reasons for denied activation
-     *
      * @return string[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getDeniedActivationReasons()
+    public function getDeniedActivationReasons() : array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
@@ -118,22 +86,17 @@ class ilExcRandomAssignmentManager
         return $reasons;
     }
 
-    /**
-     * Checks if the random assignment can be activated (if no learner has already submitted stuff)
-     *
-     * @return bool
-     */
-    public function canBeDeactivated()
+    // Checks if the random assignment can be activated (if no learner has already submitted stuff)
+    public function canBeDeactivated() : bool
     {
         return !$this->hasAnySubmission();
     }
 
     /**
      * Get reasons for denied deactivation
-     *
      * @return string[]
      */
-    public function getDeniedDeactivationReasons()
+    public function getDeniedDeactivationReasons() : array
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("exc");
@@ -144,42 +107,24 @@ class ilExcRandomAssignmentManager
         return $reasons;
     }
 
-    /**
-     * Is random assignment activated?
-     *
-     * @return bool
-     */
-    public function isActivated()
+    // Is random assignment activated?
+    public function isActivated() : bool
     {
         return ($this->exc->getPassMode() == ilObjExercise::PASS_MODE_RANDOM);
     }
 
-    /**
-     * Get total number of assignments
-     *
-     * @return int
-     */
-    public function getTotalNumberOfAssignments()
+    public function getTotalNumberOfAssignments() : int
     {
         return count(ilExAssignment::getInstancesByExercise($this->exc_id));
     }
 
-    /**
-     * Get total number of mandatory assignments
-     *
-     * @return int
-     */
-    public function getNumberOfMandatoryAssignments()
+    public function getNumberOfMandatoryAssignments() : int
     {
         return $this->exc->getNrMandatoryRandom();
     }
 
-    /**
-     * @return bool
-     */
-    protected function hasAnySubmission()
+    protected function hasAnySubmission() : bool
     {
-
         /** @var ilExAssignment $ass */
         foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
             if ($this->submission_repo->hasSubmissions($ass->getId())) {
@@ -191,9 +136,8 @@ class ilExcRandomAssignmentManager
 
     /**
      * Needs current user to start the exercise (by selecting the random assignments)?
-     * @return bool
      */
-    public function needsStart()
+    public function needsStart() : bool
     {
         if ($this->isActivated()) {
             $ass_of_user = $this->rand_ass_repo->getAssignmentsOfUser($this->user->getId(), $this->exc_id);
@@ -210,16 +154,14 @@ class ilExcRandomAssignmentManager
      * @param int $user_id
      * @return int[] assignment ids
      */
-    public function getMandatoryAssignmentsOfUser($user_id)
+    public function getMandatoryAssignmentsOfUser(int $user_id) : array
     {
         return $this->rand_ass_repo->getAssignmentsOfUser($user_id, $this->exc_id);
     }
 
 
-    /**
-     * Start exercise
-     */
-    public function startExercise()
+    // Start exercise
+    public function startExercise() : void
     {
         if ($this->needsStart()) {
             $this->rand_ass_repo->saveAssignmentsOfUser(
@@ -232,8 +174,10 @@ class ilExcRandomAssignmentManager
     
     /**
      * Get random assignment selection
+     * @return int[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function getAssignmentSelection()
+    protected function getAssignmentSelection() : array
     {
         $ass_ids = array_map(function ($i) {
             return $i->getId();
@@ -255,8 +199,10 @@ class ilExcRandomAssignmentManager
      * @param int $user_id
      * @return bool
      */
-    public function isAssignmentVisible(int $ass_id, int $user_id)
-    {
+    public function isAssignmentVisible(
+        int $ass_id,
+        int $user_id
+    ) : bool {
         if ($this->isActivated() && !in_array($ass_id, $this->getMandatoryAssignmentsOfUser($user_id))) {
             return false;
         }

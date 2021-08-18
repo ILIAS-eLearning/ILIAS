@@ -74,6 +74,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $templates = $filter->filter($tpls->getTemplates());
 
         $counter = 0;
+        $data = [];
         foreach ($templates as $tpl) {
             /* @var $tpl ilDidacticTemplateSetting */
             $data[$counter]['id'] = $tpl->getId();

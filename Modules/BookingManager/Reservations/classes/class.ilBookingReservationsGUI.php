@@ -21,6 +21,66 @@ class ilBookingReservationsGUI
     protected $context_obj_id;
 
     /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var \ilGlobalTemplateInterface
+     */
+    protected $tpl;
+
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var \ilAccessHandler
+     */
+    protected $access;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs_gui;
+
+    /**
+     * @var \ilObjUser
+     */
+    protected $user;
+
+    /**
+     * @var ilObjBookingPool
+     */
+    protected $pool;
+
+    /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
+     * @var int
+     */
+    protected $book_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $pbooked_user;
+
+    /**
+     * @var string
+     */
+    protected $reservation_id;
+
+    /**
+     * @var int
+     */
+    protected $booked_user;
+
+    /**
      * ilBookingReservationsGUI constructor.
      * @param ilObjBookingPool $pool
      * @param ilBookingHelpAdapter $help
@@ -571,9 +631,9 @@ class ilBookingReservationsGUI
         $details = sprintf($this->lng->txt('X_reservations_of'), count($ids)) . ' ' . $obj->getTitle();
         if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $details .= ", " . ilDatePresentation::formatPeriod(
-                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
-                );
+                new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+                new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
+            );
         }
 
         $conf->addItem('rsv_ids', implode(',', $ids), $details);
@@ -595,7 +655,6 @@ class ilBookingReservationsGUI
                 if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
                     $cal_entry_id = $res->getCalendarEntry();
                     if ($cal_entry_id) {
-                        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
                         $entry = new ilCalendarEntry($cal_entry_id);
                         $entry->delete();
                     }

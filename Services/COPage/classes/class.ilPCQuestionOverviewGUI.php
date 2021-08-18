@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCQuestionOverview.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPCQuestionOverviewGUI
@@ -10,9 +8,6 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  * User Interface for question overview editing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCQuestionOverviewGUI extends ilPageContentGUI
 {
@@ -71,7 +66,6 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
         $this->displayValidationError();
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {

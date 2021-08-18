@@ -52,12 +52,13 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  componentInsert(cname, pcid, hierid, pluginName) {
+  componentInsert(cname, pcid, hierid, pluginName, fromPlaceholder) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_INSERT, {
       cname: cname,
       pcid: pcid,
       hierid: hierid,
-      pluginName: pluginName
+      pluginName: pluginName,
+      fromPlaceholder: fromPlaceholder
     });
   }
 
@@ -99,6 +100,18 @@ export default class PageEditorActionFactory {
    */
   componentSave(afterPcid, pcid, component, data) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_SAVE, {
+      afterPcid: afterPcid,
+      pcid: pcid,
+      component: component,
+      data: data
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  componentAfterSave(afterPcid, pcid, component, data) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_AFTER_SAVE, {
       afterPcid: afterPcid,
       pcid: pcid,
       component: component,
@@ -168,6 +181,13 @@ export default class PageEditorActionFactory {
       parFormat: parFormat,
       secFormat: secFormat
     });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  formatCancel() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_CANCEL, {});
   }
 
   /**

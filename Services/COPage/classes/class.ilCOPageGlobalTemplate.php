@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UICore/lib/html-it/IT.php");
-include_once("./Services/UICore/lib/html-it/ITX.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* special template class to simplify handling of ITX/PEAR
-* @author	Stefan Kesseler <skesseler@databay.de>
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @version	$Id$
-*/
+ * special template class to simplify handling of ITX/PEAR
+ * @author	Stefan Kesseler <skesseler@databay.de>
+ * @author	Sascha Hofmann <shofmann@databay.de>
+ */
 class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 {
     protected $tree_flat_link = "";
@@ -18,8 +15,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     protected $lightbox = array();
     protected $standard_template_loaded = false;
-
-    protected $translation_linked = false; // fix #9992: remember if a translation link is added
 
     /**
      * @var	\ilTemplate
@@ -108,14 +103,11 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         $link_items = array();
 
         // imprint
-        include_once "Services/Imprint/classes/class.ilImprint.php";
         if ($_REQUEST["baseClass"] != "ilImprintGUI" && ilImprint::isActive()) {
-            include_once "Services/Link/classes/class.ilLink.php";
             $link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
         }
 
         // system support contacts
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
         if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "") {
             $link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
         }
@@ -128,10 +120,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // output translation link
-        include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            // fix #9992: remember linked translation instead of saving language usages here
-            $this->translation_linked = true;
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
 
@@ -171,24 +160,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             if (sizeof($mem_usage)) {
                 $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
             }
-
-            if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation")) {
-                require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-                $template2 = clone($this);
-                $ftpl->setCurrentBlock("xhtml_validation");
-                $ftpl->setVariable(
-                    "VALIDATION",
-                    ilValidatorAdapter::validate($template2->get(
-                        "DEFAULT",
-                        false,
-                        false,
-                        false,
-                        true
-                    ), $_GET["do_dev_validate"])
-                );
-                $ftpl->parseCurrentBlock();
-            }
-
+            
             // controller history
             if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
                 $ftpl->blockExists("call_history")) {
@@ -235,9 +207,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
         $ftpl->setVariable(
             "ELAPSED_TIME",
             ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
@@ -299,7 +268,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function initHelp()
     {
-        include_once("./Services/Help/classes/class.ilHelpGUI.php");
         //ilHelpGUI::initHelp($this);
     }
 
@@ -721,12 +689,10 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // always load jQuery
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
         // always load ui framework
-        include_once("./Services/UICore/classes/class.ilUIFramework.php");
         ilUIFramework::init();
 
         $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -894,7 +860,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             $ref_id = $this->enable_fileupload;
             $upload_id = "dropzone_" . $ref_id;
 
-            include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
             $upload = new ilFileUploadGUI($upload_id, $ref_id, true);
 
             $this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
@@ -943,7 +908,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
         $html = "";
         if (is_object($ilPluginAdmin)) {
-            include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
             $uip = new ilUIHookProcessor(
                 "Services/Locator",
                 "main_locator",
@@ -1167,28 +1131,12 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     private function fillContentLanguage()
     {
         global $DIC;
-
         $lng = $DIC->language();
-        $ilUser = $DIC->user();
 
-        $contentLanguage = 'en';
-        $rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
-        /* rtl-review: add "de" for testing with ltr lang shown in rtl
-         * and set unicode-bidi to bidi-override for mirror effect */
-        $textdir = 'ltr';
-        if (is_object($ilUser)) {
-            if ($ilUser->getLanguage()) {
-                $contentLanguage = $ilUser->getLanguage();
-            } elseif (is_object($lng)) {
-                $contentLanguage = $lng->getDefaultLanguage();
-            }
+        if (is_object($lng)) {
+            $this->setVariable('META_CONTENT_LANGUAGE', $lng->getContentLanguage());
+            $this->setVariable('LANGUAGE_DIRECTION', $lng->getTextDirection());
         }
-        $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
-        if (in_array($contentLanguage, $rtl)) {
-            $textdir = 'rtl';
-        }
-        $this->setVariable('LANGUAGE_DIRECTION', $textdir);
-        return true;
     }
 
     private function fillWindowTitle()
@@ -1360,10 +1308,8 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             $html = $this->template->get($part);
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
@@ -1390,7 +1336,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
                 exit;
             default:
                 // include yahoo dom per default
-                include_once("./Services/YUI/classes/class.ilYuiUtil.php");
                 ilYuiUtil::initDom();
 
                 header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
@@ -1482,10 +1427,8 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
                     }
                 }
 
-                // fix #9992: save language usages as late as possible
-                if ($this->translation_linked) {
-                    ilObjLanguageAccess::_saveUsages();
-                }
+                // save language usages as late as possible
+                ilObjLanguageAccess::_saveUsages();
 
                 print $html;
 
@@ -1604,7 +1547,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             }
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
-            include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
             $this->setVariable(
                 "TREE_ACC_KEY",
                 ilAccessKeyGUI::getAttribute(($this->tree_flat_mode == "tree")
@@ -1737,7 +1679,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     private function fillPermanentLink()
     {
         if (is_array($this->permanent_link)) {
-            include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
             $plinkgui = new ilPermanentLinkGUI(
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],

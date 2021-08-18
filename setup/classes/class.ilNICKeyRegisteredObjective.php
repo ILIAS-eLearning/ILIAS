@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -65,6 +65,17 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         }
 
         $status = explode("\n", $req->getResponseBody());
+
+        $nic_id = (string) ($status[2] ?? '');
+        if ($nic_id === '') {
+            $settings->set("nic_enabled", "-1");
+            throw new Setup\UnachievableException(
+                "Did not receive valid installation id from " .
+                "NIC server (\"" . self::ILIAS_NIC_SERVER . "\") for URL: $url" .
+                $this->getRegistrationProblem($status)
+            );
+        }
+
         $settings->set("nic_enabled", "1");
         $settings->set("inst_id", $status[2]);
 
@@ -81,9 +92,47 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return true;
     }
 
+    protected function getRegistrationProblem(array $nic_response_parts) : string
+    {
+        $error_code = trim((string) ($nic_response_parts[1] ?? ''));
+        $message = 'Unknown reason';
+
+        switch ($error_code) {
+            case 'INIC-F-01':
+                $message = "NIC server could not connect to database";
+                break;
+
+            case 'INIC-F-04':
+                $message = "NIC server could not execute query";
+                break;
+
+            case 'INIC-E-04':
+                $message = "The installation name was missing in request, please check your " .
+                    "configuration (systemfolder.client.name)";
+                break;
+
+            case 'INIC-E-08':
+                $message = "The http path or contact's lastname was missing in request, please check " .
+                    "your configuration (http.path or systemfolder.contact.lastname)";
+                break;
+
+            case 'INIC-E-09':
+                $message = "The contact's firstname was missing in request, please check your " .
+                    "configuration (systemfolder.contact.firstname)";
+                break;
+
+            case 'INIC-E-15':
+                $message = "The contact's email address was missing in request, please check your " .
+                    "configuration (systemfolder.contact.email)";
+                break;
+        }
+
+        return 'Reason: ' . $message;
+    }
+
     protected function getURLStringForNIC($settings, \ilSystemFolderSetupConfig $systemfolder_config, \ilHttpSetupConfig $http_config) : string
     {
-        $inst_id = $settings->get("inst_id", 0);
+        $inst_id = (string) $settings->get('inst_id', '0');
         $http_path = $http_config->getHttpPath();
         $host_name = parse_url($http_path)["host"];
 
@@ -91,8 +140,8 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
                 "?cmd=getid" .
                 "&inst_id=" . rawurlencode($inst_id) .
                 "&hostname=" . rawurlencode($host_name) .
-                "&inst_name=" . rawurlencode($systemfolder_config->getClientName()) .
-                "&inst_info=" . rawurlencode($systemfolder_config->getClientDescription()) .
+                "&inst_name=" . rawurlencode($systemfolder_config->getClientName() ?? '') .
+                "&inst_info=" . rawurlencode($systemfolder_config->getClientDescription() ?? '') .
                 "&http_path=" . rawurlencode($http_path) .
                 "&contact_firstname=" . rawurlencode($systemfolder_config->getContactFirstname()) .
                 "&contact_lastname=" . rawurlencode($systemfolder_config->getContactLastname()) .
@@ -102,7 +151,7 @@ class ilNICKeyRegisteredObjective extends ilSetupObjective
         return $url;
     }
 
-    protected function getCurlConnection(string $url)
+    protected function getCurlConnection(string $url) : \ilCurlConnection
     {
         $req = new \ilCurlConnection($url);
         $req->init();

@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Block/classes/class.ilCustomBlock.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Custom block for polls
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*/
+ * Custom block for polls
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPollBlock extends ilCustomBlock
 {
     /**
@@ -40,7 +38,6 @@ class ilPollBlock extends ilCustomBlock
      */
     public function setRefId($a_id)
     {
-        include_once "Modules/Poll/classes/class.ilObjPoll.php";
         $this->poll = new ilObjPoll($a_id, true);
         $this->answers = $this->poll->getAnswers();
     }
@@ -66,8 +63,7 @@ class ilPollBlock extends ilCustomBlock
         if (!sizeof($this->answers)) {
             return false;
         }
-        
-        include_once "Modules/Poll/classes/class.ilObjPollAccess.php";
+
         $this->active = ilObjPollAccess::_isActivated($a_ref_id);
         if (!$this->active) {
             return false;
@@ -114,7 +110,7 @@ class ilPollBlock extends ilCustomBlock
         return false;
     }
     
-    public function maySeeResults($a_user_id)
+    public function maySeeResults($a_user_id) : bool
     {
         if (!$this->active) {
             return false;
@@ -137,25 +133,27 @@ class ilPollBlock extends ilCustomBlock
                 }
                 return false;
         }
+        return false;
     }
     
-    public function getMessage($a_user_id)
+    public function getMessage($a_user_id) : ?string
     {
-        $lng = $this->lng;
-        
+
         if (!sizeof($this->answers)) {
-            return $lng->txt("poll_block_message_no_answers");
+            return $this->lng->txt("poll_block_message_no_answers");
         }
         
         if (!$this->active) {
             if (!$this->poll->isOnline()) {
-                return $lng->txt("poll_block_message_offline");
+                return $this->lng->txt("poll_block_message_offline");
             }
             if ($this->poll->getAccessBegin() > time()) {
                 $date = ilDatePresentation::formatDate(new ilDateTime($this->poll->getAccessBegin(), IL_CAL_UNIX));
-                return sprintf($lng->txt("poll_block_message_inactive"), $date);
+                return sprintf($this->lng->txt("poll_block_message_inactive"), $date);
             }
         }
+
+        return null;
     }
 
     /**

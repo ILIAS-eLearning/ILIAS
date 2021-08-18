@@ -144,8 +144,6 @@ class ilCourseObjectiveQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('FINAL_ID', $a_set['id']);
             $this->tpl->setVariable('FINAL_LIMIT', $a_set['final_limit']);
         }
-        
-        $this->tpl->setVariable('TST_CSS', ilUtil::switchColor($row_counter++, 'tblrow1', 'tblrow2'));
     }
     
     /**

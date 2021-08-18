@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -80,4 +80,11 @@ interface Agent
      * @return array<string,Migration>|Migration[]
      */
     public function getMigrations() : array;
+
+    /**
+     * Get a named objective from this agent.
+     *
+     * @throw InvalidArgumentException if there is no such objective.
+     */
+    public function getNamedObjective(string $name, Config $config = null) : Objective;
 }

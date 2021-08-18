@@ -779,6 +779,7 @@ class ilConditionHandler
             " AND trigger_type = " . $ilDB->quote($a_trigger_obj_type, 'text');
 
         $res = $ilDB->query($query);
+        $conditions = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $tmp_array['id'] = $row->condition_id;
             $tmp_array['target_ref_id'] = $row->target_ref_id;
@@ -797,7 +798,7 @@ class ilConditionHandler
             unset($tmp_array);
         }
 
-        return $conditions ? $conditions : array();
+        return $conditions;
     }
 
     /**

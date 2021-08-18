@@ -12,8 +12,7 @@ use ilException;
  */
 final class PageReadingTime
 {
-    /** @var int */
-    private $minutes;
+    private int $minutes;
 
     /**
      * PageReadingTime constructor.
@@ -33,9 +32,6 @@ final class PageReadingTime
         $this->minutes = $minutes;
     }
 
-    /**
-     * @return int
-     */
     public function minutes() : int
     {
         return $this->minutes;

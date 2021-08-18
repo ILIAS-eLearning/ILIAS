@@ -3,7 +3,6 @@
 
 include_once 'Services/Object/classes/class.ilObjectGUI.php';
 include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
 
 

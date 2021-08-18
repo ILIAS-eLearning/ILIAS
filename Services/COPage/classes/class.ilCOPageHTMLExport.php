@@ -1,12 +1,11 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * HTML export class for pages
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCOPageHTMLExport
 {
@@ -98,7 +97,6 @@ class ilCOPageHTMLExport
         $this->content_style_dir = $a_exp_dir . "/content_style";
         $this->content_style_img_dir = $a_exp_dir . "/content_style/images";
         
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         $this->services_dir = $a_exp_dir . "/Services";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
         $this->flv_dir = $a_exp_dir . "/" . ilPlayerUtil::getFlashVideoPlayerDirectory();
@@ -172,6 +170,10 @@ class ilCOPageHTMLExport
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
+            $this->exportResourceFile(
+                $this->exp_dir,
+                ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false)
+            );
         }
         
         // export syntax highlighting style
@@ -206,7 +208,6 @@ class ilCOPageHTMLExport
 
         // yui stuff we use
         /*
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         copy(
             ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
             $this->js_yahoo_dir . '/yahoo-min.js'
@@ -234,7 +235,6 @@ class ilCOPageHTMLExport
 
 
         // mediaelement.js
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::copyPlayerFilesToTargetDirectory($this->flv_dir);
     }
 
@@ -274,9 +274,6 @@ class ilCOPageHTMLExport
         $resource_collector = new \ILIAS\COPage\ResourcesCollector(ilPageObjectGUI::OFFLINE);
         $resource_injector = new \ILIAS\COPage\ResourcesInjector($resource_collector);
 
-
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-        
         if ($a_tpl != "") {
             $tpl = $a_tpl;
         } else {
@@ -393,7 +390,6 @@ class ilCOPageHTMLExport
                 $user_id = null;
                 switch ($a_type) {
                     case "prtf:pg":
-                        include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
                         $page = new ilPortfolioPage($a_id);
                         $user_id = $page->create_user;
                         break;
@@ -439,21 +435,18 @@ class ilCOPageHTMLExport
                                             break;
 
                                         case "tstv":
-                                            include_once "Modules/Test/classes/class.ilObjTestVerification.php";
                                             $obj = new ilObjTestVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                 $obj->getOfflineFilename());
                                             break;
 
                                         case "excv":
-                                            include_once "Modules/Exercise/classes/class.ilObjExerciseVerification.php";
                                             $obj = new ilObjExerciseVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                 $obj->getOfflineFilename());
                                             break;
                                         
                                         case "crsv":
-                                            include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
                                             $obj = new ilObjCourseVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                 $obj->getOfflineFilename());
@@ -472,7 +465,6 @@ class ilCOPageHTMLExport
                                             break;
 
                                         case "scov":
-                                            include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
                                             $obj = new ilObjSCORMVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                 $obj->getOfflineFilename());
@@ -651,11 +643,10 @@ class ilCOPageHTMLExport
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
         ilUtil::makeDir($file_dir);
         
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         $file_obj = new ilObjFile($a_file_id, false);
-        $source_file = $file_obj->getDirectory($file_obj->getVersion()) . "/" . $file_obj->getFileName();
+        $source_file = $file_obj->getFile($file_obj->getVersion());
         if (!is_file($source_file)) {
-            $source_file = $file_obj->getDirectory() . "/" . $file_obj->getFileName();
+            $source_file = $file_obj->getFile();
         }
         if (is_file($source_file)) {
             copy($source_file, $file_dir . "/" . $file_obj->getFileName());

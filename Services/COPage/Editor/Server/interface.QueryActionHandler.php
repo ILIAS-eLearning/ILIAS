@@ -14,5 +14,5 @@ interface QueryActionHandler
      * @param $query
      * @return Response
      */
-    public function handle($query): Response;
+    public function handle($query) : Response;
 }

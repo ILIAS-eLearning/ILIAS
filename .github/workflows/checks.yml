@@ -1,12 +1,14 @@
 name: checks
-on: [pull_request]
+on: [pull_request, push]
 jobs:
   tests:
     runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
     strategy:
       fail-fast: false
       matrix:
-        php: [7.3, 7.4]
+        php: [7.4, 8.0]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,12 +26,17 @@ jobs:
 
       - name: PHP Unit Test 
         run: CI/PHPUnit/run_tests.sh
-
-      - name: Install PHP CS Fixer
-        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
+        env:
+          GHRUN: "yes"
 
       - name: PHP CS Fixer
         run: CI/PHP-CS-Fixer/run_check.sh
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: Special Char Checker
         run: CI/Special-Char-Checker/special-char-checker.sh
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.pull_request.number }}

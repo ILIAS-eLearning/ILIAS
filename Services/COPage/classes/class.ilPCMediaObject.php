@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCMediaObject
-*
-* Media content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCMediaObject
+ *
+ * Media content object (see ILIAS DTD)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPCMediaObject extends ilPageContent
 {
     /**
@@ -100,7 +96,7 @@ class ilPCMediaObject extends ilPageContent
     *
     * @return	object	Media Object
     */
-    public function getMediaObject(): ilObjMediaObject
+    public function getMediaObject() : ilObjMediaObject
     {
         return $this->mediaobject;
     }
@@ -296,7 +292,6 @@ class ilPCMediaObject extends ilPageContent
     public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
     {
         if (!$a_page->getImportMode()) {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $mob_ids = ilObjMediaObject::_getMobsOfObject(
                 $a_page->getParentType() . ":pg",
                 $a_page->getId(),
@@ -323,7 +318,6 @@ class ilPCMediaObject extends ilPageContent
      */
     public static function beforePageDelete($a_page)
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mob_ids = ilObjMediaObject::_getMobsOfObject(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
@@ -409,7 +403,6 @@ class ilPCMediaObject extends ilPageContent
             }
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         ilObjMediaObject::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
@@ -466,15 +459,15 @@ class ilPCMediaObject extends ilPageContent
 
         // add fullscreen modals
         $page = $this->getPage();
-        $suffix = "-".$page->getParentType()."-".$page->getId();
+        $suffix = "-" . $page->getParentType() . "-" . $page->getId();
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("cont_fullscreen"),
-            $this->ui->factory()->legacy("<iframe class='il-copg-mob-fullscreen' id='il-copg-mob-fullscreen".$suffix."'></iframe>")
+            $this->ui->factory()->legacy("<iframe class='il-copg-mob-fullscreen' id='il-copg-mob-fullscreen" . $suffix . "'></iframe>")
         );
         $show_signal = $modal->getShowSignal();
 
         return $a_html . "<div class='il-copg-mob-fullscreen-modal'>" . $this->ui->renderer()->render($modal) . "</div><script>$(function () { il.COPagePres.setFullscreenModalShowSignal('" .
-            $show_signal . "', '".$suffix."'); });</script>";
+            $show_signal . "', '" . $suffix . "'); });</script>";
     }
 
     /**
@@ -500,7 +493,8 @@ class ilPCMediaObject extends ilPageContent
     /**
      * @return ilMediaAliasItem
      */
-    public function getStandardMediaAliasItem(): ilMediaAliasItem {
+    public function getStandardMediaAliasItem() : ilMediaAliasItem
+    {
         $std_alias_item = new ilMediaAliasItem(
             $this->dom,
             $this->getHierId(),
@@ -513,7 +507,8 @@ class ilPCMediaObject extends ilPageContent
     /**
      * @return ilMediaAliasItem
      */
-    public function getFullscreenMediaAliasItem(): ilMediaAliasItem {
+    public function getFullscreenMediaAliasItem() : ilMediaAliasItem
+    {
         $std_alias_item = new ilMediaAliasItem(
             $this->dom,
             $this->getHierId(),
@@ -523,4 +518,39 @@ class ilPCMediaObject extends ilPageContent
         return $std_alias_item;
     }
 
+    /**
+     * Check if instance editing is offered.
+     */
+    public function checkInstanceEditing() : bool
+    {
+        // if any properties are set on the instance,
+        // that are not accessible through the quick editing screen
+        // -> offer instance editing
+        $std_alias_item = $this->getStandardMediaAliasItem();
+        if ($std_alias_item->hasAnyPropertiesSet()) {
+            return true;
+        }
+        if ($this->getMediaObject()->hasFullScreenItem()) {
+            $full_alias_item = $this->getFullscreenMediaAliasItem();
+            if ($full_alias_item->hasAnyPropertiesSet()) {
+                return true;
+            }
+        }
+
+        // if the media object has any other use outside of the current page
+        // -> offer instance editing
+        /** @var $mob ilObjMediaObject */
+        $mob = $this->getMediaObject();
+        $page = $this->getPage();
+        if (is_object($mob)) {
+            $usages = $mob->getUsages();
+            $other_usages = array_filter($usages, function ($usage) use ($page) {
+                return ($usage["type"] != $page->getParentType() . ":pg" || $usage["id"] != $page->getId());
+            });
+            if (count($other_usages) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

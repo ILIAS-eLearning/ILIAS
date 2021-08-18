@@ -10,20 +10,13 @@ namespace ILIAS\ContentPage\GlobalSettings;
  */
 class Settings
 {
-    /** @var bool */
-    protected $readingTimeEnabled = false;
+    protected bool $readingTimeEnabled = false;
 
-    /**
-     * @return bool
-     */
     public function isReadingTimeEnabled() : bool
     {
         return $this->readingTimeEnabled;
     }
 
-    /**
-     * @return $this
-     */
     public function withEnabledReadingTime() : self
     {
         $clone = clone $this;
@@ -32,9 +25,6 @@ class Settings
         return $clone;
     }
 
-    /**
-     * @return $this
-     */
     public function withDisabledReadingTime() : self
     {
         $clone = clone $this;

@@ -1,50 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 namespace ILIAS\Setup;
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data;
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ilSetupLanguage;
 
 class ImplementationOfAgentFinder implements AgentFinder
 {
-    /**
-     * @var Refinery|null
-     */
-    protected $refinery;
+    protected Refinery $refinery;
+    protected Data\Factory $data_factory;
+    protected \ilSetupLanguage $lng;
+    protected ImplementationOfInterfaceFinder $interface_finder;
+    protected \ilPluginRawReader $plugin_raw_reader;
+
+    protected array $predefined_agents;
 
     /**
-     * @var Data\Factory|null
-     */
-    protected $data_factory;
-
-    /**
-     * @var \ilSetupLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilPluginRawReader|null
-     */
-    protected $plugin_raw_reader;
-
-    /**
-     * @var ImplementationOfInterfaceFinder|null
-     */
-    protected $interface_finder;
-
-    /**
-     * @var array<string, Setup\Agent> $predefined_agents
-     */
-    protected $predefined_agents;
-    
-    /**
-     * @var array<string, Setup\Agent> $predefined_agents
+     * @var array<string, Agent> $predefined_agents
      */
     public function __construct(
         Refinery $refinery,
@@ -114,7 +88,7 @@ class ImplementationOfAgentFinder implements AgentFinder
 
         return $agents;
     }
-    
+
     /**
      * Get a agent from a specific plugin.
      *
@@ -142,8 +116,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         ));
 
         if (count($agent_classes) === 0) {
-            return new class($name) extends \ilPluginDefaultAgent {
-            };
+            return new class($name) extends \ilPluginDefaultAgent {};
         }
 
         $agents = [];
@@ -165,10 +138,23 @@ class ImplementationOfAgentFinder implements AgentFinder
         );
     }
 
+    public function getAgentByClassName(string $class_name) : Agent
+    {
+        if (!class_exists($class_name)) {
+            throw new \InvalidArgumentException("Class '" . $class_name . "' not found.");
+        }
+
+        return new $class_name(
+            $this->refinery,
+            $this->data_factory,
+            $this->lng
+        );
+    }
+
     /**
      * Derive a name for the agent based on a class name.
      */
-    protected function getAgentNameByClassName(string $class_name) : string
+    public function getAgentNameByClassName(string $class_name) : string
     {
         // We assume that the name of an agent in the class ilXYZSetupAgent really
         // is XYZ. If that does not fit we just use the class name.

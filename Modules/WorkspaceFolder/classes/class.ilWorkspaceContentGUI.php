@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Workspace content renderer
  *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceContentGUI
 {
@@ -145,12 +144,10 @@ class ilWorkspaceContentGUI
     {
         $user = $this->user;
 
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree($user->getId());
         $nodes = $tree->getChilds($this->current_node, "title");
 
         if (sizeof($nodes)) {
-            include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
             $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_WORKSPACE);
             foreach ($nodes as $node) {
                 $preloader->addItem($node["obj_id"], $node["type"]);
@@ -182,10 +179,8 @@ class ilWorkspaceContentGUI
         }
 
         $class = $objDefinition->getClassName($node["type"]);
-        $location = $objDefinition->getLocation($node["type"]);
         $full_class = "ilObj" . $class . "ListGUI";
 
-        include_once($location . "/class." . $full_class . ".php");
         $item_list_gui = new $full_class(ilObjectListGUI::CONTEXT_WORKSPACE);
 
         $item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_ALL);
@@ -200,7 +195,6 @@ class ilWorkspaceContentGUI
         $item_list_gui->enableIcon(true);
         $item_list_gui->enableTimings(false);
         $item_list_gui->enableCheckbox($this->admin);
-        // $item_list_gui->setSeparateCommands(true);
 
         $item_list_gui->enableNotes(true);
         $item_list_gui->enableCopy($objDefinition->allowCopy($node["type"]));

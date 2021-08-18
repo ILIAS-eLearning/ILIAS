@@ -19,8 +19,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
     protected $lightbox = array();
     protected $standard_template_loaded = false;
 
-    protected $translation_linked = false; // fix #9992: remember if a translation link is added
-
     /**
      * @var	\ilTemplate
      */
@@ -130,8 +128,6 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         // output translation link
         include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            // fix #9992: remember linked translation instead of saving language usages here
-            $this->translation_linked = true;
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
 
@@ -171,24 +167,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
             if (sizeof($mem_usage)) {
                 $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
             }
-
-            if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation")) {
-                require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-                $template2 = clone($this);
-                $ftpl->setCurrentBlock("xhtml_validation");
-                $ftpl->setVariable(
-                    "VALIDATION",
-                    ilValidatorAdapter::validate($template2->get(
-                        "DEFAULT",
-                        false,
-                        false,
-                        false,
-                        true
-                    ), $_GET["do_dev_validate"])
-                );
-                $ftpl->parseCurrentBlock();
-            }
-
+            
             // controller history
             if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
                 $ftpl->blockExists("call_history")) {
@@ -1363,10 +1342,8 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
             $html = $this->template->get($part);
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
@@ -1485,10 +1462,8 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
                     }
                 }
 
-                // fix #9992: save language usages as late as possible
-                if ($this->translation_linked) {
-                    ilObjLanguageAccess::_saveUsages();
-                }
+                // save language usages as late as possible
+                ilObjLanguageAccess::_saveUsages();
 
                 print $html;
 

@@ -59,7 +59,6 @@ class Presentation extends Table implements T\Presentation
     {
         $clone = clone $this;
         $clone->row_mapping = $row_mapping;
-        ;
         return $clone;
     }
 
@@ -96,7 +95,6 @@ class Presentation extends Table implements T\Presentation
     {
         $clone = clone $this;
         $clone->records = $records;
-        ;
         return $clone;
     }
 

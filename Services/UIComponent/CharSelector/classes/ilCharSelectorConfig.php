@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 class ilCharSelectorConfig
 {
@@ -588,7 +589,6 @@ class ilCharSelectorConfig
             return (int) hexdec(substr($a_item, 2));
         } else {
             //take the codepoint of the first character
-            require_once "include/Unicode/UtfNormalUtil.php";
             return (int) utf8ToCodepoint($a_item);
         }
     }
@@ -614,7 +614,6 @@ class ilCharSelectorConfig
      */
     private function getItemParsedCallback($matches)
     {
-        require_once "include/Unicode/UtfNormalUtil.php";
         return codepointToUtf8(hexdec(substr($matches[0], 2)));
     }
 }

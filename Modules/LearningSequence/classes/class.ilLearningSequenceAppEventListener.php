@@ -1,16 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * EventListener for LSO
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilLearningSequenceAppEventListener
 {
-    public static function handleEvent($component, $event, $parameter)
+    public static function handleEvent(string $component, string $event, array $parameter) : void
     {
         switch ($component) {
             case "Services/Tracking":
@@ -50,25 +47,25 @@ class ilLearningSequenceAppEventListener
         }
     }
 
-    private static function onServiceTrackingUpdateStatus(array $parameter)
+    private static function onServiceTrackingUpdateStatus(array $parameter) : void
     {
         $handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
         $handler->updateLPForChildEvent($parameter);
     }
 
-    private static function onObjectDeletion(array $parameter)
+    private static function onObjectDeletion(array $parameter) : void
     {
         $handler = self::getLSEventHandler();
         $handler->handleObjectDeletion($parameter);
     }
 
-    private static function onObjectToTrash(array $parameter)
+    private static function onObjectToTrash(array $parameter) : void
     {
         $handler = self::getLSEventHandler();
         $handler->handleObjectToTrash($parameter);
     }
 
-    private static function onParticipantDeletion(array $parameter)
+    private static function onParticipantDeletion(array $parameter) : void
     {
         $handler = self::getLSEventHandler();
         $obj_id = (int) $parameter['obj_id'];

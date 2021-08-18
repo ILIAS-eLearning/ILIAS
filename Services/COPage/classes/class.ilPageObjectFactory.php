@@ -1,32 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Page object factory
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageObjectFactory
 {
     /**
      * Get page object instance
-     *
-     * @param string $a_parent_type parent type
-     * @param int $a_id page id
-     * @param int $a_old_nr history number of page
+     * @param string $a_parent_type
+     * @param int    $a_id page id
+     * @param int    $a_old_nr history number of page
      * @param string $a_lang language
-     * @return object
+     * @return ilPageObject
      */
-    public static function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
+    public static function getInstance(string $a_parent_type, int $a_id = 0, int $a_old_nr = 0, string $a_lang = "-") : ilPageObject
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
-        $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
-        include_once($path);
         $obj = new $class($a_id, $a_old_nr, $a_lang);
         
         return $obj;
@@ -38,13 +32,11 @@ class ilPageObjectFactory
      * @param string $a_parent_type parent type
      * @return object
      */
-    public static function getConfigInstance($a_parent_type)
+    public static function getConfigInstance(string $a_parent_type) : ilPageConfig
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"] . "Config";
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
-        include_once($path);
         $cfg = new $class();
         
         return $cfg;
@@ -61,11 +53,9 @@ class ilPageObjectFactory
      */
     /* static function getGUIInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"]."GUI";
         $path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
-        include_once($path);
         if (in_array($a_parent_type, array("cont", "cstr", "lm")))
         {
             $obj = new $class($a_id , $a_old_nr, $a_lang);

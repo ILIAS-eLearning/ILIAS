@@ -1,8 +1,11 @@
 <?php
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Component\Button\Button;
 
 /**
  * Taxonomy GS tool provider
@@ -11,24 +14,18 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_EXC_ASSIGNMENT_INFO = 'show_exc_assignment_info';
-    const EXC_ASS_IDS = 'exc_ass_ids';
-    const EXC_ASS_BUTTONS = "exc_ass_buttons";
+    public const SHOW_EXC_ASSIGNMENT_INFO = 'show_exc_assignment_info';
+    public const EXC_ASS_IDS = 'exc_ass_ids';
+    public const EXC_ASS_BUTTONS = "exc_ass_buttons";
 
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->main();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
-    {
+    public function getToolsForContextStack(
+        CalledContexts $called_contexts
+    ) : array {
         global $DIC;
 
         $lng = $DIC->language();
@@ -49,23 +46,37 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($iff("exc_ass_info"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l, $additional_data) {
+                ->withContentWrapper(
+                /**
+                 * @throws ilExcUnknownAssignmentTypeException
+                 * @throws ilDateTimeException
+                 */
+                function () use ($l, $additional_data) {
+                    $buttons = $additional_data->exists(self::EXC_ASS_BUTTONS)
+                        ? $additional_data->get(self::EXC_ASS_BUTTONS)
+                        : [];
                     return $l($this->getAssignmentInfo(
                         $additional_data->get(self::EXC_ASS_IDS),
-                        $additional_data->get(self::EXC_ASS_BUTTONS)
+                        $buttons
                     ));
-                });
+                }
+                );
         }
 
         return $tools;
     }
 
     /**
-     * @param $ass_id
+     * @param int[]   $ass_ids
+     * @param Button[][] $buttons
      * @return string
+     * @throws ilDateTimeException
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    private function getAssignmentInfo($ass_ids, $buttons) : string
-    {
+    private function getAssignmentInfo(
+        array $ass_ids,
+        array $buttons
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -73,10 +84,12 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $ui = $DIC->ui();
         $access = $DIC->access();
 
+        $html = "";
 
         foreach ($ass_ids as $ass_id) {
             $info = new ilExAssignmentInfo($ass_id, $user->getId());
             $exc_id = ilExAssignment::lookupExerciseId($ass_id);
+            $readable_ref_id = 0;
             foreach (ilObject::_getAllReferences($exc_id) as $ref_id) {
                 if ($access->checkAccess("read", "", $ref_id)) {
                     $readable_ref_id = $ref_id;
@@ -128,7 +141,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
             }
 
             // buttons
-            if (is_array($buttons[$ass_id])) {
+            if (isset($buttons[$ass_id])) {
                 $tpl->setVariable("BUTTONS", implode(" ", array_map(function ($b) use ($ui) {
                     return $ui->renderer()->render($b);
                 }, $buttons[$ass_id])));
@@ -136,20 +149,16 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
 
             $tpl->setCurrentBlock("ass_info");
             $tpl->parseCurrentBlock();
+            $html .= $tpl->get();
         }
-
-        return $tpl->get();
+        return $html;
     }
 
-    /**
-     * Add section
-     *
-     * @param ilTemplate $tpl
-     * @param string $title
-     * @param string $content
-     */
-    protected function addSection(ilTemplate $tpl, string $title, string $content)
-    {
+    protected function addSection(
+        ilTemplate $tpl,
+        string $title,
+        string $content
+    ) : void {
         $tpl->setCurrentBlock("section");
         $tpl->setVariable("TITLE", $title);
         $tpl->setVariable("CONTENT", $content);

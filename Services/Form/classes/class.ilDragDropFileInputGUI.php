@@ -1,22 +1,14 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilFileInputGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a file input property where multiple files can be dopped in a property form.
-*
-* @author Stefan Born <stefan.born@phzh.ch>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a file input property where multiple files can be dopped in a property form.
+ *
+ * @author Stefan Born <stefan.born@phzh.ch>
+ */
 class ilDragDropFileInputGUI extends ilFileInputGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     private $uniqueId = 0;
     private $archive_suffixes = array();
     private $submit_button_name = null;
@@ -81,7 +73,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         iljQueryUtil::initjQuery();
         
         // add file upload scripts
-        include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
         ilFileUploadGUI::initFileUpload();
         
         // load template
@@ -105,11 +96,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $this->tpl->setCurrentBlock("max_size");
         $this->tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
         $this->tpl->parseCurrentBlock();
-        
-        if ($quota_legend) {
-            $this->tpl->setVariable("TXT_MAX_SIZE", $quota_legend);
-            $this->tpl->parseCurrentBlock();
-        }
         
         $this->outputSuffixes($this->tpl);
         
@@ -157,7 +143,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
             $_POST[$this->getPostVar()]["description"] = isset($_POST["description"]) ? $_POST["description"] : "";
             $_POST[$this->getPostVar()]["keep_structure"] = isset($_POST["keep_structure"]) ? (bool) $_POST["keep_structure"] : true;
 
-            include_once("./Services/Utilities/classes/class.ilStr.php");
             $_POST[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["name"]);
             $_POST[$this->getPostVar()]["title"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["title"]);
         }

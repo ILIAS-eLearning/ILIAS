@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\UI\Factory;
 
 /**
  * Class ilUserAvatarResolver
@@ -48,7 +49,16 @@ class ilUserAvatarResolver
      * @var string
      */
     private $size = 'small';
+    /**
+     * @var Factory
+     */
+    protected $ui;
 
+    /**
+     * @var bool
+     */
+    protected $letter_avatars_activated;
+    
     /**
      *  constructor.
      * @param int $user_id
@@ -56,14 +66,21 @@ class ilUserAvatarResolver
     public function __construct(int $user_id)
     {
         global $DIC;
+
         $this->db = $DIC->database();
         $this->ui = $DIC->ui()->factory();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         $this->user_id = $user_id;
+        $this->letter_avatars_activated = (bool) $DIC->settings()->get('letter_avatars');
         $this->init();
     }
 
     private function init() : void
     {
+        if ($this->letter_avatars_activated === false) {
+            return;
+        }
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
@@ -111,13 +128,35 @@ class ilUserAvatarResolver
         return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
     }
 
-    public function getAvatar() : Avatar
+    /**
+     * @param bool $name_as_text_visible_closely if the name is set as text close to the Avatar, the alternative
+     *                                           text for screenreaders will be set differently, to reduce redundancy
+     *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
+     * @return Avatar
+     */
+    public function getAvatar(bool $name_as_set_as_text_closely = false) : Avatar
     {
-        if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->abbreviation);
+        if ($name_as_set_as_text_closely) {
+            $alternative_text = $this->lng->txt("user_avatar");
+        } elseif ($this->user_id == $this->user->getId() && !$this->user::_isAnonymous($this->user_id)) {
+            $alternative_text = $this->lng->txt("current_user_avatar");
         } else {
-            return $this->ui->symbol()->avatar()->letter($this->abbreviation);
+            $alternative_text = $this->lng->txt("user_avatar_of") . " " . $this->login;
         }
+
+        if ($this->useUploadedFile()) {
+            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
+                            ->withAlternativeText($alternative_text);
+        }
+    
+        if ($this->letter_avatars_activated === false) {
+            return $this->ui->symbol()->avatar()->picture(
+                \ilUtil::getImagePath('no_photo_xsmall.jpg'),
+                ilObjUser::_lookupLogin($this->user_id)
+            );
+        }
+
+        return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
     }
 
     public function getLegacyPictureURL() : string
@@ -125,7 +164,6 @@ class ilUserAvatarResolver
         global $DIC;
         if ($this->useUploadedFile()) {
             return $this->uploaded_file . '?t=' . rand(1, 99999);
-            ;
         }
         /** @var $avatar ilUserAvatarBase */
 

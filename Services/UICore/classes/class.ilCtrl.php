@@ -1,6 +1,6 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('class.ilCachedCtrl.php');
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * This class provides processing control methods.
@@ -10,7 +10,6 @@ require_once('class.ilCachedCtrl.php');
  * used and needed, if link information is passed to the xslt processing e.g. in content pages.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  */
 class ilCtrl
 {
@@ -106,6 +105,8 @@ class ilCtrl
      */
     protected $verified_cmd = '';
 
+    protected string $cmdMode = "";
+
     /**
      * control class constructor
      */
@@ -117,6 +118,8 @@ class ilCtrl
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
+
+        $this->cmdMode = ($_GET["cmdMode"] ?? "");
     }
     
     /**
@@ -217,7 +220,6 @@ class ilCtrl
             return $html;
         }
         
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't forward to class $class.");
     }
 
@@ -240,7 +242,7 @@ class ilCtrl
             $p = $this->getParameterArrayByClass($class_path);
             $nr = $p["cmdNode"];
             $baseclass = $p["baseClass"];
-            $this->inner_base_class =  $p["cmdNode"];
+            $this->inner_base_class = $p["cmdNode"];
         } else {
             $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
             $nr = $nr["node_id"];
@@ -279,7 +281,6 @@ class ilCtrl
             return $html;
         }
 
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't getHTML from class $class.");
     }
     
@@ -440,7 +441,6 @@ class ilCtrl
         error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ")");
             
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ").");
     }
@@ -528,7 +528,6 @@ class ilCtrl
      * called before the the current command is forwarded to the top level
      * gui class. Example:
      *
-     *	include_once "classes/class.ilRepositoryGUI.php";
      *	$ilCtrl->getCallStructure("ilrepositorygui");
      *	$repository_gui = new ilRepositoryGUI();
      *	$ilCtrl->forwardCommand($repository_gui);
@@ -708,7 +707,6 @@ class ilCtrl
             
             if ($gui_class == "ilSAHSEditGUI") {
                 // #1625 - because of scorm "sub-types" this is all very special
-                include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
                 $obj_id = ilObject::_lookupObjectId($ref_id);
                 switch (ilObjSAHSLearningModule::_lookupSubType($obj_id)) {
                     case "scorm2004":
@@ -737,7 +735,6 @@ class ilCtrl
                 $this->redirectByClass(array("ilLMEditorGUI", "ilObjLearningModuleGUI"), "");
             }
                         
-            include_once "Services/Object/classes/class.ilObjectLP.php";
             $type = ilObject::_lookupType($ref_id, true);
             $class = "ilObj" . $objDefinition->getClassName($type) . "GUI";
             
@@ -846,7 +843,6 @@ class ilCtrl
             $failure = "ERROR: Path not found. Source:" . $a_source_node .
                 ", Target:" . $a_target_node;
             if (DEVMODE == 1) {
-                include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
                 throw new ilCtrlException($failure);
             }
             $GLOBALS['ilLog']->write(__METHOD__ . ' ' . $failure);
@@ -891,8 +887,9 @@ class ilCtrl
      */
     protected function getReadableNode($node)
     {
-        return implode(":",
-            array_map(function($cid) {
+        return implode(
+            ":",
+            array_map(function ($cid) {
                 return $this->getClassForCid($cid);
             }, explode(":", $node))
         );
@@ -941,9 +938,9 @@ class ilCtrl
         }
         if ($cmd == "post") {
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
-                reset($_POST["cmd"]);
+//                reset($_POST["cmd"]);
             }
-            $cmd = @key($_POST["cmd"]);
+            $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 
             // verify command
             if ($this->verified_cmd != "") {
@@ -957,7 +954,7 @@ class ilCtrl
             
             $this->verified_cmd = $cmd;
             if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
-                $cmd = @key($_POST["table_top_cmd"]);
+                $cmd = key($_POST["table_top_cmd"]);
                 $this->verified_cmd = $cmd;
                 $_POST[$_POST["cmd_sv"][$cmd]] = $_POST[$_POST["cmd_sv"][$cmd] . "_2"];
             }
@@ -1352,7 +1349,7 @@ class ilCtrl
      */
     public function isAsynch()
     {
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if ($this->cmdMode == "asynch") {
             return true;
         } else {
             return false;
@@ -1462,7 +1459,7 @@ class ilCtrl
         );
         $script = ilUtil::appendUrlParameterString(
             $script,
-            "cmdMode=" . $_GET["cmdMode"]
+            "cmdMode=" . $this->cmdMode
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
@@ -1527,7 +1524,7 @@ class ilCtrl
         $node = $node["node_id"];
         $n_arr = explode(":", $node);
         for ($i = count($n_arr) - 2; $i >= 0; $i--) {
-            if ($this->return[$this->getClassForCid($n_arr[$i])] != "") {
+            if (isset($this->return[$this->getClassForCid($n_arr[$i])])) {
                 return $this->getClassForCid($n_arr[$i]);
             }
         }
@@ -1542,7 +1539,7 @@ class ilCtrl
      */
     public function getRedirectSource()
     {
-        return $_GET["redirectSource"];
+        return $_GET["redirectSource"] ?? "";
     }
 
     /**
@@ -1589,7 +1586,7 @@ class ilCtrl
             return array();
         }
 
-        $current_base_class = $_GET["baseClass"];
+        $current_base_class = $_GET["baseClass"] ?? "";
         if ($this->use_current_to_determine_next && $this->inner_base_class != "") {
             $current_base_class = $this->inner_base_class;
         }
@@ -1672,7 +1669,6 @@ class ilCtrl
 					may solve the issue by putting an empty * @ilCtrl_Calls [YourClassName]: into your class header." .
                     " In both cases you need to reload the control structure in the setup.";
             }
-            include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
             throw new ilCtrlException("Cannot find cid for class " . $a_class . "." . $add);
         }
         return $this->class_cid[$a_class];
@@ -1680,7 +1676,7 @@ class ilCtrl
 
     private function cidClassUnknown($a_cid)
     {
-        return $this->cid_class[$a_cid] == "";
+        return (!isset($this->cid_class[$a_cid]) || $this->cid_class[$a_cid] == "");
     }
 
 
@@ -1693,7 +1689,6 @@ class ilCtrl
             $this->readCidInfo($a_cid);
         }
         if ($this->cidClassUnknown($a_cid)) {
-            include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
             throw new ilCtrlException("Cannot find class for cid " . $a_cid . ".");
         }
         return $this->cid_class[$a_cid];
@@ -1766,7 +1761,9 @@ class ilCtrl
             $this->updateClassCidMap($a_class, $class_info['cid']);
         }
         $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        
+        if (!isset($this->class_cid[$a_class])) {
+            return false;
+        }
         $this->info_read_class[$a_class] = true;
         $this->info_read_cid[$this->class_cid[$a_class]] = true;
     }
@@ -1842,7 +1839,7 @@ class ilCtrl
             " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
             " child = " . $ilDB->quote($a_child, "text") . " AND " .
             " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return;
         }

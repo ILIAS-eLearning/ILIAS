@@ -233,6 +233,30 @@ keep the functionalities, which are coupled to the "class"-attribute of the elem
 The UI Inputs do not all have a rendering test.
 Add, where missing, and refine existing.
 
+### Make date/time input accessible (advanced)
+Date/Time pickers are currently implemented using a third party library. The solution suffers from accessibility issues. Even native pickers seem not always to be easy accessible. See https://mantis.ilias.de/view.php?id=29816#bugnotes. We should evaluate different solutions to tackle this.
+
+### Remove wrapping DIVs in Mainbar
+Top items in the mainbar are wrapped in a <div class="il-mainbar-triggers">;
+We should get rid of this wrapper and have <ol>/<li> only for "menu-items",
+directly under the <nav>-tag.
+
+### Renovate Lightbox Modal (advanced, ~8h)
+The Lightbox Modal is a rather old component that does not follow current standards of
+the UI framework and the web. It should be renovated:
+
+* There are various IDs used internally, they are superflous and are not created in
+the UI framework reliably. Only one id is generated per component, the other HTML
+elements should be located by other means, e.g. using relative selectors.
+* Internally, the Lightbox Modal uses the Bootstrap 3 Carousel. This can be replaced
+with modern CSS transformations.
+* The indicators do not work when clicked.
+* The sizes of the various lightboxes do not align, which looks odd when clicking
+through the various pages.
+* The template file of the lightbox contains a script tag, which is not allowed as
+of Dicto Rule `IliasTemplateFiles cannot contain text: "<script"`.
+
+
 ## Long Term
 
 ### All UI-Elements Step 2
@@ -324,20 +348,9 @@ We need patterns or even a framework for client-side code that gives clear
 guidelines how interactive components should be build for the UI-framework and
 that integrates with the mechanism we use on the server-side to compose GUIs.
 
-
-### Introduce Bootstrap 4 and Create a System for SASS-Variables
-
-Currently ILIAS (and hence the UI-Framework) uses Bootstrap 3 as CSS-framework.
-In the meantime, [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
-was published. It comes with a new language for writing stylesheets (SASS) and
-a new system for its SASS-variables.
-
-The UI-Framework should switch to using Bootstrap 4. In this process, a system
-to use Bootraps new set of variables together with a possible set of special
-variables should be designed, documented and implemented. The switch to Bootstrap 4
-needs to be coordinated with the components of ILIAS that currently do use features
-of Bootstrap but do not use the UI-Framework.
-
+### Introduce Redux-JS-Pattern from Mainbar into more UI Components
+We suspect the Redux-Pattern used in the mainbar to be of value for multiple UI Components. One such suspect
+is the keyboard navigation in the Tree Component. We aim to make a broader use of in upcoming developments.
 
 ### Page-Layout and ilTemplate, CSS/JS Header
 

@@ -13,8 +13,8 @@ class ilObjSkillManagement extends ilObject
     /**
      * Constructor
      * @access	public
-     * @param	integer	reference_id or object_id
-     * @param	boolean	treat the id as reference_id (true) or object_id (false)
+     * @param	int	reference_id or object_id
+     * @param	bool	treat the id as reference_id (true) or object_id (false)
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
@@ -29,7 +29,7 @@ class ilObjSkillManagement extends ilObject
     * update object data
     *
     * @access	public
-    * @return	boolean
+    * @return	bool
     */
     public function update()
     {
@@ -56,7 +56,7 @@ class ilObjSkillManagement extends ilObject
     * delete object and all related data
     *
     * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
+    * @return	bool	true if all object data were removed; false if only a references were removed
     */
     public function delete()
     {
@@ -128,7 +128,7 @@ class ilObjSkillManagement extends ilObject
         // handle skil categories
         if ($source_obj->getType() == "scat") {
             $source_node = $tree->getNodeData($source_id);
-            $subnodes = $tree->getSubtree($source_node);
+            $subnodes = $tree->getSubTree($source_node);
 
             // check, if target is within subtree
             foreach ($subnodes as $subnode) {

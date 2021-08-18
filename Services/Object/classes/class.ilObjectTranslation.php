@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class handles translation mode for an object.
@@ -27,8 +27,6 @@
  *   master language
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesObject
  */
 class ilObjectTranslation
 {
@@ -57,7 +55,6 @@ class ilObjectTranslation
         $this->setObjId($a_obj_id);
 
         if ($this->getObjId() <= 0) {
-            include_once("./Services/Object/exceptions/class.ilObjectException.php");
             throw new ilObjectException("ilObjectTranslation: No object ID passed.");
         }
 
@@ -142,18 +139,18 @@ class ilObjectTranslation
 
     /**
      * Set fallback language
-     * @param string $a_val 
+     * @param string $a_val
      */
-    function setFallbackLanguage($a_val)
+    public function setFallbackLanguage($a_val)
     {
         $this->fallback_language = $a_val;
     }
 
     /**
      * Get fallback language
-     * @return string 
+     * @return string
      */
-    function getFallbackLanguage()
+    public function getFallbackLanguage()
     {
         return $this->fallback_language;
     }
@@ -417,9 +414,12 @@ class ilObjectTranslation
     public function getEffectiveContentLang($a_lang, $a_parent_type)
     {
         $langs = $this->getLanguages();
+        $page_lang_key = ($a_lang == $this->getMasterLanguage())
+            ? "-"
+            : $a_lang;
         if ($this->getContentActivated() &&
             isset($langs[$a_lang]) &&
-            ilPageObject::_exists($a_parent_type, $this->getObjId(), $a_lang)) {
+            ilPageObject::_exists($a_parent_type, $this->getObjId(), $page_lang_key)) {
             if ($a_lang == $this->getMasterLanguage()) {
                 return "-";
             }

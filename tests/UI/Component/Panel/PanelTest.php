@@ -228,7 +228,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h3>Title</h3>
+		<h4>Title</h4>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -268,16 +268,16 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
-	<div class="panel-heading ilBlockHeader clearfix">
-		<h3>Title</h3>
+	<div class="panel-heading ilBlockHeader">
+		<h4>Title</h4>
 	</div>
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-sm-8"></div>
 			<div class="col-sm-4">
 				<div class="panel panel-secondary panel-flex">
-					<div class="panel-heading ilHeader clearfix">
-					    <h4 class="ilHeader">Legacy panel title</h4>
+					<div class="panel-heading ilHeader">
+					    <h4>Legacy panel title</h4>
                     </div>
                     <div class="panel-body">Legacy content</div>
 				</div>
@@ -312,7 +312,7 @@ EOT;
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
             <div class="panel-heading ilBlockHeader">
-                <h3>Title</h3>
+                <h4>Title</h4>
             </div>
             <div class="panel-body"><div class="row">
                 <div class="col-sm-8"></div>
@@ -417,10 +417,10 @@ EOT;
 </a>
 </span>
  <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-  <button class="btn btn-link" data-action="http://ilias.de?page=1" disabled="disabled">2</button>
-  <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
-  <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
-  <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
+  <button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
 <span class="browse next"><a class="glyph" href="http://ilias.de?page=2" aria-label="next">
 <span class="glyphicon
  glyphicon-chevron-right

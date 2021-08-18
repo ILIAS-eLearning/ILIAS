@@ -12,10 +12,10 @@ use ILIAS\UI\Component\Component;
 interface MessageBox extends Component
 {
     // Types of Message Boxes:
-    const FAILURE = "failure";
-    const SUCCESS = "success";
-    const INFO = "info";
-    const CONFIRMATION = "confirmation";
+    public const FAILURE = "failure";
+    public const SUCCESS = "success";
+    public const INFO = "info";
+    public const CONFIRMATION = "confirmation";
 
     /**
      * Get the type of the Message Box.

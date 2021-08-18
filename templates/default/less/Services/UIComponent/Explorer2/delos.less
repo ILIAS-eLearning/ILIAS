@@ -2,7 +2,7 @@
 
 table.ilExplorer {
 	width: 100%;
-	background-color: #f6f6f6;
+	background-color: @il-main-dark-bg;
 }
 
 div.ilExplorerFrame {
@@ -12,7 +12,7 @@ td.ilExpH {
 }
 
 body.il_Explorer {
-	background: none #f9f9f9;
+	background: none @il-main-dark-bg;
 }
 
 div.il_Explorer {
@@ -27,12 +27,12 @@ div.ilExpH {
 }
 
 td.ilExpBody {
-	border-top: 1px solid #e0e0e0;
-	background-color: #fafafa;
+	border-top: 1px solid @il-main-border-color;
+	background-color: @il-main-dark-bg;
 }
 
 h1.ilExplorerHead {
-	color: #404040;
+	color: @il-text-color;
 	margin: 0;
 	padding: 10px 5px 10px 28px;
 	vertical-align: top;
@@ -70,7 +70,7 @@ a.il_HighlightedNode, .ilHighlighted {
 }
 
 li.ilExplSecHighlight {
-	background-color: @il-primary-container-bg !important;
+	background-color: @il-main-dark-bg !important;
 	border-top: solid 2px darken(@il-highlight-bg, 45%);
 	border-bottom: solid 2px darken(@il-highlight-bg, 45%);
 }
@@ -86,8 +86,8 @@ a.ilTreeView {
 	//@media only screen and (max-width: 768px) {top: 140px;}
 	z-index: 1020;
 	bottom: 160px;
-	background-color: white;
-	border: 1px solid #e0e0e0;
+	background-color: @il-main-bg;
+	border: 1px solid @il-main-border-color;
 	border-left: none;
     .box-shadow(1px 1px 2px #b9b9b9);
 	width: 6px;
@@ -100,7 +100,7 @@ a.ilTreeView {
 		margin-left: -2px;
 		max-width: inherit;
 		background-color: white;
-		border-right: 2px solid #e0e0e0;
+		border-right: 2px solid @il-main-border-color;
 		width: 28px;
 		height: 28px;
 	}
@@ -117,7 +117,7 @@ a.ilTreeView {
 }
 
 [dir="rtl"] a.ilTreeView {
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 	border-right: none;
 	> img {
 		margin-left: 0;
@@ -142,30 +142,19 @@ a.ilTreeViewRight:hover {
 }
 
 .jstree.jstree-default a.disabled {
-	color: #303030 !important;
+	color: @il-text-color !important;
 	cursor: default !important;
 }
 
 .jstree.jstree-default a {
-	font-size: 90%;
+	font-size: 100%;
 	min-height: 22px;
 }
 
 .jstree li, .jstree.jstree-default li i {
-	background: url("@{background-images-path}jstree.svg") no-repeat;
+	background: url("@{il-background-images-path}jstree.svg") no-repeat;
 	vertical-align: top;
 }
-
-/*
-.jstree li {
-	background-position: -90px 0;
-	background-repeat: repeat-y;
-}
-
-.jstree li.jstree-last {
-	background: transparent;
-}
-*/
 
 .jstree.jstree-default .jstree-open > i {
 	background-position: -15px 0 !important;
@@ -175,122 +164,6 @@ a.ilTreeViewRight:hover {
 	background-position: 3px 0 !important;
 }
 
-/*
-.jstree .jstree-leaf > ins {
-	background-position: -36px 0;
-}
-
-.jstree .jstree-hovered {
-	background: #e7f4f9;
-	border: 1px solid #d8f0fa;
-	padding:0 2px 0 1px;
-}
-
-.jstree .jstree-clicked {
-	background: none #beebff;
-	border: 1px solid #99defd;
-	padding:0 2px 0 1px;
-}
-
-.jstree a .jstree-icon {
-	background-position: -56px -19px;
-}
-
-.jstree a.jstree-loading .jstree-icon {
-	background: url("@{background-images-path}throbber.gif") no-repeat center !important;
-}
-
-.jstree a.jstree-loading .loader {
-	display: block;
-	position: absolute;
-	left: 0;
-	margin-top: -25px;
-	width: 30px;
-	height: 30px;
-	background: url("@{background-images-path}loader.svg") no-repeat center !important;
-}
-
-.jstree.jstree-focused {}
-
-.jstree .jstree-no-dots li,
-.jstree .jstree-no-dots .jstree-leaf > ins {
-	background: none transparent;
-}
-
-.jstree .jstree-no-dots .jstree-open > ins {
-	background-position: -18px 0;
-}
-
-.jstree .jstree-no-dots .jstree-closed > ins {
-	background-position: 0 0;
-}
-
-.jstree .jstree-no-icons a .jstree-icon {
-	display: none;
-}
-
-.jstree .jstree-search {
-	font-style: italic;
-}
-
-.jstree .jstree-no-icons .jstree-checkbox {
-	display: inline-block;
-}
-
-.jstree .jstree-no-checkboxes .jstree-checkbox {
-	display: none !important;
-}
-
-.jstree .jstree-checked > a > .jstree-checkbox {
-	background-position: -38px -19px;
-}
-
-.jstree .jstree-unchecked > a > .jstree-checkbox {
-	background-position: -2px -19px;
-}
-
-.jstree .jstree-undetermined > a > .jstree-checkbox {
-	background-position: -20px -19px;
-}
-
-.jstree .jstree-checked > a > .jstree-checkbox:hover {
-	background-position: -38px -37px;
-}
-
-.jstree .jstree-unchecked > a > .jstree-checkbox:hover {
-	background-position: -2px -37px;
-}
-
-.jstree .jstree-undetermined > a > .jstree-checkbox:hover {
-	background-position: -20px -37px;
-}
-
-#vakata-dragged.jstree ins {
-	background: none transparent !important;
-}
-
-#vakata-dragged.jstree .jstree-ok {
-	background: url("@{background-images-path}jstree.svg") no-repeat -2px -53px !important;
-}
-
-#vakata-dragged.jstree .jstree-invalid {
-	background: url("@{background-images-path}jstree.svg") no-repeat -18px -53px !important;
-}
-
-#jstree-marker.jstree {
-	background: url("@{background-images-path}jstree.svg") no-repeat -41px -57px !important;
-	text-indent: -100px;
-}
-
-.jstree a.jstree-search {
-	color: aqua;
-}
-
-.jstree .jstree-locked a {
-	color: silver;
-	cursor: default;
-}
-*/
 #vakata-contextmenu.jstree-context,
 #vakata-contextmenu.jstree-context li ul {
 	background: none #f0f0f0;
@@ -309,7 +182,7 @@ a.ilTreeViewRight:hover {
 	padding: 0 5px;
 	background: #e8eff7;
 	border: 1px solid #aecff7;
-	color: black;
+	color: @il-text-hover-color;
 	border-radius: 2px;
 }
 
@@ -323,7 +196,7 @@ a.ilTreeViewRight:hover {
 
 #vakata-contextmenu.jstree-context li.vakata-separator {
 	background: white;
-	border-top: 1px solid #e0e0e0;
+	border-top: 1px solid @il-main-border-color;
 	margin: 0;
 }
 
@@ -340,6 +213,10 @@ a.ilTreeViewRight:hover {
 img.il_ExplorerIcon {
 	height: 20px;
 	width: 20px;
+}
+
+.ilExplorerContainer {
+    padding: 2px 0 6px 0;
 }
 
 .ilExplorerContainer .jstree-default .jstree-anchor {

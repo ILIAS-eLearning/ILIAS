@@ -1,0 +1,20 @@
+<div class="form-inline">
+    {TXT_PREFIX}
+    <input type="text" class="form-control" id="{PROP_COLOR_ID}" size="15" maxlength="21" name="{POST_VAR}" value="{PROPERTY_VALUE_COLOR}" {COLOR_DISABLED}/>
+    <span style="vertical-align:bottom;" id="{POST_VAR}-bc"></span>
+
+    <input aria-label="{ARIA_LABEL}" class="form-control" type="color" style="width:50px; padding:0;" id="clr-{COLOR_ID}"
+           name="clr-{POST_VAR}" value="{INIT_COLOR}" {DISABLED}  {REQUIRED}/> {INPUT_SUFFIX}
+    <script>
+      window.setTimeout(() => {
+        document.getElementById("clr-{COLOR_ID}").addEventListener("change", (e) => {
+            document.getElementById("{PROP_COLOR_ID}").value = e.target.value.substr(1).toUpperCase();
+        });
+        document.getElementById("{PROP_COLOR_ID}").addEventListener("keyup", (e) => {
+          if (e.target.value.length === 6 && e.target.value.substr(0,1) !== "!") {
+            document.getElementById("clr-{COLOR_ID}").value = "#" + e.target.value;
+          }
+        });
+      }, 0);
+    </script>
+</div>

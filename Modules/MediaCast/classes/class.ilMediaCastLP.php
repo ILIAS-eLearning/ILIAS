@@ -1,12 +1,11 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObjectLP.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Mediacast to lp connector
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesMediaCast
  */
 class ilMediaCastLP extends ilObjectLP
 {

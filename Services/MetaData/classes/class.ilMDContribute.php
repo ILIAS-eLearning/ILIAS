@@ -34,13 +34,13 @@ include_once 'class.ilMDBase.php';
 class ilMDContribute extends ilMDBase
 {
     // Subelements
-    public function &getEntityIds()
+    public function getEntityIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
         return ilMDEntity::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_contribute');
     }
-    public function &getEntity($a_entity_id)
+    public function getEntity($a_entity_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
         
@@ -52,7 +52,7 @@ class ilMDContribute extends ilMDBase
 
         return $ent;
     }
-    public function &addEntity()
+    public function addEntity()
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
 
@@ -202,7 +202,7 @@ class ilMDContribute extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Contribute', array('Role' => $this->getRole()
                                                 ? $this->getRole()
@@ -211,7 +211,7 @@ class ilMDContribute extends ilMDBase
         // Entities
         $entities = $this->getEntityIds();
         foreach ($entities as $id) {
-            $ent = &$this->getEntity($id);
+            $ent = $this->getEntity($id);
             $ent->toXML($writer);
         }
         if (!count($entities)) {

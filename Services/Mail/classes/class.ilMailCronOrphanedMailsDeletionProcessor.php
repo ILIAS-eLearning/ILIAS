@@ -85,20 +85,18 @@ class ilMailCronOrphanedMailsDeletionProcessor
                             $path_name,
                             $mail_id
                         ));
+                    } elseif (file_exists($path_name) && unlink($path_name)) {
+                        ilLoggerFactory::getLogger('mail')->info(sprintf(
+                            'Attachment file (%s) deleted for mail_id: %s',
+                            $path_name,
+                            $mail_id
+                        ));
                     } else {
-                        if (file_exists($path_name) && unlink($path_name)) {
-                            ilLoggerFactory::getLogger('mail')->info(sprintf(
-                                'Attachment file (%s) deleted for mail_id: %s',
-                                $path_name,
-                                $mail_id
-                            ));
-                        } else {
-                            ilLoggerFactory::getLogger('mail')->info(sprintf(
-                                'Attachment file (%s) for mail_id could not be deleted due to missing file system permissions: %s',
-                                $path_name,
-                                $mail_id
-                            ));
-                        }
+                        ilLoggerFactory::getLogger('mail')->info(sprintf(
+                            'Attachment file (%s) for mail_id could not be deleted due to missing file system permissions: %s',
+                            $path_name,
+                            $mail_id
+                        ));
                     }
                 }
 

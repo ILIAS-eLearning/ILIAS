@@ -5,11 +5,9 @@ use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\ComplexItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeparatorItemRenderer;
-use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
@@ -33,7 +31,6 @@ use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
 use ilObjMainMenuAccess;
-use ilMMTypeActionStorage;
 
 /**
  * Class CustomMainBarProvider
@@ -146,32 +143,67 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         $c = new TypeInformationCollection();
         // TopParentItem
-        $c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class),
-            new TopParentItemRenderer()));
+        $c->add(new TypeInformation(
+                TopParentItem::class,
+                $this->translateType(TopParentItem::class),
+                new TopParentItemRenderer())
+        );
         // TopLinkItem
-        $c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class),
-            new TopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
+        $c->add(new TypeInformation(
+                TopLinkItem::class,
+                $this->translateType(TopLinkItem::class),
+                new \ilMMTopLinkItemRenderer(),
+                new ilMMTypeHandlerTopLink())
+        );
         // Link
-        $c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new LinkItemRenderer(),
-            new ilMMTypeHandlerLink()));
+        $c->add(new TypeInformation(
+                Link::class,
+                $this->translateType(Link::class),
+                new \ilMMLinkItemRenderer(),
+                new ilMMTypeHandlerLink())
+        );
 
         // LinkList
-        $link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class),
-            new LinkListItemRenderer());
+        $link_list = new TypeInformation(
+            LinkList::class,
+            $this->translateType(LinkList::class),
+            new LinkListItemRenderer()
+        );
         $link_list->setCreationPrevented(true);
         $c->add($link_list);
+
         // Separator
-        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class),
-            new SeparatorItemRenderer(), new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
+        $c->add(new TypeInformation(
+                Separator::class,
+                $this->translateType(Separator::class),
+                new SeparatorItemRenderer(),
+                new ilMMTypeHandlerSeparator(),
+                $this->translateByline(Separator::class))
+        );
+
         // RepositoryLink
-        $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class),
-            new RepositoryLinkItemRenderer(), new ilMMTypeHandlerRepositoryLink()));
+        $c->add(new TypeInformation(
+                RepositoryLink::class,
+                $this->translateType(RepositoryLink::class),
+                new \ilMMRepositoryLinkItemRenderer(),
+                new ilMMTypeHandlerRepositoryLink())
+        );
+
         // Lost
-        $lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new LostItemRenderer());
+        $lost = new TypeInformation(
+            Lost::class,
+            $this->translateType(Lost::class),
+            new LostItemRenderer()
+        );
         $lost->setCreationPrevented(true);
         $c->add($lost);
+
         // Complex
-        $complex = new TypeInformation(Complex::class, $this->translateType(Complex::class), new ComplexItemRenderer());
+        $complex = new TypeInformation(
+            Complex::class,
+            $this->translateType(Complex::class),
+            new ComplexItemRenderer()
+        );
         $complex->setCreationPrevented(true);
         $c->add($complex);
 

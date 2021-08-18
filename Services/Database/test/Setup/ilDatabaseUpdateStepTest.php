@@ -16,6 +16,10 @@ class Test_ilDatabaseUpdateStep extends ilDatabaseUpdateSteps
 
 class ilDatabaseUpdateStepTest extends TestCase
 {
+    private ilDatabaseUpdateSteps $parent;
+    private Objective $precondition;
+    private ilDatabaseUpdateStep $step;
+
     protected function setUp() : void
     {
         $this->parent = $this->createMock(Test_ilDatabaseUpdateStep::class);
@@ -47,18 +51,18 @@ class ilDatabaseUpdateStepTest extends TestCase
 
         $env
             ->method("getResource")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [Environment::RESOURCE_DATABASE, $db],
                 [\ilDatabaseUpdateStepExecutionLog::class, $log]
-            ]));
+            ]);
 
         $log
-            ->expects($this->once(), $this->at(0))
+            ->expects($this->once())
             ->method("started")
             ->with(get_class($this->parent), 1);
 
         $log
-            ->expects($this->once(), $this->at(1))
+            ->expects($this->once())
             ->method("finished")
             ->with(get_class($this->parent), 1);
 
@@ -72,16 +76,16 @@ class ilDatabaseUpdateStepTest extends TestCase
 
         $env
             ->method("getResource")
-            ->will($this->returnValueMap([
+            ->willReturnMap([
                 [Environment::RESOURCE_DATABASE, $db],
                 [\ilDatabaseUpdateStepExecutionLog::class, null]
-            ]));
+            ]);
 
         $this->parent
             ->expects($this->once())
             ->method("step_1")
             ->with($db)
-            ->willReturn($null);
+            ->willReturn(null);
 
         $this->step->achieve($env);
     }

@@ -1,21 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilLearningSequenceXMLParser extends ilSaxParser
 {
-    /**
-     * @var bool
-     */
-    protected $storing;
+    protected ilObjLearningSequence $obj;
+    protected bool $storing;
 
     /**
-     * @var int
+     * @var (string|int)[]
      */
-    protected $counter;
+    protected array $object;
+
+    /**
+     * @var (string|int)[]
+     */
+    protected array $ls_item_data;
+
+    /**
+     * @var string[]
+     */
+    protected array $settings;
+
+    /**
+     * @var mixed[]
+     */
+    protected array $lp_settings;
+    protected int $counter;
+    protected string $actual_name;
+    protected string $cdata;
 
     public function __construct(ilObjLearningSequence $obj, string $xml)
     {
@@ -33,6 +46,9 @@ class ilLearningSequenceXMLParser extends ilSaxParser
         $this->counter = 0;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function start() : array
     {
         $this->startParsing();
@@ -89,15 +105,15 @@ class ilLearningSequenceXMLParser extends ilSaxParser
                 $this->counter++;
                 break;
             case "abstract":
-                $this->settings["abstract"] = trim($this->cdata);
+                $this->settings["abstract"] = base64_decode(trim($this->cdata));
                 break;
             case "extro":
-                $this->settings["extro"] = trim($this->cdata);
+                $this->settings["extro"] = base64_decode(trim($this->cdata));
                 break;
             case "abstract_img":
                 $this->settings["abstract_img"] = trim($this->cdata);
                 break;
-            case "extor_img":
+            case "extro_img":
                 $this->settings["extro_img"] = trim($this->cdata);
                 break;
             case "abstract_img_data":

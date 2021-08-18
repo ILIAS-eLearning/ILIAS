@@ -7,35 +7,23 @@
  */
 class ilBuddySystemLinkedRelationState extends ilAbstractBuddySystemRelationState
 {
-    /**
-     * @inheritDoc
-     */
     public function getName() : string
     {
         return 'Linked';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAction() : string
     {
         return 'link';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
     {
         return new ilBuddySystemRelationStateCollection([
-            new ilBuddySystemUnlinkedRelationState()
+            new ilBuddySystemUnlinkedRelationState(),
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function unlink(ilBuddySystemRelation $relation) : void
     {
         $relation->setState(new ilBuddySystemUnlinkedRelationState());

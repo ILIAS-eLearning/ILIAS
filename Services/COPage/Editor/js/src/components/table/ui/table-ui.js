@@ -2,6 +2,7 @@ import ACTIONS from "../actions/table-action-types.js";
 import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
 import TinyWrapper from "../../paragraph/ui/tiny-wrapper.js";
 import ParagraphUI from '../../paragraph/ui/paragraph-ui.js';
+import TINY_CB from "../../paragraph/ui/tiny-wrapper-cb-types.js";
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -118,6 +119,7 @@ export default class TableUI {
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
+    const pageModel = this.page_model;
 
     this.uiModel = uiModel;
     let t = this;
@@ -130,9 +132,13 @@ export default class TableUI {
     //this.initMenu();
     this.initCellEditing();
     this.initDropdowns();
-    this.autoSave.setOnAutoSave(() => {
-      dispatch.dispatch(action.table().editor().autoSave());
+    this.autoSave.addOnAutoSave(() => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        dispatch.dispatch(action.table().editor().autoSave());
+      }
     });
+
+    this.initWrapperCallbacks();
   }
 
   /**
@@ -236,35 +242,118 @@ export default class TableUI {
   editCell(pcid, row, col) {
     this.tinyWrapper.setDataTableMode(true);
     this.paragraphUI.setDataTableMode(true);
-    this.log("table-ui.editCell" + row + " " + col);
-    let content_el = document.querySelector("[data-copg-ed-type='data-cell'][data-row='" + row + "'][data-column='" + col + "']");
-    console.log(content_el);
-    let pc_model = this.page_model.getPCModel(pcid);
-    const wrapper = this.tinyWrapper;
-    const nrow = parseInt(row);
-    const ncol = parseInt(col);
     const tableModel = this.tableModel;
-    console.log(nrow);
-    console.log(ncol);
-    const content = pc_model.content[nrow][ncol];
+    const wrapper = this.tinyWrapper;
+    let content_el = document.querySelector("[data-copg-ed-type='data-cell'][data-row='" + tableModel.getCurrentRow() + "'][data-column='" + tableModel.getCurrentColumn() + "']");
+
     wrapper.stopEditing();
-    wrapper.initEdit(content_el, "", "", () => {
-      this.paragraphUI.showToolbar();
-      //wrapper.copyInputToGhost();
-      //wrapper.synchInputRegion();
-      wrapper.initContent(content, "");
-      //this.setParagraphClass("");
-      //this.setSectionClassSelector(this.getSectionClass(pcId));
-    }, () => {
-      pc_model.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
-      console.log(pc_model);
-      this.paragraphUI.autoSave.handleAutoSaveKeyPressed();
-    }, () => {
-      //this.switchToPrevious();
-    }, () => {
-      //this.switchToNext();
+    wrapper.initEdit(content_el, "", "");
+  }
+
+  initWrapperCallbacks() {
+    const wrapper = this.tinyWrapper;
+    const tableUI = this;
+    const tableModel = this.tableModel;
+    const pageModel = this.page_model;
+    wrapper.addCallback(TINY_CB.SWITCH_LEFT, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(-1,0);
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_UP, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(0,-1);
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_RIGHT, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(1,0);
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_DOWN, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(0,1);
+      }
+    });
+    wrapper.addCallback(TINY_CB.TAB, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(1,0);
+      }
+    });
+    wrapper.addCallback(TINY_CB.SHIFT_TAB, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        tableUI.switchEditingCell(-1,0);
+      }
+    });
+    wrapper.addCallback(TINY_CB.KEY_UP, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        let pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+        pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
+        tableUI.paragraphUI.autoSave.handleAutoSaveKeyPressed();
+      }
+    });
+    wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        let pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+        let content = pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()];
+        tableUI.paragraphUI.showToolbar(false, false);
+        wrapper.initContent(content, "");
+      }
     });
   }
 
+  cellExists (col, row) {
+    const pageModel = this.page_model;
+    const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+    return (row in pcModel.content && col in pcModel.content[row]);
+  }
+
+  updateModelFromCell() {
+    const pageModel = this.page_model;
+    const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+    const tableModel = this.tableModel;
+    const wrapper = this.tinyWrapper;
+    pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
+  }
+
+  switchEditingCell(colDiff, rowDiff) {
+    const pageModel = this.page_model;
+    const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+    const action = this.actionFactory;
+    const dispatch = this.dispatcher;
+    const tableModel = this.tableModel;
+    let newCol = tableModel.getCurrentColumn() + colDiff;
+    let newRow = tableModel.getCurrentRow() + rowDiff;
+
+    this.updateModelFromCell();
+
+    // move to beginning of next row, if end of row is reached
+    if (rowDiff === 0 && colDiff === 1) {
+      if (!this.cellExists(newCol, newRow)) {
+        newCol = 0;
+        newRow = tableModel.getCurrentRow() + 1;
+      }
+    }
+
+    // move to end of previous row, if beginning of row is reached
+    if (rowDiff === 0 && colDiff === -1) {
+      if (!this.cellExists(newCol, newRow)) {
+        newCol = 0;
+        newRow = tableModel.getCurrentRow() - 1;
+        if (newRow >= 0) {
+          newCol = pcModel.content[newRow].length - 1;
+        }
+      }
+    }
+
+    if (this.cellExists(newCol, newRow)) {
+      dispatch.dispatch(action.table().editor().editCell(
+          pageModel.getCurrentPCId(),
+          pageModel.getCurrenntHierId(),
+          newRow,
+          newCol
+      ));
+    }
+  }
 
 }

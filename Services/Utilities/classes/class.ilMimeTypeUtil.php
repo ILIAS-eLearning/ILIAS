@@ -1,13 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Mime type determination.
  *
- * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMimeTypeUtil
 {

@@ -128,7 +128,7 @@ class ilSurveyParticipantsGUI
                         'inviteUsers',
                         array(
                             )
-                        );
+                    );
                     $rep_search->setTitle($lng->txt("svy_invite_participants"));
                     // Set tabs
                     $this->ctrl->setReturn($this, 'maintenance');
@@ -149,7 +149,7 @@ class ilSurveyParticipantsGUI
                         'addRater',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'editRaters');
@@ -163,7 +163,7 @@ class ilSurveyParticipantsGUI
                         'addAppraisee',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'listAppraisees');
@@ -717,13 +717,18 @@ class ilSurveyParticipantsGUI
                     // unique code?
                     if (!array_key_exists($code, $existing)) {
                         // could be date or datetime
-                        if (strlen($created) == 10) {
-                            $created = new ilDate($created, IL_CAL_DATE);
-                        } else {
-                            $created = new ilDateTime($created, IL_CAL_DATETIME);
+                        try {
+                            if (strlen($created) == 10) {
+                                $created = new ilDate($created, IL_CAL_DATE);
+                            } else {
+                                $created = new ilDateTime($created, IL_CAL_DATETIME);
+                            }
+                            $created = $created->get(IL_CAL_UNIX);
+                        } catch (Exception $e) {
+                            ilUtil::sendFailure($e->getMessage(), true);
+                            $this->ctrl->redirect($this, 'codes');
                         }
-                        $created = $created->get(IL_CAL_UNIX);
-                        
+
                         $user_data = array(
                             "email" => $email
                             ,"lastname" => $last_name
@@ -1120,7 +1125,7 @@ class ilSurveyParticipantsGUI
     {
         $ilTabs = $this->tabs;
         
-        if (!sizeof($_POST["appr_id"])) {
+        if (!is_array($_POST["appr_id"])) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1235,7 +1240,6 @@ class ilSurveyParticipantsGUI
         );
         
         // #13320
-        require_once "Services/Link/classes/class.ilLink.php";
         $url = ilLink::_getStaticLink($this->object->getRefId());
         
         $tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id), $url); // #11285

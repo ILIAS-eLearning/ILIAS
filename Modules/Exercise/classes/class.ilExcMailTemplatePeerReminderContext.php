@@ -1,25 +1,26 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
 /**
  * Handles exercise Peer reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
- *
  * @author Jesús López <lopez@leifos.com>
- * @package ModulesExercise
  */
 class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public const ID = 'exc_context_peer_rmd';
 
     /**
-     * @var ilObjectDataCache
+     * caution, this currently makes the ilias update fail (Aug 2021)
+     * setup > ilMailTemplateContextDefinitionProcessor > anonymous class in $DIC->language()
      */
+    // protected ilLanguage $lng;
+    // protected ilObjectDataCache $obj_data_cache;
+
+    protected $lng;
     protected $obj_data_cache;
 
     public function __construct(
@@ -43,19 +44,11 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         }
     }
 
-    const ID = 'exc_context_peer_rmd';
-
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         $lng = $this->lng;
@@ -65,9 +58,6 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_peer_reminder_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         $lng = $this->lng;
@@ -77,10 +67,6 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         return $lng->txt('exc_mail_context_peer_reminder_info');
     }
 
-    /**
-     * Return an array of placeholders
-     * @return array
-     */
     public function getSpecificPlaceholders() : array
     {
         $lng = $this->lng;

@@ -3334,7 +3334,6 @@ common#:#usr_without_courses#:#Users without courses assigned###25 02 2007 new v
 assessment#:#answer_is_not_correct_but_positive#:#You've got points for your solution but it's not the best solution###25 02 2007 new variable
 assessment#:#assClozeTest#:#Cloze Question###25 02 2007 new variable
 assessment#:#assImagemapQuestion#:#Image Map Question###25 02 2007 new variable
-assessment#:#assJavaApplet#:#Java Applet Question###25 02 2007 new variable
 assessment#:#assMatchingQuestion#:#Matching Question###25 02 2007 new variable
 assessment#:#assMultipleChoice#:#Multiple Choice Question (Multiple Response)###25 02 2007 new variable
 assessment#:#assNumeric#:#Numeric Question###25 02 2007 new variable
@@ -10047,7 +10046,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog###24 10 2013 new vari
 prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page###24 10 2013 new variable
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio###24 10 2013 new variable
 prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its content and settings for the template.###24 10 2013 new variable
-prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.###24 10 2013 new variable
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template###24 10 2013 new variable
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.###24 10 2013 new variable
 administration#:#vc_information#:#Version Control Information###24 10 2013 new variable
@@ -15448,8 +15446,6 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources###07 02 2020 new variable
 file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
 administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable

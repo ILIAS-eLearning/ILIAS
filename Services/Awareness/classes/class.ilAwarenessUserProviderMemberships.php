@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * All members of the same courses/groups as the user
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
 {
@@ -68,7 +64,6 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
         $ilDB = $this->db;
 
 
-        include_once("./Services/Membership/classes/class.ilParticipants.php");
         $groups_and_courses_of_user = ilParticipants::_getMembershipByType($this->getUserId(), array("grp", "crs"));
         $this->log->debug("user: " . $this->getUserId() . ", courses and groups: " . implode(",", $groups_and_courses_of_user));
 
@@ -85,7 +80,6 @@ class ilAwarenessUserProviderMemberships extends ilAwarenessUserProvider
                 $ub[] = $rec["usr_id"];
                 if ($this->log->isHandling(ilLogLevel::DEBUG)) {
                     // cross-check if user is in course
-                    include_once("./Services/Membership/classes/class.ilParticipants.php");
                     $ref_ids = ilObject::_getAllReferences($rec["obj_id"]);
                     $ref_id = current($ref_ids);
                     $this->log->debug("Cross-checking all members...");

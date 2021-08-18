@@ -59,13 +59,13 @@ trait GroupHelper
      * @param    array
      *
      * @throws  \InvalidArgumentException    if value does not fit client side input
-     * @return Input
+     * @return Input|Group|GroupHelper
      */
     public function withGroupValues($values)
     {
-        $this->checkArg("value", $this->isClientSideValueOk($values), "Values given do not match given inputs in group.");
-
         $clone = clone $this;
+        $clone->checkArg("value", $clone->isClientSideValueOk($values), "Values given do not match given inputs in group.");
+
         $inputs = [];
 
         foreach ($this->getInputs() as $key => $input) {
@@ -90,7 +90,7 @@ trait GroupHelper
         if (!is_array($value)) {
             return false;
         }
-        if (!sizeof($this->getInputs() == sizeof($value))) {
+        if (!($this->getInputs() == sizeof($value))) {
             return false;
         }
 
@@ -112,7 +112,8 @@ trait GroupHelper
      */
     public function withInput(InputData $post_input)
     {
-        $clone = parent::withInput($post_input);
+        $clone = clone $this;
+        $clone = $clone::withInput($post_input);
         /**
          * @var $clone Group
          */
@@ -127,11 +128,14 @@ trait GroupHelper
     /**
      * @param InputData $post_input
      *
-     * @return Group|Input
+     * @return Group|Input|GroupHelper
      */
     protected function withGroupInput(InputData $post_input)
     {
-        $clone = $this;
+        /**
+         * @var $clone Group|Input|GroupHelper
+         */
+        $clone = clone $this;
 
         if (sizeof($this->getInputs()) === 0) {
             return $clone;
@@ -147,7 +151,7 @@ trait GroupHelper
              */
             //Todo: Is this correct here or should it be getValue? Design decision...
             $content = $filled->getContent();
-            if ($content->isOk()) {
+            if ($content->isOK()) {
                 $values[$key] = $content->value();
             } else {
                 $error = true;
@@ -164,7 +168,7 @@ trait GroupHelper
 
         if ($clone->content->value()) {
             $group_content = $clone->applyOperationsTo($values);
-            $f = $this->data_factory;
+            $f = $clone->data_factory;
             $clone->content = $clone->content->then(function ($value) use ($f, $group_content) {
                 if ($group_content->isError()) {
                     return $f->error($group_content->error());
@@ -189,10 +193,12 @@ trait GroupHelper
      */
     public function withNameFrom(NameSource $source)
     {
-        $clone = parent::withNameFrom($source);
         /**
          * @var $clone Group
          */
+        $clone = clone $this;
+        $clone = $clone::withNameFrom($source);
+
         $named_inputs = [];
         foreach ($this->getInputs() as $key => $input) {
             $named_inputs[$key] = $input->withNameFrom($source);

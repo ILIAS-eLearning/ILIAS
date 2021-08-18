@@ -25,14 +25,12 @@ trait ProblemBuilder
 
     /**
      * Get the problem message
-     *
-     * @return string
      */
-    final public function getErrorMessage($value)
+    final public function getErrorMessage($value) : string
     {
         $error = $this->getError();
         if (!is_callable($error)) {
-            return (string) $error;
+            return $error;
         }
         $lng_closure = $this->getLngClosure();
         return call_user_func($this->error, $lng_closure, $value);
@@ -56,10 +54,9 @@ trait ProblemBuilder
             $error = $this->lng->txt($args[0]);
             if (count($args) > 1) {
                 $args[0] = $error;
-                for ($i = 0; $i < count($args); $i++) {
+                for ($i = 0, $numArgs = count($args); $i < $numArgs; $i++) {
                     $v = $args[$i];
-                    if ((is_array($v) || is_object($v) || is_null($v))
-                    && !method_exists($v, "__toString")) {
+                    if ((is_array($v) || (is_object($v) && !method_exists($v, "__toString")) || is_null($v))) {
                         if (is_array($v)) {
                             $args[$i] = "array";
                         } elseif (is_null($v)) {
@@ -69,7 +66,7 @@ trait ProblemBuilder
                         }
                     }
                 }
-                $error = call_user_func_array("sprintf", $args);
+                $error = sprintf(...$args);
             }
             return $error;
         };

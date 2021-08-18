@@ -44,7 +44,7 @@ class Renderer extends AbstractComponentRenderer
                     $trigger_signal = $component->getTriggerSignal($mb_id);
                     $triggerer = $triggerer
                         ->withOnClick($trigger_signal)
-                        ->withAdditionalOnloadCode(
+                        ->withAdditionalOnLoadCode(
                             function ($id) use ($mb_id, $trigger_signal) {
                                 return "
                                     il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');

@@ -10,7 +10,6 @@ namespace ILIAS\COPage\Editor\Components\Section;
  */
 class SectionStyleSelector
 {
-
     public static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
 
     /**
@@ -67,5 +66,4 @@ class SectionStyleSelector
         $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($a_selected);
         return $dd;
     }
-
 }

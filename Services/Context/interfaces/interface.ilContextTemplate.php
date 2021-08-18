@@ -79,7 +79,7 @@ interface ilContextTemplate
 
     /**
      * A context might modify the ILIAS http path
-     * @see \ilInitialisation::buildHTTPPath 
+     * @see \ilInitialisation::buildHTTPPath
      * @param string $httpPath
      * @return string
      */

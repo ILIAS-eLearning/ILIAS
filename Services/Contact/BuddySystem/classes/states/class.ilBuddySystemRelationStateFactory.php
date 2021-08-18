@@ -7,21 +7,13 @@
  */
 class ilBuddySystemRelationStateFactory
 {
-    /** @var self */
-    protected static $instance;
+    protected static ?self $instance = null;
+    /** @var ilBuddySystemRelationState[]|null */
+    protected static ?array $validStates = null;
+    /** @var array<string, string>[]|null */
+    protected static ?array $stateOptions = null;
+    protected ilLanguage $lng;
 
-    /** @var array|null */
-    protected static $validStates;
-
-    /** @var array|null */
-    protected static $stateOptions;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /**
-     * ilBuddySystemRelationStateFactory constructor.
-     */
     protected function __construct()
     {
         global $DIC;
@@ -29,9 +21,6 @@ class ilBuddySystemRelationStateFactory
         $this->lng = $DIC['lng'];
     }
 
-    /**
-     * @return self
-     */
     public static function getInstance() : self
     {
         if (null === self::$instance) {
@@ -78,7 +67,7 @@ class ilBuddySystemRelationStateFactory
      * @param bool $withInitialState
      * @return array<string, string>
      */
-    public function getStatesAsOptionArray($withInitialState = false) : array
+    public function getStatesAsOptionArray(bool $withInitialState = false) : array
     {
         if (isset(self::$stateOptions[$withInitialState]) && is_array(self::$stateOptions[$withInitialState])) {
             return self::$stateOptions[$withInitialState];
@@ -95,11 +84,6 @@ class ilBuddySystemRelationStateFactory
         return (self::$stateOptions[$withInitialState] = $options);
     }
 
-    /**
-     * @param int $ownerId
-     * @param ilBuddySystemRelation $relation
-     * @return ilBuddySystemRelationStateButtonRenderer
-     */
     public function getRendererByOwnerAndRelation(
         int $ownerId,
         ilBuddySystemRelation $relation

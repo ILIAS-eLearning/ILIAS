@@ -291,8 +291,6 @@ class ilXmlWriter
         if ($this->genCmt <> "") {
             $this->xmlComment($this->genCmt);
         }
-        
-        return $xmlStr;
     }
     
     /**

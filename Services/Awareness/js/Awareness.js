@@ -50,7 +50,14 @@ il.Awareness = {
 
 		}).on('hidden.bs.popover', function () {
 			$("body").removeClass("modal-open");
-		})
+		});
+
+		$('.ilAwarenessItem > div[role="button"]').on('keypress', function (e) {
+			if (e.which === 13 || e.which === 32) {
+				$(this).trigger('click');
+			}
+		});
+
 
 		// close popover when clicked outside. todo: move to a central place?
 		$('body').on('click', function (e) {

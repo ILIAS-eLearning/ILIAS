@@ -148,7 +148,6 @@ class ilSessionMembershipGUI extends ilMembershipGUI
             $this->ctrl->redirect($this, 'participants');
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteParticipants'));
         $confirm->setHeaderText($this->lng->txt($this->getParentObject()->getType() . '_header_delete_members'));

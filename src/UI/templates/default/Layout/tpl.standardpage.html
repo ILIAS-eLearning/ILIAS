@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{LANGUAGE}" dir="ltr">
+<html lang="{LANGUAGE}" dir="{TEXT_DIRECTION}">
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -14,17 +14,13 @@
 
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 
-	<style type="text/css">
+	<style>
 		{CSS_INLINE}
 	</style>
 
 	<!-- BEGIN css_file -->
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
 	<!-- END css_file -->
-
-	<!-- BEGIN js_file -->
-	<script type="text/javascript" src="{JS_FILE}"></script>
-	<!-- END js_file -->
 </head>
 <body>
 	<!-- BEGIN mode_info -->
@@ -79,9 +75,12 @@
 
 	</div>
 
-
+<!-- BEGIN js_file -->
+<script src="{JS_FILE}"></script>
+<!-- END js_file -->
+	
 <!-- BEGIN on_load_code -->
-<script type="text/javascript">
+<script>
 	<!-- BEGIN on_load_code_inner -->
 		il.Util.addOnLoad(function() {
 			{OLCODE}

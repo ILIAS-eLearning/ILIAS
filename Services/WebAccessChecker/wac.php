@@ -30,7 +30,7 @@ $container['http.response_sender_strategy'] = function ($c) {
 };
 
 $container['http'] = function ($c) {
-    return new \ILIAS\DI\HTTPServices(
+    return new \ILIAS\HTTP\Services(
         $c['http.response_sender_strategy'],
         $c['http.cookie_jar_factory'],
         $c['http.request_factory'],
@@ -41,12 +41,12 @@ $container['http'] = function ($c) {
 $GLOBALS["DIC"] = $container;
 
 /**
- * @var \ILIAS\HTTP\GlobalHttpState $globalHttpState
+ * @var \ILIAS\HTTP\Services $Services
  */
-$globalHttpState = $container['http'];
+$Services = $container['http'];
 
 //TODO: fix tests and mod_xsendfile which refuses to work
-ilWebAccessCheckerDelivery::run($globalHttpState, new CookieFactoryImpl());
+ilWebAccessCheckerDelivery::run($Services, new CookieFactoryImpl());
 
 //send response
-$globalHttpState->sendResponse();
+$Services->sendResponse();

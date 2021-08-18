@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2020 Luka K. A. Stocker, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\KindlyTo\Transformation;
@@ -14,7 +14,7 @@ class TupleTransformation implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    private $transformations;
+    private array $transformations;
 
     /**
      * @param Transformation[] $transformations;
@@ -46,7 +46,7 @@ class TupleTransformation implements Transformation
 
         if ([] === $from) {
             throw new ConstraintViolationException(
-                sprintf('The array "%s" ist empty', $from),
+                sprintf('The array "%s" ist empty', var_export($from, true)),
                 'value_array_is_empty',
                 $from
             ) ;

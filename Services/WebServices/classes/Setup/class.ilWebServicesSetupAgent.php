@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilWebServicesSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */
@@ -55,11 +57,7 @@ class ilWebServicesSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/WebServices",
-            false,
-            new ilWebServicesConfigStoredObjective($config)
-        );
+        return new ilWebServicesConfigStoredObjective($config);
     }
 
     /**
@@ -67,7 +65,10 @@ class ilWebServicesSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        if (is_null($config)) {
+            return new Setup\Objective\NullObjective();
+        }
+        return new ilWebServicesConfigStoredObjective($config);
     }
 
     /**

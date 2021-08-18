@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * External feed data set class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesExternalFeed
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExternalFeedDataSet extends ilDataSet
 {
@@ -101,8 +98,6 @@ class ilExternalFeedDataSet extends ilDataSet
 
         switch ($a_entity) {
             case "feed":
-
-                include_once("./Modules/ExternalFeed/classes/class.ilObjExternalFeed.php");
 
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);

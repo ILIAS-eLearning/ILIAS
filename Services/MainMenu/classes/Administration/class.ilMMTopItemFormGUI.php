@@ -17,7 +17,7 @@ class ilMMTopItemFormGUI
 
     private const F_ICON = 'icon';
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     private $http;
     /**
@@ -64,7 +64,7 @@ class ilMMTopItemFormGUI
         Factory $ui_fa,
         Renderer $ui_re,
         ilLanguage $lng,
-        \ILIAS\DI\HTTPServices $http,
+        \ILIAS\HTTP\Services $http,
         ilMMItemFacadeInterface $item,
         ilMMItemRepository $repository
     ) {
@@ -171,7 +171,7 @@ class ilMMTopItemFormGUI
             return false;
         }
 
-        $this->item_facade->setAction((string) $data[0]['action']);
+        $this->item_facade->setAction((string) ($data[0]['action'] ?? ''));
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
@@ -190,7 +190,7 @@ class ilMMTopItemFormGUI
         }
 
         if ($this->item_facade->supportsCustomIcon()) {
-            $icon = (string) $data[0][self::F_ICON][0];
+            $icon = (string) ($data[0][self::F_ICON][0] ?? '');
             $this->item_facade->setIconID($icon);
         }
 

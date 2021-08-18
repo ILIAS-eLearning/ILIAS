@@ -162,7 +162,7 @@ class ilMediaPoolItem
         $set = $ilDB->query(
             "SELECT * FROM mep_item WHERE " .
             "obj_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->setType($rec["type"]);
             $this->setForeignId($rec["foreign_id"]);
@@ -188,7 +188,7 @@ class ilMediaPoolItem
             " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
             " import_id = " . $ilDB->quote($this->getImportId(), "text") .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
     
     /**
@@ -204,7 +204,7 @@ class ilMediaPoolItem
         $ilDB->manipulate(
             "DELETE FROM mep_item WHERE "
             . " obj_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
     
     /**
@@ -276,7 +276,7 @@ class ilMediaPoolItem
                 " title = " . $ilDB->quote($title, "text") .
                 " WHERE foreign_id = " . $ilDB->quote($a_obj, "integer") .
                 " AND type = " . $ilDB->quote("mob", "text")
-                );
+            );
         }
     }
     
@@ -292,7 +292,7 @@ class ilMediaPoolItem
         $set = $ilDB->query(
             "SELECT * FROM mep_tree " .
             " WHERE child = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $pool_ids = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $pool_ids[] = $rec["mep_id"];

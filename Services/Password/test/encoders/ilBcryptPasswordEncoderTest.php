@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPasswordEncoder.php';
-require_once 'Services/Password/test/ilPasswordBaseTest.php';
-
 use org\bovigo\vfs;
 
 /**
@@ -28,69 +25,45 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     /** @var string */
     private const PASSWORD_SALT = 'salt';
 
-    /** @var vfs\vfsStreamDirectory */
-    protected $testDirectory;
+    protected vfs\vfsStreamDirectory $testDirectory;
+    protected string $testDirectoryUrl;
 
-    /** @var string */
-    protected $testDirectoryUrl;
-
-    /**
-     * @return vfs\vfsStreamDirectory
-     */
     public function getTestDirectory() : vfs\vfsStreamDirectory
     {
         return $this->testDirectory;
     }
 
-    /**
-     * @param vfs\vfsStreamDirectory $testDirectory
-     */
     public function setTestDirectory(vfs\vfsStreamDirectory $testDirectory) : void
     {
         $this->testDirectory = $testDirectory;
     }
 
-    /**
-     * @return string
-     */
     public function getTestDirectoryUrl() : string
     {
         return $this->testDirectoryUrl;
     }
 
-    /**
-     * @param string $testDirectoryUrl
-     */
     public function setTestDirectoryUrl(string $testDirectoryUrl) : void
     {
         $this->testDirectoryUrl = $testDirectoryUrl;
     }
 
-    /**
-     *
-     */
     private function skipIfPhpVersionIsNotSupported() : void
     {
-        if (version_compare(phpversion(), '5.3.7', '<')) {
+        if (version_compare(PHP_VERSION, '5.3.7', '<')) {
             $this->markTestSkipped('Requires PHP >= 5.3.7');
         }
     }
 
-    /**
-     * @return bool
-     */
     private function isVsfStreamInstalled() : bool
     {
         return class_exists('org\bovigo\vfs\vfsStreamWrapper');
     }
 
-    /**
-     *
-     */
     private function skipIfvfsStreamNotSupported() : void
     {
         if (!$this->isVsfStreamInstalled()) {
-            $this->markTestSkipped('Skipped test, vfsStream (http://vfs.bovigo.org) required');
+            $this->markTestSkipped('Skipped test, vfsStream (https://github.com/bovigo/vfsStream/) required');
         } else {
             vfs\vfsStream::setup();
             $this->setTestDirectory(vfs\vfsStream::newDirectory('tests')->at(vfs\vfsStreamWrapper::getRoot()));
@@ -99,35 +72,25 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     public function costsProvider() : array
     {
         $data = [];
-        for ($i = 4; $i <= 31; $i++) {
+        for ($i = 4; $i <= 31; ++$i) {
             $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
         }
 
         return $data;
     }
 
-    /**
-     * @return ilBcryptPasswordEncoder
-     * @throws ilPasswordException
-     */
     private function getInstanceWithConfiguredDataDirectory() : ilBcryptPasswordEncoder
     {
-        $encoder = new ilBcryptPasswordEncoder([
+        return new ilBcryptPasswordEncoder([
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-
-        return $encoder;
     }
 
-    /**
-     * @return ilBcryptPasswordEncoder
-     * @throws ilPasswordException
-     */
     public function testInstanceCanBeCreated() : ilBcryptPasswordEncoder
     {
         $this->skipIfvfsStreamNotSupported();
@@ -148,7 +111,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
             'cost' => self::VALID_COSTS,
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $this->assertInstanceOf('ilBcryptPasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilBcryptPasswordEncoder::class, $encoder);
         $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
         $this->assertFalse($encoder->isSecurityFlawIgnored());
         $encoder->setClientSalt(self::CLIENT_SALT);
@@ -158,7 +121,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeRetrievedWhenCostsAreSet(ilBcryptPasswordEncoder $encoder) : void
@@ -171,7 +133,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetAboveRange(ilBcryptPasswordEncoder $encoder) : void
@@ -182,7 +143,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCannotBeSetBelowRange(ilBcryptPasswordEncoder $encoder) : void
@@ -195,8 +155,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
      * @doesNotPerformAssertions
      * @depends      testInstanceCanBeCreated
      * @dataProvider costsProvider
-     * @param string                  $costs
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testCostsCanBeSetInRange(string $costs, ilBcryptPasswordEncoder $encoder) : void
@@ -206,8 +164,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
-     * @return ilBcryptPasswordEncoder
      * @throws ilPasswordException
      */
     public function testPasswordShouldBeCorrectlyEncodedAndVerified(
@@ -217,12 +173,12 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $encoded_password = $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
         $this->assertFalse($encoder->isPasswordValid($encoded_password, self::WRONG_PASSWORD, self::PASSWORD_SALT));
+
         return $encoder;
     }
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testExceptionIsRaisedIfThePasswordExceedsTheSupportedLengthOnEncoding(
@@ -235,7 +191,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      * @throws ilPasswordException
      */
     public function testPasswordVerificationShouldFailIfTheRawPasswordExceedsTheSupportedLength(
@@ -247,7 +202,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testEncoderReliesOnSalts(ilBcryptPasswordEncoder $encoder) : void
     {
@@ -256,7 +210,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testEncoderDoesNotSupportReencoding(ilBcryptPasswordEncoder $encoder) : void
     {
@@ -265,16 +218,12 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilBcryptPasswordEncoder $encoder
      */
     public function testNameShouldBeBcrypt(ilBcryptPasswordEncoder $encoder) : void
     {
         $this->assertEquals('bcrypt', $encoder->getName());
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testExceptionIsRaisedIfSaltIsMissingIsOnEncoding() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -286,9 +235,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testExceptionIsRaisedIfSaltIsMissingIsOnVerification() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -300,9 +246,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $encoder->isPasswordValid('12121212', self::PASSWORD, self::PASSWORD_SALT);
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testInstanceCanBeCreatedAndInitializedWithClientSalt() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -314,9 +257,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->assertEquals(self::CLIENT_SALT, $encoder->getClientSalt());
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testClientSaltIsGeneratedWhenNoClientSaltExistsYet() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -327,9 +267,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->assertNotNull($encoder->getClientSalt());
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testExceptionIsRaisedWhenClientSaltCouldNotBeGeneratedInCaseNoClientSaltExistsYet() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -340,9 +277,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->getInstanceWithConfiguredDataDirectory();
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testBackwardCompatibilityCanBeRetrievedWhenBackwardCompatibilityIsSet() : void
     {
         $this->skipIfvfsStreamNotSupported();
@@ -354,9 +288,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->assertFalse($encoder->isBackwardCompatibilityEnabled());
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testBackwardCompatibility() : void
     {
         $this->skipIfPhpVersionIsNotSupported();
@@ -365,21 +296,20 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $encoder = $this->getInstanceWithConfiguredDataDirectory();
         $encoder->setClientSalt(self::CLIENT_SALT);
         $encoder->setBackwardCompatibility(true);
+
         $encoded_password = $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
         $this->assertEquals('$2a$', substr($encoded_password, 0, 4));
 
         $another_encoder = $this->getInstanceWithConfiguredDataDirectory();
         $another_encoder->setClientSalt(self::CLIENT_SALT);
+
         $another_encoder->setBackwardCompatibility(false);
         $another_encoded_password = $another_encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertEquals('$2y$', substr($another_encoded_password, 0, 4));
         $this->assertTrue($another_encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
     }
 
-    /**
-     * @throws ilPasswordException
-     */
     public function testExceptionIfPasswordsContainA8BitCharacterAndBackwardCompatibilityIsEnabled() : void
     {
         $this->skipIfvfsStreamNotSupported();

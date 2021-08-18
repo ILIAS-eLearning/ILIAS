@@ -11,6 +11,11 @@
 class ilPersonalSkillsFilterGUI
 {
     /**
+     * @var ilLanguage
+     */
+    protected $lng;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -139,7 +144,7 @@ class ilPersonalSkillsFilterGUI
 
     /**
      * Show target level?
-     * @return bool
+     * @return int
      */
     public function showTargetLevel()
     {
@@ -148,7 +153,7 @@ class ilPersonalSkillsFilterGUI
 
     /**
      * Show materials and ressources?
-     * @return bool
+     * @return int
      */
     public function showMaterialsRessources()
     {

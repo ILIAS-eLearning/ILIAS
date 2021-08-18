@@ -20,7 +20,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Valid" implementation of iterator interface
-     * @return  boolean true/false
+     * @return bool
      */
     public function valid()
     {
@@ -44,7 +44,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Key" implementation of iterator interface
-     * @return  boolean true/false
+     * @return string
      */
     public function key()
     {
@@ -136,6 +136,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     {
         $outer_conditions = array();
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
+        $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, 'integer');
 
         $field_conditions = array();
         foreach ($this->getFields() as $field) {

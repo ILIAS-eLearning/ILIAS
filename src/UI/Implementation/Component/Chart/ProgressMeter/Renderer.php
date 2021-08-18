@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Mini;
 
 /**
  * Class Renderer
@@ -30,9 +31,9 @@ class Renderer extends AbstractComponentRenderer
              * @var Component\Chart\ProgressMeter\FixedSize $component
              */
             return $this->renderFixedSize($component, $default_renderer);
-        } elseif ($component instanceof Component\Chart\ProgressMeter\Mini) {
+        } elseif ($component instanceof Mini) {
             /**
-             * @var Component\Chart\ProgressMeter\Mini $component
+             * @var Mini $component
              */
             return $this->renderMini($component, $default_renderer);
         } else {
@@ -88,7 +89,7 @@ class Renderer extends AbstractComponentRenderer
      * @param RendererInterface $default_renderer
      * @return string
      */
-    protected function renderMini(Component\Chart\ProgressMeter\Mini $component, RendererInterface $default_renderer)
+    protected function renderMini(Mini $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
 

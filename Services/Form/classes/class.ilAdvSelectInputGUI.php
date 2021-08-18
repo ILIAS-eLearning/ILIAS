@@ -1,23 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents an advanced selection list property in a property form.
-* It can hold graphical selection items, uses javascript and falls back
-* to a normal selection list, when javascript is disabled.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents an advanced selection list property in a property form.
+ * It can hold graphical selection items, uses javascript and falls back
+ * to a normal selection list, when javascript is disabled.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilAdvSelectInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $options = array();
     protected $value;
     
@@ -113,7 +106,6 @@ class ilAdvSelectInputGUI extends ilFormPropertyGUI
     */
     public function insert($a_tpl)
     {
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
             $this->getPostVar(),

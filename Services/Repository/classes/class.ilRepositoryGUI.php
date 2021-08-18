@@ -80,6 +80,7 @@ class ilRepositoryGUI
     public $cmd;
     public $mode;
     public $ctrl;
+    private $http;
 
     /**
     * Constructor
@@ -105,6 +106,7 @@ class ilRepositoryGUI
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->http = $DIC->http();
 
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -221,6 +223,15 @@ class ilRepositoryGUI
         $ilHelp = $this->help;
         $ilErr = $this->error;
 
+        if (
+            ($this->user->isAnonymous() || !($this->user->getId() >= 1)) &&
+            !ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->http->request()->getServerParams()['SERVER_NAME']
+            )
+        ) {
+            $this->ctrl->redirectToURL('./login.php?cmd=force_login');
+        }
+
         $this->tool_context->claim()->repository();
         $show_tree = ($_SESSION["il_rep_mode"] == "flat")
             ? true
@@ -243,7 +254,7 @@ class ilRepositoryGUI
 
         // handle frameset command
         $cmd = $this->ctrl->getCmd();
-        if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree") {
+        if (($cmd == "frameset" || (isset($_GET["rep_frame"]) && $_GET["rep_frame"] == 1)) && (isset($_SESSION["il_rep_mode"]) && $_SESSION["il_rep_mode"] === "tree")) {
             $next_class = "";
             $cmd = "frameset";
         } elseif ($cmd == "frameset" && $_SESSION["il_rep_mode"] != "tree") {

@@ -212,7 +212,6 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
             $ilCtrl->redirect($this);
         }
         
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         
         $confirmation->setHeaderText($lng->txt('tst_question_hints_delete_hints_confirm_header'));

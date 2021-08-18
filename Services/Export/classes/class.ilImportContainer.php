@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilImport.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Import class
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- * @ingroup ServicesExport
  */
 class ilImportContainer extends ilImport
 {
@@ -36,7 +33,6 @@ class ilImportContainer extends ilImport
             return false;
         }
         
-        include_once("./Services/Export/classes/class.ilManifestParser.php");
         $parser = new ilManifestParser($manifest_file);
         
         
@@ -90,9 +86,7 @@ class ilImportContainer extends ilImport
         $objDefinition = $DIC['objDefinition'];
 
         $class_name = "ilObj" . $objDefinition->getClassName($a_type);
-        $location = $objDefinition->getLocation($a_type);
-        
-        include_once($location . "/class." . $class_name . ".php");
+
         $new = new $class_name();
         $new->setTitle('Import');
         $new->create(true);

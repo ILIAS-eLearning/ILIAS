@@ -24,4 +24,6 @@ function ilDisableAppointmentTime()
 {
 	return ilToggleAppointmentTime(document.getElementById('fullday'));
 }
-YAHOO.util.Event.onDOMReady(ilDisableAppointmentTime);
+$(() => {
+	ilDisableAppointmentTime();
+});

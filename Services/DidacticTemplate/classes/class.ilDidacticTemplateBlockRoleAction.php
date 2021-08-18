@@ -30,10 +30,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         parent::__construct($action_id);
     }
 
-    /**
-     * Add filter
-     * @param ilDidacticTemplateFilterPatter $pattern
-     */
     public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern)
     {
         $this->pattern[] = $pattern;
@@ -103,7 +99,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * delete action filter
-     * @global ilDB $ilDB
      * @return bool
      */
     public function delete()
@@ -275,7 +270,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         parent::__clone();
 
         // Clone patterns
-        $cloned = array();
+        $clones = array();
         foreach ($this->getFilterPattern() as $pattern) {
             $clones[] = clone $pattern;
         }
@@ -284,7 +279,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * read action data
-     * @global ilDB $ilDB
      * @return bool
      */
     public function read()
@@ -309,5 +303,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
+        return true;
     }
 }

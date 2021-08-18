@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilBadgeAssignment
@@ -256,7 +256,7 @@ class ilBadgeAssignment
             " WHERE badge_id = " . $ilDB->quote($a_badge_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        if ($row["user_id"]) {
+        if ($row && $row["user_id"]) {
             $this->importDBRow($row);
         }
     }
@@ -368,7 +368,7 @@ class ilBadgeAssignment
             " WHERE ub.user_id = %s AND ub.tstamp >= %s AND ub.tstamp <= %s",
             array("integer","integer","integer"),
             array($a_user_id, $a_ts_from, $a_ts_to)
-            );
+        );
         $res = [];
         while ($rec = $db->fetchAssoc($set)) {
             $res[] = $rec;
@@ -446,7 +446,6 @@ class ilBadgeAssignment
         $suffix = strtolower(array_pop(explode(".", basename($a_badge_image_path))));
         if ($suffix == "png") {
             // using chamilo baker lib
-            include_once "Services/Badge/lib/baker.lib.php";
             $png = new PNGImageBaker(file_get_contents($a_badge_image_path));
             
             // add payload

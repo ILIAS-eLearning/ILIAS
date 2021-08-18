@@ -48,7 +48,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * Constructor
      * @param ilMailFolderGUI $a_parent_obj Pass an instance of ilObjectGUI
-     * @param integer $a_current_folder_id Id of the current mail box folder
+     * @param int $a_current_folder_id Id of the current mail box folder
      * @param string $a_parent_cmd Command for the parent class
      * @param Factory|null $uiFactory
      * @param Renderer|null $uiRenderer
@@ -103,11 +103,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns()
     {
-        $optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
+        $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column) : bool {
             return isset($column['optional']) && $column['optional'];
         });
 
-        $columns = array();
+        $columns = [];
         foreach ($optionalColumns as $index => $column) {
             $columns[$column['field']] = $column;
         }
@@ -380,10 +380,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
                         }
                     }
                 }
-            } else {
-                if ($key !== 'deleteMails' || $this->isTrashFolder()) {
-                    $this->addMultiCommand($key, $action);
-                }
+            } elseif ($key !== 'deleteMails' || $this->isTrashFolder()) {
+                $this->addMultiCommand($key, $action);
             }
         }
 
@@ -535,23 +533,21 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(
-                    $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']),
+                    $this->_parentObject->umail->formatNamesForOutput((string) $mail['rcp_to']),
                     false
                 );
+            } elseif ($mail['sender_id'] == ANONYMOUS_USER_ID) {
+                $mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
+                $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
             } else {
-                if ($mail['sender_id'] == ANONYMOUS_USER_ID) {
-                    $mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
-                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
-                } else {
-                    $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+                $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-                    if ($user) {
-                        $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
-                        $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
-                    } else {
-                        $mail['img_sender'] = '';
-                        $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
-                    }
+                if ($user) {
+                    $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
+                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
+                } else {
+                    $mail['img_sender'] = '';
+                    $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
                 }
             }
 
@@ -580,7 +576,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                         $search_result[] = $content[1];
                     }
                 }
-                $mail['msr_data'] = implode('', array_map(function ($value) {
+                $mail['msr_data'] = implode('', array_map(static function ($value) : string {
                     return '<p>' . $value . '</p>';
                 }, $search_result));
 

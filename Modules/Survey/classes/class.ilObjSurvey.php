@@ -253,13 +253,10 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-    * Create meta data entry
-    *
-    * @access public
+    * @inheritDoc
     */
-    public function createMetaData()
+    protected function doCreateMetaData() : void
     {
-        parent::createMetaData();
         $this->saveAuthorToMetadata();
     }
 
@@ -1061,7 +1058,7 @@ class ilObjSurvey extends ilObject
      * Set calculate sum score
      * @param bool $a_val calculate sum score
      */
-    function setCalculateSumScore(bool $a_val)
+    public function setCalculateSumScore(bool $a_val)
     {
         $this->calculate_sum_score = $a_val;
     }
@@ -1070,7 +1067,7 @@ class ilObjSurvey extends ilObject
      * Get calculate sum score
      * @return bool calculate sum score
      */
-    function getCalculateSumScore(): bool
+    public function getCalculateSumScore() : bool
     {
         return $this->calculate_sum_score;
     }
@@ -1688,13 +1685,20 @@ class ilObjSurvey extends ilObject
             $part1 = array_slice($this->questions, 0, $array_pos + 1);
             $part2 = array_slice($this->questions, $array_pos + 1);
         }
+        $found = 0;
         foreach ($move_questions as $question_id) {
             if (!(array_search($question_id, $part1) === false)) {
                 unset($part1[array_search($question_id, $part1)]);
+                $found++;
             }
             if (!(array_search($question_id, $part2) === false)) {
                 unset($part2[array_search($question_id, $part2)]);
+                $found++;
             }
+        }
+        // sanity check: do not move questions if they have not be found in the array
+        if ($found != count($move_questions)) {
+            return;
         }
         $part1 = array_values($part1);
         $part2 = array_values($part2);
@@ -3701,10 +3705,12 @@ class ilObjSurvey extends ilObject
         $mapping = array();
 
         foreach ($this->questions as $key => $question_id) {
+            /** @var $question SurveyQuestion */
             $question = self::_instanciateQuestion($question_id);
             if ($question) { // #10824
                 $question->id = -1;
                 $original_id = SurveyQuestion::_getOriginalId($question_id, false);
+                $question->setObjId($newObj->getId());
                 $question->saveToDb($original_id);
                 $newObj->questions[$key] = $question->getId();
                 $question_pointer[$question_id] = $question->getId();
@@ -6134,17 +6140,7 @@ class ilObjSurvey extends ilObject
 
         $log = ilLoggerFactory::getLogger("svy");
         
-        include_once "./Services/Mail/classes/class.ilMail.php";
-        include_once "./Services/User/classes/class.ilObjUser.php";
-        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-        include_once "./Services/User/classes/class.ilUserUtil.php";
-        
-        include_once "./Services/Link/classes/class.ilLink.php";
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-        
-        // somehow needed in cron-calls
-        //$ilCtrl->setTargetScript("ilias.php");
-        //$ilCtrl->initBaseClass("ilobjsurveygui");
         
         // yeah, I know...
         $old_ref_id = $_GET["ref_id"];
@@ -6188,7 +6184,6 @@ class ilObjSurvey extends ilObject
         }
         
         // prepare mail attachment
-        require_once 'Services/Mail/classes/class.ilFileDataMail.php';
         $att = "survey_" . $this->getRefId() . ".pdf";
         $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
         $mail_data->copyAttachmentFile($pdf, $att);
@@ -6229,7 +6224,7 @@ class ilObjSurvey extends ilObject
      * Get max sum score
      * @return int
      */
-    public function getMaxSumScore(): int
+    public function getMaxSumScore() : int
     {
         $sum_score = 0;
         foreach (ilObjSurveyQuestionPool::_getQuestionClasses() as $c) {
@@ -6237,5 +6232,4 @@ class ilObjSurvey extends ilObject
         }
         return $sum_score;
     }
-
 } // END class.ilObjSurvey

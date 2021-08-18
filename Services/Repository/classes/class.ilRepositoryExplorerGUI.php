@@ -197,11 +197,11 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             if ($title == "ILIAS") {
                 $title = $lng->txt("repository");
             }
-            return $lng->txt("icon") . " " . $title;
+            return $title;
         }
 
-        
-        return parent::getNodeIconAlt($a_node);
+        $lng = $this->lng;
+        return $lng->txt("obj_" . $a_node["type"]) . ": " . $this->getNodeContent($a_node);
     }
     
     /**
@@ -469,10 +469,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
         foreach ($this->type_grps[$parent_type] as $t => $g) {
             // type group
-            if (is_array($group[$t])) {
+            if (isset($group[$t]) && is_array($group[$t])) {
                 // see bug #0015978
                 // custom sorted igroups
-                if (is_array($igroup[$t])) {
+                if (isset($igroup[$t]) && is_array($igroup[$t])) {
                     foreach ($igroup[$t] as $k => $item) {
                         if (!in_array($item["child"], $done)) {
                             $childs[] = $item;
@@ -501,6 +501,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             }
             // item groups (if not custom block sorting)
             elseif ($t == "itgr" &&
+                isset($g["ref_ids"]) &&
                 is_array($g["ref_ids"])) {
                 foreach ($g["ref_ids"] as $ref_id) {
                     if (isset($group[$ref_id])) {

@@ -37,7 +37,7 @@ class UserImageExporter
         $db = $this->db;
         $set = $db->queryF(
             "SELECT DISTINCT author FROM note " .
-            " WHERE rep_obj_id = %s ".
+            " WHERE rep_obj_id = %s " .
             " AND type = %s ",
             ["integer", "integer"],
             [$rep_obj_id, 2]
@@ -49,5 +49,4 @@ class UserImageExporter
         $user_export = new \ILIAS\User\Export\UserHtmlExport();
         $user_export->exportUserImages($export_dir, $user_ids);
     }
-
 }

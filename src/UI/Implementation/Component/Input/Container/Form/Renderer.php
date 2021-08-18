@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\UI\Implementation\Component\Input\Container\Form;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
@@ -38,7 +38,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $f = $this->getUIFactory();
-        $submit_button = $f->button()->standard($this->txt("save"), "");
+        $submit_button = $f->button()->standard($component->getSubmitCaption() ?? $this->txt("save"), "");
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));

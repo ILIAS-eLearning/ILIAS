@@ -41,13 +41,13 @@ class ilMDLifecycle extends ilMDBase
     }
 
     // Get subelemsts 'Contribute'
-    public function &getContributeIds()
+    public function getContributeIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_lifecycle');
     }
-    public function &getContribute($a_contribute_id)
+    public function getContribute($a_contribute_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
         
@@ -59,7 +59,7 @@ class ilMDLifecycle extends ilMDBase
 
         return $con;
     }
-    public function &addContribute()
+    public function addContribute()
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
@@ -80,11 +80,9 @@ class ilMDLifecycle extends ilMDBase
             case 'Revised':
             case 'Unavailable':
                 $this->status = $a_status;
-
-                // no break
-            default:
-                return false;
+                break;
         }
+        return false;
     }
     public function getStatus()
     {
@@ -101,10 +99,10 @@ class ilMDLifecycle extends ilMDBase
     public function setVersionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->version_language = &$lng_obj;
+            $this->version_language = $lng_obj;
         }
     }
-    public function &getVersionLanguage()
+    public function getVersionLanguage()
     {
         return $this->version_language;
     }
@@ -213,7 +211,7 @@ class ilMDLifecycle extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Lifecycle', array('Status' => $this->getStatus()
                                                ? $this->getStatus()
@@ -229,7 +227,7 @@ class ilMDLifecycle extends ilMDBase
         // contribute
         $contributes = $this->getContributeIds();
         foreach ($contributes as $id) {
-            $con = &$this->getContribute($id);
+            $con = $this->getContribute($id);
             $con->toXML($writer);
         }
         if (!count($contributes)) {

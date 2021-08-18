@@ -1,18 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\Wiki\Export\WikiHtmlExport;
 
 /**
  * Team wiki type
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /**
      * Constructor
@@ -24,56 +23,37 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         global $DIC;
 
         $this->lng = ($a_lng)
-            ? $a_lng
-            : $DIC->language();
+            ?: $DIC->language();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesTeams()
+    public function usesTeams() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesFileUpload()
+    public function usesFileUpload() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("wiki");
         return $lng->txt("wiki_type_wiki_team");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSubmissionType()
+    public function getSubmissionType() : string
     {
         return ilExSubmission::TYPE_REPO_OBJECT;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isSubmissionAssignedToTeam()
+    public function isSubmissionAssignedToTeam() : bool
     {
         return true;
     }
@@ -84,11 +64,11 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
      * @param int $a_ass_id
      * @param int $a_user_id
      * @param int $a_wiki_ref_id
-     * @return bool|void
+     * @return void
      * @throws ilTemplateException
      * @throws ilWikiExportException
      */
-    public function submitWiki(int $a_ass_id, int $a_user_id, int $a_wiki_ref_id)
+    public function submitWiki(int $a_ass_id, int $a_user_id, int $a_wiki_ref_id) : void
     {
         $ass = new ilExAssignment($a_ass_id);
         $submission = new ilExSubmission($ass, $a_user_id);
@@ -97,8 +77,8 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
             return;
         }
 
-        $wiki = new ilObjWiki((int) $a_wiki_ref_id);
-        $exp = new \ILIAS\Wiki\Export\WikiHtmlExport($wiki);
+        $wiki = new ilObjWiki($a_wiki_ref_id);
+        $exp = new WikiHtmlExport($wiki);
         //$exp->setMode(ilWikiHTMLExport::MODE_USER);
         $file = $exp->buildExportFile();
 
@@ -114,9 +94,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
             $submission->uploadFile($meta, true);
 
             $this->handleNewUpload($ass, $submission);
-            return true;
         }
-        return false;
     }
 
     // @todo move to trait
@@ -124,7 +102,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         ilExAssignment $ass,
         ilExSubmission $submission,
         $a_no_notifications = false
-    ) {
+    ) : void {
         $has_submitted = $submission->hasSubmitted();
 
         // we need one ref id here
@@ -156,11 +134,10 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
-    {
+    public function cloneSpecificProperties(
+        ilExAssignment $source,
+        ilExAssignment $target
+    ) : void {
         $source_ar = new ilExAssWikiTeamAR($source->getId());
         $target_ar = new ilExAssWikiTeamAR();
         $target_ar->setId($target->getId());
@@ -169,19 +146,14 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         $target_ar->save();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function supportsWebDirAccess() : bool
     {
         return false;
     }
 
-    /**
-     *  @inheritdoc
-     */
     public function getStringIdentifier() : string
     {
         // TODO: Implement getSubmissionStringIdentifier() method.
+        return "";
     }
 }

@@ -14,6 +14,7 @@ export default class ToolSlate {
    */
   constructor() {
     this.content_id = "copg-editor-slate-content";
+    this.error_id = "copg-editor-slate-error";
   }
 
   /**
@@ -30,6 +31,9 @@ export default class ToolSlate {
     // @todo hate to use jquery here, but only jquery evals the included script tags
     //document.querySelector("#copg-editor-slate-content").innerHTML = html;
     $("#copg-editor-slate-content").html(html);
+
+    // this fixes #30378
+    il.Form.registerFileUploadInputEventTrigger('#copg-editor-slate-content ');
   }
 
   /**
@@ -40,4 +44,11 @@ export default class ToolSlate {
     this.setContent(this.uiModel.components[component][key]);
   }
 
+  displayError(error) {
+    $("#copg-editor-slate-error").html(error);
+  }
+
+  clearError() {
+    $("#copg-editor-slate-error").html('');
+  }
 }

@@ -1,47 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Taxonomy explorer GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesTaxonomy
  */
 class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected string $requested_tax_node;
+    protected string $onclick = "";
+    protected ilTaxonomyTree $tax_tree;
+    protected string $id;
+    protected mixed $target_gui;
+    protected string $target_cmd;
 
     /**
      * Constructor
-     *
-     * @param
-     * @return
+     * @param object|string|array $a_parent_obj
      */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_tax_id,
-        $a_target_gui,
-        $a_target_cmd,
-        $a_id = ""
+        mixed $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_tax_id,
+        string $a_target_gui,
+        string $a_target_cmd,
+        string $a_id = ""
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
-        include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
         $this->tax_tree = new ilTaxonomyTree($a_tax_id);
-        if ($a_id != "") {
-            $this->id = $a_id;
-        } else {
-            $this->id = "tax_expl_" . $this->tax_tree->getTreeId();
-        }
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+        $this->id = $a_id != "" ? $a_id : "tax_expl_" . $this->tax_tree->getTreeId();
         if (ilObjTaxonomy::lookupSortingMode($a_tax_id) == ilObjTaxonomy::SORT_ALPHABETICAL) {
             $this->setOrderField("title");
         } else {
@@ -50,18 +40,17 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         $this->setPreloadChilds(true);
         $this->target_gui = $a_target_gui;
         $this->target_cmd = $a_target_cmd;
-        //$this->setOrderField("title");
+        $params = $DIC->http()->request()->getQueryParams();
+        $tax_node = (string) ($params["tax_node"] ?? "");
+        $this->requested_tax_node = (string) ilUtil::stripSlashes($tax_node);
         parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
     }
     
     
     /**
-     * Get content of node
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $rn = $this->getRootNode();
         if ($rn["child"] == $a_node["child"]) {
@@ -72,12 +61,9 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     }
     
     /**
-     * Get node href
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -90,8 +76,8 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
                 // See: https://mantis.ilias.de/view.php?id=27727
                 $href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
             }
-            if (isset($_GET["tax_node"]) && !is_array($_GET['tax_node'])) {
-                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", ilUtil::stripSlashes((string) $_GET["tax_node"]));
+            if ($this->requested_tax_node != "" && !is_array($this->requested_tax_node)) {
+                $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $this->requested_tax_node);
             }
             return $href;
         } else {
@@ -100,39 +86,36 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     }
     
     /**
-     * Get node icon
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         return ilUtil::getImagePath("icon_taxn.svg");
     }
     
     /**
-     *
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
-        if ((!$this->onclick && $a_node["child"] == $_GET["tax_node"]) ||
-            ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes))) {
-            return true;
-        }
-        return false;
+        return (!$this->onclick && $a_node["child"] == $this->requested_tax_node) ||
+            ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes));
     }
-    
-    public function setOnClick($a_value)
+
+    /**
+     * @inheritDoc
+     */
+    public function setOnClick(string $a_value) : void
     {
         $this->onclick = $a_value;
     }
-    
-    public function getNodeOnClick($a_node)
+
+    /**
+     * @inheritDoc
+     */
+    public function getNodeOnClick($a_node) : string
     {
-        if ($this->onclick) {
+        if ($this->onclick !== '') {
             return str_replace("{NODE_CHILD}", $a_node["child"], $this->onclick);
         } else {
             // #14623

@@ -11,10 +11,6 @@
 * @extends ilObject
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
-define('USER_FOLDER_ID', 7);
-
 class ilObjUserFolder extends ilObject
 {
     public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';
@@ -625,7 +621,7 @@ class ilObjUserFolder extends ilObject
 
     /**
      * @param string $a_lang
-     * @return array{lang: string, subject: string|null, body: string|null, sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
+     * @return array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
      */
     public static function _lookupNewAccountMail(string $a_lang) : array
     {
@@ -639,9 +635,8 @@ class ilObjUserFolder extends ilObject
         if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             return $rec;
         }
-        return [
-            
-        ];
+
+        return [];
     }
 
     /**

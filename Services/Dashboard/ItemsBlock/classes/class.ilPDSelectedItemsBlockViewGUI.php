@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPDSelectedItemsBlockViewGUI
@@ -60,45 +61,33 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return string
      */
-    abstract public function getScreenId();
+    abstract public function getScreenId() : string;
 
     /**
      * @return string
      */
-    abstract public function getTitle();
+    abstract public function getTitle() : string;
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getMinimumDetailLevelForSection()
-    {
-        if ($this->viewSettings->isSortedByLocation()) {
-            return 1;
-        }
-
-        return 3;
-    }
-
-    /**
-     * @return boolean
-     */
-    abstract public function supportsSelectAll();
+    abstract public function supportsSelectAll() : bool;
 
     /**
      * @return string
      */
-    abstract public function getIntroductionHtml();
+    abstract public function getIntroductionHtml() : string;
 
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    abstract public function getGroups();
+    abstract public function getGroups() : array;
 
     /**
      * @param int $refId
      * @return bool
      */
-    public function mayRemoveItem($refId)
+    public function mayRemoveItem($refId) : bool
     {
         return true;
     }
@@ -122,7 +111,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    public function getItemGroups()
+    public function getItemGroups() : array
     {
         $items_groups = $this->getGroups();
         $this->preloadItemGroups($items_groups);
@@ -134,7 +123,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
      * @param ilPDSelectedItemsBlockViewSettings $viewSettings
      * @return self
      */
-    public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings)
+    public static function bySettings(ilPDSelectedItemsBlockViewSettings $viewSettings) : ilPDSelectedItemsBlockViewGUI
     {
         if ($viewSettings->isMembershipsViewActive()) {
             return new ilPDSelectedItemsBlockMembershipsViewGUI(
@@ -153,7 +142,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
      * @param int $refId
      * @return bool
      */
-    protected function isRootNode($refId)
+    protected function isRootNode(int $refId) : bool
     {
         return $this->tree->getRootId() == $refId;
     }
@@ -161,7 +150,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return string
      */
-    protected function getRepositoryTitle()
+    protected function getRepositoryTitle() : string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());
         $title = $nd['title'];
@@ -178,7 +167,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
      */
     protected function preloadItemGroups(array $item_groups)
     {
-        require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
         $listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
         $obj_ids = [];
@@ -196,7 +184,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByType()
+    protected function groupItemsByType() : array
     {
         global $DIC;
 
@@ -212,7 +200,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
             if (!$objDefinition->isPlugin($container_object_type)) {
                 $title = $this->lng->txt('objs_' . $container_object_type);
             } else {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
                 $pl = ilObjectPlugin::getPluginObjectByType($container_object_type);
                 $title = $pl->txt("objs_" . $container_object_type);
             }
@@ -229,7 +216,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByStartDate()
+    protected function groupItemsByStartDate() : array
     {
         $items = $this->provider->getItems();
 
@@ -320,7 +307,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
     /**
      * @return ilPDSelectedItemsBlockGroup[]
      */
-    protected function groupItemsByLocation()
+    protected function groupItemsByLocation() : array
     {
         $grouped_items = array();
 

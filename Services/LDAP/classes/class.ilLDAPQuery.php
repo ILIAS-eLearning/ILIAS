@@ -26,10 +26,6 @@ define('IL_LDAP_BIND_ADMIN', 1);
 define('IL_LDAP_BIND_TEST', 2);
 define('IL_LDAP_BIND_AUTH', 10);
 
-include_once('Services/LDAP/classes/class.ilLDAPAttributeMapping.php');
-include_once('Services/LDAP/classes/class.ilLDAPResult.php');
-include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
-
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
@@ -41,6 +37,11 @@ include_once('Services/LDAP/classes/class.ilLDAPQueryException.php');
 */
 class ilLDAPQuery
 {
+    public const LDAP_BIND_DEFAULT = 0;
+    public const LDAP_BIND_ADMIN = 1;
+    public const LDAP_BIND_TEST = 2;
+    public const LDAP_BIND_AUTH = 10;
+
     /**
      * @var string
      * @deprecated with PHP 7.3 (LDAP_CONTROL_PAGEDRESULTS)
@@ -386,7 +387,11 @@ class ilLDAPQuery
         foreach ($group_names as $group) {
             $user = $a_ldap_user_name;
             if ($this->getServer()->enabledGroupMemberIsDN()) {
+                if ($this->getServer()->enabledEscapeDN()) {
+                    $user = ldap_escape($ldap_user_data['dn'], "", LDAP_ESCAPE_FILTER);
+                } else {
                 $user = $ldap_user_data['dn'];
+            }
             }
             
             $filter = sprintf(

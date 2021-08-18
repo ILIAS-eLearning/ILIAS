@@ -76,13 +76,13 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
      * @param
      * @return
      */
-    public function getViewPageLink()
+    public function getViewPageLink() : string
     {
         global $DIC;
 
         $ctrl = $DIC->ctrl();
 
-        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $_GET["ppage"]);
+        $ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $this->requested_ppage);
         return $ctrl->getLinkTargetByClass("ilobjportfoliotemplategui", "preview");
     }
 
@@ -92,5 +92,10 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
     protected function getCourseSortAction($ctrl)
     {
         return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
+    }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilObjPortfolioTemplateGUI", "view");
     }
 }

@@ -47,7 +47,7 @@ class ilBookingPreferencesDBRepository
             " WHERE book_pool_id = %s ",
             array("integer"),
             array($a_pool_id)
-            );
+        );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
             if (!is_array($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {
@@ -74,7 +74,7 @@ class ilBookingPreferencesDBRepository
             " AND user_id = %s ",
             array("integer", "integer"),
             array($a_pool_id, $a_user_id)
-            );
+        );
         $preferences = [];
         while ($rec = $db->fetchAssoc($set)) {
             if (!is_array($preferences[$rec["user_id"]]) || !in_array($rec["book_obj_id"], $preferences[$rec["user_id"]])) {

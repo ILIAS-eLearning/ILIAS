@@ -126,12 +126,10 @@ class ilMailBoxQuery
         while ($cnt_row = $DIC->database()->fetchAssoc($res)) {
             if ($counter === 0) {
                 $mails['cnt'] = $cnt_row['cnt'];
+            } elseif ($counter === 1) {
+                $mails['cnt_unread'] = $cnt_row['cnt'];
             } else {
-                if ($counter === 1) {
-                    $mails['cnt_unread'] = $cnt_row['cnt'];
-                } else {
-                    break;
-                }
+                break;
             }
 
             ++$counter;

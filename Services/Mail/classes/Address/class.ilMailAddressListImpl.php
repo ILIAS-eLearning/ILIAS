@@ -17,7 +17,7 @@ class ilMailAddressListImpl implements ilMailAddressList
     public function __construct(array $addresses)
     {
         // Ensure valid types in array
-        array_walk($addresses, function (ilMailAddress $address) {
+        array_walk($addresses, static function (ilMailAddress $address) : void {
         });
 
         $this->addresses = $addresses;

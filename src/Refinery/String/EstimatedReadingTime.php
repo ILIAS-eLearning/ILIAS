@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
@@ -12,19 +13,10 @@ class EstimatedReadingTime implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /** @var int  */
-    private $wordsPerMinute = 275;
+    private int $wordsPerMinute = 275;
+    private int $firstImageReadingTimeInSeconds = 12;
+    private bool $withImages;
 
-    /** @var int */
-    private $firstImageReadingTimeInSeconds = 12;
-    
-    /** @var bool */
-    private $withImages = false;
-
-    /**
-     * ReadingTime constructor.
-     * @param bool $withImages
-     */
     public function __construct(bool $withImages)
     {
         $this->withImages = $withImages;
@@ -42,10 +34,6 @@ class EstimatedReadingTime implements Transformation
         return $this->calculate($from);
     }
 
-    /**
-     * @param string $text
-     * @return int
-     */
     private function calculate(string $text) : int
     {
         $text = mb_convert_encoding(
@@ -72,8 +60,8 @@ class EstimatedReadingTime implements Transformation
 
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
 
-                $wordsInContent = array_filter($wordsInContent, function (string $word) {
-                    return preg_replace('/^\pP$/', '', $word) !== '';
+                $wordsInContent = array_filter($wordsInContent, static function (string $word) : bool {
+                    return preg_replace('/^\pP$/u', '', $word) !== '';
                 });
                 
                 $numberOfWords += count($wordsInContent);
@@ -101,9 +89,9 @@ class EstimatedReadingTime implements Transformation
 
         for ($i = 1; $i <= $numberOfImages; $i++) {
             if ($i >= 10) {
-                $time += 3 * ((int) $this->wordsPerMinute / 60);
+                $time += 3 * ($this->wordsPerMinute / 60);
             } else {
-                $time += (12 - ($i - 1)) * ((int) $this->wordsPerMinute / 60);
+                $time += (12 - ($i - 1)) * ($this->wordsPerMinute / 60);
             }
         }
 

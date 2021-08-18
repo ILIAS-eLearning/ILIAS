@@ -20,7 +20,7 @@ class ilWorkflowUtils
      */
     public static function time()
     {
-        if (@defined(IL_PHPUNIT_TEST) && IL_PHPUNIT_TEST == true) {
+        if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;
             /** @var ilSetting $ilSetting */
             $ilSetting = $DIC['ilSetting'];
@@ -36,7 +36,7 @@ class ilWorkflowUtils
      */
     public static function microtime()
     {
-        if (@defined(IL_PHPUNIT_TEST) && IL_PHPUNIT_TEST == true) {
+        if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;
             /** @var ilSetting $ilSetting */
             $ilSetting = $DIC['ilSetting'];

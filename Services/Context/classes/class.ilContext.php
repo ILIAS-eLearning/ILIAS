@@ -44,7 +44,6 @@ class ilContext
      */
     public static function init($a_type)
     {
-        include_once "Services/Context/classes/class." . $a_type . ".php";
         self::$class_name = $a_type;
         self::$type = $a_type;
         
@@ -61,7 +60,6 @@ class ilContext
     {
         $class_name = $a_type;
         if ($class_name) {
-            include_once "Services/Context/classes/class." . $class_name . ".php";
             if (method_exists($class_name, $a_method)) {
                 return call_user_func(array($class_name, $a_method));
             }

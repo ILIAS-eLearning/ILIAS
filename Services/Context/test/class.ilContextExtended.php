@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Extended Service context (factory) class
@@ -8,12 +8,7 @@
  * ONLY FOR TESTS!!!!
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version $Id$
- *
- * @ingroup ServicesContext
  */
-require_once("Services/Context/classes/class.ilContext.php");
-
 class ilContextExtended extends ilContext
 {
     /**

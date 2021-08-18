@@ -99,7 +99,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return boolean True, if the imagemap question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && ($this->author)
@@ -122,7 +122,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @return mixed|void
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -184,11 +184,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 *
 * @access public
 */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -354,7 +354,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -623,7 +623,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $points = 0;
         foreach ($this->answers as $key => $value) {
@@ -687,7 +687,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    public function isAutosaveable()
+    public function isAutosaveable() : bool
     {
         return false; // #15217
     }
@@ -700,7 +700,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -774,7 +774,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         $solution = $previewSession->getParticipantsSolution();
 
@@ -793,7 +793,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $previewSession->setParticipantsSolution($solution);
     }
 
-    public function syncWithOriginal()
+    public function syncWithOriginal() : void
     {
         if ($this->getOriginalId()) {
             parent::syncWithOriginal();
@@ -808,7 +808,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assImagemapQuestion";
     }
@@ -843,7 +843,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         foreach ($this->answers as $index => $answer) {
@@ -855,7 +855,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -896,7 +896,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1047,7 +1047,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
     
     // hey: prevPassSolutions - wtf is imagemap ^^
-    public function getTestOutputSolutions($activeId, $pass)
+    public function getTestOutputSolutions($activeId, $pass) : array
     {
         $solution = parent::getTestOutputSolutions($activeId, $pass);
         

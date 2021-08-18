@@ -4,7 +4,7 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
@@ -16,7 +16,7 @@
     var global$2 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getContentStyle = function (editor) {
-      return editor.getParam('content_style', '');
+      return editor.getParam('content_style', '', 'string');
     };
     var shouldUseContentCssCors = function (editor) {
       return editor.getParam('content_css_cors', false, 'boolean');

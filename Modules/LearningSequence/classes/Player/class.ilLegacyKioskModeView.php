@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -8,14 +8,13 @@ use ILIAS\KioskMode\URLBuilder;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Factory;
 
-/**
- * Class ilLegacyKioskModeView
- */
 class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 {
     const GET_VIEW_CMD_FROM_LIST_GUI_FOR = ['sahs'];
 
-    protected $object;
+    protected ilObject $object;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
 
     public function __construct(
         ilObject $object,
@@ -32,21 +31,14 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         return $this->object->getTitle();
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function setObject(\ilObject $object)
+    protected function setObject(\ilObject $object) : void
     {
         $this->object = $object;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function hasPermissionToAccessKioskMode() : bool
     {
         return true;
-        //return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
     }
 
     /**
@@ -93,14 +85,13 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 
         $builder->start($label, $url, 0);
 
-        //		return $this->debugBuildAllControls($builder);
         return $builder;
     }
 
     /**
      * @inheritDoc
      */
-    public function updateGet(State $state, string $command, int $param = null) : State
+    public function updateGet(State $state, string $command, int $parameter = null) : State
     {
         return $state;
     }
@@ -125,10 +116,10 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
         $obj_type = $this->object->getType();
         $obj_type_txt = $this->lng->txt('obj_' . $obj_type);
         $icon = $factory->symbol()->icon()->standard($obj_type, $obj_type_txt, 'large');
-        $md = $this->getMetadata((int) $this->object->getId(), $obj_type);
+
         $props = array_merge(
             [$this->lng->txt('obj_type') => $obj_type_txt],
-            $this->getMetadata((int) $this->object->getId(), $obj_type)
+            $this->getMetadata($this->object->getId(), $obj_type)
         );
 
         $info = $factory->item()->standard($this->object->getTitle())
@@ -140,6 +131,9 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
     }
 
     //TODO: enhance metadata
+    /**
+     * @return array<string, string>|[]
+     */
     private function getMetadata(int $obj_id, string $type) : array
     {
         $md = new ilMD($obj_id, 0, $type);
@@ -166,43 +160,6 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
             }
         }
         return $md_flat;
-    }
-
-    private function debugBuildAllControls(ControlBuilder $builder) : ControlBuilder
-    {
-        $builder
-
-        ->tableOfContent($this->getObjectTitle(), 'kommando', 666)
-            ->node('node1')
-                ->item('item1.1', 1)
-                ->item('item1.2', 11)
-                ->end()
-            ->item('item2', 111)
-            ->node('node3', 1111)
-                ->item('item3.1', 2)
-                ->node('node3.2')
-                    ->item('item3.2.1', 122)
-                ->end()
-            ->end()
-            ->end()
-
-        ->locator('locator_cmd')
-            ->item('item 1', 1)
-            ->item('item 2', 2)
-            ->item('item 3', 3)
-            ->end()
-
-        ->done('cmd', 1)
-        ->next('cmd', 1)
-        ->previous('', 1)
-        //->exit('cmd', 1)
-        ->generic('cmd 1', 'x', 1)
-        ->generic('cmd 2', 'x', 2)
-        //->toggle('toggle', 'cmd_on', 'cmd_off')
-        ->mode('modecmd', ['m1', 'm2', 'm3'])
-        ;
-
-        return $builder;
     }
 
     private function getTitleByType(string $type) : string

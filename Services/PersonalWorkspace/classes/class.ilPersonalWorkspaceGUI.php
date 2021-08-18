@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * GUI class for personal workspace
@@ -62,7 +62,10 @@ class ilPersonalWorkspaceGUI
      */
     protected $locator;
 
-    protected $tree; // [ilTree]
+    /**
+     * @var ilTree
+     */
+    protected $tree;
     protected $node_id; // [int]
 
     /**
@@ -97,7 +100,7 @@ class ilPersonalWorkspaceGUI
         $ilCtrl->saveParameter($this, "wsp_id");
 
         $this->node_id = (int) $_REQUEST["wsp_id"];
-        if (!$this->node_id) {
+        if (!$this->node_id || !$this->tree->isInTree($this->node_id)) {
             $this->node_id = $this->tree->getRootId();
         }
         $this->tool_context = $DIC->globalScreen()->tool()->context();
@@ -172,7 +175,6 @@ class ilPersonalWorkspaceGUI
 
         $user_id = $ilUser->getId();
 
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $this->tree = new ilWorkspaceTree($user_id);
         if (!$this->tree->getRootId()) {
             $this->tree->createTreeForUser($user_id);

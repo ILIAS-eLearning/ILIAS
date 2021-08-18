@@ -31,7 +31,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             );
             $storage->storeConfigText(
                 "port",
-                $client_ini->readVariable("db", "host"),
+                $client_ini->readVariable("db", "port"),
                 "The port where the storage backend is located at the host."
             );
             $storage->storeConfigText(
@@ -46,7 +46,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             );
             $storage->storeConfigText(
                 "pass",
-                $client_ini->readVariable("db", "pass"),
+                PHP_SAPI === 'cli' ? $client_ini->readVariable("db", "pass") : '********',
                 "The password for the user for the storage backend."
             );
         }
@@ -175,5 +175,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $db_update->customUpdatesAvailable(),
             "Does the database require a custom update?"
         );
+
+        $GLOBALS["DIC"] = $DIC;
     }
 }

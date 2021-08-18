@@ -3,12 +3,13 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\UI\Component\Button\Standard;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilTermsOfServiceDocumentGUITest
@@ -49,7 +50,7 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
     /** @var MockObject|Renderer */
     protected $uiRenderer;
 
-    /** @var MockObject|ILIAS\HTTP\GlobalHttpState */
+    /** @var MockObject|ILIAS\HTTP\Services */
     protected $httpState;
 
     /** @var MockObject|ilToolbarGUI */

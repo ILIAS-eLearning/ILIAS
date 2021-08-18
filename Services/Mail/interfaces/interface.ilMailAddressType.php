@@ -15,7 +15,7 @@ interface ilMailAddressType
 
     /**
      * Validates the parsed recipients and set errors accordingly.
-     * @param $senderId integer The id of the acting ILIAS user, can be used for permission checks etc.
+     * @param $senderId int The id of the acting ILIAS user, can be used for permission checks etc.
      * @return bool
      * @see ilMailAddressType::getErrors
      */

@@ -52,6 +52,9 @@ class ilNewsItemGUI
     protected $context_sub_obj_type;
     protected $form_edit_mode;
 
+    protected int $requested_ref_id;
+    protected int $requested_news_item_id;
+    protected string $add_mode;
 
     /**
      * Constructor
@@ -69,9 +72,14 @@ class ilNewsItemGUI
         
         $this->ctrl = $ilCtrl;
 
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
+        $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
+        $this->add_mode = (string) ($params["add_mode"] ?? "");
+
         include_once("Services/News/classes/class.ilNewsItem.php");
-        if ($_GET["news_item_id"] > 0) {
-            $this->news_item = new ilNewsItem($_GET["news_item_id"]);
+        if ($this->requested_news_item_id > 0) {
+            $this->news_item = new ilNewsItem($this->requested_news_item_id);
         }
 
         $this->ctrl->saveParameter($this, array("news_item_id"));
@@ -114,7 +122,7 @@ class ilNewsItemGUI
         $ilCtrl = $this->ctrl;
 
         // check, if news item id belongs to context
-        if (is_object($this->news_item) && $this->news_item->getId() > 0
+        if (isset($this->news_item) && $this->news_item->getId() > 0
             && ilNewsItem::_lookupContextObjId($this->news_item->getId()) != $this->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
@@ -286,7 +294,7 @@ class ilNewsItemGUI
         $ilTabs = $this->tabs;
 
         $ilTabs->clearTargets();
-        $form = self::getEditForm($a_mode, (int) $_GET["ref_id"]);
+        $form = self::getEditForm($a_mode, $this->requested_ref_id);
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
@@ -322,7 +330,6 @@ class ilNewsItemGUI
         $text_area->setInfo("");
         $text_area->setRequired(false);
         $text_area->setRows("4");
-        $text_area->setUseRte(true);
         $form->addItem($text_area);
 
         // Property Visibility
@@ -343,18 +350,7 @@ class ilNewsItemGUI
         $media->setALlowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
-
-        // Property ContentLong
-        /*
-        $text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content_long"), "news_content_long");
-        $text_area->setInfo($lng->txt("news_news_item_content_long_info"));
-        $text_area->setRequired(false);
-        $text_area->setCols("40");
-        $text_area->setRows("8");
-        $text_area->setUseRte(true);
-        $form->addItem($text_area);*/
-
-
+        
         // save and cancel commands
         if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE))) {
             $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
@@ -462,7 +458,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["add_mode"] == "block") {
+        if ($this->add_mode == "block") {
             $ilCtrl->returnToParent($this);
         } else {
             $ilCtrl->redirect($this, "editNews");
@@ -494,7 +490,8 @@ class ilNewsItemGUI
             $old_mob_id = 0;
 
             // delete old media object
-            if ($media["name"] != "" || $_POST["media_delete"] != "") {
+            $media_delete = $_POST["media_delete"] ?? "";
+            if ($media["name"] != "" || $media_delete != "") {
                 if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) == "mob") {
                     $old_mob_id = $this->news_item->getMobId();
                 }
@@ -547,7 +544,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["add_mode"] == "block") {
+        if ($this->add_mode == "block") {
             $ilCtrl->returnToParent($this);
         } else {
             return $this->editNews();
@@ -608,7 +605,6 @@ class ilNewsItemGUI
 
         $ilTabs->clearTargets();
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
@@ -696,7 +692,7 @@ class ilNewsItemGUI
         $perm_ref_id = 0;
         if (in_array($this->getContextObjType(), array("cat", "grp", "crs", "root"))) {
             $data = $news_item->getNewsForRefId(
-                $_GET["ref_id"],
+                $this->requested_ref_id,
                 false,
                 false,
                 0,
@@ -706,7 +702,7 @@ class ilNewsItemGUI
                 true
             );
         } else {
-            $perm_ref_id = $_GET["ref_id"];
+            $perm_ref_id = $this->requested_ref_id;
             if ($this->getContextSubObjId() > 0) {
                 $data = $news_item->queryNewsForContext(
                     false,

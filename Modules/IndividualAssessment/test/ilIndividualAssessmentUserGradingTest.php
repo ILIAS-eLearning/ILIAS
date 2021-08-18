@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use \ILIAS\UI\Component\Input\Field\Section;
+use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 
 /**
  * @backupGlobals disabled
@@ -107,7 +108,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
             ->method('txt')
             ->willReturn("label")
         ;
-        $file_handler = $this->createMock(ilIndividualAssessmentMemberGUI::class);
+        $file_handler = $this->createMock(AbstractCtrlAwareUploadHandler::class);
         $df = new ILIAS\Data\Factory();
         $refinery = new ILIAS\Refinery\Factory($df, $lng);
         $f = new ILIAS\UI\Implementation\Component\Input\Field\Factory(
@@ -142,8 +143,10 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 
         $input = $grading->toFormInput(
             $f,
+            $df,
             $lng,
             $refinery,
+            $file_handler,
             [
                 ilIndividualAssessmentMembers::LP_IN_PROGRESS,
                 ilIndividualAssessmentMembers::LP_FAILED,
@@ -151,8 +154,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
             ],
             true,
             false,
-            false,
-            $file_handler
+            false
         );
 
         $this->assertInstanceOf(Section::class, $input);

@@ -327,13 +327,13 @@ class ilMathJax
         $a_end = str_replace("\\", "", $a_end);
 
         $cpos = 0;
-        while (is_int($spos = stripos($a_text, $a_start, $cpos))) {	// find next start
-            if (is_int($epos = stripos($a_text, $a_end, $spos + strlen($a_start)))) {
+        while (is_int($spos = ilStr::strIPos($a_text, $a_start, $cpos))) {	// find next start
+            if (is_int($epos = ilStr::strIPos($a_text, $a_end, $spos + ilStr::strLen($a_start)))) {
                 // extract the tex code inside the delimiters
-                $tex = substr($a_text, $spos + strlen($a_start), $epos - $spos - strlen($a_start));
+                $tex = ilStr::subStr($a_text, $spos + ilStr::strLen($a_start), $epos - $spos - ilStr::strLen($a_start));
 
                 // undo a code protection done by the deferred engine before
-                if (substr($tex, 0, 7) == 'base64:') {
+                if (ilStr::subStr($tex, 0, 7) == 'base64:') {
                     $tex = base64_decode(substr($tex, 7));
                 }
 
@@ -345,7 +345,7 @@ class ilMathJax
                 $tex = str_replace('\\\\', '\\cr', $tex);
 
                 // replace, if tags do not go across div borders
-                if (!is_int(strpos($tex, '</div>'))) {
+                if (!is_int(ilStr::strPos($tex, '</div>'))) {
                     switch ($this->engine) {
                         case self::ENGINE_CLIENT:
                             // prepare code for processing in the browser
@@ -380,7 +380,7 @@ class ilMathJax
                     }
 
                     // replace tex code with prepared code or generated image
-                    $a_text = substr($a_text, 0, $spos) . $replacement . substr($a_text, $epos + strlen($a_end));
+                    $a_text = ilStr::subStr($a_text, 0, $spos) . $replacement . ilStr::subStr($a_text, $epos + ilStr::strLen($a_end));
                 }
             }
             $cpos = $spos + 1;

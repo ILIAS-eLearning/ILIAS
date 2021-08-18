@@ -11,8 +11,8 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class FloatTransformation implements Transformation
 {
-    const REG_STRING = '/^\s*(0|(-?[1-9]\d*([.,]\d+)?))\s*$/';
-    const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
+    private const REG_STRING = '/^\s*(0|(-?[1-9]\d*([.,]\d+)?))\s*$/';
+    private const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
 
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
@@ -22,7 +22,7 @@ class FloatTransformation implements Transformation
      */
     public function transform($from)
     {
-        if (is_float($from) && !is_nan($from) && $from !== INF && $from !== -INF) {
+        if ($from !== INF && $from !== -INF && is_float($from) && !is_nan($from)) {
             return $from;
         }
 
@@ -31,29 +31,29 @@ class FloatTransformation implements Transformation
         }
 
         if (is_bool($from)) {
-            return floatval($from);
+            return (float) $from;
         }
 
         if (is_string($from)) {
             $preg_match_string = preg_match(self::REG_STRING, $from, $RegMatch);
             if ($preg_match_string) {
-                return floatval(str_replace(',', '.', $from));
+                return (float) str_replace(',', '.', $from);
             }
 
             $preg_match_floating_string = preg_match(self::REG_STRING_FLOATING, $from, $RegMatch);
             if ($preg_match_floating_string) {
-                return floatval($from);
+                return (float) $from;
             }
 
             throw new ConstraintViolationException(
-                sprintf('The value "%s" could not be transformed into an float', $from),
+                sprintf('The value "%s" could not be transformed into an float', var_export($from, true)),
                 'not_float',
                 $from
             );
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into an float', $from),
+            sprintf('The value "%s" could not be transformed into an float', var_export($from, true)),
             'not_float',
             $from
         );

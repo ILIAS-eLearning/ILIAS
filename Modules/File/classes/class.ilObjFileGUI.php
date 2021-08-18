@@ -150,7 +150,7 @@ class ilObjFileGUI extends ilObject2GUI
                 break;
             default:
                 // in personal workspace use object2gui
-                if ($this->id_type == self::WORKSPACE_NODE_ID) {
+                if ((int)$this->id_type === self::WORKSPACE_NODE_ID) {
                     $this->addHeaderAction();
 
                     // coming from goto we need default command
@@ -162,7 +162,7 @@ class ilObjFileGUI extends ilObject2GUI
                     return parent::executeCommand();
                 }
 
-                if (empty($cmd)) {
+                if (empty($cmd) || $cmd === 'render') {
                     $cmd = "infoScreen";
                 }
 
@@ -171,6 +171,15 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $this->addHeaderAction();
+    }
+
+    /**
+     * This Method is needed if called from personal resources
+     * @see executeCommand() line 162
+     */
+    protected function render() : void
+    {
+        $this->infoScreen();
     }
 
     /**
@@ -199,22 +208,14 @@ class ilObjFileGUI extends ilObject2GUI
     protected function uploadFiles() : void
     {
         // Response
-        $response = new stdClass();
-        $response->error = null;
-        $response->debug = null;
-
-        $send_respose = static function (stdClass $r) : void {
-            echo json_encode($r, JSON_THROW_ON_ERROR);
-            // no further processing!
-            exit;
-        };
+        $response = new ilObjFileUploadResponse();
 
         $dnd_form_gui = $this->initMultiUploadForm();
         // Form not valid, abort
         if (!$dnd_form_gui->checkInput()) {
             $dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
             $response->error = $dnd_input->getAlert();
-            $send_respose($response);
+            $response->send();
             // end
         }
 
@@ -233,27 +234,35 @@ class ilObjFileGUI extends ilObject2GUI
             $upload->process();
         }
 
+        $extract = isset($post['extract']) ? (bool) $post['extract'] : false;
+        $keep_structure = isset($post['keep_structure']) ? (bool) $post['keep_structure'] : false;
+
         foreach ($upload->getResults() as $result) {
-            // Create new FileObject
-            $file = new ilObjFile();
-            $this->object_id = $file->create();
-            $this->putObjectInTree($file, $this->parent_id);
-            $this->handleAutoRating($file);
-            ilChangeEvent::_recordWriteEvent($file->getId(), $DIC->user()->getId(), 'create');
+            if (!$result->isOK()) {
+                $response->error = $result->getStatus()->getMessage();
+                $response->send();
+                continue;
+            }
+            if ($extract) {
+                if ($keep_structure) {
+                    $delegate = new ilObjFileUnzipRecursiveDelegate(
+                        $this->access_handler,
+                        (int) $this->id_type,
+                        $this->tree);
+                } else {
+                    $delegate = new ilObjFileUnzipFlatDelegate();
+                }
+            } else {
+                $delegate = new ilObjFileSingleFileDelegate();
 
-            // Append Upload
-            $title = $post['title'];
-            $description = $post['description'];
-            $file->appendUpload($result, $title ?? $result->getName());
-            $file->setDescription($description);
-            $file->update();
-
-            $response->fileName = $file->getFileName();
-            $response->fileSize = $file->getFileSize();
-            $response->fileType = $file->getFileType();
-//                $response->fileUnzipped = $extract;
-            $response->error = null;
-            $send_respose($response);
+            }
+            $response = $delegate->handle(
+                (int) $this->parent_id,
+                $post,
+                $result,
+                $this
+            );
+            $response->send();
         }
 
     }
@@ -331,9 +340,6 @@ class ilObjFileGUI extends ilObject2GUI
         $val['description'] = $this->object->getLongDescription();
         $val['rating'] = $this->object->hasRating();
         $form->setValuesByArray($val);
-
-        // Edit ecs export settings
-        include_once 'Modules/File/classes/class.ilECSFileSettings.php';
         $ecs = new ilECSFileSettings($this->object);
         $ecs->addSettingsToForm($form, 'file');
 
@@ -414,9 +420,6 @@ class ilObjFileGUI extends ilObject2GUI
             }
 
             if ($this->checkPermissionBool("read")) {
-                // BEGIN ChangeEvent: Record read event.
-                require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-
                 // Record read event and catchup with write events
                 ilChangeEvent::_recordReadEvent(
                     $this->object->getType(),
@@ -424,9 +427,6 @@ class ilObjFileGUI extends ilObject2GUI
                     $this->object->getId(),
                     $DIC->user()->getId()
                 );
-                // END ChangeEvent: Record read event.
-
-                require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
 
                 $a_hist_entry_id = isset($_GET["hist_id"]) ? $_GET["hist_id"] : null;
@@ -477,18 +477,15 @@ class ilObjFileGUI extends ilObject2GUI
             $ilErr->raiseError($this->lng->txt("msg_no_perm_read"));
         }
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
 
         if ($this->checkPermissionBool("read", "sendfile")) {
-            // #14378
-            include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
             $button->setCaption("file_download");
             $button->setPrimary(true);
 
             // get permanent download link for repository
-            if ($this->id_type == self::REPOSITORY_NODE_ID) {
+            if ($this->id_type === self::REPOSITORY_NODE_ID) {
                 $button->setUrl(ilObjFileAccess::_getPermanentDownloadLink($this->node_id));
             } else {
                 $button->setUrl($this->ctrl->getLinkTarget($this, "sendfile"));
@@ -522,11 +519,19 @@ class ilObjFileGUI extends ilObject2GUI
         $info->addSection($this->lng->txt("file_info"));
         $info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
         $info->addProperty($this->lng->txt("type"), $this->object->getFileType());
-        $info->addProperty( $this->lng->txt("resource_id"), $this->object->getResourceId());
+        $info->addProperty($this->lng->txt("resource_id"), $this->object->getResourceId());
+        $info->addProperty($this->lng->txt("storage_id"), $this->object->getStorageID());
 
         $info->addProperty($this->lng->txt("size"),
             ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long'));
         $info->addProperty($this->lng->txt("version"), $this->object->getVersion());
+
+        $version = $this->object->getVersions([$this->object->getVersion()]);
+        $version = end($version);
+        if($version instanceof ilObjFileVersion) {
+            $info->addProperty($this->lng->txt("version_uploaded"), (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME));
+        }
+
 
         if ($this->object->getPageCount() > 0) {
             $info->addProperty($this->lng->txt("page_count"), $this->object->getPageCount());
@@ -536,8 +541,6 @@ class ilObjFileGUI extends ilObject2GUI
         $uploader = $this->object->getVersions();
         $uploader = array_shift($uploader);
         $uploader = $uploader["user_id"];
-
-        include_once "Services/User/classes/class.ilUserUtil.php";
         $info->addProperty($this->lng->txt("file_uploaded_by"), ilUserUtil::getNamePresentation($uploader));
 
         // download link added in repository
@@ -550,15 +553,10 @@ class ilObjFileGUI extends ilObject2GUI
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             $info->addProperty($this->lng->txt("perma_link"), $this->getPermanentLinkWidget());
         }
-
-        // display previews
-        include_once("./Services/Preview/classes/class.ilPreview.php");
         if (!$this->ctrl->isAsynch()
             && ilPreview::hasPreview($this->object->getId(), $this->object->getType())
             && $this->checkPermissionBool("read")
         ) {
-            include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
-
             // get context for access checks later on
             switch ($this->id_type) {
                 case self::WORKSPACE_NODE_ID:
@@ -661,6 +659,7 @@ class ilObjFileGUI extends ilObject2GUI
         if ($a_additional && substr($a_additional, -3) == "wsp") {
             $_GET["baseClass"] = "ilsharedresourceGUI";
             $_GET["wsp_id"] = $a_target;
+            /** @noRector  */
             include("ilias.php");
             exit;
         }
@@ -708,13 +707,9 @@ class ilObjFileGUI extends ilObject2GUI
      */
     public function initMultiUploadForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $dnd_form_gui = new ilPropertyFormGUI();
         $dnd_form_gui->setMultipart(true);
         $dnd_form_gui->setHideLabels();
-
-        // file input
-        include_once("Services/Form/classes/class.ilDragDropFileInputGUI.php");
         $dnd_input = new ilDragDropFileInputGUI($this->lng->txt("files"), "upload_files");
         $dnd_input->setArchiveSuffixes(["zip"]);
         $dnd_input->setCommandButtonNames(self::CMD_UPLOAD_FILES, "cancel");

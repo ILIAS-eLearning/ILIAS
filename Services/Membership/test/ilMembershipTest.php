@@ -25,7 +25,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
 * Unit tests for tree table
-* @group needsInstalledILIAS
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
@@ -33,14 +32,14 @@ use PHPUnit\Framework\TestCase;
 *
 * @ingroup ServicesTree
 */
-class ilMembershipTest extends TestCase
+class ilMembershipTest //extends TestCase
 {
     protected $backupGlobals = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
     
     /**

@@ -76,6 +76,7 @@ class ilMainMenuSearchGUI
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
         
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+            $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $lng->txt("label_search_options"));
             if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() or (int) $_GET['ref_id']) {
                 $this->tpl->setCurrentBlock("position");
                 $this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));

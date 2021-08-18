@@ -1,16 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjectOwnershipManagementGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
-*
-* @ilCtrl_Calls ilObjectOwnershipManagementGUI:
-*/
+ * Class ilObjectOwnershipManagementGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjectOwnershipManagementGUI:
+ */
 class ilObjectOwnershipManagementGUI
 {
     /**
@@ -103,11 +101,9 @@ class ilObjectOwnershipManagementGUI
         if (sizeof($objects)) {
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "listObjects"));
             
-            include_once "Services/Form/classes/class.ilSelectInputGUI.php";
             $sel = new ilSelectInputGUI($lng->txt("type"), "type");
             $ilToolbar->addStickyItem($sel, true);
             
-            include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
             $button = ilSubmitButton::getInstance();
             $button->setCaption("ok");
             $button->setCommand("listObjects");
@@ -119,7 +115,6 @@ class ilObjectOwnershipManagementGUI
                 if (!$objDefinition->isPlugin($type)) {
                     $options[$type] = $lng->txt("obj_" . $type);
                 } else {
-                    include_once("./Services/Component/classes/class.ilPlugin.php");
                     $options[$type] = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                 }
             }
@@ -141,14 +136,12 @@ class ilObjectOwnershipManagementGUI
             ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
         }
         
-        include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id, $objects[$sel_type]);
         $tpl->setContent($tbl->getHTML());
     }
     
     public function applyFilter()
     {
-        include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
@@ -157,7 +150,6 @@ class ilObjectOwnershipManagementGUI
     
     public function resetFilter()
     {
-        include_once "Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php";
         $tbl = new ilObjectOwnershipManagementTableGUI($this, "listObjects", $this->user_id);
         $tbl->resetOffset();
         $tbl->resetFilter();

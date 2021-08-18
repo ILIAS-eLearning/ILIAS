@@ -6,17 +6,19 @@
 	</div>
 	<!-- BEGIN ov_head -->
 	<div id="ilMMSearchMenu">
-		<p> » <a target="_top" href="{HREF_SEARCH_LINK}">{TXT_SEARCH_LINK}</a></p>
-		<!-- BEGIN position --><p><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg"/> <label for="ilmmsg"> {TXT_GLOBALLY}</label><br/><!-- END position -->
-		<!-- BEGIN position_rep -->
-		<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc"/> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label></p>
-		<!-- END position_rep -->
-		<!-- BEGIN usr_search -->
-		<p>
-			<input type="radio" name="root_id" value="-1" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
-		</p>
-		<!-- END usr_search -->
-		<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}"/><!-- END position_hid -->
+		<p><a id="search_link" target="_top" href="{HREF_SEARCH_LINK}">» {TXT_SEARCH_LINK}</a></p>
+		<div id="mm_search_menu_options" aria-label="{LABEL_SEARCH_OPTIONS}">
+			<fieldset>
+				<!-- BEGIN position --><input type="radio" name="root_id" value="{ROOT_ID}" checked="checked" id="ilmmsg"/> <label for="ilmmsg"> {TXT_GLOBALLY}</label><br/><!-- END position -->
+				<!-- BEGIN position_rep -->
+				<input type="radio" name="root_id" value="{REF_ID}" id="ilmmsc"/> <label for="ilmmsc"> {TXT_CURRENT_POSITION}</label><br />
+				<!-- END position_rep -->
+				<!-- BEGIN usr_search -->
+				<input type="radio" name="root_id" value="-1" id="ilmmsu"/> <label for="ilmmsu"> {TXT_USR_SEARCH}</label>
+				<!-- END usr_search -->
+				<!-- BEGIN position_hid --><input type="hidden" name="root_id" value="{ROOT_ID_HID}"/><!-- END position_hid -->
+			</fieldset>
+		</div>
 	</div>
 	<!-- END ov_head -->
 	<div id="mm_search_menu_ac"></div>

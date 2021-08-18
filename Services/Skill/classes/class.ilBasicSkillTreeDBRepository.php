@@ -12,8 +12,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
         global $DIC;
 
         $this->db = ($db)
-            ? $db
-            : $DIC->database();
+            ?: $DIC->database();
     }
 
     /**
@@ -33,7 +32,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
 
             // get all matching tref nodes
             $set = $ilDB->query("SELECT * FROM skl_tree_node n JOIN skl_tree t ON (n.obj_id = t.child) " .
-                " WHERE n.import_id = " . $ilDB->quote("il_" . ((int) $a_source_inst_id) . "_sktr_" . $a_tref_import_id,
+                " WHERE n.import_id = " . $ilDB->quote("il_" . ($a_source_inst_id) . "_sktr_" . $a_tref_import_id,
                     "text") .
                 " ORDER BY n.creation_date DESC ");
             while ($rec = $ilDB->fetchAssoc($set)) {
@@ -45,7 +44,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
             $skill_node_type = "skll";
         }
         $set = $ilDB->query("SELECT * FROM skl_tree_node n JOIN skl_tree t ON (n.obj_id = t.child) " .
-            " WHERE n.import_id = " . $ilDB->quote("il_" . ((int) $a_source_inst_id) . "_" . $skill_node_type . "_" . $a_skill_import_id,
+            " WHERE n.import_id = " . $ilDB->quote("il_" . ($a_source_inst_id) . "_" . $skill_node_type . "_" . $a_skill_import_id,
                 "text") .
             " ORDER BY n.creation_date DESC ");
         $results = array();
@@ -82,7 +81,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
         $ilDB = $this->db;
 
         $set = $ilDB->query("SELECT * FROM skl_level l JOIN skl_tree t ON (l.skill_id = t.child) " .
-            " WHERE l.import_id = " . $ilDB->quote("il_" . ((int) $a_source_inst_id) . "_sklv_" . $a_level_import_id,
+            " WHERE l.import_id = " . $ilDB->quote("il_" . ($a_source_inst_id) . "_sklv_" . $a_level_import_id,
                 "text") .
             " ORDER BY l.creation_date DESC ");
         $results = array();

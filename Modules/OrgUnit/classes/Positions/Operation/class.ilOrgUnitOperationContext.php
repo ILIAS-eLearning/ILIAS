@@ -148,13 +148,13 @@ class ilOrgUnitOperationContext extends ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'il_orgu_op_contexts';
     }
 
 
-    public function create()
+    public function create() : void
     {
         if (self::where(array('context' => $this->getContext()))->hasSets()) {
             throw new ilException('Context already registered');

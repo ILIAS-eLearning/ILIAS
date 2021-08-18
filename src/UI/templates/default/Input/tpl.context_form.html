@@ -1,11 +1,9 @@
 <div class="form-group row">
-	<label for="{ID}" class="control-label col-sm-3">{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
+	<label <!-- BEGIN for -->for="{ID}" <!-- END for -->class="control-label col-sm-3">{LABEL}<!-- BEGIN required --><span class="asterisk">*</span><!-- END required --></label>
 	<div class="col-sm-9">
+		<!-- BEGIN error --><div class="help-block alert alert-danger" role="alert">{ERROR}</div><!-- END error -->
 		{INPUT}
 		<!-- BEGIN byline --><div class="help-block">{BYLINE}</div><!-- END byline -->
-		<!-- BEGIN error --><div class="help-block alert alert-danger" role="alert">
-			<img border="0" src="./templates/default/images/icon_alert.svg" alt="alert" />
-			{ERROR}
-		</div><!-- END error -->{DEPENDANT_GROUP}
+		{DEPENDANT_GROUP}
 	</div>
 </div>

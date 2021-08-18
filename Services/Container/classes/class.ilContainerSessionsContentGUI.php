@@ -1,35 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("./Services/Container/classes/class.ilContainerContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Shows all items in one block.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Shows all items in one block.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
     /**
@@ -92,9 +69,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         // see bug #7452
         //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
-
-        include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
-
         $tpl = new ilTemplate(
             "tpl.container_page.html",
             true,
@@ -127,14 +101,15 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
         
         if (is_array($this->items["sess"]) ||
-            $this->items['sess_link']['prev']['value'] ||
-            $this->items['sess_link']['next']['value']) {
+            isset($this->items['sess_link']['prev']['value']) ||
+            isset($this->items['sess_link']['next']['value'])) {
             $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
-            
-            if ($this->items['sess_link']['prev']['value']) {
+
+            $prefix = $postfix = "";
+            if (isset($this->items['sess_link']['prev']['value'])) {
                 $prefix = $this->renderSessionLimitLink(true);
             }
-            if ($this->items['sess_link']['next']['value']) {
+            if (isset($this->items['sess_link']['next']['value'])) {
                 $postfix = $this->renderSessionLimitLink(false);
             }
             
@@ -266,7 +241,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     {
         $ilUser = $this->user;
         
-        if ($_GET['expand']) {
+        if (isset($_GET['expand'])) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
             } else {
@@ -274,7 +249,6 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             }
         }
 
-        include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
         if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
             $this->force_details = $session;
         } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {
@@ -291,8 +265,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         array $items,
         ilContainer $container,
         bool $admin_panel_enabled = false,
-        bool $include_side_block = false) : array
-    {
+        bool $include_side_block = false
+    ) : array {
         global $DIC;
 
         $user = $DIC->user();
@@ -395,6 +369,4 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $items[(int) $admin_panel_enabled][(int) $include_side_block] = $sort->sortItems($items);
         return $items;
     }
-
-
 } // END class.ilContainerSessionsContentGUI

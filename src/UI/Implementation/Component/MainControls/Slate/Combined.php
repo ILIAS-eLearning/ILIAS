@@ -17,7 +17,7 @@ use ILIAS\UI\Component\Signal;
  */
 class Combined extends Slate implements ISlate\Combined
 {
-    const ENTRY_ACTION_TRIGGER = 'trigger';
+    public const ENTRY_ACTION_TRIGGER = 'trigger';
 
     /**
      * @var array<Slate|BulkyButton|BulkyLink>
@@ -57,7 +57,6 @@ class Combined extends Slate implements ISlate\Combined
         $signal = $this->signal_generator->create();
         $signal->addOption('entry_id', $entry_id);
         $signal->addOption('action', self::ENTRY_ACTION_TRIGGER);
-        $this->trigger_signals[] = $signal;
         return $signal;
     }
 

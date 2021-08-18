@@ -21,7 +21,6 @@ class Close implements C\Button\Close
      */
     public function withOnClick(Signal $signal)
     {
-        $this->action = null;
         return $this->withTriggeredSignal($signal, 'click');
     }
 

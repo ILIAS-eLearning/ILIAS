@@ -11,13 +11,18 @@ function ui()
     $renderer = $DIC->ui()->renderer();
 
     $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
-    $btn = $f->button()->standard('See UI in fullscreen-mode', $url);
-    return $renderer->render($btn);
+    $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
+
+    return $renderer->render([
+        $page_demo
+    ]);
 }
 
 
 if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
     _initIliasForPreview();
+
+    global $DIC;
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -25,15 +30,13 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer);
-    $mainbar = $mainbar
-        //->withActive("pws")
-        /**
-         * You can also activate a tool initially
-         * or remove all active states:
-         */
-         //->withActive("tool2")
-         //->withActive($mainbar::NONE_ACTIVE)
-        ;
+    /**
+     * You can also activate a tool initially
+     * or remove all active states:
+    $mainbar = $mainbar->withActive("pws")
+         ->withActive("tool2")
+         ->withActive($mainbar::NONE_ACTIVE);
+     */
 
     $footer = pagedemoFooter($f);
 
@@ -51,11 +54,14 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
         'UI PAGE DEMO', //page title
         'ILIAS', //short title
         'Std. Page Demo' //view title
-    )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
+    )
+        /*
+        ->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
         ->withSystemInfos(
             [$f->mainControls()->systemInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
                ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
         )
+        */
     ->withUIDemo(true);
 
     echo $renderer->render($page);
@@ -76,7 +82,7 @@ function _initIliasForPreview()
     chdir('../../../../../../');
     require_once("Services/Init/classes/class.ilInitialisation.php");
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
-    ilInitialisation::initILIAS();
+    \ilInitialisation::initILIAS();
 }
 
 function pagedemoCrumbs($f)

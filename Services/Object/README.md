@@ -7,6 +7,7 @@ This component provides features for handling ILIAS objects like repository obje
 - [Export Entities](#Export-Entities)
 - [Object Service](#Object-Service)
 - [Common Settings](#Common-Settings)
+- [Offline Handling](#Offline Handling)
 
 
 # Export Entities
@@ -97,6 +98,36 @@ public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_id
     }
 }
 ```
+
+# Offline Handling
+
+To activate the offline handling in your object you will first need to add it as an attribute of the object in the module.xml
+
+```
+<objects>
+    <object id="exmpl" class_name="Example" dir="classes" offline_handling="1"></object>	
+</objects>
+```
+
+It should be noted, that whenever a module.xml is edited, the setup needs to be called with the update parameter, so the changes can be applied.
+
+Inside your GUI class for the object settings, after having created a settings form and added a checkbox option for the online value to it, you will then need to add the values to your update and save function like this:
+
+```
+protected function getEditFormCustomValues(array &$a_values)
+    {
+        $a_values["offline_input_postvar"] = !$this->object->getOfflineStatus();
+    }
+```
+
+```
+protected function updateCustom(ilPropertyFormGUI $a_form)
+    {
+        $this->object->setOfflineStatus(($a_form->getInput("offline_input_postvar") == 1 ) ? 0 : 1);
+    }
+```
+
+Since we're usually asking in a form if the object should be online but they're saved in the object_data table as offline=1 or offline=0, the values will need to be inverted when getting and setting them
 
 
 # JF Decisions

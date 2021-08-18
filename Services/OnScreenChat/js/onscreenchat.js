@@ -333,6 +333,9 @@
 							title:     il.Language.txt('chat_osc_emoticons'),
 							content:   function () {
 								return emoticonPanel.data('emoticons').getContent();
+							},
+							sanitizeFn: function (content) {
+								return content;
 							}
 						});
 

@@ -22,7 +22,7 @@ class ilTrackingAppEventListener implements ilAppEventListener
     */
     public static function handleEvent($a_component, $a_event, $a_params)
     {
-        $obj_id = $a_params['obj_id'];
+        $obj_id = $a_params['obj_id'] ?? null;
         
         switch ($a_component) {
             case 'Services/Object':

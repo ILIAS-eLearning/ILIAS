@@ -418,8 +418,20 @@ class ilForum
      * @param int    $send_activation_mail
      * @return int   new post_id
      */
-    public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
-    {
+    public function generatePost(
+        $forum_id,
+        $thread_id,
+        $author_id,
+        $display_user_id,
+        $message,
+        $parent_pos,
+        $notify,
+        $subject = '',
+        $alias = '',
+        $date = '',
+        $status = 1,
+        $send_activation_mail = 0
+    ) {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
         $objNewPost->setThreadId($thread_id);
@@ -581,6 +593,8 @@ class ilForum
             $status,
             0
         );
+
+        return $rootNodeId;
     }
 
     /**
@@ -832,7 +846,7 @@ class ilForum
         }
 
         // DELETE ATTACHMENTS ASSIGNED TO POST
-        $this->__deletePostFiles($del_id);
+        $this->deletePostFiles($del_id);
         
         $dead_pos = count($del_id);
         $dead_thr = 0;
@@ -914,7 +928,7 @@ class ilForum
 					WHERE pos_pk = %s',
                     array('integer'),
                     array($del_id[$i])
-                 );
+                );
                 
                 // delete related news item
                 $news_id = ilNewsItem::getFirstNewsIdForContext(
@@ -994,7 +1008,7 @@ class ilForum
 			WHERE top_frm_fk = %s',
             array('integer', 'integer'),
             array($dead_pos, $this->id)
-         );
+        );
         
         // get latest post of forum and update last_post
         $res2 = $this->db->queryf(
@@ -1908,7 +1922,7 @@ class ilForum
         return $text;
     }
 
-    public function __deletePostFiles($a_ids)
+    private function deletePostFiles($a_ids)
     {
         if (!is_array($a_ids)) {
             return false;
@@ -2141,7 +2155,7 @@ class ilForum
         return $threads ? $threads : array();
     }
         
-    public static function _lookupObjIdForForumId($a_for_id)
+    public static function _lookupObjIdForForumId($a_for_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -2155,9 +2169,10 @@ class ilForum
         );
         
         if ($fdata = $ilDB->fetchAssoc($res)) {
-            return $fdata["top_frm_fk"];
+            return (int) $fdata["top_frm_fk"];
         }
-        return false;
+
+        return 0;
     }
     
     public static function updateLastPostByObjId($a_obj_id)

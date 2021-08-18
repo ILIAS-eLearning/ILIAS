@@ -14,7 +14,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 class Bulky extends Button implements C\Button\Bulky
 {
     // allowed ARIA roles
-    const MENUITEM = 'menuitem';
+    public const MENUITEM = 'menuitem';
 
     /**
      * @var Symbol

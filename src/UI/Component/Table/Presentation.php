@@ -34,7 +34,7 @@ interface Presentation extends Table, HasViewControls
      * The closure MUST return \PresentationRow
      *
      * @param \Closure 	$row_mapping
-     * @return \Presentation
+     * @return Presentation
      */
     public function withRowMapping(\Closure $row_mapping);
 
@@ -51,7 +51,7 @@ interface Presentation extends Table, HasViewControls
      * These can be virtually anything.
      *
      * @param array<string,mixed> 	$environment
-     * @return \Presentation
+     * @return Presentation
      */
     public function withEnvironment(array $environment);
 
@@ -67,7 +67,7 @@ interface Presentation extends Table, HasViewControls
      * All elements in $records MUST be processable by the mapping-closure.
      *
      * @param array<mixed> 	$records
-     * @return \Presentation
+     * @return Presentation
      */
     public function withData(array $records);
 

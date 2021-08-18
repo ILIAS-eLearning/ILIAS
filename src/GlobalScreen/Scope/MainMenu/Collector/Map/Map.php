@@ -65,9 +65,12 @@ class Map implements Filterable, Walkable
      */
     public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
     {
-        $item = $this->raw->offsetGet($identification->serialize());
+        if($this->raw->offsetExists($identification->serialize())) {
+            $item = $this->raw->offsetGet($identification->serialize());
 
-        return $item ?? $this->getLostItem($identification);
+            return $item ?? $this->getLostItem($identification);
+        }
+        return $this->getLostItem($identification);
     }
 
     /**
@@ -79,10 +82,10 @@ class Map implements Filterable, Walkable
         $this->applyFilters();
 
         if ($this->filtered->offsetExists($identification->serialize())) {
-            return $this->filtered->offsetGet($identification->serialize());
+            $item = $this->filtered->offsetGet($identification->serialize());
         }
 
-        return $this->getLostItem($identification);
+        return $item ?? $this->getLostItem($identification);
     }
 
     /**
@@ -149,7 +152,7 @@ class Map implements Filterable, Walkable
     public function walk(Closure $c) : void
     {
         $this->applyFilters();
-        $to_walk = (array)$this->filtered;
+        $to_walk = (array) $this->filtered;
         array_walk($to_walk, $c);
         $this->filtered = new ArrayObject($to_walk);
     }
@@ -170,14 +173,14 @@ class Map implements Filterable, Walkable
              * @var $parent isParent
              */
             if ($item_one instanceof isChild) {
-                $parent            = $this->getSingleItemFromFilter($item_one->getParent());
+                $parent = $this->getSingleItemFromFilter($item_one->getParent());
                 $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
             } else {
                 $position_item_one = $item_one->getPosition();
             }
 
             if ($item_two instanceof isChild) {
-                $parent            = $this->getSingleItemFromFilter($item_two->getParent());
+                $parent = $this->getSingleItemFromFilter($item_two->getParent());
                 $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
             } else {
                 $position_item_two = $item_two->getPosition();

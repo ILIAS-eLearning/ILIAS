@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\Refinery\String;
 
@@ -27,18 +25,9 @@ class CaseOfLabel implements Transformation
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var string
-     */
-    protected $language_key;
-    /**
-     * @var Factory
-     */
-    protected $factory;
-    /**
-     * @var array
-     */
-    protected $not_capitalize = [
+    protected string $language_key;
+    protected Factory $factory;
+    protected array $not_capitalize = [
         "en" => [
             // conjunctions
             "after",
@@ -179,13 +168,6 @@ class CaseOfLabel implements Transformation
         ]
     ];
 
-
-    /**
-     * CaseOfLabel constructor
-     *
-     * @param string  $language_key
-     * @param Factory $factory
-     */
     public function __construct(string $language_key, Factory $factory)
     {
         $this->language_key = $language_key;
@@ -224,11 +206,6 @@ class CaseOfLabel implements Transformation
         return $to;
     }
 
-    /**
-     * @param array $words
-     *
-     * @return array
-     */
     protected function buildPatterns(array $words) : array
     {
         return array_reduce($words, function (array $patterns, string $word) : array {
@@ -238,26 +215,14 @@ class CaseOfLabel implements Transformation
         }, []);
     }
 
-
-    /**
-     * @param string $word
-     *
-     * @return string
-     */
     protected function buildPattern(string $word) : string
     {
         // Before the word muss be the start of the string or a space
         // After the word muss be the end of the string or a space
         // Ignore case to include the uppercase in the first step before
-        return "/(\s|^)" . preg_quote($word) . "(\s|$)/i";
+        return "/(\s|^)" . preg_quote($word, '/') . "(\s|$)/i";
     }
 
-
-    /**
-     * @param array $result
-     *
-     * @return string
-     */
     protected function replaceHelper(array $result) : string
     {
         return strtolower($result[0] ?? "");

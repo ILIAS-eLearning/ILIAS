@@ -1,20 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/COPage/classes/class.ilPCPlugged.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class ilPCPluggedGUI
- *
  * User Interface for plugged page component
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCPluggedGUI extends ilPageContentGUI
 {

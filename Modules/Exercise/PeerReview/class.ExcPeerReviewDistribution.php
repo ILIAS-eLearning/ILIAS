@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Exercise\PeerReview;
 
@@ -31,54 +31,40 @@ namespace ILIAS\Exercise\PeerReview;
  */
 class ExcPeerReviewDistribution
 {
-    /**
-     * @var array
-     */
-    protected $user_ids = [];
-
-    /**
-     * @var array
-     */
-    protected $user_order = [];
-
-    /**
-     * @var int
-     */
-    protected $num_assignments;
+    protected array $user_ids = [];
+    protected array $user_order = [];
+    protected int $num_assignments;
 
     /**
      * ExcPeerReviewDistribution constructor.
      * @param int[] $user_ids
      * @param int $num_assignments
      */
-    public function __construct(array $user_ids, $num_assignments)
+    public function __construct(array $user_ids, int $num_assignments)
     {
         $this->user_ids = array_values($user_ids);  // ensure numerical indexing
 
         // we cannot assign more users to a single user than count($user_ids) - 1
-        $num_assignments = min ($num_assignments, count($user_ids) - 1);
+        $num_assignments = min($num_assignments, count($user_ids) - 1);
 
         // we cannot create a negative number of assignments
-        $num_assignments = max ($num_assignments, 0);
+        $num_assignments = max($num_assignments, 0);
 
         $this->num_assignments = $num_assignments;
         $this->initDistribution();
     }
 
-    /**
-     * Init distribution
-     */
-    protected function initDistribution()
+    protected function initDistribution() : void
     {
         $this->user_order = $this->randomUserOrder($this->user_ids);
     }
 
     /**
      * Random user order
-     * @param array
-     * @return array
+     * @param int[]
+     * @return int[]
      */
-    protected function randomUserOrder($user_ids): array
+    protected function randomUserOrder(array $user_ids) : array
     {
         $order = [];
         while (count($user_ids) > 0) {
@@ -90,11 +76,7 @@ class ExcPeerReviewDistribution
         return $order;
     }
 
-    /**
-     * Get user order
-     * @return array
-     */
-    public function getUserOrder(): array
+    public function getUserOrder() : array
     {
         return $this->user_order;
     }
@@ -105,7 +87,7 @@ class ExcPeerReviewDistribution
      * @param int $user_id
      * @return int[]
      */
-    public function getPeersOfRater($user_id)
+    public function getPeersOfRater(int $user_id) : array
     {
         $peers = [];
         $key = array_search($user_id, $this->user_order);
@@ -118,5 +100,4 @@ class ExcPeerReviewDistribution
         }
         return $peers;
     }
-
 }

@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\Component\Tree\TreeRecursion
 {
@@ -223,7 +219,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     public function getChildsOfNode($a_parent_node_id)
     {
         if ($this->preloaded && $this->getSearchTerm() == "") {
-            if (is_array($this->childs[$a_parent_node_id])) {
+            if (isset($this->childs[$a_parent_node_id]) && is_array($this->childs[$a_parent_node_id])) {
                 return $this->childs[$a_parent_node_id];
             }
             return array();
@@ -423,15 +419,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
                 $url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);
                 $this->ctrl->setParameterByClass($cmdClass, 'node_id', null);
 
-                $javascript = "$('#$id').on('click', function(event) {
-					let node = $(this);
-	
-					if (node.hasClass('expandable')) {
-						il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.hasClass('expanded'));
-						event.preventDefault();
-						event.stopPropagation();
-					}
-				});";
+                $javascript = "il.UI.tree.registerToggleNodeAsyncAction('$id', '$url', 'prior_state');";
 
                 return $javascript;
             });

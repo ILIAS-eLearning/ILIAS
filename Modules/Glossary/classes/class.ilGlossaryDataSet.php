@@ -216,7 +216,7 @@ class ilGlossaryDataSet extends ilDataSet
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         $this->data[] = [
                             "GloId" => $rec["id"],
-                            "AutoGloId" => "il_".IL_INST_ID."_glo_".$rec["glo_id"]
+                            "AutoGloId" => "il_" . IL_INST_ID . "_glo_" . $rec["glo_id"]
                         ];
                     }
                     break;

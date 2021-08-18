@@ -81,7 +81,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return boolean True, if the TextSubset question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (
             strlen($this->title)
@@ -101,7 +101,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param string $original_id
      *
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -120,7 +120,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -208,11 +208,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -400,7 +400,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $points = array();
         foreach ($this->answers as $answer) {
@@ -590,7 +590,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -690,7 +690,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assTextSubset";
     }
@@ -757,7 +757,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -765,7 +765,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -788,7 +788,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();

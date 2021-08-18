@@ -143,7 +143,7 @@ class ilObjSession extends ilObject
      * @access public
      * @return
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         $date = new ilDate($this->getFirstAppointment()->getStart()->getUnixTime(), IL_CAL_UNIX);
         if ($this->getTitle()) {

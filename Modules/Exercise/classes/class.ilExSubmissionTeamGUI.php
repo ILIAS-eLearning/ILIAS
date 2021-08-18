@@ -1,53 +1,32 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Submission team
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilExSubmissionTeamGUI: ilRepositorySearchGUI
- * @ingroup ModulesExercise
  */
 class ilExSubmissionTeamGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $exercise; // [ilObjExercise]
-    protected $assignment; // [ilExAssignment]
-    protected $submission; // [ilExSubmission]
-    protected $team; // [ilExAssignmentTeam]
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected ilObjExercise $exercise;
+    protected ilExAssignment $assignment;
+    protected ilExSubmission $submission;
+    protected ?ilExAssignmentTeam $team;
     
-    public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
-    {
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExSubmission $a_submission
+    ) {
         global $DIC;
 
         $this->toolbar = $DIC->toolbar();
@@ -67,8 +46,11 @@ class ilExSubmissionTeamGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
     }
-    
-    public function executeCommand()
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -104,8 +86,10 @@ class ilExSubmissionTeamGUI
         }
     }
     
-    public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
-    {
+    public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -174,12 +158,12 @@ class ilExSubmissionTeamGUI
         }
     }
     
-    public function returnToParentObject()
+    public function returnToParentObject() : void
     {
         $this->ctrl->returnToParent($this);
     }
     
-    public static function handleTabs()
+    public static function handleTabs() : void
     {
         global $DIC;
 
@@ -200,7 +184,7 @@ class ilExSubmissionTeamGUI
         );
     }
     
-    protected function canEditTeam()
+    protected function canEditTeam() : bool
     {
         return (($this->submission->canSubmit() &&
             !$this->submission->getAssignment()->getTeamTutor()) ||
@@ -208,11 +192,9 @@ class ilExSubmissionTeamGUI
     }
     
     /**
-    * Displays a form which allows members to manage team uploads
-    *
-    * @access public
-    */
-    public function submissionScreenTeamObject()
+     * Displays a form which allows members to manage team uploads
+     */
+    public function submissionScreenTeamObject() : void
     {
         $ilToolbar = $this->toolbar;
                         
@@ -249,16 +231,20 @@ class ilExSubmissionTeamGUI
         
         $this->tpl->setContent($tbl->getHTML());
     }
-    
-    public function addTeamMemberActionObject($a_user_ids = array())
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function addTeamMemberActionObject(
+        array $a_user_ids = array()
+    ) : void {
         if (!$this->canEditTeam()) {
             $this->ctrl->redirect("submissionScreenTeam");
         }
         
         if (!count($a_user_ids)) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"));
-            return false;
+            return;
         }
 
         $new_users = [];
@@ -291,20 +277,27 @@ class ilExSubmissionTeamGUI
 
         $this->ctrl->redirect($this, "submissionScreenTeam");
     }
-    
-    public function confirmDeleteTeamObject()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function confirmDeleteTeamObject() : void
     {
         $this->confirmRemoveTeamMemberObject(true);
     }
-    
-    public function confirmRemoveTeamMemberObject($a_full_delete = false)
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function confirmRemoveTeamMemberObject(
+        bool $a_full_delete = false
+    ) : void {
         $ilUser = $this->user;
         $tpl = $this->tpl;
         
         if (!$this->submission->isTutor()) {
             $ids = [];
-            if ((bool) $a_full_delete) {
+            if ($a_full_delete) {
                 $ids = $this->team->getMembers();
             } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
                 $ids = $_POST["id"];
@@ -326,7 +319,8 @@ class ilExSubmissionTeamGUI
         if (sizeof($members) <= sizeof($ids)) {
             if (sizeof($members) == 1 && $members[0] == $ilUser->getId()) {
                 // direct team deletion - no confirmation
-                return $this->removeTeamMemberObject($a_full_delete);
+                $this->removeTeamMemberObject($a_full_delete);
+                return;
             } else {
                 ilUtil::sendFailure($this->lng->txt("exc_team_at_least_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
@@ -359,9 +353,13 @@ class ilExSubmissionTeamGUI
 
         $tpl->setContent($cgui->getHTML());
     }
-    
-    public function removeTeamMemberObject($a_full_delete = false)
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function removeTeamMemberObject(
+        bool $a_full_delete = false
+    ) : void {
         $ilUser = $this->user;
         
         $cancel_cmd = $this->submission->isTutor()
@@ -369,7 +367,7 @@ class ilExSubmissionTeamGUI
             : "submissionScreenTeam";
 
         $ids = [];
-        if ((bool) $a_full_delete) {
+        if ($a_full_delete) {
             $ids = $this->team->getMembers();
         } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
             $ids = $_POST["id"];
@@ -381,7 +379,7 @@ class ilExSubmissionTeamGUI
             $this->ctrl->redirect($this, $cancel_cmd);
         }
                 
-        $team_deleted = (bool) $a_full_delete;
+        $team_deleted = $a_full_delete;
         if (!$team_deleted) {
             $members = $this->team->getMembers();
             if (sizeof($members) <= sizeof($ids)) {
@@ -423,7 +421,7 @@ class ilExSubmissionTeamGUI
         }
     }
     
-    public function submissionScreenTeamLogObject()
+    public function submissionScreenTeamLogObject() : void
     {
         $this->tabs_gui->activateTab("log");
     
@@ -436,7 +434,7 @@ class ilExSubmissionTeamGUI
         $this->tpl->setContent($tbl->getHTML());
     }
     
-    public function createSingleMemberTeamObject()
+    public function createSingleMemberTeamObject() : void
     {
         ilExAssignmentTeam::getTeamId(
             $this->assignment->getId(),
@@ -447,13 +445,13 @@ class ilExSubmissionTeamGUI
         $this->returnToParentObject();
     }
     
-    public function showTeamLogObject()
+    public function showTeamLogObject() : void
     {
         $tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);
         $this->tpl->setContent($tbl->getHTML());
     }
         
-    public function createTeamObject()
+    public function createTeamObject() : void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -517,8 +515,11 @@ class ilExSubmissionTeamGUI
         
         $ilCtrl->redirect($this, "returnToParent");
     }
-    
-    public function createAdoptedTeamObject()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function createAdoptedTeamObject() : void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -538,16 +539,16 @@ class ilExSubmissionTeamGUI
         $ilCtrl->redirect($this, "returnToParent");
     }
     
-    
     /**
-    * Add user as member
-    */
-    public function addUserFromAutoCompleteObject()
+     * Add user as member
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function addUserFromAutoCompleteObject() : void
     {
         if (!strlen(trim($_POST['user_login']))) {
             ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
             $this->submissionScreenTeamObject();
-            return false;
+            return;
         }
         
         $users = explode(',', $_POST['user_login']);
@@ -558,12 +559,13 @@ class ilExSubmissionTeamGUI
 
             if (!$user_id) {
                 ilUtil::sendFailure($this->lng->txt('user_not_known'));
-                return $this->submissionScreenTeamObject();
+                $this->submissionScreenTeamObject();
+                return;
             }
             
             $user_ids[] = $user_id;
         }
     
-        return $this->addTeamMemberActionObject($user_ids);
+        $this->addTeamMemberActionObject($user_ids);
     }
 }

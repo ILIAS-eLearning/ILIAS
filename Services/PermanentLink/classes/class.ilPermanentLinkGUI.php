@@ -1,38 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @defgroup ServicesPermanentLink Services/PermanentLink
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class for permanent links
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
-*
-* @ingroup ServicesPermanentLink
-*/
+ * Class for permanent links
+ *
+ * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
+ */
 class ilPermanentLinkGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilObjectDataCache $obj_data_cache;
+    protected bool $align_center = true;
+    protected bool $includepermanentlinktext = false;
+    protected string $type = "";
+    protected string $id = "";
+    protected string $append = "";
+    protected string $target = "";
+    protected string $title = "";
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    protected $align_center = true;
-    
     /**
     * Example: type = "wiki", id (ref_id) = "234", append = "_Start_Page"
     */
@@ -50,153 +37,71 @@ class ilPermanentLinkGUI
         $this->setTarget($a_target);
     }
     
-    /**
-    * Set Include permanent link text.
-    *
-    * @param	boolean	$a_includepermanentlinktext	Include permanent link text
-    */
-    public function setIncludePermanentLinkText($a_includepermanentlinktext)
+    // Set Include permanent link text.
+    public function setIncludePermanentLinkText(bool $a_includepermanentlinktext) : void
     {
         $this->includepermanentlinktext = $a_includepermanentlinktext;
     }
 
-    /**
-    * Get Include permanent link text.
-    *
-    * @return	boolean	Include permanent link text
-    */
-    public function getIncludePermanentLinkText()
+    // Include permanent link text
+    public function getIncludePermanentLinkText() : bool
     {
         return $this->includepermanentlinktext;
     }
 
-    /**
-    * Set Type.
-    *
-    * @param	string	$a_type	Type
-    */
-    public function setType($a_type)
+    public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-    * Get Type.
-    *
-    * @return	string	Type
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-    * Set Id.
-    *
-    * @param	string	$a_id	Id
-    */
-    public function setId($a_id)
+    public function setId(string $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-    * Get Id.
-    *
-    * @return	string	Id
-    */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-    * Set Append.
-    *
-    * @param	string	$a_append	Append
-    */
-    public function setAppend($a_append)
+    public function setAppend(string $a_append) : void
     {
         $this->append = $a_append;
     }
 
-    /**
-    * Get Append.
-    *
-    * @return	string	Append
-    */
-    public function getAppend()
+    public function getAppend() : string
     {
         return $this->append;
     }
 
-    /**
-    * Set Target.
-    *
-    * @param	string	$a_target	Target
-    */
-    public function setTarget($a_target)
+    public function setTarget(string $a_target) : void
     {
         $this->target = $a_target;
     }
 
-    /**
-    * Get Target.
-    *
-    * @return	string	Target
-    */
-    public function getTarget()
+    public function getTarget() : string
     {
         return $this->target;
     }
 
-    /**
-     * Set title
-     *
-     * @param	string	title
-     */
-    public function setTitle($a_val)
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
     
-    /**
-     * Get title
-     *
-     * @return	string	title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * Set center alignment
-     *
-     * @param	boolean	align the link at center
-     */
-    public function setAlignCenter($a_val)
-    {
-        $this->align_center = $a_val;
-    }
-    
-    /**
-     * Get center alignment
-     *
-     * @return	boolean	align the link at center
-     */
-    public function getAlignCenter()
-    {
-        return $this->align_center;
-    }
-
-    /**
-    * Get HTML for link
-    */
-    public function getHTML()
+    public function getHTML() : string
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $ilObjDataCache = $this->obj_data_cache;
         
         $tpl = new ilTemplate(
@@ -206,7 +111,6 @@ class ilPermanentLinkGUI
             "Services/PermanentLink"
         );
         
-        include_once('./Services/Link/classes/class.ilLink.php');
         $href = ilLink::_getStaticLink(
             $this->getId(),
             $this->getType(),
@@ -230,12 +134,8 @@ class ilPermanentLinkGUI
 
         $tpl->setVariable("LINK", $href);
         
-        if ($this->getAlignCenter()) {
-            $tpl->setVariable("ALIGN", "center");
-        } else {
-            $tpl->setVariable("ALIGN", "left");
-        }
-        
+        $tpl->setVariable("ALIGN", "left");
+
         if ($this->getTarget() != "") {
             $tpl->setVariable("TARGET", 'target="' . $this->getTarget() . '"');
         }

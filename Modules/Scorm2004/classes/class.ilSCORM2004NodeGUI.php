@@ -1,16 +1,14 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004NodeGUI
-*
-* Base GUI class for scorm nodes (Chapter, SCO and Page)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Class ilSCORM2004NodeGUI
+ *
+ * Base GUI class for scorm nodes (Chapter, SCO and Page)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilSCORM2004NodeGUI
 {
     /**
@@ -94,7 +92,6 @@ class ilSCORM2004NodeGUI
     */
     public function getNodeObject($a_node_id)
     {
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
         $this->node_object = ilSCORM2004NodeFactory::getInstance(
             $this->slm_object,
             $a_node_id,
@@ -441,7 +438,6 @@ class ilSCORM2004NodeGUI
         $tpl = $this->tpl;
         
         // content styles
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $tpl->setCurrentBlock("ContentStyle");
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
@@ -486,7 +482,6 @@ class ilSCORM2004NodeGUI
         ilSCORM2004Node::clipboardCopy($this->slm_object->getId(), $items);
 
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("copy");
         ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
 
@@ -519,7 +514,6 @@ class ilSCORM2004NodeGUI
 
         ilSCORM2004Node::clipboardCut($this->slm_object->getId(), $items);
         
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("cut");
 
         ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
@@ -533,8 +527,7 @@ class ilSCORM2004NodeGUI
     public function insertPageClip()
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        
+
         ilSCORM2004Node::insertPageClip($this->slm_object);
         
         $ilCtrl->redirect(

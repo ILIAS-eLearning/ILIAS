@@ -113,7 +113,7 @@ class ilContainerReference extends ilObject
      * @param int $a_obj_id
      * @return
      */
-    public static function _lookupTitle($a_obj_id)
+    public static function _lookupTitle($a_obj_id) : string
     {
         global $DIC;
 
@@ -298,7 +298,7 @@ class ilContainerReference extends ilObject
      * Get presentation title
      * @return string presentation title
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         if ($this->getTitleType() == self::TITLE_TYPE_CUSTOM) {
             return $this->getTitle();
@@ -362,18 +362,10 @@ class ilContainerReference extends ilObject
      */
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
-        $ilDB = $this->db;
-        $ilUser = $this->user;
-        
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
-        
-        $query = "INSERT INTO container_reference (obj_id, target_obj_id, title_type) " .
-            "VALUES( " .
-            $ilDB->quote($new_obj->getId(), 'integer') . ", " .
-            $ilDB->quote($this->getTargetId(), 'integer') . ", " .
-            $ilDB->quote($this->getTitleType(), 'integer') . ' ' .
-            ")";
-        $ilDB->manipulate($query);
+        $new_obj->setTargetId($this->getTargetId());
+        $new_obj->setTitleType($this->getTitleType());
+        $new_obj->update();
         return $new_obj;
     }
 }

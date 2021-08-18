@@ -13,7 +13,7 @@ interface Listing extends Popover
     /**
      * Get the list items of this popover.
      *
-     * @return Item[]
+     * @return \ILIAS\UI\Component\Item\Item[]
      */
     public function getItems();
 }

@@ -1,12 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Import class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesExport
  */
 class ilImport
 {
@@ -34,7 +33,6 @@ class ilImport
      */
     public function __construct($a_target_id = 0)
     {
-        include_once("./Services/Export/classes/class.ilImportMapping.php");
         $this->mapping = new ilImportMapping();
         $this->mapping->setTargetId($a_target_id);
         $this->log = ilLoggerFactory::getLogger('exp');
@@ -256,7 +254,6 @@ class ilImport
     protected function doImportObject($dir, $a_type, $a_component = "", $a_tmpdir = "")
     {
         if ($a_component == "") {
-            include_once("./Services/Export/classes/class.ilImportExportFactory.php");
             $a_component = ilImportExportFactory::getComponentForExport($a_type);
         }
         $this->comp = $a_component;
@@ -265,9 +262,7 @@ class ilImport
         $success = true;
         
         // process manifest file
-        include_once("./Services/Export/classes/class.ilManifestParser.php");
         if (!is_file($dir . "/manifest.xml")) {
-            include_once("./Services/Export/exceptions/class.ilManifestFileNotFoundImportException.php");
             $mess = (DEVMODE)
                 ? 'Manifest file not found: "' . $dir . "/manifest.xml" . '".'
                 : 'Manifest file not found: "manifest.xml."';
@@ -282,7 +277,6 @@ class ilImport
 
         // check for correct type
         if ($parser->getMainEntity() != $a_type) {
-            include_once("./Services/Export/exceptions/class.ilImportObjectTypeMismatchException.php");
             $e = new ilImportObjectTypeMismatchException("Object type does not match. Import file has type '" . $parser->getMainEntity() . "' but import being processed for '" . $a_type . "'.");
             throw $e;
         }
@@ -290,8 +284,6 @@ class ilImport
         // process export files
         $expfiles = $parser->getExportFiles();
         
-        include_once("./Services/Export/classes/class.ilExportFileParser.php");
-        include_once("./Services/Export/classes/class.ilImportExportFactory.php");
         $all_importers = array();
         foreach ($expfiles as $expfile) {
             $comp = $expfile["component"];

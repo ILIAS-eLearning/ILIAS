@@ -1,37 +1,16 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Survey execution graphical output
-*
-* The ilSurveyExecutionGUI class creates the execution output for the ilObjSurveyGUI
-* class. This saves some heap space because the ilObjSurveyGUI class will be
-* smaller.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @ingroup ModulesSurvey
-*/
+ * Survey execution graphical output
+ *
+ * The ilSurveyExecutionGUI class creates the execution output for the ilObjSurveyGUI
+ * class. This saves some heap space because the ilObjSurveyGUI class will be
+ * smaller.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilSurveyExecutionGUI
 {
     /**
@@ -541,7 +520,7 @@ class ilSurveyExecutionGUI
                 $show_title = ($this->object->getShowQuestionTitles() && !$data["compressed_first"]);
                 $question_output = $question_gui->getWorkingForm($working_data, $show_title, $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId(), $compress_view);
                 if ($data["compressed"]) {
-                    $question_output = '<div class="il-svy-qst-compressed">'.$question_output.'</div>';
+                    $question_output = '<div class="il-svy-qst-compressed">' . $question_output . '</div>';
                 }
                 $stpl->setVariable("QUESTION_OUTPUT", $question_output);
                 $this->ctrl->setParameter($this, "qid", $data["question_id"]);
@@ -755,7 +734,6 @@ class ilSurveyExecutionGUI
 
                 if ($ilUser->getId() == ANONYMOUS_USER_ID ||
                     !$ilUser->getEmail()) {
-                    require_once "Services/Form/classes/class.ilTextInputGUI.php";
                     $mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
                     $mail->setSize(25);
                     $ilToolbar->addInputItem($mail, true);

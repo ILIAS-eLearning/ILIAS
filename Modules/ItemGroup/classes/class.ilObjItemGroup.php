@@ -1,12 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Object/classes/class.ilObject2.php";
-require_once "Services/Object/classes/class.ilObjectActivation.php";
-
-include_once("./Modules/ItemGroup/classes/class.ilItemGroupAR.php");
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjItemGroup
@@ -180,7 +174,6 @@ class ilObjItemGroup extends ilObject2
         
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
-        include_once('./Modules/ItemGroup/classes/class.ilItemGroupItems.php');
         $ig_items = new ilItemGroupItems($a_target_id);
         $ig_items->cloneItems($this->getRefId(), $a_copy_id);
 
@@ -200,8 +193,7 @@ class ilObjItemGroup extends ilObject2
         $ilLog = $DIC["ilLog"];
         
         $ilLog->write(__METHOD__ . ': Fix item group references in ' . $a_source_container->getType());
-        
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
                 
@@ -209,14 +201,11 @@ class ilObjItemGroup extends ilObject2
         $ilLog->write(__METHOD__ . ': 2-' . $new_container_ref_id . '-');
         $new_container_obj_id = ilObject::_lookupObjId($new_container_ref_id);
         
-        include_once("./Services/COPage/classes/class.ilPageObject.php");
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
         $ilLog->write(__METHOD__ . ': 3' . $new_container_obj_id . '-');
         if (ilPageObject::_exists("cont", $new_container_obj_id)) {
             $ilLog->write(__METHOD__ . ': 4');
             $new_page = new ilContainerPage($new_container_obj_id);
             $new_page->buildDom();
-            include_once("./Services/COPage/classes/class.ilPCResources.php");
             ilPCResources::modifyItemGroupRefIdsByMapping($new_page, $mappings);
             $new_page->update();
         }

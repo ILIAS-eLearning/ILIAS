@@ -54,7 +54,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
     }
 
 
-    public function store()
+    public function store() : void
     {
         if (self::where(array('ref_id' => $this->getRefId()))->hasSets()) {
             $this->update();
@@ -87,7 +87,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
             $res = $ilDB->queryF("SELECT " . $ilDB->groupConcat("path", $separator) . " AS orgus FROM orgu_usr_assignements WHERE user_id = %s GROUP BY user_id;", array('integer'), array($user_id));
             $dat = $ilDB->fetchObject($res);
 
-            return $dat->orgus ? $dat->orgus : '-';
+            return (isset($dat->orgus) && $dat->orgus) ? $dat->orgus : '-';
         } else {
             $array_of_org_ids = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);
 
@@ -244,7 +244,7 @@ class ilOrgUnitPathStorage extends ActiveRecord
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\String;
@@ -7,12 +8,9 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class HasMinLength extends CustomConstraint implements Constraint
+class HasMinLength extends CustomConstraint
 {
-    /**
-     * @var int
-     */
-    protected $min_length;
+    protected int $min_length;
 
     public function __construct(int $min_length, Data\Factory $data_factory, \ilLanguage $lng)
     {

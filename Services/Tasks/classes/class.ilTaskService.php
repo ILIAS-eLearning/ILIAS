@@ -1,29 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Task service
  *
- * @author killing@leifos.de
- * @ingroup ServiceTasks
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaskService
 {
-    /**
-     * @var ilTaskServiceDependencies
-     */
-    protected $_deps;
+    protected \ilTaskServiceDependencies $_deps;
 
     /**
      * This constructor contains all evil dependencies, that should e.g. be replaced for testing.
      * ilDerivedTaskProviderFactory[] is such a dependency, because it collects all "consumers" of the
      * derived task service.
      *
-     * @param ilObjUser $user
-     * @param ilLanguage $lng
-     * @param \ILIAS\DI\UIServices $ui
-     * @param ilAccessHandler $access
      * @param ilDerivedTaskProviderFactory[] $derived_task_provider_factories
      */
     public function __construct(
@@ -41,8 +33,6 @@ class ilTaskService
      * Get dependencies
      *
      * This function is not part of the API and for internal use only.
-     *
-     * @return ilTaskServiceDependencies
      */
     public function getDependencies() : ilTaskServiceDependencies
     {
@@ -56,7 +46,7 @@ class ilTaskService
      *
      * @return ilDerivedTaskService
      */
-    public function derived()
+    public function derived() : \ilDerivedTaskService
     {
         return new ilDerivedTaskService($this);
     }

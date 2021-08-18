@@ -63,6 +63,10 @@ class Pagination implements PaginationInterface
      */
     protected $dropdown_label;
 
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {

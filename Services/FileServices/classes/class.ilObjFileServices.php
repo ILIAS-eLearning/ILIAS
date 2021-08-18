@@ -20,7 +20,7 @@ class ilObjFileServices extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->lng->txt("file_services");
     }
@@ -28,7 +28,7 @@ class ilObjFileServices extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         return $this->lng->txt("file_services_description");
     }

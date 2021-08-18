@@ -203,39 +203,31 @@ class ilColorPickerInputGUI extends ilTextInputGUI
     */
     public function insert($a_tpl)
     {
-        include_once('./Services/YUI/classes/class.ilYuiUtil.php');
-        
-        ilYuiUtil::initColorPicker();
-        
-        
-        $a_tpl->setCurrentBlock("prop_color");
-
-        $js_tpl = new ilTemplate('tpl.color_picker.js', true, true, 'Services/Form');
-        $js_tpl->setVariable('THUMB_PATH', ilUtil::getImagePath('color_picker_thumb.png', 'Services/Form'));
-        $js_tpl->setVariable('HUE_THUMB_PATH', ilUtil::getImagePath('color_picker_hue_thumb.png', 'Services/Form'));
-        $js_tpl->setVariable('COLOR_ID', $this->getFieldId());
+        $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'Services/Form');
+        $tpl->setVariable('COLOR_ID', $this->getFieldId());
         $ic = ilColorPickerInputGUI::determineHexcode($this->getHexcode());
         if ($ic == "") {
             $ic = "FFFFFF";
         }
-        $js_tpl->setVariable('INIT_COLOR_SHORT', $ic);
-        $js_tpl->setVariable('INIT_COLOR', '#' . $this->getHexcode());
-        $js_tpl->setVariable('POST_VAR', $this->getPostVar());
-        
+        $tpl->setVariable('INIT_COLOR_SHORT', $ic);
+        $tpl->setVariable('POST_VAR', $this->getPostVar());
         
         if ($this->getDisabled()) {
             $a_tpl->setVariable('COLOR_DISABLED', 'disabled="disabled"');
-        } else {
-            $a_tpl->setVariable('PROP_COLOR_JS', $js_tpl->get());
         }
-        $a_tpl->setVariable("POST_VAR", $this->getPostVar());
-        $a_tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
+
+        $tpl->setVariable("POST_VAR", $this->getPostVar());
+        $tpl->setVariable("PROP_COLOR_ID", $this->getFieldId());
 
         if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors()) {
-            $a_tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput(trim($this->getValue())));
+            $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput(trim($this->getValue())));
         } else {
-            $a_tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput($this->getHexcode()));
+            $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput($this->getHexcode()));
+            $tpl->setVariable('INIT_COLOR', '#' . $this->getHexcode());
         }
+
+        $a_tpl->setCurrentBlock("prop_generic");
+        $a_tpl->setVariable("PROP_GENERIC", $tpl->get());
         $a_tpl->parseCurrentBlock();
     }
 }

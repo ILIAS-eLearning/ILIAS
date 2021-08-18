@@ -255,7 +255,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         $reached_points,
                         $maxPointsByQuestionId[$qst_id],
                         $pass,
-                        1,
+                        true,
                         $this->object->areObligationsEnabled()
                     );
                 }
@@ -291,9 +291,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             ilUtil::sendSuccess($msg, true);
 
+            /* disabled for Mantis 25850
             $scorer = new ilTestScoring($this->object);
             $scorer->setPreserveManualScores(true);
             $scorer->recalculateSolutions();
+            */
 
             if (isset($active_id)) {
                 $scorer->recalculateSolution($active_id, $pass);
@@ -316,7 +318,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             if (!$correction_feedback['feedback']) {
                 $correction_feedback['feedback'] = [];
             }
-
+            if($correction_feedback['finalized_evaluation'] == 1) {
+                $correction_feedback['finalized_evaluation'] = $this->lng->txt('yes');
+            } else {
+                $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
+            }
             echo json_encode([ 'feedback' => $correction_feedback, 'points' => $correction_points, "translation" => ['yes' => $this->lng->txt('yes'), 'no' => $this->lng->txt('no')]]);
             exit();
         } else {

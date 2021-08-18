@@ -116,7 +116,6 @@ class ilObjCourseGroupingGUI
         }
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("crs_grouping_delete_sure"));

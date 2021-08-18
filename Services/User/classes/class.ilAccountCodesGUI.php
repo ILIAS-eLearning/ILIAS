@@ -214,7 +214,6 @@ class ilAccountCodesGUI
             $ilErr->raiseError($lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
     
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $gui = new ilConfirmationGUI();
         $gui->setHeaderText($lng->txt("info_delete_sure"));
         $gui->setCancel($lng->txt("cancel"), "listCodes");

@@ -94,7 +94,7 @@ class ilStudyProgrammeDashboardViewGUI
             $current_prg_settings = $current_prg->getRawSettings();
 
             /** @var ilStudyProgrammeUserProgress $current_progress */
-            $current_progress = $current->getRootProgress();
+            $current_progress = $current_prg->getProgressForAssignment($current->getId());
 
             list($valid, $validation_date) = $this->findValidationValues($assignments);
 
@@ -224,7 +224,7 @@ class ilStudyProgrammeDashboardViewGUI
         return $ret;
     }
 
-    protected function fillRestartFrom(DateTime $value = null) : array
+    protected function fillRestartFrom(DateTimeImmutable $value = null) : array
     {
         $ret = [];
         if (!is_null($value)) {
@@ -349,7 +349,9 @@ class ilStudyProgrammeDashboardViewGUI
         ];
         /** @var ilStudyProgrammeAssignment $assignment */
         foreach ($assignments as $key => $assignment) {
-            $progress = $assignment->getRootProgress();
+            $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+            $progress = $prg->getProgressForAssignment($assignment->getId());
+            
             if (in_array($progress->getStatus(), $status)) {
                 return $progress->getValidityOfQualification();
             }
@@ -362,7 +364,7 @@ class ilStudyProgrammeDashboardViewGUI
         array $properties
     ) : ILIAS\UI\Component\Item\Item {
         $title = $prg->getTitle();
-        $link = $this->getInfoLink((int) $prg->getRefId());
+        $link = $this->getDefaultTargetUrl((int) $prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
 
         $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
@@ -373,23 +375,21 @@ class ilStudyProgrammeDashboardViewGUI
         ;
     }
 
-    protected function getInfoLink(int $prg_ref_id) : string
+    protected function getDefaultTargetUrl(int $prg_ref_id) : string
     {
         $this->ctrl->setParameterByClass(
-            'ilinfoscreengui',
+            ilObjStudyProgrammeGUI::class,
             'ref_id',
             $prg_ref_id
         );
         $link = $this->ctrl->getLinkTargetByClass(
             [
-                'ilrepositorygui',
-                'ilobjstudyprogrammegui',
-                'ilinfoscreengui'
-            ],
-            'showSummary'
+                ilRepositoryGUI::class,
+                ilObjStudyProgrammeGUI::class,
+            ]
         );
         $this->ctrl->setParameterByClass(
-            'ilinfoscreengui',
+            ilObjStudyProgrammeGUI::class,
             'ref_id',
             null
         );

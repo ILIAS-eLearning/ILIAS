@@ -1,16 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Export User Interface Class
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-* @ingroup	ServicesExport
-*
-* @ilCtrl_Calls ilExportGUI:
-*/
+ * Export User Interface Class
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ *
+ * @ilCtrl_Calls ilExportGUI:
+ */
 class ilExportGUI
 {
     protected $formats = array();
@@ -47,7 +45,6 @@ class ilExportGUI
      */
     protected function buildExportTableGUI()
     {
-        include_once("./Services/Export/classes/class.ilExportTableGUI.php");
         $table = new ilExportTableGUI($this, "listExportFiles", $this->obj);
         return $table;
     }
@@ -200,7 +197,6 @@ class ilExportGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
         $button = ilSubmitButton::getInstance();
         
         // creation buttons
@@ -210,7 +206,6 @@ class ilExportGUI
             foreach ($this->getFormats() as $f) {
                 $options[$f["key"]] = $f["txt"];
             }
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
             $si = new ilSelectInputGUI($lng->txt("type"), "format");
             $si->setOptions($options);
             $ilToolbar->addInputItem($si, true);
@@ -263,7 +258,6 @@ class ilExportGUI
                 } elseif ($this->getParentGUI() instanceof ilContainerGUI) {
                     return $this->showItemSelection();
                 } elseif ($format == "xml") {		// standard procedure
-                    include_once("./Services/Export/classes/class.ilExport.php");
                     $exp = new ilExport();
                     $exp->exportObject($this->obj->getType(), $this->obj->getId());
                 }
@@ -289,7 +283,6 @@ class ilExportGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listExportFiles");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("exp_really_delete"));
@@ -324,7 +317,6 @@ class ilExportGUI
             
             $file[1] = basename($file[1]);
             
-            include_once("./Services/Export/classes/class.ilExport.php");
             $export_dir = ilExport::_getExportDirectory(
                 $this->obj->getId(),
                 str_replace("..", "", $file[0]),
@@ -341,7 +333,6 @@ class ilExportGUI
             }
             
             // delete entry in database
-            include_once './Services/Export/classes/class.ilExportFileInfo.php';
             $info = new ilExportFileInfo($this->obj->getId(), $file[0], $file[1]);
             $info->delete();
         }
@@ -364,7 +355,6 @@ class ilExportGUI
         }
 
         $file = explode(":", trim($_GET["file"]));
-        include_once("./Services/Export/classes/class.ilExport.php");
         $export_dir = ilExport::_getExportDirectory(
             $this->obj->getId(),
             str_replace("..", "", $file[0]),
@@ -412,7 +402,6 @@ class ilExportGUI
         $tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
         $tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
-        include_once './Services/Export/classes/class.ilExportSelectionTableGUI.php';
         $table = new ilExportSelectionTableGUI($this, 'listExportFiles');
         $table->parseContainer($this->getParentGUI()->object->getRefId());
         $this->tpl->setContent($table->getHTML());
@@ -432,7 +421,6 @@ class ilExportGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        include_once './Services/Export/classes/class.ilExportOptions.php';
         $eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
         $eo->addOption(ilExportOptions::KEY_ROOT, 0, 0, $this->obj->getId());
 
@@ -488,7 +476,6 @@ class ilExportGUI
             }
         }
         
-        include_once("./Services/Export/classes/class.ilExport.php");
         if ($items_selected) {
             // TODO: move this to background soap
             $eo->read();
@@ -501,7 +488,6 @@ class ilExportGUI
             // Fixme: there is a naming conflict between the container settings xml and the container subitem xml.
             sleep(1);
             // Export container
-            include_once './Services/Export/classes/class.ilExportContainer.php';
             $cexp = new ilExportContainer($eo);
             $cexp->exportObject($this->obj->getType(), $this->obj->getId());
         } else {

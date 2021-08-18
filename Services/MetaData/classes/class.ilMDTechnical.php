@@ -47,13 +47,13 @@ class ilMDTechnical extends ilMDBase
     }
 
     // Methods for child objects (Format, Location, Requirement OrComposite)
-    public function &getFormatIds()
+    public function getFormatIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
         return ilMDFormat::_getIds($this->getRBACId(), $this->getObjId());
     }
-    public function &getFormat($a_format_id)
+    public function getFormat($a_format_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
@@ -65,7 +65,7 @@ class ilMDTechnical extends ilMDBase
 
         return $for;
     }
-    public function &addFormat()
+    public function addFormat()
     {
         include_once 'Services/MetaData/classes/class.ilMDFormat.php';
 
@@ -73,13 +73,13 @@ class ilMDTechnical extends ilMDBase
 
         return $for;
     }
-    public function &getLocationIds()
+    public function getLocationIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
         return ilMDLocation::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function &getLocation($a_location_id)
+    public function getLocation($a_location_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
@@ -91,7 +91,7 @@ class ilMDTechnical extends ilMDBase
 
         return $loc;
     }
-    public function &addLocation()
+    public function addLocation()
     {
         include_once 'Services/MetaData/classes/class.ilMDLocation.php';
 
@@ -101,13 +101,13 @@ class ilMDTechnical extends ilMDBase
 
         return $loc;
     }
-    public function &getRequirementIds()
+    public function getRequirementIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
         return ilMDRequirement::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function &getRequirement($a_requirement_id)
+    public function getRequirement($a_requirement_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -119,7 +119,7 @@ class ilMDTechnical extends ilMDBase
         
         return $rec;
     }
-    public function &addRequirement()
+    public function addRequirement()
     {
         include_once 'Services/MetaData/classes/class.ilMDRequirement.php';
 
@@ -129,13 +129,13 @@ class ilMDTechnical extends ilMDBase
 
         return $rec;
     }
-    public function &getOrCompositeIds()
+    public function getOrCompositeIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
         return ilMDOrComposite::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
-    public function &getOrComposite($a_or_composite_id)
+    public function getOrComposite($a_or_composite_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
@@ -149,7 +149,7 @@ class ilMDTechnical extends ilMDBase
 
         return $orc;
     }
-    public function &addOrComposite()
+    public function addOrComposite()
     {
         include_once 'Services/MetaData/classes/class.ilMDOrComposite.php';
 
@@ -177,13 +177,13 @@ class ilMDTechnical extends ilMDBase
     {
         return $this->installation_remarks;
     }
-    public function setInstallationRemarksLanguage(&$lng_obj)
+    public function setInstallationRemarksLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->installation_remarks_language = &$lng_obj;
+            $this->installation_remarks_language = $lng_obj;
         }
     }
-    public function &getInstallationRemarksLanguage()
+    public function getInstallationRemarksLanguage()
     {
         return is_object($this->installation_remarks_language) ? $this->installation_remarks_language : false;
     }
@@ -199,13 +199,13 @@ class ilMDTechnical extends ilMDBase
     {
         return $this->other_platform_requirements;
     }
-    public function setOtherPlatformRequirementsLanguage(&$lng_obj)
+    public function setOtherPlatformRequirementsLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->other_platform_requirements_language = &$lng_obj;
         }
     }
-    public function &getOtherPlatformRequirementsLanguage()
+    public function getOtherPlatformRequirementsLanguage()
     {
         return is_object($this->other_platform_requirements_language) ? $this->other_platform_requirements_language : false;
     }
@@ -342,7 +342,7 @@ class ilMDTechnical extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Technical');
 

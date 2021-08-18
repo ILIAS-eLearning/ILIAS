@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Search/classes/class.ilRepositoryObjectSearchResultTableGUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki search result table
  *
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- *
- * @package ModulesWiki
  */
 class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableGUI
 {
@@ -24,7 +19,6 @@ class ilObjWikiSearchResultTableGUI extends ilRepositoryObjectSearchResultTableG
         $rows = array();
         foreach ($this->getResults()->getResults() as $result_set) {
             $row = array();
-            include_once './Modules/Wiki/classes/class.ilWikiPage.php';
             $row['title'] = ilWikiPage::lookupTitle($result_set['item_id']);
             
             $ilCtrl->setParameterByClass(

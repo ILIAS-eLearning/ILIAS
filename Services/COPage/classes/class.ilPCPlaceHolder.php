@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPlaceHolder
-*
-* List content object (see ILIAS DTD)
-*
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
-
+ * Class ilPlaceHolder
+ *
+ * List content object (see ILIAS DTD)
+ */
 class ilPCPlaceHolder extends ilPageContent
 {
     /**
@@ -57,10 +50,10 @@ class ilPCPlaceHolder extends ilPageContent
     /**
     * Create PlaceHolder Element
     */
-    public function create(&$a_pg_obj, $a_hier_id)
+    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
     {
         $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->q_node = $this->dom->create_element("PlaceHolder");
         $this->q_node = $this->node->append_child($this->q_node);
     }
@@ -191,5 +184,16 @@ class ilPCPlaceHolder extends ilPageContent
             }
         }
         return $a_html;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModel()
+    {
+        $model = new \stdClass();
+        $model->contentClass = $this->getContentClass();
+        ;
+        return $model;
     }
 }

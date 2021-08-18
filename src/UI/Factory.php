@@ -294,8 +294,9 @@ interface Factory
      *           The focus MAY leave the Dropdown if tab is pressed while focusing the last
      *           element. This differs from the behaviour in Popovers and Modals.
      *      8: >
-     *           Dropdowns MUST set the aria-label describing the contained options, if the
-     *           term "Actions" does not describe the contained options well.
+     *           If the description of the contained options are not already given by the component containing the
+     *           dropdown or the button triggering it, then it MUST be set with the aria-label.
+     *           If the aria-label is just the title of the corresponding button, it MUST be omitted.
      * ---
      * @return  \ILIAS\UI\Component\Dropdown\Factory
      */
@@ -762,6 +763,16 @@ interface Factory
      *     2: >
      *       A Tree SHOULD NOT mix different kind of nodes, i.e.
      *       all nodes in the same Tree SHOULD be identical in structure.
+     *   accessibility:
+     *     1: All tree nodes are contained in or owned by an element with role "tree".
+     *     2: Each element serving as a tree node has role "treeitem".
+     *     3: Each root node is contained in the element with role "tree".
+     *     4: >
+     *       Each parent node contains an an element with role "group" that contains
+     *       the subnodes of that parent.
+     *     5: >
+     *       Each parent node uses "aria-expanded" (with values "true" or "false") to
+     *       indicate if it is expanded or not.
      *
      * ---
      * @return \ILIAS\UI\Component\Tree\Factory

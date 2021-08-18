@@ -37,7 +37,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -108,9 +108,9 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             $pcids
         );
 
-        $page->cutContents($hids);
+        $updated = $page->cutContents($hids);
 
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
 
     /**
@@ -123,9 +123,9 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
 
-        $page->pasteContents($this->getIdForPCId($target_pcid));
+        $updated = $page->pasteContents($this->getIdForPCId($target_pcid));
 
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
 
     /**
@@ -147,7 +147,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
         $page->copyContents($hids);
 
-        return $this->sendPage();
+        return $this->sendPage(true);
     }
 
     /**
@@ -170,7 +170,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         );
 
         $updated = $page->assignCharacteristic($hids, $par, $sec);
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
 
     /**
@@ -196,7 +196,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             $this->page_gui->getPageConfig()->getEnableSelfAssessment()
         );
 
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
 
     /**
@@ -222,18 +222,18 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $source = explode(":", $source);
         $target = explode(":", $target);
 
-        $page->moveContentAfter($source[0], $target[0], $source[1], $target[1]);
+        $updated = $page->moveContentAfter($source[0], $target[0], $source[1], $target[1]);
 
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
 
     /**
      * Send whole page as response
      * @return Server\Response
      */
-    protected function sendPage() : Server\Response
+    protected function sendPage($updated) : Server\Response
     {
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     /**
@@ -247,7 +247,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $id = "pg:";
         if (!in_array($pcid, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pcid]);
-            $id = $hier_ids[$pcid].":".$pcid;
+            $id = $hier_ids[$pcid] . ":" . $pcid;
         }
         return $id;
     }
@@ -279,7 +279,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $page = $this->page_gui->getPageObject();
 
         $hier_ids = $page->getHierIdsForPCIds([$body["data"]["pcid"]]);
-        $pcid = $hier_ids[$body["data"]["pcid"]].":".$body["data"]["pcid"];
+        $pcid = $hier_ids[$body["data"]["pcid"]] . ":" . $body["data"]["pcid"];
 
         $content = "<div id='" .
             $pcid . "' class='ilc_text_block_" .
@@ -324,7 +324,6 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         );
 
 
-        return $this->sendPage();
+        return $this->sendPage($updated);
     }
-
 }

@@ -169,7 +169,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $fields["enable_learning_history"] = $f->input()->field()->checkbox(
             $lng->txt("lhist_enable_learning_history"),
             $lng->txt("lhist_enable_learning_history_info")
-            )
+        )
             ->withValue((bool) $setting->get("enable_learning_history"));
 
         // section

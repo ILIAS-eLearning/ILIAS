@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Modules/Wiki/classes/class.ilWikiStat.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki statistics GUI class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ModulesWiki
  */
 class ilWikiStatGUI
 {
@@ -71,8 +67,7 @@ class ilWikiStatGUI
         $current_figure = (int) $_POST["fig"];
         $current_time_frame = (string) $_POST["tfr"];
         $current_scope = (int) $_POST["scp"];
-        
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
         $view = new ilSelectInputGUI($lng->txt("wiki_stat_figure"), "fig");
         $view->setOptions($this->page_id
                 ? ilWikiStat::getFigureOptionsPage()
@@ -88,7 +83,6 @@ class ilWikiStatGUI
         $ilToolbar->addInputItem($view, true);
                         
         $options = array();
-        include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
         $lng->loadLanguageModule("dateplaner");
         foreach (ilWikiStat::getAvailableMonths($this->wiki_id) as $month) {
             $parts = explode("-", $month);
@@ -165,8 +159,7 @@ class ilWikiStatGUI
                 $filename .= " - " . ilWikiPage::lookupTitle($this->page_id);
             }
             $filename .= " - " . ilWikiStat::getFigureTitle($params["figure"]) . " - " . $period;
-            
-            include_once "./Services/Excel/classes/class.ilExcel.php";
+
             $excel = new ilExcel();
             $excel->addSheet($this->lng->txt("statistics"));
             
@@ -209,7 +202,6 @@ class ilWikiStatGUI
             
             $vtpl = new ilTemplate("tpl.wiki_stat_list.html", true, true, "Modules/Wiki");
 
-            include_once("./Services/UIComponent/Panel/classes/class.ilPanelGUI.php");
             $chart_panel = ilPanelGUI::getInstance();
 
             $vtpl->setVariable("CHART", $this->renderGraph($params["figure"], $chart_data));
@@ -284,8 +276,7 @@ class ilWikiStatGUI
     protected function renderGraph($a_figure, array $a_data)
     {
         $scope = ceil(sizeof($a_data) / 31);
-        
-        include_once "Services/Chart/classes/class.ilChartGrid.php";
+
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
         $chart->setSize("100%", 400);
         $chart->setColors(array("#C0E0FF"));

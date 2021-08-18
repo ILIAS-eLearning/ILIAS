@@ -1,26 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Forum listener. Listens to events of other components.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ModulesForum
-*/
+ * Forum listener. Listens to events of other components.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilTaggingAppEventListener
 {
     /**
     * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
-    {
-        include_once("./Services/Tagging/classes/class.ilTagging.php");
-        
+     * @param string $a_component   component, e.g. "Modules/Forum" or "Services/User"
+     * @param string $a_event       component, e.g. "Modules/Forum" or "Services/User"
+     * @param array  $a_parameter   parameter array (assoc), array("name" => ..., "phone_office" => ...)
+     */
+    public static function handleEvent(
+        string $a_component,
+        string $a_event,
+        array $a_parameter
+    ) : void {
         switch ($a_component) {
             case "Services/Object":
                 switch ($a_event) {

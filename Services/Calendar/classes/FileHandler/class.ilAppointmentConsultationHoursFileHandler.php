@@ -14,13 +14,10 @@ include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFil
 class ilAppointmentConsultationHoursFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
     /**
-     * Get files (for appointment)
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getFiles()
+    public function getFiles() : array
     {
-        return array();
+        return [];
     }
 }

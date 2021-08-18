@@ -108,35 +108,23 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }
- 
-        $mr = new \ilModuleReader("", "", "", $db);
-        $mr->clearTables();
-        $modules = \ilModule::getAvailableCoreModules();
 
-        foreach ($modules as $module) {
-            $mr = new ilModuleReader(
-                $ilias_path . "/Modules/" . $module["subdir"] . "/module.xml",
-                $module["subdir"],
-                "Modules",
-                $db
-            );
-            $mr->getModules();
-            unset($mr);
-        }
-
-        $sr = new \ilServiceReader("", "", "", $db);
-        $sr->clearTables();
-        $services = \ilService::getAvailableCoreServices();
-        foreach ($services as $service) {
-            $sr = new ilServiceReader(
-                $ilias_path . "/Services/" . $service["subdir"] . "/service.xml",
-                $service["subdir"],
-                "Services",
-                $db
-            );
-            $sr->getServices();
-            unset($sr);
-        }
+        $reader = new \ilComponentDefinitionReader(
+            new \ilBadgeDefinitionProcessor($db),
+            new \ilCOPageDefinitionProcessor($db),
+            new \ilComponentInfoDefinitionProcessor($db),
+            new \ilPluginSlotDefinitionProcessor($db),
+            new \ilCronDefinitionProcessor($db),
+            new \ilEventDefinitionProcessor($db),
+            new \ilLoggingDefinitionProcessor($db),
+            new \ilMailTemplateContextDefinitionProcessor($db),
+            new \ilObjectDefinitionProcessor($db),
+            new \ilPDFGenerationDefinitionProcessor($db),
+            new \ilSystemCheckDefinitionProcessor($db),
+            new \ilSecurePathDefinitionProcessor($db)
+        );
+        $reader->purge();
+        $reader->readComponentDefinitions();
 
         $GLOBALS["DIC"] = $DIC;
 

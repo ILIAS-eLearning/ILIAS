@@ -847,65 +847,6 @@ class ilObjSAHSLearningModule extends ilObject
     }
     
     /**
-    * update values for mastery_score / min_normalized_measure in database - not requested
-    */
-    /*
-    function updateMasteryScoreValues()
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $s_mastery_score = $this->getMasteryScore();
-        if ($s_mastery_score != "" && is_numeric($s_mastery_score)) {
-            $i_mastery_score = round(intval($s_mastery_score,10));
-            $type = $this->_lookupSubType( $this->getID() );
-
-            if ($type == "scorm2004") {
-                if ($i_mastery_score > 100) $i_mastery_score = 100;
-                $i_mastery_score = $i_mastery_score/100;
-                $statement = $ilDB->manipulateF(
-                    'UPDATE cp_objective,cp_node SET minnormalmeasure = %s
-                    WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND slm_id = %s',
-                    array('text','integer'),
-                    array($i_mastery_score,$this->getID())
-                );
-            } else {
-                if ($i_mastery_score > 127) $i_mastery_score = 127;
-                $statement = $ilDB->manipulateF(
-                    'UPDATE sc_item,scorm_object SET sc_item.masteryscore = %s
-                    WHERE sc_item.masteryscore is not null AND sc_item.obj_id=scorm_object.obj_id AND slm_id = %s',
-                    array('integer','integer'),
-                    array($i_mastery_score,$this->getID())
-                );
-            }
-        }
-    }
-    */
-    
-    /**
-    * update meta data only
-    */
-    /*
-        function updateMetaData()
-        {
-            $this->meta_data->update();
-            if ($this->meta_data->section != "General")
-            {
-                $meta = $this->meta_data->getElement("Title", "General");
-                $this->meta_data->setTitle($meta[0]["value"]);
-                $meta = $this->meta_data->getElement("Description", "General");
-                $this->meta_data->setDescription($meta[0]["value"]);
-            }
-            else
-            {
-                $this->setTitle($this->meta_data->getTitle());
-                $this->setDescription($this->meta_data->getDescription());
-            }
-            parent::update();
-
-        }
-    */
-
-    /**
     * get id_setting
     */
     public function getIdSetting()
@@ -1215,7 +1156,7 @@ class ilObjSAHSLearningModule extends ilObject
 					DELETE FROM aicc_units WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
-                    );
+                );
             }
             
             $res = $ilDB->queryF(
@@ -1234,7 +1175,7 @@ class ilObjSAHSLearningModule extends ilObject
 					DELETE FROM aicc_course WHERE obj_id = %s',
                     array('integer'),
                     array($obj_id)
-                    );
+                );
             }
 
             $ilDB->manipulateF(

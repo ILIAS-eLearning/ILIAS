@@ -4,40 +4,29 @@
 /**
  * Apache auth provider
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInterface, ilAuthProviderAccountMigrationInterface
 {
-    const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
-    const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
-    const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
+    public const APACHE_AUTH_TYPE_DIRECT_MAPPING = 1;
+    public const APACHE_AUTH_TYPE_EXTENDED_MAPPING = 2;
+    public const APACHE_AUTH_TYPE_BY_FUNCTION = 3;
 
-    private $settings = null;
+    private ilSetting $settings;
+    private string $migration_account = '';
+    private bool $force_new_account = false;
 
-    private $migration_account = '';
-    private $force_new_account = false;
-
-    /**
-     * Constructor
-     * @param ilAuthCredentials $credentials
-     */
     public function __construct(ilAuthCredentials $credentials)
     {
         parent::__construct($credentials);
         $this->settings = new ilSetting('apache_auth');
     }
 
-    /**
-     * Get setings
-     * @return ilSetting
-     */
     protected function getSettings() : ilSetting
     {
         return $this->settings;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function doAuthentication(ilAuthStatus $status)
     {
         if (!$this->getSettings()->get('apache_enable_auth')) {
@@ -71,7 +60,7 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
             return false;
         }
 
-        if (!strlen($this->getCredentials()->getUsername())) {
+        if ($this->getCredentials()->getUsername() === '') {
             $this->getLogger()->info('No username given');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
@@ -95,9 +84,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function migrateAccount(ilAuthStatus $status)
     {
         $this->force_new_account = true;
@@ -106,9 +92,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createNewAccount(ilAuthStatus $status)
     {
         $this->force_new_account = true;
@@ -117,33 +100,21 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getExternalAccountName()
     {
         return $this->migration_account;
     }
 
-    /**
-     * @param string $name
-     */
     public function setExternalAccountName(string $name) : void
     {
         $this->migration_account = $name;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTriggerAuthMode()
     {
         return AUTH_APACHE;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getUserAuthModeName()
     {
         if ($this->getSettings()->get('apache_ldap_sid')) {
@@ -153,9 +124,6 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
         return 'apache';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function handleLDAPDataSource(ilAuthStatus $status) : bool
     {
         $server = ilLDAPServer::getInstanceByServerId(
@@ -177,13 +145,15 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderInter
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;
+        } catch (ilLDAPSynchronisationFailedException $e) {
+            $this->handleAuthenticationFail($status, 'err_auth_ldap_failed');
+            return false;
         } catch (ilLDAPSynchronisationForbiddenException $e) {
             // No syncronisation allowed => create Error
             $this->getLogger()->info('Login failed with message: ' . $e->getMessage());
             $this->handleAuthenticationFail($status, 'err_auth_ldap_no_ilias_user');
             return false;
         } catch (ilLDAPAccountMigrationRequiredException $e) {
-            // Account migration required
             $this->setExternalAccountName($this->getCredentials()->getUsername());
             $this->getLogger()->info('Authentication failed: account migration required for external account: ' . $this->getCredentials()->getUsername());
             $status->setStatus(ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED);

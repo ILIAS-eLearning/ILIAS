@@ -69,7 +69,7 @@ class ilMMCustomItemStorage extends CachedActiveRecord
     /**
      * @var string
      */
-    protected $connector_container_name = "il_mm_custom_items";
+    protected string $connector_container_name = "il_mm_custom_items";
 
 
     /**

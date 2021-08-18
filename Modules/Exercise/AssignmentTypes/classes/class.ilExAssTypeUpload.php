@@ -1,18 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * File upload type
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssTypeUpload implements ilExAssignmentTypeInterface
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
     /**
      * Constructor
@@ -24,80 +21,55 @@ class ilExAssTypeUpload implements ilExAssignmentTypeInterface
         global $DIC;
 
         $this->lng = ($a_lng)
-            ? $a_lng
-            : $DIC->language();
+            ?: $DIC->language();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesTeams()
+    public function usesTeams() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesFileUpload()
+    public function usesFileUpload() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_upload");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSubmissionType()
+    public function getSubmissionType() : string
     {
         return ilExSubmission::TYPE_FILE;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isSubmissionAssignedToTeam()
+    public function isSubmissionAssignedToTeam() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
-    {
+    public function cloneSpecificProperties(
+        ilExAssignment $source,
+        ilExAssignment $target
+    ) : void {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function supportsWebDirAccess() : bool
     {
         return false;
     }
 
-    /**
-     *  @inheritdoc
-     */
     public function getStringIdentifier() : string
     {
         // TODO: Implement getSubmissionStringIdentifier() method.
+        return "";
     }
 }

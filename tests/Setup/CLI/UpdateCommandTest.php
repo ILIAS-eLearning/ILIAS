@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -12,12 +12,12 @@ use ILIAS\Data\Factory as DataFactory;
 
 class UpdateCommandTest extends TestCase
 {
-    public function testBasicFunctionality()
+    public function testBasicFunctionality() : void
     {
         $this->basicFunctionality(false);
     }
 
-    public function testBasicFunctionalityAlreadyAchieved()
+    public function testBasicFunctionalityAlreadyAchieved() : void
     {
         $this->basicFunctionality(true);
     }
@@ -50,6 +50,11 @@ class UpdateCommandTest extends TestCase
             ->method("getAgents")
             ->with()
             ->willReturn($agent);
+
+        $agent
+            ->expects($this->once())
+            ->method("hasConfig")
+            ->willReturn(true);
 
         $agent
             ->expects($this->once())

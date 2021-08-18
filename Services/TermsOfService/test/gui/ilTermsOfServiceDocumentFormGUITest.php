@@ -19,6 +19,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -119,6 +121,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormForNewDocumentsCanBeSavedForValidInput() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -246,6 +250,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                     ]
                 ];
             });
+        $documentConnector->method('affectedRows')->willReturn(1);
 
         $criterionConnector
             ->expects($this->once())
@@ -341,6 +346,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
     {
+        $this->initLangMock();
+
         $document = $this
             ->getMockBuilder(ilTermsOfServiceDocument::class)
             ->disableOriginalConstructor()
@@ -393,6 +400,8 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
      */
     public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
     {
+        $this->initLangMock();
+
         $expectedSorting = 10;
 
         $document = $this
@@ -446,6 +455,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         $this->setGlobalVariable('upload', $fu);
 
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector->method('affectedRows')->willReturn(0);
 
         arConnectorMap::register(new ilTermsOfServiceDocument(), $documentConnector);
         arConnectorMap::register($document, $documentConnector);

@@ -10,13 +10,7 @@ namespace ILIAS\ContentPage\GlobalSettings;
  */
 interface Storage
 {
-    /**
-     * @return Settings
-     */
     public function getSettings() : Settings;
 
-    /**
-     * @param Settings $settings
-     */
     public function store(Settings $settings) : void;
 }

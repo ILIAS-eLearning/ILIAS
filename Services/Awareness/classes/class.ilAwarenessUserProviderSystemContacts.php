@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * All system contacts listed
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
  */
 class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
 {
@@ -52,7 +48,6 @@ class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
      */
     public function getInitialUserSet()
     {
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
         return ilSystemSupportContacts::getValidSupportContactIds();
     }
 }

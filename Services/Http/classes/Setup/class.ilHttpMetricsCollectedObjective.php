@@ -16,25 +16,26 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 
     public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        if ($ini) {
+        $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        if ($ilias_ini) {
             $storage->storeConfigText(
                 "http_path",
-                $ini->readVariable("server", "http_path"),
+                $ilias_ini->readVariable("server", "http_path"),
                 "URL of the server."
             );
 
-            if ($ini->readVariable("https", "auto_https_detect_enabled")) {
+            if ($ilias_ini->readVariable("https", "auto_https_detect_enabled")) {
                 $header_name = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $ini->readVariable("https", "auto_https_detect_header_name"),
+                    $ilias_ini->readVariable("https", "auto_https_detect_header_name"),
                     "The name of the header used for https detection in requests."
                 );
                 $header_value = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $ini->readVariable("https", "auto_https_detect_header_value"),
+                    $ilias_ini->readVariable("https", "auto_https_detect_header_value"),
                     "The value in the named header that indicates usage of https in requests."
                 );
                 $https_metrics = new Setup\Metrics\Metric(

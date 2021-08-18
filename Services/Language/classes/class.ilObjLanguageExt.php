@@ -55,7 +55,7 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * @return   string       description
     */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         return $this->lng->txt($this->desc);
     }

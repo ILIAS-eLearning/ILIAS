@@ -1,27 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Feeds/classes/class.ilFeedItem.php");
-
-/** @defgroup ServicesFeeds Services/Feeds
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Feed writer class.
-*
-* how to make it "secure"
-* alternative 1:
-* - hash for all objects
-* - feature "mail me rss link"
-* - link includes ref id, user id, combined hash (kind of password)
-* - combined hash = hash(user hash + object hash)
-* - ilias checks whether ref id / user id / combined hash match
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesFeeds
-*/
+ * Feed writer class.
+ *
+ * how to make it "secure"
+ * alternative 1:
+ * - hash for all objects
+ * - feature "mail me rss link"
+ * - link includes ref id, user id, combined hash (kind of password)
+ * - combined hash = hash(user hash + object hash)
+ * - ilias checks whether ref id / user id / combined hash match
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilFeedWriter
 {
     /**
@@ -145,7 +138,6 @@ class ilFeedWriter
     */
     public function getFeed()
     {
-        include_once("./Services/UICore/classes/class.ilTemplate.php");
         $this->tpl = new ilTemplate("tpl.rss_2_0.xml", true, true, "Services/Feeds");
         
         $this->tpl->setVariable("XML", "xml");

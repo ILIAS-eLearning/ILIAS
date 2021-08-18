@@ -34,4 +34,14 @@ export default class ParagraphEditorActionFactory {
       pcid: pcid
     });
   }
+
+  /**
+   * @returns {EditorAction}
+   */
+  openClipboard(url, pcid) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.OPEN_CLIPBOARD, {
+      url: url,
+      pcid: pcid
+    });
+  }
 }

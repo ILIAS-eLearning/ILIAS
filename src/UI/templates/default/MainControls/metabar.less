@@ -2,15 +2,14 @@
 	display: flex;
     justify-content: space-between;
     align-items: center;
-	.il-metabar-entries {
-		align-items: center;
-		display: flex;
-		height: @il-standard-page-header-height;
-		.il-metabar-entry,
-		.il-logout {
-			padding-left: 10px;
-		}
+
+	list-style-type: none; /* Remove bullets */
+
+	// no display labels in metabar level 1
+	>li >.btn-bulky > .bulky-label {
+		display: none;
 	}
+
 	.glyphicon {
 		filter: invert(50%);
 		font-family: 'il-icons';
@@ -18,42 +17,37 @@
 		margin-right: @il-slate-bulky-glyph-margin-right;
 		position: relative;
 	}
+
 	.input-group {
 		display: block;
 	}
+
 	p {
 		padding: 0;
 	}
+
 	form#mm_search_form {
 		padding: 20px;
 	}
 
-	.bulky-label {
-		white-space: normal;
-		margin-top: @il-mainbar-bulky-label-margin-top;
-		display: block;
-	}
-}
-
-.il-metabar-entries {
 	.badge {
 		position: absolute;
 	}
+
 	.btn {
 		position: relative;
 	}
+
 	.il-counter-novelty {
 		margin-top: 0;
 		top: 17px;
 	}
+
 	.il-counter-status {
 		margin-top: 0;
 		top: 32px;
 	}
-	// no display labels in metabar level 1
-	> .btn-bulky > .bulky-label {
-		display: none;
-	}
+
 	.btn-bulky {
 		background-color: transparent;
 		height: @il-metabar-entry-height;
@@ -80,7 +74,19 @@
 		}
 	}
 
+	.bulky-label {
+		white-space: normal;
+		margin-top: @il-mainbar-bulky-label-margin-top;
+		display: block;
+	}
+
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		.il-counter-novelty {
+			top: 7px;
+		}
+		.il-counter-status {
+			top: 22px;
+		}
 
 		.il-metabar-more-button {
 			padding-right: 20px;
@@ -123,38 +129,7 @@
 		width: 100%;
 		top: @il-metabar-small-entry-height;
 		right: 0;
-	}
-	/*TODO: remove hack*/
-	.il-maincontrols-slate {
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			min-width: 260px;
-		}
-	}
-	/*end of hack*/
 
-	.il-maincontrols-slate-content {
-		// padding: 10px;
-	}
-}
-
-
-.il-header-locator {
-	display: none;
-}
-
-@media only screen and (max-width: @grid-float-breakpoint-max) {
-	.il-header-locator {
-		display: block;
-	}
-	.il-metabar-entries {
-		.il-counter-novelty {
-			top: 7px;
-		}
-		.il-counter-status {
-			top: 22px;
-		}
-	}
-	.il-metabar-slates {
 		.glyphicon {
 			color: @il-metabar-glyph-color;
 			font-size: @il-metabar-small-glyph-size;
@@ -170,17 +145,21 @@
 		.il-counter-spacer {
 			margin-left: -18px;
 		}
-	}
-	.il-metabar-more-slate{
-		.btn-bulky:after {
-			content: "\e606";
 
-			font-family: "il-icons";
-			font-size: @il-slate-bulky-glyph-size * 0.85;
-			position: absolute;
-			right: 10px;
-			top: 20px;
+		.il-metabar-more-slate{
+			.btn-bulky:after {
+				content: "\e606";
+
+				font-family: "il-icons";
+				font-size: @il-slate-bulky-glyph-size * 0.85;
+				position: absolute;
+				right: 10px;
+				top: 20px;
+			}
+		}
+
+		.il-maincontrols-slate {
+			min-width: 260px;
 		}
 	}
 }
-/*end of hack*/

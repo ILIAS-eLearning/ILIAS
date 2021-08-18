@@ -182,7 +182,7 @@ class ilUserUtil
             "SELECT value FROM usr_pref " .
             " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " and keyword = " . $ilDB->quote("public_profile", "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         return in_array($rec["value"], array("y", "g"));
@@ -227,7 +227,7 @@ class ilUserUtil
         
         $all = array();
         
-        $all[self::START_PD_OVERVIEW] = 'overview';
+        $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
         
         if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
             $ilSetting->get('disable_my_memberships') == 0)) {
@@ -239,7 +239,7 @@ class ilUserUtil
         }
     
         if ($a_force_all || !$ilSetting->get("disable_personal_workspace")) {
-            $all[self::START_PD_WORKSPACE] = 'personal_workspace';
+            $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
 
         include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
@@ -248,7 +248,7 @@ class ilUserUtil
             $all[self::START_PD_CALENDAR] = 'calendar';
         }
 
-        $all[self::START_REPOSITORY] = 'repository';
+        $all[self::START_REPOSITORY] = 'obj_root';
         
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);
@@ -284,7 +284,7 @@ class ilUserUtil
         $valid = array_keys(self::getPossibleStartingPoints());
         if (in_array($a_value, $valid)) {
             $ilSetting->set("usr_starting_point", $a_value);
-            if($a_value == self::START_PD_CALENDAR) {
+            if ($a_value == self::START_PD_CALENDAR) {
                 foreach ($a_cal_view as $key => $value) {
                     $ilSetting->set($key, $value);
                 }
@@ -396,7 +396,7 @@ class ilUserUtil
         }
 
         $calendar_string = "";
-        if(!empty($cal_view) && !empty($cal_period)) {
+        if (!empty($cal_view) && !empty($cal_period)) {
             $calendar_string = "&cal_view=" . $cal_view . "&cal_agenda_per=" . $cal_period;
         }
 
@@ -422,7 +422,7 @@ class ilUserUtil
                     self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSelectedItems',
                     self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilMembershipOverviewGUI',
                     self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace',
-                    self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar'. $calendar_string,
+                    self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar' . $calendar_string,
                     self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilDashboardGUI::class . '&cmd=' . ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
                 );
                 return $map[$current];

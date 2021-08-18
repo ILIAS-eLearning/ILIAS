@@ -1,55 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaText
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaText extends ilExcCriteria
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-        parent::__construct();
-
-        $this->lng = $DIC->language();
-    }
-
-    public function getType()
+    public function getType() : string
     {
         return "text";
     }
     
-    public function setMinChars($a_value)
+    public function setMinChars(int $a_value) : void
     {
-        $this->setDefinition(array("chars" => (int) $a_value));
+        $this->setDefinition(array("chars" => $a_value));
     }
-    
-    public function getMinChars()
+
+    public function getMinChars() : int
     {
         $def = $this->getDefinition();
         if (is_array($def)) {
-            return $def["chars"];
+            return (int) $def["chars"];
         }
+
+        return 0;
     }
     
     //
     // ASSIGNMENT EDITOR
     //
     
-    public function initCustomForm(ilPropertyFormGUI $a_form)
+    public function initCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $lng = $this->lng;
         
@@ -63,7 +48,7 @@ class ilExcCriteriaText extends ilExcCriteria
         $peer_char_tgl->addSubItem($peer_char);
     }
     
-    public function exportCustomForm(ilPropertyFormGUI $a_form)
+    public function exportCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $min = $this->getMinChars();
         if ($min) {
@@ -72,7 +57,7 @@ class ilExcCriteriaText extends ilExcCriteria
         }
     }
     
-    public function importCustomForm(ilPropertyFormGUI $a_form)
+    public function importCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->setDefinition(null);
         
@@ -84,7 +69,7 @@ class ilExcCriteriaText extends ilExcCriteria
     
     // PEER REVIEW
     
-    public function addToPeerReviewForm($a_value = null)
+    public function addToPeerReviewForm($a_value = null) : void
     {
         $lng = $this->lng;
         
@@ -106,12 +91,12 @@ class ilExcCriteriaText extends ilExcCriteria
         $this->form->addItem($input);
     }
      
-    public function importFromPeerReviewForm()
+    public function importFromPeerReviewForm() : string
     {
         return trim($this->form->getInput("prccc_text_" . $this->getId()));
     }
     
-    public function validate($a_value)
+    public function validate($a_value) : bool
     {
         $lng = $this->lng;
         
@@ -133,12 +118,12 @@ class ilExcCriteriaText extends ilExcCriteria
         return true;
     }
     
-    public function hasValue($a_value)
+    public function hasValue($a_value) : bool
     {
         return (bool) strlen($a_value);
     }
     
-    public function getHTML($a_value)
+    public function getHTML($a_value) : string
     {
         return nl2br($a_value);
     }

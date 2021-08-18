@@ -41,13 +41,13 @@ class ilMDTaxon extends ilMDBase
     {
         return $this->taxon;
     }
-    public function setTaxonLanguage(&$lng_obj)
+    public function setTaxonLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->taxon_language = $lng_obj;
         }
     }
-    public function &getTaxonLanguage()
+    public function getTaxonLanguage()
     {
         return is_object($this->taxon_language) ? $this->taxon_language : false;
     }
@@ -161,7 +161,7 @@ class ilMDTaxon extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $random = new \ilRandom();
         $writer->xmlElement(

@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de>, Fabian Schmid <fs@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -14,15 +13,8 @@ class DirectoryCreatedObjective implements Setup\Objective
 {
     const DEFAULT_DIRECTORY_PERMISSIONS = 0755;
 
-    /**
-     * @var string
-     */
-    protected $path;
-
-    /**
-     * @var int
-     */
-    protected $permissions;
+    protected string $path;
+    protected int $permissions;
 
     public function __construct(
         string $path,
@@ -54,7 +46,7 @@ class DirectoryCreatedObjective implements Setup\Objective
      */
     public function getLabel() : string
     {
-        return "Create directory '{$this->path}'";
+        return "Create directory '$this->path'";
     }
 
     /**
@@ -89,7 +81,7 @@ class DirectoryCreatedObjective implements Setup\Objective
 
         if (!is_dir($this->path)) {
             throw new Setup\UnachievableException(
-                "Could not create directory '{$this->path}'"
+                "Could not create directory '$this->path'"
             );
         }
         return $environment;

@@ -1,14 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Select files for file list
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCFileItemFileSelectorGUI extends ilRepositorySelectorExplorerGUI
 {

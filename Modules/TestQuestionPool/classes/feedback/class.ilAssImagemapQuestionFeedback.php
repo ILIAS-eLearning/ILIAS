@@ -22,13 +22,12 @@ class ilAssImagemapQuestionFeedback extends ilAssMultiOptionQuestionFeedback
      * @param mixed $answer
      * @return string $answerOptionLabel
      */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         $text = $this->lng->txt('region') . " " . ($index + 1);
         if (strlen($answer->getAnswertext())) {
             $text = $answer->getAnswertext() . ": " . $text;
         }
-        
         return $text;
     }
 }

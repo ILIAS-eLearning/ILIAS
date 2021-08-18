@@ -1,110 +1,87 @@
 /**
- * Wraps the BootstrapTagsInput
+ * Wraps the TagsInput
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
 (function ($) {
     il.UI.Input.tagInput = (function ($) {
-        /**
-         *
-         * @param raw_id
-         * @param config
-         */
-        var init = function (raw_id, config) {
-            var _DEBUG = false;
+        var instances = [];
+        var init = function (raw_id, config, value) {
             var _CONFIG = {};
-
-            var _ELEMENTS = {
-                hidden_template: null,
-                container: null
-            };
-
-            var _log = function (key, data) {
-                if (!_DEBUG) {
-                    return;
+            var _getSettings = function() {
+                return {
+                    whitelist: _CONFIG.options,
+                    enforceWhitelist: _CONFIG.extendable,
+                    duplicates: _CONFIG.allowDuplicates,
+                    maxTags: _CONFIG.maxItems,
+                    originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
+                    dropdown: {
+                        enabled: _CONFIG.dropdownSuggestionsStartAfter,
+                        maxItems: _CONFIG.dropdownMaxItems,
+                        closeOnSelect: _CONFIG.dropdownCloseOnSelect,
+                        highlightFirst: _CONFIG.highlight
+                    }
                 }
-                console.log("***********************");
-                console.log(key + ":");
-                console.log(data);
-            };
-
-
-            var _initBloodhound = function () {
-                var bloodHoundObj = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.whitespace,
-                    queryTokenizer: Bloodhound.tokenizers.whitespace,
-                    local: _CONFIG.options
-                });
-                bloodHoundObj.initialize();
-
-                return bloodHoundObj;
             };
 
             // Initialize ID and Configuration
-            var id = '#' + raw_id;
-            _CONFIG = $.extend(
-                _CONFIG
-                , config);
-            _DEBUG = _CONFIG.debug;
+            _CONFIG = $.extend(_CONFIG, config);
             _CONFIG.id = raw_id;
-            _log("config", _CONFIG);
 
-            // Elements
-            _ELEMENTS.hidden_template = $('#template-' + _CONFIG.id);
-            _ELEMENTS.container = $('#container-' + _CONFIG.id);
+            var settings = _getSettings();
+            settings.delimiters = null;
+            settings.templates = {};
+            settings.templates.tag = function(tagData) {
+                return `<tag contenteditable='false'
+                            spellcheck="false" class='tagify__tag'
+                            value="${tagData.value}">
+                            <x title='remove tag' class='tagify__tag__removeBtn'></x>
+                            <div>
+                                <span class='tagify__tag-text'>${tagData.display}</span>
+                            </div>
+                    </tag>`;
+            };
+            settings.templates.dropdownItem = function(tagData) {
+                return `<div class='tagify__dropdown__item' tagifySuggestionIdx="${tagData.tagifySuggestionIdx}">
+                            <span>${tagData.display}</span>
+                        </div>`;
+            };
 
-            // Bloodhound
-            var localSource = _initBloodhound();
-            _log('datasources', localSource);
+            var input = document.getElementById(_CONFIG.id),
+                tagify = new Tagify(input, settings);
 
-            // TagInput
-            $(id).tagsinput({
-                tagClass: _CONFIG.tagClass,
-                focusClass: _CONFIG.focusClass,
-                cancelConfirmKeysOnEmpty: false,
-                maxChars: _CONFIG.maxChars,
-                allowDuplicates: _CONFIG.allowDuplicates,
-                trimValue: true,
-                freeInput: _CONFIG.extendable,
-                typeaheadjs: {
-                    name: 'local',
-                    minLength: _CONFIG.suggestionStarts,
-                    highlight: _CONFIG.highlight,
-                    hint: _CONFIG.hint,
-                    limit: _CONFIG.suggestionLimit,
-                    source: localSource.ttAdapter()
+            tagify.addTags(value);
+
+            instances[raw_id] = tagify;
+
+    	    // see https://github.com/yairEO/tagify "Submit on `Enter` key"            
+    	    var onTagifyKeyDown = function(e) 
+            {
+                var key = e.detail.originalEvent.key;
+                if( key === 'Enter' &&
+                    !tagify.state.inputText &&  // assuming user is not in the middle oy adding a tag
+                    !tagify.state.editing       // user not editing a tag
+                ){
+                    var input_values = input.value,
+                        values = input_values.trim() ? input_values.split(',') : [];
+
+                    setTimeout(() => il.UI.viewcontrol.tag.submit(values));
                 }
-            });
+            };
 
-            // Hooks
-            $(id).on('beforeItemAdd', function (event) {
-                _log("item", event.item);
-            });
-
-            $(id).on('itemAdded', function (event) {
-                var new_hidden = _ELEMENTS.hidden_template.clone();
-                new_hidden.attr("id", "tag-" + _CONFIG.id + "-" + event.item);
-                new_hidden.attr("name", _ELEMENTS.hidden_template.val());
-                new_hidden.val(event.item);
-                _log('add_hidden', new_hidden);
-                new_hidden.appendTo(_ELEMENTS.container);
-            });
-
-            $(id).on('itemRemoved', function (event) {
-                var hidden = $("[id='tag-" + _CONFIG.id + "-" + event.item + "']");
-                _log('remove_hidden', hidden);
-                hidden.remove();
-            });
-
-            // Prevent keyboard navigation when Tag is disabled
-            $(id).parents('.il-input-tag.disabled').find('.tt-input').attr('tabindex', '-1');
         };
 
+        var getTagifyInstance = function(raw_id) {
+            return instances[raw_id];
+        }
+
         return {
-            init: init
+            init: init,
+            getTagifyInstance: getTagifyInstance
         };
 
     })($);

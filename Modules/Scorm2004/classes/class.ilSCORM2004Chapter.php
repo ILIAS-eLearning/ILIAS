@@ -1,19 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Chapter
-*
-* Chapter class for SCORM 2004 Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Class ilSCORM2004Chapter
+ *
+ * Chapter class for SCORM 2004 Editing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilSCORM2004Chapter extends ilSCORM2004Node
 {
     public $tree;
@@ -65,8 +60,6 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
      */
     public function create($a_upload = false, $a_template = false)
     {
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
         parent::create($a_upload);
         if (!$a_template) {
             $this->insertDefaultSequencingItem();
@@ -103,7 +96,6 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
         $a_copied_nodes[$this->getId()] = $chap->getId();
         
         // copy meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $new_md = $md->cloneMD($a_target_slm->getId(), $chap->getId(), $this->getType());
         
@@ -130,7 +122,6 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
     */
     public function exportXMLMetaData(&$a_xml_writer)
     {
-        include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getSLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();

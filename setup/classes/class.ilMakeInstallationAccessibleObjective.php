@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -25,7 +25,7 @@ class ilMakeInstallationAccessibleObjective extends ilSetupObjective
     {
         $db_config = $environment->getConfigFor("database");
         return [
-            new \ilIniFilesPopulatedObjective($this->config),
+            new \ilIniFilesPopulatedObjective(),
             new ilDatabasePopulatedObjective($db_config),
             new \ilSettingsFactoryExistsObjective()
         ];

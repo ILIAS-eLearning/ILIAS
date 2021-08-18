@@ -1,10 +1,10 @@
-@lso-dark-bg: darken(@il-secondary-container-bg, 10%);
+@lso-dark-bg: @il-main-dark-bg;
 
 .ilLSOLearnerView { /*ILIAS-GUI, "startpage" of LSO*/
 
 	.il-workflow-step-label,
 	.il-workflow-step-label .btn {
-		color: @text-color !important;
+		color: @il-text-color !important;
 		cursor: default !important;
 		text-decoration: none !important;
 	}
@@ -28,5 +28,13 @@
 		.panel-heading {
 			display: none;
 		}
+	}
+}
+
+.ilLSOKioskModeCurriculum {
+	background-color: @il-main-dark-bg;
+
+	.il-workflow-container {
+		padding: 5px;
 	}
 }

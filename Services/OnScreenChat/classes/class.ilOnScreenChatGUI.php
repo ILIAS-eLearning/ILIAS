@@ -23,7 +23,7 @@ class ilOnScreenChatGUI
 
     /** @var \ILIAS\DI\Container */
     private $dic;
-    /** @var \ILIAS\DI\HTTPServices */
+    /** @var \ILIAS\HTTP\Services */
     private $http;
     /** @var ilCtrl */
     private $ctrl;
@@ -192,7 +192,7 @@ class ilOnScreenChatGUI
         }
 
         $usrIds = (string) ($this->http->request()->getQueryParams()['usr_ids'] ?? '');
-        if (0 === strlen($usrIds)) {
+        if ($usrIds === '') {
             return $this->getResponseWithText(json_encode([]));
         }
 

@@ -2,20 +2,17 @@
 
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Setup;
 
 /**
  * Store information about https is enabled
  */
 class ilChatroomServerConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var	\ilChatroomSetupConfig
-     */
-    protected $config;
+    protected ilChatroomSetupConfig $config;
 
-    public function __construct(\ilChatroomSetupConfig $config)
+    public function __construct(ilChatroomSetupConfig $config)
     {
         $this->config = $config;
     }
@@ -38,9 +35,9 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilIniFilesLoadedObjective(),
-            new \ilDatabaseInitializedObjective(),
-            new \ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
+            new ilIniFilesLoadedObjective(),
+            new ilDatabaseInitializedObjective(),
+            new ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
         ];
     }
 
@@ -59,10 +56,10 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
 
-        $objIds = ilObject::_getObjectsByType('chta');
-        $objId = current($objIds);
+        $chatAdministrations = ilObject::_getObjectsByType('chta');
+        $chatAdministration = current($chatAdministrations);
 
-        $chat_admin = new ilChatroomAdmin($objId);
+        $chat_admin = new ilChatroomAdmin((int) $chatAdministration['obj_id']);
         $settings = $chat_admin->loadGeneralSettings();
 
         $settings['address'] = $this->config->getAddress();
@@ -72,7 +69,7 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $settings['cert'] = $this->config->getCert();
         $settings['key'] = $this->config->getKey();
         $settings['dhparam'] = $this->config->getDhparam();
-        $settings['log'] = (int) $this->config->getLog();
+        $settings['log'] = $this->config->getLog();
         $settings['log_level'] = $this->config->getLogLevel();
         $settings['error_log'] = $this->config->getErrorLog();
         $settings['ilias_proxy'] = (int) $this->config->hasIliasProxy();
@@ -106,6 +103,6 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        return $this->config->getAddress() != '' && $this->config->getPort() != 0;
+        return $this->config->getAddress() !== '' && $this->config->getPort() !== 0;
     }
 }

@@ -1,9 +1,6 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilSCORM2004PageNode
@@ -15,10 +12,7 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
  * getPageObject() to access this instance. ilSCORM2004Page handles page objects
  * and their content.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesScorm2004
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM2004PageNode extends ilSCORM2004Node
 {
@@ -73,7 +67,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
         parent::create($a_upload);
 
         // create scorm2004 page
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
         if (!is_object($this->page_object)) {
             $this->page_object = new ilSCORM2004Page($this->slm_object->getType());
         }
@@ -113,7 +106,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
         $slm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
         // copy meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $new_md = $md->cloneMD($a_target_slm->getId(), $slm_page->getId(), $this->getType());
 
@@ -146,7 +138,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
         $slm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
         // copy meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($a_lm_page->getLMId(), $a_lm_page->getId(), $a_lm_page->getType());
         $md->cloneMD($a_target_slm->getId(), $slm_page->getId(), "page");
 
@@ -178,7 +169,6 @@ class ilSCORM2004PageNode extends ilSCORM2004Node
          $lm_page->create(true);		// setting "upload" flag to true prevents creating of meta data
 
          // copy meta data
-         include_once("Services/MetaData/classes/class.ilMD.php");
          $md = new ilMD($this->getLMId(), $this->getId(), $this->getType());
          $new_md =& $md->cloneMD($a_cont_obj->getId(), $lm_page->getId(), $this->getType());
 

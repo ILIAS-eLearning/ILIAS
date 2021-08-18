@@ -60,10 +60,10 @@ class ilMDAnnotation extends ilMDBase
     public function setDescriptionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
-            $this->description_language = &$lng_obj;
+            $this->description_language = $lng_obj;
         }
     }
-    public function &getDescriptionLanguage()
+    public function getDescriptionLanguage()
     {
         return $this->description_language;
     }
@@ -168,7 +168,7 @@ class ilMDAnnotation extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlStartTag('Annotation');
         $writer->xmlElement('Entity', null, $this->getEntity());

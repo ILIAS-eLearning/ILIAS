@@ -12,7 +12,7 @@
 class ilBookingSchedule
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -331,6 +331,7 @@ class ilBookingSchedule
             ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
 
         $this->saveDefinition();
+        return true;
     }
     
     public function doClone($a_pool_id)
@@ -352,7 +353,7 @@ class ilBookingSchedule
     /**
      * Save current definition
      */
-    protected function saveDefinition()
+    protected function saveDefinition() : bool
     {
         $ilDB = $this->db;
 
@@ -377,6 +378,7 @@ class ilBookingSchedule
                 }
             }
         }
+        return true;
     }
 
     /**
@@ -428,7 +430,7 @@ class ilBookingSchedule
 
     /**
      * Delete single entry
-     * @return bool
+     * @return void|int
      */
     public function delete()
     {
@@ -438,6 +440,7 @@ class ilBookingSchedule
             return $ilDB->manipulate('DELETE FROM booking_schedule' .
                 ' WHERE booking_schedule_id = ' . $ilDB->quote($this->id, 'integer'));
         }
+        return 0;
     }
     
     /**

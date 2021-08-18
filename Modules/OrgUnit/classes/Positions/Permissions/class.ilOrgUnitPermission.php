@@ -87,7 +87,7 @@ class ilOrgUnitPermission extends ActiveRecord
     }
 
 
-    public function create()
+    public function create() : void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');
@@ -238,7 +238,7 @@ class ilOrgUnitPermission extends ActiveRecord
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }

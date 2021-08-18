@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExternalFeedAccess
-*
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesExternalFeed
-*/
+ * Class ilObjExternalFeedAccess
+ *
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjExternalFeedAccess extends ilObjectAccess
 {
 
@@ -49,7 +43,6 @@ class ilObjExternalFeedAccess extends ilObjectAccess
         $ilAccess = $DIC->access();
         
         // #14870 - used for redirect after copy
-        
         $t_arr = explode("_", $a_target);
 
         if ($t_arr[0] != "feed" || ((int) $t_arr[1]) <= 0) {

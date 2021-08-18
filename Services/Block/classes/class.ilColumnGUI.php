@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_COL_LEFT", "left");
 define("IL_COL_RIGHT", "right");
@@ -13,8 +14,7 @@ define("IL_SCREEN_FULL", "full");
 * Column user interface class. This class is used on the personal desktop,
 * the info screen class and witin container classes.
 *
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
+* @author Alexander Killing <killing@leifos.de>
 *
 * @ilCtrl_IsCalledBy ilColumnGUI: ilCalendarGUI
 * @ilCtrl_Calls ilColumnGUI:
@@ -394,8 +394,6 @@ class ilColumnGUI
         }
 
         if ($class = array_search($cur_block_type, self::$block_types)) {
-            include_once("./" . self::$locations[$class] . "classes/" .
-                "class." . $class . ".php");
             return call_user_func(array($class, 'getScreenMode'));
         }
 
@@ -464,8 +462,6 @@ class ilColumnGUI
         if ($next_class != "") {
             // forward to block
             if ($gui_class = array_search($cur_block_type, self::$block_types)) {
-                include_once("./" . self::$locations[$gui_class] . "classes/" .
-                    "class." . $gui_class . ".php");
                 $ilCtrl->setParameter($this, "block_type", $cur_block_type);
                 $block_gui = new $gui_class();
                 $block_gui->setProperties($this->block_property[$cur_block_type]);
@@ -476,8 +472,6 @@ class ilColumnGUI
                 if (in_array($gui_class, $this->custom_blocks[$this->getColType()]) ||
                     in_array($cur_block_type, $this->rep_block_types)) {
                     $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
-                    include_once("./" . self::$locations[$gui_class] . "classes/" .
-                        "class." . $block_class . ".php");
                     $app_block = new $block_class($_GET["block_id"]);
                     $block_gui->setBlock($app_block);
                 }
@@ -534,8 +528,6 @@ class ilColumnGUI
                 $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
                 
                 // get block gui class
-                include_once("./" . self::$locations[$gui_class] . "classes/" .
-                    "class." . $gui_class . ".php");
                 $block_gui = new $gui_class();
                 if (isset($this->block_property[$block["type"]])) {
                     $block_gui->setProperties($this->block_property[$block["type"]]);
@@ -549,7 +541,6 @@ class ilColumnGUI
                     $path = "./" . self::$locations[$gui_class] . "classes/" .
                         "class." . $block_class . ".php";
                     if (file_exists($path)) {
-                        include_once($path);
                         $app_block = new $block_class($block["id"]);
                     } else {
                         // we only need generic block
@@ -600,13 +591,9 @@ class ilColumnGUI
         $ilCtrl = $this->ctrl;
 
         // show selector for hidden blocks
-        include_once("Services/Block/classes/class.ilBlockSetting.php");
         $hidden_blocks = array();
 
         foreach ($this->blocks[$this->getSide()] as $block) {
-            include_once("./" . self::$locations[$block["class"]] . "classes/" .
-                "class." . $block["class"] . ".php");
-                
             if ($block["custom"] == false) {
                 if ($ilCtrl->getContextObjType() == "user") {	// personal desktop
                     if (ilBlockSetting::_lookupDetailLevel($block["type"], $ilUser->getId()) == 0) {
@@ -627,7 +614,6 @@ class ilColumnGUI
                     $ilUser->getId(),
                     $block["id"]
                 ) == 0) {
-                    include_once("./Services/Block/classes/class.ilCustomBlock.php");
                     $cblock = new ilCustomBlock($block["id"]);
                     $hidden_blocks[$block["type"] . "_" . $block["id"]] = sprintf($lng->txt('block_show_x'), $cblock->getTitle());
                 }
@@ -647,8 +633,6 @@ class ilColumnGUI
             if ($this->getSide() == IL_COL_RIGHT) {
                 if (is_array($this->custom_blocks[$this->getColType()])) {
                     foreach ($this->custom_blocks[$this->getColType()] as $block_class) {
-                        include_once("./" . self::$locations[$block_class] . "classes/" .
-                            "class." . $block_class . ".php");
                         $block_gui = new $block_class();
                         $block_type = $block_gui->getBlockType();
 
@@ -685,9 +669,7 @@ class ilColumnGUI
         $sum_moveable = count($this->blocks[$this->getSide()]);
 
         foreach ($this->blocks[$this->getSide()] as $block) {
-            include_once("./" . self::$locations[$block["class"]] . "classes/" .
-                "class." . $block["class"] . ".php");
-                
+
             // set block id to context obj id,
             // if block is not a custom block and context is not personal desktop
             if (!$block["custom"] && $ilCtrl->getContextObjType() != "" && $ilCtrl->getContextObjType() != "user") {
@@ -708,8 +690,6 @@ class ilColumnGUI
                 
                 // get block for custom blocks
                 if ($block["custom"]) {
-                    include_once("./" . self::$locations[$gui_class] . "classes/" .
-                        "class." . $block_class . ".php");
                     $app_block = new $block_class($block["id"]);
                     $block_gui->setBlock($app_block);
                     $block_gui->setRefId($block["ref_id"]);
@@ -743,7 +723,6 @@ class ilColumnGUI
 
         if ($_GET["block"] != "") {
             $block = explode("_", $_GET["block"]);
-            include_once("Services/Block/classes/class.ilBlockSetting.php");
             ilBlockSetting::_writeDetailLevel($block[0], 2, $ilUser->getId(), $block[1]);
         }
 
@@ -761,7 +740,6 @@ class ilColumnGUI
 
         $ilCtrl->setCmdClass($class);
         $ilCtrl->setCmd("create");
-        include_once("./" . self::$locations[$class] . "classes/class." . $class . ".php");
         $block_gui = new $class();
         $block_gui->setProperties($this->block_property[$_GET["block_type"]]);
         $block_gui->setRepositoryMode($this->getRepositoryMode());
@@ -783,7 +761,6 @@ class ilColumnGUI
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
 
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
         $this->blocks[IL_COL_LEFT] = array();
         $this->blocks[IL_COL_RIGHT] = array();
         $this->blocks[IL_COL_CENTER] = array();
@@ -836,7 +813,6 @@ class ilColumnGUI
         }
         
         if (!$this->getRepositoryMode()) {
-            include_once("./Services/Block/classes/class.ilCustomBlock.php");
             $custom_block = new ilCustomBlock();
             $custom_block->setContextObjId($ilCtrl->getContextObjId());
             $custom_block->setContextObjType($ilCtrl->getContextObjType());
@@ -865,7 +841,6 @@ class ilColumnGUI
                 }
             }
         } else {	// get all subitems
-            include_once("./Services/Block/classes/class.ilCustomBlock.php");
             $rep_items = $this->getRepositoryItems();
 
             foreach ($this->rep_block_types as $block_type) {
@@ -903,7 +878,6 @@ class ilColumnGUI
             }
                                         
             // repository object custom blocks
-            include_once("./Services/Block/classes/class.ilCustomBlock.php");
             $custom_block = new ilCustomBlock();
             $custom_block->setContextObjId($ilCtrl->getContextObjId());
             $custom_block->setContextObjType($ilCtrl->getContextObjType());
@@ -957,7 +931,6 @@ class ilColumnGUI
             } elseif ($a_type == 'pdtasks') {
                 return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::TASKS);
             } elseif ($a_type == 'news') {
-                include_once 'Services/Container/classes/class.ilContainer.php';
                 return
                     $ilSetting->get('block_activated_news') &&
 
@@ -966,7 +939,7 @@ class ilColumnGUI
                             $GLOBALS['ilCtrl']->getContextObjId(),
                             ilObjectServiceSettingsGUI::USE_NEWS,
                             true
-                    )) &&
+                        )) &&
                     ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         'cont_show_news',
@@ -980,7 +953,6 @@ class ilColumnGUI
                 if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
                     return false;
                 }
-                include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
                 return ilCalendarSettings::_getInstance()->isEnabled();
             } elseif ($a_type == "tagcld") {
                 $tags_active = new ilSetting("tags");
@@ -1007,7 +979,6 @@ class ilColumnGUI
 
         if ($this->check_nr_limit[$a_type]) {
             if (!$this->getRepositoryMode()) {
-                include_once("./Services/Block/classes/class.ilCustomBlock.php");
                 $costum_block = new ilCustomBlock();
                 $costum_block->setContextObjId($ilCtrl->getContextObjId());
                 $costum_block->setContextObjType($ilCtrl->getContextObjType());

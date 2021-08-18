@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Xml/classes/class.ilSaxParser.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Manifest parser for ILIAS standard export files
  *
  * @author Aleex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesExport
  */
 class ilDataSetImportParser extends ilSaxParser
 {

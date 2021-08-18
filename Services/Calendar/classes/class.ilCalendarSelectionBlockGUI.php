@@ -84,7 +84,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->addBlockCommand(
             $ilCtrl->getLinkTargetByClass("ilcalendarcategorygui", 'add'),
             $lng->txt('cal_add_calendar')
-            );
+        );
 
         $this->calendar_groups = array(
             self::CAL_GRP_CURRENT_CONT_CONS => $lng->txt("cal_grp_" . self::CAL_GRP_CURRENT_CONT_CONS),
@@ -467,7 +467,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
         if (isset($data["shy_button"])) {

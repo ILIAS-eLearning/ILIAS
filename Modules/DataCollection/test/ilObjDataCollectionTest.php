@@ -6,11 +6,10 @@ include_once("./Services/Exceptions/classes/class.ilException.php");
 
 /**
  * Class ilObjDataCollectionTest
- * @group needsInstalledILIAS
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilObjDataCollectionTest extends TestCase
+class ilObjDataCollectionTest //extends TestCase
 {
     /**
      * @var ilObjDataCollection
@@ -25,8 +24,8 @@ class ilObjDataCollectionTest extends TestCase
 
         require_once("./Modules/DataCollection/classes/class.ilObjDataCollection.php");
 
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
         $this->root_object = new ilObjDataCollection();
         $this->root_object->setTitle('DataCollection');
 

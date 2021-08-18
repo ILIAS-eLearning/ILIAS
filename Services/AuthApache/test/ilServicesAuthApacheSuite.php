@@ -10,9 +10,6 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesAuthApacheSuite extends TestSuite
 {
-    /**
-     * @return ilServicesAuthApacheSuite
-     */
     public static function suite() : self
     {
         $suite = new self();

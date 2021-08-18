@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilForumSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */
@@ -21,7 +23,7 @@ class ilForumSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        throw new \LogicException("Agent has no config.");
+        throw new LogicException("Agent has no config.");
     }
 
     /**

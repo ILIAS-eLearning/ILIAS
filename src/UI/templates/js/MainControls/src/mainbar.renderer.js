@@ -71,10 +71,13 @@ var renderer = function($) {
             additional_engage: function(){
                 this.getElement().attr('aria-expanded', true);
                 this.getElement().attr('aria-hidden', false);
+                //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
+                this.getElement().attr('role', 'region');
             },
             additional_disengage: function(){
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
+                this.getElement().removeAttr('role', 'region');
             }
         }),
         remover: Object.assign({}, dom_element, {
@@ -163,6 +166,11 @@ var renderer = function($) {
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
+                
+                //a11y
+                triggerer.getElement().attr('aria-controls', slate.html_id);
+                triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
+                //a11y
 
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
@@ -236,12 +244,25 @@ var renderer = function($) {
             }
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
+        },
+        focusSubentry: function(triggered_entry_id) {
+            var dom_id = dom_references[triggered_entry_id],
+                first = $('#' + dom_id.slate)
+                    .children().first()
+                    .children().first();
+            first[0].focus();
+        },
+        focusTopentry: function(top_entry_id) {
+            var  triggerer = dom_references[top_entry_id];
+            document.getElementById(triggerer.triggerer).focus();
         }
     },
     public_interface = {
         addEntry: actions.addEntry,
         calcAmountOfButtons: more.calcAmountOfButtons,
-        render: actions.render
+        render: actions.render,
+        focusSubentry: actions.focusSubentry,
+        focusTopentry: actions.focusTopentry
     };
 
     return public_interface;

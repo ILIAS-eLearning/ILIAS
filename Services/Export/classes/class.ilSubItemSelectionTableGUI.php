@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Select subitems for export
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesExport
-*/
+ * Select subitems for export
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilSubItemSelectionTableGUI extends ilTable2GUI
 {
     public function __construct(
@@ -44,7 +40,6 @@ class ilSubItemSelectionTableGUI extends ilTable2GUI
             "Services/Export"
         );
         $this->setTitle($lng->txt("export_select_resources"));
-        include_once("./Services/Export/classes/class.ilExport.php");
         $this->setData(ilExport::_getValidExportSubItems($a_ref_id));
         $this->setLimit(99999);
     }

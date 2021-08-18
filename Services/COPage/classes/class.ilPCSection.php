@@ -1,19 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCSection
-*
-* Section content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCSection
+ *
+ * Section content object (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCSection extends ilPageContent
 {
     /**
@@ -122,7 +117,6 @@ class ilPCSection extends ilPageContent
      */
     public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
     {
-        include_once("./Services/COPage/classes/class.ilPCSection.php");
         self::saveTimings($a_page);
     }
 
@@ -357,7 +351,9 @@ class ilPCSection extends ilPageContent
             $end = strpos($a_html, "}}}}}", $start);
             $access_attr = explode(";", substr($a_html, $start, $end - $start));
             $id = explode("_", $access_attr[3]);
+            $section_nr = $access_attr[6];
             $access = true;
+
             if (in_array($id[1], array("", 0, IL_INST_ID)) && $id[3] > 0) {
                 if ($access_attr[5] == "no_read") {
                     $access = !$ilAccess->checkAccess($access_attr[5], "", $id[3]);
@@ -368,11 +364,13 @@ class ilPCSection extends ilPageContent
             if ($a_mode == ilPageObjectGUI::EDIT) {
                 $access = true;
             }
+            $end_limiter = "{{{{{Section;AccessEnd;" . $section_nr . "}}}}}";
             if ($access) {
                 $a_html = substr($a_html, 0, $start) . substr($a_html, $end + 5);
+                $a_html = str_replace($end_limiter, "", $a_html);
             } else {
-                $end = strpos($a_html, "{{{{{Section;Access}}}}}", $start);
-                $a_html = substr($a_html, 0, $start) . substr($a_html, $end + 24);
+                $end = strpos($a_html, $end_limiter, $start);
+                $a_html = substr($a_html, 0, $start) . substr($a_html, $end + strlen($end_limiter));
             }
         }
 
@@ -417,7 +415,7 @@ class ilPCSection extends ilPageContent
                         "unix_ts" => array("integer", $from)
                         ),
                     array()
-                    );
+                );
             }
             $to = $res->nodeset[$i]->get_attribute("ActiveTo");
             if ($to != "") {
@@ -451,7 +449,7 @@ class ilPCSection extends ilPageContent
             " WHERE page_id = " . $ilDB->quote($a_page->getId(), "integer") .
             " AND parent_type = " . $ilDB->quote($a_page->getParentType(), "text")
         );
-        $str = "";
+        $str = "1";     // changed to 1 to force cache miss for #24277
         $current_ts = new ilDateTime(time(), IL_CAL_UNIX);
         $current_ts = $current_ts->get(IL_CAL_UNIX);
         while ($rec = $ilDB->fetchAssoc($set)) {

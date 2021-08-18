@@ -19,7 +19,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  *
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilAssQuestionPageGUI, ilQuestionBrowserTableGUI, ilToolbarGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjQuestionPoolGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assNumericGUI, assTextSubsetGUI, assSingleChoiceGUI, ilPropertyFormGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: assTextQuestionGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjQuestionPoolGUI: ilQuestionPoolExportGUI, ilInfoScreenGUI, ilObjTaxonomyGUI, ilCommonActionDispatcherGUI
@@ -579,9 +579,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 case IMAGEMAP_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt("assImagemapQuestion");
                     break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                    $type = $this->lng->txt("assJavaApplet");
-                    break;
                 case MATCHING_QUESTION_IDENTIFIER:
                     $type = $this->lng->txt("assMatchingQuestion");
                     break;
@@ -818,7 +815,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         }
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
         $this->object->addQuestionChangeListeners($q_gui->object);
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
@@ -842,7 +839,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             }
             
             include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-            $q_gui = &assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI($_GET["sel_question_types"]);
             $q_gui->object->setObjId($this->object->getId());
             $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
             $q_gui->object->createNewQuestion();
@@ -945,7 +942,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     public function exportQuestionObject()
     {
         // export button was pressed
-        if (count($_POST["q_id"]) > 0) {
+        if (array_key_exists('q_id', $_POST) && is_array($_POST['q_id']) && count($_POST['q_id']) > 0) {
             include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
             $qpl_exp = new ilQuestionpoolExport($this->object, "xml", $_POST["q_id"]);
             $export_file = $qpl_exp->buildExportFile();
@@ -1321,7 +1318,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     public function &editQuestionForTestObject()
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $q_gui = &assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+        $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
         $this->ctrl->redirectByClass(get_class($q_gui), "editQuestion");
     }
 

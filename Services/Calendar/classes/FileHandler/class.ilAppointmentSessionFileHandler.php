@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Calendar\FileHandler\ilFileProperty;
+
 include_once("./Services/Calendar/interfaces/interface.ilAppointmentFileHandler.php");
 include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php");
 
@@ -17,31 +19,24 @@ class ilAppointmentSessionFileHandler extends ilAppointmentBaseFileHandler imple
      * Get files (for appointment)
      *
      * @param
-     * @return
+     * @return ilFileProperty[]
      */
-    public function getFiles()
+    public function getFiles() : array
     {
         $cat_info = $this->getCatInfo();
 
-        //$session_obj = new ilObjSession($cat_info['obj_id'],false);
-
         include_once("./Services/Object/classes/class.ilObjectActivation.php");
         $eventItems = ilObjectActivation::getItemsByEvent($cat_info['obj_id']);
-        $files = array();
-        if (count($eventItems)) {
-            foreach ($eventItems as $obj) {
-                if ($obj["type"] == "file") {
-                    if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $obj['ref_id'])) {
-                        $file = new ilObjFile($obj['ref_id']);
+        $files = [];
+        foreach ($eventItems as $obj) {
+            if ($obj["type"] == "file") {
+                if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $obj['ref_id'])) {
+                    $file = new ilObjFile($obj['ref_id']);
+                    $file_property = new ilFileProperty();
+                    $file_property->setAbsolutePath($file->getFile());
+                    $file_property->setFileName($file->getFileName());
 
-                        // todo: this should be provided by an interface of ilObjFile
-                        // currently this is copy/paste code from ilObjFile->sendFile
-                        $filename = $file->getDirectory($file->getVersion()) . "/" . $file->getFileName();
-                        if (@!is_file($filename)) {
-                            $filename = $file->getDirectory() . "/" . $file->getFileName();
-                        }
-                        $files[] = $filename;
-                    }
+                    $files[] = $file_property;
                 }
             }
         }

@@ -1,8 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\Metrics;
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Panel\Report;
 
 /**
  * A metric is something we can measure about the system.
@@ -45,24 +48,22 @@ final class Metric
     const TYPE_COLLECTION = "collection";
 
     /**
-     * @var mixed one of STABILITY_*
+     * @var string one of STABILITY_*
      */
-    protected $stability;
+    protected string $stability;
 
     /**
-     * @var mixed one of TYPE_*
+     * @var string one of TYPE_*
      */
-    protected $type;
+    protected string $type;
 
     /**
      * @var mixed
      */
     protected $value;
 
-    /**
-     * @var string|null
-     */
-    protected $description;
+
+    protected ?string $description;
 
     public function __construct(
         string $stability,
@@ -188,7 +189,7 @@ final class Metric
                 return implode(
                     "\n",
                     array_map(
-                        function ($k, $v) use ($indentation) {
+                        function (string $k, Metric $v) use ($indentation) {
                             if ($v->getType() === self::TYPE_COLLECTION) {
                                 $split = "\n";
                             } else {
@@ -200,6 +201,43 @@ final class Metric
                         array_values($value)
                     )
                 );
+            default:
+                throw new \LogicException("Unknown type: " . $this->getType());
+        }
+    }
+
+    public function toArray(int $indentation = 0)
+    {
+        $value = $this->getValue();
+
+        switch ($this->getType()) {
+            case self::TYPE_BOOL:
+                if ($value) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+                // no break
+            case self::TYPE_COUNTER:
+                return (string) $value;
+            case self::TYPE_GAUGE:
+                if (is_int($value)) {
+                    return (string) $value;
+                }
+                return sprintf("%.03f", $value);
+            case self::TYPE_TIMESTAMP:
+                return $value->format(\DateTimeInterface::ISO8601);
+            case self::TYPE_TEXT:
+                    if (substr_count($value, "\n") > 0) {
+                        return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
+                    }
+                return $value;
+            case self::TYPE_COLLECTION:
+                $result = [];
+                foreach ($value as $key => $val) {
+                    $result[$key] = $val->toArray($indentation + 1);
+                }
+                return $result;
             default:
                 throw new \LogicException("Unknown type: " . $this->getType());
         }
@@ -270,5 +308,12 @@ final class Metric
         }
 
         return [$extracted, $rest];
+    }
+
+    public function toUIReport(Factory $f, string $name) : Report
+    {
+        $yaml = $this->toYAML();
+        $sub = $f->panel()->sub("", $f->legacy("<pre>" . $yaml . "</pre>"));
+        return $f->panel()->report($name, [$sub]);
     }
 }

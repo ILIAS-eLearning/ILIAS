@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for poll users
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ingroup ModulesPoll
-*/
+ * TableGUI class for poll users
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPollUserTableGUI extends ilTable2GUI
 {
     protected $answer_ids; // [array]
@@ -33,8 +29,8 @@ class ilPollUserTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("firstname"), "firstname");
         
         foreach ($this->getParentObject()->object->getAnswers() as $answer) {
-            $this->answer_ids[] = $answer["id"];
-            $this->addColumn($answer["answer"], "answer" . $answer["id"]);
+            $this->answer_ids[] = (int) ($answer["id"] ?? 0);
+            $this->addColumn((string) ($answer["answer"] ?? ''), "answer" . (int) ($answer["id"] ?? 0));
         }
                 
         $this->getItems($this->answer_ids);
@@ -55,7 +51,7 @@ class ilPollUserTableGUI extends ilTable2GUI
         $data = array();
         
         foreach ($this->getParentObject()->object->getVotesByUsers() as $user_id => $vote) {
-            $answers = $vote["answers"];
+            $answers = (array) ($vote["answers"] ?? array());
             unset($vote["answers"]);
             
             foreach ($a_answer_ids as $answer_id) {
@@ -80,16 +76,16 @@ class ilPollUserTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("LOGIN", $a_set["login"]);
-        $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
-        $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
+        $this->tpl->setVariable("LOGIN", (string) ($a_set["login"] ?? ''));
+        $this->tpl->setVariable("FIRSTNAME", (string) ($a_set["firstname"] ?? ''));
+        $this->tpl->setVariable("LASTNAME", (string) ($a_set["lastname"] ?? ''));
     }
     
     protected function fillRowCSV($a_csv, $a_set)
     {
-        $a_csv->addColumn($a_set["login"]);
-        $a_csv->addColumn($a_set["lastname"]);
-        $a_csv->addColumn($a_set["firstname"]);
+        $a_csv->addColumn((string) ($a_set["login"] ?? ''));
+        $a_csv->addColumn((string) ($a_set["lastname"] ?? ''));
+        $a_csv->addColumn((string) ($a_set["firstname"] ?? ''));
         foreach ($this->answer_ids as $answer_id) {
             if ($a_set["answer" . $answer_id]) {
                 $a_csv->addColumn(true);
@@ -102,9 +98,9 @@ class ilPollUserTableGUI extends ilTable2GUI
     
     protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
     {
-        $a_excel->setCell($a_row, 0, $a_set["login"]);
-        $a_excel->setCell($a_row, 1, $a_set["lastname"]);
-        $a_excel->setCell($a_row, 2, $a_set["firstname"]);
+        $a_excel->setCell($a_row, 0, (string) ($a_set["login"] ?? ''));
+        $a_excel->setCell($a_row, 1, (string) ($a_set["lastname"] ?? ''));
+        $a_excel->setCell($a_row, 2, (string) ($a_set["firstname"] ?? ''));
         
         $col = 2;
         foreach ($this->answer_ids as $answer_id) {

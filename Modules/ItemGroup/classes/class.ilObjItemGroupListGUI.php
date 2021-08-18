@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once('Services/Object/classes/class.ilObjectListGUI.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Item group list gui class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesItemGroup
  */
 class ilObjItemGroupListGUI extends ilObjectListGUI
 {
@@ -48,7 +43,6 @@ class ilObjItemGroupListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjitemgroupgui";
         
         // general commands array
-        include_once('./Modules/ItemGroup/classes/class.ilObjItemGroupAccess.php');
         $this->commands = ilObjItemGroupAccess::_getCommands();
     }
 

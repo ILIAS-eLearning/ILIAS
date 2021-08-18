@@ -1,48 +1,32 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Classification/classes/class.ilClassificationProvider.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \Psr\Http\Message\RequestInterface;
 
 /**
  * Tag classification provider
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesTagging
  */
 class ilTaggingClassificationProvider extends ilClassificationProvider
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilTree $tree;
+    protected ilObjectDefinition $obj_definition;
+    protected ilCtrl $ctrl;
+    protected RequestInterface $request;
+    protected string $requested_type;
+    protected string $requested_tag_code;
+    protected bool $enable_all_users = false;
+    protected array $selection;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
-    {
+    public function __construct(
+        int $a_parent_ref_id,
+        int $a_parent_obj_id,
+        string $a_parent_obj_type
+    ) {
         global $DIC;
         parent::__construct($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type);
 
@@ -51,26 +35,34 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
         $this->ctrl = $DIC->ctrl();
+        $this->request = $DIC->http()->request();
+
+        $params = $this->request->getQueryParams();
+        $body = $this->request->getParsedBody();
+        $this->requested_type = trim($body["tag_type"] ?? ($params["tag_type"] ?? ""));
+        $this->requested_tag_code = trim($body["tag"] ?? ($params["tag"] ?? ""));
     }
 
-    protected $enable_all_users; // [bool]
-    protected $selection; // [string]
-    
     protected function init()
     {
         $tags_set = new ilSetting("tags");
         $this->enable_all_users = (bool) $tags_set->get("enable_all_users", false);
     }
-    
-    public static function isActive($a_parent_ref_id, $a_parent_obj_id, $a_parent_obj_type)
-    {
+
+    /**
+     * @inheritDoc
+     */
+    public static function isActive(
+        $a_parent_ref_id,
+        $a_parent_obj_id,
+        $a_parent_obj_type
+    ) {
         global $DIC;
 
         $ilUser = $DIC->user();
         
         // we currently only check for the parent object setting
         // might change later on (parent containers)
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
         $valid = ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
@@ -87,9 +79,14 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         
         return $valid;
     }
-        
-    public function render(array &$a_html, $a_parent_gui)
-    {
+
+    /**
+     * @inheritDoc
+     */
+    public function render(
+        array &$a_html,
+        $a_parent_gui
+    ) {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         
@@ -139,24 +136,16 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     );
                 }
             }
-            
-            /*
-            if($this->selection)
-            {
-                $a_html[] = array(
-                        "title" => "Related Tags",
-                        "html" => ":TODO:"
-                    );
-            }
-            */
         }
     }
-    
-    
+
+    /**
+     * @inheritDoc
+     */
     public function importPostData($a_saved = null)
     {
-        $type = trim($_REQUEST["tag_type"]);
-        $tag_code = trim($_REQUEST["tag"]);	// using codes to avoid encoding issues
+        $type = $this->requested_type;
+        $tag_code = $this->requested_tag_code;
         if ($type && $tag_code) {
             // code to tag
             $found = null;
@@ -169,14 +158,6 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 }
             }
             if ($found) {
-                /* single select
-                if(is_array($a_saved[$type]) &&
-                    in_array($found, $a_saved[$type]))
-                {
-                    return;
-                }
-                return array($type=>array($found));
-                */
                 // multi select
                 if (is_array($a_saved[$type]) &&
                     in_array($found, $a_saved[$type])) {
@@ -191,22 +172,27 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             }
             return $a_saved;
         }
+        return [];
     }
-    
+
+    /**
+     * @inheritDoc
+     */
     public function setSelection($a_value)
     {
         $this->selection = $a_value;
     }
-    
-    public function getFilteredObjects()
+
+    /**
+     * @inheritDoc
+     */
+    public function getFilteredObjects() : array
     {
         $ilUser = $this->user;
         
         if (!$this->selection) {
-            return;
+            return[];
         }
-        
-        include_once "Services/Tagging/classes/class.ilTagging.php";
         
         $types = array("personal");
         if ($this->enable_all_users) {
@@ -247,15 +233,13 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         if (sizeof($res)) {
             return array_unique($res);
         }
+        return [];
     }
                 
-    protected function getSubTreeTags()
+    protected function getSubTreeTags() : array
     {
         $tree = $this->tree;
         $ilUser = $this->user;
-
-        //$objdefinition = $this->obj_definition;
-
         $sub_ids = array();
 
         // categories show only direct children and their tags
@@ -282,12 +266,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 ? null
                 : $ilUser->getId();
             
-            include_once "Services/Tagging/classes/class.ilTagging.php";
             return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
+        return [];
     }
     
-    public function initListGUI(ilObjectListGUI $a_list_gui)
+    public function initListGUI(ilObjectListGUI $a_list_gui) : void
     {
         $a_list_gui->enableTags(true);
     }

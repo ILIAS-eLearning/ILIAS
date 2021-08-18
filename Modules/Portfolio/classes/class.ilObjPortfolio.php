@@ -157,7 +157,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
             " WHERE od.owner = " . $ilDB->quote($a_user_id, "integer") .
             " AND up.is_default = " . $ilDB->quote(1, "integer"));
         $res = $ilDB->fetchAssoc($set);
-        if ($res["id"]) {
+        if ($res && $res["id"]) {
             return $res["id"];
         }
     }
@@ -201,7 +201,6 @@ class ilObjPortfolio extends ilObjPortfolioBase
     
     protected function handleQuotaUpdate()
     {
-
     }
     
     public static function getAvailablePortfolioLinksForUserIds(array $a_owner_ids, $a_back_url = null)
@@ -244,5 +243,4 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
         return true;
     }
-
 }

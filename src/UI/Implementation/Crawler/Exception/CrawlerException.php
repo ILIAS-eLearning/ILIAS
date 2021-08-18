@@ -13,37 +13,37 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
  */
 class CrawlerException extends \Exception
 {
-    const UNKNOWN_EXCEPTION = -1;
+    public const UNKNOWN_EXCEPTION = -1;
 
-    const ARRAY_EXPECTED = 1000;
-    const STRING_EXPECTED = 1001;
-    const INVALID_TYPE = 1002;
-    const EMPTY_STRING = 1002;
+    public const ARRAY_EXPECTED = 1000;
+    public const STRING_EXPECTED = 1001;
+    public const INVALID_TYPE = 1002;
+    public const EMPTY_STRING = 1002;
 
-    const EMPTY_ENTRY = 2000;
-    const INVALID_MANDATORY_ENTRY_ATTRIBUTE = 2001;
-    const DUPLICATE_ENTRY = 2002;
-    const DUPLICATE_ROOT_ENTRY = 2003;
-    const INVALID_ID = 2004;
-    const INVALID_FILE_PATH = 2005;
-    const INVALID_RULES_ENTRY = 2006;
-    const ENTRY_WITH_NO_YAML_DESCRIPTION = 2007;
-    const ENTRY_WITH_NO_VALID_RETURN_STATEMENT = 2008;
-    const PARSING_YAML_ENTRY_FAILED = 2009;
-    const ENTRY_TITLE_MISSING = 2010;
-    const ENTRY_WITHOUT_FUNCTION = 2011;
+    public const EMPTY_ENTRY = 2000;
+    public const INVALID_MANDATORY_ENTRY_ATTRIBUTE = 2001;
+    public const DUPLICATE_ENTRY = 2002;
+    public const DUPLICATE_ROOT_ENTRY = 2003;
+    public const INVALID_ID = 2004;
+    public const INVALID_FILE_PATH = 2005;
+    public const INVALID_RULES_ENTRY = 2006;
+    public const ENTRY_WITH_NO_YAML_DESCRIPTION = 2007;
+    public const ENTRY_WITH_NO_VALID_RETURN_STATEMENT = 2008;
+    public const PARSING_YAML_ENTRY_FAILED = 2009;
+    public const ENTRY_TITLE_MISSING = 2010;
+    public const ENTRY_WITHOUT_FUNCTION = 2011;
 
-    const FILE_CREATION_FAILED = 3000;
-    const FOLDER_CREATION_FAILED = 3001;
-    const FILE_OPENING_FAILED = 3002;
-    const LESS_COMPILE_FAILED = 3003;
-    const FOLDER_DELETION_FAILED = 3004;
-    const FILE_DELETION_FAILED = 3005;
+    public const FILE_CREATION_FAILED = 3000;
+    public const FOLDER_CREATION_FAILED = 3001;
+    public const FILE_OPENING_FAILED = 3002;
+    public const LESS_COMPILE_FAILED = 3003;
+    public const FOLDER_DELETION_FAILED = 3004;
+    public const FILE_DELETION_FAILED = 3005;
 
-    const INVALID_INDEX = 4000;
-    const MISSING_INDEX = 4001;
+    public const INVALID_INDEX = 4000;
+    public const MISSING_INDEX = 4001;
 
-    const CRAWL_MAX_NESTING_REACHED = 5000;
+    public const CRAWL_MAX_NESTING_REACHED = 5000;
 
     /**
      * @var string

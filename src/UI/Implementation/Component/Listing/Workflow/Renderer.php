@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Triggerer;
+use ILIAS\UI\Implementation\Component\Listing\Workflow\Linear;
 
 /**
  * Class Renderer
@@ -15,24 +16,16 @@ use ILIAS\UI\Component\Triggerer;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    /**
-     * @inheritdocs
-     */
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);
 
-        if ($component instanceof Component\Listing\Workflow\Linear) {
+        if ($component instanceof Linear) {
             return $this->render_linear($component, $default_renderer);
         }
     }
 
-    /**
-     * @param Component\Listing\Linear $component
-     * @param RendererInterface $default_renderer
-     * @return string
-     */
-    protected function render_linear(Component\Listing\Workflow\Linear $component, RendererInterface $default_renderer)
+    protected function render_linear(Linear $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.linear.html", true, true);
         $tpl->setVariable("TITLE", $component->getTitle());
@@ -97,14 +90,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @inheritdocs
-     */
     protected function getComponentInterfaceName()
     {
         return [
             Component\Listing\Workflow\Workflow::class
-            //, Component\Listing\Workflow\Step::class
         ];
     }
 }

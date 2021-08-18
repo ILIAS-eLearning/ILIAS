@@ -1,38 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \Psr\Http\Message\RequestInterface;
 
 /**
-* This class represents a property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a property in a property form.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilFormPropertyGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
+    protected ilCtrl $ctrl;
     protected $lng;
-
-    protected $type;
-    protected $title;
-    protected $postvar;
-    protected $info;
-    protected $alert;
-    protected $required = false;
+    protected string $type = "";
+    protected string $title = "";
+    protected string $postvar = "";
+    protected string $info = "";
+    protected $alert = "";
+    protected bool $required = false;
     protected $parentgui;
     protected $parentform;
-    protected $hidden_title = "";
-    protected $multi = false;
-    protected $multi_sortable = false;
-    protected $multi_addremove = true;
+    protected string $hidden_title = "";
+    protected bool $multi = false;
+    protected bool $multi_sortable = false;
+    protected bool $multi_addremove = true;
     protected $multi_values;
+    protected RequestInterface $request;
     
     /**
     * Constructor
@@ -49,6 +43,9 @@ class ilFormPropertyGUI
         $this->setTitle($a_title);
         $this->setPostVar($a_postvar);
         $this->setDisabled(false);
+        if (isset($DIC["http"])) {      // some unit tests will fail otherwise
+            $this->request = $DIC->http()->request();
+        }
     }
 
     /**
@@ -394,7 +391,6 @@ class ilFormPropertyGUI
     public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
     {
         if (!$this instanceof ilMultiValuesItem) {
-            require_once 'Services/Form/exceptions/class.ilFormException.php';
             throw new ilFormException(sprintf(
                 "%s not supported for form property type %s",
                 __FUNCTION__,
@@ -457,7 +453,6 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("SRC_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("SRC_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->parseCurrentBlock();
@@ -468,7 +463,6 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_DOWN", $lng->txt("down"));
             $tpl->setVariable("TXT_UP", $lng->txt("up"));
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("SRC_UP", ilGlyphGUI::get(ilGlyphGUI::UP));
             $tpl->setVariable("SRC_DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
             $tpl->parseCurrentBlock();
@@ -517,7 +511,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for filter
      * @return string
      */
-    public function getTableFilterLabelFor() {
+    public function getTableFilterLabelFor()
+    {
         return $this->getFieldId();
     }
 
@@ -525,8 +520,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for form
      * @return string
      */
-    public function getFormLabelFor() {
+    public function getFormLabelFor()
+    {
         return $this->getFieldId();
     }
-
 }

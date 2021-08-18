@@ -1,45 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaRating
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaRating extends ilExcCriteria
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCustomInputGUI $form_item;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct();
-        $this->tpl = $DIC["tpl"];
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
 
-    public function getType()
+    public function getType() : string
     {
         return "rating";
     }
@@ -47,7 +33,7 @@ class ilExcCriteriaRating extends ilExcCriteria
     
     // PEER REVIEW
     
-    public function addToPeerReviewForm($a_value = null)
+    public function addToPeerReviewForm($a_value = null) : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -74,14 +60,14 @@ class ilExcCriteriaRating extends ilExcCriteria
         $this->form_item = $input;
     }
     
-    protected function getRatingSubType()
+    protected function getRatingSubType() : string
     {
         return $this->getId()
-            ? "peer_" . (int) $this->getId()
+            ? "peer_" . $this->getId()
             : "peer"; // no catalogue / v1
     }
     
-    protected function renderWidget($a_read_only = false)
+    protected function renderWidget(bool $a_read_only = false) : string
     {
         $rating = new ilRatingGUI();
         $rating->setObject(
@@ -93,10 +79,9 @@ class ilExcCriteriaRating extends ilExcCriteria
         $rating->setUserId($this->giver_id);
         
         $ajax_id = $this->getId()
-            ? (int) $this->getId()
-            : "'rating'";
+            ?: "'rating'";
         
-        if (!(bool) $a_read_only) {
+        if (!$a_read_only) {
             $html = '<div class="crit_widget">' .
                 $rating->getHTML(false, true, "il.ExcPeerReview.saveCrit(this, " . $this->peer_id . ", " . $ajax_id . ", %rating%)") .
             '</div>';
@@ -107,12 +92,12 @@ class ilExcCriteriaRating extends ilExcCriteria
         return $html;
     }
     
-    public function importFromPeerReviewForm()
+    public function importFromPeerReviewForm() : void
     {
         // see updateFromAjax()
     }
     
-    public function updateFromAjax()
+    public function updateFromAjax() : string
     {
         // save rating
         ilRating::writeRatingForUserAndObject(
@@ -125,11 +110,10 @@ class ilExcCriteriaRating extends ilExcCriteria
         );
                 
         // render current rating
-        // $ilCtrl->setParameter($this->parent_obj, "peer_id", $peer_id);
-        return $this->renderWidget($a_ass, $a_giver_id, $a_peer_id);
+        return $this->renderWidget();
     }
     
-    public function validate($a_value)
+    public function validate($a_value) : bool
     {
         $lng = $this->lng;
         
@@ -144,7 +128,7 @@ class ilExcCriteriaRating extends ilExcCriteria
         return true;
     }
     
-    public function hasValue($a_value)
+    public function hasValue($a_value) : bool
     {
         return (bool) ilRating::getRatingForUserAndObject(
             $this->ass->getId(),
@@ -155,12 +139,12 @@ class ilExcCriteriaRating extends ilExcCriteria
         );
     }
     
-    public function getHTML($a_value)
+    public function getHTML($a_value) : string
     {
-        return $this->renderWidget($this->ass, $this->giver_id, $this->peer_id, true);
+        return $this->renderWidget(true);
     }
         
-    public function resetReview()
+    public function resetReview() : void
     {
         ilRating::resetRatingForUserAndObject(
             $this->ass->getId(),

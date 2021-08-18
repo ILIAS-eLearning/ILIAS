@@ -86,7 +86,14 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
             if (!is_null($item) && in_array($field->getDatatypeId(), self::VALID_DEFAULT_VALUE_TYPES)) {
                 $name = "default_" . $a_set->getId() . "_" . $field->getDatatypeId();
                 $item->setPostVar($name);
-                $this->tpl->setVariable('INPUT', $item->render());
+                if ($item instanceof ilTextAreaInputGUI) {
+                    $replacement_box = new ilTextInputGUI();
+                    $replacement_box->setPostVar($item->getPostVar());
+                    $replacement_box->setValue($item->getValue());
+                    $this->tpl->setVariable('INPUT', $replacement_box->render());
+                } else {
+                    $this->tpl->setVariable('INPUT', $item->render());
+                }
 
                 // Workaround as empty checkboxes do not get posted
                 if ($item instanceof ilDclCheckboxInputGUI) {

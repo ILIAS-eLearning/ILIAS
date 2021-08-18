@@ -841,12 +841,14 @@ class ilObjSurveyQuestionPool extends ilObject
      *
      * @return array
      */
-    static function _getQuestionClasses(): array
+    public static function _getQuestionClasses() : array
     {
-        $classes = array_map(function ($c) {
-            return $c["type_tag"];
-        },
-            self::_getQuestiontypes());
+        $classes = array_map(
+            function ($c) {
+                return $c["type_tag"];
+            },
+            self::_getQuestiontypes()
+        );
         return $classes;
     }
 

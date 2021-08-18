@@ -1,50 +1,45 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Rating/classes/class.ilRatingCategory.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use \Psr\Http\Message\RequestInterface;
 
 /**
  * Class ilRatingCategoryGUI. User interface class for rating categories.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRating
  */
 class ilRatingCategoryGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    protected $parent_id; // [int]
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected int $parent_id; // [int]
     protected $export_callback; // [string|array]
-    protected $export_subobj_title; // [string]
-    
-    public function __construct($a_parent_id, $a_export_callback = null, $a_export_subobj_title = null)
-    {
+    protected ?string $export_subobj_title = null;
+    protected int $requested_cat_id;
+    protected RequestInterface $request;
+    protected int $cat_id;
+
+    /**
+     * ilRatingCategoryGUI constructor.
+     * @param int         $a_parent_id
+     * @param ?mixed  $a_export_callback
+     * @param ?string $a_export_subobj_title
+     */
+    public function __construct(
+        int $a_parent_id,
+        $a_export_callback = null,
+        string $a_export_subobj_title = null
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
+        $this->request = $DIC->http()->request();
         $lng = $DIC->language();
         
         $this->parent_id = (int) $a_parent_id;
@@ -52,9 +47,13 @@ class ilRatingCategoryGUI
         $this->export_subobj_title = $a_export_subobj_title;
         
         $lng->loadLanguageModule("rating");
+
+        $params = $this->request->getQueryParams();
+        $body = $this->request->getParsedBody();
+        $this->requested_cat_id = (int) ($body["cat_id"] ?? ($params["cat_id"] ?? 0));
         
-        if ($_REQUEST["cat_id"]) {
-            $cat = new ilRatingCategory($_REQUEST["cat_id"]);
+        if ($this->requested_cat_id) {
+            $cat = new ilRatingCategory($this->requested_cat_id);
             if ($cat->getParentId() == $this->parent_id) {
                 $this->cat_id = $cat->getId();
             }
@@ -64,7 +63,7 @@ class ilRatingCategoryGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -73,12 +72,12 @@ class ilRatingCategoryGUI
         
         switch ($next_class) {
             default:
-                return $this->$cmd();
+                $this->$cmd();
                 break;
         }
     }
-    
-    protected function listCategories()
+
+    protected function listCategories() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -97,18 +96,16 @@ class ilRatingCategoryGUI
             $ilCtrl->getLinkTarget($this, "export")
         );
         
-        include_once "Services/Rating/classes/class.ilRatingCategoryTableGUI.php";
         $table = new ilRatingCategoryTableGUI($this, "listCategories", $this->parent_id);
         $tpl->setContent($table->getHTML());
     }
     
     
-    protected function initCategoryForm($a_id = null)
+    protected function initCategoryForm(int $a_id = null) : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($ilCtrl->getFormAction($this, "save"));
@@ -141,7 +138,7 @@ class ilRatingCategoryGUI
         return $form;
     }
     
-    protected function add($a_form = null)
+    protected function add(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         
@@ -152,14 +149,13 @@ class ilRatingCategoryGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    protected function save()
+    protected function save() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $form = $this->initCategoryForm("create");
         if ($form->checkInput()) {
-            include_once "Services/Rating/classes/class.ilRatingCategory.php";
             $cat = new ilRatingCategory();
             $cat->setParentId($this->parent_id);
             $cat->setTitle($form->getInput("title"));
@@ -174,7 +170,7 @@ class ilRatingCategoryGUI
         $this->add($form);
     }
     
-    protected function edit($a_form = null)
+    protected function edit(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -188,14 +184,13 @@ class ilRatingCategoryGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    protected function update()
+    protected function update() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         $form = $this->initCategoryForm($this->cat_id);
         if ($form->checkInput()) {
-            include_once "Services/Rating/classes/class.ilRatingCategory.php";
             $cat = new ilRatingCategory($this->cat_id);
             $cat->setTitle($form->getInput("title"));
             $cat->setDescription($form->getInput("desc"));
@@ -209,12 +204,13 @@ class ilRatingCategoryGUI
         $this->add($form);
     }
     
-    protected function updateOrder()
+    protected function updateOrder() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $order = $_POST["pos"];
+
+        $body = $this->request->getParsedBody();
+        $order = $body["pos"];
         asort($order);
         
         $cnt = 0;
@@ -231,17 +227,17 @@ class ilRatingCategoryGUI
         $ilCtrl->redirect($this, "listCategories");
     }
     
-    protected function confirmDelete()
+    protected function confirmDelete() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         if (!$this->cat_id) {
-            return $this->listCategories();
+            $this->listCategories();
+            return;
         }
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($lng->txt("rating_category_delete_sure") . "<br/>" .
             $lng->txt("info_delete_warning_no_trash"));
@@ -256,7 +252,7 @@ class ilRatingCategoryGUI
         $tpl->setContent($cgui->getHTML());
     }
     
-    protected function delete()
+    protected function delete() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -279,11 +275,10 @@ class ilRatingCategoryGUI
         $ilCtrl->redirect($this, "listCategories");
     }
     
-    protected function export()
+    protected function export() : void
     {
         $lng = $this->lng;
     
-        include_once "./Services/Excel/classes/class.ilExcel.php";
         $excel = new ilExcel();
         $excel->addSheet($lng->txt("rating_categories"));
         

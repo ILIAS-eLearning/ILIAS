@@ -804,7 +804,6 @@ class ilECSMappingSettingsGUI
         $GLOBALS['DIC']['ilTabs']->activateSubTab('dTrees');
         $GLOBALS['DIC']['ilTabs']->activateTab('ecs_dir_allocation');
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
 
         $confirm = new ilConfirmationGUI();

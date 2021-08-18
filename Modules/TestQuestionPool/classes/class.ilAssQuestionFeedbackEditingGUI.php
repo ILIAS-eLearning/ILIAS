@@ -125,6 +125,8 @@ class ilAssQuestionFeedbackEditingGUI
         
         $this->ctrl->setParameter($this, 'q_id', (int) $_GET['q_id']);
 
+        $this->setContentStyle();
+
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
@@ -140,7 +142,15 @@ class ilAssQuestionFeedbackEditingGUI
                 break;
         }
     }
-    
+
+    /**
+     * Set content style
+     */
+    protected function setContentStyle()
+    {
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
+    }
+
     /**
      * command for rendering the feedback editing form to the content area
      *
@@ -233,10 +243,8 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function isFormSaveable()
     {
-        $isAdditionalContentEditingModePageObject = $this->questionOBJ->isAdditionalContentEditingModePageObject();
-        $isSaveableInPageObjectEditingMode = $this->feedbackOBJ->isSaveableInPageObjectEditingMode();
-        
-        if ($isAdditionalContentEditingModePageObject && !$isSaveableInPageObjectEditingMode) {
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
+            && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
             return false;
         }
         

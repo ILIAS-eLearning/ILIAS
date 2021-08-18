@@ -1,39 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExcCriteriaGUI:
- * @ingroup ModulesExercise
  */
 class ilExcCriteriaGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $cat_id; // [int]
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected int $cat_id;
     
-    public function __construct($a_cat_id)
+    public function __construct(int $a_cat_id)
     {
         global $DIC;
 
@@ -44,7 +28,7 @@ class ilExcCriteriaGUI
         $this->cat_id = $a_cat_id;
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -63,7 +47,7 @@ class ilExcCriteriaGUI
     // LIST/TABLE
     //
     
-    protected function view()
+    protected function view() : void
     {
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
@@ -85,7 +69,7 @@ class ilExcCriteriaGUI
         $tpl->setContent($tbl->getHTML());
     }
     
-    protected function saveOrder()
+    protected function saveOrder() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -106,7 +90,7 @@ class ilExcCriteriaGUI
         $ilCtrl->redirect($this, "view");
     }
     
-    protected function confirmDeletion()
+    protected function confirmDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -133,7 +117,7 @@ class ilExcCriteriaGUI
         $tpl->setContent($confirmation_gui->getHTML());
     }
     
-    protected function delete()
+    protected function delete() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -158,7 +142,7 @@ class ilExcCriteriaGUI
     // EDIT
     //
     
-    protected function initForm(ilExcCriteria $a_crit_obj)
+    protected function initForm(ilExcCriteria $a_crit_obj) : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -197,7 +181,7 @@ class ilExcCriteriaGUI
         return $form;
     }
     
-    protected function add(ilPropertyFormGUI $a_form = null)
+    protected function add(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -217,8 +201,10 @@ class ilExcCriteriaGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    protected function exportForm(ilExcCriteria $a_crit_obj, ilPropertyFormGUI $a_form)
-    {
+    protected function exportForm(
+        ilExcCriteria $a_crit_obj,
+        ilPropertyFormGUI $a_form
+    ) : void {
         $a_form->getItemByPostVar("title")->setValue($a_crit_obj->getTitle());
         $a_form->getItemByPostVar("desc")->setValue($a_crit_obj->getDescription());
         $a_form->getItemByPostVar("req")->setChecked($a_crit_obj->isRequired());
@@ -226,8 +212,9 @@ class ilExcCriteriaGUI
         $a_crit_obj->exportCustomForm($a_form);
     }
     
-    protected function importForm(ilExcCriteria $a_crit_obj)
-    {
+    protected function importForm(
+        ilExcCriteria $a_crit_obj
+    ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
@@ -256,7 +243,7 @@ class ilExcCriteriaGUI
         $this->{$is_edit ? "edit" : "add"}($form);
     }
     
-    protected function create()
+    protected function create() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -269,7 +256,7 @@ class ilExcCriteriaGUI
         $this->importForm($crit_obj);
     }
     
-    protected function getCurrentCritera()
+    protected function getCurrentCritera() : ?ilExcCriteria
     {
         $ilCtrl = $this->ctrl;
         
@@ -283,9 +270,11 @@ class ilExcCriteriaGUI
         }
         
         $ilCtrl->redirect($this, "view");
+
+        return null;
     }
     
-    protected function edit(ilPropertyFormGUI $a_form = null)
+    protected function edit(ilPropertyFormGUI $a_form = null) : void
     {
         $tpl = $this->tpl;
         
@@ -299,7 +288,7 @@ class ilExcCriteriaGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    protected function update()
+    protected function update() : void
     {
         $crit_obj = $this->getCurrentCritera();
         $this->importForm($crit_obj);

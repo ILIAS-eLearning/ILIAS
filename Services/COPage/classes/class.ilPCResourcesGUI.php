@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCResources.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCResourcesGUI
-*
-* User Interface for Resources Component Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCResourcesGUI
+ *
+ * User Interface for Resources Component Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCResourcesGUI extends ilPageContentGUI
 {
     /**
@@ -86,7 +81,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $this->displayValidationError();
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {
@@ -295,7 +289,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
             
             // check whether this item group is child -> insert editing html
             if (isset($item_groups[$itgr_ref_id])) {
-                include_once("./Modules/ItemGroup/classes/class.ilItemGroupItems.php");
                 $itgr_items = new ilItemGroupItems($itgr_ref_id);
                 $items = $itgr_items->getValidItems();
                 
@@ -308,7 +301,6 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
                     // TODO: Handle this switch by module.xml definitions
                     if (in_array($it_type, array("catr", "crsr", "grpr"))) {
-                        include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
                         $it_title = ilContainerReference::_lookupTitle($it_obj_id);
                     }
 

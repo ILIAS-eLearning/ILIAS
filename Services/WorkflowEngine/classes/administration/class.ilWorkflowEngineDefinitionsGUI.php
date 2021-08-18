@@ -275,7 +275,7 @@ class ilWorkflowEngineDefinitionsGUI
             ilUtil::redirect(
                 html_entity_decode(
                     $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                    )
+                )
             );
         }
     }
@@ -372,7 +372,7 @@ class ilWorkflowEngineDefinitionsGUI
             ilUtil::redirect(
                 html_entity_decode(
                     $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                    )
+                )
             );
         }
 
@@ -429,7 +429,7 @@ class ilWorkflowEngineDefinitionsGUI
         ilUtil::redirect(
             html_entity_decode(
                 $this->parent_gui->ilCtrl->getLinkTarget($this->parent_gui, 'definitions.view')
-                )
+            )
         );
     }
 
@@ -498,7 +498,6 @@ class ilWorkflowEngineDefinitionsGUI
         );
         $processDefinition = $repository->getById($processId);
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->addItem('process_id[]', $processDefinition['id'], $processDefinition['title']);
         $this->parent_gui->ilCtrl->setParameter($this->parent_gui, 'process_id', $processDefinition['id']);

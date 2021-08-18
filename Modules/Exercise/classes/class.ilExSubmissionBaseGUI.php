@@ -1,5 +1,8 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
 /**
  * Exercise submission base gui
@@ -7,51 +10,25 @@
  * This is an abstract base class for all types of submissions
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilExSubmissionBaseGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $exercise; // [ilObjExercise]
-    protected $submission; // [ilExSubmission]
-    protected $assignment; // [ilExAssignment]
-
-    /**
-     * @var ilExcMandatoryAssignmentManager
-     */
-    protected $mandatory_manager;
-
-    /**
-     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
-     */
-    protected $tool_context;
-
-    /**
-     * @var ilExAssignmentTypesGUI
-     */
-    protected $type_guis;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjExercise $exercise;
+    protected ilExSubmission $submission;
+    protected ilExAssignment $assignment;
+    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected ContextServices $tool_context;
+    protected ilExAssignmentTypesGUI $type_guis;
     
-    public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
-    {
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExSubmission $a_submission
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -75,15 +52,18 @@ abstract class ilExSubmissionBaseGUI
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
     
-    abstract public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission);
+    abstract public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission
+    ) : void;
     
-    protected function handleTabs()
+    protected function handleTabs() : void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "returnToParent")
-            );
+        );
         
         $this->tabs_gui->addTab(
             "submission",
@@ -97,7 +77,7 @@ abstract class ilExSubmissionBaseGUI
         }
     }
     
-    public function returnToParentObject()
+    public function returnToParentObject() : void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -107,8 +87,9 @@ abstract class ilExSubmissionBaseGUI
     // RETURNED/EXERCISE STATUS
     //
     
-    protected function handleNewUpload($a_no_notifications = false)
-    {
+    protected function handleNewUpload(
+        bool $a_no_notifications = false
+    ) : void {
         $has_submitted = $this->submission->hasSubmitted();
         
         $this->exercise->processExerciseStatus(
@@ -131,16 +112,13 @@ abstract class ilExSubmissionBaseGUI
         }
     }
     
-    protected function handleRemovedUpload()
+    protected function handleRemovedUpload() : void
     {
         // #16532 - always send notifications
         $this->handleNewUpload();
     }
 
-    /**
-     * Trigger assigment tool
-     */
-    protected function triggerAssignmentTool()
+    protected function triggerAssignmentTool() : void
     {
         $ass_ids = [$this->assignment->getId()];
         $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);

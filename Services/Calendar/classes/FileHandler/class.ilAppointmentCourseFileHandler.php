@@ -2,8 +2,7 @@
 
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Calendar/interfaces/interface.ilAppointmentFileHandler.php");
-include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFileHandler.php");
+use ILIAS\Calendar\FileHandler\ilFileProperty;
 
 /**
  * Course appointment file handler
@@ -14,12 +13,9 @@ include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFil
 class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
     /**
-     * Get files (for appointment)
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getFiles()
+    public function getFiles() : array
     {
         $cat_info = $this->getCatInfo();
 
@@ -28,18 +24,18 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
         $refs = ilObject::_getAllReferences($cat_info['obj_id']);
         $crs_ref_id = current($refs);
 
-        $files = array();
+        $files = [];
         if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $crs_ref_id)) {
-            include_once "./Modules/Course/classes/class.ilCourseFile.php";
             $course_files = ilCourseFile::_readFilesByCourse($cat_info['obj_id']);
-
             foreach ($course_files as $course_file) {
-                $file_name_system_path = $course_file->getAbsolutePath();
-                $file_name_web = $course_file->getInfoDirectory() . "/" . $course_file->getFileName();
-                $files[$file_name_system_path] = $file_name_web;
+
+                $file_property = new ilFileProperty();
+                $file_property->setAbsolutePath($course_file->getAbsolutePath());
+                $file_property->setFileName($course_file->getFileName());
+
+                $files[] = $file_property;
             }
         }
-
         return $files;
     }
 }

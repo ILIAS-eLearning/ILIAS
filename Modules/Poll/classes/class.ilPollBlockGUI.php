@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Block/classes/class.ilBlockGUI.php");
-include_once("./Modules/Poll/classes/class.ilObjPoll.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* BlockGUI class for polls.
-*
-* @author Jörg Lützenkirchen
-* @version $Id$
-*
-* @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
-* @ingroup ModulesPoll
-*/
+ * BlockGUI class for polls.
+ *
+ * @author Jörg Lützenkirchen
+ * @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
+ */
 class ilPollBlockGUI extends ilBlockGUI
 {
     public static $block_type = "poll";
@@ -89,10 +83,8 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     public function executeCommand()
     {
-        $ilCtrl = $this->ctrl;
-
-        $next_class = $ilCtrl->getNextClass();
-        $cmd = $ilCtrl->getCmd("getHTML");
+        $next_class = $this->ctrl->getNextClass();
+        $cmd = $this->ctrl->getCmd("getHTML");
 
         switch ($next_class) {
             default:
@@ -102,15 +94,9 @@ class ilPollBlockGUI extends ilBlockGUI
 
     public function fillRow($a_poll)
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilUser = $this->user;
-        $tpl = $this->main_tpl;
-
-
         // handle messages
 
-        $mess = $this->poll_block->getMessage($ilUser->getId());
+        $mess = $this->poll_block->getMessage($this->user->getId());
         if ($mess) {
             $this->tpl->setVariable("TXT_QUESTION", $mess);
             return;
@@ -118,32 +104,34 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
         // nested form problem
-        if (!$_SESSION["il_cont_admin_panel"]) {
+        if (!ilSession::get('il_cont_admin_panel')) {
             // vote
 
-            if ($this->poll_block->mayVote($ilUser->getId())) {
+            if ($this->poll_block->mayVote($this->user->getId())) {
                 $this->tpl->setCurrentBlock("mode_info_bl");
                 if ($this->poll_block->getPoll()->getNonAnonymous()) {
-                    $mode_info = $lng->txt("poll_non_anonymous_warning");
+                    $mode_info = $this->lng->txt("poll_non_anonymous_warning");
                 } else {
-                    $mode_info = $lng->txt("poll_anonymous_warning");
+                    $mode_info = $this->lng->txt("poll_anonymous_warning");
                 }
                 $this->tpl->setVariable("MODE_INFO", $mode_info);
                 $this->tpl->parseCurrentBlock();
 
                 $is_multi_answer = ($this->poll_block->getPoll()->getMaxNumberOfAnswers() > 1);
 
-                if (isset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()])) {
-                    $last_vote = $_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()];
-                    unset($_SESSION["last_poll_vote"][$this->poll_block->getPoll()->getId()]);
+                $session_last_poll_vote = ilSession::get('last_poll_vote');
+                if (isset($session_last_poll_vote[$this->poll_block->getPoll()->getId()])) {
+                    $last_vote = $session_last_poll_vote[$this->poll_block->getPoll()->getId()];
+                    unset($session_last_poll_vote[$this->poll_block->getPoll()->getId()]);
+                    ilSession::set('last_poll_vote', $session_last_poll_vote);
 
                     if ($is_multi_answer) {
                         $error = sprintf(
-                            $lng->txt("poll_vote_error_multi"),
+                            $this->lng->txt("poll_vote_error_multi"),
                             $this->poll_block->getPoll()->getMaxNumberOfAnswers()
                         );
                     } else {
-                        $error = $lng->txt("poll_vote_error_single");
+                        $error = $this->lng->txt("poll_vote_error_single");
                     }
 
                     $this->tpl->setCurrentBlock("error_bl");
@@ -153,6 +141,8 @@ class ilPollBlockGUI extends ilBlockGUI
 
                 $this->tpl->setCurrentBlock("answer");
                 foreach ($a_poll->getAnswers() as $item) {
+                    $id = (int) ($item['id'] ?? 0);
+                    $answer = (string) ($item['answer'] ?? 0);
                     if (!$is_multi_answer) {
                         $this->tpl->setVariable("ANSWER_INPUT", "radio");
                         $this->tpl->setVariable("ANSWER_NAME", "aw");
@@ -160,37 +150,37 @@ class ilPollBlockGUI extends ilBlockGUI
                         $this->tpl->setVariable("ANSWER_INPUT", "checkbox");
                         $this->tpl->setVariable("ANSWER_NAME", "aw[]");
 
-                        if (is_array($last_vote) && in_array($item["id"], $last_vote)) {
+                        if (!empty($last_vote) && is_array($last_vote) && in_array($id, $last_vote)) {
                             $this->tpl->setVariable("ANSWER_STATUS", 'checked="checked"');
                         }
                     }
-                    $this->tpl->setVariable("VALUE_ANSWER", $item["id"]);
-                    $this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($item["answer"]));
+                    $this->tpl->setVariable("VALUE_ANSWER", $id);
+                    $this->tpl->setVariable("TXT_ANSWER_VOTE", nl2br($answer));
                     $this->tpl->parseCurrentBlock();
                 }
 
-                $ilCtrl->setParameterByClass(
+                $this->ctrl->setParameterByClass(
                     $this->getRepositoryObjectGUIName(),
                     "ref_id",
                     $this->getRefId()
                 );
-                $url = $ilCtrl->getLinkTargetByClass(
+                $url = $this->ctrl->getLinkTargetByClass(
                     array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
                     "vote"
                 );
-                $ilCtrl->clearParametersByClass($this->getRepositoryObjectGUIName());
+                $this->ctrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 
                 $url .= "#poll" . $a_poll->getID();
 
                 $this->tpl->setVariable("URL_FORM", $url);
                 $this->tpl->setVariable("CMD_FORM", "vote");
-                $this->tpl->setVariable("TXT_SUBMIT", $lng->txt("poll_vote"));
+                $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("poll_vote"));
 
                 if ($this->poll_block->getPoll()->getVotingPeriod()) {
                     $this->tpl->setVariable(
                         "TXT_VOTING_END_PERIOD",
                         sprintf(
-                            $lng->txt("poll_voting_period_info"),
+                            $this->lng->txt("poll_voting_period_info"),
                             ilDatePresentation::formatDate(new ilDateTime($this->poll_block->getPoll()->getVotingPeriodEnd(), IL_CAL_UNIX))
                         )
                     );
@@ -199,18 +189,19 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
             // result
-            if ($this->poll_block->maySeeResults($ilUser->getId())) {
-                if (!$this->poll_block->mayNotResultsYet($ilUser->getId())) {
+            if ($this->poll_block->maySeeResults($this->user->getId())) {
+                if (!$this->poll_block->mayNotResultsYet($this->user->getId())) {
                     $answers = array();
                     foreach ($a_poll->getAnswers() as $item) {
-                        $answers[$item["id"]] = $item["answer"];
+                        $id = (int) ($item['id'] ?? 0);
+                        $answers[$id] = (string) ($item['answer'] ?? 0);
                     }
 
                     $perc = $this->poll_block->getPoll()->getVotePercentages();
-                    $total = $perc["total"];
-                    $perc = $perc["perc"];
+                    $total = (int) ($perc['total'] ?? 0);
+                    $perc = (array) ($perc['perc'] ?? array());
 
-                    $this->tpl->setVariable("TOTAL_ANSWERS", sprintf($lng->txt("poll_population"), $total));
+                    $this->tpl->setVariable("TOTAL_ANSWERS", sprintf($this->lng->txt("poll_population"), $total));
 
                     if ($total) {
                         // sort results by votes / original position
@@ -228,8 +219,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
                         // pie chart
                         if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
-                            include_once("./Services/Chart/classes/class.ilChart.php");
-
                             $chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
                             $chart->setSize("100%", 200);
                             $chart->setAutoResize(true);
@@ -238,8 +227,8 @@ class ilPollBlockGUI extends ilBlockGUI
 
                             foreach ($order as $answer_id) {
                                 $chart_data->addPoint(
-                                    round($perc[$answer_id]["perc"]),
-                                    nl2br($answers[$answer_id])
+                                    round((float) ($perc[$answer_id]["perc"] ?? 0)),
+                                    nl2br((string) ($answers[$answer_id] ?? ''))
                                 );
                             }
 
@@ -257,14 +246,12 @@ class ilPollBlockGUI extends ilBlockGUI
                             $this->tpl->setVariable("PIE_CHART", $chart->getHTML());
                         } // bar chart
                         else {
-                            include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
-
                             $this->tpl->setCurrentBlock("answer_result");
                             foreach ($order as $answer_id) {
                                 $pbar = ilProgressBar::getInstance();
-                                $pbar->setCurrent(round($perc[$answer_id]["perc"]));
+                                $pbar->setCurrent(round((float) ($perc[$answer_id]["perc"] ?? 0)));
                                 $this->tpl->setVariable("PERC_ANSWER_RESULT", $pbar->render());
-                                $this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br($answers[$answer_id]));
+                                $this->tpl->setVariable("TXT_ANSWER_RESULT", nl2br((string) ($answers[$answer_id] ?? '')));
                                 $this->tpl->parseCurrentBlock();
                             }
                         }
@@ -278,24 +265,24 @@ class ilPollBlockGUI extends ilBlockGUI
 
                     // #14607
                     $info = "";
-                    if ($this->poll_block->getPoll()->hasUserVoted($ilUser->getId())) {
-                        $info .= $lng->txt("poll_block_message_already_voted") . " ";
+                    if ($this->poll_block->getPoll()->hasUserVoted($this->user->getId())) {
+                        $info .= $this->lng->txt("poll_block_message_already_voted") . " ";
                     }
 
                     $this->tpl->setVariable("TOTAL_ANSWERS", $info .
-                        sprintf($lng->txt("poll_block_results_available_on"), $end));
+                        sprintf($this->lng->txt("poll_block_results_available_on"), $end));
                 }
-            } elseif ($this->poll_block->getPoll()->hasUserVoted($ilUser->getId())) {
-                $this->tpl->setVariable("TOTAL_ANSWERS", $lng->txt("poll_block_message_already_voted"));
+            } elseif ($this->poll_block->getPoll()->hasUserVoted($this->user->getId())) {
+                $this->tpl->setVariable("TOTAL_ANSWERS", $this->lng->txt("poll_block_message_already_voted"));
             }
         }
 
-        if (!$this->poll_block->mayVote($ilUser->getId()) && !$this->poll_block->getPoll()->hasUserVoted($ilUser->getId())) {
+        if (!$this->poll_block->mayVote($this->user->getId()) && !$this->poll_block->getPoll()->hasUserVoted($this->user->getId())) {
             if ($this->poll_block->getPoll()->getVotingPeriod()) {
                 $this->tpl->setVariable(
                     "TXT_VOTING_PERIOD",
                     sprintf(
-                        $lng->txt("poll_voting_period_full_info"),
+                        $this->lng->txt("poll_voting_period_full_info"),
                         ilDatePresentation::formatDate(new ilDateTime($this->poll_block->getPoll()->getVotingPeriodBegin(), IL_CAL_UNIX)),
                         ilDatePresentation::formatDate(new ilDateTime($this->poll_block->getPoll()->getVotingPeriodEnd(), IL_CAL_UNIX))
                     )
@@ -306,7 +293,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
             $img = $a_poll->getImageFullPath();
             if ($img) {
-                require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
                 $this->tpl->setVariable("URL_IMAGE", ilWACSignedPath::signFile($img));
             }
         }
@@ -323,7 +309,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
         if ($this->poll_block->showComments()) {
             $this->tpl->setCurrentBlock("comment_link");
-            $this->tpl->setVariable("LANG_COMMENTS", $lng->txt('poll_comments'));
+            $this->tpl->setVariable("LANG_COMMENTS", $this->lng->txt('poll_comments'));
             $this->tpl->setVariable("COMMENT_JSCALL", $this->commentJSCall());
             $this->tpl->setVariable("COMMENTS_COUNT_ID", $this->getRefId());
 
@@ -334,7 +320,7 @@ class ilPollBlockGUI extends ilBlockGUI
             }
 
             if (!self::$js_init) {
-                $redraw_url = $ilCtrl->getLinkTarget(
+                $redraw_url = $this->ctrl->getLinkTarget(
                     $this,
                     "getNumberOfCommentsForRedraw",
                     "",
@@ -343,7 +329,7 @@ class ilPollBlockGUI extends ilBlockGUI
                 );
                 $this->tpl->setVariable("COMMENTS_REDRAW_URL", $redraw_url);
 
-                $tpl->addJavaScript("Modules/Poll/js/ilPoll.js");
+                $this->main_tpl->addJavaScript("Modules/Poll/js/ilPoll.js");
                 self::$js_init = true;
             }
         }
@@ -354,14 +340,9 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     public function getHTML()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        $ilUser = $this->user;
-
         $this->poll_block->setRefId($this->getRefId());
-        $this->may_write = $ilAccess->checkAccess("write", "", $this->getRefId());
-        $this->has_content = $this->poll_block->hasAnyContent($ilUser->getId(), $this->getRefId());
+        $this->may_write = $this->access->checkAccess("write", "", $this->getRefId());
+        $this->has_content = $this->poll_block->hasAnyContent($this->user->getId(), $this->getRefId());
 
         #22078 and 22079 it always contains something.
         /*if(!$this->may_write && !$this->has_content)
@@ -373,30 +354,29 @@ class ilPollBlockGUI extends ilBlockGUI
         $this->setTitle($poll_obj->getTitle());
         $this->setData(array($poll_obj));
 
-        $ilCtrl->setParameterByClass(
+        $this->ctrl->setParameterByClass(
             $this->getRepositoryObjectGUIName(),
             "ref_id",
             $this->getRefId()
         );
 
-        if (!$this->poll_block->getMessage($ilUser->getId())) {
+        if (!$this->poll_block->getMessage($this->user->getId())) {
             // notification
-            include_once "./Services/Notification/classes/class.ilNotification.php";
-            if (ilNotification::hasNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->poll_block->getPoll()->getId())) {
+            if (ilNotification::hasNotification(ilNotification::TYPE_POLL, $this->user->getId(), $this->poll_block->getPoll()->getId())) {
                 $this->addBlockCommand(
-                    $ilCtrl->getLinkTargetByClass(
+                    $this->ctrl->getLinkTargetByClass(
                         array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
                         "unsubscribe"
                     ),
-                    $lng->txt("poll_notification_unsubscribe")
+                    $this->lng->txt("poll_notification_unsubscribe")
                 );
             } else {
                 $this->addBlockCommand(
-                    $ilCtrl->getLinkTargetByClass(
+                    $this->ctrl->getLinkTargetByClass(
                         array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
                         "subscribe"
                     ),
-                    $lng->txt("poll_notification_subscribe")
+                    $this->lng->txt("poll_notification_subscribe")
                 );
             }
         }
@@ -404,22 +384,22 @@ class ilPollBlockGUI extends ilBlockGUI
         if ($this->may_write) {
             // edit
             $this->addBlockCommand(
-                $ilCtrl->getLinkTargetByClass(
+                $this->ctrl->getLinkTargetByClass(
                     array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
                     "render"
                 ),
-                $lng->txt("edit_content")
+                $this->lng->txt("edit_content")
             );
             $this->addBlockCommand(
-                $ilCtrl->getLinkTargetByClass(
+                $this->ctrl->getLinkTargetByClass(
                     array("ilrepositorygui", $this->getRepositoryObjectGUIName()),
                     "edit"
                 ),
-                $lng->txt("settings")
+                $this->lng->txt("settings")
             );
         }
 
-        $ilCtrl->clearParametersByClass($this->getRepositoryObjectGUIName());
+        $this->ctrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 
         return parent::getHTML();
     }
@@ -431,9 +411,6 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     private function commentJSCall()
     {
-        include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-        include_once("./Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
-
         $refId = $this->getRefId();
         $objectId = ilObject2::_lookupObjectId($refId);
 
@@ -456,7 +433,11 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     public function getNumberOfCommentsForRedraw()
     {
-        $number = $this->getNumberOfComments($_GET["poll_id"]);
+        global $DIC;
+
+        $poll_id = $DIC->http()->request()->getQueryParams()['poll_id'];
+
+        $number = $this->getNumberOfComments((int) ($poll_id ?? 0));
 
         if ($number > 0) {
             echo "(" . $number . ")";
@@ -475,8 +456,6 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     public function getNumberOfComments($ref_id)
     {
-        include_once("./Services/Notes/classes/class.ilNote.php");
-
         $obj_id = ilObject2::_lookupObjectId($ref_id);
         $number = ilNote::_countNotesAndComments($obj_id);
 

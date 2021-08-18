@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki Data set class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - wpg: data from il_wiki_page
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesWiki
  */
 class ilWikiDataSet extends ilDataSet
 {
@@ -278,8 +275,9 @@ class ilWikiDataSet extends ilDataSet
                         " FROM il_wiki_page" .
                         " WHERE " . $ilDB->in("wiki_id", $a_ids, false, "integer"));
                     foreach ($this->data as $k => $v) {
-                        $set = $ilDB->queryF("SELECT * FROM wiki_page_template " .
-                            " WHERE wiki_id = %s ".
+                        $set = $ilDB->queryF(
+                            "SELECT * FROM wiki_page_template " .
+                            " WHERE wiki_id = %s " .
                             " AND wpage_id = %s ",
                             ["integer", "integer"],
                             [$v["WikiId"], $v["Id"]]
@@ -335,8 +333,7 @@ class ilWikiDataSet extends ilDataSet
 
         switch ($a_entity) {
             case "wiki":
-                
-                include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
+
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -375,7 +372,6 @@ class ilWikiDataSet extends ilDataSet
 
             case "wpg":
                 $wiki_id = $a_mapping->getMapping("Modules/Wiki", "wiki", $a_rec["WikiId"]);
-                include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                 $wpage = new ilWikiPage();
                 $wpage->setWikiId($wiki_id);
                 $wpage->setTitle($a_rec["Title"]);

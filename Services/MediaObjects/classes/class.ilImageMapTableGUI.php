@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for image map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMediaObjects
-*/
+ * TableGUI class for image map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilImageMapTableGUI extends ilTable2GUI
 {
     /**
@@ -36,14 +31,10 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->media_object = $a_media_object;
         
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         $this->highl_modes = ilMapArea::getAllHighlightModes();
         $this->highl_classes = ilMapArea::getAllHighlightClasses();
         
@@ -106,7 +97,6 @@ class ilImageMapTableGUI extends ilTable2GUI
         $max = ilMapArea::_getMaxNr($st_item->getId());
         $areas = array();
         
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         for ($i = 1; $i <= $max; $i++) {
             $area = new ilMapArea($st_item->getId(), $i);
             $areas[] = array("nr" => $i, "area" => $area, "title" => $area->getTitle());
@@ -121,10 +111,6 @@ class ilImageMapTableGUI extends ilTable2GUI
     */
     protected function fillRow($a_set)
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
         $area = $a_set["area"];
         $i = $a_set["nr"];
         $this->tpl->setVariable(

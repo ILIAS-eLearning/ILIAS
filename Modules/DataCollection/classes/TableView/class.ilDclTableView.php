@@ -114,7 +114,7 @@ class ilDclTableView extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_dcl_tableview";
     }
@@ -464,7 +464,7 @@ class ilDclTableView extends ActiveRecord
     /**
      * @param bool $create_default_settings
      */
-    public function create($create_default_settings = true)
+    public function create($create_default_settings = true) : void
     {
         parent::create();
         if ($create_default_settings) {

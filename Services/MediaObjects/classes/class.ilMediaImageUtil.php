@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Image utility class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
  */
 class ilMediaImageUtil
 {
@@ -20,7 +18,6 @@ class ilMediaImageUtil
     public static function getImageSize($a_location)
     {
         if (substr($a_location, 0, 4) == "http") {
-            include_once("./Services/WebServices/Curl/classes/class.ilCurlConnection.php");
             if (ilCurlConnection::_isCurlExtensionLoaded()) {
                 $dir = ilUtil::getDataDir() . "/temp/mob/remote_img";
                 ilUtil::makeDirParents($dir);

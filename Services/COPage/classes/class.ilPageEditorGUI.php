@@ -1,29 +1,24 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Page Editor GUI class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilPageEditorGUI: ilPCParagraphGUI, ilPCTableGUI, ilPCTableDataGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, ilPCTabGUI, IlPCPlaceHolderGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
-* @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * Page Editor GUI class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCParagraphGUI, ilPCTableGUI, ilPCTableDataGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCMediaObjectGUI, ilPCListGUI, ilPCListItemGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCFileListGUI, ilPCFileItemGUI, ilObjMediaObjectGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCSourceCodeGUI, ilInternalLinkGUI, ilPCQuestionGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCSectionGUI, ilPCDataTableGUI, ilPCResourcesGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCMapGUI, ilPCPluggedGUI, ilPCTabsGUI, ilPCTabGUI, IlPCPlaceHolderGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCContentIncludeGUI, ilPCLoginPageElementGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCInteractiveImageGUI, ilPCProfileGUI, ilPCVerificationGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCBlogGUI, ilPCQuestionOverviewGUI, ilPCSkillsGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCConsultationHoursGUI, ilPCMyCoursesGUI, ilPCAMDPageListGUI
+ * @ilCtrl_Calls ilPageEditorGUI: ilPCGridGUI, ilPCGridCellGUI, ilPageEditorServerAdapterGUI
+ */
 class ilPageEditorGUI
 {
     /**
@@ -75,12 +70,24 @@ class ilPageEditorGUI
     protected $request;
 
     /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
+
+    protected string $requested_hier_id;
+    protected string $requested_pc_id;
+    protected string $requested_pcid;           // one of these should go
+    protected string $requested_pl_pc_id;       // placeholder pc id
+    protected string $requested_ctype;
+    protected string $requested_cname;
+
+    /**
     * Constructor
     *
     * @param	object		$a_page_object		page object
     * @access	public
     */
-    public function __construct(&$a_page_object, &$a_page_object_gui)
+    public function __construct($a_page_object, $a_page_object_gui)
     {
         global $DIC;
 
@@ -94,9 +101,19 @@ class ilPageEditorGUI
         $ilTabs = $DIC->tabs();
 
         $this->ui = $DIC->ui();
+
         $this->request = $DIC->http()->request();
+        $params = $this->request->getQueryParams();
+        $this->requested_hier_id = $_REQUEST["hier_id"] ?? "";
+        $this->requested_pc_id = $params["pc_id"] ?? "";
+        $this->requested_pl_pc_id = $params["pl_pc_id"] ?? "";
+        $this->requested_ctype = $_REQUEST["ctype"] ?? "";
+        $this->requested_cname = $_REQUEST["cname"] ?? "";
+        $this->requested_pcid = $_REQUEST["pcid"] ?? "";
 
         $this->log = ilLoggerFactory::getLogger('copg');
+
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         // initiate variables
         $this->ctrl = $ilCtrl;
@@ -168,28 +185,19 @@ class ilPageEditorGUI
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
         $this->log->debug("begin ============");
-
-        if (!true) {
-            var_dump($_GET);
-            echo "<br><br>";
-            var_dump($_POST);
-            exit;
-        }
+        $ctype = "";
+        $cont_obj = null;
 
         // Step BC (basic command determination)
         // determine cmd, cmdClass, hier_id and pc_id
         $cmd = $this->ctrl->getCmd("displayPage");
         $cmdClass = strtolower($this->ctrl->getCmdClass());
 
-        $hier_id = $_GET["hier_id"];
-        $pc_id = $_GET["pc_id"];
+        $hier_id = $this->requested_hier_id;
+        $pc_id = $this->requested_pc_id;
         if (isset($_POST["new_hier_id"])) {
             $hier_id = $_POST["new_hier_id"];
         }
-
-        $new_type = (isset($_GET["new_type"]))
-            ? $_GET["new_type"]
-            : $_POST["new_type"];
 
         $this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
 
@@ -236,9 +244,9 @@ class ilPageEditorGUI
 
 
         // Step PH (placeholder handling, placeholders from preview mode come without hier_id)
-        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "") {
-            $hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
-            $hier_id = $hid[$_GET["pl_pc_id"]];
+        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $this->requested_pl_pc_id != "") {
+            $hid = $this->page->getHierIdsForPCIds(array($this->requested_pl_pc_id));
+            $hier_id = $hid[$this->requested_pl_pc_id];
         }
         $this->log->debug("step PH: next class: " . $next_class);
 
@@ -254,6 +262,7 @@ class ilPageEditorGUI
             $this->log->debug("step CM: cmd: " . $cmd . ", ctype: " . $ctype . ", add_type: " . $add_type);
         } else {
             // Step LM (setting cmd and cmdclass for editing of linked media)
+            /* todo: refactor
             if ($cmd == "editLinkedMedia") {
                 $this->ctrl->setCmd("edit");
                 $cmd = "edit";
@@ -269,6 +278,7 @@ class ilPageEditorGUI
                     $cmdClass = "ilobjmediaobjectgui";
                 }
             }
+            */
             $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
 
 
@@ -277,7 +287,7 @@ class ilPageEditorGUI
                 ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
             // note: ilinternallinkgui for page: no cont_obj is received
             // ilinternallinkgui for mob: cont_obj is received
-            if ($_REQUEST["ctype"] == "" && $_REQUEST["cname"] == "" &&
+            if ($this->requested_ctype == "" && $this->requested_cname == "" &&
                 $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
                 $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
                 $cmd != "activatePage" && $cmd != "deactivatePage" &&
@@ -294,7 +304,8 @@ class ilPageEditorGUI
                 $cmd != "cancelCreate" && $cmd != "popup" &&
                 $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
                 ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
-                if ($_GET["pgEdMediaMode"] != "editLinkedMedia") {
+                //if ($_GET["pgEdMediaMode"] != "editLinkedMedia") {        // to do: check this
+                if (true) {
                     $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
                     if (!is_object($cont_obj)) {
                         $this->log->debug("returnToParent");
@@ -303,18 +314,17 @@ class ilPageEditorGUI
                     $ctype = $cont_obj->getType();
                 }
             }
-            $this->log->debug("step PR: ctype: $ctype");
         }
 
         // Step NC (handle empty next class)
-        if ($_REQUEST["ctype"] != "" || $_REQUEST["cname"] != "") {
-            $ctype = $_REQUEST["ctype"];
-            if ($_REQUEST["cname"] != "") {
-                $pc_def = ilCOPagePCDef::getPCDefinitionByName($_REQUEST["cname"]);
+        if ($this->requested_ctype != "" || $this->requested_cname != "") {
+            $ctype = $this->requested_ctype;
+            if ($this->requested_cname != "") {
+                $pc_def = ilCOPagePCDef::getPCDefinitionByName($this->requested_cname);
                 $ctype = $pc_def["pc_type"];
             }
-            $pc_id = $_REQUEST["pcid"];
-            $hier_id = $_REQUEST["hier_id"];
+            $pc_id = $this->requested_pcid;
+            $hier_id = $this->requested_hier_id;
             if (!in_array($cmd, ["insert", "create"])) {
                 $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             }
@@ -334,7 +344,6 @@ class ilPageEditorGUI
         $this->ctrl->setParameter($this, "pc_id", $pc_id);
         $this->ctrl->setCmd($cmd);
         if ($next_class == "") {
-            include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
             $pc_def = ilCOPagePCDef::getPCDefinitionByType($ctype);
             if (is_array($pc_def)) {
                 $this->ctrl->setCmdClass($pc_def["pc_gui_class"]);
@@ -352,6 +361,8 @@ class ilPageEditorGUI
         // Step FC (forward command)
         $this->log->debug("before FC: next_class:" . $next_class . ", pc_id:" . $pc_id .
                 ", hier_id:" . $hier_id . ", ctype:" . $ctype . ", cmd:" . $cmd . ", _GET[cmd]: " . $_GET["cmd"]);
+
+
         switch ($next_class) {
             case "ilinternallinkgui":
                 $link_gui = new ilInternalLinkGUI(
@@ -372,8 +383,6 @@ class ilPageEditorGUI
 
             // PC Media Object
             case "ilpcmediaobjectgui":
-                include_once("./Services/COPage/classes/class.ilPCMediaObjectGUI.php");
-
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
                     $this->page_gui->page_back_title,
@@ -404,7 +413,6 @@ class ilPageEditorGUI
 
             // Question
             case "ilpcquestiongui":
-                include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
                 $pc_question_gui = new ilPCQuestionGUI($this->page, $cont_obj, $hier_id, $pc_id);
                 $pc_question_gui->setSelfAssessmentMode($this->page_gui->getPageConfig()->getEnableSelfAssessment());
                 $pc_question_gui->setPageConfig($this->page_gui->getPageConfig());
@@ -427,7 +435,6 @@ class ilPageEditorGUI
             // Plugged Component
             case "ilpcpluggedgui":
                 $this->tabs_gui->clearTargets();
-                include_once("./Services/COPage/classes/class.ilPCPluggedGUI.php");
                 $plugged_gui = new ilPCPluggedGUI(
                     $this->page,
                     $cont_obj,
@@ -451,7 +458,6 @@ class ilPageEditorGUI
             default:
                 
                 // generic calls to gui classes
-                include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
                 if (ilCOPagePCDef::isPCGUIClassName($next_class, true)) {
                     $this->log->debug("Generic Call");
                     $pc_def = ilCOPagePCDef::getPCDefinitionByGUIClassName($next_class);
@@ -578,7 +584,6 @@ class ilPageEditorGUI
     */
     public function addChangeComment()
     {
-        include_once("./Services/History/classes/class.ilHistory.php");
         ilHistory::_createEntry(
             $this->page->getId(),
             "update",
@@ -606,7 +611,6 @@ class ilPageEditorGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));
@@ -691,9 +695,7 @@ class ilPageEditorGUI
      */
     public function paste($a_hier_id)
     {
-        $ilCtrl = $this->ctrl;
         $this->page->pasteContents($a_hier_id, $this->page_gui->getPageConfig()->getEnableSelfAssessment());
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         //ilEditClipboard::setAction("");
         $this->ctrl->returnToParent($this);
     }
@@ -763,7 +765,6 @@ class ilPageEditorGUI
         
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt("cont_choose_characteristic"));
         
@@ -772,7 +773,6 @@ class ilPageEditorGUI
                 $this->lng->txt("cont_choose_characteristic_text"),
                 "char_par"
             );
-            include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
             $options = ilPCParagraphGUI::_getCharacteristics($this->page_gui->getStyleId());
             $select_prop->setOptions($options);
             $this->form->addItem($select_prop);
@@ -782,7 +782,6 @@ class ilPageEditorGUI
                 $this->lng->txt("cont_choose_characteristic_section"),
                 "char_sec"
             );
-            include_once("./Services/COPage/classes/class.ilPCSectionGUI.php");
             $options = ilPCSectionGUI::_getCharacteristics($this->page_gui->getStyleId());
             $select_prop->setOptions($options);
             $this->form->addItem($select_prop);
@@ -844,9 +843,13 @@ class ilPageEditorGUI
     */
     public function insertFromClipboard()
     {
-        include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
         $ids = ilEditClipboardGUI::_getSelectedIDs();
-        include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+
+        $hier_id = $this->page->getHierIDForPCId($this->requested_pc_id);
+        if ($hier_id == "") {
+            $hier_id = "pg";
+        }
+
         if ($ids != "") {
             foreach ($ids as $id2) {
                 $id = explode(":", $id2);
@@ -855,13 +858,12 @@ class ilPageEditorGUI
                 if ($type == "mob") {
                     $this->content_obj = new ilPCMediaObject($this->page);
                     $this->content_obj->readMediaObject($id);
-                    $this->content_obj->createAlias($this->page, $_GET["hier_id"]);
+                    $this->content_obj->createAlias($this->page, $hier_id);
                     $this->updated = $this->page->update();
                 }
                 if ($type == "incl") {
-                    include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
                     $this->content_obj = new ilPCContentInclude($this->page);
-                    $this->content_obj->create($this->page, $_GET["hier_id"]);
+                    $this->content_obj->create($this->page, $hier_id);
                     $this->content_obj->setContentType("mep");
                     $this->content_obj->setContentId($id);
                     $this->updated = $this->page->update();
@@ -902,7 +904,6 @@ class ilPageEditorGUI
         
         $stpl = new ilTemplate("tpl.snippet_info.html", true, true, "Services/COPage");
         
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
         $mep_pools = ilMediaPoolItem::getPoolForItemId($_POST["ci_id"]);
         foreach ($mep_pools as $mep_id) {
             $ref_ids = ilObject::_getAllReferences($mep_id);
@@ -924,7 +925,6 @@ class ilPageEditorGUI
             $stpl->parseCurrentBlock();
         }
         
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
         $stpl->setVariable("TXT_TITLE", $lng->txt("title"));
         $stpl->setVariable("VAL_TITLE", ilMediaPoolPage::lookupTitle($_POST["ci_id"]));
         $stpl->setVariable("TXT_BACK", $lng->txt("back"));

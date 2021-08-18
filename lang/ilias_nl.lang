@@ -369,7 +369,6 @@ assessment#:#assFileUpload#:#Bestandsupload Vraag
 assessment#:#assFlashQuestion#:#Flash vraag
 assessment#:#assFormulaQuestion#:#Formulevraag
 assessment#:#assImagemapQuestion#:#'Hotspot' vraag
-assessment#:#assJavaApplet#:#Java Applet vraag
 assessment#:#assKprimChoice#:#Multiple Choice Vraag (Kprim Antwoorden)
 assessment#:#assMatchingQuestion#:#'Matching' vraag
 assessment#:#assMultipleChoice#:#Multiple-choice vragen (meerdere antwoorden)
@@ -8426,7 +8425,6 @@ prtf#:#prtf_template_import_blog_create#:#Aanmaken nieuw blog
 prtf#:#prtf_template_import_blog_ignore#:#Verwijder blogpagina
 prtf#:#prtf_template_import_blog_reuse#:#Gebruik bestaande blog
 prtf#:#prtf_template_import_new_skills#:#Als ingechakeld zullen deze items worden toegevoegd aan je persoonlijke competenties.
-prtf#:#prtf_template_import_quota_failure#:#Dit portfolio-sjabloon kan niet worden gekopieerd omdat het je diskquota zou doen overschrijden.
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
@@ -15448,8 +15446,6 @@ pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 n
 file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources###07 02 2020 new variable
 file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
 administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable

@@ -24,6 +24,31 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
      */
     protected $user;
 
+    /**
+     * @var int
+     */
+    protected $top_skill_id;
+
+    /**
+     * @var int
+     */
+    protected $tref_id;
+
+    /**
+     * @var int
+     */
+    protected $basic_skill_id;
+
+    /**
+     * @var int
+     */
+    protected $cur_level_id;
+
+    /**
+     * @var object
+     */
+    protected $skill;
+
     
     /**
      * Constructor

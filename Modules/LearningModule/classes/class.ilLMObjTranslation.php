@@ -151,7 +151,7 @@ class ilLMObjTranslation
             "SELECT * FROM lm_data_transl " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
             " AND lang = " . $ilDB->quote($this->getLang(), "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setShortTitle($rec["short_title"]);
@@ -184,7 +184,7 @@ class ilLMObjTranslation
                 " last_update = " . $ilDB->now() .
                 " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
                 " AND lang = " . $ilDB->quote($this->getLang(), "text")
-                );
+            );
         }
     }
 
@@ -205,7 +205,7 @@ class ilLMObjTranslation
             "SELECT * FROM lm_data_transl " .
             " WHERE id = " . $ilDB->quote($a_id, "integer") .
             " AND lang = " . $ilDB->quote($a_lang, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
@@ -227,7 +227,7 @@ class ilLMObjTranslation
         $set = $ilDB->query(
             "SELECT * FROM lm_data_transl " .
             " WHERE id = " . $ilDB->quote($a_source_id, "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $lmobjtrans = new ilLMObjTranslation($a_target_id, $rec["lang"]);
             $lmobjtrans->setTitle($rec["title"]);

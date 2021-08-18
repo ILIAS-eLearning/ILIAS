@@ -4,6 +4,7 @@ import PageUIActionHandler from '../components/page/ui/page-ui-action-handler.js
 import ParagraphUIActionHandler from '../components/paragraph/ui/paragraph-ui-action-handler.js';
 import MediaUIActionHandler from '../components/media/ui/media-ui-action-handler.js';
 import TableUIActionHandler from '../components/table/ui/table-ui-action-handler.js';
+import PlaceHolderUIActionHandler from '../components/placeholder/ui/placeholder-ui-action-handler.js';
 
 /**
  * UI action handler
@@ -76,6 +77,10 @@ export default class UIActionHandler {
       this.actionFactory,
       this.client
     );
+    this.placeholderActionHandler = new PlaceHolderUIActionHandler(
+      this.actionFactory,
+      this.client
+    );
   }
 
   /**
@@ -87,6 +92,7 @@ export default class UIActionHandler {
     this.paragraphActionHandler.setUI(this.ui.paragraph);
     this.mediaActionHandler.setUI(this.ui.media);
     this.tableActionHandler.setUI(this.ui.table);
+    this.placeholderActionHandler.setUI(this.ui.placeholder);
   }
 
   /**
@@ -98,6 +104,7 @@ export default class UIActionHandler {
     this.paragraphActionHandler.setDispatcher(dispatcher);
     this.mediaActionHandler.setDispatcher(dispatcher);
     this.tableActionHandler.setDispatcher(dispatcher);
+    this.placeholderActionHandler.setDispatcher(dispatcher);
   }
 
   /**
@@ -109,5 +116,6 @@ export default class UIActionHandler {
     this.paragraphActionHandler.handle(action, model.model("page"));
     this.mediaActionHandler.handle(action, model.model("page"));
     this.tableActionHandler.handle(action, model.model("page"), model.model("table"));
+    this.placeholderActionHandler.handle(action, model.model("page"));
   }
 }

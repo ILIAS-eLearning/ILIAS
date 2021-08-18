@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for survey constraints
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilFoundUsersTableGUI.php 20638 2009-07-19 08:14:34Z hschottm $
-*
-* @ingroup ModulesSurvey
-*/
+ * TableGUI class for survey constraints
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class SurveyConstraintsTableGUI extends ilTable2GUI
 {
     protected $read_only; // [bool]

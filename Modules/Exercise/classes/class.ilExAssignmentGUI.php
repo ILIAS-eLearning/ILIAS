@@ -1,47 +1,29 @@
 <?php
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\DI\UIServices;
+
 /**
  * GUI class for exercise assignments
  *
- * This is not a real GUI class, could be moved to ilObjExerciseGUI
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected ilObjExercise $exc;
+    protected int $current_ass_id;
+    protected ilExerciseInternalService $service;
+    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected UIServices $ui;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    protected $exc; // [ilObjExercise]
-    protected $current_ass_id; // [int]
-
-    /**
-     * @var ilExerciseInternalService
-     */
-    protected $service;
-
-    /**
-     * @var ilExcMandatoryAssignmentManager
-     */
-    protected $mandatory_manager;
-    
-    /**
-     * Constructor
-     */
-    public function __construct(ilObjExercise $a_exc, ilExerciseInternalService $service)
-    {
+    public function __construct(
+        ilObjExercise $a_exc,
+        ilExerciseInternalService $service
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -56,8 +38,9 @@ class ilExAssignmentGUI
     
     /**
      * Get assignment header for overview
+     * @throws ilDateTimeException
      */
-    public function getOverviewHeader(ilExAssignment $a_ass)
+    public function getOverviewHeader(ilExAssignment $a_ass) : string
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -70,12 +53,7 @@ class ilExAssignmentGUI
         
         // we are completely ignoring the extended deadline here
         
-        $idl = $a_ass->getPersonalDeadline($ilUser->getId());
-        
         // :TODO: meaning of "ended on"
-        $dl = max($a_ass->getDeadline(), $idl);
-        // if ($dl &&
-        //	$dl < time())
         if ($state->exceededOfficialDeadline()) {
             $tpl->setCurrentBlock("prop");
             $tpl->setVariable("PROP", $lng->txt("exc_ended_on"));
@@ -90,17 +68,14 @@ class ilExAssignmentGUI
                 $tpl->parseCurrentBlock();
             }
         } elseif (!$state->hasGenerallyStarted()) {
+            $tpl->setCurrentBlock("prop");
             if ($state->getRelativeDeadline()) {
-                $tpl->setCurrentBlock("prop");
                 $tpl->setVariable("PROP", $lng->txt("exc_earliest_start_time"));
-                $tpl->setVariable("PROP_VAL", $state->getGeneralStartPresentation());
-                $tpl->parseCurrentBlock();
             } else {
-                $tpl->setCurrentBlock("prop");
                 $tpl->setVariable("PROP", $lng->txt("exc_starting_on"));
-                $tpl->setVariable("PROP_VAL", $state->getGeneralStartPresentation());
-                $tpl->parseCurrentBlock();
             }
+            $tpl->setVariable("PROP_VAL", $state->getGeneralStartPresentation());
+            $tpl->parseCurrentBlock();
         } else {
             if ($state->getCommonDeadline() > 0) {
                 $tpl->setCurrentBlock("prop");
@@ -152,8 +127,12 @@ class ilExAssignmentGUI
 
     /**
      * Get assignment body for overview
+     * @throws ilObjectNotFoundException
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
      */
-    public function getOverviewBody(ilExAssignment $a_ass)
+    public function getOverviewBody(ilExAssignment $a_ass) : string
     {
         global $DIC;
 
@@ -185,8 +164,10 @@ class ilExAssignmentGUI
     }
     
     
-    protected function addInstructions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-    {
+    protected function addInstructions(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass
+    ) : void {
         $ilUser = $this->user;
 
         $info = new ilExAssignmentInfo($a_ass->getId(), $ilUser->getId());
@@ -196,9 +177,14 @@ class ilExAssignmentGUI
             $a_info->addProperty("", $inst["instruction"]["value"]);
         }
     }
-    
-    protected function addSchedule(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function addSchedule(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass
+    ) : void {
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -243,11 +229,12 @@ class ilExAssignmentGUI
         }
     }
     
-    protected function addPublicSubmissions(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-    {
+    protected function addPublicSubmissions(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass
+    ) : void {
         $lng = $this->lng;
         $ilUser = $this->user;
-        
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
@@ -266,11 +253,11 @@ class ilExAssignmentGUI
         }
     }
     
-    protected function addFiles(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-    {
+    protected function addFiles(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass
+    ) : void {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
         $files = $a_ass->getFiles();
 
         if (count($files) > 0) {
@@ -284,8 +271,6 @@ class ilExAssignmentGUI
                 $cnt++;
                 // get mime type
                 $mime = ilObjMediaObject::getMimeType($file['fullpath']);
-
-                list($format, $type) = explode("/", $mime);
 
                 $ui_factory = $DIC->ui()->factory();
                 $ui_renderer = $DIC->ui()->renderer();
@@ -309,7 +294,7 @@ class ilExAssignmentGUI
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
                     $img_tpl->setVariable("IMAGE", $image);
-                    $img_tpl->setvariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setVariable("IMAGE_LENS", $image_lens);
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());
@@ -332,10 +317,15 @@ class ilExAssignmentGUI
         }
     }
 
-    protected function addSubmission(ilInfoScreenGUI $a_info, ilExAssignment $a_ass)
-    {
+    /**
+     * @throws ilCtrlException
+     * @throws ilDateTimeException
+     */
+    protected function addSubmission(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass
+    ) : void {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
         $state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
@@ -377,8 +367,12 @@ class ilExAssignmentGUI
         $this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
     }
     
-    protected function addSubmissionFeedback(ilInfoScreenGUI $a_info, ilExAssignment $a_ass, $a_feedback_id, $a_show_global_feedback)
-    {
+    protected function addSubmissionFeedback(
+        ilInfoScreenGUI $a_info,
+        ilExAssignment $a_ass,
+        int $a_feedback_id,
+        bool $a_show_global_feedback
+    ) : void {
         $lng = $this->lng;
 
         $storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
@@ -407,10 +401,7 @@ class ilExAssignmentGUI
                 );
             }
 
-            if ($status == "") {
-                //				  $a_info->addProperty($lng->txt("status"),
-//						$lng->txt("message_no_delivered_files"));
-            } elseif ($status != "notgraded") {
+            if ($status != "" && $status != "notgraded") {
                 $img = '<img src="' . ilUtil::getImagePath("scorm/" . $status . ".svg") . '" ' .
                     ' alt="' . $lng->txt("exc_" . $status) . '" title="' . $lng->txt("exc_" . $status) .
                     '" />';
@@ -422,7 +413,7 @@ class ilExAssignmentGUI
 
             if ($cnt_files > 0) {
                 $a_info->addSection($lng->txt("exc_fb_files") .
-                    '<a name="fb' . $a_ass->getId() . '"></a>');
+                    '<a id="fb' . $a_ass->getId() . '"></a>');
 
                 if ($cnt_files > 0) {
                     $files = $storage->getFeedbackFiles($a_feedback_id);
@@ -451,8 +442,9 @@ class ilExAssignmentGUI
     
     /**
      * Get time string for deadline
+     * @throws ilDateTimeException
      */
-    public function getTimeString($a_deadline)
+    public function getTimeString(int $a_deadline) : string
     {
         $lng = $this->lng;
         
@@ -469,8 +461,10 @@ class ilExAssignmentGUI
         return $time_str;
     }
     
-    protected function getSubmissionLink($a_cmd, array $a_params = null)
-    {
+    protected function getSubmissionLink(
+        string $a_cmd,
+        array $a_params = null
+    ) : string {
         $ilCtrl = $this->ctrl;
         
         if (is_array($a_params)) {

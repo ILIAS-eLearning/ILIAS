@@ -144,7 +144,7 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlStartTag("render_choice", $attrs);
 
                         // add answers
-                        foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answeritem) {
+                        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answeritem) {
                             $attrs = array(
                                 "ident" => $answeritem->getOrder()
                             );
@@ -249,7 +249,7 @@ class assClozeTestExport extends assQuestionExport
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
                 case CLOZE_SELECT:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
+                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -278,36 +278,9 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlEndTag("respcondition");
                     }
                     break;
-                case CLOZE_TEXT:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
-                        $attrs = array(
-                            "continue" => "Yes"
-                        );
-                        $a_xml_writer->xmlStartTag("respcondition", $attrs);
-                        // qti conditionvar
-                        $a_xml_writer->xmlStartTag("conditionvar");
-                        $attrs = array(
-                            "respident" => "gap_$i"
-                        );
-                        $a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
-                        $a_xml_writer->xmlEndTag("conditionvar");
-                        // qti setvar
-                        $attrs = array(
-                            "action" => "Add"
-                        );
-                        $a_xml_writer->xmlElement("setvar", $attrs, $answer->getPoints());
-                        // qti displayfeedback
-                        $linkrefid = "$i" . "_Response_" . $answer->getOrder();
-                        $attrs = array(
-                            "feedbacktype" => "Response",
-                            "linkrefid" => $linkrefid
-                        );
-                        $a_xml_writer->xmlElement("displayfeedback", $attrs);
-                        $a_xml_writer->xmlEndTag("respcondition");
-                    }
-                    break;
                 case CLOZE_NUMERIC:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
+                case CLOZE_TEXT:
+                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -356,41 +329,9 @@ class assClozeTestExport extends assQuestionExport
                     $a_xml_writer->xmlStartTag("and");
                 }
                 switch ($gap->getType()) {
-                    case CLOZE_SELECT:
-                        $k = 0;
-                        foreach ($indexes as $key) {
-                            if ($k > 0) {
-                                $a_xml_writer->xmlStartTag("or");
-                            }
-                            $attrs = array(
-                                "respident" => "gap_$i"
-                            );
-                            $answer = $gap->getItem($key);
-                            $a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
-                            if ($k > 0) {
-                                $a_xml_writer->xmlEndTag("or");
-                            }
-                            $k++;
-                        }
-                        break;
                     case CLOZE_TEXT:
-                        $k = 0;
-                        foreach ($indexes as $key) {
-                            if ($k > 0) {
-                                $a_xml_writer->xmlStartTag("or");
-                            }
-                            $attrs = array(
-                                "respident" => "gap_$i"
-                            );
-                            $answer = $gap->getItem($key);
-                            $a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
-                            if ($k > 0) {
-                                $a_xml_writer->xmlEndTag("or");
-                            }
-                            $k++;
-                        }
-                        break;
                     case CLOZE_NUMERIC:
+                    case CLOZE_SELECT:
                         $k = 0;
                         foreach ($indexes as $key) {
                             if ($k > 0) {
@@ -441,41 +382,9 @@ class assClozeTestExport extends assQuestionExport
                     $a_xml_writer->xmlStartTag("and");
                 }
                 switch ($gap->getType()) {
-                    case CLOZE_SELECT:
-                        $k = 0;
-                        foreach ($indexes as $key) {
-                            if ($k > 0) {
-                                $a_xml_writer->xmlStartTag("or");
-                            }
-                            $attrs = array(
-                                "respident" => "gap_$i"
-                            );
-                            $answer = $gap->getItem($key);
-                            $a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
-                            if ($k > 0) {
-                                $a_xml_writer->xmlEndTag("or");
-                            }
-                            $k++;
-                        }
-                        break;
                     case CLOZE_TEXT:
-                        $k = 0;
-                        foreach ($indexes as $key) {
-                            if ($k > 0) {
-                                $a_xml_writer->xmlStartTag("or");
-                            }
-                            $attrs = array(
-                                "respident" => "gap_$i"
-                            );
-                            $answer = $gap->getItem($key);
-                            $a_xml_writer->xmlElement("varequal", $attrs, $answer->getAnswertext());
-                            if ($k > 0) {
-                                $a_xml_writer->xmlEndTag("or");
-                            }
-                            $k++;
-                        }
-                        break;
                     case CLOZE_NUMERIC:
+                    case CLOZE_SELECT:
                         $k = 0;
                         foreach ($indexes as $key) {
                             if ($k > 0) {
@@ -514,11 +423,9 @@ class assClozeTestExport extends assQuestionExport
         for ($i = 0; $i < $this->object->getGapCount(); $i++) {
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
-                case CLOZE_SELECT:
-                    break;
                 case CLOZE_TEXT:
-                    break;
                 case CLOZE_NUMERIC:
+                case CLOZE_SELECT:
                     break;
             }
             /*foreach ($gap->getItems() as $answer)

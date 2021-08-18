@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Collects users from all providers
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAwarenessUserCollector
 {
@@ -87,7 +85,6 @@ class ilAwarenessUserCollector
         if (self::$online_users === false) {
             self::$online_user_ids = array();
             self::$online_users = array();
-            include_once("./Services/User/classes/class.ilObjUser.php");
             foreach (ilObjUser::_getUsersOnline() as $u) {
                 // ask context $u["context"] if it supports pushMessages
                 if ($u["context"] &&
@@ -117,13 +114,11 @@ class ilAwarenessUserCollector
         $awrn_logger->debug("Start, Online Only: " . $a_online_only . ", Current User: " . $this->user_id);
 
         self::getOnlineUsers();
-        include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
         $all_users = array();
         foreach (ilAwarenessUserProviderFactory::getAllProviders() as $prov) {
             $awrn_logger->debug("Provider: " . $prov->getProviderId() . ", Activation Mode: " . $prov->getActivationMode() . ", Current User: " . $this->user_id);
 
             // overall collection of users
-            include_once("./Services/Awareness/classes/class.ilAwarenessUserCollection.php");
             $collection = ilAwarenessUserCollection::getInstance();
 
             if ($prov->getActivationMode() != ilAwarenessUserProvider::MODE_INACTIVE) {
@@ -180,7 +175,6 @@ class ilAwarenessUserCollector
         }
 
         // remove all users that have not accepted the terms of service yet
-        require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
         if (ilTermsOfServiceHelper::isEnabled()) {
             foreach (ilObjUser::getUsersAgreed(false, $all_users) as $u) {
                 if ($u != SYSTEM_USER_ID && !$rbacreview->isAssigned($u, SYSTEM_ROLE_ID)) {

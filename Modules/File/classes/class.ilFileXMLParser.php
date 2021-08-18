@@ -13,9 +13,7 @@
  * @extends ilSaxParser
  */
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-include_once 'Modules/File/classes/class.ilFileException.php';
-include_once 'Services/Utilities/classes/class.ilFileUtils.php';
+use ILIAS\Filesystem\Stream\Streams;
 
 class ilFileXMLParser extends ilSaxParser
 {
@@ -188,7 +186,6 @@ class ilFileXMLParser extends ilSaxParser
                 }
                 $this->file->setVersion($a_attribs["version"]); // Selected version
                 $this->file->setMaxVersion($a_attribs["max_version"]);
-                $this->file->setAction($a_attribs["action"]);
                 break;
             case 'Content': // Old import files
             case 'Version':
@@ -268,7 +265,7 @@ class ilFileXMLParser extends ilSaxParser
                     throw new ilFileException("Filename ist missing!");
                 }
 
-                $this->file->setFilename(basename(self::normalizeRelativePath($this->cdata)));
+                $this->file->setFilename($this->cdata);
                 $this->file->setTitle($this->cdata);
 
                 break;
@@ -295,7 +292,6 @@ class ilFileXMLParser extends ilSaxParser
                     $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
                 } // begin-patch fm
                 elseif ($this->mode == ilFileXMLParser::$CONTENT_REST) {
-                    include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
                     $storage = new ilRestFileStorage();
                     $this->tmpFilename = $storage->getStoredFilePath(self::normalizeRelativePath($this->cdata));
                     if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
@@ -334,9 +330,6 @@ class ilFileXMLParser extends ilSaxParser
                     if (!$this->file->getFileType()) {
                         global $DIC;
                         $ilLog = $DIC['ilLog'];
-
-                        #$ilLog->write(__METHOD__.': Trying to detect mime type...');
-                        include_once('./Services/Utilities/classes/class.ilFileUtils.php');
                         $this->file->setFileType(ilFileUtils::_lookupMimeType($this->tmpFilename));
                     }
                 }
@@ -396,40 +389,26 @@ class ilFileXMLParser extends ilSaxParser
 
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
-                ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . $version["tmpFilename"] . '" file not found.');
+                // try to get first file of dir
+                $files = scandir(dirname($version["tmpFilename"]));
+                $version["tmpFilename"] = rtrim(dirname($version["tmpFilename"]),
+                        "/") . "/" . $files[2];// because [0] = "." [1] = ".."
+                if (!file_exists($version["tmpFilename"])) {
+                    ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
 
-                continue;
+                    continue;
+                }
             }
 
             if (filesize($version["tmpFilename"]) == 0) {
                 continue;
             }
 
-            $filedir = $this->file->getDirectory($version["version"]);
+            // imported file version
+            $import_file_version_path = $version["tmpFilename"];
 
-            if (!is_dir($filedir)) {
-                $this->file->createDirectory();
-                ilUtil::makeDir($filedir);
-            }
-
-            $filename = $filedir . "/" . $this->file->getFileName();
-
-            if (file_exists($filename)) {
-                unlink($filename);
-            }
-
-            ilFileUtils::rename($version["tmpFilename"], $filename);
-
-            // Add version history
-
-            if ($version["action"] != "" and $version["action"] != null) {
-                ilHistory::_createEntry($this->file->getId(), $version["action"],
-                    basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
-            } else {
-                ilHistory::_createEntry($this->file->getId(), "new_version",
-                    basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
-            }
-
+            $stream = Streams::ofResource(fopen($import_file_version_path, 'rb'));
+            $this->file->appendStream($stream, $this->file->getTitle());
         }
     }
 
@@ -449,7 +428,7 @@ class ilFileXMLParser extends ilSaxParser
                     ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
                 }
 
-            $this->file->addNewsNotification("file_updated");
+            $this->file->notifyUpdate($this->file->getId(), $this->file->getDescription());
         }
     }
 

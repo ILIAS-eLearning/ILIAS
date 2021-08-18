@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Tutor repository class.
@@ -12,24 +12,15 @@
  * This class defines tutors currently as the ones who get notifications about new submissions, which is a
  * smaller, but well defined group.
  *
- * @author killing@leifos.de
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcTutorRepository
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
 
-    /**
-     * Get exercise IDs of exercises a user is currently tutor (being notified)
-     *
-     * @param int $user_id
-     * @return int[]
-     */
+    // Get exercise IDs of exercises a user is currently tutor (being notified)
     public function getExerciseIdsBeingTutor(int $user_id) : array
     {
         return ilNotification::getActivatedNotifications(ilNotification::TYPE_EXERCISE_SUBMISSION, $user_id);

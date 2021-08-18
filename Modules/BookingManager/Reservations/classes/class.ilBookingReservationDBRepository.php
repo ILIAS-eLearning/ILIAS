@@ -48,8 +48,7 @@ class ilBookingReservationDBRepository
         $set = $ilDB->query('SELECT *' .
             ' FROM booking_reservation' .
             ' WHERE booking_reservation_id = ' . $ilDB->quote($id, 'integer'));
-        $row = $ilDB->fetchAssoc($set);
-        return $row;
+        return $ilDB->fetchAssoc($set);
     }
 
     /**
@@ -214,6 +213,7 @@ class ilBookingReservationDBRepository
             ' FROM booking_reservation r' .
             ' JOIN booking_object o ON (o.booking_object_id = r.object_id)';
 
+        $where = [];
         if ($a_pool_ids !== null) {
             $where = array($ilDB->in('pool_id', $a_pool_ids, '', 'integer'));
         }
@@ -252,13 +252,7 @@ class ilBookingReservationDBRepository
         if (isset($filter['user_id']) && is_numeric($filter['user_id'])) { // #16584
             $where[] = 'user_id = ' . $ilDB->quote($filter['user_id'], 'integer');
         }
-        /*
-        if($a_group_id)
-        {
-            $where[] = 'group_id = '.$ilDB->quote(substr($a_group_id, 1), 'integer');
-        }
-        */
-        if (sizeof($where)) {
+        if (count($where) > 0) {
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
 

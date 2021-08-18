@@ -156,17 +156,17 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             $base = $this->ctrl->getLinkTargetByClass([
                 \ilLMPresentationGUI::class, \ilLMPageGUI::class
             ]);
-            switch($a_cmd) {
+            switch ($a_cmd) {
                 case "downloadFile":
-                    return $base."&cmd=downloadFile";
+                    return $base . "&cmd=downloadFile";
                 case "download_paragraph":
-                    return $base."&cmd=download_paragraph";
+                    return $base . "&cmd=download_paragraph";
                 case "fullscreen":
-                    return $base."&cmd=displayMediaFullscreen";
+                    return $base . "&cmd=displayMediaFullscreen";
             }
             return "";
-            // handle online links
-        } else if (!$this->offline) {
+        // handle online links
+        } elseif (!$this->offline) {
             if ($this->from_page == "") {
                 // added if due to #23216 (from page has been set in lots of usual navigation links)
                 if (!in_array($a_frame, array("", "_blank"))) {
@@ -190,6 +190,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             switch ($a_cmd) {
                 case "fullscreen":
                     $link = $this->ctrl->getLinkTargetByClass(self::TARGET_GUI, "fullscreen", "", false, false);
+                    break;
+
+                case "sourcecodeDownload":
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $a_obj_id);
+                    $link = $this->ctrl->getLinkTargetByClass([self::TARGET_GUI, "ilLMPageGUI"], "", "", false, false);
                     break;
 
                 default:
@@ -317,7 +322,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . ($t["Frame"] ?? "") . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
         $link_info .= "</LinkTargets>";
         return $link_info;
@@ -495,7 +500,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
                         if ($obj_type == "usr") {
-
                             if (!$this->embed_mode) {
                                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
                                 $back = $this->ctrl->getLinkTargetByClass(

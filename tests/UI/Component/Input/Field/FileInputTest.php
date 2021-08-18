@@ -164,6 +164,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         <div class="form-group row">
             <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
+                <div class="help-block alert alert-danger" role="alert">an_error</div>
                 <div class="il-input-file" id="id_1">
                     <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
                     <div class="il-input-file-filelist">
@@ -186,7 +187,6 @@ class FileInputTest extends ILIAS_UI_TestBase
                     <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
                 </div>
                 <div class="help-block">byline</div>
-                <div class="help-block alert alert-danger" role="alert"><img border="0" src="./templates/default/images/icon_alert.svg" alt="alert" />an_error</div>
             </div>
         </div>
         ');
@@ -372,7 +372,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
+    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
     {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();

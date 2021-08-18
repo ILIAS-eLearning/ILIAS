@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Media cast data set class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesMediaCast
  */
 class ilMediaCastDataSet extends ilDataSet
 {
@@ -112,8 +109,7 @@ class ilMediaCastDataSet extends ilDataSet
                     while ($row = $ilDB->fetchAssoc($set)) {
                         $order[$row["obj_id"]][] = $row["item_id"];
                     }
-                    
-                    include_once("./Services/Block/classes/class.ilBlockSetting.php");
+
                     foreach ($this->data as $k => $v) {
                         $this->data[$k]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $v["Id"]);
                         $this->data[$k]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $v["Id"]);
@@ -151,7 +147,6 @@ class ilMediaCastDataSet extends ilDataSet
 
         switch ($a_entity) {
             case "mcst":
-                include_once("./Modules/MediaCast/classes/class.ilObjMediaCast.php");
                 
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
@@ -175,7 +170,6 @@ class ilMediaCastDataSet extends ilDataSet
                         $this->order[$newObj->getId()] = explode(";", $a_rec["Order"]);
                     }
 
-                    include_once("./Services/Block/classes/class.ilBlockSetting.php");
                     ilBlockSetting::_write(
                         "news",
                         "public_feed",

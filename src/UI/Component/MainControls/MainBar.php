@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Link;
 use ILIAS\UI\Component\MainControls\Slate;
 use ILIAS\UI\Component\JavaScriptBindable;
 
@@ -18,8 +19,8 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * Append an entry.
      *
      * @param string $id
-     * @param Button\Bulky|Link\Bulky|Slate $entry
-     * @throws InvalidArgumentException 	if $id is already taken
+     * @param Button\Bulky|Link\Bulky|Slate\Slate $entry
+     * @throws \InvalidArgumentException 	if $id is already taken
      */
     public function withAdditionalEntry(string $id, $entry) : MainBar;
 
@@ -32,8 +33,8 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * Append a tool-entry.
      * Define a tools-trigger via "withToolsButton" first.
      *
-     * @throws InvalidArgumentException 	if $id is already taken
-     * @throws LogicException 	if no tool-button was set
+     * @throws \InvalidArgumentException 	if $id is already taken
+     * @throws \LogicException 	if no tool-button was set
      */
     public function withAdditionalToolEntry(
         string $id,
@@ -48,7 +49,7 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
     public function getToolEntries();
 
     /**
-     * @throws InvalidArgumentException 	if $active is not an element-identifier in entries
+     * @throws \InvalidArgumentException 	if $active is not an element-identifier in entries
      */
     public function withActive(string $active) : MainBar;
 

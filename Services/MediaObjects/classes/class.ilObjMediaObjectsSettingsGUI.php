@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Media Objects/Pools Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjMediaObjectsSettingsGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjMediaObjectsSettingsGUI: ilAdministrationGUI
-*
-* @ingroup ServicesMediaObject
-*/
+ * Media Objects/Pools Settings.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjMediaObjectsSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjMediaObjectsSettingsGUI: ilAdministrationGUI
+ */
 class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
 {
 
@@ -74,7 +70,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -171,7 +166,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
         
     
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
     
         // activate page in media pool

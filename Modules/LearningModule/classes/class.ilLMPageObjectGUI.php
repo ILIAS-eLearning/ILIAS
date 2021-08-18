@@ -34,7 +34,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     * @param	object		$a_content_obj		content object (lm | dbk)
     * @access	public
     */
-    public function __construct(&$a_content_obj)
+    public function __construct(ilObjLearningModule $a_content_obj)
     {
         global $DIC;
 
@@ -81,10 +81,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 $lm_set = new ilSetting("lm");
 
                 $this->ctrl->setReturn($this, "edit");
-                if (!ilPageObject::_exists("lm", $this->obj->getId(), $_GET["transl"]) &&
+                if (!ilPageObject::_exists("lm", $this->obj->getId(), $this->requested_transl) &&
                     ilPageObject::_exists("lm", $this->obj->getId(), "-")) {
-                    if ($_GET["totransl"] == "") {
-                        $_GET["totransl"] = $_GET["transl"];
+                    if ($this->requested_totransl == "") {
+                        $this->requested_totransl = $this->requested_transl;
                         $ilCtrl->setCmd("switchToLanguage");
                     }
                     $ilCtrl->setCmdClass("illmpagegui");
@@ -196,7 +196,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     */
     public function cancel()
     {
-        if ($_GET["obj_id"] != 0) {
+        if ($this->requested_obj_id != 0) {
             ilUtil::redirect($this->ctrl->getLinkTargetByClass(
                 "ilStructureObjectGUI",
                 "view",
@@ -213,9 +213,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     */
     public function getLinkXML($a_int_links)
     {
-        if ($a_layoutframes == "") {
-            $a_layoutframes = array();
-        }
         $link_info = "<IntLinkInfos>";
         foreach ($a_int_links as $int_link) {
             $target = $int_link["Target"];
@@ -261,7 +258,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                 );
                             }
                             $href = str_replace("&", "&amp;", $href);
-                            $this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+                            $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
                         } else {
                             if ($type == "PageObject") {
                                 $href = "goto.php?target=pg_" . $target_id . $anc_add;
@@ -382,6 +379,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
+        $ctrl = $DIC->ctrl();
 
         $first = strpos($a_target, "_");
         $second = strpos($a_target, "_", $first + 1);
@@ -413,14 +411,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         foreach ($ref_ids as $ref_id) {
             // check read permissions
             if ($ilAccess->checkAccess("read", "", $ref_id)) {
-                // don't redirect anymore, just set parameters
-                // (goto.php includes  "ilias.php")
-                $_GET["baseClass"] = "ilLMPresentationGUI";
-                $_GET["obj_id"] = $page_id;
-                $_GET["ref_id"] = $ref_id;
-                $_GET["anchor"] = $anchor;
-                include_once("ilias.php");
-                exit;
+                $ctrl->setParameterByClass("ilLMPresentationGUI", "obj_id", $page_id);
+                $ctrl->setParameterByClass("ilLMPresentationGUI", "ref_id", $ref_id);
+                $ctrl->setParameterByClass("ilLMPresentationGUI", "anchor", $anchor);
+                $ctrl->redirectByClass("ilLMPresentationGUI", "");
             }
         }
 

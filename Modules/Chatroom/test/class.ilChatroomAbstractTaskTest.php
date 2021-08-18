@@ -1,6 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once 'class.ilChatroomAbstractTest.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 
 /**
  * Class ilChatroomAbstractTaskTest
@@ -8,27 +12,18 @@ require_once 'class.ilChatroomAbstractTest.php';
  */
 abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 {
-    /**
-     * @var int
-     */
-    const TEST_REF_ID = 99;
+    private const TEST_REF_ID = 99;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomObjectGui
-     */
+    /** @var MockObject|ilChatroomObjectGui */
     protected $gui;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomServerConnector
-     */
+    /** @var MockObject|ilChatroomServerConnector */
     protected $ilChatroomServerConnectorMock;
 
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject|ilObjChatroom
-     */
+    /** @var MockObject|ilObjChatroom */
     protected $object;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 
@@ -37,150 +32,144 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         }
     }
 
-    protected function createGlobalIlLanguageMock()
+    protected function createGlobalIlLanguageMock() : ilLanguage
     {
-        require_once './Services/Language/classes/class.ilLanguage.php';
-        $GLOBALS['lng'] = $this->getMockBuilder('ilLanguage')->disableOriginalConstructor()->setMethods(
-            array('loadLanguageModule', 'txt')
+        $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->onlyMethods(
+            ['loadLanguageModule', 'txt']
         )->getMock();
 
-        $GLOBALS['lng']->expects($this->any())->method('loadLanguageModule')->with($this->logicalOr($this->equalTo('chatroom'), $this->equalTo('meta')));
-        $GLOBALS['lng']->expects($this->any())->method('txt');
+        $lng->expects($this->any())->method('loadLanguageModule')->with(
+            $this->logicalOr(
+                $this->equalTo('chatroom'),
+                $this->equalTo('meta')
+            )
+        );
+        $lng->expects($this->any())->method('txt');
 
-        return $GLOBALS['lng'];
+        $this->setGlobalVariable('lng', $lng);
+
+        return $lng;
     }
 
-    protected function createGlobalRbacSystemMock()
+    protected function createGlobalRbacSystemMock() : ilRbacSystem
     {
-        require_once './Services/AccessControl/classes/class.ilRbacSystem.php';
-        $GLOBALS['rbacsystem'] = $this->getMockBuilder('ilRbacSystem')->disableOriginalConstructor()->setMethods(
-            array('checkAccess')
+        $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
+            ['checkAccess']
         )->getMock();
 
-        return $GLOBALS['rbacsystem'];
+        $this->setGlobalVariable('rbacsystem', $rbacsystem);
+
+        return $rbacsystem;
     }
 
-    /**
-     * @param PHPUnit_Framework_MockObject_Matcher_AnyInvokedCount $times
-     * @param string                                               $permission
-     * @param boolean                                              $result
-     */
-    protected function createGlobalRbacSystemCheckAccessMock($permission, $result, $times = null)
-    {
-        if ($times == null) {
+    protected function createGlobalRbacSystemCheckAccessMock(
+        string $permission,
+        bool $result,
+        ?InvocationOrder $times = null
+    ) {
+        if ($times === null) {
             $times = $this->any();
         }
 
-        return $GLOBALS['rbacsystem']->expects($times)->method('checkAccess')->with($this->equalTo($permission))->will(
-            $this->returnValue($result)
-        );
+        return $GLOBALS['rbacsystem']->expects($times)
+            ->method('checkAccess')
+            ->with($this->equalTo($permission))->willReturn(
+                $result
+            );
     }
 
-    protected function createGlobalIlCtrlMock()
+    protected function createGlobalIlCtrlMock() : ilCtrl
     {
-        require_once './Services/UICore/classes/class.ilCtrl.php';
-
-        $GLOBALS['ilCtrl'] = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->setMethods(
-            array('setParameterByClass', 'redirectByClass', 'forwardCommand')
+        $ctrl = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->onlyMethods(
+            ['setParameterByClass', 'redirectByClass', 'forwardCommand']
         )->getMock();
-        $GLOBALS['ilCtrl']->expects($this->any())->method('setParameterByClass');
-        $GLOBALS['ilCtrl']->expects($this->any())->method('redirectByClass');
+        $ctrl->expects($this->any())->method('setParameterByClass');
+        $ctrl->expects($this->any())->method('redirectByClass');
+
+        $this->setGlobalVariable('ilCtrl', $ctrl);
 
         return $GLOBALS['ilCtrl'];
     }
 
-    protected function createGlobalIlUserMock()
+    protected function createGlobalIlUserMock() : ilObjUser
     {
-        require_once 'Services/User/classes/class.ilObjUser.php';
+        $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
 
-        $GLOBALS['ilUser'] = $this->getMockBuilder('ilObjUser')->disableOriginalConstructor()->setMethods(
-            array()
-        )->getMock();
+        $this->setGlobalVariable('ilUser', $user);
 
-        return $GLOBALS['ilUser'];
+        return $user;
     }
 
-    protected function createIlObjChatroomGUIMock($object)
+    protected function createIlObjChatroomGUIMock($object) : ilObjChatroomGUI
     {
-        require_once './Modules/Chatroom/classes/class.ilObjChatroomGUI.php';
-
-        $this->gui = $this->getMockBuilder('ilObjChatroomGUI')->disableOriginalConstructor()->disableArgumentCloning()->setMethods(
-            array('getRefId', 'getConnector', 'switchToVisibleMode')
-        )->getMock();
+        $this->gui = $this->getMockBuilder(ilObjChatroomGUI::class)
+            ->disableOriginalConstructor()
+            ->disableArgumentCloning()
+            ->onlyMethods(
+                ['getRefId', 'getConnector', 'switchToVisibleMode']
+            )->getMock();
         $this->gui->ref_id = self::TEST_REF_ID;
         $this->gui->object = $object;
 
         return $this->gui;
     }
 
-    protected function createIlObjChatroomGUIGetConnectorMock($returnValue)
+    protected function createIlObjChatroomGUIGetConnectorMock($returnValue) : void
     {
-        $this->gui->expects($this->any())->method('getConnector')->will($this->returnValue($returnValue));
+        $this->gui->expects($this->any())->method('getConnector')->willReturn($returnValue);
     }
 
-    /**
-     * @param int     $userId
-     * @param int     $subRoomId
-     * @param boolean $result
-     * @return PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createIlChatroomIsOwnerOfPrivateRoomMock($userId, $subRoomId, $result)
-    {
-        return $this->ilChatroomMock->expects($this->at(0))->method('isOwnerOfPrivateRoom')->with(
+    protected function createIlChatroomIsOwnerOfPrivateRoomMock(
+        int $userId,
+        int $subRoomId,
+        bool $result
+    ) : InvocationMocker {
+        return $this->ilChatroomMock->expects($this->any())->method('isOwnerOfPrivateRoom')->with(
             $this->equalTo($userId),
             $this->equalTo($subRoomId)
-        )->will($this->returnValue($result));
+        )->willReturn($result);
     }
 
-    protected function createIlChatroomUserGetUserIdMock($userId)
+    protected function createIlChatroomUserGetUserIdMock(int $userId) : InvocationMocker
     {
-        return $this->ilChatroomUserMock->expects($this->any())->method('getUserId')->will($this->returnValue($userId));
+        return $this->ilChatroomUserMock->expects($this->any())->method('getUserId')->willReturn($userId);
     }
 
-    /**
-     * @param ilChatroomServerSettings $settings
-     * @return ilChatroomServerConnector|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function createIlChatroomServerConnectorMock($settings)
-    {
-        require_once './Modules/Chatroom/classes/class.ilChatroomServerConnector.php';
-
-        $this->ilChatroomServerConnectorMock = $this->getMockBuilder('ilChatroomServerConnector')->setConstructorArgs(
-            array($settings)
-        )->setMethods(array('file_get_contents'))->getMock();
+    protected function createIlChatroomServerConnectorMock(
+        ilChatroomServerSettings $settings
+    ) : ilChatroomServerConnector {
+        $this->ilChatroomServerConnectorMock = $this->getMockBuilder(ilChatroomServerConnector::class)->setConstructorArgs(
+            [$settings]
+        )->onlyMethods(['file_get_contents'])->getMock();
 
         return $this->ilChatroomServerConnectorMock;
     }
 
-    protected function createIlChatroomServerConnectorFileGetContentsMock($returnValue)
+    protected function createIlChatroomServerConnectorFileGetContentsMock($returnValue) : InvocationMocker
     {
-        return $this->ilChatroomServerConnectorMock->expects($this->any())->method('file_get_contents')->will(
-            $this->returnValue($returnValue)
+        return $this->ilChatroomServerConnectorMock->expects($this->any())->method('file_get_contents')->willReturn(
+            $returnValue
         );
     }
 
-    protected function createIlObjChatroomMock($id)
+    protected function createIlObjChatroomMock(int $id) : ilObjChatroom
     {
-        require_once './Modules/Chatroom/classes/class.ilObjChatroom.php';
-
-        $this->object = $this->getMockBuilder('ilObjChatroom')->disableOriginalConstructor()->setMethods(
-            array('getId')
+        $this->object = $this->getMockBuilder(ilObjChatroom::class)->disableOriginalConstructor()->onlyMethods(
+            ['getId']
         )->getMock();
-        $this->object->expects($this->any())->method('getId')->will($this->returnValue($id));
+        $this->object->expects($this->any())->method('getId')->willReturn($id);
 
         return $this->object;
     }
 
-    protected function createSendResponseMock($mock, $response)
+    protected function createSendResponseMock(MockObject $mock, $response) : InvocationMocker
     {
         $mock->expects($this->once())->method('sendResponse')->with(
             $this->equalTo($response)
-        )->will(
-            $this->returnCallback(
-                function () {
-                    throw new Exception('Exit', 0);
-                }
-            )
+        )->willReturnCallback(
+            static function () : void {
+                throw new Exception('Exit', 0);
+            }
         );
     }
 }

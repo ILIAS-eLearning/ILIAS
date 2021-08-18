@@ -15,8 +15,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         global $DIC;
 
         $this->db = ($db)
-            ? $db
-            : $DIC->database();
+            ?: $DIC->database();
     }
 
     /**
@@ -74,6 +73,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
+        $and = "";
         if ($a_id > 0) {
             $and = " AND id = " . $ilDB->quote($a_id, "integer");
         }

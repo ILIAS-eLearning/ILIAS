@@ -1,22 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise Administration Settings
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjExerciseAdministrationGUI: ilPermissionGUI
- *
- * @ingroup ModulesExercise
  */
 class ilObjExerciseAdministrationGUI extends ilObjectGUI
 {
-    /**
-     * Contructor
-     *
-     * @access public
-     */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
@@ -31,13 +26,7 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("exercise");
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -55,20 +44,12 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSettings";
                 }
-
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTarget(
@@ -88,28 +69,17 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         }
     }
 
-    
-    /**
-    * Edit settings.
-    */
-    public function editSettings($a_form = null)
+    public function editSettings(ilPropertyFormGUI $a_form = null) : void
     {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-        
         $this->tabs_gui->setTabActive('settings');
         
         if (!$a_form) {
             $a_form = $this->initFormSettings();
         }
         $this->tpl->setContent($a_form->getHTML());
-        return true;
     }
 
-    /**
-    * Save settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -128,26 +98,17 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
         $this->editSettings($form);
     }
 
-    /**
-    * Save settings
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "view");
     }
         
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $lng = $this->lng;
-        $ilAccess = $this->access;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('exc_admin_settings'));

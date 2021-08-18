@@ -4,9 +4,11 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
+use ILIAS\UI\Implementation\Component\Button\Close;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Item\Notification;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -17,7 +19,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
-        if ($component instanceof Component\Item\Notification) {
+        if ($component instanceof Notification) {
             return $this->renderNotification($component, $default_renderer);
         } elseif ($component instanceof Component\Item\Group) {
             return $this->renderGroup($component, $default_renderer);
@@ -75,16 +77,29 @@ class Renderer extends AbstractComponentRenderer
 
         // lead
         $lead = $component->getLead();
+        $progress = $component->getProgress();
         if ($lead != null) {
             if (is_string($lead)) {
                 $tpl->setCurrentBlock("lead_text");
                 $tpl->setVariable("LEAD_TEXT", $lead);
                 $tpl->parseCurrentBlock();
+                if ($progress != null) {
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                }
+                else {
+                    $tpl->touchBlock("item_with_lead");
+                }
             }
             if ($lead instanceof Component\Image\Image) {
                 $tpl->setCurrentBlock("lead_image");
                 $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
+                if ($progress != null) {
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                }
+                else {
+                    $tpl->touchBlock("item_with_lead");
+                }
             }
             if ($lead instanceof Component\Symbol\Icon\Icon) {
                 $tpl->setCurrentBlock("lead_icon");
@@ -96,7 +111,22 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setCurrentBlock("lead_start");
                 $tpl->parseCurrentBlock();
             }
-            $tpl->touchBlock("lead_end");
+            if ($progress != null && $lead instanceof Component\Symbol\Icon\Icon) {
+                $tpl->setCurrentBlock("progress_end_with_lead_icon");
+                $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+                $tpl->parseCurrentBlock();
+            } elseif ($progress != null) {
+                $tpl->setCurrentBlock("progress_end");
+                $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+                $tpl->parseCurrentBlock();
+            } else {
+                $tpl->touchBlock("lead_end");
+            }
+        } elseif ($progress != null) {
+            $tpl->touchBlock("item_with_progress");
+            $tpl->setCurrentBlock("progress_end");
+            $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+            $tpl->parseCurrentBlock();
         }
         // actions
         $actions = $component->getActions();
@@ -106,7 +136,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderNotification(Component\Item\Notification $component, RendererInterface $default_renderer)
+    protected function renderNotification(Notification $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
         $this->renderTitle($component, $default_renderer, $tpl);
@@ -140,6 +170,9 @@ class Renderer extends AbstractComponentRenderer
             $toggleable = false;
         }
 
+        /**
+         * @var $component Notification
+         */
         $component = $component->withAdditionalOnLoadCode(
             function ($id) use ($toggleable) {
                 return "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);";
@@ -157,6 +190,9 @@ class Renderer extends AbstractComponentRenderer
         // close action
         if ($component->getCloseAction()) {
             $url = $component->getCloseAction();
+            /**
+             * @var $close_action Close
+             */
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
                 function ($id) use ($url, $item_id) {
                     return "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);";

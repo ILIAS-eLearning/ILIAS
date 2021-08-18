@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Rating Data set class
@@ -10,40 +9,26 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - rating_category: data from il_rating_cat
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ServicesRating
  */
 class ilRatingDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     *
-     * @param
-     * @return
-     */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
     
     /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Rating/" . $a_entity;
     }
     
     /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "rating_category") {
             switch ($a_version) {
@@ -56,15 +41,13 @@ class ilRatingDataSet extends ilDataSet
                         "Pos" => "integer");
             }
         }
+        return [];
     }
 
     /**
-     * Read data
-     *
-     * @param
-     * @return
+     * @inheritDoc
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -83,30 +66,26 @@ class ilRatingDataSet extends ilDataSet
             }
         }
     }
-    
-    /**
-     * Determine the dependent sets of data
-     */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
-        return false;
+
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        array $a_rec,
+        array $a_ids
+    ) : array {
+        return [];
     }
         
-    /**
-     * Import record
-     *
-     * @param
-     * @return
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-    
+    public function importRecord(
+        string $a_entity,
+        $a_types,
+        array $a_rec,
+        $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "rating_category":
                 if ($parent_id = $a_mapping->getMapping('Services/Rating', 'rating_category_parent_id', $a_rec['ParentId'])) {
-                    include_once("./Services/Rating/classes/class.ilRatingCategory.php");
                     $newObj = new ilRatingCategory();
                     $newObj->setParentId($parent_id);
                     $newObj->save();

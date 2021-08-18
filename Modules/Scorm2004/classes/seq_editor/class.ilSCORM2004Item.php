@@ -2,17 +2,12 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqNode.php");
-
 /**
  * Class ilSCORM2004Condition
  *
  * Sequencing Template class for SCORM 2004 Editing
  *
  * @author Hendrik Holtmann <holtmann@me.com>
- * @version $Id$
- *
- * @ingroup ModulesScorm2004
  */
 class ilSCORM2004Item
 {

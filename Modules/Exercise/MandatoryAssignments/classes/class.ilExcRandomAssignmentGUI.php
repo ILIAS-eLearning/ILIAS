@@ -1,52 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\DI\UIServices;
 
 /**
  * UI for random assignment
- *
  * (ui)
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcRandomAssignmentGUI
 {
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilExcRandomAssignmentManager $random_manager;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected UIServices $ui;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilExcRandomAssignmentManager
-     */
-    protected $random_manager;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * Constructor
-     */
-    public function __construct(\ILIAS\DI\UIServices $ui, ilToolbarGUI $toolbar, ilLanguage $lng, ilCtrl $ctrl, ilExcRandomAssignmentManager $random_manager)
-    {
+    public function __construct(
+        UIServices $ui,
+        ilToolbarGUI $toolbar,
+        ilLanguage $lng,
+        ilCtrl $ctrl,
+        ilExcRandomAssignmentManager $random_manager
+    ) {
         $this->main_tpl = $ui->mainTemplate();
         $this->ui = $ui;
         $this->random_manager = $random_manager;
@@ -55,10 +33,7 @@ class ilExcRandomAssignmentGUI
         $this->lng = $lng;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -74,7 +49,10 @@ class ilExcRandomAssignmentGUI
     }
 
     /**
-     * Render start page
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
      */
     public function renderStartPage()
     {
@@ -104,13 +82,7 @@ class ilExcRandomAssignmentGUI
         $this->main_tpl->setContent($info_gui->getHTML());
     }
     
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    protected function startExercise()
+    protected function startExercise() : void
     {
         $this->random_manager->startExercise();
         $this->ctrl->redirectByClass("ilObjExerciseGUI", "showOverview");

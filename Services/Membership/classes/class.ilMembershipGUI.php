@@ -670,7 +670,6 @@ class ilMembershipGUI
             return $this->showDeleteParticipantsConfirmationWithLinkedCourses($participants);
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'confirmDeleteParticipants'));
         $confirm->setHeaderText($this->lng->txt($this->getParentObject()->getType() . '_header_delete_members'));
@@ -1078,8 +1077,9 @@ class ilMembershipGUI
                 );
             }
             
-            $childs = (array) $GLOBALS['DIC']['tree']->getChildsByType($this->getParentObject()->getRefId(), 'sess');
-            if (count($childs)) {
+            $tree = $DIC->repositoryTree();
+            $children = (array) $tree->getSubTree($tree->getNodeData($this->getParentObject()->getRefId()), false, 'sess');
+            if (count($children)) {
                 $tabs->addSubTabTarget(
                     'events',
                     $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilsessionoverviewgui'), 'listSessions'),
@@ -1182,7 +1182,6 @@ class ilMembershipGUI
             $this->ctrl->redirect($this, 'participants');
         }
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
@@ -1219,7 +1218,6 @@ class ilMembershipGUI
 
         $this->lng->loadLanguageModule('mmbr');
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
@@ -1378,7 +1376,6 @@ class ilMembershipGUI
         }
 
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands
@@ -1474,7 +1471,6 @@ class ilMembershipGUI
 
         $this->lng->loadLanguageModule('mmbr');
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands

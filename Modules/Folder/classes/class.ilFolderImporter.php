@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* folder xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesFolder
-*/
+ * folder xml importer
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilFolderImporter extends ilXmlImporter
 {
     private $folder = null;
@@ -29,7 +24,6 @@ class ilFolderImporter extends ilXmlImporter
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {
-        include_once './Modules/Folder/classes/class.ilObjFolder.php';
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $this->folder = ilObjectFactory::getInstanceByObjId($new_id, false);
         } elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
@@ -38,8 +32,6 @@ class ilFolderImporter extends ilXmlImporter
             $this->folder = new ilObjFolder();
             $this->folder->create(true);
         }
-
-        include_once './Modules/Folder/classes/class.ilFolderXmlParser.php';
 
         try {
             $parser = new ilFolderXmlParser($this->folder, $a_xml);

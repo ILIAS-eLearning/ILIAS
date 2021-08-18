@@ -445,7 +445,6 @@ class ilPermissionGUI extends ilPermission2GUI
 
         ilUtil::sendInfo($info);
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('role_confirm_block_role_header'));

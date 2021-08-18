@@ -8,10 +8,9 @@ use ILIAS\UI;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    use Setup\Agent\HasNoNamedObjective;
+
+    protected \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         Refinery\Factory $refinery
@@ -32,11 +31,13 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
+        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
             $settings = new \ilGlobalCacheSettings();
             if (
                 $data === null ||
+                !isset($data["components"]) ||
                 !$data["components"] ||
+                !isset($data["service"]) ||
                 $data["service"] === "none" ||
                 (
                     $data["service"] === "memcached" &&
@@ -50,13 +51,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
-                    case "xcache":
-                        $settings->setService(\ilGlobalCache::TYPE_XCACHE);
-                        break;
                     case "memcached":
-                        array_map(function(array $node) use ($settings) {
+                        array_walk($data["memcached_nodes"], function (array $node) use ($settings): void {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
-                        }, $data["memcached_nodes"]);
+                        });
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
                         break;
                     case "apc":
@@ -64,7 +62,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         break;
                     default:
                         throw new \InvalidArgumentException(
-                            "Unknown caching service: '{$data["service"]}'"
+                            sprintf("Unknown caching service: '%s'", $data["service"])
                         );
                 }
                 $settings->resetActivatedComponents();

@@ -11,12 +11,12 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class StringTransformation implements Transformation
 {
-    const BOOL_TRUE = true;
-    const BOOL_FALSE = false;
-    const BOOL_TRUE_NUMBER = 1;
-    const BOOL_FALSE_NUMBER = 0;
-    const BOOL_TRUE_STRING = 'true';
-    const BOOL_FALSE_STRING = 'false';
+    private const BOOL_TRUE = true;
+    private const BOOL_FALSE = false;
+    private const BOOL_TRUE_NUMBER = 1;
+    private const BOOL_FALSE_NUMBER = 0;
+    private const BOOL_TRUE_STRING = 'true';
+    private const BOOL_FALSE_STRING = 'false';
 
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
@@ -26,8 +26,8 @@ class StringTransformation implements Transformation
      */
     public function transform($from)
     {
-        if (is_int($from) || is_float($from) || is_double($from)) {
-            return strval($from);
+        if (is_int($from) || is_float($from)) {
+            return (string) $from;
         }
 
         if (is_bool($from) || $from === self::BOOL_TRUE_NUMBER || $from === self::BOOL_FALSE_NUMBER) {
@@ -48,7 +48,7 @@ class StringTransformation implements Transformation
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into a string', $from),
+            sprintf('The value "%s" could not be transformed into a string', var_export($from, true)),
             'not_string',
             $from
         );

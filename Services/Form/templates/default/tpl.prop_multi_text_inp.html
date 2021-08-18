@@ -13,24 +13,3 @@
     </div>
     <!-- END row -->
 </div>
-<!-- BEGIN js_engine_initialisation -->
-<script type="application/javascript">
-(function($){
-
-    $(document).ready(function() {
-
-        $.extend({}, ilWizardInput, ilIdentifiedWizardInputExtend).init({
-            fieldContainerSelector: '.ilWzdContainerText',
-            reindexingRequiredElementsSelectors: ['input:text', 'button'],
-           
-            handleRowCleanUpCallback: function(rowElem)
-            {
-                $(rowElem).find('input:text').val('');
-            }
-        });
-
-    });
-
-})(jQuery);
-</script>
-<!-- END js_engine_initialisation -->

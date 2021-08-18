@@ -115,6 +115,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      */
     private $target_group = '';
 
+    protected $activation_start;
+    protected $activation_end;
+    protected $activation_visibility;
+
 
     /**
     * Constructor
@@ -510,7 +514,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         \ilContainerUserFilter $container_user_filter = null
     ) {
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
+        if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
 
@@ -1853,7 +1857,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_tutor_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -1866,7 +1870,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_admin_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -1896,14 +1900,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * @access public
      *
      */
-    public function MDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        parent::MDUpdateListener($a_element);
-
         switch ($a_element) {
             case 'General':
                 // Update ecs content
@@ -1911,9 +1909,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 $ecs = new ilECSCourseSettings($this);
                 $ecs->handleContentUpdate();
                 break;
-                
-            default:
-                return true;
         }
     }
     
@@ -1942,6 +1937,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         switch ($a_mode) {
             case 'create':
             case 'update':
+                $apps = [];
                 if (!$this->getActivationUnlimitedStatus() and !$this->getOfflineStatus()) {
                     $app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
                     $app->setTitle($this->getTitle());
@@ -2022,7 +2018,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                         }
                     }
                 }
-                return $apps ? $apps : array();
+                return $apps;
                 
             case 'delete':
                 // Nothing to do: The category and all assigned appointments will be deleted.

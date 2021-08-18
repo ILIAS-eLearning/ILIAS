@@ -14,7 +14,7 @@ interface Textarea extends FormInput
 
     /**
      * set maximum number of characters
-     * @param $max_limit integer
+     * @param $max_limit int
      */
     public function withMaxLimit($max_limit);
 
@@ -26,7 +26,7 @@ interface Textarea extends FormInput
 
     /**
      * set minimum number of characters
-     * @param $min_limit integer
+     * @param $min_limit int
      */
     public function withMinLimit($min_limit);
 

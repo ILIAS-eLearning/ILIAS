@@ -101,7 +101,7 @@ export default class PageUIActionHandler {
         break;
 
       case "component.save":
-        this.sendInsertCommand(params);
+        this.sendInsertCommand(params, model);
         break;
 
       case "component.update":
@@ -111,7 +111,7 @@ export default class PageUIActionHandler {
       case "component.edit":
         if (["MediaObject", "Section"].includes(model.getCurrentPCName())) {   // generic load editing form
           this.ui.loadGenericEditingForm(params.cname, params.pcid, params.hierid);
-        } else if (!["Paragraph"].includes(model.getCurrentPCName())) {   // legacy underworld
+        } else if (!["Paragraph", "PlaceHolder"].includes(model.getCurrentPCName())) {   // legacy underworld
           client.sendForm(actionFactory.page().command().editLegacy(params.cname, params.pcid,
             params.hierid));
           form_sent = true;
@@ -134,6 +134,7 @@ export default class PageUIActionHandler {
         break;
 
       case "multi.toggle":
+      case "format.cancel":
         this.ui.highlightSelected(model.getSelected());
         break;
 
@@ -359,9 +360,10 @@ export default class PageUIActionHandler {
     });
   }
 
-  sendInsertCommand(params) {
+  sendInsertCommand(params, model) {
     let insert_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
 
     insert_action = af.page().command().insert(
       params.afterPcid,
@@ -370,8 +372,23 @@ export default class PageUIActionHandler {
       params.data
     );
 
+    this.ui.toolSlate.setContent("");
+    if (this.ui.uiModel.components[model.getCurrentPCName()] &&
+        this.ui.uiModel.components[model.getCurrentPCName()].icon) {
+      document.querySelector(".copg-new-content-placeholder img").src = this.ui.uiModel.loaderUrl;
+    }
+
     this.client.sendCommand(insert_action).then(result => {
       this.ui.handlePageReloadResponse(result);
+
+      //after_pcid, pcid, component, data
+      dispatch.dispatch(af.page().editor().componentAfterSave(
+          params.afterPcid,
+          params.pcid,
+          params.component,
+          params.data
+      ));
+
     });
   }
 

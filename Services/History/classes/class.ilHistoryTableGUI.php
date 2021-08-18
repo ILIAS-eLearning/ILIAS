@@ -1,20 +1,12 @@
 <?php
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-include_once('./Services/History/classes/class.ilHistory.php');
-include_once('./Services/User/classes/class.ilUserUtil.php');
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
- * Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE
- * Date: 24.10.14
- * Time: 10:35
+ * Lists History entrys in chronological order
+ *
+ * @author Fabian Wolf <wolf@leifos.com>
  */
-/**
-* Lists History entrys in chronological order
-*
-* @author Fabian Wolf <wolf@leifos.com>
-* @version $Id$
-*
-* @ingroup ModuleHistory
-*/
 class ilHistoryTableGUI extends ilTable2GUI
 {
     protected $obj_id;

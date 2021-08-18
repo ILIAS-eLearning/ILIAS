@@ -199,7 +199,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         if ($preset_obj_ids) {
             $object_search->setIdFilter($preset_obj_ids);
         }
-        $res = &$object_search->performSearch();
+        $res = $object_search->performSearch();
 
         if ($permission) {
             $res->setRequiredPermission($permission);
@@ -221,13 +221,6 @@ class ilLPTableBaseGUI extends ilTable2GUI
         foreach ($res->getResults() as $obj_data) {
             $objects[$obj_data['obj_id']][] = $obj_data['ref_id'];
         }
-
-        // Check if search max hits is reached
-        if ($res->isLimitReached()) {
-            $this->lng->loadLanguageModule("search");
-            ilUtil::sendFailure(sprintf($this->lng->txt("search_limit_reached"), self::HIT_LIMIT));
-        }
-
         return $objects ? $objects : array();
     }
 

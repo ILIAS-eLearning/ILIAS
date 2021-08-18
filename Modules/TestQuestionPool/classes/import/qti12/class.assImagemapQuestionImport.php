@@ -202,7 +202,7 @@ class assImagemapQuestionImport extends assQuestionImport
             }
             $this->object->saveToDb();
         }
-        $image = &base64_decode($questionimage["content"]);
+        $image = base64_decode($questionimage["content"]);
         $imagepath = $this->object->getImagePath();
         if (!file_exists($imagepath)) {
             include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -242,7 +242,7 @@ class assImagemapQuestionImport extends assQuestionImport
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->write(__METHOD__ . ': import mob from dir: ' . $importfile);
                 
-                $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                 ilObjMediaObject::_saveUsage($media_object->getId(), "qpl:html", $this->object->getId());
                 $questiontext = str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $questiontext);
                 foreach ($feedbacks as $ident => $material) {

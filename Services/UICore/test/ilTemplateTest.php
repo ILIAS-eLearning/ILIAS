@@ -9,10 +9,9 @@ use PHPUnit\Framework\TestCase;
  * @author Alex Killing <killing@leifos.de>
  *
  * @version $Id$
- * @group needsInstalledILIAS
  * @ingroup ServicesUICore
  */
-class ilTemplateTest extends TestCase
+class ilTemplateTest //extends TestCase
 {
     /**
      * Setup
@@ -20,8 +19,8 @@ class ilTemplateTest extends TestCase
     protected function setUp() : void
     {
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            require_once './Services/PHPUnit/classes/class.ilUnitUtil.php';
-            ilUnitUtil::performInitialisation();
+            //require_once './Services/PHPUnit/classes/class.ilUnitUtil.php';
+            //ilUnitUtil::performInitialisation();
         } else {
             chdir(dirname(__FILE__));
             chdir('../../../');

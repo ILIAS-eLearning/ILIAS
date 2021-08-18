@@ -22,7 +22,7 @@ class ilFileDataMail extends ilFileData
 {
     /**
     * user id
-    * @var integer user_id
+    * @var int user_id
     * @access private
     */
     public $user_id;
@@ -188,7 +188,7 @@ class ilFileDataMail extends ilFileData
     /**
     * get the path of a specific attachment
     * @param string filename
-    * @param integer mail_id
+    * @param int mail_id
     * @return string path
     */
     public function getAttachmentPath($a_filename, $a_mail_id)
@@ -204,7 +204,7 @@ class ilFileDataMail extends ilFileData
     /**
     * adopt attachments (in case of forwarding a mail)
     * @param array attachments
-    * @param integer mail_id
+    * @param int mail_id
     * @access	public
     * @return string error message
     */
@@ -398,7 +398,7 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-     * @param integer $a_mail_id id of mail in sent box
+     * @param int $a_mail_id id of mail in sent box
      * @param array $a_attachments to save
      */
     public function saveFiles($a_mail_id, array $a_attachments)
@@ -431,7 +431,7 @@ class ilFileDataMail extends ilFileData
     
     /**
     * save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-    * @param integer mail id of mail in sent box
+    * @param int mail id of mail in sent box
     * @param array filenames to save
     * @access	public
     * @return bool
@@ -472,8 +472,8 @@ class ilFileDataMail extends ilFileData
 
     /**
      * assign attachments to mail directory
-     * @param integer mail_id
-     * @param integer key for directory assignment
+     * @param int mail_id
+     * @param int key for directory assignment
      */
     public function assignAttachmentsToDirectory($a_mail_id, $a_sent_mail_id)
     {

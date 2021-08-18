@@ -181,7 +181,7 @@ class ilItemGroupItems
         $set = $this->db->query(
             "SELECT * FROM item_group_item " .
             " WHERE item_group_id = " . $this->db->quote($this->getItemGroupId(), "integer")
-            );
+        );
         while ($rec = $this->db->fetchAssoc($set)) {
             $this->items[] = $rec["item_ref_id"];
         }
@@ -208,7 +208,6 @@ class ilItemGroupItems
         $materials = array();
         $nodes = $this->tree->getChilds($parent_node["child"]);
 
-        include_once("./Modules/File/classes/class.ilObjFileAccess.php");
         foreach ($nodes as $node) {
             // filter side blocks and session, item groups and role folder
             if ($node['child'] == $parent_node["child"] ||
@@ -266,12 +265,10 @@ class ilItemGroupItems
      */
     public function cloneItems($a_source_id, $a_copy_id)
     {
-        $ilObjDataCache = $this->obj_data_cache;
         $ilLog = $this->log;
         
         $ilLog->write(__METHOD__ . ': Begin cloning item group materials ... -' . $a_source_id . '-');
-        
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
+
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cwo->getMappings();
         

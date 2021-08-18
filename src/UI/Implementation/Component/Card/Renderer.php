@@ -23,7 +23,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.card.html", true, true);
 
         if ($component->getImage()) {
-            $tpl->setVariable("IMAGE", $default_renderer->render($component->getImage(), $default_renderer));
+            $tpl->setVariable("IMAGE", $default_renderer->render($component->getImage()));
         }
 
         if ($component->isHighlighted()) {
@@ -43,10 +43,8 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("HREF", $component->getTitleAction());
                 $tpl->setVariable("ID", $id);
                 $tpl->parseCurrentBlock();
-            } else {
-                if ($title instanceof \ILIAS\UI\Component\Button\Shy) {
-                    $title = $default_renderer->render($title);
-                }
+            } elseif ($title instanceof \ILIAS\UI\Component\Button\Shy) {
+                $title = $default_renderer->render($title);
             }
             if (is_array($component->getTitleAction())) {
                 $tpl->setCurrentBlock("title_action_begin");
@@ -64,7 +62,7 @@ class Renderer extends AbstractComponentRenderer
         if (is_array($component->getSections())) {
             foreach ($component->getSections() as $section) {
                 $tpl->setCurrentBlock("section");
-                $tpl->setVariable("SECTION", $default_renderer->render($section, $default_renderer));
+                $tpl->setVariable("SECTION", $default_renderer->render($section));
                 $tpl->parseCurrentBlock();
             }
         }
@@ -74,7 +72,7 @@ class Renderer extends AbstractComponentRenderer
 
             $obj_icon = $component->getObjectIcon();
             if ($obj_icon !== null) {
-                $tpl->setVariable("OBJECT_ICON", $default_renderer->render($obj_icon, $default_renderer));
+                $tpl->setVariable("OBJECT_ICON", $default_renderer->render($obj_icon));
             }
 
             $progress = $component->getProgress();

@@ -10,7 +10,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function getGroups()
+    public function getGroups() : array
     {
         if ($this->viewSettings->isSortedByLocation()) {
             return $this->groupItemsByLocation();
@@ -24,7 +24,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function getScreenId()
+    public function getScreenId() : string
     {
         return 'crs_grp';
     }
@@ -32,7 +32,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('my_courses_groups');
     }
@@ -40,7 +40,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function supportsSelectAll()
+    public function supportsSelectAll() : bool
     {
         return false;
     }
@@ -48,7 +48,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function mayRemoveItem($refId)
+    public function mayRemoveItem($refId) : bool
     {
         return $this->accessHandler->checkAccess('leave', $refId);
     }
@@ -56,7 +56,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
     /**
      * @inheritdoc
      */
-    public function getIntroductionHtml()
+    public function getIntroductionHtml() : string
     {
         $tpl = new ilTemplate('tpl.dashboard_my_memberships_intro.html', true, true, 'Services/Dashboard');
         $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));

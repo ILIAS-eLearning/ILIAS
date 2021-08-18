@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Import related features for media pools (currently used for translation imports)
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesMediaPool
  */
 class ilMediaPoolImportGUI
 {
@@ -81,7 +79,6 @@ class ilMediaPoolImportGUI
 
         $lng->loadLanguageModule("meta");
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // import file
@@ -91,8 +88,6 @@ class ilMediaPoolImportGUI
         $fi->setSize(30);
         $form->addItem($fi);
 
-        include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
         foreach ($ot->getLanguages() as $l) {
             if ($l["lang_code"] != $ot->getMasterLanguage()) {
@@ -118,12 +113,10 @@ class ilMediaPoolImportGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Services/Export/classes/class.ilImport.php");
         $imp = new ilImport();
         $conf = $imp->getConfig("Modules/MediaPool");
 
         $target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $ot = ilObjectTranslation::getInstance($this->mep->getId());
         if ($target_lang == $ot->getMasterLanguage()) {
             ilUtil::sendFailure($lng->txt("mep_transl_master_language_not_allowed"), true);

@@ -170,11 +170,16 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
             return $this->showConfirmation($form);
         }
 
+        // saving the form leads to isScoreRecalculationRequired($form)
+        // returning false, so remember whether recalculation is needed
+
+        $recalcRequired = $this->isScoreRecalculationRequired($form);
+
         // perform save
 
         $this->performSaveForm($form);
 
-        if ($this->isScoreRecalculationRequired($form)) {
+        if ($recalcRequired) {
             $this->testOBJ->recalculateScores(true);
         }
 
@@ -197,7 +202,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     
     private function showConfirmation(ilPropertyFormGUI $form)
     {
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         
         $confirmation->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));

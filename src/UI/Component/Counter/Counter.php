@@ -10,8 +10,8 @@ namespace ILIAS\UI\Component\Counter;
 interface Counter extends \ILIAS\UI\Component\Component
 {
     // Types of counters:
-    const NOVELTY = "novelty";
-    const STATUS = "status";
+    public const NOVELTY = "novelty";
+    public const STATUS = "status";
 
     /**
      * Get the type of the counter.

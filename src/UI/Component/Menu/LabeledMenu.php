@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Menu;
 
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component;
 
 /**
  * This describes a Menu Control with a label

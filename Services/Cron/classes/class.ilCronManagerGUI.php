@@ -68,7 +68,7 @@ class ilCronManagerGUI
         $class = $this->ctrl->getNextClass($this);
 
         switch (strtolower($class)) {
-            case ilPropertyFormGUI::class:
+            case strtolower(ilPropertyFormGUI::class):
                 $form = $this->initEditForm(ilUtil::stripSlashes($_REQUEST['jid']));
                 $this->ctrl->forwardCommand($form);
                 break;
@@ -112,8 +112,7 @@ class ilCronManagerGUI
             $this->uiRenderer->render([$message, $filter]),
             $tbl->populate(
                 $tableFilterMediator->filteredJobs(
-                    $filter,
-                    false
+                    $filter
                 )
             )->getHTML()
         ]));
@@ -462,7 +461,6 @@ class ilCronManagerGUI
             }
         }
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         
         if (sizeof($jobs) == 1) {

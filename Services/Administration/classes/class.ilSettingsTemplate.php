@@ -267,7 +267,7 @@ class ilSettingsTemplate
         $set = $ilDB->query(
             "SELECT * FROM adm_settings_template WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setType($rec["type"]);
@@ -280,7 +280,7 @@ class ilSettingsTemplate
         $set = $ilDB->query(
             "SELECT * FROM adm_set_templ_value WHERE " .
             " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->setSetting(
                 $rec["setting"],
@@ -293,7 +293,7 @@ class ilSettingsTemplate
         $set = $ilDB->query(
             "SELECT * FROM adm_set_templ_hide_tab WHERE " .
             " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->addHiddenTab($rec["tab_id"]);
         }
@@ -348,11 +348,11 @@ class ilSettingsTemplate
         $ilDB->manipulate(
             "DELETE FROM adm_set_templ_value WHERE "
             . " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM adm_set_templ_hide_tab WHERE "
             . " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         // insert settings and hidden tabs
         $this->insertSettings();
@@ -403,15 +403,15 @@ class ilSettingsTemplate
         $ilDB->manipulate(
             "DELETE FROM adm_settings_template WHERE "
             . " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM adm_set_templ_value WHERE "
             . " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM adm_set_templ_hide_tab WHERE "
             . " template_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     /**
@@ -461,7 +461,7 @@ class ilSettingsTemplate
         $set = $ilDB->query(
             "SELECT $a_prop FROM adm_settings_template WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_prop];
     }

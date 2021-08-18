@@ -1279,11 +1279,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'ending_time' => array('integer', $this->getEndingTime()),
                 'complete' => array('text', $this->isComplete($testQuestionSetConfig)),
                 'ects_output' => array('text', $this->getECTSOutput()),
-                'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : null),
-                'ects_b' => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : null),
-                'ects_c' => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : null),
-                'ects_d' => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : null),
-                'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : null),
+                'ects_a' => array('float', strlen($this->ects_grades["A"]) ? $this->ects_grades["A"] : 90), // defaults as per db definition
+                'ects_b' => array('float', strlen($this->ects_grades["B"]) ? $this->ects_grades["B"] : 65),
+                'ects_c' => array('float', strlen($this->ects_grades["C"]) ? $this->ects_grades["C"] : 35),
+                'ects_d' => array('float', strlen($this->ects_grades["D"]) ? $this->ects_grades["D"] : 10),
+                'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : 0),
                 'ects_fx' => array('float', $this->getECTSFX()),
                 'count_system' => array('text', $this->getCountSystem()),
                 'mc_scoring' => array('text', $this->getMCScoring()),
@@ -2003,7 +2003,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 "SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = %s ORDER BY sequence",
                 array('integer', 'integer'),
                 array($active_id, $pass)
-        );
+            );
             // The following is a fix for random tests prior to ILIAS 3.8. If someone started a random test in ILIAS < 3.8, there
             // is only one test pass (pass = 0) in tst_test_rnd_qst while with ILIAS 3.8 there are questions for every test pass.
             // To prevent problems with tests started in an older version and continued in ILIAS 3.8, the first pass should be taken if
@@ -2013,14 +2013,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     "SELECT tst_test_rnd_qst.* FROM tst_test_rnd_qst, qpl_questions WHERE tst_test_rnd_qst.active_fi = %s AND qpl_questions.question_id = tst_test_rnd_qst.question_fi AND tst_test_rnd_qst.pass = 0 ORDER BY sequence",
                     array('integer'),
                     array($active_id)
-            );
+                );
             }
         } else {
             $result = $ilDB->queryF(
                 "SELECT tst_test_question.* FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY sequence",
                 array('integer'),
                 array($this->test_id)
-        );
+            );
         }
         $index = 1;
         while ($data = $ilDB->fetchAssoc($result)) {
@@ -3391,7 +3391,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function removeQuestion($question_id)
     {
-        $question = &ilObjTest::_instanciateQuestion($question_id);
+        $question = ilObjTest::_instanciateQuestion($question_id);
         include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
@@ -3620,7 +3620,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        $question = &ilObjTest::_instanciateQuestion($question_id);
+        $question = ilObjTest::_instanciateQuestion($question_id);
         $duplicate_id = $question->duplicate(true, null, null, null, $this->getId());
 
         return $duplicate_id;
@@ -3993,13 +3993,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
                 array($user_id, $this->test_id, $_SESSION["tst_access_code"][$this->getTestId()])
-                );
+            );
         } elseif (strlen($anonymous_id)) {
             $result = $ilDB->queryF(
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
                 array($user_id, $this->test_id, $anonymous_id)
-                );
+            );
         } else {
             if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
                 return null;
@@ -4008,7 +4008,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s",
                 array('integer','integer'),
                 array($user_id, $this->test_id)
-                );
+            );
         }
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
@@ -5087,7 +5087,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $tstUserData->setECTSMark($ects_mark);
             }
             
-            $visitingTime = &$this->getVisitTimeOfParticipant($active_id);
+            $visitingTime = $this->getVisitTimeOfParticipant($active_id);
             
             $tstUserData->setFirstVisit($visitingTime["firstvisit"]);
             $tstUserData->setLastVisit($visitingTime["lastvisit"]);
@@ -5413,7 +5413,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return array The available question pools
     * @access public
     */
-    public function &getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = false, $with_questioncount = false, $permission = "read")
+    public function getAvailableQuestionpools($use_object_id = false, $equal_points = false, $could_be_offline = false, $show_path = false, $with_questioncount = false, $permission = "read")
     {
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         return ilObjQuestionPool::_getAvailableQuestionpools($use_object_id, $equal_points, $could_be_offline, $show_path, $with_questioncount, $permission);
@@ -5429,7 +5429,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         $time_in_seconds = 0;
         foreach ($this->questions as $question_id) {
-            $question = &ilObjTest::_instanciateQuestion($question_id);
+            $question = ilObjTest::_instanciateQuestion($question_id);
             $est_time = $question->getEstimatedWorkingTime();
             $time_in_seconds += $est_time["h"] * 3600 + $est_time["m"] * 60 + $est_time["s"];
         }
@@ -5473,7 +5473,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return assQuestionGUI $questionGUI The question GUI instance
     * @access	public
     */
-    public function &createQuestionGUI($question_type, $question_id = -1)
+    public function createQuestionGUI($question_type, $question_id = -1)
     {
         if ((!$question_type) and ($question_id > 0)) {
             $question_type = $this->getQuestionType($question_id);
@@ -5486,7 +5486,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         assQuestion::_includeClass($question_type, 1);
         
-        $question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
+        $question_type_gui = $question_type.'GUI';
         $question = new $question_type_gui();
         
         if ($question_id > 0) {
@@ -5527,7 +5527,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         if (strcmp($question_id, "") != 0) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            return assQuestion::_instanciateQuestion($question_id);
+            return assQuestion::instantiateQuestion($question_id);
         }
     }
 
@@ -5852,10 +5852,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case "answer_feedback":
                     $this->setAnswerFeedback($metadata["entry"]);
                     break;
-                case "hide_title_points":
-                    $this->setTitleOutput($metadata["entry"]);
-                    break;
                 case "title_output":
+                case "hide_title_points":
                     $this->setTitleOutput($metadata["entry"]);
                     break;
                 case "question_set_type":
@@ -6072,7 +6070,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             foreach ($_SESSION["import_mob_xhtml"] as $mob) {
                 $importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
                 if (file_exists($importfile)) {
-                    $media_object = &ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                    $media_object = ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
                     ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
                     $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
                     $this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getFinalStatement()), 1));
@@ -7005,13 +7003,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Create meta data entry
-    *
-    * @access public
+    * @inheritDoc
     */
-    public function createMetaData()
+    protected function doCreateMetaData() : void
     {
-        parent::createMetaData();
         $this->saveAuthorToMetadata();
     }
 
@@ -7177,6 +7172,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setResultsPresentation($this->getResultsPresentation());
         $newObj->setScoreCutting($this->getScoreCutting());
         $newObj->setScoreReporting($this->getScoreReporting());
+        $newObj->setShowGradingStatusEnabled($this->isShowGradingStatusEnabled());
+        $newObj->setShowGradingMarkEnabled($this->isShowGradingMarkEnabled());
         $newObj->setSequenceSettings($this->getSequenceSettings());
         $newObj->setShowCancel($this->getShowCancel());
         $newObj->setShowMarker($this->getShowMarker());
@@ -7728,7 +7725,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return array The user data "usr_id, login, lastname, firstname, clientip" of the users with id as key
     * @access public
     */
-    public function &getUserData($ids)
+    public function getUserData($ids)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -7754,7 +7751,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $result_array;
     }
 
-    public function &getGroupData($ids)
+    public function getGroupData($ids)
     {
         if (!is_array($ids) || count($ids) == 0) {
             return array();
@@ -7767,7 +7764,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $result;
     }
 
-    public function &getRoleData($ids)
+    public function getRoleData($ids)
     {
         if (!is_array($ids) || count($ids) == 0) {
             return array();
@@ -8012,7 +8009,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $reached_points = 0;
                 $max_points = 0;
                 foreach ($this->questions as $value) {
-                    $question = &ilObjTest::_instanciateQuestion($value);
+                    $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
                         $reached_points += $question->getReachedPoints($active_id);
@@ -8135,7 +8132,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "SELECT MAX(pass) maxpass FROM tst_pass_result WHERE active_fi = %s",
             array('integer'),
             array($active_id)
-            );
+        );
         if ($result->numRows()) {
             $row = $ilDB->fetchAssoc($result);
             $max = $row["maxpass"];
@@ -9658,7 +9655,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return array An array containing the test defaults
     * @access public
     */
-    public function &getTestDefaults($test_defaults_id)
+    public function getTestDefaults($test_defaults_id)
     {
         return self::_getTestDefaults($test_defaults_id);
     }
@@ -10307,7 +10304,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $reached_points = 0;
                 $max_points = 0;
                 foreach ($this->questions as $value) {
-                    $question = &ilObjTest::_instanciateQuestion($value);
+                    $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
                         $reached_points += $question->getReachedPoints($active_id);
@@ -10488,7 +10485,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getAggregatedResultsData()
     {
         $data = &$this->getCompleteEvaluationData();
-        $foundParticipants = &$data->getParticipants();
+        $foundParticipants = $data->getParticipants();
         $results = array("overview" => array(), "questions" => array());
         if (count($foundParticipants)) {
             $results["overview"][$this->lng->txt("tst_eval_total_persons")] = count($foundParticipants);
@@ -10534,7 +10531,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];
@@ -10862,7 +10859,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             $this->getTestId(),
                             $qid
                         )
-                );
+            );
         }
     }
         
@@ -11701,11 +11698,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $times = array();
-        $result = $ilDB->queryF("SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s ORDER BY tst_times.tstamp DESC",
+        $result = $ilDB->queryF(
+            "SELECT tst_times.active_fi, tst_times.started FROM tst_times, tst_active WHERE tst_times.active_fi = tst_active.active_id AND tst_active.test_fi = %s ORDER BY tst_times.tstamp DESC",
             array('integer'),
             array($this->getTestId())
         );
-	while ($row = $ilDB->fetchAssoc($result)) {
+        while ($row = $ilDB->fetchAssoc($result)) {
             $times[$row['active_fi']] = $row['started'];
         }
         return $times;

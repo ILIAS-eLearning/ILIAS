@@ -331,15 +331,13 @@ class ilMailFormGUI
         if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
+        } elseif (strlen(trim($_SESSION["mail_search_search"])) < 3) {
+            $this->lng->loadLanguageModule('search');
+            ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+            $this->searchUsers(false);
         } else {
-            if (strlen(trim($_SESSION["mail_search_search"])) < 3) {
-                $this->lng->loadLanguageModule('search');
-                ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
-                $this->searchUsers(false);
-            } else {
-                $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
-                $this->ctrl->redirectByClass("ilmailsearchgui");
-            }
+            $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
+            $this->ctrl->redirectByClass("ilmailsearchgui");
         }
     }
 
@@ -719,7 +717,6 @@ class ilMailFormGUI
             }
         }
 
-        // MESSAGE
         $inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
         //$inp->setValue(htmlspecialchars($mailData["m_message"], false));
         $inp->setValue($mailData["m_message"]);
@@ -728,10 +725,8 @@ class ilMailFormGUI
         $inp->setRows(10);
         $form_gui->addItem($inp);
 
-        // PLACEHOLDERS
         $chb = new ilCheckboxInputGUI($this->lng->txt('mail_serial_letter_placeholders'), 'use_placeholders');
-        $chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
-        $chb->setValue(1);
+        $chb->setValue('1');
         if (isset($mailData['use_placeholders']) && $mailData['use_placeholders']) {
             $chb->setChecked(true);
         }
@@ -784,7 +779,7 @@ class ilMailFormGUI
         $quoted = str_replace('%', '\%', $quoted);
         $quoted = str_replace('_', '\_', $quoted);
 
-        $mailFormObj = new ilMailForm;
+        $mailFormObj = new ilMailForm();
         $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
 
         echo json_encode($result);

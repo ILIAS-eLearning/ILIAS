@@ -53,11 +53,31 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
             $this->writeQuestionGenericPostData();
             $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
-            $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+            if ($this->validateUploadSubforms()) {
+                $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
+            }
             $this->saveTaxonomyAssignments();
             return 0;
         }
         return 1;
+    }
+
+    public function validateUploadSubforms()
+    {
+        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+        $form = new ilPropertyFormGUI();
+
+        $form->setFormAction($this->ctrl->getFormAction($this));
+        $form->setTitle($this->outQuestionType());
+        $form->setMultipart(true);
+        $form->setTableWidth("100%");
+        $form->setId("matching");
+
+        $this->populateAnswerSpecificFormPart($form);
+
+        $form->setValuesByPost();
+
+        return $form->checkInput();
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
@@ -437,7 +457,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass);
             $solution_script .= "";
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {

@@ -37,6 +37,11 @@ class ilBookingProcessGUI
     protected $seed;
 
     /**
+     * @var string
+     */
+    protected $sseed;
+
+    /**
      * @var ilBookingHelpAdapter
      */
     protected $help;
@@ -45,6 +50,46 @@ class ilBookingProcessGUI
      * @var int
      */
     protected $context_obj_id;
+
+    /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var \ilGlobalTemplateInterface
+     */
+    protected $tpl;
+
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var \ilAccessHandler
+     */
+    protected $access;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs_gui;
+
+    /**
+     * @var \ilObjUser
+     */
+    protected $user;
+
+    /**
+     * @var int
+     */
+    protected $book_obj_id;
+
+    /**
+     * @var array
+     */
+    protected $rsv_ids = [];
 
     /**
      * Constructor
@@ -57,6 +102,7 @@ class ilBookingProcessGUI
         string $sseed = "",
         int $context_obj_id = 0
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -208,7 +254,7 @@ class ilBookingProcessGUI
      * @param string $title
      * @return string
      */
-    protected function renderSlots(ilBookingSchedule $schedule, array $object_ids, string $title) // ok
+    protected function renderSlots(ilBookingSchedule $schedule, array $object_ids, string $title) : string
     {
         $ilUser = $this->user;
 
@@ -320,35 +366,33 @@ class ilBookingProcessGUI
                         $mytpl->setCurrentBlock('dates');
                         $mytpl->setVariable('DUMMY', '&nbsp;');
                         $mytpl->parseCurrentBlock();
-                    } else {
-                        if (isset($days[$loop]['captions'])) {
-                            foreach ($days[$loop]['captions'] as $slot_id => $slot_caption) {
-                                $mytpl->setCurrentBlock('choice');
-                                $mytpl->setVariable('TXT_DATE', $slot_caption);
-                                $mytpl->setVariable('VALUE_DATE', $slot_id);
-                                $mytpl->setVariable('DATE_COLOR', $color[$loop]);
-                                $mytpl->setVariable(
-                                    'TXT_AVAILABLE',
-                                    sprintf(
-                                        $this->lng->txt('book_reservation_available'),
-                                        $days[$loop]['available'][$slot_id]
-                                    )
-                                );
-                                $mytpl->parseCurrentBlock();
-                            }
-
-                            $mytpl->setCurrentBlock('dates');
-                            $mytpl->setVariable('DUMMY', '');
-                            $mytpl->parseCurrentBlock();
-                        } elseif (isset($days[$loop]['in_slot'])) {
-                            $mytpl->setCurrentBlock('dates');
+                    } elseif (isset($days[$loop]['captions'])) {
+                        foreach ($days[$loop]['captions'] as $slot_id => $slot_caption) {
+                            $mytpl->setCurrentBlock('choice');
+                            $mytpl->setVariable('TXT_DATE', $slot_caption);
+                            $mytpl->setVariable('VALUE_DATE', $slot_id);
                             $mytpl->setVariable('DATE_COLOR', $color[$loop]);
-                            $mytpl->parseCurrentBlock();
-                        } else {
-                            $mytpl->setCurrentBlock('dates');
-                            $mytpl->setVariable('DUMMY', '&nbsp;');
+                            $mytpl->setVariable(
+                                'TXT_AVAILABLE',
+                                sprintf(
+                                    $this->lng->txt('book_reservation_available'),
+                                    $days[$loop]['available'][$slot_id]
+                                )
+                            );
                             $mytpl->parseCurrentBlock();
                         }
+
+                        $mytpl->setCurrentBlock('dates');
+                        $mytpl->setVariable('DUMMY', '');
+                        $mytpl->parseCurrentBlock();
+                    } elseif (isset($days[$loop]['in_slot'])) {
+                        $mytpl->setCurrentBlock('dates');
+                        $mytpl->setVariable('DATE_COLOR', $color[$loop]);
+                        $mytpl->parseCurrentBlock();
+                    } else {
+                        $mytpl->setCurrentBlock('dates');
+                        $mytpl->setVariable('DUMMY', '&nbsp;');
+                        $mytpl->parseCurrentBlock();
                     }
                 }
 
@@ -363,9 +407,10 @@ class ilBookingProcessGUI
 
                 $counter++;
             }
+            return $mytpl->get();
         }
 
-        return $mytpl->get();
+        return "";
     }
 
     /**
@@ -421,7 +466,6 @@ class ilBookingProcessGUI
                 }
             }
 
-            $last = array_pop(array_keys($hours));
             $slot_captions = array();
             foreach ($hours as $hour => $period) {
                 $dates[$hour][0] = $period;
@@ -473,19 +517,18 @@ class ilBookingProcessGUI
                             if ($slot_from < (time() + $schedule->getDeadline() * 60 * 60)) {
                                 continue;
                             }
-                        } else {
-                            // running slots can be booked, only ended slots are invalid
-                            if ($slot_to < time()) {
-                                continue;
-                            }
+                        } elseif ($slot_to < time()) {
+                            continue;
                         }
 
                         // is slot active in current hour?
                         if ((int) $slot['from'] < $period_to && (int) $slot['to'] > $period_from) {
                             $from = ilDatePresentation::formatDate(new ilDateTime($slot_from, IL_CAL_UNIX));
-                            $from = array_pop(explode(' ', $from));
+                            $from_a = explode(' ', $from);
+                            $from = array_pop($from_a);
                             $to = ilDatePresentation::formatDate(new ilDateTime($slot_to, IL_CAL_UNIX));
-                            $to = array_pop(explode(' ', $to));
+                            $to_a = explode(' ', $to);
+                            $to = array_pop($to_a);
 
                             // show caption (first hour) of slot
                             $id = $slot_from . '_' . $slot_to;
@@ -501,7 +544,7 @@ class ilBookingProcessGUI
                     // (any) active slot
                     if ($in) {
                         $has_open_slot = true;
-                        $dates[$hour][$column]['in_slot'] = $in;
+                        $dates[$hour][$column]['in_slot'] = true;
                     }
                 }
             }
@@ -536,6 +579,7 @@ class ilBookingProcessGUI
             $participants = $_POST["mass"];
         } else {
             $this->back();
+            return null;
         }
 
         $this->tabs_gui->clearTargets();
@@ -582,8 +626,9 @@ class ilBookingProcessGUI
      */
     public function saveMultipleBookings()
     {
+        $participants = [];
         if ($_POST["participants"] && $_POST['object_id']) {
-            $participants = $_POST["participants"];
+            $participants = (array) $_POST["participants"];
             $this->book_obj_id = $_POST['object_id'];
         } else {
             $this->back();
@@ -644,8 +689,8 @@ class ilBookingProcessGUI
                 $confirm = array();
 
                 $object_id = $this->book_obj_id;
+                $group_id = null;
                 if ($object_id) {
-                    $group_id = null;
                     $nr = ilBookingObject::getNrOfItemsForObjects(array($object_id));
                     // needed for recurrence
                     $f = new ilBookingReservationDBRepositoryFactory();
@@ -719,7 +764,7 @@ class ilBookingProcessGUI
 
             $object = new ilBookingObject($a_object_id);
 
-            $entry = new ilCalendarEntry;
+            $entry = new ilCalendarEntry();
             $entry->setStart(new ilDateTime($a_from, IL_CAL_UNIX));
             $entry->setEnd(new ilDateTime($a_to, IL_CAL_UNIX));
             $entry->setTitle($this->lng->txt('book_cal_entry') . ' ' . $object->getTitle());
@@ -727,7 +772,7 @@ class ilBookingProcessGUI
             $entry->save();
 
             $assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
-            $assignment->addAssignment($def_cat->getCategoryId());
+            $assignment->addAssignment($def_cat->getCategoryID());
         }
 
         return $reservation->getId();
@@ -972,7 +1017,7 @@ class ilBookingProcessGUI
 
     protected function addDaysStamp($a_stamp, $a_days)
     {
-        $date = getDate($a_stamp);
+        $date = getdate($a_stamp);
         return mktime(
             $date["hours"],
             $date["minutes"],

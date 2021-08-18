@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -18,35 +18,12 @@ class IOWrapper implements AdminInteraction
     const LABEL_WIDTH = 75;
     const ELLIPSIS = "...";
 
-    /**
-     * @var    InputInterface
-     */
-    protected $in;
-
-    /**
-     * @var OutputInterface
-     */
-    protected $out;
-
-    /**
-     * @var    SymfonyStyle
-     */
-    protected $style;
-
-    /**
-     * @var bool
-     */
-    protected $last_objective_was_notable = false;
-
-    /**
-     * @var string
-     */
-    protected $last_objective_label = "";
-
-    /**
-     * @var bool
-     */
-    protected $output_in_objective = false;
+    protected InputInterface $in;
+    protected OutputInterface $out;
+    protected SymfonyStyle $style;
+    protected bool $last_objective_was_notable = false;
+    protected string $last_objective_label = "";
+    protected bool $output_in_objective = false;
 
     public function __construct(InputInterface $in, OutputInterface $out)
     {

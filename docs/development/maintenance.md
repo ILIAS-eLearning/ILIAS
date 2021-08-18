@@ -7,9 +7,9 @@ modules of ILIAS.
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Alexander Killing], [Michael Jansen], [Timon Amstutz], [Richard Klees], [Stephan Winiker]
+* **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: [Florian Suittenpointner]
+* **Documentation**: N.A.
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
@@ -24,7 +24,7 @@ ILIAS is currently maintained by three types of Maintainerships:
 
 - First Component Maintainer
 - Second Component Maintainer
-- [Coordinator Model](maintenance-coordinator.md) 
+- [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) 
  
 The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
 listed component maintainer (see below):
@@ -47,8 +47,10 @@ by the [Issue-Tracker](https://mantis.ilias.de).
 
 Applications for maintainerships can be handed in to the product manager. The product manager together with the 
 technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
-addition the company the maintainer is working for can be listed, too. In this second case the company can suggest 
-a new maintainer to the product manager, if the employee leaves the company.
+addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
+propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
+for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
+substantially in the general condition of the component and the proposed maintainer meets the criteria.
 
 ## Current Maintainerships
 
@@ -71,7 +73,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 * **Badges**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html); from v.9 [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
@@ -110,7 +112,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: Manuel Müller, ZWH
+	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
 
 * **Chat**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
@@ -203,7 +205,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
 * **ECS Interface**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -219,6 +221,12 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 2nd Maintainer: N.A.
 	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
+
+* **Favourites**
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 * **File**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -344,7 +352,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
+	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID), [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
 
 * **LTI**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
@@ -362,7 +370,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: Till Lennart Vogt/Test-Team OWL
 
 * **MainMenu**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -435,6 +443,18 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* 2nd Maintainer: N.A.
 	* Testcases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+
+* **PDF**
+	* 1st Maintainer: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+* **Personal and Shared Resources**
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
 
 * **Personal Profile**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
@@ -574,6 +594,12 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Testcases: Tested separately in each module that supports taxonomies
 	* Tester: Tested separately in each module that supports taxonomies
 
+* **Terms of Services**
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: Stefania Akgül (CaT)
+	* Tester: Heinz Winter (CaT)
+
 * **Test & Assessment**
 	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
@@ -592,7 +618,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
-* **VirusScanner**
+* **Virus Scanner**
 	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -637,8 +663,8 @@ a new maintainer to the product manager, if the employee leaves the company.
 * **Wiki**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [abaulig1](https://docu.ilias.de/goto_docu_usr_44386.html)
-	* Tester: [abaulig1](https://docu.ilias.de/goto_docu_usr_44386.html)
+	* Testcases: N.N., Uni Köln
+	* Tester: N.N., Uni Köln
 
 * **Workflow Engine**
 	* 1st Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
@@ -653,7 +679,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 
-Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
+Components in the Coordinator Model [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * **Refinery**
 	* Coordinators: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html), [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
@@ -666,7 +692,7 @@ Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.
     * Used in Directories: src/UI
 
 
-The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
+The following directories are currently maintained under the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * src/Refinery
 * src/UI

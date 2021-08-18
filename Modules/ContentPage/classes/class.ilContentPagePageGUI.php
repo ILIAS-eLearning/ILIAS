@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,10 +9,8 @@
  */
 class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjectConstants
 {
-    /** @var bool */
-    protected $isEmbeddedMode = false;
-    /** @var string */
-    protected $language = '-';
+    protected bool $isEmbeddedMode = false;
+    protected string $language = '-';
 
     /**
      * ilContentPagePageGUI constructor.

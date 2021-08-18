@@ -23,7 +23,6 @@ class SkillTreeManager
         global $DIC;
 
         $this->repo_service = ($repo_service)
-            ? $repo_service
-            : $DIC->skills()->internal()->repo();
+            ?: $DIC->skills()->internal()->repo();
     }
 }

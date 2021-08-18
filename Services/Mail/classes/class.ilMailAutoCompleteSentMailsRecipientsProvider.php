@@ -37,7 +37,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
 
     /**
      * "Key" implementation of iterator interface
-     * @return  boolean true/false
+     * @return string
      */
     public function key()
     {

@@ -208,7 +208,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     /**
      * @param ilForumTopic $thread
      */
-    public function fillRow($thread)
+    protected function fillRow($thread)
     {
         $this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
         if ('mergeThreads' == $this->parent_cmd) {
@@ -307,7 +307,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                     $objLastPost->getUserAlias(),
                     $objLastPost->getImportName(),
                     array(
-                         'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'viewThread') . '#' . $objLastPost->getId()
+                         'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
                     )
                 );
 

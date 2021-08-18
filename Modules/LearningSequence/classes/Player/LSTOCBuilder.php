@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\KioskMode\TOCBuilder;
-use ILIAS\KioskMode\ControlBuilder;
 
 /**
  * Class LSTOCBuilder
@@ -11,19 +10,16 @@ use ILIAS\KioskMode\ControlBuilder;
 class LSTOCBuilder implements TOCBuilder
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $structure;
+    protected array $structure;
 
     /**
-     * @var LSTOCBuilder|null
+     * @var LSControlBuilder|LSTOCBuilder|null
      */
     protected $parent;
 
-    /**
-     * @var string | null
-     */
-    protected $command;
+    protected ?string $command;
 
     /**
      * LSControlBuilder|LSTOCBuilder 	$parent
@@ -58,7 +54,7 @@ class LSTOCBuilder implements TOCBuilder
     /**
      * @inheritdoc
      */
-    public function node($label, int $parameter = null, $lp = null) : TOCBuilder
+    public function node(string $label, int $parameter = null, int $lp = null) : TOCBuilder
     {
         //build node
         $toc = new LSTOCBuilder($this, $this->command, $label, $parameter, $lp);

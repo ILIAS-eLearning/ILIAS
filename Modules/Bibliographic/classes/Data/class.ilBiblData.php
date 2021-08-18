@@ -1,4 +1,7 @@
 <?php
+
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+
 /**
  * Class ilBiblData
  *
@@ -13,7 +16,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @return string
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -22,7 +25,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @return string
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
@@ -68,6 +71,15 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected $file_type;
 
+    /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     255
+     * @con_is_notnull true
+     */
+    protected $rid;
 
     /**
      * @return integer
@@ -138,5 +150,23 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     public function setFileType($file_type)
     {
         $this->file_type = $file_type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceId() : ?string
+    {
+        return $this->rid;
+    }
+
+    /**
+     * @param string $rid
+     * @return ilBiblData
+     */
+    public function setResourceId(string $rid) : ilBiblData
+    {
+        $this->rid = $rid;
+        return $this;
     }
 }

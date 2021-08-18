@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Password;
@@ -15,15 +16,8 @@ use ILIAS\Refinery\Password\HasUpperChars;
  */
 class Group
 {
-    /**
-     * @var ILIAS\Data\Factory
-     */
-    protected $data_factory;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
+    protected Factory $data_factory;
+    protected \ilLanguage $lng;
 
     public function __construct(Factory $data_factory, \ilLanguage $lng)
     {
@@ -33,51 +27,40 @@ class Group
 
     /**
      * Get the constraint that a password has a minimum length.
-     *
-     * @param	int	$min_length
-     * @return HasMinLength
      */
-    public function hasMinLength($min_length)
+    public function hasMinLength(int $min_length) : HasMinLength
     {
         return new HasMinLength($min_length, $this->data_factory, $this->lng);
     }
 
     /**
      * Get the constraint that a password has upper case chars.
-     *
-     * @return HasUpperChars
      */
-    public function hasUpperChars()
+    public function hasUpperChars() : HasUpperChars
     {
         return new HasUpperChars($this->data_factory, $this->lng);
     }
 
     /**
      * Get the constraint that a password has lower case chars.
-     *
-     * @return HasLowerChars
      */
-    public function hasLowerChars()
+    public function hasLowerChars() : HasLowerChars
     {
         return new HasLowerChars($this->data_factory, $this->lng);
     }
 
     /**
      * Get the constraint that a password has numbers.
-     *
-     * @return HasNumbers
      */
-    public function hasNumbers()
+    public function hasNumbers() : HasNumbers
     {
         return new HasNumbers($this->data_factory, $this->lng);
     }
 
     /**
      * Get the constraint that a password has special chars.
-     *
-     * @return HasSpecialChars
      */
-    public function hasSpecialChars()
+    public function hasSpecialChars() : HasSpecialChars
     {
         return new HasSpecialChars($this->data_factory, $this->lng);
     }

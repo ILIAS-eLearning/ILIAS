@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for meta data
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesCOPage
  */
 class ilCOPageExporter extends ilXmlExporter
 {
@@ -44,7 +41,6 @@ class ilCOPageExporter extends ilXmlExporter
         /** @var ilPluginAdmin $ilPluginAdmin */
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        include_once("./Services/COPage/classes/class.ilCOPageDataSet.php");
         $this->ds = new ilCOPageDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -54,7 +50,6 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         // collect all page component plugins that have their own exporter
-        require_once('Services/COPage/classes/class.ilPageComponentPluginExporter.php');
         foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
             if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'
@@ -82,8 +77,6 @@ class ilCOPageExporter extends ilXmlExporter
     {
         if ($a_entity == "pg") {
             // get all media objects and files of the page
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $mob_ids = array();
             $file_ids = array();
             foreach ($a_ids as $pg_id) {
@@ -171,8 +164,6 @@ class ilCOPageExporter extends ilXmlExporter
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
         if ($a_entity == "pg") {
-            include_once("./Services/COPage/classes/class.ilPageObject.php");
-            
             $id = explode(":", $a_id);
 
             $langs = array("-");
@@ -185,7 +176,6 @@ class ilCOPageExporter extends ilXmlExporter
                 }
             }
 
-            include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
             $xml = "";
             foreach ($langs as $l) {
                 $page_object = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $l);

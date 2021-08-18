@@ -525,7 +525,8 @@ class ilTimingsCronReminder extends ilCronJob
      */
     protected function getExceededObjectsForUser($user_id)
     {
-        $exceeded_obj_list = ilTimingsUser::lookupTimings(array($user_id), $arr = array(), true, true);
+        $tmp = [];
+        $exceeded_obj_list = ilTimingsUser::lookupTimings(array($user_id), $tmp, true, true);
         return $exceeded_obj_list;
     }
 

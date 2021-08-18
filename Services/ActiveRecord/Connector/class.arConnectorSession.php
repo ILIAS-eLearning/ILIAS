@@ -1,10 +1,7 @@
 <?php
-require_once('class.arConnector.php');
-require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 
 /**
  * Class arConnectorSession
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -12,17 +9,15 @@ class arConnectorSession extends arConnector
 {
     const AR_CONNECTOR_SESSION = 'arConnectorSession';
 
-
-    public static function resetSession()
+    public static function resetSession() : void
     {
         $_SESSION[self::AR_CONNECTOR_SESSION] = array();
     }
 
-
     /**
-     * @return array
+     * @return mixed[]
      */
-    public static function getSession()
+    public static function getSession() : array
     {
         if (!$_SESSION[self::AR_CONNECTOR_SESSION]) {
             self::resetSession();
@@ -31,13 +26,10 @@ class arConnectorSession extends arConnector
         return $_SESSION[self::AR_CONNECTOR_SESSION];
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
-     * @return array
+     * @return mixed[]
      */
-    public static function getSessionForActiveRecord(ActiveRecord $ar)
+    public static function getSessionForActiveRecord(ActiveRecord $ar) : array
     {
         $session = self::getSession();
         $ar_session = $session[$ar::returnDbTableName()];
@@ -48,176 +40,112 @@ class arConnectorSession extends arConnector
         return $ar_session;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public function checkConnection(ActiveRecord $ar)
+    public function checkConnection(ActiveRecord $ar) : bool
     {
         return is_array(self::getSession());
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return mixed
      */
-    public function nextID(ActiveRecord $ar)
+    public function nextID(ActiveRecord $ar) : int
     {
         return count(self::getSessionForActiveRecord($ar)) + 1;
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     * @param              $fields
-     *
-     * @return bool
+     * @param array $fields
      */
-    public function installDatabase(ActiveRecord $ar, $fields)
+    public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
-        return self::resetDatabase($ar);
+        return $this->resetDatabase($ar);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public function updateDatabase(ActiveRecord $ar)
+    public function updateDatabase(ActiveRecord $ar) : bool
     {
         return true;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public function resetDatabase(ActiveRecord $ar)
+    public function resetDatabase(ActiveRecord $ar) : bool
     {
         $_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()] = array();
 
         return true;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public function truncateDatabase(ActiveRecord $ar)
+    public function truncateDatabase(ActiveRecord $ar) : bool
     {
-        return self::resetDatabase($ar);
+        return $this->resetDatabase($ar);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
-     * @return mixed
+     * @return bool
      */
-    public function checkTableExists(ActiveRecord $ar)
+    public function checkTableExists(ActiveRecord $ar) : bool
     {
         return is_array(self::getSessionForActiveRecord($ar));
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     * @param              $field_name
-     *
-     * @return mixed
+     * @param string $field_name
+     * @return bool
      */
-    public function checkFieldExists(ActiveRecord $ar, $field_name)
+    public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         $session = self::getSessionForActiveRecord($ar);
 
         return array_key_exists($field_name, $session[0]);
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     * @param              $field_name
-     *
-     * @return bool
+     * @param string $field_name
      * @throws arException
      */
-    public function removeField(ActiveRecord $ar, $field_name)
+    public function removeField(ActiveRecord $ar, string $field_name) : bool
     {
         return true;
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     * @param              $old_name
-     * @param              $new_name
-     *
-     * @return bool
+     * @param string $old_name
+     * @param string $new_name
      * @throws arException
      */
-    public function renameField(ActiveRecord $ar, $old_name, $new_name)
+    public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
     {
         return true;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function create(ActiveRecord $ar)
+    public function create(ActiveRecord $ar) : void
     {
-        $_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()] = $ar->__asStdClass();
+        $_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()] = $ar->asStdClass();
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
-     * @return array
+     * @return mixed[]
      */
-    public function read(ActiveRecord $ar)
+    public function read(ActiveRecord $ar) : array
     {
         $session = self::getSessionForActiveRecord($ar);
 
-        return array( $session[$ar->getPrimaryFieldValue()] );
+        return array($session[$ar->getPrimaryFieldValue()]);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function update(ActiveRecord $ar)
+    public function update(ActiveRecord $ar) : void
     {
-        self::create($ar);
+        $this->create($ar);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function delete(ActiveRecord $ar)
+    public function delete(ActiveRecord $ar) : void
     {
         unset($_SESSION[self::AR_CONNECTOR_SESSION][$ar::returnDbTableName()][$ar->getPrimaryFieldValue()]);
     }
 
-
     /**
-     * @param ActiveRecordList $arl
-     *
+     * @return mixed[]
      * @internal param $q
-     *
-     * @return array
      */
-    public function readSet(ActiveRecordList $arl)
+    public function readSet(ActiveRecordList $arl) : array
     {
         $session = self::getSessionForActiveRecord($arl->getAR());
         foreach ($session as $i => $s) {
@@ -230,12 +158,8 @@ class arConnectorSession extends arConnector
 
             foreach ($session as $i => $s) {
                 $session[$i] = (array) $s;
-                switch ($operator) {
-                    case '=':
-                        if ($s[$fieldname] != $v) {
-                            unset($session[$i]);
-                        }
-                        break;
+                if (($operator === '=') && $s[$fieldname] !== $v) {
+                    unset($session[$i]);
                 }
             }
         }
@@ -243,34 +167,21 @@ class arConnectorSession extends arConnector
         return $session;
     }
 
-
-    /**
-     * @param ActiveRecordList $arl
-     *
-     * @return int
-     */
-    public function affectedRows(ActiveRecordList $arl)
+    public function affectedRows(ActiveRecordList $arl) : int
     {
         return count($this->readSet($arl));
     }
 
-
     /**
      * @param $value
-     * @param $type
-     *
-     * @return string
+     * @param string $type
      */
-    public function quote($value, $type)
+    public function quote($value, string $type) : string
     {
         return $value;
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function updateIndices(ActiveRecord $ar)
+    public function updateIndices(ActiveRecord $ar) : void
     {
         // TODO: Implement updateIndices() method.
     }

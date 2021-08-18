@@ -42,8 +42,8 @@ class Server
     public function __construct(
         \ilPageObjectGUI $page_gui,
         \ILIAS\DI\UIServices $ui,
-        Message\ServerRequestInterface $request)
-    {
+        Message\ServerRequestInterface $request
+    ) {
         $this->request = $request;
         $this->ui = $ui;
         $this->page_gui = $page_gui;
@@ -87,7 +87,7 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown Action ".((string) $query));
+            throw new Exception("Unknown Action " . ((string) $query));
         }
         return $handler;
     }
@@ -123,9 +123,8 @@ class Server
         }
 
         if ($handler === null) {
-            throw new Exception("Unknown component ".((string) $body["component"]));
+            throw new Exception("Unknown component " . ((string) $body["component"]));
         }
         return $handler;
     }
-
 }

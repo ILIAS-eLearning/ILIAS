@@ -25,17 +25,16 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilCourseTest
- * @group needsInstalledILIAS
  */
-class ilCourseTest extends TestCase
+class ilCourseTest //extends TestCase
 {
     protected $backupGlobals = false;
     protected $preserveGlobalState = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
     
     /**

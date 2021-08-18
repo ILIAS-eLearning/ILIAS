@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Interface ilSamlAuth
+ * @author Michael Jansen <mjansen@databay.de>
  */
 interface ilSamlAuth
 {
@@ -20,7 +21,7 @@ interface ilSamlAuth
      * @param string $key
      * @param mixed $value
      */
-    public function storeParam($key, $value);
+    public function storeParam(string $key, $value) : void;
 
     /**
      * @return bool

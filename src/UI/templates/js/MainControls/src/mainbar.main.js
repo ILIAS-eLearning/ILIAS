@@ -83,11 +83,13 @@ var mainbar = function() {
                 var id = signalData.options.entry_id,
                     action = signalData.options.action,
                     mb = il.UI.maincontrols.mainbar,
-                    state;
+                    state,
+                    after_render;
 
                 switch(action) {
                     case 'trigger_mapped':
                         id = mappings[id]; //no break afterwards!
+
                     case 'trigger':
                         state = mb.model.getState();
                         if(id in state.tools) {
@@ -97,28 +99,58 @@ var mainbar = function() {
                             if(state.entries[id].engaged) {
                                 mb.model.actions.disengageEntry(id);
                             } else {
-                                if(state.entries[id].isTopLevel()) {
-                                    mb.model.actions.engageEntry(id);
-                                }
                                 mb.model.actions.engageEntry(id);
+
+                                if(state.entries[id].isTopLevel()) {
+                                    after_render = function() {
+                                        mb.renderer.focusSubentry(id);
+                                    }
+                                }
                             }
                         }
                         break;
+
                     case 'remove':
                         mb.model.actions.removeTool(id);
                         break;
+
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
-                        var state = mb.model.getState();
+                        var state = mb.model.getState()
+                            last_top_id = state.last_active_top;
+
+                        after_render = function() {
+                            mb.renderer.focusTopentry(last_top_id);
+                        }
+
                         state.last_active_top = null;
                         mb.model.setState(state);
                         break;
+
                     case 'toggle_tools':
                         mb.model.actions.toggleTools();
+
+                        var state = mb.model.getState()
+                            id = Object.keys(state.tools)[0];
+
+                        if(state.tools_engaged) {
+                            after_render = function() {
+                                for(idx in state.tools) {
+                                    var tool = state.tools[idx];
+                                    if(tool.engaged) {
+                                        id = tool.id;
+                                    }
+                                }
+                                mb.renderer.focusTopentry(id);
+                            }
+                        }
                         break;
                 }
 
                 mb.renderer.render(mb.model.getState());
+                if(after_render) {
+                    after_render();
+                }
                 mb.persistence.store(mb.model.getState());
             });
         }

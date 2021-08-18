@@ -257,11 +257,11 @@ EOT;
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title">Modal1</h4>
+                                <span class="modal-title">Modal1</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
                             </div>
                         </div>
                     </div>
@@ -273,11 +273,11 @@ EOT;
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 class="modal-title">Modal2</h4>
+                                <span class="modal-title">Modal2</span>
                             </div>
                             <div class="modal-body">PhpUnit</div>
                             <div class="modal-footer">
-                                <a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
+                                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</button>
                             </div>
                         </div>
                     </div>

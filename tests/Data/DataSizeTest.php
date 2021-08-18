@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("./libs/composer/vendor/autoload.php");
@@ -32,7 +33,7 @@ class DataSizeTest extends TestCase
         try {
             $ds = new DataSize(4533, 0);
             $this->assertFalse("This should not happen");
-        } catch (\Exception $e) {
+        } catch (Exception | DivisionByZeroError $e) {
             $this->assertTrue(true);
         }
     }

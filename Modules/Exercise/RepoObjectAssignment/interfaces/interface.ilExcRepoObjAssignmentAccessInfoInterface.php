@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Interface for assignment types
@@ -12,14 +12,14 @@ interface ilExcRepoObjAssignmentAccessInfoInterface
     /**
      * Is access granted due to exercise assignment conditions?
      *
-     * @return int assignment id
+     * @return bool
      */
-    public function isGranted();
+    public function isGranted() : bool;
 
     /**
      * Get reasons why access is not granted.
      *
      * @return string[]
      */
-    public function getNotGrantedReasons();
+    public function getNotGrantedReasons() : array;
 }

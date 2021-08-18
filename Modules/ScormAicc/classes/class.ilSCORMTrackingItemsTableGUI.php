@@ -149,7 +149,9 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
 
-        $this->determineOffsetAndOrder();
+        $this->determineOffsetAndOrder(true);
+        $this->determineLimit();
+
         $ilSCORMTrackingItems = new ilSCORMTrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
@@ -177,7 +179,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 $tr_data = $ilSCORMTrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
         }
-        $this->setMaxCount($tr_data["cnt"]);
+//        $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));

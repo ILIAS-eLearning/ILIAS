@@ -1,8 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 
 /**
  * Class ilChatroomKickGUI
@@ -13,10 +10,7 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomClearGUI extends ilChatroomGUIHandler
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function executeDefault($method)
+    public function executeDefault(string $requestedMethod) : void
     {
         $this->redirectIfNoPermission('moderate');
 
@@ -24,7 +18,7 @@ class ilChatroomClearGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
 
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $subRoomId = $_REQUEST['sub'];
+        $subRoomId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('sub'));
 
         $room->clearMessages($subRoomId);
 

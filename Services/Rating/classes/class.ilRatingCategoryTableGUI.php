@@ -1,31 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List rating categories
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRating
  */
 class ilRatingCategoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     * @param	object	$a_parent_obj
-     * @param	string	$a_parent_cmd
-     * @param	int		$a_parent_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_parent_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_parent_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -51,14 +39,9 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
         $this->getItems($a_parent_id);
     }
 
-    /**
-     * Build item rows for given object and filter(s)
-     *
-     * @param	int	$a_parent_obj_id
-     */
-    public function getItems($a_parent_obj_id)
+    // Build item rows for given object and filter(s)
+    public function getItems(int $a_parent_obj_id)
     {
-        include_once "Services/Rating/classes/class.ilRatingCategory.php";
         $data = ilRatingCategory::getAllForObject($a_parent_obj_id);
         
         $this->setMaxCount(sizeof($data));
@@ -66,8 +49,7 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
     }
 
     /**
-     * Fill table row
-     * @param	array	$a_set
+     * @inheritDoc
      */
     protected function fillRow($a_set)
     {

@@ -71,16 +71,16 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $question = assQuestion::_instanciateQuestion($row['qst_fi']);
-
-            if ($question instanceof assQuestion) {
-                $question->delete($row['qst_fi']);
-            } else {
+            try {
+                $question = assQuestion::instantiateQuestion($row['qst_fi']);
+            } catch (InvalidArgumentException $ex) {
                 global $DIC; /* @var ILIAS\DI\Container $DIC */
                 $DIC['ilLog']->warning(
                     "could not delete staged random question (ref={$this->testOBJ->getRefId()} / qst={$row['qst_fi']})"
                 );
+                return;
             }
+            $question->delete($row['qst_fi']);
         }
 
         $query = "DELETE FROM tst_rnd_cpy WHERE tst_fi = %s";
@@ -108,7 +108,7 @@ class ilTestRandomQuestionSetStagingPoolBuilder
         $res = $this->db->queryF($query, array('integer', 'text'), array($sourcePoolId, 1));
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $question = assQuestion::_instanciateQuestion($row['question_id']);
+            $question = assQuestion::instantiateQuestion($row['question_id']);
             $duplicateId = $question->duplicate(true, null, null, null, $this->testOBJ->getId());
 
             $nextId = $this->db->nextId('tst_rnd_cpy');

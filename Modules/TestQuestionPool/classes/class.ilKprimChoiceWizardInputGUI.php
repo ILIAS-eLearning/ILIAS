@@ -313,12 +313,8 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                         // error handling
                         if ($error > 0) {
                             switch ($error) {
-                                case UPLOAD_ERR_INI_SIZE:
-                                    $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
-                                    return false;
-                                    break;
-
                                 case UPLOAD_ERR_FORM_SIZE:
+                                case UPLOAD_ERR_INI_SIZE:
                                     $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
                                     return false;
                                     break;

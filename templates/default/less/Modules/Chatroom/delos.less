@@ -25,7 +25,20 @@
 	hyphens: auto;
 	width: 100%;
 	min-height: 200px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-dark-bg;
+}
+
+#message-controls .msg-control {
+	label {
+		position: relative;
+		top: 5px;
+	}
+	display: inline-block;
+}
+@media only screen and (max-width: @grid-float-breakpoint) {
+	#message-controls .msg-control {
+		display: block;
+	}
 }
 
 #chat_users {
@@ -103,6 +116,10 @@ td.chatroom {
 		position: static;
 		float: none;
 		.box-shadow(none);
+	}
+
+	.dropdown-backdrop {
+		position: static;
 	}
 
 	.media {

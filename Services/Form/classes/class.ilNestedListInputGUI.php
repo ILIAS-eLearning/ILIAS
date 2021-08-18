@@ -1,16 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a (nested) list of checkboxes (could be extended for radio items, too)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a (nested) list of checkboxes (could be extended for radio items, too)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilNestedListInputGUI extends ilFormPropertyGUI
 {
     protected $value = "1";
@@ -31,7 +27,6 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
         parent::__construct($a_title, $a_postvar);
         $this->setType("nested_list");
 
-        include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
         $this->list = new ilNestedList();
         $this->list->setListClass("il_Explorer");
     }

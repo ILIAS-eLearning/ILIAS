@@ -1,25 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Stores info about random assignments for users in exercises
- *
  * (repository)
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcRandomAssignmentDBRepository
 {
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * Constructor
-     */
     public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
@@ -36,8 +27,10 @@ class ilExcRandomAssignmentDBRepository
      * @param int $exc_id
      * @return int[]
      */
-    public function getAssignmentsOfUser(int $user_id, int $exc_id)
-    {
+    public function getAssignmentsOfUser(
+        int $user_id,
+        int $exc_id
+    ) : array {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -46,7 +39,7 @@ class ilExcRandomAssignmentDBRepository
             " AND exc_id  = %s ",
             array("integer", "integer"),
             array($user_id, $exc_id)
-            );
+        );
         $ass_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             if (ilExAssignment::isInExercise($rec["ass_id"], $exc_id)) {
@@ -63,8 +56,11 @@ class ilExcRandomAssignmentDBRepository
      * @param int $exc_id
      * @param int[] $ass_ids
      */
-    public function saveAssignmentsOfUser(int $user_id, int $exc_id, array $ass_ids)
-    {
+    public function saveAssignmentsOfUser(
+        int $user_id,
+        int $exc_id,
+        array $ass_ids
+    ) {
         $db = $this->db;
 
         $db->manipulateF(
@@ -76,7 +72,7 @@ class ilExcRandomAssignmentDBRepository
         );
 
         foreach ($ass_ids as $ass_id) {
-            if (ilExAssignment::isInExercise((int) $ass_id, $exc_id)) {
+            if (ilExAssignment::isInExercise($ass_id, $exc_id)) {
                 $db->replace("exc_mandatory_random", array(        // pk
                     "usr_id" => array("integer", $user_id),
                     "exc_id" => array("integer", $exc_id),

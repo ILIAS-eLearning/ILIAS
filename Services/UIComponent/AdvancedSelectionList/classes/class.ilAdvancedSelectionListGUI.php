@@ -1,14 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User interface class for advanced drop-down selection lists
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id:$
-*/
-class ilAdvancedSelectionListGUI
+ * User interface class for advanced drop-down selection lists
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
+class ilAdvancedSelectionListGUI implements ilToolbarItem
 {
     private $items = array();
     private $id = "asl";
@@ -554,7 +553,6 @@ class ilAdvancedSelectionListGUI
     public function setAsynch($a_val)
     {
         if ($a_val) {
-            include_once("./Services/YUI/classes/class.ilYuiUtil.php");
             ilYuiUtil::initConnection();
         }
         $this->asynch = $a_val;
@@ -627,6 +625,15 @@ class ilAdvancedSelectionListGUI
     }
 
     /**
+     *
+     * @return string
+     */
+    public function getToolbarHTML()
+    {
+        return $this->getHTML();
+    }
+
+    /**
     * Get selection list HTML
     */
     public function getHTML($a_only_cmd_list_asynch = false)
@@ -638,11 +645,6 @@ class ilAdvancedSelectionListGUI
             return "";
         }
 
-        /* bootstrap made this obsolete ?!
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-        ilYuiUtil::initOverlay();
-        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Overlay/js/ilOverlay.js");
-        */
         $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         
         $tpl = new ilTemplate(
@@ -788,7 +790,6 @@ class ilAdvancedSelectionListGUI
 
                     $tpl->setVariable("ID_ITEM_TR", $this->getId() . "_" . $item["value"] . "_tr");
                     if ($item["ttip"] != "") {
-                        include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                         ilTooltipGUI::addTooltip(
                             $this->getId() . "_" . $item["value"] . "_tr",
                             $item["ttip"],
@@ -879,7 +880,6 @@ class ilAdvancedSelectionListGUI
         // js section
         $tpl->setCurrentBlock("js_section");
         if ($this->getAccessKey() > 0) {
-            include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
             $tpl->setVariable("ACCKEY", ilAccessKeyGUI::getAttribute($this->getAccessKey()));
         }
 
@@ -900,7 +900,6 @@ class ilAdvancedSelectionListGUI
             $cfg["toggle_class_on"] = $toggle["class_on"];
         }
         //echo "<br>".htmlentities($this->getAsynchUrl());
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
         $tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
          
         //echo htmlentities(ilJsonUtil::encode($cfg));

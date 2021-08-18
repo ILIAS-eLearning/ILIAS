@@ -3,16 +3,18 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use \ILIAS\Data\Color;
+
 /**
  * This describes a tag(-button).
  */
 interface Tag extends Button
 {
-    const REL_VERYLOW = 'verylow';
-    const REL_LOW = 'low';
-    const REL_MID = 'mid';
-    const REL_HIGH = 'high';
-    const REL_VERYHIGH = 'veryhigh';
+    public const REL_VERYLOW = 'verylow';
+    public const REL_LOW = 'low';
+    public const REL_MID = 'mid';
+    public const REL_HIGH = 'high';
+    public const REL_VERYHIGH = 'veryhigh';
 
     /**
      * Set relevance of Tag (e.g. to distinguish visually)
@@ -36,7 +38,7 @@ interface Tag extends Button
      * @param	Color $col
      * @return	Tag
      */
-    public function withBackgroundColor(\ILIAS\Data\Color $col);
+    public function withBackgroundColor(Color $col);
 
     /**
      * Get the fix background-color.

@@ -1,44 +1,30 @@
 <?php
-/* Copyright (c) 2018 Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExerciseMembersFilter
  *
  * @author Jesús López <lopez@leifos.de>
- *
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseMembersFilter
 {
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $members;
+    protected array $members;
+    protected ilAccessHandler $access;
+    protected int $exercise_ref_id;
+    protected int $user_id;
 
     /**
-     * @var \ILIAS\DI\RBACServices
-     */
-    private $access;
-
-    /**
-     * @var int
-     */
-    protected $exercise_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_user_id User id of the executioner, can come from CRON JOBS
-     * @param int $a_exc_ref_id
+     * @param int   $a_exc_ref_id
      * @param array $a_participants_ids
+     * @param int   $a_user_id      // id of the executioner, can come from CRON JOBS
      */
-    public function __construct(int $a_exc_ref_id, array $a_participants_ids, int $a_user_id)
-    {
+    public function __construct(
+        int $a_exc_ref_id,
+        array $a_participants_ids,
+        int $a_user_id
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();

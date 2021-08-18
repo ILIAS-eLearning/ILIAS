@@ -281,7 +281,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $this->openingDelimiter . '__' . $blockname . '__' .
                     $this->closingDelimiter,
             $this->blocklist[$parents[0]]
-                );
+        );
 
         $this->deleteFromBlockvariablelist($parents[0], $placeholder);
         $this->updateBlockvariablelist($blockname);
@@ -388,7 +388,7 @@ class HTML_Template_ITX extends HTML_Template_IT
                        $callFunction(
                            $this->callback[$function['name']]['function'],
                            $function['args']
-                     );
+                       );
                 }
                 $this->variableCache['__function' . $func_id . '__'] = $call;
             }
@@ -714,7 +714,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $this->variablesRegExp,
             $this->blocklist[$block],
             $regs
-                    );
+        );
 
         if (count($regs[1]) != 0) {
             foreach ($regs[1] as $k => $var) {
@@ -780,7 +780,7 @@ class HTML_Template_ITX extends HTML_Template_IT
             $message,
             $file,
             $line
-                );
+        );
 
         $this->warn[] = $message;
 

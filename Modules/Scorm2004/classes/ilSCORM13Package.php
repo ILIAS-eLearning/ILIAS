@@ -1,20 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>
- * @version $Id$
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Hendrik Holtmann <holtmann@mac.com>
+ * @authro Alfred Kohnert <alfred.kohnert@bigfoot.com>
 */
-
-
-require_once "./Modules/Scorm2004/classes/ilSCORM13Package.php";
-require_once "./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php";
-require_once "./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php";
-require_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
-require_once "./Modules/Scorm2004/classes/adlparser/SeqTreeBuilder.php";
-require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMTree.php");
-
 class ilSCORM13Package
 {
     const DB_ENCODE_XSL = './Modules/Scorm2004/templates/xsl/op/op-scorm13.xsl';
@@ -202,13 +194,11 @@ class ilSCORM13Package
             $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
             $l = $doc->xpath("/ContentObject/MetaData");
             if ($l[0]) {
-                include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
                 $mdxml = new ilMDXMLCopier($l[0]->asXML(), $packageId, $packageId, ilObject::_lookupType($packageId));
                 $mdxml->startParsing();
                 $mdxml->getMDObject()->update();
             }
         } else {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM13MDImporter.php");
             $importer = new ilSCORM13MDImporter($this->imsmanifest, $packageId);
             $importer->import();
             $title = $importer->getTitle();
@@ -473,11 +463,9 @@ class ilSCORM13Package
             return;
         }
 
-        include_once("./Modules/LearningModule/classes/class.ilContObjParser.php");
         $contParser = new ilContObjParser($newObj, $xml_file, $packageFolder);
         $contParser->startParsing();
         $newObj->update();
-        //ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
         $slm->setAssignedGlossary($newObj->getId());
         $slm->update();
     }
@@ -492,7 +480,6 @@ class ilSCORM13Package
                 $this->slm_tree->addTree($this->slm->getId(), 1);
                 
                 //add seqinfo for rootNode
-                include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Sequencing.php");
                 $seq_info = new ilSCORM2004Sequencing($this->slm->getId(), true);
                 
                 // get original sequencing information
@@ -510,7 +497,6 @@ class ilSCORM13Package
                     $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
                     $l = $doc->xpath("/ContentObject/MetaData");
                     if ($l[0]) {
-                        include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
                         $mdxml = new ilMDXMLCopier($l[0]->asXML(), $this->slm->getId(), $this->slm->getId(), $this->slm->getType());
                         $mdxml->startParsing();
                         $mdxml->getMDObject()->update();
@@ -542,7 +528,6 @@ class ilSCORM13Package
                     $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
                     $l = $doc->xpath("/ContentObject/StructureObject/MetaData[General/Identifier/@Entry='" . $a['identifier'] . "']");
                     if ($l[0]) {
-                        include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
                         $mdxml = new ilMDXMLCopier($l[0]->asXML(), $this->slm->getId(), $chap->getId(), $chap->getType());
                         $mdxml->startParsing();
                         $mdxml->getMDObject()->update();
@@ -696,12 +681,10 @@ class ilSCORM13Package
                 }
             }
         }
-        //exit;
-        include_once 'Modules/Scorm2004/classes/class.ilSCORM2004Page.php';
+
         $doc = new SimpleXMLElement($this->imsmanifest->saveXml());
         $l = $doc->xpath("/ContentObject/MetaData");
         if ($l[0]) {
-            include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
             $mdxml = new ilMDXMLCopier($l[0]->asXML(), $slm->getId(), $sco->getId(), $sco->getType());
             $mdxml->startParsing();
             $mdxml->getMDObject()->update();
@@ -717,14 +700,12 @@ class ilSCORM13Package
             ilSCORM2004Node::putInTree($page, $sco->getId(), "");
             $pmd = $page_xml->xpath("MetaData");
             if ($pmd[0]) {
-                include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
                 $mdxml = new ilMDXMLCopier($pmd[0]->asXML(), $slm->getId(), $page->getId(), $page->getType());
                 $mdxml->startParsing();
                 $mdxml->getMDObject()->update();
             }
             $tnode = $page_xml->xpath("//MediaObject/MediaAlias | //InteractiveImage/MediaAlias");
             foreach ($tnode as $ttnode) {
-                include_once './Services/MediaObjects/classes/class.ilObjMediaObject.php';
                 $OriginId = $ttnode["OriginId"];
                 $medianodes = $doc->xpath("//MediaObject[MetaData/General/Identifier/@Entry='" . $OriginId . "']");
                 $medianode = $medianodes[0];
@@ -735,7 +716,6 @@ class ilSCORM13Package
                     $media_object->create(false);
                     $mmd = $medianode->xpath("MetaData");
                     if ($mmd[0]) {
-                        include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
                         $mdxml = new ilMDXMLCopier($mmd[0]->asXML(), 0, $media_object->getId(), $media_object->getType());
                         $mdxml->startParsing();
                         $mdxml->getMDObject()->update();
@@ -791,10 +771,7 @@ class ilSCORM13Package
                     $ttnode ["OriginId"] = "il__mob_" . $media_object->getId();
                 }
             }
-            include_once("./Modules/File/classes/class.ilObjFile.php");
-            include_once("./Services/Utilities/classes/class.ilFileUtils.php");
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-            
+
             $intlinks = $page_xml->xpath("//IntLink");
             //die($intlinks);
             //if($intlinks )
@@ -1082,10 +1059,7 @@ class ilSCORM13Package
 
     public function removeCMIData()
     {
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
         ilSCORM2004DeleteData::removeCMIDataForPackage($this->packageId);
-
-        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         ilLPStatusWrapper::_refreshStatus($this->packageId);
     }
     
@@ -1188,8 +1162,6 @@ class ilSCORM13Package
     //to be called from IlObjUser
     public static function _removeTrackingDataForUser($user_id)
     {
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004DeleteData.php");
         ilSCORM2004DeleteData::removeCMIDataForUser($user_id);
-        //missing updatestatus
     }
 }

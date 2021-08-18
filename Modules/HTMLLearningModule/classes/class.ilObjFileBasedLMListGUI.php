@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjFileBasedLMListGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * $Id$
- *
- * @ingroup ModulesHTMLLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjFileBasedLMListGUI extends ilObjectListGUI
 {
@@ -31,7 +26,6 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjfilebasedlmgui";
         
         // general commands array
-        include_once('Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php');
         $this->commands = ilObjFileBasedLMAccess::_getCommands();
     }
 
@@ -123,4 +117,4 @@ class ilObjFileBasedLMListGUI extends ilObjectListGUI
 
         return $props;
     }
-} // END class.ilObjCategoryGUI
+}

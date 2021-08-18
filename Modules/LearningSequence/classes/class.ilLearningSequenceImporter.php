@@ -1,21 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilLearningSequenceImporter extends ilXmlImporter
 {
-    /**
-     * @var ilObjLearningSequence
-     */
-    protected $obj;
-
-    /**
-     * @var array
-     */
-    protected $data;
+    protected ilObjUser $user;
+    protected ilRbacAdmin $rbac_admin;
+    protected ilLogger $log;
+    protected ilObject $obj;
+    protected array $data;
 
     public function init()
     {
@@ -55,21 +48,20 @@ class ilLearningSequenceImporter extends ilXmlImporter
 
         $roles = $this->obj->getLSRoles();
         $roles->addLSMember(
-            (int) $this->user->getId(),
+            $this->user->getId(),
             $roles->getDefaultAdminRole()
         );
-        return $new_obj;
     }
 
-    protected function updateRefId(ilImportMapping $mapping)
+    protected function updateRefId(ilImportMapping $mapping) : void
     {
         $old_ref_id = $this->data["object"]["ref_id"];
         $new_ref_id = $mapping->getMapping("Services/Container", "refs", $old_ref_id);
 
-        $this->obj->setRefId($new_ref_id);
+        $this->obj->setRefId((int) $new_ref_id);
     }
 
-    protected function buildLSItems(array $ls_data, ilImportMapping $mapping)
+    protected function buildLSItems(array $ls_data, ilImportMapping $mapping) : void
     {
         $ls_items = array();
         foreach ($ls_data as $data) {
@@ -97,7 +89,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->obj->storeLSItems($ls_items);
     }
 
-    protected function buildSettings(array $ls_settings)
+    protected function buildSettings(array $ls_settings) : void
     {
         $settings = $this->obj->getLSSettings();
         $settings = $settings
@@ -127,7 +119,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->obj->updateSettings($settings);
     }
 
-    protected function buildLPSettings(array $lp_settings, ilImportMapping $mapping)
+    protected function buildLPSettings(array $lp_settings, ilImportMapping $mapping) : void
     {
         $collection = ilLPCollection::getInstanceByMode($this->obj->getId(), (int) $lp_settings["lp_mode"]);
 
@@ -144,7 +136,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $settings->insert();
     }
 
-    protected function decodeImageData(string $data)
+    protected function decodeImageData(string $data) : string
     {
         return base64_decode($data);
     }
@@ -154,12 +146,12 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $fs = $this->obj->getDI()['db.filesystem'];
         return $fs->getStoragePathFor(
             $type,
-            (int) $this->obj->getId(),
+            $this->obj->getId(),
             $fs->getSuffix($path)
         );
     }
 
-    protected function writeToFileSystem($data, string $path)
+    protected function writeToFileSystem($data, string $path) : void
     {
         file_put_contents($path, $data);
     }

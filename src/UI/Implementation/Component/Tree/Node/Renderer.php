@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -34,7 +35,9 @@ class Renderer extends AbstractComponentRenderer
         $label = $component->getLabel();
         /** @var URI|null $link */
         $link = $component->getLink();
+
         if (null !== $link) {
+            $tpl->touchBlock("role_none");
             $linkAsString = $this->getRefinery()
                 ->uri()
                 ->toString()
@@ -63,6 +66,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("highlighted");
         }
 
+        /**
+         * @var $component Node\Simple|Node\Bylined
+         */
         $triggered_signals = $component->getTriggeredSignals();
         if (count($triggered_signals) > 0) {
             $component = $this->triggerFurtherSignals($component, $triggered_signals);
@@ -75,22 +81,22 @@ class Renderer extends AbstractComponentRenderer
 
         if (count($subnodes) > 0 || $async) {
             $tpl->touchBlock("expandable");
-            $tpl->setVariable("ARIA_ROLE", "treeitem");
             $tpl->setCurrentBlock("aria_expanded");
             if ($component->isExpanded()) {
-                $tpl->touchBlock("expanded");
                 $tpl->setVariable("ARIA_EXPANDED", "true");
             } else {
                 $tpl->setVariable("ARIA_EXPANDED", "false");
             }
             $tpl->parseCurrentBlock();
-        } else {
-            $tpl->setVariable("ARIA_ROLE", "none");
-        }
 
-        if (count($subnodes) > 0) {
             $subnodes_html = $default_renderer->render($subnodes);
             $tpl->setVariable("SUBNODES", $subnodes_html);
+        }
+
+        if ($link === null || count($subnodes) != 0 || $async) {
+            $tpl->touchBlock("role_item");
+        } else {
+            $tpl->touchBlock("role_none");
         }
 
         return $tpl->get();
@@ -99,12 +105,15 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Relay signals (beyond expansion) to the node's js.
      * @param Node\Node $component
-     * @param Signal[] $triggered_signals
+     * @param TriggeredSignal[] $triggered_signals
      */
     protected function triggerFurtherSignals(Node\Node $component, array $triggered_signals)
     {
         $signals = [];
         foreach ($triggered_signals as $s) {
+            /**
+             * @var $s TriggeredSignal
+             */
             $signals[] = [
                 "signal_id" => $s->getSignal()->getId(),
                 "event" => $s->getEvent(),

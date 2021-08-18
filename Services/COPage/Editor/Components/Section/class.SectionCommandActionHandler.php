@@ -37,7 +37,7 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -97,12 +97,13 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $form = $sec_gui->initForm(true);
 
         // note: we  have everyting in _POST here, form works the usual way
+        $updated = true;
         if ($form->checkInput()) {
             $sec_gui->setValuesFromForm($form);
             $updated = $page->update();
         }
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     /**
@@ -122,12 +123,12 @@ class SectionCommandActionHandler implements Server\CommandActionHandler
         $form = $sec_gui->initForm(false);
 
         // note: we  have everyting in _POST here, form works the usual way
+        $updated = true;
         if ($form->checkInput()) {
             $sec_gui->setValuesFromForm($form);
             $updated = $page->update();
         }
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
-
 }

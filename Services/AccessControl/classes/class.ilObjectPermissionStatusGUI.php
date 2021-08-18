@@ -40,7 +40,7 @@ class ilObjectPermissionStatusGUI
     * Constructor
     * @access	public
     */
-    public function __construct(&$a_obj)
+    public function __construct($a_obj)
     {
         global $DIC;
 

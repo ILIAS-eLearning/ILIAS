@@ -107,7 +107,7 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    public function updateMetaData()
+    protected function beforeUpdateMetaData() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -121,7 +121,7 @@ class ilObjQuestionPool extends ilObject
             $md_creator->setTitleLanguage($ilUser->getPref('language'));
             $md_creator->create();
         }
-        parent::updateMetaData();
+        return true;
     }
 
     /**
@@ -193,7 +193,7 @@ class ilObjQuestionPool extends ilObject
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         
-        $question = assQuestion::_instanciateQuestion($question_id);
+        $question = assQuestion::instantiateQuestion($question_id);
         $this->addQuestionChangeListeners($question);
         $question->delete($question_id);
     }
@@ -310,42 +310,6 @@ class ilObjQuestionPool extends ilObject
     }
 
     /**
-    * get description of content object
-    *
-    * @return	string		description
-    */
-    public function getDescription()
-    {
-        return parent::getDescription();
-    }
-
-    /**
-    * set description of content object
-    */
-    public function setDescription($a_description)
-    {
-        parent::setDescription($a_description);
-    }
-
-    /**
-    * get title of glossary object
-    *
-    * @return	string		title
-    */
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-    * set title of glossary object
-    */
-    public function setTitle($a_title)
-    {
-        parent::setTitle($a_title);
-    }
-
-    /**
     * Checks whether the question is in use or not
     *
     * @param integer $question_id The question id of the question to be checked
@@ -366,11 +330,11 @@ class ilObjQuestionPool extends ilObject
         return $row["solution_count"];
     }
 
-    public function &createQuestion($question_type, $question_id = -1)
+    public function createQuestion($question_type, $question_id = -1)
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         if ($question_id > 0) {
-            return assQuestion::_instanciateQuestionGUI($question_id);
+            return assQuestion::instantiateQuestionGUI($question_id);
         }
         assQuestion::_includeClass($question_type, 1);
         $question_type_gui = $question_type . "GUI";

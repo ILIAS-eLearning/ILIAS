@@ -1,20 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExternalToolsSettingsGUI
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjExternalToolsSettingsGUI
+ *
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
+ */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
     /**
@@ -109,7 +102,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         
         $this->__initSubTabs("editMathJax");
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("mathjax_settings"));
@@ -142,7 +134,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $si->setInfo($this->lng->txt("mathjax_limiter_info"));
         $enable->addSubItem($si);
 
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         $install_link = ' <a target="_blank" href="Services/MathJax/docs/Install-MathJax-Server.txt">'
             . $lng->txt("mathjax_server_installation") . '</a>';
         $clear_cache_link = ' <a href="' . $this->ctrl->getLinkTarget($this, 'clearMathJaxCache') . '"">'
@@ -198,7 +189,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         // Test expression
         $test = new ilCustomInputGUI($lng->txt("mathjax_test_expression"));
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         $html = ilMathJax::getInstance()->insertLatexImages('[tex]f(x)=\int_{-\infty}^x e^{-t^2}dt[/tex]');
         $test->setHtml($html);
         $test->setInfo($lng->txt('mathjax_test_expression_info'));
@@ -252,7 +242,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     {
         $lng = $this->lng;
 
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->clearCache();
 
         ilUtil::sendSuccess($lng->txt('mathjax_server_cache_cleared'), true);
@@ -266,8 +255,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     */
     public function editMapsObject()
     {
-        require_once("Services/Maps/classes/class.ilMapUtil.php");
-        
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -279,8 +266,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $std_zoom = ilMapUtil::getStdZoom();
         $type = ilMapUtil::getType();
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        include_once("./Services/Form/classes/class.ilCheckboxOption.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("maps_settings"));
@@ -341,8 +326,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     */
     public function saveMapsObject()
     {
-        require_once("Services/Maps/classes/class.ilMapUtil.php");
-
         $ilCtrl = $this->ctrl;
         if (ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
             ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
@@ -398,12 +381,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilecssettingsgui':
                 $this->tabs_gui->setTabActive('ecs_server_settings');
-                include_once('./Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php');
                 $this->ctrl->forwardCommand(new ilECSSettingsGUI());
                 break;
             
             case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 $this->tabs_gui->setTabActive('perm_settings');

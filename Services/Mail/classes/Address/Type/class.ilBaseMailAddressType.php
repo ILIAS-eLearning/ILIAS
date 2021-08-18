@@ -36,7 +36,7 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
     }
 
     /**
-     * @param $senderId integer
+     * @param $senderId int
      * @return bool
      */
     abstract protected function isValid(int $senderId) : bool;

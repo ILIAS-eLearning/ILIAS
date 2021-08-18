@@ -16,14 +16,12 @@ use Sabre\DAV\Exception\Forbidden;
  * @author                 Raphael Heer <raphael.heer@hslu.ch>
  * @version                1.0.0
  *
- * @group                  needsInstalledILIAS
- *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilObjectDAVTest extends TestCase
+class ilObjectDAVTest //extends TestCase
 {
     /** @var int */
     protected $ref_id;

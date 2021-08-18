@@ -518,8 +518,7 @@ class ilTableGUI
                 }
 
                 $this->tpl->setCurrentBlock("tbl_content_row");
-                $rowcolor = ilUtil::switchColor($count, "tblrow1", "tblrow2");
-                $this->tpl->setVariable("ROWCOLOR", $rowcolor);
+                $this->tpl->setVariable("ROWCOLOR", " ");
                 $this->tpl->parseCurrentBlock();
             
                 $count++;
@@ -600,7 +599,7 @@ class ilTableGUI
                 ? basename($_SERVER["PHP_SELF"])
                 : $this->getBase();
 
-            $linkbar = ilUtil::Linkbar($base, $this->max_count, $this->limit, $this->offset, $params, $layout, $this->prefix);
+            $linkbar = $this->linkbar($base, $this->max_count, $this->limit, $this->offset, $params, $layout, $this->prefix);
             $this->tpl->setCurrentBlock("tbl_footer_linkbar");
             $this->tpl->setVariable("LINKBAR", $linkbar);
             $this->tpl->parseCurrentBlock();
@@ -640,7 +639,115 @@ class ilTableGUI
             return $this->tpl->get();
         }
     }
-    
+
+    /**
+     * Linkbar
+     * Diese Funktion erzeugt einen typischen Navigationsbalken mit
+     * "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
+     *
+     * die komplette LinkBar wird zur?ckgegeben
+     * der Variablenname f?r den offset ist "offset"
+     *
+     * @author Sascha Hofmann <shofmann@databay.de>
+     *
+     * @access	public
+     * @param	integer	Name der Skriptdatei (z.B. test.php)
+     * @param	integer	Anzahl der Elemente insgesamt
+     * @param	integer	Anzahl der Elemente pro Seite
+     * @param	integer	Das aktuelle erste Element in der Liste
+     * @param	array	Die zu ?bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
+     * @param	array	layout options (all optional)
+     * 					link	=> css name for <a>-tag
+     * 					prev	=> value for 'previous page' (default: '<<')
+     * 					next	=> value for 'next page' (default: '>>')
+     * @return	array	linkbar or false on error
+     * @static
+     *
+     */
+    public static function linkbar($AScript, $AHits, $ALimit, $AOffset, $AParams = array(), $ALayout = array(), $prefix = '')
+    {
+        $LinkBar = "";
+
+        $layout_link = "";
+        $layout_prev = "&lt;&lt;";
+        $layout_next = "&gt;&gt;";
+
+        // layout options
+        if ((is_array($ALayout) && (count($ALayout) > 0))) {
+            if ($ALayout["link"]) {
+                $layout_link = " class=\"" . $ALayout["link"] . "\"";
+            }
+
+            if ($ALayout["prev"]) {
+                $layout_prev = $ALayout["prev"];
+            }
+
+            if ($ALayout["next"]) {
+                $layout_next = $ALayout["next"];
+            }
+        }
+
+        // show links, if hits greater limit
+        // or offset > 0 (can be > 0 due to former setting)
+        if ($AHits > $ALimit || $AOffset > 0) {
+            if (!empty($AParams)) {
+                foreach ($AParams as $key => $value) {
+                    $params .= $key . "=" . $value . "&";
+                }
+            }
+            // if ($params) $params = substr($params,0,-1);
+            if (strpos($AScript, '&')) {
+                $link = $AScript . "&" . $params . $prefix . "offset=";
+            } else {
+                $link = $AScript . "?" . $params . $prefix . "offset=";
+            }
+
+            // ?bergehe "zurck"-link, wenn offset 0 ist.
+            if ($AOffset >= 1) {
+                $prevoffset = $AOffset - $ALimit;
+                if ($prevoffset < 0) {
+                    $prevoffset = 0;
+                }
+                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $prevoffset . "\">" . $layout_prev . "&nbsp;</a>";
+            }
+
+            // Ben?tigte Seitenzahl kalkulieren
+            $pages = intval($AHits / $ALimit);
+
+            // Wenn ein Rest bleibt, addiere eine Seite
+            if (($AHits % $ALimit)) {
+                $pages++;
+            }
+
+            // Bei Offset = 0 keine Seitenzahlen anzeigen : DEAKTIVIERT
+            //			if ($AOffset != 0) {
+
+            // ansonsten zeige Links zu den anderen Seiten an
+            for ($i = 1 ;$i <= $pages ; $i++) {
+                $newoffset = $ALimit * ($i - 1);
+
+                if ($newoffset == $AOffset) {
+                    $LinkBar .= "[" . $i . "] ";
+                } else {
+                    $LinkBar .= '<a ' . $layout_link . ' href="' .
+                        $link . $newoffset . '">[' . $i . ']</a> ';
+                }
+            }
+            //			}
+
+            // Checken, ob letze Seite erreicht ist
+            // Wenn nicht, gebe einen "Weiter"-Link aus
+            if (!(($AOffset / $ALimit) == ($pages - 1)) && ($pages != 1)) {
+                $newoffset = $AOffset + $ALimit;
+                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $newoffset . "\">&nbsp;" . $layout_next . "</a>";
+            }
+
+            return $LinkBar;
+        } else {
+            return false;
+        }
+    }
+
     public function renderHeader()
     {
         foreach ($this->header_names as $key => $tbl_header_cell) {

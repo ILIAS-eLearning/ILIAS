@@ -149,8 +149,6 @@ abstract class ilDidacticTemplateAction
     /**
      * Delete didactic template action
      * overwrite for filling additional db fields
-     *
-     * @return bool
      */
     public function delete()
     {
@@ -163,10 +161,6 @@ abstract class ilDidacticTemplateAction
         $ilDB->manipulate($query);
     }
 
-    /**
-     *
-     * @global ilDB $ilDB
-     */
     public function read()
     {
         global $DIC;

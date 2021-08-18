@@ -6,9 +6,8 @@ include_once 'Modules/Course/classes/class.ilCourseMailTemplateTutorContext.php'
 
 /**
  * Class ilCourseMailTemplateTutorContextTest
- * @group needsInstalledILIAS
  */
-class ilCourseMailTemplateTutorContextTest extends TestCase
+class ilCourseMailTemplateTutorContextTest //extends TestCase
 {
     public function testNonExistingPlaceholderWontBeResolved()
     {

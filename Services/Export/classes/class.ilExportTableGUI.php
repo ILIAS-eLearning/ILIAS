@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Export table
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExportTableGUI extends ilTable2GUI
 {
@@ -121,7 +117,6 @@ class ilExportTableGUI extends ilTable2GUI
             $types[] = $f['key'];
             $this->formats[$f['key']] = $f['txt'];
         }
-        include_once('./Services/Export/classes/class.ilExport.php');
         $files = ilExport::_getExportFiles(
             $this->obj->getId(),
             $types,

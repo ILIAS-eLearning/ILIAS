@@ -308,10 +308,8 @@ class ilObjMailGUI extends ilObjectGUI
             $mail_address_option = ilMailOptions::FIRST_EMAIL;
             if ($incoming_type == ilMailOptions::INCOMING_EMAIL) {
                 $mail_address_option = (int) $form->getInput('mail_address_option');
-            } else {
-                if ($incoming_type == ilMailOptions::INCOMING_BOTH) {
-                    $mail_address_option = (int) $form->getInput('mail_address_option_both');
-                }
+            } elseif ($incoming_type == ilMailOptions::INCOMING_BOTH) {
+                $mail_address_option = (int) $form->getInput('mail_address_option_both');
             }
 
             $this->settings->set('mail_allow_external', (int) $form->getInput('mail_allow_external'));
@@ -676,23 +674,21 @@ class ilObjMailGUI extends ilObjectGUI
 
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             ilUtil::redirect('ilias.php?baseClass=ilMailGUI');
-        } else {
-            if ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-                $_GET['cmd'] = 'frameset';
-                $_GET['target'] = '';
-                $_GET['ref_id'] = ROOT_FOLDER_ID;
-                $_GET['baseClass'] = 'ilRepositoryGUI';
-                ilUtil::sendFailure(
-                    sprintf(
-                        $DIC->language()->txt('msg_no_perm_read_item'),
-                        ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
-                    ),
-                    true
-                );
+        } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
+            $_GET['cmd'] = 'frameset';
+            $_GET['target'] = '';
+            $_GET['ref_id'] = ROOT_FOLDER_ID;
+            $_GET['baseClass'] = 'ilRepositoryGUI';
+            ilUtil::sendFailure(
+                sprintf(
+                    $DIC->language()->txt('msg_no_perm_read_item'),
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ),
+                true
+            );
 
-                include 'ilias.php';
-                exit();
-            }
+            include 'ilias.php';
+            exit();
         }
 
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);

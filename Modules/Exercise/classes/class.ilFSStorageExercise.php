@@ -1,41 +1,23 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesExercise
-*/
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilFSStorageExercise extends ilFileSystemStorage
 {
-    /**
-     * Constructor
-     *
-     * @param int	exercise id
-     */
-    public function __construct($a_container_id = 0, $a_ass_id = 0)
-    {
+    protected int $ass_id;
+    protected string $submission_path;
+    protected string $tmp_path;
+    protected string $feedb_path;
+    protected string $multi_feedback_upload_path;
+    protected string $peer_review_upload_path;
+
+    public function __construct(
+        int $a_container_id = 0,
+        int $a_ass_id = 0
+    ) {
         $this->ass_id = $a_ass_id;
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     }
@@ -43,7 +25,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
     /**
      * Append ass_<ass_id> to path (assignment id)
      */
-    public function init()
+    protected function init() : bool
     {
         if (parent::init()) {
             if ($this->ass_id > 0) {
@@ -60,50 +42,29 @@ class ilFSStorageExercise extends ilFileSystemStorage
         return true;
     }
     
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPostfix()
+    protected function getPathPostfix() : string
     {
         return 'exc';
     }
     
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPrefix()
+    protected function getPathPrefix() : string
     {
         return 'ilExercise';
     }
     
-    /**
-     * Get submission path
-     */
-    public function getAbsoluteSubmissionPath()
+    public function getAbsoluteSubmissionPath() : string
     {
         return $this->submission_path;
     }
     
-    /**
-     * Get submission path
-     */
-    public function getTempPath()
+    public function getTempPath() : string
     {
         return $this->tmp_path;
     }
 
-    /**
-     * Get feedback path
-     */
-    public function getFeedbackPath($a_user_id)
-    {
+    public function getFeedbackPath(
+        int $a_user_id
+    ) : string {
         $path = $this->feedb_path . "/" . $a_user_id;
         if (!file_exists($path)) {
             ilUtil::makeDirParents($path);
@@ -111,7 +72,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
         return $path;
     }
     
-    public function getGlobalFeedbackPath()
+    public function getGlobalFeedbackPath() : string
     {
         $path = $this->feedb_path . "/0";
         if (!file_exists($path)) {
@@ -124,8 +85,9 @@ class ilFSStorageExercise extends ilFileSystemStorage
      * Get multi feedback upload path
      * (each uploader handled in a separate path)
      */
-    public function getMultiFeedbackUploadPath($a_user_id)
-    {
+    public function getMultiFeedbackUploadPath(
+        int $a_user_id
+    ) : string {
         $path = $this->multi_feedback_upload_path . "/" . $a_user_id;
         if (!file_exists($path)) {
             ilUtil::makeDirParents($path);
@@ -137,8 +99,11 @@ class ilFSStorageExercise extends ilFileSystemStorage
      * Get pear review upload path
      * (each peer handled in a separate path)
      */
-    public function getPeerReviewUploadPath($a_peer_id, $a_giver_id, $a_crit_id)
-    {
+    public function getPeerReviewUploadPath(
+        int $a_peer_id,
+        int $a_giver_id,
+        ?int $a_crit_id = null
+    ) : string {
         $path = $this->peer_review_upload_path . "/" . $a_peer_id . "/" . $a_giver_id . "/";
 
         if ((int) $a_crit_id) {
@@ -152,11 +117,8 @@ class ilFSStorageExercise extends ilFileSystemStorage
         
     /**
      * Create directory
-     *
-     * @access public
-     *
      */
-    public function create()
+    public function create() : bool
     {
         parent::create();
         if (!file_exists($this->submission_path)) {
@@ -171,10 +133,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
         return true;
     }
 
-    /**
-     * Get assignment files
-     */
-    public function getFiles()
+    public function getFiles() : array
     {
         $files = array();
         if (!is_dir($this->path)) {
@@ -192,8 +151,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
             }
         }
         closedir($dp);
-        $files = ilUtil::sortArray($files, "name", "asc");
-        return $files;
+        return ilUtil::sortArray($files, "name", "asc");
     }
     
     
@@ -202,21 +160,24 @@ class ilFSStorageExercise extends ilFileSystemStorage
     ////
     
     /**
-    * store delivered file in filesystem
-    * @param array HTTP_POST_FILES
-    * @param numeric database id of the user who delivered the file
-    * @access	public
-    * @return mixed Returns a result array with filename and mime type of the saved file, otherwise false
-    */
-    public function uploadFile($a_http_post_file, $user_id, $is_unziped = false)
-    {
+     * store delivered file in filesystem
+     * @param array $a_http_post_file
+     * @param int   $user_id
+     * @param bool  $is_unziped
+     * @return ?array result array with filename and mime type of the saved file
+     * @throws ilException
+     * @throws ilFileUtilsException
+     */
+    public function uploadFile(
+        array $a_http_post_file,
+        int $user_id,
+        bool $is_unziped = false
+    ) : ?array {
         $this->create();
         // TODO:
         // CHECK UPLOAD LIMIT
-
-
         //
-        $result = false;
+        $result = null;
         if (isset($a_http_post_file) && $a_http_post_file['size']) {
             $filename = $a_http_post_file['name'];
 
@@ -274,15 +235,13 @@ class ilFSStorageExercise extends ilFileSystemStorage
         return $result;
     }
 
-    /**
-     * Get number of feedback files
-     */
-    public function getFeedbackFiles($a_user_id)
-    {
+    public function getFeedbackFiles(
+        int $a_user_id
+    ) : array {
         $files = array();
     
         $dir = $this->getFeedbackPath($a_user_id);
-        if (@is_dir($dir)) {
+        if (is_dir($dir)) {
             $dp = opendir($dir);
             while ($file = readdir($dp)) {
                 if (!is_dir($this->path . '/' . $file) && substr($file, 0, 1) != ".") {
@@ -294,44 +253,36 @@ class ilFSStorageExercise extends ilFileSystemStorage
         return $files;
     }
     
-    /**
-     * Count number of feedback files for a user
-     */
-    public function countFeedbackFiles($a_user_id)
-    {
+    public function countFeedbackFiles(
+        int $a_user_id
+    ) : int {
         $fbf = $this->getFeedbackFiles($a_user_id);
         return count($fbf);
     }
     
-    /**
-     * Get path for assignment file
-     */
-    public function getAssignmentFilePath($a_file)
+    public function getAssignmentFilePath(string $a_file) : string
     {
         return $this->getAbsolutePath() . "/" . $a_file;
     }
     
-    /**
-     * Get path for feedback file
-     */
-    public function getFeedbackFilePath($a_user_id, $a_file)
-    {
+    public function getFeedbackFilePath(
+        int $a_user_id,
+        string $a_file
+    ) : string {
         $dir = $this->getFeedbackPath($a_user_id);
         return $dir . "/" . $a_file;
     }
 
     /**
-     * Upload assignment files
-     * (e.g. from assignment creation form)
+     * @throws ilException
      */
-    public function uploadAssignmentFiles($a_files)
-    {
+    public function uploadAssignmentFiles(
+        array $a_files
+    ) : void {
         if (is_array($a_files["name"])) {
             foreach ($a_files["name"] as $k => $name) {
                 if ($name != "") {
-                    $type = $a_files["type"][$k];
                     $tmp_name = $a_files["tmp_name"][$k];
-                    $size = $a_files["size"][$k];
                     ilUtil::moveUploadedFile(
                         $tmp_name,
                         basename($name),

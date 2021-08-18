@@ -10,10 +10,10 @@ interface Icon extends \ILIAS\UI\Component\Symbol\Symbol
 {
 
     // sizes of icons
-    const SMALL = 'small';
-    const MEDIUM = 'medium';
-    const LARGE = 'large';
-    const RESPONSIVE = 'responsive';
+    public const SMALL = 'small';
+    public const MEDIUM = 'medium';
+    public const LARGE = 'large';
+    public const RESPONSIVE = 'responsive';
 
     /**
      * Get the name of the icon.

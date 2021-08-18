@@ -1,22 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Exercise member table
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesExercise
-*/
+ * Exercise member table
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPublicSubmissionsTableGUI extends ilTable2GUI
 {
-    protected $ass; // [ilExAssignment]
+    protected ilExAssignment $ass;
     
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignment $a_ass
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -44,16 +43,17 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         //$this->disable("footer");
         $this->setEnableTitle(true);
     }
-    
+
     /**
-    * Fill table row
-    */
-    protected function fillRow($member)
+     * @throws ilObjectNotFoundException
+     * @throws ilDatabaseException
+     */
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $member_id = $member["usr_id"];
+        $member_id = $a_set["usr_id"];
         if (!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id, false))) {
             return;
         }
@@ -61,11 +61,11 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         // name and login
         $this->tpl->setVariable(
             "TXT_NAME",
-            $member["name"]
+            $a_set["name"]
         );
         $this->tpl->setVariable(
             "TXT_LOGIN",
-            "[" . $member["login"] . "]"
+            "[" . $a_set["login"] . "]"
         );
             
         // image
@@ -78,13 +78,6 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
         $sub = new ilExSubmission($this->ass, $member_id);
 
         // submission:
-        // see if files have been resubmmited after solved
-        $last_sub = $sub->getLastSubmission();
-        if ($last_sub) {
-            $last_sub = ilDatePresentation::formatDate(new ilDateTime($last_sub, IL_CAL_DATETIME));
-        } else {
-            $last_sub = "---";
-        }
 
         // nr of submitted files
         $sub_cnt = count($sub->getFiles());

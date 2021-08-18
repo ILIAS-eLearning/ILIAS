@@ -18,6 +18,11 @@ class Select extends Input implements C\Input\Field\Select
     protected $value;
 
     /**
+     * @var bool
+     */
+    private $complex = false;
+
+    /**
      * Select constructor.
      *
      * @param DataFactory $data_factory
@@ -75,5 +80,13 @@ class Select extends Input implements C\Input\Field\Select
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex() : bool
+    {
+        return $this->complex;
     }
 }

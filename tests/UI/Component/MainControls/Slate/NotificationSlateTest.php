@@ -105,7 +105,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 <div class="il-maincontrols-slate il-maincontrols-slate-notification">
 	<div class="il-maincontrols-slate-notification-title">slate title</div>
 	<div class="il-maincontrols-slate-content">
-		<span class="il-item-notification-replacement-container">
+		<div class="il-item-notification-replacement-container">
 			<div class="il-item il-notification-item" id="id_1">
 				<div class="media">
 					<div class="media-left">
@@ -117,7 +117,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 							<div class="il-maincontrols-slate il-maincontrols-slate-notification">
 								<div class="il-maincontrols-slate-notification-title">
 									<button class="btn btn-bulky" data-action="">
-										<span class="glyph" aria-label="back">
+										<span class="glyph" aria-label="back" role="img">
 											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 										</span>
 										<span class="bulky-label">back</span>
@@ -129,7 +129,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 					</div>
 				</div>
 			</div>
-		</span>
+		</div>
 	</div>
 </div>
 EOT;

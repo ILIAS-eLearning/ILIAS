@@ -94,7 +94,9 @@ class ilNewsItem
 
     private static $privFeedId = false;
     private $limitation;
-    
+
+    protected bool $content_text_is_lang_var = false;
+
     /**
     * Constructor.
     *
@@ -875,7 +877,7 @@ class ilNewsItem
 
         // get starting date
         $starting_date = "";
-        if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
+        if ($obj_type == "grp" || $obj_type == "crs") {
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
@@ -1088,6 +1090,7 @@ class ilNewsItem
     {
         $to_del = array();
         $forums = array();
+        $last_aggregation_forum = 0;
         
         // aggregate
         foreach ($news as $k => $v) {
@@ -1584,7 +1587,7 @@ class ilNewsItem
                 "news_id" => array("integer", $a_news_id)
                 ),
             array()
-            );
+        );
         
         /*
         $ilDB->manipulate("DELETE FROM il_news_read WHERE ".
@@ -2208,7 +2211,7 @@ class ilNewsItem
             "UPDATE il_news_item SET " .
             " mob_cnt_download = " . $ilDB->quote($cnt, "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
     
     /**
@@ -2227,7 +2230,7 @@ class ilNewsItem
             "UPDATE il_news_item SET " .
             " mob_cnt_play = " . $ilDB->quote($cnt, "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     /**

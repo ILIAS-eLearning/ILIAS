@@ -235,7 +235,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $t_arr = explode("_", $a_target);
         
         // registration codes
-        if (substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (isset($t_arr[2]) && substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }

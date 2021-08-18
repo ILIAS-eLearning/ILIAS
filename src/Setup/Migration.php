@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -21,8 +21,6 @@ interface Migration
     /**
      * Tell the default amount of steps to be executed for one run of the migration.
      * Return Migration::INFINITE if all units should be migrated at once.
-     *
-     * @return int
      */
     public function getDefaultAmountOfStepsPerRun() : int;
 
@@ -50,8 +48,6 @@ interface Migration
     /**
      * Count up how many "things" need to be migrated. This helps the admin to
      * decide how big he can create the steps and also how long a migration takes
-     *
-     * @return int
      */
     public function getRemainingAmountOfSteps() : int;
 }

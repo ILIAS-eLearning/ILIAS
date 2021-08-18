@@ -1,27 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Assignment types. Gives information on available types and acts as factory
  * to get assignment type objects.
  *
- * @author killing@leifos.de
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentTypes
 {
-    const STR_IDENTIFIER_PORTFOLIO = "prtf";
+    public const STR_IDENTIFIER_PORTFOLIO = "prtf";
 
-    /**
-     * @var ilExerciseInternalService
-     */
-    protected $service;
+    protected ilExerciseInternalService $service;
 
-
-    /**
-     * Constructor
-     */
     protected function __construct(ilExerciseInternalService $service = null)
     {
         global $DIC;
@@ -31,23 +23,12 @@ class ilExAssignmentTypes
             : $service;
     }
 
-    /**
-     * Get instance
-     *
-     * @return ilExAssignmentTypes
-     */
-    public static function getInstance()
+    public static function getInstance() : ilExAssignmentTypes
     {
         return new self();
     }
 
-    /**
-     * Get all ids
-     *
-     * @param
-     * @return
-     */
-    public function getAllIds()
+    public function getAllIds() : array
     {
         return [
             ilExAssignment::TYPE_UPLOAD,
@@ -59,13 +40,7 @@ class ilExAssignmentTypes
         ];
     }
 
-    /**
-     * Is valid id
-     *
-     * @param int $a_id
-     * @return bool
-     */
-    public function isValidId($a_id)
+    public function isValidId($a_id) : bool
     {
         return in_array($a_id, $this->getAllIds());
     }
@@ -74,11 +49,10 @@ class ilExAssignmentTypes
 
     /**
      * Get all
-     *
-     * @param
-     * @return
+     * @return ilExAssignmentTypeInterface[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAll()
+    public function getAll() : array
     {
         return array_column(
             array_map(
@@ -94,11 +68,10 @@ class ilExAssignmentTypes
     
     /**
      * Get all activated
-     *
-     * @param
-     * @return
+     * @return ilExAssignmentTypeInterface[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAllActivated()
+    public function getAllActivated() : array
     {
         return array_filter($this->getAll(), function (ilExAssignmentTypeInterface $at) {
             return $at->isActive();
@@ -107,11 +80,11 @@ class ilExAssignmentTypes
 
     /**
      * Get all allowed types for an exercise for an exercise
-     *
      * @param ilObjExercise $exc
-     * @return array
+     * @return ilExAssignmentTypeInterface[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getAllAllowed(ilObjExercise $exc)
+    public function getAllAllowed(ilObjExercise $exc) : array
     {
         $random_manager = $this->service->getRandomAssignmentManager($exc);
         $active = $this->getAllActivated();
@@ -133,45 +106,40 @@ class ilExAssignmentTypes
      *
      * @param int $a_id type id
      * @return ilExAssignmentTypeInterface
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getById($a_id)
+    public function getById(int $a_id) : ilExAssignmentTypeInterface
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
                 return new ilExAssTypeUpload();
-                break;
 
             case ilExAssignment::TYPE_BLOG:
                 return new ilExAssTypeBlog();
-                break;
 
             case ilExAssignment::TYPE_PORTFOLIO:
                 return new ilExAssTypePortfolio();
-                break;
 
             case ilExAssignment::TYPE_UPLOAD_TEAM:
                 return new ilExAssTypeUploadTeam();
-                break;
 
             case ilExAssignment::TYPE_TEXT:
                 return new ilExAssTypeText();
-                break;
 
             case ilExAssignment::TYPE_WIKI_TEAM:
                 return new ilExAssTypeWikiTeam();
-                break;
         }
 
-        // we should throw some exception here
+        throw new ilExcUnknownAssignmentTypeException("Unknown Assignment Type ($a_id).");
     }
 
     /**
      * Get assignment type IDs for given submission type
-     *
      * @param int $a_submission_type
-     * @return array
+     * @return int[]
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getIdsForSubmissionType($a_submission_type)
+    public function getIdsForSubmissionType(int $a_submission_type) : array
     {
         $ids = [];
         foreach ($this->getAllIds() as $id) {

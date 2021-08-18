@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * Class ilObjLearningSequenceSettingsGUI
- */
 class ilObjLearningSequenceSettingsGUI
 {
     const PROP_TITLE = 'title';
@@ -20,7 +18,7 @@ class ilObjLearningSequenceSettingsGUI
     const CMD_SAVE = "update";
     const CMD_CANCEL = "cancel";
 
-    private $rte_allowed_tags = [
+    private array $rte_allowed_tags = [
         'br',
         'em',
         'h1',
@@ -35,30 +33,40 @@ class ilObjLearningSequenceSettingsGUI
         'a'
     ];
 
-    private $img_allowed_suffixes = [
+    private array $img_allowed_suffixes = [
         'png',
         'jpg',
         'jpeg',
         'gif'
     ];
 
+    protected ilObjLearningSequence $obj;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjectService $obj_service;
+    protected ilLearningSequenceSettings $settings;
+    protected ilLearningSequenceActivation $activation;
+    protected string $obj_title;
+    protected string $obj_description;
+
     public function __construct(
         ilObjLearningSequence $obj,
-        ilCtrl $il_ctrl,
-        ilLanguage $il_language,
-        ilGlobalTemplateInterface $il_template,
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
         ilObjectService $obj_service
     ) {
         $this->obj = $obj;
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->obj_service = $obj_service;
+
         $this->settings = $obj->getLSSettings();
         $this->activation = $obj->getLSActivation();
         $this->obj_title = $obj->getTitle();
         $this->obj_description = $obj->getDescription();
-        $this->ctrl = $il_ctrl;
-        $this->lng = $il_language;
-        $this->tpl = $il_template;
-        $this->object_service = $object_service;
-        $this->obj_service = $obj_service;
 
         $this->lng->loadLanguageModule('content');
         $this->lng->loadLanguageModule('obj');
@@ -75,14 +83,13 @@ class ilObjLearningSequenceSettingsGUI
                 $content = $this->$cmd();
                 break;
             default:
-                throw new ilException("ilObjLearningSequenceSettingsGUI: " .
-                                      "Command not supported: $cmd");
+                throw new ilException("ilObjLearningSequenceSettingsGUI: Command not supported: $cmd");
 
         }
         $this->tpl->setContent($content);
     }
 
-    protected function settings()
+    protected function settings() : string
     {
         $form = $this->buildForm();
         $this->fillForm($form);
@@ -90,7 +97,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form->getHTML();
     }
 
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
@@ -107,19 +114,16 @@ class ilObjLearningSequenceSettingsGUI
         $inpt->setUseRte(true);
         $inpt->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
         $inpt->setRteTags($this->rte_allowed_tags);
-        //$inpt->setRTESupport($obj_id, "lso", "learningsequence");
         return $inpt;
     }
 
-
-    protected function buildForm()
+    protected function buildForm() : ilPropertyFormGUI
     {
         $txt = function ($id) {
             return $this->lng->txt($id);
         };
         $settings = $this->settings;
         $activation = $this->activation;
-        $obj_id = $settings->getObjId();
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, self::CMD_SAVE));
@@ -138,7 +142,7 @@ class ilObjLearningSequenceSettingsGUI
         if ($activation->getActivationStart() !== null) {
             $duration->setStart(
                 new ilDateTime(
-                    (string) $activation->getActivationStart()->format('Y-m-d H:i:s'),
+                    $activation->getActivationStart()->format('Y-m-d H:i:s'),
                     IL_CAL_DATETIME
                 )
             );
@@ -146,7 +150,7 @@ class ilObjLearningSequenceSettingsGUI
         if ($activation->getActivationEnd() !== null) {
             $duration->setEnd(
                 new ilDateTime(
-                    (string) $activation->getActivationEnd()->format('Y-m-d H:i:s'),
+                    $activation->getActivationEnd()->format('Y-m-d H:i:s'),
                     IL_CAL_DATETIME
                 )
             );
@@ -192,11 +196,11 @@ class ilObjLearningSequenceSettingsGUI
 
         $form->addItem($section_intro);
         $form->addItem($abstract);
-        $form->addItem($abstract_img, true);
+        $form->addItem($abstract_img);
 
         $form->addItem($section_extro);
         $form->addItem($extro);
-        $form->addItem($extro_img, true);
+        $form->addItem($extro_img);
 
         $form->addItem($section_misc);
         $form->addItem($show_members_gallery);
@@ -225,7 +229,7 @@ class ilObjLearningSequenceSettingsGUI
         return $form;
     }
 
-    protected function addCommonFieldsToForm(\ilPropertyFormGUI $form)
+    protected function addCommonFieldsToForm(\ilPropertyFormGUI $form) : void
     {
         $txt = function ($id) {
             return $this->lng->txt($id);
@@ -234,14 +238,13 @@ class ilObjLearningSequenceSettingsGUI
         $section_appearance->setTitle($txt('cont_presentation'));
         $form->addItem($section_appearance);
         $form_service = $this->obj_service->commonSettings()->legacyForm($form, $this->obj);
-        $form = $form_service->addTitleIconVisibility();
-        $form = $form_service->addTopActionsVisibility();
-        $form = $form_service->addIcon();
-        $form = $form_service->addTileImage();
+        $form_service->addTitleIconVisibility();
+        $form_service->addTopActionsVisibility();
+        $form_service->addIcon();
+        $form_service->addTileImage();
     }
 
-
-    protected function update()
+    protected function update() : ?string
     {
         $form = $this->buildForm();
         $this->addCommonFieldsToForm($form);
@@ -271,23 +274,13 @@ class ilObjLearningSequenceSettingsGUI
 
         if ($start) {
             $activation = $activation
-                            ->withActivationStart(
-                                \DateTime::createFromFormat(
-                                    'Y-m-d H:i:s',
-                                    (string) $start->get(IL_CAL_DATETIME)
-                                )
-                            );
+                ->withActivationStart(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $start->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationStart();
         }
         if ($end) {
             $activation = $activation
-                            ->withActivationEnd(
-                                \DateTime::createFromFormat(
-                                    'Y-m-d H:i:s',
-                                    (string) $end->get(IL_CAL_DATETIME)
-                                )
-                            );
+                ->withActivationEnd(\DateTime::createFromFormat('Y-m-d H:i:s', (string) $end->get(IL_CAL_DATETIME)));
         } else {
             $activation = $activation->withActivationEnd();
         }
@@ -324,5 +317,6 @@ class ilObjLearningSequenceSettingsGUI
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this);
+        return null;
     }
 }

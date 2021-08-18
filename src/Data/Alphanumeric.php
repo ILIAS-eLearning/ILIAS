@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -19,7 +18,7 @@ class Alphanumeric
     private $value;
 
     /**
-     * @param $value
+     * @param mixed $value
      * @throws ConstraintViolationException
      */
     public function __construct($value)
@@ -44,9 +43,6 @@ class Alphanumeric
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function asString() : string
     {
         return (string) $this->value;

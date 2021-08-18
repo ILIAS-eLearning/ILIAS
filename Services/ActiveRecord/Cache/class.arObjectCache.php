@@ -1,32 +1,23 @@
 <?php
-require_once(dirname(__FILE__) . '/../Exception/class.arException.php');
 
 /**
  * Class arObjectCache
- *
  * @version 2.0.7
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class arObjectCache
 {
 
-    /**
-     * @var array
-     */
-    protected static $cache = array();
-
+    protected static array $cache = array();
 
     /**
      * @param $class
      * @param $id
-     *
-     * @return bool
      */
-    public static function isCached($class, $id)
+    public static function isCached($class, $id) : bool
     {
         $instance = new $class();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
             if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
                 return true;
             }
@@ -39,16 +30,15 @@ class arObjectCache
             return false;
         }
 
-        return in_array($id, array_keys(self::$cache[$class]));
+        return array_key_exists($id, self::$cache[$class]);
     }
-
 
     /**
      * @param ActiveRecord $object
      */
-    public static function store(ActiveRecord $object)
+    public static function store(ActiveRecord $object) : void
     {
-        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() != '') {
+        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             if ($object->getCache()->set($object->getCacheIdentifier(), $object, $object->getTTL())) {
                 return;
             }
@@ -58,8 +48,7 @@ class arObjectCache
         }
     }
 
-
-    public static function printStats()
+    public static function printStats() : void
     {
         foreach (self::$cache as $class => $objects) {
             echo $class;
@@ -69,18 +58,15 @@ class arObjectCache
         }
     }
 
-
     /**
      * @param $class
      * @param $id
-     *
      * @throws arException
-     * @return ActiveRecord
      */
-    public static function get($class, $id)
+    public static function get($class, $id) : \ActiveRecord
     {
         $instance = new $class();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
             if ($instance->getCache()->exists($instance->getCacheIdentifier())) {
                 return $instance->getCache()->get($instance->getCacheIdentifier());
             }
@@ -92,26 +78,24 @@ class arObjectCache
         return self::$cache[$class][$id];
     }
 
-
     /**
      * @param ActiveRecord $object
      */
-    public static function purge(ActiveRecord $object)
+    public static function purge(ActiveRecord $object) : void
     {
-        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() != '') {
+        if ($object instanceof CachedActiveRecord && $object->getCacheIdentifier() !== '') {
             $object->getCache()->delete($object->getCacheIdentifier());
         }
         unset(self::$cache[get_class($object)][$object->getPrimaryFieldValue()]);
     }
 
-
     /**
      * @param $class_name
      */
-    public static function flush($class_name)
+    public static function flush($class_name) : void
     {
         $instance = new $class_name();
-        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() != '') {
+        if ($instance instanceof CachedActiveRecord && $instance->getCacheIdentifier() !== '') {
             $instance->getCache()->flush();
         }
 

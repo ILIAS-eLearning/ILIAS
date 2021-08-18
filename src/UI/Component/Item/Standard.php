@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Item;
 
 use \ILIAS\UI\Component\Symbol\Icon\Icon;
 use \ILIAS\UI\Component\Image\Image;
+use \ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use \ILIAS\Data\Color;
 
 /**
@@ -48,4 +49,14 @@ interface Standard extends Item
      * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Symbol\Icon\Icon
      */
     public function getLead();
+
+    /**
+     * Set progress meter chart
+     */
+    public function withProgress(ProgressMeter $chart) : Item;
+
+    /**
+     * @return null|ProgressMeter
+     */
+    public function getProgress() : ?ProgressMeter;
 }

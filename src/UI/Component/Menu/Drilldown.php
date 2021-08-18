@@ -11,6 +11,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Drilldown Menu Control
  */
-interface Drilldown extends Menu, JavaScriptBindable
+interface Drilldown extends Menu
 {
 }

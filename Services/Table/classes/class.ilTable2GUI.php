@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Table/classes/class.ilTableGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilTable2GUI
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @version	$Id: class.ilTableGUI.php 12818 2006-12-10 13:14:43Z akill $
-*
-* @ingroup ServicesTable
-*/
+ * Class ilTable2GUI
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ * @author	Sascha Hofmann <shofmann@databay.de>
+ */
 class ilTable2GUI extends ilTableGUI
 {
 
@@ -50,7 +46,6 @@ class ilTable2GUI extends ilTableGUI
 
     protected $mi_sel_buttons = [];
     protected $disable_filter_hiding = false;
-    protected $selected_filter = false;
     protected $top_commands = true;
     protected $selectable_columns = array();
     protected $selected_column = array();
@@ -126,6 +121,35 @@ class ilTable2GUI extends ilTableGUI
 
     const ACTION_ALL_LIMIT = 1000;
 
+    /**
+     * @var string
+     */
+    protected $id;
+    protected $custom_prev_next;
+    protected $reset_cmd_txt;
+
+    protected string $defaultorderfield = "";
+    protected string $defaultorderdirection = "";
+
+    protected array $column = [];
+    protected bool $datatable = false;
+    protected bool $num_info = false;
+    protected bool $form_multipart = false;
+    protected array $row_data = [];
+    protected string $order_field = "";
+    protected array $selected_filter = [];
+    protected string $form_action = "";
+    protected string $formname = "";
+    protected string $sort_order = "";
+    protected array $buttons = [];
+    protected array $multi = [];
+    protected array $hidden_inputs = [];
+    protected array $header_commands = [];
+    protected string $row_template = "";
+    protected string $row_template_dir = "";
+    protected string $filter_cmd_txt = "";
+    protected string $custom_prev = "";
+    protected string $custom_next = "";
 
     /**
      * ilTable2GUI constructor.
@@ -142,7 +166,7 @@ class ilTable2GUI extends ilTableGUI
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        parent::__construct(0, false);
+        parent::__construct([], false);
         $this->unique_id = md5(uniqid());
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
@@ -306,10 +330,19 @@ class ilTable2GUI extends ilTableGUI
                 if ($new_column) {
                     $set = true;
                 }
-                if ($c["default"]) {
+                if (isset($c["default"])) {
                     $this->selected_column[$k] = true;
                 }
             }
+
+            // Optional filters
+            if (isset($_POST["tblff" . $this->getId()])) {
+                $set = true;
+                if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
+                    $this->selected_column[$k] = true;
+                }
+            }
+
         }
 
         if ($old_sel != serialize($this->selected_column) && $set) {
@@ -355,11 +388,9 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
-                include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $this->initFilter();
                 $item = $this->getFilterItemByPostVar($_GET["postvar"]);
@@ -677,25 +708,20 @@ class ilTable2GUI extends ilTableGUI
             $caption = $lng->txt($id);
         }
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
         switch ($type) {
             case self::FILTER_CHECKBOX:
                 $item = new ilCheckboxInputGUI($caption, $id);
                 break;
 
             case self::FILTER_SELECT:
-                include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
                 $item = new ilSelectInputGUI($caption, $id);
                 break;
 
             case self::FILTER_DATE:
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilDateTimeInputGUI($caption, $id);
                 break;
 
             case self::FILTER_TEXT:
-                include_once("./Services/Form/classes/class.ilTextInputGUI.php");
                 $item = new ilTextInputGUI($caption, $id);
                 $item->setMaxLength(64);
                 $item->setSize(20);
@@ -704,7 +730,6 @@ class ilTable2GUI extends ilTableGUI
 
             case self::FILTER_LANGUAGE:
                 $lng->loadLanguageModule("meta");
-                include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
                 $item = new ilSelectInputGUI($caption, $id);
                 $options = array("" => $lng->txt("trac_all"));
                 foreach ($lng->getInstalledLanguages() as $lang_key) {
@@ -714,8 +739,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_NUMBER_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilNumberInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilNumberInputGUI("", $id . "_from");
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
@@ -727,8 +750,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_DATE_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDateTimeInputGUI("", $id . "_from");
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
@@ -738,8 +759,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_DATETIME_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDateTimeInputGUI("", $id . "_from");
                 $combi_item->setShowTime(true);
@@ -752,8 +771,6 @@ class ilTable2GUI extends ilTableGUI
 
             case self::FILTER_DURATION_RANGE:
                 $lng->loadLanguageModule("form");
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDurationInputGUI("", $id . "_from");
                 $combi_item->setShowMonths(false);
@@ -885,6 +902,7 @@ class ilTable2GUI extends ilTableGUI
 
         $old_sel = $this->loadProperty("selfilters");
         $stored = false;
+        $sel_filters = null;
         if ($old_sel != "") {
             $sel_filters =
                 @unserialize($old_sel);
@@ -902,9 +920,13 @@ class ilTable2GUI extends ilTableGUI
 
             $this->selected_filter[$k] = false;
 
-            if ($_POST["tblfsf" . $this->getId()]) {
+            if (isset($_POST["tblfsf" . $this->getId()])) {
                 $set = true;
-                if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
+                if (
+                    isset($_POST["tblff" . $this->getId()]) &&
+                    is_array($_POST["tblff" . $this->getId()]) &&
+                    in_array($k, $_POST["tblff" . $this->getId()])
+                ) {
                     $this->selected_filter[$k] = true;
                 } else {
                     $item->setValue(null);
@@ -1065,7 +1087,7 @@ class ilTable2GUI extends ilTableGUI
     * @param	string		filter command
     * @param	string		filter caption
     */
-    public function setFilterCommand($a_val, $a_caption = null)
+    public function setFilterCommand($a_val, $a_caption = "")
     {
         $this->filter_cmd = $a_val;
         $this->filter_cmd_txt = $a_caption;
@@ -1411,7 +1433,7 @@ class ilTable2GUI extends ilTableGUI
             foreach ((array) $this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
                 $this->tpl->parseCurrentBlock();
@@ -1422,7 +1444,6 @@ class ilTable2GUI extends ilTableGUI
             $ccnt++;
             //tooltip
             if ($column["tooltip"] != "") {
-                include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                 ilTooltipGUI::addTooltip(
                     "thc_" . $this->getId() . "_" . $ccnt,
                     $column["tooltip"],
@@ -1450,7 +1471,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
                     $width = (is_numeric($column["width"]))
-                        ? $column["width"]."px"
+                        ? $column["width"] . "px"
                         : $column["width"];
                     $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " style=\"width:" . $width . "\"");
                 }
@@ -1494,7 +1515,7 @@ class ilTable2GUI extends ilTableGUI
             // only set width if a value is given for that column
             if ($column["width"] != "") {
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
             }
@@ -1551,7 +1572,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (isset($_POST[$this->getNavParameter() . "1"]) && $_POST[$this->getNavParameter() . "1"] != "") {
-            if ($_POST[$this->getNavParameter() . "1"] != $_POST[$this->getNavParameter()]) {
+            if ($_POST[$this->getNavParameter() . "1"] != ($_POST[$this->getNavParameter()] ?? "")) {
                 $this->nav_value = $_POST[$this->getNavParameter() . "1"];
             } elseif (
                 isset($_POST[$this->getNavParameter() . "2"]) &&
@@ -1581,17 +1602,20 @@ class ilTable2GUI extends ilTableGUI
         $nav = explode(":", $this->nav_value);
 
         // $nav[0] is order by
-        $this->setOrderField(($nav[0] != "") ? $nav[0] : $this->getDefaultOrderField());
-        $this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
+        $req_order_field = $nav[0] ?? "";
+        $req_order_dir = $nav[1] ?? "";
+        $req_offset = (int) ($nav[2] ?? 0);
+        $this->setOrderField(($req_order_field != "") ? $req_order_field : $this->getDefaultOrderField());
+        $this->setOrderDirection(($req_order_dir != "") ? $req_order_dir : $this->getDefaultOrderDirection());
 
         if (!$a_omit_offset) {
             // #8904: offset must be discarded when no limit is given
             if (!$this->getExternalSegmentation() && $this->limit_determined && $this->limit == 9999) {
                 $this->resetOffset(true);
-            } elseif (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count) {
+            } elseif (!$this->getExternalSegmentation() && $req_offset >= $this->max_count) {
                 $this->resetOffset(true);
             } else {
-                $this->setOffset($nav[2]);
+                $this->setOffset($req_offset);
             }
         }
 
@@ -1886,7 +1910,6 @@ class ilTable2GUI extends ilTableGUI
             return;
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
         $ccnt = 0;
@@ -1954,7 +1977,6 @@ class ilTable2GUI extends ilTableGUI
                     "selected" => $this->isFilterSelected($k));
             }
 
-            include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
             $cb_over = new ilCheckboxListOverlayGUI("tbl_filters_" . $this->getId());
             $cb_over->setLinkTitle($lng->txt("optional_filters"));
             $cb_over->setItems($items);
@@ -2216,7 +2238,6 @@ class ilTable2GUI extends ilTableGUI
                 $items[$k] = array("txt" => $c["txt"],
                     "selected" => $this->isColumnSelected($k));
             }
-            include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
             $cb_over = new ilCheckboxListOverlayGUI("tbl_" . $this->getId());
             $cb_over->setLinkTitle($lng->txt("columns"));
             $cb_over->setItems($items);
@@ -2246,11 +2267,8 @@ class ilTable2GUI extends ilTableGUI
             $delete_id = "template_delete_overlay_" . $this->getId();
             $list_id = "template_stg_" . $this->getId();
 
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
             $templates = $storage->getNames($this->getContext(), $ilUser->getId());
-
-            include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 
             // form to delete template
             if (sizeof($templates)) {
@@ -2295,7 +2313,6 @@ class ilTable2GUI extends ilTableGUI
             $this->tpl->parseCurrentBlock();
 
             // load saved template
-            include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($list_id);
             $alist->addItem($lng->txt("tbl_template_create"), "create", "#");
@@ -2366,7 +2383,6 @@ class ilTable2GUI extends ilTableGUI
                     is_object($ilUser) &&
                     $this->getId() &&
                     !$this->rows_selector_off) { // JF, 2014-10-27
-                    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_rows_" . $this->getId());
@@ -2388,7 +2404,6 @@ class ilTable2GUI extends ilTableGUI
 
                 // export
                 if (sizeof($this->export_formats) && $this->dataExists()) {
-                    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_xpt");
@@ -2814,7 +2829,6 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
             $tab_prop = new ilTablePropertiesStorage();
 
             $tab_prop->storeProperty($this->getId(), $ilUser->getId(), $type, $value);
@@ -2837,7 +2851,6 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
             $tab_prop = new ilTablePropertiesStorage();
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
@@ -2999,7 +3012,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::stripSlashes($a_name);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
 
             $data = $storage->load($this->getContext(), $ilUser->getId(), $a_name);
@@ -3036,7 +3048,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
 
             $state = $this->getCurrentState();
@@ -3065,7 +3076,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
             $storage->delete($this->getContext(), $ilUser->getId(), $a_name);
             return true;
@@ -3167,7 +3177,6 @@ class ilTable2GUI extends ilTableGUI
 
             switch ($format) {
                 case self::EXPORT_EXCEL:
-                    include_once "./Services/Excel/classes/class.ilExcel.php";
                     $excel = new ilExcel();
                     $excel->addSheet($this->title
                         ? $this->title
@@ -3198,7 +3207,6 @@ class ilTable2GUI extends ilTableGUI
                     break;
 
                 case self::EXPORT_CSV:
-                    include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
                     $csv = new ilCSVWriter();
                     $csv->setSeparator(";");
 

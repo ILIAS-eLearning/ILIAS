@@ -2,18 +2,24 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once("Services/Block/classes/class.ilBlockGUI.php");
-
 /**
-* BlockGUI class for (centered) Content on Personal Desktop
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * BlockGUI class for (centered) Content on Personal Desktop
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilDashboardContentBlockGUI extends ilBlockGUI
 {
     public static $block_type = "dashcontent";
+
+    /**
+     * @var int
+     */
+    protected $currentitemnumber;
+
+    /**
+     * @var string
+     */
+    protected $content;
     
     /**
     * Constructor
@@ -47,7 +53,7 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     *
     * @param	int	$a_currentitemnumber	Current Item Number
     */
-    public function setCurrentItemNumber($a_currentitemnumber)
+    public function setCurrentItemNumber(int $a_currentitemnumber)
     {
         $this->currentitemnumber = $a_currentitemnumber;
     }
@@ -57,7 +63,7 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
     *
     * @return	int	Current Item Number
     */
-    public function getCurrentItemNumber()
+    public function getCurrentItemNumber() : int
     {
         return $this->currentitemnumber;
     }
@@ -75,12 +81,12 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
     
-    public function getContent()
+    public function getContent() : string
     {
         return $this->content;
     }
     
-    public function setContent($a_content)
+    public function setContent(string $a_content)
     {
         $this->content = $a_content;
     }

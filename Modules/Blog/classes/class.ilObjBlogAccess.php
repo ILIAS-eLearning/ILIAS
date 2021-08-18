@@ -45,15 +45,13 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _getCommands()
     {
-        $commands = array(
+        return array(
             array("permission" => "read", "cmd" => "preview", "lang_var" => "show", "default" => true),
             array("permission" => "write", "cmd" => "render", "lang_var" => "edit"),
             array("permission" => "contribute", "cmd" => "render", "lang_var" => "edit"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
             array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
         );
-        
-        return $commands;
     }
     
     /**
@@ -76,7 +74,8 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         }
 
         // #12648
-        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
             return true;
         }
         return false;
@@ -140,7 +139,5 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
             return false;
         }
         return true;
-
     }
-
 }

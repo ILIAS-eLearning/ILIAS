@@ -3,17 +3,14 @@
 
 use PHPUnit\Framework\TestCase;
 
-/**
- * @group needsInstalledILIAS
- */
-class ilObjectTest extends TestCase
+class ilObjectTest //extends TestCase
 {
     protected $backupGlobals = false;
 
     protected function setUp() : void
     {
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        ilUnitUtil::performInitialisation();
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //ilUnitUtil::performInitialisation();
     }
 
     /**
@@ -30,7 +27,8 @@ class ilObjectTest extends TestCase
         $obj2->setType("xxx");
         $obj2->create();
         $id2 = $obj2->getId();
-        
+
+        $value = "";
         if ($id2 == ($id + 1)) {
             $value .= "create1-";
         }
@@ -70,6 +68,7 @@ class ilObjectTest extends TestCase
         $ref_id = $obj->getRefId();
         $obj = new ilObject($id, false);
 
+        $value = "";
         if ($obj->getType() == "") {
             $value .= "sg1-";
         }
@@ -152,14 +151,14 @@ class ilObjectTest extends TestCase
         }
         
         $d1 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_setDeletedDate($ref_id);
+        ilObject::_setDeletedDate((int) $ref_id, (int) $ilUser->getId());
         $d2 = ilObject::_lookupDeletedDate($ref_id);
         ilObject::_resetDeletedDate($ref_id);
         $d3 = ilObject::_lookupDeletedDate($ref_id);
         if ($d1 != $d2 && $d1 == $d3 && $d3 == null) {
             $value .= "dd1-";
         }
-        
+
         $obj->delete();
         
         $this->assertEquals("sg1-sg2-sg3-sg4-sg5-sg6-sg7-up1-up2-" .
@@ -173,6 +172,7 @@ class ilObjectTest extends TestCase
     {
         global $DIC;
         $tree = $DIC->repositoryTree();
+        $user = $DIC->user();
         
         $obj = new ilObject();
         $obj->setType("xxx");
@@ -187,6 +187,8 @@ class ilObjectTest extends TestCase
         
         $obj->putInTree(ROOT_FOLDER_ID);
         $obj->setPermissions(ROOT_FOLDER_ID);
+
+        $value = "";
         if ($tree->isInTree($ref_id)) {
             $value .= "tree1-";
         }
@@ -196,8 +198,7 @@ class ilObjectTest extends TestCase
         
         // isSaved() uses internal cache!
         $tree->useCache(false);
-        
-        $tree->saveSubTree($ref_id, true);
+        $tree->moveToTrash($ref_id, true, $user->getId());
         if ($tree->isDeleted($ref_id)) {
             $value .= "tree3-";
         }
@@ -237,13 +238,14 @@ class ilObjectTest extends TestCase
      */
     public function testObjectReference()
     {
-        include_once './Services/Object/classes/class.ilObject.php';
-        
+        global $DIC;
+        $user = $DIC->user();
+
         $ref_ids = ilObject::_getAllReferences(1);
-        $bool = ilObject::_setDeletedDate(1);
+        $bool = ilObject::_setDeletedDate(1, $user->getId());
         $bool = ilObject::_resetDeletedDate(1);
         $date = ilObject::_lookupDeletedDate(1);
-        
-        $this->assertEquals($date, null);
+
+        $this->assertEquals(null, $date);
     }
 }

@@ -409,7 +409,6 @@ class ilCalendarCategoryGUI
         }
          */
         
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirmation_gui = new ilConfirmationGUI();
         
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
@@ -1129,7 +1128,6 @@ class ilCalendarCategoryGUI
             return true;
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirmation_gui = new ilConfirmationGUI();
         
         $this->ctrl->setParameter($this, 'category_id', $this->category_id);

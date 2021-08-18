@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Common settings form adapter. Helps to add and save common object settings for repository objects.
  *
  * @author killing@leifos.de
- * @ingroup ServicesObject
  */
 class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapterInterface
 {
@@ -50,7 +49,6 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
             if (!is_null($this->legacy_form)) {
                 // we do not clone for legacy forms, since initEditCustomForm relies on "call by reference" behaviour
                 //$this->legacy_form = clone $this->legacy_form;
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
                 $gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
                 $gui->addSettingsToForm($this->legacy_form);
             }
@@ -68,7 +66,6 @@ class ilObjectCommonSettingFormAdapter implements ilObjectCommonSettingFormAdapt
         if ($this->service->settings()->get('custom_icons')) {
             if (!is_null($this->legacy_form)) {
                 $this->legacy_form = clone $this->legacy_form;
-                require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php';
                 $gui = new \ilObjectCustomIconConfigurationGUI($DIC, null, $this->object);
                 $gui->saveIcon($this->legacy_form);
             }

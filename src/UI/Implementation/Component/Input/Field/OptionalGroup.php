@@ -53,7 +53,7 @@ class OptionalGroup extends Group implements Field\OptionalGroup
 
     /**
      * @inheritdoc
-     * @return Checkbox
+     * @return OptionalGroup
      */
     public function withValue($value)
     {
@@ -63,6 +63,9 @@ class OptionalGroup extends Group implements Field\OptionalGroup
             $clone->null_value_was_explicitly_set = true;
             return $clone;
         }
+        /**
+         * @var $clone OptionalGroup
+         */
         $clone = parent::withValue($value);
         $clone->null_value_was_explicitly_set = false;
         return $clone;

@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Poll Dataset class
@@ -11,24 +10,16 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - poll_answer: data from table il_poll_answer
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ModulesBlog
  */
 class ilPollDataSet extends ilDataSet
 {
     protected $current_blog;
     
-    /**
-     * Get supported versions
-     */
     public function getSupportedVersions()
     {
         return array("4.3.0", "5.0.0");
     }
     
-    /**
-     * Get xml namespace
-     */
     public function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Modules/Poll/" . $a_entity;
@@ -37,7 +28,7 @@ class ilPollDataSet extends ilDataSet
     /**
      * Get field types for entity
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "poll") {
             switch ($a_version) {
@@ -88,15 +79,11 @@ class ilPollDataSet extends ilDataSet
                     break;
             }
         }
+
+        return array();
     }
 
-    /**
-     * Read data
-     *
-     * @param
-     * @return
-     */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
     {
         $ilDB = $this->db;
 
@@ -139,9 +126,6 @@ class ilPollDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
     {
         switch ($a_entity) {
@@ -153,68 +137,52 @@ class ilPollDataSet extends ilDataSet
         return false;
     }
 
-    /**
-     * Get xml record
-     *
-     * @param
-     * @return
-     */
     public function getXmlRecord($a_entity, $a_version, $a_set)
     {
         if ($a_entity == "poll") {
-            include_once("./Modules/Poll/classes/class.ilObjPoll.php");
             $dir = ilObjPoll::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            include_once("./Services/Notes/classes/class.ilNote.php");
             $a_set["ShowComments"] = ilNote::commentsActivated($a_set["Id"], 0, "poll");
         }
 
         return $a_set;
     }
-    
-    /**
-     * Import record
-     *
-     * @param
-     * @return
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+
+    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
     {
         switch ($a_entity) {
             case "poll":
-                include_once("./Modules/Poll/classes/class.ilObjPoll.php");
-                
                 // container copy
-                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"])) {
+                if ($new_id = $a_mapping->getMapping("Services/Container", "objs", (int) ($a_rec["Id"] ?? 0))) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
                     $newObj = new ilObjPoll();
                     $newObj->create();
                 }
                     
-                $newObj->setTitle($a_rec["Title"]);
-                $newObj->setDescription($a_rec["Description"]);
+                $newObj->setTitle((string) ($a_rec["Title"] ?? ''));
+                $newObj->setDescription((string) ($a_rec["Description"]));
                 if ((int) $a_rec["MaxAnswers"]) {
-                    $newObj->setMaxNumberOfAnswers($a_rec["MaxAnswers"]);
+                    $newObj->setMaxNumberOfAnswers((int) $a_rec["MaxAnswers"]);
                 }
-                $newObj->setSortResultByVotes((bool) $a_rec["ResultSort"]);
-                $newObj->setNonAnonymous((bool) $a_rec["NonAnon"]);
+                $newObj->setSortResultByVotes((bool) ($a_rec["ResultSort"] ?? false));
+                $newObj->setNonAnonymous((bool) ($a_rec["NonAnon"] ?? false));
                 if ((int) $a_rec["ShowResultsAs"]) {
-                    $newObj->setShowResultsAs($a_rec["ShowResultsAs"]);
+                    $newObj->setShowResultsAs((int) $a_rec["ShowResultsAs"]);
                 }
-                $newObj->setShowComments($a_rec["ShowComments"]);
-                $newObj->setQuestion($a_rec["Question"]);
-                $newObj->setImage($a_rec["Image"]);
-                $newObj->setViewResults($a_rec["ViewResults"]);
-                $newObj->setVotingPeriod($a_rec["Period"]);
-                $newObj->setVotingPeriodBegin($a_rec["PeriodBegin"]);
-                $newObj->setVotingPeriodEnd($a_rec["PeriodEnd"]);
+                $newObj->setShowComments((bool) ($a_rec["ShowComments"] ?? false));
+                $newObj->setQuestion((string) ($a_rec["Question"] ?? ''));
+                $newObj->setImage((string) ($a_rec["Image"] ?? ''));
+                $newObj->setViewResults((int) ($a_rec["ViewResults"] ?? ilObjPoll::VIEW_RESULTS_AFTER_VOTE));
+                $newObj->setVotingPeriod((bool) ($a_rec["Period"] ?? 0));
+                $newObj->setVotingPeriodBegin((int) ($a_rec["PeriodBegin"] ?? 0));
+                $newObj->setVotingPeriodEnd((int) ($a_rec["PeriodEnd"] ?? 0));
                 $newObj->update();
                 
                 // handle image(s)
                 if ($a_rec["Image"]) {
-                    $dir = str_replace("..", "", $a_rec["Dir"]);
+                    $dir = str_replace("..", "", (string) ($a_rec["Dir"] ?? ''));
                     if ($dir != "" && $this->getImportDirectory() != "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = ilObjPoll::initStorage($newObj->getId());
@@ -222,14 +190,14 @@ class ilPollDataSet extends ilDataSet
                     }
                 }
 
-                $a_mapping->addMapping("Modules/Poll", "poll", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("Modules/Poll", "poll", (int) ($a_rec["Id"] ?? 0), $newObj->getId());
                 break;
 
             case "poll_answer":
-                $poll_id = (int) $a_mapping->getMapping("Modules/Poll", "poll", $a_rec["PollId"]);
+                $poll_id = (int) $a_mapping->getMapping("Modules/Poll", "poll", (int) ($a_rec["PollId"] ?? 0));
                 if ($poll_id) {
                     $poll = new ilObjPoll($poll_id, false);
-                    $poll->saveAnswer($a_rec["Answer"], $a_rec["pos"]);
+                    $poll->saveAnswer((string) ($a_rec["Answer"] ?? ''), (int) ($a_rec["pos"] ?? 10));
                 }
                 break;
         }

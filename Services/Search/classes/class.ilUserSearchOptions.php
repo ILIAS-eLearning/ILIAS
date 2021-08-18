@@ -126,7 +126,6 @@ class ilUserSearchOptions
                     
                     // #7843 -- see ilCountrySelectInputGUI
                     $lng->loadLanguageModule('meta');
-                    include_once('./Services/Utilities/classes/class.ilCountry.php');
                     foreach (ilCountry::getCountryCodes() as $c) {
                         $fields[$counter]['values'][$c] = $lng->txt('meta_c_' . $c);
                     }

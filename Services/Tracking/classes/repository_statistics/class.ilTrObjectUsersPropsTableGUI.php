@@ -188,7 +188,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $additional_fields,
             $check_agreement,
             $this->user_fields
-            );
+        );
         
         if (count($tr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
@@ -202,7 +202,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                 $additional_fields,
                 $check_agreement,
                 $this->user_fields
-                );
+            );
         }
 
         $this->setMaxCount($tr_data["cnt"]);
@@ -277,7 +277,6 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                     $item = $this->addFilterItemByMetaType("sel_country", ilTable2GUI::FILTER_SELECT, true, $meta["txt"]);
 
                     $options = array();
-                    include_once("./Services/Utilities/classes/class.ilCountry.php");
                     foreach (ilCountry::getCountryCodes() as $c) {
                         $options[$c] = $lng->txt("meta_c_" . $c);
                     }
@@ -296,7 +295,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
                         ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_COMPLETED),
                         ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $lng->txt(ilLPStatus::LP_STATUS_FAILED)));
                     $this->filter["status"] = $item->getValue();
-                    if ($this->filter["status"]) {
+                    if (is_numeric($this->filter["status"])) {
                         $this->filter["status"]--;
                     }
                     break;

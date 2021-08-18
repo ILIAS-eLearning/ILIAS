@@ -28,7 +28,7 @@ class ilTasksTestBase extends TestCase
     /**
      *
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->_mock_user = $this->getMockBuilder('ilObjUser')
             ->disableOriginalConstructor()

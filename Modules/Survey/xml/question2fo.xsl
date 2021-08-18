@@ -66,6 +66,9 @@
 					<xsl:apply-templates/>
 				</fo:inline>			
 			</xsl:when>
+			<xsl:otherwise>
+				<xsl:apply-templates/>
+			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 	

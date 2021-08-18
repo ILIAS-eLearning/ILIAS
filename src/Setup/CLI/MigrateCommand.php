@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\CLI;
@@ -27,7 +28,7 @@ class MigrateCommand extends Command
     /**
      * var Objective[]
      */
-    protected $preconditions;
+    protected array $preconditions;
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -39,7 +40,7 @@ class MigrateCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    public function configure()
+    protected function configure()
     {
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
@@ -53,7 +54,7 @@ class MigrateCommand extends Command
         $this->configureCommandForPlugins();
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
@@ -74,12 +75,26 @@ class MigrateCommand extends Command
         $migration_name = $input->getOption('run');
         $migrations = $agent->getMigrations();
         if (!isset($migrations[$migration_name]) || !($migrations[$migration_name] instanceof Migration)) {
-            $io->error("Aborting Migration, did not find {$migration_name}.");
+            $io->error("Aborting Migration, did not find $migration_name.");
             return;
         }
         $migration = $migrations[$migration_name];
 
-        $steps = (int) ($input->getOption('steps') ?? $migration->getDefaultAmountOfStepsPerRun());
+        $steps = (int)$input->getOption('steps');
+
+        switch ($steps) {
+            case Migration::INFINITE:
+                $io->text("Determined infinite steps to run.");
+                break;
+            case 0:
+                $steps = $migration->getDefaultAmountOfStepsPerRun();
+                $io->text("no --steps option found, fallback to default amount of steps of migration. ($steps)");
+                break;
+            default:
+                $io->text("Determined $steps step(s) to run.");
+                break;
+
+        }
         $objective = new Objective\MigrationObjective($migration, $steps);
 
         $env = new ArrayEnvironment([
@@ -93,8 +108,8 @@ class MigrateCommand extends Command
                 ...$preconditions
             );
         }
-
-        $io->inform("Running {$steps} in {$migration_name}");
+        $steps_text = $steps === Migration::INFINITE ? 'all' : (string)$steps;
+        $io->inform("Preparing Environment for {$steps_text} steps in {$migration_name}");
         try {
             $this->achieveObjective($objective, $env, $io);
         } catch (NoConfirmationException $e) {
@@ -116,15 +131,15 @@ class MigrateCommand extends Command
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
 
-        $io->inform("There are {$count} to run:");
+        $io->inform("There are $count to run:");
         foreach ($migrations as $migration_key => $migration) {
             $env = $this->prepareEnvironmentForMigration($env, $migration);
             $migration->prepare($env);
             $steps = $migration->getRemainingAmountOfSteps();
-            $status = $steps === 0 ? "[done]" : "[remaining steps: {$steps}]";
+            $status = $steps === 0 ? "[done]" : "[remaining steps: $steps]";
             $io->text($migration_key . ": " . $migration->getLabel() . " " . $status);
         }
-        $io->inform("Run them by passing --run <migration_id>, e.g. --run $migration_key");
+        $io->inform('Run them by passing --run <migration_id>, e.g. --run $migration_key');
     }
 
     protected function prepareEnvironmentForMigration(

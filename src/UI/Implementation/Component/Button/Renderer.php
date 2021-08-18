@@ -25,6 +25,9 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Button\Month) {
             return $this->renderMonth($component, $default_renderer);
         } else {
+            /**
+             * @var $component Component\Button\Button
+             */
             return $this->renderButton($component, $default_renderer);
         }
     }
@@ -38,6 +41,7 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer)
     {
+        $tpl_name = "";
         if ($component instanceof Component\Button\Primary) {
             $tpl_name = "tpl.primary.html";
         }
@@ -109,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             //Note that Bulky Buttons need to handle aria_pressed seperatly due to possible aria_role conflicts
-            if(!($component instanceof Bulky)){
+            if (!($component instanceof Bulky)) {
                 $tpl->setCurrentBlock("with_aria_pressed");
                 $tpl->setVariable("ARIA_PRESSED", $aria_pressed);
                 $tpl->parseCurrentBlock();
@@ -181,7 +185,7 @@ class Renderer extends AbstractComponentRenderer
         $button_status = 'off';
         if ($component->isEngaged()) {
             $button_status = 'on';
-        };
+        }
 
         if ($component->isActive()) {
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($on_url, $off_url, $signals) {
@@ -192,6 +196,10 @@ class Renderer extends AbstractComponentRenderer
                 //var_dump($code); exit;
                 return $code;
             });
+            $tpl->setCurrentBlock("with_on_off_label");
+            $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
+            $tpl->setVariable("OFF_LABEL", $this->txt("toggle_off"));
+            $tpl->parseCurrentBlock();
         } else {
             $tpl->touchBlock("disabled");
             $button_status = 'unavailable';
@@ -215,7 +223,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\Component $component, $tpl)
+    protected function maybeRenderId(Component\JavaScriptBindable $component, $tpl)
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
@@ -248,14 +256,10 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("LANG", $lang_key);
 
+        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
         $id = $this->bindJavaScript($component);
 
-        if ($id !== null) {
-            $tpl->setCurrentBlock("with_id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-            $tpl->setVariable("JSID", $id);
-        }
+        $tpl->setVariable("ID", $id);
 
         return $tpl->get();
     }
@@ -295,16 +299,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
         if ($component->isEngageable()) {
-            if($aria_role == Bulky::MENUITEM){
+            if ($aria_role == Bulky::MENUITEM) {
                 $tpl->touchBlock("with_aria_haspopup");
-            }else{
+            } else {
                 //Note that aria-role='menuitems MUST-NOT have Aria-pressed to true;
                 $tpl->setCurrentBlock("with_aria_pressed");
-                if($component->isEngaged()){
+                if ($component->isEngaged()) {
                     $tpl->setVariable("ARIA_PRESSED", "true");
-                }else{
+                } else {
                     $tpl->setVariable("ARIA_PRESSED", "false");
-
                 }
                 $tpl->parseCurrentBlock();
             }

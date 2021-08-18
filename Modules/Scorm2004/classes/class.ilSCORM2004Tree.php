@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Tree/classes/class.ilTree.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * SCORM 2004 Editing tree
  *
- * @author Alex Killing <alex.kiling@gmx.de>
- * @version $Id$
- * @ingroup ModulesScorm2004
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM2004Tree extends ilTree
 {

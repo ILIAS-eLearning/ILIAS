@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Select media pool for adding objects into pages
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
-
-include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php";
-
+ * Select media pool for adding objects into pages
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 {
     protected $clickable_types = array();
@@ -83,7 +78,6 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
             if (count($this->getChildsOfNode($a_node["child"])) > 0 || $this->isNodeClickable($a_node)) {
                 // #16523
                 if ($a_node["type"] == "qpl") {
-                    include_once "Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
                     return ilObjQuestionPool::_lookupOnline($a_node["obj_id"]);
                 }
 

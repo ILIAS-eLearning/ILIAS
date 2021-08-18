@@ -1,18 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_FM_POSITIVE", 1);
 define("IL_FM_NEGATIVE", 2);
 
 /**
-* Class ilExplorer
-* class for explorer view in admin frame
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
-
+ * class for explorer view in admin frame
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilExplorer
 {
     /**
@@ -782,7 +779,6 @@ class ilExplorer
             $this->createLines($i);
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
         $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 

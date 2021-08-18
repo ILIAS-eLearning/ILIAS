@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Media Pool listener. Listens to events of other components.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ModulesMediaPool
-*/
+ * Media Pool listener. Listens to events of other components.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilMediaPoolAppEventListener
 {
     /**
@@ -19,14 +18,11 @@ class ilMediaPoolAppEventListener
     */
     public static function handleEvent($a_component, $a_event, $a_parameter)
     {
-        include_once("./Services/Tagging/classes/class.ilTagging.php");
-        
         switch ($a_component) {
             case "Services/Object":
                 switch ($a_event) {
                     case "update":
                         if ($a_parameter["obj_type"] == "mob") {
-                            include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
                             ilMediaPoolItem::updateObjectTitle($a_parameter["obj_id"]);
                         }
                         break;

@@ -1,36 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-include_once "./Services/RTE/classes/class.ilRTE.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a text area property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a text area property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected $value;
@@ -248,10 +224,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function setUseRte($a_usert, $version = '')
     {
         $this->usert = $a_usert;
-
-        if (strlen($version)) {
-            $this->rteSupport['version'] = $version;
-        }
+        $this->rteSupport['version'] = $version;
     }
 
     /**
@@ -421,14 +394,13 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput()
     {
         $lng = $this->lng;
-        include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
-        
+
         if ($this->usePurifier() && $this->getPurifier()) {
             $_POST[$this->getPostVar()] = ilUtil::stripOnlySlashes($_POST[$this->getPostVar()]);
             $_POST[$this->getPostVar()] = $this->getPurifier()->purify($_POST[$this->getPostVar()]);
         } else {
             $allowed = $this->getRteTagString();
-            if ($this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
+            if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
                 $allowed .= "<span>";
             }
             $_POST[$this->getPostVar()] = ($this->getUseRte() || !$this->getUseTagsForRteOnly())
@@ -488,13 +460,12 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                include_once "./Services/RTE/classes/class.$rtestring.php";
                 $rte = new $rtestring($this->rteSupport['version']);
 
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.
-                $rte->addPlugin("emotions");
+                $rte->addPlugin("emoticons");
                 foreach ($this->plugins as $plugin) {
                     if (strlen($plugin)) {
                         $rte->addPlugin($plugin);
@@ -527,13 +498,18 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         
                         // #13603 - "paste from word" is essential
                         $rte->addPlugin("paste");
+                        //Add plugins 'lists', 'code' and 'link': in tinymce 3 it wasnt necessary to configure these plugins
+                        $rte->addPlugin("lists");
+                        $rte->addPlugin("link");
+                        $rte->addPlugin("code");
+
+                        $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
                         
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
-                        $rte->disableButtons(array("anchor", "justifyleft", "justifycenter",
-                            "justifyright", "justifyfull", "formatselect", "removeformat",
+                        $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
+                            "alignright", "alignjustify", "formatselect", "removeformat",
                             "cut", "copy", "paste", "pastetext")); // JF, 2013-12-09
                     }
-                    
                     $rte->addCustomRTESupport(0, "", $this->getRteTags());
                 }
                 

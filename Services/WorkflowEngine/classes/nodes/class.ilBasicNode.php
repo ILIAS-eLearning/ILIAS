@@ -14,19 +14,6 @@ require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
  */
 class ilBasicNode extends ilBaseNode
 {
-    /**
-     * This holds if the node represents a forward condition.
-     *
-     * The forward condition works like this:
-     * The node itself transits to multiple nodes, which must represent intermediate events or nodes
-     * that show such characteristics. If one the forward nodes is triggered, they need to look back and
-     * instruct the node to deactivate all other outgoing forward flows so their event detectors are taken
-     * down.
-     *
-     * @var boolean
-     */
-    private $is_forward_condition_node;
-
     /** @var bool $is_forward_condition_event*/
     public $is_forward_condition_event;
 
@@ -209,7 +196,7 @@ class ilBasicNode extends ilBaseNode
     {
         /** @var ilSimpleDetector $detector */
         foreach ($this->detectors as $detector) {
-            /** @var ilBasicNode $source_node */
+            /** @var ilBaseNode $source_node */
             $source_node = $detector->getSourceNode();
             if ($source_node && $source_node->is_forward_condition_node) {
                 $source_node->deactivateForwardConditionNodes($this);

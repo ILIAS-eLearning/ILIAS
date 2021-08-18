@@ -35,7 +35,7 @@ abstract class Popover implements Component\Popover\Popover
      */
     protected $show_signal;
     /**
-     * @var ReplaceContentSignal
+     * @var Signal
      */
     protected $replace_content_signal;
     /**

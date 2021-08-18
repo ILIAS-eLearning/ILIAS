@@ -45,6 +45,11 @@ export default class Client {
     this.command_endpoint = command_endpoint;
     this.form_action = form_action;
     this.response_factory = response_factory || new ResponseFactory();
+    this.defErrorHandler = null;
+  }
+
+  setDefaultErrorHandler(handler) {
+    this.defErrorHandler = handler;
   }
 
   /**
@@ -64,6 +69,11 @@ export default class Client {
   sendQuery(query_action) {
     this.log("client.sendQuery");
     this.log(query_action);
+
+    const errorHandler = (err) => {
+      this.errorHandler(err);
+    }
+
     return new Promise((resolve, reject) => {
       let params = {
         action_id: query_action.getId(),
@@ -75,12 +85,27 @@ export default class Client {
       .then(response => {
         this.log("client.sendQuery, response:");
         this.log(response);
-        // note that fetch.json() returns yet another promise
-        response.json().then(json =>
-          resolve(this.response_factory.response(query_action, json))
-        ).catch(err => reject(err));
-      }).catch(err => reject(err));
+
+        if (!response.ok) {
+          const statusText = response.statusText;
+          response.text().then(text =>
+              errorHandler(statusText + " " + text)
+          ).catch(errorHandler);
+        } else {
+          // note that fetch.json() returns yet another promise
+          response.json().then(json =>
+              resolve(this.response_factory.response(query_action, json))
+          ).catch(errorHandler);
+        }
+      }).catch(errorHandler);
     });
+  }
+
+  errorHandler(err) {
+    if (this.defErrorHandler) {
+      console.log(err);
+      this.defErrorHandler(err);
+    }
   }
 
   /**
@@ -91,6 +116,10 @@ export default class Client {
   sendCommand(command_action) {
     this.log("client.sendCommand");
     this.log(command_action);
+
+    const errorHandler = (err) => {
+      this.errorHandler(err);
+    }
 
     // POST FORM
     if (command_action instanceof FormCommandAction) {
@@ -105,11 +134,19 @@ export default class Client {
         FetchWrapper.postForm(this.command_endpoint, formData).then(response => {
           this.log("client.sendCommand, response:");
           this.log(response);
-          // note that fetch.json() returns yet another promise
-          response.json().then(json =>
-            resolve(this.response_factory.response(command_action, json))
-          ).catch(err => reject(err));
-        }).catch(err => reject(err));
+
+          if (!response.ok) {
+            const statusText = response.statusText;
+            response.text().then(text =>
+                errorHandler(statusText + " " + text)
+            ).catch(errorHandler);
+          } else {
+            // note that fetch.json() returns yet another promise
+            response.json().then(json =>
+                resolve(this.response_factory.response(command_action, json))
+            ).catch(errorHandler);
+          }
+        }).catch(errorHandler);
       });
 
     } else {      // POST JSON
@@ -124,11 +161,19 @@ export default class Client {
         }).then(response => {
           this.log("client.sendCommand, response:");
           this.log(response);
-          // note that fetch.json() returns yet another promise
-          response.json().then(json =>
-            resolve(this.response_factory.response(command_action, json))
-          ).catch(err => reject(err));
-        }).catch(err => reject(err));
+
+          if (!response.ok) {
+            const statusText = response.statusText;
+            response.text().then(text =>
+                errorHandler(statusText + " " + text)
+            ).catch(errorHandler);
+          } else {
+            // note that fetch.json() returns yet another promise
+            response.json().then(json =>
+                resolve(this.response_factory.response(command_action, json))
+            ).catch(errorHandler);
+          }
+        }).catch(errorHandler);
       });
     }
   }

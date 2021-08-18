@@ -1,41 +1,14 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-// note: the values are derived from ilObjCourse constants
-// to enable easy migration from course view setting to container view setting
-
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilContainer
-*
-* Base class for all container objects (categories, courses, groups)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @extends ilObject
-*/
+ * Class ilContainer
+ *
+ * Base class for all container objects (categories, courses, groups)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilContainer extends ilObject
 {
     /**
@@ -129,6 +102,11 @@ class ilContainer extends ilObject
      */
     protected $obj_trans = null;
 
+    protected int $style_id = 0;
+    protected bool $news_timeline_landing_page = false;
+    protected bool $news_block_activated = false;
+    protected bool $use_news = false;
+
     /**
      * @var ilRecommendedContentManager
      */
@@ -150,7 +128,6 @@ class ilContainer extends ilObject
 
         $this->setting = $DIC["ilSetting"];
         parent::__construct($a_id, $a_reference);
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
 
         if ($this->getId() > 0) {
             $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
@@ -521,16 +498,13 @@ class ilContainer extends ilObject
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
         // translations
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->copy($new_obj->getId());
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         #18624 - copy all sorting settings
         ilContainerSortingSettings::_cloneSettings($this->getId(), $new_obj->getId());
         
         // copy content page
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
         if (ilContainerPage::_exists(
             "cont",
             $this->getId()
@@ -540,7 +514,6 @@ class ilContainer extends ilObject
         }
 
         // #20614 - copy style
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $style_id = $this->getStyleSheetId();
         if ($style_id > 0) {
             if (!!ilObjStyleSheet::_lookupStandard($style_id)) {
@@ -554,7 +527,6 @@ class ilContainer extends ilObject
         }
 
         // #10271 - copy start objects page
-        include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php");
         if (ilContainerStartObjectsPage::_exists(
             "cstr",
             $this->getId()
@@ -594,17 +566,14 @@ class ilContainer extends ilObject
         
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
-        include_once('./Services/Container/classes/class.ilContainerSorting.php');
         ilContainerSorting::_getInstance($this->getId())->cloneSorting($a_target_id, $a_copy_id);
 
         // fix internal links to other objects
         ilContainer::fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $this->getRefId());
         
         // fix item group references in page content
-        include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
         ilObjItemGroup::fixContainerItemGroupRefsAfterCloning($this, $a_copy_id);
         
-        include_once('Services/Object/classes/class.ilObjectLP.php');
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
@@ -631,14 +600,6 @@ class ilContainer extends ilObject
     public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $a_submode = 1)
     {
         $ilLog = $this->log;
-        
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-        
-        $ilAccess = $this->access;
-        $ilErr = $this->error;
-        $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
         $ilUser = $this->user;
             
         // Save wizard options
@@ -656,7 +617,6 @@ class ilContainer extends ilObject
         $wizard_options->read();
         $wizard_options->storeTree($clone_source);
         
-        include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
         if ($a_submode == ilObjectCopyGUI::SUBMODE_CONTENT_ONLY) {
             ilLoggerFactory::getLogger('obj')->info('Copy content only...');
             ilLoggerFactory::getLogger('obj')->debug('Added mapping, source ID: ' . $clone_source . ', target ID: ' . $ref_id);
@@ -670,8 +630,6 @@ class ilContainer extends ilObject
         // Duplicate session to avoid logout problems with backgrounded SOAP calls
         $new_session_id = ilSession::_duplicate($session_id);
         // Start cloning process using soap call
-        include_once 'Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-
         $soap_client = new ilSoapClient();
         $soap_client->setResponseTimeout(5);
         $soap_client->enableWSDL(true);
@@ -684,7 +642,6 @@ class ilContainer extends ilObject
             ilLoggerFactory::getLogger('obj')->warning('SOAP clone call failed. Calling clone method manually');
             $wizard_options->disableSOAP();
             $wizard_options->read();
-            include_once('./webservice/soap/include/inc.soap_functions.php');
             $res = ilSoapFunctions::ilClone($new_session_id . '::' . $client_id, $copy_id);
         }
         return array(
@@ -829,18 +786,16 @@ class ilContainer extends ilObject
 
         $found = false;
         $all_ref_ids = array();
-        
+
+        $preloader = null;
         if (!self::$data_preloaded) {
-            include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
             $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
         }
 
-        include_once('Services/Container/classes/class.ilContainerSorting.php');
         $sort = ilContainerSorting::_getInstance($this->getId());
 
         // TODO: check this
         // get items attached to a session
-        include_once './Modules/Session/classes/class.ilEventItems.php';
         $event_items = ilEventItems::_getItemsOfContainer($this->getRefId());
 
         $classification_filter_active = $this->isClassificationFilterActive();
@@ -862,7 +817,6 @@ class ilContainer extends ilObject
 
             // BEGIN WebDAV: Don't display hidden Files, Folders and Categories
             if (in_array($object['type'], array('file','fold','cat'))) {
-                include_once 'Modules/File/classes/class.ilObjFileAccess.php';
                 if (ilObjFileAccess::_isFileHidden($object['title'])) {
                     $this->setHiddenFilesFound(true);
                     if (!$a_admin_panel_enabled) {
@@ -931,7 +885,7 @@ class ilContainer extends ilObject
     */
     public function gotItems()
     {
-        if (is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
+        if (isset($this->items["_all"]) && is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
             return true;
         }
         return false;
@@ -996,7 +950,6 @@ class ilContainer extends ilObject
         );
 
         if (((int) $this->getStyleSheetId()) > 0) {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
         }
 
@@ -1006,7 +959,6 @@ class ilContainer extends ilObject
         self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
         self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
         self::_writeContainerSetting($this->getId(), "news_timeline_landing_page", (int) $this->getNewsTimelineLandingPage());
-        include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
         self::_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::NEWS_VISIBILITY, (int) $this->getNewsBlockActivated());
         self::_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, (int) $this->getUseNews());
 
@@ -1041,7 +993,6 @@ class ilContainer extends ilObject
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
         $log = ilLoggerFactory::getLogger("cont");
@@ -1050,7 +1001,6 @@ class ilContainer extends ilObject
         self::_writeContainerSetting($this->getId(), "news_timeline", (int) $this->getNewsTimeline());
         self::_writeContainerSetting($this->getId(), "news_timeline_incl_auto", (int) $this->getNewsTimelineAutoEntries());
         self::_writeContainerSetting($this->getId(), "news_timeline_landing_page", (int) $this->getNewsTimelineLandingPage());
-        include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
         self::_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::NEWS_VISIBILITY, (int) $this->getNewsBlockActivated());
         self::_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::USE_NEWS, (int) $this->getUseNews());
 
@@ -1069,10 +1019,8 @@ class ilContainer extends ilObject
     {
         parent::read();
 
-        include_once("./Services/Container/classes/class.ilContainerSortingSettings.php");
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
         
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
         $this->readContainerSettings();
@@ -1090,7 +1038,6 @@ class ilContainer extends ilObject
         $this->setNewsTimeline(self::_lookupContainerSetting($this->getId(), "news_timeline"));
         $this->setNewsTimelineAutoEntries(self::_lookupContainerSetting($this->getId(), "news_timeline_incl_auto"));
         $this->setNewsTimelineLandingPage(self::_lookupContainerSetting($this->getId(), "news_timeline_landing_page"));
-        include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
         $this->setNewsBlockActivated(self::_lookupContainerSetting(
             $this->getId(),
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
@@ -1161,9 +1108,6 @@ class ilContainer extends ilObject
         $obj_definition = $DIC["objDefinition"];
 
         $obj_id = ilObject::_lookupObjId($a_target_id);
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
-
-        include_once("./Services/CopyWizard/classes/class.ilCopyWizardOptions.php");
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mapping = $cwo->getMappings();
 
@@ -1262,6 +1206,7 @@ class ilContainer extends ilObject
             return [];
         }
 
+        $result = null;
 
         $obj_ids = array_map(function ($i) {
             return $i["obj_id"];
@@ -1290,7 +1235,7 @@ class ilContainer extends ilObject
                         " AND type = %s",
                         array("text"),
                         array($val)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["obj_id"];
@@ -1325,7 +1270,7 @@ class ilContainer extends ilObject
                         " AND m.contact = %s",
                         array("integer"),
                         array(1)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["obj_id"];
@@ -1339,16 +1284,13 @@ class ilContainer extends ilObject
                         " AND description = %s ",
                         array("text"),
                         array('il_copyright_entry__' . IL_INST_ID . '__' . $val)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["rbac_id"];
                     }
                     $obj_ids = array_intersect($obj_ids, $result_obj_ids);
                 } else {
-                    include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-                    include_once 'Services/Search/classes/class.ilQueryParser.php';
-
                     #$query_parser->setCombination($this->options['title_ao']);
                     $query_parser->setCombination(QP_COMBINATION_OR);
                     $query_parser->parse();
@@ -1398,8 +1340,6 @@ class ilContainer extends ilObject
                     }
                 }
 
-                include_once 'Services/Search/classes/class.ilQueryParser.php';
-                include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
                 $adv_md_search = ilObjectSearchFactory::_getAdvancedMDSearchInstance($query_parser);
                 //$adv_md_search->setFilter($this->filter);	// this could be set to an array of object types
                 $adv_md_search->setDefinition($field);            // e.g. ilAdvancedMDFieldDefinitionSelectMulti
@@ -1440,13 +1380,14 @@ class ilContainer extends ilObject
     {
         $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt"];
         foreach ($legacy_types as $type) {
-            $lobjects = array_filter($objects, function($o) use ($type) {
+            $lobjects = array_filter($objects, function ($o) use ($type) {
                 return ($o["type"] == $type);
             });
-            $lobj_ids = array_map(function($i){
+            $lobj_ids = array_map(function ($i) {
                 return $i["obj_id"];
             }, $lobjects);
-            switch($type) {
+            $status = [];
+            switch ($type) {
                 case "glo":
                     $status = ilObjGlossaryAccess::_lookupOnlineStatus($lobj_ids);
                     break;
@@ -1472,12 +1413,12 @@ class ilContainer extends ilObject
                     $status = ilObjPortfolioTemplateAccess::_lookupOnlineStatus($lobj_ids);
                     break;
             }
-            foreach($status as $obj_id => $online) {
+            foreach ($status as $obj_id => $online) {
                 if ($val == 1 && !$online || $val == 2 && $online) {
                     if (($key = array_search($obj_id, $obj_ids)) !== false) {
                         unset($obj_ids[$key]);
                     }
-                }  else if (!in_array($obj_id, $obj_ids)) {
+                } elseif (!in_array($obj_id, $obj_ids)) {
                     $obj_ids[] = $obj_id;
                 }
             }
@@ -1485,5 +1426,4 @@ class ilContainer extends ilObject
 
         return $obj_ids;
     }
-
 } // END class ilContainer

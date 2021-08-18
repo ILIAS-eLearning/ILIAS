@@ -1,15 +1,13 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
-* Class ilObjExternalFeed
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Class ilObjExternalFeed
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjExternalFeed extends ilObject
 {
     /**
@@ -90,7 +88,6 @@ class ilObjExternalFeed extends ilObject
         //put here your module specific stuff
         
         // delete feed block
-        include_once("./Services/Block/classes/class.ilCustomBlock.php");
         $costum_block = new ilCustomBlock();
         $costum_block->setContextObjId($this->getId());
         $costum_block->setContextObjType($this->getType());
@@ -100,22 +97,16 @@ class ilObjExternalFeed extends ilObject
             if ($c_block["type"] == "feed") {
                 $fb = new ilExternalFeedBlock($c_block["id"]);
                 $fb->delete();
-                include_once("./Services/Block/classes/class.ilBlockSetting.php");
                 ilBlockSetting::_deleteSettingsOfBlock($c_block["id"], "feed");
             }
         }
 
-        //ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
-        
         return true;
     }
 
     public function getFeedBlock()
     {
-        $ilLog = $this->log;
-        
         // delete feed block
-        include_once("./Services/Block/classes/class.ilCustomBlock.php");
         $costum_block = new ilCustomBlock();
         $costum_block->setContextObjId($this->getId());
         $costum_block->setContextObjType($this->getType());
@@ -130,4 +121,4 @@ class ilObjExternalFeed extends ilObject
 
         return false;
     }
-} // END class.ilObjExternalFeed
+}

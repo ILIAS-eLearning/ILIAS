@@ -10,17 +10,66 @@
 class ilSkillTreeNode
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
-    const STATUS_PUBLISH = 0;
-    const STATUS_DRAFT = 1;
-    const STATUS_OUTDATED = 2;
-    public $type;
-    public $id;
-    public $title;
-    public $description;
+    /**
+     * @var ilSkillTree
+     */
+    protected $skill_tree;
+
+    /**
+     * @var string
+     */
+    protected $type;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var bool
+     */
+    protected $self_eval;
+
+    /**
+     * @var int
+     */
+    protected $order_nr;
+
+    /**
+     * @var string
+     */
+    protected $import_id;
+
+    /**
+     * @var string
+     */
+    protected $creation_date;
+
+    /**
+     * @var int|bool
+     */
+    protected $status;
+
+
+    protected $data_record;
+
+    public const STATUS_PUBLISH = 0;
+    public const STATUS_DRAFT = 1;
+    public const STATUS_OUTDATED = 2;
 
     /**
     * @param	int		node id
@@ -57,6 +106,14 @@ class ilSkillTreeNode
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Get skill tree
+     */
+    public function getSkillTree() : ilSkillTree
+    {
+        return $this->skill_tree;
     }
 
     /**
@@ -122,7 +179,7 @@ class ilSkillTreeNode
     /**
      * Set self evaluation
      *
-     * @param	boolean	self evaluation
+     * @param	bool	self evaluation
      */
     public function setSelfEvaluation($a_val)
     {
@@ -132,7 +189,7 @@ class ilSkillTreeNode
     /**
      * Get self evaluation
      *
-     * @return	boolean	self evaluation
+     * @return	bool	self evaluation
      */
     public function getSelfEvaluation()
     {
@@ -321,7 +378,7 @@ class ilSkillTreeNode
      * Lookup self evaluation
      *
      * @param	int			node ID
-     * @return	boolean		selectable? (self evaluation=
+     * @return	bool		selectable? (self evaluation)
      */
     public static function _lookupSelfEvaluation($a_obj_id)
     {
@@ -329,7 +386,7 @@ class ilSkillTreeNode
 
         $ilDB = $DIC->database();
 
-        return self::_lookup($a_obj_id, "self_eval");
+        return (bool) self::_lookup($a_obj_id, "self_eval");
     }
     
     /**
@@ -344,7 +401,7 @@ class ilSkillTreeNode
 
         $ilDB = $DIC->database();
 
-        return self::_lookup($a_obj_id, "status");
+        return (int) self::_lookup($a_obj_id, "status");
     }
     
     /**
@@ -370,7 +427,7 @@ class ilSkillTreeNode
     /**
      * Set status
      *
-     * @param boolean $a_val status
+     * @param bool $a_val status
      */
     public function setStatus($a_val)
     {
@@ -446,7 +503,7 @@ class ilSkillTreeNode
     /**
     * Create Node
     *
-    * @param	boolean		Upload Mode
+    * @param	bool		Upload Mode
     */
     public function create()
     {
@@ -462,7 +519,7 @@ class ilSkillTreeNode
             $ilDB->quote($this->getType(), "text") . ", " .
             $ilDB->now() . ", " .
             $ilDB->quote((int) $this->getSelfEvaluation(), "integer") . ", " .
-            $ilDB->quote((int) $this->getOrderNr(), "integer") . ", " .
+            $ilDB->quote($this->getOrderNr(), "integer") . ", " .
             $ilDB->quote((int) $this->getStatus(), "integer") . ", " .
             $ilDB->now() . ", " .
             $ilDB->quote($this->getImportId(), "text") .
@@ -482,7 +539,7 @@ class ilSkillTreeNode
             " title = " . $ilDB->quote($this->getTitle(), "text") .
             " ,description = " . $ilDB->quote($this->getDescription(), "clob") .
             " ,self_eval = " . $ilDB->quote((int) $this->getSelfEvaluation(), "integer") .
-            " ,order_nr = " . $ilDB->quote((int) $this->getOrderNr(), "integer") .
+            " ,order_nr = " . $ilDB->quote($this->getOrderNr(), "integer") .
             " ,status = " . $ilDB->quote((int) $this->getStatus(), "integer") .
             " ,import_id = " . $ilDB->quote($this->getImportId(), "text") .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
@@ -580,27 +637,28 @@ class ilSkillTreeNode
 
     /**
      * Cut and copy a set of skills/skill categories into the clipboard
+     *
+     * @param int   $a_tree_id
+     * @param array $a_ids
+     * @throws ilInvalidTreeStructureException
      */
-    public static function clipboardCut($a_tree_id, $a_ids)
+    public static function clipboardCut(int $a_tree_id, array $a_ids) : void
     {
         self::clearClipboard();
         $tree = new ilSkillTree();
 
-        if (!is_array($a_ids)) {
-            return false;
-        } else {
-            // get all "top" ids, i.e. remove ids, that have a selected parent
-            foreach ($a_ids as $id) {
-                $path = $tree->getPathId($id);
-                $take = true;
-                foreach ($path as $path_id) {
-                    if ($path_id != $id && in_array($path_id, $a_ids)) {
-                        $take = false;
-                    }
+        // get all "top" ids, i.e. remove ids, that have a selected parent
+        $cut_ids = [];
+        foreach ($a_ids as $id) {
+            $path = $tree->getPathId($id);
+            $take = true;
+            foreach ($path as $path_id) {
+                if ($path_id != $id && in_array($path_id, $a_ids)) {
+                    $take = false;
                 }
-                if ($take) {
-                    $cut_ids[] = $id;
-                }
+            }
+            if ($take) {
+                $cut_ids[] = $id;
             }
         }
 
@@ -632,6 +690,7 @@ class ilSkillTreeNode
         
         // put them into the clipboard
         $time = date("Y-m-d H:i:s", time());
+        $order = 0;
         foreach ($a_ids as $id) {
             $curnode = "";
             if ($tree->isInTree($id)) {
@@ -714,9 +773,6 @@ class ilSkillTreeNode
 
     /**
      * Remove all skill items from clipboard
-     *
-     * @param
-     * @return
      */
     public static function clearClipboard()
     {
@@ -753,6 +809,7 @@ class ilSkillTreeNode
 
         $item_type = ilSkillTreeNode::_lookupType($a_item_id);
 
+        $item = null;
         if ($item_type == "scat") {
             $item = new ilSkillCategory($a_item_id);
         } elseif ($item_type == "skll") {
@@ -831,7 +888,7 @@ class ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT obj_id, title FROM skl_tree_node WHERE " .
             " self_eval = " . $ilDB->quote(true, "integer") . " ORDER BY TITLE "
-            );
+        );
         $nodes = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $nodes[$rec["obj_id"]] = $rec["title"];
@@ -868,7 +925,7 @@ class ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT * FROM skl_tree_node " .
             " WHERE self_eval = " . $ilDB->quote(1, "integer")
-            );
+        );
         
         $sel_skills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -881,8 +938,9 @@ class ilSkillTreeNode
     /**
      * Save childs order
      *
-     * @param
-     * @return
+     * @param int $a_par_id
+     * @param array $a_childs_order
+     * @param bool $a_templates
      */
     public static function saveChildsOrder($a_par_id, $a_childs_order, $a_templates = false)
     {
@@ -890,18 +948,16 @@ class ilSkillTreeNode
         
         if ($a_par_id != $skill_tree->readRootId()) {
             $childs = $skill_tree->getChilds($a_par_id);
+        } elseif ($a_templates) {
+            $childs = $skill_tree->getChildsByTypeFilter(
+                $a_par_id,
+                array("skrt", "sktp", "sctp")
+            );
         } else {
-            if ($a_templates) {
-                $childs = $skill_tree->getChildsByTypeFilter(
-                    $a_par_id,
-                    array("skrt", "sktp", "sctp")
-                );
-            } else {
-                $childs = $skill_tree->getChildsByTypeFilter(
-                    $a_par_id,
-                    array("skrt", "skll", "scat", "sktr")
-                );
-            }
+            $childs = $skill_tree->getChildsByTypeFilter(
+                $a_par_id,
+                array("skrt", "skll", "scat", "sktr")
+            );
         }
         
         foreach ($childs as $k => $c) {

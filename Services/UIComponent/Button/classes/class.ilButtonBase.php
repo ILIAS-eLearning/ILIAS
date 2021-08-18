@@ -1,14 +1,11 @@
 <?php
-require_once('./Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php');
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Button GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilTabsGUI.php 45109 2013-09-30 15:46:28Z akill $
- * @package ServicesUIComponent
  */
 abstract class ilButtonBase implements ilToolbarItem
 {
@@ -322,7 +319,6 @@ abstract class ilButtonBase implements ilToolbarItem
         $attr["onclick"] = $this->getOnClick();
         
         if ($this->getAccessKey()) {
-            include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
             $attr["accesskey"] = ilAccessKey::getKey($this->getAccessKey());
         }
         
