@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +11,7 @@ class ArrayStorage implements Storage
     /**
      * @var array<string, Metric>
      */
-    protected $metrics;
+    protected array $metrics;
 
     public function __construct()
     {

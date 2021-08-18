@@ -50,27 +50,21 @@ class ilExAssignmentTypesGUI
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
                 return new ilExAssTypeUploadGUI();
-                break;
 
             case ilExAssignment::TYPE_BLOG:
                 return new ilExAssTypeBlogGUI();
-                break;
 
             case ilExAssignment::TYPE_PORTFOLIO:
                 return new ilExAssTypePortfolioGUI();
-                break;
 
             case ilExAssignment::TYPE_UPLOAD_TEAM:
                 return new ilExAssTypeUploadTeamGUI();
-                break;
 
             case ilExAssignment::TYPE_TEXT:
                 return new ilExAssTypeTextGUI();
-                break;
 
             case ilExAssignment::TYPE_WIKI_TEAM:
                 return new ilExAssTypeWikiTeamGUI();
-                break;
         }
 
         // we should throw some exception here

@@ -1,17 +1,16 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 class ilObjLearningSequenceAdmin extends ilObject2
 {
-    /**
-     * @param    integer    reference_id or object_id
-     * @param    boolean    treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $id = 0, bool $call_by_reference = true)
     {
-        parent::__construct($a_id, $a_call_by_reference);
+        parent::__construct($id, $call_by_reference);
     }
 
-    public function initType()
+    protected function initType()
     {
         $this->type = "lsos";
     }

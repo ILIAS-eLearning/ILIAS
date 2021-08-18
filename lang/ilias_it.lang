@@ -465,7 +465,6 @@ assessment#:#assFileUpload#:#Caricamento File domanda
 assessment#:#assFlashQuestion#:#Domanda flash
 assessment#:#assFormulaQuestion#:#Formula di domanda
 assessment#:#assImagemapQuestion#:#Domanda mappa immagine
-assessment#:#assJavaApplet#:#Domanda Java Applet
 assessment#:#assKprimChoice#:#Domanda a scelta multipla (Risposte Kprim)
 assessment#:#assLongMenu#:#Menu lungo
 assessment#:#assMatchingQuestion#:#Domanda correlata

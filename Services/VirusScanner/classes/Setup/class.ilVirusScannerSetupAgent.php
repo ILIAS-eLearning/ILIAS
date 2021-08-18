@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilVirusScannerSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

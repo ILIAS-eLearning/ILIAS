@@ -1,130 +1,93 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
-* Exercise assignment
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @ingroup ModulesExercise
-*/
+ * Exercise assignment
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilExAssignment
 {
     /**
-     * @var \ilDBInterface
+     * direct checks against const should be avoided, use type objects instead
      */
-    protected $db;
+    public const TYPE_UPLOAD = 1;
+    public const TYPE_BLOG = 2;
+    public const TYPE_PORTFOLIO = 3;
+    public const TYPE_UPLOAD_TEAM = 4;
+    public const TYPE_TEXT = 5;
+    public const TYPE_WIKI_TEAM = 6;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    public const FEEDBACK_DATE_DEADLINE = 1;
+    public const FEEDBACK_DATE_SUBMISSION = 2;
+    public const FEEDBACK_DATE_CUSTOM = 3;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    public const PEER_REVIEW_VALID_NONE = 1;
+    public const PEER_REVIEW_VALID_ONE = 2;
+    public const PEER_REVIEW_VALID_ALL = 3;
 
-    /**
-     * @var ilAppEventHandler
-     */
-    protected $app_event_handler;
+    public const TEAMS_FORMED_BY_PARTICIPANTS = 0;
+    public const TEAMS_FORMED_BY_TUTOR = 1;
+    public const TEAMS_FORMED_BY_RANDOM = 2;
+    public const TEAMS_FORMED_BY_ASSIGNMENT = 3;
 
-    /**
-     * @deprecated direct checks against const should be avoided, use type objects instead
-     */
-    const TYPE_UPLOAD = 1;
-    /**
-     * @deprecated
-     */
-    const TYPE_BLOG = 2;
-    /**
-     * @deprecated
-     */
-    const TYPE_PORTFOLIO = 3;
-    /**
-     * @deprecated
-     */
-    const TYPE_UPLOAD_TEAM = 4;
-    /**
-     * @deprecated
-     */
-    const TYPE_TEXT = 5;
-    /**
-     * @deprecated
-     */
-    const TYPE_WIKI_TEAM = 6;
-    
-    const FEEDBACK_DATE_DEADLINE = 1;
-    const FEEDBACK_DATE_SUBMISSION = 2;
-    const FEEDBACK_DATE_CUSTOM = 3;
-    
-    const PEER_REVIEW_VALID_NONE = 1;
-    const PEER_REVIEW_VALID_ONE = 2;
-    const PEER_REVIEW_VALID_ALL = 3;
+    public const DEADLINE_ABSOLUTE = 0;
+    public const DEADLINE_RELATIVE = 1;
 
-    const TEAMS_FORMED_BY_PARTICIPANTS = 0;
-    const TEAMS_FORMED_BY_TUTOR = 1;
-    const TEAMS_FORMED_BY_RANDOM = 2;
-    const TEAMS_FORMED_BY_ASSIGNMENT = 3;
 
-    const DEADLINE_ABSOLUTE = 0;
-    const DEADLINE_RELATIVE = 1;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilAppEventHandler $app_event_handler;
+    protected ilAccessHandler $access;
 
-    
-    protected $id;
-    protected $exc_id;
-    protected $type;
-    protected $start_time;
-    protected $deadline;
-    protected $deadline2;
-    protected $instruction;
-    protected $title;
-    protected $mandatory;
-    protected $order_nr;
-    protected $peer;
-    protected $peer_min;
-    protected $peer_unlock;
-    protected $peer_dl;
-    protected $peer_valid;
-    protected $peer_file;
-    protected $peer_personal;
-    protected $peer_char;
-    protected $peer_text;
-    protected $peer_rating;
-    protected $peer_crit_cat;
-    protected $feedback_file;
-    protected $feedback_cron;
-    protected $feedback_date;
-    protected $feedback_date_custom;
-    protected $team_tutor = false;
-    protected $max_file;
-
-    protected $portfolio_template;
-    protected $min_char_limit;
-    protected $max_char_limit;
-
-    protected $types = null;
-
-    /**
-     * @var ilExAssignmentTypeInterface
-     */
-    protected $ass_type;
-
-    protected $deadline_mode = 0;
-    protected $relative_deadline = 0;
-    protected $starting_timestamp = null;
-
-    /**
-     * @var
-     */
-    protected $rel_deadline_last_subm;
-    
-    protected $member_status = array(); // [array]
-
-    protected $log;
+    protected int $id;
+    protected int $exc_id;
+    protected int $type;
+    protected ?int $start_time;
+    protected ?int $deadline;
+    protected ?int $deadline2;
+    protected string $instruction;
+    protected string $title;
+    protected bool $mandatory;
+    protected int $order_nr;
+    protected bool $peer;       // peer review activated
+    protected int $peer_min;
+    protected bool $peer_unlock;
+    protected int $peer_dl;
+    protected int $peer_valid;  // passed after submission, one or all peer feedbacks
+    protected bool $peer_file;
+    protected bool $peer_personal;   // personalised peer review
+    protected ?int $peer_char;           // minimun number of characters for peer review
+    protected bool $peer_text;
+    protected bool $peer_rating;
+    protected int $peer_crit_cat;
+    protected ?string $feedback_file;
+    protected bool $feedback_cron = false;
+    protected int $feedback_date;
+    protected int $feedback_date_custom;
+    protected bool $team_tutor = false;
+    protected ?int $max_file;
+    protected int $portfolio_template;
+    protected int $min_char_limit = 0;
+    protected int $max_char_limit = 0;
+    protected ilExAssignmentTypes $types;
+    protected ilExAssignmentTypeInterface $ass_type;
+    protected int $deadline_mode = 0;
+    protected int $relative_deadline = 0;
+    protected int $rel_deadline_last_subm = 0;
+    protected array $member_status = [];
+    protected ilLogger $log;
+    protected ?int $crit_cat = 0;
 
     /**
      * Constructor
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function __construct($a_id = 0)
     {
@@ -146,8 +109,13 @@ class ilExAssignment
             $this->read();
         }
     }
-            
-    public static function getInstancesByExercise($a_exc_id)
+
+    /**
+     * @param int $a_exc_id
+     * @return ilExAssignment[]
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public static function getInstancesByExercise(int $a_exc_id) : array
     {
         global $DIC;
 
@@ -155,7 +123,7 @@ class ilExAssignment
         
         $set = $ilDB->query("SELECT * FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_exc_id, "integer") .
-            " ORDER BY order_nr ASC");
+            " ORDER BY order_nr");
         $data = array();
 
         $order_val = 10;
@@ -175,11 +143,13 @@ class ilExAssignment
 
     /**
      * @param array $a_file_data
-     * @param integer $a_ass_id assignment id.
-     * @return array
+     * @param int   $a_ass_id assignment id
+     * @return int[]
      */
-    public static function instructionFileGetFileOrderData($a_file_data, $a_ass_id)
-    {
+    public static function instructionFileGetFileOrderData(
+        array $a_file_data,
+        int $a_ass_id
+    ) : array {
         global $DIC;
 
         $db = $DIC->database();
@@ -201,158 +171,88 @@ class ilExAssignment
         return array($order_val, $order_id);
     }
 
-    public function hasTeam()
+    public function hasTeam() : bool
     {
         return $this->ass_type->usesTeams();
     }
     
-    /**
-     * Set assignment id
-     *
-     * @param	int		assignment id
-     */
-    public function setId($a_val)
+    public function setId(int $a_val) : void
     {
         $this->id = $a_val;
     }
     
-    /**
-     * Get assignment id
-     *
-     * @return	int	assignment id
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * Set exercise id
-     *
-     * @param	int		exercise id
-     */
-    public function setExerciseId($a_val)
+    public function setExerciseId(int $a_val) : void
     {
         $this->exc_id = $a_val;
     }
     
-    /**
-     * Get exercise id
-     *
-     * @return	int	exercise id
-     */
-    public function getExerciseId()
+    public function getExerciseId() : int
     {
         return $this->exc_id;
     }
     
-    /**
-     * Set start time (timestamp)
-     *
-     * @param	int		start time (timestamp)
-     */
-    public function setStartTime($a_val)
+    public function setStartTime(?int $a_val) : void
     {
         $this->start_time = $a_val;
     }
     
-    /**
-     * Get start time (timestamp)
-     *
-     * @return	int		start time (timestamp)
-     */
-    public function getStartTime()
+    public function getStartTime() : ?int
     {
         return $this->start_time;
     }
 
-    /**
-     * Set deadline (timestamp)
-     *
-     * @param	int		deadline (timestamp)
-     */
-    public function setDeadline($a_val)
+    public function setDeadline(?int $a_val) : void
     {
         $this->deadline = $a_val;
     }
     
-    /**
-     * Get deadline (timestamp)
-     *
-     * @return	int		deadline (timestamp)
-     */
-    public function getDeadline()
+    public function getDeadline() : ?int
     {
         return $this->deadline;
     }
 
     /**
      * Set deadline mode
-     *
-     * @param int $a_val deadline mode
+     * @param int $a_val deadline mode (self::DEADLINE_ABSOLUTE | self::DEADLINE_ABSOLUTE)
      */
-    public function setDeadlineMode($a_val)
+    public function setDeadlineMode(int $a_val) : void
     {
         $this->deadline_mode = $a_val;
     }
     
-    /**
-     * Get deadline mode
-     *
-     * @return int deadline mode
-     */
-    public function getDeadlineMode()
+    public function getDeadlineMode() : int
     {
         return $this->deadline_mode;
     }
     
-    /**
-     * Set relative deadline
-     *
-     * @param int $a_val relative deadline
-     */
-    public function setRelativeDeadline($a_val)
+    public function setRelativeDeadline(int $a_val) : void
     {
         $this->relative_deadline = $a_val;
     }
     
-    /**
-     * Get relative deadline
-     *
-     * @return int relative deadline
-     */
-    public function getRelativeDeadline()
+    public function getRelativeDeadline() : int
     {
         return $this->relative_deadline;
     }
     
-    /**
-     * Set relative deadline last submission
-     *
-     * @param int $a_val
-     */
-    public function setRelDeadlineLastSubmission($a_val)
+    public function setRelDeadlineLastSubmission(int $a_val) : void
     {
         $this->rel_deadline_last_subm = $a_val;
     }
     
-    /**
-     * Get relative deadline last submission
-     *
-     * @return int
-     */
-    public function getRelDeadlineLastSubmission()
+    public function getRelDeadlineLastSubmission() : int
     {
         return $this->rel_deadline_last_subm;
     }
     
     
-    /**
-     * Get individual deadline (max of common or idl (team) deadline = Official Deadline)
-     * @param int $a_user_id
-     * @return int
-     */
-    public function getPersonalDeadline($a_user_id)
+    // Get individual deadline (max of common or idl (team) deadline = Official Deadline)
+    public function getPersonalDeadline(int $a_user_id) : int
     {
         $ilDB = $this->db;
         
@@ -374,73 +274,42 @@ class ilExAssignment
         $row = $ilDB->fetchAssoc($set);
         
         // use assignment deadline if no direct personal
-        return max($row["tstamp"], $this->getDeadline());
+        return max(($row["tstamp"] ?? 0), $this->getDeadline());
     }
     
-    /**
-     * Get last/final personal deadline (of assignment)
-     *
-     * @return int
-     */
-    public function getLastPersonalDeadline()
+    // Get last/final personal deadline (of assignment)
+    public function getLastPersonalDeadline() : int
     {
         $ilDB = $this->db;
         
         $set = $ilDB->query("SELECT MAX(tstamp) FROM exc_idl" .
             " WHERE ass_id = " . $ilDB->quote($this->getId(), "integer"));
         $row = $ilDB->fetchAssoc($set);
-        return $row["tstamp"];
+        return $row["tstamp"] ?? 0;
     }
     
-    /**
-     * Set extended deadline (timestamp)
-     *
-     * @param int
-     */
-    public function setExtendedDeadline($a_val)
+    // Set extended deadline (timestamp)
+    public function setExtendedDeadline(?int $a_val) : void
     {
-        if ($a_val !== null) {
-            $a_val = (int) $a_val;
-        }
         $this->deadline2 = $a_val;
     }
     
-    /**
-     * Get extended deadline (timestamp)
-     *
-     * @return	int
-     */
-    public function getExtendedDeadline()
+    public function getExtendedDeadline() : ?int
     {
         return $this->deadline2;
     }
 
-    /**
-     * Set instruction
-     *
-     * @param	string		instruction
-     */
-    public function setInstruction($a_val)
+    public function setInstruction(string $a_val) : void
     {
         $this->instruction = $a_val;
     }
     
-    /**
-     * Get instruction
-     *
-     * @return	string		instruction
-     */
-    public function getInstruction()
+    public function getInstruction() : string
     {
         return $this->instruction;
     }
 
-    /**
-     * Get instruction presentation
-     *
-     * @return string
-     */
-    public function getInstructionPresentation()
+    public function getInstructionPresentation() : string
     {
         $inst = $this->getInstruction();
         if (trim($inst)) {
@@ -452,77 +321,45 @@ class ilExAssignment
         return $inst;
     }
 
-
-    /**
-     * Set title
-     *
-     * @param	string		title
-     */
-    public function setTitle($a_val)
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
     
-    /**
-     * Get title
-     *
-     * @return	string	title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Set mandatory
-     *
-     * @param	int		mandatory
-     */
-    public function setMandatory($a_val)
+    public function setMandatory(bool $a_val) : void
     {
         $this->mandatory = $a_val;
     }
     
-    /**
-     * Get mandatory
-     *
-     * @return	int	mandatory
-     */
-    public function getMandatory()
+    public function getMandatory() : bool
     {
         return $this->mandatory;
     }
 
-    /**
-     * Set order nr
-     *
-     * @param	int		order nr
-     */
-    public function setOrderNr($a_val)
+    public function setOrderNr(int $a_val) : void
     {
         $this->order_nr = $a_val;
     }
     
-    /**
-     * Get order nr
-     *
-     * @return	int	order nr
-     */
-    public function getOrderNr()
+    public function getOrderNr() : int
     {
         return $this->order_nr;
     }
     
     /**
      * Set type
-     *
-     * @param int $a_value
-     * @deprecated this will most probably become an non public function in the future (or become obsolete)
+     * this will most probably become an non public function in the future (or become obsolete)
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function setType($a_value)
+    public function setType(int $a_value) : void
     {
         if ($this->isValidType($a_value)) {
-            $this->type = (int) $a_value;
+            $this->type = $a_value;
 
             $this->ass_type = $this->types->getById($a_value);
 
@@ -532,13 +369,7 @@ class ilExAssignment
         }
     }
 
-    /**
-     * Get assignment type
-     *
-     * @param
-     * @return null|ilExAssignmentTypeInterface
-     */
-    public function getAssignmentType()
+    public function getAssignmentType() : ilExAssignmentTypeInterface
     {
         return $this->ass_type;
     }
@@ -546,212 +377,117 @@ class ilExAssignment
     
     /**
      * Get type
-     *
-     * @return int
-     * @deprecated this will most probably become an non public function in the future (or become obsolete)
+     * this will most probably become an non public function in the future (or become obsolete)
      */
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }
     
-    /**
-     * Is given type valid?
-     *
-     * @param int $a_value
-     * @return bool
-     */
-    public function isValidType($a_value)
+    public function isValidType(int $a_value) : bool
     {
         return $this->types->isValidId($a_value);
     }
     
-    /**
-     * Toggle peer review
-     *
-     * @param bool $a_value
-     */
-    public function setPeerReview($a_value)
+    public function setPeerReview(bool $a_value) : void
     {
-        $this->peer = (bool) $a_value;
+        $this->peer = $a_value;
+    }
+    
+    public function getPeerReview() : bool
+    {
+        return $this->peer;
+    }
+    
+    public function setPeerReviewMin(int $a_value) : void
+    {
+        $this->peer_min = $a_value;
+    }
+    
+    public function getPeerReviewMin() : int
+    {
+        return $this->peer_min;
+    }
+    
+    public function setPeerReviewSimpleUnlock(bool $a_value)
+    {
+        $this->peer_unlock = $a_value;
+    }
+    
+    public function getPeerReviewSimpleUnlock() : bool
+    {
+        return $this->peer_unlock;
     }
     
     /**
-     * Get peer review status
-     *
-     * @return bool
-     */
-    public function getPeerReview()
-    {
-        return (bool) $this->peer;
-    }
-    
-    /**
-     * Set peer review minimum
-     *
-     * @param int $a_value
-     */
-    public function setPeerReviewMin($a_value)
-    {
-        $this->peer_min = (int) $a_value;
-    }
-    
-    /**
-     * Get peer review minimum
-     *
-     * @return int
-     */
-    public function getPeerReviewMin()
-    {
-        return (int) $this->peer_min;
-    }
-    
-    /**
-     * Set peer review simple unlock
-     *
-     * @param bool $a_value
-     */
-    public function setPeerReviewSimpleUnlock($a_value)
-    {
-        $this->peer_unlock = (bool) $a_value;
-    }
-    
-    /**
-     * Get peer review simple unlock
-     *
-     * @return bool
-     */
-    public function getPeerReviewSimpleUnlock()
-    {
-        return (bool) $this->peer_unlock;
-    }
-    
-    /**
-     * Set peer review deadline (timestamp)
-     *
      * @param	int		deadline (timestamp)
      */
-    public function setPeerReviewDeadline($a_val)
+    public function setPeerReviewDeadline(int $a_val) : void
     {
         $this->peer_dl = $a_val;
     }
     
-    /**
-     * Get peer review deadline (timestamp)
-     *
-     * @return	int		deadline (timestamp)
-     */
-    public function getPeerReviewDeadline()
+    public function getPeerReviewDeadline() : int
     {
         return $this->peer_dl;
     }
     
     /**
      * Set peer review validation
-     *
-     * @param int $a_value
+     * @param int $a_value (self::PEER_REVIEW_VALID_NONE, self::PEER_REVIEW_VALID_ONE,
+     *                     self::PEER_REVIEW_VALID_ALL)
      */
-    public function setPeerReviewValid($a_value)
+    public function setPeerReviewValid(int $a_value) : void
     {
-        $this->peer_valid = (int) $a_value;
+        $this->peer_valid = $a_value;
     }
     
-    /**
-     * Get peer review validatiob
-     *
-     * @return int
-     */
-    public function getPeerReviewValid()
+    public function getPeerReviewValid() : int
     {
-        return (int) $this->peer_valid;
+        return $this->peer_valid;
     }
     
-    /**
-     * Set peer review rating
-     *
-     * @param	bool
-     */
-    public function setPeerReviewRating($a_val)
+    public function setPeerReviewRating(bool $a_val) : void
     {
-        $this->peer_rating = (bool) $a_val;
+        $this->peer_rating = $a_val;
     }
     
-    /**
-     * Get peer review rating status
-     *
-     * @return	bool
-     */
-    public function hasPeerReviewRating()
+    public function hasPeerReviewRating() : bool
     {
         return $this->peer_rating;
     }
     
-    /**
-     * Set peer review text
-     *
-     * @param	bool
-     */
-    public function setPeerReviewText($a_val)
+    public function setPeerReviewText(bool $a_val) : void
     {
-        $this->peer_text = (bool) $a_val;
+        $this->peer_text = $a_val;
     }
     
-    /**
-     * Get peer review text status
-     *
-     * @return	bool
-     */
-    public function hasPeerReviewText()
+    public function hasPeerReviewText() : bool
     {
         return $this->peer_text;
     }
     
-    /**
-     * Set peer review file upload
-     *
-     * @param	bool
-     */
-    public function setPeerReviewFileUpload($a_val)
+    public function setPeerReviewFileUpload(bool $a_val) : void
     {
-        $this->peer_file = (bool) $a_val;
+        $this->peer_file = $a_val;
     }
     
-    /**
-     * Get peer review file upload status
-     *
-     * @return	bool
-     */
-    public function hasPeerReviewFileUpload()
+    public function hasPeerReviewFileUpload() : bool
     {
         return $this->peer_file;
     }
     
-    /**
-     * Set peer review personalized
-     *
-     * @param	bool
-     */
-    public function setPeerReviewPersonalized($a_val)
+    public function setPeerReviewPersonalized(bool $a_val) : void
     {
-        $this->peer_personal = (bool) $a_val;
+        $this->peer_personal = $a_val;
     }
     
-    /**
-     * Get peer review personalized status
-     *
-     * @return	bool
-     */
-    public function hasPeerReviewPersonalized()
+    public function hasPeerReviewPersonalized() : bool
     {
         return $this->peer_personal;
     }
     
-    /**
-     * Set peer review minimum characters
-     *
-     * @param int $a_value
-     */
-    public function setPeerReviewChars($a_value)
+    public function setPeerReviewChars(int $a_value) : void
     {
         $a_value = (is_numeric($a_value) && (int) $a_value > 0)
             ? (int) $a_value
@@ -759,40 +495,22 @@ class ilExAssignment
         $this->peer_char = $a_value;
     }
     
-    /**
-     * Get peer review minimum characters
-     *
-     * @return int
-     */
-    public function getPeerReviewChars()
+    public function getPeerReviewChars() : ?int
     {
         return $this->peer_char;
     }
     
-    /**
-     * Set peer review criteria catalogue id
-     *
-     * @param int $a_value
-     */
-    public function setPeerReviewCriteriaCatalogue($a_value)
+    public function setPeerReviewCriteriaCatalogue(?int $a_value)
     {
-        $a_value = is_numeric($a_value)
-            ? (int) $a_value
-            : null;
         $this->crit_cat = $a_value;
     }
     
-    /**
-     * Get peer review criteria catalogue id
-     *
-     * @return int
-     */
-    public function getPeerReviewCriteriaCatalogue()
+    public function getPeerReviewCriteriaCatalogue() : ?int
     {
         return $this->crit_cat;
     }
     
-    public function getPeerReviewCriteriaCatalogueItems()
+    public function getPeerReviewCriteriaCatalogueItems() : array
     {
         if ($this->crit_cat) {
             return ilExcCriteria::getInstancesByParentId($this->crit_cat);
@@ -804,6 +522,7 @@ class ilExAssignment
             }
             
             if ($this->peer_text) {
+                /** @var $crit ilExcCriteriaText */
                 $crit = ilExcCriteria::getInstanceByType("text");
                 if ($this->peer_char) {
                     $crit->setMinChars($this->peer_char);
@@ -819,152 +538,91 @@ class ilExAssignment
         }
     }
     
-    /**
-     * Set (global) feedback file
-     *
-     * @param string $a_value
-     */
-    public function setFeedbackFile($a_value)
+    public function setFeedbackFile(?string $a_value) : void
     {
-        $this->feedback_file = (string) $a_value;
+        $this->feedback_file = $a_value;
     }
     
-    /**
-     * Get (global) feedback file
-     *
-     * @return int
-     */
-    public function getFeedbackFile()
+    public function getFeedbackFile() : ?string
     {
-        return (string) $this->feedback_file;
+        return $this->feedback_file;
     }
     
     /**
      * Toggle (global) feedback file cron
-     *
-     * @param bool $a_value
      */
-    public function setFeedbackCron($a_value)
+    public function setFeedbackCron(bool $a_value) : void
     {
-        $this->feedback_cron = (string) $a_value;
+        $this->feedback_cron = $a_value;
     }
     
-    /**
-     * Get (global) feedback file cron status
-     *
-     * @return int
-     */
-    public function hasFeedbackCron()
+    public function hasFeedbackCron() : bool
     {
-        return (bool) $this->feedback_cron;
+        return $this->feedback_cron;
     }
     
-    /**
-     * Set (global) feedback file availability date
-     *
-     * @param int $a_value
-     */
-    public function setFeedbackDate($a_value)
+    // Set (global) feedback file availability date
+    public function setFeedbackDate(int $a_value) : void
     {
-        $this->feedback_date = (int) $a_value;
+        $this->feedback_date = $a_value;
     }
     
-    /**
-     * Get (global) feedback file availability date
-     *
-     * @return int
-     */
-    public function getFeedbackDate()
+    public function getFeedbackDate() : int
     {
-        return (int) $this->feedback_date;
+        return $this->feedback_date;
     }
 
     /**
      * Set (global) feedback file availability using a custom date.
      * @param int $a_value timestamp
      */
-    public function setFeedbackDateCustom($a_value)
+    public function setFeedbackDateCustom(int $a_value) : void
     {
         $this->feedback_date_custom = $a_value;
     }
 
-    /**
-     * Get feedback file availability using custom date.
-     * @return string timestamp
-     */
-    public function getFeedbackDateCustom()
+    public function getFeedbackDateCustom() : int
     {
         return $this->feedback_date_custom;
     }
 
-    /**
-     * Set team management by tutor
-     *
-     * @param bool $a_value
-     */
-    public function setTeamTutor($a_value)
+    // Set team management by tutor
+    public function setTeamTutor(bool $a_value) : void
     {
-        $this->team_tutor = (bool) $a_value;
+        $this->team_tutor = $a_value;
     }
     
-    /**
-     * Get team management by tutor
-     *
-     * @return bool
-     */
-    public function getTeamTutor()
+    public function getTeamTutor() : bool
     {
         return $this->team_tutor;
     }
     
-    /**
-     * Set max number of uploads
-     *
-     * @param int $a_value
-     */
-    public function setMaxFile($a_value)
+    // Set max number of uploads
+    public function setMaxFile(?int $a_value)
     {
-        if ($a_value !== null) {
-            $a_value = (int) $a_value;
-        }
         $this->max_file = $a_value;
     }
     
-    /**
-     * Get max number of uploads
-     *
-     * @return bool
-     */
-    public function getMaxFile()
+    public function getMaxFile() : ?int
     {
         return $this->max_file;
     }
 
-    /**
-     * Set portfolio template id
-     *
-     * @param int $a_val
-     */
-    public function setPortfolioTemplateId($a_val)
+    // Set portfolio template id
+    public function setPortfolioTemplateId(int $a_val) : void
     {
         $this->portfolio_template = $a_val;
     }
 
-    /**
-     * Get portfolio template id
-     *
-     * @return	int	portfolio template id
-     */
-    public function getPortfolioTemplateId()
+    public function getPortfolioTemplateId() : int
     {
         return $this->portfolio_template;
     }
 
-
     /**
-     * Read from db
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -982,51 +640,50 @@ class ilExAssignment
     
     /**
      * Import DB record
-     *
-     * @see getInstancesByExercise()
      * @param array $a_set
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected function initFromDB(array $a_set)
+    protected function initFromDB(array $a_set) : void
     {
-        $this->setId($a_set["id"]);
-        $this->setExerciseId($a_set["exc_id"]);
-        $this->setDeadline($a_set["time_stamp"]);
-        $this->setExtendedDeadline($a_set["deadline2"]);
-        $this->setInstruction($a_set["instruction"]);
-        $this->setTitle($a_set["title"]);
-        $this->setStartTime($a_set["start_time"]);
-        $this->setOrderNr($a_set["order_nr"]);
-        $this->setMandatory($a_set["mandatory"]);
-        $this->setType($a_set["type"]);
-        $this->setPeerReview($a_set["peer"]);
-        $this->setPeerReviewMin($a_set["peer_min"]);
-        $this->setPeerReviewSimpleUnlock($a_set["peer_unlock"]);
-        $this->setPeerReviewDeadline($a_set["peer_dl"]);
-        $this->setPeerReviewValid($a_set["peer_valid"]);
-        $this->setPeerReviewFileUpload($a_set["peer_file"]);
-        $this->setPeerReviewPersonalized($a_set["peer_prsl"]);
-        $this->setPeerReviewChars($a_set["peer_char"]);
-        $this->setPeerReviewText($a_set["peer_text"]);
-        $this->setPeerReviewRating($a_set["peer_rating"]);
-        $this->setPeerReviewCriteriaCatalogue($a_set["peer_crit_cat"]);
-        $this->setFeedbackFile($a_set["fb_file"]);
-        $this->setFeedbackDate($a_set["fb_date"]);
-        $this->setFeedbackDateCustom($a_set["fb_date_custom"]);
-        $this->setFeedbackCron($a_set["fb_cron"]);
-        $this->setTeamTutor($a_set["team_tutor"]);
-        $this->setMaxFile($a_set["max_file"]);
-        $this->setPortfolioTemplateId($a_set["portfolio_template"]);
-        $this->setMinCharLimit($a_set["min_char_limit"]);
-        $this->setMaxCharLimit($a_set["max_char_limit"]);
-        $this->setDeadlineMode($a_set["deadline_mode"]);
-        $this->setRelativeDeadline($a_set["relative_deadline"]);
-        $this->setRelDeadlineLastSubmission($a_set["rel_deadline_last_subm"]);
+        $this->setId((int) $a_set["id"]);
+        $this->setExerciseId((int) $a_set["exc_id"]);
+        $this->setDeadline((int) $a_set["time_stamp"]);
+        $this->setExtendedDeadline((int) $a_set["deadline2"]);
+        $this->setInstruction((string) $a_set["instruction"]);
+        $this->setTitle((string) $a_set["title"]);
+        $this->setStartTime((int) $a_set["start_time"]);
+        $this->setOrderNr((int) $a_set["order_nr"]);
+        $this->setMandatory((bool) $a_set["mandatory"]);
+        $this->setType((int) $a_set["type"]);
+        $this->setPeerReview((bool) $a_set["peer"]);
+        $this->setPeerReviewMin((int) $a_set["peer_min"]);
+        $this->setPeerReviewSimpleUnlock((bool) $a_set["peer_unlock"]);
+        $this->setPeerReviewDeadline((int) $a_set["peer_dl"]);
+        $this->setPeerReviewValid((int) $a_set["peer_valid"]);
+        $this->setPeerReviewFileUpload((bool) $a_set["peer_file"]);
+        $this->setPeerReviewPersonalized((bool) $a_set["peer_prsl"]);
+        $this->setPeerReviewChars((int) $a_set["peer_char"]);
+        $this->setPeerReviewText((bool) $a_set["peer_text"]);
+        $this->setPeerReviewRating((bool) $a_set["peer_rating"]);
+        $this->setPeerReviewCriteriaCatalogue((int) $a_set["peer_crit_cat"]);
+        $this->setFeedbackFile((string) $a_set["fb_file"]);
+        $this->setFeedbackDate((int) $a_set["fb_date"]);
+        $this->setFeedbackDateCustom((int) $a_set["fb_date_custom"]);
+        $this->setFeedbackCron((bool) $a_set["fb_cron"]);
+        $this->setTeamTutor((bool) $a_set["team_tutor"]);
+        $this->setMaxFile((int) $a_set["max_file"]);
+        $this->setPortfolioTemplateId((int) $a_set["portfolio_template"]);
+        $this->setMinCharLimit((int) $a_set["min_char_limit"]);
+        $this->setMaxCharLimit((int) $a_set["max_char_limit"]);
+        $this->setDeadlineMode((int) $a_set["deadline_mode"]);
+        $this->setRelativeDeadline((int) $a_set["relative_deadline"]);
+        $this->setRelDeadlineLastSubmission((int) $a_set["rel_deadline_last_subm"]);
     }
-    
+
     /**
-     * Save assignment
+     * @throws ilDateTimeException
      */
-    public function save()
+    public function save() : void
     {
         $ilDB = $this->db;
         
@@ -1070,7 +727,7 @@ class ilExAssignment
             "min_char_limit" => array("integer", $this->getMinCharLimit()),
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
-            "rel_deadline_last_subm" => array("integer", (int) $this->getRelDeadlineLastSubmission()),
+            "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission()),
             "deadline_mode" => array("integer", $this->getDeadlineMode())
             ));
         $this->setId($next_id);
@@ -1080,11 +737,11 @@ class ilExAssignment
         
         $this->handleCalendarEntries("create");
     }
-    
+
     /**
-     * Update
+     * @throws ilDateTimeException
      */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -1122,7 +779,7 @@ class ilExAssignment
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "deadline_mode" => array("integer", $this->getDeadlineMode()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
-            "rel_deadline_last_subm" => array("integer", (int) $this->getRelDeadlineLastSubmission())
+            "rel_deadline_last_subm" => array("integer", $this->getRelDeadlineLastSubmission())
             ),
             array(
             "id" => array("integer", $this->getId()),
@@ -1133,11 +790,11 @@ class ilExAssignment
         
         $this->handleCalendarEntries("update");
     }
-    
+
     /**
-     * Delete assignment
+     * @throws ilDateTimeException
      */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -1157,10 +814,8 @@ class ilExAssignment
     }
     
     
-    /**
-     * Get assignments data of an exercise in an array
-     */
-    public static function getAssignmentDataOfExercise($a_exc_id)
+    // Get assignments data of an exercise in an array
+    public static function getAssignmentDataOfExercise(int $a_exc_id) : array
     {
         global $DIC;
 
@@ -1170,33 +825,33 @@ class ilExAssignment
         
         $set = $ilDB->query("SELECT * FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_exc_id, "integer") .
-            " ORDER BY order_nr ASC");
+            " ORDER BY order_nr");
         $data = array();
 
         $order_val = 10;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $data[] = array(
-                "id" => $rec["id"],
-                "exc_id" => $rec["exc_id"],
-                "deadline" => $rec["time_stamp"],
-                "deadline2" => $rec["deadline2"],
-                "instruction" => $rec["instruction"],
-                "title" => $rec["title"],
-                "start_time" => $rec["start_time"],
+                "id" => (int) $rec["id"],
+                "exc_id" => (int) $rec["exc_id"],
+                "deadline" => (int) $rec["time_stamp"],
+                "deadline2" => (int) $rec["deadline2"],
+                "instruction" => (string) $rec["instruction"],
+                "title" => (string) $rec["title"],
+                "start_time" => (int) $rec["start_time"],
                 "order_val" => $order_val,
-                "mandatory" => $rec["mandatory"],
-                "type" => $rec["type"],
-                "peer" => $rec["peer"],
-                "peer_min" => $rec["peer_min"],
-                "peer_dl" => $rec["peer_dl"],
-                "peer_file" => $rec["peer_file"],
-                "peer_prsl" => $rec["peer_prsl"],
-                "fb_file" => $rec["fb_file"],
-                "fb_date" => $rec["fb_date"],
-                "fb_cron" => $rec["fb_cron"],
-                "deadline_mode" => $rec["deadline_mode"],
-                "relative_deadline" => $rec["relative_deadline"],
-                "rel_deadline_last_subm" => $rec["rel_deadline_last_subm"]
+                "mandatory" => (bool) $rec["mandatory"],
+                "type" => (int) $rec["type"],
+                "peer" => (bool) $rec["peer"],
+                "peer_min" => (int) $rec["peer_min"],
+                "peer_dl" => (int) $rec["peer_dl"],
+                "peer_file" => (bool) $rec["peer_file"],
+                "peer_prsl" => (bool) $rec["peer_prsl"],
+                "fb_file" => (string) $rec["fb_file"],
+                "fb_date" => (int) $rec["fb_date"],
+                "fb_cron" => (bool) $rec["fb_cron"],
+                "deadline_mode" => (int) $rec["deadline_mode"],
+                "relative_deadline" => (int) $rec["relative_deadline"],
+                "rel_deadline_last_subm" => (int) $rec["rel_deadline_last_subm"]
                 );
             $order_val += 10;
         }
@@ -1205,9 +860,16 @@ class ilExAssignment
     
     /**
      * Clone assignments of exercise
+     * @throws DirectoryNotFoundException
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilExcUnknownAssignmentTypeException|ilDateTimeException
      */
-    public static function cloneAssignmentsOfExercise(int $a_old_exc_id, int $a_new_exc_id, array $a_crit_cat_map)
-    {
+    public static function cloneAssignmentsOfExercise(
+        int $a_old_exc_id,
+        int $a_new_exc_id,
+        array $a_crit_cat_map
+    ) : void {
         $ass_data = self::getInstancesByExercise($a_old_exc_id);
         foreach ($ass_data as $d) {
             // clone assignment
@@ -1255,16 +917,20 @@ class ilExAssignment
             
 
             // clone assignment files
-            $old_web_storage = new ilFSWebStorageExercise($a_old_exc_id, (int) $d->getId());
-            $new_web_storage = new ilFSWebStorageExercise($a_new_exc_id, (int) $new_ass->getId());
+            $old_web_storage = new ilFSWebStorageExercise($a_old_exc_id, $d->getId());
+            $new_web_storage = new ilFSWebStorageExercise($a_new_exc_id, $new_ass->getId());
             $new_web_storage->create();
             if (is_dir($old_web_storage->getPath())) {
                 ilUtil::rCopy($old_web_storage->getPath(), $new_web_storage->getPath());
             }
-            
+            $order = $d->getInstructionFilesOrder();
+            foreach ($order as $file) {
+                ilExAssignment::insertFileOrderNr($new_ass->getId(), $file["filename"], $file["order_nr"]);
+            }
+
             // clone global feedback file
-            $old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
-            $new_storage = new ilFSStorageExercise($a_new_exc_id, (int) $new_ass->getId());
+            $old_storage = new ilFSStorageExercise($a_old_exc_id, $d->getId());
+            $new_storage = new ilFSStorageExercise($a_new_exc_id, $new_ass->getId());
             $new_storage->create();
             if (is_dir($old_storage->getGlobalFeedbackPath())) {
                 ilUtil::rCopy($old_storage->getGlobalFeedbackPath(), $new_storage->getGlobalFeedbackPath());
@@ -1293,21 +959,14 @@ class ilExAssignment
         }
     }
     
-    /**
-     * Get files
-     */
-    public function getFiles()
+    public function getFiles() : array
     {
         $this->log->debug("getting files from class.ilExAssignment using ilFSWebStorageExercise");
         $storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
         return $storage->getFiles();
     }
 
-    /**
-     * @param $a_ass_id
-     * @return array
-     */
-    public function getInstructionFilesOrder()
+    public function getInstructionFilesOrder() : array
     {
         $ilDB = $this->db;
 
@@ -1324,10 +983,8 @@ class ilExAssignment
         return $data;
     }
     
-    /**
-     * Select the maximum order nr for an exercise
-     */
-    public static function lookupMaxOrderNrForEx($a_exc_id)
+    // Select the maximum order nr for an exercise
+    public static function lookupMaxOrderNrForEx(int $a_exc_id) : int
     {
         global $DIC;
 
@@ -1337,18 +994,13 @@ class ilExAssignment
             "SELECT MAX(order_nr) mnr FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_exc_id, "integer")
         );
-        while ($rec = $ilDB->fetchAssoc($set)) {
+        if ($rec = $ilDB->fetchAssoc($set)) {
             return (int) $rec["mnr"];
         }
         return 0;
     }
     
-    /**
-     * Check if assignment is online
-     * @param int $a_ass_id
-     * @return bool
-     */
-    public static function lookupAssignmentOnline($a_ass_id)
+    public static function lookupAssignmentOnline(int $a_ass_id) : bool
     {
         global $DIC;
 
@@ -1360,16 +1012,10 @@ class ilExAssignment
             "AND id = " . $ilDB->quote($a_ass_id, 'integer');
         $res = $ilDB->query($query);
         
-        return $res->numRows() ? true : false;
+        return (bool) $res->numRows();
     }
 
-    /**
-     * Lookup excercise id for assignment id
-     *
-     * @param int $a_ass_id
-     * @return int
-     */
-    public static function lookupExerciseId($a_ass_id)
+    public static function lookupExerciseId(int $a_ass_id) : int
     {
         global $DIC;
 
@@ -1382,10 +1028,7 @@ class ilExAssignment
         return (int) $res["exc_id"];
     }
 
-    /**
-     * Private lookup
-     */
-    private static function lookup($a_id, $a_field)
+    private static function lookup(int $a_id, string $a_field) : string
     {
         global $DIC;
 
@@ -1398,53 +1041,42 @@ class ilExAssignment
 
         $rec = $ilDB->fetchAssoc($set);
 
-        return $rec[$a_field];
+        return $rec[$a_field] ?? "";
     }
     
-    /**
-     * Lookup title
-     */
-    public static function lookupTitle($a_id)
+    public static function lookupTitle(int $a_id) : string
     {
         return self::lookup($a_id, "title");
     }
     
-    /**
-     * Lookup type
-     */
-    public static function lookupType($a_id)
+    public static function lookupType(int $a_id) : int
     {
         return self::lookup($a_id, "type");
     }
-    
-    /**
-     * Save ordering of all assignments of an exercise
-     */
-    public static function saveAssOrderOfExercise($a_ex_id, $a_order)
+
+    // Save ordering of all assignments of an exercise
+    public static function saveAssOrderOfExercise(int $a_ex_id, array $a_order) : void
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         
-        $result_order = array();
         asort($a_order);
         $nr = 10;
         foreach ($a_order as $k => $v) {
             // the check for exc_id is for security reasons. ass ids are unique.
             $ilDB->manipulate(
-                $t = "UPDATE exc_assignment SET " .
+                "UPDATE exc_assignment SET " .
                 " order_nr = " . $ilDB->quote($nr, "integer") .
                 " WHERE id = " . $ilDB->quote((int) $k, "integer") .
-                " AND exc_id = " . $ilDB->quote((int) $a_ex_id, "integer")
+                " AND exc_id = " . $ilDB->quote($a_ex_id, "integer")
             );
             $nr += 10;
         }
     }
 
-    /**
-     * Order assignments by deadline date
-     */
-    public static function orderAssByDeadline($a_ex_id)
+    // Order assignments by deadline date
+    public static function orderAssByDeadline(int $a_ex_id) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1452,7 +1084,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT id FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
-            " ORDER BY time_stamp ASC"
+            " ORDER BY time_stamp"
         );
         $nr = 10;
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -1465,10 +1097,8 @@ class ilExAssignment
         }
     }
 
-    /**
-     * Count the number of mandatory assignments
-     */
-    public static function countMandatory($a_ex_id)
+    // Count the number of mandatory assignments
+    public static function countMandatory(int $a_ex_id) : int
     {
         global $DIC;
 
@@ -1480,13 +1110,11 @@ class ilExAssignment
             " AND mandatory = " . $ilDB->quote(1, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["cntm"];
+        return (int) $rec["cntm"];
     }
 
-    /**
-     * Order assignments by deadline date
-     */
-    public static function count($a_ex_id)
+    // Count assignments
+    public static function count(int $a_ex_id) : int
     {
         global $DIC;
 
@@ -1500,10 +1128,8 @@ class ilExAssignment
         return $rec["cntm"];
     }
 
-    /**
-     * Is assignment in exercise?
-     */
-    public static function isInExercise($a_ass_id, $a_ex_id)
+    // Is assignment in exercise?
+    public static function isInExercise(int $a_ass_id, int $a_ex_id) : bool
     {
         global $DIC;
 
@@ -1514,54 +1140,13 @@ class ilExAssignment
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " AND id = " . $ilDB->quote($a_ass_id, "integer")
         );
-        if ($rec = $ilDB->fetchAssoc($set)) {
+        if ($ilDB->fetchAssoc($set)) {
             return true;
         }
         return false;
     }
 
-    ///
-    /**
-     * Check whether student has upload new files after tutor has
-     * set the exercise to another than notgraded.
-     */
-    public static function lookupUpdatedSubmission($ass_id, $member_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-        
-        // team upload?
-        $user_ids = self::getTeamMembersByAssignmentId($ass_id, $member_id);
-        if (!$user_ids) {
-            $user_ids = array($member_id);
-        }
-
-        $q = "SELECT exc_mem_ass_status.status_time, exc_returned.ts " .
-            "FROM exc_mem_ass_status, exc_returned " .
-            "WHERE exc_mem_ass_status.status_time < exc_returned.ts " .
-            "AND NOT exc_mem_ass_status.status_time IS NULL " .
-            "AND exc_returned.ass_id = exc_mem_ass_status.ass_id " .
-            "AND exc_returned.user_id = exc_mem_ass_status.usr_id " .
-            "AND exc_returned.ass_id=" . $ilDB->quote($ass_id, "integer") .
-            " AND " . $ilDB->in("exc_returned.user_id", $user_ids, "", "integer");
-
-        $usr_set = $ilDB->query($q);
-
-        $array = $ilDB->fetchAssoc($usr_set);
-
-        if (count($array) == 0) {
-            return 0;
-        } else {
-            return 1;
-        }
-    }
-
-    /**
-     * get member list data
-     */
-    public function getMemberListData()
+    public function getMemberListData() : array
     {
         $ilDB = $this->db;
 
@@ -1606,15 +1191,15 @@ class ilExAssignment
     /**
      * Get submission data for an specific user,exercise and assignment.
      * todo we can refactor a bit the method getMemberListData to use this and remove duplicate code.
-     * @param $a_user_id
-     * @param $a_grade
-     * @return array
      */
-    public function getExerciseMemberAssignmentData($a_user_id, $a_grade = "")
-    {
+    public function getExerciseMemberAssignmentData(
+        int $a_user_id,
+        string $a_grade = ""
+    ) : array {
         global $DIC;
         $ilDB = $DIC->database();
 
+        $and_grade = "";
         if (in_array($a_grade, array("notgraded", "passed", "failed"))) {
             $and_grade = " AND status = " . $ilDB->quote($a_grade, "text");
         }
@@ -1626,6 +1211,7 @@ class ilExAssignment
 
         $set = $ilDB->query($q);
 
+        $data = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $sub = new ilExSubmission($this, $a_user_id);
 
@@ -1642,11 +1228,11 @@ class ilExAssignment
         return $data;
     }
 
-    /**
-     * Create member status record for a new participant for all assignments
-     */
-    public static function createNewUserRecords($a_user_id, $a_exc_id)
-    {
+    // Create member status record for a new participant for all assignments
+    public static function createNewUserRecords(
+        int $a_user_id,
+        int $a_exc_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1663,11 +1249,11 @@ class ilExAssignment
         }
     }
     
-    /**
-     * Create member status record for a new assignment for all participants
-     */
-    public static function createNewAssignmentRecords($a_ass_id, $a_exc)
-    {
+    // Create member status record for a new assignment for all participants
+    public static function createNewAssignmentRecords(
+        int $a_ass_id,
+        ilObjExercise $a_exc
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -1689,7 +1275,7 @@ class ilExAssignment
      * Upload assignment files
      * (from creation form)
      */
-    public function uploadAssignmentFiles($a_files)
+    public function uploadAssignmentFiles(array $a_files) : void
     {
         ilLoggerFactory::getLogger("exc")->debug("upload assignment files files = ", $a_files);
         $storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
@@ -1705,11 +1291,10 @@ class ilExAssignment
     /**
      * Create member status record for a new assignment for all participants
      */
-    public function sendMultiFeedbackStructureFile(ilObjExercise $exercise)
+    public function sendMultiFeedbackStructureFile(ilObjExercise $exercise) : void
     {
-        global $DIC;
-        
-        
+        $access = $this->access;
+
         // send and delete the zip file
         $deliverFilename = trim(str_replace(" ", "_", $this->getTitle() . "_" . $this->getId()));
         $deliverFilename = ilUtil::getASCIIFilename($deliverFilename);
@@ -1729,7 +1314,7 @@ class ilExAssignment
         $exmem = new ilExerciseMembers($exc);
         $mems = $exmem->getMembers();
         
-        $mems = $DIC->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+        $mems = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
             'edit_submissions_grades',
             'edit_submissions_grades',
             $exercise->getRefId(),
@@ -1751,14 +1336,12 @@ class ilExAssignment
 
         ilUtil::deliverFile($tmpzipfile, $deliverFilename . ".zip", "", false, true);
     }
-    
+
     /**
-     * Upload multi feedback file
-     *
-     * @param array
-     * @return
+     * @throws ilException
+     * @throws ilExerciseException
      */
-    public function uploadMultiFeedbackFile($a_file)
+    public function uploadMultiFeedbackFile(array $a_file) : void
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -1783,8 +1366,6 @@ class ilExAssignment
         if (!is_dir($mfu . "/" . $subdir)) {
             throw new ilExerciseException($lng->txt("exc_no_feedback_dir_found_in_zip"));
         }
-
-        return true;
     }
     
     /**
@@ -1793,7 +1374,7 @@ class ilExAssignment
      * @param int $a_user_id user id of uploader
      * @return array array of user files (keys: lastname, firstname, user_id, login, file)
      */
-    public function getMultiFeedbackFiles($a_user_id = 0)
+    public function getMultiFeedbackFiles(int $a_user_id = 0) : array
     {
         $ilUser = $this->user;
         
@@ -1810,7 +1391,7 @@ class ilExAssignment
 
         // read mf directory
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
-        $mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
+        $mfu = $storage->getMultiFeedbackUploadPath($a_user_id);
 
         // get subdir that starts with multi_feedback
         $subdirs = ilUtil::getDir($mfu);
@@ -1853,7 +1434,7 @@ class ilExAssignment
     /**
      * Clear multi feedback directory
      */
-    public function clearMultiFeedbackDirectory()
+    public function clearMultiFeedbackDirectory() : void
     {
         $ilUser = $this->user;
         
@@ -1862,13 +1443,12 @@ class ilExAssignment
         ilUtil::delDir($mfu);
     }
     
-    /**
-     * Save multi feedback files
-     */
-    public function saveMultiFeedbackFiles(array $a_files, ilObjExercise $a_exc)
-    {
+    public function saveMultiFeedbackFiles(
+        array $a_files,
+        ilObjExercise $a_exc
+    ) : void {
         if ($this->getExerciseId() != $a_exc->getId()) {
-            return null;
+            return;
         }
         
         $fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1905,7 +1485,7 @@ class ilExAssignment
                         $a_exc->sendFeedbackFileNotification(
                             $file_name,
                             $noti_rec_ids,
-                            (int) $this->getId()
+                            $this->getId()
                         );
                     }
                 }
@@ -1915,13 +1495,11 @@ class ilExAssignment
         $this->clearMultiFeedbackDirectory();
     }
 
-    
     /**
      * Handle calendar entries for deadline(s)
-     *
-     * @param string $a_event
+     * @throws ilDateTimeException
      */
-    protected function handleCalendarEntries($a_event)
+    protected function handleCalendarEntries(string $a_event) : void
     {
         $ilAppEventHandler = $this->app_event_handler;
         
@@ -1971,9 +1549,8 @@ class ilExAssignment
             'appointments' => $apps)
         );
     }
-    
-    
-    public static function getPendingFeedbackNotifications()
+
+    public static function getPendingFeedbackNotifications() : array
     {
         global $DIC;
 
@@ -2011,9 +1588,14 @@ class ilExAssignment
 
         return $res;
     }
-    
-    public static function sendFeedbackNotifications($a_ass_id, $a_user_id = null)
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public static function sendFeedbackNotifications(
+        int $a_ass_id,
+        int $a_user_id = null
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -2060,8 +1642,9 @@ class ilExAssignment
     
     
     // status
-    
-    public function afterDeadline()									// like: after effective deadline (for single user), no deadline: true
+
+    // like: after effective deadline (for single user), no deadline: true
+    public function afterDeadline() : bool
     {
         $ilUser = $this->user;
                 
@@ -2073,12 +1656,12 @@ class ilExAssignment
         return ($deadline - time() <= 0);
     }
     
-    public function afterDeadlineStrict($a_include_personal = true)
+    public function afterDeadlineStrict(bool $a_include_personal = true) : bool
     {
         // :TODO: this means that peer feedback, global feedback is available
         // after LAST personal deadline
         // team management is currently ignoring personal deadlines
-        $idl = (bool) $a_include_personal
+        $idl = $a_include_personal
             ? $this->getLastPersonalDeadline()
             : null;
         
@@ -2086,18 +1669,20 @@ class ilExAssignment
         $deadline = max($this->deadline, $this->deadline2, $idl);
         
         // #18271 - afterDeadline() does not handle last personal deadline
-        if ($idl && $deadline == $idl) {								// after effective deadline of all users
+        // after effective deadline of all users
+        if ($idl && $deadline == $idl) {
             return ($deadline - time() <= 0);
         }
-        
-        return ($deadline > 0 && 									// like: after effective deadline (for single user), except: no deadline false
+
+        // like: after effective deadline (for single user), except: no deadline false
+        return ($deadline > 0 &&
             $this->afterDeadline());
     }
 
     /**
      * @return bool return if sample solution is available using a custom date.
      */
-    public function afterCustomDate()
+    public function afterCustomDate() : bool
     {
         $date_custom = $this->getFeedbackDateCustom();
         //if the solution will be displayed only after reach all the deadlines.
@@ -2106,14 +1691,15 @@ class ilExAssignment
         //return ($date_custom - $dl <= 0);
         return ($date_custom - time() <= 0);
     }
-    
-    public function beforeDeadline()								// like: before effective deadline (for all users), no deadline: true
+
+    // like: before effective deadline (for all users), no deadline: true
+    public function beforeDeadline() : bool
     {
         // no deadline === true
         return !$this->afterDeadlineStrict();
     }
     
-    public function notStartedYet()
+    public function notStartedYet() : bool
     {
         return (time() - $this->start_time <= 0);
     }
@@ -2123,18 +1709,21 @@ class ilExAssignment
     // FEEDBACK FILES
     //
     
-    public function getGlobalFeedbackFileStoragePath()
+    public function getGlobalFeedbackFileStoragePath() : string
     {
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         return $storage->getGlobalFeedbackPath();
     }
     
-    public function deleteGlobalFeedbackFile()
+    public function deleteGlobalFeedbackFile() : void
     {
         ilUtil::delDir($this->getGlobalFeedbackFileStoragePath());
     }
-    
-    public function handleGlobalFeedbackFileUpload(array $a_file)
+
+    /**
+     * @throws ilException
+     */
+    public function handleGlobalFeedbackFileUpload(array $a_file) : bool
     {
         $path = $this->getGlobalFeedbackFileStoragePath();
         ilUtil::delDir($path, true);
@@ -2155,11 +1744,7 @@ class ilExAssignment
         return "";
     }
 
-    /**
-     * @param int|null $a_user_id
-     * @return \ilExAssignmentMemberStatus
-     */
-    public function getMemberStatus($a_user_id = null)
+    public function getMemberStatus(?int $a_user_id = null) : ilExAssignmentMemberStatus
     {
         $ilUser = $this->user;
         
@@ -2171,8 +1756,11 @@ class ilExAssignment
         }
         return $this->member_status[$a_user_id];
     }
-    
-    public function recalculateLateSubmissions()
+
+    /**
+     * @throws ilDateTimeException
+     */
+    public function recalculateLateSubmissions() : void
     {
         $ilDB = $this->db;
         
@@ -2203,8 +1791,6 @@ class ilExAssignment
                 $deadline &&
                 $uploaded > $deadline) {
                 $late = true;
-            } elseif ($last_deadline && $uploaded > $last_deadline) {
-                // do nothing, we do not remove submissions?
             }
             
             if ($late !== null) {
@@ -2220,10 +1806,10 @@ class ilExAssignment
     // individual deadlines
     //
     
-    public function setIndividualDeadline($id, ilDateTime $date)
-    {
-        $ilDB = $this->db;
-        
+    public function setIndividualDeadline(
+        int $id,
+        ilDateTime $date
+    ) : void {
         $is_team = false;
         if (!is_numeric($id)) {
             $id = substr($id, 1);
@@ -2233,21 +1819,9 @@ class ilExAssignment
         $idl = ilExcIndividualDeadline::getInstance($this->getId(), $id, $is_team);
         $idl->setIndividualDeadline($date->get(IL_CAL_UNIX));
         $idl->save();
-
-        /*
-        $ilDB->replace("exc_idl",
-            array(
-                "ass_id" => array("integer", $this->getId()),
-                "member_id" => array("integer", $id),
-                "is_team" => array("integer", $is_team)
-            ),
-            array(
-                "tstamp" => array("integer", $date->get(IL_CAL_UNIX))
-            )
-        );*/
     }
     
-    public function getIndividualDeadlines()
+    public function getIndividualDeadlines() : array
     {
         $ilDB = $this->db;
         
@@ -2266,12 +1840,12 @@ class ilExAssignment
         return $res;
     }
     
-    public function hasActiveIDl()
+    public function hasActiveIDl() : bool
     {
         return (bool) $this->getDeadline();
     }
     
-    public function hasReadOnlyIDl()
+    public function hasReadOnlyIDl() : bool
     {
         if (!$this->ass_type->usesTeams() &&
             $this->getPeerReview()) {
@@ -2285,13 +1859,10 @@ class ilExAssignment
         return false;
     }
 
-    /**
-     * Save ordering of instruction files for an assignment
-     * @param int $a_ass_id assignment id
-     * @param int $a_order order
-     */
-    public static function saveInstructionFilesOrderOfAssignment($a_ass_id, $a_order)
-    {
+    public static function saveInstructionFilesOrderOfAssignment(
+        int $a_ass_id,
+        array $a_order
+    ) : void {
         global $DIC;
 
         $db = $DIC->database();
@@ -2302,28 +1873,43 @@ class ilExAssignment
         foreach ($a_order as $k => $v) {
             // the check for exc_id is for security reasons. ass ids are unique.
             $db->manipulate(
-                $t = "UPDATE exc_ass_file_order SET " .
+                "UPDATE exc_ass_file_order SET " .
                 " order_nr = " . $db->quote($nr, "integer") .
                 " WHERE id = " . $db->quote((int) $k, "integer") .
-                " AND assignment_id = " . $db->quote((int) $a_ass_id, "integer")
+                " AND assignment_id = " . $db->quote($a_ass_id, "integer")
             );
             $nr += 10;
         }
     }
 
-    /**
-     * Store the file order in the database
-     * @param string $a_filename  previously sanitized.
-     * @param int $a_ass_id assignment id.
-     */
-    public static function instructionFileInsertOrder($a_filename, $a_ass_id, $a_order_nr = 0)
-    {
+    public static function insertFileOrderNr(
+        int $a_ass_id,
+        string $a_filename,
+        int $a_order_nr
+    ) : void {
+        global $DIC;
+        $db = $DIC->database();
+        $id = $db->nextId("exc_ass_file_order");
+        $db->insert(
+            "exc_ass_file_order",
+            [
+                "id" => ["integer", $id],
+                "order_nr" => ["integer", $a_order_nr],
+                "assignment_id" => ["integer", $a_ass_id],
+                "filename" => ["text", $a_filename]
+            ]
+        );
+    }
+
+    // Store the order nr of a file in the database
+    public static function instructionFileInsertOrder(
+        string $a_filename,
+        int $a_ass_id,
+        int $a_order_nr = 0
+    ) : void {
         global $DIC;
 
         $db = $DIC->database();
-
-        $order = 0;
-        $order_val = 0;
 
         if ($a_ass_id) {
             //first of all check the suffix and change if necessary
@@ -2349,14 +1935,16 @@ class ilExAssignment
         }
     }
 
-    public static function instructionFileDeleteOrder($a_ass_id, $a_file)
-    {
+    public static function instructionFileDeleteOrder(
+        int $a_ass_id,
+        array $a_file
+    ) : void {
         global $DIC;
 
         $db = $DIC->database();
 
         //now its done by filename. We need to figure how to get the order id in the confirmdelete method
-        foreach ($a_file as $k => $v) {
+        foreach ($a_file as $v) {
             $db->manipulate(
                 "DELETE FROM exc_ass_file_order " .
                 //"WHERE id = " . $ilDB->quote((int)$k, "integer") .
@@ -2366,13 +1954,11 @@ class ilExAssignment
         }
     }
 
-    /**
-     * @param string $a_old_name
-     * @param string $a_new_name
-     * @param int $a_ass_id assignment id
-     */
-    public static function renameInstructionFile($a_old_name, $a_new_name, $a_ass_id)
-    {
+    public static function renameInstructionFile(
+        string $a_old_name,
+        string $a_new_name,
+        int $a_ass_id
+    ) : void {
         global $DIC;
 
         $db = $DIC->database();
@@ -2380,26 +1966,23 @@ class ilExAssignment
         if ($a_ass_id) {
             $db->manipulate(
                 "DELETE FROM exc_ass_file_order" .
-                " WHERE assignment_id = " . $db->quote((int) $a_ass_id, 'integer') .
+                " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
                 " AND filename = " . $db->quote($a_new_name, 'string')
             );
 
             $db->manipulate(
                 "UPDATE exc_ass_file_order SET" .
                 " filename = " . $db->quote($a_new_name, 'string') .
-                " WHERE assignment_id = " . $db->quote((int) $a_ass_id, 'integer') .
+                " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
                 " AND filename = " . $db->quote($a_old_name, 'string')
             );
         }
     }
 
-    /**
-     * @param string $a_filename
-     * @param int $a_ass_id
-     * @return int
-     */
-    public static function instructionFileExistsInDb(string $a_filename, int $a_ass_id) : int
-    {
+    public static function instructionFileExistsInDb(
+        string $a_filename,
+        int $a_ass_id
+    ) : int {
         global $DIC;
 
         $db = $DIC->database();
@@ -2407,7 +1990,7 @@ class ilExAssignment
         if ($a_ass_id) {
             $result = $db->query(
                 "SELECT id FROM exc_ass_file_order" .
-                " WHERE assignment_id = " . $db->quote((int) $a_ass_id, 'integer') .
+                " WHERE assignment_id = " . $db->quote($a_ass_id, 'integer') .
                 " AND filename = " . $db->quote($a_filename, 'string')
             );
 
@@ -2417,11 +2000,9 @@ class ilExAssignment
         return 0;
     }
 
-    public function fixInstructionFileOrdering()
+    public function fixInstructionFileOrdering() : void
     {
-        global $DIC;
-
-        $db = $DIC->database();
+        $db = $this->db;
 
         $files = array_map(function ($v) {
             return $v["name"];
@@ -2458,13 +2039,9 @@ class ilExAssignment
         }
     }
 
-    /**
-     * @param array $a_entries
-     * @param integer $a_ass_id assignment id
-     * @return array data items
-     */
-    public function fileAddOrder($a_entries = array())
-    {
+    public function fileAddOrder(
+        array $a_entries = array()
+    ) : array {
         $this->fixInstructionFileOrdering();
 
         $order = $this->getInstructionFilesOrder();
@@ -2476,11 +2053,7 @@ class ilExAssignment
         return $a_entries;
     }
 
-    /**
-     * @param int $a_ass_id assignment id
-     * @return int
-     */
-    public static function instructionFileOrderGetMax($a_ass_id)
+    public static function instructionFileOrderGetMax(int $a_ass_id) : int
     {
         global $DIC;
 
@@ -2493,6 +2066,7 @@ class ilExAssignment
             array($db->quote($a_ass_id, 'integer'))
         );
 
+        $order_val = 0;
         while ($row = $db->fetchAssoc($result)) {
             $order_val = (int) $row['max_order'];
         }
@@ -2500,52 +2074,37 @@ class ilExAssignment
     }
 
 
-    /**
-     * Set limit minimum characters
-     *
-     * @param	int	minim limit
-     */
-    public function setMinCharLimit($a_val)
+    // Set limit minimum characters
+    public function setMinCharLimit(int $a_val) : void
     {
         $this->min_char_limit = $a_val;
     }
 
-    /**
-     * Get limit minimum characters
-     *
-     * @return	int minimum limit
-     */
-    public function getMinCharLimit()
+    public function getMinCharLimit() : int
     {
         return $this->min_char_limit;
     }
 
-    /**
-     * Set limit maximum characters
-     * @param int max limit
-     */
-    public function setMaxCharLimit($a_val)
+    // Set limit maximum characters
+    public function setMaxCharLimit(int $a_val) : void
     {
         $this->max_char_limit = $a_val;
     }
 
-    /**
-     * get limit maximum characters
-     * return int max limit
-     */
-    public function getMaxCharLimit()
+    public function getMaxCharLimit() : int
     {
         return $this->max_char_limit;
     }
 
     /**
-     * Get calculated deadlines for user/team members. These arrays will contain no entries, if team or user
+     * Get calculated deadlines for user/team members.
+     * These arrays will contain no entries, if team or user
      * has not started the assignment yet.
-     *
-     * @return array[array] contains two arrays one with key "user", second with key "team", each one has
-     * 						member id as keys and calculated deadline as value
+     * @return array[array] contains two arrays one with key "user",
+     *          second with key "team", each one has
+     *          member id as keys and calculated deadline as value
      */
-    public function getCalculatedDeadlines()
+    public function getCalculatedDeadlines() : array
     {
         $calculated_deadlines = array(
             "user" => array(),

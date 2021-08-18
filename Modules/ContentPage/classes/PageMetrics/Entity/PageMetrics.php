@@ -11,22 +11,11 @@ use ILIAS\ContentPage\PageMetrics\ValueObject\PageReadingTime;
  */
 final class PageMetrics
 {
-    /** @var int */
-    private $contentPageId;
-    /** @var int */
-    private $pageId;
-    /** @var string */
-    private $language;
-    /** @var PageReadingTime */
-    private $readingTime;
+    private int $contentPageId;
+    private int $pageId;
+    private string $language;
+    private PageReadingTime $readingTime;
 
-    /**
-     * PageMetrics constructor.
-     * @param int             $contentPageId
-     * @param int             $pageId
-     * @param string          $language
-     * @param PageReadingTime $readingTime
-     */
     public function __construct(int $contentPageId, int $pageId, string $language, PageReadingTime $readingTime)
     {
         $this->contentPageId = $contentPageId;
@@ -35,33 +24,21 @@ final class PageMetrics
         $this->readingTime = $readingTime;
     }
 
-    /**
-     * @return int
-     */
     public function contentPageId() : int
     {
         return $this->contentPageId;
     }
 
-    /**
-     * @return int
-     */
     public function pageId() : int
     {
         return $this->pageId;
     }
 
-    /**
-     * @return string
-     */
     public function language() : string
     {
         return $this->language;
     }
 
-    /**
-     * @return PageReadingTime
-     */
     public function readingTime() : PageReadingTime
     {
         return $this->readingTime;

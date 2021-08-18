@@ -1,57 +1,26 @@
-<?php
-require_once(dirname(__FILE__) . '/Connector/Join/class.arJoinCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Where/class.arWhereCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Limit/class.arLimitCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Order/class.arOrderCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Concat/class.arConcatCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Select/class.arSelectCollection.php');
-require_once(dirname(__FILE__) . '/Connector/Having/class.arHavingCollection.php');
+<?php /** @noinspection NullPointerExceptionInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection NullPointerExceptionInspection */
+/** @noinspection NullPointerExceptionInspection */
 
 /**
  * Class ActiveRecordList
- *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- *
  * @description
- *
  * @version 2.0.7
  */
 class ActiveRecordList
 {
 
-    /**
-     * @var arWhereCollection
-     */
-    protected $arWhereCollection;
-    /**
-     * @var arJoinCollection
-     */
-    protected $arJoinCollection;
-    /**
-     * @var arOrderCollection
-     */
-    protected $arOrderCollection;
-    /**
-     * @var arLimitCollection
-     */
-    protected $arLimitCollection;
-    /**
-     * @var arConcatCollection
-     */
-    protected $arConcatCollection;
-    /**
-     * @var arSelectCollection
-     */
-    protected $arSelectCollection;
-    /**
-     * @var arHavingCollection
-     */
-    protected $arHavingCollection;
-    /**
-     * @var bool
-     */
-    protected $loaded = false;
+    protected \arWhereCollection $arWhereCollection;
+    protected \arJoinCollection $arJoinCollection;
+    protected \arOrderCollection $arOrderCollection;
+    protected \arLimitCollection $arLimitCollection;
+    protected \arConcatCollection $arConcatCollection;
+    protected \arSelectCollection $arSelectCollection;
+    protected \arHavingCollection $arHavingCollection;
+    protected bool $loaded = false;
     /**
      * @var string
      */
@@ -59,43 +28,21 @@ class ActiveRecordList
     /**
      * @var ActiveRecord[]
      */
-    protected $result = array();
-    /**
-     * @var array
-     */
-    protected $result_array = array();
-    /**
-     * @var bool
-     */
-    protected $debug = false;
+    protected array $result = array();
+    protected array $result_array = array();
+    protected bool $debug = false;
     /**
      * @var null
      */
-    protected $date_format = null;
-    /**
-     * @var array
-     */
-    protected $addidtional_parameters = array();
-    /**
-     * @var string
-     */
-    protected static $last_query;
-    /**
-     * @var arConnector
-     */
-    protected $connector;
-    /**
-     * @var ActiveRecord
-     */
-    protected $ar;
-    /**
-     * @var bool
-     */
-    protected $raw = false;
-
+    protected $date_format;
+    protected array $addidtional_parameters = array();
+    protected static ?string $last_query = null;
+    protected ?\arConnector $connector = null;
+    protected ?\ActiveRecord $ar = null;
+    protected bool $raw = false;
 
     /**
-     * @param ActiveRecord $ar
+     * @noinspection PhpFieldAssignmentTypeMismatchInspection
      */
     public function __construct(ActiveRecord $ar)
     {
@@ -113,31 +60,14 @@ class ActiveRecordList
         $arSelect->setTableName($ar->getConnectorContainerName());
         $arSelect->setFieldName('*');
         $this->getArSelectCollection()->add($arSelect);
-        //		if ($ar->getArConnector() == NULL) {
-//			$this->connector = new arConnectorDB($this);
-//		} else {
-//			$this->connector = $ar->getArConnector();
-//		}
     }
 
-
-    /**
-     * @return arConnector
-     */
-    protected function getArConnector()
+    protected function getArConnector() : \arConnector
     {
         return arConnectorMap::get($this->getAR());
     }
 
-    //
-    // Parameters for Instance
-    //
-    /**
-     * @param array $additional_params
-     *
-     * @return $this
-     */
-    public function additionalParams(array $additional_params)
+    public function additionalParams(array $additional_params) : self
     {
         $this->setAddidtionalParameters($additional_params);
 
@@ -148,12 +78,10 @@ class ActiveRecordList
     //
     // Statements
     //
-
     /**
      * @param      $where
      * @param null $operator
-     *
-     * @return $this
+     * @return $this|void
      * @throws Exception
      */
     public function where($where, $operator = null)
@@ -166,7 +94,9 @@ class ActiveRecordList
             $this->getArWhereCollection()->add($arWhere);
 
             return $this;
-        } elseif (is_array($where)) {
+        }
+
+        if (is_array($where)) {
             foreach ($where as $field_name => $value) {
                 $arWhere = new arWhere();
                 $arWhere->setFieldname($field_name);
@@ -182,24 +112,17 @@ class ActiveRecordList
             }
 
             return $this;
-        } else {
-            throw new Exception('Wrong where Statement, use strings or arrays');
         }
-    }
 
+        throw new Exception('Wrong where Statement, use strings or arrays');
+    }
 
     /**
      * @param        $order_by
-     * @param string $order_direction
-     *
-     * @return $this
      * @throws arException
      */
-    public function orderBy($order_by, $order_direction = 'ASC')
+    public function orderBy($order_by, string $order_direction = 'ASC') : self
     {
-        if (!$this->getAR()->getArFieldList()->isField($order_by)) {
-            //			throw new arException(arException::LIST_ORDER_BY_WRONG_FIELD, $order_by); // Due to Bugfix with Joins
-        }
         $arOrder = new arOrder();
         $arOrder->setFieldname($order_by);
         $arOrder->setDirection($order_direction);
@@ -208,15 +131,12 @@ class ActiveRecordList
         return $this;
     }
 
-
     /**
      * @param $start
      * @param $end
-     *
-     * @return $this
      * @throws arException
      */
-    public function limit($start, $end)
+    public function limit($start, $end) : self
     {
         $arLimit = new arLimit();
         $arLimit->setStart($start);
@@ -227,39 +147,38 @@ class ActiveRecordList
         return $this;
     }
 
-
     /**
-     * @param ActiveRecord $ar
      * @param              $on_this
      * @param              $on_external
-     * @param array        $fields
-     * @param string       $operator
-     * @param bool         $both_external
-     *
-     * @return $this
      */
-    public function innerjoinAR(ActiveRecord $ar, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false)
-    {
-        return $this->innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator, $both_external);
+    public function innerjoinAR(
+        ActiveRecord $ar,
+        $on_this,
+        $on_external,
+        array $fields = array('*'),
+        string $operator = '=',
+        bool $both_external = false
+    ) : self {
+        return $this->innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
+            $both_external);
     }
 
-
     /**
-     * @param string $type
      * @param        $tablename
      * @param        $on_this
      * @param        $on_external
-     * @param array  $fields
-     * @param string $operator
-     * @param bool   $both_external
-     *
-     * @return $this
      * @throws arException
      */
-
-    protected function join($type, $tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false)
-    {
-        if (!$this->getAR()->getArFieldList()->isField($on_this) and !$both_external) {
+    protected function join(
+        string $type,
+        $tablename,
+        $on_this,
+        $on_external,
+        array $fields = array('*'),
+        string $operator = '=',
+        bool $both_external = false
+    ) : self {
+        if (!$both_external && !$this->getAR()->getArFieldList()->isField($on_this)) {
             throw new arException(arException::LIST_JOIN_ON_WRONG_FIELD, $on_this);
         }
         $full_names = false;
@@ -292,48 +211,42 @@ class ActiveRecordList
         return $this;
     }
 
-
     /**
      * @param        $tablename
      * @param        $on_this
      * @param        $on_external
-     * @param array  $fields
-     * @param string $operator
-     *
-     * @param bool   $both_external
-     *
-     * @return $this
      */
-    public function leftjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false)
-    {
+    public function leftjoin(
+        $tablename,
+        $on_this,
+        $on_external,
+        array $fields = array('*'),
+        string $operator = '=',
+        bool $both_external = false
+    ) : self {
         return $this->join(arJoin::TYPE_LEFT, $tablename, $on_this, $on_external, $fields, $operator, $both_external);
     }
 
-
     /**
      * @param        $tablename
      * @param        $on_this
      * @param        $on_external
-     * @param array  $fields
-     * @param string $operator
-     *
-     * @param bool   $both_external
-     *
-     * @return $this
      */
-    public function innerjoin($tablename, $on_this, $on_external, $fields = array( '*' ), $operator = '=', $both_external = false)
-    {
+    public function innerjoin(
+        $tablename,
+        $on_this,
+        $on_external,
+        array $fields = array('*'),
+        string $operator = '=',
+        bool $both_external = false
+    ) : self {
         return $this->join(arJoin::TYPE_INNER, $tablename, $on_this, $on_external, $fields, $operator, $both_external);
     }
 
-
     /**
-     * @param array $fields
      * @param       $as
-     *
-     * @return $this
      */
-    public function concat(array $fields, $as)
+    public function concat(array $fields, $as) : self
     {
         $con = new arConcat();
         $con->setAs($as);
@@ -343,90 +256,47 @@ class ActiveRecordList
         return $this;
     }
 
-    //
-    // Statement Collections
-    //
-
-    /**
-     * @return arWhereCollection
-     */
-    public function getArWhereCollection()
+    public function getArWhereCollection() : \arWhereCollection
     {
         return $this->arWhereCollection;
     }
 
-
-    /**
-     * @return arJoinCollection
-     */
-    public function getArJoinCollection()
+    public function getArJoinCollection() : \arJoinCollection
     {
         return $this->arJoinCollection;
     }
 
-
-    /**
-     * @return arOrderCollection
-     */
-    public function getArOrderCollection()
+    public function getArOrderCollection() : \arOrderCollection
     {
         return $this->arOrderCollection;
     }
 
-
-    /**
-     * @return arLimitCollection
-     */
-    public function getArLimitCollection()
+    public function getArLimitCollection() : \arLimitCollection
     {
         return $this->arLimitCollection;
     }
 
-
-    /**
-     * @return arConcatCollection
-     */
-    public function getArConcatCollection()
+    public function getArConcatCollection() : \arConcatCollection
     {
         return $this->arConcatCollection;
     }
 
-
-    /**
-     * @return arSelectCollection
-     */
-    public function getArSelectCollection()
+    public function getArSelectCollection() : \arSelectCollection
     {
         return $this->arSelectCollection;
     }
 
-    /**
-     * @return arHavingCollection
-     */
-    public function getArHavingCollection()
+    public function getArHavingCollection() : \arHavingCollection
     {
         return $this->arHavingCollection;
     }
 
-
-    /**
-     * @param arHavingCollection $arHavingCollection
-     */
-    public function setArHavingCollection($arHavingCollection)
+    public function setArHavingCollection(\arHavingCollection $arHavingCollection) : void
     {
         $this->arHavingCollection = $arHavingCollection;
     }
 
-    //
-    // Collection Functions
-    //
-
-    /**
-     * @param string $date_format
-     *
-     * @return $this
-     */
-    public function dateFormat($date_format = 'd.m.Y - H:i:s')
+    public function dateFormat(string $date_format = 'd.m.Y - H:i:s') : self
     {
         $this->loaded = false;
         $this->setDateFormat($date_format);
@@ -434,11 +304,7 @@ class ActiveRecordList
         return $this;
     }
 
-
-    /**
-     * @return $this
-     */
-    public function debug()
+    public function debug() : self
     {
         $this->loaded = false;
         $this->debug = true;
@@ -446,103 +312,64 @@ class ActiveRecordList
         return $this;
     }
 
-
-    /**
-     * @param arConnector $connector
-     *
-     * @return $this
-     */
-    public function connector(arConnector $connector)
+    public function connector(arConnector $connector) : self
     {
         $this->connector = $connector;
 
         return $this;
     }
 
-
-    /**
-     * @param bool $set_raw
-     *
-     * @return $this
-     */
-    public function raw($set_raw = true)
+    public function raw(bool $set_raw = true) : self
     {
         $this->setRaw($set_raw);
 
         return $this;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasSets()
+    public function hasSets() : bool
     {
-        return ($this->affectedRows() > 0) ? true : false;
+        return $this->affectedRows() > 0;
     }
 
-
-    /**
-     * @return int
-     */
-    public function affectedRows()
+    public function affectedRows() : int
     {
         return $this->getArConnector()->affectedRows($this);
     }
 
-
-    /**
-     * @return int
-     */
-    public function count()
+    public function count() : int
     {
         return $this->affectedRows();
     }
 
-
-    /**
-     * @return $this
-     */
-    public function getCollection()
+    public function getCollection() : self
     {
         return $this;
     }
 
-
-    /**
-     * @param string $class
-     */
-    public function setClass($class)
+    public function setClass(string $class) : void
     {
         $this->class = $class;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getClass()
+    public function getClass() : string
     {
         return $this->class;
     }
 
-
     /**
-     * @return array
+     * @return \ActiveRecord[]
      */
-    public function get()
+    public function get() : array
     {
         $this->load();
 
         return $this->result;
     }
 
-
     /**
-     * @return ActiveRecord
      * @deprecated
      */
-    public function getFirstFromLastQuery()
+    public function getFirstFromLastQuery() : ?\ActiveRecord
     {
         $this->loadLastQuery();
 
@@ -551,11 +378,7 @@ class ActiveRecordList
         return array_shift($result);
     }
 
-
-    /**
-     * @return ActiveRecord
-     */
-    public function first()
+    public function first() : ?\ActiveRecord
     {
         $this->load();
 
@@ -564,11 +387,7 @@ class ActiveRecordList
         return array_shift($result);
     }
 
-
-    /**
-     * @return ActiveRecord
-     */
-    public function last()
+    public function last() : ?\ActiveRecord
     {
         $this->load();
 
@@ -577,31 +396,27 @@ class ActiveRecordList
         return array_pop($result);
     }
 
-
     /**
      * @param string       $key    shall a specific value be used as a key? if null then the 1. array key is just increasing from 0.
      * @param string|array $values which values should be taken? if null all are given. If only a string is given then the result is an 1D array!
-     *
      * @return array
      */
-    public function getArray($key = null, $values = null)
+    public function getArray(string $key = null, $values = null) : array
     {
         $this->load();
 
         return $this->buildArray($key, $values);
     }
 
-
     /**
      * @param $key
      * @param $values
-     *
-     * @return array
+     * @return mixed[]|array<int|string, mixed[]>
      * @throws Exception
      */
-    protected function buildArray($key, $values)
+    protected function buildArray($key, $values) : array
     {
-        if ($key === null and $values === null) {
+        if ($key === null && $values === null) {
             return $this->result_array;
         }
         $array = array();
@@ -619,125 +434,101 @@ class ActiveRecordList
         return $array;
     }
 
-
     /**
      * @param $row
      * @param $values
-     *
      * @return array
      */
     protected function buildRow($row, $values)
     {
         if ($values === null) {
             return $row;
-        } else {
-            $array = array();
-            if (!is_array($values)) {
-                return $row[$values];
-            }
-            foreach ($row as $key => $value) {
-                if (in_array($key, $values)) {
-                    $array[$key] = $value;
-                }
-            }
-
-            return $array;
         }
+
+        $array = array();
+        if (!is_array($values)) {
+            return $row[$values];
+        }
+        foreach ($row as $key => $value) {
+            if (in_array($key, $values)) {
+                $array[$key] = $value;
+            }
+        }
+
+        return $array;
     }
 
-
-    protected function load()
+    protected function load() : void
     {
         if ($this->loaded) {
             return;
-        } else {
-            $records = $this->getArConnector()->readSet($this);
-            /**
-             * @var $obj ActiveRecord
-             */
-            //			$class = get_class($this->getAR());
-            //			$obj = arFactory::getInstance($class, NULL, $this->getAddidtionalParameters());
-            $primaryFieldName = $this->getAR()->getArFieldList()->getPrimaryFieldName();
-            $class_name = get_class($this->getAR());
-            foreach ($records as $res) {
-                $primary_field_value = $res[$primaryFieldName];
-                if (!$this->getRaw()) {
-
-//					$obj = arFactory::getInstance($class_name, NULL, $this->getAddidtionalParameters());
-                    $obj = new $class_name(0, $this->getArConnector(), $this->getAddidtionalParameters());
-                    $this->result[$primary_field_value] = $obj->buildFromArray($res);
-                }
-                $res_awake = array();
-                if (!$this->getRaw()) {
-                    foreach ($res as $key => $value) {
-                        $arField = $obj->getArFieldList()->getFieldByName($key);
-                        if ($arField !== null) {
-                            if ($arField->isDateField() and $this->getDateFormat()) {
-                                $res_awake[$key . '_unformatted'] = $value;
-                                $res_awake[$key . '_unix'] = strtotime($value);
-                                $value = date($this->getDateFormat(), strtotime($value));
-                            }
-                        }
-                        $waked = $this->getAR()->wakeUp($key, $value);
-                        $res_awake[$key] = ($waked === null) ? $value : $waked;
-                    }
-                    $this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
-                } else {
-                    $this->result_array[$primary_field_value] = $res;
-                }
-            }
-            $this->loaded = true;
         }
-    }
 
+        $records = $this->getArConnector()->readSet($this);
+        /**
+         * @var $obj ActiveRecord
+         */
+        $primaryFieldName = $this->getAR()->getArFieldList()->getPrimaryFieldName();
+        /** @noinspection GetClassUsageInspection */
+        $class_name = get_class($this->getAR());
+        foreach ($records as $res) {
+            $primary_field_value = $res[$primaryFieldName];
+            if (!$this->getRaw()) {
+                $obj = new $class_name(0, $this->getArConnector(), $this->getAddidtionalParameters());
+                $this->result[$primary_field_value] = $obj->buildFromArray($res);
+            }
+            $res_awake = array();
+            if (!$this->getRaw()) {
+                foreach ($res as $key => $value) {
+                    $arField = $obj->getArFieldList()->getFieldByName($key);
+                    if ($arField !== null) {
+                        if ($arField->isDateField() && $this->getDateFormat()) {
+                            $res_awake[$key . '_unformatted'] = $value;
+                            $res_awake[$key . '_unix'] = strtotime($value);
+                            $value = date($this->getDateFormat(), strtotime($value));
+                        }
+                    }
+                    $waked = $this->getAR()->wakeUp($key, $value);
+                    $res_awake[$key] = $waked ?? $value;
+                }
+                $this->result_array[$res_awake[$primaryFieldName]] = $res_awake;
+            } else {
+                $this->result_array[$primary_field_value] = $res;
+            }
+        }
+        $this->loaded = true;
+    }
 
     /**
      * @deprecated
      */
-    protected function loadLastQuery()
+    protected function loadLastQuery() : void
     {
         // $this->readFromDb(self::$last_query);
     }
 
-    //
-    // Setters & Getters
-    //
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public function setAR($ar)
+    public function setAR(\ActiveRecord $ar) : void
     {
         $this->ar = $ar;
     }
 
-
-    /**
-     * @return ActiveRecord
-     */
-    public function getAR()
+    public function getAR() : \ActiveRecord
     {
         return $this->ar;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getDebug()
+    public function getDebug() : bool
     {
         return $this->debug;
     }
 
-
     /**
      * @param null $date_format
      */
-    public function setDateFormat($date_format)
+    public function setDateFormat($date_format) : void
     {
         $this->date_format = $date_format;
     }
-
 
     /**
      * @return null
@@ -747,56 +538,38 @@ class ActiveRecordList
         return $this->date_format;
     }
 
-
-    /**
-     * @param string $last_query
-     */
-    public static function setLastQuery($last_query)
+    public static function setLastQuery(string $last_query) : void
     {
         self::$last_query = $last_query;
     }
 
-
-    /**
-     * @return string
-     */
-    public static function getLastQuery()
+    public static function getLastQuery() : ?string
     {
         return self::$last_query;
     }
 
-
     /**
-     * @param array $addidtional_parameters
+     * @param mixed[] $addidtional_parameters
      */
-    public function setAddidtionalParameters($addidtional_parameters)
+    public function setAddidtionalParameters(array $addidtional_parameters) : void
     {
         $this->addidtional_parameters = $addidtional_parameters;
     }
 
-
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function getAddidtionalParameters()
+    public function getAddidtionalParameters() : array
     {
         return $this->addidtional_parameters;
     }
 
-
-    /**
-     * @param boolean $raw
-     */
-    public function setRaw($raw)
+    public function setRaw(bool $raw) : void
     {
         $this->raw = $raw;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function getRaw()
+    public function getRaw() : bool
     {
         return $this->raw;
     }

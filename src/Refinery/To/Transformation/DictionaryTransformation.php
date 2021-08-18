@@ -1,10 +1,6 @@
-<?php
-declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\To\Transformation;
 
@@ -13,19 +9,16 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class DictionaryTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    /**
-     * @var Transformation
-     */
-    private $transformation;
+    private Transformation $transformation;
 
-    /**
-     * @param Transformation $transformation
-     */
     public function __construct(Transformation $transformation)
     {
         $this->transformation = $transformation;

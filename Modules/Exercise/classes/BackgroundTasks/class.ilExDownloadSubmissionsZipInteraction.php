@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractUserInteraction;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -14,14 +15,10 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
 {
-    const OPTION_DOWNLOAD = 'download';
-    const OPTION_CANCEL = 'cancel';
+    public const OPTION_DOWNLOAD = 'download';
+    public const OPTION_CANCEL = 'cancel';
 
-    /**
-     * @var \Monolog\Logger
-     */
-    private $logger = null;
-
+    protected ilLogger $logger;
 
     public function __construct()
     {
@@ -29,10 +26,7 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
     }
 
 
-    /**
-     * @inheritdoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return [
             new SingleType(StringValue::class),
@@ -40,41 +34,28 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getRemoveOption()
+    public function getRemoveOption() : UserInteractionOption
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getOutputType()
+    public function getOutputType() : SingleType
     {
         return new SingleType(StringValue::class);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getOptions(array $input)
+    public function getOptions(array $input) : array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD),
         ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
-    {
+    public function interaction(
+        array $input,
+        Option $user_selected_option,
+        Bucket $bucket
+    ) : array {
         global $DIC;
         $download_name = $input[0]; //directory name.
         $zip_name = $input[1]; // zip job

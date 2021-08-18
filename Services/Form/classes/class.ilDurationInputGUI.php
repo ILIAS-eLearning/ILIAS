@@ -9,11 +9,6 @@
  */
 class ilDurationInputGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $months = 0;
     protected $days = 0;
     protected $hours = 0;

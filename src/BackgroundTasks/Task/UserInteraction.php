@@ -47,6 +47,11 @@ interface UserInteraction extends Task
      */
     public function getSkippedValue(array $input) : Value;
 
+    /**
+     * @return bool true if this is the last skippable interaction in your chain/bucket, defaults to true.
+     */
+    public function isFinal(): bool;
+
 
     /**
      * @param \ILIAS\BackgroundTasks\Value[] $input                The input value of this task.

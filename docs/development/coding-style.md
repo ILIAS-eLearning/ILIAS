@@ -59,6 +59,11 @@ Furthermore multiple [Git Hooks](./git-hooks.md) are provided
 to [check or fix the code style](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks/hooks/code-style)
 of changed files in a Git commit.
 
+Another possibility to apply the code style checks is to import and run
+the [PhpStorm PHP Code Inspection Profile](./inspection-configs/php-storm-php-inspections.xml).
+This does not only check the ILIAS Coding Style but applies other inspection
+rules to the PHP code base (or parts of it) as well. 
+
 Developers can additionally use the [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
 to check or fix one or multiple files.
 

@@ -9,11 +9,6 @@
  */
 class ilFeedUrlInputGUI extends ilTextInputGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $value;
     protected $maxlength = 200;
     protected $size = 40;

@@ -7,38 +7,32 @@
  */
 class ilBuddySystemRelation
 {
-    /** @var bool */
-    protected $isOwnedByActor = false;
+    protected ilBuddySystemRelationState $state;
+    protected int $usrId;
+    protected int $buddyUsrId;
+    protected bool $isOwnedByActor;
+    protected int $timestamp;
+    protected ?ilBuddySystemRelationState $priorState = null;
 
-    /** @var int */
-    protected $usrId;
-
-    /** @var int */
-    protected $buddyUsrId;
-
-    /** @var int */
-    protected $timestamp;
-
-    /** @var ilBuddySystemRelationState */
-    protected $state;
-
-    /** @var ilBuddySystemRelationState|null */
-    protected $priorState;
-
-    /**
-     * ilBuddySystemRelation constructor.
-     * @param ilBuddySystemRelationState $state
-     */
-    public function __construct(ilBuddySystemRelationState $state)
-    {
+    public function __construct(
+        ilBuddySystemRelationState $state,
+        int $usrId,
+        int $buddyUsrId,
+        bool $isOwnedByActor,
+        int $timestamp
+    ) {
+        $this->usrId = $usrId;
+        $this->buddyUsrId = $buddyUsrId;
+        $this->isOwnedByActor = $isOwnedByActor;
+        $this->timestamp = $timestamp;
         $this->setState($state, false);
     }
 
-    /**
-     * @param ilBuddySystemRelationState $state
-     * @param bool                       $rememberPriorState
-     * @return self
-     */
+    private function setPriorState(ilBuddySystemRelationState $prior_state) : void
+    {
+        $this->priorState = $prior_state;
+    }
+
     public function setState(ilBuddySystemRelationState $state, bool $rememberPriorState = true) : self
     {
         if ($rememberPriorState) {
@@ -49,107 +43,68 @@ class ilBuddySystemRelation
         return $this;
     }
 
-    /**
-     * @return ilBuddySystemRelationState
-     */
     public function getState() : ilBuddySystemRelationState
     {
         return $this->state;
     }
 
-    /**
-     * @return ilBuddySystemRelationState|null
-     */
     public function getPriorState() : ?ilBuddySystemRelationState
     {
         return $this->priorState;
     }
 
-    /**
-     * @param ilBuddySystemRelationState $prior_state
-     * @return ilBuddySystemRelation
-     */
-    private function setPriorState(ilBuddySystemRelationState $prior_state) : self
-    {
-        $this->priorState = $prior_state;
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
     public function isOwnedByActor() : bool
     {
         return $this->isOwnedByActor;
     }
 
-    /**
-     * @param bool $isOwnedByActor
-     * @return ilBuddySystemRelation
-     */
-    public function setIsOwnedByActor(bool $isOwnedByActor) : self
+    public function withIsOwnedByActor(bool $isOwnedByActor) : self
     {
-        $this->isOwnedByActor = $isOwnedByActor;
-        return $this;
+        $clone = clone $this;
+        $clone->isOwnedByActor = $isOwnedByActor;
+
+        return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getBuddyUsrId() : int
     {
         return $this->buddyUsrId;
     }
 
-    /**
-     * @param int $buddyUsrId
-     * @return self
-     */
-    public function setBuddyUsrId(int $buddyUsrId) : self
+    public function withBuddyUsrId(int $buddyUsrId) : self
     {
-        $this->buddyUsrId = $buddyUsrId;
-        return $this;
+        $clone = clone $this;
+        $clone->buddyUsrId = $buddyUsrId;
+
+        return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getUsrId() : int
     {
         return $this->usrId;
     }
 
-    /**
-     * @param int $usrId
-     * @return self
-     */
-    public function setUsrId(int $usrId) : self
+    public function withUsrId(int $usrId) : self
     {
-        $this->usrId = $usrId;
-        return $this;
+        $clone = clone $this;
+        $clone->usrId = $usrId;
+
+        return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getTimestamp() : int
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param int $timestamp
-     * @return self
-     */
-    public function setTimestamp(int $timestamp) : self
+    public function withTimestamp(int $timestamp) : self
     {
-        $this->timestamp = $timestamp;
-        return $this;
+        $clone = clone $this;
+        $clone->timestamp = $timestamp;
+
+        return $clone;
     }
 
-    /**
-     * @return ilBuddySystemCollection
-     */
     public function getCurrentPossibleTargetStates() : ilBuddySystemCollection
     {
         return ilBuddySystemRelationStateFilterRuleFactory::getInstance()->getFilterRuleByRelation($this)->getStates();
@@ -211,65 +166,41 @@ class ilBuddySystemRelation
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLinked() : bool
     {
         return $this->getState() instanceof ilBuddySystemLinkedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function isUnlinked() : bool
     {
         return $this->getState() instanceof ilBuddySystemUnlinkedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function isRequested() : bool
     {
         return $this->getState() instanceof ilBuddySystemRequestedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function isIgnored() : bool
     {
         return $this->getState() instanceof ilBuddySystemIgnoredRequestRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function wasLinked() : bool
     {
         return $this->getPriorState() instanceof ilBuddySystemLinkedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function wasUnlinked() : bool
     {
         return $this->getPriorState() instanceof ilBuddySystemUnlinkedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function wasRequested() : bool
     {
         return $this->getPriorState() instanceof ilBuddySystemRequestedRelationState;
     }
 
-    /**
-     * @return bool
-     */
     public function wasIgnored() : bool
     {
         return $this->getPriorState() instanceof ilBuddySystemIgnoredRequestRelationState;

@@ -5,6 +5,7 @@ use ILIAS\Setup;
 
 class ilFileObjectMigrationAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
 
     protected $refinery;
 
@@ -34,10 +35,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilFileSystemComponentDataDirectoryCreatedObjective(
-            'storage',
-            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
-        );
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -45,10 +43,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilFileSystemComponentDataDirectoryCreatedObjective(
-            'storage',
-            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
-        );
+        return new Setup\Objective\NullObjective();
     }
 
     /**

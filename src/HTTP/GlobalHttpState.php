@@ -5,6 +5,7 @@ namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,6 +25,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface GlobalHttpState
 {
+
+    public function wrapper() : WrapperFactory;
 
     /**
      * Returns the current psr-7 server request.

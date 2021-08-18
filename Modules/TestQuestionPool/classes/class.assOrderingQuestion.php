@@ -92,7 +92,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return boolean True, if the ordering question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (!$this->getAuthor()) {
             return false;
@@ -124,7 +124,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @internal param object $db A pear DB object
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -142,7 +142,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -193,11 +193,11 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -706,7 +706,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return double Points
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         return $this->getPoints();
     }
@@ -852,7 +852,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $answers
     */
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         $submittedSolutionList = $this->getSolutionListFromPostSubmit();
         
@@ -871,7 +871,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         $entered_values = 0;
         
@@ -904,7 +904,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
     
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         if ($this->validateSolutionSubmit()) {
             $previewSession->setParticipantsSolution(serialize($this->getSolutionListFromPostSubmit()));
@@ -954,7 +954,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assOrderingQuestion";
     }
@@ -985,7 +985,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         
@@ -1011,12 +1011,12 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return boolean TRUE if the question type supports JavaScript output, FALSE otherwise
     * @access public
     */
-    public function supportsJavascriptOutput()
+    public function supportsJavascriptOutput() : bool
     {
         return true;
     }
     
-    public function supportsNonJsOutput()
+    public function supportsNonJsOutput() : bool
     {
         return false;
     }
@@ -1024,7 +1024,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1138,7 +1138,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1569,7 +1569,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
         $this->duplicateImages($dupQuestionId, $dupParentObjId, $origQuestionId, $origParentObjId);
@@ -1581,7 +1581,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()
+    public function buildTestPresentationConfig()  : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

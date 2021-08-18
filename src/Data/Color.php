@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data;
@@ -11,32 +12,19 @@ namespace ILIAS\Data;
  */
 class Color
 {
+    protected int $r;
+    protected int $g;
+    protected int $b;
 
-    /**
-     * @var integer
-     */
-    protected $r;
-
-    /**
-     * @var integer
-     */
-    protected $g;
-
-    /**
-     * @var integer
-     */
-    protected $b;
-
-
-    public function __construct($r, $g, $b)
+    public function __construct(int $r, int $g, int $b)
     {
-        if (!is_integer($r) or $r < 0 || $r > 255) {
+        if ($r < 0 || $r > 255) {
             throw new \InvalidArgumentException("Unexpected value for \$r: '$r'");
         }
-        if (!is_integer($g) or $g < 0 || $g > 255) {
+        if ($g < 0 || $g > 255) {
             throw new \InvalidArgumentException("Unexpected value for \$g: '$g'");
         }
-        if (!is_integer($b) or $b < 0 || $b > 255) {
+        if ($b < 0 || $b > 255) {
             throw new \InvalidArgumentException("Unexpected value for \$b: '$b'");
         }
         $this->r = $r;
@@ -46,28 +34,24 @@ class Color
 
     /**
      * Get the valule for red.
-     *
-     * @return integer
      */
-    public function r()
+    public function r() : int
     {
         return $this->r;
     }
+
     /**
      * Get the valule for green.
-     *
-     * @return integer
      */
-    public function g()
+    public function g() : int
     {
         return $this->g;
     }
+
     /**
      * Get the valule for blue.
-     *
-     * @return integer
      */
-    public function b()
+    public function b() : int
     {
         return $this->b;
     }
@@ -77,7 +61,7 @@ class Color
      *
      * @return int[]
      */
-    public function asArray()
+    public function asArray() : array
     {
         return array(
             $this->r,
@@ -88,10 +72,8 @@ class Color
 
     /**
      * Return color-value in hex-format.
-     *
-     * @return string
      */
-    public function asHex()
+    public function asHex() : string
     {
         $hex = '#';
         foreach ($this->asArray() as $value) {
@@ -102,14 +84,10 @@ class Color
 
     /**
      * Return string with RGB-notation
-     *
-     * @return string
      */
-    public function asRGBString()
+    public function asRGBString() : string
     {
-        return 'rgb('
-            . implode(', ', $this->asArray())
-            . ')';
+        return 'rgb(' . implode(', ', $this->asArray()) . ')';
     }
 
     /**
@@ -117,10 +95,8 @@ class Color
     * this function decides if the color can be considered "dark".
     * With a dark background, i.e., a lighter (white) color should be used
     * for the foreground.
-    *
-    * @return boolean
     */
-    public function isDark()
+    public function isDark() : bool
     {
         $sum = 0.299 * $this->r + 0.587 * $this->g + 0.114 * $this->b;
         if ($sum < 128) {

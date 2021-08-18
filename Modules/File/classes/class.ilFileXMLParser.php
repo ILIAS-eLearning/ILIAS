@@ -15,10 +15,6 @@
 
 use ILIAS\Filesystem\Stream\Streams;
 
-include_once './Services/Xml/classes/class.ilSaxParser.php';
-include_once 'Modules/File/classes/class.ilFileException.php';
-include_once 'Services/Utilities/classes/class.ilFileUtils.php';
-
 class ilFileXMLParser extends ilSaxParser
 {
     public static $CONTENT_NOT_COMPRESSED = 0;
@@ -296,7 +292,6 @@ class ilFileXMLParser extends ilSaxParser
                     $this->tmpFilename = $this->getImportDirectory() . "/" . self::normalizeRelativePath($this->cdata);
                 } // begin-patch fm
                 elseif ($this->mode == ilFileXMLParser::$CONTENT_REST) {
-                    include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
                     $storage = new ilRestFileStorage();
                     $this->tmpFilename = $storage->getStoredFilePath(self::normalizeRelativePath($this->cdata));
                     if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
@@ -335,9 +330,6 @@ class ilFileXMLParser extends ilSaxParser
                     if (!$this->file->getFileType()) {
                         global $DIC;
                         $ilLog = $DIC['ilLog'];
-
-                        #$ilLog->write(__METHOD__.': Trying to detect mime type...');
-                        include_once('./Services/Utilities/classes/class.ilFileUtils.php');
                         $this->file->setFileType(ilFileUtils::_lookupMimeType($this->tmpFilename));
                     }
                 }

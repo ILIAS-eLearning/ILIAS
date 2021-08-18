@@ -47,17 +47,13 @@ class ilAssQuestionTypeOrderer
 
         'assTextQuestion',
         'assFileUpload',
-        'assLongMenu',
-
-        'assFlashQuestion',
-        'assJavaApplet',
+        'assLongMenu'
     );
     
     /**
      * @var array
      */
     protected $deprecatedTypes = array(
-        'assFlashQuestion', 'assJavaApplet'
     );
     
     /**

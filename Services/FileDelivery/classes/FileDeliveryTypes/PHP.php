@@ -3,7 +3,7 @@
 namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 use ILIAS\FileDelivery\ilFileDeliveryType;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 
 require_once('./Services/FileDelivery/interfaces/int.ilFileDeliveryType.php');
 
@@ -24,7 +24,7 @@ final class PHP implements ilFileDeliveryType
      */
     protected $file;
     /**
-     * @var GlobalHttpState $httpService
+     * @var Services $httpService
      */
     protected $httpService;
 
@@ -32,9 +32,9 @@ final class PHP implements ilFileDeliveryType
     /**
      * PHP constructor.
      *
-     * @param GlobalHttpState $httpState
+     * @param Services $httpState
      */
-    public function __construct(GlobalHttpState $httpState)
+    public function __construct(Services $httpState)
     {
         $this->httpService = $httpState;
     }

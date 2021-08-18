@@ -9,11 +9,6 @@
  */
 class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $value = "1";
     protected $checked;
     protected $optiontitle = "";
@@ -143,7 +138,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 
         // only not ok, if checkbox not checked
         $value = $_POST[$this->getPostVar()] ?? "";
-        if (!$ok && $value) {
+        if ($value == "") {
             $ok = true;
         }
 

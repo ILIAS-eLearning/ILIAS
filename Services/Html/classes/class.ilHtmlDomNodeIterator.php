@@ -7,16 +7,9 @@
  */
 class ilHtmlDomNodeIterator implements RecursiveIterator
 {
-    /** @var Integer */
-    protected $position = 0;
+    protected int $position = 0;
+    protected DOMNodeList $nodeList;
 
-    /** @var DOMNodeList */
-    protected $nodeList;
-
-    /**
-     * ilHtmlDomNodeIterator constructor.
-     * @param DOMNode $el
-     */
     public function __construct(DOMNode $el)
     {
         $this->position = 0;
@@ -31,59 +24,37 @@ class ilHtmlDomNodeIterator implements RecursiveIterator
         $this->nodeList = $root->childNodes;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function key()
+    public function key() : int
     {
         return $this->position;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function next()
+    public function next() : void
     {
         $this->position++;
     }
 
-    /**
-     * @inheritdoc
-     * @return DOMNode
-     */
-    public function current()
+    public function current() : DOMNode
     {
         return $this->nodeList->item($this->position);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function valid()
+    public function valid() : bool
     {
         return $this->position < $this->nodeList->length;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rewind()
+    public function rewind() : void
     {
         $this->position = 0;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasChildren()
+    public function hasChildren() : bool
     {
         return $this->current()->hasChildNodes();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getChildren()
+    public function getChildren() : self
     {
         return new self($this->current());
     }

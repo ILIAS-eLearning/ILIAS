@@ -1,7 +1,7 @@
 <?php
 
 namespace ILIAS\ResourceStorage;
-
+/** @noRector  */
 require_once('DummyIDGenerator.php');
 
 use PHPUnit\Framework\TestCase;

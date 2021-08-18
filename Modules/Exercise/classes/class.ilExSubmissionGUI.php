@@ -1,64 +1,36 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilExSubmissionGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
-* @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTextGUI, ilExSubmissionObjectGUI
-* @ilCtrl_Calls ilExSubmissionGUI: ilExPeerReviewGUI
-* @ingroup ModulesExercise
-*/
+ * Class ilExSubmissionGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTeamGUI, ilExSubmissionFileGUI
+ * @ilCtrl_Calls ilExSubmissionGUI: ilExSubmissionTextGUI, ilExSubmissionObjectGUI
+ * @ilCtrl_Calls ilExSubmissionGUI: ilExPeerReviewGUI
+ */
 class ilExSubmissionGUI
 {
-    const MODE_OVERVIEW_CONTENT = 1;
+    public const MODE_OVERVIEW_CONTENT = 1;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $exercise; // [ilObjExercise]
-    protected $submission; // [ilExSubmission]
-    protected $assignment; // [ilExAssignment]
-
-    /**
-     * @var ilExAssignmentTypesGUI
-     */
-    protected $type_guis;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjUser $user;
+    protected ilObjExercise $exercise;
+    protected ilExSubmission $submission;
+    protected ilExAssignment $assignment;
+    protected ilExAssignmentTypesGUI $type_guis;
+    protected ?int $user_id;
     
-    /**
-     * Constructor
-     *
-     * @param ilObjExercise $a_exercise
-     * @param ilExAssignment $a_ass
-     * @param int $a_user_id
-     * @return object
-     */
-    public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass, $a_user_id = null)
-    {
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExAssignment $a_ass,
+        int $a_user_id = null
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -97,8 +69,11 @@ class ilExSubmissionGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
     }
-    
-    public function executeCommand()
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -162,7 +137,7 @@ class ilExSubmissionGUI
                     $type_gui = $this->type_guis->getByClassName($class);
                     $type_gui->setSubmission($this->submission);
                     $type_gui->setExercise($this->exercise);
-                    return $ilCtrl->forwardCommand($type_gui);
+                    $ilCtrl->forwardCommand($type_gui);
                 }
 
                 $this->{$cmd . "Object"}();
@@ -170,15 +145,11 @@ class ilExSubmissionGUI
         }
     }
 
-    /**
-     * @param ilInfoScreenGUI $a_info
-     * @param ilExSubmission $a_submission
-     * @param ilObjExercise $a_exc
-     * @return string
-     * @throws ilCtrlException
-     */
-    public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission, ilObjExercise $a_exc)
-    {
+    public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission,
+        ilObjExercise $a_exc
+    ) : void {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -198,6 +169,7 @@ class ilExSubmissionGUI
         // @todo migrate everything to new concept
         if ($submission_type != ilExSubmission::TYPE_REPO_OBJECT) {
             $class = "ilExSubmission" . $submission_type . "GUI";
+            /** @var ilExSubmissionFileGUI|ilExSubmissionTextGUI|ilExSubmissionTeamGUI $class */
             $class::getOverviewContent($a_info, $a_submission);
         } else { // new: get HTML from assignemt type gui class
             $sub_gui = new ilExSubmissionGUI($a_exc, $a_submission->getAssignment());
@@ -212,27 +184,20 @@ class ilExSubmissionGUI
     }
 
     /**
-     * Get HTML
-     *
-     * @param
-     * @return
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function getHTML($par)
+    public function getHTML(array $par) : string
     {
         switch ($par["mode"]) {
             // get overview content from ass type gui
             case self::MODE_OVERVIEW_CONTENT:
                 $type_gui = $this->type_guis->getById($par["submission"]->getAssignment()->getType());
                 return $type_gui->getOverviewContent($par["info"], $par["submission"]);
-                break;
         }
+        return "";
     }
 
-    
-    /**
-     * List all submissions
-     */
-    public function listPublicSubmissionsObject()
+    public function listPublicSubmissionsObject() : void
     {
         $ilTabs = $this->tabs_gui;
         $ilCtrl = $this->ctrl;
@@ -261,10 +226,8 @@ class ilExSubmissionGUI
     /**
      * Download feedback file
      */
-    public function downloadFeedbackFileObject()
+    public function downloadFeedbackFileObject() : bool
     {
-        $ilUser = $this->user;
-        
         $file = $_REQUEST["file"];
 
         if (!isset($file)) {
@@ -282,9 +245,9 @@ class ilExSubmissionGUI
                 break;
             }
         }
+
         if (!$file_exist) {
-            echo "FILE DOES NOT EXIST";
-            exit;
+            return false;
         }
         
         // check whether assignment has already started
@@ -297,7 +260,7 @@ class ilExSubmissionGUI
         return true;
     }
     
-    public function downloadGlobalFeedbackFileObject()
+    public function downloadGlobalFeedbackFileObject() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -317,10 +280,7 @@ class ilExSubmissionGUI
         ilUtil::deliverFile($file, $this->assignment->getFeedbackFile());
     }
     
-    /**
-     * Download assignment file
-     */
-    public function downloadFileObject()
+    public function downloadFileObject() : bool
     {
         $file = $_REQUEST["file"];
 
@@ -343,15 +303,14 @@ class ilExSubmissionGUI
                 }
             }
             if (!$file_exist) {
-                echo "FILE DOES NOT EXIST";
-                exit;
+                return false;
             }
         }
         
         return true;
     }
     
-    public function returnToParentObject()
+    public function returnToParentObject() : void
     {
         $this->ctrl->returnToParent($this);
     }

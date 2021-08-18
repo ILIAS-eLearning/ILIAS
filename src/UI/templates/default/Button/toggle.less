@@ -23,6 +23,14 @@
   &.on {
     background: @il-btn-toggle-bg-color-on;
     border: @il-btn-toggle-border @il-btn-toggle-border-color-on;
+    .il-toggle-label-on {
+      position: absolute;
+      top: @il-btn-toggle-label-position-top;
+      left: @il-btn-toggle-label-on-position-left;
+      font-weight: @il-btn-toggle-label-font-weight;
+      font-size: @il-btn-toggle-label-font-size;
+      color: @il-btn-toggle-label-on-color;
+    }
     .il-toggle-switch {
       left: @il-enabled-btn-toggle-switch-position-left;
       background: @il-btn-toggle-switch-bg-color-on;
@@ -32,6 +40,13 @@
   &.off {
     background: @il-btn-toggle-bg-color-off;
     border: @il-btn-toggle-border @il-btn-toggle-border-color-off;
+    .il-toggle-label-off {
+      position: absolute;
+      top: @il-btn-toggle-label-position-top;
+      left: @il-btn-toggle-label-off-position-left;
+      font-weight: @il-btn-toggle-label-font-weight;
+      font-size: @il-btn-toggle-label-font-size;
+    }
     .il-toggle-switch {
       background: @il-btn-toggle-switch-bg-color-off;
       border: @il-btn-toggle-border @il-btn-toggle-switch-border-color-off;
@@ -51,6 +66,8 @@
 .ilToolbar{
   .il-toggle-button {
     bottom: @il-padding-base-vertical;
-    left: @il-padding-small-horizontal;
+  }
+  label{
+    font-size: @il-font-size-small;
   }
 }

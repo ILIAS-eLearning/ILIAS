@@ -1,61 +1,31 @@
 <?php
-require_once(dirname(__FILE__) . '/../Fields/class.arFieldList.php');
 
 /**
  * Class arFieldCache
- *
  * @version 2.0.7
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class arFieldCache
 {
 
-    /**
-     * @var array
-     */
-    protected static $cache = array();
+    protected static array $cache = array();
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return bool
-     */
-    public static function isCached(ActiveRecord $ar)
+    public static function isCached(ActiveRecord $ar) : bool
     {
-        return in_array(get_class($ar), array_keys(self::$cache));
+        return array_key_exists(get_class($ar), self::$cache);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public static function store(ActiveRecord $ar)
+    public static function store(ActiveRecord $ar) : void
     {
         self::$cache[get_class($ar)] = arFieldList::getInstance($ar);
     }
 
-
-    /**
-     * @param                                   $storage_class_name
-     * @param \ActiveRecord|\arStorageInterface $foreign_model
-     *
-     * @internal param \ActiveRecord $storage
-     * @internal param $storage_class_name
-     */
-    public static function storeFromStorage($storage_class_name, arStorageInterface $foreign_model)
+    public static function storeFromStorage(string $storage_class_name, ActiveRecord $foreign_model) : void
     {
         self::$cache[$storage_class_name] = arFieldList::getInstanceFromStorage($foreign_model);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return arFieldList
-     */
-    public static function get(ActiveRecord $ar)
+    public static function get(ActiveRecord $ar) : \arFieldList
     {
         if (!self::isCached($ar)) {
             self::store($ar);
@@ -64,30 +34,17 @@ class arFieldCache
         return self::$cache[get_class($ar)];
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     */
-    public static function purge(ActiveRecord $ar)
+    public static function purge(ActiveRecord $ar) : void
     {
         unset(self::$cache[get_class($ar)]);
     }
 
-
-    /**
-     * @param ActiveRecord $ar
-     *
-     * @return string
-     */
-    public static function getPrimaryFieldName(ActiveRecord $ar)
+    public static function getPrimaryFieldName(ActiveRecord $ar) : string
     {
         return self::get($ar)->getPrimaryFieldName();
     }
 
-
     /**
-     * @param ActiveRecord $ar
-     *
      * @return mixed
      */
     public static function getPrimaryFieldType(ActiveRecord $ar)

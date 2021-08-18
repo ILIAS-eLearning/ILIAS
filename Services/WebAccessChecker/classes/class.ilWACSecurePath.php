@@ -18,7 +18,7 @@ class ilWACSecurePath extends ActiveRecord
      * @description Return the Name of your Database Table
      * @deprecated
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return 'il_wac_secure_path';
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,12 +10,8 @@
  */
 class ilChatroomCreateGUI extends ilChatroomGUIHandler
 {
-    /**
-     * Inserts new object into gui.
-     */
-    public function save()
+    public function save() : void
     {
-        require_once 'Modules/Chatroom/classes/class.ilChatroomFormFactory.php';
         $formFactory = new ilChatroomFormFactory();
         $form = $formFactory->getCreationForm();
 
@@ -33,13 +29,9 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function executeDefault($requestedMethod)
+    public function executeDefault(string $requestedMethod) : void
     {
         $this->gui->switchToVisibleMode();
         $this->gui->createObject();
-        return;
     }
 }

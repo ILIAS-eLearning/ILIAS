@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,56 +9,48 @@
  */
 class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    const NAME_AUTH_PROP_1 = 'key';
-    const NAME_AUTH_PROP_2 = 'secret';
+    private const NAME_AUTH_PROP_1 = 'key';
+    private const NAME_AUTH_PROP_2 = 'secret';
 
-    /**
-     * @var array An array of ilCtrl nodes
-     */
-    protected $ctrl_path = array();
-
-    /**
-     * @var int
-     */
-    protected $size = 10;
-    /**
-     * @var array
-     */
-    protected $values = array(
+    private \ILIAS\HTTP\Services $http;
+    /** @var string[]  */
+    protected array $ctrl_path = [];
+    protected int $size = 10;
+    protected array $values = [
         self::NAME_AUTH_PROP_1 => '',
         self::NAME_AUTH_PROP_2 => ''
-    );
+    ];
+    protected bool $isReadOnly = false;
 
-    /** @var bool */
-    protected $isReadOnly = false;
+    public function __construct(string $title, string $httpPostVariableName, \ILIAS\HTTP\Services $http)
+    {
+        parent::__construct($title, $httpPostVariableName);
+        $this->http = $http;
+    }
 
-    /**
-     * @param bool $isReadOnly
-     */
     public function setIsReadOnly(bool $isReadOnly) : void
     {
         $this->isReadOnly = $isReadOnly;
     }
 
-    /**
-     *
-     */
-    protected function getRandomValues()
+    protected function getRandomValues() : void
     {
         $response = new stdClass();
 
         $response->{self::NAME_AUTH_PROP_1} = $this->uuidV4();
         $response->{self::NAME_AUTH_PROP_2} = $this->uuidV4();
 
-        echo json_encode($response);
-        exit();
+        $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response));
+        $this->http->saveResponse(
+            $this->http->response()
+                ->withBody($responseStream)
+                ->withHeader('Content-Type', 'application/json')
+        );
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
-    /**
-     * Generates a pseudo random string following the RFC 4122
-     * @return string
-     */
-    private function uuidV4()
+    private function uuidV4() : string
     {
         return sprintf(
             '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
@@ -82,17 +74,14 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     }
 
     /**
-     * @param array $ctrl_path
+     * @param string[] $ctrl_path
      */
-    public function setCtrlPath($ctrl_path)
+    public function setCtrlPath(array $ctrl_path) : void
     {
         $this->ctrl_path = $ctrl_path;
     }
 
-    /**
-     * @param array $a_values
-     */
-    public function setValueByArray(array $a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $this->values = array(
             self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1],
@@ -104,9 +93,6 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function checkInput()
     {
         global $DIC;
@@ -124,9 +110,6 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function insert(ilTemplate $a_tpl)
     {
         $a_tpl->setCurrentBlock('prop_generic');
@@ -134,16 +117,13 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-     * @return string
-     */
-    public function render()
+    public function render() : string
     {
         global $DIC;
 
         $tpl = new ilTemplate('tpl.chatroom_auth_input.html', true, true, 'Modules/Chatroom');
 
-        for ($i = 1; $i <= count($this->values); $i++) {
+        for ($i = 1, $iMax = count($this->values); $i <= $iMax; $i++) {
             $const = 'NAME_AUTH_PROP_' . $i;
             $const_val = constant('self::' . $const);
 
@@ -154,7 +134,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         }
 
         if (!$this->isReadOnly && !$this->getDisabled()) {
-            for ($i = 1; $i <= count($this->values); $i++) {
+            for ($i = 1, $iMax = count($this->values); $i <= $iMax; $i++) {
                 $const = 'NAME_AUTH_PROP_' . $i;
                 $const_val = constant('self::' . $const);
 
@@ -180,18 +160,12 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         return $tpl->get();
     }
 
-    /**
-     * @return int
-     */
-    public function getSize()
+    public function getSize() : int
     {
         return $this->size;
     }
 
-    /**
-     * @param int $size
-     */
-    public function setSize($size)
+    public function setSize(int $size) : void
     {
         $this->size = $size;
     }

@@ -19,7 +19,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
     {
         parent::setUp();
 
-        include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
         //ilUnitUtil::performInitialisation();
         
         // Empty workflow.

@@ -9,6 +9,8 @@ use ILIAS\UI;
 
 class ilFileSystemSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

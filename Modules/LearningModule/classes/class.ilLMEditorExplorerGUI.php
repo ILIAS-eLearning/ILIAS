@@ -1,17 +1,15 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * LM editor explorer GUI class
  *
- * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 {
+    protected ilObjLearningModule $lm;
 
     /**
      * Constructor
@@ -121,25 +119,20 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
         
         switch ($a_node["type"]) {
             case "du":
-//				$ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters");
-//				$ilCtrl->setParameterByClass("ilobjlearningmodulegui", "obj_id", $_GET["obj_id"]);
                 return $ret;
-                break;
 
             case "pg":
                 $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
-                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
                 return $ret;
-                break;
 
             case "st":
                 $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "ilstructureobjectgui"), "view");
-                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $this->obj_id);
                 return $ret;
-                break;
         }
     }
 }

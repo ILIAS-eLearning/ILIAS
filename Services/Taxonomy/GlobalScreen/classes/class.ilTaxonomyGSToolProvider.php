@@ -11,12 +11,11 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_TAX_TREE = 'show_tax_tree';
-    const TAX_TREE_GUI_PATH = 'tax_tree_gui_path';
-    const TAX_ID = 'tax_id';
-    const TAX_TREE_CMD = 'tax_tree_cmd';
-    const TAX_TREE_PARENT_CMD = 'tax_tree_parent_cmd';
-
+    public const SHOW_TAX_TREE = 'show_tax_tree';
+    public const TAX_TREE_GUI_PATH = 'tax_tree_gui_path';
+    public const TAX_ID = 'tax_id';
+    public const TAX_TREE_CMD = 'tax_tree_cmd';
+    public const TAX_TREE_PARENT_CMD = 'tax_tree_parent_cmd';
 
     /**
      * @inheritDoc
@@ -43,36 +42,24 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
+            $iff = fn ($id) : \ILIAS\GlobalScreen\Identification\IdentificationInterface => $this->identification_provider->contextAwareIdentifier($id);
+            $l = fn (string $content) : \ILIAS\UI\Component\Legacy\Legacy => $this->dic->ui()->factory()->legacy($content);
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($additional_data, $l) {
-                    return $l($this->getEditTree(
-                        $additional_data->get(self::TAX_TREE_GUI_PATH),
-                        $additional_data->get(self::TAX_ID),
-                        $additional_data->get(self::TAX_TREE_CMD),
-                        $additional_data->get(self::TAX_TREE_PARENT_CMD)
-                    ));
-                });
+                ->withContentWrapper(fn () : \ILIAS\UI\Component\Legacy\Legacy => $l($this->getEditTree(
+                    $additional_data->get(self::TAX_TREE_GUI_PATH),
+                    $additional_data->get(self::TAX_ID),
+                    $additional_data->get(self::TAX_TREE_CMD),
+                    $additional_data->get(self::TAX_TREE_PARENT_CMD)
+                )));
         }
 
         return $tools;
     }
 
 
-    /**
-     * @param $gui_path
-     * @param $tax_id
-     *
-     * @return string
-     */
-    private function getEditTree($gui_path, $tax_id, $cmd, $parent_cmd) : string
+    private function getEditTree(array $gui_path, int $tax_id, string $cmd, string $parent_cmd) : string
     {
         $target_gui = $gui_path[count($gui_path) - 1];
         $tax_exp = new ilTaxonomyExplorerGUI(

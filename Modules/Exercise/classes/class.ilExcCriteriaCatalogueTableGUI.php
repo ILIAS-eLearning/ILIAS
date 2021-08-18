@@ -1,19 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaCatalogueTableGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 {
-    protected $exc_id; // [int]
+    protected int $exc_id;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exc_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_exc_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -50,8 +53,11 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
             $this->addCommandButton("saveOrder", $lng->txt("exc_save_order"));
         }
     }
-    
-    protected function getItems()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    protected function getItems() : bool
     {
         $lng = $this->lng;
         
@@ -101,12 +107,12 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
         return (bool) sizeof($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         return in_array($a_field, array("pos"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

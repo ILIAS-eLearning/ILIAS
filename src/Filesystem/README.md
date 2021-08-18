@@ -403,7 +403,7 @@ use ILIAS\Filesystem\Stream\Streams;
 global $DIC;
 
 /**
- * @var \ILIAS\HTTP\GlobalHttpState $http
+ * @var \ILIAS\HTTP\Services $http
  */
 $http = $DIC['http'];
 

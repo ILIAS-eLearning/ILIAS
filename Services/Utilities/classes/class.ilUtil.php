@@ -1074,6 +1074,7 @@ class ilUtil
             //             Workaround for Windows WebDAV Client:
             //             Use the unicode ellipsis symbol for shortening instead of
             //             three full stop characters.
+            $p = false;
             if ($a_keep_extension) {
                 $p = strrpos($a_str, '.');	// this messes up normal shortening, see bug #6190
             }
@@ -1690,14 +1691,8 @@ class ilUtil
     }
 
 
-    /**
-    * convert utf8 to ascii filename
-    *
-    * @param	string		$a_filename		utf8 filename
-    * @static
-    *
-    */
-    public static function getASCIIFilename($a_filename)
+    // convert utf8 to ascii filename
+    public static function getASCIIFilename(string $a_filename) : string
     {
         // The filename must be converted to ASCII, as of RFC 2183,
         // section 2.3.

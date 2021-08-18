@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-/**
- * Class ilObjLearningSequenceLearnerGUI
- */
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 class ilObjLearningSequenceLearnerGUI
 {
     const CMD_STANDARD = 'learnerView';
@@ -10,14 +10,28 @@ class ilObjLearningSequenceLearnerGUI
     const CMD_UNSUBSCRIBE = 'unsubscribe';
     const CMD_VIEW = 'view';
     const CMD_START = 'start';
-    const PARAM_LSO_NEXT_ITEM = 'lsoni';
-    const LSO_CMD_NEXT = 'lson';
-    const LSO_CMD_PREV = 'lsop';
+
+    protected int $ls_ref_id;
+    protected bool $has_items;
+    protected string $first_access;
+    protected int $usr_id;
+    protected ilAccess $access;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $renderer;
+    protected ilLearningSequenceRoles $roles;
+    protected ilLearningSequenceSettings $settings;
+    protected ilLSCurriculumBuilder $curriculum_builder;
+    protected ilLSPlayer $player;
+    protected ArrayAccess $get;
 
     public function __construct(
         int $ls_ref_id,
         bool $has_items,
-        $first_access,
+        string $first_access,
         int $usr_id,
         ilAccess $access,
         ilCtrl $ctrl,
@@ -29,9 +43,9 @@ class ilObjLearningSequenceLearnerGUI
         ilLearningSequenceRoles $roles,
         ilLearningSequenceSettings $settings,
         ilLSCurriculumBuilder $curriculum_builder,
-        ilLSPlayer $player
+        ilLSPlayer $player,
+        ArrayAccess $get
     ) {
-        $this->ls_object = $ls_object;
         $this->ls_ref_id = $ls_ref_id;
         $this->has_items = $has_items;
         $this->first_access = $first_access;
@@ -47,9 +61,10 @@ class ilObjLearningSequenceLearnerGUI
         $this->settings = $settings;
         $this->curriculum_builder = $curriculum_builder;
         $this->player = $player;
+        $this->get = $get;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -83,24 +98,30 @@ class ilObjLearningSequenceLearnerGUI
         }
     }
 
-    protected function view(string $cmd)
+    protected function view(string $cmd) : void
     {
-        $content = $this->getWrappedHTML($this->getMainContent($cmd));
-        $curriculum = $this->getWrappedHTML($this->getCurriculum());
-
         $this->initToolbar($cmd);
-        $this->tpl->setContent($content);
-        $this->tpl->setRightContent($curriculum);
+        
+        $content = $this->getMainContent($cmd);
+        $this->tpl->setContent(
+            $this->getWrappedHTML($content)
+        );
+        
+        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
+        if (count($curriculum->getSteps()) > 0) {
+            $this->tpl->setRightContent(
+                $this->getWrappedHTML([$curriculum])
+            );
+        }
     }
 
-    protected function addMember(int $usr_id)
+    protected function addMember(int $usr_id) : void
     {
         $admins = $this->roles->getLearningSequenceAdminIds();
         if (!in_array($usr_id, $admins)) {
             $this->roles->join($usr_id);
         }
     }
-
 
     protected function userMayUnparticipate() : bool
     {
@@ -112,7 +133,7 @@ class ilObjLearningSequenceLearnerGUI
         return $this->access->checkAccess('participate', '', $this->ls_ref_id);
     }
 
-    protected function initToolbar(string $cmd)
+    protected function initToolbar(string $cmd) : void
     {
         $is_member = $this->roles->isMember($this->usr_id);
         $completed = $this->roles->isCompletedByUser($this->usr_id);
@@ -132,7 +153,7 @@ class ilObjLearningSequenceLearnerGUI
             if (!$completed) {
                 if ($has_items) {
                     $label = "lso_player_resume";
-                    if ($this->first_access === -1) {
+                    if ($this->first_access === '-1') {
                         $label = "lso_player_start";
                     }
 
@@ -183,14 +204,14 @@ class ilObjLearningSequenceLearnerGUI
         return $this->renderer->render($components);
     }
 
-    private function getCurriculum() : array
-    {
-        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        return array($curriculum);
-    }
-
+    /**
+     * @return array<mixed>
+     */
     private function getMainContent(string $cmd) : array
     {
+        $txt = '';
+        $img = '';
+
         if ($cmd === self::CMD_STANDARD) {
             $txt = $this->settings->getAbstract();
             $img = $this->settings->getAbstractImage();
@@ -202,16 +223,16 @@ class ilObjLearningSequenceLearnerGUI
         }
 
         $contents = [$this->ui_factory->legacy($txt)];
-        if (!is_null($img)) {
+        if ($img !== '') {
             $contents[] = $this->ui_factory->image()->responsive($img, '');
         }
 
         return $contents;
     }
 
-    protected function play()
+    protected function play() : void
     {
-        $response = $this->player->play($_GET, $_POST);
+        $response = $this->player->play($this->get);
 
         switch ($response) {
             case null:
@@ -233,7 +254,7 @@ class ilObjLearningSequenceLearnerGUI
         \ilUtil::redirect($href);
     }
 
-    protected function getCurrentItemLearningProgress()
+    protected function getCurrentItemLearningProgress() : void
     {
         print $this->player->getCurrentItemLearningProgress();
         exit;

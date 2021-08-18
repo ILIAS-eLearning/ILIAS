@@ -1,6 +1,4 @@
 <?php
-require_once(dirname(__FILE__) . '/../Statement/class.arStatementCollection.php');
-require_once('class.arJoin.php');
 
 /**
  * Class arJoinCollection
@@ -10,16 +8,12 @@ require_once('class.arJoin.php');
 class arJoinCollection extends arStatementCollection
 {
 
-    /**
-     * @var array
-     */
-    protected $table_names = array();
+    protected array $table_names = array();
 
     /**
      * @param arJoin $statement
-     * @return string
      */
-    public function getSaveTableName(arJoin $statement) : string
+    public function getSaveTableName(arStatement $statement) : string
     {
         $table_name = $statement->getTableName();
         if (in_array($table_name, $this->table_names, true)) {
@@ -33,9 +27,6 @@ class arJoinCollection extends arStatementCollection
         return $table_name;
     }
 
-    /**
-     * @param arStatement $statement
-     */
     public function add(arStatement $statement) : void
     {
         $statement->setTableNameAs($this->getSaveTableName($statement));
@@ -43,9 +34,6 @@ class arJoinCollection extends arStatementCollection
         parent::add($statement);
     }
 
-    /**
-     * @return string
-     */
     public function asSQLStatement() : string
     {
         $return = '';

@@ -27,7 +27,7 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $publicChatRefId = (int) \ilObjChatroom::_getPublicRefId();
+        $publicChatRefId = \ilObjChatroom::_getPublicRefId();
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
         $icon = $this->dic->ui()->factory()
@@ -42,7 +42,9 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                ->withNonAvailableReason(
+                    $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
+                )
                 ->withAvailableCallable(
                     function () use ($publicChatObjId) : bool {
                         return $publicChatObjId > 0;
@@ -50,7 +52,7 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                 )
                 ->withVisibilityCallable(
                     function () use ($dic, $publicChatRefId) : bool {
-                        if (0 === (int) $dic->user()->getId() || $dic->user()->isAnonymous()) {
+                        if (0 === $dic->user()->getId() || $dic->user()->isAnonymous()) {
                             return false;
                         }
                         

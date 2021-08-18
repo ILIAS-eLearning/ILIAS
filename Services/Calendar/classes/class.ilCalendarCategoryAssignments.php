@@ -178,10 +178,11 @@ class ilCalendarCategoryAssignments
             "WHERE auto_generated = 1 " .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
+        $apps = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $apps[] = $row->cal_id;
         }
-        return $apps ? $apps : array();
+        return $apps;
     }
     
     /**

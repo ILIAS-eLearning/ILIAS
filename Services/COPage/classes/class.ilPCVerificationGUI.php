@@ -3,26 +3,22 @@
 
 /**
  * Class ilPCVerificationGUI
- *
  * Handles user commands on verifications
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $I$
- *
  * @ingroup ServicesCOPage
  */
 class ilPCVerificationGUI extends ilPageContentGUI
 {
     private const SUPPORTED_TYPES = ['excv', 'tstv', 'crsv', 'cmxv', 'ltiv', 'scov'];
+    protected ilObjUser $user;
 
-    /** @var ilObjUser */
-    protected $user;
-
-    /**
-     * @ineritdoc
-     */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id = 0, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPCVerification $a_content_obj,
+        string $a_hier_id = '0',
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -35,11 +31,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $this->$cmd();
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $a_form
-     * @throws ilDateTimeException
-     */
-    public function insert(ilPropertyFormGUI $a_form = null) : void
+    public function insert(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->displayValidationError();
 
@@ -49,11 +41,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $a_form
-     * @throws ilDateTimeException
-     */
-    public function edit(ilPropertyFormGUI $a_form = null) : void
+    public function edit(?ilPropertyFormGUI $a_form = null) : void
     {
         $this->displayValidationError();
 
@@ -75,7 +63,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
         if ($root) {
             $root = $tree->getNodeData($root);
             foreach ($tree->getSubTree($root) as $node) {
-                if (in_array($node['type'], self::SUPPORTED_TYPES)) {
+                if (in_array($node['type'], self::SUPPORTED_TYPES, true)) {
                     $nodes[$node['obj_id']] = $node;
                 }
             }
@@ -100,11 +88,6 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $certificates;
     }
 
-    /**
-     * @param false $a_insert
-     * @return ilPropertyFormGUI
-     * @throws ilDateTimeException
-     */
     protected function initForm(bool $a_insert = false) : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('wsp');
@@ -127,7 +110,10 @@ class ilPCVerificationGUI extends ilPageContentGUI
         $certificateOptions = [];
         foreach ($this->getValidCertificateByIdMap() as $certificate) {
             $userCertificate = $certificate->getUserCertificate();
-            $dateTime = ilDatePresentation::formatDate(new ilDateTime($userCertificate->getAcquiredTimestamp(), IL_CAL_UNIX));
+            $dateTime = ilDatePresentation::formatDate(new ilDateTime(
+                $userCertificate->getAcquiredTimestamp(),
+                IL_CAL_UNIX
+            ));
 
             $type = $this->lng->txt('wsp_type_' . $userCertificate->getObjType() . 'v');
             if ('sahs' === $userCertificate->getObjType()) {
@@ -149,10 +135,19 @@ class ilPCVerificationGUI extends ilPageContentGUI
             return $form;
         }
 
-        $certificateSource = new ilRadioGroupInputGUI($this->lng->txt('certificate_selection'), 'certificate_selection');
+        $certificateSource = new ilRadioGroupInputGUI(
+            $this->lng->txt('certificate_selection'),
+            'certificate_selection'
+        );
 
-        $workspaceRadioButton = new ilRadioOption($this->lng->txt('certificate_workspace_option'), 'certificate_workspace_option');
-        $persistentRadioButton = new ilRadioOption($this->lng->txt('certificate_persistent_option'), 'certificate_persistent_option');
+        $workspaceRadioButton = new ilRadioOption(
+            $this->lng->txt('certificate_workspace_option'),
+            'certificate_workspace_option'
+        );
+        $persistentRadioButton = new ilRadioOption(
+            $this->lng->txt('certificate_persistent_option'),
+            'certificate_persistent_option'
+        );
 
         $workspaceCertificates = new ilSelectInputGUI($this->lng->txt('cont_verification_object'), 'object');
         $workspaceCertificates->setRequired(true);
@@ -180,15 +175,12 @@ class ilPCVerificationGUI extends ilPageContentGUI
         return $form;
     }
 
-    /**
-     * @throws ilDateTimeException
-     */
     public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
             $objectId = (int) $form->getInput('persistent_object');
-            $userId = (int) $this->user->getId();
+            $userId = $this->user->getId();
 
             $certificateFileService = new ilPortfolioCertificateFileService();
             try {
@@ -250,7 +242,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
                     if (isset($validCertificates[$objectId])) {
                         $certificateFileService = new ilPortfolioCertificateFileService();
                         $certificateFileService->createCertificateFile(
-                            (int) $this->user->getId(),
+                            $this->user->getId(),
                             $objectId
                         );
                         $this->content_obj->setData('crta', $objectId);
@@ -275,7 +267,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
                 try {
                     $certificateFileService = new ilPortfolioCertificateFileService();
                     $certificateFileService->deleteCertificateFile(
-                        (int) $this->user->getId(),
+                        $this->user->getId(),
                         (int) $oldContentData['id']
                     );
                 } catch (\ILIAS\Filesystem\Exception\FileNotFoundException $e) {

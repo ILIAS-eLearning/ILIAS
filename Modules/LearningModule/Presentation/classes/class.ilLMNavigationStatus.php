@@ -275,21 +275,23 @@ class ilLMNavigationStatus
         }
         while (!$found) {
             $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-            $c_id = $succ_node["obj_id"];
+            if (is_array($succ_node)) {
+                $c_id = $succ_node["obj_id"];
 
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
+                $active = ilLMPage::_lookupActive(
+                    $c_id,
+                    $this->lm->getType(),
+                    $this->lm_set->get("time_scheduled_page_activation")
+                );
+            }
 
-            if ($succ_node["obj_id"] > 0 &&
+            if (is_array($succ_node) && $succ_node["obj_id"] > 0 &&
                 $user_id == ANONYMOUS_USER_ID &&
                 ($this->lm->getPublicAccessMode() == "selected" &&
                     !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
                 $found = false;
             } else {
-                if ($succ_node["obj_id"] > 0 && !$active) {
+                if (is_array($succ_node) && $succ_node["obj_id"] > 0 && !$active) {
                     // look, whether activation data should be shown
                     $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
                     if ($act_data["show_activation_info"] &&
@@ -328,19 +330,21 @@ class ilLMNavigationStatus
         }
         while (!$found) {
             $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
-            $c_id = $pre_node["obj_id"];
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
-            if ($pre_node["obj_id"] > 0 &&
+            if (is_array($pre_node)) {
+                $c_id = $pre_node["obj_id"];
+                $active = ilLMPage::_lookupActive(
+                    $c_id,
+                    $this->lm->getType(),
+                    $this->lm_set->get("time_scheduled_page_activation")
+                );
+            }
+            if (is_array($pre_node) && $pre_node["obj_id"] > 0 &&
                 $user_id == ANONYMOUS_USER_ID &&
                 ($this->lm->getPublicAccessMode() == "selected" &&
                     !ilLMObject::_isPagePublic($pre_node["obj_id"]))) {
                 $found = false;
             } else {
-                if ($pre_node["obj_id"] > 0 && !$active) {
+                if (is_array($pre_node) && $pre_node["obj_id"] > 0 && !$active) {
                     // look, whether activation data should be shown
                     $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
                     if ($act_data["show_activation_info"] &&

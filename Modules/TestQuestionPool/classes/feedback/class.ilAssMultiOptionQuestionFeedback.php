@@ -24,14 +24,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     /**
      * returns the html of SPECIFIC feedback for the given question id
      * and answer index for test presentation
-     *
-     * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @return string $specificAnswerFeedbackTestPresentationHTML
      */
-    public function getSpecificAnswerFeedbackTestPresentation($questionId, $questionIndex, $answerIndex)
+    public function getSpecificAnswerFeedbackTestPresentation(int $questionId, int $questionIndex, int $answerIndex) : string
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $specificAnswerFeedbackTestPresentationHTML = $this->getPageObjectContent(
@@ -52,11 +46,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     /**
      * completes a given form object with the specific form properties
      * required by this question type
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
      */
-    public function completeSpecificFormProperties(ilPropertyFormGUI $form)
+    public function completeSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             $header = new ilFormSectionHeaderGUI();
@@ -83,11 +74,8 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
     /**
      * initialises a given form object's specific form properties
      * relating to this question type
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
      */
-    public function initSpecificFormProperties(ilPropertyFormGUI $form)
+    public function initSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
             foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
@@ -107,14 +95,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
     
-    /**
-     * saves a given form object's specific form properties
-     * relating to this question type
-     *
-     * @access public
-     * @param ilPropertyFormGUI $form
-     */
-    public function saveSpecificFormProperties(ilPropertyFormGUI $form)
+    public function saveSpecificFormProperties(ilPropertyFormGUI $form) : void
     {
         if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
@@ -128,16 +109,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
 
-    /**
-     * returns the SPECIFIC answer feedback content for a given question id and answer index.
-     *
-     * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @return string $feedbackContent
-     */
-    public function getSpecificAnswerFeedbackContent($questionId, $questionIndex, $answerIndex)
+    public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex) : string
     {
         require_once 'Services/RTE/classes/class.ilRTE.php';
         
@@ -147,24 +119,18 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
             array('integer','integer','integer'),
             array($questionId, $questionIndex, $answerIndex)
         );
-        
-        while ($row = $this->db->fetchAssoc($res)) {
+
+        $feedbackContent = '';
+
+        if($this->db->numRows($res) > 0) {
+            $row = $this->db->fetchAssoc($res);
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
-            break;
         }
         
         return $feedbackContent;
     }
     
-    /**
-     * returns the SPECIFIC feedback content for a given question id and answer index.
-     *
-     * @abstract
-     * @access public
-     * @param integer $questionId
-     * @return string $feedbackContent
-     */
-    public function getAllSpecificAnswerFeedbackContents($questionId)
+    public function getAllSpecificAnswerFeedbackContents(int $questionId) : string
     {
         require_once 'Services/RTE/classes/class.ilRTE.php';
         
@@ -183,17 +149,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return $allFeedbackContents;
     }
     
-    /**
-     * saves SPECIFIC answer feedback content for the given question id and answer index to the database.
-     *
-     * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @param string $feedbackContent
-     * @return integer $feedbackId
-     */
-    public function saveSpecificAnswerFeedbackContent($questionId, $questionIndex, $answerIndex, $feedbackContent)
+    public function saveSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent) : int
     {
         require_once 'Services/RTE/classes/class.ilRTE.php';
         
@@ -203,7 +159,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         
         $feedbackId = $this->getSpecificAnswerFeedbackId($questionId, $questionIndex, $answerIndex);
         
-        if ($feedbackId) {
+        if ($feedbackId !== -1) {
             $this->db->update(
                 $this->getSpecificFeedbackTableName(),
                 array(
@@ -230,15 +186,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return $feedbackId;
     }
         
-    /**
-     * deletes all SPECIFIC answer feedback contents (and page objects if required)
-     * for the given question id
-     *
-     * @access public
-     * @param integer $questionId
-     * @param boolean $isAdditionalContentEditingModePageObject
-     */
-    public function deleteSpecificAnswerFeedbacks($questionId, $isAdditionalContentEditingModePageObject)
+    public function deleteSpecificAnswerFeedbacks(int $questionId, bool $isAdditionalContentEditingModePageObject) : void
     {
         if ($isAdditionalContentEditingModePageObject) {
             require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
@@ -260,15 +208,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         );
     }
     
-    /**
-     * duplicates the SPECIFIC feedback relating to the given original question id
-     * and saves it for the given duplicate question id
-     *
-     * @access protected
-     * @param integer $originalQuestionId
-     * @param integer $duplicateQuestionId
-     */
-    protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function duplicateSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
@@ -295,14 +235,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
     
-    /**
-     * syncs the SPECIFIC feedback from a duplicated question back to the original question
-     *
-     * @access protected
-     * @param integer $originalQuestionId
-     * @param integer $duplicateQuestionId
-     */
-    protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    protected function syncSpecificFeedback(int $originalQuestionId, int $duplicateQuestionId) : void
     {
         // delete specific feedback of the original
         $this->db->manipulateF(
@@ -333,16 +266,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
     
-    /**
-     * returns the SPECIFIC answer feedback ID for a given question id and answer index.
-     *
-     * @final
-     * @access protected
-     * @param integer $questionId
-     * @param boolean $answerIndex
-     * @return string $feedbackId
-     */
-    final protected function getSpecificAnswerFeedbackId($questionId, $questionIndex, $answerIndex)
+    final protected function getSpecificAnswerFeedbackId(int $questionId, int $questionIndex, int $answerIndex) : int
     {
         $res = $this->db->queryF(
             "SELECT feedback_id FROM {$this->getSpecificFeedbackTableName()}
@@ -350,22 +274,18 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
             array('integer','integer','integer'),
             array($questionId, $questionIndex, $answerIndex)
         );
-        
-        $feedbackId = null;
-        
-        while ($row = $this->db->fetchAssoc($res)) {
-            $feedbackId = $row['feedback_id'];
-            break;
+
+        $feedbackId = -1;
+
+        if($this->db->numRows($res) > 0){
+            $row = $this->db->fetchAssoc($res);
+            $feedbackId = (int)$row['feedback_id'];
         }
         
         return $feedbackId;
     }
     
-    /**
-     * @param int $feedbackId
-     * @return bool
-     */
-    protected function isSpecificAnswerFeedbackId($feedbackId)
+    protected function isSpecificAnswerFeedbackId(int $feedbackId) : bool
     {
         $row = $this->db->fetchAssoc($this->db->queryF(
             "SELECT COUNT(feedback_id) cnt FROM {$this->getSpecificFeedbackTableName()}
@@ -377,38 +297,17 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return (bool) $row['cnt'];
     }
 
-    /**
-     * returns the table name for specific feedback
-     *
-     * @final
-     * @return string $specificFeedbackTableName
-     */
-    final protected function getSpecificFeedbackTableName()
+    final protected function getSpecificFeedbackTableName() : string
     {
         return self::TABLE_NAME_SPECIFIC_FEEDBACK;
     }
     
-    /**
-     * returns the answer options mapped by answer index
-     * (can be overwritten by concrete question type class)
-     *
-     * @return array $answerOptionsByAnswerIndex
-     */
-    public function getAnswerOptionsByAnswerIndex()
+    public function getAnswerOptionsByAnswerIndex() : array
     {
         return $this->questionOBJ->getAnswers();
     }
     
-    /**
-     * builds an answer option label from given (mixed type) index and answer
-     * (can be overwritten by concrete question types)
-     *
-     * @access protected
-     * @param integer $index
-     * @param mixed $answer
-     * @return string $answerOptionLabel
-     */
-    protected function buildAnswerOptionLabel($index, $answer)
+    protected function buildAnswerOptionLabel(int $index, $answer) : string
     {
         return $answer->getAnswertext();
     }
@@ -417,36 +316,19 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
      * returns a useable page object id for specific answer feedback page objects
      * for the given question id and answer index
      * (using the id sequence of non page object specific answer feedback)
-     *
-     * @final
-     * @access protected
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @return integer $pageObjectId
      */
-    final protected function getSpecificAnswerFeedbackPageObjectId($questionId, $questionIndex, $answerIndex)
+    final protected function getSpecificAnswerFeedbackPageObjectId(int $questionId, int $questionIndex, int $answerIndex) : int
     {
         $pageObjectId = $this->getSpecificAnswerFeedbackId($questionId, $questionIndex, $answerIndex);
         
-        if (!$pageObjectId) {
+        if ($pageObjectId === -1) {
             $pageObjectId = $this->saveSpecificAnswerFeedbackContent($questionId, $questionIndex, $answerIndex, null);
         }
         
         return $pageObjectId;
     }
     
-    /**
-     * returns the generic feedback export presentation for given question id
-     * either for solution completed or incompleted
-     *
-     * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @return string $specificAnswerFeedbackExportPresentation
-     */
-    public function getSpecificAnswerFeedbackExportPresentation($questionId, $questionIndex, $answerIndex)
+    public function getSpecificAnswerFeedbackExportPresentation(int $questionId, int $questionIndex, int $answerIndex) : string
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $specificAnswerFeedbackExportPresentation = $this->getPageObjectXML(
@@ -464,17 +346,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         return $specificAnswerFeedbackExportPresentation;
     }
     
-    /**
-     * imports the given feedback content as specific feedback
-     * for the given question id and answer index
-     *
-     * @access public
-     * @param integer $questionId
-     * @param integer $questionIndex
-     * @param integer $answerIndex
-     * @param string $feedbackContent
-     */
-    public function importSpecificAnswerFeedback($questionId, $questionIndex, $answerIndex, $feedbackContent)
+    public function importSpecificAnswerFeedback(int $questionId, int $questionIndex, int $answerIndex, string $feedbackContent) : void
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $pageObjectId = $this->getSpecificAnswerFeedbackPageObjectId($questionId, $questionIndex, $answerIndex);
@@ -486,7 +358,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
         }
     }
 
-    public function specificAnswerFeedbackExists()
+    public function specificAnswerFeedbackExists() : bool
     {
         return (bool) strlen(
             $this->getAllSpecificAnswerFeedbackContents($this->questionOBJ->getId())

@@ -1,8 +1,4 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
-
 /**
  * Exporter class for files
  *
@@ -58,8 +54,6 @@ class ilFileExporter extends ilXmlExporter
      */
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
-        include_once("./Modules/File/classes/class.ilObjFile.php");
-        include_once("./Modules/File/classes/class.ilFileXMLWriter.php");
         if (ilObject::_lookupType($a_id) == "file") {
             $file = new ilObjFile($a_id, false);
             $writer = new ilFileXMLWriter();

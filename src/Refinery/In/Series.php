@@ -1,11 +1,6 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 
 namespace ILIAS\Refinery\In;
 
@@ -14,6 +9,9 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class Series implements Transformation
 {
     use DeriveApplyToFromTransform;
@@ -22,7 +20,7 @@ class Series implements Transformation
     /**
      * @var Transformation[]
      */
-    private $transformationStrategies;
+    private array $transformationStrategies;
 
     /**
      * @param array $transformations

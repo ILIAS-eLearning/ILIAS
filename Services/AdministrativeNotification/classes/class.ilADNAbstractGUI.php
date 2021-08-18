@@ -13,7 +13,7 @@ abstract class ilADNAbstractGUI
      */
     protected $ui;
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     protected $http;
     /**

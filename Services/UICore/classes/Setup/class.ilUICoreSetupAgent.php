@@ -2,6 +2,7 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Setup\ObjectiveCollection;
 
 class ilUICoreSetupAgent implements Setup\Agent
 {
@@ -69,5 +70,22 @@ class ilUICoreSetupAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [];
+    }
+
+    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    {
+        if ($name == "reloadCtrlStructure") {
+            return new ObjectiveCollection(
+                "Reload Control Structure of ILIAS",
+                false,
+                new \ilCtrlStructureStoredObjective(
+                    new \ilCtrlStructureReader()
+                ),
+                new \ilComponentDefinitionsStoredObjective(false)
+            );
+        }
+        throw new \InvalidArgumentException(
+            "There is no named objective '$name'"
+        );
     }
 }

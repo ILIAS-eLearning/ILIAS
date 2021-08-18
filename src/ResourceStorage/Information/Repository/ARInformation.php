@@ -112,9 +112,9 @@ class ARInformation extends ActiveRecord
     /**
      * @return string
      */
-    public function getTitle() : string
+    public function getTitle() : ?string
     {
-        return $this->title;
+        return $this->title ?? '';
     }
 
     /**
@@ -131,9 +131,9 @@ class ARInformation extends ActiveRecord
     /**
      * @return string
      */
-    public function getSuffix() : string
+    public function getSuffix() : ?string
     {
-        return $this->suffix;
+        return $this->suffix ?? '';
     }
 
     /**
@@ -152,7 +152,7 @@ class ARInformation extends ActiveRecord
      */
     public function getMimeType() : string
     {
-        return $this->mime_type;
+        return $this->mime_type ?? '';
     }
 
     /**

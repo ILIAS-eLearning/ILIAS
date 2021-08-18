@@ -6554,3 +6554,279 @@ if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
     $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
 }
 ?>
+<#5788>
+<?php
+$query = "show index from il_meta_oer_stat where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('il_meta_oer_stat', ['obj_id']);
+}
+?>
+<#5789>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#5790>
+<?php
+if (!$ilDB->indexExistsByFields('il_bt_value', array('bucket_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value',
+        array('bucket_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('task_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('task_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('value_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('value_id'),
+        'i2'
+    );
+}
+?>
+<#5791>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value_to_task', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value_to_task',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#5792>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_users', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+    $ilDB->dropPrimaryKey('cmix_users');
+    $ilDB->addPrimaryKey('cmix_users', array('obj_id', 'usr_id', 'privacy_ident'));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_settings', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_name') ) {
+    $ilDB->addTableColumn('cmix_settings', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_ident') ) {
+    $ilDB->addTableColumn('lti_ext_provider', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name') ) {
+    $ilDB->addTableColumn('lti_ext_provider', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+?>
+<#5793>
+<?php
+if ( $ilDB->tableColumnExists('cmix_settings', 'user_ident') ) {
+
+    $set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+        if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+        if ($row['user_ident'] == 'real_email') {$ident = 3;}
+        if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+        if ($row['user_name'] == 'firstname') {$name = 1;}
+        if ($row['user_name'] == 'lastname') {$name = 2;}
+        if ($row['user_name'] == 'fullname') {$name = 3;}
+        
+        $ilDB->update(
+            "cmix_users",
+            [
+                "privacy_ident" => ["integer", $ident]
+            ],
+            [	// where
+                "obj_id" => ["integer", $row['obj_id']]
+            ]
+        );
+        $ilDB->update(
+            "cmix_settings",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name"   => ["integer", $name]
+            ],
+            [	// where
+                "obj_id" => ["integer", $row['obj_id']]
+            ]
+        );
+    }
+    $ilDB->dropTableColumn("cmix_settings", "user_ident");
+    $ilDB->dropTableColumn("cmix_settings", "user_name");
+}
+?>
+<#5794>
+<?php
+if ( $ilDB->tableColumnExists('lti_ext_provider', 'user_ident') ) {
+
+    $set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+        if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+        if ($row['user_ident'] == 'real_email') {$ident = 3;}
+        if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+        if ($row['user_name'] == 'firstname') {$name = 1;}
+        if ($row['user_name'] == 'lastname') {$name = 2;}
+        if ($row['user_name'] == 'fullname') {$name = 3;}
+        
+        $ilDB->update(
+            "lti_ext_provider",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name"   => ["integer", $name]
+            ],
+            [	// where
+                "id" => ["integer", $row['id']]
+            ]
+        );
+    }
+    $ilDB->dropTableColumn("lti_ext_provider", "user_ident");
+    $ilDB->dropTableColumn("lti_ext_provider", "user_name");
+}
+?>
+<#5795>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_lrs_types', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_name') ) {
+    $ilDB->addTableColumn('cmix_lrs_types', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( $ilDB->tableColumnExists('cmix_lrs_types', 'user_ident') ) {
+
+    $set = $ilDB->query("SELECT type_id, user_ident, user_name FROM cmix_lrs_types");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+        if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+        if ($row['user_ident'] == 'real_email') {$ident = 3;}
+        if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+        if ($row['user_name'] == 'firstname') {$name = 1;}
+        if ($row['user_name'] == 'lastname') {$name = 2;}
+        if ($row['user_name'] == 'fullname') {$name = 3;}
+        
+        $ilDB->update(
+            "cmix_lrs_types",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name"   => ["integer", $name]
+            ],
+            [	// where
+                "type_id" => ["integer", $row['type_id']]
+            ]
+        );
+    }
+    $ilDB->dropTableColumn("cmix_lrs_types", "user_ident");
+    $ilDB->dropTableColumn("cmix_lrs_types", "user_name");
+}
+?>
+<#5796>
+<?php
+if (!$ilDB->tableColumnExists('il_bibl_data', 'rid')) {
+    $ilDB->addTableColumn('il_bibl_data', 'rid', [
+        'type' => 'text',
+        'length' => 255
+    ]);
+}
+?>
+<#5797>
+<?php
+if (!$ilDB->indexExistsByFields('il_resource_revision', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_revision',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))) {
+    $ilDB->addIndex(
+        'il_resource_stakeh',
+        array('stakeholder_id'),
+        'i2'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource_info', array('identification'))) {
+    $ilDB->addIndex(
+        'il_resource_info',
+        array('identification'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
+    $ilDB->addIndex(
+        'il_resource',
+        array('storage_id'),
+        'i1'
+    );
+}
+?>
+<#5798>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

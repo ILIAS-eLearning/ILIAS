@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 namespace ILIAS\KioskMode;
@@ -8,11 +9,10 @@ namespace ILIAS\KioskMode;
  */
 class State
 {
-
     /**
      * @var array <string, string>
      */
-    protected $store;
+    protected ?array $store = null;
 
     /**
      * Set a value for a key of the state.

@@ -74,22 +74,6 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     }
 
     /**
-     * @param mixed $lastChange
-     */
-    public function setLastChange($lastChange)
-    {
-        $this->lastChange = $lastChange;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLastChange()
-    {
-        return $this->lastChange;
-    }
-
-    /**
      * assMultipleChoice constructor
      *
      * The constructor takes possible arguments an creates an instance of the assMultipleChoice object.
@@ -142,7 +126,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     * @return boolean True, if the multiple choice question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title) and ($this->author) and ($this->question) and (count($this->answers)) and ($this->getMaximumPoints() > 0)) {
             return true;
@@ -156,7 +140,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -219,7 +203,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     *
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -288,11 +272,11 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Duplicates an assMultipleChoiceQuestion
      */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -409,7 +393,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     * @return integer The output type of the assMultipleChoice object
     * @see $output_type
     */
-    public function getOutputType()
+    public function getOutputType() : int
     {
         return $this->output_type;
     }
@@ -421,7 +405,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see    $response
      */
-    public function setOutputType($output_type = OUTPUT_ORDER)
+    public function setOutputType($output_type = OUTPUT_ORDER) : void
     {
         $this->output_type = $output_type;
     }
@@ -548,7 +532,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see $points
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $points = 0;
         $allpoints = 0;
@@ -598,7 +582,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $points;
     }
     
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         $submit = $this->getSolutionSubmit();
         
@@ -635,7 +619,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
@@ -755,7 +739,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $this->rebuildThumbnails();
     }
 
-    public function syncWithOriginal()
+    public function syncWithOriginal() : void
     {
         if ($this->getOriginalId()) {
             $this->syncImages();
@@ -768,7 +752,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return integer The question type of the question
      */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assMultipleChoice";
     }
@@ -962,7 +946,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Collects all text in the question which could contain media objects which were created with the Rich Text Editor.
      */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         foreach ($this->answers as $index => $answer) {
@@ -984,7 +968,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1024,7 +1008,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ASS_AnswerBinaryStateImage $answer */
@@ -1035,7 +1019,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON()
+    public function toJSON() : string
     {
         require_once './Services/RTE/classes/class.ilRTE.php';
         $result = array();
@@ -1157,7 +1141,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1175,7 +1159,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;
@@ -1380,7 +1364,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
     
-    protected function buildTestPresentationConfig()
+    protected function buildTestPresentationConfig() : ilTestQuestionConfig
     {
         $config = parent::buildTestPresentationConfig();
         $config->setUseUnchangedAnswerLabel($this->lng->txt('tst_mc_label_none_above'));

@@ -25,6 +25,8 @@ class ilLDAPUserSynchronisation
     private $force_creation = false;
     private $force_read_ldap_data = false;
 
+    private $logger;
+
 
     /**
      * Constructor
@@ -33,6 +35,9 @@ class ilLDAPUserSynchronisation
      */
     public function __construct($a_authmode, $a_server_id)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->auth();
         $this->initServer($a_authmode, $a_server_id);
     }
 
@@ -127,6 +132,7 @@ class ilLDAPUserSynchronisation
      * @todo Redirects to account migration if required
      * @throws UnexpectedValueException missing or wrong external account given
      * @throws ilLDAPSynchronisationForbiddenException if user synchronisation is disabled
+     * @throws ilLDAPSynchronisationFailedException bind failure
      */
     public function sync()
     {
@@ -200,25 +206,28 @@ class ilLDAPUserSynchronisation
     /**
      * Read user data.
      * In case of auth mode != 'ldap' start a query with external account name against ldap server
+     * @throws ilLDAPSynchronisationFailedException
      */
-    protected function readUserData()
+    protected function readUserData() : bool
     {
         // Add internal account to user data
         $this->user_data['ilInternalAccount'] = $this->getInternalAccount();
-
-        if (!$this->force_read_ldap_data) {
-            if (substr($this->getAuthMode(), 0, 4) == 'ldap') {
-                return true;
-            }
+        if (!$this->force_read_ldap_data && strpos($this->getAuthMode(), 'ldap') === 0) {
+            return true;
         }
-        
-        include_once './Services/LDAP/classes/class.ilLDAPQuery.php';
-        $query = new ilLDAPQuery($this->getServer());
-        $user = $query->fetchUser($this->getExternalAccount());
-        
-        ilLoggerFactory::getLogger('auth')->dump($user, ilLogLevel::DEBUG);
 
-        $this->user_data = (array) $user[$this->getExternalAccount()];
+        try {
+            $query = new ilLDAPQuery($this->getServer());
+            $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
+            $user = $query->fetchUser($this->getExternalAccount());
+            $this->logger->dump($user, ilLogLevel::DEBUG);
+            $this->user_data = (array) $user[$this->getExternalAccount()];
+        } catch (ilLDAPQueryException $e) {
+            $this->logger->error('LDAP bind failed with message: ' . $e->getMessage());
+            throw new ilLDAPSynchronisationFailedException($e->getMessage());
+        }
+
+        return true;
     }
 
 

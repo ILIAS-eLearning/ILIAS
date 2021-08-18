@@ -10,7 +10,7 @@ require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.p
 require_once './Services/Exceptions/classes/class.ilException.php';
 
 use ilException;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Mockery;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
@@ -29,7 +29,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
 {
     use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
     /**
-     * @var GlobalHttpState|MockInterface $http
+     * @var Services|MockInterface $http
      */
     private $http;
     /**
@@ -41,7 +41,7 @@ class FileDeliveryTypeFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->http = Mockery::mock(GlobalHttpState::class);
+        $this->http = Mockery::mock(Services::class);
 
         //the factory should not interact with the service.
         $this->http->shouldNotReceive();

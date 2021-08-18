@@ -1,32 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- *
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentInfo
 {
-    /**
-     * @var ilExcAssMemberState
-     */
-    protected $state;
+    protected ilExcAssMemberState $state;
+    protected ilExAssignment $ass;
+    protected int $user_id;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
 
     /**
-     * @var ilExAssignment
-     */
-    protected $ass;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * Constructor
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function __construct(int $ass_id, int $user_id)
     {
@@ -39,12 +27,7 @@ class ilExAssignmentInfo
         $this->user_id = $user_id;
     }
 
-    /**
-     * Get instruction info
-     *
-     * @return array
-     */
-    public function getInstructionInfo()
+    public function getInstructionInfo() : array
     {
         if ($this->state->areInstructionsVisible()) {
             $inst = $this->ass->getInstructionPresentation();
@@ -60,19 +43,12 @@ class ilExAssignmentInfo
         return [];
     }
 
-    /**
-     * Get instruction file info
-     *
-     * @param
-     * @return
-     */
-    public function getInstructionFileInfo($readable_ref_id = 0)
+    public function getInstructionFileInfo(int $readable_ref_id = 0) : array
     {
         $ctrl = $this->ctrl;
         $ass_files = $this->ass->getFiles();
+        $items = [];
         if (count($ass_files) > 0) {
-            $items = [];
-
             foreach ($ass_files as $file) {
                 $dl_link = "";
                 if ($readable_ref_id > 0) {
@@ -95,14 +71,10 @@ class ilExAssignmentInfo
         return $items;
     }
 
-
     /**
-     *
-     *
-     * @param
-     * @return
+     * @throws ilDateTimeException
      */
-    public function getScheduleInfo()
+    public function getScheduleInfo() : array
     {
         $lng = $this->lng;
         $ret = [];
@@ -166,11 +138,9 @@ class ilExAssignmentInfo
     }
 
     /**
-     * Get submission info
-     *
-     * @return array
+     * @throws ilDateTimeException
      */
-    public function getSubmissionInfo()
+    public function getSubmissionInfo() : array
     {
         // submitted files
         $submission = new ilExSubmission($this->ass, $this->user_id);

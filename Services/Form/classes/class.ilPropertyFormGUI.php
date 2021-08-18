@@ -465,7 +465,7 @@ class ilPropertyFormGUI extends ilFormGUI
         }
         
         // check if POST is missint completely (if post_max_size exceeded)
-        if (count($this->items) > 0 && !is_array($_POST)) {
+        if (count($this->items) > 0 && count($_POST) === 0) {
             $ok = false;
         }
         
@@ -548,28 +548,6 @@ class ilPropertyFormGUI extends ilFormGUI
         }
         
         return $_POST[$a_post_var] ?? '';
-    }
-    
-    /**
-    * Add a custom property.
-    *
-    * @param	string		Title
-    * @param	string		HTML.
-    * @param	string		Info text.
-    * @param	string		Alert text.
-    * @param	boolean		Required field. (Default false)
-    */
-    public function addCustomProperty(
-        $a_title,
-        $a_html,
-        $a_info = "",
-        $a_alert = "",
-        $a_required = false
-    ) {
-        $this->properties[] = array("type" => "custom",
-            "title" => $a_title,
-            "html" => $a_html,
-            "info" => $a_info);
     }
 
     /**

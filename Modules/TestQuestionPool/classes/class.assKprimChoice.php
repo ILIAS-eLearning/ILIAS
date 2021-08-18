@@ -1,11 +1,12 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+//require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+/*
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjQuestionScoringAdjustable.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilObjAnswerScoringAdjustable.php';
 require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbackOptionLabelProvider.php';
-
+*/
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -59,16 +60,14 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->optionLabel = self::OPTION_LABEL_RIGHT_WRONG;
         $this->customTrueOptionLabel = '';
         $this->customFalseOptionLabel = '';
-        
-        require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
+
         $this->specificFeedbackSetting = ilAssConfigurableMultiOptionQuestionFeedback::FEEDBACK_SETTING_ALL;
         
         $this->answers = array();
-        
-        $this->setPoints('');
+
     }
     
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return 'assKprimChoice';
     }
@@ -189,7 +188,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->answers[] = $answer;
     }
     
-    public function loadFromDb($questionId)
+    public function loadFromDb($questionId) : void
     {
         $res = $this->db->queryF($this->buildQuestionDataQuery(), array('integer'), array($questionId));
         
@@ -293,7 +292,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    public function saveToDb($originalId = '')
+    public function saveToDb($originalId = '') : void
     {
         $this->saveQuestionDataToDb($originalId);
         
@@ -343,7 +342,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->rebuildThumbnails();
     }
     
-    public function isComplete()
+    public function isComplete() : bool
     {
         foreach (array($this->title, $this->author, $this->question) as $text) {
             if (!strlen($text)) {
@@ -351,7 +350,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             }
         }
         
-        if ($this->getMaximumPoints() <= 0) {
+        if (!isset($this->points)) {
             return false;
         }
 
@@ -378,7 +377,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         /** @var ilDBInterface $ilDB */
         $ilDB = $GLOBALS['DIC']['ilDB'];
@@ -693,12 +692,12 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
         return $points;
     }
-    
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -809,18 +808,18 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         return $clone->id;
     }
 
-    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::beforeSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
         
-        $question = self::_instanciateQuestion($origQuestionId);
+        $question = self::instantiateQuestion($origQuestionId);
 
         foreach ($question->getAnswers() as $answer) {
             $question->removeAnswerImage($answer->getPosition());
         }
     }
 
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
         
@@ -875,7 +874,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         }
     }
 
-    protected function getRTETextWithMediaObjects()
+    protected function getRTETextWithMediaObjects() : string
     {
         $combinedText = parent::getRTETextWithMediaObjects();
         
@@ -889,7 +888,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         foreach ($this->getAnswers() as $answer) {
             /* @var ilAssKprimChoiceAnswer $answer */
@@ -900,7 +899,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * Returns a JSON representation of the question
      */
-    public function toJSON()
+    public function toJSON() : string
     {
         $this->lng->loadLanguageModule('assessment');
 
@@ -971,13 +970,13 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     {
         return 'feedback_correct_kprim';
     }
-    
-    public static function isObligationPossible($questionId)
+
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }
-    
-    public function isAnswered($active_id, $pass = null)
+
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -987,7 +986,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 

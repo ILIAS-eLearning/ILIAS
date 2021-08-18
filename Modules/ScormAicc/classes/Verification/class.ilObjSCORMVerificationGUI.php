@@ -1,27 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Object/classes/class.ilObject2GUI.php');
-
 /**
  * GUI class for scorm verification
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilObjSCORMVerificationGUI: ilWorkspaceAccessGUI
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    public function getType() : string
     {
         return "scov";
     }
 
-    /**
-     * List all tests in which current user participated
-     */
-    public function create()
+    public function create() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -33,21 +26,17 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             $this->ctrl->getLinkTarget($this, "cancel")
         );
 
-        include_once "Modules/ScormAicc/classes/Verification/class.ilSCORMVerificationTableGUI.php";
         $table = new ilSCORMVerificationTableGUI($this, "create");
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * create new instance and save it
-     */
-    public function save()
+    public function save() : void
     {
         global $DIC;
 
         $ilUser = $DIC->user();
 
-        $objectId = $_REQUEST["lm_id"];
+        $objectId = $this->getRequestValue("lm_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $DIC->language(),
@@ -67,9 +56,10 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
             }
 
+            $newObj = null;
             if ($newObj) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
@@ -85,7 +75,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         if ($file) {
@@ -93,13 +83,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * Render content
-     *
-     * @param bool $a_return
-     * @param string $a_url
-     */
-    public function render($a_return = false, $a_url = false)
+    public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -114,11 +98,11 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             $caption = $lng->txt("wsp_type_scov") . ' "' . $this->object->getTitle() . '"';
 
             $valid = true;
+            $message = '';
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
                 $message = $lng->txt("url_not_found");
             } elseif (!$a_url) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
@@ -131,18 +115,19 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
                 }
                 return '<div><a href="' . $a_url . '">' . $caption . '</a></div>';
-            } else {
-                return '<div>' . $caption . ' (' . $message . ')</div>';
             }
+
+            return '<div>' . $caption . ' (' . $message . ')</div>';
         }
+
+        return "";
     }
 
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
 
-        include_once "Services/COPage/classes/class.ilPCVerification.php";
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
@@ -150,7 +135,7 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
 
@@ -158,5 +143,23 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
         exit;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed   $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }

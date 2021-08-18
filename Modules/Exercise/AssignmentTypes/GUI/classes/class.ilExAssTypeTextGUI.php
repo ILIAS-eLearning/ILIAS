@@ -52,18 +52,15 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         $form->addItem($rb_limit_chars);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function importFormToAssignment(ilExAssignment $a_ass, ilPropertyFormGUI $a_form)
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
     {
-        $a_ass->setMaxCharLimit(0);
-        $a_ass->setMinCharLimit(0);
-        if ($a_form->getInput("limit_characters") && $a_form->getInput("max_char_limit")) {
-            $a_ass->setMaxCharLimit($a_form->getInput("max_char_limit"));
+        $ass->setMaxCharLimit(0);
+        $ass->setMinCharLimit(0);
+        if ($form->getInput("limit_characters") && $form->getInput("max_char_limit")) {
+            $ass->setMaxCharLimit($form->getInput("max_char_limit"));
         }
-        if ($a_form->getInput("limit_characters") && $a_form->getInput("min_char_limit")) {
-            $a_ass->setMinCharLimit($a_form->getInput("min_char_limit"));
+        if ($form->getInput("limit_characters") && $form->getInput("min_char_limit")) {
+            $ass->setMinCharLimit($form->getInput("min_char_limit"));
         }
     }
 

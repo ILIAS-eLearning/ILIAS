@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,52 +7,23 @@
  */
 class ilForumAutoSaveAsyncDraftAction
 {
-    /** @var \ilObjUser */
-    private $actor;
+    private ilObjUser $actor;
+    private ilPropertyFormGUI $form;
+    private ilForumProperties $forumProperties;
+    private ilForumTopic $thread;
+    private ?ilForumPost $relatedPost;
+    private Closure $subjectFormatterCallable;
+    private int $relatedDraftId;
+    private int $relatedForumId;
+    private string $action;
 
-    /** @var \ilPropertyFormGUI */
-    private $form;
-
-    /** @var \ilForumProperties */
-    private $forumProperties;
-
-    /** @var \ilForumTopic */
-    private $thread;
-
-    /** @var \ilForumPost|null */
-    private $relatedPost;
-    
-    /** @var callable */
-    private $subjectFormatterCallable;
-
-    /** @var int */
-    private $relatedDraftId = 0;
-
-    /** @var int */
-    private $relatedForumId;
-
-    /** @var string */
-    private $action = '';
-
-    /**
-     * ilForumAutoSaveAsyncDraftAction constructor.
-     * @param \ilObjUser         $actor
-     * @param \ilPropertyFormGUI $form
-     * @param \ilForumProperties $forumProperties
-     * @param \ilForumTopic      $thread
-     * @param \ilForumPost|null  $relatedPost
-     * @param callable           $subjectFormatterCallable
-     * @param int                $relatedDraftId
-     * @param int                $relatedForumId
-     * @param string             $action
-     */
     public function __construct(
-        \ilObjUser $actor,
-        \ilPropertyFormGUI $form,
-        \ilForumProperties $forumProperties,
-        \ilForumTopic $thread,
-        $relatedPost,
-        callable $subjectFormatterCallable,
+        ilObjUser $actor,
+        ilPropertyFormGUI $form,
+        ilForumProperties $forumProperties,
+        ilForumTopic $thread,
+        ?ilForumPost $relatedPost,
+        Closure $subjectFormatterCallable,
         int $relatedDraftId,
         int $relatedForumId,
         string $action
@@ -69,12 +40,9 @@ class ilForumAutoSaveAsyncDraftAction
         $this->action = $action;
     }
 
-    /**
-     * @return \stdClass
-     */
-    public function executeAndGetResponseObject() : \stdClass
+    public function executeAndGetResponseObject() : stdClass
     {
-        $response = new \stdClass();
+        $response = new stdClass();
         $response->draft_id = 0;
 
         if ($this->actor->isAnonymous() || !($this->actor->getId() > 0)) {
@@ -85,12 +53,12 @@ class ilForumAutoSaveAsyncDraftAction
             return $response;
         }
 
-        if (!\ilForumPostDraft::isAutoSavePostDraftAllowed()) {
+        if (!ilForumPostDraft::isAutoSavePostDraftAllowed()) {
             return $response;
         }
 
         if (
-            $this->relatedPost instanceof \ilForumPost && (
+            $this->relatedPost instanceof ilForumPost && (
                 !$this->relatedPost->isActivated() || $this->relatedPost->isCensored()
             )
         ) {
@@ -98,7 +66,7 @@ class ilForumAutoSaveAsyncDraftAction
         }
 
         $relatedPostId = 0;
-        if ($this->relatedPost instanceof \ilForumPost) {
+        if ($this->relatedPost instanceof ilForumPost) {
             $relatedPostId = $this->relatedPost->getId();
         }
 
@@ -115,9 +83,9 @@ class ilForumAutoSaveAsyncDraftAction
 
         if ($draftId > 0) {
             if ('showreply' === $this->action) {
-                $draftObj = \ilForumPostDraft::newInstanceByDraftId($draftId);
+                $draftObj = ilForumPostDraft::newInstanceByDraftId($draftId);
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
-                $draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
+                $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->setPostUserAlias($inputValues['alias']);
                 $draftObj->setNotify($inputValues['notify']);
                 $draftObj->setUpdateUserId($this->actor->getId());
@@ -125,30 +93,30 @@ class ilForumAutoSaveAsyncDraftAction
                 $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
                 $draftObj->updateDraft();
 
-                $uploadedObjects = \ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
-                $oldMediaObjects = \ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-                $curMediaObjects = \ilRTE::_getMediaObjects($inputValues['message'], 0);
+                $uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
+                $oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
+                $curMediaObjects = ilRTE::_getMediaObjects($inputValues['message'], 0);
 
                 $this->handleMedia(
-                    \ilForumPostDraft::MEDIAOBJECT_TYPE,
+                    ilForumPostDraft::MEDIAOBJECT_TYPE,
                     $draftObj->getDraftId(),
                     $uploadedObjects,
                     $oldMediaObjects,
                     $curMediaObjects
                 );
             } else {
-                $draftObj = new \ilForumDraftsHistory();
+                $draftObj = new ilForumDraftsHistory();
                 $draftObj->setDraftId($draftId);
                 $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
-                $draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
+                $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
                 $draftObj->addDraftToHistory();
 
-                $uploadedObjects = \ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
-                $oldMediaObjects = \ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-                $curMediaObjects = \ilRTE::_getMediaObjects($inputValues['message'], 0);
+                $uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
+                $oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
+                $curMediaObjects = ilRTE::_getMediaObjects($inputValues['message'], 0);
 
                 $this->handleMedia(
-                    \ilForumDraftsHistory::MEDIAOBJECT_TYPE,
+                    ilForumDraftsHistory::MEDIAOBJECT_TYPE,
                     $draftObj->getHistoryId(),
                     $uploadedObjects,
                     $oldMediaObjects,
@@ -156,24 +124,24 @@ class ilForumAutoSaveAsyncDraftAction
                 );
             }
         } else {
-            $draftObj = new \ilForumPostDraft();
+            $draftObj = new ilForumPostDraft();
             $draftObj->setForumId($this->relatedForumId);
             $draftObj->setThreadId($this->thread->getId());
             $draftObj->setPostId($relatedPostId);
             $draftObj->setPostSubject($subjectFormatterCallback($inputValues['subject']));
-            $draftObj->setPostMessage(\ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
+            $draftObj->setPostMessage(ilRTE::_replaceMediaObjectImageSrc($inputValues['message'], 0));
             $draftObj->setPostUserAlias($inputValues['alias']);
             $draftObj->setNotify($inputValues['notify']);
             $draftObj->setPostAuthorId($this->actor->getId());
             $draftObj->setPostDisplayUserId(($this->forumProperties->isAnonymized() ? 0 : $this->actor->getId()));
             $draftObj->saveDraft();
 
-            $uploadedObjects = \ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
-            $oldMediaObjects = \ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
-            $curMediaObjects = \ilRTE::_getMediaObjects($inputValues['message'], 0);
+            $uploadedObjects = ilObjMediaObject::_getMobsOfObject('frm~:html', $this->actor->getId());
+            $oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draftObj->getDraftId());
+            $curMediaObjects = ilRTE::_getMediaObjects($inputValues['message'], 0);
 
             $this->handleMedia(
-                \ilForumPostDraft::MEDIAOBJECT_TYPE,
+                ilForumPostDraft::MEDIAOBJECT_TYPE,
                 $draftObj->getDraftId(),
                 $uploadedObjects,
                 $oldMediaObjects,
@@ -199,23 +167,23 @@ class ilForumAutoSaveAsyncDraftAction
         array $uploadedObjects,
         array $oldMediaObjects,
         array $curMediaObjects
-    ) {
+    ) : void {
         foreach ($uploadedObjects as $mob) {
-            \ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->actor->getId());
-            \ilObjMediaObject::_saveUsage($mob, $type, $draftId);
+            ilObjMediaObject::_removeUsage($mob, 'frm~:html', $this->actor->getId());
+            ilObjMediaObject::_saveUsage($mob, $type, $draftId);
         }
 
         foreach ($oldMediaObjects as $mob) {
-            \ilObjMediaObject::_saveUsage($mob, $type, $draftId);
+            ilObjMediaObject::_saveUsage($mob, $type, $draftId);
         }
 
         foreach ($curMediaObjects as $mob) {
-            \ilObjMediaObject::_saveUsage($mob, $type, $draftId);
+            ilObjMediaObject::_saveUsage($mob, $type, $draftId);
         }
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     protected function getInputValuesFromForm() : array
     {
@@ -224,7 +192,7 @@ class ilForumAutoSaveAsyncDraftAction
         $inputValues['subject'] = (string) $this->form->getInput('subject');
         $inputValues['message'] = (string) $this->form->getInput('message');
         $inputValues['notify'] = (int) $this->form->getInput('notify');
-        $inputValues['alias'] = \ilForumUtil::getPublicUserAlias(
+        $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
             (string) $this->form->getInput('alias'),
             $this->forumProperties->isAnonymized()
         );

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
+use ILIAS\UI\Component\Component;
 
 /**
  * Class ForumGlobalScreenToolsProvider
@@ -9,12 +11,12 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
  */
 class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_FORUM_THREADS_TOOL = 'show_forum_threads_tool';
-    const REF_ID = 'ref_id';
-    const FORUM_THEAD = 'frm_thread';
-    const FORUM_THREAD_ROOT = 'frm_thread_root';
-    const FORUM_BASE_CONTROLLER = 'frm_base_controller';
-    const PAGE = 'frm_thread_page';
+    public const SHOW_FORUM_THREADS_TOOL = 'show_forum_threads_tool';
+    public const REF_ID = 'ref_id';
+    public const FORUM_THEAD = 'frm_thread';
+    public const FORUM_THREAD_ROOT = 'frm_thread_root';
+    public const FORUM_BASE_CONTROLLER = 'frm_base_controller';
+    public const PAGE = 'frm_thread_page';
 
     /**
      * @inheritDoc
@@ -30,10 +32,10 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
      */
     public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
     {
-        $iff = function ($id) {
+        $iff = function (string $id) : IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
-        $l = function (string $content) {
+        $l = function (string $content) : Component {
             return $this->dic->ui()->factory()->legacy($content);
         };
 

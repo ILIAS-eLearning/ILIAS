@@ -11,10 +11,6 @@ class ilServicesInitSuite extends TestSuite
     {
         $suite = new ilServicesInitSuite();
 
-        require_once("Services/Init/test/ilInitialisationTest.php");
-
-        $suite->addTestSuite("ilInitialisationTest");
-
         return $suite;
     }
 }

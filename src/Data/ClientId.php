@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data;
@@ -10,10 +11,7 @@ namespace ILIAS\Data;
  */
 class ClientId
 {
-    /**
-     * @var string
-     */
-    private $clientId = '';
+    private string $clientId = '';
 
     /**
      * ClientId constructor.
@@ -28,17 +26,11 @@ class ClientId
         $this->clientId = $clientId;
     }
 
-    /**
-     * @return string
-     */
     public function toString() : string
     {
         return $this->clientId;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         return $this->toString();

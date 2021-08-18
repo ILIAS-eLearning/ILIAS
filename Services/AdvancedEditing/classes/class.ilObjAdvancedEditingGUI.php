@@ -52,7 +52,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
-        $rbacsystem = $DIC->rbac()->system();
 
         $this->type = "adve";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -75,7 +74,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -182,7 +181,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 array("showPageEditorSettings")
             );
         }
-        $ilCtrl->setParameter($this, "grp", $_GET["grp"]);
+        $ilCtrl->setParameter($this, "grp", $_GET["grp"] ?? "");
     }
     
     /**

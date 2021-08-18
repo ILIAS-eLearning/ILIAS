@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Data\DateFormat;
@@ -43,10 +44,7 @@ class DateFormat
         self::YEAR_TWO_DIG
     ];
 
-    /**
-     * @var array
-     */
-    protected $format = [];
+    protected array $format = [];
 
     public function __construct(array $format)
     {
@@ -65,7 +63,6 @@ class DateFormat
 
     /**
      * Get the elements of the format as array.
-     * @return array
      */
     public function toArray() : array
     {
@@ -74,7 +71,6 @@ class DateFormat
 
     /**
      * Get the format as string.
-     * @return array
      */
     public function toString() : string
     {

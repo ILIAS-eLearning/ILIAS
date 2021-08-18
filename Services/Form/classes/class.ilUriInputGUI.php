@@ -9,11 +9,6 @@
  */
 class ilUriInputGUI extends ilTextInputGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $value;
     protected $maxlength = 500;
     protected $size = 40;

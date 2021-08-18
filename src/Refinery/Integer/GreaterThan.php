@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Integer;
@@ -7,12 +8,9 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 
-class GreaterThan extends CustomConstraint implements Constraint
+class GreaterThan extends CustomConstraint
 {
-    /**
-     * @var int
-     */
-    protected $min;
+    protected int $min;
 
     public function __construct(int $min, Data\Factory $data_factory, \ilLanguage $lng)
     {

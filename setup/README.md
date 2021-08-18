@@ -7,7 +7,8 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `reload-control-structure` [rebuilds structure information](#reload-ilias-control-structure) of an installation
+* `achieve` [a name objective](#achieve-method) of an agent 
+* `migrate` will run [needed migrations](#migrations)
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
@@ -109,12 +110,56 @@ Like for `install` and `update`, plugins are included here, but can be controlle
 via options.
 
 
-## Reload ILIAS Control Structure
+## Achieve a Named Objective
 
-The control structure captures information about components and GUIs of ILIAS
-in the database. Sometimes it might be necessary to refresh that information.
-Please do not invoke this function unless it is explicitly stated in update
-or patch instructions or you know what you are doing.
+Some components of ILIAS will publish named objectives to the setup via their
+agent. The most notorious example for this is the component `UICore` which provides
+the objective `reloadCtrlStructure` that will generate routing information for the
+GUI. To achieve a single objective from an agent, e.g. for control structure reload,
+run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g. 
+`php setup/setup.php achieve uicore.reloadCtrlStructure` to reload the
+control structure. The agent might need to a config file to work, which may be added
+as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
+
+
+# Migrations
+
+Migrations are major changes in the ILIAS database or file system that are 
+necessary after an update. Migrations can take quite a long time, which is 
+why they are available separately as a command. The advantage is that you can 
+perform migrations after the update when the installation is already online again. 
+For more information, see [https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html](https://docu.ilias.de/goto_docu_wiki_wpage_6399_1357.html)
+
+The command lists available migrations:
+
+`php setup/setup.php migrate`
+
+
+```
+! [NOTE] There are 1 to run:
+
+ilFileObjectMigrationAgent.ilFileObjectToStorageMigration: Migration of File-Objects to Storage service [remaining steps: 1110]
+```
+
+Individual migrations can then be started as follows, e.g.:
+
+`php setup/setup.php migrate --run ilFileObjectMigrationAgent.ilFileObjectToStorageMigration`
+
+A migration must be confirmed in each case, e.g.:
+
+``` 
+Do you really want to run the following migration? Make sure you have a backup
+of all your data. You will run this migration on your own risk.
+
+Please type 'ilFileObjectToStorageMigration' to confirm and start.:
+>
+```
+
+With `--yes` migrations can be confirmed automatically.
+
+Migrations are divided into individual steps, of which there can be many depending
+on the migration. A default number of steps is executed in each case; the number 
+can be increased or set with `--steps=...`.
 
 ## About the Config File
 

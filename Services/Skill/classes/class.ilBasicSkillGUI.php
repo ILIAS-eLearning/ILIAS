@@ -86,7 +86,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
 
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
         $this->base_skill_id = $a_node_id;
 
         $params = $this->request->getQueryParams();
@@ -675,7 +675,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             );
         }
 
-        $ilCtrl->saveParameter($this, "level_id");
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
 

@@ -1,9 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-
 /**
  * XML writer class
  *
@@ -139,8 +135,6 @@ class ilFileXMLWriter extends ilXmlWriter
         $this->xmlElement("Description", null, $this->file->getDescription());
         $this->xmlElement("Rating", null, (int) $this->file->hasRating());
 
-        include_once("./Services/History/classes/class.ilHistory.php");
-
         $versions = $this->file->getVersions();
 
         if (count($versions)) {
@@ -171,7 +165,6 @@ class ilFileXMLWriter extends ilXmlWriter
                         } // begin-patch fm
                         elseif ($this->attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_REST) {
                             $attribs ['mode'] = "REST";
-                            include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
                             $fs = new ilRestFileStorage();
                             $content = $fs->storeFileForRest(base64_encode(@file_get_contents($filename)));
                             ;

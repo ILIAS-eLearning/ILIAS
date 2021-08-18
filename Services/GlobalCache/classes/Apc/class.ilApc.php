@@ -1,78 +1,48 @@
 <?php
 
-require_once('./Services/GlobalCache/classes/class.ilGlobalCacheService.php');
-require_once('./Services/Environment/classes/class.ilRuntime.php');
-
 /**
  * Class ilApc
- *
  * @beta
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilApc extends ilGlobalCacheService
+class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
-    const MIN_MEMORY = 16;
-    const CACHE_ID = 'user';
-
-
     /**
-     * @param $key
-     *
-     * @return bool
+     * @var int
      */
-    public function exists($key)
+    private const MIN_MEMORY = 16;
+    
+    public function exists(string $key) : bool
     {
         if (function_exists('apcu_exists')) {
             return apcu_exists($this->returnKey($key));
-        } else {
-            return apcu_fetch($this->returnKey($key));
         }
+        return (bool) apcu_fetch($this->returnKey($key));
     }
-
-
-    /**
-     * @param     $key
-     * @param     $serialized_value
-     * @param int $ttl
-     *
-     * @return array|bool
-     */
-    public function set($key, $serialized_value, $ttl = 0)
+    
+    public function set(string $key, $serialized_value, int $ttl = null) : bool
     {
         return apcu_store($this->returnKey($key), $serialized_value, $ttl);
     }
-
-
+    
     /**
-     * @param $key
-     *
      * @return mixed
      */
-    public function get($key)
+    public function get(string $key)
     {
         return apcu_fetch($this->returnKey($key));
     }
-
-
+    
     /**
-     * @param $key
-     *
      * @return bool|string[]
      */
-    public function delete($key)
+    public function delete(string $key) : bool
     {
         return apcu_delete($this->returnKey($key));
     }
-
-
-    /**
-     * @param bool $complete
-     *
-     * @return bool
-     */
-    public function flush($complete = false)
+    
+    public function flush(bool $complete = false) : bool
     {
         if ($complete) {
             return apcu_clear_cache();
@@ -92,42 +62,34 @@ class ilApc extends ilGlobalCacheService
         }
         return false;
     }
-
-
+    
     /**
      * @param $value
-     *
      * @return mixed|string
      */
     public function serialize($value)
     {
         return ($value);
     }
-
-
+    
     /**
      * @param $serialized_value
-     *
      * @return mixed
      */
     public function unserialize($serialized_value)
     {
         return ($serialized_value);
     }
-
-
-    /**
-     * @return array
-     */
-    public function getInfo()
+    
+    public function getInfo() : array
     {
         $return = array();
-
+        
         $cache_info = apc_cache_info();
-
+        
         unset($cache_info['cache_list']);
         unset($cache_info['slot_distribution']);
-
+        
         $return['__cache_info'] = array(
             'apc.enabled' => ini_get('apc.enabled'),
             'apc.shm_size' => ini_get('apc.shm_size'),
@@ -136,61 +98,50 @@ class ilApc extends ilGlobalCacheService
             'apc.user_ttl' => ini_get('apc.ttl'),
             'info' => $cache_info,
         );
-
+        
         $cache_info = apc_cache_info();
         foreach ($cache_info['cache_list'] as $dat) {
             $key = $dat['key'];
-
+            
             if (preg_match('/' . $this->getServiceId() . '_' . $this->getComponent() . '/', $key)) {
                 $return[$key] = apc_fetch($key);
             }
         }
-
+        
         return $return;
     }
-
-
-    protected function getActive()
+    
+    protected function getActive() : bool
     {
         return function_exists('apcu_store');
     }
-
-
-    /**
-     * @return bool
-     */
-    protected function getInstallable()
+    
+    protected function getInstallable() : bool
     {
         return function_exists('apcu_store');
     }
-
-
-    /**
-     * @return string
-     */
-    protected function getMemoryLimit()
+    
+    protected function getMemoryLimit() : int
     {
         if (ilRuntime::getInstance()->isHHVM()) {
             return $this->getMinMemory() . 'M';
         }
-
+        
         return ini_get('apc.shm_size');
     }
-
-
+    
     /**
      * @inheritDoc
      */
-    protected function getMinMemory()
+    protected function getMinMemory() : int
     {
         return self::MIN_MEMORY;
     }
-
-
+    
     /**
      * @inheritdoc
      */
-    public function isValid($key)
+    public function isValid(string $key) : bool
     {
         return true;
     }

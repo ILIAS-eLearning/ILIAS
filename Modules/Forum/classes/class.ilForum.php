@@ -846,7 +846,7 @@ class ilForum
         }
 
         // DELETE ATTACHMENTS ASSIGNED TO POST
-        $this->__deletePostFiles($del_id);
+        $this->deletePostFiles($del_id);
         
         $dead_pos = count($del_id);
         $dead_thr = 0;
@@ -1922,7 +1922,7 @@ class ilForum
         return $text;
     }
 
-    public function __deletePostFiles($a_ids)
+    private function deletePostFiles($a_ids)
     {
         if (!is_array($a_ids)) {
             return false;
@@ -2155,7 +2155,7 @@ class ilForum
         return $threads ? $threads : array();
     }
         
-    public static function _lookupObjIdForForumId($a_for_id)
+    public static function _lookupObjIdForForumId($a_for_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -2169,9 +2169,10 @@ class ilForum
         );
         
         if ($fdata = $ilDB->fetchAssoc($res)) {
-            return $fdata["top_frm_fk"];
+            return (int) $fdata["top_frm_fk"];
         }
-        return false;
+
+        return 0;
     }
     
     public static function updateLastPostByObjId($a_obj_id)

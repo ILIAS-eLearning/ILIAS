@@ -10,9 +10,6 @@ use PHPUnit\Framework\TestCase;
  */
 class ilWhiteListUrlValidatorTest extends TestCase
 {
-    /**
-     * @return array
-     */
     public function domainProvider() : array
     {
         return [
@@ -59,7 +56,6 @@ class ilWhiteListUrlValidatorTest extends TestCase
      */
     public function testValidator(string $domain, array $whitelist, bool $result) : void
     {
-        require_once 'Services/AuthApache/classes/class.ilWhiteListUrlValidator.php';
         $this->assertEquals((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
     }
 }

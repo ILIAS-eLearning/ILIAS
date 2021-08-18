@@ -85,16 +85,46 @@ il.UI.button = il.UI.button || {};
 })($, il);
 
 // toggle init
-$(document).ready(function() {
-	$('.il-toggle-button.on').attr("aria-pressed", "true");
+document.addEventListener("DOMContentLoaded", function() {
 
-    $('.il-toggle-button').click(function() {
-        $(this).toggleClass('.il-toggle-button on').toggleClass('.il-toggle-button off');
+	document.querySelectorAll(".il-toggle-button:not(.unavailable)").forEach(button => {
+		const refreshLabels = (b, toggle = false) => {
+			let on = b.classList.contains("on");
+			if (toggle) {
+				on = !on;
+			}
+			if (b.querySelectorAll(".il-toggle-label-off, .il-toggle-label-on").length > 0) {
+				b.querySelectorAll(".il-toggle-label-off, .il-toggle-label-on").forEach(l => {
+					l.style.display = "none";
+				});
+				if (on) {
+					b.setAttribute('aria-pressed', true);
+					b.classList.add("on");
+					b.classList.remove("off");
+					b.querySelector(".il-toggle-label-on").style.display = "";
+				} else {
+					b.setAttribute('aria-pressed', false);
+					b.classList.add("off");
+					b.classList.remove("on");
+					b.querySelector(".il-toggle-label-off").style.display = "";
+				}
+			} else {
+				if (on) {
+					b.setAttribute('aria-pressed', true);
+					b.classList.add("on");
+					b.classList.remove("off");
+				} else {
+					b.setAttribute('aria-pressed', false);
+					b.classList.add("off");
+					b.classList.remove("on");
+				}
+			}
+		}
+		refreshLabels(button);
 
-        if ($(this).attr("aria-pressed") == "false") {
-            $(this).attr("aria-pressed", "true");
-        } else {
-            $(this).attr("aria-pressed", "false");
-        }
-    });
+		button.addEventListener("click", e => {
+			const b = e.currentTarget;
+			refreshLabels(b, true);
+		});
+	});
 });

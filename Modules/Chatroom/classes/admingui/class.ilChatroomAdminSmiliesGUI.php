@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,14 +9,9 @@
  */
 class ilChatroomAdminSmiliesGUI extends ilChatroomGUIHandler
 {
-    /**
-     * @inheritDoc
-     */
-    public function executeDefault($requestedMethod)
+    public function executeDefault(string $requestedMethod) : void
     {
-        global $DIC;
-
         $this->gui->switchToVisibleMode();
-        $DIC->ui()->mainTemplate()->setVariable('ADM_CONTENT', '');
+        $this->mainTpl->setVariable('ADM_CONTENT', '');
     }
 }

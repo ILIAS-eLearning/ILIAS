@@ -1,21 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
+    protected ilLanguage $lng;
+    protected ilRbacReview $rbacreview;
 
     public function __construct()
     {
@@ -45,7 +35,7 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
         $counter = 2;
 
         foreach ($role_ids as $role_id) {
-            $role_title = ilObject::_lookupTitle($role_id);
+            $role_title = ilObject::_lookupTitle((int) $role_id);
             $mailbox = $this->getMailboxRoleAddress($role_id);
 
             switch (substr($role_title, 0, 8)) {

@@ -34,9 +34,13 @@ has the permission to read and execute your newly installed less compiler.
 
 #### Step 1: Activate "Manage System Styles"
 
-1. Browse to the ILIAS Setup (`your.installation.com/setup/setup.php`) and Login
-Using the Master Password
-2. Navigate to "Basic Settings" and activate "Manage System Styles"
+1. Open the ilias.ini.php file in your ILIAS Administration.
+2. Make sure that in the Section [tools] the setting enable_system_styles_management is activated.
+3. Make sure, that a lessc is set to your lessc installation:
+```
+enable_system_styles_management = "1"
+lessc = "/usr/local/bin/lessc"
+```
 
 #### Step 2: Create new System Style
 

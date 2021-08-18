@@ -1,6 +1,6 @@
-<?php
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Numeric;
 
@@ -8,7 +8,7 @@ use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
 use ILIAS\Data;
 
-class IsNumeric extends CustomConstraint implements Constraint
+class IsNumeric extends CustomConstraint
 {
     public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
     {

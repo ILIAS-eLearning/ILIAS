@@ -162,7 +162,7 @@ class ilAccordionPropertiesStorage
 
         switch ($this->properties[$a_property]["storage"]) {
             case "session":
-                $r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property];
+                $r = $_SESSION["accordion"][$a_table_id][$a_user_id][$a_property] ?? "";
 //echo "<br><br><br><br><br><br><br><br>get-".$r;
                 return $r;
                 break;

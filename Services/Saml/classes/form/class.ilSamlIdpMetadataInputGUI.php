@@ -3,35 +3,23 @@
 
 /**
  * Class ilSamlIdpMetadataInputGUI
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
-    /** @var ilSamlIdpXmlMetadataParser */
-    protected $idpMetadataParser;
+    protected ilSamlIdpXmlMetadataParser $idpMetadataParser;
 
-    /**
-     * ilSamlIdpMetadataInputGUI constructor.
-     * @param string $a_title
-     * @param string $a_postvar
-     * @param ilSamlIdpXmlMetadataParser|null $idpMetadataParser
-     */
-    public function __construct($a_title = '', $a_postvar = '', ilSamlIdpXmlMetadataParser $idpMetadataParser = null)
+    public function __construct(string $title, string $httpPostVar, ilSamlIdpXmlMetadataParser $idpMetadataParser)
     {
-        parent::__construct($a_title, $a_postvar);
+        parent::__construct($title, $httpPostVar);
         $this->idpMetadataParser = $idpMetadataParser;
     }
 
-    /**
-     * @return ilSamlIdpXmlMetadataParser
-     */
-    public function getIdpMetadataParser()
+    public function getIdpMetadataParser() : ilSamlIdpXmlMetadataParser
     {
         return $this->idpMetadataParser;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function checkInput()
     {
         $valid = parent::checkInput();
@@ -40,7 +28,7 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         }
 
         try {
-            $httpValue = $_POST[$this->getPostVar()];
+            $httpValue = (string) ($_POST[$this->getPostVar()] ?? '');
 
             $this->idpMetadataParser->parse($httpValue);
             if ($this->idpMetadataParser->hasErrors()) {
@@ -52,7 +40,7 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
                 $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
                 return false;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
             return false;
         }

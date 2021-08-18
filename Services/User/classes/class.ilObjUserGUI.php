@@ -16,34 +16,14 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 */
 class ilObjUserGUI extends ilObjectGUI
 {
-    /** @var ILIAS\UI\Factory */
-    protected $uiFactory;
-
-    /** @var ILIAS\UI\Renderer */
-    protected $uiRenderer;
-    
-    public $ilCtrl;
-
-    /**
-    * array of gender abbreviations
-    * @var		array
-    * @access	public
-    */
-    public $gender;
-
-    /**
-    * ILIAS3 object type abbreviation
-    * @var		string
-    * @access	public
-    */
-    public $type;
-
-    /**
-    * userfolder ref_id where user is assigned to
-    * @var		string
-    * @access	public
-    */
+    protected ILIAS\UI\Factory $uiFactory;
+    protected ILIAS\UI\Renderer $uiRenderer;
+    public ilCtrl $ilCtrl;
+    public array $gender;
     public $user_ref_id;
+    protected string $requested_letter = "";
+    protected string $requested_baseClass = "";
+    protected string $requested_search = "";
 
     /**
      * ilObjUserGUI constructor.
@@ -77,15 +57,13 @@ class ilObjUserGUI extends ilObjectGUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        define('USER_FOLDER_ID', 7);
-
         $this->type = "usr";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->usrf_ref_id = &$this->ref_id;
 
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array('obj_id', 'letter'));
-        $this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $_GET["letter"]);
+        $this->ctrl->setParameterByClass("ilobjuserfoldergui", "letter", $this->requested_letter);
         $this->ctrl->setContext($this->object->getId(), 'usr');
         $lng->loadLanguageModule('user');
         
@@ -96,13 +74,15 @@ class ilObjUserGUI extends ilObjectGUI
                               'm' => "salutation_m",
                               'f' => "salutation_f",
                               );
+
+        $this->requested_letter = (string) ($_GET["letter"] ?? "");
+        $this->requested_baseClass = (string) ($_GET["baseClass"] ?? "");
+        $this->requested_search = (string) ($_GET["search"] ?? "");
     }
 
     public function executeCommand()
     {
         global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -153,10 +133,8 @@ class ilObjUserGUI extends ilObjectGUI
     {
         ilSession::clear("saved_post");
 
-        if (strtolower($_GET["baseClass"]) == 'iladministrationgui') {
+        if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
             $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
-        //$return_location = $_GET["cmd_return_location"];
-            //ilUtil::redirect($this->ctrl->getLinkTarget($this,$return_location));
         } else {
             $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
         }
@@ -184,7 +162,7 @@ class ilObjUserGUI extends ilObjectGUI
         
         $ilHelp->setScreenIdComponent("usr");
 
-        if ($_GET["search"]) {
+        if ($this->requested_search) {
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt("search_results"),
                 $_SESSION["usr_search_link"]
@@ -492,7 +470,7 @@ class ilObjUserGUI extends ilObjectGUI
 
             $msg = $this->lng->txt("user_added");
 
-            $ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
+            $ilUser->setPref('send_info_mails', (isset($_POST['send_mail']) && $_POST['send_mail'] == 'y') ? 'y' : 'n');
             $ilUser->writePrefs();
 
             $this->object = $userObj;
@@ -510,7 +488,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
             // send new account mail
-            if ($_POST['send_mail'] == 'y') {
+            if (isset($_POST['send_mail']) && $_POST['send_mail'] == 'y') {
                 include_once('Services/Mail/classes/class.ilAccountMail.php');
                 $acc_mail = new ilAccountMail();
                 $acc_mail->useLangVariablesAsFallback(true);
@@ -530,7 +508,7 @@ class ilObjUserGUI extends ilObjectGUI
             }
 
 
-            if (strtolower($_GET["baseClass"]) == 'iladministrationgui') {
+            if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
                 $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
             } else {
                 $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
@@ -869,13 +847,13 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->object->setPref("show_users_online", $_POST["show_users_online"]);
             }*/
             if ($this->isSettingChangeable('hide_own_online_status')) {
-                $this->object->setPref("hide_own_online_status", $_POST["hide_own_online_status"]);
+                $this->object->setPref("hide_own_online_status", ($_POST["hide_own_online_status"] ?? false));
             }
             if ($this->isSettingChangeable('bs_allow_to_contact_me')) {
-                $this->object->setPref('bs_allow_to_contact_me', $_POST['bs_allow_to_contact_me'] ? 'y' : 'n');
+                $this->object->setPref('bs_allow_to_contact_me', ($_POST['bs_allow_to_contact_me'] ?? false) ? 'y' : 'n');
             }
             if ($this->isSettingChangeable('chat_osc_accept_msg')) {
-                $this->object->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
+                $this->object->setPref('chat_osc_accept_msg', ($_POST['chat_osc_accept_msg'] ?? false) ? 'y' : 'n');
             }
 
             // set a timestamp for last_password_change
@@ -900,7 +878,7 @@ class ilObjUserGUI extends ilObjectGUI
             if ($ilUser->getId() == $this->object->getId()) {
                 $ilUser->readPrefs();
             }
-            $ilUser->setPref('send_info_mails', ($_POST['send_mail'] == 'y') ? 'y' : 'n');
+            $ilUser->setPref('send_info_mails', (isset($_POST['send_mail']) && $_POST['send_mail'] == 'y') ? 'y' : 'n');
             $ilUser->writePrefs();
 
             $mail_message = $this->__sendProfileMail();
@@ -922,7 +900,7 @@ class ilObjUserGUI extends ilObjectGUI
             // feedback
             ilUtil::sendSuccess($msg, true);
 
-            if (strtolower($_GET["baseClass"]) == 'iladministrationgui') {
+            if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
                 $this->ctrl->redirectByClass("ilobjuserfoldergui", "view");
             } else {
                 $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
@@ -1019,13 +997,12 @@ class ilObjUserGUI extends ilObjectGUI
         $data["language"] = $this->object->getLanguage();
         $data["skin_style"] = $this->object->skin . ":" . $this->object->prefs["style"];
         $data["hits_per_page"] = $this->object->prefs["hits_per_page"];
-        //$data["show_users_online"] = $this->object->prefs["show_users_online"];
         $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
         $data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
         $data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
-        $data["session_reminder_enabled"] = (int) $this->object->prefs["session_reminder_enabled"];
+        $data["session_reminder_enabled"] = (int) ($this->object->prefs["session_reminder_enabled"] ?? 0);
 
-        $data["send_mail"] = ($this->object->prefs['send_info_mails'] == 'y');
+        $data["send_mail"] = (($this->object->prefs['send_info_mails'] ?? "") == 'y');
 
 
         $this->form_gui->setValuesByArray($data);
@@ -1789,7 +1766,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         ilUtil::sendSuccess($this->lng->txt("msg_roleassignment_changed"), true);
 
-        if (strtolower($_GET["baseClass"]) == 'iladministrationgui') {
+        if (strtolower($this->requested_baseClass) == 'iladministrationgui') {
             $this->ctrl->redirect($this, 'roleassignment');
         } else {
             $this->ctrl->redirectByClass('ilobjcategorygui', 'listUsers');
@@ -1964,7 +1941,7 @@ class ilObjUserGUI extends ilObjectGUI
 
         $ilLocator->clearItems();
 
-        if ($_GET["admin_mode"] == "settings") {	// system settings
+        if ($this->admin_mode == "settings") {	// system settings
             $this->ctrl->setParameterByClass(
                 "ilobjsystemfoldergui",
                 "ref_id",
@@ -1976,23 +1953,23 @@ class ilObjUserGUI extends ilObjectGUI
                 ilFrameTargetInfo::_getFrame("MainContent")
             );
 
-            if ($_GET['ref_id'] == USER_FOLDER_ID) {
+            if ($this->requested_ref_id == USER_FOLDER_ID) {
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
-                        ilObject::_lookupObjId($_GET["ref_id"])
+                        ilObject::_lookupObjId($this->requested_ref_id)
                     )),
                     $this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view")
                 );
-            } elseif ($_GET['ref_id'] == ROLE_FOLDER_ID) {
+            } elseif ($this->requested_ref_id == ROLE_FOLDER_ID) {
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
-                        ilObject::_lookupObjId($_GET["ref_id"])
+                        ilObject::_lookupObjId($this->requested_ref_id)
                     )),
                     $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
                 );
             }
 
-            if ($_GET["obj_id"] > 0) {
+            if ($this->obj_id > 0) {
                 $ilLocator->addItem(
                     $this->object->getTitle(),
                     $this->ctrl->getLinkTarget($this, "view")
@@ -2011,10 +1988,9 @@ class ilObjUserGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
         $ilias = $DIC['ilias'];
 
-        if ($_POST['send_mail'] != 'y') {
+        if (!isset($_POST['send_mail']) || $_POST['send_mail'] != 'y') {
             return '';
         }
         if (!strlen($this->object->getEmail())) {
@@ -2092,20 +2068,14 @@ class ilObjUserGUI extends ilObjectGUI
         
         // badges
         if (substr($a_target, -4) == "_bdg") {
-            $_GET["baseClass"] = "ilDashboardGUI";
-            $_GET["cmd"] = "jumpToBadges";
-            include("ilias.php");
-            exit();
+            $ilCtrl->redirectByClass("ilDashboardGUI", "jumpToBadges");
         }
 
         if ('registration' == $a_target) {
-            $_GET["baseClass"] = 'ilStartUpGUI';
             $ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilAccountRegistrationGUI'), '');
         } elseif ('nameassist' == $a_target) {
-            $_GET["baseClass"] = 'ilStartUpGUI';
             $ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), 'showUsernameAssistanceForm');
         } elseif ('pwassist' == $a_target) {
-            $_GET["baseClass"] = 'ilStartUpGUI';
             $ilCtrl->redirectByClass(array('ilStartUpGUI', 'ilPasswordAssistanceGUI'), '');
         } elseif ('agreement' == $a_target) {
             if ($ilUser->getId() > 0 && !$ilUser->isAnonymous()) {
@@ -2113,7 +2083,6 @@ class ilObjUserGUI extends ilObjectGUI
                 $ilCtrl->initBaseClass('ildashboardgui');
                 $ilCtrl->redirectByClass(array('ildashboardgui', 'ilpersonalprofilegui'), 'showUserAgreement');
             } else {
-                $_GET['baseClass'] = 'ilStartUpGUI';
                 $ilCtrl->setTargetScript('ilias.php');
                 $ilCtrl->redirectByClass(array('ilStartUpGUI'), 'showTermsOfService');
             }
@@ -2123,19 +2092,15 @@ class ilObjUserGUI extends ilObjectGUI
             $a_target = ilObjUser::_lookupId(ilUtil::stripSlashes(substr($a_target, 1)));
         }
 
+        $cmd = "view";
         if (strpos($a_target, 'contact_approved') !== false) {
-            $_GET['cmd'] = 'approveContactRequest';
+            $cmd = 'approveContactRequest';
         } elseif (strpos($a_target, 'contact_ignored') !== false) {
-            $_GET['cmd'] = 'ignoreContactRequest';
-        } else {
-            $_GET['cmd'] = 'view';
+            $cmd = 'ignoreContactRequest';
         }
 
-        $_GET["user_id"] = (int) $a_target;
-        $_GET["baseClass"] = "ilPublicUserProfileGUI";
-        $_GET["cmdClass"] = "ilpublicuserprofilegui";
-        include("ilias.php");
-        exit;
+        $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", (int) $a_target);
+        $ilCtrl->redirectByClass(["ilPublicUserProfileGUI", "ilpublicuserprofilegui"], $cmd);
     }
 
     /**

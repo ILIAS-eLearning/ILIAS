@@ -91,6 +91,8 @@ class ilAdministrationGUI
      */
     protected $creation_mode = false;
 
+    protected int $requested_obj_id = 0;
+
     /**
     * Constructor
     * @access	public
@@ -147,6 +149,8 @@ class ilAdministrationGUI
                 $_GET["cmd"] = "";
             }
         }
+
+        $this->requested_obj_id = (int) ($_GET["obj_id"] ?? 0);
     }
 
     
@@ -222,8 +226,8 @@ class ilAdministrationGUI
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
                     if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
                         || $next_class == "ilobjroletemplategui")) {
-                        if ($_GET["obj_id"] != "") {
-                            $this->gui_obj = new $class_name("", $_GET["obj_id"], false, false);
+                        if ($this->requested_obj_id > 0) {
+                            $this->gui_obj = new $class_name("", $this->requested_obj_id, false, false);
                             $this->gui_obj->setCreationMode(false);
                         } else {
                             $this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);

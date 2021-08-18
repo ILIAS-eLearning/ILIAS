@@ -17,7 +17,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
     protected $properties; // [ilADTGroupActiveRecordBridge]
     protected $fields; // [arFieldList]
     protected $field_element_map = []; // [array]
-    
+
     /**
      * Constructor
      *
@@ -27,39 +27,39 @@ class ilADTActiveRecordWrapper extends ActiveRecord
     public function __construct(ilADTGroupActiveRecordBridge $a_properties)
     {
         $this->properties = $a_properties;
-        
+
         // see ActiveRecord::__construct();
         $this->initFieldList();
         $this->arConnector = new arConnectorDB();
     }
-    
-    
+
+
     //
     // active record field(s)
     //
-    
+
     protected function getActiveRecordFieldTypeFromMDB2($a_mdb2_type)
     {
         // currently they are all the same
         switch ($a_mdb2_type) {
             case "integer":
                 return arField::FIELD_TYPE_INTEGER;
-                
+
             case "float":
                 return arField::FIELD_TYPE_FLOAT;
-                
+
             case "text":
                 return arField::FIELD_TYPE_TEXT;
-                
+
             case "date":
                 return arField::FIELD_TYPE_DATE;
-                
+
             case "timestamp":
                 return arField::FIELD_TYPE_TIMESTAMP;
-                
+
             case "integer":
                 return arField::FIELD_TYPE_INTEGER;
-                
+
             /*
             case "clob":
                 return arField::FIELD_TYPE_CLOB;
@@ -69,7 +69,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
             */
         }
     }
-    
+
     /**
      * Get field list instance for ADT group
      */
@@ -106,40 +106,40 @@ class ilADTActiveRecordWrapper extends ActiveRecord
             $this->fields->setPrimaryField($field);
         }
     }
-    
-    
+
+
     //
     // active record meta (table/primary key)
     //
-    
-    public function getConnectorContainerName()
+
+    public function getConnectorContainerName() : string
     {
         return $this->properties->getTableName();
     }
-        
-    public static function returnDbTableName()
+
+    public static function returnDbTableName() : string
     {
         // :TODO: cannot be static
     }
-    
+
     public function getPrimaryFieldValue()
     {
         $primary = array_shift($this->properties->getPrimary());
         return $primary[1];
     }
-    
-    
+
+
     //
     // active record CRUD
     //
-    
+
     public function sleep($field_name)
     {
         if (array_key_exists($field_name, $this->field_element_map)) {
             $element = $this->properties->getElement($this->field_element_map[$field_name]);
             return $element->getFieldValue($field_name);
         }
-        
+
         // returning NULL would result in direct property access!
         return false;
     }
@@ -150,7 +150,7 @@ class ilADTActiveRecordWrapper extends ActiveRecord
             $element = $this->properties->getElement($this->field_element_map[$field_name]);
             return $element->setFieldValue($field_name, $field_value);
         }
-        
+
         // returning NULL would result in direct property access!
         return false;
     }

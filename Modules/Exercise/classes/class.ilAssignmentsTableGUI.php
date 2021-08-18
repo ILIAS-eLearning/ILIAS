@@ -1,30 +1,26 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Assignments table
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesExercise
-*/
+ * Assignments table
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilAssignmentsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilExAssignmentTypes
-     */
-    protected $types;
+    protected ilExAssignmentTypes $types;
+    protected ilExcRandomAssignmentManager $random_manager;
+    protected int $exc_id;
 
     /**
-     * @var ilExcRandomAssignmentManager
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected $random_manager;
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exc_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_exc_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -96,7 +92,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         // #12000
         if (in_array($a_field, array("order_val", "deadline", "start_time"))) {
@@ -104,25 +100,26 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         }
         return false;
     }
-    
+
     /**
-    * Fill table row
-    */
-    protected function fillRow($d)
+     * @throws ilDateTimeException
+     */
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $this->tpl->setVariable("ID", $d["id"]);
+        $this->tpl->setVariable("ID", $a_set["id"]);
 
-        $ass = new ilExAssignment($d["id"]);
+        $ass = new ilExAssignment($a_set["id"]);
 
+        $dl = "";
         if ($ass->getDeadlineMode() == ilExAssignment::DEADLINE_ABSOLUTE) {
-            if ($d["deadline"] > 0) {
-                $dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"], IL_CAL_UNIX));
-                if ($d["deadline2"] > 0) {
+            if ($a_set["deadline"] > 0) {
+                $dl = ilDatePresentation::formatDate(new ilDateTime($a_set["deadline"], IL_CAL_UNIX));
+                if ($a_set["deadline2"] > 0) {
                     $dl .= "<br />(" . ilDatePresentation::formatDate(new ilDateTime(
-                        $d["deadline2"],
+                        $a_set["deadline2"],
                         IL_CAL_UNIX
                     )) . ")";
                 }
@@ -142,19 +139,19 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable("TXT_DEADLINE", $dl);
         }
-        if ($d["start_time"] > 0) {
+        if ($a_set["start_time"] > 0) {
             $this->tpl->setVariable(
                 "TXT_START_TIME",
-                ilDatePresentation::formatDate(new ilDateTime($d["start_time"], IL_CAL_UNIX))
+                ilDatePresentation::formatDate(new ilDateTime($a_set["start_time"], IL_CAL_UNIX))
             );
         }
         $this->tpl->setVariable(
             "TXT_INSTRUCTIONS",
-            nl2br(trim(ilUtil::shortenText(strip_tags($d["instruction"]), 200, true)))
+            nl2br(trim(ilUtil::shortenText(strip_tags($a_set["instruction"]), 200, true)))
         );
 
         if (!$this->random_manager->isActivated()) {
-            if ($d["mandatory"]) {
+            if ($a_set["mandatory"]) {
                 $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("yes"));
             } else {
                 $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("no"));
@@ -163,12 +160,12 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("exc_random"));
         }
         
-        $ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
+        $ilCtrl->setParameter($this->parent_obj, "ass_id", $a_set["id"]);
         
-        if ($d["peer"]) {
-            $this->tpl->setVariable("TXT_PEER", $lng->txt("yes") . " (" . $d["peer_min"] . ")");
+        if ($a_set["peer"]) {
+            $this->tpl->setVariable("TXT_PEER", $lng->txt("yes") . " (" . $a_set["peer_min"] . ")");
             
-            if ($d["peer_invalid"]) {
+            if ($a_set["peer_invalid"]) {
                 $this->tpl->setVariable("TXT_PEER_INVALID", $lng->txt("exc_peer_reviews_invalid_warning"));
             }
 
@@ -183,9 +180,9 @@ class ilAssignmentsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("TXT_PEER", $lng->txt("no"));
         }
         
-        $this->tpl->setVariable("TXT_TITLE", $d["title"]);
-        $this->tpl->setVariable("TXT_TYPE", $d["type"]);
-        $this->tpl->setVariable("ORDER_VAL", $d["order_val"]);
+        $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
+        $this->tpl->setVariable("TXT_TYPE", $a_set["type"]);
+        $this->tpl->setVariable("ORDER_VAL", $a_set["order_val"]);
         
         $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
         $this->tpl->setVariable(

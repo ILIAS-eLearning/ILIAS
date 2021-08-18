@@ -1,29 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- *
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseFactory
 {
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
 
     /**
      * Internal services, do not use from other components
-     *
-     * @param
-     * @return
      */
-    public function internal()
+    public function internal() : ilExerciseInternalFactory
     {
         return new ilExerciseInternalFactory();
     }

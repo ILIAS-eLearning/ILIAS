@@ -229,7 +229,7 @@ class ilPreviewGUI
                 array(ilPreview::RENDER_STATUS_NONE, ilPreview::RENDER_STATUS_FAILED)
             );
         }
-            
+        
         // delete allowed?
         if ($this->access_handler->checkAccess("write", "", $this->node_id)) {
             $this->renderCommand(
@@ -356,7 +356,6 @@ class ilPreviewGUI
         // needed scripts & styles
         $DIC->ui()->mainTemplate()->addJavaScript("./libs/bower/bower_components/jquery-mousewheel/jquery.mousewheel.js");
         $DIC->ui()->mainTemplate()->addJavaScript("./Services/Preview/js/ilPreview.js");
-        $DIC->ui()->mainTemplate()->addCss(ilUtil::getStyleSheetLocation("filesystem", "preview.css", "Services/Preview"));
 
         // create loading template
         $tmpl = new ilTemplate("tpl.preview.html", true, true, "Services/Preview");

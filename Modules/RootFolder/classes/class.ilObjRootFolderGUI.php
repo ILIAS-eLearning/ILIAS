@@ -67,7 +67,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
     public function getTabs()
     {
-        global $rbacsystem, $lng, $ilHelp;
+        global $rbacsystem, $lng, $ilHelp, $DIC;
+
+        $request = $DIC->http()->request();
         
         $ilHelp->setScreenIdComponent("root");
 
@@ -82,16 +84,14 @@ class ilObjRootFolderGUI extends ilContainerGUI
         }
         
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-            $force_active = ($_GET["cmd"] == "edit")
-                ? true
-                : false;
+            $cmd = $request->getQueryParams()['cmd'] ?? '';
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "edit"),
                 "edit",
                 get_class($this),
                 "",
-                $force_active
+                $cmd == 'edit'
             );
         }
 

@@ -1,26 +1,20 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- */
 namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data\Factory;
 use ILIAS\Refinery\Integer\GreaterThan;
 use ILIAS\Refinery\Integer\LessThan;
 
+/**
+ * @author  Niels Theen <ntheen@databay.de>
+ */
 class Group
 {
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
+    private Factory $dataFactory;
+    private \ilLanguage $language;
 
     public function __construct(Factory $dataFactory, \ilLanguage $language)
     {

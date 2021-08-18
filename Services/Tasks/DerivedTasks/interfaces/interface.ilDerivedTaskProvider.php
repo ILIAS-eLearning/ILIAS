@@ -1,27 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Derived task provider
  *
- * @author killing@leifos.de
- * @ingroup ServicesTasks
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface ilDerivedTaskProvider
 {
     /**
      * Get providers
      *
-     * @param int $user_id
      * @return ilDerivedTask[]
      */
     public function getTasks(int $user_id) : array;
 
     /**
      * Is provider active?
-     *
-     * @return bool
      */
     public function isActive() : bool;
 }

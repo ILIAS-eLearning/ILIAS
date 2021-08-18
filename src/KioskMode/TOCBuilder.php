@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 - Richard Klees <richard.klees@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 namespace ILIAS\KioskMode;
@@ -32,7 +33,7 @@ interface TOCBuilder
      *
      * @param	mixed $state one of the LP_ constants from TOCBuilder
      */
-    public function node($label, int $parameter = null, $lp = null) : TOCBuilder;
+    public function node(string $label, int $parameter = null, int $lp = null) : TOCBuilder;
 
     /**
      * Build an entry in the TOC.

@@ -258,10 +258,11 @@ class ilSessionFile
             "WHERE event_id = " . $ilDB->quote($a_event_id, 'integer') . "";
 
         $res = $ilDB->query($query);
+        $files = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $files[] = new ilSessionFile($row->file_id);
         }
-        return is_array($files) ? $files : array();
+        return $files;
     }
 
     public function __read()

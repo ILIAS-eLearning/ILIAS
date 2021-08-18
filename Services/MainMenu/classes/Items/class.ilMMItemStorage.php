@@ -40,7 +40,7 @@ class ilMMItemStorage extends CachedActiveRecord
 
 
 
-    public function create()
+    public function create() : void
     {
         if (self::find($this->getIdentification())) {
             $this->update();
@@ -104,7 +104,7 @@ class ilMMItemStorage extends CachedActiveRecord
     /**
      * @var string
      */
-    protected $connector_container_name = "il_mm_items";
+    protected string $connector_container_name = "il_mm_items";
 
 
     /**

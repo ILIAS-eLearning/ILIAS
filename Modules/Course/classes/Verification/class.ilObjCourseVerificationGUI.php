@@ -1,31 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Object/classes/class.ilObject2GUI.php');
+use ILIAS\DI\Container;
 
 /**
  * GUI class for course verification
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
  * @ilCtrl_Calls ilObjCourseVerificationGUI: ilWorkspaceAccessGUI
  */
 class ilObjCourseVerificationGUI extends ilObject2GUI
 {
-    public function getType()
+    private Container $dic;
+
+    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    {
+        global $DIC;
+        $this->dic = $DIC;
+        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+    }
+
+    public function getType() : string
     {
         return "crsv";
     }
 
-    /**
-     * List all tests in which current user participated
-     */
-    public function create()
+    public function create() : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC['ilTabs'];
+        $ilTabs = $this->dic->tabs();
 
         $this->lng->loadLanguageModule("crsv");
 
@@ -38,21 +40,16 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * create new instance and save it
-     */
-    public function save()
+    public function save() : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $this->dic->user();
         
-        $objectId = $_REQUEST["crs_id"];
+        $objectId = $this->getRequestValue("crs_id");
         if ($objectId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
-                $DIC->language(),
-                $DIC->database(),
-                $DIC->logger()->root(),
+                $this->dic->language(),
+                $this->dic->database(),
+                $this->dic->logger()->root(),
                 new ilCertificateVerificationClassMap()
             );
 
@@ -63,11 +60,13 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                 (int) $objectId
             );
 
+            $newObj = null;
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
-            } catch (\Exception $exception) {
+            } catch (Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
+                return;
             }
 
             if ($newObj) {
@@ -86,26 +85,18 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $this->create();
     }
     
-    public function deliver()
+    public function deliver() : void
     {
         $file = $this->object->getFilePath();
         if ($file) {
             ilUtil::deliverFile($file, $this->object->getTitle() . ".pdf");
         }
     }
-    
-    /**
-     * Render content
-     *
-     * @param bool $a_return
-     * @param string $a_url
-     */
-    public function render($a_return = false, $a_url = false)
-    {
-        global $DIC;
 
-        $ilUser = $DIC['ilUser'];
-        $lng = $DIC['lng'];
+    public function render(bool $a_return = false, string $a_url = '') : string
+    {
+        $ilUser = $this->dic->user();
+        $lng = $this->dic->language();
         
         if (!$a_return) {
             $this->deliver();
@@ -116,11 +107,11 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
             $caption = $lng->txt("wsp_type_crsv") . ' "' . $this->object->getTitle() . '"';
             
             $valid = true;
+            $message = '';
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
                 $message = $lng->txt("url_not_found");
             } elseif (!$a_url) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if (!$access_handler->checkAccess("read", "", $wsp_id)) {
                     $valid = false;
@@ -133,19 +124,18 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
                     $a_url = $this->getAccessHandler()->getGotoLink($wsp_id, $this->object->getId());
                 }
                 return '<div><a href="' . $a_url . '">' . $caption . '</a></div>';
-            } else {
-                return '<div>' . $caption . ' (' . $message . ')</div>';
             }
+
+            return '<div>' . $caption . ' (' . $message . ')</div>';
         }
+
+        return "";
     }
     
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
+        $ilErr = $this->dic['ilErr'];
         
-        include_once "Services/COPage/classes/class.ilPCVerification.php";
         if (ilPCVerification::isInPortfolioPage($a_page, $this->object->getType(), $this->object->getId())) {
             $this->deliver();
         }
@@ -153,7 +143,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
     
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         $id = explode("_", $a_target);
         
@@ -161,5 +151,23 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
         $_GET["wsp_id"] = $id[0];
         include("ilias.php");
         exit;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed   $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }

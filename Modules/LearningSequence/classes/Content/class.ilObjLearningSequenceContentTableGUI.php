@@ -1,16 +1,20 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
 class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 {
+    protected ilObjLearningSequenceContentGUI $parent_gui;
+    protected ilObjLearningSequenceGUI $container_gui;
+    protected string $cmd;
+    protected ilAccess $access;
+    protected ilAdvancedSelectionListGUI $advanced_selection_list_gui;
+    protected LSItemOnlineStatus $ls_item_online_status;
+
     public function __construct(
         ilObjLearningSequenceContentGUI $parent_gui,
+        ilObjLearningSequenceGUI $container_gui,
         string $cmd,
         ilCtrl $ctrl,
         ilLanguage $lng,
@@ -21,6 +25,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         parent::__construct($parent_gui, $cmd);
 
         $this->parent_gui = $parent_gui;
+        $this->container_gui = $container_gui;
         $this->ctrl = $ctrl;
         $this->lng = $lng;
         $this->access = $access;
@@ -49,12 +54,13 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
     protected function fillRow($set)
     {
+        /** @var LSItem $set */
+
         $ni = new ilNumberInputGUI(
             "",
             $this->parent_gui->getFieldName($this->parent_gui::FIELD_ORDER, $set->getRefId())
         );
         $ni->setSize("3");
-        $ni->setDisabled($this->set_is_used);
         $ni->setValue(($set->getOrderNumber() + 1) * 10);
 
         if ($this->ls_item_online_status->hasOnlineStatus($set->getRefId())) {
@@ -98,7 +104,6 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TYPE", $set->getType());
     }
 
-
     protected function getItemActionsMenu(int $ref_id, string $type) : string
     {
         $item_obj_id = $this->getObjIdFor($ref_id);
@@ -110,12 +115,21 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $item_list_gui->enableLink(true);
         $item_list_gui->enableTimings(false);
 
-        $lso_gui = $this->parent_gui->parent_gui;
-        $item_list_gui->setContainerObject($lso_gui);
+        $item_list_gui->setContainerObject($this->container_gui);
 
         return $item_list_gui->getCommandsHTML();
     }
 
+    /**
+     * @return	array	array of command arrays including
+     *					"permission" => permission name
+     *					"cmd" => command
+     *					"link" => command link url
+     *					"frame" => command link frame
+     *					"lang_var" => language variable of command
+     *					"granted" => true/false: command granted or not
+     *					"access_info" => access info object (to do: implementation)
+     */
     protected function getActionMenuItems(int $ref_id, string $type) : array
     {
         $item_obj_id = $this->getObjIdFor($ref_id);
@@ -124,10 +138,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         return $item_list_gui->getCommands();
     }
 
-    /**
-    * @return string|null
-    */
-    protected function getEditLink(int $ref_id, string $type, array $action_items)
+    protected function getEditLink(int $ref_id, string $type, array $action_items) : ?string
     {
         switch ($type) {
             case $this->ls_item_online_status::S_LEARNMODULE_IL:
@@ -155,7 +166,6 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
         $props = array_filter(
             $action_items,
             function ($action_item) use ($prop_for_type) {
-                //var_dump($action_item['cmd']);
                 return $action_item['cmd'] === $prop_for_type;
             }
         );

@@ -78,7 +78,7 @@ class ilMDSearch
     }
 
 
-    public function &performSearch()
+    public function performSearch()
     {
         switch ($this->getMode()) {
             case 'all':

@@ -7,18 +7,13 @@
  */
 class ilContactUserActionProvider extends ilUserActionProvider
 {
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var string[] */
-    private $stateToPermLinkMap = [
+    private ilObjUser $user;
+    /** @var array<string, string> */
+    private array $stateToPermLinkMap = [
         'ilBuddySystemLinkedRelationState' => '_contact_approved',
-        'ilBuddySystemIgnoredRequestRelationState' => '_contact_ignored'
+        'ilBuddySystemIgnoredRequestRelationState' => '_contact_ignored',
     ];
 
-    /**
-     * ilContactUserActionProvider constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,7 +38,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
     {
         $this->lng->loadLanguageModule('buddysystem');
         return [
-            'handle_req' => $this->lng->txt('buddy_handle_contact_request')
+            'handle_req' => $this->lng->txt('buddy_handle_contact_request'),
         ];
     }
 
@@ -58,7 +53,7 @@ class ilContactUserActionProvider extends ilUserActionProvider
             return $coll;
         }
 
-        if (ilObjUser::_isAnonymous($this->getUserId()) || $this->user->isAnonymous()) {
+        if ($this->user->isAnonymous() || ilObjUser::_isAnonymous($this->getUserId())) {
             return $coll;
         }
 

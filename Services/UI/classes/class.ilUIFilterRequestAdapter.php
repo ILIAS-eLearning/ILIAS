@@ -13,8 +13,8 @@ use \Psr\Http\Message\ServerRequestInterface;
  */
 class ilUIFilterRequestAdapter
 {
-    const CMD_PARAMETER = "cmdFilter";
-    const RENDER_INPUT_BASE = "__filter_status_";
+    public const CMD_PARAMETER = "cmdFilter";
+    public const RENDER_INPUT_BASE = "__filter_status_";
 
     /**
      * @var ServerRequestInterface
@@ -28,19 +28,12 @@ class ilUIFilterRequestAdapter
     protected $params;
 
     /**
-     * post data
-     * @var array|null
-     */
-    protected $post;
-
-    /**
      * Constructor
      */
     public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
         $this->params = $this->request->getQueryParams();
-        $this->post = $this->request->getParsedBody();
     }
 
     /**
@@ -56,7 +49,7 @@ class ilUIFilterRequestAdapter
     }
 
     /**
-     * Has an input field been rendered in current post request?
+     * Has an input field been rendered in current request?
      *
      * @param $input_id
      * @return bool
@@ -86,6 +79,7 @@ class ilUIFilterRequestAdapter
      *
      * @param string $base_action
      * @param string $filter_cmd
+     * @param bool $non_asynch
      * @return string
      */
     public function getAction(string $base_action, string $filter_cmd, $non_asynch = false) : string

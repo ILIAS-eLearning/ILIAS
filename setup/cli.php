@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -32,7 +32,6 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
-use ILIAS\UI\Component\Input\Field\ViewControl\Factory as ViewControlFactory;
 
 $c = build_container_for_setup($executed_in_directory);
 $app = $c["app"];
@@ -47,7 +46,7 @@ function setup_exit($message)
     }
 }
 
-function build_container_for_setup(string $executed_in_directory)
+function build_container_for_setup(string $executed_in_directory) : \Pimple\Container
 {
     $c = new \Pimple\Container;
 
@@ -56,7 +55,7 @@ function build_container_for_setup(string $executed_in_directory)
             $c["command.install"],
             $c["command.update"],
             $c["command.build-artifacts"],
-            $c["command.reload-control-structure"],
+            $c["command.achieve"],
             $c["command.status"],
             $c["command.migrate"]
         );
@@ -80,9 +79,12 @@ function build_container_for_setup(string $executed_in_directory)
             $c["agent_finder"]
         );
     };
-    $c["command.reload-control-structure"] = function ($c) {
-        return new \ILIAS\Setup\CLI\ReloadControlStructureCommand(
-            $c["common_preconditions"]
+    $c["command.achieve"] = function ($c) {
+        return new \ILIAS\Setup\CLI\AchieveCommand(
+            $c["agent_finder"],
+            $c["config_reader"],
+            $c["common_preconditions"],
+            $c["refinery"]
         );
     };
     $c["command.status"] = function ($c) {

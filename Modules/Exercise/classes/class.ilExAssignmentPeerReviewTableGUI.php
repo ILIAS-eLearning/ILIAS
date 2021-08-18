@@ -1,36 +1,31 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List all peers to be reviewed for user
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 {
-    protected $ass; // [ilExAssignment]
-    protected $user_id; // [int]
-    protected $peer_data; // [array]
-    protected $fstorage; // [ilFSStorageExercise]
-    protected $invalid; // [int]
+    protected ilExAssignment $ass;
+    protected int $user_id;
+    protected array $peer_data;
+    protected ilFSStorageExercise $fstorage;
+    protected int $invalid;
     
-    /**
-     * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilExAssignment $a_ass
-     * @param int $a_user_id
-     * @param array $a_peer_data
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExAssignment $a_ass, $a_user_id, array $a_peer_data)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignment $a_ass,
+        int $a_user_id,
+        array $a_peer_data
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $ilCtrl = $DIC->ctrl();
-                
         $this->ass = $a_ass;
         $this->user_id = $a_user_id;
         $this->peer_data = $a_peer_data;
@@ -67,22 +62,17 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         }
     }
     
-    public function getInvalidItems()
+    public function getInvalidItems() : int
     {
         return $this->invalid;
     }
     
-    protected function getItems()
+    protected function getItems() : void
     {
         $data = array();
         
         $personal = $this->ass->hasPeerReviewPersonalized();
         
-        if ($personal) {
-        }
-        
-        $peer_review = new ilExPeerReview($this->ass);
-                
         foreach ($this->peer_data as $item) {
             $row = array();
 
@@ -133,7 +123,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         if (in_array($a_field, array("seq"))) {
             return true;
@@ -141,7 +131,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow($a_set)
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function fillRow($a_set) : void
     {
         $ilCtrl = $this->ctrl;
                     

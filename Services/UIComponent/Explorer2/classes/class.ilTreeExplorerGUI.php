@@ -219,7 +219,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     public function getChildsOfNode($a_parent_node_id)
     {
         if ($this->preloaded && $this->getSearchTerm() == "") {
-            if (is_array($this->childs[$a_parent_node_id])) {
+            if (isset($this->childs[$a_parent_node_id]) && is_array($this->childs[$a_parent_node_id])) {
                 return $this->childs[$a_parent_node_id];
             }
             return array();

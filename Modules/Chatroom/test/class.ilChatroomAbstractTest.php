@@ -1,61 +1,67 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilChatroomAbstractTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
-abstract class ilChatroomAbstractTest extends PHPUnit_Framework_TestCase
+abstract class ilChatroomAbstractTest extends TestCase
 {
-
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject|ilChatroom
-     */
+    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroom */
     protected $ilChatroomMock;
-    /**
-     * @var PHPUnit_Framework_MockObject_MockObject|ilChatroomUser
-     */
+
+    /** @var PHPUnit\Framework\MockObject\MockObject|ilChatroomUser */
     protected $ilChatroomUserMock;
 
-    protected function setUp()
+    protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        $GLOBALS['DIC'] = new Container();
+
+        parent::setUp();
     }
 
-    protected function createIlChatroomMock()
+    protected function createIlChatroomMock() : ilChatroom
     {
-        require_once './Modules/Chatroom/classes/class.ilChatroom.php';
-        require_once './Services/Utilities/classes/class.ilUtil.php';
-
-        $this->ilChatroomMock = $this->getMockBuilder('ilChatroom')->disableOriginalConstructor()->setMethods(
-            array('isOwnerOfPrivateRoom', 'clearMessages')
+        $this->ilChatroomMock = $this->getMockBuilder(ilChatroom::class)->disableOriginalConstructor()->onlyMethods(
+            ['isOwnerOfPrivateRoom', 'clearMessages']
         )->getMock();
 
         return $this->ilChatroomMock;
     }
 
-    protected function createIlChatroomUserMock()
+    protected function createIlChatroomUserMock() : ilChatroomUser
     {
-        require_once './Modules/Chatroom/classes/class.ilChatroomUser.php';
-
-        $this->ilChatroomUserMock = $this->getMockBuilder('ilChatroomUser')->disableOriginalConstructor()->setMethods(
-            array('getUserId', 'getUsername')
+        $this->ilChatroomUserMock = $this->getMockBuilder(ilChatroomUser::class)->disableOriginalConstructor()->onlyMethods(
+            ['getUserId', 'getUsername']
         )->getMock();
 
         return $this->ilChatroomUserMock;
     }
 
-    protected function createGlobalIlDBMock()
+    protected function createGlobalIlDBMock() : ilDBInterface
     {
-        $GLOBALS['ilDB'] = $this->getMockBuilder('ilDBMySQL')->disableOriginalConstructor()->setMethods(
-            array('quote', 'query', 'fetchAssoc')
-        )->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $db->expects($this->any())->method('quote')->willReturnCallback(static function ($arg) : string {
+            return "'" . $arg . "'";
+        });
 
-        return $GLOBALS['ilDB'];
+        $this->setGlobalVariable('ilDB', $db);
+
+        return $db;
+    }
+
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
+
+        $GLOBALS[$name] = $value;
+
+        $DIC[$name] = static function (Container $c) use ($name) {
+            return $GLOBALS[$name];
+        };
     }
 }

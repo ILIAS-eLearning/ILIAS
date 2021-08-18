@@ -7,7 +7,7 @@
  *
  * Paragraph of ilPageObject
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCParagraph extends ilPageContent
 {
@@ -199,8 +199,9 @@ class ilPCParagraph extends ilPageContent
 
         // remove all childs
         if (empty($error)) {
+            $t = $text[0]["text"] ?? "";
             $temp_dom = domxml_open_mem(
-                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[0]["text"] . '</Paragraph>',
+                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $t . '</Paragraph>',
                 DOMXML_LOAD_PARSING,
                 $error
             );
@@ -230,7 +231,7 @@ class ilPCParagraph extends ilPageContent
                 if ((count($text) > 1) && (substr($orig_characteristic, 0, 8) == "Headline")) {
                     $orig_characteristic = "";
                 }
-                if ($text[0]["level"] > 0) {
+                if (isset($text[0]["level"]) && $text[0]["level"] > 0) {
                     $this->par_node->set_attribute("Characteristic", 'Headline' . $text[0]["level"]);
                 }
             }
@@ -1174,7 +1175,7 @@ class ilPCParagraph extends ilPageContent
 
         $chunks = array();
         $c_text = $a_text;
-        //echo "0";
+        $head = "";
         while ($c_text != "") {
             //var_dump($c_text); flush();
             //echo "1";
@@ -1226,13 +1227,10 @@ class ilPCParagraph extends ilPageContent
                         }
                     }
                 } else {	// possible level one header
-                    //echo "C";
                     $n = strpos($c_text, "<br />", $s1 + 1);
                     if ($n > ($s1 + 7) && substr($c_text, $n - 1, 7) == "=<br />") {
-                        //echo "D";
                         // found level one header
                         if ($s1 > 0 || $head != "") {
-                            //echo "E";
                             $chunks[] = array("level" => 0,
                                 "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s1)));
                             $head = "";

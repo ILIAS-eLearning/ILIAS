@@ -11,84 +11,45 @@
  */
 class ilInfoScreenGUI
 {
+    protected ilTabsGUI $tabs_gui;
+    protected ilRbacSystem $rbacsystem;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
+    protected ilTree $tree;
+    protected ilSetting $settings;
+    public ilLanguage $lng;
+    public ilCtrl $ctrl;
+    public ?object $gui_object;
+    public array $top_buttons = array();
+    public array $top_formbuttons = array();
+    public array $hiddenelements = array();
+    public string $table_class = "il_InfoScreen";
+    public bool $open_form_tag = true;
+    public bool $close_form_tag = true;
+    protected ?int $contextRefId = null;
+    protected ?int $contextObjId = null;
+    protected ?string $contentObjType = null;
+    public string $form_action;
+    protected bool $booking_enabled = false;
+    protected bool $availability_enabled = true;
+    protected bool $hidden = false;
+    protected array $section = [];
+    protected array $block_property = [];
+    protected bool $news_editing = false;
+    protected bool $show_hidden_toggle = false;
+    protected int $sec_nr = 0;
+    protected bool $private_notes_enabled = false;
+    protected bool $news_enabled = false;
+    protected bool $feedback_enabled = false;
+    protected bool $learning_progress_enabled = false;
+
+
     /**
-     * @var ilTabsGUI
+     * ilInfoScreenGUI constructor.
+     * @param object|null $a_gui_object GUI instance of related object
      */
-    protected $tabs_gui;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    public $lng;
-    public $ctrl;
-    public $gui_object;
-    public $top_buttons = array();
-    public $top_formbuttons = array();
-    public $hiddenelements = array();
-    public $table_class = "il_InfoScreen";
-    public $open_form_tag = true;
-    public $close_form_tag = true;
-
-    /**
-     * @var int|null
-     */
-    protected $contextRefId = null;
-
-    /**
-     * @var int|null
-     */
-    protected $contextObjId = null;
-
-    /**
-     * @var string|null
-     */
-    protected $contentObjType = null;
-
-    /**
-    * a form action parameter. if set a form is generated
-    */
-    public $form_action;
-
-    /**
-     * @var bool
-     */
-    protected $booking_enabled = false;
-
-
-    /**
-    * Constructor
-    *
-    * @param	object	$a_gui_object	GUI instance of related object
-    * 									(ilCouseGUI, ilTestGUI, ...)
-    */
-    public function __construct($a_gui_object)
+    public function __construct(?object $a_gui_object = null)
     {
         global $DIC;
 
@@ -106,25 +67,21 @@ class ilInfoScreenGUI
         $this->lng = $lng;
         $this->tabs_gui = $ilTabs;
         $this->gui_object = $a_gui_object;
-        $this->sec_nr = 0;
-        $this->private_notes_enabled = false;
-        $this->news_enabled = false;
-        $this->feedback_enabled = false;
-        $this->learning_progress_enabled = false;
         $this->form_action = "";
         $this->top_formbuttons = array();
         $this->hiddenelements = array();
     }
 
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    public function executeCommand() : void
     {
-        $rbacsystem = $this->rbacsystem;
         $tpl = $this->tpl;
-        $ilAccess = $this->access;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
 
         $cmd = $this->ctrl->getCmd("showSummary");
@@ -158,78 +115,53 @@ class ilInfoScreenGUI
                 break;
                 
             default:
-                return $this->$cmd();
+                $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Set table class
-     *
-     * @param	string	table class
-     */
-    public function setTableClass($a_val)
+    public function setTableClass(string $a_val) : void
     {
         $this->table_class = $a_val;
     }
     
-    /**
-     * Get table class
-     *
-     * @return	string	table class
-     */
-    public function getTableClass()
+    public function getTableClass() : string
     {
         return $this->table_class;
     }
     
-    /**
-    * enable notes
-    */
-    public function enablePrivateNotes($a_enable = true)
+    public function enablePrivateNotes(bool $a_enable = true) : void
     {
         $this->private_notes_enabled = $a_enable;
     }
 
-    /**
-    * enable learning progress
-    */
-    public function enableLearningProgress($a_enable = true)
+    public function enableLearningProgress(bool $a_enable = true) : void
     {
         $this->learning_progress_enabled = $a_enable;
     }
 
-    /**
-     * booking info
-     * @param bool $a_enable
-     */
-    public function enableBookingInfo($a_enable = true)
+    public function enableAvailability(bool $a_enable = true) : void
+    {
+        $this->availability_enabled = $a_enable;
+    }
+
+    public function enableBookingInfo(bool $a_enable = true) : void
     {
         $this->booking_enabled = $a_enable;
     }
 
 
-    /**
-    * enable feedback
-    */
-    public function enableFeedback($a_enable = true)
+    public function enableFeedback(bool $a_enable = true) : void
     {
         $this->feedback_enabled = $a_enable;
     }
 
-    /**
-    * enable news
-    */
-    public function enableNews($a_enable = true)
+    public function enableNews(bool $a_enable = true) : void
     {
         $this->news_enabled = $a_enable;
     }
 
-    /**
-    * enable news editing
-    */
-    public function enableNewsEditing($a_enable = true)
+    public function enableNewsEditing(bool $a_enable = true) : void
     {
         $this->news_editing = $a_enable;
     }
@@ -237,42 +169,30 @@ class ilInfoScreenGUI
     /**
     * This function is supposed to be used for block type specific
     * properties, that should be passed to ilBlockGUI->setProperty
-    *
-    * @param	string	$a_property		property name
-    * @param	string	$a_value		property value
     */
-    public function setBlockProperty($a_block_type, $a_property, $a_value)
+    public function setBlockProperty(string $a_block_type, string $a_property, string $a_value) : void
     {
         $this->block_property[$a_block_type][$a_property] = $a_value;
     }
     
-    public function getAllBlockProperties()
+    public function getAllBlockProperties() : array
     {
         return $this->block_property;
     }
 
-    /**
-    * add a new section
-    */
-    public function addSection($a_title)
+    public function addSection(string $a_title) : void
     {
         $this->sec_nr++;
         $this->section[$this->sec_nr]["title"] = $a_title;
-        $this->section[$this->sec_nr]["hidden"] = (bool) $this->hidden;
+        $this->section[$this->sec_nr]["hidden"] = $this->hidden;
     }
 
-    /**
-    * set a form action
-    */
-    public function setFormAction($a_form_action)
+    public function setFormAction(string $a_form_action) : void
     {
         $this->form_action = $a_form_action;
     }
 
-    /**
-    * remove form action
-    */
-    public function removeFormAction()
+    public function removeFormAction() : void
     {
         $this->form_action = "";
     }
@@ -284,7 +204,7 @@ class ilInfoScreenGUI
     * @param	string	$a_value	property value
     * @param	string	$a_link		link (will link the property value string)
     */
-    public function addProperty($a_name, $a_value, $a_link = "")
+    public function addProperty(string $a_name, string $a_value, string $a_link = "") : void
     {
         $this->section[$this->sec_nr]["properties"][] =
             array("name" => $a_name, "value" => $a_value,
@@ -292,10 +212,15 @@ class ilInfoScreenGUI
     }
 
     /**
-    * add a property to current section
-    */
-    public function addPropertyCheckbox($a_name, $a_checkbox_name, $a_checkbox_value, $a_checkbox_label = "", $a_checkbox_checked = false)
-    {
+     * @deprecated
+     */
+    public function addPropertyCheckbox(
+        string $a_name,
+        string $a_checkbox_name,
+        string $a_checkbox_value,
+        string $a_checkbox_label = "",
+        bool $a_checkbox_checked = false
+    ) : void {
         $checkbox = "<input type=\"checkbox\" name=\"$a_checkbox_name\" value=\"$a_checkbox_value\" id=\"$a_checkbox_name$a_checkbox_value\"";
         if ($a_checkbox_checked) {
             $checkbox .= " checked=\"checked\"";
@@ -309,10 +234,17 @@ class ilInfoScreenGUI
     }
 
     /**
-    * add a property to current section
-    */
-    public function addPropertyTextinput($a_name, $a_input_name, $a_input_value = "", $a_input_size = "", $direct_button_command = "", $direct_button_label = "", $direct_button_primary = false)
-    {
+     * @deprecated
+     */
+    public function addPropertyTextinput(
+        string $a_name,
+        string $a_input_name,
+        string $a_input_value = "",
+        string $a_input_size = "",
+        string $direct_button_command = "",
+        string $direct_button_label = "",
+        bool $direct_button_primary = false
+    ) : void {
         $input = "<span class=\"form-inline\"><input class=\"form-control\" type=\"text\" name=\"$a_input_name\" id=\"$a_input_name\"";
         if (strlen($a_input_value)) {
             $input .= " value=\"" . ilUtil::prepareFormOutput($a_input_value) . "\"";
@@ -334,10 +266,15 @@ class ilInfoScreenGUI
     }
 
     /**
-    * add a property to current section
-    */
-    public function addButton($a_title, $a_link, $a_frame = "", $a_position = "top", $a_primary = false)
-    {
+     * @inheritDoc
+     */
+    public function addButton(
+        string $a_title,
+        string $a_link,
+        string $a_frame = "",
+        string $a_position = "top",
+        bool $a_primary = false
+    ) : void {
         if ($a_position == "top") {
             $this->top_buttons[] =
                 array("title" => $a_title,"link" => $a_link,"target" => $a_frame,"primary" => $a_primary);
@@ -345,11 +282,14 @@ class ilInfoScreenGUI
     }
 
     /**
-    * add a form button to the info screen
-    * the form buttons are only valid if a form action is set
-    */
-    public function addFormButton($a_command, $a_title, $a_position = "top")
-    {
+     * add a form button to the info screen
+     * the form buttons are only valid if a form action is set
+     */
+    public function addFormButton(
+        string $a_command,
+        string $a_title,
+        string $a_position = "top"
+    ) : void {
         if ($a_position == "top") {
             array_push(
                 $this->top_formbuttons,
@@ -358,22 +298,21 @@ class ilInfoScreenGUI
         }
     }
 
-    public function addHiddenElement($a_name, $a_value)
+    public function addHiddenElement(string $a_name, string $a_value) : void
     {
         array_push($this->hiddenelements, array("name" => $a_name, "value" => $a_value));
     }
 
-    /**
-    * add standard meta data sections
-    */
-    public function addMetaDataSections($a_rep_obj_id, $a_obj_id, $a_type)
+    public function addMetaDataSections(int $a_rep_obj_id, int $a_obj_id, string $a_type) : void
     {
         $lng = $this->lng;
 
         $lng->loadLanguageModule("meta");
 
         $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
-
+        $description = "";
+        $langs = [];
+        $keywords = [];
         if ($md_gen = $md->getGeneral()) {
             // get first descrption
             // The description is shown on the top of the page.
@@ -385,8 +324,7 @@ class ilInfoScreenGUI
             }
 
             // get language(s)
-            $langs = array();
-            foreach ($ids = $md_gen->getLanguageIds() as $id) {
+            foreach ($md_gen->getLanguageIds() as $id) {
                 $md_lan = $md_gen->getLanguage($id);
                 if ($md_lan->getLanguageCode() != "") {
                     $langs[] = $lng->txt("meta_l_" . $md_lan->getLanguageCode());
@@ -395,8 +333,7 @@ class ilInfoScreenGUI
             $langs = implode(", ", $langs);
 
             // keywords
-            $keywords = array();
-            foreach ($ids = $md_gen->getKeywordIds() as $id) {
+            foreach ($md_gen->getKeywordIds() as $id) {
                 $md_key = $md_gen->getKeyword($id);
                 $keywords[] = $md_key->getKeyword();
             }
@@ -404,12 +341,13 @@ class ilInfoScreenGUI
         }
 
         // authors
+        $author = "";
         if (is_object($lifecycle = $md->getLifecycle())) {
-            $sep = $author = "";
-            foreach (($ids = $lifecycle->getContributeIds()) as $con_id) {
+            $sep = "";
+            foreach (($lifecycle->getContributeIds()) as $con_id) {
                 $md_con = $lifecycle->getContribute($con_id);
                 if ($md_con->getRole() == "Author") {
-                    foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
+                    foreach ($md_con->getEntityIds() as $ent_id) {
                         $md_ent = $md_con->getEntity($ent_id);
                         $author = $author . $sep . $md_ent->getEntity();
                         $sep = ", ";
@@ -480,9 +418,11 @@ class ilInfoScreenGUI
     }
 
     /**
-    * add standard object section
-    */
-    public function addObjectSections()
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    public function addObjectSections() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -515,7 +455,6 @@ class ilInfoScreenGUI
 
                 $pm = new ilPermanentLinkGUI($type, $ref_id);
                 $pm->setIncludePermanentLinkText(false);
-                $pm->setAlignCenter(false);
                 $this->addProperty(
                     $lng->txt("perma_link"),
                     $pm->getHTML(),
@@ -561,6 +500,7 @@ class ilInfoScreenGUI
         // owner
         if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
             if (ilObjUser::userExists(array($a_obj->getOwner()))) {
+                /** @var  $ownerObj ilObjUser */
                 $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
             } else {
                 $ownerObj = ilObjectFactory::getInstanceByObjId(6, false);
@@ -581,7 +521,6 @@ class ilInfoScreenGUI
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 $readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
                 $count_users = 0;
-                $count_members = 0;
                 $count_user_reads = 0;
                 $count_anonymous_reads = 0;
                 foreach ($readEvents as $evt) {
@@ -629,13 +568,16 @@ class ilInfoScreenGUI
         }
     }
     // END ChangeEvent: Display standard object info
+
     /**
-    * show summary page
-    */
-    public function showSummary()
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    public function showSummary() : void
     {
         $tpl = $this->tpl;
-        $ilAccess = $this->access;
 
         $tpl->setContent($this->getCenterColumnHTML());
         $tpl->setRightContent($this->getRightColumnHTML());
@@ -643,12 +585,16 @@ class ilInfoScreenGUI
 
 
     /**
-    * Display center column
-    */
-    public function getCenterColumnHTML()
+     * @return string
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    public function getCenterColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
-        
+        $html = "";
         $column_gui = new ilColumnGUI("info", IL_COL_CENTER);
         $this->setColumnSettings($column_gui);
 
@@ -675,12 +621,14 @@ class ilInfoScreenGUI
     }
 
     /**
-    * Display right column
-    */
-    public function getRightColumnHTML()
+     * @return string
+     * @throws ilCtrlException
+     */
+    public function getRightColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
-        
+
+        $html = "";
         $column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
         $this->setColumnSettings($column_gui);
 
@@ -702,35 +650,34 @@ class ilInfoScreenGUI
     /**
     * Set column settings.
     */
-    public function setColumnSettings($column_gui)
+    public function setColumnSettings(ilColumnGUI $column_gui) : void
     {
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-
         $column_gui->setEnableEdit($this->news_editing);
         $column_gui->setRepositoryMode(true);
         $column_gui->setAllBlockProperties($this->getAllBlockProperties());
     }
     
-    public function setOpenFormTag($a_val)
+    public function setOpenFormTag(bool $a_val) : void
     {
         $this->open_form_tag = $a_val;
     }
 
-    public function setCloseFormTag($a_val)
+    public function setCloseFormTag(bool $a_val) : void
     {
         $this->close_form_tag = $a_val;
     }
 
     /**
-    * get html
-    */
-    public function getHTML()
+     * @return string
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     * @throws ilObjectNotFoundException
+     */
+    public function getHTML() : string
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        $tree = $this->tree;
-        $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         
@@ -805,13 +752,15 @@ class ilInfoScreenGUI
             }
         }
 
+        if ($this->availability_enabled) {
+            $this->addAvailability();
+        }
+
         $this->addPreconditions();
 
         // learning progress
-        if ($this->learning_progress_enabled and $html = $this->showLearningProgress($tpl)) {
-            $tpl->setCurrentBlock("learning_progress");
-            $tpl->setVariable("LP_TABLE", $html);
-            $tpl->parseCurrentBlock();
+        if ($this->learning_progress_enabled) {
+            $this->showLearningProgress($tpl);
         }
 
         // notes section
@@ -823,41 +772,39 @@ class ilInfoScreenGUI
         }
 
         // tagging
-        if (is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
             $tags_set = new ilSetting("tags");
             if ($tags_set->get("enable") && $ilUser->getId() != ANONYMOUS_USER_ID) {
                 $this->addTagging();
             }
         }
 
-        if (is_object($this->gui_object->object)) {
+        if (isset($this->gui_object) && is_object($this->gui_object->object)) {
             $this->addObjectSections();
         }
 
         // render all sections
         for ($i = 1; $i <= $this->sec_nr; $i++) {
-            if (is_array($this->section[$i]["properties"])) {
+            if (isset($this->section[$i]["properties"])) {
                 // section properties
                 foreach ($this->section[$i]["properties"] as $property) {
                     if ($property["name"] != "") {
                         if ($property["link"] == "") {
                             $tpl->setCurrentBlock("pv");
                             $tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
-                            $tpl->parseCurrentBlock();
                         } else {
                             $tpl->setCurrentBlock("lpv");
                             $tpl->setVariable("TXT_PROPERTY_LVALUE", $property["value"]);
                             $tpl->setVariable("LINK_PROPERTY_VALUE", $property["link"]);
-                            $tpl->parseCurrentBlock();
                         }
+                        $tpl->parseCurrentBlock();
                         $tpl->setCurrentBlock("property_row");
                         $tpl->setVariable("TXT_PROPERTY", $property["name"]);
-                        $tpl->parseCurrentBlock();
                     } else {
                         $tpl->setCurrentBlock("property_full_row");
                         $tpl->setVariable("TXT_PROPERTY_FULL_VALUE", $property["value"]);
-                        $tpl->parseCurrentBlock();
                     }
+                    $tpl->parseCurrentBlock();
                 }
 
                 // section header
@@ -877,9 +824,6 @@ class ilInfoScreenGUI
         return $tpl->get();
     }
 
-    /**
-     * @return int|null
-     */
     public function getContextRefId() : int
     {
         if ($this->contextRefId !== null) {
@@ -889,17 +833,11 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getRefId();
     }
 
-    /**
-     * @param int|null $contextRefId
-     */
     public function setContextRefId(int $contextRefId)
     {
         $this->contextRefId = $contextRefId;
     }
 
-    /**
-     * @return int|null
-     */
     public function getContextObjId() : int
     {
         if ($this->contextObjId !== null) {
@@ -909,17 +847,11 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getId();
     }
 
-    /**
-     * @param int|null $contextObjId
-     */
     public function setContextObjId(int $contextObjId)
     {
         $this->contextObjId = $contextObjId;
     }
 
-    /**
-     * @return null|string
-     */
     public function getContentObjType() : string
     {
         if ($this->contentObjType !== null) {
@@ -929,33 +861,34 @@ class ilInfoScreenGUI
         return $this->gui_object->object->getType();
     }
 
-    /**
-     * @param null|string $contentObjType
-     */
     public function setContentObjType(string $contentObjType)
     {
         $this->contentObjType = $contentObjType;
     }
 
-    public function showLearningProgress($a_tpl)
+    /**
+     * @param ilTemplate $a_tpl
+     * @throws ilDateTimeException
+     */
+    public function showLearningProgress(ilTemplate $a_tpl) : void
     {
         $ilUser = $this->user;
         $rbacsystem = $this->rbacsystem;
 
         if (!$rbacsystem->checkAccess('read', $this->getContextRefId())) {
-            return false;
+            return;
         }
         if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            return false;
+            return;
         }
 
         if (!ilObjUserTracking::_enabledLearningProgress()) {
-            return false;
+            return;
         }
             
         $olp = ilObjectLP::getInstance($this->getContextObjId());
         if ($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL) {
-            return false;
+            return;
         }
 
         $this->lng->loadLanguageModule('trac');
@@ -1049,7 +982,7 @@ class ilInfoScreenGUI
         $a_tpl->touchBlock("row");
     }
 
-    public function saveProgress($redirect = true)
+    public function saveProgress(bool $redirect = true) : void
     {
         $ilUser = $this->user;
 
@@ -1069,9 +1002,10 @@ class ilInfoScreenGUI
 
 
     /**
-    * show notes section
-    */
-    public function showNotesSection()
+     * @return string
+     * @throws ilCtrlException
+     */
+    public function showNotesSection() : string
     {
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
@@ -1118,13 +1052,9 @@ class ilInfoScreenGUI
     }
 
     /**
-     * show LDAP role group mapping info
-     *
-     * @access public
-     * @param string section name. Leave empty to place this info string inside a section
-     *
+     * @param string $a_section section name. Leave empty to place this info string inside a section
      */
-    public function showLDAPRoleGroupMappingInfo($a_section = '')
+    public function showLDAPRoleGroupMappingInfo(string $a_section = '') : void
     {
         if (strlen($a_section)) {
             $this->addSection($a_section);
@@ -1142,29 +1072,17 @@ class ilInfoScreenGUI
             $info_combined .= '</div>';
             $this->addProperty($this->lng->txt('applications'), $info_combined);
         }
-        return true;
     }
 
-    public function setTabs()
+    public function setTabs() : void
     {
-        $tpl = $this->tpl;
-
         $this->getTabs($this->tabs_gui);
     }
 
-    /**
-    * get tabs
-    */
-    public function getTabs(&$tabs_gui)
+    public function getTabs(ilTabsGUI $tabs_gui) : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $ilUser = $this->user;
-        $ilAccess = $this->access;
-
         $next_class = $this->ctrl->getNextClass($this);
-        $force_active = ($next_class == "ilnotegui")
-            ? true
-            : false;
+        $force_active = ($next_class == "ilnotegui");
 
         $tabs_gui->addSubTabTarget(
             'summary',
@@ -1177,10 +1095,7 @@ class ilInfoScreenGUI
     }
 
     
-    /**
-    * Add tagging
-    */
-    public function addTagging()
+    public function addTagging() : void
     {
         $lng = $this->lng;
 
@@ -1208,7 +1123,7 @@ class ilInfoScreenGUI
         );
     }
     
-    public function saveTags()
+    public function saveTags() : void
     {
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
@@ -1219,27 +1134,50 @@ class ilInfoScreenGUI
         
         ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         $this->ctrl->redirect($this, ""); // #14993
-        
-        // return $this->showSummary();
     }
 
-    public function hideFurtherSections($a_add_toggle = true)
+    public function hideFurtherSections(bool $a_add_toggle = true) : void
     {
         $this->hidden = true;
         $this->show_hidden_toggle = (bool) $a_add_toggle;
     }
 
-    public function getHiddenToggleButton()
+    public function getHiddenToggleButton() : string
     {
         $lng = $this->lng;
         
         return "<a onClick=\"toggleSections(this, '" . $lng->txt("show_hidden_sections") . "', '" . $lng->txt("hide_visible_sections") . "'); return false;\" href=\"#\">" . $lng->txt("show_hidden_sections") . "</a>";
     }
 
+
+    /**
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     */
+    protected function addAvailability() : void
+    {
+        if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
+            return;
+        }
+
+        $obj = $this->gui_object->object;
+        if ($obj->getRefId() <= 0) {
+            return;
+        }
+
+        $act = new ilObjectActivation();
+        $act->read($obj->getRefId());
+        if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION) {
+            $this->lng->loadLanguageModule("rep");
+            $this->addSection($this->lng->txt("rep_activation_availability"));
+            $this->addAccessPeriodProperty();
+        }
+    }
+
     /**
      * Add preconditions
      */
-    protected function addPreconditions()
+    protected function addPreconditions() : void
     {
         if (!is_object($this->gui_object) || !is_object($this->gui_object->object)) {
             return;
@@ -1264,8 +1202,11 @@ class ilInfoScreenGUI
         }
     }
 
-    protected function addPreconditionSection($obj, $conditions, $obligatory = true)
-    {
+    protected function addPreconditionSection(
+        ilObject $obj,
+        array $conditions,
+        bool $obligatory = true
+    ) : void {
         $lng = $this->lng;
         $tree = $this->tree;
 
@@ -1299,7 +1240,7 @@ class ilInfoScreenGUI
                 ++$passed_optional;
                 // optional passed
                 if ($passed_optional >= $num_optional_required) {
-                    return true;
+                    return;
                 }
             }
         }
@@ -1310,8 +1251,6 @@ class ilInfoScreenGUI
             if (!in_array($condition['id'], $visible_conditions)) {
                 continue;
             }
-
-            $missing_cond_exist = true;
 
             $properties[] = [
                 "condition" => ilConditionHandlerGUI::translateOperator(
@@ -1334,6 +1273,38 @@ class ilInfoScreenGUI
                 $this->addProperty(
                     $p["condition"],
                     "<a href='" . $p["link"] . "'>" . $p["title"] . "</a>"
+                );
+            }
+        }
+    }
+
+    /**
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     */
+    public function addAccessPeriodProperty() : void
+    {
+        $a_obj = $this->gui_object->object;
+
+        $this->lng->loadLanguageModule("rep");
+        $this->lng->loadLanguageModule("crs");
+
+        // links to the object
+        if (is_object($a_obj)) {
+            $act = new ilObjectActivation();
+            $act->read($a_obj->getRefId());
+            if ($act->getTimingType() == ilObjectActivation::TIMINGS_ACTIVATION) {
+                $this->addProperty(
+                    $this->lng->txt('rep_activation_access'),
+                    ilDatePresentation::formatPeriod(
+                        new ilDateTime($act->getTimingStart(), IL_CAL_UNIX),
+                        new ilDateTime($act->getTimingEnd(), IL_CAL_UNIX)
+                    )
+                );
+            } else {
+                $this->addProperty(
+                    $this->lng->txt('rep_activation_access'),
+                    $this->lng->txt('crs_visibility_limitless')
                 );
             }
         }

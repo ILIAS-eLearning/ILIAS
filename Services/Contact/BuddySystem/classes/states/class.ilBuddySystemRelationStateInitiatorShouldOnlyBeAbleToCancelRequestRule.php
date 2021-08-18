@@ -7,9 +7,6 @@
  */
 class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule extends ilBuddySystemRelationStateFilterRule
 {
-    /**
-     * @inheritDoc
-     */
     public function matches() : bool
     {
         if (!$this->relation->isRequested()) {
@@ -23,9 +20,6 @@ class ilBuddySystemRelationStateInitiatorShouldOnlyBeAbleToCancelRequestRule ext
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function __invoke(ilBuddySystemRelationState $state) : bool
     {
         if ($state instanceof ilBuddySystemUnlinkedRelationState) {

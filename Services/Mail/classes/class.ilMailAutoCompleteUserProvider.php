@@ -136,6 +136,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     {
         $outer_conditions = array();
         $outer_conditions[] = 'usr_data.usr_id != ' . $this->db->quote(ANONYMOUS_USER_ID, 'integer');
+        $outer_conditions[] = 'usr_data.active != ' . $this->db->quote(0, 'integer');
 
         $field_conditions = array();
         foreach ($this->getFields() as $field) {

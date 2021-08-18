@@ -41,13 +41,13 @@ class ilMDTypicalAgeRange extends ilMDBase
     {
         return $this->typical_age_range;
     }
-    public function setTypicalAgeRangeLanguage(&$lng_obj)
+    public function setTypicalAgeRangeLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->typical_age_range_language = $lng_obj;
         }
     }
-    public function &getTypicalAgeRangeLanguage()
+    public function getTypicalAgeRangeLanguage()
     {
         return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : false;
     }
@@ -171,7 +171,7 @@ class ilMDTypicalAgeRange extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement(
             'TypicalAgeRange',

@@ -329,7 +329,10 @@ class ilCronManagerTableGUI extends ilTable2GUI
                 $actions[] = 'deactivate';
             }
 
-            if ($a_set['editable_schedule'] || $a_set['has_settings']) {
+            if (
+                (isset($a_set['editable_schedule']) && $a_set['editable_schedule']) ||
+                (isset($a_set['has_settings']) && $a_set['has_settings'])
+            ) {
                 $actions[] = 'edit';
             }
 

@@ -1,16 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise to lp connector
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseLP extends ilObjectLP
 {
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes($a_lp_active) : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -18,12 +18,12 @@ class ilExerciseLP extends ilObjectLP
         );
     }
     
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_EXERCISE_RETURNED;
     }
     
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return array(
             ilLPObjSettings::LP_MODE_DEACTIVATED,
@@ -31,7 +31,7 @@ class ilExerciseLP extends ilObjectLP
         );
     }
     
-    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
+    protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids) : bool
     {
         global $DIC;
 

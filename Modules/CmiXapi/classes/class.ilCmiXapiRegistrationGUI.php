@@ -40,7 +40,7 @@ class ilCmiXapiRegistrationGUI
         
         $this->object = $object;
         
-        $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId());
+        $this->cmixUser = new ilCmiXapiUser($object->getId(), $DIC->user()->getId(), $object->getPrivacyIdent());
     }
     
     public function executeCommand()

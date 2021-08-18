@@ -57,7 +57,7 @@ class ExcPeerReviewTest extends TestCase
             }
         }
 
-        $this->assertEquals(count($peer_raters), count($user_ids));
+        $this->assertSameSize($peer_raters, $user_ids);
 
         foreach ($peer_raters as $peer => $raters) {
             $this->assertEquals(count($raters), $num_assignments);

@@ -1,37 +1,35 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise assignment member status
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentMemberStatus
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-    protected $ass_id; // [int]
-    protected $user_id;  // [int]
-    protected $notice; // [string]
-    protected $returned;  // [int]
-    protected $solved;  // [int] - obsolete?!
-    protected $sent; // [int]
-    protected $sent_time; // [datetime]
-    protected $feedback; // [int]
-    protected $feedback_time; // [datetime]
-    protected $status = "notgraded";  // [string]
-    protected $status_time; // [datetime]
-    protected $mark; // [string]
-    protected $comment; // [string]
-    protected $db_exists; // [bool]
-    protected $returned_update; // [bool]
-    protected $status_update; // [bool]
+    protected int $ass_id;
+    protected int $user_id;
+    protected string $notice = "";
+    protected bool $returned;
+    protected bool $solved;
+    protected bool $sent;
+    protected string $sent_time;
+    protected bool $feedback;
+    protected string $feedback_time;
+    protected string $status = "notgraded";
+    protected string $status_time;
+    protected string $mark;
+    protected string $comment;
+    protected bool $db_exists;
+    protected bool $returned_update;
+    protected bool $status_update;
     
-    public function __construct($a_ass_id, $a_user_id)
+    public function __construct(int $a_ass_id, int $a_user_id)
     {
         global $DIC;
 
@@ -42,17 +40,17 @@ class ilExAssignmentMemberStatus
         $this->read();
     }
     
-    public function setNotice($a_value)
+    public function setNotice(string $a_value)
     {
         $this->notice = $a_value;
     }
     
-    public function getNotice()
+    public function getNotice() : string
     {
         return $this->notice;
     }
     
-    public function setReturned($a_value)
+    public function setReturned(bool $a_value) : void
     {
         if ($a_value &&
             !$this->returned) {
@@ -60,33 +58,40 @@ class ilExAssignmentMemberStatus
         }
         $this->returned = $a_value;
     }
-    
-    public function getReturned()
+
+    public function getReturned() : bool
     {
         return $this->returned;
     }
-    
-    public function setSolved($a_value)
+
+    /**
+     * @deprecated
+     */
+    public function setSolved(bool $a_value) : void
     {
         $this->solved = $a_value;
     }
-    
-    public function getSolved()
+
+    /**
+     * @deprecated
+     */
+    public function getSolved() : bool
     {
         return $this->solved;
     }
-    
-    protected function setStatusTime($a_value)
+
+    // Y-m-d H:i:s
+    protected function setStatusTime(string $a_value) : void
     {
         $this->status_time = $a_value;
     }
     
-    public function getStatusTime()
+    public function getStatusTime() : string
     {
         return $this->status_time;
     }
     
-    public function setSent($a_value)
+    public function setSent(bool $a_value) : void
     {
         if ($a_value && $a_value != $this->sent) {
             $this->setSentTime(ilUtil::now());
@@ -94,22 +99,23 @@ class ilExAssignmentMemberStatus
         $this->sent = $a_value;
     }
     
-    public function getSent()
+    public function getSent() : bool
     {
         return $this->sent;
     }
-    
-    protected function setSentTime($a_value)
+
+    // Y-m-d H:i:s
+    protected function setSentTime(string $a_value) : void
     {
         $this->sent_time = $a_value;
     }
     
-    public function getSentTime()
+    public function getSentTime() : string
     {
         return $this->sent_time;
     }
-    
-    public function setFeedback($a_value)
+
+    public function setFeedback(bool $a_value) : void
     {
         if ($a_value != $this->sent) {
             $this->setFeedbackTime(ilUtil::now());
@@ -117,22 +123,23 @@ class ilExAssignmentMemberStatus
         $this->feedback = $a_value;
     }
     
-    public function getFeedback()
+    public function getFeedback() : bool
     {
         return $this->feedback;
     }
-    
-    protected function setFeedbackTime($a_value)
+
+    // Y-m-d H:i:s
+    protected function setFeedbackTime(string $a_value) : void
     {
         $this->feedback_time = $a_value;
     }
     
-    public function getFeedbackTime()
+    public function getFeedbackTime() : string
     {
         return $this->feedback_time;
     }
     
-    public function setStatus($a_value)
+    public function setStatus(string $a_value) : void
     {
         if ($a_value != $this->status) {
             $this->setStatusTime(ilUtil::now());
@@ -141,12 +148,12 @@ class ilExAssignmentMemberStatus
         }
     }
     
-    public function getStatus()
+    public function getStatus() : string
     {
         return $this->status;
     }
     
-    public function setMark($a_value)
+    public function setMark(string $a_value) : void
     {
         if ($a_value != $this->mark) {
             $this->setStatusTime(ilUtil::now());
@@ -154,22 +161,22 @@ class ilExAssignmentMemberStatus
         $this->mark = $a_value;
     }
     
-    public function getMark()
+    public function getMark() : string
     {
         return $this->mark;
     }
     
-    public function setComment($a_value)
+    public function setComment(string $a_value) : void
     {
         $this->comment = $a_value;
     }
     
-    public function getComment()
+    public function getComment() : string
     {
         return $this->comment;
     }
     
-    protected function read()
+    protected function read() : void
     {
         $ilDB = $this->db;
         
@@ -180,22 +187,22 @@ class ilExAssignmentMemberStatus
             $row = $ilDB->fetchAssoc($set);
             
             // not using setters to circumvent any datetime-logic/-magic
-            $this->notice = $row["notice"];
-            $this->returned = $row["returned"];
-            $this->solved = $row["solved"];
-            $this->status_time = $row["status_time"];
-            $this->sent = $row["sent"];
-            $this->sent_time = $row["sent_time"];
-            $this->feedback_time = $row["feedback_time"];
-            $this->feedback = $row["feedback"];
-            $this->status = $row["status"];
-            $this->mark = $row["mark"];
-            $this->comment = $row["u_comment"];
+            $this->notice = (string) $row["notice"];
+            $this->returned = (bool) $row["returned"];
+            $this->solved = (bool) $row["solved"];
+            $this->status_time = (string) $row["status_time"];
+            $this->sent = (bool) $row["sent"];
+            $this->sent_time = (string) $row["sent_time"];
+            $this->feedback_time = (string) $row["feedback_time"];
+            $this->feedback = (bool) $row["feedback"];
+            $this->status = (string) $row["status"];
+            $this->mark = (string) $row["mark"];
+            $this->comment = (string) $row["u_comment"];
             $this->db_exists = true;
         }
     }
     
-    protected function getFields()
+    protected function getFields() : array
     {
         return array(
             "notice" => array("text", $this->getNotice())
@@ -211,8 +218,11 @@ class ilExAssignmentMemberStatus
             ,"u_comment" => array("text", $this->getComment())
         );
     }
-    
-    public function update()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -235,8 +245,11 @@ class ilExAssignmentMemberStatus
             $this->postUpdateStatus();
         }
     }
-    
-    protected function postUpdateReturned()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    protected function postUpdateReturned() : void
     {
         $ilDB = $this->db;
         
@@ -251,15 +264,18 @@ class ilExAssignmentMemberStatus
             ilExAssignment::sendFeedbackNotifications($this->ass_id, $this->user_id);
         }
     }
-        
-    protected function postUpdateStatus()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    protected function postUpdateStatus() : void
     {
         $ass = new ilExAssignment($this->ass_id);
         $exc = new ilObjExercise($ass->getExerciseId(), false);
         $exc->updateUserStatus($this->user_id);
     }
     
-    public function getStatusIcon()
+    public function getStatusIcon() : string
     {
         switch ($this->getStatus()) {
             case "passed":
@@ -273,10 +289,8 @@ class ilExAssignmentMemberStatus
         }
     }
     
-    /**
-     * Check whether exercise has been sent to any student per mail.
-     */
-    public static function lookupAnyExerciseSent($a_ass_id)
+    // Check whether exercise has been sent to any student per mail.
+    public static function lookupAnyExerciseSent(int $a_ass_id) : bool
     {
         global $DIC;
 

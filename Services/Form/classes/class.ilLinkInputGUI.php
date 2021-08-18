@@ -18,12 +18,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     const BOTH = "both";
     const INT = "int";
     const EXT = "ext";
-    protected $allowed_link_types = self::BOTH;
-    protected $int_link_default_type = "RepositoryItem";
-    protected $int_link_default_obj = 0;
-    protected $int_link_filter_types = array("RepositoryItem");
-    protected $filter_white_list = true;
 
+    protected string $allowed_link_types = self::BOTH;
+    protected string $int_link_default_type = "RepositoryItem";
+    protected int $int_link_default_obj = 0;
+    protected array $int_link_filter_types = array("RepositoryItem");
+    protected bool $filter_white_list = true;
     protected $external_link_max_length = self::EXTERNAL_LINK_MAX_LENGTH;
 
     protected static $iltypemap = array(
@@ -33,10 +33,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         "wpage" => "WikiPage"
     );
 
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
+    protected string $requested_postvar;
+
+    protected string $value = "";
 
     /**
     * Constructor
@@ -55,6 +55,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         $this->setType("link");
 
         $this->obj_definition = $DIC["objDefinition"];
+
+        $this->requested_postvar = $_REQUEST["postvar"] ?? "";
     }
     
     /**
@@ -192,20 +194,18 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     
     /**
      * Set Value.
-     *
-     * @param	string	$a_value	Value
+     * @param string $a_value
      */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
     /**
      * Get Value.
-     *
-     * @return	string	Value
+     * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -354,7 +354,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
             $link = array(get_class($this->getParent()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
             $link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
-            $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $_REQUEST["postvar"]);
+            $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->requested_postvar);
                                 
             $no_disp_class = (strpos($this->getValue(), "|"))
                 ? ""

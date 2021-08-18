@@ -1,46 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for
  *
- * @author Alex Killing <alex.killing@gmx.de>
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
+    protected ilExAssignment $ass;
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_ass)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilExAssignment $a_ass
+    ) {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->user = $DIC->user();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         $ilUser = $DIC->user();
         
         $this->ass = $a_ass;
         $this->setId("exc_mdf_upload");
         parent::__construct($a_parent_obj, $a_parent_cmd);
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
         $this->setLimit(9999);
         $this->setData($this->ass->getMultiFeedbackFiles($ilUser->getId()));
         $this->setTitle($lng->txt("exc_multi_feedback_files"));
@@ -52,20 +44,15 @@ class ilFeedbackConfirmationTable2GUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("login"), "login");
         $this->addColumn($this->lng->txt("file"), "file");
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.multi_feedback_confirmation_row.html", "Modules/Exercise");
 
         $this->addCommandButton("saveMultiFeedback", $lng->txt("save"));
         $this->addCommandButton("cancelMultiFeedback", $lng->txt("cancel"));
     }
     
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
-        $lng = $this->lng;
-
         $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
         $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);

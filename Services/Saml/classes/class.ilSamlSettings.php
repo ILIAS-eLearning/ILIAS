@@ -7,22 +7,14 @@
  */
 class ilSamlSettings
 {
-    /** @var self */
-    protected static $instance = null;
-    /** @var ilSetting */
-    protected $settings;
+    protected static ?self $instance = null;
+    protected ilSetting $settings;
 
-    /**
-     * ilSamlSettings constructor.
-     */
     protected function __construct()
     {
         $this->settings = new ilSetting('auth_saml');
     }
 
-    /**
-     * @return self
-     */
     public static function getInstance() : self
     {
         if (null === self::$instance) {
@@ -32,19 +24,13 @@ class ilSamlSettings
         return self::$instance;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisplayedOnLoginPage() : bool
     {
         return (bool) $this->settings->get('login_form', 0);
     }
 
-    /**
-     * @param bool $displayed_on_login_page
-     */
     public function setLoginFormStatus(bool $displayed_on_login_page) : void
     {
-        $this->settings->set('login_form', (int) $displayed_on_login_page);
+        $this->settings->set('login_form', (string) ((int) $displayed_on_login_page));
     }
 }

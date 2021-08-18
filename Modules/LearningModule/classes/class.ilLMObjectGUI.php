@@ -27,13 +27,18 @@ class ilLMObjectGUI
      */
     protected $ui;
 
+    protected int $requested_obj_id;
+    protected string $requested_totransl = "";
+    protected string $requested_transl = "";
+    protected string $requested_target;
+    protected string $requested_new_type;
 
     /**
     * constructor
     *
     * @param	object		$a_content_obj		content object
     */
-    public function __construct(&$a_content_obj)
+    public function __construct(ilObjLearningModule $a_content_obj)
     {
         global $DIC;
 
@@ -46,6 +51,11 @@ class ilLMObjectGUI
         $this->ctrl = $ilCtrl;
         $this->content_object = $a_content_obj;
         $this->ui = $DIC->ui();
+        $this->requested_obj_id = (int) ($_GET["obj_id"] ?? 0);
+        $this->requested_transl = (string) ($_GET["transl"] ?? "");
+        $this->requested_totransl = (string) ($_GET["totransl"] ?? "");
+        $this->requested_target = (string) ($_GET["target"] ?? "");
+        $this->requested_new_type = (string) ($_REQUEST["new_type"] ?? "");
     }
 
 
@@ -91,7 +101,7 @@ class ilLMObjectGUI
     */
     public function create()
     {
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->requested_new_type;
 
         $this->ctrl->setParameter($this, "new_type", $new_type);
         $form = new ilPropertyFormGUI();
@@ -115,19 +125,20 @@ class ilLMObjectGUI
     /**
     * put this object into content object tree
     */
-    public function putInTree()
+    public function putInTree($target = "")
     {
+        if ($target == "") {
+            $target = $this->requested_target;
+        }
         $tree = new ilTree($this->content_object->getId());
         $tree->setTableNames('lm_tree', 'lm_data');
         $tree->setTreeTablePK("lm_id");
 
-        $parent_id = (!empty($_GET["obj_id"]))
-            ? $_GET["obj_id"]
+        $parent_id = ($this->requested_obj_id > 0)
+            ? $this->requested_obj_id
             : $tree->getRootId();
 
-        if (!empty($_GET["target"])) {
-            $target = $_GET["target"];
-        } else {
+        if ($target == "") {
             // determine last child of current type
             $childs = $tree->getChildsByType($parent_id, $this->obj->getType());
             if (count($childs) == 0) {

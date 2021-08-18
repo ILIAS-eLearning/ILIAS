@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,15 +10,8 @@ use PHPUnit\Framework\TestCase;
 
 class AdminConfirmedObjectiveTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $message;
-
-    /**
-     * @var Objective\AdminConfirmedObjective
-     */
-    protected $o;
+    protected string $message;
+    protected Objective\AdminConfirmedObjective $o;
 
     public function setUp() : void
     {

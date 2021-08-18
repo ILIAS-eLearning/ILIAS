@@ -41,13 +41,13 @@ class ilMDKeyword extends ilMDBase
     {
         return $this->keyword;
     }
-    public function setKeywordLanguage(&$lng_obj)
+    public function setKeywordLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->keyword_language = $lng_obj;
         }
     }
-    public function &getKeywordLanguage()
+    public function getKeywordLanguage()
     {
         return is_object($this->keyword_language) ? $this->keyword_language : false;
     }
@@ -149,7 +149,7 @@ class ilMDKeyword extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         $writer->xmlElement(
             'Keyword',
@@ -176,10 +176,11 @@ class ilMDKeyword extends ilMDBase
             "ORDER BY meta_keyword_id ";
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->meta_keyword_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
     
     /**

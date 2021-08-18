@@ -5,72 +5,16 @@
 /**
  * Class ilObjTaggingSettings
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjTaggingSettings extends ilObject
 {
-    
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
+     * @inheritDoc
+     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
-        global $DIC;
-
-        $this->db = $DIC->database();
         $this->type = "tags";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
-    public function update()
-    {
-        $ilDB = $this->db;
-        
-        if (!parent::update()) {
-            return false;
-        }
-
-        return true;
-    }
-    
-    /**
-    * read style folder data
-    */
-    public function read()
-    {
-        $ilDB = $this->db;
-
-        parent::read();
-    }
-    
-
-    
-    
-
-    /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
-    public function delete()
-    {
-        // always call parent delete function first!!
-        if (!parent::delete()) {
-            return false;
-        }
-        
-        //put here your module specific stuff
-        
-        return true;
-    }
-} // END class.ilObjTaggingSettings
+}

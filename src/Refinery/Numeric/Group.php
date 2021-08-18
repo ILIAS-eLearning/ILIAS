@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Refinery\Numeric;
@@ -11,15 +12,8 @@ use ILIAS\Refinery\Numeric\IsNumeric;
  */
 class Group
 {
-    /**
-     * @var Factory
-     */
-    private $dataFactory;
-
-    /**
-     * @var \ilLanguage
-     */
-    private $language;
+    private Factory $dataFactory;
+    private \ilLanguage $language;
 
     public function __construct(Factory $dataFactory, \ilLanguage $language)
     {

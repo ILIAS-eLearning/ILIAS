@@ -428,7 +428,7 @@ class ilObjectActivation
 
             // #11987
             $a_item['masked_start'] = $a_item['start'];
-            $a_item['masked_end'] = $a_item['end'];
+            $a_item['masked_end'] = $a_item['end'] ?? "";
             $a_item['start'] = $info['start'];
             $a_item['end'] = $info['end'];
         }
@@ -540,8 +540,8 @@ class ilObjectActivation
                     $ilDB->quote($a_item["suggestion_end"], 'integer') . "," .
                     $ilDB->quote($a_item["changeable"], 'integer') . "," .
                     $ilDB->quote($a_item["visible"], 'integer') . ", " .
-                    $ilDB->quote($a_item["suggestion_start_rel"], 'integer') . "," .
-                    $ilDB->quote($a_item['suggestion_end_rel'], 'integer') . ", " .
+                    $ilDB->quote(($a_item["suggestion_start_rel"] ?? 0), 'integer') . "," .
+                    $ilDB->quote(($a_item['suggestion_end_rel'] ?? 0), 'integer') . ", " .
                     $ilDB->quote(0, 'integer') . ")";
                 $ilDB->manipulate($query);
             }

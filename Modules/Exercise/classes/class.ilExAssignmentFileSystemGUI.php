@@ -1,11 +1,11 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  * File System Explorer GUI class
  *
- *
  * @author Jesús López <lopez@leifos.com>
- *
  */
 class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 {
@@ -17,14 +17,10 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         parent::__construct($a_main_directory);
     }
 
-    /**
-     * Get table
-     *
-     * @param
-     * @return
-     */
-    public function getTable($a_dir, $a_subdir)
-    {
+    public function getTable(
+        $a_dir,
+        $a_subdir
+    ) : ilExAssignmentFileSystemTableGUI {
         return new ilExAssignmentFileSystemTableGUI(
             $this,
             "listFiles",
@@ -32,20 +28,14 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
             $a_subdir,
             $this->label_enable,
             $this->file_labels,
-            $this->label_header,
-            $this->commands,
-            $this->getPostDirPath(),
-            $this->getTableId()
+            "",
+            [],
+            $this->getPostDirPath()
         );
     }
 
 
-    /**
-     * Insert into database the file order and update the file.
-     *
-     * @param string view to redirect
-     */
-    public function uploadFile()
+    public function uploadFile() : void
     {
         $filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
 
@@ -53,10 +43,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         parent::uploadFile();
     }
 
-    /**
-     * Save all the orders.
-     */
-    public function saveFilesOrder()
+    public function saveFilesOrder() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -66,12 +53,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         }
     }
 
-    /**
-     * delete object file
-     * we can pass one parameter to deleteFile in fileSystemGUI, that contains the name of the class to redirect.
-     * @param string view to redirect
-     */
-    public function deleteFile()
+    public function deleteFile() : void
     {
         if ($_GET["ass_id"]) {
             ilExAssignment::instructionFileDeleteOrder($_GET['ass_id'], $_POST["file"]);
@@ -83,7 +65,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     /**
      * Rename File name
      */
-    public function renameFile()
+    public function renameFile() : void
     {
         if ($_GET["ass_id"]) {
             $new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));

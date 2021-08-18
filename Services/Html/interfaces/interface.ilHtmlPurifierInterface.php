@@ -18,6 +18,7 @@ interface ilHtmlPurifierInterface
      * Filters an array of HTML snippets/documents to be XSS-free and standards-compliant.
      * @param string[] $htmlCollection
      * @return string[]
+     * @throws InvalidArgumentException If one of the arrays element is not of tpye string
      */
     public function purifyArray(array $htmlCollection) : array;
 }

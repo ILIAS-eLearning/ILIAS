@@ -151,7 +151,7 @@ class assErrorTextTest extends assBaseTestCase
         $errordata = array('passages' => array( 0 => 'drei Matrosen'), 'words' => array());
         require_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         $expected = new assAnswerErrorText($errordata['passages'][0], '', 0);
-        $instance->errordata = $expected;
+        $instance->setErrorData($expected);
 
         // Act
         $instance->setErrorData($errordata);

@@ -97,7 +97,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @var ilAssClozeTestFeedback
      */
-    public $feedbackOBJ;
+    public ilAssQuestionFeedback $feedbackOBJ;
 
     protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
 
@@ -137,7 +137,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return boolean TRUE, if the cloze test is complete for use, otherwise FALSE
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->getTitle())
             && $this->getAuthor()
@@ -190,7 +190,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $question_id A unique key which defines the cloze test in the database
      *
      */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id)  : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -309,7 +309,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @access public
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -874,7 +874,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $assClozeGapCombinationObj = new assClozeGapCombination();
         $points = 0;
@@ -921,11 +921,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -1297,7 +1297,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
 
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         foreach ($this->getSolutionSubmitValidation() as $gapIndex => $value) {
             $gap = $this->getGap($gapIndex);
@@ -1379,7 +1379,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1429,7 +1429,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() :string
     {
         return "assClozeTest";
     }
@@ -1567,7 +1567,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects() . $this->getClozeText();
     }
@@ -1594,7 +1594,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1633,7 +1633,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param ilAssSelfAssessmentMigrator $migrator
      */
-    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator)
+    protected function lmMigrateQuestionTypeSpecificContent(ilAssSelfAssessmentMigrator $migrator) : void
     {
         // DO NOT USE SETTER FOR CLOZE TEXT -> SETTER DOES RECREATE GAP OBJECTS without having gap type info ^^
         //$this->setClozeText( $migrator->migrateToLmContent($this->getClozeText()) );
@@ -1644,7 +1644,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1994,7 +1994,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $answerValue;
     }
 
-    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
     {
         $gap = $this->getGap($qIndex);
 
@@ -2011,7 +2011,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return true;
     }
 
-    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points) : void
     {
         $gap = $this->getGap($qIndex); /* @var assClozeGap $gap */
 
@@ -2021,7 +2021,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $gap->addItem($item);
     }
 
-    public function savePartial()
+    public function savePartial() : bool
     {
         return true;
     }

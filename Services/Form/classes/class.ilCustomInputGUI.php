@@ -10,11 +10,6 @@
  */
 class ilCustomInputGUI extends ilSubEnabledFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected $html;
     
     /**

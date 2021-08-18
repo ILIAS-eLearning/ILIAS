@@ -1,9 +1,11 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
+use ILIAS\BackgroundTasks\Observer;
 
 /**
  * Description of class class
@@ -13,21 +15,14 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
  */
 class ilSubmissionsZipJob extends AbstractJob
 {
-    private $logger = null;
+    protected ilLogger $logger;
     
-    
-    /**
-     * Construct
-     */
     public function __construct()
     {
         $this->logger = $GLOBALS['DIC']->logger()->exc();
     }
     
-    /**
-     * @inheritDoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
         [
@@ -35,28 +30,27 @@ class ilSubmissionsZipJob extends AbstractJob
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getOutputType()
+    public function getOutputType() : SingleType
     {
         return new SingleType(StringValue::class);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
     /**
-     * @inheritDoc
-     * @todo use filsystem service
+     * @todo use filesystem service
+     * @param array    $input
+     * @param Observer $observer
+     * @return StringValue
+     * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
      */
-    public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
-    {
+    public function run(
+        array $input,
+        Observer $observer
+    ) : StringValue {
         $tmpdir = $input[0]->getValue();
 
         ilUtil::zip($tmpdir, $tmpdir . '.zip');
@@ -69,10 +63,7 @@ class ilSubmissionsZipJob extends AbstractJob
         return $zip_file_name;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

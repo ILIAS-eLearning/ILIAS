@@ -1,46 +1,34 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List all team members of an assignment
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssignmentTeamTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    public const MODE_ADD = 1;
+    public const MODE_EDIT = 2;
 
-    protected $mode; // [int]
-    protected $team; // [ilExAssignmentTeam]
-    protected $read_only; // [bool]
-    protected $parent_ref_id; // [int]
+    protected ilAccessHandler $access;
+    protected int $mode;
+    protected ilExAssignmentTeam $team;
+    protected bool $read_only;
+    protected int $parent_ref_id;
+    protected bool $edit_permission;
+    protected array $member_ids;
 
-    /**
-     * @var bool
-     */
-    protected $edit_permission;
-    
-    const MODE_ADD = 1;
-    const MODE_EDIT = 2;
-    
-    /**
-     * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param int $a_mode
-     * @param int $a_parent_ref_id
-     * @param ilExAssignmentTeam $a_team
-     * @param ilExAssignment $a_assignment
-     * @param array $a_member_ids
-     * @param bool $a_read_only
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_mode, $a_parent_ref_id, ilExAssignmentTeam $a_team, $a_read_only = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_mode,
+        int $a_parent_ref_id,
+        ilExAssignmentTeam $a_team,
+        bool $a_read_only = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -53,7 +41,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 
         $this->mode = $a_mode;
         $this->team = $a_team;
-        $this->read_only = (bool) $a_read_only;
+        $this->read_only = $a_read_only;
         $this->parent_ref_id = $a_parent_ref_id;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -81,10 +69,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    /**
-     * Get all completed tests
-     */
-    protected function getItems()
+    protected function getItems() : void
     {
         if ($this->mode == self::MODE_ADD) {
             $assigned = $this->team->getMembersOfAllTeams();
@@ -104,12 +89,7 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * Fill template row
-     *
-     * @param array $a_set
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $ilAccess = $this->access;
         

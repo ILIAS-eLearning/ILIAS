@@ -159,15 +159,16 @@ class ilErrorHandling extends PEAR
 
         $this->error_obj = &$a_error_obj;
         //echo "-".$_SESSION["referer"]."-";
-        if ($_SESSION["failure"] && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block") {
+        $session_failure = ilSession::get('failure');
+        if ($session_failure && substr($a_error_obj->getMessage(), 0, 22) != "Cannot find this block") {
             $m = "Fatal Error: Called raise error two times.<br>" .
-                "First error: " . $_SESSION["failure"] . '<br>' .
+                "First error: " . $session_failure . '<br>' .
                 "Last Error:" . $a_error_obj->getMessage();
             //return;
             $log->write($m);
             #$log->writeWarning($m);
             #$log->logError($a_error_obj->getCode(), $m);
-            unset($_SESSION["failure"]);
+            ilSession::clear('failure');
             die($m);
         }
 
@@ -198,12 +199,9 @@ class ilErrorHandling extends PEAR
             return;
         }
 
-        if (is_object($log) and $log->enabled == true) {
+        if ($log instanceof ilLogger) {
             $log->write($a_error_obj->getMessage());
-            #$log->logError($a_error_obj->getCode(),$a_error_obj->getMessage());
         }
-
-        //echo $a_error_obj->getCode().":"; exit;
         if ($a_error_obj->getCode() == $this->FATAL) {
             trigger_error(stripslashes($a_error_obj->getMessage()), E_USER_ERROR);
             exit();
@@ -216,7 +214,7 @@ class ilErrorHandling extends PEAR
                 $message = "Under Construction";
             }
 
-            $_SESSION["failure"] = $message;
+            ilSession::set('failure', $message);
 
             if (!defined("ILIAS_MODULE")) {
                 ilUtil::redirect("error.php");
@@ -226,7 +224,7 @@ class ilErrorHandling extends PEAR
         }
 
         if ($a_error_obj->getCode() == $this->MESSAGE) {
-            $_SESSION["failure"] = $a_error_obj->getMessage();
+            ilSession::set('failure', $a_error_obj->getMessage());
             // save post vars to session in case of error
             $_SESSION["error_post_vars"] = $_POST;
 

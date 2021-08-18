@@ -396,7 +396,7 @@ class ilLanguage
         ));
         $rec = $ilDB->fetchAssoc($set);
         
-        if ($rec["value"] != "") {
+        if (isset($rec["value"]) && $rec["value"] != "") {
             // remember the used topics
             self::$used_topics[$a_id] = $a_id;
             self::$used_modules[$a_mod] = $a_mod;

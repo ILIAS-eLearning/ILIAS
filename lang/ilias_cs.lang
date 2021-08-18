@@ -465,7 +465,6 @@ assessment#:#assFileUpload#:#Soubor uložených otázek
 assessment#:#assFlashQuestion#:#Flash otázka
 assessment#:#assFormulaQuestion#:#Otázka se vzorečkem
 assessment#:#assImagemapQuestion#:#Otázka s mapou citlivých bodů obrázku
-assessment#:#assJavaApplet#:#Otázka s Java apletem
 assessment#:#assKprimChoice#:#Otázka s vícenásobným výběrem (odpovědi Kprim)
 assessment#:#assLongMenu#:#Dlouhé menu
 assessment#:#assMatchingQuestion#:#Otázka s párováním odpovědí

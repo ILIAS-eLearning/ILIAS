@@ -1,54 +1,28 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilExPeerReviewGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
-*
-* @ingroup ModulesExercise
-*/
+ * Class ilExPeerReviewGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilExPeerReviewGUI: ilFileSystemGUI, ilRatingGUI, ilExSubmissionTextGUI, ilInfoScreenGUI
+ */
 class ilExPeerReviewGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $ass; // [ilExAssignment]
-    protected $submission; // [ilExSubmission]
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    protected ilObjUser $user;
+    protected ilExAssignment $ass;
+    protected ?ilExSubmission $submission;
     
-    /**
-     * Constructor
-     *
-     * @param ilExAssignment $a_ass
-     * @param ilExSubmission $a_sub
-     * @return object
-     */
-    public function __construct(ilExAssignment $a_ass, ilExSubmission $a_submission = null)
-    {
+    public function __construct(
+        ilExAssignment $a_ass,
+        ilExSubmission $a_submission = null
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -66,14 +40,16 @@ class ilExPeerReviewGUI
         $this->lng = $lng;
         $this->tpl = $tpl;
     }
-    
-    public function executeCommand()
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilTabs = $this->tabs_gui;
-        $ilUser = $this->user;
-        
+
         if (!$this->ass->getPeerReview()) {
             $this->returnToParentObject();
         }
@@ -122,11 +98,12 @@ class ilExPeerReviewGUI
                 $fs_gui->setTitle($this->ass->getTitle() . ": " .
                     $lng->txt("exc_peer_review") . " - " .
                     $lng->txt("exc_peer_review_give"));
-                $ret = $this->ctrl->forwardCommand($fs_gui);
+                $this->ctrl->forwardCommand($fs_gui);
                 break;
                                 
             case "ilratinggui":
-                $this->ass->updatePeerReviewTimestamp((int) $_REQUEST["peer_id"]);
+                $peer_review = new ilExPeerReview($this->ass);
+                $peer_review->updatePeerReviewTimestamp((int) $_REQUEST["peer_id"]);
                 
                 $rating_gui = new ilRatingGUI();
                 $rating_gui->setObject(
@@ -140,15 +117,14 @@ class ilExPeerReviewGUI
                 break;
             
             case "ilexsubmissiontextgui":
+                $ilTabs->clearTargets();
                 if (!$this->submission->isTutor()) {
-                    $ilTabs->clearTargets();
                     $ilTabs->setBackTarget(
                         $lng->txt("back"),
                         $ilCtrl->getLinkTarget($this, "editPeerReview")
                     );
                     $this->ctrl->setReturn($this, "editPeerReview");
                 } else {
-                    $ilTabs->clearTargets();
                     $ilTabs->setBackTarget(
                         $lng->txt("back"),
                         $ilCtrl->getLinkTarget($this, "showGivenPeerReview")
@@ -165,13 +141,18 @@ class ilExPeerReviewGUI
         }
     }
     
-    public function returnToParentObject()
+    public function returnToParentObject() : void
     {
         $this->ctrl->returnToParent($this);
     }
-    
-    public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
@@ -181,7 +162,8 @@ class ilExPeerReviewGUI
 
         $ass = $a_submission->getAssignment();
 
-
+        $view_pc = "";
+        $edit_pc = "";
 
 
         //if($ass->afterDeadlineStrict() &&
@@ -262,7 +244,7 @@ class ilExPeerReviewGUI
         }
     }
     
-    protected function canGive()
+    protected function canGive() : bool
     {
         return ($this->submission->isOwner() &&
             $this->ass->afterDeadlineStrict() &&
@@ -270,7 +252,7 @@ class ilExPeerReviewGUI
                 $this->ass->getPeerReviewDeadline() > time()));
     }
     
-    protected function canView()
+    protected function canView() : bool
     {
         return ($this->submission->isTutor() ||
             ($this->submission->isOwner() &&
@@ -278,8 +260,14 @@ class ilExPeerReviewGUI
             (!$this->ass->getPeerReviewDeadline() ||
                 $this->ass->getPeerReviewDeadline() < time())));
     }
-    
-    public function showGivenPeerReviewObject()
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     */
+    public function showGivenPeerReviewObject() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -302,8 +290,14 @@ class ilExPeerReviewGUI
         
         $tpl->setContent($info_widget->getHTML());
     }
-    
-    public function showReceivedPeerReviewObject()
+
+    /**
+     * @throws ilObjectNotFoundException
+     * @throws ilCtrlException
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
+     */
+    public function showReceivedPeerReviewObject() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -334,8 +328,11 @@ class ilExPeerReviewGUI
         $tpl->setContent($info_widget->getHTML());
     }
     
-    protected function renderInfoWidget(ilInfoScreenGUI $a_info_widget, array $a_peer_items, $a_by_peer = false)
-    {
+    protected function renderInfoWidget(
+        ilInfoScreenGUI $a_info_widget,
+        array $a_peer_items,
+        bool $a_by_peer = false
+    ) : void {
         $lng = $this->lng;
         
         if ($this->submission->isTutor()) {
@@ -355,7 +352,7 @@ class ilExPeerReviewGUI
             $a_info_widget->addSection($lng->txt("exc_submission"));
 
             $submission = new ilExSubmission($this->ass, $this->submission->getUserId());
-            $file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "showReceivedPeerReview");
+            $file_info = $submission->getDownloadedFilesInfoForTableGUIS();
             
             $a_info_widget->addProperty(
                 $file_info["last_submission"]["txt"],
@@ -398,7 +395,7 @@ class ilExPeerReviewGUI
 
             if (!$a_by_peer) {
                 $submission = new ilExSubmission($this->ass, $peer_id);
-                $file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "editPeerReviewItem");
+                $file_info = $submission->getDownloadedFilesInfoForTableGUIS();
 
                 $a_info_widget->addProperty(
                     $file_info["last_submission"]["txt"],
@@ -431,13 +428,14 @@ class ilExPeerReviewGUI
                 
                 $title = $item->getTitle();
                 $html = $item->getHTML($values[$crit_id]);
-                $a_info_widget->addProperty($title ? $title : "&nbsp;", $html ? $html : "&nbsp;");
+                $a_info_widget->addProperty($title ?: "&nbsp;", $html ?: "&nbsp;");
             }
         }
     }
     
-    protected function getLateSubmissionInfo(ilExSubmission $a_submission)
-    {
+    protected function getLateSubmissionInfo(
+        ilExSubmission $a_submission
+    ) : string {
         $lng = $this->lng;
         
         // #18966 - late files info
@@ -446,9 +444,13 @@ class ilExPeerReviewGUI
                 return '<div class="warning">' . $lng->txt("exc_late_submission") . '</div>';
             }
         }
+        return "";
     }
-    
-    public function editPeerReviewObject()
+
+    /**
+     * @throws ilDateTimeException
+     */
+    public function editPeerReviewObject() : void
     {
         $tpl = $this->tpl;
         
@@ -481,14 +483,14 @@ class ilExPeerReviewGUI
             "editPeerReview",
             $this->ass,
             $this->submission->getUserId(),
-            $peer_items,
-            "returnToParent"
+            $peer_items
         );
         $tpl->setContent($tbl->getHTML());
     }
     
-    public function editPeerReviewItemObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function editPeerReviewItemObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $tpl = $this->tpl;
         
         if (!$this->canGive() ||
@@ -503,7 +505,7 @@ class ilExPeerReviewGUI
         $tpl->setContent($a_form->getHTML());
     }
                 
-    protected function isValidPeer($a_peer_id)
+    protected function isValidPeer(int $a_peer_id) : bool
     {
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
         foreach ($peer_items as $item) {
@@ -514,10 +516,11 @@ class ilExPeerReviewGUI
         return false;
     }
     
-    protected function getSubmissionContent(ilExSubmission $a_submission)
-    {
+    protected function getSubmissionContent(
+        ilExSubmission $a_submission
+    ) : string {
         if ($this->ass->getType() != ilExAssignment::TYPE_TEXT) {
-            return;
+            return "";
         }
         
         $text = $a_submission->getFiles();
@@ -528,15 +531,21 @@ class ilExPeerReviewGUI
                 return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
             }
         }
+        return "";
     }
-    
-    protected function initPeerReviewItemForm($a_peer_id)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    protected function initPeerReviewItemForm(
+        int $a_peer_id
+    ) : ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
         // get peer data
         $peer_items = $this->submission->getPeerReview()->getPeerReviewsByGiver($this->submission->getUserId());
+        $peer = [];
         foreach ($peer_items as $item) {
             if ($item["peer_id"] == $a_peer_id) {
                 $peer = $item;
@@ -566,7 +575,7 @@ class ilExPeerReviewGUI
         // submission info
         
         $submission = new ilExSubmission($this->ass, $peer["peer_id"]);
-        $file_info = $submission->getDownloadedFilesInfoForTableGUIS($this, "editPeerReviewItem");
+        $file_info = $submission->getDownloadedFilesInfoForTableGUIS();
         
         $last_sub = new ilNonEditableValueGUI($file_info["last_submission"]["txt"], "", true);
         $last_sub->setValue($file_info["last_submission"]["value"] .
@@ -610,7 +619,7 @@ class ilExPeerReviewGUI
         return $form;
     }
     
-    public function updateCritAjaxObject()
+    public function updateCritAjaxObject() : void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -642,7 +651,7 @@ class ilExPeerReviewGUI
         exit();
     }
     
-    public function updatePeerReviewObject()
+    public function updatePeerReviewObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -706,7 +715,7 @@ class ilExPeerReviewGUI
         );
     }
     
-    public function downloadPeerReviewObject()
+    public function downloadPeerReviewObject() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -741,7 +750,7 @@ class ilExPeerReviewGUI
     // ADMIN
     //
         
-    public function showPeerReviewOverviewObject()
+    public function showPeerReviewOverviewObject() : void
     {
         $tpl = $this->tpl;
         
@@ -781,7 +790,7 @@ class ilExPeerReviewGUI
         $tpl->setContent($tbl->getHTML() . $panel);
     }
     
-    public function confirmResetPeerReviewObject()
+    public function confirmResetPeerReviewObject() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -803,7 +812,7 @@ class ilExPeerReviewGUI
         $tpl->setContent($cgui->getHTML());
     }
     
-    public function resetPeerReviewObject()
+    public function resetPeerReviewObject() : void
     {
         $ilCtrl = $this->ctrl;
         

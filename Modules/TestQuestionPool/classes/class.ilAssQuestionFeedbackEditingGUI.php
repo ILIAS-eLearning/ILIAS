@@ -243,10 +243,8 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function isFormSaveable()
     {
-        $isAdditionalContentEditingModePageObject = $this->questionOBJ->isAdditionalContentEditingModePageObject();
-        $isSaveableInPageObjectEditingMode = $this->feedbackOBJ->isSaveableInPageObjectEditingMode();
-        
-        if ($isAdditionalContentEditingModePageObject && !$isSaveableInPageObjectEditingMode) {
+        if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
+            && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
             return false;
         }
         

@@ -8,10 +8,9 @@ use ILIAS\UI;
 
 class ilGlobalCacheSetupAgent implements Setup\Agent
 {
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
+    use Setup\Agent\HasNoNamedObjective;
+
+    protected \ILIAS\Refinery\Factory $refinery;
 
     public function __construct(
         Refinery\Factory $refinery
@@ -32,7 +31,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
+        return $this->refinery->custom()->transformation(function ($data): \ilGlobalCacheSettings {
             $settings = new \ilGlobalCacheSettings();
             if (
                 $data === null ||
@@ -52,11 +51,8 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
-                    case "xcache":
-                        $settings->setService(\ilGlobalCache::TYPE_XCACHE);
-                        break;
                     case "memcached":
-                        array_walk($data["memcached_nodes"], function (array $node) use ($settings) {
+                        array_walk($data["memcached_nodes"], function (array $node) use ($settings): void {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
                         });
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
@@ -66,7 +62,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         break;
                     default:
                         throw new \InvalidArgumentException(
-                            "Unknown caching service: '{$data["service"]}'"
+                            sprintf("Unknown caching service: '%s'", $data["service"])
                         );
                 }
                 $settings->resetActivatedComponents();

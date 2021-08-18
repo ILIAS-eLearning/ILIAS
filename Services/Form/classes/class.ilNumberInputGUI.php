@@ -169,7 +169,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
     /**
@@ -380,6 +380,8 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
         */
         
         // constraints
+        $constraints = "";
+        $delim = "";
         if ($this->areDecimalsAllowed() && $this->getDecimals() > 0) {
             $constraints = $lng->txt("form_format") . ": ###." . str_repeat("#", $this->getDecimals());
             $delim = ", ";

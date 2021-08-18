@@ -1,32 +1,24 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Object-based submissions (ends up as static file)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilExSubmissionTextGUI:
- * @ingroup ModulesExercise
  */
 class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilHelpGUI $help;
 
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilObjExercise $a_exercise, ilExSubmission $a_submission)
-    {
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExSubmission $a_submission
+    ) {
         global $DIC;
 
         parent::__construct($a_exercise, $a_submission);
@@ -34,7 +26,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $this->help = $DIC["ilHelp"];
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -54,25 +46,25 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         }
     }
     
-    public static function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
-    {
+    public static function getOverviewContent(
+        ilInfoScreenGUI $a_info,
+        ilExSubmission $a_submission
+    ) : void {
         global $DIC;
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        
+
+        $button = ilLinkButton::getInstance();
         if ($a_submission->canSubmit()) {
-            $button = ilLinkButton::getInstance();
             $button->setPrimary(true);
             $button->setCaption("exc_text_assignment_edit");
             $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "editAssignmentText"));
-            $files_str = $button->render();
         } else {
-            $button = ilLinkButton::getInstance();
             $button->setCaption("exc_text_assignment_show");
             $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionTextGUI"), "showAssignmentText"));
-            $files_str = $button->render();
         }
+        $files_str = $button->render();
 
         $a_info->addProperty($lng->txt("exc_files_returned_text"), $files_str);
     }
@@ -82,8 +74,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
     // TEXT ASSIGNMENT (EDIT)
     //
     
-    protected function initAssignmentTextForm($a_read_only = false)
-    {
+    protected function initAssignmentTextForm(
+        bool $a_read_only = false
+    ) : ilPropertyFormGUI {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -92,8 +85,9 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
             
         if (!$a_read_only) {
             $text = new ilTextAreaInputGUI($this->lng->txt("exc_your_text"), "atxt");
-            $text->setRequired((bool)
-                $this->mandatory_manager->isMandatoryForUser($this->submission->getAssignment()->getId(), $this->user->getId()));
+            $text->setRequired(
+                $this->mandatory_manager->isMandatoryForUser($this->submission->getAssignment()->getId(), $this->user->getId())
+            );
             $text->setRows(40);
             $text->setMaxNumOfChars($this->assignment->getMaxCharLimit());
             $text->setMinNumOfChars($this->assignment->getMinCharLimit());
@@ -120,10 +114,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
                 'charmap',
                 'undo',
                 'redo',
-                'justifyleft',
-                'justifycenter',
-                'justifyright',
-                'justifyfull',
+                'alignleft',
+                'aligncenter',
+                'alignright',
+                'alignjustify',
                 'anchor',
                 'fullscreen',
                 'cut',
@@ -147,10 +141,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         return $form;
     }
     
-    public function editAssignmentTextObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function editAssignmentTextObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
 
         if (!$this->submission->canSubmit()) {
             ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
@@ -159,27 +153,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 
         $this->triggerAssignmentTool();
 
-        /*
-        $deadline = max($this->assignment->getDeadline(), $this->assignment->getExtendedDeadline());
-        if($deadline)
-        {
-            $deadline = $this->assignment->getPersonalDeadline($ilUser->getId());
-
-            // extended deadline date should not be presented anywhere
-            // see ilExAssignmentGUI::addSchedule()
-            $dl_info = ilDatePresentation::formatDate(new ilDateTime($deadline, IL_CAL_UNIX));
-
-            // #16151 - extended deadline warning (only after deadline passed)
-            if($deadline < time())
-            {
-                $dl = ilDatePresentation::formatDate(new ilDateTime($deadline, IL_CAL_UNIX));
-                $dl = '<br /><span class="warning">'.sprintf($this->lng->txt("exc_late_submission_warning"), $dl).'</span>';
-                $dl_info .= $dl;
-            }
-
-            ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".$dl_info);
-        }*/
-        
         $this->handleTabs();
 
         $ilHelp = $this->help;
@@ -203,13 +176,18 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    public function updateAssignmentTextAndReturnObject()
+    public function updateAssignmentTextAndReturnObject() : void
     {
         $this->updateAssignmentTextObject(true);
     }
-    
-    public function updateAssignmentTextObject($a_return = false)
-    {
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     * @throws ilExerciseException
+     */
+    public function updateAssignmentTextObject(
+        bool $a_return = false
+    ) : void {
         $ilCtrl = $this->ctrl;
         
         if (!$this->submission->canSubmit()) {
@@ -227,8 +205,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         if ($form->checkInput()) {
             $text = trim($form->getInput("atxt"));
                                     
-            $existing = $this->submission->getFiles();
-                                                
             $returned_id = $this->submission->updateTextSubmission(
                 // mob src to mob id
                 ilRTE::_replaceMediaObjectImageSrc($text, 0)
@@ -263,7 +239,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
         $this->editAssignmentTextObject($form);
     }
     
-    public function showAssignmentTextObject()
+    public function showAssignmentTextObject() : void
     {
         if (!$this->submission->isTutor()) {
             $this->handleTabs();

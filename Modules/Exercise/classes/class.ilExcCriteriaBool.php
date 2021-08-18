@@ -1,33 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaBool
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaBool extends ilExcCriteria
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-
-        parent::__construct();
-        $this->lng = $DIC->language();
-    }
-
-    public function getType()
+    public function getType() : string
     {
         return "bool";
     }
@@ -35,7 +18,7 @@ class ilExcCriteriaBool extends ilExcCriteria
     
     // PEER REVIEW
     
-    public function addToPeerReviewForm($a_value = null)
+    public function addToPeerReviewForm($a_value = null) : void
     {
         $lng = $this->lng;
         
@@ -60,17 +43,17 @@ class ilExcCriteriaBool extends ilExcCriteria
         $this->form->addItem($input);
     }
     
-    public function importFromPeerReviewForm()
+    public function importFromPeerReviewForm() : int
     {
         return (int) $this->form->getInput("prccc_bool_" . $this->getId());
     }
     
-    public function hasValue($a_value)
+    public function hasValue($a_value) : int
     {
         return (int) $a_value;
     }
     
-    public function getHTML($a_value)
+    public function getHTML($a_value) : string
     {
         $lng = $this->lng;
     

@@ -38,21 +38,33 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 *
 * @ingroup ServicesComponent
 */
-abstract class ilModule extends ilComponent
+class ilModule extends ilComponent
 {
+    protected string $name;
 
     /**
     * Constructor: read information on component
     */
-    public function __construct()
+    public function __construct(string $name)
     {
+        $this->name = $name;
         parent::__construct();
+    }
+
+    public function getVersion()
+    {
+        return "-";
+    }
+
+    public function isCore()
+    {
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    final public function getComponentType() : string
+    public function getComponentType() : string
     {
         return IL_COMP_MODULE;
     }
@@ -62,12 +74,9 @@ abstract class ilModule extends ilComponent
     *
     * @return	string	Name
     */
-    final public function getName()
+    public function getName()
     {
-        // class is always il<ModuleName>Module
-        $class = get_class($this);
-
-        return substr($class, 2, strlen($class) - 8);
+        return $this->name;
     }
 
     /**

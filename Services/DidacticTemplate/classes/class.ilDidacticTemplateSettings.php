@@ -119,7 +119,6 @@ class ilDidacticTemplateSettings
 
     /**
      * Read active didactic templates
-     * @global ilDB $ilDB
      * @return bool
      */
     protected function read()

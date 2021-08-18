@@ -1,35 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exercise derived task provider factory
  *
- * @author @leifos.de
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-    /**
-     * @var ilTaskService
-     */
-    protected $task_service;
+    protected ilTaskService $task_service;
+    protected ilAccess $access;
+    protected ilLanguage $lng;
 
-    /**
-     * @var \ilAccess
-     */
-    protected $access;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilTaskService $task_service, \ilAccess $access = null, \ilLanguage $lng = null)
-    {
+    public function __construct(
+        ilTaskService $task_service,
+        ilAccess $access = null,
+        ilLanguage $lng = null
+    ) {
         global $DIC;
 
         $this->access = is_null($access)
@@ -43,9 +31,6 @@ class ilExerciseDerivedTaskProviderFactory implements ilDerivedTaskProviderFacto
         $this->task_service = $task_service;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getProviders() : array
     {
         return [

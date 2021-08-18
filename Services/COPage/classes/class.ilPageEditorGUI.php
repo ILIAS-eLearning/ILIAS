@@ -74,13 +74,20 @@ class ilPageEditorGUI
      */
     protected $tool_context;
 
+    protected string $requested_hier_id;
+    protected string $requested_pc_id;
+    protected string $requested_pcid;           // one of these should go
+    protected string $requested_pl_pc_id;       // placeholder pc id
+    protected string $requested_ctype;
+    protected string $requested_cname;
+
     /**
     * Constructor
     *
     * @param	object		$a_page_object		page object
     * @access	public
     */
-    public function __construct(&$a_page_object, &$a_page_object_gui)
+    public function __construct($a_page_object, $a_page_object_gui)
     {
         global $DIC;
 
@@ -94,7 +101,15 @@ class ilPageEditorGUI
         $ilTabs = $DIC->tabs();
 
         $this->ui = $DIC->ui();
+
         $this->request = $DIC->http()->request();
+        $params = $this->request->getQueryParams();
+        $this->requested_hier_id = $_REQUEST["hier_id"] ?? "";
+        $this->requested_pc_id = $params["pc_id"] ?? "";
+        $this->requested_pl_pc_id = $params["pl_pc_id"] ?? "";
+        $this->requested_ctype = $_REQUEST["ctype"] ?? "";
+        $this->requested_cname = $_REQUEST["cname"] ?? "";
+        $this->requested_pcid = $_REQUEST["pcid"] ?? "";
 
         $this->log = ilLoggerFactory::getLogger('copg');
 
@@ -170,28 +185,19 @@ class ilPageEditorGUI
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
         $this->log->debug("begin ============");
-
-        if (!true) {
-            var_dump($_GET);
-            echo "<br><br>";
-            var_dump($_POST);
-            exit;
-        }
+        $ctype = "";
+        $cont_obj = null;
 
         // Step BC (basic command determination)
         // determine cmd, cmdClass, hier_id and pc_id
         $cmd = $this->ctrl->getCmd("displayPage");
         $cmdClass = strtolower($this->ctrl->getCmdClass());
 
-        $hier_id = $_GET["hier_id"];
-        $pc_id = $_GET["pc_id"];
+        $hier_id = $this->requested_hier_id;
+        $pc_id = $this->requested_pc_id;
         if (isset($_POST["new_hier_id"])) {
             $hier_id = $_POST["new_hier_id"];
         }
-
-        $new_type = (isset($_GET["new_type"]))
-            ? $_GET["new_type"]
-            : $_POST["new_type"];
 
         $this->log->debug("step BC: cmd:$cmd, cmdClass:$cmdClass, hier_id: $hier_id, pc_id: $pc_id");
 
@@ -238,9 +244,9 @@ class ilPageEditorGUI
 
 
         // Step PH (placeholder handling, placeholders from preview mode come without hier_id)
-        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $_GET["pl_pc_id"] != "") {
-            $hid = $this->page->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
-            $hier_id = $hid[$_GET["pl_pc_id"]];
+        if ($next_class == "ilpcplaceholdergui" && $hier_id == "" && $this->requested_pl_pc_id != "") {
+            $hid = $this->page->getHierIdsForPCIds(array($this->requested_pl_pc_id));
+            $hier_id = $hid[$this->requested_pl_pc_id];
         }
         $this->log->debug("step PH: next class: " . $next_class);
 
@@ -256,6 +262,7 @@ class ilPageEditorGUI
             $this->log->debug("step CM: cmd: " . $cmd . ", ctype: " . $ctype . ", add_type: " . $add_type);
         } else {
             // Step LM (setting cmd and cmdclass for editing of linked media)
+            /* todo: refactor
             if ($cmd == "editLinkedMedia") {
                 $this->ctrl->setCmd("edit");
                 $cmd = "edit";
@@ -271,6 +278,7 @@ class ilPageEditorGUI
                     $cmdClass = "ilobjmediaobjectgui";
                 }
             }
+            */
             $this->log->debug("step LM: cmd: " . $cmd . ", cmdClass: " . $cmdClass);
 
 
@@ -279,7 +287,7 @@ class ilPageEditorGUI
                 ", hier_id: " . $hier_id . ", pc_id: " . $pc_id . ")");
             // note: ilinternallinkgui for page: no cont_obj is received
             // ilinternallinkgui for mob: cont_obj is received
-            if ($_REQUEST["ctype"] == "" && $_REQUEST["cname"] == "" &&
+            if ($this->requested_ctype == "" && $this->requested_cname == "" &&
                 $cmd != "insertFromClipboard" && $cmd != "pasteFromClipboard" &&
                 $cmd != "setMediaMode" && $cmd != "copyLinkedMediaToClipboard" &&
                 $cmd != "activatePage" && $cmd != "deactivatePage" &&
@@ -296,7 +304,8 @@ class ilPageEditorGUI
                 $cmd != "cancelCreate" && $cmd != "popup" &&
                 $cmdClass != "ileditclipboardgui" && $cmd != "addChangeComment" &&
                 ($cmdClass != "ilinternallinkgui" || ($next_class == "ilpcmediaobjectgui"))) {
-                if ($_GET["pgEdMediaMode"] != "editLinkedMedia") {
+                //if ($_GET["pgEdMediaMode"] != "editLinkedMedia") {        // to do: check this
+                if (true) {
                     $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
                     if (!is_object($cont_obj)) {
                         $this->log->debug("returnToParent");
@@ -305,18 +314,17 @@ class ilPageEditorGUI
                     $ctype = $cont_obj->getType();
                 }
             }
-            $this->log->debug("step PR: ctype: $ctype");
         }
 
         // Step NC (handle empty next class)
-        if ($_REQUEST["ctype"] != "" || $_REQUEST["cname"] != "") {
-            $ctype = $_REQUEST["ctype"];
-            if ($_REQUEST["cname"] != "") {
-                $pc_def = ilCOPagePCDef::getPCDefinitionByName($_REQUEST["cname"]);
+        if ($this->requested_ctype != "" || $this->requested_cname != "") {
+            $ctype = $this->requested_ctype;
+            if ($this->requested_cname != "") {
+                $pc_def = ilCOPagePCDef::getPCDefinitionByName($this->requested_cname);
                 $ctype = $pc_def["pc_type"];
             }
-            $pc_id = $_REQUEST["pcid"];
-            $hier_id = $_REQUEST["hier_id"];
+            $pc_id = $this->requested_pcid;
+            $hier_id = $this->requested_hier_id;
             if (!in_array($cmd, ["insert", "create"])) {
                 $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             }
@@ -837,7 +845,7 @@ class ilPageEditorGUI
     {
         $ids = ilEditClipboardGUI::_getSelectedIDs();
 
-        $hier_id = $this->page->getHierIDForPCId($_GET["pc_id"]);
+        $hier_id = $this->page->getHierIDForPCId($this->requested_pc_id);
         if ($hier_id == "") {
             $hier_id = "pg";
         }

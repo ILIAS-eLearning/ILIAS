@@ -1,24 +1,18 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Cron for exercise feedback notification
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCronFeedbackNotification extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -26,12 +20,12 @@ class ilExcCronFeedbackNotification extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "exc_feedback_notification";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         
@@ -39,7 +33,7 @@ class ilExcCronFeedbackNotification extends ilCronJob
         return $lng->txt("exc_global_feedback_file_cron");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
         
@@ -47,31 +41,32 @@ class ilExcCronFeedbackNotification extends ilCronJob
         return $lng->txt("exc_global_feedback_file_cron_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
     public function getDefaultScheduleValue()
     {
-        return;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
-    
-    public function run()
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function run() : ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        $message = array();
-        
+
         $count = 0;
         
         foreach (ilExAssignment::getPendingFeedbackNotifications() as $ass_id) {

@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilPrivacySecuritySetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */
@@ -41,7 +43,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilPrivacySecuritySetupConfig(
-                (bool) $data["https_enabled"]
+                (bool) ($data["https_enabled"] ?? false)
             );
         });
     }

@@ -1,19 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilExcCriteriaTableGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCriteriaTableGUI extends ilTable2GUI
 {
-    protected $cat_id; // [int]
+    protected int $cat_id;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_cat_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_cat_id
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -50,7 +53,7 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
         }
     }
     
-    protected function getItems()
+    protected function getItems() : bool
     {
         $data = array();
         
@@ -71,12 +74,12 @@ class ilExcCriteriaTableGUI extends ilTable2GUI
         return (bool) sizeof($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         return in_array($a_field, array("pos"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

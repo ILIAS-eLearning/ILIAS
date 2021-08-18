@@ -94,7 +94,7 @@ HelloWorld
 	</div>
 </div>
 <script>
-	$(function() {
+	window.setTimeout(function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -120,7 +120,7 @@ HelloWorld
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	});
+	}, 0);
 </script>
 EOT;
 
@@ -169,7 +169,7 @@ EOT;
 	</div>
 </div>
 <script>
-	$(function() {
+	window.setTimeout(function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -195,7 +195,7 @@ EOT;
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	});
+	}, 0);
 </script>
 EOT;
 
@@ -265,7 +265,7 @@ HelloWorld
 	</div>
 </div>
 <script>
-	$(function() {
+	window.setTimeout(function() {
 		$('#id_1').on('shown.bs.modal', function() {
 			$('.modal-backdrop.in').css('opacity', '0.9');
 		});
@@ -291,7 +291,7 @@ HelloWorld
 			var title = $(this).find('.carousel-inner .item.active').attr('data-title');
 			$('#id_1').find('.modal-title').text(title);
 		});
-	});
+	}, 0);
 </script>
 EOT;
         return $expected;

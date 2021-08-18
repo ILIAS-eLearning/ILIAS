@@ -20,6 +20,9 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     protected $lp_cache; // [array]
     protected $cnt_lmobj; // number of items (chapters and pages) in the explorer
 
+    protected string $obj_id = "";
+    protected string $transl = "";
+
     /**
      * Constructor
      *
@@ -57,8 +60,12 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 
         $this->setPathOpen($tree->readRootId());
 
-        if ((int) $_GET["obj_id"] > 0) {
-            $this->setPathOpen((int) $_GET["obj_id"]);
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->obj_id = (string) ($params["obj_id"] ?? "");
+        $this->transl = (string) ($params["transl"] ?? "");
+
+        if ($this->obj_id > 0) {
+            $this->setPathOpen($this->obj_id);
         }
     }
 
@@ -71,7 +78,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             $class = (is_object($this->parent_obj))
                 ? get_class($this->parent_obj)
                 : $this->parent_obj;
-            $this->ctrl->setParameterByClass($class, "obj_id", $_GET["obj_id"]);
+            $this->ctrl->setParameterByClass($class, "obj_id", $this->obj_id);
             $this->setAjax(true);
         }
     }
@@ -89,8 +96,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
             return $this->lm->getTitle();
         }
 
-        $lang = ($_GET["transl"] != "")
-            ? $_GET["transl"]
+        $lang = ($this->transl != "")
+            ? $this->transl
             : "-";
         return ilLMObject::_getPresentationTitle(
             $a_node,
@@ -111,8 +118,8 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
      */
     public function isNodeHighlighted($a_node)
     {
-        if ($a_node["child"] == $_GET["obj_id"] ||
-            ($_GET["obj_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ($a_node["child"] == $this->obj_id ||
+            ($this->obj_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;

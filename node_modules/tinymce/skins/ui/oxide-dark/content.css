@@ -328,6 +328,10 @@ pre[class*="language-"] {
   position: absolute;
   z-index: 10000;
 }
+.mce-content-body .mce-clonedresizable.mce-resizetable-columns th,
+.mce-content-body .mce-clonedresizable.mce-resizetable-columns td {
+  border: 0;
+}
 .mce-content-body .mce-resize-helper {
   background: #555;
   background: rgba(0, 0, 0, 0.75);
@@ -430,6 +434,10 @@ pre[class*="language-"] {
   color: #fff;
 }
 .mce-content-body img[data-mce-selected],
+.mce-content-body video[data-mce-selected],
+.mce-content-body audio[data-mce-selected],
+.mce-content-body object[data-mce-selected],
+.mce-content-body embed[data-mce-selected],
 .mce-content-body table[data-mce-selected] {
   outline: 3px solid #4099ff;
 }
@@ -459,7 +467,7 @@ pre[class*="language-"] {
 }
 .mce-content-body td[data-mce-selected],
 .mce-content-body th[data-mce-selected] {
-  background-color: #b4d7ff !important;
+  position: relative;
 }
 .mce-content-body td[data-mce-selected]::-moz-selection,
 .mce-content-body th[data-mce-selected]::-moz-selection {
@@ -471,11 +479,30 @@ pre[class*="language-"] {
 }
 .mce-content-body td[data-mce-selected] *,
 .mce-content-body th[data-mce-selected] * {
+  outline: none;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+}
+.mce-content-body td[data-mce-selected]::after,
+.mce-content-body th[data-mce-selected]::after {
+  background-color: rgba(180, 215, 255, 0.7);
+  border: 1px solid transparent;
+  bottom: -1px;
+  content: '';
+  left: -1px;
+  mix-blend-mode: lighten;
+  position: absolute;
+  right: -1px;
+  top: -1px;
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .mce-content-body td[data-mce-selected]::after,
+  .mce-content-body th[data-mce-selected]::after {
+    border-color: rgba(0, 84, 180, 0.7);
+  }
 }
 .mce-content-body img::-moz-selection {
   background: none;
@@ -524,10 +551,18 @@ pre[class*="language-"] {
 .mce-toc li {
   list-style-type: none;
 }
-.mce-item-table,
-.mce-item-table td,
-.mce-item-table th,
-.mce-item-table caption {
+table[style*="border-width: 0px"],
+.mce-item-table:not([border]),
+.mce-item-table[border="0"],
+table[style*="border-width: 0px"] td,
+.mce-item-table:not([border]) td,
+.mce-item-table[border="0"] td,
+table[style*="border-width: 0px"] th,
+.mce-item-table:not([border]) th,
+.mce-item-table[border="0"] th,
+table[style*="border-width: 0px"] caption,
+.mce-item-table:not([border]) caption,
+.mce-item-table[border="0"] caption {
   border: 1px dashed #bbb;
 }
 .mce-visualblocks p,

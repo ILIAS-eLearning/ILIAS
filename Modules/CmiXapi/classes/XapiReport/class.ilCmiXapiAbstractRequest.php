@@ -35,14 +35,16 @@ abstract class ilCmiXapiAbstractRequest
     protected function sendRequest($url)
     {
         $client = new GuzzleHttp\Client();
-        
         $request = new GuzzleHttp\Psr7\Request('GET', $url, [
             'Authorization' => $this->basicAuth,
             'X-Experience-API-Version' => '1.0.0'
         ]);
-        
-        $response = $client->sendAsync($request)->wait();
-        
-        return (string) $response->getBody();
+        try {
+            $response = $client->sendAsync($request)->wait();
+            return (string) $response->getBody();
+        }
+        catch(Exception $e) {
+            throw new Exception("LRS Connection Problems");
+        }
     }
 }

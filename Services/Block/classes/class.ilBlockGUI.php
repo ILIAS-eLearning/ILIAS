@@ -658,14 +658,14 @@ abstract class ilBlockGUI
         $dropdown->setId("block_dd_" . $this->getBlockType() . "_" . $this->block_id);
         foreach ($this->dropdown as $item) {
             if ($item["href"] || $item["onclick"]) {
-                if ($item["checked"]) {
+                if (isset($item["checked"]) && $item["checked"]) {
                     $item["image"] = ilUtil::getImagePath("icon_checked.svg");
                 }
                 $dropdown->addItem(
                     $item["text"],
                     "",
                     $item["href"],
-                    $item["image"],
+                    $item["image"] ?? "",
                     $item["text"],
                     "",
                     "",

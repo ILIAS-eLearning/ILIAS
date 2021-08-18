@@ -7,33 +7,19 @@
  */
 abstract class ilBuddySystemRelationStateFilterRule
 {
-    /** @var ilBuddySystemRelation */
-    protected $relation;
+    protected ilBuddySystemRelation $relation;
 
-    /**
-     * @param ilBuddySystemRelation $relation
-     */
     public function __construct(ilBuddySystemRelation $relation)
     {
         $this->relation = $relation;
     }
 
-    /**
-     * @return ilBuddySystemRelationStateCollection
-     */
     public function getStates() : ilBuddySystemRelationStateCollection
     {
         return $this->relation->getState()->getPossibleTargetStates()->filter($this);
     }
 
-    /**
-     * @return bool
-     */
     abstract public function matches() : bool;
 
-    /**
-     * @param ilBuddySystemRelationState $state
-     * @return bool
-     */
     abstract public function __invoke(ilBuddySystemRelationState $state) : bool;
 }

@@ -12,7 +12,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 {
     use ilExAssignmentTypeGUIBase;
 
-    const MODE_OVERVIEW = "overview";
+    public const MODE_OVERVIEW = "overview";
 
     /**
      * @var ilLanguage

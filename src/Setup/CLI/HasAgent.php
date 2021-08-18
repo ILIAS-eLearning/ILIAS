@@ -6,7 +6,6 @@ namespace ILIAS\Setup\CLI;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\AgentFinder;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -14,10 +13,7 @@ use Symfony\Component\Console\Input\InputOption;
  */
 trait HasAgent
 {
-    /**
-     * @var AgentFinder
-     */
-    protected $agent_finder = null;
+    protected ?AgentFinder $agent_finder = null;
 
     protected function configureCommandForPlugins()
     {
@@ -34,19 +30,23 @@ trait HasAgent
             );
         }
 
-        if ($input->getOption("no-plugins")) {
+        if ($input->hasOption("no-plugins") && $input->getOption("no-plugins")) {
             // The agents of the core are in all folders but the customizing folder.
             return $this->agent_finder->getCoreAgents();
         }
 
-        $plugin_name = $input->getOption("plugin");
-        if ($plugin_name) {
-            return $this->agent_finder->getPluginAgent($plugin_name);
+        if ($input->hasOption("plugin")) {
+            $plugin_name = $input->getOption("plugin");
+            if ($plugin_name) {
+                return $this->agent_finder->getPluginAgent($plugin_name);
+            }
         }
 
         $agents = $this->agent_finder->getAgents();
-        foreach (($input->getOption("skip") ?? []) as $plugin_name) {
-            $agents = $agents->withRemovedAgent(strtolower($plugin_name));
+        if ($input->hasOption("skip")) {
+            foreach (($input->getOption("skip") ?? []) as $plugin_name) {
+                $agents = $agents->withRemovedAgent(strtolower($plugin_name));
+            }
         }
 
         return $agents;

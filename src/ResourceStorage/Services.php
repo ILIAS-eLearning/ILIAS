@@ -35,7 +35,7 @@ class Services
 
     /**
      * Services constructor.
-     * @param StorageHandler        $storage_handler
+     * @param StorageHandler        $storage_handler_factory
      * @param RevisionRepository    $revision_repository
      * @param ResourceRepository    $resource_repository
      * @param InformationRepository $information_repository
@@ -44,7 +44,7 @@ class Services
      * @param FileNamePolicy        $file_name_policy
      */
     public function __construct(
-        StorageHandler $storage_handler,
+        StorageHandlerFactory $storage_handler_factory,
         RevisionRepository $revision_repository,
         ResourceRepository $resource_repository,
         InformationRepository $information_repository,
@@ -56,7 +56,7 @@ class Services
         $file_name_policy_stack->addPolicy($file_name_policy);
 
         $b = new ResourceBuilder(
-            $storage_handler,
+            $storage_handler_factory,
             $revision_repository,
             $resource_repository,
             $information_repository,
@@ -67,7 +67,7 @@ class Services
         $this->manager = new Manager($b);
         $this->consumers = new Consumers(
             new ConsumerFactory(
-                new StorageHandlerFactory([$storage_handler]),
+                $storage_handler_factory,
                 $file_name_policy_stack
             ),
             $b

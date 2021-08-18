@@ -227,9 +227,9 @@ class ilUserTableGUI extends ilTable2GUI
         }
         // other user profile fields
         foreach ($ufs as $f => $fd) {
-            if (!isset($cols[$f]) && !$fd["lists_hide"]) {
+            if (!isset($cols[$f]) && (!isset($fd["lists_hide"]) || !$fd["lists_hide"])) {
                 // #18795
-                $caption = $fd["lang_var"]
+                $caption = (isset($fd["lang_var"]))
                     ? $fd["lang_var"]
                     : $f;
                 $cols[$f] = array(
@@ -293,7 +293,7 @@ class ilUserTableGUI extends ilTable2GUI
             return;
         }
 
-        if (is_array($this->filter['user_ids']) && !count($this->filter['user_ids'])) {
+        if (isset($this->filter['user_ids']) && is_array($this->filter['user_ids']) && !count($this->filter['user_ids'])) {
             $this->setMaxCount(0);
             $this->setData([]);
             return;
@@ -333,7 +333,7 @@ class ilUserTableGUI extends ilTable2GUI
         $query->setRoleFilter($this->filter['global_role']);
         $query->setAdditionalFields($additional_fields);
         $query->setUserFolder($user_filter);
-        $query->setUserFilter($this->filter['user_ids']);
+        $query->setUserFilter($this->filter['user_ids'] ?? []);
         $query->setUdfFilter($udf_filter);
         $query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter'] ?? ''));
         $query->setAuthenticationFilter($this->filter['authentication']);

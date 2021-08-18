@@ -136,7 +136,9 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 2px solid @il-focus-color;
+@il-focus-outline: 3px solid @il-focus-color;
+// The offset should only be used if the contrast between the focus outline and the component is insufficient.
+@il-focus-outline-offset: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -378,6 +380,14 @@ with the il- variable set here.
 @il-disabled-btn-toggle-switch-color: #808080;
 @il-disabled-btn-toggle-switch-position-left: -6%;
 
+//** The ON/OFF Label of the Toggle Button
+@il-btn-toggle-label-position-top: 0;
+@il-btn-toggle-label-on-position-left: 5px;
+@il-btn-toggle-label-off-position-left: 23px;
+@il-btn-toggle-label-font-weight: 600;
+@il-btn-toggle-label-font-size: 0.9em;
+@il-btn-toggle-label-on-color: @il-main-bg;
+
 //** on
 @il-btn-toggle-bg-color-on: @il-secondary-color;
 @il-btn-toggle-border-color-on: #bfbfbf;
@@ -432,20 +442,24 @@ with the il- variable set here.
 //## Variables used to style the ILIAS Standard Filter
 
 //** Filter Bar
-@il-standard-filter-bar-btn-toggle-height: (@il-btn-toggle-height)-6px;
-@il-standard-filter-bar-btn-toggle-padding: (@il-btn-toggle-padding)-10px;
-@il-standard-filter-bar-btn-toggle-switch-width: (@il-btn-toggle-switch-size)-6px;
-@il-standard-filter-bar-btn-bulky-font-size: 14px;
-@il-standard-filter-bar-btn-bulky-border-width: 0;
-@il-standard-filter-bar-glyph-padding: 0.3em;
+@il-standard-filter-bar-btn-font-size: 1.2em;
+@il-standard-filter-bar-glyph-padding-right: 0.3em;
+@il-standard-filter-bar-toggle-padding-left: 10px;
 
 //** Input Fields Area
-@il-standard-filter-input-section-border: 1px solid @il-main-border-color;
+@il-standard-filter-input-section-border-top: 1px solid @il-main-border-color;
+@il-standard-filter-input-section-padding-bottom: 40px;
+@il-standard-filter-input-section-margin: 0;
+@il-standard-filter-input-section-multiselect-margin: 0.8em;
 @il-standard-filter-input-group-width: 100%;
 @il-standard-filter-input-group-height: 25px;
+@il-standard-filter-select-input-border: 1px solid @il-main-border-dark-color;
 @il-standard-filter-label-width: 30%;
 @il-standard-filter-input-remove-width: 10%;
 @il-standard-filter-font-color-disabled: #b0b0b0;
+@il-standard-filter-controls-bottom: 0px;
+@il-standard-filter-controls-padding-left: 15px;
+@il-standard-filter-controls-padding-bottom: 6px;
 
 //** Division with active inputs under Filter Bar
 @il-standard-filter-active-inputs-margin-left: 0;
@@ -469,6 +483,8 @@ with the il- variable set here.
 @il-textarea-height: (floor(4 * (@il-standard-form-font-size * @il-line-height-base)) + (@padding-base-vertical * 2) + 2);
 
 //** Tag Input
+@il-input-tag-color-bg: @il-btn-standard-bg;
+@il-input-tag-color-text: @il-btn-standard-color;
 @il-input-tag-color-disabled: #EEEEEE;
 
 //** determines display of icons in dropdowns, 'none' for no display and 'inline' for display

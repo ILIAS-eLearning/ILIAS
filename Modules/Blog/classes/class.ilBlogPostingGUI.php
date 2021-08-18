@@ -896,4 +896,16 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             true
         );
     }
+
+    /**
+     * Show edit toolbar
+     */
+    protected function showEditToolbar()
+    {
+    }
+
+    public function finishEditing()
+    {
+        $this->ctrl->redirectByClass("ilobjbloggui", "");
+    }
 }

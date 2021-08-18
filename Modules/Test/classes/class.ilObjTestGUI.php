@@ -29,10 +29,10 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
  * @ilCtrl_Calls ilObjTestGUI: assMultipleChoiceGUI, assClozeTestGUI, assMatchingQuestionGUI
- * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI, assJavaAppletGUI
+ * @ilCtrl_Calls ilObjTestGUI: assOrderingQuestionGUI, assImagemapQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assNumericGUI, assErrorTextGUI, ilTestScoringByQuestionsGUI
  * @ilCtrl_Calls ilObjTestGUI: assTextSubsetGUI, assOrderingHorizontalGUI
- * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI, assFlashQuestionGUI
+ * @ilCtrl_Calls ilObjTestGUI: assSingleChoiceGUI, assFileUploadGUI, assTextQuestionGUI
  * @ilCtrl_Calls ilObjTestGUI: assKprimChoiceGUI, assLongMenuGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjQuestionPoolGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilObjTestGUI: ilObjTestSettingsGeneralGUI, ilObjTestSettingsScoringResultsGUI
@@ -1248,14 +1248,6 @@ class ilObjTestGUI extends ilObjectGUI
                 case QT_IMAGEMAP:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
                     break;
-                case JAVAAPPLET_QUESTION_IDENTIFIER:
-                case QT_JAVAAPPLET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assJavaApplet"));
-                    break;
-                case FLASHAPPLET_QUESTION_IDENTIFIER:
-                case QT_FLASHAPPLET:
-                    $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFlashApplet"));
-                    break;
                 case MATCHING_QUESTION_IDENTIFIER:
                 case QT_MATCHING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
@@ -2184,7 +2176,7 @@ class ilObjTestGUI extends ilObjectGUI
                     
                     $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
                 }
-
+                /*
                 $ilToolbar->addSeparator();
                 $ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 
@@ -2211,7 +2203,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
                         $executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = true);
-                        
+
                         if ($executable["executable"]) {
                             if ($testSession->getActiveId() > 0) {
                                 // resume test
@@ -2235,6 +2227,7 @@ class ilObjTestGUI extends ilObjectGUI
                         }
                     }
                 }
+                */
             }
         }
 
@@ -2307,7 +2300,7 @@ class ilObjTestGUI extends ilObjectGUI
         $table_gui = new ilTestHistoryTableGUI($this, 'history');
         $table_gui->setTestObject($this->object);
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        $log = &ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
+        $log = ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
         $table_gui->setData($log);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
@@ -3315,10 +3308,10 @@ class ilObjTestGUI extends ilObjectGUI
         $result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
 
         foreach ($result->ids as $oldId => $newId) {
-            $questionInstance = assQuestion::_instanciateQuestion($oldId);
+            $questionInstance = assQuestion::instantiateQuestion($oldId);
 
             if (assQuestion::originalQuestionExists($questionInstance->getOriginalId())) {
-                $oldOriginal = assQuestion::_instanciateQuestion($questionInstance->getOriginalId());
+                $oldOriginal = assQuestion::instantiateQuestion($questionInstance->getOriginalId());
                 $oldOriginal->delete($oldOriginal->getId());
             }
 
@@ -3793,7 +3786,7 @@ class ilObjTestGUI extends ilObjectGUI
 
         foreach ($ids as $id) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $question = assQuestion::_instanciateQuestionGUI($id);
+            $question = assQuestion::instantiateQuestionGUI($id);
             if ($question) {
                 $title = $question->object->getTitle();
                 $i = 2;
@@ -3807,7 +3800,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 $new_id = $question->object->duplicate(false, $title);
 
-                $clone = assQuestion::_instanciateQuestionGUI($new_id);
+                $clone = assQuestion::instantiateQuestionGUI($new_id);
                 $clone->object->setObjId($this->object->getId());
                 $clone->object->saveToDb();
 

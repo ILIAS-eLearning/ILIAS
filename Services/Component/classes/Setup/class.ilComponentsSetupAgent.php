@@ -6,6 +6,8 @@ use \ILIAS\Refinery\Transformation;
 
 class ilComponentsSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @inheritdoc
      */
@@ -35,10 +37,7 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config !== null) {
-            return new \ilComponentDefinitionsStoredObjective(false);
-        }
-        return new Setup\Objective\NullObjective();
+        return new \ilComponentDefinitionsStoredObjective(false);
     }
 
     /**

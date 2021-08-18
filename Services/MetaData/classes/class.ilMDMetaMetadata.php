@@ -42,13 +42,13 @@ class ilMDMetaMetadata extends ilMDBase
 
 
     // SUBELEMENTS
-    public function &getIdentifierIds()
+    public function getIdentifierIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
-    public function &getIdentifier($a_identifier_id)
+    public function getIdentifier($a_identifier_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
         
@@ -60,7 +60,7 @@ class ilMDMetaMetadata extends ilMDBase
 
         return $ide;
     }
-    public function &addIdentifier()
+    public function addIdentifier()
     {
         include_once 'Services/MetaData/classes/class.ilMDIdentifier.php';
 
@@ -71,13 +71,13 @@ class ilMDMetaMetadata extends ilMDBase
         return $ide;
     }
     
-    public function &getContributeIds()
+    public function getContributeIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
         return ilMDContribute::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_meta_data');
     }
-    public function &getContribute($a_contribute_id)
+    public function getContribute($a_contribute_id)
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
         
@@ -89,7 +89,7 @@ class ilMDMetaMetadata extends ilMDBase
 
         return $con;
     }
-    public function &addContribute()
+    public function addContribute()
     {
         include_once 'Services/MetaData/classes/class.ilMDContribute.php';
 
@@ -112,13 +112,13 @@ class ilMDMetaMetadata extends ilMDBase
         // Fixed attribute
         return 'LOM v 1.0';
     }
-    public function setLanguage(&$lng_obj)
+    public function setLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->language = $lng_obj;
         }
     }
-    public function &getLanguage()
+    public function getLanguage()
     {
         return is_object($this->language) ? $this->language : false;
     }
@@ -231,7 +231,7 @@ class ilMDMetaMetadata extends ilMDBase
      * @param object (xml writer) see class.ilMD2XML.php
      *
      */
-    public function toXML(&$writer)
+    public function toXML($writer)
     {
         if ($this->getMetaDataScheme()) {
             $attr['MetadataScheme'] = $this->getMetaDataScheme();
@@ -244,7 +244,7 @@ class ilMDMetaMetadata extends ilMDBase
         // ELEMENT IDENTIFIER
         $identifiers = $this->getIdentifierIds();
         foreach ($identifiers as $id) {
-            $ide = &$this->getIdentifier($id);
+            $ide = $this->getIdentifier($id);
             $ide->toXML($writer);
         }
         if (!count($identifiers)) {
@@ -256,7 +256,7 @@ class ilMDMetaMetadata extends ilMDBase
         // ELEMETN Contribute
         $contributes = $this->getContributeIds();
         foreach ($contributes as $id) {
-            $con = &$this->getContribute($id);
+            $con = $this->getContribute($id);
             $con->toXML($writer);
         }
         if (!count($contributes)) {

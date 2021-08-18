@@ -17,20 +17,14 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
     /**
      * @var ilAssSpecificFeedbackIdentifier[]
      */
-    protected $map = array();
+    protected array $map = array();
     
-    /**
-     * @param ilAssSpecificFeedbackIdentifier $identifier
-     */
-    protected function add(ilAssSpecificFeedbackIdentifier $identifier)
+    protected function add(ilAssSpecificFeedbackIdentifier $identifier) : void
     {
         $this->map[] = $identifier;
     }
     
-    /**
-     * @param integer $questionId
-     */
-    public function load($questionId)
+    public function load(int $questionId) : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -39,9 +33,7 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
             array('integer'),
             array($questionId)
         );
-        
-        $feedbackIdByAnswerIndexMap = array();
-        
+
         while ($row = $DIC->database()->fetchAssoc($res)) {
             $identifier = new ilAssSpecificFeedbackIdentifier();
             
@@ -55,48 +47,33 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
             $this->add($identifier);
         }
     }
-    
-    /**
-     * @return ilAssSpecificFeedbackIdentifier
-     */
-    public function current()
+
+    public function current() : ilAssSpecificFeedbackIdentifier
     {
         return current($this->map);
     }
-    
-    /**
-     * @return ilAssSpecificFeedbackIdentifier
-     */
-    public function next()
+
+    public function next() : ilAssSpecificFeedbackIdentifier
     {
         return next($this->map);
     }
     
-    /**
-     * @return integer|null
-     */
-    public function key()
+    public function key(): ?int
     {
         return key($this->map);
     }
     
-    /**
-     * @return bool
-     */
-    public function valid()
+    public function valid() : bool
     {
         return key($this->map) !== null;
     }
     
-    /**
-     * @return ilAssSpecificFeedbackIdentifier
-     */
-    public function rewind()
+    public function rewind() : ilAssSpecificFeedbackIdentifier
     {
         return reset($this->map);
     }
     
-    protected function getSpecificFeedbackTableName()
+    protected function getSpecificFeedbackTableName() : string
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssClozeTestFeedback.php';
         return ilAssClozeTestFeedback::TABLE_NAME_SPECIFIC_FEEDBACK;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\KioskMode\ControlBuilder;
@@ -18,24 +18,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
     private const CMD_LP_TO_COMPLETED = 'lp_completed';
     private const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
-    /** @var ilObjContentPage */
-    protected $contentPageObject;
-    /** @var ilObjUser */
-    protected $user;
-    /** @var Factory */
-    protected $uiFactory;
-    /** @var Renderer */
-    protected $uiRenderer;
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilTemplate */
-    protected $mainTemplate;
-    /** @var ServerRequestInterface */
-    protected $httpRequest;
-    /** @var ilTabsGUI */
-    protected $tabs;
-    /** @var MessageBox */
-    protected $messages = [];
+    protected ilObjContentPage $contentPageObject;
+    protected ilObjUser $user;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ilGlobalTemplateInterface $mainTemplate;
+    protected ServerRequestInterface $httpRequest;
+    protected ilTabsGUI $tabs;
+    /** @var MessageBox[] */
+    protected array $messages = [];
 
     /**
      * @inheritDoc

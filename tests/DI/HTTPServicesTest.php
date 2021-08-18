@@ -8,7 +8,7 @@
 namespace ILIAS\DI;
 
 use ILIAS\HTTP\Cookies\CookieJarFactory;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use ILIAS\HTTP\Request\RequestFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
@@ -16,6 +16,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\RawHTTPServices;
 
 /**
  * Class HTTPServicesTest
@@ -47,7 +48,7 @@ class HTTPServicesTest extends PHPUnitTestCase
      */
     private $mockSenderStrategy;
     /**
-     * @var GlobalHttpState $httpState
+     * @var Services $httpState
      */
     private $httpState;
 
@@ -68,7 +69,7 @@ class HTTPServicesTest extends PHPUnitTestCase
         $this->mockCookieJarFactory = $this->getMockBuilder(CookieJarFactory::class)->getMock();
 
         //setup http state
-        $this->httpState = new HTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
     }
 
 

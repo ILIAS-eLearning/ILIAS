@@ -1,5 +1,5 @@
 [![checks](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml/badge.svg?branch=trunk)](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-7.4%20%7C%208.0-8892BF.svg)](https://php.net/)
 
 # ILIAS
 
@@ -26,3 +26,7 @@ You may even join us at one of our regular [ILIAS Conferences](http://www.ilias.
 ### Development
 
 Information on our software development processes and guidelines and ways to contribute can be found the the [development section](docs/development) of our documentation.
+
+
+### ILIAS Root Directory
+Requests to add new files and directories in the root directory of ILIAS MUST be presented as development issues at and approved by the Jour Fixe.

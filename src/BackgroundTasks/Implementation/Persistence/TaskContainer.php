@@ -4,7 +4,7 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class TaskContainer extends \ActiveRecord
 {
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return "il_bt_task";
     }

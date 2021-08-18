@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Derived task provider factory
  *
- * @author killing@leifos.de
- * @ingroup ServicesTasks
+ * @author Alexander Killing <killing@leifos.de>
  */
 interface ilDerivedTaskProviderFactory
 {

@@ -156,7 +156,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         }
         return ''
             . '<button class="btn btn-bulky' . $engaged_class . '" data-action="http://www.ilias.de" id="id_1" ' . $aria_pressed . '>'
-            . '	<span class="glyph" aria-label="briefcase">'
+            . '	<span class="glyph" aria-label="briefcase" role="img">'
             . '		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
             . '	</span>'
             . '	<span class="bulky-label">label</span>'

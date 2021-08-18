@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class ImplementationOfInterfaceFinderForTest extends ImplementationOfInterfaceFinder
 {
-    public $class_names = [];
+    public array $class_names = [];
 
     protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
     {

@@ -3,7 +3,7 @@
 
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieWrapper;
-use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Services;
 use Psr\Http\Message\UriInterface;
 
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
@@ -64,7 +64,7 @@ class ilWebAccessChecker
      */
     protected $applied_checking_methods = array();
     /**
-     * @var \ILIAS\DI\HTTPServices $http
+     * @var \ILIAS\HTTP\Services $http
      */
     private $http;
     /**
@@ -76,10 +76,10 @@ class ilWebAccessChecker
     /**
      * ilWebAccessChecker constructor.
      *
-     * @param GlobalHttpState            $httpState
+     * @param Services            $httpState
      * @param CookieFactory              $cookieFactory
      */
-    public function __construct(GlobalHttpState $httpState, CookieFactory $cookieFactory)
+    public function __construct(Services $httpState, CookieFactory $cookieFactory)
     {
         $this->setPathObject(new ilWACPath($httpState->request()->getRequestTarget()));
         $this->http = $httpState;

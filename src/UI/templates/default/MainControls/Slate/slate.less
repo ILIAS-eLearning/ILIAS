@@ -139,6 +139,9 @@
 	p, h1, h2, h3, li {
 		padding: @il-slate-content-padding @il-slate-content-padding*2;
 	}
+	> hr {
+		margin: @il-slate-content-padding 0;
+	}
 	li.jstree-node {
 		padding: @il-slate-tree-padding;
 	}
@@ -208,8 +211,11 @@
 			width: 45px;
 			text-align: left;
 		}
-		.il-avatar-picture{
+		.il-avatar{
 			margin-right: 45px - @il-avatar-inner-mobile-size;
+		}
+		.link-bulky .icon.small{
+			margin-right: 45px - @il-icon-size-small;
 		}
 	}
 }

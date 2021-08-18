@@ -10,14 +10,12 @@ require_once('./libs/composer/vendor/autoload.php');
  *
  * @author                 Fabian Schmid <fs@studer-raimann.ch>
  *
- * @group                  needsInstalledILIAS
- *
  * @runTestsInSeparateProcesses
  * @preserveGlobalState    disabled
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class ilWACSecurePathTest extends MockeryTestCase
+class ilWACSecurePathTest //extends MockeryTestCase
 {
 
     /**
@@ -29,8 +27,8 @@ class ilWACSecurePathTest extends MockeryTestCase
     protected function setUp()
     {
         parent::setUp();
-        require_once('./Services/PHPUnit/classes/class.ilUnitUtil.php');
-        ilUnitUtil::performInitialisation();
+        //require_once('./Services/PHPUnit/classes/class.ilUnitUtil.php');
+        //ilUnitUtil::performInitialisation();
         require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
         require_once('./Services/WebAccessChecker/classes/class.ilWACSecurePath.php');
         require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');

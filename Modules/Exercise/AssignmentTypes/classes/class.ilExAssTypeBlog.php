@@ -1,23 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Blog type
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExAssTypeBlog implements ilExAssignmentTypeInterface
 {
-    /**
-     * @var ilSetting
-     */
-    protected $setting;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilSetting $setting;
+    protected ilLanguage $lng;
 
     /**
      * Constructor
@@ -30,18 +23,13 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
         global $DIC;
 
         $this->setting = ($a_setting)
-            ? $a_setting
-            : $DIC["ilSetting"];
+            ?: $DIC["ilSetting"];
 
         $this->lng = ($a_lng)
-            ? $a_lng
-            : $DIC->language();
+            ?: $DIC->language();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isActive()
+    public function isActive() : bool
     {
         if ($this->setting->get('disable_wsp_blogs')) {
             return false;
@@ -49,59 +37,37 @@ class ilExAssTypeBlog implements ilExAssignmentTypeInterface
         return true;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function usesTeams()
+    public function usesTeams() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function usesFileUpload()
+    public function usesFileUpload() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
 
         return $lng->txt("exc_type_blog");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getSubmissionType()
+    public function getSubmissionType() : string
     {
         return ilExSubmission::TYPE_OBJECT;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isSubmissionAssignedToTeam()
+    public function isSubmissionAssignedToTeam() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target) : void
     {
     }
 
-    /**
-     *  @inheritdoc
-     */
     public function supportsWebDirAccess() : bool
     {
         return false;

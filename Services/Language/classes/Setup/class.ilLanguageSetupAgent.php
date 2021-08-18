@@ -8,6 +8,8 @@ use ILIAS\UI;
 
 class ilLanguageSetupAgent implements Setup\Agent
 {
+    use Setup\Agent\HasNoNamedObjective;
+
     /**
      * @var Refinery\Factory
      */

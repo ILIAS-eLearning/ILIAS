@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,25 +10,10 @@ use PHPUnit\Framework\TestCase;
 
 class ExternalConditionObjectiveTest extends TestCase
 {
-    /**
-     * @var string
-     */
-    protected $label_t;
-
-    /**
-     * @var Condition\ExternalConditionObjective
-     */
-    protected $t;
-
-    /**
-     * @var string
-     */
-    protected $label_f;
-
-    /**
-     * @var Condition\ExternalConditionObjective
-     */
-    protected $f;
+    protected string $label_t;
+    protected Condition\ExternalConditionObjective $t;
+    protected string $label_f;
+    protected Condition\ExternalConditionObjective $f;
 
     public function setUp() : void
     {

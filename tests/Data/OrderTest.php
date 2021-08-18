@@ -80,7 +80,7 @@ class orderTest extends TestCase
      */
     public function testInvalidDirection(Order $order)
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(TypeError::class);
         $order = $order->append('sub3', -1);
     }
 

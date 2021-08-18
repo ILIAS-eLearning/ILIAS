@@ -1,27 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/Chatroom/classes/class.ilChatroomObjectDefinition.php';
-require_once 'Modules/Chatroom/classes/class.ilChatroomGUIHandler.php';
-require_once 'Services/UICore/classes/class.ilFrameTargetInfo.php';
 
 /**
  * @author jposselt@databay.de
- * @abstract
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\HTTP\Services $httpServices;
+    protected ilTree $repositoryTree;
+
+    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    {
+        /** @var $DIC \ILIAS\DI\Container */
+        global $DIC;
+
+        $this->httpServices = $DIC->http();
+        $this->repositoryTree = $DIC->repositoryTree();
+
+        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+    }
+
+
     /**
-     * Loads end executes given $gui.
      * @param string $gui
      * @param string $method
-     * @return boolean A boolean flag whether or not the request could be dispatched
+     * @return bool A boolean flag whether or not the request could be dispatched
      */
-    protected function dispatchCall($gui, $method)
+    protected function dispatchCall(string $gui, string $method) : bool
     {
-        /**
-         * @var $definition ilChatroomObjectDefinition
-         */
         $definition = $this->getObjectDefinition();
         if ($definition->hasGUI($gui)) {
             $definition->loadGUI($gui);
@@ -33,43 +39,33 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         return false;
     }
 
-    /**
-     * @return ilChatroomObjectDefinition
-     * @abstract
-     */
-    abstract protected function getObjectDefinition();
+    abstract protected function getObjectDefinition() : ilChatroomObjectDefinition;
 
-    /**
-     * @return ilChatroomServerConnector
-     * @abstract
-     */
-    abstract public function getConnector();
+    abstract public function getConnector() : ilChatroomServerConnector;
 
     /**
      * Calls $this->prepareOutput() method.
      */
-    public function switchToVisibleMode()
+    public function switchToVisibleMode() : void
     {
         $this->prepareOutput();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAdminTabs()
     {
-        global $DIC;
-
-        if (isset($_GET['admin_mode']) && $_GET['admin_mode'] == 'repository') {
-            $this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'settings');
+        if (
+            isset($this->httpServices->request()->getQueryParams()['admin_mode']) &&
+            $this->httpServices->request()->getQueryParams()['admin_mode'] === 'repository'
+        ) {
+            $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'settings');
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt('administration'),
-                $this->ctrl->getLinkTargetByClass('iladministrationgui', 'frameset'),
-                ilFrameTargetInfo::_getFrame('MainContent')
+                $this->ctrl->getLinkTargetByClass(ilAdministrationGUI::class, 'frameset')
             );
-            $this->ctrl->setParameterByClass('iladministrationgui', 'admin_mode', 'repository');
+            $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'repository');
         }
-        if ($DIC->repositoryTree()->getSavedNodeData($this->object->getRefId())) {
+
+        if ($this->repositoryTree->getSavedNodeData($this->object->getRefId())) {
             $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
         }
     }

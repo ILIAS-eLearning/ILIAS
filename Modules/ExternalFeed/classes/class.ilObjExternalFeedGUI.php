@@ -109,7 +109,7 @@ class ilObjExternalFeedGUI extends ilObjectGUI
     public function save($a_feed_block)
     {
         // create and insert forum in objecttree
-        $_REQUEST["new_type"] = "feed";
+        $this->requested_new_type = "feed";
         $_POST["title"] = $a_feed_block->getTitle();
         $_POST["desc"] = $a_feed_block->getFeedUrl();
         $this->feed_block = $a_feed_block;

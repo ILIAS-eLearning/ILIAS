@@ -1,4 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
+
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -7,12 +10,11 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\UI\Component\MainControls\MetaBar;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
-use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
 
 /**
  * Class ilLSViewLayoutProvider
@@ -21,11 +23,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
  */
 class ilLSViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-
-    /**
-     * @var Collection | null
-     */
-    protected $data_collection;
+    protected ?Collection $data_collection;
 
     /**
      * @inheritDoc
@@ -35,15 +33,10 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         return $this->context_collection->main();
     }
 
-    /**
-     * @param CalledContexts $calledContexts
-     *
-     * @return bool
-     */
     protected function isKioskModeEnabled(CalledContexts $screen_context_stack) : bool
     {
         $this->data_collection = $screen_context_stack->current()->getAdditionalData();
-        return $this->data_collection->is(\ilLSPlayer::GS_DATA_LS_KIOSK_MODE, true);
+        return $this->data_collection->is(ilLSPlayer::GS_DATA_LS_KIOSK_MODE, true);
     }
 
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
@@ -54,7 +47,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
                 function (MainBar $mainbar) : ?MainBar {
-                    $entries = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
+                    $entries = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS);
                     $tools = $mainbar->getToolEntries();
                     $mainbar = $mainbar->withClearedEntries();
 
@@ -79,7 +72,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
             ->withModification(
                 function (MetaBar $metabar) : ?Metabar {
                     $metabar = $metabar->withClearedEntries();
-                    foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
+                    foreach ($this->data_collection->get(ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
                         $metabar = $metabar->withAdditionalEntry($key, $entry);
                     }
                     return $metabar;
@@ -108,7 +101,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         if (!$this->isKioskModeEnabled($screen_context_stack)) {
             return null;
         }
-        $html = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_CONTENT);
+        $html = $this->data_collection->get(ilLSPlayer::GS_DATA_LS_CONTENT);
         // TODO: Once we have more control over the content, we could just setContent
         // in ilObjLearningSequenceLearnerGUI like any other object and later strip
         // away the header here.

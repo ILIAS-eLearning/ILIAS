@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilChatroomGUIHandler
@@ -11,86 +11,30 @@ require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
  */
 abstract class ilChatroomGUIHandler
 {
-    /**
-     * @var ilChatroomObjectGUI
-     */
-    protected $gui;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $ilUser;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ilCtrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $ilLng;
-
-    /**
-     * @var \ILIAS\Filesystem\Filesystem
-     */
-    protected $webDirectory;
-
-    /**
-     * @var ilObjectService
-     */
-    protected $obj_service;
-
-    /**
-     * @var \ILIAS\FileUpload\FileUpload
-     */
-    protected $upload;
-
-    /**
-     * @var \ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $mainTpl;
-
-    /**
-     * @var \ILIAS
-     */
-    protected $ilias;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $navigationHistory;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $uiFactory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $uiRenderer;
+    protected ilChatroomObjectGUI $gui;
+    protected ilObjUser $ilUser;
+    protected ilCtrl $ilCtrl;
+    protected ilLanguage $ilLng;
+    protected \ILIAS\Filesystem\Filesystem $webDirectory;
+    protected ilObjectService $obj_service;
+    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected ilRbacSystem $rbacsystem;
+    protected ilGlobalTemplateInterface $mainTpl;
+    protected ILIAS $ilias;
+    protected ilNavigationHistory $navigationHistory;
+    protected ilTree $tree;
+    protected ilTabsGUI $tabs;
+    protected \ILIAS\UI\Factory $uiFactory;
+    protected \ILIAS\UI\Renderer $uiRenderer;
+    protected \ILIAS\HTTP\Services $httpServices;
+    protected \ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilChatroomObjectGUI $gui
      */
     public function __construct(ilChatroomObjectGUI $gui)
     {
+        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
         $this->gui = $gui;
@@ -108,139 +52,151 @@ abstract class ilChatroomGUIHandler
         $this->tree = $DIC['tree'];
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
+        $this->httpServices = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     /**
-     * Executes given $method if existing, otherwise executes
-     * executeDefault() method.
+     * @param string $key
+     * @param mixed $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->httpServices->request()->getQueryParams()[$key])) {
+            return $this->httpServices->request()->getQueryParams()[$key];
+        }
+
+        if (isset($this->httpServices->request()->getParsedBody()[$key])) {
+            return $this->httpServices->request()->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
+    }
+
+    protected function hasRequestValue(string $key) : bool
+    {
+        if (isset($this->httpServices->request()->getQueryParams()[$key])) {
+            return true;
+        }
+
+        return isset($this->httpServices->request()->getParsedBody()[$key]) ? true : false;
+    }
+
+    /**
+     * Executes given $method if existing, otherwise executes executeDefault() method.
      * @param string $method
      * @return mixed
      */
-    public function execute($method)
+    public function execute(string $method) : void
     {
         $this->ilLng->loadLanguageModule('chatroom');
 
         if (method_exists($this, $method)) {
-            return $this->$method();
-        } else {
-            return $this->executeDefault($method);
+            $this->$method();
+            return;
         }
+
+        $this->executeDefault($method);
     }
 
-    /**
-     * @param string $requestedMethod
-     * @return mixed
-     */
-    abstract public function executeDefault($requestedMethod);
+    abstract public function executeDefault(string $requestedMethod) : void;
 
     /**
      * Checks for requested permissions and redirects if the permission check failed
-     * @param array|string $permission
+     * @param string[]|string $permission
      */
-    public function redirectIfNoPermission($permission)
+    public function redirectIfNoPermission($permission) : void
     {
         if (!ilChatroom::checkUserPermissions($permission, $this->gui->ref_id)) {
-            $this->ilCtrl->setParameterByClass('ilrepositorygui', 'ref_id', ROOT_FOLDER_ID);
-            $this->ilCtrl->redirectByClass('ilrepositorygui', '');
+            $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+            $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
     }
 
     /**
      * Checks for success param in an json decoded response
-     * @param string $response
+     * @param string|false $response
      * @return boolean
      */
-    public function isSuccessful($response)
+    public function isSuccessful($response) : bool
     {
-        $response = json_decode($response, true);
+        if (!is_string($response)) {
+            return false;
+        }
+
+        $response = json_decode($response, true, 512, JSON_THROW_ON_ERROR);
 
         return $response !== null && array_key_exists('success', $response) && $response['success'];
     }
 
-    /**
-     * @param $objectId
-     * @return ilChatroom
-     */
-    protected function getRoomByObjectId($objectId)
+    protected function getRoomByObjectId(int $objectId) : ?ilChatroom
     {
         return ilChatroom::byObjectId($objectId);
     }
 
     /**
      * Checks if a ilChatroom exists. If not, it will send a json encoded response with success = false
-     * @param ilChatroom $room
+     * @param ?ilChatroom $room
      */
-    protected function exitIfNoRoomExists($room)
+    protected function exitIfNoRoomExists(?ilChatroom $room) : void
     {
-        if (!$room) {
-            $this->sendResponse(
-                array(
-                    'success' => false,
-                    'reason' => 'unkown room',
-                )
-            );
+        if (null === $room) {
+            $this->sendResponse([
+                'success' => false,
+                'reason' => 'unkown room',
+            ]);
         }
     }
 
     /**
      * Sends a json encoded response and exits the php process
-     * @param array $response
+     * @param mixed $response
+     * @param bool $isJson
      */
-    public function sendResponse($response)
+    public function sendResponse($response, bool $isJson = false) : void
     {
-        echo json_encode($response);
-        exit;
+        $this->httpServices->saveResponse(
+            $this->httpServices->response()
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody(Streams::ofString($isJson ? $response : json_encode($response, JSON_THROW_ON_ERROR)))
+        );
+        $this->httpServices->sendResponse();
+        $this->httpServices->close();
     }
 
     /**
      * Check if user can moderate a chatroom. If false it send a json decoded response with success = false
      * @param ilChatroom $room
      * @param int $subRoom
-     * @param ilChatroomUser $chat_user
+     * @param ilChatroomUser $chatUser
      */
-    protected function exitIfNoRoomPermission($room, $subRoom, $chat_user)
+    protected function exitIfNoRoomModeratePermission(ilChatroom $room, int $subRoom, ilChatroomUser $chatUser) : void
     {
-        if (!$this->canModerate($room, $subRoom, $chat_user->getUserId())) {
-            $this->sendResponse(
-                array(
-                    'success' => false,
-                    'reason' => 'not owner of private room',
-                )
-            );
+        if (!$this->canModerate($room, $subRoom, $chatUser->getUserId())) {
+            $this->sendResponse([
+                'success' => false,
+                'reason' => 'not owner of private room',
+            ]);
         }
     }
 
-    /**
-     * Checks if the user has permission to moderate a ilChatroom
-     * @param ilChatroom $room
-     * @param int $subRoom
-     * @param int $user_id
-     * @return bool
-     */
-    protected function canModerate($room, $subRoom, $user_id)
+    protected function canModerate(ilChatroom $room, int $subRoom, int $usrId) : bool
     {
-        return $this->isMainRoom($subRoom) || $room->isOwnerOfPrivateRoom(
-            $user_id,
-            $subRoom
-        ) || $this->hasPermission('moderate');
+        return (
+            $this->isMainRoom($subRoom) ||
+            $room->isOwnerOfPrivateRoom($usrId, $subRoom) ||
+            $this->hasPermission('moderate')
+        );
     }
 
-    /**
-     * @param int $subRoomId
-     * @return bool
-     */
-    protected function isMainRoom($subRoomId)
+    protected function isMainRoom(int $subRoomId) : bool
     {
-        return $subRoomId == 0;
+        return $subRoomId === 0;
     }
 
-    /**
-     * Checks for access with ilRbacSystem
-     * @param string $permission
-     * @return bool
-     */
-    public function hasPermission($permission)
+    public function hasPermission(string $permission) : bool
     {
-        return ilChatroom::checkUserPermissions($permission, $this->gui->ref_id);
+        return ilChatroom::checkUserPermissions($permission, (int) $this->gui->ref_id);
     }
 }

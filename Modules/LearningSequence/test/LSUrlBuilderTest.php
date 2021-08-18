@@ -1,14 +1,18 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data\Factory;
 
 class LSUrlBuilderTest extends TestCase
 {
-    public function setUp() : void
+    protected LSUrlBuilder $ub;
+
+    protected function setUp() : void
     {
         $data_factory = new Factory();
-        $uri = $data_factory->uri('http://ilias.de/somepath');
+        $uri = $data_factory->uri('https://ilias.de/somepath');
         $this->ub = new LSUrlBuilder($uri);
     }
 

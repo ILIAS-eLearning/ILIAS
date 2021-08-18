@@ -9,10 +9,7 @@
  */
 class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {
-    protected $type;
     protected $value;
-    protected $title;
-    protected $info;
     protected $section_icon;
     protected $disable_escaping;
     
@@ -31,7 +28,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
     
     public function checkInput()
     {
-        if (!is_array($_POST[$this->getPostVar()])) {
+        if (isset($_POST[$this->getPostVar()]) && !is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
         }
         return $this->checkSubItemsInput();

@@ -25,7 +25,7 @@ class ilAccessibilitySupportContactsGUI
     protected $ctrl;
 
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\Services
      */
     protected $http;
 
