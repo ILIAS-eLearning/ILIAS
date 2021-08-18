@@ -13,8 +13,15 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
 {
     public const ID = 'exc_context_submit_rmd';
 
-    protected ilLanguage $lng;
-    protected ilObjectDataCache $obj_data_cache;
+    /**
+     * caution, this currently makes the ilias update fail (Aug 2021)
+     * setup > ilMailTemplateContextDefinitionProcessor > anonymous class in $DIC->language()
+     */
+    // protected ilLanguage $lng;
+    // protected ilObjectDataCache $obj_data_cache;
+
+    protected $lng;
+    protected $obj_data_cache;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
@@ -22,6 +29,7 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         ilMailUserHelper $usernameHelper = null,
         ilMailLanguageHelper $languageHelper = null
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct(
