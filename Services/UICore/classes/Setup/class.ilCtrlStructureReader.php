@@ -115,7 +115,7 @@ class ilCtrlStructureReader
             try {
                 $cs = $this->parseFileTo($cs, $full_path, $content);
             } catch (\LogicException $e) {
-                throw new \LogicException("In file \"$full_path\": " . $e->getMessage());
+                throw new \LogicException("In file \"$full_path\": " . $e->getMessage(), $e->getCode(), $e);
             } catch (\RuntimeException $e) {
                 if (!isset($e->class) || !isset($e->file_path)) {
                     throw $e;
