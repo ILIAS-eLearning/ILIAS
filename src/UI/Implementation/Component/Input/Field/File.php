@@ -276,6 +276,9 @@ class File extends Input implements C\Input\Field\FileInput
             }
         }
 
+        // @TODO: apply trafos of nested inputs here, as they cannot be done
+        //        in the instance itself.
+
         $clone->content = new Ok($content);
 
         return $clone;

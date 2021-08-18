@@ -162,7 +162,7 @@ Dropzone.autoDiscover = false;
                 preview.find(SELECTOR.zip_options).remove();
             }
 
-            let inputs = $(file.previewElement).find('input');
+            let inputs = $(file.previewElement).find('input, textarea, select');
             for (let i = 0, i_max = inputs.length; i < i_max; i++) {
                 let input = $(inputs[i]);
 

@@ -88,7 +88,7 @@ class ilObject
     // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
     public $untranslatedTitle;
     // END WebDAV: WebDAV needs to access the untranslated title of an object
-    public $desc;
+    public $desc = "";
     public $long_desc;
     public $owner;
 

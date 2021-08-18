@@ -37,6 +37,11 @@ class ilObjFileGUI extends ilObject2GUI
     protected $ui;
 
     /**
+     * @var \ILIAS\HTTP\Services
+     */
+    protected $http;
+
+    /**
      * @var ilComponentLogger|ilLogger
      */
     protected $log;
@@ -45,6 +50,16 @@ class ilObjFileGUI extends ilObject2GUI
      * @var ilObjectService
      */
     protected $obj_service;
+
+    /**
+     * @var \ILIAS\ResourceStorage\Services
+     */
+    protected $storage;
+
+    /**
+     * @var ilObjFileStakeholder
+     */
+    protected $stakeholder;
 
     /**
      * @var ilObjFileUploadHandler
@@ -64,11 +79,15 @@ class ilObjFileGUI extends ilObject2GUI
 
         $this->lng            = $DIC->language();
         $this->ui             = $DIC->ui();
+        $this->http           = $DIC->http();
         $this->obj_service    = $DIC->object();
+        $this->storage        = $DIC->resourceStorage();
         $this->log            = ilLoggerFactory::getLogger('file');
+        $this->stakeholder    = new ilObjFileStakeholder($DIC->user()->getId());
         $this->upload_handler = new ilObjFileUploadHandler();
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
         $this->lng->loadLanguageModule("file");
     }
 
@@ -334,7 +353,7 @@ class ilObjFileGUI extends ilObject2GUI
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
             [
-                $this->ui->factory()->input()->field()
+                'files' => $this->ui->factory()->input()->field()
                     ->file(
                         $this->upload_handler,
                         $this->lng->txt('upload')
@@ -342,9 +361,14 @@ class ilObjFileGUI extends ilObject2GUI
                     ->withZipExtractOptions(true)
                     ->withMaxFiles(100)
                     ->withNestedInputs([
-                        $this->ui->factory()->input()->field()
+                        'filename' => $this->ui->factory()->input()->field()
                             ->text(
-                                $this->lng->txt('new_name')
+                                $this->lng->txt('name')
+                            )
+                        ,
+                        'description' => $this->ui->factory()->input()->field()
+                            ->textarea(
+                                $this->lng->txt('description')
                             )
                         ,
                     ])
@@ -354,71 +378,75 @@ class ilObjFileGUI extends ilObject2GUI
     }
 
     /**
+     * Returns the file processor according to the given information.
+     * @param bool $extract
+     * @param bool $keep_structure
+     * @return ilObjFileProcessorInterface
+     */
+    private function getFileProcessor(bool $extract, bool $keep_structure) : ilObjFileProcessorInterface
+    {
+        if ($extract) {
+            if ($keep_structure) {
+                $processor = new ilObjFileUnzipRecursiveProcessor(
+                    $this->stakeholder,
+                    $this,
+                    $this->access_handler,
+                    $this->tree,
+                    $this->id_type
+                );
+            } else {
+                $processor = new ilObjFileUnzipFlatProcessor(
+                    $this->stakeholder,
+                    $this,
+                    $this->access_handler,
+                    $this->tree,
+                    $this->id_type,
+                );
+            }
+        } else {
+            $processor = new ilObjFileProcessor(
+                $this->stakeholder,
+                $this,
+                $this->access_handler,
+                $this->tree
+            );
+        }
+
+        return $processor;
+    }
+
+    /**
      * MUST be protected, since this is Called from ilObject2GUI when used in Personal Workspace
-     * @throws JsonException
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
     protected function uploadFiles() : void
     {
+        $form = $this->initMultiUploadForm();
+        $form = $form->withRequest($this->http->request());
+        $data = $form->getData();
 
-        // Response
-        $response = new ilObjFileUploadResponse();
-
-        $dnd_form_gui = $this->initLegacyMultiUploadForm();
-        // Form not valid, abort
-        if (!$dnd_form_gui->checkInput()) {
-            $dnd_input = $dnd_form_gui->getItemByPostVar("upload_files");
-            $response->error = $dnd_input->getAlert();
-            $response->send();
-            // end
-        }
-
-        // Form valid, proceed
-
-        /**
-         * @var $DIC Container
-         */
-        global $DIC;
-
-        $upload = $DIC->upload();
-        $upload->register(new ilCountPDFPagesPreProcessors());
-        $post = $DIC->http()->request()->getParsedBody();
-
-        if (!$upload->hasBeenProcessed()) {
-            $upload->process();
-        }
-
-        $extract = isset($post['extract']) ? (bool) $post['extract'] : false;
-        $keep_structure = isset($post['keep_structure']) ? (bool) $post['keep_structure'] : false;
-
-        foreach ($upload->getResults() as $result) {
-            if (!$result->isOK()) {
-                $response->error = $result->getStatus()->getMessage();
-                $response->send();
-                continue;
-            }
-            if ($extract) {
-                if ($keep_structure) {
-                    $delegate = new ilObjFileUnzipRecursiveDelegate(
-                        $this->access_handler,
-                        (int) $this->id_type,
-                        $this->tree);
-                } else {
-                    $delegate = new ilObjFileUnzipFlatDelegate();
-                }
-            } else {
-                $delegate = new ilObjFileSingleFileDelegate();
-
-            }
-            $response = $delegate->handle(
-                (int) $this->parent_id,
-                $post,
-                $result,
-                $this
+        if (empty($data['files'])) {
+            $this->tpl->setContent(
+                $this->ui->renderer()->render(
+                    $this->ui->factory()->messageBox()->failure($this->lng->txt('upload_failure'))
+                )
             );
-            $response->send();
+
+            return;
         }
 
+        foreach ($data['files'] as $file_id => $file_data) {
+            $rid = $this->storage->manage()->find($file_id);
+            if (null !== $rid) {
+                $processor = $this->getFileProcessor($file_data['zip_extract'], $file_data['zip_structure']);
+                $processor->process($rid, $this->parent_id, [
+                    ilObjFileProcessorInterface::OPTION_FILENAME     => $file_data['filename'],
+                    ilObjFileProcessorInterface::OPTION_DESCRIPTION  => $file_data['description'],
+                ]);
+            }
+        }
+
+        $link = ilLink::_getLink($this->requested_ref_id);
+        $this->ctrl->redirectToURL($link);
     }
 
     /**

@@ -726,8 +726,10 @@ abstract class ilObject2GUI extends ilObjectGUI
         switch ($this->id_type) {
             case self::REPOSITORY_NODE_ID:
             case self::REPOSITORY_OBJECT_ID:
-                if (!$this->node_id) {
+                if (!$this->ref_id) {
                     $a_obj->createReference();
+                }
+                if (!$this->node_id) {
                     $this->node_id = $a_obj->getRefId();
                 }
                 $a_obj->putInTree($a_parent_node_id);
