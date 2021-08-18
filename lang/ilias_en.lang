@@ -16531,6 +16531,8 @@ common#:#user_avatar_of#:#User Avatar of
 awrn#:#awrn_filter#:#User Filter
 help#:#help_search_label#:#Search Help
 rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
+forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
+forum#:#target_select#:#Select posting for limited view
 content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.

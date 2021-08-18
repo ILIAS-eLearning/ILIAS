@@ -16529,6 +16529,8 @@ common#:#user_avatar_of#:#Profilbild von
 awrn#:#awrn_filter#:#Benutzerfilter
 help#:#help_search_label#:#Suche in Hilfe
 rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+forum#:#reset_limited_view#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
+forum#:#target_select#:#Beitrag für begrenzte Ansicht auswählen
 content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
 dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
 dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
