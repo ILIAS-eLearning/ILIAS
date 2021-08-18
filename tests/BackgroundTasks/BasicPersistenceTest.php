@@ -5,7 +5,6 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 use ILIAS\BackgroundTasks\Exceptions\SerializationException;
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
-use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\MockObserver;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\NonPersistingObserver;
 use ILIAS\BackgroundTasks\Implementation\TaskManager\SyncTaskManager;
@@ -151,7 +150,7 @@ class BasicPersistenceTest extends TestCase
         \arConnectorMap::register(new BucketContainer(), $observerConnector);
 
         // Observer is updated after tasks are added.
-        $observerConnector->shouldReceive("read")->once()->andReturn(1);
+        $observerConnector->shouldReceive("read")->once()->andReturn([1 => new BucketContainer()]);
         $observerConnector->shouldReceive("update")->once()->andReturn(true);
 
         $this->persistence->setConnector($observerConnector);

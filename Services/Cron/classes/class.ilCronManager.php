@@ -307,52 +307,37 @@ class ilCronManager implements \ilCronManagerInterface
         
         $ilLog->write("CRON - job " . $a_job_id . " seems invalid or is inactive");
     }
-    
-    /**
-     * Get job instance (by job data)
-     *
-     * @param string $a_component
-     * @param string $a_class
-     * @param string $a_path
-     * @return ilCronJob
-     */
-    public static function getJobInstance($a_id, $a_component, $a_class, $a_path = null)
-    {
-        global $DIC;
 
-        $ilLog = $DIC->logger()->root();
-
+    public static function getJobInstance(
+        string $a_id,
+        string $a_component,
+        string $a_class,
+        ?string $a_path,
+        bool $isCreationContext = false
+    ) : ?ilCronJob {
         if (!$a_path) {
-            $a_path = $a_component . "/classes/";
+            $a_path = $a_component . '/classes/';
         }
-        $class_file = $a_path . "class." . $a_class . ".php";
+
+        $class_file = $a_path . 'class.' . $a_class . '.php';
+
         if (file_exists($class_file)) {
             include_once $class_file;
             if (class_exists($a_class)) {
-                $refl = new \ReflectionClass($a_class);
-                $job = $refl->newInstanceWithoutConstructor();
-                if ($refl->isSubclassOf(\ilCronJob::class)) {
-                    if (0 === strlen($job->getId()) || !isset($_SERVER['PHP_SELF']) || basename($_SERVER['PHP_SELF']) !== 'setup.php') {
-                        $job = new $a_class;
-                    }
-
-                    if ($job->getId() === $a_id) {
-                        return $job;
-                    } else {
-                        $mess .= " - job id mismatch";
-                    }
+                if ($isCreationContext) {
+                    $refl = new ReflectionClass($a_class);
+                    $job = $refl->newInstanceWithoutConstructor();
                 } else {
-                    $mess .= " - does not extend ilCronJob";
+                    $job = new $a_class;
                 }
-            } else {
-                $mess = "- class not found in file";
+
+                if ($job instanceof ilCronJob && $job->getId() === $a_id) {
+                    return $job;
+                }
             }
-        } else {
-            $mess = " - class file not found";
         }
-        
-        $ilLog->write("Cron XML - Job " . $a_id . " in class " . $a_class . " (" .
-            $class_file . ") is invalid." . $mess);
+
+        return null;
     }
     
     /**
@@ -365,35 +350,38 @@ class ilCronManager implements \ilCronManagerInterface
     {
         // :TODO:
     }
-    
-    public static function createDefaultEntry(ilCronJob $a_job, $a_component, $a_class, $a_path)
-    {
+
+    public static function createDefaultEntry(
+        ilCronJob $a_job,
+        string $a_component,
+        string $a_class,
+        ?string $a_path
+    ) : void {
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
         $ilDB = $DIC->database();
 
         if (!isset($DIC["ilSetting"])) {
-            $DIC["ilSetting"] = function ($c) {
+            $DIC["ilSetting"] = static function ($c) : ilSetting {
                 return new ilSetting();
             };
         }
 
         $ilSetting = $DIC->settings();
 
-        // already exists?
         $sql = "SELECT job_id, schedule_type, component, class, path FROM cron_job" .
             " WHERE job_id = " . $ilDB->quote($a_job->getId(), "text");
         $set = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($set);
         $job_id = $row['job_id'] ?? null;
-        $job_exists = ($job_id == $a_job->getId());
+        $job_exists = ($job_id === $a_job->getId());
         $schedule_type = $row["schedule_type"] ?? null;
 
         if ($job_exists && (
-            $row['component'] != $a_component ||
-            $row['class'] != $a_class ||
-            $row['path'] != $a_path
+            $row['component'] !== $a_component ||
+            $row['class'] !== $a_class ||
+            $row['path'] !== $a_path
         )) {
             $ilDB->manipulateF(
                 'UPDATE cron_job SET component = %s, class = %s, path = %s WHERE job_id = %s',
@@ -447,17 +435,13 @@ class ilCronManager implements \ilCronManagerInterface
             self::updateJobSchedule($a_job, null, null);
         }
     }
-    
-    /**
-     * Process data from module.xml/service.xml
-     *
-     * @param string $a_component
-     * @param string $a_id
-     * @param string $a_class
-     * @param string $_path
-     */
-    public static function updateFromXML($a_component, $a_id, $a_class, $a_path = null)
-    {
+
+    public static function updateFromXML(
+        string $a_component,
+        string $a_id,
+        string $a_class,
+        ?string $a_path
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -466,8 +450,7 @@ class ilCronManager implements \ilCronManagerInterface
             return;
         }
         
-        // only if job seems valid
-        $job = self::getJobInstance($a_id, $a_component, $a_class, $a_path);
+        $job = self::getJobInstance($a_id, $a_component, $a_class, $a_path, true);
         if ($job) {
             self::createDefaultEntry($job, $a_component, $a_class, $a_path);
         }
@@ -477,46 +460,36 @@ class ilCronManager implements \ilCronManagerInterface
      * Clear job data
      *
      * @param string $a_component
-     * @param array $a_xml_job_ids
+     * @param string[] $a_xml_job_ids
      */
-    public static function clearFromXML($a_component, array $a_xml_job_ids)
+    public static function clearFromXML(string $a_component, array $a_xml_job_ids)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilLog = $DIC->logger()->root();
 
         if (!$ilDB->tableExists("cron_job")) {
             return;
         }
         
-        // gather existing jobs
-        $all_jobs = array();
-        $sql = "SELECT job_id FROM cron_job" .
-            " WHERE component = " . $ilDB->quote($a_component, "text");
+        $all_jobs = [];
+        $sql = "SELECT job_id FROM cron_job WHERE component = " . $ilDB->quote($a_component, "text");
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $all_jobs[] = $row["job_id"];
         }
         
-        if (sizeof($all_jobs)) {
-            if (sizeof($a_xml_job_ids)) {
-                // delete obsolete job data
+        if ($all_jobs !== []) {
+            if ($a_xml_job_ids !== []) {
                 foreach ($all_jobs as $job_id) {
-                    if (!in_array($job_id, $a_xml_job_ids)) {
+                    if (!in_array($job_id, $a_xml_job_ids, true)) {
                         $ilDB->manipulate("DELETE FROM cron_job" .
                             " WHERE component = " . $ilDB->quote($a_component, "text") .
                             " AND job_id = " . $ilDB->quote($job_id, "text"));
-
-                        $ilLog->write("Cron XML - Job " . $job_id . " in class " . $a_component .
-                                " deleted.");
                     }
                 }
             } else {
-                $ilDB->manipulate("DELETE FROM cron_job" .
-                    " WHERE component = " . $ilDB->quote($a_component, "text"));
-
-                $ilLog->write("Cron XML - All jobs deleted for " . $a_component . " as component is inactive.");
+                $ilDB->manipulate("DELETE FROM cron_job WHERE component = " . $ilDB->quote($a_component, "text"));
             }
         }
     }
