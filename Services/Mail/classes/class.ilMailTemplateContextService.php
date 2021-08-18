@@ -8,9 +8,9 @@ class ilMailTemplateContextService
 {
     /**
      * @param string $a_component
-     * @param array $a_new_templates
+     * @param string[] $a_new_templates
      */
-    public static function clearFromXml($a_component, array $a_new_templates)
+    public static function clearFromXml(string $a_component, array $a_new_templates)
     {
         global $DIC;
 
@@ -18,7 +18,7 @@ class ilMailTemplateContextService
             return;
         }
 
-        $persisted_templates = array();
+        $persisted_templates = [];
         $query = 'SELECT id FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote($a_component, 'text');
         $set = $DIC->database()->query($query);
         while ($row = $DIC->database()->fetchAssoc($set)) {
@@ -28,14 +28,13 @@ class ilMailTemplateContextService
         if (count($persisted_templates)) {
             if (count($a_new_templates)) {
                 foreach ($persisted_templates as $id) {
-                    if (!in_array($id, $a_new_templates)) {
+                    if (!in_array($id, $a_new_templates, true)) {
                         $DIC->database()->manipulate(
                             'DELETE FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote(
                                 $a_component,
                                 'text'
                             ) . ' AND id = ' . $DIC->database()->quote($id, 'text')
                         );
-                        $DIC['ilLog']->debug("Mail Template XML - Context " . $id . " in class " . $a_component . " deleted.");
                     }
                 }
             } else {
@@ -43,18 +42,11 @@ class ilMailTemplateContextService
                     $a_component,
                     'text'
                 ));
-                $DIC['ilLog']->debug("Mail Template XML - All contexts deleted for " . $a_component . " as component is inactive.");
             }
         }
     }
 
-    /**
-     * @param string $a_component
-     * @param string $a_id
-     * @param string $a_class
-     * @param string $a_path
-     */
-    public static function insertFromXML($a_component, $a_id, $a_class, $a_path)
+    public static function insertFromXML(string $a_component, string $a_id, string $a_class, ?string $a_path) : void
     {
         global $DIC;
 
@@ -62,7 +54,7 @@ class ilMailTemplateContextService
             return;
         }
 
-        $context = self::getContextInstance($a_component, $a_id, $a_class, $a_path);
+        $context = self::getContextInstance($a_component, $a_id, $a_class, $a_path, true);
         if ($context instanceof ilMailTemplateContext) {
             self::createEntry($context, $a_component, $a_class, $a_path);
         }
@@ -119,16 +111,13 @@ class ilMailTemplateContextService
         return $templates;
     }
 
-
-    /**
-     * @param string $a_component
-     * @param string $a_id
-     * @param string $a_class
-     * @param string $a_path
-     * @return null|ilMailTemplateContext
-     */
-    protected static function getContextInstance($a_component, $a_id, $a_class, $a_path)
-    {
+    protected static function getContextInstance(
+        string $a_component,
+        string $a_id,
+        string $a_class,
+        ?string $a_path,
+        bool $isCreationContext = false
+    ) : ?ilMailTemplateContext {
         global $DIC;
 
         $mess = '';
@@ -141,61 +130,51 @@ class ilMailTemplateContextService
         if (file_exists($class_file)) {
             require_once $class_file;
             if (class_exists($a_class)) {
-                $context = new $a_class();
-                if ($context instanceof ilMailTemplateContext) {
-                    if ($context->getId() == $a_id) {
-                        return $context;
-                    } else {
-                        $mess .= " - context id mismatch";
-                    }
+                if ($isCreationContext) {
+                    $reflClass = new ReflectionClass($a_class);
+                    $context = $reflClass->newInstanceWithoutConstructor();
                 } else {
-                    $mess .= " - does not extend ilMailTemplateContext";
+                    $context = new $a_class();
                 }
-            } else {
-                $mess = "- class not found in file";
+
+                if (($context instanceof ilMailTemplateContext) && $context->getId() === $a_id) {
+                    return $context;
+                }
             }
-        } else {
-            $mess = " - class file not found";
         }
 
-        $DIC['ilLog']->debug("Mail Template XML - Context " . $a_id . " in class " . $a_class . " (" . $class_file . ") is invalid." . $mess);
+        return null;
     }
 
-    /**
-     * @param ilMailTemplateContext $a_context
-     * @param string $a_component
-     * @param string $a_class
-     * @param string $a_path
-     */
-    protected static function createEntry(ilMailTemplateContext $a_context, $a_component, $a_class, $a_path)
-    {
+    protected static function createEntry(
+        ilMailTemplateContext $a_context,
+        string $a_component,
+        string $a_class,
+        ?string $a_path
+    ) : void {
         global $DIC;
 
         $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";
         $res = $DIC->database()->queryF($query, array('text'), array($a_context->getId()));
         $row = $DIC->database()->fetchAssoc($res);
         $row_id = $row['id'] ?? null;
-        $context_exists = ($row_id == $a_context->getId());
+        $context_exists = ($row_id === $a_context->getId());
 
         if (!$context_exists) {
-            $DIC->database()->insert('mail_tpl_ctx', array(
-                'id' => array('text', $a_context->getId()),
-                'component' => array('text', $a_component),
-                'class' => array('text', $a_class),
-                'path' => array('text', $a_path)
-            ));
-
-            $DIC['ilLog']->debug("Mail Template  XML - Context " . $a_context->getId() . " in class " . $a_class . " added.");
+            $DIC->database()->insert('mail_tpl_ctx', [
+                'id' => ['text', $a_context->getId()],
+                'component' => ['text', $a_component],
+                'class' => ['text', $a_class],
+                'path' => ['text', $a_path]
+            ]);
         } else {
-            $DIC->database()->update('mail_tpl_ctx', array(
-                'component' => array('text', $a_component),
-                'class' => array('text', $a_class),
-                'path' => array('text', $a_path)
-            ), array(
-                'id' => array('text', $a_context->getId())
-            ));
-
-            $DIC['ilLog']->debug("Mail Template  XML - Context " . $a_context->getId() . " in class " . $a_class . " updated.");
+            $DIC->database()->update('mail_tpl_ctx', [
+                'component' => ['text', $a_component],
+                'class' => ['text', $a_class],
+                'path' => ['text', $a_path]
+            ], [
+                'id' => ['text', $a_context->getId()]
+            ]);
         }
     }
 }
