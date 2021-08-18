@@ -529,7 +529,7 @@ assessment#:#autocomplete_error#:#Ihre Wert für die Autovervollständigung ist 
 assessment#:#autoparticipants_subtab#:#Teilnehmer
 assessment#:#autosave#:#Automatisches Speichern
 assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
-assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
+assessment#:#autosave_info#:Die Antworten der Teilnehmenden auf die jeweils zuletzt geöffnete Frage wird von ILIAS automatisch gespeichert. Diese automatisch gespeicherten Antworten gelten <b>nicht</b> als durch den Teilnehmenden autorisierte Antworten. Sie werden daher von ILIAS bei der automatisierten Auswertung auch nicht berücksichtigt. Automatisch gespeicherte Antworten müssen immer manuell bewertet werden! Sie werden auch nicht in der Ergebnisansicht des jeweiligen Testteilnehmers angezeigt. Das automatische Speichern der Antworten ist nur für den Notfall gedacht, z. B. beim versehentlichen Schließen des Browserfensters!
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#autosave_success#:#Automatisches Speichern erfolgreich durchgeführt...
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
