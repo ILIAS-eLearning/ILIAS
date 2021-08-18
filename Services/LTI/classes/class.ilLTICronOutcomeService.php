@@ -10,70 +10,46 @@
  */
 class ilLTICronOutcomeService extends ilCronJob
 {
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return 'lti_outcome';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('lti');
         return $DIC->language()->txt('lti_cron_title');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
         $DIC->language()->loadLanguageModule('lti');
         return $DIC->language()->txt('lti_cron_title_desc');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 

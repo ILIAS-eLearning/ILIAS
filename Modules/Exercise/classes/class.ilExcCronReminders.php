@@ -47,8 +47,9 @@ class ilExcCronReminders extends ilCronJob
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
+        return null;
     }
 
     public function hasAutoActivation() : bool

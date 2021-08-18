@@ -72,49 +72,46 @@ class ilForumCronNotification extends ilCronJob
         $this->notificationCache = $notificationCache;
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "frm_notification";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
         return $DIC->language()->txt("cron_forum_notification");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
         return $DIC->language()->txt("cron_forum_notification_crob_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_HOURS;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
@@ -129,10 +126,7 @@ class ilForumCronNotification extends ilCronJob
         $this->logger->debug(sprintf('Current memory usage: %s', memory_get_usage(true)));
     }
 
-    /**
-     * @return ilCronJobResult
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -263,7 +257,7 @@ class ilForumCronNotification extends ilCronJob
             $row['ref_id'] = $ref_id;
 
             if ($this->existsProviderObject($row['pos_pk'], $notification_type)) {
-                self::$providerObject[$row['pos_pk'].'_'.$notification_type]->addRecipient($row['user_id']);
+                self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient($row['user_id']);
             } else {
                 $this->addProviderObject($row, $notification_type);
             }
@@ -321,7 +315,7 @@ class ilForumCronNotification extends ilCronJob
      */
     public function existsProviderObject($post_id, $notification_type)
     {
-        if (isset(self::$providerObject[$post_id.'_'.$notification_type])) {
+        if (isset(self::$providerObject[$post_id . '_' . $notification_type])) {
             return true;
         }
         return false;
@@ -333,8 +327,8 @@ class ilForumCronNotification extends ilCronJob
     private function addProviderObject($row, $notification_type)
     {
         $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
-        self::$providerObject[$row['pos_pk'].'_'.$notification_type] = $tmp_provider;
-        self::$providerObject[$row['pos_pk'].'_'.$notification_type]->addRecipient($row['user_id']);
+        self::$providerObject[$row['pos_pk'] . '_' . $notification_type] = $tmp_provider;
+        self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient($row['user_id']);
     }
 
     /**
@@ -345,12 +339,7 @@ class ilForumCronNotification extends ilCronJob
         self::$providerObject = array();
     }
     
-    /**
-     * @param int   $a_form_id
-     * @param array $a_fields
-     * @param bool  $a_is_active
-     */
-    public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -364,10 +353,7 @@ class ilForumCronNotification extends ilCronJob
         }
     }
 
-    /**
-     * @param bool $a_currently_active
-     */
-    public function activationWasToggled($a_currently_active)
+    public function activationWasToggled(bool $a_currently_active) : void
     {
         global $DIC;
 
@@ -379,10 +365,7 @@ class ilForumCronNotification extends ilCronJob
         $DIC->settings()->set('forum_notification', $value);
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -401,11 +384,7 @@ class ilForumCronNotification extends ilCronJob
         $a_form->addItem($max_notification_age);
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     * @return bool
-     */
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->settings->set('max_notification_age', $a_form->getInput('max_notification_age'));
         return true;

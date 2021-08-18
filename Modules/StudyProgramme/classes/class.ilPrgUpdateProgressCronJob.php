@@ -33,42 +33,42 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
         $this->lng->loadLanguageModule('prg');
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('prg_update_progress_title');
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('prg_update_progress_description');
     }
 
-    public function getId()
+    public function getId() : string
     {
         return self::ID;
     }
 
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         $result = new ilCronJobResult();
         foreach ($this->user_progress_db->getPassedDeadline() as $progress) {

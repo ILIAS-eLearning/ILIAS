@@ -45,7 +45,7 @@ class ilCronJobResult
     
     public function setStatus(int $a_value) : void
     {
-        if (in_array($a_value, $this->getValidStatus())) {
+        if (in_array($a_value, $this->getValidStatus(), true)) {
             $this->status = $a_value;
         }
     }

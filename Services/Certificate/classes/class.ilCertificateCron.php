@@ -81,18 +81,12 @@ class ilCertificateCron extends \ilCronJob
         $this->lng = $language;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('cert_cron_task_title');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('cert_cron_task_desc');
     }
@@ -135,11 +129,7 @@ class ilCertificateCron extends \ilCronJob
         }
     }
 
-    /**
-     * @inheritdoc
-     * @throws ilDatabaseException
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->init();
 
@@ -203,42 +193,27 @@ class ilCertificateCron extends \ilCronJob
         return $result;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return 'certificate';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_MINUTES;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }

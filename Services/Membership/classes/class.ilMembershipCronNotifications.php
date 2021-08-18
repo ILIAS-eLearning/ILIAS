@@ -16,12 +16,12 @@ class ilMembershipCronNotifications extends ilCronJob
      */
     protected $data;
 
-    public function getId()
+    public function getId() : string
     {
         return "mem_notification";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -30,7 +30,7 @@ class ilMembershipCronNotifications extends ilCronJob
         return $lng->txt("enable_course_group_notifications");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -39,27 +39,27 @@ class ilMembershipCronNotifications extends ilCronJob
         return $lng->txt("enable_course_group_notifications_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -463,7 +463,7 @@ class ilMembershipCronNotifications extends ilCronJob
         $subject = sprintf($lng->txt("crs_subject_course_group_notification"), $client);
 
         $mail_content = $ntf->composeAndGetMessage($a_user_id, null, "read", true);
-        $log->debug("sending mail content: ".$mail_content);
+        $log->debug("sending mail content: " . $mail_content);
 
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
@@ -477,7 +477,7 @@ class ilMembershipCronNotifications extends ilCronJob
         );
     }
     
-    public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
         global $DIC;
 
@@ -493,7 +493,7 @@ class ilMembershipCronNotifications extends ilCronJob
         }
     }
     
-    public function activationWasToggled($a_currently_active)
+    public function activationWasToggled(bool $a_currently_active) : void
     {
         global $DIC;
 
