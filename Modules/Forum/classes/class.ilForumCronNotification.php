@@ -262,10 +262,10 @@ class ilForumCronNotification extends ilCronJob
 
             $row['ref_id'] = $ref_id;
 
-            if ($this->existsProviderObject($row['pos_pk'])) {
-                self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
+            if ($this->existsProviderObject($row['pos_pk'], $notification_type)) {
+                self::$providerObject[$row['pos_pk'].'_'.$notification_type]->addRecipient($row['user_id']);
             } else {
-                $this->addProviderObject($row);
+                $this->addProviderObject($row, $notification_type);
             }
         }
 
@@ -319,9 +319,9 @@ class ilForumCronNotification extends ilCronJob
      * @param $post_id
      * @return bool
      */
-    public function existsProviderObject($post_id)
+    public function existsProviderObject($post_id, $notification_type)
     {
-        if (isset(self::$providerObject[$post_id])) {
+        if (isset(self::$providerObject[$post_id.'_'.$notification_type])) {
             return true;
         }
         return false;
@@ -330,12 +330,11 @@ class ilForumCronNotification extends ilCronJob
     /**
      * @param $row
      */
-    private function addProviderObject($row)
+    private function addProviderObject($row, $notification_type)
     {
-        $tmp_provider = new ilForumCronNotificationDataProvider($row, $this->notificationCache);
-
-        self::$providerObject[$row['pos_pk']] = $tmp_provider;
-        self::$providerObject[$row['pos_pk']]->addRecipient($row['user_id']);
+        $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
+        self::$providerObject[$row['pos_pk'].'_'.$notification_type] = $tmp_provider;
+        self::$providerObject[$row['pos_pk'].'_'.$notification_type]->addRecipient($row['user_id']);
     }
 
     /**
@@ -418,6 +417,7 @@ class ilForumCronNotification extends ilCronJob
     private function sendNotificationForNewPosts(string $threshold_date)
     {
         $condition = '
+        
 			frm_posts.pos_status = %s AND (
 				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
 				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
@@ -444,10 +444,11 @@ class ilForumCronNotification extends ilCronJob
     private function sendNotificationForUpdatedPosts(string $threshold_date)
     {
         $condition = '
-			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
+            frm_notification.interested_events & %s AND
+			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND
 			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(0, 1, $threshold_date);
+        $types = array('integer', 'integer', 'integer', 'timestamp');
+        $values = array(ilForumNotificationEvents::UPDATED, 0, 1, $threshold_date);
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -468,10 +469,11 @@ class ilForumCronNotification extends ilCronJob
     private function sendNotificationForCensoredPosts(string $threshold_date)
     {
         $condition = '
+            frm_notification.interested_events & %s AND
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
             (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(1, 1, $threshold_date);
+        $types = array('integer', 'integer', 'integer', 'timestamp');
+        $values = array(ilForumNotificationEvents::CENSORED, 1, 1, $threshold_date);
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -492,10 +494,11 @@ class ilForumCronNotification extends ilCronJob
     private function sendNotificationForUncensoredPosts(string $threshold_date)
     {
         $condition = '
+            frm_notification.interested_events & %s AND
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
             (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(0, 1, $threshold_date);
+        $types = array('integer', 'integer', 'integer', 'timestamp');
+        $values = array(ilForumNotificationEvents::UNCENSORED, 0, 1, $threshold_date);
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -514,8 +517,8 @@ class ilForumCronNotification extends ilCronJob
     {
         $res = $this->ilDB->queryF(
             $this->createSelectOfDeletionNotificationsSql(),
-            array('integer'),
-            array(1)
+            array('integer', 'integer'),
+            array(1, ilForumNotificationEvents::THREAD_DELETED)
         );
 
         $this->sendDeleteNotifcations(
@@ -530,8 +533,8 @@ class ilForumCronNotification extends ilCronJob
     {
         $res = $this->ilDB->queryF(
             $this->createSelectOfDeletionNotificationsSql(),
-            array('integer'),
-            array(0)
+            array('integer', 'integer'),
+            array(0, ilForumNotificationEvents::POST_DELETED)
         );
 
         $this->sendDeleteNotifcations(
@@ -628,6 +631,7 @@ class ilForumCronNotification extends ilCronJob
 					OR frm_posts_deleted.thread_id = frm_notification.thread_id)
 			AND 	frm_posts_deleted.pos_display_user_id != frm_notification.user_id
 			AND 	frm_posts_deleted.is_thread_deleted = %s
+			AND     frm_notification.interested_events & %s
 			ORDER BY frm_posts_deleted.post_date ASC';
     }
 }

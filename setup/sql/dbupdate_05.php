@@ -6830,3 +6830,47 @@ if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5799>
+<?php
+if($ilDB->tableExists('frm_notification')) {
+    if(!$ilDB->tableColumnExists('frm_notification',  'interested_events')) {
+        $ilDB->addTableColumn('frm_notification',  'interested_events', array(
+            "type" => "integer",
+            "notnull" => true,
+            "length" => 1,
+            "default" => 0
+        ));
+    }
+}
+?>
+<#5800>
+<?php
+if ($ilDB->tableColumnExists('frm_notification', 'interested_events')) {
+    $ilDB->update('frm_notification',
+        array('interested_events' => array('integer', 31)),
+        array('interested_events' => array('integer', 0))
+    );
+}
+?>
+<#5801>
+<?php
+if ($ilDB->tableExists('frm_settings')) {
+    if (!$ilDB->tableColumnExists('frm_settings', 'interested_events')) {
+        $ilDB->addTableColumn('frm_settings', 'interested_events', array(
+            "type" => "integer",
+            "notnull" => true,
+            "length" => 1,
+            "default" => 0
+        ));
+    }
+}
+?>
+<#5802>
+<?php
+if ($ilDB->tableColumnExists('frm_settings', 'interested_events')) {
+    $ilDB->update('frm_settings',
+        array('interested_events' => array('integer', 31)),
+        array('interested_events' => array('integer', 0))
+    );
+}
+?>

@@ -78,6 +78,12 @@ class ilForumProperties
      * @access    private
      */
     private $preset_subject = 1;
+    
+    /**
+     * Preset notification events for forced notification
+     * @var int
+     */
+    private $interested_events = 0;
 
     /**
      * Add 'Re: ' to subject on reply
@@ -169,6 +175,7 @@ class ilForumProperties
                 $this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
                 $this->preset_subject = $row->preset_subject;
                 $this->add_re_subject = $row->add_re_subject;
+                $this->interested_events = $row->interested_events;
 
                 $this->notification_type = $row->notification_type == null ? 'default' : $row->notification_type;
                 $this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
@@ -205,7 +212,8 @@ class ilForumProperties
                     'mark_mod_posts' => array('integer', $this->mark_mod_posts),
                     'thread_sorting' => array('integer', $this->thread_sorting),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
-                    'file_upload_allowed' => array('integer', $this->file_upload_allowed)
+                    'file_upload_allowed' => array('integer', $this->file_upload_allowed),
+                    'interested_events' => array('integer', $this->interested_events)
                 )
             );
 
@@ -238,7 +246,8 @@ class ilForumProperties
                     'mark_mod_posts' => array('integer', $this->mark_mod_posts),
                     'thread_sorting' => array('integer', $this->thread_sorting),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
-                    'file_upload_allowed' => array('integer', $this->file_upload_allowed)
+                    'file_upload_allowed' => array('integer', $this->file_upload_allowed),
+                    'interested_events' => array('integer', $this->interested_events)
                 ),
                 array(
                     'obj_id' => array('integer', $this->obj_id)
@@ -267,7 +276,8 @@ class ilForumProperties
                     'mark_mod_posts' => array('integer', $this->mark_mod_posts),
                     'thread_sorting' => array('integer', $this->thread_sorting),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
-                    'file_upload_allowed' => array('integer', $this->file_upload_allowed)
+                    'file_upload_allowed' => array('integer', $this->file_upload_allowed),
+                    'interested_events' => array('integer', $this->interested_events)
                 ),
                 array(
                     'obj_id' => array('integer', $a_new_obj_id)
@@ -575,5 +585,21 @@ class ilForumProperties
     {
         global $DIC;
         return $DIC->settings()->get('send_attachments_by_mail') == true ? true : false;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getInterestedEvents(): int
+    {
+        return $this->interested_events;
+    }
+    
+    /**
+     * @param int $interested_events
+     */
+    public function setInterestedEvents(int $interested_events): void
+    {
+        $this->interested_events = $interested_events;
     }
 }
