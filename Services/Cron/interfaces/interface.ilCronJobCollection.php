@@ -7,9 +7,6 @@
  */
 interface ilCronJobCollection extends Countable, IteratorAggregate
 {
-    /**
-     * @param ilCronJobEntity $job
-     */
     public function add(ilCronJobEntity $job) : void;
 
     /**

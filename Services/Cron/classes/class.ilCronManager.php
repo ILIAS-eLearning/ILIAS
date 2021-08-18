@@ -30,10 +30,7 @@ class ilCronManager implements \ilCronManagerInterface
         $this->logger = $logger;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function runActiveJobs()
+    public function runActiveJobs() : void
     {
         $this->logger->info("CRON - batch start");
 
