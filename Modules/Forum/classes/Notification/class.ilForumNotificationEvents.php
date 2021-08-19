@@ -22,6 +22,5 @@ class ilForumNotificationEvents
     
     public function __construct()
     {
-    
     }
 }
