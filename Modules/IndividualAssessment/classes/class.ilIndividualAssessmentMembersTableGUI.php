@@ -390,7 +390,7 @@ class ilIndividualAssessmentMembersTableGUI
     protected function getFileDownloadLink(int $usr_id, $file_name) : array
     {
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', $usr_id);
-        $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', 'downloadAttachment');
+        $target = $this->ctrl->getLinkTargetByClass('ilIndividualAssessmentMemberGUI', ilIndividualAssessmentMemberGUI::CMD_DOWNLOAD_FILE);
         $this->ctrl->setParameterByClass('ilIndividualAssessmentMemberGUI', 'usr_id', null);
         $link = $this->factory->link()->standard($this->txt("iass_download"), $target);
 
