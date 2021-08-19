@@ -126,6 +126,8 @@ class ilForumProperties
 
     /** @var bool */
     private $exists = false;
+    
+    private ?int $lp_req_num_postings = null;
 
     protected function __construct($a_obj_id = 0)
     {
@@ -171,17 +173,20 @@ class ilForumProperties
                 $this->anonymized = $row->anonymized;// == 1 ? true : false;
                 $this->statistics_enabled = $row->statistics_enabled;// == 1 ? true : false;
                 $this->post_activation_enabled = $row->post_activation;// == 1 ? true : false;
-                $this->admin_force_noti = $row->admin_force_noti == 1 ? true : false;
-                $this->user_toggle_noti = $row->user_toggle_noti == 1 ? true : false;
+                $this->admin_force_noti = $row->admin_force_noti == 1;
+                $this->user_toggle_noti = $row->user_toggle_noti == 1;
                 $this->preset_subject = $row->preset_subject;
                 $this->add_re_subject = $row->add_re_subject;
                 $this->interested_events = $row->interested_events;
 
-                $this->notification_type = $row->notification_type == null ? 'default' : $row->notification_type;
-                $this->mark_mod_posts = $row->mark_mod_posts == 1 ? true : false;
-                $this->thread_sorting = $row->thread_sorting == 1 ? true : false;
+                $this->notification_type = $row->notification_type ?? 'default';
+                $this->mark_mod_posts = $row->mark_mod_posts == 1;
+                $this->thread_sorting = $row->thread_sorting == 1;
                 $this->setIsThreadRatingEnabled((bool) $row->thread_rating);
-                $this->file_upload_allowed = $row->file_upload_allowed == 1 ? true : false;
+                $this->file_upload_allowed = $row->file_upload_allowed == 1;
+                if (is_numeric($row->lp_req_num_postings)) {
+                    $this->lp_req_num_postings = (int) $row->lp_req_num_postings;
+                }
 
                 $this->exists = true;
                 return true;
@@ -213,6 +218,7 @@ class ilForumProperties
                     'thread_sorting' => array('integer', $this->thread_sorting),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
                     'file_upload_allowed' => array('integer', $this->file_upload_allowed),
+                    'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
                     'interested_events' => array('integer', $this->interested_events)
                 )
             );
@@ -245,6 +251,7 @@ class ilForumProperties
                     'notification_type' => array('text', $this->notification_type),
                     'mark_mod_posts' => array('integer', $this->mark_mod_posts),
                     'thread_sorting' => array('integer', $this->thread_sorting),
+                    'lp_req_num_postings' => array('integer', $this->lp_req_num_postings),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
                     'file_upload_allowed' => array('integer', $this->file_upload_allowed),
                     'interested_events' => array('integer', $this->interested_events)
@@ -274,6 +281,7 @@ class ilForumProperties
                     'add_re_subject' => array('integer', $this->add_re_subject),
                     'notification_type' => array('text', $this->notification_type),
                     'mark_mod_posts' => array('integer', $this->mark_mod_posts),
+                    'lp_req_num_postings' => array('integer', $this->lp_req_num_postings),
                     'thread_sorting' => array('integer', $this->thread_sorting),
                     'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
                     'file_upload_allowed' => array('integer', $this->file_upload_allowed),
@@ -587,19 +595,23 @@ class ilForumProperties
         return $DIC->settings()->get('send_attachments_by_mail') == true ? true : false;
     }
     
-    /**
-     * @return int
-     */
-    public function getInterestedEvents(): int
+    public function getInterestedEvents() : int
     {
         return $this->interested_events;
     }
     
-    /**
-     * @param int $interested_events
-     */
-    public function setInterestedEvents(int $interested_events): void
+    public function setInterestedEvents(int $interested_events) : void
     {
         $this->interested_events = $interested_events;
+    }
+
+    public function getLpReqNumPostings() : ?int
+    {
+        return $this->lp_req_num_postings;
+    }
+
+    public function setLpReqNumPostings(?int $lp_req_num_postings) : void
+    {
+        $this->lp_req_num_postings = $lp_req_num_postings;
     }
 }

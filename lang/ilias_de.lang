@@ -6605,7 +6605,7 @@ forum#:#frm_statistics#:#Statistik
 forum#:#frm_statistics_disabled_for_participants#:#Die Statistik ist für normale Forennutzer nicht sichtbar.
 forum#:#frm_statistics_enabled#:#Statistik anzeigen
 forum#:#frm_statistics_enabled_desc#:#Statistik für alle Forenteilnehmer anzeigen
-forum#:#frm_statistics_ranking#:#Anzahl der Beiträge
+forum#:#frm_statistics_ranking#:#Anzahl der öffentl. Beiträge
 forum#:#frm_subject_setting#:#Vorgabe Beitragstitel
 forum#:#frm_sure_delete_threads#:#Sind Sie sicher, dass die folgenden Themen gelöscht werden sollen?
 forum#:#frm_wizard_page#:#Forum kopieren (Schritt 2/2)
@@ -16044,6 +16044,9 @@ lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
 trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
 trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
+trac#:#trac_mode_contribution_to_discussion#:#Beiträge zur Diskussion
+trac#:#trac_mode_contribution_to_discussion_info#:#Der Lernfortschritt wird durch die Anzahl der verfassten Beiträge bestimmt.
+trac#:#trac_frm_contribution_num_postings#:#Benötigte Anzahl Beiträge
 style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
 content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
 content#:#cont_page_template#:#Vorlage

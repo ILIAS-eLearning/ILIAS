@@ -381,7 +381,7 @@ class ilForumPost
     }
     public function getId()
     {
-        return $this->id;
+        return (int) $this->id;
     }
     public function setForumId($a_forum_id)
     {

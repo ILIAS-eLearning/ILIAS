@@ -2707,7 +2707,7 @@ common#:#frm_latest_postings#:#Latest Articles
 rbac#:#frm_moderate_frm#:#User can edit, censor and delete postings
 common#:#frm_new#:#New Forum
 rbac#:#frm_read#:#User can read forum content
-common#:#frm_statistics_ranking#:#Ranking
+common#:#frm_statistics_ranking#:#Number of Public Postings
 rbac#:#frm_visible#:#Forum is visible
 rbac#:#frm_write#:#User can edit forum settings and moderators
 common#:#frm#:#Forum
@@ -16059,6 +16059,9 @@ lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#Without Time Indication
 trac#:#trac_mode_course_reference#:#Adopted from Course
 trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.
+trac#:#trac_mode_contribution_to_discussion#:#Contributions to Discussion
+trac#:#trac_mode_contribution_to_discussion_info#:#The learning progress status will be determined by the number of written postings.
+trac#:#trac_frm_contribution_num_postings#:#Minimum number of Postings
 style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module
 content#:#cont_insert_pagelayout#:#Insert Template Page
 content#:#cont_page_template#:#Page Template

@@ -6874,3 +6874,131 @@ if ($ilDB->tableColumnExists('frm_settings', 'interested_events')) {
     );
 }
 ?>
+<#5803>
+<?php
+require_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
+$ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
+    $lp_types = ['frm'];
+    $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('frm');
+
+    if ($lp_type_id) {
+        ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
+        ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+        ilDBUpdateNewObjectType::cloneOperation('frm', $w_ops_id, $rp_ops_id);
+        ilDBUpdateNewObjectType::cloneOperation('frm', $w_ops_id, $ep_ops_id);
+    }
+}
+?>
+<#5804>
+<?php
+if (!$ilDB->tableColumnExists('frm_settings', 'lp_req_num_postings')) {
+    $ilDB->addTableColumn(
+        'frm_settings',
+        'lp_req_num_postings',
+        [
+            'type' => 'integer',
+            'notnull' => false,
+            'length' => 4,
+            'default' => null
+        ]
+    );
+}
+?>
+<#5805>
+<?php
+$query = "
+    SELECT 
+           u.usr_id, d.top_frm_fk obj_id,
+           MIN(f.pos_date) first_access_datetime,
+           MAX(f.pos_date) last_access_datetime
+    FROM frm_posts f
+    INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk
+    INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk
+    INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
+    INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
+    LEFT JOIN read_event re ON re.obj_id = d.top_frm_fk AND re.usr_id = u.usr_id
+    WHERE re.usr_id IS NULL AND t.parent_pos != %s
+    GROUP BY u.usr_id, d.top_frm_fk
+";
+$res = $ilDB->queryF($query, ['integer'], [0]);
+
+$frm_read_stats_statement = $ilDB->prepare('
+    SELECT MAX(access_last) last_access_ts
+    FROM frm_thread_access
+    WHERE usr_id = ? AND obj_id = ? AND (access_last > 0 AND access_last IS NOT NULL)
+', ['integer', 'integer']);
+
+while ($row = $ilDB->fetchAssoc($res)) {
+    $firs_access_datetime = null;
+    $last_access_ts = null;
+
+    if ($row['last_access_datetime_fallback']) {
+        $last_access_ts = (new DateTimeImmutable(
+            $row['last_access_datetime_fallback'],
+            new DateTimeZone(date_default_timezone_get())
+        ))->getTimestamp();
+    }
+
+    $access_res = $ilDB->execute($frm_read_stats_statement, [$row['usr_id'], $row['usr_id']]);
+    $access_row = $ilDB->fetchAssoc($access_res);
+    if (
+        (is_array($access_row) && $access_row['last_access_ts'] > 0) &&
+        (null === $last_access_ts || $access_row['last_access_ts'] > $last_access_ts)
+    ) {
+        $last_access_ts = $access_row['last_access_ts'];
+    }
+    if (null === $last_access_ts) {
+        $last_access_ts = time();
+    }
+
+    if ($row['first_access_datetime']) {
+        $firs_access_datetime = $row['first_access_datetime'];
+    }
+    if (null === $firs_access_datetime) {
+        $firs_access_datetime = (new DateTimeImmutable('@' . time()))
+            ->setTimezone(new DateTimeZone(date_default_timezone_get()))->format('Y-m-d H:i:s');
+    }
+
+    $ilDB->insert(
+        'read_event',
+        [
+            'obj_id' => ['integer', $row['obj_id']],
+            'usr_id' => ['integer', $row['usr_id']],
+            'read_count' => ['integer', 1],
+            'spent_seconds' => ['integer', 1],
+            'first_access' => ['timestamp', $firs_access_datetime],
+            'last_access' => ['integer', $last_access_ts]
+        ]
+    );
+}
+
+$query = "
+    SELECT frm_thread_access.usr_id, frm_thread_access.obj_id, MAX(frm_thread_access.access_last) last_access_ts
+    FROM frm_thread_access
+    INNER JOIN object_data od ON od.obj_id = frm_thread_access.obj_id
+    LEFT JOIN read_event re ON re.obj_id = od.obj_id AND re.usr_id = frm_thread_access.usr_id
+    WHERE (frm_thread_access.access_last > 0 AND frm_thread_access.access_last IS NOT NULL)
+    AND re.usr_id IS NULL
+    GROUP BY frm_thread_access.usr_id, frm_thread_access.obj_id
+";
+while ($row = $ilDB->fetchAssoc($res)) {
+    $access = (new DateTimeImmutable('@' . $row['last_access_ts']))
+        ->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+    $ilDB->insert(
+        'read_event',
+        [
+            'obj_id' => ['integer', $row['obj_id']],
+            'usr_id' => ['integer', $row['usr_id']],
+            'read_count' => ['integer', 1],
+            'spent_seconds' => ['integer', 1],
+            'first_access' => ['timestamp', $access->format('Y-m-d H:i:s')],
+            'last_access' => ['integer', $access->getTimestamp()]
+        ]
+    );
+}
+?>
