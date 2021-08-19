@@ -239,6 +239,14 @@ class CronJobScheduleTest extends TestCase
                 ilCronJob::SCHEDULE_TYPE_IN_DAYS,
                 5,
                 false
+            ],
+            'Invalid Schedule Type' => [
+                $this->getJob(true, PHP_INT_MAX, 5, PHP_INT_MAX, 5),
+                false,
+                $this->now->getTimestamp(),
+                PHP_INT_MAX,
+                5,
+                false
             ]
         ];
     }
