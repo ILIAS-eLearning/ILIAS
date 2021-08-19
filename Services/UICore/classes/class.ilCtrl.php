@@ -1383,14 +1383,16 @@ class ilCtrl
         $a_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = false
+        $xml_style = false,
+        bool $append_csrf_token = false
     ) {
         $script = $this->getLinkTargetByClass(
             strtolower(get_class($a_gui_obj)),
             $a_cmd,
             $a_anchor,
             $a_asynch,
-            $xml_style
+            $xml_style,
+            $append_csrf_token
         );
         return $script;
     }
@@ -1412,7 +1414,8 @@ class ilCtrl
         $a_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = false
+        $xml_style = false,
+        bool $append_csrf_token = false
     ) {
         if ($a_asynch) {
             $xml_style = false;
@@ -1426,11 +1429,13 @@ class ilCtrl
             $script .= $amp . "cmdMode=asynch";
         }
 
-        $script = ilUtil::appendUrlParameterString(
-            $script,
-            self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            $xml_style
-        );
+        if ($append_csrf_token) {
+            $script = ilUtil::appendUrlParameterString(
+                $script,
+                self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
+                $xml_style
+            );
+        }
 
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
