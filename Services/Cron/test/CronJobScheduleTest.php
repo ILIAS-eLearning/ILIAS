@@ -183,6 +183,54 @@ class CronJobScheduleTest extends TestCase
                 ilCronJob::SCHEDULE_TYPE_QUARTERLY,
                 null,
                 false
+            ],
+            'Minutly Schedule / Did not run this Minute' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
+                false,
+                $now->modify('-1 minute')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+                1,
+                true
+            ],
+            'Minutly Schedule / Did run this Minute' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1, ilCronJob::SCHEDULE_TYPE_IN_MINUTES, 1),
+                false,
+                $now->modify('-30 seconds')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_MINUTES,
+                1,
+                false
+            ],
+            'Hourly Schedule / Did not run this Hour' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
+                false,
+                $now->modify('-7 hours')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+                7,
+                true
+            ],
+            'Hourly Schedule / Did run this Hour' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7, ilCronJob::SCHEDULE_TYPE_IN_HOURS, 7),
+                false,
+                $now->modify('-7 hours +30 seconds')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_HOURS,
+                7,
+                false
+            ],
+            'Every 5 Days Schedule / Did not run for 5 Days' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
+                false,
+                $now->modify('-5 days')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_DAYS,
+                5,
+                true
+            ],
+            'Every 5 Days Schedule / Did run withing the last 5 Days' => [
+                $this->getJob(true, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5, ilCronJob::SCHEDULE_TYPE_IN_DAYS, 5),
+                false,
+                $now->modify('-4 days')->getTimestamp(),
+                ilCronJob::SCHEDULE_TYPE_IN_DAYS,
+                5,
+                false
             ]
         ];
     }
