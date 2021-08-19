@@ -38,7 +38,10 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     protected Factory $refinery;
     protected WrapperFactory $httpWrapper;
     protected ilAccessHandler $hierarchical_access;
-    protected ilRbacSystem $access;
+    /**
+     * @var ilRbacSystem
+     */
+    protected $access;
     protected ilErrorHandling $error;
 
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
