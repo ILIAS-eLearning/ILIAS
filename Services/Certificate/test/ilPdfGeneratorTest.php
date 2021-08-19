@@ -46,7 +46,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $rpcHelper->method('ilFO2PDF')
-            ->willReturn(new ScalarPdf());
+            ->willReturn(new stdClass());
 
         $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
             ->disableOriginalConstructor()
@@ -107,7 +107,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $rpcHelper->method('ilFO2PDF')
-            ->willReturn(new ScalarPdf());
+            ->willReturn(new stdClass());
 
         $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
             ->disableOriginalConstructor()
