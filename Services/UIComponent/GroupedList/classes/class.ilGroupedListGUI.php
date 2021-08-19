@@ -213,7 +213,7 @@ class ilGroupedListGUI
             } else {
                 $tpl->setVariable("LIST_CLASS", "dropdown-menu");
             }
-            $tpl->setVariable("LIST_ROLE", "menu");
+            $tpl->setVariable("LIST_ROLE", 'role="menu"');
         } else {
             $tpl->setVariable("LIST_CLASS", "");
             $tpl->setVariable("LIST_ROLE", "");

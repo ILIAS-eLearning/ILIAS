@@ -215,7 +215,9 @@ class ilDclTableEditGUI
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
-            $fields = $this->table->getFields();
+            $fields = array_filter($this->table->getFields(), function (ilDclBaseFieldModel $field) {
+                return !is_null($field->getRecordQuerySortObject());
+            });
             $options = array(0 => $this->lng->txt('dcl_please_select'));
             foreach ($fields as $field) {
                 if ($field->getId() == 'comments') {

@@ -406,6 +406,16 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
     * Get the question solution output
     *
     * @param integer $active_id The active user id
@@ -437,7 +447,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $solutions = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             include_once "./Modules/Test/classes/class.ilObjTest.php";
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             $solution_script .= "";
         } else {
             foreach ($this->object->getMaximumScoringMatchingPairs() as $pair) {

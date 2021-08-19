@@ -399,7 +399,7 @@ class ilTestServiceGUI
 
                         $showFeedback = $this->isContextResultPresentation() && $this->object->getShowSolutionFeedback();
                         $show_solutions = $this->isContextResultPresentation() && $show_solutions;
-                        
+
                         if ($show_solutions) {
                             $compare_template = new ilTemplate('tpl.il_as_tst_answers_compare.html', true, true, 'Modules/Test');
                             $compare_template->setVariable("HEADER_PARTICIPANT", $this->lng->txt('tst_header_participant'));
@@ -409,9 +409,23 @@ class ilTestServiceGUI
 
                             $compare_template->setVariable('PARTICIPANT', $result_output);
                             $compare_template->setVariable('SOLUTION', $best_output);
+                            if ($question_gui->supportsIntermediateSolutionOutput() && $question_gui->hasIntermediateSolution($active_id, $pass)) {
+                                $question_gui->setUseIntermediateSolution(true);
+                                $intermediate_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, true, $showFeedback);
+                                $question_gui->setUseIntermediateSolution(false);
+                                $compare_template->setVariable('TXT_INTERMEDIATE', $this->lng->txt('autosavecontent'));
+                                $compare_template->setVariable('INTERMEDIATE', $intermediate_output);
+                            }
                             $template->setVariable('SOLUTION_OUTPUT', $compare_template->get());
                         } else {
                             $result_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, $show_question_only, $showFeedback);
+                            if ($question_gui->supportsIntermediateSolutionOutput() && $question_gui->hasIntermediateSolution($active_id, $pass)) {
+                                $question_gui->setUseIntermediateSolution(true);
+                                $intermediate_output = $question_gui->getSolutionOutput($active_id, $pass, $show_solutions, false, true, $showFeedback);
+                                $question_gui->setUseIntermediateSolution(false);
+                                $template->setVariable('TXT_INTERMEDIATE', $this->lng->txt('autosavecontent'));
+                                $template->setVariable('INTERMEDIATE', $intermediate_output);
+                            }
                             $template->setVariable('SOLUTION_OUTPUT', $result_output);
                         }
 

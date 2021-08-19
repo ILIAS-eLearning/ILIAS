@@ -29,7 +29,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @var integer
     */
     public $maxNumOfChars;
-    
+
     /**
      * @var bool
      */
@@ -153,13 +153,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
-            
+
             try {
                 $this->setLifecycle(ilAssQuestionLifecycle::getInstance($data['lifecycle']));
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->setLifecycle(ilAssQuestionLifecycle::getDraftInstance());
             }
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -328,7 +328,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         $this->maxNumOfChars = $maxchars;
     }
-    
+
     /**
      * @return bool
      */
@@ -336,7 +336,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     {
         return $this->wordCounterEnabled;
     }
-    
+
     /**
      * @param bool $wordCounterEnabled
      */
@@ -685,7 +685,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             'matchcondition' => array('integer', $this->matchcondition),
             'keyword_relation' => array('text', $this->getKeywordRelation())
         );
-        
+
         $ilDB->insert($this->getAdditionalTableName(), $fields);
     }
 
@@ -1065,20 +1065,20 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         
         return ilStr::strLen($text);
     }
-    
+
     public function countWords($text)
     {
         $text = str_replace('&nbsp;', ' ', $text);
-        
+
         $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
-        
+
         $text = preg_replace('/^\s*/m', '', $text);
         $text = preg_replace('/\s*$/m', '', $text);
         $text = preg_replace('/\s+/m', ' ', $text);
 
         return count(explode(' ', $text));
     }
-
+    
     public function getLatestAutosaveContent($active_id)
     {
         $question_fi = $this->getId();

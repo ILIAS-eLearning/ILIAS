@@ -1204,3 +1204,162 @@ if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
     );
 }
 ?>
+<#46>
+<?php
+    //
+?>
+<#47>
+<?php
+if (!$ilDB->indexExistsByFields('exc_returned', array('filetitle'))) {
+    $ilDB->addIndex('exc_returned', array('filetitle'), 'i3');
+}
+?>
+<#48>
+<?php
+if ($ilDB->uniqueConstraintExists('cmi_gobjective', array('user_id','objective_id','scope_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmi_gobjective', array('user_id','objective_id','scope_id'));
+}
+$query = "show index from cmi_gobjective where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+}
+?>
+<#49>
+<?php
+if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cp_suspend', array('user_id','obj_id'));
+}
+$query = "show index from cp_suspend where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+}
+?>
+<#50>
+<?php
+//get all cmix objekts with read_learning_progress
+$read_learning_progress = 0;
+$read_outcomes = 0;
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_learning_progress')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_learning_progress = $row->ops_id;
+}
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_outcomes')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_outcomes = $row->ops_id;
+}
+if ($read_outcomes > 0 && $read_learning_progress > 0) {
+    $res = $ilDB->queryF(
+        "SELECT rol_id, parent, type FROM rbac_templates WHERE (type=%s OR type=%s) AND ops_id=%s",
+        array('text', 'text', 'integer'),
+        array('cmix', 'lti', $read_learning_progress)
+        );
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $resnum = $ilDB->queryF(
+            "SELECT rol_id FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
+            array('integer', 'text', 'integer', 'integer'),
+            array($row->rol_id, $row->type, $read_outcomes, $row->parent)
+        );
+        if (!$ilDB->numRows($resnum)) {
+            $ilDB->insert('rbac_templates', array(
+                    'rol_id' => array('integer', $row->rol_id),
+                    'type' => array('text', $row->type),
+                    'ops_id' => array('integer', $read_outcomes),
+                    'parent' => array('integer', $row->parent)
+                ));
+        }
+    }
+}
+?>
+<#51>
+<?php
+$ilDB->update("rbac_operations", [
+    "op_order" => ["integer", 3900]
+], [    // where
+        "operation" => ["text", "redact"]
+    ]
+);
+?>
+<#52>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_from'))) {
+    $ilDB->addIndex('booking_reservation', array('date_from'), 'i3');
+}
+?>
+<#53>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
+    $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
+}
+?>
+<#54>
+<?php
+$query = "show index from il_meta_oer_stat where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('il_meta_oer_stat', ['obj_id']);
+}
+?>
+<#55>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#56>
+<?php
+if (!$ilDB->indexExistsByFields('il_bt_value', array('bucket_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value',
+        array('bucket_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('task_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('task_id'),
+        'i1'
+    );
+}
+if (!$ilDB->indexExistsByFields('il_bt_value_to_task', array('value_id'))) {
+    $ilDB->addIndex(
+        'il_bt_value_to_task',
+        array('value_id'),
+        'i2'
+    );
+}
+?>
+<#57>
+<?php
+if (!$ilDB->tableColumnExists('il_bt_value_to_task', 'position')) {
+    $ilDB->addTableColumn(
+        'il_bt_value_to_task',
+        'position',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>

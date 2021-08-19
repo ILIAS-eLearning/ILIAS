@@ -1,4 +1,6 @@
 @image_path: '../../../libs/ilias/Style/basic_style/images/';
+@import "../../../libs/bower/bower_components/bootstrap/less/variables.less";
+@import "../../../templates/default/less/variables.less"; //ILIAS Less variables
 
 a.ilc_qetitem_ErrorTextItem
 {
@@ -188,7 +190,8 @@ div.ilc_section_AdvancedKnowledge
 
 div.ilc_qanswer_Answer
 {
-	padding-left: 16px;
+	padding-left: 10px;
+	padding-right: 10px;
 	border-radius: 5px;
 	margin: 3px;
 }
@@ -1121,7 +1124,7 @@ li.ilc_qordli_OrderListItem
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 0px;
-	background-color: #f5f7fa;
+	background-color: @il-highlight-bg;
 	margin-right: 0px;
 	cursor: move;
 	padding: 10px;
@@ -1130,7 +1133,7 @@ li.ilc_qordli_OrderListItem
 li.ilc_qordli_OrderListItemHorizontal
 {
 	cursor: move;
-	background-color: #f5f7fa;
+	background-color: @il-highlight-bg;
 	padding: 10px;
 	margin-right: 10px;
 	margin-bottom: 5px;

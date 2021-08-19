@@ -69,7 +69,8 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         foreach ($items as $key => $obj_id) {
             $item_references = ilObject::_getAllReferences($obj_id);
             foreach ($item_references as $ref_id) {
-                if (!$this->access->checkAccess('read', '', $ref_id)) {
+                if (!$this->access->checkAccess('read', '', $ref_id) &&
+                    !$this->access->checkAccess('visible', '', $ref_id)) {
                     continue;
                 }
                 if ($this->tree->isInTree($ref_id)) {

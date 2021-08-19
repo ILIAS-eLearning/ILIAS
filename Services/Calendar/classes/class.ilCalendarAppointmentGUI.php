@@ -1,27 +1,32 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
-* Administrate calendar appointments
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCalendar
-*/
+ * Administrate calendar appointments
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ingroup ServicesCalendar
+ */
 class ilCalendarAppointmentGUI
 {
     protected $seed = null;
     protected $initialDate = null;
     protected $default_fulltime = true;
-    
+
     protected $app = null;
     protected $rec = null;
     protected $timezone = null;
-    
+
     protected $tpl;
     protected $lng;
     protected $ctrl;
+
+    /**
+     * @var RequestInterface|ServerRequestInterface
+     */
+    protected $request;
     
     /**
      * @var \ilLogger
@@ -29,7 +34,7 @@ class ilCalendarAppointmentGUI
     private $logger = null;
 
     /**
-     * Constructor
+     * @todo make appointment_id required and remove all GET request
      *
      * @access public
      * @param ilDate seed
@@ -39,14 +44,12 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
-        $lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
-        
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('dateplaner');
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->logger = $GLOBALS['DIC']->logger()->cal();
+        $this->request = $DIC->http()->request();
 
         $this->initTimeZone();
         $this->initSeed($seed);
@@ -54,13 +57,6 @@ class ilCalendarAppointmentGUI
         $this->initAppointment($a_appointment_id);
     }
     
-    /**
-     * Execute command
-     *
-     * @access public
-     * @param
-     *
-     */
     public function executeCommand()
     {
         global $DIC;
@@ -86,7 +82,7 @@ class ilCalendarAppointmentGUI
                 $this->$cmd();
                 break;
         }
-        return true;
+
     }
     
     /**
@@ -344,8 +340,7 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $ilHelp = $DIC['ilHelp'];
+        $ilHelp = $DIC->help();
 
         $ilHelp->setScreenIdComponent("cal");
         $ilHelp->setScreenId("app");
@@ -354,7 +349,7 @@ class ilCalendarAppointmentGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $this->initForm('create');
         }
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
     
     /**
@@ -803,9 +798,17 @@ class ilCalendarAppointmentGUI
             }
             
             if ($single_editing) {
+                $original_id = $this->getAppointment()->getEntryId();
                 $this->getAppointment()->save();
-                $this->deleteExclude(false);
-                
+                $selected_ut = (int) ($this->request->getQueryParams()['dt'] ?? 0);
+                if ($selected_ut > 0) {
+                    $exclusion = new ilCalendarRecurrenceExclusion();
+                    $exclusion->setEntryId($original_id);
+                    $exclusion->setDate(new ilDate($selected_ut, IL_CAL_UNIX));
+                    $this->logger->dump($this->getAppointment()->getEntryId());
+                    $this->logger->dump(ilDatePresentation::formatDate(new ilDate($selected_ut, IL_CAL_UNIX)));
+                    $exclusion->save();
+                }
                 $this->rec = new ilCalendarRecurrence();
                 $this->rec->setEntryId($this->getAppointment()->getEntryId());
             } else {
@@ -813,8 +816,6 @@ class ilCalendarAppointmentGUI
             }
             $this->notification->save();
             $this->saveRecurrenceSettings();
-            //var_dump($cat_id);
-            //var_dump($_POST); exit;
             include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');
             $ass = new ilCalendarCategoryAssignments($this->app->getEntryId());
             $this->logger->debug($this->app->getEntryId());
@@ -851,28 +852,50 @@ class ilCalendarAppointmentGUI
 
         $tpl = $DIC['tpl'];
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-        
-        $this->ctrl->saveParameter($this, array('seed','app_id','dt','idate'));
+        $this->ctrl->saveParameter(
+            $this,
+            [
+                'seed',
+                'app_id',
+                'dt',
+                'idate'
+            ]
+        );
 
-        $confirm = new ilConfirmationGUI();
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
-        $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-        $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
-
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrences.php');
-        if (sizeof(ilCalendarRecurrences::_getRecurrences($_GET['app_id']))
-            && !$this->app->isMilestone()) {
-            $confirm->addButton($this->lng->txt('cal_delete_single'), 'deleteexclude');
-            $confirm->setConfirm($this->lng->txt('cal_delete_recurrences'), 'delete');
-        } else {
-            $confirm->setConfirm($this->lng->txt('delete'), 'delete');
+        $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
+        if (!$app_id) {
+            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->ctrl->returnToParent($this);
         }
 
-        $tpl->setContent($confirm->getHTML());
+        $entry = new ilCalendarEntry($app_id);
+        $recs = ilCalendarRecurrences::_getRecurrences($app_id);
+        if (
+            !count($recs) &&
+            !$this->app->isMilestone()
+        ) {
+            $confirm = new ilConfirmationGUI();
+            $confirm->setFormAction($this->ctrl->getFormAction($this));
+            $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
+            $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
+            $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+            $confirm->setConfirm($this->lng->txt('delete'), 'delete');
+            $this->tpl->setContent($confirm->getHTML());
+        } else {
+
+            $table = new ilCalendarRecurrenceTableGUI(
+                $this->app,
+                $this,
+                'askDelete'
+            );
+            $table->init();
+            $table->parse();
+            $this->tpl->setContent($table->getHTML());
+            ilUtil::sendQuestion($this->lng->txt('cal_delete_app_sure'));
+            ilUtil::sendInfo($this->lng->txt('cal_recurrence_confirm_deletion'));
+        }
     }
-    
+
     /**
      * delete
      *
@@ -882,7 +905,15 @@ class ilCalendarAppointmentGUI
      */
     protected function delete()
     {
-        foreach ($_POST['appointments'] as $app_id) {
+        $app_ids = (array) ($this->request->getParsedBody()['appointment_ids'] ?? []);
+        if (!$app_ids) {
+            $this->logger->dump($app_ids);
+            $app_ids = (array) ($this->request->getQueryParams()['app_id'] ?? []);
+        }
+        if (!$app_ids) {
+            $this->ctrl->returnToParent($this);
+        }
+        foreach ($app_ids as $app_id) {
             $app = new ilCalendarEntry($app_id);
             $app->delete();
             
@@ -905,12 +936,21 @@ class ilCalendarAppointmentGUI
      */
     protected function deleteExclude($a_return = true)
     {
-        include_once('./Services/Calendar/classes/class.ilCalendarRecurrenceExclusion.php');
-        $excl = new ilCalendarRecurrenceExclusion();
-        $excl->setEntryId($_REQUEST['app_id']);
-        $excl->setDate(new ilDate($_REQUEST['dt'], IL_CAL_UNIX));
-        $excl->save();
-
+        $recurrence_ids = (array) ($this->request->getParsedBody()['recurrence_ids'] ?? []);
+        $app_id = (int) ($this->request->getQueryParams()['app_id'] ?? 0);
+        if (!count($recurrence_ids)) {
+            ilUtil::sendFailure($this->lng->txt('select_one'), true);
+            $this->ctrl->redirect($this, 'askDelete');
+        }
+        if (!$app_id) {
+            $this->ctrl->returnToParent($this);
+        }
+        foreach ($recurrence_ids as $rdate) {
+            $exclusion = new ilCalendarRecurrenceExclusion();
+            $exclusion->setEntryId($app_id);
+            $exclusion->setDate(new ilDate($rdate, IL_CAL_UNIX));
+            $exclusion->save();
+        }
         if ($a_return) {
             ilUtil::sendSuccess($this->lng->txt('cal_deleted_app'), true);
             $this->ctrl->returnToParent($this);

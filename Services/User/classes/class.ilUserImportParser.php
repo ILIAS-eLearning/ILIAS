@@ -187,7 +187,7 @@ class ilUserImportParser extends ilSaxParser
      *
      * @var assoc array (key = user id, value= login)
      */
-    public $user_mapping;
+    public $user_mapping = [];
 
     /**
      *
@@ -1396,7 +1396,7 @@ class ilUserImportParser extends ilSaxParser
                                     }
                                     $tmp_name = $this->saveTempImage($this->personalPicture["content"], ".$extension");
                                     if (strlen($tmp_name)) {
-                                        ilObjUser::_uploadPersonalPicture($tmp_name, $this->userObj->getId());
+                                        ilObjUser::_uploadPersonalPicture($tmp_name, $updateUser->getId());
                                         unlink($tmp_name);
                                     }
                                 }

@@ -58,16 +58,12 @@ class ilLTIConsumerAccess
             return true;
         }
         
-        return $this->hasWriteAccess();
+        return false;
     }
     
     public function hasEditPermissionsAccess()
     {
-        if ($this->checkAccess('edit_permissions')) {
-            return true;
-        }
-        
-        return $this->hasWriteAccess();
+        return $this->checkAccess('edit_permission');
     }
     
     /**

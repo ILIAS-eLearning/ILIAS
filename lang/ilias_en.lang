@@ -1,4 +1,16 @@
-/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
@@ -14,6 +26,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
+crs#:#crs_objective_result_details#:#« Show Details
 rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions
@@ -291,7 +307,7 @@ lti#:#lti_obj_active#:#LTI-Tool Provider
 lti#:#lti_obj_active_info#:#If enabled, this object acts as a LTI tool provider. New LTI users can be automatically assigned to the following local roles.
 lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
-lti#:#lti_member#:#LTI Member
+lti#:#lti_member#:#LTI Member / Learner
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
 crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
@@ -501,6 +517,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
 administration#:#log_scan#:#Log scan results
 administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
@@ -510,7 +527,7 @@ administration#:#loginname_history_info#:#If activated, login name changes will 
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
-administration#:#obj_mds_desc#:#Configure Metadata and Advanced Metadata Settings
+administration#:#obj_mds_desc#:#Configure Metadata and Custom Metadata Settings
 administration#:#obj_mds#:#Metadata
 administration#:#options#:#Options
 administration#:#output_options#:#Output options
@@ -571,7 +588,7 @@ adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
-assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
+assessment#:#autosave_info#:The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in the result view of the respective test taker. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
 assessment#:#autosave_ival#:#Interval
 assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
 assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
@@ -587,7 +604,7 @@ assessment#:#tst_objective_oriented_test_pass_without_questions#:#The started pa
 assessment#:#tst_dyn_quest_set_pool_deleted#:#The currently configured question pool "%s" has been deleted.
 assessment#:#tst_old_style_rnd_quest_set_broken#:#This random test is in a irreparable state, because one or more connected question pools have been deleted. Therefor participants cannot take the test any longer.
 assessment#:#solution_contain_keywords#:#Score is granted based on the occurrence of the following keywords:
-assessment#:#ass_mc_sel_lim_hint#:#Please select %s of %s answers!
+assessment#:#ass_mc_sel_lim_hint#:#Please select at most %s of the %s answers!
 assessment#:#ass_mc_sel_lim_exhausted_hint#:#Please do not select more than %s of %s answers!
 assessment#:#ass_mc_sel_lim_setting#:#Answering Limitation
 assessment#:#ass_mc_sel_lim_setting_desc#:#With this setting the number of answers choosable by the participants can be limited.
@@ -724,7 +741,7 @@ assessment#:#cannot_edit_marks#:#There are already learners who ran the test. Yo
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the metadata!
 assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
@@ -1477,7 +1494,7 @@ assessment#:#tst_questions_removed#:#Question(s) removed!
 assessment#:#tst_random_nr_of_questions#:#How many questions?
 assessment#:#tst_random_select_questionpool#:#Select the question pool to choose the questions from
 assessment#:#tst_nonpool_questions_get_lost_warning#:#<b>The current test mode includes questions in its configuration that are not assigned to any question pool. If you change the test mode, these questions will be lost permanently.</b>
-assessment#:#tst_reached_points#:#Points
+assessment#:#tst_reached_points#:#Reached Points
 assessment#:#tst_remove_mark#:#Remove this mark
 assessment#:#tst_remove_questions_and_results#:#This test was already executed by %s user(s). Removing questions from this test will remove all test results of these users. Are you sure you want to remove the following question(s) from the test?
 assessment#:#tst_remove_questions#:#Are you sure you want to remove the following questions from the test?
@@ -1741,9 +1758,11 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editor for Feedback and Hints
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Use rich-text editor for editing feedback and hints
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Overview of Answers Given
@@ -1767,8 +1786,8 @@ assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
-assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
-assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
+assessment#:#tst_starting_time_desc#:#Time from which the test can be started. From this moment on, clicking the button "Start test" is possible and participants can answer questions.
+assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run
@@ -2682,7 +2701,7 @@ common#:#gdf_add#:#Add Definition
 common#:#gdf_new#:#New Definition
 common#:#gender_f#:#Ms.
 common#:#gender_m#:#Mr.
-common#:#gender_n#:#No salutation desired
+common#:#gender_n#:#Not stated
 common#:#gender#:#Salutation
 common#:#general_settings#:#General Settings
 common#:#generate#:#Generate
@@ -4776,7 +4795,7 @@ crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_add_grouping#:#Add Membership Limitation
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_objective#:#Add Objective
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to their favourites
+crs#:#crs_add_remove_from_desktop_info#:#Objects within the course can be added to favourites.
 crs#:#crs_add_remove_from_desktop#:#Add to Favourites
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
@@ -5371,9 +5390,9 @@ ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
 ecs#:#ecs_key_password#:#Key Password
 ecs#:#ecs_local_settings#:#Local Settings
-ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
+ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Custom Metadata
 ecs#:#ecs_mappings#:#ECS Data Mapping
-ecs#:#ecs_meta_data#:#Meta Data
+ecs#:#ecs_meta_data#:#Metadata
 ecs#:#ecs_new_approval_subject#:#A new course has been released
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course Links to Categories
 ecs#:#ecs_new_econtent_subject#:#New E-Content created
@@ -7114,7 +7133,7 @@ sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
 search#:#search_field#:#Search Input Field
-search#:#adv_md_search_title#:#Search in Extended Metadata
+search#:#adv_md_search_title#:#Search in Custom Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
 search#:#lucene_activate_field#:#Activate Search
@@ -7165,7 +7184,7 @@ search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
-search#:#search_adv_md#:#Extended Metadata
+search#:#search_adv_md#:#Custom Metadata
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
@@ -8017,7 +8036,7 @@ common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be 
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only inactive users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
@@ -8025,7 +8044,7 @@ common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will 
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only inactivated users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -9159,7 +9178,7 @@ ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
-ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
+ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Custom Metadata to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
 ecs#:#ecs_import_cms#:#Campus Management
@@ -9359,7 +9378,7 @@ scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
 content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
 content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.
-content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
+content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Repository and Objects » Learning Modules).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
 scormdebug#:#error102#:#General Initialization Failure
@@ -10918,7 +10937,7 @@ dcl#:#dcl_view_own_records_perm#:#View only own entries
 dcl#:#dcl_msg_no_perm_view#:#No permission given to view this Entry
 dcl#:#dcl_msg_no_perm_edit#:#No permission given to edit this Entry
 dcl#:#dcl_delete_fields#:#Delete fields
-dcl#:#dcl_link_detail_page#:#Link entries to detail page
+dcl#:#dcl_link_detail_page#:#Link to detailed view
 dcl#:#dcl_manage#:#Manage
 dcl#:#dcl_display_record_alt#:#Display this entry
 dcl#:#dcl_delete_records#:#Delete Entries
@@ -11619,8 +11638,8 @@ orgu#:#orgu_orgu_type#:#Organisational Unit Type
 orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
-orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
-orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
+orgu#:#orgu_type_available_amd_sets#:#Available Custom Metadata Sets
+orgu#:#orgu_type_assign_amd_sets#:#Assign Custom Metadata Sets
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline
@@ -12237,7 +12256,7 @@ assessment#:#additional_rating_info#:#Please note that the values given here are
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that the selected result unit must also be activated in ‘Available units’.
-ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.
+ecs#:#ecs_no_adv_md#:#No Custom Metadata Available.
 poll#:#poll_comments#:#Comments
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_barchart#:#Bar Chart
@@ -12295,7 +12314,7 @@ survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
-wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
+wiki#:#wiki_advmd_block_title#:#Custom Metadata of Page
 content#:#cont_ed_insert_amd_page_list#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
@@ -12833,7 +12852,7 @@ scormtrac#:#counter#:#counter
 scormtrac#:#student_response#:#student_response: Response
 scormtrac#:#ostatus#:#Status of the objective
 prtf#:#prtf_blog_page_created#:#Blog has been added.
-wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable meta data fields are listed.
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable metadata fields are listed.
 content#:#cont_pc_amdpl#:#Page List
 meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
@@ -13482,8 +13501,8 @@ prg#:#prg_subtype_add#:#Add new subtype
 prg#:#prg_type_custom_icon#:#Custom Icons
 prg#:#prg_type_custom_icon_info#:#Custom icon info
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
-prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
-prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
+prg#:#prg_type_assign_amd_sets#:#Assign Custom Metadata Sets
+prg#:#prg_type_available_amd_sets#:#Available Custom Metadata Sets
 prg#:#prg_type_edit#:#Edit subtype
 prg#:#prg_type_msg_deleted#:#Deleted subtype
 prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s
@@ -13573,6 +13592,7 @@ rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
 administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
+mail#:#mail_sel_label#:#Choose the Recipients
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#send_mail_members#:#All Members
@@ -14705,7 +14725,7 @@ sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not
 lm#:#lm_save_titles#:#Titles saved.
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
-wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable metadata fields found in the metadata sets of the wiki.
 iass#:#iass_amend_saved#:#Amended record has been saved.
 dateplaner#:#crs_cal_start#:#Course starts
 dateplaner#:#crs_cal_end#:#Course ends
@@ -14741,7 +14761,7 @@ content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
 common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
-common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
+common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#user_never_logged_in#:#Delete user accounts without login
@@ -15572,7 +15592,7 @@ trac#:#cmix_lp_mode_with_failed#:#Also consider failed
 trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of 'in progress'.
 trac#:#cmix_lp_mode_when_passed#:#Completed when 'passed'
 trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'.
-trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when passed or completed
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when 'passed' or 'completed'
 trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'.
 trac#:#trac_mode_lti_outcome#:#Mastery Score Must be reached
 trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.
@@ -15843,8 +15863,10 @@ cmix#:#conf_lrs_secret#:#Secret / Password
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_new_window#:#New Window
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
 cmix#:#conf_launch_mode_browse#:#Browse
@@ -16221,3 +16243,22 @@ tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must t
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
+awrn#:#awrn_filter#:#User Filter
+help#:#help_search_label#:#Search Help
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+cmix#:#toplist_top_n_results#:#Top Ranking
+cmix#:#toplist_your_result#:#Own Rank
+lti#:#toplist_top_n_results#:#Top Ranking
+lti#:#toplist_your_result#:#Own Rank
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.
+common#:#il_lti_learner#:#LTI Learner
+common#:#il_lti_instructor#:#LTI Instructor
+rbac#:#il_lti_global_role#:#LTI User

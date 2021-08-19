@@ -85,12 +85,19 @@ class ilObjLearningSequenceLearnerGUI
 
     protected function view(string $cmd)
     {
-        $content = $this->getWrappedHTML($this->getMainContent($cmd));
-        $curriculum = $this->getWrappedHTML($this->getCurriculum());
-
         $this->initToolbar($cmd);
-        $this->tpl->setContent($content);
-        $this->tpl->setRightContent($curriculum);
+        
+        $content = $this->getMainContent($cmd);
+        $this->tpl->setContent(
+            $this->getWrappedHTML($content)
+        );
+        
+        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
+        if (count($curriculum->getSteps()) > 0) {
+            $this->tpl->setRightContent(
+                $this->getWrappedHTML([$curriculum])
+            );
+        }
     }
 
     protected function addMember(int $usr_id)
@@ -181,12 +188,6 @@ class ilObjLearningSequenceLearnerGUI
         $components[] = $this->ui_factory->legacy('</div>');
 
         return $this->renderer->render($components);
-    }
-
-    private function getCurriculum() : array
-    {
-        $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        return array($curriculum);
     }
 
     private function getMainContent(string $cmd) : array

@@ -126,6 +126,14 @@ class ilCmiXapiSettingsGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('type'), "");
+        $ne->setValue($DIC->language()->txt('type_'.$this->object->getContentType()));
+        $form->addItem($ne);
+
+        $ne = new ilNonEditableValueGUI($DIC->language()->txt('cmix_lrs_type'), "");
+        $ne->setValue($this->object->getLrsType()->getTitle());
+        $form->addItem($ne);
+        
         $item = new ilTextInputGUI($DIC->language()->txt('title'), 'title');
         $item->setSize(40);
         $item->setMaxLength(128);
@@ -173,14 +181,16 @@ class ilCmiXapiSettingsGUI
                 $form->addItem($item);
             }
             
-            $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
-            $item->setInfo($DIC->language()->txt("use_fetch_info"));
-            $item->setValue("1");
-            
-            if ($this->object->isAuthFetchUrlEnabled()) {
-                $item->setChecked(true);
+            if ($this->object->getContentType() != ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
+                $item->setInfo($DIC->language()->txt("use_fetch_info"));
+                $item->setValue("1");
+                
+                if ($this->object->isAuthFetchUrlEnabled()) {
+                    $item->setChecked(true);
+                }
+                $form->addItem($item);
             }
-            $form->addItem($item);
             
             $display = new ilRadioGroupInputGUI($DIC->language()->txt('launch_options'), 'display');
             $display->setRequired(true);
@@ -188,8 +198,8 @@ class ilCmiXapiSettingsGUI
             $optOwnWindow = new ilRadioOption($DIC->language()->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
             $optOwnWindow->setInfo($DIC->language()->txt('conf_own_window_info'));
             $display->addOption($optOwnWindow);
-            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_any_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
-            $optAnyWindow->setInfo($DIC->language()->txt('conf_any_window_info'));
+            $optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_new_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
+            $optAnyWindow->setInfo($DIC->language()->txt('conf_new_window_info'));
             $display->addOption($optAnyWindow);
             $form->addItem($display);
             
@@ -485,8 +495,12 @@ class ilCmiXapiSettingsGUI
                 $this->object->setLaunchUrl($form->getInput('launch_url'));
             }
             
-            $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
-            
+            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                $this->object->setAuthFetchUrlEnabled(true);
+            } else {
+                $this->object->setAuthFetchUrlEnabled((bool) $form->getInput('use_fetch'));
+            }
+
             if (!$this->object->getLrsType()->isBypassProxyEnabled()) {
                 $this->object->setBypassProxyEnabled((bool) $form->getInput('bypass_proxy'));
             }

@@ -75,12 +75,14 @@ adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility is
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
 adm#:#adm_support_contacts#:#テクニカルサポート
 adm#:#adm_support_contacts_info#:#フッターリンクと"誰がオンラインですか？"ツール(有効にしている場合)に使用されるサポートコンタクト。ログインアカウントのコンマ区切りのリスト。
-administration#:#adm_achievements#:#学力
+administration#:#adm_achievements#:#実績
 administration#:#adm_activate_db_benchmark#:#ベンチマークを使用可能にする
 administration#:#adm_activate_db_benchmark_desc#:#ベンチマークは1回要求後に自動的に切れます。
 administration#:#adm_add_settings_template#:#テンプレート追加
 administration#:#adm_adm_role_protect#:#管理者役割を保護
 administration#:#adm_adm_role_protect_info#:#有効にすると管理者だけしか管理者役割とユーザ間の割り当て・解除ができなくなります。
+administration#:#adm_auth_login#:#認証Login
+administration#:#adm_auth_reg#:#認証登録
 administration#:#adm_captcha_anonymous_auth#:#匿名ログインフォーム用のCaptcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_frm#:#掲示板の匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
 administration#:#adm_captcha_anonymous_reg#:#登録フォームの匿名用Captcha(画像認証)を有効化。有効にするとシステムアクセス性に影響の可能性があることに注意願います。
@@ -534,6 +536,7 @@ assessment#:#autosave_failed#:#自動保存に失敗しました !
 assessment#:#autosave_info#:#データ紛失回避のために設定した間隔で自動保存されます。
 assessment#:#autosave_ival#:#間隔
 assessment#:#autosave_success#:#自動保存に成功...
+assessment#:#autosavecontent#:#自動保存コンテンツ
 assessment#:#average_reached_points#:#平均達成点
 assessment#:#back_to_objective_container#:#コースへ戻る
 assessment#:#backtocallingtest#:#呼び出し中のテストに戻る
@@ -678,6 +681,7 @@ assessment#:#eval_all_users#:#全ユーザの評価
 assessment#:#eval_legend_link#:#凡例の列ヘッダーの記号の意味を参照してください。
 assessment#:#evaluated_users#:#評価済ユーザ
 assessment#:#exam_id#:#試験ID:
+assessment#:#exam_id_label#:#Exam Id
 assessment#:#examid_in_test_pass#:#テスト実行IDを表示
 assessment#:#examid_in_test_pass_desc#:#テスト実施IDはテスト中表示されます。新規IDは各テスト実施ごとに生成されます。
 assessment#:#examid_in_test_res#:#ILIAS テスト実施 ID
@@ -700,8 +704,8 @@ assessment#:#feedback_all#:#全解答の特定フィードバックの回答を�
 assessment#:#feedback_answers#:#問題の各答案に対するフィードバック
 assessment#:#feedback_checked#:#全選択または選択された解答の特定のフィードバック解答を表示
 assessment#:#feedback_complete_solution#:#正解
-assessment#:#feedback_correct_kprim#:#全ての正解の特定のフィードバック回答を表示( 正解は、ポジティブなオプションが選択された/選択したになります)
-assessment#:#feedback_correct_sc_mc#:#全ての正解の特定のフィードバック回答を表示( 正解は、選択された/選択した際にポジティブなスコアへ導くになります)
+assessment#:#feedback_correct_kprim#:#全ての正解の特定のフィードバック回答を表示( 選択された/選択した際にポジティブな選択肢のような正解)
+assessment#:#feedback_correct_sc_mc#:#全ての正解の特定のフィードバック回答を表示( 選択された/選択した際に点数が上がるような正解)
 assessment#:#feedback_generic#:#共通解答フィードバック
 assessment#:#feedback_incomplete_solution#:#答案のどれかに間違いがある
 assessment#:#feedback_setting#:#特定のフィードバック解答モード
@@ -769,7 +773,7 @@ assessment#:#kiosk_options_desc#:#画面のトップセクションにインフ�
 assessment#:#kiosk_show_participant#:#受験者の名前を表示
 assessment#:#kiosk_show_title#:#テスト題名を表示
 assessment#:#kprim_answers_info#:#多肢選択問題タイプ"正誤4問解答"(タイプK、Kprimとも称す)は4つを解答、問題への追加、不完全な文のどれかになります。正解を確定するには4つ解答または追加をする必要があります。全て正解と確定する場合は最高点は承認のみになります。
-assessment#:#kprim_instruction_text#:#全記述: [%s] または [%s]を決定する必要があります。
+assessment#:#kprim_instruction_text#:#各ステートメント [%s] または [%s]を確定する必要があります。
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_d#:#4番目の回答オプションは穴埋めが選択されていて2番目のオプションが選択されていました。
 assessment#:#lacex_assClozeTest_NumberOfResultExpression_e#:#R[4] = +2+
 assessment#:#lacex_assClozeTest_NumericResultExpression_d#:#2番目の回答オプションは数値穴埋めであり数値5の回答でした。
@@ -777,7 +781,7 @@ assessment#:#lacex_assClozeTest_NumericResultExpression_e#:#R[2] = #5
 assessment#:#lacex_assClozeTest_StringResultExpression_1_d#:#最初の回答オプションはテキスト穴埋めであり"月曜日の回答でした。
 assessment#:#lacex_assClozeTest_StringResultExpression_1_e#:#R[1] = ~月曜日~
 assessment#:#lacex_assClozeTest_StringResultExpression_2_d#:#4番目の回答オプションは穴埋めが選択されていて"緑色"オプションラベルが選択されていました。
-assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~緑色~
+assessment#:#lacex_assClozeTest_StringResultExpression_2_e#:#R[4] = ~Green~
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_d#:#問題回答中まさに回答オプション1、3、4が選択されました。
 assessment#:#lacex_assErrorText_ExclusiveResultExpression_e#:#R = *1,3,4*
 assessment#:#lacex_assErrorText_NumberOfResultExpression_d#:#問題回答中に2番目の回答オプションが選択
@@ -894,8 +898,8 @@ assessment#:#option_label_adequate_or_not#:#適切/不適切
 assessment#:#option_label_applicable#:#適用
 assessment#:#option_label_applicable_or_not#:#適用/不適用
 assessment#:#option_label_custom#:#ユーザ定義ラベル
-assessment#:#option_label_custom_false#:#間違い用ラベル
-assessment#:#option_label_custom_true#:#正解用ラベル
+assessment#:#option_label_custom_false#:#間違い'用ラベル
+assessment#:#option_label_custom_true#:#正解'用ラベル
 assessment#:#option_label_info#:#構成される文は受験者の選択したオプションのラベルとして使用されます。
 assessment#:#option_label_minus#:#-
 assessment#:#option_label_not_adequate#:#不適切
@@ -1143,7 +1147,7 @@ assessment#:#selection#:#選択
 assessment#:#set_edit_mode#:#編集モード
 assessment#:#set_filter#:#フィルタ
 assessment#:#set_manscoring_done#:#この受講者を"採点済み受講者”としてマーク
-assessment#:#set_manual_feedback#:#手動フィードバックのセット
+assessment#:#set_manual_feedback#:#手動フィードバック
 assessment#:#shape#:#形状
 assessment#:#show_answer_overview#:#解答概要を表示
 assessment#:#show_detailed_results#:#ユーザの詳細結果を表示(パスしたものをマーク)
@@ -1230,7 +1234,9 @@ assessment#:#tst_activation_limited_visibility_info#:#表示期間前後にテ�
 assessment#:#tst_activation_online_info#:#オンラインの場合に受験者はテスト受験できます。
 assessment#:#tst_add_quest_cont_edit_mode#:#追加問題コンテンツのモード編集
 assessment#:#tst_add_quest_cont_edit_mode_default#:#追加問題コンテンツの初期モード編集
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#問題と回答に書式設定がありません。LaTexにもありません。ただし、ｄフィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれ時に再利用できます。
 assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ページオブジェクトエディタ付の追加コンテンツ編集
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#ヒント、フィードバック、回答、問題の書式設定を許可。ただし、フィードバックとヒントはILIAS学習モジュールへ問題が埋め込まれた時には再利用できません。
 assessment#:#tst_addit_passes_blocked_after_passed_msg#:#試験に合格です。試験は再開できません。
 assessment#:#tst_all_test_competences#:#全テスト能力
 assessment#:#tst_all_user_data_deleted#:#このテストの全ユーザデータは削除されました!
@@ -1603,8 +1609,8 @@ assessment#:#tst_qbt_filter_question_title#:#問題タイトル
 assessment#:#tst_qst_added_to_pool_p#:#選択の問題集へ質問は正しく追加されました。
 assessment#:#tst_qst_added_to_pool_s#:#選択の問題集へ質問は正しく追加されました。
 assessment#:#tst_qst_order#:#順番
-assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#モード"%s"テスト用の能力-問題-アセスメントは問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。
-assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#モード"%s"テスト用の能力-問題-アセスメントは問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。
+assessment#:#tst_qst_skl_cfg_in_pool_hint_dynquestset#:#モード"%s"テスト用の能力-問題-割当ては問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。
+assessment#:#tst_qst_skl_cfg_in_pool_hint_rndquestset#:#モード"%s"テスト用の能力-問題-割当ては問題集に相応して処理されます:<br />%s<br /><br />スレッショールド値の構成はテス内のここで処理されます。
 assessment#:#tst_question#:#問題
 assessment#:#tst_question_amount#:#問題数
 assessment#:#tst_question_answer_status#:#解答ステータス
@@ -1747,15 +1753,15 @@ assessment#:#tst_save_thresholds#:#しきい値を保存
 assessment#:#tst_saved_manscoring_by_question_successfully#:#テスト%sの問題%sの手動採点は正しく保存されました。
 assessment#:#tst_saved_manscoring_successfully#:#テスト%sの手動採点は正しく保存されました。
 assessment#:#tst_score_cut_question#:#各減点問題は"0点"に設定
-assessment#:#tst_score_cut_question_desc#:#受験者は個別問題オプション用に割り当てられた減点ありの問題の結果が負の点数になることがあります。この設定はどの負の結果も0点に設定されることを確保します。
+assessment#:#tst_score_cut_question_desc#:#個別回答オプションの割当てに負の点数がある問題は、受験者の結果は負になる可能性があります。この設定では問題に対してどの負の結果も０点に設定される事を意味します。
 assessment#:#tst_score_cut_test#:#テスト全体に対して負の結果を"0点"に設定します。
-assessment#:#tst_score_cut_test_desc#:#受験者は負の点数になるかもしれません。全問題の得点は追加されます。テストの全体結果が負の場合はこの全体結果は0点に設定されます。この設定で負の点数は多くのウェイトを占めます。
+assessment#:#tst_score_cut_test_desc#:#受験者が負の結果になる可能性のある問題があります。全ての問題の点数は累積されます。テストの全体結果が負の場合に限りこの全体結果は0点に設定されます。この設定では負の点数が多くの重みにつながります。
 assessment#:#tst_score_cutting#:#負の点数
 assessment#:#tst_score_mcmr_questions#:#未解答の多肢選択問題
-assessment#:#tst_score_mcmr_use_scoring_system#:#定義問題の未解答問題得点
+assessment#:#tst_score_mcmr_use_scoring_system#:#保存と未回答問題の点数(Deprecated)
 assessment#:#tst_score_mcmr_use_scoring_system_desc#:#追加オプション”いずれにも該当しない"は空欄の解答採点を可能にします。未チェックオプションは問題で定義した採点を行います。この設定は現状のテストにのみ適用されますが次のILIASバージョンでは廃止されます。
 assessment#:#tst_score_mcmr_zero_points_when_unanswered#:#空欄解答を保存しない
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#受験者の採点はどの解答オプションにもチェックしていない多肢選択問題を0点で採点します。この設定は大部分のテストへ適用されます。
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#チエックオプション無しの回答は保尊されません。受験者はそれらに対してO点となります。
 assessment#:#tst_score_reporting#:#採点報告
 assessment#:#tst_score_reporting_date#:#採点報告日
 assessment#:#tst_search_users#:#受験者を検索
@@ -1786,9 +1792,9 @@ assessment#:#tst_show_side_list#:#脇に問題一覧を表示
 assessment#:#tst_show_solution_answers_only#:#結果印刷表示(解答のみ)
 assessment#:#tst_show_solution_answers_only_desc#:#選択すると"コンテンツ編集"タブを使って問題の周りに配置したILIASコンテンツのページは印刷には表示されません。少し紙面スペースを保存したい場合はこのオプションを選択します。
 assessment#:#tst_show_solution_compare#:#解答一覧の正解と解答を比較
-assessment#:#tst_show_solution_compare_desc#:#受験者には自身の解答とベスト解答の比較概要が表示されます。このビューは"Info"タブの"テスト結果表示"ボタン経由でアクセスできる"詳細結果"が表示される事に注意願います。ここで設定しても印刷可能な"解答リスト"は表示されません。
-assessment#:#tst_show_solution_details#:#テスト結果の解答を表示
-assessment#:#tst_show_solution_details_desc#:#問題ごとの達成点テーブルへアドオンするように受験者は各問題のページへリンクできます。このリンクされたページは問題、受験者の解答、これが正しかったかどうかの情報、この解答で達成される点数を含みます。
+assessment#:#tst_show_solution_compare_desc#:#受験者は模範解答の回答と自身の全体回答を比較して表示されます。このビューは、''Info'タブの'テスト結果表示ボタン'を通してアクセス可能な'詳細結果'内へ表示されます。ここに設定しても印刷領域の'回答のリスト'には表示されません。
+assessment#:#tst_show_solution_details#:#受験者2回目の回答
+assessment#:#tst_show_solution_details_desc#:#詳細テスト結果表'へadd-onとして追加し、受験者は各問題のページのリンクを得ます。このリンクページには問題、受験者の回答、この回答が正しいかどうかの情報、この問題による得点等が含まれます。
 assessment#:#tst_show_solution_feedback#:#フィードバック
 assessment#:#tst_show_solution_feedback_desc#:#受験者の解答に関連したフィードバックが表示されます。"受験者の解答点数"が有効でかつフィードバックが最初の場所内の問題に沿って準備された場合のみ有効になることに留意願います。
 assessment#:#tst_show_solution_printview#:#追加の印刷用の"解答リスト"
@@ -1801,7 +1807,7 @@ assessment#:#tst_show_summary#:#問題リストを表示
 assessment#:#tst_show_summary_description#:#受験者は実際の問題の左側のテスト問題のリストへ切替できます。さらに"問題リスト"へ表示されます。その画面上で問題の全般ステータスが表示されます。
 assessment#:#tst_show_toplist#:#順位を表示
 assessment#:#tst_shuffle_questions#:#問題をシャッフル
-assessment#:#tst_shuffle_questions_description#:#各受験者の問題のシーケンスとテストをシャッフルします。
+assessment#:#tst_shuffle_questions_description#:#各受験者と実施済テストの問題シーケンスをシャッフル
 assessment#:#tst_signature#:#署名
 assessment#:#tst_single_answer_details#:#単一解答を表示
 assessment#:#tst_single_results#:#問題別の結果
@@ -2006,6 +2012,7 @@ auth#:#auth_saml_configure#:#SAML認証を構成
 auth#:#auth_saml_configure_idp#:#SAML IDP: %sを構成
 auth#:#auth_saml_deleted_idp#:#IDプロバイダーは削除されました。
 auth#:#auth_saml_enable#:#Enable SAML Support
+auth#:#auth_saml_err_sqlite_driver#:#SAML認証はPHP用のSQLite ドライバーが必須です。SQLite packageをインストールして再試行してください。
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_idp_selection_table_desc#:#ログオンする id プロバイダーを選択してください。
 auth#:#auth_saml_idp_selection_table_title#:#ＩＤプロバイダー選択
@@ -2044,6 +2051,7 @@ awrn#:#awareness_settings#:#設定
 awrn#:#awrn_caching_period#:#キャッシュ期間
 awrn#:#awrn_caching_period_info#:#トップバー内のユーザ数が更新されて新規オンラインユーザが確定される前の待ち時間
 awrn#:#awrn_enable#:#`誰がオンラインですか？'ツールを有効化
+awrn#:#awrn_filter#:#ユーザフィルター
 awrn#:#awrn_hide_from_awareness#:#`誰がオンラインですか？' - ツールへ自分を表示しない
 awrn#:#awrn_hide_from_awareness_info#:#‘誰がオンラインですか？’-ツールはトップバーにあり選択したユーザを表示します。(例. コンタクトまたはコースメンバー)
 awrn#:#awrn_inactive#:#表示しない
@@ -2486,6 +2494,7 @@ book#:#book_schedule_warning_edit#:#現在利用できるスケジュールは�
 book#:#book_schedules#:#スケジュール
 book#:#book_select_pool#:#予約集を選択
 book#:#book_set_cancel#:#予約キャンセル
+book#:#book_set_delete#:#削除
 book#:#book_too_many_preferences#:#Preference選択が多すぎます。Preferenceは保存されませんでした。
 book#:#book_type_warning#:#現在利用できるオブジェクトはありませんブッキング集を使用するにはブッキングオブジェクトを作成する必要があります
 book#:#book_your_bookings#:#予約
@@ -2495,6 +2504,8 @@ book#:#booking_multiple_succesfully#:#予約が正しく作成されました
 book#:#booking_nr_of_items#:#アイテム番号
 book#:#obj_book_duplicate#:#予約集をコピー
 book#:#participants#:#参加者
+book#:#reservation_deleted#:#予約を削除しました
+book#:#X_reservations_of#:#%s reservations of
 buddysystem#:#buddy_allow_to_contact_me#:#コンタクトを許可
 buddysystem#:#buddy_allow_to_contact_me_info#:#有効にすると他のユーザがコンタクト要求を送れるようになります。
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#要求を確認
@@ -2525,7 +2536,7 @@ buddysystem#:#buddy_bs_state_requested_a#:#要求済み
 buddysystem#:#buddy_bs_state_requested_p#:#要求済み
 buddysystem#:#buddy_bs_state_unlinked_a#:#リンクなし
 buddysystem#:#buddy_enable#:#‘コンタクト’を有効化
-buddysystem#:#buddy_enable_info#:#有効にするとコンタクト要求開始により互いにユーザがコンタクト許可されるようになります。さらに、コンタクトをする準備または許可するパーソナル設定があります。
+buddysystem#:#buddy_enable_info#:#有効にするとユーザはコンタクト要求を出してお互いにコンタクトを許可されます。また、許可またはコンタクトの準備のパーソナルユーザ設定があります。
 buddysystem#:#buddy_handle_contact_request#:#コンタクト要求
 buddysystem#:#buddy_noti_cr_profile_not_published#:#プロファイルは未公開
 buddysystem#:#buddy_notification_contact_request#:#コンタクト要求
@@ -2614,7 +2625,7 @@ certificate#:#certificate_ph_introduction#:#次のプレースフォルダ－が
 certificate#:#certificate_ph_lastaccess#:#ユーザの最終アクセス日時
 certificate#:#certificate_ph_lastname#:#ユーザの姓
 certificate#:#certificate_ph_login#:#Login
-certificate#:#certificate_ph_mark#:#ユーザマーク
+certificate#:#certificate_ph_mark#:#ユーザーのマーク
 certificate#:#certificate_ph_marklong#:#ユーザマーク (オフィシャルバージョン)
 certificate#:#certificate_ph_markshort#:#ユーザマーク (短縮バージョン)
 certificate#:#certificate_ph_matriculation#:#入学者数
@@ -3049,6 +3060,8 @@ cmix#:#conf_user_ident_il_uuid_ext_account#:#emailアドレス処理されたユ
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#これはコール毎に識別化されますが、ユーザに関して直接終結される事に注意願います。
 cmix#:#conf_user_ident_il_uuid_login#:#emailアドレス処理されたユニークなILIASプラットフォームIDで結合されたILIASログイン
 cmix#:#conf_user_ident_il_uuid_login_info#:#これはコール毎に識別化されますが、ILIASユーザに関して直接終結される事に注意願います。
+cmix#:#conf_user_ident_il_uuid_random#:#E-MailアドレスとしてフォーマットされたユニークなILIASプラットフォームIDでランダムIDを結合します。
+cmix#:#conf_user_ident_il_uuid_random_info#:#各ILIASオブジェクトとILIASユーザランダムIDは各コールごとに同じままで生成されます。ユーザに関する結論は、ユーザプロファイルをオブジェクト全体に渡り生成する事が現実的にできなので、極めて限定されています。
 cmix#:#conf_user_ident_il_uuid_user_id#:#emailアドレス処理されたユニークなILIASプラットフォームIDで結合されたILIASユーザID
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎に識別化されますが、ILIASユーザに関して直接終結されない事に注意願います。
 cmix#:#conf_user_ident_info#:#標準はemail addressが使用されます。ユニークなILIASプラットフォームIDは:
@@ -3066,7 +3079,7 @@ cmix#:#conf_user_name_none#:#無し
 cmix#:#conf_user_name_none_info#:#姓名に代えて '-'を送信
 cmix#:#conf_user_registered_mail#:#E-Mail-Addressを登録
 cmix#:#content_privacy_ident#:#リソースのユーザID
-cmix#:#content_privacy_name#:#リシースのユーザ名
+cmix#:#content_privacy_name#:#リソースのユーザ名
 cmix#:#create_lrs_type_form#:#新しいLRS-Type
 cmix#:#create_registration#:#E-Mail addressを登録
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 結果を取得
@@ -3078,7 +3091,7 @@ cmix#:#fetch_xapi_statements#:#Learning Record Storeから結果を取得
 cmix#:#field_user_ident#:#E-Mail-Address
 cmix#:#field_user_ident_info#:#識別用の外部アプリケーションに使用するe-mail addressを入力
 cmix#:#form_change_registration#:#登録
-cmix#:#form_create_registration#:#どう六
+cmix#:#form_create_registration#:#登録
 cmix#:#highscore_achieved_ts#:#Date
 cmix#:#highscore_achieved_ts_description#:#日付けの入った列はランキングへ含まれます。
 cmix#:#highscore_all_tables#:#受講者自身のランクとTOPランク
@@ -3113,7 +3126,7 @@ cmix#:#launch_url#:#リソースのURL
 cmix#:#launch_url_info#:#http:// または https:// の追加によるインターネットアドレスを挿入。 データセキュリティオプションはリモートリソースとも関連がある。
 cmix#:#log_options#:#送信済データ表示用のオプション
 cmix#:#lrs_authentication#:#認証
-cmix#:#online_info#:#これはオブジェクト表示してをユーザへ可視Tにします。
+cmix#:#online_info#:#これはオブジェクト表示してをユーザへ可視にします。
 cmix#:#privacy_options#:#データーセキュリティオプション
 cmix#:#registration_saved_successfully#:#登録は正しく保存されました
 cmix#:#sect_learning_progress_options#:#学習進捗オプション
@@ -3135,6 +3148,8 @@ cmix#:#tbl_statements_date#:#Date
 cmix#:#tbl_statements_object#:#Object
 cmix#:#tbl_statements_verb#:#Verb
 cmix#:#title_info#:#オブジェクトタイトルを提供
+cmix#:#toplist_top_n_results#:#トップランク
+cmix#:#toplist_your_result#:#自己ランク
 cmix#:#use_fetch#:#Fetch-URL経由の認証
 cmix#:#use_fetch_info#:#リソースがこのオプションをサポートする限りデーターセキュリティ向上にはこのオプションを使用すべきです。
 cmix#:#xapi_statements_fetched_successfully#:#Learning Record Storeの結果は正しく取得されました。
@@ -3159,7 +3174,7 @@ cmps#:#cmps_group#:#グループ
 cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
-cmps#:#cmps_inactive#:#アクティブ解除
+cmps#:#cmps_inactive#:#非アクティブ
 cmps#:#cmps_install#:#インストール
 cmps#:#cmps_lang_files#:#言語ファイル
 cmps#:#cmps_lang_prefix#:#言語変数プレフィックス
@@ -3724,7 +3739,7 @@ common#:#delete_inactive_user_accounts_period#:#前回ログインからの経�
 common#:#delete_inactive_user_accounts_period_desc#:#所定の期間内にログインしなかった全てのユーザアクントは削除されます。
 common#:#delete_parameter#:#パラメーターを削除
 common#:#delete_selected_items#:#削除
-common#:#deleted#:#削除しました
+common#:#deleted#:#削除されました
 common#:#deleted_user#:#ユーザは削除されました
 common#:#deleted_users#:#削除したユーザ
 common#:#deletion_notification#:#%s はセッション "%s"　の参加をキャンセルしました。
@@ -3848,6 +3863,7 @@ common#:#err_no_param#:#パラメーターがありません!
 common#:#err_over_3_param#:#3つ以上のパラメーター!
 common#:#err_role_not_assignable#:#ユーザをこのロケーションのこの役割へ割当てることはできません
 common#:#err_session_expired#:#セッションは期限を過ぎました!
+common#:#err_valid_login_account_creation_disabled#:#認証成功しましたが新規ユーザアカウント作成は現在利用不可です。システム管理者へ連絡して下さい。
 common#:#err_wrong_header#:#理由：ヘッダー間違い
 common#:#err_wrong_login#:#ユーザ名またはパスワードが間違っています
 common#:#err_wrong_password#:#パスワードが間違っています
@@ -4013,9 +4029,9 @@ common#:#functions#:#機能
 common#:#further_informations#:#詳細
 common#:#gdf_add#:#定義を追加
 common#:#gdf_new#:#新定義
-common#:#gender#:#性
-common#:#gender_f#:#女性
-common#:#gender_m#:#男性
+common#:#gender#:#挨拶
+common#:#gender_f#:#Ms.
+common#:#gender_m#:#Mr.
 common#:#gender_n#:#挨拶を希望しない
 common#:#general_settings#:#全般設定
 common#:#generate#:#生成
@@ -4183,7 +4199,7 @@ common#:#imprint#:#Legal Notice
 common#:#in#:#in
 common#:#in_use#:#ユーザ言語
 common#:#in_use_by#:#使用者
-common#:#inactive#:#アクティブ解除
+common#:#inactive#:#非アクティブ
 common#:#inbox#:#受信トレイ
 common#:#include_local#:#言語更新時にローカル言語ファイルを含める
 common#:#info#:#インフォメーション
@@ -4244,6 +4260,7 @@ common#:#join#:#参加
 common#:#join_session#:#参加
 common#:#kb#:#KByte
 common#:#keywords#:#キーワード
+common#:#label_search_options#:#検索エリア
 common#:#lang_dateformat#:#Y-m-d
 common#:#lang_path#:#言語Path
 common#:#lang_refresh_confirm#:#本当に全ての言語を更新しますか?
@@ -4450,7 +4467,7 @@ common#:#minutes#:#分
 common#:#missing#:#準備中
 common#:#missing_perm#:#アクセス権がありません
 common#:#missing_precondition#:#前提条件がありません
-common#:#mm_achievements#:#成果
+common#:#mm_achievements#:#実績
 common#:#mm_administration#:#管理
 common#:#mm_badges#:#バッジ
 common#:#mm_calendar#:#カレンダー
@@ -4512,6 +4529,7 @@ common#:#month_12_long#:#12月
 common#:#month_12_short#:#Dec
 common#:#monthly#:#月間
 common#:#months#:#カ月
+common#:#more#:#More
 common#:#mount_webfolder#:#フォルダとして開く
 common#:#move#:#移動
 common#:#move_selected_items#:#移動
@@ -4619,7 +4637,7 @@ common#:#no_accessibility_control_concept_description#:#このシステムには
 common#:#no_agreement_description#:#申し訳ありませんが使用許諾書に関しては別途指示に従ってください。
 common#:#no_checkbox#:#アイテムを最低一つ選択してください。
 common#:#no_condition_selected#:#一つ前提条件を選択してください。
-common#:#no_date#:#日付不明
+common#:#no_date#:#日付不詳
 common#:#no_gallery_users_available#:#現在ギャラリー内にユーザはいません。
 common#:#no_global_role_left#:#どのユーザにも役割を一つ割当てる必要があります。
 common#:#no_import_file_found#:#インポートファイルが見つかりません
@@ -5237,7 +5255,7 @@ common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
 common#:#salutation#:#挨拶
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
-common#:#salutation_n#:#非適用
+common#:#salutation_n#:#挨拶不要
 common#:#saml_log_in#:#ダイレクトログイン
 common#:#saml_login_form_info_txt#:#ユーザ名やパスワードの入力なしでダイレクトログインボタン使ってログインすることができます。
 common#:#saml_login_form_txt#:#SAML経由でILIASへログインする
@@ -5502,6 +5520,7 @@ common#:#toggle_dropdown#:#ドロップダウンをトグル
 common#:#toggleGlobalDefault#:#グローバル 初期設定をトグル
 common#:#toggleGlobalFixed#:#ローバル固定をトグル
 common#:#tomorrow#:#明日
+common#:#tools#:#ツール
 common#:#top_of_page#:#ページのトップ
 common#:#total#:#合計
 common#:#tracking_settings#:#追跡設定
@@ -5978,7 +5997,7 @@ content#:#cont_custom_menu_entries#:#カスタムメニューエントリ
 content#:#cont_custom_size#:#カスタムサイズ
 content#:#cont_dark#:#暗く
 content#:#cont_data_from_lms#:#adlcp：datafromlms
-content#:#cont_de_activate#:#アクティブ/(アクティブ解除)
+content#:#cont_de_activate#:#(De-)Activate
 content#:#cont_deactivate_html#:#HTMLレンダリングをオフにする
 content#:#cont_deactivate_js#:#フォームモードを起動
 content#:#cont_deactivate_media#:#メディアをオフにする
@@ -6184,7 +6203,7 @@ content#:#cont_grid_cell#:#列
 content#:#cont_grid_cell_confirm_deletion#:#列を本当に削除しますか?
 content#:#cont_grid_nr_cells#:#列の番号
 content#:#cont_grid_t_main_side#:#メインとサイドブロック
-content#:#cont_grid_t_main_side_info#:#左に広い列と右に狭い列を作成。1列もモバイルビュー(small)レイアウトへ切り替える。
+content#:#cont_grid_t_main_side_info#:#左に広い列と右に狭い列を作成。1列モバイルビュー(small)レイアウトへ切り替える。
 content#:#cont_grid_t_manual#:#手動でページレイアウトを作成しました
 content#:#cont_grid_t_manual_info#:#列数と幅のフリーデザインを有効
 content#:#cont_grid_t_three_column#:#ツリー-列-レイアウト
@@ -6810,7 +6829,7 @@ content#:#cont_upload_multi_srt_howto#:#この機能により学習モジュー�
 content#:#cont_uploaded_file#:#既存のファイル
 content#:#cont_usage#:#使用
 content#:#cont_use_same_resource_as_above#:#上記と同じリソースを使用
-content#:#cont_user#:#Use
+content#:#cont_user#:#ユーザ
 content#:#cont_user_blocked#:#ラーニングモジュール "%s"の失敗ユーザ
 content#:#cont_user_blocked2#:#ユーザはラーニングモジュールの問題解答に失敗しました。ユーザは招待なしにラーニングモジュールをこれ以上ナビゲートできなくなります。
 content#:#cont_user_blocked3#:#編集モードのラーニングモジュールを開いてスクリーンに入力します:
@@ -7019,7 +7038,7 @@ crs#:#crs_activation_limited_visibility_info#:#選択するとコースは外部
 crs#:#crs_activation_online_info#:#オフラインの場合はコース管理者と指導教員のみしかコース閲覧と編集はできません。
 crs#:#crs_add_archive_html#:#HTMLアーカイブを作成
 crs#:#crs_add_archive_xml#:#XMLアーカイブを作成
-crs#:#crs_add_grouping#:#コース組分けを追加
+crs#:#crs_add_grouping#:#メンバーシップ制限を追加
 crs#:#crs_add_html_archive#:#HTMLアーカイブを追加
 crs#:#crs_add_objective#:#目標追加
 crs#:#crs_add_remove_from_desktop#:#デスクトップへ追加/削除
@@ -7078,7 +7097,7 @@ crs#:#crs_content#:#コース
 crs#:#crs_copy#:#コースをコピー
 crs#:#crs_count_members#:#メンバー数
 crs#:#crs_course_group_notification_link#:#リンク:
-crs#:#crs_course_period_not_valid#:#コース期間が有効ではありません。
+crs#:#crs_course_period_not_valid#:#コース期間設定が有効ではありません。
 crs#:#crs_course_status_of_users#:#ユーザの合格状況
 crs#:#crs_create_date#:#作成日
 crs#:#crs_custom_user_fields#:#関連ユーザデータのコース
@@ -7100,10 +7119,10 @@ crs#:#crs_file_size_info#:#ファイルサイズ
 crs#:#crs_from#:#From
 crs#:#crs_general_info#:#全般情報
 crs#:#crs_general_informations#:#全般情報
-crs#:#crs_grouping_delete_sure#:#本当に次のコース組分けを削除しますか?
-crs#:#crs_grouping_deleted#:#コース組分けを削除しました。
-crs#:#crs_grouping_select_one#:#コース組分けを編集してください。
-crs#:#crs_groupings#:#コース組分け
+crs#:#crs_grouping_delete_sure#:#本当に次のコースメンバーシップ制限を削除しますか?
+crs#:#crs_grouping_deleted#:#コースグループを削除しました。
+crs#:#crs_grouping_select_one#:#コースグループを編集してください。
+crs#:#crs_groupings#:#コースグループ
 crs#:#crs_groups_nr#:#メンバーシップ数
 crs#:#crs_grp_added_grouping#:#新規メンバーシップの制限を追加しました。
 crs#:#crs_grp_already_assigned#:#すでにこのコースグループの登録会員です。
@@ -7111,7 +7130,7 @@ crs#:#crs_grp_assign_crs#:#コースを割当てる
 crs#:#crs_grp_assignments#:#グループに対するコースメンバーの割当
 crs#:#crs_grp_enter_title#:#タイトルを入力してください。
 crs#:#crs_grp_info_reg#:#このコースのどれか一つのみ登録できます
-crs#:#crs_grp_matriculation_required#:#このコース組分けには、ユニークな学籍番号を必要とします。<br />パーソナルデスクトトップの設定にこの値を挿入してください。
+crs#:#crs_grp_matriculation_required#:#このコースグループには、ユニークな学籍番号を必要とします。<br />パーソナルデスクトトップの設定にこの値を挿入してください。
 crs#:#crs_grp_no_courses_assigned#:#コースが割当てされていません。
 crs#:#crs_grp_table_assigned_courses#:#割当て済コース
 crs#:#crs_header_archives#:#コースアーカイブ
@@ -7203,7 +7222,7 @@ crs#:#crs_loc_settings_qt_start_object#:#終了テストが開始オブジェク
 crs#:#crs_loc_settings_qtest_tbl#:#資格テスト設定
 crs#:#crs_loc_settings_reset#:#テスト結果
 crs#:#crs_loc_settings_reset_enable#:#テスト結果のリセットを許可する
-crs#:#crs_loc_settings_reset_enable_info#:#有効にすると全ユーザは個別のテスト結果をリセットしてコースを再開できるようになります。
+crs#:#crs_loc_settings_reset_enable_info#:#有効にすると全てのユーザは個別のテスト結果をリセット可能になりコースを再開始できます。
 crs#:#crs_loc_settings_tbl#:#学習目標志向型コースの設定
 crs#:#crs_loc_settings_tbl_it_nq#:#学習目標あたりの入門試験を診断
 crs#:#crs_loc_settings_tbl_it_q#:#オブジェク当たりの入門試験
@@ -7250,7 +7269,7 @@ crs#:#crs_mail_all#:#全受験者
 crs#:#crs_mail_all_info#:#メンバと管理者と指導教員が"メンバ"タブ内の"メンバへメール"機能を使用できます。
 crs#:#crs_mail_context_member_info#:#コースのinfo画面上のコンタクトemail用
 crs#:#crs_mail_context_member_title#:#コースページInfo
-crs#:#crs_mail_context_tutor_info#:#メンバーとコースの学習進捗画面の参加者email用
+crs#:#crs_mail_context_tutor_info#:#メンバーの参加者用emaiとコースの学習進捗画面
 crs#:#crs_mail_context_tutor_title#:#コースメンバーへメール
 crs#:#crs_mail_permanent_link#:#コースに関する必要な全ての情報を得るには次のリンクをクリック:
 crs#:#crs_mail_tutors_only#:#指導教員と管理者専用
@@ -7325,6 +7344,9 @@ crs#:#crs_objective_pretest#:#初回テストの後
 crs#:#crs_objective_qst_summary#:#問題割り当ての概要
 crs#:#crs_objective_random_warn#:#学習目標と組合わせたランダムテストを使用する事はできません。
 crs#:#crs_objective_result#:#前回テストの後
+crs#:#crs_objective_result_details#:#« 詳細表示
+crs#:#crs_objective_result_summary_initial#:#実力試験: %1$s (%2$s 必須)
+crs#:#crs_objective_result_summary_qualifying#:#学力試験: %1$s (%2$s 必須)
 crs#:#crs_objective_saved_sorting#:#並び替えを保存しました。
 crs#:#crs_objective_self_assessment#:#配置テスト問題
 crs#:#crs_objective_status#:#目標状況
@@ -7363,7 +7385,7 @@ crs#:#crs_passed_status_system#:#システム
 crs#:#crs_password_not_valid#:#パスワードは有効ではありません
 crs#:#crs_password_required#:#この登録手順にはパスワードが必須です。
 crs#:#crs_pdf#:#PDF
-crs#:#crs_period#:#コース期間
+crs#:#crs_period#:#コース期間設定
 crs#:#crs_period_end_mail_placeholder#:#終了点
 crs#:#crs_period_info#:#コースでサポートされるイベントの開始と終了日に関する情報
 crs#:#crs_period_start_mail_placeholder#:#開始点
@@ -7425,7 +7447,7 @@ crs#:#crs_status_changed_body#:#コース "%s" のステータスが更新され
 crs#:#crs_status_determination#:#判定
 crs#:#crs_status_determination_lp#:#学習進捗全体
 crs#:#crs_status_determination_lp_info#:#学習進捗を"完了"にするとコースステータスは自動的に"合格"に変ります。指導教員は手動でステータスの上書きもできます。
-crs#:#crs_status_determination_manual#:#個別学習進捗
+crs#:#crs_status_determination_manual#:#指導教員による手動操作に限定
 crs#:#crs_status_determination_sync#:#全メンバの学習進捗の入った合格状況をすぐに同期する
 crs#:#crs_structure#:#コース構造
 crs#:#crs_subject_course_group_notification#:#%sの日刊メール
@@ -7452,11 +7474,11 @@ crs#:#crs_syllabus#:#シラバス
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#開始オブジェクト
 crs#:#crs_target_group#:#ターゲットグループ
-crs#:#crs_tile_and_objective_view_not_supported#:#"タイトルプレゼンテーション"と "学習オブジェクトプレゼンテーション"を同時に両方アクティブにはできません。
-crs#:#crs_tile_and_session_limit_not_supported#:#"タイトルプレゼンテーション"と "セクション制限"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_objective_view_not_supported#:#タイトルプレゼンテーションと "学習オブジェクトプレゼンテーション"を同時に両方アクティブにはできません。
+crs#:#crs_tile_and_session_limit_not_supported#:#タイトルプレゼンテーションと "セクション制限"を同時に両方アクティブにはできません。
 crs#:#crs_timing_err_start_end#:#終了日は開始日と等しいかそれ以上大きくする必要があります。
-crs#:#crs_timings_activate_optional#:#コース期間のオプションモード
-crs#:#crs_timings_activate_optional_own#:#マイコース期間のオプションモード
+crs#:#crs_timings_activate_optional#:#コース期間設定のオプションモード
+crs#:#crs_timings_activate_optional_own#:#マイコース期間設定のオプションモード
 crs#:#crs_timings_availability_enabled#:#一時利用
 crs#:#crs_timings_changeable#:#時間目標を変える
 crs#:#crs_timings_changed#:#日程が修正されました
@@ -7668,7 +7690,7 @@ dash#:#dash_sortation#:#仕訳
 dash#:#dash_studyprogramme#:#マイ学習プログラム
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#セクション‘マイコースとグループ’
-dash#:#dash_view_favourites#:#セクション‘お気に入り’
+dash#:#dash_view_favourites#:#‘Favourites’セクション
 dateplaner#:#add_appointment#:#予定を追加
 dateplaner#:#app_consultation_hours#:#会議時間
 dateplaner#:#app_day#:#1日表示
@@ -8361,7 +8383,7 @@ didactic#:#didactic_scope#:#範囲
 didactic#:#didactic_scope_list_header#:#限定:
 didactic#:#didactic_selected_tpl_option#:#教則テンプレートを適用しました:
 didactic#:#didactic_template_applied#:#教則テンプレートを適用しました。
-didactic#:#didactic_template_update_import#:#教則クテンプレートを更新
+didactic#:#didactic_template_update_import#:#教則テンプレートを更新
 didactic#:#didactic_template_update_import_info#:#このインポートに沿ってプロパティは変更されます。このテンプレートへ既に適用済みのオブジェクトは変更されません。
 didactic#:#dtpl_obj_type_info#:#この教則テンプレートはこのオブジェクトタイプへ適用することができます。
 didactic#:#effective_form#:#テンプレートの有効開始
@@ -8644,7 +8666,7 @@ exc#:#exc_compare_selected_submissions#:#選択の提出物を比較
 exc#:#exc_compare_submissions#:#提出物を比較
 exc#:#exc_completion_by_submission#:#提出すれば完了
 exc#:#exc_completion_by_submission_info#:#有効にするとファイルを一つ提出すれば課題完了となります。別途点数は手動変更できます。この設定を変更しても提出済みの解答には影響しません。
-exc#:#exc_completion_by_tutor#:#指導教員のマニュアル操作に限定
+exc#:#exc_completion_by_tutor#:#指導教員による手動操作に限定
 exc#:#exc_conf_del_assignments#:#本当に次の課題を削除しますか?
 exc#:#exc_copy#:#演習をコピー
 exc#:#exc_copy_zip_error#:#提出物と開くことができません。ファイルのコピー時にエラーが発生しました。
@@ -8711,8 +8733,8 @@ exc#:#exc_global_feedback_file_date#:#アベイラビリティ,可用性
 exc#:#exc_global_feedback_file_date_deadline#:#締め切り後
 exc#:#exc_global_feedback_file_date_upload#:#提出後
 exc#:#exc_go_to_exercise#:#演習問題へ
-exc#:#exc_grades#:#全体成果
-exc#:#exc_grades_overview#:#成果表示
+exc#:#exc_grades#:#評価概要
+exc#:#exc_grades_overview#:#評価ビュー
 exc#:#exc_hand_in#:#提出する
 exc#:#exc_import#:#演習問題をインポート
 exc#:#exc_individual_deadline#:#個別の期限
@@ -8767,7 +8789,7 @@ exc#:#exc_multi_feedback_files#:#マルチ-フィードバックファイル
 exc#:#exc_needs_deadline#:#この機能は課題締切り一つでのみしか動作しません。
 exc#:#exc_needs_fixed_deadline#:#この機能は締切り固定でしか動作しません。
 exc#:#exc_new_assignment#:#新しい課題
-exc#:#exc_no_assignments_available#:#まだアセスメントが未作成です。最初にアセスメントを作成するには"割当て"と"編集"を開いてください。
+exc#:#exc_no_assignments_available#:#まだ割当てが未作成です。最初に割当てを作成するには"割当て"と"編集"を開いてください。
 exc#:#exc_no_deadline_specified#:#確定期限なし
 exc#:#exc_no_feedback_dir_found_in_zip#:#アップロードされたzipアーカイブのディレクトリ構造を処理できませんでした。
 exc#:#exc_no_get_target#:#有効なターゲットが送られていません。
@@ -9116,6 +9138,9 @@ file#:#personal_resources_disk_quota#:#パーソナルリソース用のハー�
 file#:#personal_resources_disk_quota_info#:#各ユーザごと、グローバル役割ごとのハードディスク制限の規定を許容。 この制限はパーソナルリソースにのファイルとポートフォリオに限り影響します。ユーザが規定の制限値を超えるとILIASは占有ディスクスペースが再度制限を下回るまでuploadを禁止します。
 file#:#personal_resources_quota_exceeded_warning#:#パーソナルリソースのディスク制限を超えました。
 file#:#personal_resources_quota_status_legend#:#利用可能なディスク制限 %2$s (%3$d%%)の%1$s を使用しています。
+file#:#personal_workspace_disk_quota#:#パーソナルワークスペース用のハードディスククォータ
+file#:#personal_workspace_quota_exceeded_warning#:#パーソナルワークスペースのディスククォータを超えました。
+file#:#personal_workspace_quota_status_legend#:#利用できるディスククォータ %2$s (%3$d%%)中の %1$s を使用しています。
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
 file#:#repository_disk_quota#:#リポジトリのソフトクォータ
 file#:#repository_disk_quota_info#:#有効にすると、各ユーザ毎にマガジンのディスククォータがチェックされてオプションで管理者とユーザ宛にメールが送信されます。
@@ -9148,6 +9173,7 @@ form#:#form_hierarchy_add_elements#:#新規要素を追加するにはプレー�
 form#:#form_hierarchy_drag_drop_help#:#要素を移動するにはプレースフォルダアイコンへドラッグしてドロップします。
 form#:#form_hours#:#時間
 form#:#form_image_file_input#:#イメージファイル入力
+form#:#form_invalid_uri#:#無効なURIフォーマット
 form#:#form_link_external#:#外部
 form#:#form_link_internal#:#内部
 form#:#form_location_radius#:#Radius
@@ -9162,11 +9188,12 @@ form#:#form_msg_file_missing_tmp_dir#:#ファイル アップロード用のテ�
 form#:#form_msg_file_no_upload#:#入力必須項目です。アップロード用のファイルを選択してください。
 form#:#form_msg_file_partially_uploaded#:#ファイルはアップロードを完了できませんでした。
 form#:#form_msg_file_size_exceeds#:#アップロード済ファイルは、最大許容ファイルサイズを超えています。
-form#:#form_msg_file_type_is_not_allowed#:#このファイルタイプは仕様できません。
+form#:#form_msg_file_type_is_not_allowed#:#このファイルタイプは利用できません。
 form#:#form_msg_file_upload_stopped_ext#:#ファイルのアップロードは拡大のため停止しました。
 form#:#form_msg_file_virus_found#:#アップロードされたファイルにウイルスがみつかりました。
 form#:#form_msg_file_wrong_file_type#:#ファイルタイプが間違っています。
 form#:#form_msg_formula_is_required#:#正しい公式を入れてください。
+form#:#form_msg_max_upload#:#同時にupload可能なファイルの最大数:
 form#:#form_msg_numeric_value_required#:#数値を入れてください。
 form#:#form_msg_value_too_high#:#値が大きすぎます。小さい値を入力してください。
 form#:#form_msg_value_too_low#:#値が小さすぎます。大きい値を入力してください。
@@ -9327,7 +9354,7 @@ forum#:#frm_statistics_ranking#:#投稿数
 forum#:#frm_sticky_threads_latest_at_top#:#Topの‘Sticky Thread’
 forum#:#frm_sticky_threads_latest_at_top_info#:#‘Sticky Thread’は常時スレッドリストのトップへリストされます。‘Sticky Thread"内の最新投稿ありのスレッドはトップに表示されます。
 forum#:#frm_sticky_threads_manual_sorting#:#‘Sticky Thread’の手動並べ替え
-forum#:#frm_sticky_threads_manual_sorting_info#:#‘Sticky Thread’は常時スレッドリストのトップへ表示されます。‘Sticky Thread’は手動で並び替えできます。
+forum#:#frm_sticky_threads_manual_sorting_info#:#‘Stickyスレッド’は常時スレッドリストのトップへ表示されます。 ‘Stickyスレッド’は手動でソートできます。
 forum#:#frm_subject_setting#:#Subject設定
 forum#:#frm_sure_delete_threads#:#本当に次のスレッドを削除しますか?
 forum#:#frm_sure_merge_threads#:#本当にこれらのスレッドをマージしますか?　警告: これは後戻りできません。ソーススレッドの最初の投稿がターゲットスレッドの最初の投稿以前に行われると最終的にILIASはソースとターゲットのスレッドをスワップします。
@@ -9511,7 +9538,7 @@ grp#:#grp_notification_salutation#:#グループ受講者の皆様へ
 grp#:#grp_notify_off#:#新しい登録無効に関する通知
 grp#:#grp_notify_on#:#新しい登録有効に関する通知
 grp#:#grp_pass_request#:#グループ パスワードで参加
-grp#:#grp_period#:#イベント期間
+grp#:#grp_period#:#グループ期間設定
 grp#:#grp_period_info#:#グループのサポートする開始と終了に関するイベント情報
 grp#:#grp_presentation_type#:#プレゼンテーションタイプ
 grp#:#grp_print_list#:#リストを生成
@@ -9585,6 +9612,7 @@ help#:#help_module_uploaded#:#ヘルプパッケージをアップロードし�
 help#:#help_modules#:#ヘルプパッケージ
 help#:#help_no_content#:#この画面にはヘルプコンテンツがありません。検索ツールを利用できます。
 help#:#help_open_online_help#:#オンライヘルプを開く
+help#:#help_search_label#:#Help検索
 help#:#help_set_mode#:#モードをセット
 help#:#help_sure_delete_help_modules#:#本当にそれらのパッケージを削除しますか。
 help#:#help_toggle_tooltips#:#ツールチップヘルプをトグル
@@ -9780,6 +9808,8 @@ ldap#:#ldap_dn_info#:#LDAP グループの識別名を入力してください�
 ldap#:#ldap_edit_role_ass_rule#:#役割割当てのルールを編集
 ldap#:#ldap_edit_role_assignment#:#役割編集 -> グルーク割当て
 ldap#:#ldap_err_missing_plugin_id#:#有効なプラグインIDを入力してください。
+ldap#:#ldap_escapedn#:#DN回避
+ldap#:#ldap_escapedn_info#:#有効にするとユーザアカウントの"識別名"の特定文字はグループメンバーシップ用の問合せが回避されます。
 ldap#:#ldap_filter_info#:#検索フィルタへ追加されるフィルタは次の通り: (&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_global_role#:#グローバル 役割
 ldap#:#ldap_global_role_assignment#:#ILIAS-役割割当て
@@ -9800,7 +9830,7 @@ ldap#:#ldap_group_name#:#グループ名
 ldap#:#ldap_group_name_info#:#グループユーザの名前は正しく認証されるメンバーである必要があります。
 ldap#:#ldap_group_optional_info#:#有効にするとグループメンバーシップは認証許可を必要としません。これらのグループのメンバーシップ用のユーザフィルタを入力してください。:<br/>(&(userattr=username)<strong>(userfilter)</strong>)
 ldap#:#ldap_group_restrictions#:#グループ メンバーシップの制限
-ldap#:#ldap_group_scope#:#検索範囲
+ldap#:#ldap_group_scope#:#範囲を検索
 ldap#:#ldap_group_scope_info#:#グループ検索の範囲。不確実な場合は"Sub"を選択。
 ldap#:#ldap_group_search_base#:#グループ検索ベース
 ldap#:#ldap_group_user_filter#:#ユーザフィルタ
@@ -9981,7 +10011,7 @@ lso#:#lso_mail_permanent_link#:#あなたの学習シーケンスに関する必
 lso#:#lso_mail_status_bod#:#学習シーケンス"%s"内のステータスは変更されました。
 lso#:#lso_mail_status_sub#:#学習シーケンス"%s"内のステータスを変更しました。
 lso#:#lso_mail_sub_acc_bod#:#学習シーケンス"%s"の登録が完了したことを確認しました。
-lso#:#lso_mail_sub_acc_sub#:#"%s"の登録完了しました
+lso#:#lso_mail_sub_acc_sub#:#%sの登録完了しました
 lso#:#lso_mail_sub_dec_bod#:#残念ながら学習シーケンス"%s"の登録は拒否されました。
 lso#:#lso_mail_sub_dec_sub#:#学習シーケンス"%s"の登録を拒否しました。
 lso#:#lso_mail_subscribe_member_bod#:#学習シーケンス"%s"の登録が確認されたことを案内します。
@@ -10255,6 +10285,8 @@ lti#:#tbl_provider_header#:#LTI Provider
 lti#:#tbl_provider_usage_header#:#LTI Provider
 lti#:#tbl_provider_usage_header_info#:#プロバイダー削除前にゴミ箱の利用状況も削除しなければなりません。
 lti#:#title_info#:#タイトルをオブジェクトにする
+lti#:#toplist_top_n_results#:#トップランク
+lti#:#toplist_your_result#:#自己ランク
 lti#:#usage_subtab#:#利用状況
 lti#:#use_xapi#:#xAPI-Supportを使用
 lti#:#use_xapi_info#:#このLTI ProviderはxAPI-Statementsをサポートします。
@@ -10262,7 +10294,6 @@ lti#:#user_lng#:#User言語
 lti#:#user_provider_subtab#:#ユーザ別プロバイダー定義
 ltiv#:#ltiv_create#:#LTI Consumerオブジェクト用の証明書を作成
 ltiv#:#ltiv_create_info#:#証明書作成用の完了したLTI consumerオブジェクトを選択
-mail#:#activate_serial_letter_placeholders#:#定型文のプレースフォルダを利用
 mail#:#back_to_folder#:#フォルダへ戻る
 mail#:#bc#:#BCC
 mail#:#chat_users_have_been_invited#:#ユーザは招待されています。
@@ -10418,6 +10449,7 @@ mail#:#mail_salutation_male#:#男性向けのプレースフォルダ[MAIL_SALUT
 mail#:#mail_salutation_n#:#こんにちは
 mail#:#mail_saved#:#メッセージは保存されました
 mail#:#mail_second_email#:#第2メールアドレス
+mail#:#mail_sel_label#:#受信者を選択
 mail#:#mail_sel_users#:#選択したユーザへメールを送信
 mail#:#mail_select_attachment#:#ダウンロード用の添付ファイルを選択してください。
 mail#:#mail_select_course#:#コースを一つは選択してください。
@@ -11355,6 +11387,7 @@ mme#:#field_ref_id#:#ILIAS Reference-ID
 mme#:#field_ref_id_info#:#リポジトリに希望する ILIAS-オブジェクトの Reference-ID は、オブジェクトのURL内の Reference-ID(...?ref_id=123) に見つかります。
 mme#:#field_url#:#URL
 mme#:#field_url_info#:#http(s)://で始まる希望する website へのリンク:
+mme#:#flush#:#紛失アイテムを削除
 mme#:#item_must_be_always_active#:#アイテムはアクティブにしなければなりません。
 mme#:#main#:#メインメニュー
 mme#:#mm_translation_lang#:#言語
@@ -11363,6 +11396,7 @@ mme#:#msg_languages_added#:#言語を追加しました
 mme#:#msg_restore_confirm#:#全カスタム項目と翻訳は削除されて全標準項目が工場出荷値へリセットされます。カスタマイズ化全ては消去されます。
 mme#:#msg_restored#:#メインメニューを完全にリセット
 mme#:#msg_subitem_deleted#:#アイテムを削除しました。
+mme#:#msg_subitem_flushed#:#紛失アイテムを削除しました。
 mme#:#msg_topitem_deleted#:#アイテムを削除しました。
 mme#:#msg_translations_deleted#:#翻訳を削除しました
 mme#:#msg_translations_saved#:#翻訳を保存しました
@@ -11616,7 +11650,7 @@ obj#:#obj_orgunit_positions#:#組織ユニットポジションによるアク�
 obj#:#obj_orgunit_positions_info#:#有効にすると追加のアクセス制御ルールは組織ユニット内のポジションにより定義することができます。
 obj#:#obj_permission_settings#:#アクセス権設定
 obj#:#obj_presentation#:#プレゼンテーション
-obj#:#obj_select_master_lang#:#マスタ言語を選択してください。現在のコンテンツはマスタ言語に割り当てられます。マスタ言語は以降変更できなくなります。
+obj#:#obj_select_master_lang#:#マスター言語を選択してください。現状のコンテンツは、マスター言語へ割当てられます。マスター言語はその後の変更はできません。
 obj#:#obj_settings_for_all_members#:#メンバーは自動的に通知されます。
 obj#:#obj_show_header_actions#:#Header Actionsを表示
 obj#:#obj_show_title_and_icon#:#タイトルとアイコンを表示
@@ -11706,7 +11740,7 @@ orgu#:#orgu_add#:#組織単位を追加
 orgu#:#orgu_adv_settings#:#拡張設定
 orgu#:#orgu_already_deleted#:#オブジェクトはすでに削除されました。
 orgu#:#orgu_enable_my_staff#:#‘Staff’ビューを有効にする
-orgu#:#orgu_enable_my_staff_info#:#‘Staff’ビューは従業員自身の学習進捗を表示します。
+orgu#:#orgu_enable_my_staff_info#:#自身従業員の学習進捗を表示
 orgu#:#orgu_global_set_form#:#グローバル組織ユニット設定
 orgu#:#orgu_global_set_positions#:#組織ユニットポジションによるユーザデータを表示
 orgu#:#orgu_global_set_positions_type_active#:#アクティブ:
@@ -11782,7 +11816,7 @@ pd#:#block_show_pdportf#:#ポートフォリオを表示
 pd#:#block_show_pdtag#:#マイタグを表示
 pd#:#block_show_pdtasks#:#タスクを表示
 pd#:#block_show_x#:#%s を表示
-pd#:#pd_achievements#:#学力
+pd#:#pd_achievements#:#実績
 pd#:#pd_bookmarks#:#ブックマーク
 pd#:#pd_download_last_export_file#:#最終エクスポートファイルをダンロード
 pd#:#pd_enable_comments#:#コメントを有効化
@@ -11819,9 +11853,9 @@ pdfgen#:#config_not_saved#:#保存失敗
 pdfgen#:#config_saved#:#正しく保存されました
 pdfgen#:#configure#:#レンダラーを構成
 pdfgen#:#enable_forms#:#フォームを有効にする
-pdfgen#:#enable_forms_info#:#HTMLフォームフィールドをpdfフォームフイールド内へ転換
+pdfgen#:#enable_forms_info#:#HTMLフォームフィールドをpdfフォームフイールドへ切り替える
 pdfgen#:#external_links#:#外部リンク
-pdfgen#:#external_links_info#:#リモートwebページへのリンクをワーク
+pdfgen#:#external_links_info#:#リモートwebページへのリンクを作成
 pdfgen#:#footer_height#:#フッター高さ
 pdfgen#:#footer_html#:#Html
 pdfgen#:#footer_line#:#Footer line
@@ -11832,7 +11866,7 @@ pdfgen#:#footer_text_left#:#左そろえ
 pdfgen#:#footer_text_right#:#右そろえ
 pdfgen#:#footer_type#:#フッター
 pdfgen#:#greyscale#:#グレースケール
-pdfgen#:#greyscale_info#:#PDFはグレースケール内に作成されます。
+pdfgen#:#greyscale_info#:#PDFはグレースケールで作成されます。
 pdfgen#:#head_text#:#テキスト
 pdfgen#:#header_height#:#ヘッダー高さ
 pdfgen#:#header_line#:#Header line
@@ -11971,6 +12005,7 @@ prg#:#modal_automembership_title#:#自動化を追加
 prg#:#modal_categories_title#:#モニターすべきカテゴリー
 prg#:#modal_member_auto_select_title#:#自動割当て用のソースを選択
 prg#:#msg_fill_required#:#全ての必須フィールドに入力してください。
+prg#:#no_srctype_or_id#:#IDとタイプが空でない可能性があります。
 prg#:#not_a_valid_cat_id#:#%sはカテゴリーの有効なref-id ではありません。
 prg#:#orgu#:#Organisational Unit
 prg#:#percentage#:#%
@@ -12194,7 +12229,7 @@ prtf#:#prtf_all_pages#:#全ページ
 prtf#:#prtf_allow_html#:#HTML/Javascript使用を許可
 prtf#:#prtf_allow_html_info#:#ユーザへHTMLまたはJavascriptどちらでもポートフォリオページに含む事を可能にします。セキュリティー事項を優先にできます。
 prtf#:#prtf_allow_my_courses#:# "マイコース"のページ要素
-prtf#:#prtf_allow_my_courses_info#:#ポートフォリオ中の現在のコースメンバーシップリストを含むようにする
+prtf#:#prtf_allow_my_courses_info#:#ポートフォリアオ内へ現状のコースメンバーリストを含む事を可能にする
 prtf#:#prtf_author#:#著者
 prtf#:#prtf_back_to_portfolio_owner#:#ポートフォリオを編集
 prtf#:#prtf_banner#:#バナー
@@ -12398,7 +12433,7 @@ pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定され�
 pwassist#:#pwassist_mail_subject#:#ILIAS パスワード支援
 pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ "%1$s"へ割当てられました。
 pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.\nパスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
-pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-ミスによりこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. インターネットブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
+pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-誤ってこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. ブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。アドレスが数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページと合わせて使用します。
 pwassist#:#unassist_disabled_no_access#:#ユーザ名支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
 pwsp#:#pwsp_enable_personal_resources#:#パーソナルリソースを有効化
 pwsp#:#pwsp_enable_wsp_blogs#:#ブログを有効化
@@ -12546,6 +12581,7 @@ rbac#:#cld_delete#:#ユーザはクラウドオブジェクトを削除できま
 rbac#:#cld_delete_files#:#ユーザはクラウドオブジェクト内のファイルを削除できます
 rbac#:#cld_delete_folders#:#ユーザはクラウドオブジェクト内のフォルダを削除できます
 rbac#:#cld_download#:#ユーザはクラウドオブジェクトからファイルをダウンロードできます
+rbac#:#cld_edit_in_online_editor#:#ユーザはオンラインエディタ内でファイル編集とオープンができます。
 rbac#:#cld_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#cld_files_visible#:#ファイルはクラウドオブジェクト内に表示されます
 rbac#:#cld_folders_create#:#フォルダがクラウドオブジェクト内に作成される可能性があります
@@ -12613,6 +12649,7 @@ rbac#:#dcl_write#:#ユーザは設定とデータ収集内容の編集ができ�
 rbac#:#delete_files#:#ファイルを削除
 rbac#:#delete_folders#:#フォルダを削除
 rbac#:#delete_wiki_pages#:#ページを削除
+rbac#:#delete_xapi_data#:#xAPI/cmi5 Dataを削除
 rbac#:#dshs_change_presentation#:#ダッシュボードビューのプレゼンテーションを変更
 rbac#:#dshs_edit_permission#:#ユーザはダッシュボード管理設定のアクセス権を変更できます
 rbac#:#dshs_read#:#ユーザはダッシュボード管理の読込アクセス権があります
@@ -12623,10 +12660,11 @@ rbac#:#ecss_read#:#ユーザはECS設定全般を読込む事ができます
 rbac#:#ecss_visible#:#ECS設定を表示
 rbac#:#ecss_write#:#ユーザはECS設定を編集できます
 rbac#:#edit_event#:#カレンダーを編集
+rbac#:#edit_in_online_editor#:#オンラインエディタ内で開く
 rbac#:#edit_learning_progress#:#学習進捗を編集
 rbac#:#edit_members#:#メンバーを管理
 rbac#:#edit_permission#:#アクセス権変更
-rbac#:#edit_roleassignment#:#アセスメント役割を編集
+rbac#:#edit_roleassignment#:#役割の割当てを編集
 rbac#:#edit_submissions_grades#:#提出とグレードを編集
 rbac#:#edit_userassignment#:#ユーザ割当てを編集
 rbac#:#edit_wiki_navigation#:#ナビゲーションを編集
@@ -12897,7 +12935,7 @@ rbac#:#poll_edit_permission#:#ユーザはアクセス権設定を変更でき�
 rbac#:#poll_read#:#ユーザは投票へ参加できます
 rbac#:#poll_visible#:#投票を表示
 rbac#:#poll_write#:#ユーザは投票設定と内容を編集できます
-rbac#:#positions_override_operations#:#グローバル設定を無視
+rbac#:#positions_override_operations#:#グローバル設定を上書き
 rbac#:#precondition_not_obligatory_alt#:#前提条件はオプションです
 rbac#:#precondition_num_obligatory#:#必須教材数
 rbac#:#precondition_num_optional_info#:#この前提条件を満足させるのに必須となる最小教材数を入力してください。
@@ -12982,7 +13020,7 @@ rbac#:#rbac_create_fold#:#フォルダ作成
 rbac#:#rbac_create_frm#:#フォーラムを作成
 rbac#:#rbac_create_glo#:#用語集を作成
 rbac#:#rbac_create_grp#:#グループを作成
-rbac#:#rbac_create_grpr#:#グループリンクを作成
+rbac#:#rbac_create_grpr#:#グループレファレンスを作成
 rbac#:#rbac_create_htlm#:#HTMLラーニングモジュールを作成
 rbac#:#rbac_create_iass#:#個別アセスメントを作成
 rbac#:#rbac_create_itgr#:#アイテムグループ作成
@@ -13009,7 +13047,7 @@ rbac#:#rbac_create_usr#:#ユーザはユーザアカウントを作成できま�
 rbac#:#rbac_create_webr#:#Webリンクを作成
 rbac#:#rbac_create_wiki#:#Wikiを作成
 rbac#:#rbac_delete_local_policies#:#ローカルポリシーを削除
-rbac#:#rbac_delete_local_policies_info#:#有効にすると全てのローカルポリシーは削除されます。オブジェクトの権限は書き換えられて保護されます。
+rbac#:#rbac_delete_local_policies_info#:#有効にすると全てのローカルポリシーは削除されます。オブジェクトのアクセス権は再度書き込みされて保護されます。
 rbac#:#rbac_delete_role#:#役割を削除
 rbac#:#rbac_edit_condition#:#前提条件の編集
 rbac#:#rbac_form_copy_roles_adjust_button#:#アクセス権を適合
@@ -13264,7 +13302,7 @@ rbac#:#webr_visible#:#Webリンクを表示
 rbac#:#webr_write#:#ユーザはWebリンクの設定編集ができます
 rbac#:#wfe_edit_permission#:#ユーザはワークフォローエンジン管理のアクセス権設定を変更できます。
 rbac#:#wfe_read#:#ユーザはワークフローエンジンの管理へ読み込みアクセス権があります。
-rbac#:#wfe_visible#:#ワークフローエンジン管理を憑依します
+rbac#:#wfe_visible#:#ワークフローエンジン管理を表示します
 rbac#:#wfe_write#:#ユーザはワークフォローエンジンの設定を変更できます
 rbac#:#wiki_activate_wiki_protection#:#Wikiページを読み取り専用へ設定
 rbac#:#wiki_copy#:#ユーザはWikiをコピーできます
@@ -13448,6 +13486,7 @@ rep#:#rep_new_item_group_unassigned#:#割当てなし
 rep#:#rep_new_item_group_unassigned_subitems#:#未割当てオブジェクト数: %s
 rep#:#rep_new_item_groups#:#グループ化
 rep#:#rep_new_item_menu#:#新規アイテム- メニュを追加
+rep#:#rep_no_last_visited_mess#:#まだ、どの教材も訪問していません。
 rep#:#rep_no_permission_to_delete#:#削除の権限がありません
 rep#:#rep_object_lists#:#オブジェクト一覧
 rep#:#rep_object_references_cannot_be_read#:#%sの詳細を参照する権限がありません。
@@ -13857,6 +13896,7 @@ search#:#search_details_info#:#詳細検索。1つまたは複数のリソース
 search#:#search_direct#:#ダイレクト検索
 search#:#search_err_user_not_exist#:#そのログイン名のユーザは存在しません。
 search#:#search_fast_info#:#全てのオブジェクトタイプのタイトル、説明、キーワードを検索
+search#:#search_field#:#検索入力フィールド
 search#:#search_filter_by_type#:#タイプでフィルタ
 search#:#search_filter_cd#:#作成日でフィルター
 search#:#search_for_crs_members#:#コースメンバーの検索
@@ -13889,6 +13929,7 @@ search#:#search_no_match#:#検索結果が一致しませんでした
 search#:#search_no_match_hint#:#検索 - <b>%s</b> - 一致するドキュメントがありません。<br /><br />提案<br />・スペル間違いがないか確認<br />・別のキーワードで検索<br />・より一般的なキーワードで検索<br />・さらに絞り込んだキーワードで検索
 search#:#search_no_selection#:#何も選択されませんでした。
 search#:#search_off#:#Off
+search#:#search_on#:#On
 search#:#search_option_offline#:#オフライン
 search#:#search_option_online#:#オンライン
 search#:#search_results#:#検索結果
@@ -14803,7 +14844,7 @@ survey#:#insert_missing_question#:#サーベイへ挿入するために質問を
 survey#:#insert_missing_questionblock#:#サーベイへ挿入するために質問ブロックを最低１つ選択してください!
 survey#:#insert_saved_message#:#メッセージテキストを入力します
 survey#:#internal_link#:#内部リンク
-survey#:#introduction#:#導入部(背景、目的など)
+survey#:#introduction#:#紹介文
 survey#:#invited_users#:#ユーザを選択
 survey#:#label#:#ラベル
 survey#:#label_info#:#今後のデータ処理用の代わりの識別子(例 SPSS)
@@ -14818,7 +14859,7 @@ survey#:#mail_sent_short#:#送信済み
 survey#:#mail_survey_codes#:#メールアクセスコードまたはメッセージ
 survey#:#mailaddresses#:#受信者アドレス
 survey#:#mailaddresses_info#:#サーベーイ終了時に通知を受け取る受信者のカンマ区切りリストを入力します。
-survey#:#mailnotification#:#各終了サーベイ用の個別e-mail
+survey#:#mailnotification#:#各サーベイ終了ごとに個別e-mail
 survey#:#mailparticipantdata#:#追加受講者のデータ
 survey#:#mailparticipantdata_info#:#この情報は通知メールの結果セクションへ自動的に含まれるように優先されます。
 survey#:#mailparticipantdata_placeholder#:#これらのプレースフォルダは"プライバシ"が"名前あり"になっていると実際のユーザデータで置き換えられます:
@@ -14899,7 +14940,7 @@ survey#:#or#:#or
 survey#:#orientation#:#方向
 survey#:#other_answer#:#他の回答
 survey#:#other_answer_label#:#その他の回答のラベル(オプション)
-survey#:#outro#:#アウトロ(文の最後)
+survey#:#outro#:#結語
 survey#:#percentage_of_selections#:#この回答を選択したユーザのパーセント
 survey#:#phrase_added#:#フレーズの追加
 survey#:#phrase_new#:#新しいフレーズを作成
@@ -15094,6 +15135,7 @@ survey#:#survey_not_available#:#該当なし
 survey#:#survey_notification_finished_introduction#:#次の参加者はサーベイを終了しました。
 survey#:#survey_notification_finished_reason#:#上記のサーベイ通知を有効にしている者はこのメールを受領します。
 survey#:#survey_notification_target_group#:#ターゲットグループ
+survey#:#survey_notification_target_group_invited#:#サーベイへ手動で招待された全ユーザ
 survey#:#survey_notification_target_group_invited_info#:#現在の招待ユーザ: %s
 survey#:#survey_notification_target_group_parent_course#:#親コース/グループの全メンバ
 survey#:#survey_notification_target_group_parent_course_inactive#:#親コース/グループなしの者 - 注意喚起はありません!
@@ -15102,10 +15144,10 @@ survey#:#survey_notification_tutor_link#:#サーベイへリンク
 survey#:#survey_notification_tutor_recipients#:#指導教員(Login[s])
 survey#:#survey_notification_tutor_recipients_invalid#:#書込みアクセス権ありのユーザを宣言してください。
 survey#:#survey_notification_tutor_salutation#:#こんにちは%s, さん
-survey#:#survey_notification_tutor_setting#:#全受験者が終了後の1通のe-mail
+survey#:#survey_notification_tutor_setting#:#全受験者が終了後1通のe-mail
 survey#:#survey_notification_tutor_subject#:#全ての参加者はサーベイ"%s"を終了しました。
 survey#:#survey_order#:#順番をソート
-survey#:#survey_page_moved#:#ページは削除されました
+survey#:#survey_page_moved#:#ページは移動されました
 survey#:#survey_per_page_view#:#ページビュー
 survey#:#survey_pool_selection#:#質問集選択
 survey#:#survey_prev_question#:#前のページ
@@ -15128,20 +15170,21 @@ survey#:#survey_questions_to_clipboard_copy#:#質問がクリップボードに�
 survey#:#survey_questions_to_clipboard_cut#:#質問がクリップボードにコピーされました。ターゲットまたは空のクリップボードを選択してください。
 survey#:#survey_reached_level#:#達成したレベル
 survey#:#survey_reminder_body#:#次のサーベイはまだ終了していません。
+survey#:#survey_reminder_cron#:#参加するようにユーザへ念押し / 指導教員へ結果送信
 survey#:#survey_reminder_cron_info#:#有効にするとユーザはサーベイへの参加を注意喚起されます。
 survey#:#survey_reminder_end#:#終わり
 survey#:#survey_reminder_frequency#:#間隔
 survey#:#survey_reminder_frequency_days#:#日数
 survey#:#survey_reminder_link#:#URL
 survey#:#survey_reminder_salutation#:#こんにちは%s, さん
-survey#:#survey_reminder_setting#:#ユーザへ参加を注意喚起
+survey#:#survey_reminder_setting#:#ユーザへ参加の注意喚起
 survey#:#survey_reminder_start#:#開始
 survey#:#survey_reminder_subject#:#サーベイ"%s"は終了していません。
 survey#:#survey_remove_competence#:#能力を削除
 survey#:#survey_results_anonymization#:#プライバシー
 survey#:#survey_results_anonymized#:#無記名
-survey#:#survey_results_anonymized_info#:#結果タブの受験者名はコードで置き換えられます。このタブへアクセスするユーザは、属性回答を‘iTXaF’(例)を除き受講者名へできません。
-survey#:#survey_results_finished#:#終了のサーベイ
+survey#:#survey_results_anonymized_info#:#結果タブの受験者名はコードで置き換えられます。このタブへアクセスするユーザは、ユーザ’iTXaF’(例)を除き受講者名へ変更できません。
+survey#:#survey_results_finished#:#サーベイ終了
 survey#:#survey_results_not_started#:#サーベイは開始していません
 survey#:#survey_results_personalized#:#名前あり
 survey#:#survey_results_personalized_info#:#受験者の名前"結果"タブとそれぞれの回答が一覧表示されます。 このアタブへアクセスするユーザは回答した者を調査できます。
@@ -15206,7 +15249,7 @@ survey#:#svy_eval_skipped_value#:#結果: "スキップ"
 survey#:#svy_eval_skipped_value_custom#:#カスタム値を使用
 survey#:#svy_eval_skipped_value_custom_info#:#スキップ回答に使用する値(または空)を定義する
 survey#:#svy_eval_skipped_value_custom_value#:#値
-survey#:#svy_eval_skipped_value_lng#:#言語ファイルエントリを使用
+survey#:#svy_eval_skipped_value_lng#:#言語ファイルエントリーを使用
 survey#:#svy_eval_skipped_value_lng_info#:#現在の値: "%s"
 survey#:#svy_eval_user#:#受験者ごと
 survey#:#svy_eval_view#:#ビュー
@@ -15246,9 +15289,9 @@ survey#:#svy_print_hide_labels#:#ラベルを非表示
 survey#:#svy_print_show_labels#:#ラベルを表示
 survey#:#svy_reminder_mail_template#:#メールテンプレート
 survey#:#svy_reminder_mail_template_none#:#メールテンプレートを使用してはいけません
-survey#:#svy_result_mail_notification_info#:#サーベイ終了時に各参加者の結果は確定済みの受講者へ送信されます。
+survey#:#svy_result_mail_notification_info#:#サーベイ終了時に各参加者の結果は指定の受講者へ送信されます。
 survey#:#svy_results#:#結果
-survey#:#svy_results_mail_confirm#:#受講者は受講確認を要求できます
+survey#:#svy_results_mail_confirm#:#受講者は受講確認を要求可能
 survey#:#svy_results_mail_confirm_info#:#受講者はサーベイ最後に受講確認のメールを要求できます。
 survey#:#svy_results_mail_own#:#参加者は自身の回答をメールすることができます
 survey#:#svy_results_mail_own_info#:#参加者は自身の回答を含むメールを要求できます。
@@ -15300,7 +15343,7 @@ svy#:#svy_part_overview#:#概要
 svy#:#svy_remove_all_participants#:#全受講者を削除
 svy#:#svy_remove_participants#:#受講者を削除
 svy#:#svy_status#:#ステータス
-svy#:#svy_status_finished#:#終了しました
+svy#:#svy_status_finished#:#終了
 svy#:#svy_status_in_progress#:#進行中
 svy#:#svy_status_invited#:#招待済
 svy#:#svy_user_added_360_appraisee#:#360度サーベイ'%1'
@@ -15346,7 +15389,7 @@ sysc#:#sysc_task_tree_missing_reference#:#欠損オブジェクトレファレ�
 sysc#:#sysc_task_tree_missing_reference_desc#:#検索してリポジトリツリー内の欠損オブジェクトレファレンスをリペアします。
 sysc#:#sysc_task_tree_missing_tree#:#リポジトリ内の欠損エントリー
 sysc#:#sysc_task_tree_missing_tree_desc#:#検索してリポジトリツリー内の欠損エントリーをリペア
-sysc#:#sysc_trash_action#:#アクション
+sysc#:#sysc_trash_action#:#Action
 sysc#:#sysc_trash_limit_age#:#期間制限
 sysc#:#sysc_trash_limit_num#:#数字制限
 sysc#:#sysc_trash_limit_type#:#タイプ制限
@@ -15358,6 +15401,9 @@ sysc#:#sysc_tree_duplicate_failures#:#ツリー構造内の重複エントリー
 sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成されました。ツリー構造内のエラー数。
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
 sysc#:#sysc_tree_structure_failures#:#ツリー構造(親-関係)内の不良数:
+tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
+tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択 
+tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
 tagging#:#tag_tags_deleted#:#タグはアクセス可能なオブジェクトから削除されました
@@ -15590,6 +15636,12 @@ trac#:#trac_measure#:#図
 trac#:#trac_members_short#:#メンバ
 trac#:#trac_min_passed#:#合格した教材の最小数:
 trac#:#trac_mode#:#モード
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。
+trac#:#trac_mode_cmix_compl_with_failed#:#動詞'完了'が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。
+trac#:#trac_mode_cmix_completed#:#動詞'完了'が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。
+trac#:#trac_mode_cmix_completed_or_passed#:#動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。
+trac#:#trac_mode_cmix_passed#:#動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'進行中'へセット。
+trac#:#trac_mode_cmix_passed_with_failed#:#動詞'合格'または'良好!が送られたら終了。動詞 '失敗'はILIASのステータスを'失敗'へセット。
 trac#:#trac_mode_collection#:#ステータスはアイテムの収集により決定されます
 trac#:#trac_mode_collection_info#:#ユーザの学習進捗ステータスはアイテムの収集する学習進捗により決定されます。収集する全てのアイテムが'完了'の場合は、全般ステータスは'完了'となります。<br/>この設定を保存するとアイテムはこの画面上で収集を割り当てることができます。
 trac#:#trac_mode_collection_manual#:#ユーザをモニターして章単位で自身のステータスを設定
@@ -16189,33 +16241,6 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
-book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
-book#:#book_set_delete#:#Delete###27 11 2020 new variable
-cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
-cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
-common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
-search#:#search_field#:#Search Input Field###29 01 2021 new variable
-search#:#search_on#:#On###29 01 2021 new variable
-administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
-administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
-mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
-mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
-file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
-file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
-common#:#tools#:#Tools###05 02 2021 new variable
-common#:#more#:#More###05 02 2021 new variable
-rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
-rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
-prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
-assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
-assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
-form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
-survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
-survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
-auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
-tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
-tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
-tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
-form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###25 06 2021 new variable
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###25 06 2021 new variable

@@ -1,41 +1,57 @@
 ILIAS Maintenance
 =================
-The development of the ILIAS source code is coordinated and maintained by a coordination team within the ILIAS network. Besides the main responsibilities for the project, several developers and users are maintaining certain modules of ILIAS.
+The development of the ILIAS source code is coordinated and maintained by a coordination team within the ILIAS 
+network. Besides the main responsibilities for the project, several developers and users are maintaining certain 
+modules of ILIAS.
 
 # Special Roles
 
 * **Product Management**: [Matthias Kunkel]
-* **Technical Board**: [Alexander Killing], [Michael Jansen], [Timon Amstutz], [Richard Klees], [Stephan Winiker]
+* **Technical Board**: [Timon Amstutz], [Michael Jansen], [Richard Klees], [Fabian Schmid], [Stephan Winiker]
 * **Testcase Management**: [Fabian Kruse]
-* **Documentation**: [Florian Suittenpointner]
+* **Documentation**: N.A.
 * **Online Help**: [Alexandra Tödt]
 
 # Maintainers
-We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described in the development guide.
+We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS 
+source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described 
+in the development guide.
  
-Communication among developers that are working on a specific component needs to be assured. Final decision about getting write access to the ILIAS development system (Github) is handled by the product manager.
+Communication among developers that are working on a specific component needs to be assured. Final decision about 
+getting write access to the ILIAS development system (Github) is handled by the product manager.
  
 ILIAS is currently maintained by three types of Maintainerships:
 
 - First Component Maintainer
 - Second Component Maintainer
-- [Coordinator Model](maintenance-coordinator.md) 
+- [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) 
  
-The following rules must be respected for everyone involved in the programming of ILIAS for all components having a listed component maintainer (see below):
+The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
+listed component maintainer (see below):
 
-1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager in the Jour Fixe meetings after an open discussion.
-2. All components have a first and second maintainer. Code changes are usually done by the first maintainer. The first maintainer may forward new implementations to the second maintainer.
+1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager 
+in the Jour Fixe meetings after an open discussion.
+2. All components have a first and second maintainer. Code changes are usually done by the first maintainer. The first 
+maintainer may forward new implementations to the second maintainer.
 
 Responsibilities of a component maintainer:
 
-- Component maintainer must assure maintenance of their component for at least three years (approx. three ILIAS major releases).
+- Component maintainer must assure maintenance of their component for at least three years (approx. three ILIAS major 
+releases).
 - Component maintainers must agree to coordinate the development of their component with the product manager.
-- Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically by the [Issue-Tracker](http://mantis.ilias.de).
+- Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically 
+by the [Issue-Tracker](https://mantis.ilias.de).
 
 
 ## Becoming a Maintainer
 
-Applications for maintainerships can be handed in to the product manager. The product manager together with the technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In addition the company the maintainer is working for can be listed, too. In this second case the company can suggest a new maintainer to the product manager, if the employee leaves the company.
+Applications for maintainerships can be handed in to the product manager. The product manager together with the 
+technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
+addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
+propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
+for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
+substantially in the general condition of the component and the proposed maintainer meets the criteria.
+
 
 ## Current Maintainerships
 
@@ -87,12 +103,6 @@ Applications for maintainerships can be handed in to the product manager. The pr
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
 
-* **CSS / Templates**
-	* 1st Maintainer: [braun](https://docu.ilias.de/goto_docu_usr_27123.html)
-	* 2nd Maintainer: [amstutz](https://docu.ilias.de/goto_docu_usr_26468.html)
-	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-	* Tester: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
-
 * **Calendar**
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
@@ -109,7 +119,7 @@ Applications for maintainerships can be handed in to the product manager. The pr
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: Manuel Müller, ZWH
+	* Tester: [m-gregory-m](https://docu.ilias.de/goto_docu_usr_51332.html)
 
 * **Chat**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
@@ -161,7 +171,7 @@ Applications for maintainerships can be handed in to the product manager. The pr
 
 * **Cron Service**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
@@ -202,7 +212,7 @@ Applications for maintainerships can be handed in to the product manager. The pr
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
 * **ECS Interface**
-	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
+	* 1st Maintainer: [PerPascalSeeland](https://docu.ilias.de/goto_docu_usr_31492.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -580,7 +590,7 @@ Applications for maintainerships can be handed in to the product manager. The pr
 	* Tester: Tested separately in each module that supports taxonomies
 
 * **Test & Assessment**
-	* 1st Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
 	* Testcases: SIG E-Assessment
 	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU), [dehling](https://docu.ilias.de/goto_docu_usr_12725.html), [kderr](https://docu.ilias.de/goto_docu_usr_28900.html), [sdittebrand](https://docu.ilias.de/goto_docu_usr_77841.html), [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html), [rabah](https://docu.ilias.de/goto_docu_usr_40218.html), [vreuschen](https://docu.ilias.de/goto_docu_usr_14382.html)

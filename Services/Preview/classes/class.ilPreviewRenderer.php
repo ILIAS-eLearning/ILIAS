@@ -130,8 +130,8 @@ abstract class ilPreviewRenderer
             $this->getImageQuality(),
             ilUtil::escapeShellArg($dest_img_path)
         );
-        
-        ilUtil::execConvert($args);
+    
+        ilUtil::execQuoted(PATH_TO_CONVERT, $args);
         
         return is_file($dest_img_path);
     }

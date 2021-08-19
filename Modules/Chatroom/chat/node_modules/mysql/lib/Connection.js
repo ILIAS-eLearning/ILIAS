@@ -27,38 +27,35 @@ Connection.createQuery = function createQuery(sql, values, callback) {
     return sql;
   }
 
-  var cb      = wrapCallbackInDomain(null, callback);
+  var cb      = callback;
   var options = {};
 
   if (typeof sql === 'function') {
-    cb = wrapCallbackInDomain(null, sql);
-    return new Query(options, cb);
-  }
-
-  if (typeof sql === 'object') {
-    for (var prop in sql) {
-      options[prop] = sql[prop];
-    }
+    cb = sql;
+  } else if (typeof sql === 'object') {
+    options = Object.create(sql);
 
     if (typeof values === 'function') {
-      cb = wrapCallbackInDomain(null, values);
+      cb = values;
+    } else if (values !== undefined) {
+      Object.defineProperty(options, 'values', { value: values });
+    }
+  } else {
+    options.sql = sql;
+
+    if (typeof values === 'function') {
+      cb = values;
     } else if (values !== undefined) {
       options.values = values;
     }
-
-    return new Query(options, cb);
   }
 
-  options.sql    = sql;
-  options.values = values;
+  if (cb !== undefined) {
+    cb = wrapCallbackInDomain(null, cb);
 
-  if (typeof values === 'function') {
-    cb = wrapCallbackInDomain(null, values);
-    options.values = undefined;
-  }
-
-  if (cb === undefined && callback !== undefined) {
-    throw new TypeError('argument callback must be a function when provided');
+    if (cb === undefined) {
+      throw new TypeError('argument callback must be a function when provided');
+    }
   }
 
   return new Query(options, cb);
@@ -500,7 +497,11 @@ function unwrapFromDomain(fn) {
 }
 
 function wrapCallbackInDomain(ee, fn) {
-  if (typeof fn !== 'function' || fn.domain) {
+  if (typeof fn !== 'function') {
+    return undefined;
+  }
+
+  if (fn.domain) {
     return fn;
   }
 

@@ -1662,13 +1662,20 @@ class ilObjSurvey extends ilObject
             $part1 = array_slice($this->questions, 0, $array_pos + 1);
             $part2 = array_slice($this->questions, $array_pos + 1);
         }
+        $found = 0;
         foreach ($move_questions as $question_id) {
             if (!(array_search($question_id, $part1) === false)) {
                 unset($part1[array_search($question_id, $part1)]);
+                $found++;
             }
             if (!(array_search($question_id, $part2) === false)) {
                 unset($part2[array_search($question_id, $part2)]);
+                $found++;
             }
+        }
+        // sanity check: do not move questions if they have not be found in the array
+        if ($found != count($move_questions)) {
+            return;
         }
         $part1 = array_values($part1);
         $part2 = array_values($part2);
@@ -3673,10 +3680,12 @@ class ilObjSurvey extends ilObject
         $mapping = array();
 
         foreach ($this->questions as $key => $question_id) {
+            /** @var $question SurveyQuestion */
             $question = self::_instanciateQuestion($question_id);
             if ($question) { // #10824
                 $question->id = -1;
                 $original_id = SurveyQuestion::_getOriginalId($question_id, false);
+                $question->setObjId($newObj->getId());
                 $question->saveToDb($original_id);
                 $newObj->questions[$key] = $question->getId();
                 $question_pointer[$question_id] = $question->getId();

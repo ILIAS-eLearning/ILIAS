@@ -291,9 +291,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             ilUtil::sendSuccess($msg, true);
 
+            /* disabled for Mantis 25850
             $scorer = new ilTestScoring($this->object);
             $scorer->setPreserveManualScores(true);
             $scorer->recalculateSolutions();
+            */
 
             if (isset($active_id)) {
                 $scorer->recalculateSolution($active_id, $pass);
@@ -360,17 +362,10 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
         $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
-        if($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
-            $aresult_output = $question_gui->getAutoSavedSolutionOutput(
-                $active_id,
-                $pass,
-                false,
-                false,
-                false,
-                $this->object->getShowSolutionFeedback(),
-                false,
-                true
-            );
+        if ($question_gui->supportsIntermediateSolutionOutput() && $question_gui->hasIntermediateSolution($active_id, $pass)) {
+            $question_gui->setUseIntermediateSolution(true);
+            $aresult_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, true, false, false, true);
+            $question_gui->setUseIntermediateSolution(false);
             $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
             $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);
 

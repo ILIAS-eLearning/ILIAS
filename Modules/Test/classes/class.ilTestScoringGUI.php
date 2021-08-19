@@ -417,7 +417,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
         
         $form->setTitle(sprintf($lng->txt('manscoring_results_pass'), $pass + 1));
         $form->setTableWidth('100%');
-        
+
+        /** @var  assQuestionGUI $questionGUI */
         foreach ($questionGuiList as $questionId => $questionGUI) {
             $questionHeader = sprintf($lng->txt('tst_manscoring_question_section_header'), $questionGUI->object->getTitle());
             $questionSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
@@ -431,6 +432,15 @@ class ilTestScoringGUI extends ilTestServiceGUI
             $cust->setHtml($questionSolution);
             $form->addItem($cust);
 
+            if ($questionGUI->supportsIntermediateSolutionOutput() && $questionGUI->hasIntermediateSolution($activeId, $pass)) {
+                $questionGUI->setUseIntermediateSolution(true);
+                $intermediateSolution = $questionGUI->getSolutionOutput($activeId, $pass, false, false, true, false, false, true);
+                $questionGUI->setUseIntermediateSolution(false);
+                $cust = new ilCustomInputGUI($lng->txt('autosavecontent'));
+                $cust->setHtml($intermediateSolution);
+                $form->addItem($cust);
+            }
+
             $text = new ilTextInputGUI($lng->txt('tst_change_points_for_question'), "question__{$questionId}__points");
             if ($initValues) {
                 $text->setValue(assQuestion::_getReachedPoints($activeId, $questionId, $pass));
@@ -442,7 +452,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 $nonedit->setValue(assQuestion::_getMaximumPoints($questionId));
             }
             $form->addItem($nonedit);
-            
+
             $area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
             $area->setUseRTE(true);
             if ($initValues) {

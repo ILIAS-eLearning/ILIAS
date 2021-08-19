@@ -149,4 +149,30 @@ class ilLMPresentationStatus
         }
         return $this->lm->getTitle();
     }
+
+    /**
+     * Is TOC necessary, see #30027
+     * Check if at least two entries will be shown
+     * @return bool
+     */
+    public function isTocNecessary() : bool
+    {
+        $childs = $this->lm_tree->getChilds($this->lm_tree->getRootId());
+        if (count($childs) == 0) {      // no chapter -> false
+            return false;
+        }
+        if (count($childs) > 1) {       // more than one chapter -> true
+            return true;
+        }
+        if ($this->lm->getTOCMode() != "pages") {   // one chapter TOC does not show pages -> false
+            return false;
+        }
+        $current_chapter = current($childs);
+        $childs = $this->lm_tree->getChilds($current_chapter["child"]);
+        if (count($childs) > 1) {
+            return true;            // more than one page -> true
+        }
+        return false;               // zero or one page -> false
+    }
+
 }

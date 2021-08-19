@@ -1031,10 +1031,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $link['txt'],
                 $link['link']
             );
-            $panel_template->setCurrentBlock('consultation_hour_buttons');
             if ($counter) {
                 $panel_template->touchBlock('consultation_hour_buttons_multi');
             }
+            $panel_template->setCurrentBlock('consultation_hour_buttons');
             $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
             $panel_template->parseCurrentBlock();
             $counter++;

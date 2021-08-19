@@ -419,13 +419,13 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param $passIndex
      * @return ilAssOrderingElementList
      */
-    public function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex)
+    public function getOrderingElementListForSolutionOutput($forceCorrectSolution, $activeId, $passIndex, $getUseIntermediateSolution = false)
     {
         if ($forceCorrectSolution || !$activeId || $passIndex === null) {
             return $this->getOrderingElementList();
         }
         
-        $solutionValues = $this->getSolutionValues($activeId, $passIndex);
+        $solutionValues = $this->getSolutionValues($activeId, $passIndex, !$getUseIntermediateSolution);
         
         if (!count($solutionValues)) {
             return $this->getShuffledOrderingElementList();

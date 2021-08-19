@@ -48,7 +48,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
      */
     public function getAllRefIdsForObjId(int $objId) : array
     {
-        return ilObject::_getAllReferences($objId);
+        return array_map('intval', ilObject::_getAllReferences($objId));
     }
 
     /**

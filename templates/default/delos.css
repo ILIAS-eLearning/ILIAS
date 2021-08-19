@@ -7792,6 +7792,13 @@ ul.dropdown-menu > li > .btn:focus {
   color: #557196;
   padding: 3px 3px;
 }
+.panel-secondary .il-viewcontrol-section .btn-default,
+.panel-secondary .il-viewcontrol-section .btn-default:active {
+  background-color: transparent;
+  border-color: transparent;
+  color: #557196;
+  box-shadow: none;
+}
 .breadcrumbs {
   -ms-flex-align: center;
   align-items: center;
@@ -9546,19 +9553,19 @@ footer {
 /*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
 .il-maincontrols-metabar .btn-bulky,
-.il-maincontrols-mainbar .link-bulky,
-.il-maincontrols-metabar .link-bulky {
+.il-maincontrols-mainbar .il-link.link-bulky,
+.il-maincontrols-metabar .il-link.link-bulky {
   font-size: 0.9rem;
   line-height: 1.197rem;
 }
 .il-maincontrols-mainbar .btn-bulky:focus,
 .il-maincontrols-metabar .btn-bulky:focus,
-.il-maincontrols-mainbar .link-bulky:focus,
-.il-maincontrols-metabar .link-bulky:focus,
+.il-maincontrols-mainbar .il-link.link-bulky:focus,
+.il-maincontrols-metabar .il-link.link-bulky:focus,
 .il-maincontrols-mainbar .btn-bulky:active,
 .il-maincontrols-metabar .btn-bulky:active,
-.il-maincontrols-mainbar .link-bulky:active,
-.il-maincontrols-metabar .link-bulky:active {
+.il-maincontrols-mainbar .il-link.link-bulky:active,
+.il-maincontrols-metabar .il-link.link-bulky:active {
   box-shadow: none;
 }
 .il-maincontrols-mainbar .bulky-label,
@@ -9568,7 +9575,9 @@ footer {
   display: block;
 }
 .il-maincontrols-mainbar .btn:active,
-.il-maincontrols-metabar .btn:active {
+.il-maincontrols-metabar .btn:active,
+.il-maincontrols-mainbar a:active,
+.il-maincontrols-metabar a:active {
   outline: 0;
   outline-offset: 0;
 }
@@ -9644,6 +9653,7 @@ footer {
   white-space: normal;
   word-break: break-word;
   padding: 0 2px;
+  text-align: center;
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -13280,7 +13290,8 @@ div.ilSideBarHead {
   margin-bottom: 5px;
   padding: 5px;
 }
-div.ilSideBarHead h3 {
+div.ilSideBarHead h3,
+div.ilSideBarHead h1 {
   font-size: 110%;
   color: #606060;
   display: inline;
@@ -14198,6 +14209,9 @@ div.ilFrmPostHeader span.small {
   font-size: smaller;
   color: #333333;
   padding-left: 23px;
+}
+.frm-thread-scrollable-print {
+  overflow: auto;
 }
 /* Services/Mail */
 a.mailread,
@@ -16626,14 +16640,28 @@ li.smallPad {
 .ilCrsObjAcc {
   margin-bottom: 10px;
 }
+.ilCourseObjectiveAccResults {
+  padding-top: 10px;
+}
+.ilCourseObjectiveAccResult {
+  font-size: 80%;
+}
+.ilCourseObjectiveAccSummary {
+  font-size: 120%;
+  padding-top: 15px;
+}
+.ilCourseObjectiveProgressBarContainer .text-comparision {
+  display: none;
+}
+.ilCourseObjectiveProgressBarContainer {
+  float: right;
+  max-width: 200px;
+  padding: 20px;
+}
 /* LOK progress bars */
 .ilCourseObjectiveProgressBar {
   padding-right: 5px;
   float: right;
-}
-.ilCourseObjectiveProgressBarContainer {
-  float: right;
-  padding-left: 10px;
 }
 .ilCourseObjectiveProgressBarContainer > .progress {
   margin: 5px 0 0;
@@ -16751,6 +16779,9 @@ td.chatroom {
   float: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.ilChatroomUser .dropdown-backdrop {
+  position: static;
 }
 .ilChatroomUser .media {
   padding: 0;
@@ -19097,6 +19128,185 @@ span.ilProfileBadge .modal .img-responsive {
 .ilPCLearnHist {
   background-color: #f0f0f0;
   padding: 3px 8px;
+}
+/* ilPreview classes */
+.il_ContainerItemPreview {
+  font-size: 11px;
+  margin-left: 10px;
+}
+.ilPreviewList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ilPreviewItem {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.ilPreviewItem img {
+  border: 1px solid #D6D6D6;
+  -webkit-box-shadow: 0 0 5px #D2D5D8;
+  box-shadow: 0 0 5px #D2D5D8;
+}
+.ilPreviewText {
+  font-size: 90%;
+  margin-top: -20px;
+  color: #434343;
+}
+.ilPreviewTextLoading {
+  width: 14px;
+  height: 14px;
+  background: transparent url(../../../../templates/default/images/loader.svg) no-repeat 0 0;
+  display: none;
+}
+.ilPreviewActions a.submit,
+.ilPreviewActions a.submit:hover {
+  margin-top: 5px;
+}
+.ilPreviewActions a.ilPreviewActionHidden {
+  display: none;
+}
+.ilPreviewStatusNone {
+  filter: alpha(opacity=60);
+  -moz-opacity: 0.6;
+  opacity: 0.6;
+}
+/* tooltip */
+#qtip-preview {
+  max-width: none;
+  min-width: 50px;
+  line-height: normal;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.47) 0 0 7px 0;
+  box-shadow: rgba(0, 0, 0, 0.47) 0 0 7px 0;
+  background-color: white;
+  border-collapse: separate;
+  font-size: 14px;
+  padding: 0;
+  border: 1px solid #D1D1D1;
+}
+#qtip-preview .qtip-titlebar {
+  background: white;
+  padding: 14px 20px 10px 20px;
+}
+#qtip-preview .qtip-content {
+  background: white;
+  padding: 0 20px 20px;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#qtip-preview .qtip-title {
+  background: transparent;
+  font-weight: normal;
+}
+#qtip-preview .qtip-close {
+  right: 20px;
+  top: 14px;
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent url(images/preview_close.png) no-repeat 0 0;
+  width: 16px;
+  height: 16px;
+}
+#qtip-preview .qtip-close:hover {
+  background-position-x: -16px;
+}
+#qtip-preview .ui-icon-close {
+  display: none;
+}
+.ilPreviewTooltipContent {
+  position: relative;
+  background: #F8F8F8;
+  border: 1px solid #E9E9E9;
+  padding: 0;
+}
+.ilPreviewTooltipContent .ilPreviewList {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  margin: 0 20px;
+  box-sizing: content-box;
+}
+.ilPreviewTooltipPrev {
+  position: absolute;
+  background: transparent url(images/preview_arrows.png) no-repeat 0 0;
+  width: 30px;
+  height: 40px;
+  left: 0;
+  top: 50%;
+  margin-top: -25px;
+  cursor: pointer;
+}
+.ilPreviewTooltipPrev:hover {
+  background-position-x: -30px;
+}
+.ilPreviewTooltipPrev.ilPreviewDisabled {
+  opacity: 0.4;
+  cursor: default;
+  background-position-x: -60px;
+}
+.ilPreviewTooltipNext {
+  position: absolute;
+  background: transparent url(images/preview_arrows.png) no-repeat 0 -40px;
+  width: 30px;
+  height: 40px;
+  right: 0;
+  top: 50%;
+  margin-top: -25px;
+  cursor: pointer;
+}
+.ilPreviewTooltipNext:hover {
+  background-position-x: -30px;
+}
+.ilPreviewTooltipNext.ilPreviewDisabled {
+  opacity: 0.4;
+  cursor: default;
+  background-position-x: -60px;
+}
+/* inline */
+.ilPreviewInline {
+  overflow: hidden;
+  width: 100%;
+}
+.ilPreviewInlineTable {
+  /* width: 100%; //provisory fix for #12096 */
+  display: table;
+  table-layout: fixed;
+  margin: 0;
+  padding: 0;
+}
+.ilPreviewInlineRow {
+  display: table-row;
+  margin: 0;
+  padding: 0;
+}
+.ilPreviewInlineCell {
+  display: table-cell;
+  margin: 0;
+  padding: 0;
+}
+.ilPreviewInlineContent {
+  overflow: auto;
+}
+.ilPreviewInlineContent .ilPreviewList {
+  padding: 0 0 5px 0;
+  white-space: nowrap;
+  display: inline-block;
+}
+.ilPreviewInlineContent .ilPreviewItem {
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+.ilPreviewInlineContent .ilPreviewItem img {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.ilPreviewInlineContent .ilPreviewText {
+  font-size: 100%;
+  margin-top: 0;
 }
 .noMargin {
   margin: 0;

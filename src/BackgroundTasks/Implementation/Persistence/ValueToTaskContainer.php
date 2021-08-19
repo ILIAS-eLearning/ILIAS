@@ -45,6 +45,14 @@ class ValueToTaskContainer extends \ActiveRecord
      * @con_length     8
      */
     protected $bucket_id;
+    /**
+     * @var int
+     *
+     * @con_fieldtype  integer
+     * @con_has_field  true
+     * @con_length     8
+     */
+    protected $position;
 
 
     /**
@@ -117,4 +125,22 @@ class ValueToTaskContainer extends \ActiveRecord
     {
         $this->bucket_id = $bucket_id;
     }
+    
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+    
+    /**
+     * @param int $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
+    }
+    
+    
 }

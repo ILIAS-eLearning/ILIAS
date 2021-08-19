@@ -118,6 +118,9 @@ class ilAccountRegistrationGUI
         // code handling
         
         if ($this->code_enabled) {
+            $field = new ilFormSectionHeaderGUI();
+            $field->setTitle($this->lng->txt('registration_codes_type_reg'));
+            $this->form->addItem($field);
             $code = new ilTextInputGUI($this->lng->txt("registration_code"), "usr_registration_code");
             $code->setSize(40);
             $code->setMaxLength(ilRegistrationCode::CODE_LENGTH);
@@ -377,7 +380,7 @@ class ilAccountRegistrationGUI
         } else {
             $password = $this->__createUser($valid_role);
             $this->__distributeMails($password);
-            return $this->login($password);
+            return $this->login();
         }
         $this->form->setValuesByPost();
         return $this->displayForm();
@@ -659,11 +662,11 @@ class ilAccountRegistrationGUI
         }
     }
 
-    /**
-     * @param string $password
-     */
-    public function login($password)
+    public function login()
     {
+        global $DIC;
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
 
         $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
@@ -677,23 +680,14 @@ class ilAccountRegistrationGUI
             ) &&
             !$this->registration_settings->passwordGenerationEnabled()
         ) {
-            // store authenticated user in session
-            ilSession::set('registered_user', $this->userObj->getId());
-
-            $tpl->setCurrentBlock('activation');
             $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered'));
 
-            $action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login') . '&target=' . ilUtil::stripSlashes($_GET['target']);
-            $tpl->setVariable('FORMACTION', $action);
-
-            $tpl->setVariable('TXT_LOGIN', $this->lng->txt('login_to_ilias'));
-            $tpl->parseCurrentBlock();
+            $login_link = $renderer->render($f->link()->standard($this->lng->txt('login_to_ilias'), './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage()));
+            $tpl->setVariable('LOGIN_LINK', $login_link);
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_APPROVE) {
             $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_submitted'));
         } elseif ($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION) {
-            $login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
-            $tpl->setVariable('TXT_REGISTERED', sprintf($this->lng->txt('reg_confirmation_link_successful'), $login_url));
-            $tpl->setVariable('REDIRECT_URL', $login_url);
+            $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('reg_confirmation_link_successful'));
         } else {
             $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('txt_registered_passw_gen'));
         }
@@ -707,13 +701,14 @@ class ilAccountRegistrationGUI
      */
     protected function showLogin()
     {
+        global $DIC;
         /**
          * @var ilAuthSession
          */
-        $auth_session = $GLOBALS['DIC']['ilAuthSession'];
+        $auth_session = $DIC['ilAuthSession'];
         $auth_session->setAuthenticated(
             true,
-            ilSession::get('registered_user')
+            $DIC->user()->getId()
         );
         ilInitialisation::initUserAccount();
         return ilInitialisation::redirectToStartingPage();

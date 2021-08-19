@@ -9460,7 +9460,6 @@ lti#:#lti_settings#:#Nastavení LTI
 lti#:#lti_tutor#:#Instructor LTI
 lti#:#prefix#:#Předpona
 lti#:#user_lng#:#Jazyk uživatele
-mail#:#activate_serial_letter_placeholders#:#Aktivovat rezervovaná místa hromadného dopisu
 mail#:#back_to_folder#:#Zpět do složky
 mail#:#bc#:#Diskrétní kopie
 mail#:#chat_users_have_been_invited#:#Uživatelé byli pozváni.
@@ -16219,3 +16218,29 @@ tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must t
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
 form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_details#:#« Show Details###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+ldap#:#ldap_escapedn#:#Escape DN###30 04 2021 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###30 04 2021 new variable
+common#:#label_search_options#:#Search Area###30 04 2021 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###30 04 2021 new variable
+awrn#:#awrn_filter#:#User Filter###30 04 2021 new variable
+help#:#help_search_label#:#Search Help###30 04 2021 new variable
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+cmix#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+cmix#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+lti#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+lti#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 2021 new variable
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###04 06 2021 new variable
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###04 06 2021 new variable
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable

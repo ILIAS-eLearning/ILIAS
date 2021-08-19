@@ -3,6 +3,7 @@
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
@@ -488,10 +489,12 @@ class ilInitialisation
         global $ilClientIniFile;
 
         if (!$ilClientIniFile->readVariable("client", "access")) {
-            $mess = array("en" => "The server is not available due to maintenance." .
+            $mess = array(
+                "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
                 "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis.");
+                    " Wir bitten um Verständnis."
+            );
             $mess_id = "init_error_maintenance";
 
             if (ilContext::hasHTML() && is_file("./maintenance.html")) {
@@ -1803,15 +1806,16 @@ class ilInitialisation
             return true;
         }
 
-        if ($_REQUEST["baseClass"] == "ilStartUpGUI") {
-            $cmd_class = $_REQUEST["cmdClass"];
-
-            if ($cmd_class == "ilaccountregistrationgui" ||
-                $cmd_class == "ilpasswordassistancegui") {
-                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $cmd_class);
+        $requestBaseClass = strtolower($_REQUEST['baseClass']);
+        if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
+            $requestCmdClass = strtolower($_REQUEST['cmdClass']);
+            if (
+                $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
+                $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)
+            ) {
+                ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmdClass: ' . $requestCmdClass);
                 return true;
             }
-
             $cmd = self::getCurrentCmd();
             if (
                 $cmd == "showTermsOfService" || $cmd == "showClientList" ||
@@ -1826,7 +1830,7 @@ class ilInitialisation
 
         // #12884
         if (($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
-            $_GET["baseClass"] == "ilImprintGUI") {
+            strtolower($_GET["baseClass"]) == strtolower(ilImprintGUI::class)) {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
             return true;
         }
@@ -1837,7 +1841,6 @@ class ilInitialisation
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for goto target: ' . $_GET['target']);
             return true;
         }
-
         ilLoggerFactory::getLogger('auth')->debug('Authentication required');
         return false;
     }
@@ -1884,8 +1887,7 @@ class ilInitialisation
             }
             $message = $a_message_static[$lang];
         }
-
-        return utf8_decode($message);
+        return $message;
     }
 
     /**
@@ -1990,7 +1992,7 @@ class ilInitialisation
         };
 
         $c["bt.persistence"] = function ($c) {
-            return new \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence();
+            return BasicPersistence::instance();
         };
 
         $c["bt.injector"] = function ($c) {

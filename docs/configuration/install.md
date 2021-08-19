@@ -655,14 +655,16 @@ The ILIAS Testserver (https://test6.ilias.de) is currently configured as follows
 
 | Package        | Version                     |
 |----------------|-----------------------------|
-| Distribution   | Ubuntu 16.04.7 LTS          |
-| MariaDB        | 10.0.38                     |
-| mysql          | 5.6                         |
-| PHP            | 7.3.22                      |
-| Apache         | 2.4.18                      |
+| Distribution   | Ubuntu 20.04.2 LTS          |
+| MySQL          | 5.6                         |
+| MariaDB        | 10.3                        |
+| PHP            | 7.3.28                      |
+| Apache         | 2.4.41                      |
+| Nginx          | 1.4.6                       |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | 1.8.0_265                   |
-| NodeJS         | v10.22.0                    |
+| JDK            | 1.8.0_292                   |
+| NodeJS         | v10.24.1                    |
+
 
 Please note: Shibboleth won't work with Nginx.

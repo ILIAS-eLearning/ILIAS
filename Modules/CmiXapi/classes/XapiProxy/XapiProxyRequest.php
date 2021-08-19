@@ -30,12 +30,6 @@
                 if ($cmdParts[3] === "statements") {
                     $this->xapiproxy->log()->debug($this->msg("handleStatementsRequest"));
                     $this->handleStatementsRequest($request);
-                } elseif ($cmdParts[3] === "activities/state") {
-                    $this->xapiproxy->log()->debug($this->msg("handleStateRequest"));
-                    $this->handleStateRequest($request);
-                } elseif ($cmdParts[3] === "agents/profile") {
-                    $this->xapiproxy->log()->debug($this->msg("handleProfileRequest"));
-                    $this->handleProfileRequest($request);
                 } else {
                     $this->xapiproxy->log()->info($this->msg("Not handled xApi Query: " . $cmdParts[3]));
                     $this->handleProxy($request);
@@ -89,67 +83,6 @@
             }
         }
 
-        private function handleStateRequest($request) {
-            if ($this->xapiproxy->method() === "get") {
-                $this->handleStateGetRequest($request);
-            }
-            elseif ($this->xapiproxy->method() === "post") {
-                $this->handleStatePostRequest($request);
-            }
-            else {
-                // post | put Methods are not handled yet
-                $this->handleProxy($request);
-            }
-        }
-
-        private function handleStateGetRequest($request) {
-            $stateId = strtolower($request->getQueryParams()["stateId"]);
-            if ($stateId === "lms.launchdata") {
-                $this->xapiProxyResponse->sendData($this->xapiproxy->getLaunchData($this->objId)); // ToDo: get real LaunchData
-            }
-            elseif ($stateId === "status") {
-                $this->xapiProxyResponse->sendData("{\"completion\":null,\"success\":null,\"score\":null,\"launchModes\":[]}"); // ToDo: get real status
-            }
-            else {
-                $this->xapiproxy->log()->debug($this->msg("not handled stateId: " . $stateId));
-                $this->handleProxy($request);
-            }
-        }
-
-        private function handleStatePostRequest($request) {
-            $stateId = strtolower($request->getQueryParams()["stateId"]);
-            if ($stateId === "bookmarking-data") {
-                $this->xapiproxy->log()->debug($this->msg("handled stateId: " . $stateId));
-                $this->handleProxy($request);
-            }
-            else {
-                $this->xapiproxy->log()->warning($this->msg("not handled stateId: " . $stateId));
-                $this->handleProxy($request);
-            }
-        }
-
-        private function handleProfileRequest($request) {
-            if ($this->xapiproxy->method() === "get") {
-                $this->handleProfileGetRequest($request);
-            }
-            else {
-                // post | put Methods are not handled yet
-                $this->handleProxy($request);
-            }
-        }
-
-        function handleProfileGetRequest($request) {
-            $profileId = strtolower($request->getQueryParams()["profileId"]);
-            if ($profileId === "cmi5learnerpreferences") {
-                $this->xapiProxyResponse->sendData("{\"languagePreference\":\"de-DE\",\"audioPreference\":\"on\"}"); // ToDo: get real preferences
-            }
-            else {
-                // not handled
-                $this->xapiproxy->log()->error($this->msg("not handled profileId: " . $profileId));
-                $this->handleProxy($request);
-            }
-        }
-
         private function handleProxy($request, $fakePostBody = NULL) {
             
             $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
@@ -172,7 +105,8 @@
             
             $req_opts = array(
                 RequestOptions::VERIFY => false,
-                RequestOptions::CONNECT_TIMEOUT => 5
+                RequestOptions::CONNECT_TIMEOUT => 5,
+                RequestOptions::HTTP_ERRORS => false
             );
             $cmd = $this->xapiproxy->cmdParts()[2];
             $upstreamDefault = $endpointDefault.$cmd;
@@ -298,11 +232,6 @@
             $req = new Request(strtoupper($request->getMethod()),$uri,$headers,$body);
     
             return $req;
-            /* ?
-            if ($method === 'get') {
-                $log->error(var_export($req,TRUE));
-            }
-            */
         }
 
         private function msg($msg) {

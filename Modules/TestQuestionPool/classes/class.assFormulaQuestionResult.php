@@ -324,7 +324,11 @@ class assFormulaQuestionResult
                         $check_fraction = false;
                     }
                 } else {
-                    $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    try {
+                        $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
+                    } catch (ilMathDivisionByZeroException $ex) {
+                        $frac_value = 0;
+                    }
                     $frac_value = str_replace(',', '.', $frac_value);
 
                     if (ilMath::_equals($frac_value, $resultWithRespectedUnit, $this->getPrecision())) {
