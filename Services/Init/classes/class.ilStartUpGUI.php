@@ -94,7 +94,17 @@ class ilStartUpGUI
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd("processIndexPHP", array('processIndexPHP','showLoginPage'));
+        $cmd = $this->ctrl->getCmd("processIndexPHP", new class implements ilCtrlCommandSecurity {
+            public function getSafePostCommands() : array
+            {
+                return ['processIndexPHP','showLoginPage'];
+            }
+
+            public function getUnsafeGetCommands() : array
+            {
+                return [];
+            }
+        });
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {

@@ -376,8 +376,17 @@ class ilLMPresentationGUI
         }
         
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd("layout", array("showPrintView"));
+        $cmd = $this->ctrl->getCmd("layout", new class implements ilCtrlCommandSecurity {
+            public function getSafePostCommands() : array
+            {
+                return ['showPrintView'];
+            }
 
+            public function getUnsafeGetCommands() : array
+            {
+                return [];
+            }
+        });
 
         $obj_id = $this->requested_obj_id;
         $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);

@@ -927,16 +927,15 @@ class ilCtrl
      * Determines current get/post command
      *
      * @param string $a_default_cmd
-     * @param array $safePostCommands For these commands no token is checked for HTTP POST requests
-     * @param array $unsafeGetCommands An array of unsafe commands for HTTP GET requests, where a CSRF token is verified in consequence
+     * @param ilCtrlCommandSecurity $commandSecurity
      * @return string
      */
-    public function getCmd($a_default_cmd = '', array $safePostCommands = [], array $unsafeGetCommands = []) : string
+    public function getCmd($a_default_cmd = '', ilCtrlCommandSecurity $commandSecurity = null) : string
     {
         $cmd = "";
         if (isset($_GET['cmd'])) {
             $cmd = $_GET['cmd'];
-            if (in_array($cmd, $unsafeGetCommands)) {
+            if ($commandSecurity !== null && in_array($cmd, $commandSecurity->getUnsafeGetCommands(), true)) {
                 if ($this->verified_cmd !== '') {
                     return $this->verified_cmd;
                 } elseif (!$this->verifyToken()) {
@@ -947,15 +946,19 @@ class ilCtrl
             }
         }
 
-        if ($cmd == "post") {
+        if ($cmd === "post") {
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
 //                reset($_POST["cmd"]);
             }
             $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 
-            if ($this->verified_cmd != "") {
+            if ($this->verified_cmd !== "") {
                 return $this->verified_cmd;
-            } elseif (!in_array($cmd, $safePostCommands) && !$this->verifyToken()) {
+            } elseif (
+                $commandSecurity !== null &&
+                !in_array($cmd, $commandSecurity->getSafePostCommands(), true) &&
+                !$this->verifyToken()
+            ) {
                 return $a_default_cmd;
             }
 
