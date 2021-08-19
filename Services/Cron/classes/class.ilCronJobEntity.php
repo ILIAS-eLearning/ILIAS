@@ -201,7 +201,7 @@ class ilCronJobEntity
             $id = 'pl__' . $this->getComponent() . '__' . $id;
         }
 
-        $title = (string) $this->getJob()->getTitle();
+        $title = $this->getJob()->getTitle();
         if ($title === '') {
             $title = $id;
         }
