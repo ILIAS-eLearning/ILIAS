@@ -49,7 +49,7 @@ class ListTransformationTest extends TestCase
         $listTransformation = new ListTransformation(new StringTransformation());
         try {
             $result = $listTransformation->transform(null);
-        } catch (ConstraintViolationException $exception) {
+        } catch (\UnexpectedValueException $exception) {
             return;
         }
 
@@ -72,7 +72,7 @@ class ListTransformationTest extends TestCase
 
         try {
             $result = $listTransformation->transform(array('hello', 2));
-        } catch (ConstraintViolationException $exception) {
+        } catch (\UnexpectedValueException $exception) {
             return;
         }
 

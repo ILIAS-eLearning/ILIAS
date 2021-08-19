@@ -16,18 +16,19 @@ use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
 use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Data\Factory;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class Group
 {
-    private \ILIAS\Data\Factory $dataFactory;
+    private Factory $dataFactory;
 
     /**
-     * @param \ILIAS\Data\Factory $dataFactory
+     * @param Factory $dataFactory
      */
-    public function __construct(\ILIAS\Data\Factory $dataFactory)
+    public function __construct(Factory $dataFactory)
     {
         $this->dataFactory = $dataFactory;
     }
@@ -159,6 +160,6 @@ class Group
 
     public function dateTime() : DateTimeTransformation
     {
-        return new DateTimeTransformation($this->dataFactory);
+        return new DateTimeTransformation();
     }
 }

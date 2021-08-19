@@ -5,17 +5,20 @@
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\ProblemBuilder;
+use UnexpectedValueException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class DictionaryTransformation implements Transformation
+class DictionaryTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    use ProblemBuilder;
 
     private Transformation $transformation;
 
@@ -29,26 +32,48 @@ class DictionaryTransformation implements Transformation
      */
     public function transform($from)
     {
-        if (false === is_array($from)) {
-            throw new ConstraintViolationException(
-                'The value MUST be an array',
-                'not_array'
-            );
-        }
+        $this->check($from);
 
         $result = array();
         foreach ($from as $key => $value) {
-            if (false === is_string($key)) {
-                throw new ConstraintViolationException(
-                    'The key "%s" is NOT a string',
-                    'key_is_not_a_string'
-                );
-            }
-
             $transformedValue = $this->transformation->transform($value);
             $result[$key] = $transformedValue;
         }
 
         return $result;
+    }
+
+    public function getError()
+    {
+        return 'The value MUST be an array with only string keys.';
+    }
+
+    public function check($value)
+    {
+        if (!$this->accepts($value)) {
+            throw new UnexpectedValueException($this->getErrorMessage($value));
+        }
+
+        return null;
+    }
+
+    public function accepts($value) : bool
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+
+        return count(array_filter($value, function ($key) {
+            return !is_string($key);
+        }, ARRAY_FILTER_USE_KEY)) == 0;
+    }
+
+    public function problemWith($value) : ?string
+    {
+        if (!$this->accepts($value)) {
+            return $this->getErrorMessage($value);
+        }
+
+        return null;
     }
 }
