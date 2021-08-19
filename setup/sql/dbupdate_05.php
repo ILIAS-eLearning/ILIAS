@@ -6936,9 +6936,9 @@ while ($row = $ilDB->fetchAssoc($res)) {
     $firs_access_datetime = null;
     $last_access_ts = null;
 
-    if ($row['last_access_datetime_fallback']) {
+    if ($row['last_access_datetime']) {
         $last_access_ts = (new DateTimeImmutable(
-            $row['last_access_datetime_fallback'],
+            $row['last_access_datetime'],
             new DateTimeZone(date_default_timezone_get())
         ))->getTimestamp();
     }
