@@ -24,6 +24,9 @@ class ilServicesCronSuite extends TestSuite
         require_once __DIR__ . '/CronJobEntityTest.php';
         $suite->addTestSuite(CronJobEntityTest::class);
 
+        require_once __DIR__ . '/CronJobScheduleTest.php';
+        $suite->addTestSuite(CronJobScheduleTest::class);
+
         return $suite;
     }
 }

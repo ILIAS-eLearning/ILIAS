@@ -136,28 +136,31 @@ abstract class ilCronJob
 
         switch ($a_schedule_type) {
             case self::SCHEDULE_TYPE_DAILY:
-                $last = date("Y-m-d", $a_ts_last_run);
-                $ref = date("Y-m-d", $now);
+                $last = date('Y-m-d', $a_ts_last_run);
+                $ref = date('Y-m-d', $now);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_WEEKLY:
-                $last = date("Y-W", $a_ts_last_run);
-                $ref = date("Y-W", $now);
+                $d = date('Y-m-d H:i:s', $a_ts_last_run);
+                $last = date('Y-W', $a_ts_last_run);
+                $ref = date('Y-W', $now);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_MONTHLY:
-                $last = date("Y-n", $a_ts_last_run);
-                $ref = date("Y-n", $now);
+                $d = date('Y-m-d H:i:s', $a_ts_last_run);
+                $last = date('Y-n', $a_ts_last_run);
+                $ref = date('Y-n', $now);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_QUARTERLY:
-                $last = date("Y", $a_ts_last_run) . "-" . ceil(date("n", $a_ts_last_run) / 3);
-                $ref = date("Y", $now) . "-" . ceil(date("n", $now) / 3);
+                $last = date('Y', $a_ts_last_run) . '-' . ceil(((int) date('n', $a_ts_last_run)) / 3);
+                $ref = date('Y', $now) . '-' . ceil(((int) date('n', $now)) / 3);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_YEARLY:
-                $last = date("Y", $a_ts_last_run);
-                $ref = date("Y", $now);
+                $d = date('Y-m-d H:i:s', $a_ts_last_run);
+                $last = date('Y', $a_ts_last_run);
+                $ref = date('Y', $now);
                 return ($last !== $ref);
 
             case self::SCHEDULE_TYPE_IN_MINUTES:
