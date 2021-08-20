@@ -16,6 +16,11 @@ use ILIAS\UI\Component\Signal;
 class Numeric extends Input implements C\Input\Field\Numeric
 {
     /**
+     * @var bool
+     */
+    private $complex = false;
+
+    /**
      * Numeric constructor.
      *
      * @param DataFactory $data_factory
@@ -73,5 +78,13 @@ class Numeric extends Input implements C\Input\Field\Numeric
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex() : bool
+    {
+        return $this->complex;
     }
 }

@@ -14,6 +14,11 @@ use ILIAS\UI\Component\Signal;
 class Text extends Input implements C\Input\Field\Text
 {
     /**
+     * @var bool
+     */
+    private $complex = false;
+
+    /**
      * @inheritdoc
      */
     public function __construct(
@@ -57,5 +62,13 @@ class Text extends Input implements C\Input\Field\Text
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex() : bool
+    {
+        return $this->complex;
     }
 }

@@ -15,6 +15,11 @@ function base()
     $select = $ui->input()->field()->select("Selection", ["one" => "One", "two" => "Two", "three" => "Three"]);
     $with_def = $ui->input()->field()->text("With Default")->withValue("Def.Value");
     $init_hide = $ui->input()->field()->text("Hidden initially");
+    $number = $ui->input()->field()->numeric("Number");
+    $multi_select = $ui->input()->field()->multiSelect(
+        "Multi Selection",
+        ["one" => "Num One", "two" => "Num Two", "three" => "Num Three", "four" => "Num Four", "five" => "Num Five"]
+    );
 
     //Step 2: Define the filter and attach the inputs.
     $action = $DIC->ctrl()->getLinkTargetByClass("ilsystemstyledocumentationgui", "entries", "", true);
@@ -22,31 +27,20 @@ function base()
         "filter_ID",
         $action,
         [
-        "title" => $title_input,
-        "select" => $select,
-        "with_def" => $with_def,
-        "init_hide" => $init_hide,
-    ],
-        [true, true, true, false],
+            "title" => $title_input,
+            "select" => $select,
+            "with_def" => $with_def,
+            "init_hide" => $init_hide,
+            "number" => $number,
+            "multi_select" => $multi_select
+        ],
+        [true, true, true, false, true, true],
         true,
         true
     );
 
     //Step 3: Get filter data
-    // @Todo: This needs to be improved. This appproach is copied from initFilter in class.ilContainerGUI.php .
-    // it fixes the broken example for the moment. This seems necessary atm since text inputs will handle empty inputs
-    // as null an throw an InvalidArgumentException. Also see comment in withInput of Input Fields and related bug:
-    // https://mantis.ilias.de/view.php?id=27909 . An other approach is performed in ilPluginsOverviewTableFilterGUI
-    // Where the exception is catched and an empty array returned.
-    $filter_data = [];
-
-    if ($DIC->http()->request()->getMethod() == "POST") {
-        $filter_data = $DIC->uiService()->filter()->getData($filter);
-    } else {
-        foreach ($filter->getInputs() as $k => $i) {
-            $filter_data[$k] = $i->getValue();
-        }
-    }
+    $filter_data = $DIC->uiService()->filter()->getData($filter);
 
     //Step 4: Render the filter
     return $renderer->render($filter) . "Filter Data: " . print_r($filter_data, true);

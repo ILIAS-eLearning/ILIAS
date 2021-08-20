@@ -112,8 +112,7 @@ class ilCronManagerGUI
             $this->uiRenderer->render([$message, $filter]),
             $tbl->populate(
                 $tableFilterMediator->filteredJobs(
-                    $filter,
-                    false
+                    $filter
                 )
             )->getHTML()
         ]));

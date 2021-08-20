@@ -3718,17 +3718,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         );
 
 
-        $filter_data = [];
-
-        // @todo: this is something we need to do better
-        if ($request->getMethod() == "POST" && $_GET["cmd"] == "render") {
-            $filter_data = $DIC->uiService()->filter()->getData($filter);
-        } else {
-            /** @var \ILIAS\UI\Implementation\Component\Input\Field\Input $i */
-            foreach ($filter->getInputs() as $k => $i) {
-                $filter_data[$k] = $i->getValue();
-            }
-        }
+        $filter_data = $DIC->uiService()->filter()->getData($filter);
 
 
         $this->container_user_filter = $filter_service->userFilter($filter_data);
