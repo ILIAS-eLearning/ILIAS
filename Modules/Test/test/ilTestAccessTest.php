@@ -23,4 +23,26 @@ class ilTestAccessTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestAccess::class, $this->testObj);
     }
+
+    public function testAccess() : void
+    {
+        $accessHandler_mock = $this->createMock(ilAccessHandler::class);
+        $this->testObj->setAccess($accessHandler_mock);
+
+        $this->assertEquals($accessHandler_mock, $this->testObj->getAccess());
+    }
+
+    public function testRefId() : void
+    {
+        $this->testObj->setRefId(120);
+
+        $this->assertEquals(120, $this->testObj->getRefId());
+    }
+
+    public function testTestId() : void
+    {
+        $this->testObj->setTestId(120);
+
+        $this->assertEquals(120, $this->testObj->getTestId());
+    }
 }

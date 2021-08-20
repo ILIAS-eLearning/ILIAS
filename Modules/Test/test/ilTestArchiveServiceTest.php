@@ -21,4 +21,13 @@ class ilTestArchiveServiceTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestArchiveService::class, $this->testObj);
     }
+
+    public function testParticipantData() : void
+    {
+        $testParticipantData_mock = $this->createMock(ilTestParticipantData::class);
+
+        $this->testObj->setParticipantData($testParticipantData_mock);
+
+        $this->assertEquals($testParticipantData_mock, $this->testObj->getParticipantData());
+    }
 }

@@ -24,4 +24,14 @@ class ilRandomTestROInputGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilRandomTestROInputGUI::class, $this->testObj);
     }
+
+    public function testSetValues() : void
+    {
+        $expected = [
+            "test" => "test2",
+            "hello" => "world"
+        ];
+        $this->testObj->setValues($expected);
+        $this->assertEquals($this->testObj->getValues(), $expected);
+    }
 }
