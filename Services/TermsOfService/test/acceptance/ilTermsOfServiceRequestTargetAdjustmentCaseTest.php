@@ -13,9 +13,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testUserShouldBeForcedToAcceptTermsOfServiceWhenNotDoingItYetInCurrentRequest() : void
     {
         $dic = new Container();
@@ -27,19 +24,17 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmdClass')
             ->willReturn('ilDashboardGUI');
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmd')
             ->willReturn('');
 
         $ctrl
             ->expects($this->once())
             ->method('redirectToURL');
-        $dic['ilCtrl'] = function () use ($ctrl) {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
             return $ctrl;
         };
 
@@ -55,7 +50,6 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->willReturn(true);
 
         $user
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(true);
 
@@ -63,7 +57,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->atLeast(1))
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function () use ($user) {
+        $dic['ilUser'] = static function () use ($user) : ilObjUser {
             return $user;
         };
 
@@ -76,24 +70,26 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $http->expects($this->any())
+        $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function () use ($http) {
+        $dic['http'] = static function () use ($http) : Services {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function () use ($evaluator) {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = static function () use (
+            $criterionFactory
+        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -104,9 +100,6 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $requestInterceptor->execute();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenDoingItAlreadyInCurrentRequest() : void
     {
         $dic = new Container();
@@ -126,7 +119,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->expects($this->atLeast(1))
             ->method('getCmd')
             ->willReturn('getacceptance');
-        $dic['ilCtrl'] = function () use ($ctrl) {
+        $dic['ilCtrl'] = static function () use ($ctrl) : iLCtrl {
             return $ctrl;
         };
 
@@ -137,20 +130,17 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfService')
             ->willReturn(true);
 
         $user
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(true);
 
         $user
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function () use ($user) {
+        $dic['ilUser'] = static function () use ($user) : ilObjUser {
             return $user;
         };
 
@@ -163,24 +153,26 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $http->expects($this->any())
+        $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function () use ($http) {
+        $dic['http'] = static function () use ($http) : Services {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function () use ($evaluator) {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = static function () use (
+            $criterionFactory
+        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -189,10 +181,6 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $this->assertFalse($requestInterceptor->shouldInterceptRequest());
     }
 
-    /**
-     * @return array
-     * @throws ReflectionException
-     */
     public function userProvider() : array
     {
         $user1 = $this
@@ -202,17 +190,14 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $user1
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfService')
             ->willReturn(false);
 
         $user1
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(true);
 
         $user1
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
 
@@ -223,17 +208,14 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $user2
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfService')
             ->willReturn(true);
 
         $user2
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(false);
 
         $user2
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
 
@@ -244,17 +226,14 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $user3
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfService')
             ->willReturn(true);
 
         $user3
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(true);
 
         $user3
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(false);
 
@@ -268,7 +247,6 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
     /**
      * @dataProvider userProvider
      * @param ilObjUser $user
-     * @throws ReflectionException
      */
     public function testUserShouldNotBeForcedToAcceptTermsOfServiceWhenAlreadyDone(ilObjUser $user) : void
     {
@@ -283,31 +261,22 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->onlyMethods(['root', '__call'])
             ->getMock();
         $loggingServices
-            ->expects($this->any())
             ->method('root')
             ->willReturn($logger);
-        $loggingServices->expects($this->any())
+        $loggingServices
             ->method('__call')
             ->willReturn($logger);
 
         $dic = new class($loggingServices) extends Container {
-            /** @var LoggingServices */
-            private $loggingServices;
+            private LoggingServices $loggingServices;
 
-            /**
-             *  constructor.
-             * @param LoggingServices $loggingServices
-             */
             public function __construct(LoggingServices $loggingServices)
             {
                 $this->loggingServices = $loggingServices;
                 parent::__construct();
             }
 
-            /**
-             * @inheritDoc
-             */
-            public function logger()
+            public function logger() : LoggingServices
             {
                 return $this->loggingServices;
             }
@@ -320,15 +289,13 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmdClass')
             ->willReturn('ilDashboardGUI');
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = function () use ($ctrl) {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
             return $ctrl;
         };
 
@@ -341,24 +308,26 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $http->expects($this->any())
+        $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function () use ($http) {
+        $dic['http'] = static function () use ($http) : Services {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function () use ($evaluator) {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = static function () use (
+            $criterionFactory
+        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -366,14 +335,14 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMockBuilder(ilTermsOfServiceHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $service->expects($this->any())
+        $service
             ->method('hasToResignAcceptance')
             ->willReturn(false);
-        $dic['tos.service'] = function () use ($service) {
+        $dic['tos.service'] = static function () use ($service) : ilTermsOfServiceHelper {
             return $service;
         };
 
-        $dic['ilUser'] = function () use ($user) {
+        $dic['ilUser'] = static function () use ($user) : ilObjUser {
             return $user;
         };
 
@@ -384,7 +353,6 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
 
     /**
      * @dataProvider userProvider
-     * @throws ReflectionException
      */
     public function testUserShouldBeForcedToResignTermsOfService() : void
     {
@@ -399,31 +367,22 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->onlyMethods(['root', '__call'])
             ->getMock();
         $loggingServices
-            ->expects($this->any())
             ->method('root')
             ->willReturn($logger);
-        $loggingServices->expects($this->any())
+        $loggingServices
             ->method('__call')
             ->willReturn($logger);
 
         $dic = new class($loggingServices) extends Container {
-            /** @var LoggingServices */
-            private $loggingServices;
+            private LoggingServices $loggingServices;
 
-            /**
-             *  constructor.
-             * @param LoggingServices $loggingServices
-             */
             public function __construct(LoggingServices $loggingServices)
             {
                 $this->loggingServices = $loggingServices;
                 parent::__construct();
             }
 
-            /**
-             * @inheritDoc
-             */
-            public function logger()
+            public function logger() : LoggingServices
             {
                 return $this->loggingServices;
             }
@@ -436,15 +395,13 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->getMock();
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmdClass')
             ->willReturn('ilDashboardGUI');
 
         $ctrl
-            ->expects($this->any())
             ->method('getCmd')
             ->willReturn('');
-        $dic['ilCtrl'] = function () use ($ctrl) {
+        $dic['ilCtrl'] = static function () use ($ctrl) : ilCtrl {
             return $ctrl;
         };
 
@@ -457,24 +414,26 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->disableOriginalConstructor()
             ->getMock();
 
-        $http->expects($this->any())
+        $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = function () use ($http) {
+        $dic['http'] = static function () use ($http) : Services {
             return $http;
         };
 
         $evaluator = $this
             ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
             ->getMock();
-        $dic['tos.document.evaluator'] = function () use ($evaluator) {
+        $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
         $criterionFactory = $this
             ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
             ->getMock();
-        $dic['tos.criteria.type.factory'] = function () use ($criterionFactory) {
+        $dic['tos.criteria.type.factory'] = static function () use (
+            $criterionFactory
+        ) : ilTermsOfServiceCriterionTypeFactoryInterface {
             return $criterionFactory;
         };
 
@@ -487,7 +446,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->willReturn(true);
         $service->expects($this->once())
             ->method('resetAcceptance');
-        $dic['tos.service'] = function () use ($service) {
+        $dic['tos.service'] = static function () use ($service) : ilTermsOfServiceHelper {
             return $service;
         };
 
@@ -497,18 +456,15 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->onlyMethods(['hasToAcceptTermsOfService', 'checkTimeLimit', 'hasToAcceptTermsOfServiceInSession'])
             ->getMock();
         $user
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfService')
             ->willReturn(false);
         $user
-            ->expects($this->any())
             ->method('checkTimeLimit')
             ->willReturn(true);
         $user
-            ->expects($this->any())
             ->method('hasToAcceptTermsOfServiceInSession')
             ->willReturn(true);
-        $dic['ilUser'] = function () use ($user) {
+        $dic['ilUser'] = static function () use ($user) : ilObjUser {
             return $user;
         };
 

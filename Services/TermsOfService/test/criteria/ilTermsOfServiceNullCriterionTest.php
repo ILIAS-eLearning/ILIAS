@@ -12,11 +12,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
     /** @var MockObject|ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    /**
-     * @inheritDoc
-     */
     protected function setUp() : void
     {
         parent::setUp();
@@ -24,24 +21,15 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $this->lng = $this->getLanguageMock();
 
         $this->lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('dummy');
     }
 
-    /**
-     * @return ilTermsOfServiceNullCriterion
-     */
     protected function getInstance() : ilTermsOfServiceNullCriterion
     {
-        $criterion = new ilTermsOfServiceNullCriterion();
-
-        return $criterion;
+        return new ilTermsOfServiceNullCriterion();
     }
 
-    /**
-     * @return ilTermsOfServiceNullCriterion
-     */
     public function testInstanceCanBeCreated() : ilTermsOfServiceNullCriterion
     {
         $criterion = $this->getInstance();
@@ -55,7 +43,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @return MockObject|ilPropertyFormGUI
-     * @throws ReflectionException
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui
@@ -83,7 +70,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
      * @param ilTermsOfServiceNullCriterion $criterion
      * @depends testInstanceCanBeCreated
      * @return ilTermsOfServiceNullCriterion
-     * @throws ReflectionException
      */
     public function testNoFormUserInterfaceElementsAreBuilt(
         ilTermsOfServiceNullCriterion $criterion
@@ -98,7 +84,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
     /**
      * @depends testNoFormUserInterfaceElementsAreBuilt
      * @param ilTermsOfServiceNullCriterion $criterion
-     * @throws ReflectionException
      */
     public function testCriterionAlwaysCreateEmptyConfigValue(ilTermsOfServiceNullCriterion $criterion) : void
     {
@@ -130,9 +115,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $this->assertNotEmpty($actual);
     }
 
-    /**
-     *
-     */
     public function testValuePresentationMatchesExpectation() : void
     {
         $criterion = $this->getInstance();
@@ -149,9 +131,6 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
         $this->assertEquals('-', $actual->getContent());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testEvaluationAlwaysSucceeds() : void
     {
         $user = $this->getUserMock();

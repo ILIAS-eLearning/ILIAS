@@ -7,16 +7,12 @@
  */
 class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @return ilTermsOfServiceTableDataProviderFactory
-     * @throws ReflectionException
-     */
     public function testInstanceCanBeCreated() : ilTermsOfServiceTableDataProviderFactory
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
-        $this->assertInstanceOf('ilTermsOfServiceTableDataProviderFactory', $factory);
+        $this->assertInstanceOf(ilTermsOfServiceTableDataProviderFactory::class, $factory);
 
         return $factory;
     }
@@ -24,7 +20,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     /**
      * @depends           testInstanceCanBeCreated
      * @param ilTermsOfServiceTableDataProviderFactory $factory
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function testExceptionIsRaisedWhenUnsupportedProviderIsRequested(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -37,7 +32,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     /**
      * @param ilTermsOfServiceTableDataProviderFactory $factory
      * @depends           testInstanceCanBeCreated
-     * @throws ReflectionException
      */
     public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -51,7 +45,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     /**
      * @depends           testInstanceCanBeCreated
      * @param ilTermsOfServiceTableDataProviderFactory $factory
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
      */
     public function testExceptionIsRaisedWhenAcceptanceHistoryProviderIsRequestedWithoutCompleteFactoryConfiguration(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -65,8 +58,6 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
     /**
      * @param ilTermsOfServiceTableDataProviderFactory $factory
      * @depends           testInstanceCanBeCreated
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
      */
     public function testFactoryShouldReturnAcceptanceHistoryProviderWhenRequested(
         ilTermsOfServiceTableDataProviderFactory $factory
@@ -74,7 +65,7 @@ class ilTermsOfServiceTableDataProviderFactoryTest extends ilTermsOfServiceBaseT
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());
 
         $this->assertInstanceOf(
-            'ilTermsOfServiceAcceptanceHistoryProvider',
+            ilTermsOfServiceAcceptanceHistoryProvider::class,
             $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY)
         );
     }

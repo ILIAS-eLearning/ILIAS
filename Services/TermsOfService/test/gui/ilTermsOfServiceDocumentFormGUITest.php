@@ -14,9 +14,6 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
     {
         $this->initLangMock();
@@ -116,9 +113,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForNewDocumentsCanBeSavedForValidInput() : void
     {
         $this->initLangMock();
@@ -131,7 +125,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $document
-            ->expects($this->any())
             ->method('fetchAllCriterionAssignments');
 
         $purifier = $this
@@ -200,7 +193,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $fu
-            ->expects($this->any())
             ->method('hasUploads')
             ->willReturn(true);
 
@@ -341,9 +333,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
     {
         $this->initLangMock();
@@ -355,7 +344,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $document
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
@@ -395,9 +383,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
     {
         $this->initLangMock();
@@ -448,7 +433,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $fu
-            ->expects($this->any())
             ->method('hasUploads')
             ->willReturn(false);
 
@@ -497,15 +481,11 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testUploadIssuesAreHandledWhenDocumentFormIsSaved() : void
     {
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 

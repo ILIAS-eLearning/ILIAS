@@ -26,7 +26,7 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalPageTemplate $tpl,
+        ilGlobalTemplateInterface $tpl,
         ilCtrl $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,

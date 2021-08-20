@@ -7,11 +7,6 @@
  */
 class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     */
     public function testDocumentCanBeAccepted() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
@@ -25,7 +20,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->with($this->isInstanceOf(ilTermsOfServiceAcceptanceEntity::class));
 
         $dataGatewayFactory
-            ->expects($this->any())
             ->method('getByName')
             ->willReturn($dataGateway);
 
@@ -43,12 +37,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 
@@ -90,10 +82,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $helper->trackAcceptance($user, $document);
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testAcceptanceHistoryCanBeDeleted() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
@@ -107,7 +95,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->with($this->isInstanceOf(ilTermsOfServiceAcceptanceEntity::class));
 
         $dataGatewayFactory
-            ->expects($this->any())
             ->method('getByName')
             ->willReturn($dataGateway);
 
@@ -125,22 +112,16 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 
         $helper->deleteAcceptanceHistoryByUser($user->getId());
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testLatestAcceptanceHistoryEntityCanBeLoadedForUser() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
@@ -158,7 +139,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($entity);
 
         $dataGatewayFactory
-            ->expects($this->any())
             ->method('getByName')
             ->willReturn($dataGateway);
 
@@ -176,12 +156,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 
@@ -189,10 +167,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
         $this->assertEquals($entity, $helper->getCurrentAcceptanceForUser($user));
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testAcceptanceHistoryEntityCanBeLoadedById() : void
     {
         $dataGatewayFactory = $this->getMockBuilder(ilTermsOfServiceDataGatewayFactory::class)->getMock();
@@ -209,7 +183,6 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->willReturn($entity);
 
         $dataGatewayFactory
-            ->expects($this->any())
             ->method('getByName')
             ->willReturn($dataGateway);
 
@@ -227,12 +200,10 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 

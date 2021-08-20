@@ -7,10 +7,6 @@
  */
 class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testAcceptanceHistoryDeletionIsDelegatedWhenUserIsDeleted() : void
     {
         $helper = $this->getMockBuilder(ilTermsOfServiceHelper::class)->disableOriginalConstructor()->getMock();
@@ -40,9 +36,6 @@ class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
             ->handle();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testStaticEventListeningWorksAsExpected() : void
     {
         $database = $this
@@ -79,21 +72,13 @@ class ilTermsOfServiceAppEventListenerTest extends ilTermsOfServiceBaseTest
  */
 class ilTestableTermsOfServiceAppEventListener extends ilTermsOfServiceAppEventListener
 {
-    /** @var ilTermsOfServiceHelper */
-    public static $mockHelper;
+    public static ilTermsOfServiceHelper $mockHelper;
 
-    /**
-     * ilTestableTermsOfServiceAppEventListener constructor.
-     * @param ilTermsOfServiceHelper $helper
-     */
     public function __construct(ilTermsOfServiceHelper $helper)
     {
         parent::__construct($helper);
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
         $listener = new static(self::$mockHelper);

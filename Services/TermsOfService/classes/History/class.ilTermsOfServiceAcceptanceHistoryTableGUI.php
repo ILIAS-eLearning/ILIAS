@@ -21,7 +21,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         Factory $uiFactory,
         Renderer $uiRenderer,
-        ilGlobalPageTemplate $globalTemplate
+        ilGlobalTemplateInterface $globalTemplate
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
         $this->uiFactory = $uiFactory;

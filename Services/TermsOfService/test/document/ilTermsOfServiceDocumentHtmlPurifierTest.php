@@ -9,17 +9,11 @@ use org\bovigo\vfs;
  */
 class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /**
-     * @return bool
-     */
     private function isVsfStreamInstalled() : bool
     {
         return class_exists('org\bovigo\vfs\vfsStreamWrapper');
     }
 
-    /**
-     *
-     */
     private function skipIfvfsStreamNotSupported() : void
     {
         if (!$this->isVsfStreamInstalled()) {
@@ -27,9 +21,6 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
         }
     }
 
-    /**
-     * @return array
-     */
     public function documentTextProvider() : array
     {
         return [
@@ -56,7 +47,6 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
      * @dataProvider documentTextProvider
      * @param string $text
      * @param string $expected
-     * @throws vfs\vfsStreamException
      */
     public function testPurifyingWorksAsExpected(string $text, string $expected) : void
     {

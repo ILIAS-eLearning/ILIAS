@@ -13,48 +13,35 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
 {
     /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
-    protected $tableDataProviderFactory;
-
+    protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     /** @var MockObject|ilObjTermsOfService */
-    protected $tos;
-
-    /** @var MockObject|ilGlobalPageTemplate */
-    protected $tpl;
-
+    protected ilObjTermsOfService $tos;
+    /** @var MockObject|ilGlobalTemplateInterface */
+    protected ilGlobalTemplateInterface $tpl;
     /** @var MockObject|ilCtrl */
-    protected $ctrl;
-
+    protected ilCtrl $ctrl;
     /** @var MockObject|ilLanguage */
-    protected $lng;
-
+    protected ilLanguage $lng;
     /** @var MockObject|ilRbacSystem */
-    protected $rbacsystem;
-
+    protected ilRbacSystem $rbacsystem;
     /** @var MockObject|ilErrorHandling */
-    protected $error;
-
+    protected ilErrorHandling $error;
     /** @var MockObject|Factory */
-    protected $uiFactory;
-
+    protected Factory $uiFactory;
     /** @var MockObject|Renderer */
-    protected $uiRenderer;
-
+    protected Renderer $uiRenderer;
     /** @var MockObject|ServerRequestInterface */
-    protected $request;
-
+    protected ServerRequestInterface $request;
     /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    /**
-     * @throws ReflectionException
-     */
     protected function setUp() : void
     {
         parent::setUp();
 
         $this->tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
         $this->criterionTypeFactory = $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-        $this->tpl = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
+        $this->tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->getMock();
         $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $this->lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $this->rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
@@ -65,25 +52,19 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
         $this->tableDataProviderFactory = $this->getMockBuilder(ilTermsOfServiceTableDataProviderFactory::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     *
-     */
     public function testAccessDeniedErrorIsRaisedWhenPermissionsAreMissing() : void
     {
         $this->ctrl
-            ->expects($this->any())
             ->method('getCmd')
             ->willReturnOnConsecutiveCalls(
                 'showAcceptanceHistory'
             );
 
         $this->rbacsystem
-            ->expects($this->any())
             ->method('checkAccess')
             ->willReturn(false);
 
         $this->error
-            ->expects($this->any())
             ->method('raiseError')
             ->willThrowException(new ilException('no_permission'));
 

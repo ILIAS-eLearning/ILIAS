@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /**
-     * @return array[]
-     */
     public function stringsToTrimProvider() : array
     {
         return [
@@ -18,9 +15,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
         ];
     }
 
-    /**
-     * @return array[]
-     */
     public function stringElementsArrayToTrimProvider() : array
     {
         return [
@@ -33,7 +27,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
      * @dataProvider stringsToTrimProvider
      * @param string $text
      * @param string $expectedResult
-     * @throws ReflectionException
      */
     public function testSingleStringIsTrimmed(string $text, string $expectedResult) : void
     {
@@ -56,7 +49,6 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
      * @dataProvider stringElementsArrayToTrimProvider
      * @param string[] $texts
      * @param string[] $expectedResult
-     * @throws ReflectionException
      */
     public function testArrayOfStringElementsIsTrimmed(array $texts, array $expectedResult) : void
     {

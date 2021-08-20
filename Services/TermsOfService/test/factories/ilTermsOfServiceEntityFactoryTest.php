@@ -7,19 +7,13 @@
  */
 class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     *
-     */
     public function testInstanceCanBeCreated() : void
     {
         $factory = new ilTermsOfServiceEntityFactory();
 
-        $this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
+        $this->assertInstanceOf(ilTermsOfServiceEntityFactory::class, $factory);
     }
 
-    /**
-     *
-     */
     public function testExceptionIsRaisedWhenUnknownEntityIsRequested() : void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -36,7 +30,7 @@ class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
         $factory = new ilTermsOfServiceEntityFactory();
 
         $this->assertInstanceOf(
-            'ilTermsOfServiceAcceptanceEntity',
+            ilTermsOfServiceAcceptanceEntity::class,
             $factory->getByName('ilTermsOfServiceAcceptanceEntity')
         );
     }

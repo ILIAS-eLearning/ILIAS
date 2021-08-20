@@ -34,7 +34,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ilGlobalPageTemplate $tpl,
+        ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
         ilCtrl $ctrl,
         ilLanguage $lng,

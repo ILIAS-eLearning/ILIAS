@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /**
-     * @return array
-     */
     public function textProvider() : array
     {
         return [
@@ -24,7 +21,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidatorTest extends ilTermsOfServic
     /**
      * @dataProvider textProvider
      * @param string $text
-     * @param bool   $result
+     * @param bool $result
      */
     public function testHtmlCanBeDetected(string $text, bool $result) : void
     {

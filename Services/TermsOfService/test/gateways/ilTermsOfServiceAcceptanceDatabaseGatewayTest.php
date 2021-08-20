@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testInstanceCanBeCreated() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -18,9 +15,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceAcceptanceDatabaseGateway::class, $gateway);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
@@ -45,19 +39,19 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
                 'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s',
                 ['text', 'integer'],
                 [$entity->getHash(), $entity->getDocumentId()]
-            )->will($this->returnValue($result));
+            )->willReturn($result);
 
         $database
             ->expects($this->once())
             ->method('numRows')
-            ->with($result)->
-            will($this->returnValue(0));
+            ->with($result)
+            ->willReturn(0);
 
         $database
             ->expects($this->once())
             ->method('nextId')
             ->with('tos_versions')
-            ->will($this->returnValue($expected_id));
+            ->willReturn($expected_id);
 
         $expectedVersions = [
             'id' => ['integer', $expected_id],
@@ -86,9 +80,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
@@ -113,19 +104,19 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
                 'SELECT id FROM tos_versions WHERE hash = %s AND doc_id = %s',
                 ['text', 'integer'],
                 [$entity->getHash(), $entity->getDocumentId()]
-            )->will($this->returnValue($result));
+            )->willReturn($result);
 
         $database
             ->expects($this->once())
             ->method('numRows')
             ->with($result)
-            ->will($this->returnValue(1));
+            ->willReturn(1);
 
         $database
             ->expects($this->once())
             ->method('fetchAssoc')
             ->with($result)
-            ->will($this->returnValue(['id' => $expected_id]));
+            ->willReturn(['id' => $expected_id]);
 
         $expectedTracking = [
             'tosv_id' => ['integer', $expected_id],
@@ -142,9 +133,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->trackAcceptance($entity);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testLatestAcceptanceOfUserCanBeLoaded() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
@@ -179,9 +167,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $this->assertEquals($expected['hash'], $entity->getHash());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testAcceptanceHistoryOfAUserCanBeDeleted() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
@@ -193,7 +178,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->expects($this->once())
             ->method('quote')
             ->with($entity->getUserId(), 'integer')
-            ->will($this->returnValue($entity->getUserId()));
+            ->willReturn($entity->getUserId());
 
         $database
             ->expects($this->once())
@@ -204,9 +189,6 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
         $gateway->deleteAcceptanceHistoryByUser($entity);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testAcceptanceHistoryRecordCanBeLoadedById() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();

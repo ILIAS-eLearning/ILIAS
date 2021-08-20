@@ -12,26 +12,14 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
     /** @var MockObject|ilRbacReview */
-    protected $rbacReview;
-
+    protected ilRbacReview $rbacReview;
     /** @var MockObject|ilLanguage */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected int $expectedInitialValue = 2;
+    protected int $expectedAfterFormSubmitValue = 4;
+    protected string $userRoleTitle = 'User';
+    protected string $adminRoleTitle = 'Administrator';
 
-    /** @var int */
-    protected $expectedInitialValue = 2;
-
-    /** @var int */
-    protected $expectedAfterFormSubmitValue = 4;
-
-    /** @var string */
-    protected $userRoleTitle = 'User';
-
-    /** @var string */
-    protected $adminRoleTitle = 'Administrator';
-
-    /**
-     * @inheritDoc
-     */
     protected function setUp() : void
     {
         parent::setUp();
@@ -39,14 +27,12 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->lng = $this->getLanguageMock();
 
         $this->lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('dummy');
     }
 
     /**
      * @return ilTermsOfServiceUserHasGlobalRoleCriterion
-     * @throws ReflectionException
      */
     protected function getInstance() : ilTermsOfServiceUserHasGlobalRoleCriterion
     {
@@ -62,7 +48,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
     /**
      * @return ilTermsOfServiceUserHasGlobalRoleCriterion
-     * @throws ReflectionException
      */
     public function testInstanceCanBeCreated() : ilTermsOfServiceUserHasGlobalRoleCriterion
     {
@@ -78,7 +63,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @param string                           $httpCriterionSelectionBodyParameter
      * @return MockObject|ilPropertyFormGUI
-     * @throws ReflectionException
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,
@@ -89,7 +73,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $radioGroup = $this->getRadioGroupMock();
 
         $radioGroup
-            ->expects($this->any())
             ->method('getPostVar')
             ->willReturn($httpCriterionSelectionBodyParameter);
 
@@ -107,7 +90,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
      * @depends testInstanceCanBeCreated
      * @return ilTermsOfServiceUserHasGlobalRoleCriterion
-     * @throws ReflectionException
      */
     public function testFormUserInterfaceElementsAreProperlyBuilt(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
@@ -131,7 +113,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     /**
      * @depends testFormUserInterfaceElementsAreProperlyBuilt
      * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
-     * @throws ReflectionException
      */
     public function testValuesFromFormUserInterfaceElementsCanBeRetrieved(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
@@ -147,9 +128,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
             ->expects($this->once())
             ->method('getInput')
             ->with($httpCriterionConfigBodyParameter)
-            ->will($this->returnCallback(function () {
+            ->willReturnCallback(function () {
                 return $this->expectedAfterFormSubmitValue;
-            }));
+            });
 
         $value = $gui->getConfigByForm($form);
 
@@ -173,9 +154,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->assertNotEmpty($actual);
     }
 
-    /**
-     * @return array
-     */
     public function objectCacheProvider() : array
     {
         return [
@@ -189,7 +167,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      * @param int    $roleId
      * @param string $roleTitle
      * @dataProvider objectCacheProvider
-     * @throws ReflectionException
      */
     public function testValuePresentationMatchesExpectation(int $roleId, string $roleTitle) : void
     {
@@ -197,7 +174,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $objectDataCache = $this->getObjectDataCacheMock();
 
         $objectDataCache
-            ->expects($this->any())
             ->method('lookupTitle')
             ->with($roleId)
             ->willReturn($roleTitle);
@@ -216,10 +192,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->assertEquals($roleTitle, $actual->getContent());
     }
 
-    /**
-     * @return array
-     * @throws ReflectionException
-     */
     public function failingConfigProvider() : array
     {
         $criterion = $this->getInstance();
@@ -241,7 +213,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
      * @param ilTermsOfServiceUserHasGlobalRoleCriterion $criterion
      * @param ilTermsOfServiceCriterionConfig            $config
      * @dataProvider failingConfigProvider
-     * @throws ReflectionException
      */
     public function testEvaluationFailsIfConfiguredRoleDoesNotMatchTheExpectedFormat(
         ilTermsOfServiceUserHasGlobalRoleCriterion $criterion,
@@ -252,9 +223,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->assertFalse($criterion->evaluate($user, $config));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testEvaluationFailsIfConfiguredRoleIsNotAGlobalRole() : void
     {
         $user = $this->getUserMock();
@@ -270,9 +238,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testEvaluationFailsIfUserIsNotAssignedToConfiguredGlobalRole() : void
     {
         $user = $this->getUserMock();
@@ -293,9 +258,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testEvaluationSucceedsIfUserIsAssignedToDefinedGlobalRole() : void
     {
         $user = $this->getUserMock();
