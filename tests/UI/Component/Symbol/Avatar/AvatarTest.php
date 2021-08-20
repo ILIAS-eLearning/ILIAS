@@ -178,7 +178,7 @@ class AvatarTest extends ILIAS_UI_TestBase
      * @param int $length
      * @return Generator|Closure
      */
-    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 10) : Generator
+    public function getRandom26StringsForAllColorVariants(int $color_variants = 26, int $length = 2) : Generator
     {
         $sh = static function ($length = 10) {
             return substr(str_shuffle(str_repeat($x = 'abcdefghijklmnopqrstuvwxyz', (int) ceil($length / strlen($x)))), 1, $length);
