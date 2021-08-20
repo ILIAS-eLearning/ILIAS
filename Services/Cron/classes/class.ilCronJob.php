@@ -182,7 +182,7 @@ abstract class ilCronJob
      */
     public function getAllScheduleTypes() : array
     {
-        return array(
+        return [
             self::SCHEDULE_TYPE_DAILY,
             self::SCHEDULE_TYPE_WEEKLY,
             self::SCHEDULE_TYPE_MONTHLY,
@@ -191,7 +191,7 @@ abstract class ilCronJob
             self::SCHEDULE_TYPE_IN_MINUTES,
             self::SCHEDULE_TYPE_IN_HOURS,
             self::SCHEDULE_TYPE_IN_DAYS,
-        );
+        ];
     }
 
     /**
