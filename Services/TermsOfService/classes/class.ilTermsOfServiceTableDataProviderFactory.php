@@ -10,8 +10,7 @@ class ilTermsOfServiceTableDataProviderFactory
     public const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
     public const CONTEXT_DOCUMENTS = 'documents';
 
-    /** @var ilDBInterface|null */
-    protected $db;
+    protected ?ilDBInterface $db = null;
 
     /**
      * @param string $context
@@ -66,17 +65,11 @@ class ilTermsOfServiceTableDataProviderFactory
         }
     }
 
-    /**
-     * @param ilDBInterface|null $db
-     */
-    public function setDatabaseAdapter(?ilDBInterface $db)
+    public function setDatabaseAdapter(?ilDBInterface $db) : void
     {
         $this->db = $db;
     }
 
-    /**
-     * @return ilDBInterface|null
-     */
     public function getDatabaseAdapter() : ?ilDBInterface
     {
         return $this->db;

@@ -8,7 +8,7 @@
 class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionTypeFactoryInterface
 {
     /** @var ilTermsOfServiceCriterionType[] */
-    protected $types = [];
+    protected array $types = [];
 
     /**
      * ilTermsOfServiceCriterionTypeFactory constructor.
@@ -29,17 +29,11 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTypesByIdentMap() : array
     {
         return $this->types;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilTermsOfServiceCriterionType
     {
         if (isset($this->types[$typeIdent])) {

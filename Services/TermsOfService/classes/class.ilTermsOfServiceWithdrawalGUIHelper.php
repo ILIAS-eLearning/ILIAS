@@ -11,27 +11,14 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilTermsOfServiceWithdrawalGUIHelper
 {
-    /** @var ilLanguage $lng */
-    protected $lng;
-    /** @var ilCtrl $ctrl */
-    protected $ctrl;
-    /** @var ilSetting $setting */
-    protected $setting;
-    /** @var ilTemplate $tpl */
-    protected $tpl;
-    /** @var ilObjUser $user */
-    protected $user;
-    /** @var Factory $factory */
-    protected $uiFactory;
-    /** @var Renderer $renderer */
-    protected $uiRenderer;
-    /** @var ilTermsOfServiceHelper */
-    protected $tosHelper;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilSetting $setting;
+    protected ilObjUser $user;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ilTermsOfServiceHelper $tosHelper;
 
-    /**
-     * ilTermsOfServiceWithdrawalGUIHelper constructor.
-     * @param ilObjUser $subjectUser
-     */
     public function __construct(ilObjUser $subjectUser)
     {
         global $DIC;
@@ -41,15 +28,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->setting = $DIC->settings();
-        $this->tpl = $DIC->ui()->mainTemplate();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->tosHelper = new ilTermsOfServiceHelper();
     }
 
-    /**
-     * @return ilTemplate
-     */
     private function getWithdrawalSectionForModal() : ilTemplate
     {
         $template = new ilTemplate('tpl.tos_withdrawal_section.html', true, true, 'Services/TermsOfService');
@@ -92,10 +75,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $footer;
     }
 
-    /**
-     * @param ServerRequestInterface $httpRequest
-     * @param object $guiClass
-     */
     public function handleWithdrawalLogoutRequest(
         ServerRequestInterface $httpRequest,
         object $guiClass
@@ -132,10 +111,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
         }
     }
 
-    /**
-     * @param ServerRequestInterface $httpRequest
-     * @return string
-     */
     public function getWithdrawalTextForLogoutScreen(ServerRequestInterface $httpRequest) : string
     {
         $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
@@ -153,11 +128,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $text;
     }
 
-
-    /**
-     * @param object $parentObject
-     * @return string
-     */
     public function getConsentWithdrawalConfirmation(object $parentObject) : string
     {
         $defaultAuth = AUTH_LOCAL;
@@ -212,9 +182,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $content;
     }
 
-    /**
-     * @param ServerRequestInterface $httpRequest
-     */
     public function setWithdrawalInfoForLoginScreen(ServerRequestInterface $httpRequest) : void
     {
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {

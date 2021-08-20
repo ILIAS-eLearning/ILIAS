@@ -134,7 +134,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     /**
      * @inheritdoc
      */
-    public function buildFromArray(array $array): \ActiveRecord
+    public function buildFromArray(array $array) : \ActiveRecord
     {
         $document = parent::buildFromArray($array);
 

@@ -6,21 +6,13 @@
  */
 final class ilTermsOfServiceEventWithdrawn
 {
-    /** @var ilObjUser */
-    private $user;
+    private ilObjUser $user;
 
-    /**
-     * ilTermsOfServiceEventWithdrawn constructor.
-     * @param ilObjUser $user
-     */
     public function __construct(ilObjUser $user)
     {
         $this->user = $user;
     }
 
-    /**
-     * @return ilObjUser
-     */
     public function getUser() : ilObjUser
     {
         return $this->user;

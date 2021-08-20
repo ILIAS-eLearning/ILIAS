@@ -11,53 +11,18 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceControllerEnabled
 {
-    /** @var ilTermsOfServiceTableDataProviderFactory */
-    protected $tableDataProviderFactory;
+    protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
+    protected ilObjTermsOfService $tos;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilErrorHandling $error;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected ServerRequestInterface $request;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    /** @var ilObjTermsOfService */
-    protected $tos;
-
-    /** @var ilGlobalPageTemplate */
-    protected $tpl;
-
-    /** @var ilCtrl */
-    protected $ctrl;
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilErrorHandling */
-    protected $error;
-
-    /** @var Factory */
-    protected $uiFactory;
-
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var ServerRequestInterface */
-    protected $request;
-
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
-    /**
-     * ilTermsOfServiceDocumentGUI constructor.
-     * @param ilObjTermsOfService                           $tos
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilGlobalPageTemplate                          $tpl
-     * @param ilCtrl                                        $ctrl
-     * @param ilLanguage                                    $lng
-     * @param ilRbacSystem                                  $rbacsystem
-     * @param ilErrorHandling                               $error
-     * @param ServerRequestInterface                        $request
-     * @param Factory                                       $uiFactory
-     * @param Renderer                                      $uiRenderer
-     * @param ilTermsOfServiceTableDataProviderFactory      $tableDataProviderFactory
-     */
     public function __construct(
         ilObjTermsOfService $tos,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
@@ -84,24 +49,21 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->tableDataProviderFactory = $tableDataProviderFactory;
     }
 
-    /**
-     *
-     */
     public function executeCommand() : void
     {
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         if (
-            !$this->rbacsystem->checkAccess('read', $this->tos->getRefId()) ||
-            !$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
+            (defined('USER_FOLDER_ID') && !$this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) ||
+            !$this->rbacsystem->checkAccess('read', $this->tos->getRefId())
         ) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         switch (strtolower($nextClass)) {
             default:
-                if ($cmd == '' || !method_exists($this, $cmd)) {
+                if ($cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = 'showAcceptanceHistory';
                 }
                 $this->$cmd();
@@ -109,10 +71,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         }
     }
 
-    /**
-     * @return ilTermsOfServiceAcceptanceHistoryTableGUI
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     protected function getAcceptanceHistoryTable() : ilTermsOfServiceAcceptanceHistoryTableGUI
     {
         $table = new ilTermsOfServiceAcceptanceHistoryTableGUI(
@@ -128,9 +86,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         return $table;
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     protected function showAcceptanceHistory() : void
     {
         $table = $this->getAcceptanceHistoryTable();
@@ -140,9 +95,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     protected function applyAcceptanceHistoryFilter() : void
     {
         $table = $this->getAcceptanceHistoryTable();
@@ -152,9 +104,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->showAcceptanceHistory();
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     protected function resetAcceptanceHistoryFilter() : void
     {
         $table = $this->getAcceptanceHistoryTable();
@@ -164,9 +113,6 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->showAcceptanceHistory();
     }
 
-    /**
-     * Show auto complete results
-     */
     protected function addUserAutoComplete() : void
     {
         $auto = new ilUserAutoComplete();
@@ -174,8 +120,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $auto->enableFieldSearchableCheck(false);
         $auto->setMoreLinkAvailable(true);
 
-        $isFetchAllRequest = $this->request->getQueryParams()['fetchall'] ?? false;
-        if ((bool) $isFetchAllRequest) {
+        $isFetchAllRequest = (bool) ($this->request->getQueryParams()['fetchall'] ?? false);
+        if ($isFetchAllRequest) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 

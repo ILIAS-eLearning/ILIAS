@@ -10,33 +10,11 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    /**
-     * @var ilTermsOfServiceUserHasGlobalRoleCriterion
-     */
-    protected $type;
+    protected ilTermsOfServiceUserHasGlobalRoleCriterion $type;
+    protected ilRbacReview $rbacReview;
+    protected ilLanguage $lng;
+    protected ilObjectDataCache $objectCache;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacReview;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $objectCache;
-
-    /**
-     * ilTermsOfServiceUserHasGlobalRoleCriterionGUI constructor.
-     * @param ilTermsOfServiceUserHasGlobalRoleCriterion $type
-     * @param ilLanguage                                 $lng
-     * @param ilRbacReview                               $rbacReview
-     * @param ilObjectDataCache                          $objectCache
-     */
     public function __construct(
         ilTermsOfServiceUserHasGlobalRoleCriterion $type,
         ilLanguage $lng,
@@ -51,9 +29,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         $this->lng->loadLanguageModule('rbac');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
@@ -80,9 +55,6 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         $group->addOption($option);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
     {
         $config = new ilTermsOfServiceCriterionConfig([
@@ -92,17 +64,11 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         return $config;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIdentPresentation() : string
     {
         return $this->lng->txt('tos_crit_type_usr_global_role');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
     {
         $roleId = $config['role_id'] ?? 0;

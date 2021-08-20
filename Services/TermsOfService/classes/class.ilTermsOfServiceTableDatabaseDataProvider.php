@@ -7,13 +7,8 @@
  */
 abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilTermsOfServiceTableDatabaseDataProvider constructor.
-     * @param ilDBInterface $db
-     */
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
@@ -96,18 +91,18 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
             $this->db->setLimit($params['limit'], $params['offset']);
         }
 
-        $where = strlen($where) ? 'WHERE ' . $where : '';
+        $where = $where !== '' ? 'WHERE ' . $where : '';
         $query = "SELECT {$select} FROM {$from} {$where}";
 
-        if (strlen($group)) {
+        if ($group !== '') {
             $query .= " GROUP BY {$group}";
         }
 
-        if (strlen($having)) {
+        if ($having !== '') {
             $query .= " HAVING {$having}";
         }
 
-        if (strlen($order)) {
+        if ($order !== '') {
             $query .= " ORDER BY {$order}";
         }
 

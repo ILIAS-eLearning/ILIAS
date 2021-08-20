@@ -7,27 +7,16 @@
  */
 class ilTermsOfServiceHelper
 {
-    /** @var ilTermsOfServiceDataGatewayFactory */
-    protected $dataGatewayFactory;
-    /** @var ilTermsOfServiceDocumentEvaluation */
-    protected $termsOfServiceEvaluation;
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-    /** @var ilObjTermsOfService */
-    protected $tos;
+    protected ilTermsOfServiceDataGatewayFactory $dataGatewayFactory;
+    protected ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
+    protected ilObjTermsOfService $tos;
 
-    /**
-     * ilTermsOfServiceHelper constructor.
-     * @param ilTermsOfServiceDataGatewayFactory|null $dataGatewayFactory
-     * @param ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface|null $criterionTypeFactory
-     * @param ilObjTermsOfService|null $tos
-     */
     public function __construct(
-        ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null,
-        ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
-        ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory = null,
-        ilObjTermsOfService $tos = null
+        ?ilTermsOfServiceDataGatewayFactory $dataGatewayFactory = null,
+        ?ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
+        ?ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory = null,
+        ?ilObjTermsOfService $tos = null
     ) {
         global $DIC;
 
@@ -53,17 +42,11 @@ class ilTermsOfServiceHelper
         $this->tos = $tos;
     }
 
-    /**
-     * @return bool
-     */
     public static function isEnabled() : bool
     {
         return (new static())->tos->getStatus();
     }
 
-    /**
-     * @return bool
-     */
     public function isGloballyEnabled() : bool
     {
         return $this->tos->getStatus();
@@ -91,7 +74,7 @@ class ilTermsOfServiceHelper
         $entity = $this->getEntityFactory()->getByName('ilTermsOfServiceAcceptanceEntity');
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
-        return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId((int) $user->getId()));
+        return $databaseGateway->loadCurrentAcceptanceOfUser($entity->withUserId($user->getId()));
     }
 
     /**
@@ -119,12 +102,12 @@ class ilTermsOfServiceHelper
         $databaseGateway = $this->getDataGatewayFactory()->getByName('ilTermsOfServiceAcceptanceDatabaseGateway');
 
         $entity = $entity
-            ->withUserId((int) $user->getId())
+            ->withUserId($user->getId())
             ->withTimestamp(time())
-            ->withText((string) $document->content())
+            ->withText($document->content())
             ->withHash(md5($document->content()))
-            ->withDocumentId((int) $document->id())
-            ->withTitle((string) $document->title());
+            ->withDocumentId($document->id())
+            ->withTitle($document->title());
 
         $criteriaBag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag($document->criteria());
         $entity = $entity->withSerializedCriteria($criteriaBag->toJson());
@@ -136,34 +119,22 @@ class ilTermsOfServiceHelper
         $user->hasToAcceptTermsOfServiceInSession(false);
     }
 
-    /**
-     * @param ilObjUser $user
-     */
     public function resetAcceptance(ilObjUser $user) : void
     {
         $user->setAgreeDate(null);
         $user->update();
     }
 
-    /**
-     * @param ilObjUser $user
-     * @return bool
-     */
     public function isIncludedUser(ilObjUser $user) : bool
     {
         return (
             'root' !== $user->getLogin() &&
             !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID]) &&
             !$user->isAnonymous() &&
-            (int) $user->getId() > 0
+            $user->getId() > 0
         );
     }
 
-    /**
-     * @param ilObjUser $user
-     * @param ilLogger $logger
-     * @return bool
-     */
     public function hasToResignAcceptance(ilObjUser $user, ilLogger $logger) : bool
     {
         $logger->debug(sprintf(
@@ -173,46 +144,34 @@ class ilTermsOfServiceHelper
         ));
 
         if (!$this->isGloballyEnabled()) {
-            $logger->debug(sprintf(
-                'Terms of Service disabled, resigning not required ...'
-            ));
+            $logger->debug('Terms of Service disabled, resigning not required ...');
             return false;
         }
 
         if (!$this->isIncludedUser($user)) {
-            $logger->debug(sprintf(
-                'User is not included for Terms of Service acceptance, resigning not required ...'
-            ));
+            $logger->debug('User is not included for Terms of Service acceptance, resigning not required ...');
             return false;
         }
 
         if (!$this->tos->shouldReevaluateOnLogin()) {
-            $logger->debug(sprintf(
-                'Reevaluation of documents is not enabled, resigning not required ...'
-            ));
+            $logger->debug('Reevaluation of documents is not enabled, resigning not required ...');
             return false;
         }
 
         if (!$user->getAgreeDate()) {
-            $logger->debug(sprintf(
-                'Terms of Service currently not accepted by user, resigning not required ...'
-            ));
+            $logger->debug('Terms of Service currently not accepted by user, resigning not required ...');
             return false;
         }
 
         $evaluator = $this->termsOfServiceEvaluation->withContextUser($user);
         if (!$evaluator->hasDocument()) {
-            $logger->debug(sprintf(
-                'No signable Terms of Service document found, resigning not required ...'
-            ));
+            $logger->debug('No signable Terms of Service document found, resigning not required ...');
             return false;
         }
 
         $entity = $this->getCurrentAcceptanceForUser($user);
         if (!($entity->getId() > 0)) {
-            $logger->debug(sprintf(
-                'No signed Terms of Service document found, resigning not required ...'
-            ));
+            $logger->debug('No signed Terms of Service document found, resigning not required ...');
             return false;
         }
 
@@ -223,29 +182,19 @@ class ilTermsOfServiceHelper
         );
 
         if ($evaluator->evaluateDocument($historizedDocument)) {
-            $logger->debug(sprintf(
-                'Current user values do still match historized criteria, resigning not required ...'
-            ));
+            $logger->debug('Current user values do still match historized criteria, resigning not required ...');
             return false;
         }
 
-        $logger->debug(sprintf(
-            'Current user values do not match historized criteria, resigning required ...'
-        ));
+        $logger->debug('Current user values do not match historized criteria, resigning required ...');
         return true;
     }
 
-    /**
-     * @return ilTermsOfServiceEntityFactory
-     */
     private function getEntityFactory() : ilTermsOfServiceEntityFactory
     {
         return new ilTermsOfServiceEntityFactory();
     }
 
-    /**
-     * @return ilTermsOfServiceDataGatewayFactory
-     */
     private function getDataGatewayFactory() : ilTermsOfServiceDataGatewayFactory
     {
         return $this->dataGatewayFactory;

@@ -7,24 +7,14 @@
  */
 class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDocumentEvaluation
 {
-    /** @var ilTermsOfServiceDocumentCriteriaEvaluation */
-    protected $evaluation;
-    /** @var ilObjUser */
-    protected $user;
+    protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation;
+    protected ilObjUser $user;
     /** @var array<int, ilTermsOfServiceDocument[]> */
-    protected $matchingDocumentsByUser = [];
+    protected array $matchingDocumentsByUser = [];
     /** @var ilTermsOfServiceSignableDocument[] */
-    protected $possibleDocuments = [];
-    /** @var ilLogger */
-    protected $log;
+    protected array $possibleDocuments = [];
+    protected ilLogger $log;
 
-    /**
-     * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
-     * @param ilTermsOfServiceDocumentCriteriaEvaluation $evaluation
-     * @param ilObjUser                                  $user
-     * @param ilLogger                                   $log
-     * @param ilTermsOfServiceSignableDocument[]         $possibleDocuments
-     */
     public function __construct(
         ilTermsOfServiceDocumentCriteriaEvaluation $evaluation,
         ilObjUser $user,
@@ -37,9 +27,6 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         $this->possibleDocuments = $possibleDocuments;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
     {
         $clone = clone $this;
@@ -78,17 +65,11 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         return $this->matchingDocumentsByUser[(int) $this->user->getId()];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
     {
         return $this->evaluation->evaluate($document);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function document() : ilTermsOfServiceSignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
@@ -103,9 +84,6 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasDocument() : bool
     {
         return count($this->getMatchingDocuments()) > 0;

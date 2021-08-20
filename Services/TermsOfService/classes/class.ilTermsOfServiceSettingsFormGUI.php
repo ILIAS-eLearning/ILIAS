@@ -6,28 +6,12 @@
  */
 class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilObjTermsOfService */
-    protected $tos;
+    protected ilObjTermsOfService $tos;
+    protected string $formAction = '';
+    protected string $saveCommand = '';
+    protected bool $isEditable = false;
+    protected string $translatedError = '';
 
-    /** @var string */
-    protected $formAction = '';
-
-    /** @var string */
-    protected $saveCommand = '';
-
-    /** @var $bool */
-    protected $isEditable = false;
-
-    /** @var string */
-    protected $translatedError = '';
-
-    /**
-     * ilTermsOfServiceSettingsForm constructor.
-     * @param ilObjTermsOfService $tos
-     * @param string              $formAction
-     * @param string              $saveCommand
-     * @param bool                $isEditable
-     */
     public function __construct(
         ilObjTermsOfService $tos,
         string $formAction = '',
@@ -44,9 +28,6 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    /**
-     *
-     */
     protected function initForm() : void
     {
         $this->setTitle($this->lng->txt('tos_tos_settings'));
@@ -71,33 +52,21 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         }
     }
 
-    /**
-     * @param bool $status
-     */
     public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedError() : bool
     {
-        return strlen($this->translatedError) > 0;
+        return $this->translatedError !== '';
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedError() : string
     {
         return $this->translatedError;
     }
 
-    /**
-     * @return bool
-     */
     public function saveObject() : bool
     {
         if (!$this->fillObject()) {
@@ -128,9 +97,6 @@ class ilTermsOfServiceSettingsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
     protected function fillObject() : bool
     {
         if (!$this->checkInput()) {

@@ -7,31 +7,18 @@
  */
 class ilTermsOfServiceTrimmedDocumentPurifier implements ilHtmlPurifierInterface
 {
-    /**
-     * @var ilHtmlPurifierInterface
-     */
-    protected $inner;
+    protected ilHtmlPurifierInterface $inner;
 
-    /**
-     * ilTermsOfServiceTrimmedDocumentPurifier constructor.
-     * @param ilHtmlPurifierInterface $inner
-     */
     public function __construct(ilHtmlPurifierInterface $inner)
     {
         $this->inner = $inner;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function purify(string $html) : string
     {
         return trim($this->inner->purify($html));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function purifyArray(array $htmlCollection) : array
     {
         foreach ($htmlCollection as $key => $html) {

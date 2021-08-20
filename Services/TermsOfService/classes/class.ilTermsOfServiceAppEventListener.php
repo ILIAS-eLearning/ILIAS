@@ -7,31 +7,16 @@
  */
 class ilTermsOfServiceAppEventListener implements ilAppEventListener
 {
-    /** @var ilTermsOfServiceHelper $helper */
-    protected $helper;
+    protected ilTermsOfServiceHelper $helper;
+    protected string $component = '';
+    protected string $event = '';
+    protected array $parameters = [];
 
-    /** @var string */
-    protected $component = '';
-
-    /** @var string */
-    protected $event = '';
-
-    /** @var array */
-    protected $parameters = [];
-
-    /**
-     * ilTermsOfServiceAppEventListener constructor.
-     * @param ilTermsOfServiceHelper $helper
-     */
     public function __construct(ilTermsOfServiceHelper $helper)
     {
         $this->helper = $helper;
     }
 
-    /**
-     * @param string $component
-     * @return ilTermsOfServiceAppEventListener
-     */
     public function withComponent(string $component) : self
     {
         $clone = clone $this;
@@ -41,10 +26,6 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param string $event
-     * @return ilTermsOfServiceAppEventListener
-     */
     public function withEvent(string $event) : self
     {
         $clone = clone $this;
@@ -54,10 +35,6 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param array $parameters
-     * @return ilTermsOfServiceAppEventListener
-     */
     public function withParameters(array $parameters) : self
     {
         $clone = clone $this;
@@ -67,9 +44,6 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @return bool
-     */
     protected function isUserDeletionEvent() : bool
     {
         return (
@@ -78,9 +52,6 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         );
     }
 
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     public function handle() : void
     {
         if ($this->isUserDeletionEvent()) {
@@ -88,9 +59,6 @@ class ilTermsOfServiceAppEventListener implements ilAppEventListener
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
         $listener = new static(new ilTermsOfServiceHelper());
