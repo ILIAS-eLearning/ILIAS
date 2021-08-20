@@ -14,6 +14,6 @@ class Letter extends Avatar implements C\Symbol\Avatar\Letter
 
     public function getBackgroundColorVariant() : int
     {
-        return (crc32($this->getUsername()) % 26) + 1;
+        return ((crc32($this->getAbbreviation()) % 26) + 1);
     }
 }

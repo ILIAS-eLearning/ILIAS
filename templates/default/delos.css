@@ -10633,6 +10633,11 @@ footer {
   border-color: #e5b3ad;
   color: white;
 }
+.il-avatar.il-avatar-letter.il-avatar-letter-color-26 {
+  background-color: #e74c3c;
+  border-color: #fdf3f2;
+  color: white;
+}
 @media only screen and (max-width: 768px) {
   .il-avatar {
     height: 22.5px;

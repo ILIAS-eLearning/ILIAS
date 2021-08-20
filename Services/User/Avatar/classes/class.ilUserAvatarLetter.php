@@ -9,18 +9,14 @@
 class ilUserAvatarLetter extends ilUserAvatarBase
 {
     /**
+     * all variants of letter avatar background colors (MUST be 26), note for a11y reason, they must be in contrast 3x1 to white (foreground color)
      * @var array
      */
+
     protected static $colors = [
-        "#1abc9c", "#16a085", "#f1c40f",
-        "#f39c12", "#2ecc71", "#27ae60",
-        "#e67e22", "#d35400", "#3498db",
-        "#2980b9", "#e74c3c", "#c0392b",
-        "#9b59b6", "#8e44ad", "#bdc3c7",
-        "#34495e", "#2c3e50", "#95a5a6",
-        "#7f8c8d", "#ec87bf", "#d870ad",
-        "#f69785", "#9ba37e", "#b49255",
-        "#b49255", "#a94136"
+        "#0e6252", "#107360", "#aa890a", "#c87e0a", "#176437", "#196f3d", "#bf6516", "#a04000", "#1d6fa5", "#1b557a",
+        "#bf2718", "#81261d", "#713b87", "#522764", "#78848c", "#34495e", "#2c3e50", "#566566", "#90175a", "#9e2b6e",
+        "#d22f10", "#666d4e", "#715a32", "#83693a", "#963a30", "#e74c3c"
     ];
 
     /**
