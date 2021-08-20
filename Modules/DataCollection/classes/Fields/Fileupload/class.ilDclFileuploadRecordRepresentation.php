@@ -51,7 +51,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             $wrapper_html_id = 'record_field_' . $this->getRecordField()->getId();
             $script_preview_click = $preview->getJSCall($wrapper_html_id);
             $preview_title = $this->lng->txt($preview_text_topic);
-            $preview_icon = ilUtil::getImagePath("preview.png", "Services/Preview");
+            $preview_icon = ilUtil::getImagePath("preview.png");
             $html = '<div id="' . $wrapper_html_id . '">' . $html;
             $html .= '<span class="il_ContainerItemPreview ' . $preview_status_class . '"><a href="javascript:void(0);" onclick="'
                 . $script_preview_click . '" title="' . $preview_title . '"><img src="' . $preview_icon
