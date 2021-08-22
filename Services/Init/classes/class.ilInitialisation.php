@@ -770,14 +770,14 @@ class ilInitialisation
         }
 
         // set anonymous user & role id and system role id
-        define("ANONYMOUS_USER_ID", $ilSetting->get("anonymous_user_id"));
-        define("ANONYMOUS_ROLE_ID", $ilSetting->get("anonymous_role_id"));
-        define("SYSTEM_USER_ID", $ilSetting->get("system_user_id"));
-        define("SYSTEM_ROLE_ID", $ilSetting->get("system_role_id"));
+        define("ANONYMOUS_USER_ID", (int) $ilSetting->get("anonymous_user_id"));
+        define("ANONYMOUS_ROLE_ID", (int) $ilSetting->get("anonymous_role_id"));
+        define("SYSTEM_USER_ID", (int) $ilSetting->get("system_user_id"));
+        define("SYSTEM_ROLE_ID", (int) $ilSetting->get("system_role_id"));
         define("USER_FOLDER_ID", 7);
 
         // recovery folder
-        define("RECOVERY_FOLDER_ID", $ilSetting->get("recovery_folder_id"));
+        define("RECOVERY_FOLDER_ID", (int) $ilSetting->get("recovery_folder_id"));
 
         // installation id
         define("IL_INST_ID", $ilSetting->get("inst_id", 0));
