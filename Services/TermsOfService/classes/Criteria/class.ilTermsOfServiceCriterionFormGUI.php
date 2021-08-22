@@ -66,7 +66,7 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $first = true;
         foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
             /** @var ilTermsOfServiceCriterionType $criterion */
-            if (!$this->assignment->getId() && $first) {
+            if ($first && !$this->assignment->getId()) {
                 $criteriaSelection->setValue($criterion->getTypeIdent());
             }
             $first = false;

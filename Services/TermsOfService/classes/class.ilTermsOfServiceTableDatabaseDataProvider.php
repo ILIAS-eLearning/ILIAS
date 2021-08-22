@@ -92,18 +92,18 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
         }
 
         $where = $where !== '' ? 'WHERE ' . $where : '';
-        $query = "SELECT {$select} FROM {$from} {$where}";
+        $query = "SELECT $select FROM $from $where";
 
         if ($group !== '') {
-            $query .= " GROUP BY {$group}";
+            $query .= " GROUP BY $group";
         }
 
         if ($having !== '') {
-            $query .= " HAVING {$having}";
+            $query .= " HAVING $having";
         }
 
         if ($order !== '') {
-            $query .= " ORDER BY {$order}";
+            $query .= " ORDER BY $order";
         }
 
         $res = $this->db->query($query);
@@ -112,7 +112,7 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
         }
 
         if (isset($params['limit'])) {
-            $cnt_sql = "SELECT COUNT(*) cnt FROM ({$query}) subquery";
+            $cnt_sql = "SELECT COUNT(*) cnt FROM ($query) subquery";
             $row_cnt = $this->db->fetchAssoc($this->db->query($cnt_sql));
             $data['cnt'] = $row_cnt['cnt'];
         }

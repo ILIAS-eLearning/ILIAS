@@ -1,9 +1,10 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilTermsOfServiceAcceptanceHistoryGUI
@@ -20,7 +21,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
     protected ilErrorHandling $error;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
-    protected ServerRequestInterface $request;
+    protected GlobalHttpState $http;
+    protected \ILIAS\Refinery\Factory $refinery;
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     public function __construct(
@@ -31,7 +33,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
-        ServerRequestInterface $request,
+        GlobalHttpState $http,
+        \ILIAS\Refinery\Factory $refinery,
         Factory $uiFactory,
         Renderer $uiRenderer,
         ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory
@@ -43,7 +46,8 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $this->lng = $lng;
         $this->rbacsystem = $rbacsystem;
         $this->error = $error;
-        $this->request = $request;
+        $this->http = $http;
+        $this->refinery = $refinery;
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
         $this->tableDataProviderFactory = $tableDataProviderFactory;
@@ -120,13 +124,24 @@ class ilTermsOfServiceAcceptanceHistoryGUI implements ilTermsOfServiceController
         $auto->enableFieldSearchableCheck(false);
         $auto->setMoreLinkAvailable(true);
 
-        $isFetchAllRequest = (bool) ($this->request->getQueryParams()['fetchall'] ?? false);
-        if ($isFetchAllRequest) {
+        if ($this->http->wrapper()->query()->has('fetchall')) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
-        $query = ilUtil::stripSlashes($this->request->getQueryParams()['term'] ?? '');
-        echo $auto->getList($query);
-        exit();
+        if ($this->http->wrapper()->query()->has('term')) {
+            $query = ilUtil::stripSlashes(
+                $this->http->wrapper()->query()->retrieve('term', $this->refinery->kindlyTo()->string())
+            );
+            $this->http->saveResponse(
+                $this->http->response()
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withBody(
+                        Streams::ofString($auto->getList($query))
+                    )
+            );
+        }
+
+        $this->http->sendResponse();
+        $this->http->close();
     }
 }

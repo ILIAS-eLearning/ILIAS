@@ -78,6 +78,6 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
             return $uiFactory->legacy('');
         }
 
-        return $uiFactory->legacy($this->lng->txt('meta_c_' . strtoupper((string) $country)));
+        return $uiFactory->legacy($this->lng->txt('meta_c_' . strtoupper($country)));
     }
 }

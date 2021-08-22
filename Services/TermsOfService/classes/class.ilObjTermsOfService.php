@@ -22,7 +22,7 @@ class ilObjTermsOfService extends ilObject2
         $this->settings = $DIC['ilSetting'];
     }
 
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = 'tos';
     }

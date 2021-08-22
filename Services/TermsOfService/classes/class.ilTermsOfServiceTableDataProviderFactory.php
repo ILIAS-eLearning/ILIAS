@@ -61,7 +61,7 @@ class ilTermsOfServiceTableDataProviderFactory
                 );
 
             default:
-                throw new InvalidArgumentException("Exception for member {$member} not supported");
+                throw new InvalidArgumentException("Exception for member $member not supported");
         }
     }
 

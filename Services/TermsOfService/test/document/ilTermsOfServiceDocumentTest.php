@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilTermsOfServiceDocumentTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -233,9 +235,9 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
+     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment1
+     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment2
+     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment3
      */
     public function testCriteriaCanBeAttachedToAndDetachedFromDocumentPersistently(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,

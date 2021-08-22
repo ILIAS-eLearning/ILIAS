@@ -129,7 +129,7 @@ class ilTermsOfServiceHelper
     {
         return (
             'root' !== $user->getLogin() &&
-            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID]) &&
+            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true) &&
             !$user->isAnonymous() &&
             $user->getId() > 0
         );

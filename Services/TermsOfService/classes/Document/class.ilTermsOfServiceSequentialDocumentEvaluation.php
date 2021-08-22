@@ -41,8 +41,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
      */
     protected function getMatchingDocuments() : array
     {
-        if (!array_key_exists((int) $this->user->getId(), $this->matchingDocumentsByUser)) {
-            $this->matchingDocumentsByUser[(int) $this->user->getId()] = [];
+        if (!array_key_exists($this->user->getId(), $this->matchingDocumentsByUser)) {
+            $this->matchingDocumentsByUser[$this->user->getId()] = [];
 
             $this->log->debug(sprintf(
                 'Evaluating document for user "%s" (id: %s) ...',
@@ -52,17 +52,17 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 
             foreach ($this->possibleDocuments as $document) {
                 if ($this->evaluateDocument($document)) {
-                    $this->matchingDocumentsByUser[(int) $this->user->getId()][] = $document;
+                    $this->matchingDocumentsByUser[$this->user->getId()][] = $document;
                 }
             }
 
             $this->log->debug(sprintf(
                 '%s matching document(s) found',
-                count($this->matchingDocumentsByUser[(int) $this->user->getId()])
+                count($this->matchingDocumentsByUser[$this->user->getId()])
             ));
         }
 
-        return $this->matchingDocumentsByUser[(int) $this->user->getId()];
+        return $this->matchingDocumentsByUser[$this->user->getId()];
     }
 
     public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool

@@ -51,7 +51,7 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
         $this->assertEquals(
             array_keys($criteria),
-            array_values(array_map(function (ilTermsOfServiceCriterionType $criterion) {
+            array_values(array_map(static function (ilTermsOfServiceCriterionType $criterion) : string {
                 return $criterion->getTypeIdent();
             }, $criteria))
         );

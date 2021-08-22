@@ -79,7 +79,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                     $this->dic->language(),
                     $this->dic->rbac()->system(),
                     $this->dic['ilErr'],
-                    $this->dic->http()->request(),
+                    $this->dic->http(),
+                    $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
                     $tableDataProviderFactory
@@ -121,8 +122,9 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             );
         }
 
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId()) &&
-            $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
+        if (
+            (defined('USER_FOLDER_ID') && $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) &&
+            $this->rbacsystem->checkAccess('read', $this->object->getRefId())
         ) {
             $this->tabs_gui->addTarget(
                 'tos_acceptance_history',

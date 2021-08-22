@@ -74,7 +74,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
      */
     protected function formatCellValue(string $column, array $row) : string
     {
-        return trim($row[$column]);
+        return trim($row[$column] ?? '');
     }
 
     public function getSelectableColumns() : array
@@ -122,7 +122,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
 
             $this->tpl->setCurrentBlock('column');
             $value = $this->formatCellValue($column['field'], $a_set);
-            if ((string) $value === '') {
+            if ($value === '') {
                 $this->tpl->touchBlock('column');
             } else {
                 $this->tpl->setVariable('COLUMN_VALUE', $value);

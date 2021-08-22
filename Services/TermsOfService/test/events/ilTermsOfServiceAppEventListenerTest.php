@@ -74,11 +74,6 @@ class ilTestableTermsOfServiceAppEventListener extends ilTermsOfServiceAppEventL
 {
     public static ilTermsOfServiceHelper $mockHelper;
 
-    public function __construct(ilTermsOfServiceHelper $helper)
-    {
-        parent::__construct($helper);
-    }
-
     public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
         $listener = new static(self::$mockHelper);

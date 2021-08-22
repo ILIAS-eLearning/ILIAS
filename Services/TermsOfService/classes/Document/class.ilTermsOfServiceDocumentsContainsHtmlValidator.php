@@ -32,7 +32,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
             );
             foreach ($iter as $element) {
                 /** @var DOMNode $element */
-                if (in_array(strtolower($element->nodeName), ['body'], true)) {
+                if (strtolower($element->nodeName) === 'body') {
                     continue;
                 }
 

@@ -69,6 +69,6 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
             return $uiFactory->legacy('');
         }
 
-        return $uiFactory->legacy($this->lng->txt('meta_l_' . (string) $lng));
+        return $uiFactory->legacy($this->lng->txt('meta_l_' . $lng));
     }
 }
