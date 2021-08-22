@@ -43,11 +43,11 @@ class ilWebServicesSetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilWebServicesSetupConfig(
-                (bool) $data["soap_user_administration"] ?? false,
+                (bool) ($data["soap_user_administration"] ?? false),
                 $data["soap_wsdl_path"] ?? "",
-                (int) $data["soap_connect_timeout"] ?? ilSoapClient::DEFAULT_CONNECT_TIMEOUT,
+                (int) ($data["soap_connect_timeout"] ?? ilSoapClient::DEFAULT_CONNECT_TIMEOUT),
                 $data["rpc_server_host"] ?? "",
-                (int) $data["rpc_server_port"]
+                (int) ($data["rpc_server_port"] ?? 0)
             );
         });
     }
