@@ -21,4 +21,45 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPlayerFactory::class, $this->testObj);
     }
+
+    public function testGetPlayerGUI() : void
+    {
+        $this->addGlobal_ilUser();
+        $this->addGlobal_lng();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        if(!defined("IL_INST_ID")) {
+            define("IL_INST_ID", 0);
+        }
+        if(!defined("CLIENT_DATA_DIR")) {
+            define("CLIENT_DATA_DIR", "/tmp");
+        }
+        $this->addGlobal_tpl();
+        $this->addGlobal_ilCtrl();
+        $this->addGlobal_ilPluginAdmin();
+        $this->addGlobal_ilTabs();
+        $this->addGlobal_ilObjDataCache();
+        $_GET["ref_id"] = 2;
+        $this->addGlobal_rbacsystem();
+
+
+        $objTest = new ilObjTest();
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
+        $testObj = new ilTestPlayerFactory($objTest);
+        $this->assertInstanceOf(ilTestPlayerFixedQuestionSetGUI::class, $testObj->getPlayerGUI());
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
+        $testObj = new ilTestPlayerFactory($objTest);
+        $this->assertInstanceOf(ilTestPlayerRandomQuestionSetGUI::class, $testObj->getPlayerGUI());
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_DYNAMIC);
+        $testObj = new ilTestPlayerFactory($objTest);
+        $this->assertInstanceOf(ilTestPlayerDynamicQuestionSetGUI::class, $testObj->getPlayerGUI());
+    }
 }

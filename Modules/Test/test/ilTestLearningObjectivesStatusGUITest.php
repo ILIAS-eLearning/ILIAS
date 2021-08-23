@@ -23,4 +23,16 @@ class ilTestLearningObjectivesStatusGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestLearningObjectivesStatusGUI::class, $this->testObj);
     }
+
+    public function testCrsObjId() : void
+    {
+        $this->testObj->setCrsObjId(1240);
+        $this->assertEquals(1240, $this->testObj->getCrsObjId());
+    }
+
+    public function testUsrId() : void
+    {
+        $this->testObj->setUsrId(1240);
+        $this->assertEquals(1240, $this->testObj->getUsrId());
+    }
 }

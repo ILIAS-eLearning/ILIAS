@@ -21,4 +21,16 @@ class ilTestParticipantAccessFilterTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestParticipantAccessFilter::class, $this->testObj);
     }
+
+    public function testRefId() : void
+    {
+        $this->testObj->setRefId(125);
+        $this->assertEquals(125, $this->testObj->getRefId());
+    }
+
+    public function testFilter() : void
+    {
+        $this->testObj->setFilter("testFilter");
+        $this->assertEquals("testFilter", $this->testObj->getFilter());
+    }
 }

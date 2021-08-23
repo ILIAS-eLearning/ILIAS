@@ -24,4 +24,16 @@ class ilTestPassesSelectorTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPassesSelector::class, $this->testObj);
     }
+
+    public function testActiveId() : void
+    {
+        $this->testObj->setActiveId(125);
+        $this->assertEquals(125, $this->testObj->getActiveId());
+    }
+
+    public function testLastFinishedPass() : void
+    {
+        $this->testObj->setLastFinishedPass(125);
+        $this->assertEquals(125, $this->testObj->getLastFinishedPass());
+    }
 }

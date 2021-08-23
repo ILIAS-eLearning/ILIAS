@@ -33,4 +33,30 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetConfigGUI::class, $this->testObj);
     }
+
+    public function testGetGeneralConfigTabLabel() : void
+    {
+        $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock->expects($this->once())
+            ->method("txt")
+            ->with("tst_rnd_quest_cfg_tab_general")
+            ->willReturn("testString");
+
+        $this->testObj->lng = $lng_mock;
+
+        $this->assertEquals("testString", $this->testObj->getGeneralConfigTabLabel());
+    }
+
+    public function testPoolConfigTabLabel() : void
+    {
+        $lng_mock = $this->createMock(ilLanguage::class);
+        $lng_mock->expects($this->once())
+                 ->method("txt")
+                 ->with("tst_rnd_quest_cfg_tab_pool")
+                 ->willReturn("testString");
+
+        $this->testObj->lng = $lng_mock;
+
+        $this->assertEquals("testString", $this->testObj->getPoolConfigTabLabel());
+    }
 }

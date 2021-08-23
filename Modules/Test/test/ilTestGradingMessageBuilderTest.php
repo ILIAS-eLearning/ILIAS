@@ -24,4 +24,10 @@ class ilTestGradingMessageBuilderTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestGradingMessageBuilder::class, $this->testObj);
     }
+
+    public function testActiveId() : void
+    {
+        $this->testObj->setActiveId(2120);
+        $this->assertEquals(2120, $this->testObj->getActiveId());
+    }
 }

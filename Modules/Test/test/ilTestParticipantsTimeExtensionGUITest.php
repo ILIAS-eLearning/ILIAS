@@ -21,4 +21,11 @@ class ilTestParticipantsTimeExtensionGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestParticipantsTimeExtensionGUI::class, $this->testObj);
     }
+
+    public function testTestObj() : void
+    {
+        $mock = $this->createMock(ilObjTest::class);
+        $this->testObj->setTestObj($mock);
+        $this->assertEquals($mock, $this->testObj->getTestObj());
+    }
 }

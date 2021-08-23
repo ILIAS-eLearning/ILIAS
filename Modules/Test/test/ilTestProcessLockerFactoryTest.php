@@ -24,4 +24,10 @@ class ilTestProcessLockerFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestProcessLockerFactory::class, $this->testObj);
     }
+
+    public function testActiveId() : void
+    {
+        $this->testObj->setActiveId(212);
+        $this->assertEquals(212, $this->testObj->getActiveId());
+    }
 }

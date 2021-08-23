@@ -21,4 +21,37 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestExportFactory::class, $this->testObj);
     }
+
+    public function testGetExporter() : void
+    {
+        $this->addGlobal_ilUser();
+        $this->addGlobal_lng();
+        $this->addGlobal_ilias();
+        $this->addGlobal_ilDB();
+        $this->addGlobal_ilLog();
+        $this->addGlobal_ilErr();
+        $this->addGlobal_tree();
+        $this->addGlobal_ilAppEventHandler();
+        $this->addGlobal_objDefinition();
+        if(!defined("IL_INST_ID")) {
+            define("IL_INST_ID", 0);
+        }
+        if(!defined("CLIENT_DATA_DIR")) {
+            define("CLIENT_DATA_DIR", "/tmp");
+        }
+
+        $objTest = new ilObjTest();
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
+        $testObj = new ilTestExportFactory($objTest);
+        $this->assertInstanceOf(ilTestExportFixedQuestionSet::class, $testObj->getExporter());
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
+        $testObj = new ilTestExportFactory($objTest);
+        $this->assertInstanceOf(ilTestExportRandomQuestionSet::class, $testObj->getExporter());
+
+        $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_DYNAMIC);
+        $testObj = new ilTestExportFactory($objTest);
+        $this->assertInstanceOf(ilTestExportDynamicQuestionSet::class, $testObj->getExporter());
+    }
 }

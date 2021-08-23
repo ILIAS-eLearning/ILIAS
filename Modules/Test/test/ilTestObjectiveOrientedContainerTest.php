@@ -21,4 +21,24 @@ class ilTestObjectiveOrientedContainerTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestObjectiveOrientedContainer::class, $this->testObj);
     }
+
+    public function testObjId() : void
+    {
+        $this->testObj->setObjId(125);
+        $this->assertEquals(125, $this->testObj->getObjId());
+    }
+
+    public function testRefId() : void
+    {
+        $this->testObj->setRefId(125);
+        $this->assertEquals(125, $this->testObj->getRefId());
+    }
+
+    public function testIsObjectiveOrientedPresentationRequired() : void
+    {
+        $this->assertFalse($this->testObj->isObjectiveOrientedPresentationRequired());
+
+        $this->testObj->setObjId(1254);
+        $this->assertTrue($this->testObj->isObjectiveOrientedPresentationRequired());
+    }
 }

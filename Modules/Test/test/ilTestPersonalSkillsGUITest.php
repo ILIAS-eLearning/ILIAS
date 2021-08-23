@@ -24,4 +24,36 @@ class ilTestPersonalSkillsGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestPersonalSkillsGUI::class, $this->testObj);
     }
+
+    public function testAvailableSkills() : void
+    {
+        $expected = [
+            "test123" => "test12",
+            "2" => 21,
+        ];
+        $this->testObj->setAvailableSkills($expected);
+        $this->assertEquals($expected, $this->testObj->getAvailableSkills());
+    }
+
+    public function testSelectedSkillProfile() : void
+    {
+        $this->testObj->setSelectedSkillProfile("testString");
+        $this->assertEquals("testString", $this->testObj->getSelectedSkillProfile());
+    }
+
+    public function testReachedSkillLevels() : void
+    {
+        $expected = [
+            "test123" => "test12",
+            "2" => 21,
+        ];
+        $this->testObj->setReachedSkillLevels($expected);
+        $this->assertEquals($expected, $this->testObj->getReachedSkillLevels());
+    }
+
+    public function testUsrId() : void
+    {
+        $this->testObj->setUsrId(212);
+        $this->assertEquals(212, $this->testObj->getUsrId());
+    }
 }

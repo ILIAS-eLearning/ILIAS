@@ -21,4 +21,17 @@ class ilTestInfoScreenToolbarFactoryTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestInfoScreenToolbarFactory::class, $this->testObj);
     }
+
+    public function testTestRefId() : void
+    {
+        $this->testObj->setTestRefId(125);
+        $this->assertEquals(125, $this->testObj->getTestRefId());
+    }
+
+    public function testTestOBJ() : void
+    {
+        $objTest_mock = $this->createMock(ilObjTest::class);
+        $this->testObj->setTestOBJ($objTest_mock);
+        $this->assertEquals($objTest_mock, $this->testObj->getTestOBJ());
+    }
 }
