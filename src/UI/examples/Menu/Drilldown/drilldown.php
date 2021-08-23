@@ -6,16 +6,17 @@ function drilldown()
 {
 
     /**
-        0 Tier des Jahres
-        1    Schweiz
-        1.1        Bachflohkrebs
-        1.2        Wildkatze
-        1.2.1           gewöhnliche Wildkatze
-        1.2.2           große Wildkatze
-        2    Deutschland
-        2.1        Fischotter
-        2.2        Maulwurf
-        2.3        Reh
+        0 Animal of the year
+        1    Switzerland
+        1.1        Riverine Amphipod (gammarus fossarum)
+        1.2        Wildcat
+        1.2.1           European Wildcat
+        1.2.2           African Wildcat
+        2    Germany
+        2.1        Otter
+        2.2        Mole
+                   --divider--
+        2.3        Deer
     */
 
 
@@ -35,25 +36,25 @@ function drilldown()
     $divider = $f->divider()->horizontal();
 
     $items = [
-        $f->menu()->sub('Schweiz (1)', [
-            $f->menu()->sub('Bachflohkrebs (1.1)', [$button, $link]),
-            $f->menu()->sub('Wildkatze (1.2)', [
-                $f->menu()->sub('gewöhnliche Wildkatze (1.2.1)', [$button, $link]),
-                $f->menu()->sub('große Wildkatze (1.2.2)', [$button, $link, $divider, $link])
+        $f->menu()->sub('Switzerland', [
+            $f->menu()->sub('Riverine Amphipod', [$button, $link]),
+            $f->menu()->sub('Wildcat', [
+                $f->menu()->sub('European Wildcat', [$button, $link]),
+                $f->menu()->sub('African Wildcat', [$button, $link, $divider, $link])
             ]),
             $button,
             $link
         ]),
 
-        $f->menu()->sub('Deutschland (2)', [
-            $f->menu()->sub('Fischotter (2.1)', [$button, $link]),
-            $f->menu()->sub('Maulwurf (2.2)', [$button, $link]),
+        $f->menu()->sub('Germany', [
+            $f->menu()->sub('Otter', [$button, $link]),
+            $f->menu()->sub('Mole', [$button, $link]),
             $divider,
-            $f->menu()->sub('Reh (2.3)', [$button, $link])
+            $f->menu()->sub('Deer', [$button, $link])
         ])
     ];
 
-    $dd = $f->menu()->drilldown('Tier des Jahres (0)', $items);
+    $dd = $f->menu()->drilldown('Animal of the year', $items);
 
     return $renderer->render([
         $dd,
