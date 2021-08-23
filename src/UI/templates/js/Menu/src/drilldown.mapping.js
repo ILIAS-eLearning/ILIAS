@@ -61,7 +61,7 @@ var ddmapping = function() {
 
     actions = {
         setEngaged : function(id) {
-            var idx, 
+            var idx, lower,
                 btns = elements.dd.querySelectorAll(classes.BUTTON);
             
             for(idx = 0; idx < btns.length; idx = idx + 1) {
