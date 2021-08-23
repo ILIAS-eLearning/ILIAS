@@ -32,7 +32,6 @@ class ilPluginInfo
         ?Version $current_version,
         ?int $current_db_version,
         Version $available_version,
-        int $available_db_version,
         Version $minimum_ilias_version,
         Version $maximum_ilias_version,
         string $responsible,
@@ -55,7 +54,6 @@ class ilPluginInfo
         $this->current_version = $current_version;
         $this->current_db_version = $current_db_version;
         $this->available_version = $available_version;
-        $this->available_db_version = $available_db_version;
         $this->minimum_ilias_version = $minimum_ilias_version;
         $this->maximum_ilias_version = $maximum_ilias_version;
         $this->responsible = $responsible;
@@ -112,11 +110,6 @@ class ilPluginInfo
     public function getAvailableVersion() : Version
     {
         return $this->available_version;
-    }
-
-    public function getAvailableDBVersion() : int
-    {
-        return $this->available_db_version;
     }
 
     public function getMinimumILIASVersion() : Version

@@ -37,7 +37,6 @@ class ilPluginInfoTest extends TestCase
             $this->data_factory->version("1.0.0"),
             12,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -59,7 +58,6 @@ class ilPluginInfoTest extends TestCase
         $this->assertEquals($this->data_factory->version("1.0.0"), $this->plugin->getCurrentVersion());
         $this->assertEquals(12, $this->plugin->getCurrentDBVersion());
         $this->assertEquals($this->data_factory->version("1.0.0"), $this->plugin->getAvailableVersion());
-        $this->assertEquals(12, $this->plugin->getAvailableDBVersion());
         $this->assertEquals($this->data_factory->version("6.0"), $this->plugin->getMinimumILIASVersion());
         $this->assertEquals($this->data_factory->version("6.99"), $this->plugin->getMaximumILIASVersion());
         $this->assertEquals("Richard Klees", $this->plugin->getResponsible());
@@ -85,7 +83,6 @@ class ilPluginInfoTest extends TestCase
             null,
             null,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -114,7 +111,6 @@ class ilPluginInfoTest extends TestCase
             null,
             null,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -138,7 +134,6 @@ class ilPluginInfoTest extends TestCase
             $this->data_factory->version("2.0.0"),
             11,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -164,7 +159,6 @@ class ilPluginInfoTest extends TestCase
             $this->data_factory->version("1.0.0"),
             12,
             $this->data_factory->version("2.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -184,7 +178,6 @@ class ilPluginInfoTest extends TestCase
             $this->data_factory->version("1.2.2"),
             12,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
@@ -210,7 +203,6 @@ class ilPluginInfoTest extends TestCase
             $this->data_factory->version("1.2.2"),
             12,
             $this->data_factory->version("1.0.0"),
-            12,
             $this->data_factory->version("6.0"),
             $this->data_factory->version("6.99"),
             "Richard Klees",
