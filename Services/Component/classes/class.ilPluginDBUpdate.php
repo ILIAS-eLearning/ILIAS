@@ -2,103 +2,55 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Database Update class
- * @author  Peter Gabriel <pgabriel@databay.de>
- * @version $Id: class.ilDBUpdate.php 15875 2008-02-03 13:56:32Z akill $
- */
+* Database Update class
+*
+* @author Peter Gabriel <pgabriel@databay.de>
+* @author Richard Klees <richard.klees@concepts-and-training.de>
+* @version $Id: class.ilDBUpdate.php 15875 2008-02-03 13:56:32Z akill $
+*/
 class ilPluginDBUpdate extends ilDBUpdate
 {
-    public const PLUGIN_UPDATE_FILE = "/sql/dbupdate.php";
+    protected const PLUGIN_UPDATE_FILE = "/sql/dbupdate.php";
+
+    protected \ilDBInterface $db;
+    protected \ilComponentDataDB $component_data_db;
+    protected string $plugin_id;
 
     /**
      * constructor
      * @noinspection MagicMethodsValidityInspection
      */
     public function __construct(
-        string $a_ctype,
-        string $a_cname,
-        string $a_slot_id,
-        string $a_pname,
-        ilDBInterface $a_db_handler,
-        string $tmp_flag = null,
-        string $a_db_prefix = ''
+        \ilComponentDataDB $component_data_db,
+        \ilDBInterface $db,
+        string $plugin_id
     ) {
-        $this->db_prefix = $a_db_prefix;
+        $this->component_data_db = $component_data_db;
+        $this->db = $db;
+        $this->plugin_id = $plugin_id;
+        
 
-        // workaround to allow setup migration
-        if ($a_db_handler) {
-            $this->db = $a_db_handler;
-
-            if ($tmp_flag) {
-                $this->PATH = "./";
-            } else {
-                $this->PATH = "../";
-            }
-        } else {
-            global $DIC;
-            $mySetup = $DIC['mySetup'];
-            $this->db = $mySetup->db;
-            $this->PATH = "./";
-        }
-
-        $this->ctype = $a_ctype;
-        $this->cname = $a_cname;
-        $this->slot_id = $a_slot_id;
-        $this->pname = $a_pname;
-
-        include_once("./Services/Component/classes/class.ilPluginSlot.php");
-        $this->slot_name = ilPluginSlot::lookupSlotName(
-            $this->ctype,
-            $this->cname,
-            $this->slot_id
-        );
-
-        $this->getCurrentVersion();
-
-        // get update file for current version
-        $updatefile = $this->getFileForStep($this->currentVersion + 1);
-
-        $this->current_file = $updatefile;
-        $this->DB_UPDATE_FILE = $this->PATH .
-            ilPlugin::getDBUpdateScriptName(
-                $this->ctype,
-                $this->cname,
-                $this->slot_name,
-                $this->pname
-            );
-
-        //
-        // NOTE: multiple update files for plugins are not supported yet
-        //
-        $this->LAST_UPDATE_FILE = $this->PATH .
-            ilPlugin::getDBUpdateScriptName(
-                $this->ctype,
-                $this->cname,
-                $this->slot_name,
-                $this->pname
-            );
+        $this->current_file = $this->getFileForStep(0 /* doesn't matter */);
+        ;
+        $this->DB_UPDATE_FILE = $this->PATH . $this->getDBUpdateScriptName();
+        $this->LAST_UPDATE_FILE = $this->DB_UPDATE_FILE;
 
         $this->readDBUpdateFile();
         $this->readLastUpdateFile();
         $this->readFileVersion();
     }
 
-    /**
-     * Get db update file name for db step
-     */
-    public function getFileForStep(int $a_version) : string
+    protected function getPluginInfo() : \ilPluginInfo
     {
-        return "dbupdate.php";
+        return $this->component_data_db->getPluginById($this->plugin_id);
     }
 
     /**
-     * destructor
-     * @return boolean
+     * FROM ilDBUpdate
      */
-    public function _DBUpdate()
+    public function getFileForStep(int $_ /* doesn't matter */) : string
     {
-        // this may be used in setup!?
-//		$this->db->disconnect();
+        return "dbupdate.php";
     }
 
     /**
@@ -106,16 +58,7 @@ class ilPluginDBUpdate extends ilDBUpdate
      */
     public function getCurrentVersion() : int
     {
-        $q = "SELECT db_version FROM il_plugin " .
-            " WHERE component_type = " . $this->db->quote($this->ctype, "text") .
-            " AND component_name = " . $this->db->quote($this->cname, "text") .
-            " AND slot_id = " . $this->db->quote($this->slot_id, "text") .
-            " AND name = " . $this->db->quote($this->pname, "text");
-        $set = $this->db->query($q);
-        $rec = $this->db->fetchAssoc($set);
-
-        $this->currentVersion = (int) $rec["db_version"];
-
+        $this->currentVersion = $this->getPluginInfo()->getCurrentDBVersion() ?? null;
         return $this->currentVersion;
     }
 
@@ -124,15 +67,14 @@ class ilPluginDBUpdate extends ilDBUpdate
      */
     public function setCurrentVersion(int $a_version) : void
     {
-        $q = "UPDATE il_plugin SET db_version = " . $this->db->quote((int) $a_version, "integer") .
-            " WHERE component_type = " . $this->db->quote($this->ctype, "text") .
-            " AND component_name = " . $this->db->quote($this->cname, "text") .
-            " AND slot_id = " . $this->db->quote($this->slot_id, "text") .
-            " AND name = " . $this->db->quote($this->pname, "text");
-        $this->db->manipulate($q);
-        $this->currentVersion = $a_version;
+        throw new \LogicException("NYI");
     }
 
+    public function loadXMLInfo()
+    {
+        return true;
+    }
+    
     /**
      * This is a very simple check. Could be done better.
      */
@@ -140,11 +82,31 @@ class ilPluginDBUpdate extends ilDBUpdate
     {
         if ((is_int(stripos($q, "create table")) || is_int(stripos($q, "alter table")) ||
                 is_int(stripos($q, "drop table")))
-            && !is_int(stripos($q, $this->db_prefix))) {
+            && !is_int(stripos($q, $this->getTablePrefix()))) {
             return "Plugin may only create or alter tables that use prefix " .
-                $this->db_prefix;
+                $this->getTablePrefix();
+        } else {
+            return true;
         }
 
         return true;
+    }
+
+    public function getDBUpdateScriptName() : string
+    {
+        $plugin = $this->getPluginInfo();
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+        return "Customizing/global/plugins/" . $component->getType() . "/" . $component->getName() . "/" .
+            $slot->getName() . "/" . $plugin->getName() . self::PLUGIN_UPDATE_FILE;
+    }
+
+    protected function getTablePrefix() : string
+    {
+        $plugin = $this->getPluginInfo();
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+
+        return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
     }
 }
