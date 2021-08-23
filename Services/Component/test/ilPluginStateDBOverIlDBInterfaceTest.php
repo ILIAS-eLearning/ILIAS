@@ -7,7 +7,7 @@ use ILIAS\Data;
 
 class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 {
-    static array $plugin_data = [
+    public static array $plugin_data = [
         [
             "plugin_id" => "plg1",
             "active" => true,

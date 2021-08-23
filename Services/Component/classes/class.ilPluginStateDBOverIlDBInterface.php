@@ -8,6 +8,8 @@ use ILIAS\Data\Version;
  */
 class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
 {
+    protected const TABLE_NAME = "il_plugin";
+
     protected Data\Factory $data_factory;
     protected \ilDBInterface $db;
 
@@ -26,13 +28,13 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
             return;
         }
 
-        $res = $this->db->query("SELECT * FROM il_plugin");
+        $res = $this->db->query("SELECT * FROM " . self::TABLE_NAME);
         $this->data = [];
         foreach ($this->db->fetchAll($res) as $data) {
             $this->data[$data["plugin_id"]] = [
-                (bool)$data["active"],
+                (bool) $data["active"],
                 $data["last_update_version"] ? $this->data_factory->version($data["last_update_version"]) : null,
-                $data["db_version"] ? (int)$data["db_version"] : null
+                $data["db_version"] ? (int) $data["db_version"] : null
             ];
         }
         $this->has_data = true;
@@ -54,5 +56,32 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
     {
         $this->getData();
         return $this->data[$id][2] ?? null;
+    }
+
+    public function setCurrentPluginVersion(string $id, Version $version, int $db_version)
+    {
+        $this->getData();
+        if (isset($this->data[$id])) {
+            $this->db->update(
+                self::TABLE_NAME,
+                [
+                    "last_update_version" => ["text", (string) $version],
+                    "db_version" => ["integer", $db_version]
+                ],
+                [
+                    "plugin_id" => ["text", $id]
+                ]
+            );
+        } else {
+            $this->db->insert(
+                self::TABLE_NAME,
+                [
+                    "plugin_id" => ["text", $id],
+                    "active" => ["integer", 0],
+                    "last_update_version" => ["text", (string) $version],
+                    "db_version" => ["integer", $db_version]
+                ]
+            );
+        }
     }
 }

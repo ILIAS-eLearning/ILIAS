@@ -70,6 +70,9 @@ class ilArtifactComponentDataDBTest extends TestCase
             {
                 return 13;
             }
+            public function setCurrentPluginVersion(string $id, Data\Version $v, int $db_version)
+            {
+            }
         };
 
         $this->db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
@@ -80,6 +83,10 @@ class ilArtifactComponentDataDBTest extends TestCase
             protected function readPluginData() : array
             {
                 return ilArtifactComponentDataDBTest::$plugin_data;
+            }
+            public function _buildDatabase()
+            {
+                $this->buildDatabase();
             }
         };
 
@@ -233,7 +240,6 @@ class ilArtifactComponentDataDBTest extends TestCase
 
     public function testGetComponentById()
     {
-        $slots = [];
         $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
         $this->assertEquals($this->mod2, $this->db->getComponentById("mod2"));
         $this->assertEquals($this->ser1, $this->db->getComponentById("ser1"));
@@ -242,7 +248,6 @@ class ilArtifactComponentDataDBTest extends TestCase
 
     public function testGetComponentByTypeAndName()
     {
-        $slots = [];
         $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
         $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("Modules", "Module2"));
         $this->assertEquals($this->ser1, $this->db->getComponentByTypeAndName("Services", "Service1"));
@@ -401,5 +406,112 @@ class ilArtifactComponentDataDBTest extends TestCase
             ->getPluginById("plg1");
 
         $this->assertEquals($this->plg1, $plg1);
+    }
+
+    public function testSetCurrentPluginVersionCallsStateDB()
+    {
+        $VERSION = $this->data_factory->version("1000.0.0");
+        $DB_VERSION = 1000;
+
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $plugin_state_db
+            ->method("isPluginActivated")
+            ->with("plg1")
+            ->willReturn(true);
+        $plugin_state_db
+            ->method("getCurrentPluginVersion")
+            ->with("plg1")
+            ->willReturn($this->data_factory->version("1.8.0"));
+        $plugin_state_db
+            ->method("getCurrentPluginDBVersion")
+            ->with("plg1")
+            ->willReturn(42);
+        $plugin_state_db->expects($this->once())
+            ->method("setCurrentPluginVersion")
+            ->with("plg1", $VERSION, $DB_VERSION);
+
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $db->setCurrentPluginVersion("plg1", $VERSION, $DB_VERSION);
+    }
+
+    public function testSetCurrentPluginVersionCallsStateDBTriggersRebuild()
+    {
+        $VERSION = $this->data_factory->version("1000.0.0");
+        $DB_VERSION = 1000;
+
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            public int $build_called = 0;
+            protected function buildDatabase()
+            {
+                $this->build_called++;
+                parent::buildDatabase();
+            }
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $this->assertEquals(1, $db->build_called);
+
+        $db->setCurrentPluginVersion("plg1", $VERSION, $DB_VERSION);
+
+        $this->assertEquals(2, $db->build_called);
+    }
+
+    public function testCallBuildDatabaseTwice()
+    {
+        $this->db->_buildDatabase();
+
+        $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
+        $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
+        $this->assertEquals($this->slt1, $this->db->getPluginslotById("slt1"));
+        $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
+        $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
     }
 }
