@@ -5,10 +5,14 @@ use ILIAS\Data;
 /**
  * Repository for component data implemented over artifacts.
  */
-class ilArtifactComponentDataDB implements ilComponentDataDB
+class ilArtifactComponentDataDB implements ilComponentDataDBWrite
 {
     public const COMPONENT_DATA_PATH = "Services/Component/artifacts/component_data.php";
     public const PLUGIN_DATA_PATH = "Services/Component/artifacts/plugin_data.php";
+
+    protected Data\Factory $data_factory;
+    protected ilPluginStateDB $plugin_state_db;
+    protected Data\Version $ilias_version;
 
     protected array $components;
     protected array $component_id_by_type_and_name;
@@ -17,6 +21,15 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
     protected array $plugin_by_name;
 
     public function __construct(Data\Factory $data_factory, ilPluginStateDB $plugin_state_db, Data\Version $ilias_version)
+    {
+        $this->data_factory = $data_factory;
+        $this->plugin_state_db = $plugin_state_db;
+        $this->ilias_version = $ilias_version;
+
+        $this->buildDatabase();
+    }
+
+    protected function buildDatabase()
     {
         $component_data = $this->readComponentData();
         $plugin_data = $this->readPluginData();
@@ -69,16 +82,16 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
             }
             $slot = $component->getPluginSlotByName($slot_name);
             $this->plugin_by_id[$plugin_id] = new ilPluginInfo(
-                $ilias_version,
+                $this->ilias_version,
                 $slot,
                 $plugin_id,
                 $plugin_name,
-                $plugin_state_db->isPluginActivated($plugin_id),
-                $plugin_state_db->getCurrentPluginVersion($plugin_id),
-                $plugin_state_db->getCurrentPluginDBVersion($plugin_id),
-                $data_factory->version($plugin_version),
-                $data_factory->version($ilias_min_version),
-                $data_factory->version($ilias_max_version),
+                $this->plugin_state_db->isPluginActivated($plugin_id),
+                $this->plugin_state_db->getCurrentPluginVersion($plugin_id),
+                $this->plugin_state_db->getCurrentPluginDBVersion($plugin_id),
+                $this->data_factory->version($plugin_version),
+                $this->data_factory->version($ilias_min_version),
+                $this->data_factory->version($ilias_max_version),
                 $responsible,
                 $responsible_mail,
                 $learning_progress ?? false,
@@ -241,5 +254,22 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
         throw new \InvalidArgumentException(
             "No plugin with name $name."
         );
+    }
+
+    public function setCurrentPluginVersion(string $plugin_id, Data\Version $version, int $db_version)
+    {
+        $plugin = $this->getPluginById($plugin_id);
+        if ($plugin->getCurrentVersion() !== null && $plugin->getCurrentVersion()->isGreaterThanOrEquals($version)) {
+            throw new \RuntimeException(
+                "Cannot upgrade plugins version from $version to {$plugin->getCurrentVersion()}"
+            );
+        }
+        if ($plugin->getCurrentDBVersion() !== null && $plugin->getCurrentDBVersion() > $db_version) {
+            throw new \RuntimeException(
+                "Cannot downgrade plugins db version from {$plugin->getCurrentDBVersion()} to $db_version"
+            );
+        }
+        $this->plugin_state_db->setCurrentPluginVersion($plugin_id, $version, $db_version);
+        $this->buildDatabase();
     }
 }

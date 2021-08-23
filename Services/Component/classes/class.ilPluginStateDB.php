@@ -10,4 +10,5 @@ interface ilPluginStateDB
     public function isPluginActivated(string $id) : bool;
     public function getCurrentPluginVersion(string $id) : ?Version;
     public function getCurrentPluginDBVersion(string $id) : ?int;
+    public function setCurrentPluginVersion(string $id, Version $version, int $db_version);
 }

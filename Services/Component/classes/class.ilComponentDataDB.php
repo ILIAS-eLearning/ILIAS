@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /**
- * Repository interface for component data.
+ * Writeable part of repository interface to ilComponenDataDB.
  */
 interface ilComponentDataDB
 {
