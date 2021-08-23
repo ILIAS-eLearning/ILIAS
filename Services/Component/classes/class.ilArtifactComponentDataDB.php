@@ -77,7 +77,6 @@ class ilArtifactComponentDataDB implements ilComponentDataDB
                 $plugin_state_db->getCurrentPluginVersion($plugin_id),
                 $plugin_state_db->getCurrentPluginDBVersion($plugin_id),
                 $data_factory->version($plugin_version),
-                0,
                 $data_factory->version($ilias_min_version),
                 $data_factory->version($ilias_max_version),
                 $responsible,
