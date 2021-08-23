@@ -5,7 +5,7 @@
 /**
  * Skill tree
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Thomas Famula <famula@leifos.de>
  */
 class ilGlobalSkillTree extends ilSkillTree
 {

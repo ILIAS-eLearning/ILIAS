@@ -17,6 +17,9 @@ class ilSkillImporter extends ilXmlImporter
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->setDSPrefix("ds");
+
+        $this->config = $this->getImport()->getConfig("Services/Skill");
+        $this->ds->setSkillTreeId($this->config->getSkillTreeId());
     }
 
 

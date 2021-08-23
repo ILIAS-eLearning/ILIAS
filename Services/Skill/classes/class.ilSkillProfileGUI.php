@@ -95,6 +95,9 @@ class ilSkillProfileGUI
         
         if ($this->id > 0) {
             $this->profile = new ilSkillProfile($this->id);
+            if ($this->skill_tree_id == 0) {
+                $this->skill_tree_id = $this->profile->getSkeeId();
+            }
             if ($this->profile->getRefId() > 0 && (bool) $_GET["local_context"]) {
                 $this->local_context = true;
             }
@@ -970,6 +973,7 @@ class ilSkillProfileGUI
         $conf = $exp->getConfig("Services/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
         $conf->setSelectedProfiles($_POST["id"]);
+        $conf->setSkillTreeId($this->skill_tree_id);
         $exp->exportObject("skee", ilObject::_lookupObjId((int) $_GET["ref_id"]));
 
         //ilExport::_createExportDirectory(0, "xml", "");
@@ -1027,6 +1031,8 @@ class ilSkillProfileGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
+            $conf = $imp->getConfig("Services/Skill");
+            $conf->setSkillTreeId($this->skill_tree_id);
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skee", "Services/Skill");
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

@@ -6,7 +6,7 @@ namespace ILIAS\Skill\Access;
 
 /**
  * Skill tree access
- * @author Alexander Killing <killing@leifos.de>
+ * @author Thomas Famula <famula@leifos.de>
  */
 class SkillTreeAccess
 {
@@ -18,7 +18,12 @@ class SkillTreeAccess
     /**
      * @var int
      */
-    protected $obj_skill_tree_ref_id;
+    protected $ref_id;
+
+    /**
+     * @var string
+     */
+    protected $obj_type;
 
     /**
      * @var int
@@ -28,10 +33,11 @@ class SkillTreeAccess
     /**
      * Constructor
      */
-    public function __construct(\ilRbacSystem $access, int $obj_skill_tree_ref_id, int $usr_id)
+    public function __construct(\ilRbacSystem $access, int $ref_id, int $usr_id)
     {
         $this->access = $access;
-        $this->obj_skill_tree_ref_id = $obj_skill_tree_ref_id;
+        $this->ref_id = $ref_id;
+        $this->obj_type = \ilObject::_lookupType($this->ref_id, true);
         $this->usr_id = $usr_id;
     }
 
@@ -44,7 +50,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "visible,read", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "visible,read", $this->ref_id);
     }
 
     /**
@@ -56,7 +62,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "write", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "write", $this->ref_id);
     }
 
     /**
@@ -68,7 +74,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "edit_permission", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "edit_permission", $this->ref_id);
     }
 
     /**
@@ -80,7 +86,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "read_comp", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "read_comp", $this->ref_id);
     }
 
     /**
@@ -92,7 +98,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp", $this->ref_id);
     }
 
     /**
@@ -104,7 +110,7 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp_temp", $this->obj_skill_tree_ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_comp_temp", $this->ref_id);
     }
 
     /**
@@ -116,7 +122,10 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "read_profiles", $this->obj_skill_tree_ref_id);
+        if ($this->obj_type == "crs" || $this->obj_type == "grp") {
+            return $this->access->checkAccessOfUser($a_usr_id, "read", $this->ref_id);
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "read_profiles", $this->ref_id);
     }
 
     /**
@@ -128,6 +137,9 @@ class SkillTreeAccess
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "manage_profiles", $this->obj_skill_tree_ref_id);
+        if ($this->obj_type == "crs" || $this->obj_type == "grp") {
+            return $this->access->checkAccessOfUser($a_usr_id, "write", $this->ref_id);
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "manage_profiles", $this->ref_id);
     }
 }

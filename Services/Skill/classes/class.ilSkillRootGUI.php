@@ -222,6 +222,8 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $form = $this->initInputForm();
         if ($form->checkInput()) {
             $imp = new ilImport();
+            $conf = $imp->getConfig("Services/Skill");
+            $conf->setSkillTreeId($this->skill_tree_id);
             $imp->importEntity($_FILES["import_file"]["tmp_name"], $_FILES["import_file"]["name"], "skee", "Services/Skill");
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

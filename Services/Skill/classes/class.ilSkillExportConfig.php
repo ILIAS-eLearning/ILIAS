@@ -15,6 +15,7 @@ class ilSkillExportConfig extends ilExportConfig
     protected $selected_nodes = false;
     protected $selected_profiles = false;
     protected $mode = "";
+    protected $skill_tree_id = 0;
 
     /**
      * Set mode
@@ -74,5 +75,15 @@ class ilSkillExportConfig extends ilExportConfig
     public function getSelectedProfiles()
     {
         return $this->selected_profiles;
+    }
+
+    public function setSkillTreeId(int $skill_tree_id)
+    {
+        $this->skill_tree_id = $skill_tree_id;
+    }
+
+    public function getSkillTreeId() : int
+    {
+        return $this->skill_tree_id;
     }
 }

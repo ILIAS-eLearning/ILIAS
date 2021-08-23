@@ -22,40 +22,22 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @var int
      */
-    protected $skill_tree_id;
-    /**
-     * @var ilSkillTree
-     */
-    protected $skill_tree;
+    protected $skill_tree_id = 0;
+
     protected $init_order_nr;
     protected $selected_nodes = false;
     protected $selected_profiles = false;
     protected $mode = "";
 
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface
+     * @var \ILIAS\Skill\Service\SkillInternalManagerService
      */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var ilBasicSkillTreeRepository
-     */
-    protected $tree_repo;
+    protected $skill_manager;
 
     /**
      * @var \ILIAS\Skill\Tree\SkillTreeFactory
      */
-    protected $tree_factory;
-
-    /**
-     * @var \ILIAS\Skill\Tree\SkillTreeNodeManager
-     */
-    protected $tree_node_manager;
+    protected $skill_tree_factory;
 
     /**
      * Constructor
@@ -65,20 +47,9 @@ class ilSkillDataSet extends ilDataSet
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->request = $DIC->http()->request();
         parent::__construct();
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
-        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
-
-        $this->skill_tree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_obj_id);
-        $this->skill_tree = $this->tree_factory->getTreeById($this->skill_tree_id);
-        $this->skill_tree_root_id = $this->skill_tree->readRootId();
-        $this->tree_node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($this->skill_tree_id);
-
-        $this->init_top_order_nr = $this->skill_tree->getMaxOrderNr($this->skill_tree_root_id);
-        $this->init_templ_top_order_nr = $this->skill_tree->getMaxOrderNr($this->skill_tree_root_id, true);
+        $this->skill_manager = $DIC->skills()->internal()->manager();
+        $this->skill_tree_factory = $DIC->skills()->internal()->factory()->tree();
     }
 
     /**
@@ -139,6 +110,16 @@ class ilSkillDataSet extends ilDataSet
     public function getSelectedProfiles()
     {
         return $this->selected_profiles;
+    }
+
+    public function setSkillTreeId(int $skill_tree_id)
+    {
+        $this->skill_tree_id = $skill_tree_id;
+    }
+
+    public function getSkillTreeId() : int
+    {
+        return $this->skill_tree_id;
     }
 
     /**
@@ -306,6 +287,7 @@ class ilSkillDataSet extends ilDataSet
     public function readData($a_entity, $a_version, $a_ids, $a_field = "")
     {
         $ilDB = $this->db;
+        $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
 
         $this->data = array();
 
@@ -332,7 +314,7 @@ class ilSkillDataSet extends ilDataSet
                 case "7.0":
                 case "8.0":
                     foreach ($a_ids as $id) {
-                        $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id));
+                        $sub = $skill_tree->getSubTree($skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
                             $set = $ilDB->query(
                                 "SELECT * FROM skl_templ_ref " .
@@ -370,7 +352,7 @@ class ilSkillDataSet extends ilDataSet
                 case "7.0":
                 case "8.0":
                     foreach ($a_ids as $id) {
-                        $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id));
+                        $sub = $skill_tree->getSubTree($skill_tree->getNodeData($id));
                         foreach ($sub as $s) {
                             $top_node = ($s["child"] == $id)
                                     ? 1
@@ -426,7 +408,7 @@ class ilSkillDataSet extends ilDataSet
                             "Id" => $rec["id"],
                             "Title" => $rec["title"],
                             "Description" => $rec["description"],
-                            "SkeeId" => $this->skill_tree_id
+                            "SkeeId" => $this->getSkillTreeId()
                         ];
                     }
                     break;
@@ -454,7 +436,7 @@ class ilSkillDataSet extends ilDataSet
                                 "Title" => $rec["title"],
                                 "Description" => $rec["description"],
                                 "RefId" => $obj_ref_id,
-                                "SkeeId" => $this->skill_tree_id
+                                "SkeeId" => $this->getSkillTreeId()
                             ];
                         }
                     }
@@ -477,7 +459,7 @@ class ilSkillDataSet extends ilDataSet
                                 "Title" => $rec["title"],
                                 "Description" => $rec["description"],
                                 "RefId" => $obj_ref_id,
-                                "SkeeId" => $this->skill_tree_id
+                                "SkeeId" => $this->getSkillTreeId()
                             ];
                         }
                     }
@@ -509,6 +491,7 @@ class ilSkillDataSet extends ilDataSet
     protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
     {
         $ilDB = $this->db;
+        $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
 
         switch ($a_entity) {
             case "skee":
@@ -518,7 +501,7 @@ class ilSkillDataSet extends ilDataSet
                     $sel_nodes = $this->getSelectedNodes();
                     $exp_types = array("skll", "scat", "sctr", "sktr");
                     if (!is_array($sel_nodes)) {
-                        $childs = $this->skill_tree->getChildsByTypeFilter($this->skill_tree->readRootId(), $exp_types);
+                        $childs = $skill_tree->getChildsByTypeFilter($skill_tree->readRootId(), $exp_types);
                         $deps = array();
                         $skl_subtree_deps = array();
                         foreach ($childs as $c) {
@@ -539,7 +522,7 @@ class ilSkillDataSet extends ilDataSet
                             if (ilSkillTreeNode::_lookupType($id) == "sktr") {
                                 $ref_nodes[$id] = $id;
                             } else {
-                                $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id), true, "sktr");
+                                $sub = $skill_tree->getSubTree($skill_tree->getNodeData($id), true, "sktr");
                                 foreach ($sub as $s) {
                                     $ref_nodes[$s["child"]] = $s["child"];
                                 }
@@ -589,13 +572,20 @@ class ilSkillDataSet extends ilDataSet
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
+        $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
+        $skill_tree_root_id = $skill_tree->readRootId();
+        $tree_node_manager = $this->skill_manager->getTreeNodeManager($this->getSkillTreeId());
+
+        $init_top_order_nr = $skill_tree->getMaxOrderNr($skill_tree_root_id);
+        $init_templ_top_order_nr = $skill_tree->getMaxOrderNr($skill_tree_root_id, true);
+
         $source_inst_id = $a_mapping->getInstallId();
         switch ($a_entity) {
             case "skl_subtree":
                 if ($a_rec["TopNode"] == 1) {
-                    $parent = $this->skill_tree_root_id;
+                    $parent = $skill_tree_root_id;
                     $status = ilSkillTreeNode::STATUS_DRAFT;
-                    $order = $a_rec["OrderNr"] + $this->init_top_order_nr;
+                    $order = $a_rec["OrderNr"] + $init_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
                     $status = $a_rec["Status"];
@@ -605,13 +595,13 @@ class ilSkillDataSet extends ilDataSet
                     case "scat":
                         $scat = new ilSkillCategory();
                         $scat->setTitle($a_rec["Title"]);
-                        $scat->setDescription($a_rec["Description"]);
+                        $scat->setDescription($a_rec["Description"]); // Problem bei PHP 8 (--> ?? "")
                         $scat->setImportId("il_" . $source_inst_id . "_scat_" . $a_rec["Child"]);
                         $scat->setSelfEvaluation($a_rec["SelfEval"]);
                         $scat->setOrderNr($order);
                         $scat->setStatus($status);
                         $scat->create();
-                        $this->tree_node_manager->putIntoTree($scat, $parent);
+                        $tree_node_manager->putIntoTree($scat, $parent);
                         $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $scat->getId());
                         break;
 
@@ -624,7 +614,7 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setOrderNr($order);
                         $skll->setStatus($status);
                         $skll->create();
-                        $this->tree_node_manager->putIntoTree($skll, $parent);
+                        $tree_node_manager->putIntoTree($skll, $parent);
                         $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $skll->getId());
                         break;
 
@@ -641,7 +631,7 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setSkillTemplateId($template_id);
                             $sktr->setStatus($status);
                             $sktr->create();
-                            $this->tree_node_manager->putIntoTree($sktr, $parent);
+                            $tree_node_manager->putIntoTree($sktr, $parent);
                             $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktr->getId());
                         }
                         break;
@@ -651,8 +641,8 @@ class ilSkillDataSet extends ilDataSet
 
             case "skl_templ_subtree":
                 if ($a_rec["TopNode"] == 1) {
-                    $parent = $this->skill_tree_root_id;
-                    $order = $a_rec["OrderNr"] + $this->init_templ_top_order_nr;
+                    $parent = $skill_tree_root_id;
+                    $order = $a_rec["OrderNr"] + $init_templ_top_order_nr;
                 } else {
                     $parent = (int) $a_mapping->getMapping("Services/Skill", "skl_tree", $a_rec["Parent"]);
                     $order = $a_rec["OrderNr"];
@@ -665,7 +655,7 @@ class ilSkillDataSet extends ilDataSet
                         $sctp->setImportId("il_" . $source_inst_id . "_sctp_" . $a_rec["Child"]);
                         $sctp->setOrderNr($order);
                         $sctp->create();
-                        $this->tree_node_manager->putIntoTree($sctp, $parent);
+                        $tree_node_manager->putIntoTree($sctp, $parent);
                         $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sctp->getId());
                         break;
 
@@ -676,7 +666,7 @@ class ilSkillDataSet extends ilDataSet
                         $sktp->setImportId("il_" . $source_inst_id . "_sktp_" . $a_rec["Child"]);
                         $sktp->setOrderNr($order);
                         $sktp->create();
-                        $this->tree_node_manager->putIntoTree($sktp, $parent);
+                        $tree_node_manager->putIntoTree($sktp, $parent);
                         $a_mapping->addMapping("Services/Skill", "skl_tree", $a_rec["Child"], $sktp->getId());
                         break;
                 }
@@ -700,7 +690,7 @@ class ilSkillDataSet extends ilDataSet
                 $prof = new ilSkillProfile();
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);
-                $prof->setSkeeId($this->skill_tree_id);
+                $prof->setSkeeId($this->getSkillTreeId());
                 $prof->create();
                 $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
                 break;
@@ -710,7 +700,7 @@ class ilSkillDataSet extends ilDataSet
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);
                 $prof->setRefId($a_rec["RefId"]);
-                $prof->setSkeeId($this->skill_tree_id);
+                $prof->setSkeeId($this->getSkillTreeId());
                 $prof->create();
                 $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], $prof->getId());
                 break;

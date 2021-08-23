@@ -58,6 +58,16 @@ class ilSkillTreeNodeGUI
      */
     protected $tree_access_manager;
 
+    /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var int
+     */
+    protected $skill_tree_id;
+
     protected $requested_obj_id;
 
     /**
@@ -86,9 +96,11 @@ class ilSkillTreeNodeGUI
         $this->node_object = null;
         $this->access = $ilAccess;
         $this->ref_id = (int) $_GET["ref_id"];
+        $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
         $this->skill_tree_node_manager = $node_manager;
         $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->ref_id);
-        $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->skill_tree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_obj_id);
 
         if ($a_node_id > 0 &&
             $this->getType() == ilSkillTreeNode::_lookupType($a_node_id)) {
@@ -761,6 +773,7 @@ class ilSkillTreeNodeGUI
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setSelectedNodes($_POST["id"]);
+        $conf->setSkillTreeId($this->skill_tree_id);
         $exp->exportObject("skee", ilObject::_lookupObjId((int) $_GET["ref_id"]));
 
         $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
