@@ -124,39 +124,6 @@ class ilPluginAdmin
         return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
     }
 
-
-    /**
-     * Get info for all active plugins.
-     *
-     * @return    array
-     */
-    protected static function getActivePlugins()
-    {
-        static $active_plugins = null;
-        if ($active_plugins === null) {
-            global $DIC;
-            $component_data_db = $DIC["component.db"];
-            $active_plugins = [];
-
-            foreach ($component_data_db->getPlugins() as $id => $plugin) {
-                if (!$plugin->isActivated()) {
-                    continue;
-                }
-                $active_plugins[] = [
-                    "component_type" => $plugin->getComponent()->getType(),
-                    "component_name" => $plugin->getComponent()->getName(),
-                    "slot_id" => $plugin->getPluginSlot()->getId(),
-                    "name" => $plugin->getName(),
-                    "last_update_version" => (string) $plugin->getCurrentVersion(),
-                    "active" => $plugin->isActivated() ? "1" : "0",
-                    "db_version" => $plugin->getCurrentDBVersion(),
-                    "plugin_id" => $plugin->getId()
-                ];
-            }
-        }
-        return $active_plugins;
-    }
-
     /**
      * Get a plugin-object by id
      *
@@ -173,41 +140,5 @@ class ilPluginAdmin
             $plugin_info->getPluginSlot()->getId(),
             $plugin_info->getName()
         );
-    }
-
-
-    /**
-     * @deprecated
-     * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
-     */
-    public static function getAllGlobalScreenProviders() : array
-    {
-        $providers = array();
-        // return array(); // current fix
-        foreach (self::getActivePlugins() as $plugin) {
-            $pl = self::getPluginObjectById($plugin['plugin_id']);
-            if ($pl->isActive()) {
-                array_push($providers, $pl->promoteGlobalScreenProvider());
-            }
-        }
-
-        return $providers;
-    }
-
-
-    /**
-     * @return Generator
-     */
-    public static function getGlobalScreenProviderCollections() : Generator
-    {
-        /**
-         * @var $pl ilPlugin
-         */
-        foreach (self::getActivePlugins() as $plugin) {
-            $pl = self::getPluginObjectById($plugin['plugin_id']);
-            if ($pl->isActive()) {
-                yield $pl->getGlobalScreenProviderCollection();
-            }
-        }
     }
 }
