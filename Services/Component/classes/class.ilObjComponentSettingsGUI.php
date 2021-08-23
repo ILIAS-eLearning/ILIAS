@@ -299,21 +299,14 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $langs = ilPlugin::getAvailableLangFiles($plugin->getPath() . "/lang");
 
         // dbupdate
-        $file = $plugin->getPath() . ilPluginDBUpdate::PLUGIN_UPDATE_FILE;
-        $db_curr = $db_file = null;
-        if (@is_file($file)) {
-            $dbupdate = new ilPluginDBUpdate(
-                $component->getType(),
-                $component->getName(),
-                $pluginslot->getId(),
-                $plugin->getName(),
-                $this->db,
-                true,
-                ""
-            );
-
+        $db_update = new ilPluginDBUpdate(
+            $this->component_data_db,
+            $this->db,
+            $plugin->getId()
+        );
+        if (!isset($db_update->error)) {
             $db_curr = $plugin->getCurrentDBVersion();
-            $db_file = $dbupdate->getFileVersion();
+            $db_file = $db_update->getFileVersion();
         }
 
         // toolbar actions
@@ -594,8 +587,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 $this->lng->txt("cmps_uninstall_confirm"),
                 $pl->getPluginName()
             );
-        }
-        else {
+        } else {
             $question = sprintf(
                 $this->lng->txt("cmps_uninstall_inactive_confirm"),
                 $pl->getPluginName(),
