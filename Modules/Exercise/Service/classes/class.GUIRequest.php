@@ -2,21 +2,23 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+namespace ILIAS\Exercise;
+
 use ILIAS\HTTP;
 use ILIAS\Refinery;
 
 /**
- * Exercise ui request
+ * Exercise gui request wrapper
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExerciseUIRequest
+class GUIRequest
 {
     protected int $requested_ref_id;
     protected int $requested_ass_id;
     protected int $requested_member_id;
-    protected ?ilExAssignment $ass = null;
-    protected ?ilObjExercise $exc = null;
+    protected ?\ilExAssignment $ass = null;
+    protected ?\ilObjExercise $exc = null;
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
     protected ?array $passed_query_params;
@@ -29,7 +31,7 @@ class ilExerciseUIRequest
      * @param Refinery\Factory $refinery
      * @param array|null       $passed_query_params
      * @param array|null       $passed_post_data
-     * @throws ilExcUnknownAssignmentTypeException
+     * @throws \ilExcUnknownAssignmentTypeException
      */
     public function __construct(
         HTTP\Services $http,
@@ -47,10 +49,10 @@ class ilExerciseUIRequest
         $this->requested_member_id = $this->int("member_id");
 
         if ($this->getRequestedAssId() > 0) {
-            $this->ass = new ilExAssignment($this->getRequestedAssId());
+            $this->ass = new \ilExAssignment($this->getRequestedAssId());
         }
-        if ($this->getRequestedRefId() > 0 && ilObject::_lookupType($this->getRequestedRefId(), true) == "exc") {
-            $this->exc = new ilObjExercise($this->getRequestedRefId());
+        if ($this->getRequestedRefId() > 0 && \ilObject::_lookupType($this->getRequestedRefId(), true) == "exc") {
+            $this->exc = new \ilObjExercise($this->getRequestedRefId());
         }
     }
 
@@ -109,12 +111,12 @@ class ilExerciseUIRequest
         return $this->requested_member_id;
     }
 
-    public function getRequestedExercise() : ?ilObjExercise
+    public function getRequestedExercise() : ?\ilObjExercise
     {
         return $this->exc;
     }
 
-    public function getRequestedAssignment() : ?ilExAssignment
+    public function getRequestedAssignment() : ?\ilExAssignment
     {
         return $this->ass;
     }

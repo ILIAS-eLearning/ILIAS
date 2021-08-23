@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
 /**
  * Exercise submission base gui
@@ -21,14 +22,18 @@ abstract class ilExSubmissionBaseGUI
     protected ilObjExercise $exercise;
     protected ilExSubmission $submission;
     protected ilExAssignment $assignment;
-    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected MandatoryAssignmentsManager $mandatory_manager;
     protected ContextServices $tool_context;
     protected ilExAssignmentTypesGUI $type_guis;
-    
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function __construct(
         ilObjExercise $a_exercise,
         ilExSubmission $a_submission
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -40,7 +45,12 @@ abstract class ilExSubmissionBaseGUI
         $this->submission = $a_submission;
         $this->assignment = $a_submission->getAssignment();
 
-        $this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this->exercise);
+        $this->mandatory_manager = $DIC
+            ->exercise()
+            ->internal()
+            ->domain()
+            ->assignment()
+            ->mandatoryAssignments($this->exercise);
         
         // :TODO:
         $this->ctrl = $ilCtrl;

@@ -2,29 +2,35 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+namespace ILIAS\Exercise\Assignment\Mandatory;
+
+use ILIAS\Exercise\Assignment;
+use ILIAS\Exercise\Submission;
+
 /**
  * Manages random mandatory assignments of an exercise
  * (business logic)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcRandomAssignmentManager
+class RandomAssignmentsManager
 {
     public const DENIED_SUBMISSIONS = "has_submissions";
     public const DENIED_PEER_REVIEWS = "has_peer_reviews";
     public const DENIED_TEAM_ASSIGNMENTS = "has_team_assignments";
 
-    protected ilObjExercise $exc;
+    protected \ilObjExercise $exc;
     protected int $exc_id;
-    protected ilObjUser $user;
-    protected ilExcRandomAssignmentDBRepository $rand_ass_repo;
-    protected ilLanguage $lng;
-    protected ilExcSubmissionRepository $submission_repo;
+    protected \ilObjUser $user;
+    protected RandomAssignmentsDBRepository $rand_ass_repo;
+    protected \ilLanguage $lng;
+    protected Submission\SubmissionRepositoryInterface $submission_repo;
 
     public function __construct(
-        ilObjExercise $exc,
-        ilExcRandomAssignmentDBRepository $rand_ass_repo,
-        ilObjUser $user = null,
-        ilLanguage $lng = null
+        \ilObjExercise $exc,
+        RandomAssignmentsDBRepository $rand_ass_repo,
+        Submission\SubmissionRepositoryInterface $submission_repo,
+        \ilObjUser $user = null,
+        \ilLanguage $lng = null
     ) {
         global $DIC;
 
@@ -38,14 +44,14 @@ class ilExcRandomAssignmentManager
             ? $DIC->language()
             : $lng;
 
-        $this->submission_repo = new ilExcSubmissionRepository($DIC->database());
+        $this->submission_repo = $submission_repo;
     }
 
     // Checks if the random assignment can be activated (if no learner has already submitted stuff)
     public function canBeActivated() : bool
     {
-        /** @var ilExAssignment $ass */
-        foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
+        /** @var \ilExAssignment $ass */
+        foreach (\ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
             if ($ass->getPeerReview() || $ass->getAssignmentType()->usesTeams()) {
                 return false;
             }
@@ -56,7 +62,7 @@ class ilExcRandomAssignmentManager
     /**
      * Get reasons for denied activation
      * @return string[]
-     * @throws ilExcUnknownAssignmentTypeException
+     * @throws \ilExcUnknownAssignmentTypeException
      */
     public function getDeniedActivationReasons() : array
     {
@@ -64,8 +70,8 @@ class ilExcRandomAssignmentManager
         $lng->loadLanguageModule("exc");
         $has_peer_reviews = false;
         $has_teams = false;
-        /** @var ilExAssignment $ass */
-        foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
+        /** @var \ilExAssignment $ass */
+        foreach (\ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
             if ($ass->getPeerReview()) {
                 $has_peer_reviews = true;
             }
@@ -110,12 +116,12 @@ class ilExcRandomAssignmentManager
     // Is random assignment activated?
     public function isActivated() : bool
     {
-        return ($this->exc->getPassMode() == ilObjExercise::PASS_MODE_RANDOM);
+        return ($this->exc->getPassMode() == \ilObjExercise::PASS_MODE_RANDOM);
     }
 
     public function getTotalNumberOfAssignments() : int
     {
-        return count(ilExAssignment::getInstancesByExercise($this->exc_id));
+        return count(\ilExAssignment::getInstancesByExercise($this->exc_id));
     }
 
     public function getNumberOfMandatoryAssignments() : int
@@ -125,8 +131,8 @@ class ilExcRandomAssignmentManager
 
     protected function hasAnySubmission() : bool
     {
-        /** @var ilExAssignment $ass */
-        foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
+        /** @var \ilExAssignment $ass */
+        foreach (\ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
             if ($this->submission_repo->hasSubmissions($ass->getId())) {
                 return true;
             }
@@ -175,13 +181,13 @@ class ilExcRandomAssignmentManager
     /**
      * Get random assignment selection
      * @return int[]
-     * @throws ilExcUnknownAssignmentTypeException
+     * @throws \ilExcUnknownAssignmentTypeException
      */
     protected function getAssignmentSelection() : array
     {
         $ass_ids = array_map(function ($i) {
             return $i->getId();
-        }, ilExAssignment::getInstancesByExercise($this->exc_id));
+        }, \ilExAssignment::getInstancesByExercise($this->exc_id));
 
         $selected = [];
         for ($i = 0; $i < $this->getNumberOfMandatoryAssignments(); $i++) {

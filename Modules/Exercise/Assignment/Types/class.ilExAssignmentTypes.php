@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise;
+
 /**
  * Assignment types. Gives information on available types and acts as factory
  * to get assignment type objects.
@@ -12,14 +14,14 @@ class ilExAssignmentTypes
 {
     public const STR_IDENTIFIER_PORTFOLIO = "prtf";
 
-    protected ilExerciseInternalService $service;
+    protected Exercise\InternalService $service;
 
-    protected function __construct(ilExerciseInternalService $service = null)
+    protected function __construct(Exercise\InternalService $service = null)
     {
         global $DIC;
 
         $this->service = ($service == null)
-            ? $DIC->exercise()->internal()->service()
+            ? $DIC->exercise()->internal()
             : $service;
     }
 
@@ -86,7 +88,7 @@ class ilExAssignmentTypes
      */
     public function getAllAllowed(ilObjExercise $exc) : array
     {
-        $random_manager = $this->service->getRandomAssignmentManager($exc);
+        $random_manager = $this->service->domain()->assignment()->randomAssignments($exc);
         $active = $this->getAllActivated();
 
         // no team assignments, if random mandatory assignments is activated

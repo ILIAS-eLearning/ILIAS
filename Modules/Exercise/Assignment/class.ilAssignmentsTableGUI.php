@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\Assignment\Mandatory;
+
 /**
  * Assignments table
  *
@@ -10,7 +12,7 @@
 class ilAssignmentsTableGUI extends ilTable2GUI
 {
     protected ilExAssignmentTypes $types;
-    protected ilExcRandomAssignmentManager $random_manager;
+    protected Mandatory\RandomAssignmentsManager $random_manager;
     protected int $exc_id;
 
     /**
@@ -21,6 +23,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         string $a_parent_cmd,
         int $a_exc_id
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -32,8 +35,8 @@ class ilAssignmentsTableGUI extends ilTable2GUI
         $this->exc_id = $a_exc_id;
         $this->setId("excass" . $this->exc_id);
 
-        $request = $DIC->exercise()->internal()->request();
-        $this->random_manager = $DIC->exercise()->internal()->service()->getRandomAssignmentManager(
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
             $request->getRequestedExercise()
         );
         

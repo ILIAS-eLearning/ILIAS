@@ -2,22 +2,25 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+namespace ILIAS\Exercise\Assignment\Mandatory;
+
+use ILIAS\Exercise\InternalDataService;
+
 /**
  * Stores info about random assignments for users in exercises
- * (repository)
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcRandomAssignmentDBRepository
+class RandomAssignmentsDBRepository
 {
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $data;
 
-    public function __construct(ilDBInterface $db = null)
-    {
-        global $DIC;
-
-        $this->db = (is_null($db))
-            ? $DIC->database()
-            : $db;
+    public function __construct(
+        InternalDataService $data,
+        \ilDBInterface $db
+    ) {
+        $this->db = $db;
+        $this->data = $data;
     }
 
     /**
@@ -42,7 +45,7 @@ class ilExcRandomAssignmentDBRepository
         );
         $ass_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
-            if (ilExAssignment::isInExercise($rec["ass_id"], $exc_id)) {
+            if (\ilExAssignment::isInExercise($rec["ass_id"], $exc_id)) {
                 $ass_ids[] = $rec["ass_id"];
             }
         }
@@ -72,7 +75,7 @@ class ilExcRandomAssignmentDBRepository
         );
 
         foreach ($ass_ids as $ass_id) {
-            if (ilExAssignment::isInExercise($ass_id, $exc_id)) {
+            if (\ilExAssignment::isInExercise($ass_id, $exc_id)) {
                 $db->replace("exc_mandatory_random", array(        // pk
                     "usr_id" => array("integer", $user_id),
                     "exc_id" => array("integer", $exc_id),

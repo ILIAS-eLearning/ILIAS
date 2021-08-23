@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\DI\UIServices;
+use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
 
 /**
  * GUI class for exercise assignments
@@ -16,13 +18,16 @@ class ilExAssignmentGUI
     protected ilCtrl $ctrl;
     protected ilObjExercise $exc;
     protected int $current_ass_id;
-    protected ilExerciseInternalService $service;
-    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected InternalService $service;
+    protected MandatoryAssignmentsManager $mandatory_manager;
     protected UIServices $ui;
 
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function __construct(
         ilObjExercise $a_exc,
-        ilExerciseInternalService $service
+        InternalService $service
     ) {
         global $DIC;
 
@@ -33,7 +38,7 @@ class ilExAssignmentGUI
 
         $this->exc = $a_exc;
         $this->service = $service;
-        $this->mandatory_manager = $service->getMandatoryAssignmentManager($this->exc);
+        $this->mandatory_manager = $service->domain()->assignment()->mandatoryAssignments($this->exc);
     }
     
     /**

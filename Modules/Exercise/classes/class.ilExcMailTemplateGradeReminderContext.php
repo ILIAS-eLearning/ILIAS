@@ -14,15 +14,8 @@ class ilExcMailTemplateGradeReminderContext extends ilMailTemplateContext
 {
     public const ID = 'exc_context_grade_rmd';
 
-    /**
-     * caution, this currently makes the ilias update fail (Aug 2021)
-     * setup > ilMailTemplateContextDefinitionProcessor > anonymous class in $DIC->language()
-     */
-    // protected ilLanguage $lng;
-    // protected ilObjectDataCache $obj_data_cache;
-
-    protected $lng;
-    protected $obj_data_cache;
+    protected ilLanguage $lng;
+    protected ilObjectDataCache $obj_data_cache;
 
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,

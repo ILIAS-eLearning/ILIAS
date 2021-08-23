@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+namespace ILIAS\Exercise\Assignment\Mandatory;
+
 /**
  * Manages random mandatory assignments of an exercise
  *
@@ -9,35 +11,35 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcMandatoryAssignmentManager
+class MandatoryAssignmentsManager
 {
-    protected ilObjExercise $exc;
+    protected \ilObjExercise $exc;
     protected int $exc_id;
-    protected ilObjUser $user;
-    protected ilExcRandomAssignmentManager $rand_ass_manager;
+    protected \ilObjUser $user;
+    protected RandomAssignmentsManager $rand_ass_manager;
     /**
-     * @var ilExAssignment[]
+     * @var \ilExAssignment[]
      */
     protected array $assignments;
     /**
-     * @var ilExAssignment[]
+     * @var \ilExAssignment[]
      */
     protected array $set_to_mandatory_assignments;
 
     /**
-     * @throws ilExcUnknownAssignmentTypeException
+     * @throws \ilExcUnknownAssignmentTypeException
      */
     public function __construct(
-        ilObjExercise $exc,
-        ilExcRandomAssignmentManager $rand_ass_manager
+        \ilObjExercise $exc,
+        RandomAssignmentsManager $rand_ass_manager
     ) {
         $this->exc = $exc;
         $this->exc_id = $this->exc->getId();
         $this->rand_ass_manager = $rand_ass_manager;
-        $this->assignments = ilExAssignment::getInstancesByExercise($exc->getId());
+        $this->assignments = \ilExAssignment::getInstancesByExercise($exc->getId());
 
         $this->set_to_mandatory_assignments = array_filter($this->assignments, function ($i) {
-            /** @var ilExAssignment $i */
+            /** @var \ilExAssignment $i */
             if ($i->getMandatory()) {
                 return true;
             }
@@ -58,7 +60,7 @@ class ilExcMandatoryAssignmentManager
             return $this->rand_ass_manager->getMandatoryAssignmentsOfUser($user_id);
         }
         return array_map(function ($i) {
-            /** @var ilExAssignment $i */
+            /** @var \ilExAssignment $i */
             return $i->getId();
         }, $this->set_to_mandatory_assignments);
     }

@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise;
+
 /**
  * @author Stefan Meyer <smeyer@databay.de>
  * @author Alexander Killing <killing@leifos.de>
@@ -19,9 +22,9 @@ class ilObjExerciseGUI extends ilObjectGUI
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
     protected ?ilExAssignment $ass = null;
-    protected ilExerciseInternalService $service;
-    protected ilExerciseUIRequest $exercise_request;
-    protected ilExerciseUI $exercise_ui;
+    protected InternalService $service;
+    protected Exercise\GUIRequest $exercise_request;
+    protected Exercise\InternalGUIService $exercise_ui;
     protected ?int $requested_ass_id;
 
     /**
@@ -50,9 +53,9 @@ class ilObjExerciseGUI extends ilObjectGUI
         $lng->loadLanguageModule("exc");
         $this->ctrl->saveParameter($this, "ass_id");
 
-        $this->service = $DIC->exercise()->internal()->service();
-        $this->exercise_request = $DIC->exercise()->internal()->request();
-        $this->exercise_ui = $DIC->exercise()->internal()->ui();
+        $this->service = $DIC->exercise()->internal();
+        $this->exercise_request = $DIC->exercise()->internal()->gui()->request();
+        $this->exercise_ui = $DIC->exercise()->internal()->gui();
         $this->requested_ass_id = $this->exercise_request->getRequestedAssId();
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId($this->requested_ass_id) == $this->object->getId()) {
@@ -147,7 +150,7 @@ class ilObjExerciseGUI extends ilObjectGUI
             
             case "ilexsubmissiongui":
                 $this->checkPermission("read");
-                $random_manager = $this->service->getRandomAssignmentManager($exc);
+                $random_manager = $this->service->domain()->assignment()->randomAssignments($exc);
                 if (!$random_manager->isAssignmentVisible($this->requested_ass_id, $this->user->getId())) {
                     return;
                 }
@@ -250,7 +253,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         /** @var ilObjExercise $exc */
         $exc = $this->object;
 
-        $random_manager = $service->getRandomAssignmentManager($exc);
+        $random_manager = $service->domain()->assignment()->randomAssignments($exc);
 
         $a_form->setTitle($this->lng->txt("exc_edit_exercise"));
 
@@ -607,7 +610,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->infoScreen();
     }
 
-    protected function getService() : ilExerciseInternalService
+    protected function getService() : InternalService
     {
         return $this->service;
     }
@@ -910,7 +913,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $acc->setId("exc_ow_" . $this->object->getId());
 
         $ass_data = ilExAssignment::getInstancesByExercise($this->object->getId());
-        $random_manager = $this->service->getRandomAssignmentManager($exc);
+        $random_manager = $this->service->domain()->assignment()->randomAssignments($exc);
         foreach ($ass_data as $ass) {
             if (!$random_manager->isAssignmentVisible($ass->getId(), $this->user->getId())) {
                 continue;
@@ -1017,7 +1020,7 @@ class ilObjExerciseGUI extends ilObjectGUI
         $exc = $this->object;
 
         $service = $this->getService();
-        $random_manager = $service->getRandomAssignmentManager($exc);
+        $random_manager = $service->domain()->assignment()->randomAssignments($exc);
         if ($random_manager->needsStart()) {
             $gui = $this->exercise_ui->getRandomAssignmentGUI();
             $gui->renderStartPage();

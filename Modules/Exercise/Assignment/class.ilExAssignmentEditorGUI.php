@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\Assignment\Mandatory;
+
 /**
  * Class ilExAssignmentEditorGUI
  *
@@ -22,7 +24,7 @@ class ilExAssignmentEditorGUI
     protected ?ilExAssignment $assignment;
     protected bool $enable_peer_review_completion;
     protected ilExAssignmentTypes $types;
-    protected ilExcRandomAssignmentManager $random_manager;
+    protected Mandatory\RandomAssignmentsManager $random_manager;
     protected ?ilObjExercise $exc;
     protected ilExAssignmentTypesGUI $type_guis;
 
@@ -46,9 +48,9 @@ class ilExAssignmentEditorGUI
         $this->enable_peer_review_completion = $a_enable_peer_review_completion_settings;
         $this->types = ilExAssignmentTypes::getInstance();
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
-        $request = $DIC->exercise()->internal()->request();
+        $request = $DIC->exercise()->internal()->gui()->request();
         $this->exc = $request->getRequestedExercise();
-        $this->random_manager = $DIC->exercise()->internal()->service()->getRandomAssignmentManager(
+        $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
             $request->getRequestedExercise()
         );
     }

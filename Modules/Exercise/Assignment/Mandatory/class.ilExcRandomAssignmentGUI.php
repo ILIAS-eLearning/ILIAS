@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\DI\UIServices;
+use ILIAS\Exercise\Assignment\Mandatory;
 
 /**
  * UI for random assignment
@@ -12,7 +13,7 @@ use ILIAS\DI\UIServices;
 class ilExcRandomAssignmentGUI
 {
     protected ilGlobalTemplateInterface $main_tpl;
-    protected ilExcRandomAssignmentManager $random_manager;
+    protected Mandatory\RandomAssignmentsManager $random_manager;
     protected ilToolbarGUI $toolbar;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -23,7 +24,7 @@ class ilExcRandomAssignmentGUI
         ilToolbarGUI $toolbar,
         ilLanguage $lng,
         ilCtrl $ctrl,
-        ilExcRandomAssignmentManager $random_manager
+        Mandatory\RandomAssignmentsManager $random_manager
     ) {
         $this->main_tpl = $ui->mainTemplate();
         $this->ui = $ui;

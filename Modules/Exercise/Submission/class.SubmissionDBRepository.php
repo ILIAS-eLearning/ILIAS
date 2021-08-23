@@ -1,19 +1,22 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+namespace ILIAS\Exercise\Submission;
 
 /**
  * Submission repository
  *
  * @author Jesús López <lopez@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilExcSubmissionRepository implements ilExcSubmissionRepositoryInterface
+class SubmissionDBRepository implements SubmissionRepositoryInterface
 {
     protected const TABLE_NAME = "exc_returned";
 
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -44,7 +47,7 @@ class ilExcSubmissionRepository implements ilExcSubmissionRepositoryInterface
     public function updateWebDirAccessTime(int $assignment_id, int $member_id) : void
     {
         $this->db->manipulate("UPDATE " . self::TABLE_NAME .
-            " SET web_dir_access_time = " . $this->db->quote(ilUtil::now(), "timestamp") .
+            " SET web_dir_access_time = " . $this->db->quote(\ilUtil::now(), "timestamp") .
             " WHERE ass_id = " . $this->db->quote($assignment_id, "integer") .
             " AND user_id = " . $this->db->quote($member_id, "integer"));
     }

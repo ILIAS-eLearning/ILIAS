@@ -130,7 +130,7 @@ class ilExcCriteriaCatalogue
         return (int) $row["pos"];
     }
     
-    protected function read(int $a_id)
+    protected function read(?int $a_id)
     {
         $ilDB = $this->db;
         
