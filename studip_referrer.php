@@ -68,7 +68,7 @@ if (file_exists("./ilias.ini.php")) {
             $_POST['new_type'] = $_GET['type'];
             $_POST['cmd']['create'] = 'add';
             $_GET['cmd'] = 'post';
-            $_GET[ilCtrl::IL_RTOKEN_NAME] = $ilCtrl->getRequestToken();
+            $_GET[ilCtrl::PARAM_CSRF_TOKEN] = $ilCtrl->getRequestToken();
             $_GET['baseClass'] = 'ilRepositoryGUI';
             $jump_to = 'ilias.php';
         break;

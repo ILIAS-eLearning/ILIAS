@@ -1280,7 +1280,7 @@ class ilCtrl
         }
 
         if (!is_int(strpos($a_script, "://"))) {
-            if (substr($a_script, 0, 1) != "/" && defined("ILIAS_HTTP_PATH")) {
+            if (strpos($a_script, "/") !== 0 && defined("ILIAS_HTTP_PATH")) {
                 if (is_int(strpos($_SERVER["PHP_SELF"], "/setup/"))) {
                     $a_script = "setup/" . $a_script;
                 }
