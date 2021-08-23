@@ -92,13 +92,13 @@ class ilObjCertificateSettings extends ilObject
     {
         $result = true;
         if (file_exists($this->getDefaultBackgroundImageThumbPath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageThumbPath());
+            $result &= unlink($this->getDefaultBackgroundImageThumbPath());
         }
         if (file_exists($this->getDefaultBackgroundImagePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImagePath());
+            $result &= unlink($this->getDefaultBackgroundImagePath());
         }
         if (file_exists($this->getDefaultBackgroundImageTempfilePath())) {
-            $result = $result & unlink($this->getDefaultBackgroundImageTempfilePath());
+            $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
         return $result;
     }

@@ -84,8 +84,7 @@ class ilFormFieldParser
         $content = preg_replace("/<\?xml[^>]+?>/", "", $content);
         // dirty hack: the php xslt processing seems not to recognize the following
         // replacements, so we do it in the code as well
-        $content = str_replace("&#xA0;", "<br />", $content);
-        $content = str_replace("&#160;", "<br />", $content);
+        $content = str_replace(["&#xA0;", "&#160;"], "<br />", $content);
 
         $formFields = [
             'pageformat' => $pagesize,

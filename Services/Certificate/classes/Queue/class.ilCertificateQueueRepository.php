@@ -33,9 +33,9 @@ class ilCertificateQueueRepository
 
         $this->logger->debug(sprintf(
             'Save queue entry with following values: %s',
-            json_encode($row, JSON_PRETTY_PRINT)
+            json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
-        $this->logger->info(sprintf('END - Added entry to queue'));
+        $this->logger->info('END - Added entry to queue');
 
         $this->database->insert('il_cert_cron_queue', $row);
     }
@@ -60,8 +60,11 @@ class ilCertificateQueueRepository
 
         $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Queue entry found: "%s"', json_encode($row, JSON_PRETTY_PRINT)));
-
+            $this->logger->debug(sprintf(
+                'Queue entry found: "%s"',
+                json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+            ));
+            
             $result[] = new ilCertificateQueueEntry(
                 $row['obj_id'],
                 $row['usr_id'],

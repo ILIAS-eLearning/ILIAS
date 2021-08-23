@@ -97,7 +97,7 @@ class ilCertificateTemplate
 
     public function getBackgroundImagePath() : string
     {
-        return (string) $this->backgroundImagePath;
+        return $this->backgroundImagePath;
     }
 
     public function getObjType() : string
@@ -112,6 +112,6 @@ class ilCertificateTemplate
 
     public function getThumbnailImagePath() : string
     {
-        return (string) $this->thumbnailImagePath;
+        return $this->thumbnailImagePath;
     }
 }

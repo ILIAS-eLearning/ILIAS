@@ -60,7 +60,10 @@ class ilCertificateTemplateRepository
 
         $this->database->insert('il_cert_template', $columns);
 
-        $this->logger->info('END - certificate template saved with columns: ', json_encode($columns));
+        $this->logger->info(sprintf(
+            'END - certificate template saved with columns: %s',
+            json_encode($columns, JSON_THROW_ON_ERROR)
+        ));
     }
 
     /**
@@ -264,7 +267,7 @@ AND obj_id = ' . $this->database->quote($objectId, 'integer');
         foreach ($certificates as $certificate) {
             if (null === $previousCertificate) {
                 $previousCertificate = $certificate;
-            } elseif ((int) $certificate->getVersion() > (int) $previousCertificate->getVersion()) {
+            } elseif ($certificate->getVersion() > $previousCertificate->getVersion()) {
                 $previousCertificate = $certificate;
             }
         }
@@ -300,7 +303,7 @@ AND currently_active = 1';
         $this->logger->info(sprintf(
             'END - All certificate templates for object type: "%s": "%s"',
             $type,
-            json_encode($result)
+            json_encode($result, JSON_THROW_ON_ERROR)
         ));
 
         return $result;
@@ -357,7 +360,7 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
             (int) $row['version'],
             $row['ilias_version'],
             (int) $row['created_timestamp'],
-            (boolean) $row['currently_active'],
+            (bool) $row['currently_active'],
             $row['background_image_path'],
             $row['thumbnail_image_path'],
             isset($row['id']) ? (int) $row['id'] : null

@@ -37,18 +37,18 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
     }
 
     /**
-     * @param $templateTemplateId
+     * @param $templateId
      * @param $objectId
      * @return void
      * @throws ilDatabaseException
      */
-    public function delete($templateTemplateId, $objectId) : void
+    public function delete($templateId, $objectId) : void
     {
         $template = $this->templateRepository->fetchCurrentlyUsedCertificate($objectId);
 
-        $this->templateRepository->deleteTemplate($templateTemplateId, $objectId);
+        $this->templateRepository->deleteTemplate($templateId, $objectId);
 
-        $version = (int) $template->getVersion();
+        $version = $template->getVersion();
         $certificateTemplate = new ilCertificateTemplate(
             $objectId,
             $this->objectHelper->lookupType($objectId),

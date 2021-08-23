@@ -46,11 +46,9 @@ class ilCertificateCron extends ilCronJob
         $this->objectHelper = $objectHelper;
         $this->settings = $setting;
 
-        if ($dic) {
-            if (isset($dic['lng'])) {
-                $language = $dic->language();
-                $language->loadLanguageModule('certificate');
-            }
+        if ($dic && isset($dic['lng'])) {
+            $language = $dic->language();
+            $language->loadLanguageModule('certificate');
         }
 
         $this->lng = $language;
@@ -244,7 +242,7 @@ class ilCertificateCron extends ilCronJob
         $type = $object->getType();
 
         $userObject = $this->objectHelper->getInstanceByObjId($userId, false);
-        if (!$userObject || !($userObject instanceof ilObjUser)) {
+        if (!($userObject instanceof ilObjUser)) {
             throw new ilException('The given user id"' . $userId . '" could not be referred to an actual user');
         }
 
@@ -259,7 +257,7 @@ class ilCertificateCron extends ilCronJob
 
         $this->logger->debug(sprintf(
             'Values for placeholders: "%s"',
-            json_encode($placeholderValues)
+            json_encode($placeholderValues, JSON_THROW_ON_ERROR)
         ));
 
         $certificateContent = $this->valueReplacement->replace(
@@ -267,16 +265,16 @@ class ilCertificateCron extends ilCronJob
             $certificateContent
         );
 
-        $thumbnailImagePath = (string) $template->getThumbnailImagePath();
+        $thumbnailImagePath = $template->getThumbnailImagePath();
         $userCertificate = new ilUserCertificate(
             $template->getId(),
             $objId,
             $type,
             $userId,
             $userObject->getFullname(),
-            (int) $entry->getStartedTimestamp(),
+            $entry->getStartedTimestamp(),
             $certificateContent,
-            json_encode($placeholderValues),
+            json_encode($placeholderValues, JSON_THROW_ON_ERROR),
             null,
             $template->getVersion(),
             ILIAS_VERSION_NUMERIC,

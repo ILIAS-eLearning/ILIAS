@@ -70,17 +70,13 @@ class ilCertificateTemplateExportAction
         $this->filesystem->put($exportPath . 'certificate.xml', $xslContent);
 
         $backgroundImagePath = $template->getBackgroundImagePath();
-        if ($backgroundImagePath !== '') {
-            if (true === $this->filesystem->has($backgroundImagePath)) {
-                $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
-            }
+        if ($backgroundImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+            $this->filesystem->copy($backgroundImagePath, $exportPath . 'background.jpg');
         }
 
         $thumbnailImagePath = $template->getThumbnailImagePath();
-        if ($thumbnailImagePath !== '') {
-            if (true === $this->filesystem->has($backgroundImagePath)) {
-                $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
-            }
+        if ($thumbnailImagePath !== '' && true === $this->filesystem->has($backgroundImagePath)) {
+            $this->filesystem->copy($thumbnailImagePath, $exportPath . 'thumbnail.svg');
         }
 
         $objectType = $this->objectHelper->lookupType($this->objectId);

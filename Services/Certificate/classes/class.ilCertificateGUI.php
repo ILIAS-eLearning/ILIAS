@@ -294,7 +294,7 @@ class ilCertificateGUI
      */
     public function certificateRemoveBackground() : void
     {
-        $this->backgroundImageDelete->deleteBackgroundImage('');
+        $this->backgroundImageDelete->deleteBackgroundImage(null);
         $this->certificateEditor();
     }
 
@@ -510,7 +510,7 @@ class ilCertificateGUI
 
                                 $cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
                             }
-                        } elseif ($pending_card_file !== null && !empty($pending_card_file)) {
+                        } elseif (!empty($pending_card_file)) {
                             $stream = $this->tmp_file_system->readStream(basename($pending_card_file['tmp_name']));
                             $this->fileSystem->writeStream(
                                 $this->certificatePath . '/' . $cardThumbnailFileName,
@@ -532,7 +532,7 @@ class ilCertificateGUI
                     $cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
                 }
 
-                $jsonEncodedTemplateValues = json_encode($templateValues);
+                $jsonEncodedTemplateValues = json_encode($templateValues, JSON_THROW_ON_ERROR);
 
                 $xslfo = $this->xlsFoParser->parse($form_fields);
 

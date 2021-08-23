@@ -152,10 +152,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         $invalidModes = $this->getInvalidLPModes();
 
         $titlesOfObjectsWithInvalidModes = [];
-        $refIds = [];
-        if (isset($formFields['subitems'])) {
-            $refIds = $formFields['subitems'];
-        }
+        $refIds = $formFields['subitems'] ?? [];
 
         foreach ($refIds as $refId) {
             $objectId = $this->objectHelper->lookupObjId((int) $refId);
@@ -166,7 +163,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             }
         }
 
-        if (sizeof($titlesOfObjectsWithInvalidModes)) {
+        if (count($titlesOfObjectsWithInvalidModes) > 0) {
             $message = sprintf(
                 $this->language->txt('certificate_learning_progress_must_be_active'),
                 implode(', ', $titlesOfObjectsWithInvalidModes)
@@ -174,7 +171,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             throw new ilException($message);
         }
 
-        $this->setting->set('cert_subitems_' . $this->object->getId(), json_encode($formFields['subitems']));
+        $this->setting->set(
+            'cert_subitems_' . $this->object->getId(),
+            json_encode($formFields['subitems'], JSON_THROW_ON_ERROR)
+        );
     }
 
     public function fetchFormFieldData(string $content) : array
@@ -183,8 +183,8 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
         $formFields['subitems'] = json_decode($this->setting->get(
             'cert_subitems_' . $this->object->getId(),
-            json_encode([])
-        ));
+            json_encode([], JSON_THROW_ON_ERROR)
+        ), true, 512, JSON_THROW_ON_ERROR);
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
             $formFields['subitems'] = [];
         }
@@ -204,7 +204,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $class = $this->lpHelper->getTypeClass($node['type']);
                 $modes = $class::getDefaultModes($this->trackingHelper->enabledLearningProgress());
 
-                if (sizeof($modes) > 1) {
+                if (count($modes) > 1) {
                     $result[] = $node['type'];
                 }
             }

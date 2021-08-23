@@ -66,7 +66,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
         $latest_progress = array_reduce(
             $object->getProgressesOf($userId),
-            function ($one, $other) {
+            static function ($one, $other) {
                 if ($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
                     return
                         $one->getCompletionDate()->format('Y-m-d H:i:s') > $other->getCompletionDate()->format('Y-m-d H:i:s') ?

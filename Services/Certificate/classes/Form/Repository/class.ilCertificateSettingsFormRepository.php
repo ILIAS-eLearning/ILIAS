@@ -77,7 +77,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
         if (null === $importAction) {
             $importAction = new ilCertificateTemplateImportAction(
-                (int) $objectId,
+                $objectId,
                 $certificatePath,
                 $placeholderDescriptionObject,
                 $logger,
@@ -136,17 +136,15 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $import->setSuffixes(["zip"]);
 
         // handle the certificate import
-        if (!empty($_FILES["certificate_import"]["name"])) {
-            if ($import->checkInput()) {
-                $result = $this->importAction->import(
-                    $_FILES["certificate_import"]["tmp_name"],
-                    $_FILES["certificate_import"]["name"]
-                );
-                if ($result == false) {
-                    $import->setAlert($this->language->txt("certificate_error_import"));
-                } else {
-                    $this->ctrl->redirect($certificateGUI, "certificateEditor");
-                }
+        if (!empty($_FILES["certificate_import"]["name"]) && $import->checkInput()) {
+            $result = $this->importAction->import(
+                $_FILES["certificate_import"]["tmp_name"],
+                $_FILES["certificate_import"]["name"]
+            );
+            if ($result == false) {
+                $import->setAlert($this->language->txt("certificate_error_import"));
+            } else {
+                $this->ctrl->redirect($certificateGUI, "certificateEditor");
             }
         }
         $form->addItem($import);

@@ -132,7 +132,7 @@ class ilCertificateCloneAction
             }
 
             $newCardThumbImage = '';
-            $cardThumbImagePath = (string) $template->getThumbnailImagePath();
+            $cardThumbImagePath = $template->getThumbnailImagePath();
 
             if ($this->fileSystem->has($cardThumbImagePath) && !$this->fileSystem->hasDir($cardThumbImagePath)) {
                 $newCardThumbImage = $certificatePath . basename($cardThumbImagePath);
@@ -147,7 +147,7 @@ class ilCertificateCloneAction
 
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
-                $this->objectHelper->lookupType((int) $newObject->getId()),
+                $this->objectHelper->lookupType($newObject->getId()),
                 $template->getCertificateContent(),
                 $template->getCertificateHash(),
                 $template->getTemplateValues(),
@@ -176,9 +176,9 @@ class ilCertificateCloneAction
     {
         $sql = 'SELECT obj_id FROM il_certificate WHERE obj_id = ' . $this->database->quote($objectId, 'integer');
 
-        $query = $this->database->query($sql);
+        $result = $this->database->query($sql);
 
-        return $this->database->numRows($query);
+        return $this->database->numRows($result);
     }
 
     private function getBackgroundImageName() : string

@@ -85,29 +85,25 @@ class ilCertificateTemplatePreviewAction
 
         $xslfo = $this->exchangeCertificateVariables($xslfo, $template, $objectId);
 
-        try {
-            // render tex as fo graphics
-            $xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
+        // render tex as fo graphics
+        $xlsfo = $this->mathJaxHelper->fillXlsFoContent($xslfo);
 
-            $pdf_base64 = $this->rpcClientFactoryHelper
-                ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
+        $pdf_base64 = $this->rpcClientFactoryHelper
+            ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
 
-            $pdfPresentation = new ilUserCertificatePresentation(
-                $template->getObjId(),
-                $template->getObjType(),
-                null,
-                '',
-                ''
-            );
+        $pdfPresentation = new ilUserCertificatePresentation(
+            $template->getObjId(),
+            $template->getObjType(),
+            null,
+            '',
+            ''
+        );
 
-            $this->utilHelper->deliverData(
-                $pdf_base64->scalar,
-                $this->pdfFileNameFactory->create($pdfPresentation),
-                'application/pdf'
-            );
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $this->utilHelper->deliverData(
+            $pdf_base64->scalar,
+            $this->pdfFileNameFactory->create($pdfPresentation),
+            'application/pdf'
+        );
     }
 
     /**

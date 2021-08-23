@@ -179,9 +179,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     ));
                 }
             } else {
-                $this->logger->info(sprintf(
-                    "Object type is not of interest, skipping certificate evaluation for this object"
-                ));
+                $this->logger->info('Object type is not of interest, skipping certificate evaluation for this object');
             }
 
             if ($type === 'crs') {

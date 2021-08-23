@@ -75,10 +75,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             if (!isset($params['offset'])) {
                 $params['offset'] = 0;
-            } else {
-                if (!is_numeric($params['offset'])) {
-                    throw new InvalidArgumentException('Please provide a valid numerical offset.');
-                }
+            } elseif (!is_numeric($params['offset'])) {
+                throw new InvalidArgumentException('Please provide a valid numerical offset.');
             }
 
             $this->database->setLimit($params['limit'], $params['offset']);
@@ -126,7 +124,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $data['cnt'] = count($data['items']);
         }
 
-        $this->logger->debug(sprintf('END - Actual results: "%s"', json_encode($data)));
+        $this->logger->debug(sprintf('END - Actual results: "%s"', json_encode($data, JSON_THROW_ON_ERROR)));
 
         return $data;
     }

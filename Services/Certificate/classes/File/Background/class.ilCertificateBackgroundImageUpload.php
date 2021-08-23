@@ -188,7 +188,7 @@ class ilCertificateBackgroundImageUpload
                 $targetFilename,
                 true
             );
-        } elseif ($pending_file !== null && !empty($pending_file)) {
+        } elseif (!empty($pending_file)) {
             $stream = $this->tmp_file_system->readStream(basename($pending_file['tmp_name']));
             $this->fileSystem->writeStream($targetDir . '/' . $targetFilename, $stream);
         } else {

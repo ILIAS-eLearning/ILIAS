@@ -16,7 +16,7 @@ class ilCertificateActiveValidator
         }
         $this->setting = $setting;
 
-        if (null == $rpcSettings) {
+        if (null === $rpcSettings) {
             $rpcSettings = ilRPCServerSettings::getInstance();
         }
         $this->rpcSettings = $rpcSettings;

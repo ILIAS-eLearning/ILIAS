@@ -74,15 +74,12 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         $template->setVariable('PH_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
         $collection = $this->learningProgressObject->getCollectionInstance();
+        $items = [];
         if ($collection) {
             $items = $collection->getPossibleItems();
         }
 
-        if (!$items) {
-            $template->setCurrentBlock('NO_SCO');
-            $template->setVariable('PH_NO_SCO', $this->language->txt('certificate_ph_no_sco'));
-            $template->parseCurrentBlock();
-        } else {
+        if ($items) {
             $template->setCurrentBlock('SCOS');
             $template->setVariable('PH_SCOS', $this->language->txt('certificate_ph_scos'));
             $template->parseCurrentBlock();
@@ -92,8 +89,11 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
             $template->setVariable('PH_SCO_POINTS_RAW', $this->language->txt('certificate_ph_sco_points_raw'));
             $template->setVariable('PH_SCO_POINTS_MAX', $this->language->txt('certificate_ph_sco_points_max'));
             $template->setVariable('PH_SCO_POINTS_SCALED', $this->language->txt('certificate_ph_sco_points_scaled'));
-            $template->parseCurrentBlock();
+        } else {
+            $template->setCurrentBlock('NO_SCO');
+            $template->setVariable('PH_NO_SCO', $this->language->txt('certificate_ph_no_sco'));
         }
+        $template->parseCurrentBlock();
 
         if ($collection) {
             $counter = 0;

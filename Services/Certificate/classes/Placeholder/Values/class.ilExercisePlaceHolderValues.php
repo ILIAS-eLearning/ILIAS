@@ -89,7 +89,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
     {
         $exerciseObject = $this->objectHelper->getInstanceByObjId($objId);
 
-        $mark = (string) $this->lpMarksHelper->lookUpMark($userId, $objId);
+        $mark = $this->lpMarksHelper->lookUpMark($userId, $objId);
         $status = $this->exerciseMembersHelper->lookUpStatus($objId, $userId);
 
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);

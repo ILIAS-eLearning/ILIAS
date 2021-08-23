@@ -33,22 +33,22 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     * @param int $user_id
-     * @param int $obj_id
+     * @param int $userId
+     * @param int $objId
      * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilInvalidCertificateException
      * @throws ilException
      */
-    public function getPlaceholderValues(int $user_id, int $obj_id) : array
+    public function getPlaceholderValues(int $userId, int $objId) : array
     {
         /** @var ilObjUser $user */
-        $user = $this->objectHelper->getInstanceByObjId($user_id);
+        $user = $this->objectHelper->getInstanceByObjId($userId);
         if (!$user instanceof ilObjUser) {
-            throw new ilException('The entered id: ' . $user_id . ' is not an user object');
+            throw new ilException('The entered id: ' . $userId . ' is not an user object');
         }
 
-        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
-        $field_values = ilCourseUserData::_getValuesByObjId($obj_id);
+        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($objId);
+        $field_values = ilCourseUserData::_getValuesByObjId($objId);
 
         $placeholder = [];
         foreach ($course_defined_fields as $key => $field) {
@@ -56,7 +56,7 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
 
             $placeholderText = '+' . str_replace(' ', '_', ilStr::strToUpper($field->getName()));
 
-            $placeholder[$placeholderText] = !empty($field_values[$user_id][$field_id]) ? $field_values[$user_id][$field_id] : "";
+            $placeholder[$placeholderText] = !empty($field_values[$userId][$field_id]) ? $field_values[$userId][$field_id] : "";
         }
 
         return $placeholder;
@@ -66,17 +66,17 @@ class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlacehol
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     * @param int $user_id
-     * @param int $obj_id
+     * @param int $userId
+     * @param int $objId
      * @return array - [PLACEHOLDER] => 'dummy value'
      */
-    public function getPlaceholderValuesForPreview(int $user_id, int $obj_id) : array
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         global $DIC;
 
         $lng = $DIC->language();
 
-        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
+        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($objId);
 
         $placeholder = [];
         foreach ($course_defined_fields as $key => $field) {

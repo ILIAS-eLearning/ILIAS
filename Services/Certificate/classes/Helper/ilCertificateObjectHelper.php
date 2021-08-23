@@ -20,7 +20,7 @@ class ilCertificateObjectHelper
 
     public function lookupObjId(int $refId) : int
     {
-        return (int) ilObject::_lookupObjId($refId);
+        return ilObject::_lookupObjId($refId);
     }
 
     public function lookupType(int $objectId) : string
@@ -30,6 +30,6 @@ class ilCertificateObjectHelper
 
     public function lookupTitle(int $objectId) : string
     {
-        return (string) ilObject::_lookupTitle($objectId);
+        return ilObject::_lookupTitle($objectId);
     }
 }

@@ -118,10 +118,8 @@ class ilCertificateTemplateImportAction
 
         $xmlFiles = 0;
         foreach ($directoryInformation as $file) {
-            if (strcmp($file['type'], 'file') == 0) {
-                if (strpos($file['entry'], '.xml') !== false) {
-                    $xmlFiles++;
-                }
+            if (strcmp($file['type'], 'file') === 0 && strpos($file['entry'], '.xml') !== false) {
+                $xmlFiles++;
             }
         }
 
@@ -132,7 +130,7 @@ class ilCertificateTemplateImportAction
 
         $certificate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
-        $currentVersion = (int) $certificate->getVersion();
+        $currentVersion = $certificate->getVersion();
         $newVersion = $currentVersion + 1;
         $backgroundImagePath = $certificate->getBackgroundImagePath();
         $cardThumbnailImagePath = $certificate->getThumbnailImagePath();
@@ -192,7 +190,10 @@ class ilCertificateTemplateImportAction
             }
         }
 
-        $jsonEncodedTemplateValues = json_encode($this->placeholderDescriptionObject->getPlaceholderDescriptions());
+        $jsonEncodedTemplateValues = json_encode(
+            $this->placeholderDescriptionObject->getPlaceholderDescriptions(),
+            JSON_THROW_ON_ERROR
+        );
 
         $newHashValue = hash(
             'sha256',

@@ -71,8 +71,7 @@ class ilCertificateCourseLearningProgressEvaluation
                 continue;
             }
 
-            $subItems = json_decode($subItems);
-
+            $subItems = json_decode($subItems, true, 512, JSON_THROW_ON_ERROR);
             if (!is_array($subItems)) {
                 continue;
             }

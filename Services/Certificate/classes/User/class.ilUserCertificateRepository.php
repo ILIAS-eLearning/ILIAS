@@ -44,7 +44,7 @@ class ilUserCertificateRepository
         $this->logger->info('START - saving of user certificate');
 
         $version = (int) $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
-        $version += 1;
+        ++$version;
 
         $id = (int) $this->database->nextId('il_cert_user_cert');
 
@@ -73,7 +73,7 @@ class ilUserCertificateRepository
 
         $this->logger->debug(sprintf(
             'END - Save certificate with following values: %s',
-            json_encode($columns, JSON_PRETTY_PRINT)
+            json_encode($columns, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
 
         $this->database->insert('il_cert_user_cert', $columns);
@@ -137,7 +137,7 @@ AND currently_active = 1';
             $result[] = $presentation;
         }
 
-        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result)));
+        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result, JSON_THROW_ON_ERROR)));
         $this->logger->info(sprintf(
             'END - All active certificates for user: "%s" total: "%s"',
             $userId,
@@ -210,7 +210,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
             $result[] = $presentation;
         }
 
-        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result)));
+        $this->logger->debug(sprintf('Actual results: "%s"', json_encode($result, JSON_THROW_ON_ERROR)));
         $this->logger->info(sprintf(
             'END - All active certificates for user: "%s" total: "%s"',
             $userId,
@@ -240,7 +240,7 @@ AND currently_active = 1';
         $query = $this->database->query($sql);
 
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row)));
+            $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row, JSON_THROW_ON_ERROR)));
 
             $this->logger->info(sprintf(
                 'END -Found active user certificate for user: "%s" and object: "%s"',
@@ -309,7 +309,7 @@ AND il_cert_user_cert.currently_active = 1';
         $query = $this->database->query($sql);
 
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row)));
+            $this->logger->debug(sprintf('Active certificate values: %s', json_encode($row, JSON_THROW_ON_ERROR)));
 
             $this->logger->info(sprintf(
                 'END -Found active user certificate for user: "%s" and object: "%s"',
@@ -419,7 +419,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $query = $this->database->query($sql);
 
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
 
             $this->logger->info(sprintf('END - Fetch certificate by id: "%s"', $id));
 
@@ -434,7 +434,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $this->logger->info(sprintf(
             'START - Fetch certificate for user("%s") and ids: "%s"',
             $userId,
-            json_encode($objectIds)
+            json_encode($objectIds, JSON_THROW_ON_ERROR)
         ));
 
         if (0 === count($objectIds)) {
@@ -458,7 +458,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $result = [];
 
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
             $result[] = $row['obj_id'];
         }
 
@@ -478,7 +478,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
         $result = [];
 
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row)));
+            $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
             $result[] = $row['user_id'];
         }
 
@@ -514,10 +514,10 @@ AND obj_id = ' . $this->database->quote($objId, 'integer');
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf(
                 'Certificate found: "%s")',
-                json_encode($row, JSON_PRETTY_PRINT)
+                json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
             ));
 
-            $this->logger->info(sprintf('Certificate: "%s"', json_encode($row)));
+            $this->logger->info(sprintf('Certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
 
             $result[] = $this->createUserCertificate($row);
         }

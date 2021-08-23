@@ -44,8 +44,8 @@ class ilObjPersistentCertificateVerificationGUI
      */
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId) : void
     {
-        if (ilPCVerification::isInPortfolioPage($a_page, 'crta', (int) $objectId)) {
-            $this->fileService->deliverCertificate((int) $userId, (int) $objectId);
+        if (ilPCVerification::isInPortfolioPage($a_page, 'crta', $objectId)) {
+            $this->fileService->deliverCertificate($userId, $objectId);
         }
 
         throw new ilException($this->language->txt('permission_denied'));

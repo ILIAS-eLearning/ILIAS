@@ -31,24 +31,26 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             300
         );
 
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $userCertificateRepository->method('fetchCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
+        $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
+        $pdf = new stdClass();
+        $pdf->scalar = '';
         $rpcHelper->method('ilFO2PDF')
-            ->willReturn(new stdClass());
+            ->willReturn($pdf);
 
-        $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
+        $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -92,24 +94,26 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             300
         );
 
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $userCertificateRepository->method('fetchActiveCertificate')
             ->willReturn($certificate);
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
+        $rpcHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
+        $pdf = new stdClass();
+        $pdf->scalar = '';
         $rpcHelper->method('ilFO2PDF')
-            ->willReturn(new stdClass());
+            ->willReturn($pdf);
 
-        $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
+        $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -127,9 +131,4 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 
         $pdfGenerator->generateCurrentActiveCertificate(100, 200);
     }
-}
-
-class ScalarPdf
-{
-    public $scalar = 'Some scalar';
 }

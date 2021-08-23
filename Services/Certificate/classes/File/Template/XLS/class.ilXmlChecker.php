@@ -71,9 +71,9 @@ class ilXMLChecker extends ilSaxParser
      */
     public function parse($a_xml_parser, $a_fp = null) : bool
     {
+        $parseOk = false;
         switch ($this->getInputType()) {
             case 'file':
-
                 while ($data = fread($a_fp, 4096)) {
                     $parseOk = xml_parse($a_xml_parser, $data, feof($a_fp));
                 }
@@ -83,15 +83,16 @@ class ilXMLChecker extends ilSaxParser
                 $parseOk = xml_parse($a_xml_parser, $this->getXMLContent());
                 break;
         }
-        if (!$parseOk
-            && (xml_get_error_code($a_xml_parser) != XML_ERROR_NONE)) {
+
+        if (!$parseOk && (xml_get_error_code($a_xml_parser) !== XML_ERROR_NONE)) {
             $this->error_code = xml_get_error_code($a_xml_parser);
             $this->error_line = xml_get_current_line_number($a_xml_parser);
             $this->error_col = xml_get_current_column_number($a_xml_parser);
-            $this->error_msg = xml_error_string($a_xml_parser);
+            $this->error_msg = xml_error_string($this->error_code);
             $this->has_error = true;
             return false;
         }
+
         return true;
     }
 

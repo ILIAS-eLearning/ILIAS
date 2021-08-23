@@ -15,10 +15,15 @@ class ilCertificateBackgroundImageDelete
         $this->fileService = $fileService;
     }
 
-    public function deleteBackgroundImage(string $version) : void
+    public function deleteBackgroundImage(?int $version) : void
     {
         if (file_exists($this->fileService->getBackgroundImageThumbPath())) {
             unlink($this->fileService->getBackgroundImageThumbPath());
+        }
+
+        $version_string = '';
+        if (is_int($version) && $version >= 0) {
+            $version_string = (string) $version;
         }
 
         $filename = $this->certificatePath . 'background_' . $version . '.jpg';

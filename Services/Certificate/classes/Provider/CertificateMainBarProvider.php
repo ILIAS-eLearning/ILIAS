@@ -30,11 +30,12 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($title)
                 ->withAction(
                     $ctrl->getLinkTargetByClass(
-                    ["ilDashboardGUI",
-                     "ilAchievementsGUI",
-                     "ilUserCertificateGUI"
-                    ]
-                )
+                        [
+                            \ilDashboardGUI::class,
+                            \ilAchievementsGUI::class,
+                            \ilUserCertificateGUI::class
+                        ]
+                    )
                 )
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withSymbol($icon)
