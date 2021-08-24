@@ -40,14 +40,19 @@ class ilExerciseManagementGUI
     protected Renderer $ui_renderer;
     protected array $filter;
     protected ilToolbarGUI $toolbar;
-    protected ilObjExercise $exercise;
-    protected ilExAssignment $assignment;
+    protected ?ilObjExercise $exercise;
+    protected ?ilExAssignment $assignment = null;
     protected TaskFactory $task_factory;
     protected ilLogger $log;
     protected ilObjUser $user;
     protected InternalService $service;
     protected ?ilDBInterface $db = null;
     protected int $ass_id;
+    protected int $requested_member_id;
+    protected int $requested_part_id;
+    protected int $requested_ass_id;
+    protected int $requested_idl_id;
+    protected bool $done;
 
     /**
      * Constructor
@@ -83,7 +88,12 @@ class ilExerciseManagementGUI
             $this->assignment = $a_ass;
             $this->ass_id = $this->assignment->getId();
         }
-        
+        $this->requested_member_id = $request->getRequestedMemberId();
+        $this->requested_part_id = $request->getRequestedParticipantId();
+        $this->requested_ass_id = $request->getRequestedAssId();
+        $this->requested_idl_id = $request->getRequestedIdlId();
+        $this->done = $request->getDone();
+
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
     }
 
@@ -113,7 +123,7 @@ class ilExerciseManagementGUI
                 $fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
                 $fstorage->create();
                                 
-                $submission = new ilExSubmission($this->assignment, (int) $_GET["member_id"]);
+                $submission = new ilExSubmission($this->assignment, $this->requested_member_id);
                 $feedback_id = $submission->getFeedbackId();
                 $noti_rec_ids = $submission->getUserIds();
                 
@@ -242,8 +252,8 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        $ass_id = $_GET["ass_id"];
-        $part_id = $_GET["part_id"];
+        $ass_id = $this->assignment ? $this->assignment->getId() : 0;
+        $part_id = $this->requested_part_id;
                 
         $ilCtrl->setParameter($this, "vw", "");
         $ilCtrl->setParameter($this, "member_id", "");
@@ -279,7 +289,7 @@ class ilExerciseManagementGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", (int) $_GET["member_id"]);
+        $ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", $this->requested_member_id);
         $url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned");
         $js_url = $ilCtrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI", "ilExerciseManagementGUI", "ilExSubmissionFileGUI"), "downloadNewReturned", "", "", false);
         ilUtil::sendInfo($lng->txt("exc_wait_for_files") . "<a href='$url'> " . $lng->txt('exc_download_files') . "</a><script>window.location.href ='" . $js_url . "';</script>");
@@ -830,13 +840,13 @@ class ilExerciseManagementGUI
      */
     public function selectAssignmentObject() : void
     {
-        $_GET["ass_id"] = ilUtil::stripSlashes($_POST["ass_id"]);
-        $this->membersObject();
+        $ctrl = $this->ctrl;
+        $ctrl->setParameter($this, "ass_id", $this->requested_ass_id);
+        $ctrl->redirect($this, "members");
     }
 
     /**
      * Show Participant
-     * @throws ilExcUnknownAssignmentTypeException
      */
     public function showParticipantObject() : void
     {
@@ -877,11 +887,12 @@ class ilExerciseManagementGUI
         
         $mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
         
-        if ($_GET["part_id"] == "" && count($mems) > 0) {
-            $_GET["part_id"] = key($mems);
+        if ($this->requested_part_id == 0 && count($mems) > 0 && key($mems) > 0) {
+            $ilCtrl->setParameter($this, "part_id", key($mems));
+            $ilCtrl->redirect($this, "showParticipant");
         }
         
-        $current_participant = $_GET["part_id"];
+        $current_participant = $this->requested_part_id;
         
         reset($mems);
         if (count($mems) > 1) {
@@ -926,7 +937,7 @@ class ilExerciseManagementGUI
      */
     public function showParticipantApplyObject() : void
     {
-        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);
+        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
         $exc_tab->resetOffset();
         $exc_tab->writeFilterToSession();
         
@@ -938,7 +949,7 @@ class ilExerciseManagementGUI
      */
     public function showParticipantResetObject() : void
     {
-        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);
+        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
         $exc_tab->resetOffset();
         $exc_tab->resetFilter();
         
@@ -950,8 +961,9 @@ class ilExerciseManagementGUI
      */
     public function selectParticipantObject() : void
     {
-        $_GET["part_id"] = ilUtil::stripSlashes($_POST["part_id"]);
-        $this->showParticipantObject();
+        $ctrl = $this->ctrl;
+        $ctrl->setParameter($this, "part_id", ilUtil::stripSlashes($_POST["part_id"]));
+        $ctrl->redirect($this, "showParticipant");
     }
 
     public function showGradesOverviewObject() : void
@@ -995,8 +1007,8 @@ class ilExerciseManagementGUI
      */
     public function redirectFeedbackMailObject() : void
     {
-        if ($_GET["member_id"] != "") {
-            $submission = new ilExSubmission($this->assignment, $_GET["member_id"]);
+        if ($this->requested_member_id > 0) {
+            $submission = new ilExSubmission($this->assignment, $this->requested_member_id);
             $members = $submission->getUserIds();
         } elseif ($members = $this->getMultiActionUserIds()) {
             $members = array_keys($members);
@@ -1115,7 +1127,7 @@ class ilExerciseManagementGUI
                 $this->ctrl->redirect($this, "showParticipant");
             }
             
-            $user_id = $_GET["part_id"];
+            $user_id = $this->requested_part_id;
             
             foreach (array_keys($_POST["ass"]) as $ass_id) {
                 $submission = new ilExSubmission(new ilExAssignment($ass_id), $user_id);
@@ -1155,7 +1167,7 @@ class ilExerciseManagementGUI
             foreach ($members as $ass_id => $users) {
                 $this->exercise->sendAssignment(new ilExAssignment($ass_id), $users);
             }
-            $this->ctrl->setParameter($this, "part_id", $_GET["part_id"]); // #17629
+            $this->ctrl->setParameter($this, "part_id", $this->requested_part_id); // #17629
             $this->ctrl->redirect($this, "showParticipant");
         }
     }
@@ -1222,7 +1234,7 @@ class ilExerciseManagementGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $member_id = (int) $_GET["part_id"];
+        $member_id = $this->requested_part_id;
         $data = array();
         foreach (array_keys($_POST["id"]) as $ass_id) {
             if (is_array($a_selected) &&
@@ -1838,8 +1850,8 @@ class ilExerciseManagementGUI
         
         $this->ctrl->saveParameter($this, "part_id");
         
-        // we are done
-        if ($_GET["dn"]) {
+        // from request "dn", see ilExcIdl.js
+        if ($this->done) {
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, $this->assignment
                 ? "members"
@@ -1847,8 +1859,8 @@ class ilExerciseManagementGUI
         }
         
         // initial form call
-        if ($_GET["idlid"]) {
-            $tmp = $this->parseIndividualDeadlineData(explode(",", $_GET["idlid"]));
+        if ($this->requested_idl_id != "") {
+            $tmp = $this->parseIndividualDeadlineData(explode(",", $this->requested_idl_id));
             if (is_array($tmp)) {
                 $form = $this->initIndividualDeadlineForm($tmp[1], $tmp[0]);
                 echo $form->getHTML() .
@@ -2059,7 +2071,7 @@ class ilExerciseManagementGUI
     {
         global $DIC;
 
-        $member_id = (int) $_GET["member_id"];
+        $member_id = $this->requested_member_id;
 
         $submission = new ilExSubmission($this->assignment, $member_id);
 

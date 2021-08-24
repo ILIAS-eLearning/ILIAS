@@ -11,6 +11,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
     //this property will define if the table needs order column.
     protected bool $add_order_column = true;
     protected string $child_class_name = 'ilExAssignmentFileSystemTableGUI';
+    protected int $requested_ass_id;
 
     public function __construct(
         $a_parent_obj,
@@ -23,7 +24,11 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         $a_commands = array(),
         $a_post_dir_path = false
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_ass_id = $request->getRequestedAssId();
 
         $this->lng = $DIC->language();
 
@@ -58,7 +63,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         if (count($entries) > 0) {
             $this->addCommandButton("saveFilesOrder", $this->lng->txt("exc_save_order"));
         }
-        $ass = new ilExAssignment((int) $_GET['ass_id']);
+        $ass = new ilExAssignment($this->requested_ass_id);
         return $ass->fileAddOrder($entries);
     }
 

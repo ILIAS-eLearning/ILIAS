@@ -4,6 +4,7 @@
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
+use ILIAS\Exercise\GUIRequest;
 
 /**
  * Exercise submission base gui
@@ -25,6 +26,8 @@ abstract class ilExSubmissionBaseGUI
     protected MandatoryAssignmentsManager $mandatory_manager;
     protected ContextServices $tool_context;
     protected ilExAssignmentTypesGUI $type_guis;
+    protected int $requested_ref_id;
+    protected GUIRequest $request;
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
@@ -51,6 +54,9 @@ abstract class ilExSubmissionBaseGUI
             ->domain()
             ->assignment()
             ->mandatoryAssignments($this->exercise);
+
+        $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_ref_id = $this->request->getRequestedRefId();
         
         // :TODO:
         $this->ctrl = $ilCtrl;

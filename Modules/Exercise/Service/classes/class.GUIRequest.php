@@ -17,6 +17,17 @@ class GUIRequest
     protected int $requested_ref_id;
     protected int $requested_ass_id;
     protected int $requested_member_id;
+    protected int $requested_part_id;       // check if this can be merged with member id
+    protected string $requested_ass_type;
+    protected string $requested_old_name;
+    protected bool $done;                   // see ilExcIdl.js
+    protected string $requested_idl_id;
+    protected int $requested_user_id;
+    protected string $requested_sort_order;
+    protected string $requested_sort_by;
+    protected int $requested_offset;
+    protected int $requested_ass_id_goto;
+    protected int $selected_wsp_obj_id;
     protected ?\ilExAssignment $ass = null;
     protected ?\ilObjExercise $exc = null;
     protected HTTP\Services $http;
@@ -46,7 +57,18 @@ class GUIRequest
 
         $this->requested_ref_id = $this->int("ref_id");
         $this->requested_ass_id = $this->int("ass_id");
+        $this->requested_ass_id_goto = $this->int("ass_id_goto");
+        $this->requested_ass_type = $this->str("ass_type");
         $this->requested_member_id = $this->int("member_id");
+        $this->requested_part_id = $this->int("part_id");
+        $this->requested_ass_type = $this->str("old_name");
+        $this->requested_user_id = $this->int("user_id");
+        $this->requested_sort_order = $this->str("sort_order");
+        $this->requested_sort_by = $this->str("sort_by");
+        $this->requested_offset = $this->int("offset");
+        $this->done = (bool) $this->int("dn");
+        $this->requested_idl_id = $this->str("idlid");   // may be comma separated
+        $this->selected_wsp_obj_id = $this->int("sel_wsp_obj");
 
         if ($this->getRequestedAssId() > 0) {
             $this->ass = new \ilExAssignment($this->getRequestedAssId());
@@ -106,9 +128,19 @@ class GUIRequest
         return $this->requested_ass_id;
     }
 
+    public function getRequestedAssIdGoto() : int
+    {
+        return $this->requested_ass_id_goto;
+    }
+
     public function getRequestedMemberId() : int
     {
         return $this->requested_member_id;
+    }
+
+    public function getRequestedParticipantId() : int
+    {
+        return $this->requested_part_id;
     }
 
     public function getRequestedExercise() : ?\ilObjExercise
@@ -119,5 +151,50 @@ class GUIRequest
     public function getRequestedAssignment() : ?\ilExAssignment
     {
         return $this->ass;
+    }
+
+    public function getRequestedAssType() : string
+    {
+        return $this->requested_ass_type;
+    }
+
+    public function getRequestedOldName() : string
+    {
+        return $this->requested_old_name;
+    }
+
+    public function getDone() : bool
+    {
+        return $this->done;
+    }
+
+    public function getRequestedIdlId() : bool
+    {
+        return $this->requested_idl_id;
+    }
+
+    public function getRequestedUserId() : int
+    {
+        return $this->requested_user_id;
+    }
+
+    public function getRequestedOffset() : int
+    {
+        return $this->requested_offset;
+    }
+
+    public function getRequestedSortOrder() : string
+    {
+        return $this->requested_sort_order;
+    }
+
+    public function getRequestedSortBy() : string
+    {
+        return $this->requested_sort_by;
+    }
+
+    public function getSelectedWspObjId() : string
+    {
+        return $this->selected_wsp_obj_id;
     }
 }
