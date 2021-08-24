@@ -228,7 +228,7 @@ class PrgMock extends ilObjStudyProgramme
         return $this->env->settings_repo;
     }
 
-    protected function refreshLPStatus(int $usr_id) : void
+    protected function refreshLPStatus(int $usr_id, int $node_obj_id = null) : void
     {
     }
 
