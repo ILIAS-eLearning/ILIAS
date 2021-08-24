@@ -38,7 +38,9 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
     public function testIsQuestionSetConfigured() : void
     {
         $this->objTest_mock->questions = [
-            2, 3, 4
+            2,
+            3,
+            4
         ];
 
         $this->assertTrue($this->testObj->isQuestionSetConfigured());
@@ -47,7 +49,9 @@ class ilTestFixedQuestionSetConfigTest extends ilTestBaseTestCase
     public function testDoesQuestionSetRelatedDataExist() : void
     {
         $this->objTest_mock->questions = [
-            2, 3, 4
+            2,
+            3,
+            4
         ];
 
         $this->assertTrue($this->testObj->doesQuestionSetRelatedDataExist());

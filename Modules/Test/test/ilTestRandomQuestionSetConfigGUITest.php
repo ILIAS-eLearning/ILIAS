@@ -38,9 +38,9 @@ class ilTestRandomQuestionSetConfigGUITest extends ilTestBaseTestCase
     {
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->once())
-            ->method("txt")
-            ->with("tst_rnd_quest_cfg_tab_general")
-            ->willReturn("testString");
+                 ->method("txt")
+                 ->with("tst_rnd_quest_cfg_tab_general")
+                 ->willReturn("testString");
 
         $this->testObj->lng = $lng_mock;
 

@@ -109,10 +109,9 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
 
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->any())
-            ->method("txt")
-            ->with("tst_dyn_quest_set_src_qpl_summary_string_deleted")
-            ->willReturn("testString");
-
+                 ->method("txt")
+                 ->with("tst_dyn_quest_set_src_qpl_summary_string_deleted")
+                 ->willReturn("testString");
 
         $result = $this->testObj->getSourceQuestionPoolSummaryString($lng_mock);
 
@@ -131,7 +130,6 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
                  ->method("txt")
                  ->with("tst_dyn_quest_set_pool_trashed")
                  ->willReturn("testString");
-
 
         $result = $this->testObj->getDepenciesInVulnerableStateMessage($lng_mock);
 
@@ -160,7 +158,6 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
                  ->method("txt")
                  ->with("tst_dyn_quest_set_pool_deleted")
                  ->willReturn("testString");
-
 
         $result = $this->testObj->getDepenciesBrokenMessage($lng_mock);
 

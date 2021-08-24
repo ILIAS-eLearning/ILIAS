@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\MockObject\MockObject;
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTestExportTableGUITest
@@ -11,19 +10,19 @@ class ilTestExportTableGUITest extends ilTestBaseTestCase
 {
     private ilTestExportTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
-    
+
     protected function setUp() : void
     {
         parent::setUp();
-        
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
-            ->method("getFormAction")
-            ->willReturnCallback(function () {
-                return "testFormAction";
-            });
-        
+                  ->method("getFormAction")
+                  ->willReturnCallback(function () {
+                      return "testFormAction";
+                  });
+
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));

@@ -33,8 +33,8 @@ class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
 
         $assMarkSchema = $this->createMock(ASS_MarkSchema::class);
         $assMarkSchema->expects($this->any())
-            ->method("getMarkSteps")
-            ->willReturn([]);
+                      ->method("getMarkSteps")
+                      ->willReturn([]);
 
         $markSchemaAware_mock = $this->createMock(ilMarkSchemaAware::class);
         $markSchemaAware_mock

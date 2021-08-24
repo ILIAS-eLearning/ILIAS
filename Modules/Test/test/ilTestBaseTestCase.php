@@ -48,7 +48,7 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function getGlobalTemplateMock()
     {
-        return $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+        return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -56,7 +56,7 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function getDatabaseMock()
     {
-        return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
+        return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
     /**
@@ -64,7 +64,7 @@ class ilTestBaseTestCase extends TestCase
      */
     protected function getIliasMock()
     {
-        $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();
+        $mock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
 
         $account = new stdClass();
         $account->id = 6;

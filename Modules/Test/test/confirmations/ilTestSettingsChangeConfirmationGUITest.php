@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -26,7 +25,8 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         parent::setUp();
         $this->lng_mock = $this->createMock(ilLanguage::class);
         $this->testObj_mock = $this->createMock(ilObjTest::class);
-        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock, $this->testObj_mock);
+        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock,
+            $this->testObj_mock);
     }
 
     protected function testSetAndGetOldQuestionSetType() : void

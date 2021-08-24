@@ -49,7 +49,8 @@ class ilTestParticipantDataTest extends ilTestBaseTestCase
         $this->assertEquals("1 = 1", $this->testObj->getScoredParticipantsFilterExpression());
 
         $this->testObj->setScoredParticipantsFilterEnabled(true);
-        $this->assertEquals("ta.last_finished_pass = ta.last_started_pass", $this->testObj->getScoredParticipantsFilterExpression());
+        $this->assertEquals("ta.last_finished_pass = ta.last_started_pass",
+            $this->testObj->getScoredParticipantsFilterExpression());
     }
 
     public function testActiveIdsFilter() : void

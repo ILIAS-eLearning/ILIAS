@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\MockObject\MockObject;
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilTestQuestionBrowserTableGUITest
@@ -11,11 +10,11 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
 {
     private ilTestQuestionBrowserTableGUI $tableGui;
     private ilObjTestGUI $parentObj_mock;
-    
+
     protected function setUp() : void
     {
         parent::setUp();
-        
+
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->any())
                  ->method("txt")
@@ -25,10 +24,10 @@ class ilTestQuestionBrowserTableGUITest extends ilTestBaseTestCase
 
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock->expects($this->any())
-            ->method("getFormAction")
-            ->willReturnCallback(function () {
-                return "testFormAction";
-            });
+                  ->method("getFormAction")
+                  ->willReturnCallback(function () {
+                      return "testFormAction";
+                  });
 
         $mainTpl_mock = $this->createMock(ilGlobalPageTemplate::class);
         $db_mock = $this->createMock(ilDBInterface::class);

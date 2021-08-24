@@ -5,11 +5,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for ilTestFinalMarkLangVarBuilder
- *
  * @author  Björn Heyser <bheyser@databay.de>
  * @version $Id$
- *
- *
  * @package Modules/Test
  * @ingroup ModulesTest
  */
@@ -35,15 +32,21 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
     {
         $testCases = array(
             array(
-                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => false,
+                'param_passedStatus' => false,
+                'param_obligationsAnsweredStatus' => false,
+                'param_obligationsEnabled' => false,
                 'expected' => 'mark_tst_failed'
             ),
             array(
-                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => true,
+                'param_passedStatus' => false,
+                'param_obligationsAnsweredStatus' => false,
+                'param_obligationsEnabled' => true,
                 'expected' => 'mark_tst_failed_obligations_missing'
             ),
             array(
-                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => true, 'param_obligationsEnabled' => false,
+                'param_passedStatus' => false,
+                'param_obligationsAnsweredStatus' => true,
+                'param_obligationsEnabled' => false,
                 'expected' => 'mark_tst_failed'
             ),
             array(

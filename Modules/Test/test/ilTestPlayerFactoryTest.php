@@ -47,7 +47,6 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $_GET["ref_id"] = 2;
         $this->addGlobal_rbacsystem();
 
-
         $objTest = new ilObjTest();
 
         $objTest->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);

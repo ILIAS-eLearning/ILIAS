@@ -17,7 +17,6 @@ class ilTestResultsToolbarGUITest extends ilTestBaseTestCase
 
         $this->setGlobalVariable("lng", $lng_mock);
 
-
         $this->toolbarGUI = new ilTestResultsToolbarGUI(
             $ctrl_mock,
             $mainTpl_mock,

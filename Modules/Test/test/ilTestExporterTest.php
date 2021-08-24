@@ -30,7 +30,8 @@ class ilTestExporterTest extends ilTestBaseTestCase
                 "xsd_file" => "ilias_tst_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => ""]
+                "max" => ""
+            ]
         ];
         $this->assertEquals($expected, $this->testObj->getValidSchemaVersions("abcd"));
     }

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\MockObject\MockObject;
@@ -21,8 +22,8 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $lng_mock->expects($this->any())
-            ->method("txt")
-            ->willReturnCallback([self::class, "lngTxtCallback"]);
+                 ->method("txt")
+                 ->willReturnCallback([self::class, "lngTxtCallback"]);
 
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
@@ -60,9 +61,8 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
 
         $this->formGui->testOBJ->setTestId(20101259);
 
-
         $this->questionSetConfig_mock->expects($this->once())
-            ->method("saveToDb");
+                                     ->method("saveToDb");
 
         $this->formGui->save();
     }
