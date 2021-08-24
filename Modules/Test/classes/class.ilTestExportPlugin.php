@@ -67,13 +67,6 @@ abstract class ilTestExportPlugin extends ilPlugin
     }
 
     /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
-
-    /**
      * @param ilObjTest $test
      */
     final public function setTest($test)

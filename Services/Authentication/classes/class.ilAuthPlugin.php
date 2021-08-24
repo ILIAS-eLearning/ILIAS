@@ -44,16 +44,6 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 		return 'authhk';
 	}
 
-
-	/**
-	 * Special alot Init, currently nothing to do here
-	 */
-	public final function slotInit()
-	{
-		//
-	}
-
-
 	/**
 	 * Does your AuthProvider needs "ext_account"? return true, false otherwise.
 	 *

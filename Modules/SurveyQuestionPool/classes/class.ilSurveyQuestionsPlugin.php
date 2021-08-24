@@ -50,13 +50,5 @@ abstract class ilSurveyQuestionsPlugin extends ilPlugin
         return "svyq";
     }
     
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
     abstract public function getQuestionType();
 }

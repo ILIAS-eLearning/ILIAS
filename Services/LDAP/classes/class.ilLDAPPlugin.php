@@ -69,13 +69,6 @@ abstract class ilLDAPPlugin extends ilPlugin
     }
     
     /**
-     * @see ilPlugin::slotInit()
-     */
-    public function slotInit()
-    {
-    }
-    
-    /**
      * Check if user data matches a keyword value combination
      * @return
      * @param object $a_user_data

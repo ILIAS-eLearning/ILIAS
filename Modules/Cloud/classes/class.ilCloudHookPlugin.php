@@ -60,15 +60,6 @@ abstract class ilCloudHookPlugin extends ilPlugin
     }
 
 
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
-
     public function getPluginTablePrefix()
     {
         $id = $this->getId();

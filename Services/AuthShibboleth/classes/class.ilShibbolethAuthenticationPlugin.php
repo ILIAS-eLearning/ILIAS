@@ -86,15 +86,6 @@ abstract class ilShibbolethAuthenticationPlugin extends ilPlugin implements ilSh
         return 'shibhk';
     }
 
-
-    /**
-     *  Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
-
-
     /**
      * @param $a_user_data
      * @param $a_keyword

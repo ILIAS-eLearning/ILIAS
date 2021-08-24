@@ -57,13 +57,6 @@ abstract class ilQuestionsPlugin extends ilPlugin
         return self::SLOT_ID;
     }
     
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
     
     abstract public function getQuestionType();
 

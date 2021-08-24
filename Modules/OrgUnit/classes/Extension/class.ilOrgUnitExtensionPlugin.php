@@ -53,15 +53,6 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
 
 
     /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
-
-    /**
      * @return array
      */
     public function getParentTypes() : array

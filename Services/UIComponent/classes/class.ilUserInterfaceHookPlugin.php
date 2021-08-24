@@ -41,15 +41,6 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
         return "uihk";
     }
 
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
     public function getUIClassInstance() : ilUIHookPluginGUI
     {
         /**

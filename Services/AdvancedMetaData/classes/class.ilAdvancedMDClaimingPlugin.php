@@ -29,10 +29,6 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         return "amdc";
     }
 
-    final protected function slotInit()
-    {
-    }
-
     abstract public function checkPermission(
         int $a_user_id,
         int $a_context_type,
