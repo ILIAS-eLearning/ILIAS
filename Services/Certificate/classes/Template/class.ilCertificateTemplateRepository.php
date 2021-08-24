@@ -361,8 +361,8 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
             $row['ilias_version'],
             (int) $row['created_timestamp'],
             (bool) $row['currently_active'],
-            $row['background_image_path'],
-            $row['thumbnail_image_path'],
+            (string) $row['background_image_path'],
+            (string) $row['thumbnail_image_path'],
             isset($row['id']) ? (int) $row['id'] : null
         );
     }
