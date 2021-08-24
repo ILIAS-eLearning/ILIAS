@@ -46,22 +46,12 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $this->dic = ilStudyProgrammeDIC::dic();
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('prg_user_not_restarted_title');
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('prg_user_not_restarted_desc');
     }
