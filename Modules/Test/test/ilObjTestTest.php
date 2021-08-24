@@ -365,10 +365,10 @@ class ilObjTestTest extends ilTestBaseTestCase
     public function testPasswordEnabled() : void
     {
         $this->testObj->setPasswordEnabled(0);
-        $this->assertfalse($this->testObj->isPasswordEnabled());
+        $this->assertEquals(0, $this->testObj->isPasswordEnabled());
 
         $this->testObj->setPasswordEnabled(1);
-        $this->assertTrue($this->testObj->isPasswordEnabled());
+        $this->assertEquals(1, $this->testObj->isPasswordEnabled());
     }
 
     public function testPassword() : void
@@ -381,12 +381,6 @@ class ilObjTestTest extends ilTestBaseTestCase
     {
         $this->testObj->setPassWaiting("Test");
         $this->assertEquals("Test", $this->testObj->getPassWaiting());
-    }
-
-    public function testAuthor() : void
-    {
-        $this->testObj->setAuthor("Test");
-        $this->assertEquals("Test", $this->testObj->getAuthor());
     }
 
     public function testShuffleQuestions() : void
@@ -413,10 +407,10 @@ class ilObjTestTest extends ilTestBaseTestCase
     public function testListOfQuestions() : void
     {
         $this->testObj->setListOfQuestions(0);
-        $this->assertfalse($this->testObj->isListOfQuestions());
+        $this->assertfalse($this->testObj->getListOfQuestions());
 
         $this->testObj->setListOfQuestions(1);
-        $this->assertTrue($this->testObj->isListOfQuestions());
+        $this->assertTrue($this->testObj->getListOfQuestions());
     }
 
     public function testResultsPresentation() : void
