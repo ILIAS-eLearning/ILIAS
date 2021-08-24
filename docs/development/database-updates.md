@@ -10,7 +10,7 @@ structure. So these updates should be light and run quickly. Migrations are
 concerned with potentially heavy tasks on the database, that might be performed
 in the background while the system already is productive again.
 
-Both variations are triggered via the [setup](src/Setup/README.md), so make sure
+Both variants are triggered by the [setup](src/Setup/README.md), so make sure
 you have a basic understanding of how the setup works before looking into updating
 the database.
 
@@ -20,7 +20,7 @@ the [Jour Fixe on 2021-06-08](https://docu.ilias.de/goto_docu_wiki_wpage_5889_13
 
 ## Schema Updates
 
-To create a schema update, you first needs an integration with the setup. Create
+To create a schema update, you first need an integration with the setup. Create
 a class that implements from `ILIAS\Setup\Agent`, you MUST put it in the subfolder
 `classes/Setup` in your component. If you only want to introduce some update steps
 you could just extend from the `NullAgent`.
@@ -32,20 +32,21 @@ class MySetupAgent extends NullAgent
 ```
 
 Your actual updates of the database go into another file, which implements the
-interface `ilDatabaseUpdateSteps`. The name SHOULD always start with `il$COMPONENT`
+`ilDatabaseUpdateSteps` interfac. The name SHOULD always start with `il$COMPONENT`
 and end with `Steps`. You will want to put something descriptive in between, e.g.
 `ilMyComponentSettingsTableSteps`. The file SHOULD always be put into the same folder
 as the agent. You MAY put your steps in a `Steps` folder in the `Setup`-folder, if
 you need further order in your folder. In the class, you need to implement one
-`init` method that will be called before the steps actually get executed. The
-setup will pass an `ilDBInterface`-instance to be used by the steps.
+`prepare` method that will be called before the steps actually get executed. The
+setup will pass an `ilDBInterface`-instance to be used by the steps and it is recommended
+to store the `ilDBInterface` into a property as shown below.
 
 ```php
 class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function prepare(\ilDBInterface $db)
     {
         $this->db = $db;
     }
@@ -59,7 +60,7 @@ class MySetupAgent extends NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return ilDatabaseUpdateStepsExecutedObjective(new MyDBUpdateSteps);
+        return new ilDatabaseUpdateStepsExecutedObjective(new MyDBUpdateSteps());
     }
 }
 ``` 
@@ -72,7 +73,7 @@ class MyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function prepare(\ilDBInterface $db)
     {
         $this->db = $db;
     }
@@ -89,15 +90,15 @@ class MyDBUpdateSteps implements ilDatabaseUpdateSteps
 }
 ```
 
-The setup mechanism will then call your method in ascending order of numeration.
-It will keep track about which method was already called and take care about
+The setup mechanism will call your step-methods in ascending order.
+It will keep track about which method was already called and takes care
 that the methods are only called once.
 
 A few words of warning:
 
 * Make sure to understand, that this mechanism really is about schema updates.
 Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
-via this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective)
+with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective)
 to do this.
 * Only use the provided `\ilDBInterface` in the methods. Do not use other things from
 the environment or the globals, they might not be there if you need them.
@@ -190,10 +191,10 @@ class MyMigration implements Setup\Migration
 ```
 
 The `Migration`-interface makes it possible to break down a migration into distinct
-steps. This allows administrators to control and monitor the migration, which
-potentially takes a lot of time, closely. When the migration is executed, `prepare`
+steps. This allows administrators to control and monitor the migrations, which
+potentially take a lot of time, closely. When the migration is executed, `prepare`
 will be called first and allows the migration to pull required ressources from the
-environment. Via `getPreconditions` the migration can announce which other
+environment. Via `getPreconditions`, the migration can announce which other
 `Objective`s need to be achieved first to fill the environment with the required
 ressources. With `getRemainingAmountOfSteps` you can tell the setup, how many steps
 still need to be performed to finish the migration. When the administrator requests
