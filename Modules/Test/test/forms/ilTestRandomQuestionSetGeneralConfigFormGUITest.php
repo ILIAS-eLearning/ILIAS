@@ -64,8 +64,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->questionSetConfig_mock->expects($this->once())
             ->method("saveToDb");
 
-        $this->assertIsBool($this->formGui->save());
-
+        $this->formGui->save();
     }
 
     public function lngTxtCallback() : string

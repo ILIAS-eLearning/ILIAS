@@ -30,7 +30,6 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     public function testAvailableSkillProfiles() : void
     {
-        $this->assertIsArray($this->toolbarGUI->getAvailableSkillProfiles());
         $expected = ["test1", "test2", "test3"];
 
         $this->toolbarGUI->setAvailableSkillProfiles($expected);
@@ -40,8 +39,6 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
 
     public function testNoSkillProfileOptionEnabled() : void
     {
-        $this->assertIsBool($this->toolbarGUI->isNoSkillProfileOptionEnabled());
-
         $this->toolbarGUI->setNoSkillProfileOptionEnabled(true);
         $this->assertTrue($this->toolbarGUI->isNoSkillProfileOptionEnabled());
 

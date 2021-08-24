@@ -55,7 +55,6 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
 
     public function testSingleAnswerScreenCmd() : void
     {
-        $this->assertIsString($this->tableGui->getSingleAnswerScreenCmd());
         $this->tableGui->setSingleAnswerScreenCmd("testString");
         $this->assertEquals("testString", $this->tableGui->getSingleAnswerScreenCmd());
     }
