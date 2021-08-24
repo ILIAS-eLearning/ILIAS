@@ -23,4 +23,38 @@ class ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculationTest extends il
     {
         $this->assertInstanceOf(ilTestRandomQuestionsSrcPoolDefinitionQuantitiesCalculation::class, $this->testObj);
     }
+
+    public function testSourcePoolDefinition() : void
+    {
+        $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinition::class);
+
+        $this->testObj->setSourcePoolDefinition($mock);
+        $this->assertEquals($mock, $this->testObj->getSourcePoolDefinition());
+    }
+
+    public function testIntersectionQuantitySharingDefinitionList() : void
+    {
+        $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
+
+        $this->testObj->setIntersectionQuantitySharingDefinitionList($mock);
+        $this->assertEquals($mock, $this->testObj->getIntersectionQuantitySharingDefinitionList());
+    }
+
+    public function testOverallQuestionAmount() : void
+    {
+        $this->testObj->setOverallQuestionAmount(5);
+        $this->assertEquals(5, $this->testObj->getOverallQuestionAmount());
+    }
+
+    public function testExclusiveQuestionAmount() : void
+    {
+        $this->testObj->setExclusiveQuestionAmount(5);
+        $this->assertEquals(5, $this->testObj->getExclusiveQuestionAmount());
+    }
+
+    public function testAvailableSharedQuestionAmount() : void
+    {
+        $this->testObj->setAvailableSharedQuestionAmount(5);
+        $this->assertEquals(5, $this->testObj->getAvailableSharedQuestionAmount());
+    }
 }

@@ -21,4 +21,19 @@ class ilTestScoringTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestScoring::class, $this->testObj);
     }
+
+    public function testPreserveManualScores() : void
+    {
+        $this->testObj->setPreserveManualScores(false);
+        $this->assertFalse($this->testObj->getPreserveManualScores());
+
+        $this->testObj->setPreserveManualScores(true);
+        $this->assertTrue($this->testObj->getPreserveManualScores());
+    }
+
+    public function testQuestionId() : void
+    {
+        $this->testObj->setQuestionId(20);
+        $this->assertEquals(20, $this->testObj->getQuestionId());
+    }
 }

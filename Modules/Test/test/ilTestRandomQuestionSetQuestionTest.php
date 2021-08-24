@@ -21,4 +21,22 @@ class ilTestRandomQuestionSetQuestionTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetQuestion::class, $this->testObj);
     }
+
+    public function testQuestionId() : void
+    {
+        $this->testObj->setQuestionId(125);
+        $this->assertEquals(125, $this->testObj->getQuestionId());
+    }
+
+    public function testSequencePosition() : void
+    {
+        $this->testObj->setSequencePosition(125);
+        $this->assertEquals(125, $this->testObj->getSequencePosition());
+    }
+
+    public function testSourcePoolDefinitionId() : void
+    {
+        $this->testObj->setSourcePoolDefinitionId(125);
+        $this->assertEquals(125, $this->testObj->getSourcePoolDefinitionId());
+    }
 }

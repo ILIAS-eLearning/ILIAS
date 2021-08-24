@@ -24,4 +24,30 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSkillEvaluation::class, $this->testObj);
     }
+
+    public function testUserId() : void
+    {
+        $this->testObj->setUserId(125);
+        $this->assertEquals(125, $this->testObj->getUserId());
+    }
+
+    public function testActiveId() : void
+    {
+        $this->testObj->setActiveId(125);
+        $this->assertEquals(125, $this->testObj->getActiveId());
+    }
+
+    public function testPass() : void
+    {
+        $this->testObj->setPass(125);
+        $this->assertEquals(125, $this->testObj->getPass());
+    }
+
+    public function testNumRequiredBookingsForSkillTriggering() : void
+    {
+        $this->testObj->setNumRequiredBookingsForSkillTriggering(125);
+        $this->assertEquals(125, $this->testObj->getNumRequiredBookingsForSkillTriggering());
+    }
+
+
 }

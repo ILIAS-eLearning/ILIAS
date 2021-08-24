@@ -25,4 +25,10 @@ class ilTestVirtualSequenceTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestVirtualSequence::class, $this->testObj);
     }
+
+    public function testActiveId() : void
+    {
+        $this->testObj->setActiveId(12);
+        $this->assertEquals(12, $this->testObj->getActiveId());
+    }
 }

@@ -31,4 +31,11 @@ class ilTestScoringGUITest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestScoringGUI::class, $this->testObj);
     }
+
+    public function testTestAccess() : void
+    {
+        $mock = $this->createMock(ilTestAccess::class);
+        $this->testObj->setTestAccess($mock);
+        $this->assertEquals($mock, $this->testObj->getTestAccess());
+    }
 }

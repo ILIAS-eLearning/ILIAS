@@ -21,4 +21,22 @@ class ilTestSkillPointAccountTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSkillPointAccount::class, $this->testObj);
     }
+
+    public function testAddBooking() : void
+    {
+        $this->testObj->addBooking(80, 20);
+        $this->assertEquals(80, $this->testObj->getTotalMaxSkillPoints());
+        $this->assertEquals(20, $this->testObj->getTotalReachedSkillPoints());
+
+        $this->testObj->addBooking(50, 10);
+        $this->assertEquals(130, $this->testObj->getTotalMaxSkillPoints());
+        $this->assertEquals(30, $this->testObj->getTotalReachedSkillPoints());
+    }
+
+    public function testGetTotalReachedSkillPercent() : void
+    {
+        $this->testObj->addBooking(80, 20);
+        $this->testObj->addBooking(20, 30);
+        $this->assertEquals(50, $this->testObj->getTotalReachedSkillPercent());
+    }
 }

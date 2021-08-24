@@ -23,4 +23,13 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestResultsToXML::class, $this->testObj);
     }
+
+    public function testIncludeRandomTestQuestionsEnabled() : void
+    {
+        $this->testObj->setIncludeRandomTestQuestionsEnabled(false);
+        $this->assertFalse($this->testObj->isIncludeRandomTestQuestionsEnabled());
+
+        $this->testObj->setIncludeRandomTestQuestionsEnabled(true);
+        $this->assertTrue($this->testObj->isIncludeRandomTestQuestionsEnabled());
+    }
 }

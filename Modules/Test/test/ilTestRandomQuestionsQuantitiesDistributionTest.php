@@ -25,4 +25,20 @@ class ilTestRandomQuestionsQuantitiesDistributionTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestRandomQuestionsQuantitiesDistribution::class, $this->testObj);
     }
+
+    public function testQuestionCollectionProvider() : void
+    {
+        $mock = $this->createMock(ilTestRandomSourcePoolDefinitionQuestionCollectionProvider::class);
+
+        $this->testObj->setQuestionCollectionProvider($mock);
+        $this->assertEquals($mock, $this->testObj->getQuestionCollectionProvider());
+    }
+
+    public function testSourcePoolDefinitionList() : void
+    {
+        $mock = $this->createMock(ilTestRandomQuestionSetSourcePoolDefinitionList::class);
+
+        $this->testObj->setSourcePoolDefinitionList($mock);
+        $this->assertEquals($mock, $this->testObj->getSourcePoolDefinitionList());
+    }
 }

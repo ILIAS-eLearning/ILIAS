@@ -24,4 +24,28 @@ class ilTestRandomQuestionSetSourcePoolDefinitionFactoryTest extends ilTestBaseT
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetSourcePoolDefinitionFactory::class, $this->testObj);
     }
+
+    public function testGetSourcePoolDefinitionByOriginalPoolData() : void
+    {
+        $originalPoolData = [
+            "qpl_id" => 2,
+            "qpl_title" => "testTitle",
+            "qpl_path" => "test/path",
+            "count" => 5
+        ];
+
+        $result = $this->testObj->getSourcePoolDefinitionByOriginalPoolData($originalPoolData);
+        $this->assertEquals($originalPoolData["qpl_id"], $result->getPoolId());
+        $this->assertEquals($originalPoolData["qpl_title"], $result->getPoolTitle());
+        $this->assertEquals($originalPoolData["qpl_path"], $result->getPoolPath());
+        $this->assertEquals($originalPoolData["count"], $result->getPoolQuestionCount());
+    }
+
+    public function testGetEmptySourcePoolDefinition() : void
+    {
+        $this->assertInstanceOf(
+            ilTestRandomQuestionSetSourcePoolDefinition::class,
+            $this->testObj->getEmptySourcePoolDefinition()
+        );
+    }
 }

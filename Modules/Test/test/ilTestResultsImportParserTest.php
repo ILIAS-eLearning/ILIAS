@@ -22,4 +22,24 @@ class ilTestResultsImportParserTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestResultsImportParser::class, $this->testObj);
     }
+
+    public function testQuestionIdMapping() : void
+    {
+        $expected = [
+            12 => 17,
+            124 => 19
+        ];
+        $this->testObj->setQuestionIdMapping($expected);
+        $this->assertEquals($expected, $this->testObj->getQuestionIdMapping());
+    }
+
+    public function testSrcPoolDefIdMapping() : void
+    {
+        $expected = [
+            12 => 17,
+            124 => 19
+        ];
+        $this->testObj->setSrcPoolDefIdMapping($expected);
+        $this->assertEquals($expected, $this->testObj->getSrcPoolDefIdMapping());
+    }
 }

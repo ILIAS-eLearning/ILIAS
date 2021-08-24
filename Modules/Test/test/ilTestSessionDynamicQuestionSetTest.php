@@ -21,4 +21,18 @@ class ilTestSessionDynamicQuestionSetTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSessionDynamicQuestionSet::class, $this->testObj);
     }
+
+    public function testGetQuestionSetFilterSelection() : void
+    {
+        $this->assertInstanceOf(
+            ilTestDynamicQuestionSetFilterSelection::class,
+            $this->testObj->getQuestionSetFilterSelection()
+        );
+    }
+
+    public function testCurrentQuestionId() : void
+    {
+        $this->testObj->setCurrentQuestionId(20);
+        $this->assertEquals(20, $this->testObj->getCurrentQuestionId());
+    }
 }

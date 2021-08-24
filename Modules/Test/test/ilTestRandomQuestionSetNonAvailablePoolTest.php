@@ -21,4 +21,28 @@ class ilTestRandomQuestionSetNonAvailablePoolTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetNonAvailablePool::class, $this->testObj);
     }
+
+    public function testId() : void
+    {
+        $this->testObj->setId(222);
+        $this->assertEquals(222, $this->testObj->getId());
+    }
+
+    public function testTitle() : void
+    {
+        $this->testObj->setTitle("Test");
+        $this->assertEquals("Test", $this->testObj->getTitle());
+    }
+
+    public function testPath() : void
+    {
+        $this->testObj->setPath("Test");
+        $this->assertEquals("Test", $this->testObj->getPath());
+    }
+
+    public function testUnavailabilityStatus() : void
+    {
+        $this->testObj->setUnavailabilityStatus("Test");
+        $this->assertEquals("Test", $this->testObj->getUnavailabilityStatus());
+    }
 }

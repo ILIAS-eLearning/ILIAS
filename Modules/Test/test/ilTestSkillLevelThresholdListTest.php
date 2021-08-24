@@ -23,4 +23,10 @@ class ilTestSkillLevelThresholdListTest extends ilTestBaseTestCase
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdList::class, $this->testObj);
     }
+
+    public function testTestId() : void
+    {
+        $this->testObj->setTestId(20);
+        $this->assertEquals(20, $this->testObj->getTestId());
+    }
 }
