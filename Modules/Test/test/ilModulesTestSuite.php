@@ -10,6 +10,10 @@ class ilModulesTestSuite extends TestSuite
 {
     public static function suite()
     {
+        if(!defined("ILIAS_HTTP_PATH")) {
+            define("ILIAS_HTTP_PATH", "random/path");
+        }
+
         if(!defined("DEBUG")) {
             define("DEBUG", false);
         }

@@ -26,6 +26,8 @@ class ilTestPlayerDynamicQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
 
+        $_GET["ref_id"] = 2;
+
         $this->testObj = new ilTestPlayerDynamicQuestionSetGUI($this->createMock(ilObjTest::class));
     }
 
