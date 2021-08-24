@@ -15,6 +15,7 @@ use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -57,7 +58,7 @@ class ParallelTest extends TestCase
 
         try {
             $result = $parallel->transform(42.0);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

@@ -4,37 +4,64 @@
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Data\Factory;
-use ILIAS\Data\Result;
-use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\Constraint;
+use ILIAS\Refinery\ProblemBuilder;
+use UnexpectedValueException;
 
 /**
  * Transform a string representing a datetime-value to php's DateTimeImmutable
  * see https://www.php.net/manual/de/datetime.formats.php
  */
-class DateTimeTransformation implements Transformation
+class DateTimeTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    use ProblemBuilder;
 
-    private Factory $factory;
-
-    public function __construct(Factory $factory)
-    {
-        $this->factory = $factory;
-    }
+    protected string $error = '';
 
     /**
      * @inheritdoc
      */
     public function transform($from)
     {
-        try {
-            return new \DateTimeImmutable($from);
-        } catch (\Exception $e) {
-            throw new \InvalidArgumentException($e->getMessage(), 1);
+        $this->check($from);
+        return new \DateTimeImmutable($from);
+    }
+
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    public function check($value)
+    {
+        if (!$this->accepts($value)) {
+            throw new UnexpectedValueException($this->getErrorMessage($value));
         }
+
+        return null;
+    }
+
+    public function accepts($value) : bool
+    {
+        try {
+            new \DateTimeImmutable($value);
+        } catch (\Exception $e) {
+            $this->error = $e->getMessage();
+            return false;
+        }
+        return true;
+    }
+
+    public function problemWith($value) : ?string
+    {
+        if (!$this->accepts($value)) {
+            return $this->getErrorMessage($value);
+        }
+
+        return null;
     }
 }
