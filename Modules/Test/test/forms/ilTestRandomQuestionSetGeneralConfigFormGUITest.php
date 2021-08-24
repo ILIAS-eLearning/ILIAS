@@ -67,7 +67,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
         $this->formGui->save();
     }
 
-    public function lngTxtCallback() : string
+    public static function lngTxtCallback() : string
     {
         $args = func_get_args();
         switch ($args[0]) {
