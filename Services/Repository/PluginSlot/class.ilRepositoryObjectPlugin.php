@@ -51,11 +51,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         return "robj";
     }
 
-    protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
     public static function _getIcon(string $a_type) : string
     {
         return ilPlugin::_getImagePath(

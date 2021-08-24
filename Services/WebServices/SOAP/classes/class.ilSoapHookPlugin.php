@@ -56,11 +56,4 @@ abstract class ilSoapHookPlugin extends ilPlugin
      * @return ilWsdlType[]
      */
     abstract public function getWsdlTypes();
-
-    /**
-     * @inheritdoc
-     */
-    protected function slotInit()
-    {
-    }
 }

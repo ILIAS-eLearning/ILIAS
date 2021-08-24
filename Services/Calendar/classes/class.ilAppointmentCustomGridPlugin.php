@@ -85,14 +85,6 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
         return "capg";
     }
 
-    /**
-     * empty
-     */
-    final public function slotInit()
-    {
-        //nothing to do here.
-    }
-
     //Day, Week and Month views.
 
     /**

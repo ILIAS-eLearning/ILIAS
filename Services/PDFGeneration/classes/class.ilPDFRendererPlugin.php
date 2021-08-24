@@ -57,14 +57,6 @@ abstract class ilPDFRendererPlugin extends ilPlugin implements ilRendererConfig,
         return "renderer";
     }
 
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-
     /** --- ilPDFRendererPlugin -- */
     // Note: Most of the required methods come from interface ilRendererConfig
 }

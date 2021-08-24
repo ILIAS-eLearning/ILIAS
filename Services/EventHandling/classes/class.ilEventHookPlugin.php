@@ -40,11 +40,6 @@ abstract class ilEventHookPlugin extends ilPlugin
         return "evhk";
     }
 
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
     /**
      * Handle the event
      *

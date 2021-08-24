@@ -88,14 +88,6 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
     }
 
     /**
-     * empty
-     */
-    final public function slotInit()
-    {
-        //nothing to do here.
-    }
-
-    /**
      * Replace the content inside the modal.
      * @return mixed
      */

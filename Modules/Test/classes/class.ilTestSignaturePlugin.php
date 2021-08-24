@@ -70,13 +70,6 @@ abstract class ilTestSignaturePlugin extends ilPlugin
     }
 
     /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-    }
-
-    /**
      * @param string $cmd
      *
      * @return string

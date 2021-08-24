@@ -38,12 +38,6 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         return "udfc";
     }
     
-    final protected function slotInit()
-    {
-        require_once "Services/User/classes/class.ilUDFPermissionHelper.php";
-    }
-    
-    
     //
     // permission
     //

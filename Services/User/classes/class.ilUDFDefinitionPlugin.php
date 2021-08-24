@@ -101,11 +101,4 @@ abstract class ilUDFDefinitionPlugin extends ilPlugin
     {
         return self::UDF_SLOT_ID;
     }
-    
-    /**
-     * implemented
-     */
-    public function slotInit()
-    {
-    }
 }

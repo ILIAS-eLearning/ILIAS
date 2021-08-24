@@ -53,14 +53,6 @@ abstract class ilPreviewRendererPlugin extends ilPlugin
         return "pvre";
     }
 
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
-    
     public function getRendererClassInstance()
     {
         $class = "il" . $this->getPluginName();

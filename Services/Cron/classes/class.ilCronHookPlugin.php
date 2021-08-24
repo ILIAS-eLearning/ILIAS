@@ -33,9 +33,4 @@ abstract class ilCronHookPlugin extends ilPlugin implements ilCronJobProvider
     {
         return "crnhk";
     }
-    
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
 }

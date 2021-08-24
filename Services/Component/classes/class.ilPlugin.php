@@ -48,7 +48,8 @@ abstract class ilPlugin
         $this->component_data_db = $DIC["component.db"];
     }
 
-    protected function getPluginInfo() : ilPluginInfo {
+    protected function getPluginInfo() : ilPluginInfo
+    {
         return $this->component_data_db
             ->getComponentByTypeAndName(
                 $this->getComponentType(),
@@ -68,6 +69,8 @@ abstract class ilPlugin
      *
      * Must be overwritten in plugin class of plugin slot.
      *
+     * This is only every used inside this class.
+     *
      * @return    string    Component Type
      */
     abstract public function getComponentType();
@@ -77,6 +80,8 @@ abstract class ilPlugin
      * Get Component Name.
      *
      * Must be overwritten in plugin class of plugin slot.
+     *
+     * This is only every used inside this class.
      *
      * @return    string    Component Name
      */
@@ -88,6 +93,8 @@ abstract class ilPlugin
      *
      * Must be overwritten in plugin class of plugin slot.
      *
+     * This is only every used inside this class.
+     *
      * @return    string    Slot Name
      */
     abstract public function getSlot();
@@ -98,6 +105,8 @@ abstract class ilPlugin
      *
      * Must be overwritten in plugin class of plugin slot.
      *
+     * This is only every used inside this class.
+     *
      * @return    string    Slot Id
      */
     abstract public function getSlotId();
@@ -106,32 +115,17 @@ abstract class ilPlugin
     /**
      * Get Plugin Name. Must be same as in class name il<Name>Plugin
      * and must correspond to plugins subdirectory name.
-     *
-     * Must be overwritten in plugin class of plugin
-     *
-     * @return    string    Plugin Name
      */
-    abstract public function getPluginName();
+    abstract public function getPluginName() : string;
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return $this->getPluginInfo()->getId();
     }
 
     /**
-     * Get Version of last update.
+     * Only very little classes seem to care about this: Services/COPage/classes/class.ilPCPluggedGUI.php
      *
-     * @return    string    Version of last update
-     */
-    public function getLastUpdateVersion() : string
-    {
-        return (string) $this->getPluginInfo()->getCurrentVersion();
-    }
-
-    /**
      * @return string
      */
     public function getVersion() : string
@@ -140,70 +134,29 @@ abstract class ilPlugin
     }
 
     /**
-     * @return string
-     */
-    public function getIliasMinVersion() : string
-    {
-        return (string) $this->getPluginInfo()->getMinimumILIASVersion();
-    }
-
-    /**
-     * Get Required ILIAS max. release.
-     *
-     * @return    string    Required ILIAS max. release
-     */
-    public function getIliasMaxVersion()
-    {
-        return (string) $this->getPluginInfo()->getMaximumILIASVersion();
-    }
-
-    /**
-     * @return bool
-     */
-    public function getActive() : bool
-    {
-        return $this->getPluginInfo()->isActivated();
-    }
-
-
-    /**
-     * @param ilPluginSlot $a_slot
-     */
-    protected function setSlotObject(ilPluginSlot $a_slot)
-    {
-        $this->slot = $a_slot;
-    }
-
-
-    /**
-     * @return ilPluginSlot
-     */
-    protected function getSlotObject() : ilPluginSlot
-    {
-        return $this->slot;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDBVersion() : int
-    {
-        return $this->getPluginInfo()->getCurrentDBVersion();
-    }
-
-    /**
      * Get Plugin Directory
+     *
+     * Only very little classes seem to care about this:
+     *     - Services/COPage/classes/class.ilPCPlugged.php
+     *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
      *
      * @return    object    Plugin Slot
      */
     public function getDirectory() : string
     {
-        return $this->getSlotObject()->getPluginsDirectory() . "/" . $this->getPluginName();
+        $plugin = $this->getPluginInfo();
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+        return "Customizing/global/plugins/" . $component->getType() . "/" . $component->getName() . "/" .
+            $slot->getName() . "/" . $plugin->getName();
     }
 
 
     /**
      * Get plugin directory
+     *
+     * Only very little classes seem to care about this:
+     *     - Services/Object/classes/class.ilObjectDefinition.php
      */
     public static function _getDirectory(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : string
     {
@@ -212,6 +165,7 @@ abstract class ilPlugin
 
 
     /**
+     *
      * @return string
      */
     protected function getClassesDirectory() : string
@@ -222,12 +176,19 @@ abstract class ilPlugin
 
     /**
      * Include (once) a class file
+     *
+     * Only very little classes seem to care about this:
+     *    - Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php
+     *    - Services/COPage/classes/class.ilPageComponentPlugin.php
      */
     public function includeClass($a_class_file_name)
     {
         include_once($this->getClassesDirectory() . "/" . $a_class_file_name);
     }
 
+    // ------------------------------------------
+    // Language Handling
+    // ------------------------------------------
 
     /**
      * @return string
@@ -236,7 +197,6 @@ abstract class ilPlugin
     {
         return $this->getDirectory() . "/lang";
     }
-
 
     /**
      * Get array of all language files in the plugin
@@ -271,75 +231,6 @@ abstract class ilPlugin
 
         return $langs;
     }
-
-
-    /**
-     * Has the plugin a configure class?
-     *
-     * @param string $a_slot_dir     slot directory
-     * @param array  $plugin_data    plugin data
-     * @param array  $plugin_db_data plugin db data
-     *
-     * @return boolean true/false
-     */
-    public static function hasConfigureClass(\ilPluginInfo $plugin) : bool
-    {
-        global $DIC;
-
-        // Mantis: 23282: Disable plugin config page for incompatible plugins
-        if (!$plugin->isCompliantToILIAS()) {
-            return false;
-        }
-
-        return is_file($plugin->getPath() . "/classes/" . self::getConfigureClassName($plugin));
-    }
-
-
-    /**
-     * Get plugin configure class name
-     *
-     * @param array $plugin_data
-     *
-     * @return string
-     */
-    protected static function getConfigureClassName(\ilPluginInfo $plugin) : string
-    {
-        return "il" . $plugin->getName() . "ConfigGUI";
-    }
-
-
-    /**
-     * Get plugin prefix, used for lang vars
-     */
-    public function getPrefix() : string
-    {
-        return $this->getSlotObject()->getPrefix() . "_" . $this->getId();
-    }
-
-
-    /**
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_name
-     * @param string $a_pname
-     *
-     * @return string
-     */
-    public static function getDBUpdateScriptName(string $a_ctype, string $a_cname, string $a_slot_name, string $a_pname) : string
-    {
-        return "Customizing/global/plugins/" . $a_ctype . "/" . $a_cname . "/" .
-            $a_slot_name . "/" . $a_pname . "/sql/dbupdate.php";
-    }
-
-
-    /**
-     * Get db table plugin prefix
-     */
-    public function getTablePrefix()
-    {
-        return $this->getPrefix();
-    }
-
 
     /**
      * Update all or selected languages
@@ -399,6 +290,118 @@ abstract class ilPlugin
         }
     }
 
+    /**
+     * Load language module for plugin
+     */
+    public function loadLanguageModule()
+    {
+        global $DIC;
+        $lng = $DIC->language();
+
+        if (!$this->lang_initialised && is_object($lng)) {
+            $lng->loadLanguageModule($this->getPrefix());
+            $this->lang_initialised = true;
+        }
+    }
+
+    /**
+     * Get Language Variable (prefix will be prepended automatically)
+     */
+    public function txt(string $a_var) : string
+    {
+        global $DIC;
+        $lng = $DIC->language();
+        $this->loadLanguageModule();
+
+        return $lng->txt($this->getPrefix() . "_" . $a_var, $this->getPrefix());
+    }
+
+    /**
+     * @param string $a_mod_prefix
+     * @param string $a_pl_id
+     * @param string $a_lang_var
+     *
+     * @return string
+     */
+    public static function lookupTxt(string $a_mod_prefix, string $a_pl_id, string $a_lang_var) : string
+    {
+        global $DIC;
+        $lng = $DIC->language();
+
+        // this enables default language fallback
+        $prefix = $a_mod_prefix . "_" . $a_pl_id;
+
+        return $lng->txt($prefix . "_" . $a_lang_var, $prefix);
+    }
+
+    /**
+     * Is searched lang var available in plugin lang files
+     *
+     * @param string $pluginId
+     * @param string $langVar
+     *
+     * @return bool
+     */
+    public static function langExitsById(string $pluginId, string $langVar) : bool
+    {
+        global $DIC;
+        $lng = $DIC->language();
+
+        $pl = ilObjectPlugin::getPluginObjectByType($pluginId);
+        $pl->loadLanguageModule();
+
+        return $lng->exists($pl->getPrefix() . "_" . $langVar);
+    }
+
+    // ------------------------------------------
+
+
+    /**
+     * Has the plugin a configure class?
+     *
+     * @param string $a_slot_dir     slot directory
+     * @param array  $plugin_data    plugin data
+     * @param array  $plugin_db_data plugin db data
+     *
+     * @return boolean true/false
+     */
+    public static function hasConfigureClass(\ilPluginInfo $plugin) : bool
+    {
+        global $DIC;
+
+        // Mantis: 23282: Disable plugin config page for incompatible plugins
+        if (!$plugin->isCompliantToILIAS()) {
+            return false;
+        }
+
+        return is_file($plugin->getPath() . "/classes/" . self::getConfigureClassName($plugin));
+    }
+
+
+    /**
+     * Get plugin configure class name
+     *
+     * @param array $plugin_data
+     *
+     * @return string
+     */
+    protected static function getConfigureClassName(\ilPluginInfo $plugin) : string
+    {
+        return "il" . $plugin->getName() . "ConfigGUI";
+    }
+
+
+    /**
+     * Get plugin prefix, used for lang vars
+     */
+    public function getPrefix() : string
+    {
+        $plugin = $this->getPluginInfo();
+        $component = $plugin->getComponent();
+        $slot = $plugin->getPluginSlot();
+
+        return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
+    }
 
     /**
      * Update database
@@ -438,72 +441,6 @@ abstract class ilPlugin
     }
 
 
-    /**
-     * Load language module for plugin
-     */
-    public function loadLanguageModule()
-    {
-        global $DIC;
-        $lng = $DIC->language();
-
-        if (!$this->lang_initialised && is_object($lng)) {
-            $lng->loadLanguageModule($this->getPrefix());
-            $this->lang_initialised = true;
-        }
-    }
-
-
-    /**
-     * Get Language Variable (prefix will be prepended automatically)
-     */
-    public function txt(string $a_var) : string
-    {
-        global $DIC;
-        $lng = $DIC->language();
-        $this->loadLanguageModule();
-
-        return $lng->txt($this->getPrefix() . "_" . $a_var, $this->getPrefix());
-    }
-
-
-    /**
-     * @param string $a_mod_prefix
-     * @param string $a_pl_id
-     * @param string $a_lang_var
-     *
-     * @return string
-     */
-    public static function lookupTxt(string $a_mod_prefix, string $a_pl_id, string $a_lang_var) : string
-    {
-        global $DIC;
-        $lng = $DIC->language();
-
-        // this enables default language fallback
-        $prefix = $a_mod_prefix . "_" . $a_pl_id;
-
-        return $lng->txt($prefix . "_" . $a_lang_var, $prefix);
-    }
-
-
-    /**
-     * Is searched lang var available in plugin lang files
-     *
-     * @param string $pluginId
-     * @param string $langVar
-     *
-     * @return bool
-     */
-    public static function langExitsById(string $pluginId, string $langVar) : bool
-    {
-        global $DIC;
-        $lng = $DIC->language();
-
-        $pl = ilObjectPlugin::getPluginObjectByType($pluginId);
-        $pl->loadLanguageModule();
-
-        return $lng->exists($pl->getPrefix() . "_" . $langVar);
-    }
-
 
     /**
      * gets a ilTemplate instance of a html-file in the plugin /templates
@@ -521,6 +458,10 @@ abstract class ilPlugin
 
 
     /**
+     * Only very little classes seem to care about this:
+     *    - Services/Repository/classes/class.ilRepositoryObjectPlugin.php
+     *    - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
+     *
      * @param string $a_ctype
      * @param string $a_cname
      * @param string $a_slot_id
@@ -542,21 +483,6 @@ abstract class ilPlugin
         $d = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
 
         return $d . "/templates/images/" . $a_img;
-    }
-
-
-    /**
-     * Get image path
-     */
-    public function getImagePath(string $a_img) : string
-    {
-        return self::_getImagePath(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName(),
-            $a_img
-        );
     }
 
 
@@ -591,62 +517,19 @@ abstract class ilPlugin
         );
     }
 
-
-    /**
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     * @param $a_pname
-     *
-     * @description Create plugin record
-     */
-    public static function createPluginRecord(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname)
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "INSERT INTO il_plugin (component_type, component_name, slot_id, name)" .
-            " VALUES (" . $ilDB->quote($a_ctype, "text") . "," .
-            $ilDB->quote($a_cname, "text") . "," .
-            $ilDB->quote($a_slot_id, "text") . "," .
-            $ilDB->quote($a_pname, "text") . ")";
-
-        $ilDB->manipulate($q);
-    }
-
     /**
      * Default initialization
      */
     private function __init()
     {
-        // get slot object
-        $this->setSlotObject(
-            new ilPluginSlot(
-                $this->getComponentType(),
-                $this->getComponentName(),
-                $this->getSlotId()
-            )
-        );
-
         // load language module
 
         // Fix for authentication plugins
         $this->loadLanguageModule();
 
         // call slot and plugin init methods
-        $this->slotInit();
         $this->init();
     }
-
-
-    /**
-     * Object initialization done by slot.
-     * Must be overwritten in plugin class of plugin slot.
-     *
-     * (and should be made protected)
-     */
-    abstract protected function slotInit();
-
 
     /**
      * Object initialization. Can be overwritten by plugin class
@@ -658,7 +541,13 @@ abstract class ilPlugin
 
 
     /**
-     * Check whether plugin is active
+     * Check whether plugin is active.
+     *
+     * Only very little classes seem to care about this:
+     *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
+     *    - Services/Component/classes/class.ilPluginSlotInfo.php
+     *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
+     *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
     public function isActive()
     {
@@ -976,40 +865,9 @@ abstract class ilPlugin
             plugin is still marked as active in the DB Table 'il_plugin' but not installed anymore.");
     }
 
-
     /**
-     * Lookup information data in il_plugin
-     *
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     * @param string $a_pname
-     *
-     * @return string[]
-     */
-    public static function lookupStoredData(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : array
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "SELECT * FROM il_plugin WHERE" .
-            " component_type = " . $ilDB->quote($a_ctype, "text") . " AND" .
-            " component_name = " . $ilDB->quote($a_cname, "text") . " AND" .
-            " slot_id = " . $ilDB->quote($a_slot_id, "text") . " AND" .
-            " name = " . $ilDB->quote($a_pname, "text");
-
-        $set = $ilDB->query($q);
-
-        if ($ilDB->numRows($set) == 0) {
-            return array();
-        }
-
-        return $ilDB->fetchAssoc($set);
-    }
-
-
-    /**
-     * Get All active plugin ids for a slot.
+     * Only very little classes seem to care about this:
+     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php
      *
      * @param $a_ctype
      * @param $a_cname
@@ -1035,6 +893,18 @@ abstract class ilPlugin
 
 
     /**
+     * Only very little classes seem to care about this:
+     *     - Services/Repository/classes/class.ilObjectPluginGUI.php
+     *     - Services/Repository/classes/class.ilObjectPluginListGUI.php
+     *     - Services/Repository/classes/class.ilObjectPlugin.php
+     *     - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
+     *     - Services/Object/classes/class.ilObjectDefinition.php
+     *     - Services/Navigation/classes/class.ilNavigationHistory.php
+     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php
+     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php
+     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php
+     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
+     *
      * @param $a_ctype
      * @param $a_cname
      * @param $a_slot_id
@@ -1068,7 +938,7 @@ abstract class ilPlugin
      *
      * @return string
      */
-    public static function lookupIdForName(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_name) : string
+    protected static function lookupIdForName(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_name) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1087,11 +957,10 @@ abstract class ilPlugin
 
 
     /**
-     * @param string $id
-     *
-     * @return string[] | null
+     * Only very little classes seem to care about this:
+     *     - Services/Repository/classes/class.ilObjectPlugin.php
      */
-    public static function lookupTypeInformationsForId(string $id)
+    protected static function lookupTypeInformationsForId(string $id) : ?string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1107,6 +976,7 @@ abstract class ilPlugin
                 $rec["slot_id"],
             ];
         }
+        return null;
     }
 
 

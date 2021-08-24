@@ -31,15 +31,6 @@ abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
     }
 
     /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
-
-    /**
      * The following methods can be overridden by plugins
      */
 
