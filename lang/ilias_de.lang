@@ -13549,7 +13549,7 @@ prg#:#prg_points_current#:#Derzeitige Punkte
 prg#:#prg_custom_plan#:#Individueller Plan
 prg#:#prg_belongs_to#:#Gehört Zu
 prg#:#prg_show_individual_plan#:#Individuellen Plan zeigen
-prg#:#prg_remove_user#:#Benutzer entfernen
+prg#:#prg_remove_user#:#Zuweisung löschen
 prg#:#prg_mark_accredited#:#akkreditieren
 prg#:#prg_unmark_accredited#:#Akkreditierung entfernen
 prg#:#prg_mark_accredited_success#:#Das Programm wurde für den Benutzer erfolgreich akkreditiert.
@@ -13565,7 +13565,7 @@ prg#:#prg_update_from_current_plan_partitial_success#:#Aus dem aktuellen Plan ak
 prg#:#prg_update_from_current_plan_success#:#Aus dem aktuellen Plan aktualisieren ist erfolgreich.
 prg#:#prg_no_user_selected#:#Es wurde kein Benutzer ausgewählt.
 prg#:#prg_unmark_accredited_success#:#Die Akkreditierung wurde erfolgreich entfernt.
-prg#:#prg_remove_user_success#:#Der Benutzer wurde entfernt.
+prg#:#prg_remove_user_success#:#Die Zuweisung wurde entfernt.
 prg#:#prg_type_add#:#Studienprogrammtyp hinzufügen
 prg#:#prg_subtypes#:#Typen
 prg#:#prg_subtype_add#:#Neuen Typ hinzufügen
@@ -13643,7 +13643,7 @@ rbac#:#prg_copy#:#Benutzer kann das Studienprogramm kopieren
 rbac#:#prg_write#:#Benutzer kann Einstellungen bearbeiten
 rbac#:#prg_delete#:#Studienprogramm löschen
 rbac#:#prg_edit_permission#:#Rechteeinstellungen bearbeiten
-rbac#:#prg_manage_members#:#Teilnehmer eines Studienprogramms bearbeiten
+rbac#:#prg_manage_members#:#Zuweisungen eines Studienprogramms bearbeiten
 rbac#:#rbac_create_prg#:#Studienprogramm anlegen
 rbac#:#prgs_visible#:#Studienprogramm-Administration ist sichtbar
 rbac#:#prgs_read#:#Lesezugriff auf Studienprogramm-Administration
@@ -16057,20 +16057,7 @@ content#:#cont_page_template#:#Vorlage
 content#:#cont_page_created#:#Seite hinzugefügt
 prg#:#assignment_date#:#Beitrittsdatum
 prg#:#completion_date#:#Abschlussdatum
-prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
-prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
-prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
-prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
-prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
 prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
-prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
-prg#:#validity_qualification_period#:#Ablauf der Qualifikation individuell festgelegt
-prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
-prg#:#validity_qualification_date#:#Die Qualifikation läuft zu einem Stichtag ab
-prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
-prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
-prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
-prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
 prg#:#sp_certificate_title#:#Titel des Programms
 prg#:#sp_certificate_description#:#Beschreibung des Programms
 prg#:#sp_certificate_type#:#Typ des Programms
@@ -16082,10 +16069,6 @@ prg#:#prg_expiry_date#:#Ablauf Qualifikation
 prg#:#prg_validity#:#Gültigkeit Qualifikation
 prg#:#prg_still_valid#:#gültig
 prg#:#prg_not_valid#:#ungültig
-prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
-prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
-prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
-prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
 prg#:#prg_orgus#:#Organisationseinheit(en)
 prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
 prg#:#content_automation#:#Inhaltsautomatisierung
@@ -16102,11 +16085,12 @@ prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms is
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
 prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
-prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#edit_participants#:#Zuweisungen bearbeiten
 prg#:#auto_memberships#:#Automatische Zuweisung
 prg#:#orgu#:#Organisationseinheit
 prg#:#rol#:#Rolle
 prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#auto_membership_description#:#Regeln werden nur ausgeführt, wenn ein Kriterium nach Aktivierung der Regel erfüllt wird. Es werden keine Zuweisungen entfernt, wenn zu diesem Zeitpunkt ein anderes aktives Kriterium erfüllt ist.
 prg#:#add_automembership_source#:#Automatismus hinzufügen
 prg#:#auto_membership_src_type#:#Typ
 prg#:#membership_source_id#:#Id
@@ -16124,11 +16108,8 @@ prg#:#prg_some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Ben
 prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
 prg#:#prg_formatted_period#:#%d Tage
 prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
-prg#:#dealine_period_info#:#Bearbeitungszeitraum
-prg#:#dealine_date_info#:#Bearbeitungszeitraum bis zu einem festen Stichtag
 prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
 prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
-prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
 prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
 prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
@@ -16139,21 +16120,7 @@ prg#:#prg_title#:#Titel
 prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
 prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
-prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
-prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
-prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
-prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
-prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet, ist nicht zu bestehen.
-prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
-prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Studienprogramm.
-prg#:#prg_user_risky_to_fail_title#:#Warnung per E-Mail über mögliches Nichtbestehen senden
-prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
-prg#:#prg_user_not_restarted_title#:#Warnung per E-Mail über auslaufende Qualifikation senden
-prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
-prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
-prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail, um den Benutzer daran zu erinnern, das Studienprogramm neu zu starten.
-prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
-prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>die Gültigkeit ihrer Qualifikation am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
 search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
 search#:#select_orgu#:#Organisationseinheiten auswählen
 prg#:#prg_dash_label_valid#:#Gültigkeit:
@@ -16283,8 +16250,6 @@ mail#:#mail_enable_lso_admin_notification#:#Administratoren der Lernsequenz bena
 mail#:#mail_enable_lso_admin_notification_info#:#In neuen Lernsequenzen ist im Reiter "Mitglieder" für Administratoren die Einstellungen "Benachrichtigungen" standardmäßig aktiviert. Sie erhalten E-Mails, wenn ein Mitglied beitritt oder die Sequenz verlässt.
 prg#:#risky_to_fail_mail_subject#:#Erinnerung, das der Stichtag am Studienprogramm bald ereicht ist
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>der Stichtag für das Abschließen des Studienprogramm '%s' ist bald ereicht.
-prg#:#prg_update_progress_title#:#Setzt Status nach Stichtag auf 'nicht bestanden'
-prg#:#prg_update_progress_description#:#Setzt den Status von 'In Bearbeitung' auf 'nicht bestanden' wenn der Stichtag überschritten ist.
 common#:#collapse_content#:#Inhalt einklappen
 common#:#expand_content#:#Inhalt ausklappen
 common#:#briefcase#:#Hintergrundprozesse
@@ -16593,8 +16558,76 @@ irss#:#stakeholders#:#Stakeholders
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
-ui#:#datetime_required#:Zeit/Datum erforderlich
+ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
 content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_sur_block_format#:#Umgebender Block
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
+prg#:#msg_mark_relevant#:#%s Benutzer als relevant markiert.
+prg#:#msg_mark_relevant_failed#:#Nicht als relevant markiert:
+prg#:#msg_mark_not_relevant#:#%s Benutzer als nicht relevant markiert.
+prg#:#msg_mark_not_relevant_failed#:#Nicht als irrelevant markiert:
+prg#:#msg_mark_accredited#:#%s Benutzer erfolgreich akkreditiert.
+prg#:#msg_mark_accredited_failed#:#Nicht als akkreditiert markiert:
+prg#:#msg_unmark_accredited#:#%s Benutzer als nicht akkreditiert markiert.
+prg#:#msg_unmark_accredited_failed#:#Akkreditierung entfernen nicht erfolgreich bei:
+prg#:#msg_update_from_settings#:#%s Benutzer aus den Einstellungen aktualisiert.
+prg#:#msg_update_from_settings_failed#:#Aktualisierung nicht erfolgreich:
+prg#:#msg_change_deadline_date#:#Stichtag angepasst für %s Benutzer.
+prg#:#msg_change_deadline_date_failed#:#Stichtag nicht angepasst für:
+prg#:#msg_change_expire_date#:#Ablaufdatum angepasst für %s Benutzer.
+prg#:#msg_change_expire_date_failed#:#Ablauf nicht angepasst für:
+prg#:#status_transition_not_allowed#:#Neuer Status nicht anwendbar
+prg#:#will_not_modify_irrelevant_progress#:#keine Änderung, da irrelevant
+prg#:#will_not_modify_deadline_on_successful_progress#:#keine Änderung, da bereits abgeschlossen oder akkreditiert
+prg#:#status_changed#:#Status aktualisiert
+prg#:#validity_updated#:#Gültigkeit aktualisiert
+prg#:#deadline_updated#:#Stichtag aktualisiert
+prg#:#updated_from_settings#:#Aus Einstellungen aktualisiert
+prg#:#prg_restart_assignments_temporal_progress_title#:#Automatische Wiederaufnahme in Studienprogramme
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer erneut auf Studienprogramme wenn Wiederholungszeitraum beginnt.
+prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
+prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Gültigkeit von Studienprogrammen
+prg#:#prg_invalidate_expired_progresses_desc#:#Setzt 'Gültigkeit' auf 'ungültig' wenn Ablaufdatum erreicht.
+prg#:#prg_update_progress_title#:#Zeitlich begrenzte Bearbeitungszeiträume von Studienprogrammen
+prg#:#prg_update_progress_description#:#Setzt Status von 'in Bearbeitung' auf 'Nicht bestanden' wenn Ende der Bearbeitungsfrist erreicht.
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum endet individuell
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum endet an festem Stichtag
+prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_no_validity_qualification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qualification_period#:#Ablauf der Qualifikation - individuell
+prg#:#validity_qualification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qualification_date#:#Ablauf der Qualifikation zu einem Stichtag
+prg#:#validity_qualification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#vq_date_info#:#Ablauf der Qualifikation zu einem Stichtag
+prg#:#prg_no_restart#:#Keine automatische Wiederaufnahme (bei Ablauf der Qualifikation)
+prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#send_re_assigned_mail#:#E-Mail bei automat. Wiederaufnahme
+prg#:#send_re_assigned_mail_info#:#Versand einer E-Mail bei erneuter Zuweisung zum Studienprogramm.
+prg#:#send_info_to_re_assign_mail#:#E-Mail vor Ablauf der Gültigkeit
+prg#:#send_info_to_re_assign_mail_info#:#Versand einer E-Mail, wenn aktuelle Qualifikation ungültig wird
+prg#:#prg_user_not_restarted_time_input#:#Tage vor Ablauf der Gültigkeit
+prg#:#prg_user_not_restarted_time_input_info#:#Tage vor Ablauf der Gültigkeit der Qualifikation
+prg#:#send_risky_to_fail_mail#:#E-Mail bei Risiko der Nicht-Qualifikation
+prg#:#send_risky_to_fail_mail_info#:#Versand einer E-Mail, wenn Qualifikation noch nicht erworben wurde und Bearbeitungszeitraum endet
+prg#:#prg_processing_ends_no_success#:#Tage vor Ende Bearbeitungszeitraum
+prg#:#prg_processing_ends_no_success_info#:#Tage vor Ende des Bearbeitungszeitraums
+prg#:#msg_update_individual_plan#:#Erfolgreich aktualisiert (%s)
+prg#:#msg_update_individual_plan_failed#:#Fehler beim Aktualisieren:
+prg#:#msg_points_must_be_positive#:#Nur positive Punktzahlen sind erlaubt.
+prg#:#msg_impossible_target_status#:#Ungültiger Status
+prg#:#confirm_to_remove_selected_assignments#:#Benutzerzuweisung(en) wirklich entfernen?
+prg#:#will_not_set_top_progress_to_irrelevant#:#Oberste Zuordnung kann nicht irrelevant sein.
+prg#:#assignments#:#Zuweisungen
+prg#:#mail_assignments#:#Mail an zugewiesene Benutzer
+prg#:#manage_assignments#:#Zuweisungen verwalten
+prg#:#prg_manage_members_short#:#Zuweisungen verwalten
+prg#:#will_not_modify_relevant_progress#:#bereits relevant
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur geändert werden wenn abgeschlossen oder akkreditiert
+prg#:#status_unchanged#:#Status unverändert
