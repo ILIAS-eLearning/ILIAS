@@ -20,7 +20,7 @@ interface ilStudyProgrammeSettingsRepository
      * Load settings belonging to a SP-Object.
      * Will throw if the record does not exist yet.
      */
-    public function read(int $obj_id) : ilStudyProgrammeSettings;
+    public function get(int $obj_id) : ilStudyProgrammeSettings;
 
     /**
      * Update settings belonging to a SP-Object.

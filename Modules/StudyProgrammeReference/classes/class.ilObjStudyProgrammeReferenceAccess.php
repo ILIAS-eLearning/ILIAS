@@ -26,7 +26,6 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
         switch ($a_permission) {
             case 'visible':
             case 'read':
-
                 $target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
                 if (!$ilAccess->checkAccessOfUser($a_user_id, $a_permission, $a_cmd, $target_ref_id)) {
                     return false;
@@ -48,13 +47,12 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
                     $parent = ilObjStudyProgramme::getInstanceByRefId($parent["ref_id"]);
                     foreach ($parent->getProgresses() as $parent_progress
                     ) {
-                        try {
-                            $progress =
-                                $progress_db->getInstanceForAssignment(
-                                    $target_id,
-                                    $parent_progress->getAssignmentId()
-                                );
-                        } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
+                        $progress = $progress_db->getByPrgIdAndAssignmentId(
+                            $target_id,
+                            $parent_progress->getAssignmentId()
+                        );
+                        
+                        if (!$progress) {
                             continue;
                         }
                         if ($progress->isRelevant()) {
@@ -72,20 +70,19 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
     public static function _getCommands($a_ref_id = null)
     {
         global $DIC;
-
         $ilAccess = $DIC->access();
+        $prgr_obj_id = ilObject::_lookupObjId($a_ref_id);
+        $target_ref_id = ilContainerReference::_lookupTargetRefId($prgr_obj_id);
+
+        $commands = [];
 
         if ($ilAccess->checkAccess('write', '', $a_ref_id)) {
-            // Only local (reference specific commands)
-            $commands = [
-                ["permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true]
-                ,["permission" => "write", "cmd" => "view", "lang_var" => "edit_content"]
-                ,["permission" => "write", "cmd" => "edit", "lang_var" => "settings"]
-                ,["permission" => "write", "cmd" => "editReference", "lang_var" => "edit"]
-            ];
-        } else {
-            $commands = ilObjStudyProgrammeAccess::_getCommands();
+            $commands[] = ["permission" => "write", "cmd" => "editReference", "lang_var" => "edit"];
         }
+        if ($ilAccess->checkAccess('read', '', $target_ref_id)) {
+            $commands[] = array('permission' => 'visible', 'cmd' => 'view', 'lang_var' => 'show', 'default' => true);
+        }
+
         return $commands;
     }
 }

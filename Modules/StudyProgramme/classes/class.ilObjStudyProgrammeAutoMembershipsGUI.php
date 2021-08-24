@@ -748,8 +748,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
                 $this->ctrl->clearParametersByClass('ilObjRoleGUI');
                 break;
 
-            case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
             case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
+                $url = ilLink::_getStaticLink($src_id, 'crs');
+                // no break
+            case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
+                $url = ilLink::_getStaticLink($src_id, 'grp');
                 $hops = array_map(
                     function ($c) {
                         return ilObject::_lookupTitle($c["obj_id"]);

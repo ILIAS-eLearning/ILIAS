@@ -17,6 +17,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->setId("sp_ac_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
         $this->setTitle($this->lng->txt('auto_membership_title'));
+        $this->setDescription($this->lng->txt('auto_membership_description'));
         $this->setEnableTitle(true);
         $this->setTopCommands(false);
         $this->setEnableHeader(true);

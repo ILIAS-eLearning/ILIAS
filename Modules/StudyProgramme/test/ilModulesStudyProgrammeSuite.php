@@ -51,6 +51,10 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilStudyProgrammeTypeSettingsTest");
         $suite->addTestSuite("ilStudyProgrammeTypeInfoTest");
         $suite->addTestSuite("ilStudyProgrammeDashGUITest");
+        $suite->addTestSuite("ilStudyProgrammeProgressCalculationsTest");
+        $suite->addTestSuite("ilStudyProgrammeGUIMessagesTest");
+        $suite->addTestSuite("ilStudyProgrammeCronRiskyToFailTest");
+        $suite->addTestSuite("ilStudyProgrammeCronAboutToExpireTest");
         return $suite;
     }
 }
