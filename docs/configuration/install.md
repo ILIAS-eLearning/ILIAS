@@ -421,7 +421,7 @@ configuration might look like this afterwards:
 	},
 	"database" : {
 		"user" : "ilias_user",
-        "password" : "my_password"
+		"password" : "my_password"
 	},
 	"filesystem" : {
 		"data_dir" : "/var/www/files"
@@ -448,7 +448,7 @@ configuration might look like this afterwards:
     "utilities" : {
         "path_to_convert" : "/usr/bin/convert",
         "path_to_zip" : "/usr/bin/zip",
-        "path_to_zip" : "/usr/bin/unzip"
+        "path_to_unzip" : "/usr/bin/unzip"
     }
 }
 ```

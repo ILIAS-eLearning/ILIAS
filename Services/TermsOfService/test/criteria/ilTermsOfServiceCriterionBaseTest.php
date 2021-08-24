@@ -11,7 +11,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
 {
     /**
      * @return MockObject|ilRbacReview
-     * @throws ReflectionException
      */
     protected function getRbacReviewMock() : ilRbacReview
     {
@@ -22,7 +21,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
             ->getMock();
 
         $rbacReview
-            ->expects($this->any())
             ->method('getGlobalRoles')
             ->willReturn([2, 4]);
 
@@ -31,7 +29,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
 
     /**
      * @return MockObject|ilObjectDataCache
-     * @throws ReflectionException
      */
     protected function getObjectDataCacheMock() : ilObjectDataCache
     {
@@ -45,7 +42,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
 
     /**
      * @return MockObject|ilRadioGroupInputGUI
-     * @throws ReflectionException
      */
     protected function getRadioGroupMock() : ilRadioGroupInputGUI
     {
@@ -60,7 +56,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
 
     /**
      * @return MockObject|ilPropertyFormGUI
-     * @throws ReflectionException
      */
     protected function getFormMock() : ilPropertyFormGUI
     {
@@ -75,7 +70,6 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
 
     /**
      * @return MockObject|ilObjUser
-     * @throws ReflectionException
      */
     protected function getUserMock() : ilObjUser
     {
@@ -86,12 +80,10 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 

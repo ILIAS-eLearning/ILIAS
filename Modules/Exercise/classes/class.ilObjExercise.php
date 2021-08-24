@@ -8,6 +8,9 @@ use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 
+use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise\Assignment\Mandatory\MandatoryAssignmentsManager;
+
 /**
  * Class ilObjExercise
  *
@@ -40,17 +43,18 @@ class ilObjExercise extends ilObject
     protected int $nr_random_mand; // number of mandatory assignments in random pass mode
     protected bool $completion_by_submission = false; // completion by submission is enabled or not
     protected Filesystem $webFilesystem;
-    protected ilExcMandatoryAssignmentManager $mandatory_manager;
+    protected MandatoryAssignmentsManager $mandatory_manager;
     protected int $pass_nr = 0;
-    protected ilExerciseInternalService $service;
+    protected InternalService $service;
     protected string $pass_mode = self::PASS_MODE_ALL;
     protected bool $show_submissions;
 
     /**
-     * @inheritDoc
+     * @throws ilExcUnknownAssignmentTypeException
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->db = $DIC->database();
@@ -60,17 +64,20 @@ class ilObjExercise extends ilObject
         $this->setPassMode("all");
         $this->type = "exc";
         $this->webFilesystem = $DIC->filesystem()->web();
-        $this->service = $DIC->exercise()->internal()->service();
+        $this->service = $DIC->exercise()->internal();
 
         parent::__construct($a_id, $a_call_by_reference);
-        $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
+        $this->mandatory_manager = $this->service->domain()->assignment()->mandatoryAssignments($this);
     }
 
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
     public function setId($a_id)
     {
         parent::setId($a_id);
         // this is needed, since e.g. ilObjectFactory initialises the object with id 0 and later sets the id
-        $this->mandatory_manager = $this->service->getMandatoryAssignmentManager($this);
+        $this->mandatory_manager = $this->service->domain()->assignment()->mandatoryAssignments($this);
     }
 
     public function setDate(

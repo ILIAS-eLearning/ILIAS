@@ -10,16 +10,12 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilSCCronTrash extends ilCronJob
 {
-    /**
-     * Get id
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return 'sysc_trash';
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -29,7 +25,7 @@ class ilSCCronTrash extends ilCronJob
         return $lng->txt('sysc_cron_empty_trash');
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -39,15 +35,12 @@ class ilSCCronTrash extends ilCronJob
         return $lng->txt('sysc_cron_empty_trash_desc');
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_WEEKLY;
     }
     
-    /**
-     * @inheritdoc
-     */
-    public function getValidScheduleTypes()
+    public function getValidScheduleTypes() : array
     {
         return array(
             self::SCHEDULE_TYPE_DAILY,
@@ -59,36 +52,27 @@ class ilSCCronTrash extends ilCronJob
     }
     
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
-    
-    
-    /**
-     * Add custom settings to form
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $form)
+
+    public function addCustomSettingsToForm(ilPropertyFormGUI $form) : void
     {
         global $DIC;
 
@@ -135,17 +119,9 @@ class ilSCCronTrash extends ilCronJob
         $types->setOptions($options);
         $types->setValue($settings->get('types', ''));
         $form->addItem($types);
-        
-        return $form;
     }
-    
-    /**
-     * Save custom settings
-     *
-     * @param ilPropertyFormGUI $a_form
-     * @return boolean
-     */
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         include_once './Services/Administration/classes/class.ilSetting.php';
         $settings = new ilSetting('sysc');
@@ -157,10 +133,7 @@ class ilSCCronTrash extends ilCronJob
         return true; // #18579
     }
 
-    /**
-     *
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         include_once './Services/SystemCheck/classes/class.ilSystemCheckTrash.php';
         $trash = new ilSystemCheckTrash();

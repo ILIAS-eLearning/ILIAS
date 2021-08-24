@@ -1,20 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Persistence for online/activation period
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLearningSequenceActivationDB
 {
     const TABLE_NAME = 'lso_activation';
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
+    protected ilDBInterface $database;
 
     public function __construct(ilDBInterface $database)
     {
@@ -54,7 +49,7 @@ class ilLearningSequenceActivationDB
         return $settings;
     }
 
-    public function deleteForRefId(int $ref_id)
+    public function deleteForRefId(int $ref_id) : void
     {
         $query = "DELETE FROM " . static::TABLE_NAME . PHP_EOL
             . "WHERE ref_id = " . $this->database->quote($ref_id, "integer") . PHP_EOL
@@ -62,11 +57,11 @@ class ilLearningSequenceActivationDB
         $this->database->manipulate($query);
     }
 
-    public function store(ilLearningSequenceActivation $settings)
+    public function store(ilLearningSequenceActivation $settings) : void
     {
-        $where = array(
-            "ref_id" => array("integer", $settings->getRefId())
-        );
+        $where = [
+            "ref_id" => ["integer", $settings->getRefId()]
+        ];
 
         $start = $settings->getActivationStart();
         $end = $settings->getActivationEnd();
@@ -74,37 +69,47 @@ class ilLearningSequenceActivationDB
         if ($start) {
             $start = $start->getTimestamp();
         }
+
         if ($end) {
             $end = $end->getTimestamp();
         }
-        $values = array(
-            "online" => array("integer", $settings->getIsOnline()),
-            "activation_start_ts" => array("integer", $start),
-            "activation_end_ts" => array("integer", $end)
-        );
+
+        $values = [
+            "online" => ["integer", $settings->getIsOnline()],
+            "activation_start_ts" => ["integer", $start],
+            "activation_end_ts" => ["integer", $end]
+        ];
+
         $this->database->update(static::TABLE_NAME, $values, $where);
     }
 
-    protected function insert(ilLearningSequenceActivation $settings)
+    protected function insert(ilLearningSequenceActivation $settings) : void
     {
         $start = $settings->getActivationStart();
         $end = $settings->getActivationEnd();
+
         if ($start) {
             $start = $start->getTimestamp();
         }
+
         if ($end) {
             $end = $end->getTimestamp();
         }
-        $values = array(
-            "ref_id" => array("integer", $settings->getRefId()),
-            "online" => array("integer", $settings->getIsOnline()),
-            "effective_online" => array("integer", $settings->getEffectiveOnlineStatus()),
-            "activation_start_ts" => array("integer", $start),
-            "activation_end_ts" => array("integer", $end)
-        );
+
+        $values = [
+            "ref_id" => ["integer", $settings->getRefId()],
+            "online" => ["integer", $settings->getIsOnline()],
+            "effective_online" => ["integer", $settings->getEffectiveOnlineStatus()],
+            "activation_start_ts" => ["integer", $start],
+            "activation_end_ts" => ["integer", $end]
+        ];
+
         $this->database->insert(static::TABLE_NAME, $values);
     }
 
+    /**
+     * @return string[]
+     */
     protected function select(int $ref_id) : array
     {
         $ret = [];
@@ -116,7 +121,7 @@ class ilLearningSequenceActivationDB
 
         $result = $this->database->query($query);
 
-        if ($result->numRows() !== 0) {
+        if ($this->database->numRows($result) !== 0) {
             $ret = $this->database->fetchAssoc($result);
         }
 
@@ -139,15 +144,10 @@ class ilLearningSequenceActivationDB
         );
     }
 
-    public function setEffectiveOnlineStatus(int $ref_id, bool $status)
+    public function setEffectiveOnlineStatus(int $ref_id, bool $status) : void
     {
-        $where = array(
-            "ref_id" => array("integer", $ref_id)
-        );
-
-        $values = array(
-            "effective_online" => array("integer", $status),
-        );
+        $where = ["ref_id" => ["integer", $ref_id]];
+        $values = ["effective_online" => ["integer", $status]];
 
         $this->database->update(static::TABLE_NAME, $values, $where);
     }

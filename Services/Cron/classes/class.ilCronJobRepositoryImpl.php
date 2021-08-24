@@ -7,9 +7,6 @@
  */
 class ilCronJobRepositoryImpl implements ilCronJobRepository
 {
-    /**
-     * @return ilCronJobCollection
-     */
     public function findAll() : ilCronJobCollection
     {
         $collection = new ilCronJobEntities();

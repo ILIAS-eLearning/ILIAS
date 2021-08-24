@@ -8,10 +8,8 @@
 class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
     /** @var string[] */
-    private $allowedTags;
-
-    /** @var string */
-    protected $cacheDirectory;
+    private array $allowedTags;
+    protected string $cacheDirectory;
 
     /**
      * ilTermsOfServiceDocumentHtmlPurifier constructor.
@@ -34,9 +32,6 @@ class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrap
         $this->allowedTags = $allowedTags;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getPurifierConfigInstance() : HTMLPurifier_Config
     {
         $config = HTMLPurifier_Config::createDefault();

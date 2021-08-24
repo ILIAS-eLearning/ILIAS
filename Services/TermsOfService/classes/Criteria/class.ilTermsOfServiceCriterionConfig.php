@@ -9,7 +9,7 @@ class ilTermsOfServiceCriterionConfig extends ArrayObject implements ilTermsOfSe
 {
     /**
      * ilTermsOfServiceCriterionConfig constructor.
-     * @param string|array
+     * @param string|array $data
      */
     public function __construct($data = [])
     {
@@ -24,29 +24,18 @@ class ilTermsOfServiceCriterionConfig extends ArrayObject implements ilTermsOfSe
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toJson() : string
     {
-        $json = json_encode($this);
-
-        return $json;
+        return json_encode($this, JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function fromJson(string $json) : void
     {
-        $data = json_decode($json, true);
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         $this->exchangeArray($data);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function jsonSerialize() : array
     {
         return $this->getArrayCopy();

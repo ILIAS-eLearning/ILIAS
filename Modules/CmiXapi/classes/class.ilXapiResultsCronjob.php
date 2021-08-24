@@ -70,49 +70,44 @@ class ilXapiResultsCronjob extends ilCronJob
         return $this->lastRunTS;
     }
     
-    public function getId()
+    public function getId() : string
     {
         return 'xapi_results_evaluation';
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         return $DIC->language()->txt("cron_xapi_results_evaluation");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         return $DIC->language()->txt("cron_xapi_results_evaluation_desc");
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
-    public function getDefaultScheduleValue()
+
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
-    
-    public function hasCustomSettings()
-    {
-        return false;
-    }
-    
-    public function run()
+
+    public function run() : ilCronJobResult
     {
         $objects = $this->getObjectsToBeReported();
         

@@ -41,49 +41,49 @@ class ilMailCronNotification extends ilCronJob
         }
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "mail_notification";
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         $this->init();
         return $this->lng->txt("cron_mail_notification");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         $this->init();
         return  $this->lng->txt("cron_mail_notification_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
-    {
-        return false;
-    }
-    
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasCustomSettings()
+    public function hasFlexibleSchedule() : bool
+    {
+        return false;
+    }
+    
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         require_once 'Services/Mail/classes/class.ilMailSummaryNotification.php';
         $msn = new ilMailSummaryNotification();
@@ -94,7 +94,7 @@ class ilMailCronNotification extends ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $this->init();
         $cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
@@ -103,14 +103,14 @@ class ilMailCronNotification extends ilCronJob
         $a_form->addItem($cb);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
         $this->settings->set('mail_notification_message', $_POST['mail_notification_message'] ? 1 : 0);
         return true;
     }
 
-    public function activationWasToggled($a_currently_active)
+    public function activationWasToggled(bool $a_currently_active) : void
     {
         $this->init();
         $this->settings->set('mail_notification', (bool) $a_currently_active);

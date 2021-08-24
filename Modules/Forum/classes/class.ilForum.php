@@ -24,7 +24,7 @@ class ilForum
 
     public $lng;
     public $error;
-    public $db;
+    public ilDBInterface $db;
     public $user;
     public $settings;
     
@@ -597,142 +597,122 @@ class ilForum
         return $rootNodeId;
     }
 
-    /**
-     * Moves all chosen threads and their posts to a new forum
-     *
-     * @param    array    chosen thread pks
-     * @param    integer    object id of src forum
-     * @param    integer    object id of dest forum
-     * @access    public
-     * @return array
-     */
-    public function moveThreads($thread_ids = array(), $src_ref_id = 0, $dest_top_frm_fk = 0)
+    public function moveThreads(array $thread_ids, ilObjForum $src_forum, int $target_obj_id) : array
     {
-        $src_top_frm_fk = ilObject::_lookupObjectId($src_ref_id);
+        $errorMessages = [];
 
-        $errorMessages = array();
-
-        if (is_numeric($src_top_frm_fk) && $src_top_frm_fk > 0 && is_numeric($dest_top_frm_fk) && $dest_top_frm_fk > 0) {
-            $this->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($src_top_frm_fk));
-            
-            $oldFrmData = $this->getOneTopic();
-
-            $this->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($dest_top_frm_fk));
-                    
-            $newFrmData = $this->getOneTopic();
-
-            if ($oldFrmData['top_pk'] && $newFrmData['top_pk']) {
-                $moved_posts = 0;
-                $moved_threads = 0;
-                $visits = 0;
-
-                foreach ($thread_ids as $id) {
-                    $objTmpThread = new ilForumTopic($id);
-
-                    try {
-                        $numPosts = $objTmpThread->movePosts(
-                            $src_top_frm_fk,
-                            $oldFrmData['top_pk'],
-                            $dest_top_frm_fk,
-                            $newFrmData['top_pk']
-                        );
-
-                        if (($last_post_string = $objTmpThread->getLastPostString()) != '') {
-                            $last_post_string = explode('#', $last_post_string);
-                            $last_post_string[0] = $newFrmData['top_pk'];
-                            $last_post_string = implode('#', $last_post_string);
-                            $objTmpThread->setLastPostString($last_post_string);
-                        }
-
-                        $visits += $objTmpThread->getVisits();
-
-                        $moved_posts += $numPosts;
-                        ++$moved_threads;
-
-                        $objTmpThread->setForumId($newFrmData['top_pk']);
-                        $objTmpThread->update();
-
-                        unset($objTmpThread);
-                    } catch (\ilFileUtilsException $exception) {
-                        $errorMessages[] = sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject());
-                        continue;
-                    }
-                }
-
-                if ($moved_threads > 0 || $moved_posts > 0 || $visits > 0) {
-                    // update frm_data source forum
-                    $this->db->setLimit(1);
-                    $res = $this->db->queryf(
-                        '
-					SELECT pos_thr_fk, pos_pk 
-					FROM frm_posts						  
-					WHERE pos_top_fk = %s
-					ORDER BY pos_date DESC',
-                        array('integer'),
-                        array($oldFrmData['top_pk'])
-                    );
-
-                    $row = $this->db->fetchObject($res);
-                    $last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
-
-                    $this->db->manipulateF(
-                        '
-					UPDATE frm_data
-					SET top_num_posts = top_num_posts - %s,
-						top_num_threads = top_num_threads - %s,
-						visits = visits - %s,
-						top_last_post = %s
-					WHERE top_pk = %s',
-                        array('integer', 'integer', 'integer', 'text', 'integer'),
-                        array(	$moved_posts,
-                            $moved_threads,
-                            $visits,
-                            $last_post_src,
-                            $oldFrmData['top_pk'])
-                    );
-
-                    // update frm_data destination forum
-                    $this->db->setLimit(1);
-                    $res = $this->db->queryf(
-                        '
-					SELECT pos_thr_fk, pos_pk 
-				 	FROM frm_posts						  
-					WHERE pos_top_fk = %s
-					ORDER BY pos_date DESC',
-                        array('integer'),
-                        array($newFrmData['top_kp'])
-                    );
-
-                    $row = $this->db->fetchObject($res);
-                    $last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
-
-                    $this->db->manipulateF(
-                        '
-					UPDATE frm_data
-					SET top_num_posts = top_num_posts + %s,
-						top_num_threads = top_num_threads + %s,
-						visits = visits + %s,
-						top_last_post = %s
-						WHERE top_pk = %s',
-                        array('integer', 'integer', 'integer', 'text', 'integer'),
-                        array($moved_posts, $moved_threads, $visits, $last_post_dest, $newFrmData['top_pk'])
-                    );
-                }
-            }
-
-            return $errorMessages;
+        if (!($target_obj_id > 0) || !($src_forum->getId() > 0)) {
+            return $errorMessages; // No messages defined for these cases
         }
+
+        $this->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$src_forum->getId()]);
+        $oldFrmData = $this->getOneTopic();
+
+        $this->setMDB2WhereCondition('top_frm_fk = %s ', ['integer'], [$target_obj_id]);
+        $newFrmData = $this->getOneTopic();
+        
+        if (!$oldFrmData['top_pk'] || !$newFrmData['top_pk']) {
+            return $errorMessages; // No messages defined for these cases
+        }
+
+        $num_moved_posts = 0;
+        $num_moved_threads = 0;
+        $num_visits = 0;
+
+        foreach ($thread_ids as $id) {
+            $objTmpThread = new ilForumTopic($id);
+
+            try {
+                $numPosts = $objTmpThread->movePosts(
+                    $src_forum->getId(),
+                    $oldFrmData['top_pk'],
+                    $target_obj_id,
+                    $newFrmData['top_pk']
+                );
+
+                if (($last_post_string = $objTmpThread->getLastPostString()) !== '') {
+                    $last_post_string = explode('#', $last_post_string);
+                    $last_post_string[0] = $newFrmData['top_pk'];
+                    $last_post_string = implode('#', $last_post_string);
+                    $objTmpThread->setLastPostString($last_post_string);
+                }
+
+                $num_visits += $objTmpThread->getVisits();
+                $num_moved_posts += $numPosts;
+                ++$num_moved_threads;
+
+                $objTmpThread->setForumId($newFrmData['top_pk']);
+                $objTmpThread->update();
+            } catch (ilFileUtilsException $exception) {
+                $errorMessages[] = sprintf($this->lng->txt('frm_move_invalid_file_type'), $objTmpThread->getSubject());
+                continue;
+            }
+        }
+        
+        if (0 === max($num_moved_threads, $num_moved_posts, $num_visits)) {
+            return $errorMessages; // No messages defined for these cases
+        }
+
+        // update frm_data source forum
+        $this->db->setLimit(1, 0);
+        $res = $this->db->queryF(
+            'SELECT pos_thr_fk, pos_pk FROM frm_posts WHERE pos_top_fk = %s ORDER BY pos_date DESC',
+            ['integer'],
+            [$oldFrmData['top_pk']]
+        );
+
+        $row = $this->db->fetchObject($res);
+        $last_post_src = $oldFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+
+        $this->db->manipulateF(
+            'UPDATE frm_data ' .
+            'SET top_num_posts = top_num_posts - %s, top_num_threads = top_num_threads - %s, visits = visits - %s, ' .
+            'top_last_post = %s WHERE top_pk = %s',
+            ['integer', 'integer', 'integer', 'text', 'integer'],
+            [
+                $num_moved_posts,
+                $num_moved_threads,
+                $num_visits,
+                $last_post_src,
+                $oldFrmData['top_pk']
+            ]
+        );
+
+        // update frm_data destination forum
+        $this->db->setLimit(1, 0);
+        $res = $this->db->queryF(
+            'SELECT pos_thr_fk, pos_pk FROM frm_posts WHERE pos_top_fk = %s ORDER BY pos_date DESC',
+            ['integer'],
+            [$newFrmData['top_kp']]
+        );
+
+        $row = $this->db->fetchObject($res);
+        $last_post_dest = $newFrmData['top_pk'] . '#' . $row->pos_thr_fk . '#' . $row->pos_pk;
+
+        $this->db->manipulateF(
+            'UPDATE frm_data SET top_num_posts = top_num_posts + %s, top_num_threads = top_num_threads + %s, ' .
+            'visits = visits + %s, top_last_post = %s WHERE top_pk = %s',
+            ['integer', 'integer', 'integer', 'text', 'integer'],
+            [$num_moved_posts, $num_moved_threads, $num_visits, $last_post_dest, $newFrmData['top_pk']]
+        );
+
+        $GLOBALS['ilAppEventHandler']->raise(
+            'Modules/Forum',
+            'mergedThreads',
+            [
+                'source_ref_id' => $src_forum->getId(),
+                'target_ref_id' => $src_forum->getId(),
+                'thread_ids' => $src_forum->getId(),
+                'source_frm_obj_id' => $src_forum->getId(),
+                'target_frm_obj_id' => $target_obj_id
+            ]
+        );
+
+        return $errorMessages;
     }
     
     
-    /**
-    * update dataset in frm_posts with censorship info
-    * @param	string	message
-    * @param	integer	pos_pk
-    * @return	boolean
-    * @access	public
-    */
-    public function postCensorship($message, $pos_pk, $cens = 0)
+    public function postCensorship(ilObjForum $forum, string $message, int $pos_pk, int $cens = 0) : void
     {
         $cens_date = date("Y-m-d H:i:s");
 
@@ -780,9 +760,8 @@ class ilForum
                 $rec = $this->db->fetchAssoc($res);
 
                 $news_item = new ilNewsItem($news_id);
-                //$news_item->setTitle($subject);
                 $news_item->setContent(nl2br($this->prepareText($rec["pos_message"], 0)));
-                if ($rec["pos_message"] != strip_tags($rec["pos_message"])) {
+                if ($rec["pos_message"] !== strip_tags($rec["pos_message"])) {
                     $news_item->setContentHtml(true);
                 } else {
                     $news_item->setContentHtml(false);
@@ -795,13 +774,12 @@ class ilForum
         $GLOBALS['ilAppEventHandler']->raise(
             'Modules/Forum',
             'censoredPost',
-            array(
+            [
                 'ref_id' => $this->getForumRefId(),
-                'post' => new ilForumPost($pos_pk)
-            )
+                'post' => new ilForumPost($pos_pk),
+                'object' => $forum
+            ]
         );
-
-        return true;
     }
 
     /**
@@ -818,13 +796,15 @@ class ilForum
             $p_node = $postIdOrArray;
         }
 
+        $post = new ilForumPost($p_node['pos_pk']);
         if ($raiseEvents) {
             $GLOBALS['ilAppEventHandler']->raise(
                 'Modules/Forum',
-                'deletedPost',
+                'beforePostDeletion',
                 [
+                    'obj_id' => $this->getForumId(),
                     'ref_id' => $this->getForumRefId(),
-                    'post' => new ilForumPost($p_node['pos_pk']),
+                    'post' => $post,
                     'thread_deleted' => ($p_node["parent"] == 0) ? true : false
                 ]
             );
@@ -1044,6 +1024,18 @@ class ilForum
             array('text', 'integer'),
             array($lastPost_top, $this->id)
         );
+
+        if ($raiseEvents) {
+            $GLOBALS['ilAppEventHandler']->raise(
+                'Modules/Forum',
+                'afterPostDeletion',
+                [
+                    'obj_id' => $this->getForumId(),
+                    'ref_id' => $this->getForumRefId(),
+                    'post' => $post
+                ]
+            );
+        }
         
         return $dead_thr;
     }
@@ -1307,72 +1299,92 @@ class ilForum
             'cnt' => $cnt
         );
     }
-    
-    /**
-     * @param bool $is_moderator
-     * @return array
-     */
-    public function getUserStatistic($is_moderator = false)
-    {
-        $statistic = array();
-        
-        $data_types = array();
-        $data = array();
-        
-        $query = "SELECT COUNT(f.pos_display_user_id) ranking, u.login, p.value, u.lastname, u.firstname
-	 				FROM frm_posts f
-						INNER JOIN frm_posts_tree t
-							ON f.pos_pk = t.pos_fk
-						INNER JOIN frm_threads th
-							ON t.thr_fk = th.thr_pk
-						INNER JOIN usr_data u
-							ON u.usr_id = f.pos_display_user_id
-						INNER JOIN frm_data d
-							ON d.top_pk = f.pos_top_fk
-						LEFT JOIN usr_pref p
-							ON p.usr_id = u.usr_id AND p.keyword = %s
-					WHERE 1 = 1 AND t.parent_pos != 0";
-    
-        array_push($data_types, 'text');
-        array_push($data, 'public_profile');
 
-        if (!$is_moderator) {
-            $query .= ' AND (pos_status = %s
-						OR (pos_status = %s
-						AND pos_author_id = %s ))';
-            
-            array_push($data_types, 'integer', 'integer', 'integer');
-            array_push($data, '1', '0', $this->user->getId());
+    public function getNumberOfPublishedUserPostings(int $usr_id, bool $post_activation_required) : int
+    {
+        $query = "
+            SELECT 
+                   SUM(IF(f.pos_cens = %s, 1, 0)) cnt
+            FROM frm_posts f
+            INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk AND t.parent_pos != %s
+            INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk 
+            INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk AND d.top_frm_fk = %s
+            WHERE f.pos_author_id = %s
+        ";
+
+        if ($post_activation_required) {
+            $query .= ' AND f.pos_status = %s' . $this->db->quote(1, 'integer');
+        }
+
+        $res = $this->db->queryF(
+            $query,
+            ['integer', 'integer', 'integer', 'integer'],
+            [0, 0, $this->getForumId(), $usr_id]
+        );
+        $row = $this->db->fetchAssoc($res);
+        if (is_array($row) && !empty($row)) {
+            return (int) $row['cnt'];
+        }
+
+        return 0;
+    }
+    
+    public function getUserStatistics(bool $post_activation_required) : array
+    {
+        $statistic = [];
+        $data_types = [];
+        $data = [];
+
+        $query = "
+            SELECT 
+                   u.login, u.lastname, u.firstname, f.pos_author_id, u.usr_id,
+                   p.value public_profile,
+                   SUM(IF(f.pos_cens = %s, 1, 0)) num_postings
+            FROM frm_posts f
+            INNER JOIN frm_posts_tree t ON f.pos_pk = t.pos_fk
+            INNER JOIN frm_threads th ON t.thr_fk = th.thr_pk
+            INNER JOIN usr_data u ON u.usr_id = f.pos_author_id
+            INNER JOIN frm_data d ON d.top_pk = f.pos_top_fk
+            LEFT JOIN usr_pref p ON p.usr_id = u.usr_id AND p.keyword = %s
+            WHERE t.parent_pos != %s
+        ";
+
+        $data_types[] = 'integer';
+        $data_types[] = 'text';
+        $data_types[] = 'integer';
+        $data[] = 0;
+        $data[] = 'public_profile';
+        $data[] = 0;
+
+        if ($post_activation_required) {
+            $query .= ' AND pos_status = %s';
+            $data_types[] = 'integer';
+            $data[] = 1;
         }
         
-        $query .= ' AND d.top_frm_fk = %s
-					GROUP BY pos_display_user_id, u.login, p.value,u.lastname, u.firstname';
+        $query .= '
+            AND d.top_frm_fk = %s
+            GROUP BY u.login, p.value,u.lastname, u.firstname, f.pos_author_id
+        ';
 
-        array_push($data_types, 'integer');
-        array_push($data, $this->getForumId());
+        $data_types[] = 'integer';
+        $data[] = $this->getForumId();
         
-        $res = $this->db->queryf($query, $data_types, $data);
+        $res = $this->db->queryF($query, $data_types, $data);
         
-        $counter = 0;
         while ($row = $this->db->fetchAssoc($res)) {
-            $statistic[$counter][] = $row['ranking'];
-            $statistic[$counter][] = $row['login'];
-
-            $lastname = '';
-            $firstname = '';
-            if (!$this->user->isAnonymous() && in_array($row['value'], array('y', 'g')) ||
-                $this->user->isAnonymous() && 'g' == $row['value']) {
-                $lastname = $row['lastname'];
-                $firstname = $row['firstname'];
+            if (
+                'g' === $row['public_profile'] ||
+                (!$this->user->isAnonymous() && in_array($row['public_profile'], ['y', 'g'], true))
+            ) {
+                $row['lastname'] = '';
+                $row['firstname'] = '';
             }
 
-            $statistic[$counter][] = $lastname;
-            $statistic[$counter][] = $firstname;
-            
-            ++$counter;
+            $statistic[] = $row;
         }
               
-        return is_array($statistic) ? $statistic : array();
+        return $statistic;
     }
     
     /**
@@ -2340,11 +2352,11 @@ class ilForum
             $targetThreadForMerge->reopen();
         }
 
-        // raise event for updating existing drafts
         $GLOBALS['ilAppEventHandler']->raise(
             'Modules/Forum',
             'mergedThreads',
             [
+                'obj_id' => $this->getForumId(),
                 'source_thread_id' => $sourceThreadForMerge->getId(),
                 'target_thread_id' => $targetThreadForMerge->getId()
             ]

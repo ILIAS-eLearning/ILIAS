@@ -1,34 +1,29 @@
 <?php declare(strict_types=1);
 
-use Pimple\Container;
-use \ILIAS\Data\Factory as DataFactory;
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
-  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
- */
+use Pimple\Container;
+use ILIAS\Data\Factory as DataFactory;
+
 class ilLSLocalDI extends Container
 {
     public function init(
-        ilLSDI $dic,
+        ArrayAccess $dic,
         DataFactory $data_factory,
         ilObjLearningSequence $object
-    ) {
+    ) : void {
         foreach ($dic->keys() as $key) {
             $this[$key] = $dic[$key];
         }
 
-        $ref_id = (int) $object->getRefId();
-        $obj_id = (int) $object->getId();
-        $obj_title = $object->getTitle();
+        $ref_id = $object->getRefId();
+        $obj_id = $object->getId();
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
 
-        $data_factory = new \ILIAS\Data\Factory();
-
         $this["obj.ref_id"] = $ref_id;
         $this["obj.obj_id"] = $obj_id;
-        $this["obj.title"] = (string) $obj_title;
 
         $this["usr.id"] = $current_user_id;
 
@@ -62,6 +57,11 @@ class ilLSLocalDI extends Container
             );
         };
 
+        $this["get.params"] = function ($c) : ArrayAccess {
+            /** @var ArrayAccess $_GET **/
+            return $_GET;
+        };
+
         $this["gui.learner"] = function ($c) use ($dic, $object) : ilObjLearningSequenceLearnerGUI {
             $has_items = count($c["learneritems"]->getItems()) > 0;
             $first_access = $c["learneritems"]->getFirstAccess();
@@ -81,14 +81,14 @@ class ilLSLocalDI extends Container
                 $c["roles"],
                 $dic["db.settings"]->getSettingsFor($c["obj.obj_id"]),
                 $c["player.curriculumbuilder"],
-                $c["player"]
+                $c["player"],
+                $c["get.params"]
             );
         };
 
         $this["gui.toc"] = function ($c) use ($dic) : ilLSTOCGUI {
             return new ilLSTOCGUI(
-                $c["player.urlbuilder"],
-                $dic["ilCtrl"]
+                $c["player.urlbuilder"]
             );
         };
 
@@ -125,7 +125,7 @@ class ilLSLocalDI extends Container
                 $dic["ui.factory"],
                 $c["player.urlbuilder"],
                 $dic["lng"]
-             );
+            );
         };
 
         $this["player.kioskrenderer"] = function ($c) use ($dic) : ilKioskPageRenderer {
@@ -160,7 +160,6 @@ class ilLSLocalDI extends Container
 
         $this["player"] = function ($c) use ($dic) : ilLSPlayer {
             return new ilLSPlayer(
-                $c["obj.title"],
                 $c["learneritems"],
                 $c["player.controlbuilder"],
                 $c["player.urlbuilder"],
@@ -169,7 +168,6 @@ class ilLSLocalDI extends Container
                 $c["player.kioskrenderer"],
                 $dic["ui.factory"],
                 $dic["gs.current_context"]
-
             );
         };
 
@@ -191,7 +189,8 @@ class ilLSLocalDI extends Container
                 $dic["rbacadmin"],
                 $dic["rbacreview"],
                 $dic["ilDB"],
-                $current_user
+                $current_user,
+                $dic['lng']
             );
         };
     }

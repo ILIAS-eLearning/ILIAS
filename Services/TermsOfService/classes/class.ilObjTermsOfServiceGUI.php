@@ -8,16 +8,10 @@
  * @ilCtrl_Calls      ilObjTermsOfServiceGUI: ilTermsOfServiceAcceptanceHistoryGUI
  * @ilCtrl_isCalledBy ilObjTermsOfServiceGUI: ilAdministrationGUI
  */
-class ilObjTermsOfServiceGUI extends ilObject2GUI
+class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceControllerEnabled
 {
-    /** @var ILIAS\DI\Container */
-    protected $dic;
-
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-
-    /** @var ilErrorHandling */
-    protected $error;
+    protected ILIAS\DI\Container $dic;
+    protected ilErrorHandling $error;
 
     /**
      * @inheritdoc
@@ -27,8 +21,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         global $DIC;
 
         $this->dic = $DIC;
-        $this->lng = $DIC['lng'];
-        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->lng = $DIC->language();
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC['ilErr'];
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
@@ -37,19 +31,12 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getType()
+    public function getType() : string
     {
         return 'tos';
     }
 
-    /**
-     * @inheritdoc
-     * @throws ilCtrlException
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->prepareOutput();
 
@@ -60,7 +47,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $tableDataProviderFactory->setDatabaseAdapter($this->dic->database());
 
         switch (strtolower($nextClass)) {
-            case 'iltermsofservicedocumentgui':
+            case strtolower(ilTermsOfServiceDocumentGUI::class):
                 $documentGui = new ilTermsOfServiceDocumentGUI(
                     $this->object,
                     $this->dic['tos.criteria.type.factory'],
@@ -83,7 +70,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($documentGui);
                 break;
 
-            case 'iltermsofserviceacceptancehistorygui':
+            case strtolower(ilTermsOfServiceAcceptanceHistoryGUI::class):
                 $documentGui = new ilTermsOfServiceAcceptanceHistoryGUI(
                     $this->object,
                     $this->dic['tos.criteria.type.factory'],
@@ -92,7 +79,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                     $this->dic->language(),
                     $this->dic->rbac()->system(),
                     $this->dic['ilErr'],
-                    $this->dic->http()->request(),
+                    $this->dic->http(),
+                    $this->dic->refinery(),
                     $this->dic->ui()->factory(),
                     $this->dic->ui()->renderer(),
                     $tableDataProviderFactory
@@ -100,13 +88,13 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($documentGui);
                 break;
 
-            case 'ilpermissiongui':
+            case strtolower(ilPermissionGUI::class):
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
-                if ($cmd == '' || $cmd == 'view' || !method_exists($this, $cmd)) {
+                if ($cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
                     $cmd = 'settings';
                 }
                 $this->$cmd();
@@ -114,53 +102,48 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),
                 '',
-                [strtolower(get_class($this))]
+                [strtolower(self::class)]
             );
         }
 
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'tos_agreement_documents_tab_label',
-                $this->ctrl->getLinkTargetByClass('ilTermsOfServiceDocumentGUI'),
+                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
                 '',
-                ['iltermsofservicedocumentgui']
+                [strtolower(ilTermsOfServiceDocumentGUI::class)]
             );
         }
 
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId()) &&
-            $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)
+        if (
+            (defined('USER_FOLDER_ID') && $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) &&
+            $this->rbacsystem->checkAccess('read', $this->object->getRefId())
         ) {
             $this->tabs_gui->addTarget(
                 'tos_acceptance_history',
-                $this->ctrl->getLinkTargetByClass('ilTermsOfServiceAcceptanceHistoryGUI'),
+                $this->ctrl->getLinkTargetByClass(ilTermsOfServiceAcceptanceHistoryGUI::class),
                 '',
-                ['iltermsofserviceacceptancehistorygui']
+                [strtolower(ilTermsOfServiceAcceptanceHistoryGUI::class)]
             );
         }
 
         if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], 'perm'),
+                $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'),
                 '',
-                ['ilpermissiongui', 'ilobjectpermissionstatusgui']
+                [strtolower(ilPermissionGUI::class), strtolower(ilObjectPermissionStatusGUI::class)]
             );
         }
     }
 
-    /**
-     * @return ilTermsOfServiceSettingsFormGUI
-     */
     protected function getSettingsForm() : ilTermsOfServiceSettingsFormGUI
     {
         $form = new ilTermsOfServiceSettingsFormGUI(

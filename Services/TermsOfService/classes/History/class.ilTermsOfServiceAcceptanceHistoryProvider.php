@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDatabaseDataProvider
 {
-    /**
-     * @inheritdoc
-     */
     protected function getSelectPart(array $params, array $filter) : string
     {
         $fields = [
@@ -27,9 +24,6 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return implode(', ', $fields);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getFromPart(array $params, array $filter) : string
     {
         $joins = [
@@ -41,14 +35,11 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return 'usr_data ud ' . implode(' ', $joins);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getWherePart(array $params, array $filter) : string
     {
         $where = [];
 
-        if (isset($filter['query']) && is_string($filter['query']) && strlen($filter['query']) > 0) {
+        if (isset($filter['query']) && is_string($filter['query']) && $filter['query'] !== '') {
             $where[] = '(' . implode(' OR ', [
                     $this->db->like('ud.login', 'text', '%' . $filter['query'] . '%'),
                     $this->db->like('ud.firstname', 'text', '%' . $filter['query'] . '%'),
@@ -82,25 +73,16 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
         return implode(' AND ', $where);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getGroupByPart(array $params, array $filter) : string
     {
         return '';
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getHavingPart(array $params, array $filter) : string
     {
         return '';
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getOrderByPart(array $params, array $filter) : string
     {
         if (isset($params['order_field'])) {
@@ -117,7 +99,7 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
-            if ($params['order_field'] == 'ts') {
+            if ($params['order_field'] === 'ts') {
                 $params['order_field'] = 'tos_acceptance_track.ts';
             }
 

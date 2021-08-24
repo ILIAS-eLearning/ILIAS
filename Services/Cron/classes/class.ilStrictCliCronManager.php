@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,16 +7,9 @@
  */
 class ilStrictCliCronManager implements \ilCronManagerInterface
 {
-    /**
-     * @var \ilCronManagerInterface
-     */
-    protected $cronManager;
+    protected ilCronManagerInterface $cronManager;
 
-    /**
-     * ilStrictCliCronManager constructor.
-     * @param ilCronManagerInterface $cronManager
-     */
-    public function __construct(\ilCronManagerInterface $cronManager)
+    public function __construct(ilCronManagerInterface $cronManager)
     {
         $this->cronManager = $cronManager;
     }
@@ -31,12 +24,9 @@ class ilStrictCliCronManager implements \ilCronManagerInterface
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function runActiveJobs()
+    public function runActiveJobs() : void
     {
-        if (in_array(php_sapi_name(), array_map('strtolower', $this->getValidPhpApis()))) {
+        if (in_array(PHP_SAPI, array_map('strtolower', $this->getValidPhpApis()), true)) {
             $this->cronManager->runActiveJobs();
         }
     }

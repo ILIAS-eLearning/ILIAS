@@ -4,6 +4,7 @@
 /**
  * Class ilForumSettingsGUI
  * @author Nadia Matuschek <nmatuschek@databay.de>
+ * @ingroup ModulesForum
  */
 class ilForumSettingsGUI
 {
@@ -15,6 +16,11 @@ class ilForumSettingsGUI
     private $access;
     private $tree;
     private $parent_obj;
+    
+    /**
+     * @var ilForumNotification
+     */
+    protected $forumNotificationObj = [];
 
     /**
      * @var ilPropertyFormGUI
@@ -26,6 +32,8 @@ class ilForumSettingsGUI
      */
     private $notificationSettingsForm;
 
+    public $ref_id;
+    
     /**
      * ilForumSettingsGUI constructor.
      * @param $parent_obj
@@ -43,8 +51,15 @@ class ilForumSettingsGUI
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $DIC->object();
+        $this->ref_id = $this->parent_obj->object->getRefId();
     }
 
+    private function initForcedForumNotification()
+    {
+        $this->forumNotificationObj = new ilForumNotification($this->parent_obj->object->getRefId());
+        $this->forumNotificationObj->readAllForcedEvents();
+    }
+    
     /**
      *
      */
@@ -220,12 +235,12 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array((int)  $this->parent_obj->objProperties->getDefaultView(), array(
+        if (in_array((int) $this->parent_obj->objProperties->getDefaultView(), array(
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ))) {
-            $default_view = (int)  $this->parent_obj->objProperties->getDefaultView();
+            $default_view = (int) $this->parent_obj->objProperties->getDefaultView();
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
@@ -287,10 +302,34 @@ class ilForumSettingsGUI
         // instantiate the property form
         if (!$this->initNotificationSettingsForm()) {
             // if the form was just created set the values fetched from database
+            $interested_events = $this->parent_obj->objProperties->getInterestedEvents();
+    
+            $form_events = [];
+            if ($interested_events & \ilForumNotificationEvents::UPDATED) {
+                $form_events[] = \ilForumNotificationEvents::UPDATED;
+            }
+            
+            if ($interested_events & \ilForumNotificationEvents::CENSORED) {
+                $form_events[] = \ilForumNotificationEvents::CENSORED;
+            }
+            
+            if ($interested_events & \ilForumNotificationEvents::UNCENSORED) {
+                $form_events[] = \ilForumNotificationEvents::UNCENSORED;
+            }
+            
+            if ($interested_events & \ilForumNotificationEvents::POST_DELETED) {
+                $form_events[] = \ilForumNotificationEvents::POST_DELETED;
+            }
+    
+            if ($interested_events & \ilForumNotificationEvents::THREAD_DELETED) {
+                $form_events[] = \ilForumNotificationEvents::THREAD_DELETED;
+            }
+    
             $this->notificationSettingsForm->setValuesByArray(array(
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType(),
                 'adm_force' => (bool) $this->parent_obj->objProperties->isAdminForceNoti(),
-                'usr_toggle' => (bool) $this->parent_obj->objProperties->isUserToggleNoti()
+                'usr_toggle' => (bool) $this->parent_obj->objProperties->isUserToggleNoti(),
+                'notification_events' => $form_events
             ));
         }
 
@@ -312,41 +351,44 @@ class ilForumSettingsGUI
             $forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
             $forum_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
             $forum_noti->setForumId($this->parent_obj->objProperties->getObjId());
+            $forum_noti->setInterestedEvents($this->parent_obj->objProperties->getInterestedEvents());
+            $forum_noti->update();
         } else {
             if ($this->parent_obj->objProperties->getNotificationType() == 'per_user') {
-                $moderators = $this->getUserNotificationTableData($moderator_ids, $frm_noti);
-                $admins = $this->getUserNotificationTableData($admin_ids, $frm_noti);
-                $members = $this->getUserNotificationTableData($member_ids, $frm_noti);
-                $tutors = $this->getUserNotificationTableData($tutor_ids, $frm_noti);
+                $this->initForcedForumNotification();
+                
+                $moderators = $this->getUserNotificationTableData($moderator_ids);
+                $admins = $this->getUserNotificationTableData($admin_ids);
+                $members = $this->getUserNotificationTableData($member_ids);
+                $tutors = $this->getUserNotificationTableData($tutor_ids);
 
                 $this->showMembersTable($moderators, $admins, $members, $tutors);
             }
         }
     }
-
-    protected function getIcon($user_toggle_noti)
-    {
-        $icon = $user_toggle_noti
-            ? "<img src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("enabled") . "\" title=\"" . $this->lng->txt("enabled") . "\" border=\"0\" vspace=\"0\"/>"
-            : "<img src=\"" . ilUtil::getImagePath("icon_not_ok.svg") . "\" alt=\"" . $this->lng->txt("disabled") . "\" title=\"" . $this->lng->txt("disabled") . "\" border=\"0\" vspace=\"0\"/>";
-        return $icon;
-    }
-
-    private function getUserNotificationTableData($user_ids, ilForumNotification $frm_noti)
+    
+    /**
+     * @param $user_ids
+     * @return array
+     */
+    private function getUserNotificationTableData($user_ids)
     {
         $counter = 0;
         $users = array();
         foreach ($user_ids as $user_id) {
-            $frm_noti->setUserId($user_id);
-            $user_toggle_noti = $frm_noti->isUserToggleNotification();
-            $icon_ok = $this->getIcon(!$user_toggle_noti);
+            $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
             $users[$counter]['user_id'] = ilUtil::formCheckbox(0, 'user_id[]', $user_id);
             $users[$counter]['login'] = ilObjUser::_lookupLogin($user_id);
             $name = ilObjUser::_lookupName($user_id);
             $users[$counter]['firstname'] = $name['firstname'];
             $users[$counter]['lastname'] = $name['lastname'];
-            $users[$counter]['user_toggle_noti'] = $icon_ok;
+            $users[$counter]['user_toggle_noti'] = $forced_events->getUserToggle();
+            $users[$counter]['notification_id'] = $forced_events->getNotificationId();
+            $users[$counter]['interested_events'] = $forced_events->getInterestedEvents();
+            $users[$counter]['usr_id_events'] = $user_id;
+            $users[$counter]['forum_id'] = $forced_events->getForumId();
+            
             $counter++;
         }
         return $users;
@@ -360,29 +402,36 @@ class ilForumSettingsGUI
             'tutors' => $tutors,
             'members' => $members
         ]) as $type => $data) {
-            $tbl_mod = new ilTable2GUI($this, 'showMembers');
-            $tbl_mod->setId('tbl_id_mod');
-            $tbl_mod->setFormAction($this->ctrl->getFormAction($this, 'showMembers'));
-            $tbl_mod->setTitle($this->lng->txt(strtolower($type)));
-
-            $tbl_mod->addColumn('', '', '1%', true);
-            $tbl_mod->addColumn($this->lng->txt('login'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('firstname'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('lastname'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('allow_user_toggle_noti'), '', '10%');
-            $tbl_mod->setSelectAllCheckbox('user_id');
-
-            $tbl_mod->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
-            $tbl_mod->setData($data);
-
-            $tbl_mod->addMultiCommand('enableHideUserToggleNoti', $this->lng->txt('enable_hide_user_toggle'));
-            $tbl_mod->addMultiCommand('disableHideUserToggleNoti', $this->lng->txt('disable_hide_user_toggle'));
+            $tbl = new ilForumNotificationTableGUI($this, 'showMembers');
+            $tbl->setTitle($this->lng->txt(strtolower($type)));
+            $tbl->setId('tbl_id_mod');
+            $tbl->setData($data);
 
             $this->tpl->setCurrentBlock(strtolower($type) . '_table');
-            $this->tpl->setVariable(strtoupper($type), $tbl_mod->getHTML());
+            $this->tpl->setVariable(strtoupper($type), $tbl->getHTML());
         }
     }
 
+    public function saveEventsForUser()
+    {
+        $hidden_value = json_decode($_POST['hidden_value']);
+        $interested_events = 0;
+    
+        $interested_events += (int) $_POST['notify_modified'];
+        $interested_events += (int) $_POST['notify_censored'];
+        $interested_events += (int) $_POST['notify_uncensored'];
+        $interested_events += (int) $_POST['notify_post_deleted'];
+        $interested_events += (int) $_POST['notify_thread_deleted'];
+    
+        $frm_noti = new ilForumNotification($hidden_value->ref_id);
+        $frm_noti->setUserId($hidden_value->usr_id_events);
+        $frm_noti->setForumId($hidden_value->forum_id);
+        $frm_noti->setInterestedEvents($interested_events);
+        $frm_noti->updateInterestedEvents();
+        
+        $this->showMembers();
+    }
+    
     public function enableAdminForceNoti()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
@@ -565,6 +614,7 @@ class ilForumSettingsGUI
 
             $frm_noti->setAdminForce(1);
             $frm_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
+            $frm_noti->setInterestedEvents($this->parent_obj->objProperties->getInterestedEvents());
 
             if (array_key_exists($user_id, $all_notis) && $update_all_users) {
                 $frm_noti->update();
@@ -598,6 +648,30 @@ class ilForumSettingsGUI
             $chb_2->setValue(1);
 
             $opt_0->addSubItem($chb_2);
+            
+            $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
+            
+            $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
+            $notify_modified->setValue(\ilForumNotificationEvents::UPDATED);
+            $cb_grp->addOption($notify_modified);
+    
+            $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
+            $notify_censored->setValue(\ilForumNotificationEvents::CENSORED);
+            $cb_grp->addOption($notify_censored);
+    
+            $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
+            $notify_uncensored->setValue(\ilForumNotificationEvents::UNCENSORED);
+            $cb_grp->addOption($notify_uncensored);
+    
+            $notify_post_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_post_deleted'), 'notify_post_deleted');
+            $notify_post_deleted->setValue(\ilForumNotificationEvents::POST_DELETED);
+            $cb_grp->addOption($notify_post_deleted);
+    
+            $notify_thread_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_thread_deleted'), 'notify_thread_deleted');
+            $notify_thread_deleted->setValue(\ilForumNotificationEvents::THREAD_DELETED);
+            $cb_grp->addOption($notify_thread_deleted);
+            $opt_0->addSubItem($cb_grp);
+            
             $form->addItem($radio_grp);
 
             $form->addCommandButton('updateNotificationSettings', $this->lng->txt('save'));
@@ -626,9 +700,19 @@ class ilForumSettingsGUI
         if ($this->notificationSettingsForm->checkInput()) {
             if (isset($_POST['notification_type']) && $_POST['notification_type'] == 'all_users') {
                 // set values and call update
+                $notification_events = $this->notificationSettingsForm->getInput('notification_events');
+                $interested_events = 0;
+    
+                if (is_array($notification_events)) {
+                    foreach ($notification_events as $activated_event) {
+                        $interested_events += (int) $activated_event;
+                    }
+                }
+                
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
                 $this->parent_obj->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));
                 $this->parent_obj->objProperties->setNotificationType('all_users');
+                $this->parent_obj->objProperties->setInterestedEvents($interested_events);
                 $this->updateUserNotifications(true);
             } else {
                 if ($_POST['notification_type'] == 'per_user') {

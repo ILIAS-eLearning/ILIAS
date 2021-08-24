@@ -139,9 +139,8 @@ class ilUIFilterService
      * @param Filter\Standard $filter
      * @return array|null
      */
-    public function getData(Filter\Standard $filter)
+    public function getData(Filter\Standard $filter) : ?array
     {
-        $result = null;
         $filter_data = null;
         if ($filter->isActivated()) {
             foreach ($filter->getInputs() as $k => $i) {

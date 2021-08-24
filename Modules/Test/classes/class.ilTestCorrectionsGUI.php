@@ -74,19 +74,32 @@ class ilTestCorrectionsGUI
     {
         $this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
         
-        $table_gui = new ilTestQuestionsTableGUI(
-            $this,
-            'showQuestionList',
-            $this->testOBJ->getRefId()
-        );
-        
-        $table_gui->setQuestionTitleLinksEnabled(true);
-        $table_gui->setQuestionRemoveRowButtonEnabled(true);
-        $table_gui->init();
-        
-        $table_gui->setData($this->getQuestions());
-        
-        $this->DIC->ui()->mainTemplate()->setContent($table_gui->getHTML());
+        $ui = $this->DIC->ui();
+
+        if ($this->testOBJ->isFixedTest()) {
+            $table_gui = new ilTestQuestionsTableGUI(
+                $this,
+                'showQuestionList',
+                $this->testOBJ->getRefId()
+            );
+
+            $table_gui->setQuestionTitleLinksEnabled(true);
+            $table_gui->setQuestionRemoveRowButtonEnabled(true);
+            $table_gui->init();
+
+            $table_gui->setData($this->getQuestions());
+
+            $rendered_gui_component = $table_gui->getHTML();
+        } else {
+            $lng = $this->DIC->language();
+            $txt = $lng->txt('tst_corrections_incompatible_question_set_type');
+
+            $infoBox = $ui->factory()->messageBox()->info($txt);
+
+            $rendered_gui_component = $ui->renderer()->render($infoBox);
+        }
+
+        $ui->mainTemplate()->setContent($rendered_gui_component);
     }
     
     protected function showQuestion(ilPropertyFormGUI $form = null)

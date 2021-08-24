@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Storage of images in settings.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLearningSequenceFilesystem extends ilFileSystemStorage
 {
@@ -44,27 +42,28 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
     }
 
 
-    public function delete_image(string $which, ilLearningSequenceSettings $settings)
+    public function delete_image(string $which, ilLearningSequenceSettings $settings) : ilLearningSequenceSettings
     {
+        $delete = '';
         if ($which === self::IMG_ABSTRACT) {
             $delete = $settings->getAbstractImage();
-            $settings = $settings->withAbstractImage(null);
+            $settings = $settings->withAbstractImage();
         }
         if ($which === self::IMG_EXTRO) {
             $delete = $settings->getExtroImage();
-            $settings = $settings->withExtroImage(null);
+            $settings = $settings->withExtroImage();
         }
 
         $this->deleteFile($delete);
         return $settings;
     }
 
-    public function getStoragePathFor(string $which, int $obj_id, string $suffix)
+    public function getStoragePathFor(string $which, int $obj_id, string $suffix) : string
     {
         return $this->getStoragePath()
             . $which
             . '_'
-            . (string) $obj_id
+            . $obj_id
             . '.'
             . $suffix;
     }
@@ -74,10 +73,7 @@ class ilLearningSequenceFilesystem extends ilFileSystemStorage
         return pathinfo($file_name, PATHINFO_EXTENSION);
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getStoragePath()
+    protected function getStoragePath() : string
     {
         return  $this->getAbsolutePath() . '/';
     }

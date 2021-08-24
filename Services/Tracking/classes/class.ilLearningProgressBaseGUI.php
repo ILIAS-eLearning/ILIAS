@@ -528,6 +528,7 @@ class ilLearningProgressBaseGUI
             case 'grp':
             case 'iass':
             case 'copa':
+            case 'frm':
             case 'cmix':
             case 'lti':
             case 'sess':

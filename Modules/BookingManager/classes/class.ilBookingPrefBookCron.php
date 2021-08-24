@@ -25,12 +25,12 @@ class ilBookingPrefBookCron extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "book_pref_book";
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
 
@@ -39,7 +39,7 @@ class ilBookingPrefBookCron extends ilCronJob
         return $lng->txt("book_pref_book_cron");
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
 
@@ -48,26 +48,26 @@ class ilBookingPrefBookCron extends ilCronJob
         return $lng->txt("book_pref_book_cron_info");
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
     }
 
-    public function hasAutoActivation()
-    {
-        return true;
-    }
-
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    public function run()
+    public function hasFlexibleSchedule() : bool
+    {
+        return true;
+    }
+
+    public function run() : ilCronJobResult
     {
         $cron_status = ilCronJobResult::STATUS_NO_ACTION;
         $message = "";

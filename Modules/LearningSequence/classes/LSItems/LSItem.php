@@ -1,54 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Data holding class LSItem .
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class LSItem
 {
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @var string
-     */
-    protected $icon_path;
-
-    /**
-     * @var bool
-     */
-    protected $is_online;
-
-    /**
-     * @var int
-     */
-    protected $order_number;
-
-    /**
-     * @var ilLSPostCondition
-     */
-    protected $post_condition;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
+    protected string $type;
+    protected string $title;
+    protected string $description;
+    protected string $icon_path;
+    protected bool $is_online;
+    protected int $order_number;
+    protected ilLSPostCondition $post_condition;
+    protected int $ref_id;
 
     public function __construct(
         string $type,
@@ -57,7 +24,7 @@ class LSItem
         string $icon_path,
         bool $is_online,
         int $order_number,
-        \ilLSPostCondition $post_condition,
+        ilLSPostCondition $post_condition,
         int $ref_id
     ) {
         $this->type = $type;
@@ -95,16 +62,26 @@ class LSItem
         return $this->is_online;
     }
 
+    public function getOrderNumber() : int
+    {
+        return $this->order_number;
+    }
+
+    public function getPostCondition() : ilLSPostCondition
+    {
+        return $this->post_condition;
+    }
+
+    public function getRefId() : int
+    {
+        return $this->ref_id;
+    }
+
     public function withOnline(bool $online) : LSItem
     {
         $clone = clone $this;
         $clone->is_online = $online;
         return $clone;
-    }
-
-    public function getOrderNumber() : int
-    {
-        return $this->order_number;
     }
 
     public function withOrderNumber(int $order_number) : LSItem
@@ -114,20 +91,10 @@ class LSItem
         return $clone;
     }
 
-    public function getPostCondition() : ilLSPostCondition
-    {
-        return $this->post_condition;
-    }
-
-    public function withPostCondition(ilLSPostCondition $postcondition) : LSItem
+    public function withPostCondition(ilLSPostCondition $post_condition) : LSItem
     {
         $clone = clone $this;
-        $clone->post_condition = $postcondition;
+        $clone->post_condition = $post_condition;
         return $clone;
-    }
-
-    public function getRefId() : int
-    {
-        return $this->ref_id;
     }
 }

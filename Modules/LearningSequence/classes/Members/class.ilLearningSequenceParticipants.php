@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Manage participants.
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de> (refactor to psr-12 as far as possible)
  */
 class ilLearningSequenceParticipants extends ilParticipants
 {
@@ -14,7 +12,9 @@ class ilLearningSequenceParticipants extends ilParticipants
     /**
      * @var ilLearningSequenceParticipants[]
      */
-    protected static $instances;
+    protected static array $instances;
+    protected ilAppEventHandler $app_event_handler;
+    protected ilSetting $settings;
 
     public function __construct(
         int $obj_id,
@@ -50,7 +50,10 @@ class ilLearningSequenceParticipants extends ilParticipants
         );
     }
 
-    public static function getMemberRoles($ref_id) : array
+    /**
+     * @return array<mixed, mixed>|[]
+     */
+    public static function getMemberRoles(int $ref_id) : array
     {
         global $DIC;
 
@@ -59,7 +62,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 
         $roles = array();
         foreach ($lrol as $role) {
-            $title = ilObject::_lookupTitle($role);
+            $title = ilObject::_lookupTitle((int) $role);
 
             switch (substr($title, 0, 8)) {
                 case 'il_lso_a':
@@ -87,7 +90,6 @@ class ilLearningSequenceParticipants extends ilParticipants
     public function add($usr_id, $role) : bool
     {
         if (parent::add($usr_id, $role)) {
-            // $this->addDesktopItem($usr_id);
             return true;
         }
 
@@ -98,7 +100,7 @@ class ilLearningSequenceParticipants extends ilParticipants
     {
         parent::addSubscriber($usr_id);
 
-        $this->log->lso()->info('Raise new event: Modules/LearningSequence addSubscriber.');
+        $this->logger->info('Raise new event: Modules/LearningSequence addSubscriber.');
         $this->app_event_handler->raise(
             "Modules/LearningSequence",
             'addSubscriber',
@@ -112,7 +114,7 @@ class ilLearningSequenceParticipants extends ilParticipants
     /**
      * Send notification mail.
      */
-    public function sendNotification($type, $usr_id, $force_sending_mail = false) : bool
+    public function sendNotification(int $type, int $usr_id, bool $force_sending_mail = false) : bool
     {
         $mail = new ilLearningSequenceMembershipMailNotification($this->logger, $this->settings);
         $mail->forceSendingMail($force_sending_mail);

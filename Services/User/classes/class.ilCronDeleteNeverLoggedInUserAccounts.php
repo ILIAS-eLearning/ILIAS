@@ -70,78 +70,51 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return 'user_never_logged_in';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
         return $DIC->language()->txt('user_never_logged_in');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
         return $DIC->language()->txt('user_never_logged_in_info');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : int
     {
         return 1;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -203,10 +176,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         return $result;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addCustomSettingsToForm(\ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(\ilPropertyFormGUI $a_form) : void
     {
         $roleWhiteList = new ilMultiSelectInputGUI(
             $this->lng->txt('cron_users_without_login_del_role_whitelist'),
@@ -237,10 +207,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         $a_form->addItem($threshold);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function saveCustomSettings(\ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(\ilPropertyFormGUI $a_form) : bool
     {
         $valid = true;
 

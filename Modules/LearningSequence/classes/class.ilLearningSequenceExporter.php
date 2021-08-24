@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilLearningSequenceExporter extends ilXmlExporter
 {
+    protected ilSetting $settings;
+    protected ilRbacReview $rbac_review;
+
     public function init()
     {
         global $DIC;
@@ -29,8 +29,15 @@ class ilLearningSequenceExporter extends ilXmlExporter
             throw new Exception("Wrong type " . $type . " for lso export.");
         }
 
-        $ls_ref_id = end(ilObject::_getAllReferences($obj_id));
+        $ref_ids = ilObject::_getAllReferences($obj_id);
+        $ls_ref_id = end($ref_ids);
+
+        /** @var ilObjLearningSequence $ls_object */
         $ls_object = ilObjectFactory::getInstanceByRefId($ls_ref_id, false);
+        if (!$ls_object) {
+            throw new Exception("Object for ref id " . $ls_ref_id . " not found.");
+        }
+
         $lp_settings = new ilLPObjSettings($obj_id);
 
         return new ilLearningSequenceXMLWriter(
@@ -83,5 +90,4 @@ class ilLearningSequenceExporter extends ilXmlExporter
 
         return $res;
     }
-
 }

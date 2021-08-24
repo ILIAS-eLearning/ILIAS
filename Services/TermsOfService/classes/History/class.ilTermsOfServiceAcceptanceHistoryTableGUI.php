@@ -10,34 +10,18 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
 {
-    /** @var Factory */
-    protected $uiFactory;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected int $numRenderedCriteria = 0;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    /** @var Renderer */
-    protected $uiRenderer;
-
-    /** @var int */
-    protected $numRenderedCriteria = 0;
-
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
-    /**
-     * ilTermsOfServiceAcceptanceHistoryTableGUI constructor.
-     * @param ilTermsOfServiceControllerEnabled             $controller
-     * @param string                                        $command
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param Factory                                       $uiFactory
-     * @param Renderer                                      $uiRenderer
-     * @param ilGlobalPageTemplate                          $globalTemplate
-     */
     public function __construct(
         ilTermsOfServiceControllerEnabled $controller,
         string $command,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         Factory $uiFactory,
         Renderer $uiRenderer,
-        ilGlobalPageTemplate $globalTemplate
+        ilGlobalTemplateInterface $globalTemplate
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
         $this->uiFactory = $uiFactory;
@@ -70,9 +54,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $this->setResetCommand('resetAcceptanceHistoryFilter');
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getColumnDefinition() : array
     {
         $i = 0;
@@ -123,12 +104,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ];
     }
 
-    /**
-     * @inheritdoc
-     * @throws ilDateTimeException
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
-     */
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('ts' === $column) {
@@ -142,21 +117,11 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    /**
-     * @return string
-     */
     protected function getUniqueCriterionListingAttribute() : string
     {
         return '<span class="ilNoDisplay">' . ($this->numRenderedCriteria++) . '</span>';
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
-     */
     protected function formatCriterionAssignments(string $column, array $row) : string
     {
         $items = [];
@@ -187,11 +152,6 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     */
     protected function formatTitle(string $column, array $row) : string
     {
         $modal = $this->uiFactory
@@ -206,22 +166,12 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
-        if ('ts' === $a_field) {
-            return true;
-        }
-
-        return false;
+        return 'ts' === $a_field;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function initFilter()
+    public function initFilter() : void
     {
         $ul = new ilTextInputGUI(
             $this->lng->txt('login') . '/' . $this->lng->txt('email') . '/' . $this->lng->txt('name'),

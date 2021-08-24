@@ -41,46 +41,46 @@ class ilLearningModuleCronLinkCheck extends ilCronJob
         $this->db = $DIC->database();
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "lm_link_check";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         
         return $lng->txt("check_link");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
         
         return $lng->txt("check_link_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
-    {
-        return false;
-    }
-    
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function run()
+    public function hasFlexibleSchedule() : bool
+    {
+        return false;
+    }
+    
+    public function run() : ilCronJobResult
     {
         $ilLog = $this->log;
         $ilDB = $this->db;

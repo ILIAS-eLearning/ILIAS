@@ -7,16 +7,11 @@
  */
 class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ReflectionException
-     */
     public function testCriteriaCanBePassedAsArray() : void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $configCrit1
-            ->expects($this->any())
             ->method('jsonSerialize')
             ->willReturn([
                 'usr_language' => 'de'
@@ -25,7 +20,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $configCrit2 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
 
         $configCrit2
-            ->expects($this->any())
             ->method('jsonSerialize')
             ->willReturn([
                 'usr_global_role' => 4
@@ -34,24 +28,20 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $criterion1 = $this->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('crit1');
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($configCrit1);
 
         $criterion2 = $this->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
         $criterion2
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('crit2');
 
         $criterion2
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($configCrit2);
 
@@ -75,10 +65,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         );
     }
 
-    /**
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ReflectionException
-     */
     public function testExceptionIsRaisedWhenAtLeastOneNonCriterionIsPassedInArrayOnCreation() : void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
@@ -86,12 +72,10 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $criterion1 = $this->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('crit1');
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($configCrit1);
 
@@ -103,10 +87,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         ]);
     }
 
-    /**
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ReflectionException
-     */
     public function testExceptionIsRaisedWhenInvalidJsonDataIsPassedOnImport() : void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
@@ -114,12 +94,10 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $criterion1 = $this->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('crit1');
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($configCrit1);
 
@@ -129,10 +107,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $bag->fromJson('5');
     }
 
-    /**
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     * @throws ReflectionException
-     */
     public function testExceptionIsRaisedWhenAtLeastOneInvalidElementIsPassedOnJsonStringImport() : void
     {
         $configCrit1 = $this->getMockBuilder(ilTermsOfServiceCriterionConfig::class)->getMock();
@@ -140,12 +114,10 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $criterion1 = $this->getMockBuilder(ilTermsOfServiceEvaluableCriterion::class)->getMock();
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('crit1');
 
         $criterion1
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($configCrit1);
 
@@ -155,9 +127,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBagTest extends ilTermsOfServiceB
         $bag->fromJson('[{"invalid":"crit1","value":{"usr_language":"de"}},{"id":"crit2","value":{"usr_global_role":4}}]');
     }
 
-    /**
-     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
-     */
     public function testCriteriaImportFromJsonStringWorksAsExpected() : void
     {
         $bag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag();

@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /**
-     *
-     */
     public function testConfigCanBePassedAsArray() : void
     {
         $actualKey = 'phpunit';
@@ -19,22 +16,19 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
 
         $config = new ilTermsOfServiceCriterionConfig($data);
 
-        $expected = json_encode($data);
+        $expected = json_encode($data, JSON_THROW_ON_ERROR);
 
         $this->assertEquals($expected, $config->toJson());
         $this->assertArrayHasKey($actualKey, $config);
         $this->assertEquals($actualValue, $config[$actualKey]);
     }
 
-    /**
-     *
-     */
     public function testConfigCanBePassedAsJson() : void
     {
         $actualKey = 'phpunit';
         $actualValue = 'rulz';
 
-        $data = json_encode([$actualKey => $actualValue]);
+        $data = json_encode([$actualKey => $actualValue], JSON_THROW_ON_ERROR);
 
         $config = new ilTermsOfServiceCriterionConfig($data);
 
@@ -43,15 +37,12 @@ class ilTermsOfServiceCriterionConfigTest extends ilTermsOfServiceCriterionBaseT
         $this->assertEquals($actualValue, $config[$actualKey]);
     }
 
-    /**
-     *
-     */
     public function testConfigCanBeImportedAsJson() : void
     {
         $actualKey = 'phpunit';
         $actualValue = 'rulz';
 
-        $data = json_encode([$actualKey => $actualValue]);
+        $data = json_encode([$actualKey => $actualValue], JSON_THROW_ON_ERROR);
 
         $config = new ilTermsOfServiceCriterionConfig();
         $config->fromJson($data);

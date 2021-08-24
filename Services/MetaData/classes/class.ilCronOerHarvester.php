@@ -50,76 +50,47 @@ class ilCronOerHarvester extends ilCronJob
         $this->settings = ilOerHarvesterSettings::getInstance();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('meta_oer_harvester');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('meta_oer_harvester_desc');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return self::CRON_JOB_IDENTIFIER;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return self::DEFAULT_SCHEDULE_VALUE;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         // target selection
         $target = new ilRepositorySelector2InputGUI(
@@ -162,15 +133,10 @@ class ilCronOerHarvester extends ilCronJob
             $checkbox_group->addOption($copyright_checkox);
         }
         $a_form->addItem($checkbox_group);
-        return $a_form;
     }
 
 
-    /**
-     * @param \ilPropertyFormGUI $a_form
-     * @return bool|void
-     */
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->settings->setTarget($a_form->getInput('target'));
         $this->settings->setCopyrightTemplates($a_form->getInput('copyright'));
@@ -179,10 +145,7 @@ class ilCronOerHarvester extends ilCronJob
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->logger->info('Started cron oer harvester.');
         $harvester = new ilOerHarvester(new ilCronJobResult());
@@ -192,14 +155,7 @@ class ilCronOerHarvester extends ilCronJob
         return $res;
     }
 
-    /**
-     * Provide external settings for presentation in MD settings
-     *
-     * @param int $a_form_id
-     * @param array $a_fields
-     * @param bool $a_is_active
-     */
-    public function addToExternalSettingsForm($a_form_id, &$a_fields, $a_is_active)
+    public function addToExternalSettingsForm(int $a_form_id, &$a_fields, bool $a_is_active) : void
     {
         #23901
         global $DIC;

@@ -7,19 +7,10 @@
  */
 interface ilTermsOfServiceSignableDocument
 {
-    /**
-     * @return string
-     */
     public function content() : string;
 
-    /**
-     * @return string
-     */
     public function title() : string;
 
-    /**
-     * @return int
-     */
     public function id() : int;
 
     /**

@@ -7,21 +7,13 @@
  */
 class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAcceptanceDataGateway
 {
-    /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilTermsOfServiceAcceptanceDatabaseGateway constructor.
-     * @param ilDBInterface $db
-     */
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity) : void
     {
         $res = $this->db->queryF(
@@ -59,9 +51,6 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function loadCurrentAcceptanceOfUser(
         ilTermsOfServiceAcceptanceEntity $entity
     ) : ilTermsOfServiceAcceptanceEntity {
@@ -96,9 +85,6 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         return $entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity
     {
         $res = $this->db->queryF(
@@ -122,9 +108,6 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
         return $entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity) : void
     {
         $this->db->manipulate(

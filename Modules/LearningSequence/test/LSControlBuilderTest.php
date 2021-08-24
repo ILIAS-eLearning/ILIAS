@@ -1,4 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\KioskMode\ControlBuilder;
@@ -14,13 +17,15 @@ class LSControlBuilderTest extends TestCase
 {
     use IliasMocks;
 
-    public function setUp() : void
+    protected LSControlBuilder $control_builder;
+
+    protected function setUp() : void
     {
         $ui_factory = $this->mockUIFactory();
         $lang = $this->mockIlLanguage();
 
         $data_factory = new DataFactory();
-        $uri = $data_factory->uri('http://ilias.de/somepath');
+        $uri = $data_factory->uri('https://ilias.de/somepath');
         $url_builder = new LSUrlBuilder($uri);
 
         $this->control_builder = new LSControlBuilder($ui_factory, $url_builder, $lang);
@@ -52,11 +57,11 @@ class LSControlBuilderTest extends TestCase
     {
         try {
             //must not be able to set a second exit-control
-            $cb = $this->control_builder
+            $this->control_builder
                 ->exit('cmd')
                 ->exit('cmd');
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }
@@ -74,11 +79,11 @@ class LSControlBuilderTest extends TestCase
     public function testUniquePrevious()
     {
         try {
-            $cb = $this->control_builder
+            $this->control_builder
                 ->previous('cmd', 1)
                 ->previous('cmd', 1);
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }
@@ -86,11 +91,11 @@ class LSControlBuilderTest extends TestCase
     public function testUniqueNext()
     {
         try {
-            $cb = $this->control_builder
+            $this->control_builder
                 ->next('cmd', 1)
                 ->next('cmd', 1);
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }
@@ -105,11 +110,11 @@ class LSControlBuilderTest extends TestCase
     public function testUniqueToC()
     {
         try {
-            $toc = $this->control_builder->tableOfContent('cmd', 'rootnode')
+            $this->control_builder->tableOfContent('cmd', 'rootnode')
                 ->end();
-            $toc = $this->control_builder->tableOfContent('cmd', 'rootnode');
+            $this->control_builder->tableOfContent('cmd', 'rootnode');
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }
@@ -127,7 +132,7 @@ class LSControlBuilderTest extends TestCase
             ->generic('label', 'cmd', 1)
             ->generic('label', 'cmd', 2)
             ->generic('label', 'cmd', 3);
-        $this->assertEquals(3, count($cb->getControls()));
+        $this->assertCount(3, $cb->getControls());
     }
 
     public function testDone()
@@ -140,11 +145,11 @@ class LSControlBuilderTest extends TestCase
     public function testUniqueDone()
     {
         try {
-            $cb = $this->control_builder
+            $this->control_builder
                 ->done('cmd', 1)
                 ->done('cmd', 1);
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }
@@ -165,11 +170,11 @@ class LSControlBuilderTest extends TestCase
     public function testUniqueLocator()
     {
         try {
-            $loc = $this->control_builder->locator('cmd')
+            $this->control_builder->locator('cmd')
                 ->end();
-            $loc = $this->control_builder->locator('cmd');
+            $this->control_builder->locator('cmd');
             $this->assertFalse("This should not happen");
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             $this->assertTrue(true);
         }
     }

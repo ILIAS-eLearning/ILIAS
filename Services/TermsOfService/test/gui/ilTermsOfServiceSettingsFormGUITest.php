@@ -7,22 +7,17 @@
  */
 class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testFormCanBeProperlyBuilt() : void
     {
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
-            ->expects($this->any())
             ->method('getStatus')
             ->willReturn(true);
 
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 
@@ -61,9 +56,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormCanBeSavedWithDisabledService() : void
     {
         $this->initLangMock();
@@ -71,7 +63,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
-            ->expects($this->any())
             ->method('getStatus')
             ->willReturn(false);
 
@@ -111,9 +102,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormCanBeSavedWithEnabledServiceWhenAtLeastOneDocumentExists() : void
     {
         $this->initLangMock();
@@ -121,7 +109,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
-            ->expects($this->any())
             ->method('getStatus')
             ->willReturn(false);
 
@@ -171,15 +158,11 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormCannotBeSavedWithEnabledServiceWhenNoDocumentsExistAndServiceIsCurrentlyDisabled() : void
     {
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 
@@ -188,7 +171,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
-            ->expects($this->any())
             ->method('getStatus')
             ->willReturn(false);
 
@@ -236,9 +218,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertNotEmpty($form->getTranslatedError());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormCanBeSavedWithEnabledServiceWhenNoDocumentsExistButServiceIsAlreadyEnabled() : void
     {
         $this->initLangMock();
@@ -246,7 +225,6 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
         $tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
 
         $tos
-            ->expects($this->any())
             ->method('getStatus')
             ->willReturn(true);
 

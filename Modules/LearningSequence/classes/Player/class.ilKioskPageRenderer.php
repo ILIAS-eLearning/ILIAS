@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Factory;
@@ -8,14 +8,20 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Listing\Workflow\Workflow;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ILIAS\GlobalScreen\Scope\Layout\LayoutServices;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 
-/**
- * Class ilKioskPageRenderer
- */
 class ilKioskPageRenderer
 {
+    protected ilGlobalPageTemplate $il_tpl;
+    protected MetaContent $layout_meta_content;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    protected ilLSTOCGUI $toc_gui;
+    protected ilLSLocatorGUI $loc_gui;
+    protected string $window_base_title;
+
     public function __construct(
         ilGlobalPageTemplate $il_global_template,
         MetaContent $layout_meta_content,
@@ -51,8 +57,7 @@ class ilKioskPageRenderer
         );
     }
 
-
-    public function buildToCSlate($toc, Icon $icon) : Slate
+    public function buildToCSlate(LSTOCBuilder $toc, Icon $icon) : Slate
     {
         $html = $this->toc_gui
             ->withStructure($toc->toJSON())
@@ -66,7 +71,6 @@ class ilKioskPageRenderer
 
 
     public function render(
-        string $lso_title,
         LSControlBuilder $control_builder,
         string $obj_title,
         Component $icon,

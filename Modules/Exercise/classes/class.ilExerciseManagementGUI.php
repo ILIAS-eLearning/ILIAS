@@ -6,6 +6,7 @@ use ILIAS\BackgroundTasks\Task\TaskFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\Exercise\InternalService;
 
 /**
  * Class ilExerciseManagementGUI
@@ -44,18 +45,19 @@ class ilExerciseManagementGUI
     protected TaskFactory $task_factory;
     protected ilLogger $log;
     protected ilObjUser $user;
-    protected ilExerciseInternalService $service;
+    protected InternalService $service;
     protected ?ilDBInterface $db = null;
     protected int $ass_id;
 
     /**
      * Constructor
      *
-     * @param ilExerciseInternalService $service
+     * @param InternalService $service
      * @param ilExAssignment|null       $a_ass
      */
-    public function __construct(ilExerciseInternalService $service, ilExAssignment $a_ass = null)
+    public function __construct(InternalService $service, ilExAssignment $a_ass = null)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ui_factory = $DIC->ui()->factory();
@@ -72,7 +74,7 @@ class ilExerciseManagementGUI
 
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
 
-        $request = $DIC->exercise()->internal()->request();
+        $request = $DIC->exercise()->internal()->gui()->request();
 
         $this->service = $service;
 
@@ -380,7 +382,7 @@ class ilExerciseManagementGUI
                 }
             }
 
-            $submission_repository = new ilExcSubmissionRepository($this->db);
+            $submission_repository = $this->service->repo()->submission();
 
             if ($submission_repository->hasSubmissions($this->assignment->getId())) {
                 $ass_type = $this->assignment->getType();
@@ -2099,7 +2101,7 @@ class ilExerciseManagementGUI
 
                 $web_filesystem->delete($zip_internal_path);
 
-                $submission_repository = new ilExcSubmissionRepository();
+                $submission_repository = $this->service->repo()->submission();
                 $submission_repository->updateWebDirAccessTime($this->assignment->getId(), $member_id);
 
                 ilUtil::redirect($index_html_file);

@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
 
 class ilLearningSequenceSetupAgent implements Setup\Agent
 {

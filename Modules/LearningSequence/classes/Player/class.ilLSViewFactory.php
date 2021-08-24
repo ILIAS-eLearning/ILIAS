@@ -1,14 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Build a view.
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 class ilLSViewFactory
 {
+    protected ilKioskModeService $kiosk_mode_service;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
+
     public function __construct(
         ilKioskModeService $kiosk_mode_service,
         ilLanguage $lng,

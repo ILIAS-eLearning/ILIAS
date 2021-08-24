@@ -1,15 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\KioskMode\TOCBuilder;
 
 /**
  * Tree-GUI for ToC
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilLSTOCGUI extends ilExplorerBaseGUI
 {
     const NODE_ICONS = [
@@ -19,21 +16,23 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         TOCBuilder::LP_FAILED => "./templates/default/images/scorm/failed.svg"
     ];
 
-    protected $id = 'ls_toc';
-    protected $structure;
-    protected $nodes = [];
     /**
-     * @var UrlBuilder
+     * @var array<string, mixed>
      */
-    protected $url_builder;
+    protected array $structure;
 
-    public function __construct(
-        LSUrlBuilder $url_builder,
-        ilCtrl $il_ctrl
-    ) {
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $nodes = [];
+    protected LSUrlBuilder $url_builder;
+    protected int $counter = 0;
+
+    public function __construct(LSUrlBuilder $url_builder)
+    {
         parent::__construct("lsq_toc", null, "");
+
         $this->url_builder = $url_builder;
-        $this->ctrl = $il_ctrl; //ilExplorerBaseGUI needs ctrl...
         $this->setSkipRootNode(false);
         $this->setNodeOnclickEnabled(true);
     }
@@ -41,15 +40,12 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     public function withStructure(string $json_structure)
     {
         $clone = clone $this;
-        $clone->structure = $clone->addIds(
-            json_decode($json_structure, true)
-        );
-        $clone->buildLookup($clone->structure); //sets $this->nodes
-        $clone->open_nodes = array_keys($clone->nodes); //all open
+        $clone->structure = $clone->addIds(json_decode($json_structure, true));
+        $clone->buildLookup($clone->structure);
+        $clone->open_nodes = array_keys($clone->nodes);
         return $clone;
     }
 
-    protected $counter = 0;
     protected function addIds(array $node) : array
     {
         $node['_id'] = $this->counter;
@@ -62,7 +58,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         return $node;
     }
 
-    protected function buildLookup(array $node)
+    protected function buildLookup(array $node) : void
     {
         $this->nodes[$node['_id']] = $node;
         if (array_key_exists('childs', $node)) {

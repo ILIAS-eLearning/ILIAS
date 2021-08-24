@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceDocumentTableDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    /**
-     * @inheritdoc
-     */
     public function getList(array $params, array $filter) : array
     {
         $items = ilTermsOfServiceDocument::orderBy('sorting')->get();

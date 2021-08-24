@@ -7,11 +7,7 @@
  */
 class ilObjTermsOfService extends ilObject2
 {
-    /** @var ilDBInterface */
-    protected $db;
-
-    /** @var ilSetting */
-    protected $settings;
+    protected ilSetting $settings;
 
     /**
      * @param int  $a_id
@@ -23,21 +19,14 @@ class ilObjTermsOfService extends ilObject2
 
         parent::__construct($a_id, $a_reference);
 
-        $this->db = $DIC['ilDB'];
         $this->settings = $DIC['ilSetting'];
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = 'tos';
     }
 
-    /**
-     *
-     */
     public function resetAll() : void
     {
         $in = $this->db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
@@ -46,42 +35,26 @@ class ilObjTermsOfService extends ilObject2
         $this->settings->set('tos_last_reset', time());
     }
 
-    /**
-     * @return ilDateTime
-     * @throws ilDateTimeException
-     */
     public function getLastResetDate() : ilDateTime
     {
         return new ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
     }
 
-    /**
-     * @param bool $status
-     */
     public function saveStatus(bool $status) : void
     {
         $this->settings->set('tos_status', (int) $status);
     }
 
-    /**
-     * @return bool
-     */
     public function getStatus() : bool
     {
         return (bool) $this->settings->get('tos_status');
     }
 
-    /**
-     * @param bool $status
-     */
     public function setReevaluateOnLogin(bool $status) : void
     {
         $this->settings->set('tos_reevaluate_on_login', (int) $status);
     }
     
-    /**
-     * @return bool
-     */
     public function shouldReevaluateOnLogin() : bool
     {
         return (bool) $this->settings->get('tos_reevaluate_on_login');

@@ -22,6 +22,7 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         ilMailUserHelper $usernameHelper = null,
         ilMailLanguageHelper $languageHelper = null
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct(

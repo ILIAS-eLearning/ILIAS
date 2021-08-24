@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testFormIsProperlyBuiltForNewCriterionAssignment() : void
     {
         $this->initLangMock();
@@ -27,12 +24,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(0);
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('');
 
@@ -45,12 +40,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType1
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy1');
 
         $criterionType1
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -59,12 +52,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType2
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy2');
 
         $criterionType2
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -94,9 +85,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEquals($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormIsProperlyBuiltForExistingCriterionAssignment() : void
     {
         $this->initLangMock();
@@ -114,17 +102,14 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('dummy2');
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn(new ilTermsOfServiceCriterionConfig([]));
 
@@ -137,12 +122,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType1
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy1');
 
         $criterionType1
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -151,12 +134,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType2
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy2');
 
         $criterionType2
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -186,9 +167,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEquals($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForNewCriterionAssignmentCanBeSavedForValidInput() : void
     {
         $this->initLangMock();
@@ -214,12 +192,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(0);
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('');
 
@@ -232,12 +208,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType1
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy1');
 
         $criterionType1
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -246,12 +220,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType2
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy2');
 
         $criterionType2
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -275,7 +247,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(6);
 
@@ -308,15 +279,11 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
         $this->assertEmpty($form->getTranslatedError());
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForExistingAssignmentCannotBeSavedForInvalidInput() : void
     {
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 
@@ -343,17 +310,14 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_global_role');
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn(new ilTermsOfServiceCriterionConfig(['role_id' => 4]));
 
@@ -366,12 +330,10 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType1
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy1');
 
         $criterionType1
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock());
 
@@ -380,19 +342,16 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $criterionType2
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn('dummy2');
 
         $criterionTypeGui2 = $this->getMockBuilder(ilTermsOfServiceCriterionTypeGUI::class)->getMock();
 
         $criterionTypeGui2
-            ->expects($this->any())
             ->method('getConfigByForm')
             ->willReturn($criterionAssignment->getCriterionValue());
 
         $criterionType2
-            ->expects($this->any())
             ->method('ui')
             ->willReturn($criterionTypeGui2);
 
@@ -420,17 +379,14 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $anotherCriterionAssignment
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(2);
 
         $anotherCriterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_global_role');
 
         $anotherCriterionAssignment
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn(new ilTermsOfServiceCriterionConfig(['role_id' => 4]));
 
@@ -446,7 +402,6 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(6);
 

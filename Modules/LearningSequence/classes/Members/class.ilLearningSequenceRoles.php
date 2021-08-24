@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 /**
  * Provides Role actions.
- *
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
  */
 class ilLearningSequenceRoles
 {
@@ -14,41 +12,17 @@ class ilLearningSequenceRoles
 
     const TYPE_PORTFOLIO = "prtf";
 
-    /**
-     * @var ilObjLearningSequence
-     */
-    protected $object;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected ilLearningSequenceParticipants $participants;
+    protected ilCtrl $ctrl;
+    protected ilRbacAdmin $rbacadmin;
+    protected ilRbacReview $rbacreview;
+    protected ilDBInterface $database;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLearningSequenceParticipants
-     */
-    protected $participants;
-
-    /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilDB
-     */
-    protected $database;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var array
-     */
-    protected $local_roles;
-
+    protected array $local_roles;
 
     public function __construct(
         int $ls_ref_id,
@@ -58,9 +32,9 @@ class ilLearningSequenceRoles
         ilRbacAdmin $rbacadmin,
         ilRbacReview $rbacreview,
         ilDBInterface $database,
-        ilObjUser $user
+        ilObjUser $user,
+        ilLanguage $lng
     ) {
-        //$this->object = $object;
         $this->ref_id = $ls_ref_id;
         $this->obj_id = $ls_obj_id;
         $this->participants = $participants;
@@ -69,11 +43,12 @@ class ilLearningSequenceRoles
         $this->rbacreview = $rbacreview;
         $this->database = $database;
         $this->user = $user;
+        $this->lng = $lng;
 
         $this->local_roles = array();
     }
 
-    public function initDefaultRoles()
+    public function initDefaultRoles() : void
     {
         ilObjRole::createDefaultRole(
             self::ROLE_LS_ADMIN . '_' . $this->ref_id,
@@ -91,7 +66,7 @@ class ilLearningSequenceRoles
     }
 
     /**
-    * @return array [title|id] of roles...
+    * @return array<string, int>
     */
     public function getLocalLearningSequenceRoles(bool $translate = false) : array
     {
@@ -101,11 +76,7 @@ class ilLearningSequenceRoles
             );
 
             foreach ($role_ids as $role_id) {
-                if ($this->rbacreview->isAssignable(
-                    $role_id,
-                    $this->ref_id
-                ) == true
-                ) {
+                if ($this->rbacreview->isAssignable($role_id, $this->ref_id) == true) {
                     $role = $this->getRoleObject((int) $role_id);
 
                     if ($translate) {
@@ -114,7 +85,7 @@ class ilLearningSequenceRoles
                         $role_name = $role->getTitle();
                     }
 
-                    $this->local_roles[$role_name] = (int) $role->getId();
+                    $this->local_roles[$role_name] = $role->getId();
                 }
             }
         }
@@ -148,47 +119,9 @@ class ilLearningSequenceRoles
         return true;
     }
 
-    public function leaveLearningSequence() : int
-    {
-        $member_ids = $this->getLearningSequenceMemberIds();
-
-        if (count($member_ids) <= 1 || !in_array($this->user->getId(), $member_ids)) {
-            return 2;
-        } else {
-            if (!$this->isAdmin($this->user->getId())) {
-                $this->leave($this->user->getId());
-                //$member = new ilObjUser($this->user->getId());
-                //$member->dropDesktopItem($this->getRefId(), "lso");
-                return 0;
-            } elseif (count($this->getLearningSequenceAdminIds()) == 1) {
-                return 1;
-            }
-        }
-    }
-
-    public function getLearningSequenceMemberIds() : array
-    {
-        $users = array();
-        $roles = $this->getLocalLearningSequenceRoles();
-
-        foreach ($roles as $role) {
-            foreach ($this->rbacreview->assignedUsers($role) as $member_id) {
-                array_push($users, $member_id);
-            }
-        }
-
-        $users = array_unique($users);
-
-        return $users;
-    }
-
     public function leave(int $user_id) : bool
     {
         $roles = $this->participants::getMemberRoles($this->ref_id);
-
-        if (!is_array($roles)) {
-            return $this->rbacadmin->deassignUser($roles, $user_id);
-        }
 
         foreach ($roles as $role) {
             $this->rbacadmin->deassignUser($role, $user_id);
@@ -197,50 +130,22 @@ class ilLearningSequenceRoles
         return true;
     }
 
-    public function getLearningSequenceMemberData(array $user_ids, int $active = 1)
+    /**
+     * @return array<int>
+     */
+    public function getLearningSequenceAdminIds() : array
     {
         $users = array();
-        $additional_where = "";
-
-        if (is_numeric($active) && $active > -1) {
-            $additional_where = "AND active = '$active'" . PHP_EOL;
-        }
-
-        $query =
-             "SELECT login, firstname, lastname, title, usr_id, last_login" . PHP_EOL
-            . "FROM usr_data " . PHP_EOL
-            . "WHERE usr_id IN (" . implode(',', ilUtil::quoteArray($user_ids)) . ") " . PHP_EOL
-            . $additional_where . PHP_EOL
-            . "ORDER BY lastname, firstname" . PHP_EOL
-        ;
-
-        $result = $this->database->query($query);
-
-        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $users[] = [
-                "id" => $row->usr_id,
-                "login" => $row->login,
-                "firstname" => $row->firstname,
-                "lastname" => $row->lastname,
-                "last_login" => $row->last_login
-            ];
-        }
-
-        return $users;
-    }
-
-    public function getLearningSequenceAdminIds()
-    {
-        $users = array();
-        $roles = $this->getDefaultLearningSequenceRoles((string) $this->ref_id);
-
         foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
-            array_push($users, $admin_id);
+            array_push($users, (int) $admin_id);
         }
 
         return $users;
     }
 
+    /**
+     * @return array<string, int>|[]
+     */
     public function getDefaultLearningSequenceRoles(string $lso_id) : array
     {
         if (strlen($lso_id) == 0) {
@@ -268,11 +173,19 @@ class ilLearningSequenceRoles
         return $default_roles;
     }
 
+    /**
+     * @return bool|ilObject
+     */
     protected function getRoleObject(int $obj_id)
     {
         return ilObjectFactory::getInstanceByObjId($obj_id);
     }
 
+    /**
+     * @param array<int|string> $user_ids
+     * @param string[] $columns
+     * @return array<int|string, array<mixed>>
+     */
     public function readMemberData(array $user_ids, array $selected_columns = null) : array
     {
         $portfolio_enabled = $this->isPortfolio($selected_columns);
@@ -369,14 +282,14 @@ class ilLearningSequenceRoles
         return in_array(self::TYPE_PORTFOLIO, $columns);
     }
 
-    public function isMember(int $usr_id)
+    public function isMember(int $usr_id) : bool
     {
         return $this->participants->isMember($usr_id);
     }
 
     public function isCompletedByUser(int $usr_id) : bool
     {
-        \ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
+        ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
         $tracking_active = ilObjUserTracking::_enabledLearningProgress();
         $user_completion = ilLPStatus::_hasUserCompleted($this->obj_id, $usr_id);
         return ($tracking_active && $user_completion);

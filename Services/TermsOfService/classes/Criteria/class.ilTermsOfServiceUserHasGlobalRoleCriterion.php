@@ -7,42 +7,25 @@
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCriterionType
 {
-    /** @var ilRbacReview */
-    protected $rbacReview;
+    protected ilRbacReview $rbacReview;
+    protected ilObjectDataCache $objectCache;
 
-    /** @var ilObjectDataCache */
-    protected $objectCache;
-
-    /**
-     * ilTermsOfServiceUserHasGlobalRoleCriterion constructor.
-     * @param ilRbacReview      $rbacReview
-     * @param ilObjectDataCache $objectCache
-     */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache)
     {
         $this->rbacReview = $rbacReview;
         $this->objectCache = $objectCache;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTypeIdent() : string
     {
         return 'usr_global_role';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasUniqueNature() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
     {
         $roleId = $config['role_id'] ?? 0;
@@ -55,14 +38,9 @@ class ilTermsOfServiceUserHasGlobalRoleCriterion implements ilTermsOfServiceCrit
             return false;
         }
 
-        $result = $this->rbacReview->isAssigned($user->getId(), $roleId);
-
-        return $result;
+        return $this->rbacReview->isAssigned($user->getId(), $roleId);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);

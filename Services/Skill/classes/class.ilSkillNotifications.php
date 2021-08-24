@@ -49,46 +49,46 @@ class ilSkillNotifications extends ilCronJob
         }
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "skll_notification";
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification");
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("skll");
         return $lng->txt("skll_skill_notification_desc");
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
 
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 

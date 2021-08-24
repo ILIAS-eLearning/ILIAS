@@ -3,57 +3,36 @@
 
 /**
  * Class ilCronJobEntity
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilCronJobEntity
 {
-    /** @var ilCronJob */
-    private $job;
-    /** @var bool */
-    private $isPlugin;
-
-    /** @var string */
-    private $jobId;
-    /** @var string */
-    private $component;
-    /** @var int */
-    private $scheduleType;
-    /** @var int */
-    private $scheduleValue;
-    /** @var int */
-    private $jobStatus;
-    /** @var int */
-    private $jobStatusUsrId;
-    /** @var int */
-    private $jobStatusType;
-    /** @var int */
-    private $jobStatusTimestamp;
-    /** @var int */
-    private $jobResultStatus;
-    /** @var int */
-    private $jobResultUsrId;
-    /** @var string */
-    private $jobResultCode;
-    /** @var string */
-    private $jobResultMessage;
-    /** @var int */
-    private $jobResultType;
-    /** @var int */
-    private $jobResultTimestamp;
-    /** @var string */
-    private $class;
-    /** @var string */
-    private $path;
-    /** @var int */
-    private $runningTimestamp;
-    /** @var int */
-    private $jobResultDuration;
-    /** @var int */
-    private $aliveTimestamp;
+    private ilCronJob $job;
+    private bool $isPlugin;
+    private string $jobId;
+    private string $component;
+    private int $scheduleType;
+    private int $scheduleValue;
+    private int $jobStatus;
+    private int $jobStatusUsrId;
+    private int $jobStatusType;
+    private int $jobStatusTimestamp;
+    private int $jobResultStatus;
+    private int $jobResultUsrId;
+    private string $jobResultCode;
+    private string $jobResultMessage;
+    private int $jobResultType;
+    private int $jobResultTimestamp;
+    private string $class;
+    private string $path;
+    private int $runningTimestamp;
+    private int $jobResultDuration;
+    private int $aliveTimestamp;
 
     /**
      * ilCronJobEntity constructor.
      * @param ilCronJob $job
-     * @param array $record
+     * @param array<string, mixed> $record
      * @param bool $isPlugin
      */
     public function __construct(ilCronJob $job, array $record, bool $isPlugin = false)
@@ -64,7 +43,7 @@ class ilCronJobEntity
     }
 
     /**
-     * @param array<string, null|string> $record
+     * @param array<string, mixed> $record
      */
     private function mapRecord(array $record) : void
     {
@@ -89,204 +68,132 @@ class ilCronJobEntity
         $this->aliveTimestamp = (int) $record['alive_ts'];
     }
 
-    /**
-     * @return ilCronJob
-     */
     public function getJob() : ilCronJob
     {
         return $this->job;
     }
 
-    /**
-     * @return string
-     */
     public function getJobId() : string
     {
         return $this->jobId;
     }
 
-    /**
-     * @return string
-     */
     public function getComponent() : string
     {
         return $this->component;
     }
 
-    /**
-     * @return int
-     */
     public function getScheduleType() : int
     {
         return $this->scheduleType;
     }
 
-    /**
-     * @return int
-     */
     public function getScheduleValue() : int
     {
         return $this->scheduleValue;
     }
 
-    /**
-     * @return int
-     */
     public function getJobStatus() : int
     {
         return $this->jobStatus;
     }
 
-    /**
-     * @return int
-     */
     public function getJobStatusUsrId() : int
     {
         return $this->jobStatusUsrId;
     }
 
-    /**
-     * @return int
-     */
     public function getJobStatusType() : int
     {
         return $this->jobStatusType;
     }
 
-    /**
-     * @return int
-     */
     public function getJobStatusTimestamp() : int
     {
         return $this->jobStatusTimestamp;
     }
 
-    /**
-     * @return int
-     */
     public function getJobResultStatus() : int
     {
         return $this->jobResultStatus;
     }
 
-    /**
-     * @return int
-     */
     public function getJobResultUsrId() : int
     {
         return $this->jobResultUsrId;
     }
 
-    /**
-     * @return string
-     */
     public function getJobResultCode() : string
     {
         return $this->jobResultCode;
     }
 
-    /**
-     * @return string
-     */
     public function getJobResultMessage() : string
     {
         return $this->jobResultMessage;
     }
 
-    /**
-     * @return int
-     */
     public function getJobResultType() : int
     {
         return $this->jobResultType;
     }
 
-    /**
-     * @return int
-     */
     public function getJobResultTimestamp() : int
     {
         return $this->jobResultTimestamp;
     }
 
-    /**
-     * @return string
-     */
     public function getClass() : string
     {
         return $this->class;
     }
 
-    /**
-     * @return string
-     */
     public function getPath() : string
     {
         return $this->path;
     }
 
-    /**
-     * @return int
-     */
     public function getRunningTimestamp() : int
     {
         return $this->runningTimestamp;
     }
 
-    /**
-     * @return int
-     */
     public function getJobResultDuration() : int
     {
         return $this->jobResultDuration;
     }
 
-    /**
-     * @return int
-     */
     public function getAliveTimestamp() : int
     {
         return $this->aliveTimestamp;
     }
 
-    /**
-     * @return bool
-     */
     public function isPlugin() : bool
     {
         return $this->isPlugin;
     }
 
-    /**
-     * @return int
-     */
     public function getEffectiveScheduleType() : int
     {
         $type = $this->getScheduleType();
-        if (!$this->getJob()->hasFlexibleSchedule() || !$type) {
-            $type = (int) $this->getJob()->getDefaultScheduleType();
+        if (!$type || !$this->getJob()->hasFlexibleSchedule()) {
+            $type = $this->getJob()->getDefaultScheduleType();
         }
 
         return $type;
     }
 
-    /**
-     * @return int
-     */
     public function getEffectiveScheduleValue() : int
     {
         $type = $this->getScheduleType();
         $value = $this->getScheduleValue();
-        if (!$this->getJob()->hasFlexibleSchedule() || !$type) {
+        if (!$type || !$this->getJob()->hasFlexibleSchedule()) {
             $value = (int) $this->getJob()->getDefaultScheduleValue();
         }
 
         return $value;
     }
 
-    /**
-     * @return string
-     */
     public function getEffectiveTitle() : string
     {
         $id = $this->getJobId();
@@ -294,8 +201,8 @@ class ilCronJobEntity
             $id = 'pl__' . $this->getComponent() . '__' . $id;
         }
 
-        $title = (string) $this->getJob()->getTitle();
-        if (0 === strlen($title)) {
+        $title = $this->getJob()->getTitle();
+        if ($title === '') {
             $title = $id;
         }
 

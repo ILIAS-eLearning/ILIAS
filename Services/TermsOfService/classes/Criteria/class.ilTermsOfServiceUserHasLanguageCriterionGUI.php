@@ -10,17 +10,9 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    /** @var ilTermsOfServiceUserHasLanguageCriterion */
-    protected $type;
+    protected ilTermsOfServiceUserHasLanguageCriterion $type;
+    protected ilLanguage $lng;
 
-    /** @var ilLanguage */
-    protected $lng;
-
-    /**
-     * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
-     * @param ilTermsOfServiceUserHasLanguageCriterion $type
-     * @param ilLanguage                               $lng
-     */
     public function __construct(
         ilTermsOfServiceUserHasLanguageCriterion $type,
         ilLanguage $lng
@@ -29,9 +21,6 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         $this->lng = $lng;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
@@ -58,9 +47,6 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         $group->addOption($option);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
     {
         $config = new ilTermsOfServiceCriterionConfig([
@@ -70,17 +56,11 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
         return $config;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIdentPresentation() : string
     {
         return $this->lng->txt('tos_crit_type_usr_language');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
     {
         $lng = $config['lng'] ?? '';
@@ -89,6 +69,6 @@ class ilTermsOfServiceUserHasLanguageCriterionGUI implements ilTermsOfServiceCri
             return $uiFactory->legacy('');
         }
 
-        return $uiFactory->legacy($this->lng->txt('meta_l_' . (string) $lng));
+        return $uiFactory->legacy($this->lng->txt('meta_l_' . $lng));
     }
 }

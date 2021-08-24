@@ -7,25 +7,16 @@
  */
 class ilTermsOfServiceUserHasLanguageCriterion implements ilTermsOfServiceCriterionType
 {
-    /**
-     * @inheritdoc
-     */
     public function getTypeIdent() : string
     {
         return 'usr_language';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasUniqueNature() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
     {
         $lng = $config['lng'] ?? '';
@@ -34,14 +25,9 @@ class ilTermsOfServiceUserHasLanguageCriterion implements ilTermsOfServiceCriter
             return false;
         }
 
-        $result = strtolower($lng) === strtolower($user->getLanguage());
-
-        return $result;
+        return strtolower($lng) === strtolower($user->getLanguage());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasLanguageCriterionGUI($this, $lng);

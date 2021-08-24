@@ -7,42 +7,20 @@
  */
 class ilTermsOfServiceAcceptanceEntity
 {
-    /** @var int */
-    protected $id = 0;
+    protected int $id = 0;
+    protected int $user_id = 0;
+    protected string $text = '';
+    protected int $timestamp = 0;
+    protected string $hash = '';
+    protected string $title = '';
+    protected int $document_id = 0;
+    protected string $criteria = '';
 
-    /** @var int */
-    protected $user_id = 0;
-
-    /** @var string */
-    protected $text = '';
-
-    /** @var int */
-    protected $timestamp = 0;
-
-    /** @var string */
-    protected $hash = '';
-
-    /** @var string */
-    protected $title = '';
-
-    /** @var int */
-    protected $document_id = 0;
-
-    /** @var string */
-    protected $criteria = '';
-
-    /**
-     * @return string
-     */
     public function getHash() : string
     {
         return $this->hash;
     }
 
-    /**
-     * @param string $hash
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withHash(string $hash) : self
     {
         $clone = clone $this;
@@ -52,18 +30,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getText() : string
     {
         return $this->text;
     }
 
-    /**
-     * @param string $text
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withText(string $text) : self
     {
         $clone = clone $this;
@@ -73,18 +44,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getTimestamp() : int
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param int $timestamp
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withTimestamp(int $timestamp) : self
     {
         $clone = clone $this;
@@ -94,18 +58,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * @param int $user_id
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withUserId(int $user_id) : self
     {
         $clone = clone $this;
@@ -115,18 +72,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param $id
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withId(int $id) : self
     {
         $clone = clone $this;
@@ -136,18 +86,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withTitle(string $title) : self
     {
         $clone = clone $this;
@@ -157,18 +100,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return int
-     */
     public function getDocumentId() : int
     {
         return $this->document_id;
     }
 
-    /**
-     * @param int $document_id
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withDocumentId(int $document_id) : self
     {
         $clone = clone $this;
@@ -178,18 +114,11 @@ class ilTermsOfServiceAcceptanceEntity
         return $clone;
     }
 
-    /**
-     * @return string
-     */
     public function getSerializedCriteria() : string
     {
         return $this->criteria;
     }
 
-    /**
-     * @param string $criteria
-     * @return ilTermsOfServiceAcceptanceEntity
-     */
     public function withSerializedCriteria(string $criteria) : self
     {
         $clone = clone $this;

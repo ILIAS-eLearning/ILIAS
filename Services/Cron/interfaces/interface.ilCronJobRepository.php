@@ -7,8 +7,5 @@
  */
 interface ilCronJobRepository
 {
-    /**
-     * @return ilCronJobCollection
-     */
     public function findAll() : ilCronJobCollection;
 }
