@@ -41,7 +41,7 @@ class ilTestSkillLevelThresholdsTableGUITest extends ilTestBaseTestCase
         );
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestSkillLevelThresholdsTableGUI::class, $this->tableGui);
     }

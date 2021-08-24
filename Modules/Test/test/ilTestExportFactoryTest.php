@@ -33,10 +33,10 @@ class ilTestExportFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_tree();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
-        if(!defined("IL_INST_ID")) {
+        if (!defined("IL_INST_ID")) {
             define("IL_INST_ID", 0);
         }
-        if(!defined("CLIENT_DATA_DIR")) {
+        if (!defined("CLIENT_DATA_DIR")) {
             define("CLIENT_DATA_DIR", "/tmp");
         }
 

@@ -70,8 +70,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUITest extends ilTestBaseTestCase
     public function lngTxtCallback() : string
     {
         $args = func_get_args();
-        switch ($args[0])
-        {
+        switch ($args[0]) {
             case "tst_rnd_quest_set_cfg_general_form":
                 return "testTitle";
             default:

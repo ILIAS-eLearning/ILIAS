@@ -130,5 +130,4 @@ class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 
         $this->assertEquals($expected, $this->testInfoScreenToolbarGUI->getFailureMessages());
     }
-
 }

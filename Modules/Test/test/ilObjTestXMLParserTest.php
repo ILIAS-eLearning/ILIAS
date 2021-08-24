@@ -24,11 +24,11 @@ class ilObjTestXMLParserTest extends ilTestBaseTestCase
 
     public function testTestOBJ() : void
     {
-       $objTest_mock = $this->createMock(ilObjTest::class);
-       $this->assertNull($this->testObj->getTestOBJ());
+        $objTest_mock = $this->createMock(ilObjTest::class);
+        $this->assertNull($this->testObj->getTestOBJ());
 
-       $this->testObj->setTestOBJ($objTest_mock);
-       $this->assertEquals($objTest_mock, $this->testObj->getTestOBJ());
+        $this->testObj->setTestOBJ($objTest_mock);
+        $this->assertEquals($objTest_mock, $this->testObj->getTestOBJ());
     }
 
     public function testImportMapping() : void

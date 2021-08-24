@@ -42,7 +42,7 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestParticipantsTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestParticipantsTableGUI::class, $this->tableGui);
     }
@@ -91,6 +91,5 @@ class ilTestParticipantsTableGUITest extends ilTestBaseTestCase
         $this->assertTrue($this->tableGui->numericOrdering("access"));
         $this->assertTrue($this->tableGui->numericOrdering("tries"));
         $this->assertFalse($this->tableGui->numericOrdering("randomString"));
-
     }
 }

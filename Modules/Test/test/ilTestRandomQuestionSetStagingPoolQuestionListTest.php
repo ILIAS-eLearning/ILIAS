@@ -65,6 +65,4 @@ class ilTestRandomQuestionSetStagingPoolQuestionListTest extends ilTestBaseTestC
         $this->testObj->setLifecycleFilter($expected);
         $this->assertEquals($expected, $this->testObj->getLifecycleFilter());
     }
-
-
 }

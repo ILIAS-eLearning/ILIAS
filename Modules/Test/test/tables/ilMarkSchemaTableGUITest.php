@@ -41,7 +41,8 @@ class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
             ->expects($this->any())
             ->method("getMarkSchema")
             ->willReturn($assMarkSchema);
-        $this->tableGui = new ilMarkSchemaTableGUI($this->parentObj_mock,
+        $this->tableGui = new ilMarkSchemaTableGUI(
+            $this->parentObj_mock,
             "",
             "",
             $markSchemaAware_mock

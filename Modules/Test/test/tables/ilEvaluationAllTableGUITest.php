@@ -40,7 +40,6 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
         $this->parentObj_mock = $this->createMock(ilObjTestGUI::class);
         $this->parentObj_mock->object = $this->createMock(ilObjTest::class);
         $this->tableGui = new ilEvaluationAllTableGUI($this->parentObj_mock, "");
-
     }
 
     public function test_instantiateObject_shouldReturnInstance() : void

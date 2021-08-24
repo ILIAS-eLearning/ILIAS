@@ -26,7 +26,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         parent::setUp();
         $this->lng_mock = $this->createMock(ilLanguage::class);
         $this->testObj_mock = $this->createMock(ilObjTest::class);
-        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock,  $this->testObj_mock);
+        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock, $this->testObj_mock);
     }
 
     protected function testSetAndGetOldQuestionSetType() : void

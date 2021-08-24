@@ -108,6 +108,4 @@ class ilTestRandomQuestionSetSourcePoolDefinitionTest extends ilTestBaseTestCase
         $this->testObj->setSequencePosition(5);
         $this->assertEquals(5, $this->testObj->getSequencePosition());
     }
-
-
 }

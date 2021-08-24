@@ -52,7 +52,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on shortName failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -72,7 +72,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on passed failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -92,7 +92,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on officialName failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -112,7 +112,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -141,7 +141,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Set low on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -164,7 +164,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Set low on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**

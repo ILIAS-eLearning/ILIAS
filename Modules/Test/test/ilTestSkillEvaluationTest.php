@@ -16,7 +16,8 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
 
         $this->testObj = new ilTestSkillEvaluation(
             $this->createMock(ilDBInterface::class),
-            0, 0
+            0,
+            0
         );
     }
 
@@ -48,6 +49,4 @@ class ilTestSkillEvaluationTest extends ilTestBaseTestCase
         $this->testObj->setNumRequiredBookingsForSkillTriggering(125);
         $this->assertEquals(125, $this->testObj->getNumRequiredBookingsForSkillTriggering());
     }
-
-
 }

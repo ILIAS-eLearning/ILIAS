@@ -39,7 +39,7 @@ class ilTestPassDetailsOverviewTableGUITest extends ilTestBaseTestCase
         );
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestPassDetailsOverviewTableGUI::class, $this->tableGui);
     }

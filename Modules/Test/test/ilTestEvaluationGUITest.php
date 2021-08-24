@@ -83,7 +83,6 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
 
     public function testGetHeaderVars() : void
     {
-
         $expectedResult1 = [
             "name",
             "login",
@@ -120,6 +119,5 @@ class ilTestEvaluationGUITest extends ilTestBaseTestCase
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, 0));
         $this->assertEquals(20, $this->testObj->getEvaluationQuestionId(20, -210));
         $this->assertEquals(125, $this->testObj->getEvaluationQuestionId(20, 125));
-
     }
 }

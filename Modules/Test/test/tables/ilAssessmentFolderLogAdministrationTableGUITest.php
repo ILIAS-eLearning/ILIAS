@@ -35,7 +35,7 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilAssessmentFolderLogAdministrationTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilAssessmentFolderLogAdministrationTableGUI::class, $this->tableGui);
     }
@@ -44,6 +44,5 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
     {
         $this->assertEquals(false, $this->tableGui->numericOrdering("test"));
         $this->assertEquals(true, $this->tableGui->numericOrdering("nr"));
-
     }
 }

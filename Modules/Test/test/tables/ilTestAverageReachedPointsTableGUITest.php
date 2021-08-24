@@ -35,7 +35,7 @@ class ilTestAverageReachedPointsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestAverageReachedPointsTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestAverageReachedPointsTableGUI::class, $this->tableGui);
     }

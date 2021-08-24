@@ -18,7 +18,7 @@ class ilTestExportFixedQuestionSetTest extends ilTestBaseTestCase
         $this->addGlobal_ilDB();
         $this->addGlobal_ilias();
         $this->addGlobal_lng();
-        if(!defined("IL_INST_ID")) {
+        if (!defined("IL_INST_ID")) {
             define("IL_INST_ID", 0);
         }
 

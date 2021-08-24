@@ -35,7 +35,7 @@ class ilTestPassOverviewTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestPassOverviewTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestPassOverviewTableGUI::class, $this->tableGui);
     }

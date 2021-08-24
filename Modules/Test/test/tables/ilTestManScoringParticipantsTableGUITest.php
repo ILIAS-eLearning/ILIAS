@@ -41,7 +41,7 @@ class ilTestManScoringParticipantsTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestManScoringParticipantsTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestManScoringParticipantsTableGUI::class, $this->tableGui);
     }

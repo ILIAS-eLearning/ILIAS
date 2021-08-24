@@ -27,7 +27,6 @@ class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
             $this->createMock(ilDBInterface::class),
             $this->createMock(ilPluginAdmin::class),
             $objTestGui_mock
-
         );
     }
 

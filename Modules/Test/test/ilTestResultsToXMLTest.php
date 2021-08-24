@@ -15,7 +15,8 @@ class ilTestResultsToXMLTest extends ilTestBaseTestCase
         parent::setUp();
 
         $this->testObj = new ilTestResultsToXML(
-            0, false
+            0,
+            false
         );
     }
 

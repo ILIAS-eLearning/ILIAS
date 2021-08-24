@@ -35,7 +35,7 @@ class ilTestInviteRolesTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTestInviteRolesTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestInviteRolesTableGUI::class, $this->tableGui);
     }

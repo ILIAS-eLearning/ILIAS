@@ -37,7 +37,7 @@ class ilTestTopListTableGUITest extends ilTestBaseTestCase
         );
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestTopListTableGUI::class, $this->tableGui);
     }

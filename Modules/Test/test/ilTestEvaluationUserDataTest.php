@@ -26,22 +26,22 @@ class ilTestEvaluationUserDataTest extends ilTestBaseTestCase
     {
         $expected = [
             "questions",
-			"passes",
-			"passed",
-			"lastVisit",
-			"firstVisit",
-			"timeOfWork",
-			"numberOfQuestions",
+            "passes",
+            "passed",
+            "lastVisit",
+            "firstVisit",
+            "timeOfWork",
+            "numberOfQuestions",
             "questionsWorkedThrough",
-			"markECTS",
-			"mark_official",
-			"mark",
-			"maxpoints",
-			"reached",
-			"user_id",
-			"login",
+            "markECTS",
+            "mark_official",
+            "mark",
+            "maxpoints",
+            "reached",
+            "user_id",
+            "login",
             "name",
-			"passScoring"
+            "passScoring"
         ];
 
         $this->assertEquals($expected, $this->testObj->__sleep());

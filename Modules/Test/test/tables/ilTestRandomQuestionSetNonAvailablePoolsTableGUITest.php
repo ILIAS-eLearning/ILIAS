@@ -40,7 +40,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUITest extends ilTestBaseTes
         );
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestRandomQuestionSetNonAvailablePoolsTableGUI::class, $this->tableGui);
     }

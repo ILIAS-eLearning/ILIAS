@@ -42,11 +42,11 @@ class ilTestDynamicQuestionSetStatisticTableGUITest extends ilTestBaseTestCase
             $lng_mock,
             $this->parentObj_mock,
             "",
-        0
+            0
         );
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTestDynamicQuestionSetStatisticTableGUI::class, $this->tableGui);
     }

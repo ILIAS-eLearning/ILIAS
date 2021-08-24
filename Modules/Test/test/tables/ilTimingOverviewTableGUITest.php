@@ -35,7 +35,7 @@ class ilTimingOverviewTableGUITest extends ilTestBaseTestCase
         $this->tableGui = new ilTimingOverviewTableGUI($this->parentObj_mock, "");
     }
 
-	public function test_instantiateObject_shouldReturnInstance() : void
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $this->assertInstanceOf(ilTimingOverviewTableGUI::class, $this->tableGui);
     }
