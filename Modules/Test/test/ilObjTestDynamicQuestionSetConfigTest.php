@@ -200,7 +200,7 @@ class ilObjTestDynamicQuestionSetConfigTest extends ilTestBaseTestCase
         $this->addGlobal_ilDB();
         $this->addGlobal_ilObjDataCache();
         define("ILIAS_HTTP_PATH", "random/path");
-        define("CLIENT_ID", 1);
+
 
         $this->testObj->setSourceQuestionPoolTitle("testTitle");
         $this->testObj->setSourceQuestionPoolId(125);

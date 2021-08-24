@@ -21,8 +21,6 @@ class ilTestTaxonomyTreeTest extends ilTestBaseTestCase
                 ->method("fetchObject")
                 ->willReturn($returnValue);
 
-        define("ILIAS_LOG_ENABLED", false);
-        define("ROOT_FOLDER_ID", 1);
         $this->setGlobalVariable("ilDB", $db_mock);
 
         $this->testObj = new ilTestTaxonomyTree(0);

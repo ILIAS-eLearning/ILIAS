@@ -24,10 +24,6 @@ class ilObjTestTest extends ilTestBaseTestCase
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
 
-        if (!defined("DEBUG")) {
-            define("DEBUG", 0);
-        }
-
         $this->testObj = new ilObjTest();
     }
 
