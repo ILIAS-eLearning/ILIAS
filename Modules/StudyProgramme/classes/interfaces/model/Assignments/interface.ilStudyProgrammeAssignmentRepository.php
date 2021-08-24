@@ -14,27 +14,29 @@ interface ilStudyProgrammeAssignmentRepository
      *
      * @return ilStudyProgrammeAssignment | null
      */
-    public function read(int $id);
+    public function get(int $id);
 
     /**
      * Get all assignments of a user.
      */
-    public function readByUsrId(int $usr_id) : array;
+    public function getByUsrId(int $usr_id) : array;
 
     /**
      * Get all assignments to a prg.
      */
-    public function readByPrgId(int $prg_id) : array;
+    public function getByPrgId(int $prg_id) : array;
+
+    /**
+     * Get all assignments due to restart and not restrted yet.
+     *
+     * @return ilStudyProgrammeAssignment[]
+     */
+    public function getDueToRestart() : array;
 
     /**
      * Get all assignments due to restart and not restrted yet.
      */
-    public function readDueToRestart() : array;
-
-    /**
-     * Get all assignments due to restart and not restrted yet.
-     */
-    public function readDueToManuelRestart(int $days_before_end) : array;
+    public function getDueToManuelRestart(int $days_before_end) : array;
 
     /**
      * Update settings belonging to a SP-Object.

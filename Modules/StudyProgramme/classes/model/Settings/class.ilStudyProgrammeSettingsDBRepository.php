@@ -94,7 +94,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      * @inheritdoc
      * @throws ilException
      */
-    public function read(int $obj_id) : ilStudyProgrammeSettings
+    public function get(int $obj_id) : ilStudyProgrammeSettings
     {
         if (!array_key_exists($obj_id, self::$cache)) {
             self::$cache[$obj_id] = $this->loadDB($obj_id);
@@ -338,7 +338,7 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 DateTime::createFromFormat(
                     ilStudyProgrammeSettings::DATE_TIME_FORMAT,
                     $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]
-            )
+                )
             );
         } else {
             $qualification_period = (int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD];
@@ -501,5 +501,72 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     public static function clearCache()
     {
         self::$cache = [];
+    }
+
+    /**
+     * Programme must be active
+     * and have a setting to send mails if the user is at risk to fail
+     * completing the progress due to a deadline.
+     * @return array <int id, int days_offset>
+     */
+    public function getProgrammeIdsWithRiskyToFailSettings() : array
+    {
+        $query = 'SELECT '
+            . self::FIELD_OBJ_ID . ', '
+            . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
+            . ' FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_STATUS . ' = ' . ilStudyProgrammeSettings::STATUS_ACTIVE
+            . ' AND ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL . ' IS NOT NULL';
+
+        $return = [];
+        $res = $this->db->query($query);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $return[$rec[self::FIELD_OBJ_ID]] = $rec[self::FIELD_PROC_ENDS_NOT_SUCCESSFUL];
+        }
+        return $return;
+    }
+
+    /**
+     * Programme must be active
+     * and have a setting to send mails for qualifications about to expire
+     * @return array <int id, int days_offset>
+     */
+    public function getProgrammeIdsWithMailsForExpiringValidity() : array
+    {
+        $query = 'SELECT '
+            . self::FIELD_OBJ_ID . ', '
+            . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
+            . ' FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_STATUS . ' = ' . ilStudyProgrammeSettings::STATUS_ACTIVE
+            . ' AND ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY . ' IS NOT NULL';
+
+        $return = [];
+        $res = $this->db->query($query);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $return[$rec[self::FIELD_OBJ_ID]] = $rec[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
+        }
+        return $return;
+    }
+
+    /**
+     * Programme must be active
+     * and have a setting to reassign users when validity expires
+     * @return array <int id, int days_offset>
+     */
+    public function getProgrammeIdsWithReassignmentForExpiringValidity() : array
+    {
+        $query = 'SELECT '
+            . self::FIELD_OBJ_ID . ', '
+            . self::FIELD_VQ_RESTART_PERIOD
+            . ' FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_STATUS . ' = ' . ilStudyProgrammeSettings::STATUS_ACTIVE
+            . ' AND ' . self::FIELD_VQ_RESTART_PERIOD . ' > 0';
+
+        $return = [];
+        $res = $this->db->query($query);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $return[$rec[self::FIELD_OBJ_ID]] = $rec[self::FIELD_VQ_RESTART_PERIOD];
+        }
+        return $return;
     }
 }

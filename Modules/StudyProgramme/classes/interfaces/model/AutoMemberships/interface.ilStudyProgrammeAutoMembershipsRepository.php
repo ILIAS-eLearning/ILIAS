@@ -11,7 +11,7 @@ interface ilStudyProgrammeAutoMembershipsRepository
      * Read auto-membership sources of programme.
      * @return ilStudyProgrammeAutoMembershipSource[]
      */
-    public function readFor(int $prg_obj_id) : array;
+    public function getFor(int $prg_obj_id) : array;
 
     /**
      * Build an auto-membership source.

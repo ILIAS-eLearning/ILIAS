@@ -73,14 +73,15 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
     */
     public function init()
     {
-        $this->copy_enabled = true;
         $this->static_link_enabled = false;
         $this->delete_enabled = true;
-        $this->cut_enabled = true;
-        $this->subscribe_enabled = true;
-        $this->link_enabled = false;
+        $this->cut_enabled = false;
         $this->info_screen_enabled = true;
-        $this->type = "prg";
+        $this->copy_enabled = true;
+        $this->subscribe_enabled = false;
+        $this->link_enabled = false;
+
+        $this->type = "prgr";
         $this->gui_class_name = "ilobjstudyprogrammegui";
         
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
@@ -154,12 +155,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
                 return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), $a_type, $a_obj_id);
         }
 
-        switch ($a_permission) {
-            case 'copy':
-                return parent::checkCommandAccess($a_permission, $a_cmd, $a_ref_id, 'prg', $a_obj_id);
-            default:
-                return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), 'prgr', "");
-        }
+        return parent::checkCommandAccess($a_permission, $a_cmd, $this->getCommandId(), 'prgr', "");
     }
     
     /**

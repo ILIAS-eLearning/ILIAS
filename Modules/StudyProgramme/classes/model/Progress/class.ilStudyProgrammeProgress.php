@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,20 +14,18 @@
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
  * @author: Denis Klöpfer <richard.klees@concepts-and-training.de>
- * @version: 0.1.0
+ * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
  */
 
 class ilStudyProgrammeProgress
 {
-    
     // The progress of a user on a program node can have different status that
     // determine how the node is taken into account for calculation of the learning
     // progress.
     
     // User needs to be successful in the node, but currently isn't.
     const STATUS_IN_PROGRESS = 1;
-    // User has completed the node successfully according to the program nodes
-    // mode.
+    // User has completed the node successfully according to the program nodes mode.
     const STATUS_COMPLETED = 2;
     // User was marked as successful in the node without actually having
     // successfully completed the program node according to his mode.
@@ -37,15 +35,17 @@ class ilStudyProgrammeProgress
     // The user does not need to be successful in this node.
     const STATUS_FAILED = 5;
 
-    public static $STATUS = array( self::STATUS_IN_PROGRESS
-                          , self::STATUS_COMPLETED
-                          , self::STATUS_ACCREDITED
-                          , self::STATUS_NOT_RELEVANT
-                          , self::STATUS_FAILED
-                          );
+    public static $STATUS = [
+        self::STATUS_IN_PROGRESS,
+        self::STATUS_COMPLETED,
+        self::STATUS_ACCREDITED,
+        self::STATUS_NOT_RELEVANT,
+        self::STATUS_FAILED
+    ];
 
     const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
     const DATE_FORMAT = 'Y-m-d';
+    const DATE_FORMAT_ENDOFDAY = 'Y-m-d 23:59:59';
 
     /**
      * The id of this progress.
@@ -79,8 +79,8 @@ class ilStudyProgrammeProgress
      *
      * @var int
      */
-
     protected $usr_id;
+
     /**
      * Amount of points the user needs to achieve in the subnodes to be successful
      * on this node. Also the amount of points a user gets by being successful on this
@@ -88,14 +88,14 @@ class ilStudyProgrammeProgress
      *
      * @var int
      */
-    protected $points;
+    protected $points = 0;
 
     /**
      * Amount of points the user currently has in the subnodes of this node.
      *
      * @var int
      */
-    protected $points_cur;
+    protected $points_cur = 0;
  
     /**
      * The status this progress is in.
@@ -133,31 +133,30 @@ class ilStudyProgrammeProgress
     /**
      * Date of asssignment
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     protected $assignment_date;
 
     /**
-     * Date of asssignment
+     * Date of completion
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     protected $completion_date;
 
     /**
      * Date until user has to finish
      *
-     * @var \DateTime | null
+     * @var \DateTimeImmutable | null
      */
     protected $deadline;
 
     /**
      * Date until which this qualification is valid.
      *
-     * @var \DateTime |null
+     * @var \DateTimeImmutable |null
      */
     protected $vq_date;
-
 
     /**
      * Is this progress invalidated?
@@ -165,6 +164,14 @@ class ilStudyProgrammeProgress
      * @var	bool
      */
     protected $invalidated = false;
+
+    /**
+     * @var bool
+     */
+    protected $is_individual = false;
+
+
+
     public function __construct(int $id)
     {
         $this->id = $id;
@@ -175,35 +182,41 @@ class ilStudyProgrammeProgress
      *
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
     /**
-     * Get the assignment, this progress belongs to.
+     * Get the assignment this progress belongs to.
      */
     public function getAssignmentId() : int
     {
         return $this->assignment_id;
     }
-    public function setAssignmentId(int $a_id) : ilStudyProgrammeProgress
+
+    public function withAssignmentId(int $assignment_id) : ilStudyProgrammeProgress
     {
-        $this->assignment_id = $a_id;
-        return $this;
+        $clone = clone $this;
+        $clone->assignment_id = $assignment_id;
+        return $clone;
     }
+
     /**
-     * Get the id of the program node this progress belongs to.
+     * Get the obj_id of the program node this progress belongs to.
      */
     public function getNodeId() : int
     {
         return $this->prg_id;
     }
-    public function setNodeId(int $a_id) : ilStudyProgrammeProgress
+
+    public function withNodeId(int $prg_id) : ilStudyProgrammeProgress
     {
-        $this->prg_id = $a_id;
-        return $this;
+        $clone = clone $this;
+        $clone->prg_id = $prg_id;
+        return $clone;
     }
+
     /**
      * Get the id of the user this progress is for.
      */
@@ -211,12 +224,14 @@ class ilStudyProgrammeProgress
     {
         return $this->usr_id;
     }
-    public function setUserId(int $a_id) : ilStudyProgrammeProgress
+
+    public function withUserId(int $usr_id) : ilStudyProgrammeProgress
     {
-        $this->usr_id = $a_id;
-        return $this;
+        $clone = clone $this;
+        $clone->usr_id = $usr_id;
+        return $clone;
     }
-    
+
     /**
      * Get the amount of points the user needs to achieve on the subnodes of this
      * node. Also the amount of points, this node yields for the progress on the
@@ -228,28 +243,20 @@ class ilStudyProgrammeProgress
     }
     
     /**
-     * Get the amount of points the user needs to achieve on the subnodes of this
-     * node. Also the amount of points, this node yields for the progress on the
-     * nodes above.
-     *
      * Throws when amount of points is smaller then zero.
      */
-    public function setAmountOfPoints(int $a_points) : ilStudyProgrammeProgress
+    public function withAmountOfPoints(int $points) : ilStudyProgrammeProgress
     {
-        if ($a_points < 0) {
+        if ($points < 0) {
             throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
-                                 . "Expected a number >= 0 as argument, got '$a_points'");
+                                 . "Expected a number >= 0 as argument, got '$points'");
         }
-        
-        $this->points = $a_points;
 
-        $this->updateLastChange();
-        return $this;
+        $clone = clone $this;
+        $clone->points = $points;
+        return $clone;
     }
     
-    /**
-     * Get the amount of points the user currently has achieved on the node.
-     */
     public function getCurrentAmountOfPoints() : int
     {
         return $this->points_cur;
@@ -257,24 +264,19 @@ class ilStudyProgrammeProgress
     
     /**
      * Set the amount of points the user currently has achieved on this node.
-     *
-     * Throw when amount of points is smaller then zero.
-     *
-     * @throws ilException
-     * @return $this
+     * @throws when amount of points is smaller then zero.
      */
-    public function setCurrentAmountOfPoints(int $a_points) : ilStudyProgrammeProgress
+    public function withCurrentAmountOfPoints(int $points_cur) : ilStudyProgrammeProgress
     {
-        if ($a_points < 0) {
-            throw new ilException("ilStudyProgrammeProgress::setCurrentAmountOfPoints: "
-                                 . "Expected a number >= 0 as argument, got '$a_points'.");
+        if ($points_cur < 0) {
+            throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
+                                 . "Expected a number >= 0 as argument, got '$points'");
         }
-        
-        $this->points_cur = $a_points;
-        $this->updateLastChange();
-        return $this;
+        $clone = clone $this;
+        $clone->points_cur = $points_cur;
+        return $clone;
     }
-    
+
     /**
      * Get the status the user has on this node.
      *
@@ -287,46 +289,72 @@ class ilStudyProgrammeProgress
     
     /**
      * Set the status of this node.
-     *
-     * Throws when status is none of ilStudyProgrammeProgress::STATUS_*.
+     * @throws when status is none of ilStudyProgrammeProgress::STATUS_*.
      */
-    public function setStatus(int $a_status) : ilStudyProgrammeProgress
+    public function withStatus(int $status) : ilStudyProgrammeProgress
     {
-        if (!in_array($a_status, self::$STATUS)) {
-            throw new ilException("ilStudyProgrammeProgress::setStatus: No status: "
-                                 . "'$a_status'");
+        if (!in_array($status, self::$STATUS)) {
+            throw new ilException("No such status: " . "'$status'");
+        }
+        
+        if (!$this->isTransitionAllowedTo($status)) {
+            throw new ilException(
+                "Changing progress with status " . $this->getStatus()
+                . " cannot change to status " . "'$status'"
+                . ' (progress_id: ' . $this->getId() . ')'
+            );
         }
 
-        $this->status = $a_status;
-        $this->updateLastChange();
-        return $this;
+        $clone = clone $this;
+        $clone->status = $status;
+        return $clone;
     }
     
-    /**
-     * Set the completion_by field.
-     *
-     * @param $a_id int | null
-     * @return $this
-     */
-    public function setCompletionBy(int $a_id = null) : ilStudyProgrammeProgress
+    public function isTransitionAllowedTo(int $new_status) : bool
     {
-        $this->completion_by = $a_id;
-        $this->updateLastChange();
-        return $this;
+        return is_null($this->status) ||
+            $this->status == $new_status ||
+            in_array($new_status, self::getAllowedTargetStatusFor($this->status));
     }
-    
-    /**
-     * Get the id of object or user that lead to the successful completion
-     * of this node.
-     *
-     * @return int
-     */
-    public function getCompletionBy()
+
+    public static function getAllowedTargetStatusFor(int $status_from) : array
     {
-        return $this->completion_by;
+        switch ($status_from) {
+            case self::STATUS_IN_PROGRESS:
+                return [
+                    self::STATUS_ACCREDITED,
+                    self::STATUS_COMPLETED,
+                    self::STATUS_FAILED,
+                    self::STATUS_NOT_RELEVANT
+                ];
+            case self::STATUS_ACCREDITED:
+                return [
+                    self::STATUS_IN_PROGRESS,
+                    self::STATUS_COMPLETED,
+                    self::STATUS_FAILED,
+                    self::STATUS_NOT_RELEVANT
+                ];
+            case self::STATUS_COMPLETED:
+                return [
+                    self::STATUS_IN_PROGRESS // deaccriditation of sub-progress might revert completion,
+                ];
+            case self::STATUS_FAILED:
+                return [
+                    self::STATUS_IN_PROGRESS,
+                    self::STATUS_COMPLETED, // with re-calculation of deadline, progress might directly be completed.
+                    self::STATUS_NOT_RELEVANT
+                ];
+            case self::STATUS_NOT_RELEVANT:
+                return[
+                    self::STATUS_IN_PROGRESS
+                ];
+        }
+
+        return [];
     }
+
     /**
-     * Get the id of the user who did the last change on this assignment.
+     * Get the id of the user/object who/which invoked the last change on this assignment.
      *
      * @return int
      */
@@ -334,156 +362,241 @@ class ilStudyProgrammeProgress
     {
         return $this->last_change_by;
     }
-    
-    /**
-     * Set the id of the user who did the last change on this progress.
-     *
-     * Throws when $a_usr_id is not the id of a user.
-     *
-     * @throws ilException
-     * @return $this
-     */
-    public function setLastChangeBy(int $a_usr_id = null) : ilStudyProgrammeProgress
+   
+    public function getLastChange() : ?DateTimeImmutable
     {
-        if (is_null($a_usr_id) || $a_usr_id < 0) {
-            throw new ilException("ilStudyProgrammeProgress::setLastChangeBy: '$a_usr_id' "
-                                 . "is no id of a user.");
+        if ($this->last_change) {
+            return DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
         }
-        $this->last_change_by = $a_usr_id;
-        return $this;
-    }
-    
-    /**
-     * Get the timestamp of the last change on this progress.
-     *
-     * @return DateTime
-     */
-    public function getLastChange() : DateTime
-    {
-        return DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
+        return $this->last_change;
     }
 
     /**
-     * Update the last change timestamp to the current time.
-     *
-     * TODO: I'm not quite sure how the semantics of the last change field
-     * should be. Should this record every change or only changes done by
-     * a user manually. The answer to this question will also tell whether
-     * this method should be called in other setters or not.
-     *
-     * @return $this
+     * @throws ilException if new date is earlier than the existing one
      */
-    public function updateLastChange()
-    {
-        $this->setLastChange(new DateTime());
-        return $this;
+    public function withLastChange(
+        int $last_change_by,
+        DateTimeImmutable $timestamp
+    ) : ilStudyProgrammeProgress {
+        $new_date = $timestamp->format(self::DATE_TIME_FORMAT);
+        if ($this->getLastChange() && $this->getLastChange()->format(self::DATE_TIME_FORMAT) > $new_date) {
+            throw new ilException(
+                "Cannot set last change to an earlier date:"
+                . "\ncurrent: " . $this->getLastChange()->format(self::DATE_TIME_FORMAT)
+                . "\nnew: " . $new_date,
+                1
+            );
+        }
+        $clone = clone $this;
+        $clone->last_change = $new_date;
+        $clone->last_change_by = $last_change_by;
+        return $clone;
     }
 
-    /**
-     * Set the last change timestamp to the given time.
-     *
-     * Throws when given time is smaller then current timestamp since that is
-     * logically impossible.
-     *
-     * @throws ilException
-     * @return $this
-     */
-    public function setLastChange(DateTime $a_timestamp) : ilStudyProgrammeProgress
-    {
-        $this->last_change = $a_timestamp->format(self::DATE_TIME_FORMAT);
-        return $this;
-    }
-
-    /**
-     * Set the date of assignment.
-     */
-    public function setAssignmentDate(DateTime $assignment_date) : ilStudyProgrammeProgress
-    {
-        $this->assignment_date = $assignment_date;
-        return $this;
-    }
-
-    /**
-     * Get the date of assignment.
-     */
-    public function getAssignmentDate() : DateTime
+    public function getAssignmentDate() : DateTimeImmutable
     {
         return $this->assignment_date;
     }
 
-    /**
-     * Set the timestamp of the complition of this progress.
-     */
-    public function setCompletionDate(DateTime $completion_date = null) : ilStudyProgrammeProgress
+    public function withAssignmentDate(DateTimeImmutable $assignment_date) : ilStudyProgrammeProgress
     {
-        $this->completion_date = $completion_date;
-        return $this;
+        $clone = clone $this;
+        $clone->assignment_date = $assignment_date;
+        return $clone;
     }
 
-    /**
-     * Get the timestamp of the complition of this progress.
-     *
-     * @return \DateTime | null
-     */
-    public function getCompletionDate()
+    public function getCompletionDate() : ?DateTimeImmutable
     {
         return $this->completion_date;
     }
 
     /**
-     * Get the deadline of this progress.
-     *
-     * @return DateTime | null
+     * Get the id of object or user that lead to the successful completion
+     * of this node.
      */
-    public function getDeadline()
+    public function getCompletionBy() : ?int
+    {
+        return $this->completion_by;
+    }
+
+    public function withCompletion(
+        int $usr_or_obj_id = null,
+        DateTimeImmutable $completion_date = null
+    ) : ilStudyProgrammeProgress {
+        $clone = clone $this;
+        $clone->completion_by = $usr_or_obj_id;
+        $clone->completion_date = $completion_date;
+        return $clone;
+    }
+    
+    public function getDeadline() : ?DateTimeImmutable
     {
         return $this->deadline;
     }
 
-    /**
-     * Set the deadline of this progress
-     *
-     * @param DateTime | null	$deadline
-     *
-     * @return $this
-     */
-    public function setDeadline(DateTime $deadline = null) : ilStudyProgrammeProgress
+    public function withDeadline(DateTimeImmutable $deadline = null) : ilStudyProgrammeProgress
     {
-        $this->deadline = $deadline;
-        return $this;
+        $clone = clone $this;
+        $clone->deadline = $deadline;
+        return $clone;
     }
 
-    /**
-     * Set limited validity of qualification date.
-     */
-    public function setValidityOfQualification(DateTime $date = null) : ilStudyProgrammeProgress
-    {
-        $this->vq_date = $date;
-        return $this;
-    }
-
-    /**
-     * Get the limited validity of qualification date.
-     */
-    public function getValidityOfQualification() : ?DateTime
+    public function getValidityOfQualification() : ?DateTimeImmutable
     {
         return $this->vq_date;
     }
 
+    public function withValidityOfQualification(DateTimeImmutable $date = null) : ilStudyProgrammeProgress
+    {
+        $clone = clone $this;
+        $clone->vq_date = $date;
+        return $clone;
+    }
+
+    public function hasIndividualModifications() : bool
+    {
+        return $this->is_individual;
+    }
+
+    public function withIndividualModifications(bool $individual) : ilStudyProgrammeProgress
+    {
+        $clone = clone $this;
+        $clone->is_individual = $individual;
+        return $clone;
+    }
+
+    public function isSuccessful() : bool
+    {
+        return in_array(
+            $this->getStatus(),
+            [
+                self::STATUS_COMPLETED,
+                self::STATUS_ACCREDITED
+            ]
+        );
+    }
+    
     /**
-     * Toggle invalidated.
+     * There may be no qualification at all (since the PRG is not passed),
+     * or the qualification is valid or invalid due to a date.
      */
+    public function hasValidQualification(DateTimeImmutable $now) : ?bool
+    {
+        if (!$this->isSuccessful()) {
+            return null;
+        }
+        return (
+            is_null($this->getValidityOfQualification()) ||
+            $this->getValidityOfQualification()->format('Y-m-d') >= $now->format('Y-m-d')
+        );
+    }
+
+    public function isRelevant() : bool
+    {
+        return $this->getStatus() != self::STATUS_NOT_RELEVANT;
+    }
+
+    public function isFailed() : bool
+    {
+        return $this->getStatus() == self::STATUS_FAILED;
+    }
+    
+    public function isAccredited() : bool
+    {
+        return $this->getStatus() == self::STATUS_ACCREDITED;
+    }
+
+    public function isInProgress() : bool
+    {
+        return $this->getStatus() == self::STATUS_IN_PROGRESS;
+    }
+    
     public function invalidate() : ilStudyProgrammeProgress
     {
         if (!$this->vq_date || $this->vq_date->format('Y-m-d') > date('Y-m-d')) {
             throw new ilException("may not invalidate non-expired progress");
         }
-        $this->invalidated = true;
-        return $this;
+        $clone = clone $this;
+        $clone->invalidated = true;
+        return $clone;
     }
-
+    
     public function isInvalidated() : bool
     {
         return $this->invalidated;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function isSuccessfulExpired() : bool
+    {
+        if (
+            !is_null($this->getValidityOfQualification()) &&
+            $this->getValidityOfQualification()->format('Y-m-d') < (new DateTimeImmutable())->format('Y-m-d')
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public function markAccredited(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_ACCREDITED)
+            ->withCompletion($acting_usr_id, $date)
+            ->withLastChange($acting_usr_id, $date);
+    }
+
+    public function unmarkAccredited(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_IN_PROGRESS)
+            ->withCompletion(null, null)
+            ->withValidityOfQualification(null)
+            ->withLastChange($acting_usr_id, $date);
+    }
+
+    public function markFailed(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_FAILED)
+            ->withCompletion(null, null)
+            ->withLastChange($acting_usr_id, $date);
+    }
+
+    public function markNotFailed(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_IN_PROGRESS)
+            ->withCompletion(null, null)
+            ->withLastChange($acting_usr_id, $date);
+    }
+
+    public function succeed(DateTimeImmutable $date, int $triggering_obj_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_COMPLETED)
+            ->withCompletion($triggering_obj_id, $date)
+            ->withLastChange($triggering_obj_id, $date);
+    }
+
+    public function markNotRelevant(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_NOT_RELEVANT)
+            ->withLastChange($acting_usr_id, $date)
+            ->withValidityOfQualification(null)
+            ->withDeadline(null)
+            ->withIndividualModifications(true);
+    }
+
+    public function markRelevant(DateTimeImmutable $date, int $acting_usr_id) : ilStudyProgrammeProgress
+    {
+        return $this
+            ->withStatus(self::STATUS_IN_PROGRESS)
+            ->withCompletion(null, null)
+            ->withLastChange($acting_usr_id, $date)
+            ->withIndividualModifications(true);
     }
 }
