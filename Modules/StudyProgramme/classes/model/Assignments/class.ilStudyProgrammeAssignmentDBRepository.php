@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignmentRepository
 {
@@ -39,6 +38,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$root_prg_id' "
                 . "is no id of a prg.");
         }
+
         $row = [
             self::FIELD_ID => $this->nextId(),
             self::FIELD_USR_ID => $usr_id,
@@ -49,14 +49,14 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             self::FIELD_RESTARTED_ASSIGNMENT_ID => ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT
         ];
         $this->insertRowDB($row);
-        return $this->assignmentByRow($row)->updateLastChange();
+        return $this->assignmentByRow($row);
     }
 
     /**
      * @inheritdoc
      * @throws ilException
      */
-    public function read(int $id)
+    public function get(int $id)
     {
         foreach ($this->loadByFilterDB([self::FIELD_ID => $id]) as $row) {
             return $this->assignmentByRow($row);
@@ -68,7 +68,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readByUsrId(int $usr_id) : array
+    public function getByUsrId(int $usr_id) : array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_USR_ID => $usr_id]) as $row) {
@@ -81,7 +81,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readByPrgId(int $prg_id) : array
+    public function getByPrgId(int $prg_id) : array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
@@ -94,7 +94,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readByUsrIdAndPrgId(int $usr_id, int $prg_id)
+    public function getByUsrIdAndPrgId(int $usr_id, int $prg_id)
     {
         $return = [];
         foreach ($this->loadByFilterDB(
@@ -110,7 +110,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readDueToRestart() : array
+    public function getDueToRestart() : array
     {
         $return = [];
         foreach ($this->loadDueToRestart() as $row) {
@@ -119,7 +119,10 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         return $return;
     }
 
-    public function readDueToRestartAndMail() : array
+    /**
+     * @return ilStudyProgrammeAssignment[]
+     */
+    public function getDueToRestartAndMail() : array
     {
         $return = [];
         foreach ($this->loadDueToRestartAndMail() as $row) {
@@ -182,7 +185,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws Exception
      */
-    public function readDueToManuelRestart(int $days_before_end) : array
+    public function getDueToManuelRestart(int $days_before_end) : array
     {
         $return = [];
         foreach ($this->loadDueToManuelRestart($days_before_end) as $row) {
@@ -298,6 +301,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         if (count($assignments) > 0) {
             $ret[$prg] = $assignments;
         }
+
         return $ret;
     }
 
@@ -306,20 +310,22 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      */
     protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
     {
-        return (new ilStudyProgrammeAssignment($row[self::FIELD_ID]))
-            ->setRootId($row[self::FIELD_ROOT_PRG_ID])
-            ->setUserId($row[self::FIELD_USR_ID])
-            ->setLastChangeBy($row[self::FIELD_LAST_CHANGE_BY])
-            ->setLastChange(DateTime::createFromFormat(
-                ilStudyProgrammeAssignment::DATE_TIME_FORMAT,
-                $row[self::FIELD_LAST_CHANGE]
-            ))
-            ->setRestartDate(
-                $row[self::FIELD_RESTART_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
-                    null
+        return (new ilStudyProgrammeAssignment((int) $row[self::FIELD_ID]))
+            ->withRootId((int) $row[self::FIELD_ROOT_PRG_ID])
+            ->withUserId((int) $row[self::FIELD_USR_ID])
+            ->withLastChange(
+                (int) $row[self::FIELD_LAST_CHANGE_BY],
+                DateTimeImmutable::createFromFormat(
+                    ilStudyProgrammeAssignment::DATE_TIME_FORMAT,
+                    $row[self::FIELD_LAST_CHANGE]
+                )
             )
-            ->setRestartedAssignmentId($row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
+            ->withRestarted(
+                (int) $row[self::FIELD_RESTARTED_ASSIGNMENT_ID],
+                $row[self::FIELD_RESTART_DATE] ?
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
+                    null
+            );
     }
 
     protected function loadByFilterDB(array $filter)
@@ -347,11 +353,11 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $this->db->insert(
             self::TABLE,
             [
-                self::FIELD_ID => ['interger', $row[self::FIELD_ID]]
-                , self::FIELD_USR_ID => ['interger', $row[self::FIELD_USR_ID]]
-                , self::FIELD_ROOT_PRG_ID => ['interger', $row[self::FIELD_ROOT_PRG_ID]]
-                , self::FIELD_LAST_CHANGE => ['interger', $row[self::FIELD_LAST_CHANGE]]
-                , self::FIELD_LAST_CHANGE_BY => ['interger', $row[self::FIELD_LAST_CHANGE_BY]]
+                self::FIELD_ID => ['integer', $row[self::FIELD_ID]]
+                , self::FIELD_USR_ID => ['integer', $row[self::FIELD_USR_ID]]
+                , self::FIELD_ROOT_PRG_ID => ['integer', $row[self::FIELD_ROOT_PRG_ID]]
+                , self::FIELD_LAST_CHANGE => ['text', $row[self::FIELD_LAST_CHANGE]]
+                , self::FIELD_LAST_CHANGE_BY => ['integer', $row[self::FIELD_LAST_CHANGE_BY]]
                 , self::FIELD_RESTART_DATE => ['timestamp', $row[self::FIELD_RESTART_DATE]]
                 , self::FIELD_RESTARTED_ASSIGNMENT_ID => ['integer', $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]]
             ]
@@ -380,5 +386,43 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     protected function nextId()
     {
         return $this->db->nextId(self::TABLE);
+    }
+
+
+    /**
+      * ------------------------------------------------------------------------
+      * Backport ilStudyProgrammeUserAssignmentDB
+      * ------------------------------------------------------------------------
+      */
+
+    public function getInstanceById(int $id)
+    {
+        return $this->get($id);
+    }
+
+    public function getInstanceByModel(\ilStudyProgrammeAssignment $assignment)
+    {
+        return $assignment;
+    }
+
+    public function getInstancesOfUser(int $user_id)
+    {
+        global $DIC;
+        $tree = $DIC['tree'];
+
+        $assignments = $this->getByUsrId($user_id);
+
+        //if parent object is deleted or in trash
+        //the assignment for the user should not be returned
+        $ret = [];
+        foreach ($assignments as $ass) {
+            foreach (ilObject::_getAllReferences($ass->getRootId()) as $value) {
+                if ($tree->isInTree($value)) {
+                    $ret[] = $ass;
+                    continue 2;
+                }
+            }
+        }
+        return $ret;
     }
 }

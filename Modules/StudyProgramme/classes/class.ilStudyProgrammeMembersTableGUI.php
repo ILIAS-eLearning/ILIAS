@@ -30,7 +30,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     const OPTION_ALL = -1;
     const VALIDITY_OPTION_VALID = 1;
-    const VALIDITY_OPTION_RENEWAL_REQUIRED = 3;
+    const VALIDITY_OPTION_INVALID = 3;
 
     /**
      * @var int
@@ -63,7 +63,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected $ui_renderer;
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $sp_user_progress_db;
 
@@ -72,21 +72,40 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected $prg;
 
+    /**
+     * @var ilPRGPermissionsHelper
+     */
+    protected $permissions;
+
+    /**
+     * @var bool
+     */
+    protected $may_edit_anything;
+    
+    /**
+     * @var array
+     */
+    protected $user_ids_viewer_may_read_learning_progress_of;
+    
     public function __construct(
         int $prg_obj_id,
         int $prg_ref_id,
         ilObjStudyProgrammeMembersGUI $parent_obj,
         string $parent_cmd = '',
         string $template_context = '',
-        ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammePositionBasedAccess $position_based_access
+        ilStudyProgrammeProgressRepository $sp_user_progress_db,
+        ilPRGPermissionsHelper $permissions,
+        \ILIAS\Data\Factory $data_factory
     ) {
         $this->setId("sp_member_list");
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
         $this->prg_obj_id = $prg_obj_id;
         $this->prg_ref_id = $prg_ref_id;
-        $this->position_based_access = $position_based_access;
+        $this->data_factory = $data_factory;
+        $this->permissions = $permissions;
+        $this->may_edit_anything = $this->permissions->mayAnyOf([ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN, ilOrgUnitOperation::OP_MANAGE_MEMBERS]);
+        $this->user_ids_viewer_may_read_learning_progress_of = $this->permissions->getUserIdsSusceptibleTo(ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS);
 
         $this->prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
         $this->prg_has_lp_children = $parent_obj->getStudyProgramme()->hasLPChildren();
@@ -99,16 +118,20 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setTopCommands(false);
         $this->setEnableHeader(true);
-        // TODO: switch this to internal sorting/segmentation
-        $this->setExternalSorting(false);
+        $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
         $this->setRowTemplate("tpl.members_table_row.html", "Modules/StudyProgramme");
         $this->setShowRowsSelector(false);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, "view"));
         $this->addColumn("", "", "1", true);
-        $this->setSelectAllCheckbox("prgs_ids[]");
         $this->setEnableAllCommand(true);
         $this->addMultiCommands();
+        $this->setDefaultOrderField('prgrs_id');
+        $this->setDefaultOrderDirection('ASC');
+
+        if ($this->may_edit_anything) {
+            $this->setSelectAllCheckbox($parent_obj::F_SELECTED_PROGRESS_IDS . '[]');
+        }
 
         $selected = $this->getSelectedColumns();
         foreach (self::COLUMNS as $column) {
@@ -130,53 +153,123 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
         $this->determineLimit();
 
+
         $members_list = $this->fetchData(
             $prg_obj_id,
             $this->getLimit(),
             $this->getOffset(),
-            $this->getOrderField(),
-            $this->getOrderDirection(),
             $filter_values
         );
 
+        $progress_ids = array_map(
+            function ($row) {
+                return (int) $row['prgrs_id'];
+            },
+            $members_list
+        );
+        $this->addHiddenInput(
+            $parent_obj::F_ALL_PROGRESS_IDS,
+            implode(',', $progress_ids)
+        );
+
         $this->setMaxCount($this->countFetchData($prg_obj_id, $filter_values));
-        $this->setData($members_list);
+        $this->setData(
+            $this->postOrder(
+                $members_list,
+                $this->getOrdering()
+            )
+        );
     }
 
+
+    const ORDER_MAPPING = [
+        'prg_status' => 'status',
+        'prg_custom_plan' => 'custom_plan',
+        'prg_belongs_to' => 'belongs_to',
+        'prg_expiry_date' => 'vq_date',
+        'prg_orgus' => 'orgus',
+        'prg_completion_by' => 'completion_by',
+        'prg_completion_date' => 'completion_date',
+    ];
+
+    protected function postOrder(array $list, \ILIAS\Data\Order $order) : array
+    {
+        list($aspect, $direction) = $order->join('', function ($i, $k, $v) {
+            return  [$k, $v];
+        });
+        
+        if (array_key_exists($aspect, self::ORDER_MAPPING)) {
+            $aspect = self::ORDER_MAPPING[$aspect];
+        }
+        
+        usort($list, function ($a, $b) use ($aspect) {
+            if (is_numeric($a[$aspect])) {
+                return $a[$aspect] > $b[$aspect];
+            }
+            return strcmp($a[$aspect], $b[$aspect]);
+        });
+
+        if ($direction === $order::DESC) {
+            $list = array_reverse($list);
+        }
+        return $list;
+    }
+
+    protected function getOrdering() : \ILIAS\Data\Order
+    {
+        $field = $this->getOrderField();
+        if (!$field) {
+            $field = $this->getDefaultOrderField();
+        }
+        $direction = $this->getOrderDirection();
+        if (!$direction) {
+            $direction = $this->getDefaultOrderDirection();
+        }
+
+        return $this->data_factory->order($field, strtoupper($direction));
+    }
+
+    protected function getUserDateFormat() : string
+    {
+        return ilCalendarUtil::getUserDateFormat(false, true);
+    }
 
     protected function fillRow($a_set) : void
     {
         $usr_id = (int) $a_set['usr_id'];
+        if ($this->may_edit_anything) {
+            $this->tpl->setCurrentBlock("checkb");
+            $this->tpl->setVariable("ID", $a_set["prgrs_id"]);
+            $this->tpl->parseCurrentBlock();
+        }
 
-        $may_read_learning_progress =
-            !$this->prg->getAccessControlByOrguPositionsGlobal() ||
-            in_array($usr_id, $this->getParentObject()->readLearningProgress())
-        ;
-
-        $this->tpl->setCurrentBlock("checkb");
-        $this->tpl->setVariable("ID", $a_set["prgrs_id"]);
-        $this->tpl->parseCurrentBlock();
         $this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
         $this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
         $this->tpl->setVariable("LOGIN", $a_set["login"]);
         $this->tpl->setVariable(
             "STATUS",
             $this->getValueOrEmptyString(
-                $may_read_learning_progress,
-                $this->sp_user_progress_db->statusToRepr($a_set["status"])
+                in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
+                $this->prg->statusToRepr($a_set["status"])
             )
         );
-        $this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
         $this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
+
+
+        $this->tpl->setVariable("POINTS_REQUIRED", $a_set["points_required"]);
 
         if (!$this->prg_has_lp_children) {
             $this->tpl->setCurrentBlock("points_current");
             $this->tpl->setVariable(
                 "POINTS_CURRENT",
-                $this->getValueOrEmptyString($may_read_learning_progress, $a_set['points_current'])
+                $this->getValueOrEmptyString(
+                    in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
+                    $a_set['points_current']
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
+
 
         foreach ($this->getSelectedColumns() as $column) {
             switch ($column) {
@@ -185,11 +278,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     break;
                 case "prg_completion_date":
                     $completion_date = '';
-                    if ($may_read_learning_progress) {
+                    if (in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of)) {
                         $completion_date = $a_set["completion_date"];
                     }
                     $this->tpl->setVariable("COMPLETION_DATE", $completion_date);
                     break;
+
                 case "prg_completion_by":
                     if (is_null($a_set["completion_by"])) {
                         $this->tpl->touchBlock("comp_by");
@@ -197,7 +291,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         $this->tpl->setVariable(
                             "COMPLETION_BY",
                             $this->getValueOrEmptyString(
-                                $may_read_learning_progress,
+                                in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
                                 $a_set["completion_by"]
                             )
                         );
@@ -205,23 +299,27 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
                     break;
                 case "prg_custom_plan":
-                    $has_changers = $this->lng->txt("no");
-                    if ($a_set["last_change_by"]) {
-                        $has_changers = $this->lng->txt("yes");
+                    $individual = $this->lng->txt("no");
+                    if ($a_set["individual"]) {
+                        $individual = $this->lng->txt("yes");
                     }
-
+                    
                     $this->tpl->setVariable(
                         "CUSTOM_PLAN",
-                        $this->getValueOrEmptyString($may_read_learning_progress, $has_changers)
+                        $individual
                     );
                     break;
+                    
                 case "prg_belongs_to":
                     $this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
                     break;
                 case "prg_expiry_date":
                     $this->tpl->setVariable(
                         "EXPIRY_DATE",
-                        $this->getValueOrEmptyString($may_read_learning_progress, $a_set["vq_date"])
+                        $this->getValueOrEmptyString(
+                            in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
+                            $a_set["vq_date"]
+                        )
                     );
                     break;
                 case "prg_assigned_by":
@@ -241,7 +339,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                         $this->tpl->setVariable(
                             "DEADLINE",
                             $this->getValueOrEmptyString(
-                                $may_read_learning_progress,
+                                in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
                                 $a_set["prg_deadline"]
                             )
                         );
@@ -251,7 +349,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     $this->tpl->setVariable(
                         "VALIDITY",
                         $this->getValueOrEmptyString(
-                            $may_read_learning_progress,
+                            in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
                             $a_set['prg_validity']
                         )
                     );
@@ -288,45 +386,34 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $ass_id,
         int $usr_id
     ) : string {
+        $parent = $this->getParentObject();
         $l = new ilAdvancedSelectionListGUI();
 
-        $access_by_position = $this->isPermissionControlledByOrguPosition();
-        $parent = $this->getParentObject();
-
-        $view_individual_plan = $parent->isOperationAllowedForUser(
-            $usr_id,
-            ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
-        );
-
-        $edit_individual_plan = $parent->isOperationAllowedForUser(
-            $usr_id,
-            ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
-        );
-
+        $view_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN);
+        $edit_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN);
+        $addremove_users = $this->permissions->may(ilOrgUnitOperation::OP_MANAGE_MEMBERS);
 
         foreach ($actions as $action) {
             switch ($action) {
-                case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
-                case ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED:
                     if (!$edit_individual_plan) {
                         continue 2;
                     }
                     break;
-                case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
+                case ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN:
                     if (!$view_individual_plan) {
                         continue 2;
                     }
                     break;
-                case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
-                    $manage_members =
-                        $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
-                        && in_array($usr_id, $this->getParentObject()->getLocalMembers());
 
-                    if (!$manage_members) {
+                case ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER:
+                    if (!$addremove_users) {
                         continue 2;
                     }
                     break;
             }
+
             $target = $this->getLinkTargetForAction($action, $prgrs_id, $ass_id);
             $l->addItem($this->lng->txt("prg_$action"), $action, $target);
         }
@@ -342,6 +429,24 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return $this->getParentObject()->getLinkTargetForAction($action, $prgrs_id, $ass_id);
     }
 
+    protected function getCompletionLink(int $target_obj_id, int $target_ref_id) : string
+    {
+        $link = '?';
+        if (ilObject::_exists($target_ref_id, true) &&
+            is_null(ilObject::_lookupDeletedDate($target_ref_id))
+        ) {
+            $title = ilObject::_lookupTitle($target_obj_id);
+            $url = ilLink::_getStaticLink($target_ref_id, "crs");
+            $link = $this->ui_renderer->render($this->ui_factory->link()->standard($title, $url));
+        } else {
+            $del_data = \ilObjectDataDeletionLog::get($target_obj_id);
+            if ($del_data) {
+                $link = $del_data['title'];
+            }
+        }
+        return $link;
+    }
+
     /**
      * Get data for table
      */
@@ -349,8 +454,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         int $prg_id,
         int $limit = null,
         int $offset = null,
-        string $order_column = null,
-        string $order_direction = null,
         array $filter = []
     ) : array {
         // TODO: Reimplement this in terms of ActiveRecord when innerjoin
@@ -373,6 +476,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "    (GREATEST(ABS(prgrs.status - $accredited),1))) AS points_current," . PHP_EOL
             . "prgrs.last_change_by," . PHP_EOL
             . "prgrs.status," . PHP_EOL
+            . "prgrs.individual," . PHP_EOL
             . "blngs.title AS belongs_to," . PHP_EOL
             . "cmpl_usr.login AS accredited_by," . PHP_EOL
             . "cmpl_obj.title AS completion_by," . PHP_EOL
@@ -387,7 +491,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "ass.last_change_by AS prg_assingment_origin," . PHP_EOL
             . "ass_usr.login AS prg_assigned_by," . PHP_EOL
             . "CONCAT(pcp.firstname, pcp.lastname) AS name," . PHP_EOL
-            . "(prgrs.last_change_by IS NOT NULL) AS custom_plan" . PHP_EOL
+            . "prgrs.individual AS custom_plan" . PHP_EOL
         ;
 
         $sql .= $this->getFrom();
@@ -400,50 +504,51 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
 
         $res = $this->db->query($sql);
-        $now = (new DateTime())->format('Y-m-d H:i:s');
+        $now = new DateTimeImmutable();
         $members_list = array();
 
-
         while ($rec = $this->db->fetchAssoc($res)) {
-            $rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
+            $progress_id = (int) $rec['prgrs_id'];
+            $progress = $this->sp_user_progress_db->get($progress_id);
+
+            $rec["actions"] = $this->getPossibleActions(
                 $prg_id,
                 $rec["root_prg_id"],
                 $rec["status"]
             );
 
-            $rec['points_current'] = number_format($rec['points_current']);
+            $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
+
+            $rec['points_required'] = number_format($progress->getAmountOfPoints());
+            $rec['points_current'] = number_format($progress->getCurrentAmountOfPoints());
+
             if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
                 //If the status completed is set by crs reference
                 //use crs title
                 if ($rec["completion_by_type"] == "crsr") {
                     $completion_id = $rec["completion_by_id"];
-                    $title = ilContainerReference::_lookupTitle($completion_id);
+                    $obj_id = ilContainerReference::_lookupTargetId($completion_id);
                     $ref_id = ilContainerReference::_lookupTargetRefId($completion_id);
-                    if (
-                        ilObject::_exists($ref_id, true) &&
-                        is_null(ilObject::_lookupDeletedDate($ref_id))
-                    ) {
-                        $url = ilLink::_getStaticLink($ref_id, "crs");
-                        $link = $this->ui_factory->link()->standard($title, $url);
-                        $rec["completion_by"] = $this->ui_renderer->render($link);
-                    } else {
-                        $rec["completion_by"] = $title;
-                    }
+                    $rec["completion_by"] = $this->getCompletionLink($obj_id, $ref_id);
                 }
 
                 // If the status completed and there is a non-null completion_by field
                 // in the set, this means the completion was achieved by some leaf in
                 // the program tree.
                 if (!$rec["completion_by"]) {
-                    $prgrs = $this->sp_user_progress_db->getInstanceForAssignment(
+                    $prgrs = $this->sp_user_progress_db->getByPrgIdAndAssignmentId(
                         $this->prg_obj_id,
                         $rec["assignment_id"]
                     );
+                    $prg = ilObjStudyProgramme::getInstanceByObjId($this->prg_obj_id);
 
-                    $rec["completion_by"] = implode(
-                        ", ",
-                        $prgrs->getNamesOfCompletedOrAccreditedChildren()
-                    );
+                    $links = [];
+                    $successful_children = $prg->getIdsOfSuccessfulChildren((int) $rec["assignment_id"]);
+                    foreach ($successful_children as $entry) {
+                        list($obj_id, $ref_id) = $entry;
+                        $links[] = $this->getCompletionLink($obj_id, $ref_id);
+                    }
+                    $rec["completion_by"] = implode(", ", $links);
                 }
                 // This case should only occur if the status completed is set
                 // by an already deleted crs.
@@ -461,14 +566,25 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 $rec['completion_date'] = '';
             }
 
-            if ($rec['vq_date']) {
+            $rec['vq_date'] = '';
+            if (!is_null($progress->getValidityOfQualification())
+            ) {
+                $rec['vq_date'] = $progress->getValidityOfQualification()->format($this->getUserDateFormat());
+            }
+
+            $rec['prg_validity'] = '-';
+            if (!is_null($progress->hasValidQualification($now))) {
                 $rec['prg_validity'] = $this->lng->txt('prg_not_valid');
-                if ($rec["vq_date"] > $now) {
+                if ($progress->hasValidQualification($now)) {
                     $rec['prg_validity'] = $this->lng->txt('prg_still_valid');
                 }
-            } else {
-                $rec['prg_validity'] = '';
-                $rec['vq_date'] = '';
+            }
+            
+            $rec['prg_deadline'] = null;
+            if ($progress->isSuccessful() === false
+                && !is_null($progress->getDeadline())
+            ) {
+                $rec['prg_deadline'] = $progress->getDeadline()->format($this->getUserDateFormat());
             }
 
             $usr_id = (int) $rec['usr_id'];
@@ -517,16 +633,21 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected function getWhere(int $prg_id) : string
     {
         $q = "WHERE prgrs.prg_id = " . $this->db->quote($prg_id, "integer") . PHP_EOL;
-
-        if ($this->prg->getAccessControlByOrguPositionsGlobal() && !$this->parent_obj->mayManageMembers()) {
-            $visible = $this->getParentObject()->visibleUsers();
-            if (count($visible) > 0) {
-                $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
-            } else {
-                $q .= " AND FALSE" . PHP_EOL;
-            }
+            
+        //get all potentially visible users:
+        $visible = [];
+        foreach ($this->permissions::ORGU_OPERATIONS as $op) {
+            $visible = array_merge(
+                $visible,
+                $this->permissions->getUserIdsSusceptibleTo($op)
+            );
         }
 
+        if (count($visible) > 0) {
+            $q .= "	AND " . $this->db->in("prgrs.usr_id", $visible, false, "integer") . PHP_EOL;
+        } else {
+            $q .= " AND FALSE" . PHP_EOL;
+        }
         return $q;
     }
 
@@ -563,36 +684,58 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
      */
     protected function getMultiCommands() : array
     {
-        $access_by_position = $this->isPermissionControlledByOrguPosition();
-        if ($access_by_position) {
-            $edit_individual_plan = count($this->getParentObject()->editIndividualPlan()) > 0;
-            $manage_members = count($this->getParentObject()->manageMembers()) > 0;
-        } else {
-            $edit_individual_plan = true;
-            $manage_members = true;
-        }
+        $permissions_for_edit_individual_plan = [
+            'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
+            'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
+            'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
+            'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
+            'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date'),
+            'markAccreditedMulti' => $this->lng->txt('prg_multi_mark_accredited'),
+            'unmarkAccreditedMulti' => $this->lng->txt('prg_multi_unmark_accredited')
+        ];
+        
+        $permissions_for_manage = [
+            'removeUserMulti' => $this->lng->txt('prg_multi_remove_user')
+        ];
 
         $perms = [];
-        if ($edit_individual_plan) {
-            $perms['markAccreditedMulti'] = $this->lng->txt('prg_multi_mark_accredited');
-            $perms['unmarkAccreditedMulti'] = $this->lng->txt('prg_multi_unmark_accredited');
+
+        if ($this->permissions->may(ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN)) {
+            $perms = array_merge($perms, $permissions_for_edit_individual_plan);
         }
 
-        if ($manage_members) {
-            $perms['removeUserMulti'] = $this->lng->txt('prg_multi_remove_user');
+        if ($this->permissions->may(ilOrgUnitOperation::OP_MANAGE_MEMBERS)) {
+            $perms = array_merge($perms, $permissions_for_manage);
         }
-        $perms = array_merge(
-            $perms,
-            [
-                'markRelevantMulti' => $this->lng->txt('prg_multi_mark_relevant'),
-                'markNotRelevantMulti' => $this->lng->txt('prg_multi_unmark_relevant'),
-                'updateFromCurrentPlanMulti' => $this->lng->txt('prg_multi_update_from_current_plan'),
-                'changeDeadlineMulti' => $this->lng->txt('prg_multi_change_deadline'),
-                'changeExpireDateMulti' => $this->lng->txt('prg_multi_change_expire_date')
-            ]
-        );
 
         return $perms;
+    }
+
+    /**
+      * Get a list with possible actions on a progress record.
+      *
+      * @return string[]
+      */
+    protected function getPossibleActions(
+        int $node_id,
+        int $root_prg_id,
+        int $status
+    ) : array {
+        $actions = array();
+
+        if ($node_id == $root_prg_id) {
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN;
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER;
+        }
+
+        if ($status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED;
+        }
+        if ($status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+            $actions[] = ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED;
+        }
+
+        return $actions;
     }
 
     /**
@@ -602,7 +745,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         return [
             self::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
-            self::VALIDITY_OPTION_RENEWAL_REQUIRED => $this->lng->txt("prg_not_valid")
+            self::VALIDITY_OPTION_INVALID => $this->lng->txt("prg_not_valid")
         ];
     }
 
@@ -648,7 +791,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         foreach ($this->filters as $item) {
             $f[$item->getFieldId()] = $this->getFilterValue($item);
         }
-
         return $f;
     }
 
@@ -675,25 +817,43 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         if ($filter['prg_status'] && (int) $filter['prg_status'] !== self::OPTION_ALL) {
             $buf[] = 'AND prgrs.status = ' . $this->db->quote($filter['prg_status'], "integer");
         }
+        
+        $filter_success = 'prgrs.status IN ('
+            . ilStudyProgrammeProgress::STATUS_COMPLETED
+            . ','
+            . ilStudyProgrammeProgress::STATUS_ACCREDITED
+        . ') ';
 
         if ($filter['prg_validity'] && (int) $filter['prg_validity'] !== self::OPTION_ALL) {
-            $operator = '<='; //self::VALIDITY_OPTION_RENEWAL_REQUIRED
             if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_VALID) {
-                $operator = '>';
+                $filter_validity = 'AND (prgrs.vq_date >= NOW() OR prgrs.vq_date IS NULL)';
             }
-            $buf[] = 'AND prgrs.vq_date ' . $operator . ' NOW()';
+            if ((int) $filter['prg_validity'] === self::VALIDITY_OPTION_INVALID) {
+                $filter_validity = 'AND prgrs.vq_date < NOW()';
+            }
+
+            $buf[] = 'AND ('
+                . $filter_success
+                . $filter_validity
+            . ')';
         }
 
         $exp_from = $filter['prg_expiry_date']['from'];
         if (!is_null($exp_from)) {
-            $dat = $exp_from->get(IL_CAL_DATETIME);
-            $buf[] = 'AND prgrs.vq_date >= \'' . $dat . '\'';
+            $dat = $exp_from->get(IL_CAL_DATE);
+            $buf[] = 'AND ('
+                . $filter_success
+                . 'AND prgrs.vq_date >= \'' . $dat . ' 00:00:00\''
+            . ')';
         }
 
         $exp_to = $filter['prg_expiry_date']['to'];
         if (!is_null($exp_to)) {
             $dat = $exp_to->get(IL_CAL_DATE);
-            $buf[] = 'AND prgrs.vq_date <= \'' . $dat . ' 23:59:59\'';
+            $buf[] = 'AND ('
+                . $filter_success
+                . 'AND prgrs.vq_date <= \'' . $dat . ' 23:59:59\''
+            . ')';
         }
 
         $conditions = implode(PHP_EOL, $buf);
@@ -704,26 +864,21 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     protected function isPermissionControlledByOrguPosition()
     {
-        return (
-            $this->prg->getAccessControlByOrguPositionsGlobal()
-            ||
-            $this->prg->getPositionSettingsIsActiveForPrg()
-        );
+        return $this->prg->getPositionSettingsIsActiveForPrg();
     }
 
     protected function getOrguValidUsersFilter() : string
     {
-        if ($this->getParentObject()->mayManageMembers()) {
+        if ($this->permissions->may($this->permissions::ROLEPERM_MANAGE_MEMBERS)) {
             return '';
         }
+        $valid_user_ids = $this->permissions->getUserIdsSusceptibleTo(ilOrgUnitOperation::OP_VIEW_MEMBERS);
 
-        $valid_user_ids = $this->position_based_access->getUsersInPrgAccessibleForOperation(
-            $this->getParentObject()->object,
-            ilOrgUnitOperation::OP_MANAGE_MEMBERS
-        );
         if (count($valid_user_ids) < 1) {
             return ' AND false';
         }
+
+        $valid_user_ids[] = $this->getParentObject()->user->getId();
         return ' AND pcp.usr_id in ('
             . implode(',', $valid_user_ids)
             . ')';

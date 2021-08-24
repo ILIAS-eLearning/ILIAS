@@ -4,7 +4,8 @@
 ?>
 <#2>
 <?php
-$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+$set = $ilDB->queryF(
+    "SELECT availability_id FROM pdfgen_renderer_avail " .
     " WHERE renderer = %s AND service = %s AND purpose = %s",
     ["text", "text", "text"],
     ["PhantomJS", "Survey", "Results"]
@@ -20,7 +21,8 @@ if (!$ilDB->fetchAssoc($set)) {
 ?>
 <#3>
 <?php
-$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+$set = $ilDB->queryF(
+    "SELECT availability_id FROM pdfgen_renderer_avail " .
     " WHERE renderer = %s AND service = %s AND purpose = %s",
     ["text", "text", "text"],
     ["WkhtmlToPdf", "Survey", "Results"]
@@ -36,7 +38,8 @@ if (!$ilDB->fetchAssoc($set)) {
 ?>
 <#4>
 <?php
-$set = $ilDB->queryF("SELECT purpose_id FROM pdfgen_purposes " .
+$set = $ilDB->queryF(
+    "SELECT purpose_id FROM pdfgen_purposes " .
     " WHERE service = %s AND purpose = %s",
     ["text",  "text"],
     ["Survey", "Results"]
@@ -51,9 +54,12 @@ if (!$ilDB->fetchAssoc($set)) {
 ?>
 <#5>
 <?php
-$ilDB->update("pdfgen_renderer_avail", [
+$ilDB->update(
+    "pdfgen_renderer_avail",
+    [
     "renderer" => ["text", "WkhtmlToPdf"]
-], [    // where
+],
+    [    // where
         "renderer" => ["text", "PhantomJS"],
         "service" => ["text", "Wiki"],
     ]
@@ -61,9 +67,12 @@ $ilDB->update("pdfgen_renderer_avail", [
 ?>
 <#6>
 <?php
-$ilDB->update("pdfgen_renderer_avail", [
+$ilDB->update(
+    "pdfgen_renderer_avail",
+    [
     "renderer" => ["text", "WkhtmlToPdf"]
-], [    // where
+],
+    [    // where
         "renderer" => ["text", "PhantomJS"],
         "service" => ["text", "Portfolio"]
     ]
@@ -71,7 +80,8 @@ $ilDB->update("pdfgen_renderer_avail", [
 ?>
 <#7>
 <?php
-$ilDB->manipulateF("DELETE FROM pdfgen_renderer_avail WHERE " .
+$ilDB->manipulateF(
+    "DELETE FROM pdfgen_renderer_avail WHERE " .
     " renderer = %s AND service = %s",
     ["text", "text"],
     ["PhantomJS", "Survey"]
@@ -79,27 +89,34 @@ $ilDB->manipulateF("DELETE FROM pdfgen_renderer_avail WHERE " .
 ?>
 <#8>
 <?php
-$ilDB->update("pdfgen_map", [
+$ilDB->update(
+    "pdfgen_map",
+    [
     "preferred" => ["text", "WkhtmlToPdf"],
     "selected" => ["text", "WkhtmlToPdf"]
-], [    // where
+],
+    [    // where
         "service" => ["text", "Wiki"]
     ]
 );
 ?>
 <#9>
 <?php
-$ilDB->update("pdfgen_map", [
+$ilDB->update(
+    "pdfgen_map",
+    [
     "preferred" => ["text", "WkhtmlToPdf"],
     "selected" => ["text", "WkhtmlToPdf"]
-], [    // where
+],
+    [    // where
         "service" => ["text", "Portfolio"]
     ]
 );
 ?>
 <#10>
 <?php
-$set = $ilDB->queryF("SELECT map_id FROM pdfgen_map " .
+$set = $ilDB->queryF(
+    "SELECT map_id FROM pdfgen_map " .
     " WHERE service = %s AND purpose = %s",
     ["text", "text"],
     ["Survey", "Results"]
@@ -190,7 +207,6 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         'where field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER);
     $val_res = $ilDB->query($query);
     while ($val_row = $val_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
         $query = 'select * from adv_md_values_enum ' .
             'where obj_id = ' . $ilDB->quote($val_row->obj_id, ilDBConstants::T_INTEGER) . ' ' .
             'and sub_id = ' . $ilDB->quote($val_row->sub_id, ilDBConstants::T_INTEGER) . ' ' .
@@ -207,7 +223,6 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $current_values = explode('~|~', $val_row->value);
             array_pop($current_values);
             array_shift($current_values);
-
         } else {
             $current_values[] = (string) $val_row->value;
         }
@@ -226,19 +241,17 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
         //ilLoggerFactory::getLogger('root')->dump($positions);
         foreach ($positions as $pos) {
-
             $query = 'insert into adv_md_values_enum (obj_id, sub_type, sub_id, field_id, value_index, disabled) ' .
                 'values ( ' .
-                $ilDB->quote($val_row->obj_id, ilDBConstants::T_INTEGER) . ', '.
+                $ilDB->quote($val_row->obj_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($val_row->sub_type, ilDBConstants::T_TEXT) . ', ' .
                 $ilDB->quote($val_row->sub_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($val_row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($pos, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($val_row->disabled, ilDBConstants::T_INTEGER)
-                .' ) ';
+                . ' ) ';
             $ilDB->query($query);
         }
-
     }
 }
 ?>
@@ -278,7 +291,7 @@ $query = 'select value from settings where  module = ' . $ilDB->quote('common', 
     'and keyword = ' . $ilDB->quote('language', ilDBConstants::T_TEXT);
 $res = $ilDB->query($query);
 $default = 'en';
-while ($row  = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $default = $row->value;
 }
 $query = 'update adv_md_record set lang_default = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
@@ -343,7 +356,6 @@ $query = 'select advf.record_id, field_id, field_values, lang_default from adv_m
 
 $res = $ilDB->query($query);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
     $values = unserialize($row->field_values);
     if (array_key_exists('options', $values)) {
         $idx = 0;
@@ -353,7 +365,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ', ' .
                 $ilDB->quote($idx++, ilDBConstants::T_INTEGER) . ', ' .
-                $ilDB->quote($option, ilDBConstants::T_TEXT).
+                $ilDB->quote($option, ilDBConstants::T_TEXT) .
                 ' ) ';
             $ilDB->manipulate($query);
         }
@@ -370,7 +382,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                     $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                     $ilDB->quote($lang, ilDBConstants::T_TEXT) . ', ' .
                     $ilDB->quote($idx++, ilDBConstants::T_INTEGER) . ', ' .
-                    $ilDB->quote($option, ilDBConstants::T_TEXT).
+                    $ilDB->quote($option, ilDBConstants::T_TEXT) .
                     ' ) ';
                 $ilDB->manipulate($query);
             }
@@ -388,7 +400,7 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ', ' .
                 $ilDB->quote($row->lang_default, ilDBConstants::T_TEXT) . ', ' .
                 $ilDB->quote($idx++, ilDBConstants::T_INTEGER) . ', ' .
-                $ilDB->quote($option, ilDBConstants::T_TEXT).
+                $ilDB->quote($option, ilDBConstants::T_TEXT) .
                 ' ) ';
             $ilDB->manipulate($query);
         }
@@ -472,7 +484,7 @@ $ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->qu
 ?>
 <#28>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_users', 'privacy_ident') ) {
+if (!$ilDB->tableColumnExists('cmix_users', 'privacy_ident')) {
     $ilDB->addTableColumn('cmix_users', 'privacy_ident', array(
         'type' => 'integer',
         'length' => 2,
@@ -482,7 +494,7 @@ if ( !$ilDB->tableColumnExists('cmix_users', 'privacy_ident') ) {
     $ilDB->dropPrimaryKey('cmix_users');
     $ilDB->addPrimaryKey('cmix_users', array('obj_id', 'usr_id', 'privacy_ident'));
 }
-if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_ident') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'privacy_ident')) {
     $ilDB->addTableColumn('cmix_settings', 'privacy_ident', array(
         'type' => 'integer',
         'length' => 2,
@@ -490,7 +502,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_ident') ) {
         'default' => 0
     ));
 }
-if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_name') ) {
+if (!$ilDB->tableColumnExists('cmix_settings', 'privacy_name')) {
     $ilDB->addTableColumn('cmix_settings', 'privacy_name', array(
         'type' => 'integer',
         'length' => 2,
@@ -498,7 +510,7 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_name') ) {
         'default' => 0
     ));
 }
-if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_ident') ) {
+if (!$ilDB->tableColumnExists('lti_ext_provider', 'privacy_ident')) {
     $ilDB->addTableColumn('lti_ext_provider', 'privacy_ident', array(
         'type' => 'integer',
         'length' => 2,
@@ -506,7 +518,7 @@ if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_ident') ) {
         'default' => 0
     ));
 }
-if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name') ) {
+if (!$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name')) {
     $ilDB->addTableColumn('lti_ext_provider', 'privacy_name', array(
         'type' => 'integer',
         'length' => 2,
@@ -521,13 +533,27 @@ $set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
 while ($row = $ilDB->fetchAssoc($set)) {
     $ident = 0;
     $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
-    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
-    if ($row['user_ident'] == 'real_email') {$ident = 3;}
-    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
-    if ($row['user_name'] == 'firstname') {$name = 1;}
-    if ($row['user_name'] == 'lastname') {$name = 2;}
-    if ($row['user_name'] == 'fullname') {$name = 3;}
+    if ($row['user_ident'] == 'il_uuid_ext_account') {
+        $ident = 1;
+    }
+    if ($row['user_ident'] == 'il_uuid_login') {
+        $ident = 2;
+    }
+    if ($row['user_ident'] == 'real_email') {
+        $ident = 3;
+    }
+    if ($row['user_ident'] == 'il_uuid_random') {
+        $ident = 4;
+    }
+    if ($row['user_name'] == 'firstname') {
+        $name = 1;
+    }
+    if ($row['user_name'] == 'lastname') {
+        $name = 2;
+    }
+    if ($row['user_name'] == 'fullname') {
+        $name = 3;
+    }
     
     $ilDB->update(
         "cmix_users",
@@ -542,7 +568,7 @@ while ($row = $ilDB->fetchAssoc($set)) {
         "cmix_settings",
         [
             "privacy_ident" => ["integer", $ident],
-            "privacy_name"   => ["integer", $name]
+            "privacy_name" => ["integer", $name]
         ],
         [	// where
             "obj_id" => ["integer", $row['obj_id']]
@@ -556,19 +582,33 @@ $set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
 while ($row = $ilDB->fetchAssoc($set)) {
     $ident = 0;
     $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
-    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
-    if ($row['user_ident'] == 'real_email') {$ident = 3;}
-    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
-    if ($row['user_name'] == 'firstname') {$name = 1;}
-    if ($row['user_name'] == 'lastname') {$name = 2;}
-    if ($row['user_name'] == 'fullname') {$name = 3;}
+    if ($row['user_ident'] == 'il_uuid_ext_account') {
+        $ident = 1;
+    }
+    if ($row['user_ident'] == 'il_uuid_login') {
+        $ident = 2;
+    }
+    if ($row['user_ident'] == 'real_email') {
+        $ident = 3;
+    }
+    if ($row['user_ident'] == 'il_uuid_random') {
+        $ident = 4;
+    }
+    if ($row['user_name'] == 'firstname') {
+        $name = 1;
+    }
+    if ($row['user_name'] == 'lastname') {
+        $name = 2;
+    }
+    if ($row['user_name'] == 'fullname') {
+        $name = 3;
+    }
     
     $ilDB->update(
         "lti_ext_provider",
         [
             "privacy_ident" => ["integer", $ident],
-            "privacy_name"   => ["integer", $name]
+            "privacy_name" => ["integer", $name]
         ],
         [	// where
             "id" => ["integer", $row['id']]
@@ -582,7 +622,7 @@ while ($row = $ilDB->fetchAssoc($set)) {
 ?>
 <#32>
 <?php
-if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_ident') ) {
+if (!$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_ident')) {
     $ilDB->addTableColumn('cmix_lrs_types', 'privacy_ident', array(
         'type' => 'integer',
         'length' => 2,
@@ -590,7 +630,7 @@ if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_ident') ) {
         'default' => 0
     ));
 }
-if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_name') ) {
+if (!$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_name')) {
     $ilDB->addTableColumn('cmix_lrs_types', 'privacy_name', array(
         'type' => 'integer',
         'length' => 2,
@@ -602,19 +642,33 @@ $set = $ilDB->query("SELECT type_id, user_ident, user_name FROM cmix_lrs_types")
 while ($row = $ilDB->fetchAssoc($set)) {
     $ident = 0;
     $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
-    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
-    if ($row['user_ident'] == 'real_email') {$ident = 3;}
-    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
-    if ($row['user_name'] == 'firstname') {$name = 1;}
-    if ($row['user_name'] == 'lastname') {$name = 2;}
-    if ($row['user_name'] == 'fullname') {$name = 3;}
+    if ($row['user_ident'] == 'il_uuid_ext_account') {
+        $ident = 1;
+    }
+    if ($row['user_ident'] == 'il_uuid_login') {
+        $ident = 2;
+    }
+    if ($row['user_ident'] == 'real_email') {
+        $ident = 3;
+    }
+    if ($row['user_ident'] == 'il_uuid_random') {
+        $ident = 4;
+    }
+    if ($row['user_name'] == 'firstname') {
+        $name = 1;
+    }
+    if ($row['user_name'] == 'lastname') {
+        $name = 2;
+    }
+    if ($row['user_name'] == 'fullname') {
+        $name = 3;
+    }
     
     $ilDB->update(
         "cmix_lrs_types",
         [
             "privacy_ident" => ["integer", $ident],
-            "privacy_name"   => ["integer", $name]
+            "privacy_name" => ["integer", $name]
         ],
         [	// where
             "type_id" => ["integer", $row['type_id']]
@@ -650,7 +704,7 @@ $query = 'select value from settings where  module = ' . $ilDB->quote('common', 
     'and keyword = ' . $ilDB->quote('language', ilDBConstants::T_TEXT);
 $res = $ilDB->query($query);
 $default = 'en';
-while ($row  = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $default = $row->value;
 }
 $query = 'update adv_md_record set lang_default = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
@@ -766,7 +820,7 @@ $res = $ilDB->queryF(
     "SELECT ops_id FROM rbac_operations WHERE operation = %s",
     array('text'),
     array('read_learning_progress')
-    );
+);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $read_learning_progress = $row->ops_id;
 }
@@ -774,7 +828,7 @@ $res = $ilDB->queryF(
     "SELECT ops_id FROM rbac_operations WHERE operation = %s",
     array('text'),
     array('read_outcomes')
-    );
+);
 while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
     $read_outcomes = $row->ops_id;
 }
@@ -783,7 +837,7 @@ if ($read_outcomes > 0 && $read_learning_progress > 0) {
         "SELECT rol_id, parent, type FROM rbac_templates WHERE (type=%s OR type=%s) AND ops_id=%s",
         array('text', 'text', 'integer'),
         array('cmix', 'lti', $read_learning_progress)
-        );
+    );
     while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
         $resnum = $ilDB->queryF(
             "SELECT rol_id FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
@@ -803,9 +857,12 @@ if ($read_outcomes > 0 && $read_learning_progress > 0) {
 ?>
 <#42>
 <?php
-$ilDB->update("rbac_operations", [
+$ilDB->update(
+    "rbac_operations",
+    [
     "op_order" => ["integer", 3900]
-], [    // where
+],
+    [    // where
         "operation" => ["text", "redact"]
     ]
 );
@@ -920,5 +977,39 @@ if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
         array('storage_id'),
         'i1'
     );
+}
+?>
+
+<#50>
+<?php
+if (!$ilDB->tableColumnExists("prg_usr_progress", "individual")) {
+    $ilDB->addTableColumn("prg_usr_progress", "individual", [
+            "type" => "integer",
+            "length" => 1,
+            "notnull" => true,
+            "default" => 0
+    ]);
+
+    $ilDB->manipulate("UPDATE prg_usr_progress SET individual = 1 WHERE last_change_by IS NOT NULL");
+}
+?>
+
+<#51>
+<?php
+$old = "risky_to_fail_mail_send";
+$new = "sent_mail_risky_to_fail";
+$table = "prg_usr_progress";
+if ($ilDB->tableColumnExists($table, $old) && !$ilDB->tableColumnExists($table, $new)) {
+    $ilDB->renameTableColumn($table, $old, $new);
+}
+?>
+
+<#52>
+<?php
+if (!$ilDB->tableColumnExists("prg_usr_progress", "sent_mail_expires")) {
+    $ilDB->addTableColumn("prg_usr_progress", "sent_mail_expires", [
+            "type" => "timestamp",
+            "notnull" => false
+    ]);
 }
 ?>

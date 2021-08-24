@@ -230,7 +230,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 }
             } else {
                 $this->logger->info(sprintf(
-                    "Object type is not of interest, skipping certificate evaluation for this object"
+                    "Object type ($type) is not of interest, skipping certificate evaluation for this object"
                 ));
             }
 
@@ -377,7 +377,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     \ilCronConstants::IN_PROGRESS,
                     $template->getId(),
                     time()
-                                                      );
+                );
                 $mode = $settings->get('persistent_certificate_mode', '');
                 if ($mode === 'persistent_certificate_mode_instant') {
                     $cronjob = new ilCertificateCron();

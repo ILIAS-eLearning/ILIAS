@@ -70,11 +70,11 @@ class ilPrgRestartAssignmentsCronJobTest extends \PHPUnit\Framework\TestCase
         $tomorrow = new DateTime();
         $tomorrow->add(new DateInterval('P1D'));
 
-        $m_ass1 = $this->assignment_repo->read($assignment1->getId());
+        $m_ass1 = $this->assignment_repo->get($assignment1->getId());
         $this->assignment_repo->update($m_ass1->setRestartDate($yesterday));
-        $m_ass2 = $this->assignment_repo->read($assignment2->getId());
+        $m_ass2 = $this->assignment_repo->get($assignment2->getId());
         $this->assignment_repo->update($m_ass2->setRestartDate($yesterday));
-        $m_ass3 = $this->assignment_repo->read($assignment3->getId());
+        $m_ass3 = $this->assignment_repo->get($assignment3->getId());
         $this->assignment_repo->update($m_ass3->setRestartDate($tomorrow));
 
         $job->run();

@@ -52,11 +52,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     public $tabs_gui;
 
     /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-
-    /**
      * @var ilToolbarGUI
      */
     protected $toolbar;
@@ -126,13 +121,16 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected $autocategories_gui;
 
+    /**
+     * @var ilPRGPermissionsHelper
+     */
+    protected $permissions;
 
     public function __construct()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
         $ilToolbar = $DIC['ilToolbar'];
         $ilLocator = $DIC['ilLocator'];
         $tree = $DIC['tree'];
@@ -146,7 +144,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
-        $this->ilAccess = $ilAccess;
         $this->ilLocator = $ilLocator;
         $this->tree = $tree;
         $this->toolbar = $ilToolbar;
@@ -164,7 +161,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->tree_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeTreeGUI'];
         $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
         $this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
-
         $this->type_repository = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
     }
 
@@ -187,7 +183,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         switch ($next_class) {
             case "ilinfoscreengui":
                 $this->tabs_gui->activateTab(self::TAB_INFO);
-                $this->denyAccessIfNotAnyOf(array("read", "visible"));
+                $this->denyAccessIfNotAnyOf([
+                    ilPRGPermissionsHelper::ROLEPERM_VIEW,
+                    ilPRGPermissionsHelper::ROLEPERM_READ
+                ]);
                 $info = new ilInfoScreenGUI($this);
                 $this->fillInfoScreen($info);
                 $this->ctrl->forwardCommand($info);
@@ -212,7 +211,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             case "ilobjstudyprogrammesettingsgui":
-                $this->denyAccessIfNot("write");
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings');
@@ -221,7 +220,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
 
             case "ilobjstudyprogrammeautocategoriesgui":
-                $this->denyAccessIfNot("write");
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('auto_content');
@@ -231,7 +230,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
 
             case "ilobjstudyprogrammemembersgui":
-                $this->denyAccessIfNot("manage_members", ilOrgUnitOperation::OP_VIEW_MEMBERS);
+                $this->denyAccessIfNot(ilOrgUnitOperation::OP_VIEW_MEMBERS);
                 $this->getSubTabs('members');
 
                 $this->tabs_gui->activateTab(self::TAB_MEMBERS);
@@ -244,7 +243,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
 
             case "ilobjstudyprogrammeautomembershipsgui":
-                $this->denyAccessIfNot("manage_members");
+                $this->denyAccessIfNot(ilOrgUnitOperation::OP_MANAGE_MEMBERS);
                 $this->getSubTabs('members');
 
                 $this->tabs_gui->activateTab(self::TAB_MEMBERS);
@@ -258,7 +257,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
 
             case "ilobjstudyprogrammetreegui":
-                $this->denyAccessIfNot("write");
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
 
                 $this->getSubTabs($cmd);
                 $this->setContentSubTabs();
@@ -282,7 +281,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             case 'ilobjecttranslationgui':
-                $this->denyAccessIfNot("write");
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->getSubTabs('settings');
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('settings_trans');
@@ -291,7 +290,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 break;
             case "ilcertificategui":
                 $this->getSubTabs('settings');
-                $this->denyAccessIfNot("write");
+                $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
                 $this->tabs_gui->activateTab(self::TAB_SETTINGS);
                 $this->tabs_gui->activateSubTab('certificate');
                 $guiFactory = new ilCertificateGUIFactory();
@@ -354,20 +353,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     }
 
 
-    /**
-     * creates the object
-     */
     protected function create()
     {
         parent::createObject();
     }
 
-
-    /**
-     * Saves the object
-     *
-     * If its a async call, the response is sent as a json string
-     */
     protected function save()
     {
         parent::saveObject();
@@ -380,12 +370,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         }
     }
 
-
-    /**
-     * Cancel the object generation
-     *
-     * If
-     */
     protected function cancel()
     {
         $async_response = ilAsyncOutputHandler::encodeAsyncResponse(array("cmd" => "cancel", "success" => false));
@@ -397,10 +381,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
 
     /**
-     * After save hook
      * Sets the sorting of the container correctly. If its a async call, a json string is returned.
-     *
-     * @param ilObject $a_new_object
      */
     protected function afterSave(ilObject $a_new_object)
     {
@@ -425,28 +406,31 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         ));
     }
 
+    protected function getPermissionsHelper() : ilPRGPermissionsHelper
+    {
+        if (!$this->permisssions) {
+            if (!$this->object || !$this->object->getRefId()) {
+                throw new LogicException('Cannot ask for permission when not in tree!');
+            }
 
-    /**
-     * Default view method
-     */
+            $this->permissions = ilStudyProgrammeDIC::specificDicFor($this->object)['permissionhelper'];
+        }
+        return $this->permissions;
+    }
+
     protected function view()
     {
-        $this->denyAccessIfNot("read");
+        $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_READ);
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         parent::renderObject();
     }
-    public function isActiveAdministrationPanel()
+
+    public function isActiveAdministrationPanel() : bool
     {
         return false;
     }
 
-
-    /**
-     * Initialize the form for editing advanced meta data
-     *
-     * @return ilPropertyFormGUI
-     */
-    protected function initAdvancedSettingsForm()
+    protected function initAdvancedSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -456,12 +440,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         return $form;
     }
 
-    /**
-     * Edit Advanced Metadata
-     */
-    protected function editAdvancedSettings()
+    protected function editAdvancedSettings() : void
     {
-        if (!$this->ilAccess->checkAccess("write", "", $this->ref_id)) {
+        if (!$this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
@@ -471,19 +452,16 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             'prg',
             $this->object->getId(),
             'prg_type',
-            $this->object->getTypeSettings()->getTypeId()
+            $this->object->getSettings()->getTypeSettings()->getTypeId()
         );
         $gui->setPropertyForm($form);
         $gui->parse();
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Update Advanced Metadata
-     */
-    protected function updateAdvancedSettings()
+    protected function updateAdvancedSettings() : void
     {
-        if (!$this->ilAccess->checkAccess("write", "", $this->ref_id)) {
+        if (!$this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this);
         }
@@ -494,7 +472,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             'prg',
             $this->object->getId(),
             'prg_type',
-            $this->object->getTypeSettings()->getTypeId()
+            $this->object->getSettings()->getTypeSettings()->getTypeId()
         );
         $gui->setPropertyForm($form);
         $form->checkInput();
@@ -511,12 +489,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     /**
      * Overwritten from ilObjectGUI since copy and import are not implemented.
-     *
-     * @param string $a_new_type
-     *
-     * @return array
      */
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms($a_new_type) : array
     {
         return array( self::CFORM_NEW => $this->initCreateForm($a_new_type));
     }
@@ -525,10 +499,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     /**
      * Method for implementing async windows-output
      * Should be moved into core to enable async requests on creation-form
-     *
-     * @return ilAsyncPropertyFormGUI
      */
-    public function getAsyncCreationForm()
+    public function getAsyncCreationForm() : ilAsyncPropertyFormGUI
     {
         $asyncForm = new ilAsyncPropertyFormGUI();
 
@@ -543,43 +515,26 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     // HELPERS
     ////////////////////////////////////
 
-    protected function checkAccess($a_which)
+    protected function checkAccess(string $permission) : bool
     {
-        return $this->ilAccess->checkAccess($a_which, "", $this->ref_id);
+        return $this->getPermissionsHelper()->may($permission);
     }
 
-    protected function denyAccessIfNot($a_perm, $position_permission = null)
+    protected function denyAccessIfNot(string $permission) : void
     {
-        $perm = array($a_perm);
-        if (!is_null($position_permission)) {
-            $position_permission = array($position_permission);
-        }
-
-        return $this->denyAccessIfNotAnyOf($perm, $position_permission);
+        $this->denyAccessIfNotAnyOf([$permission]);
     }
 
-    protected function denyAccessIfNotAnyOf($a_perms, $position_permissions = null)
+    protected function denyAccessIfNotAnyOf(array $permissions) : void
     {
-        foreach ($a_perms as $perm) {
-            if ($this->checkAccess($perm)) {
-                return;
+        if (!$this->getPermissionsHelper()->mayAnyOf($permissions)) {
+            if ($this->getPermissionsHelper()->may(ilPRGPermissionsHelper::ROLEPERM_VIEW)) {
+                ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"));
+                $this->ctrl->redirectByClass('ilinfoscreengui', '');
+            } else {
+                $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
             }
         }
-        if (!is_null($position_permissions)) {
-            $ref_id = (int) $this->object->getRefId();
-            foreach ($position_permissions as $perm) {
-                if ($this->ilAccess->checkPositionAccess($perm, $ref_id)) {
-                    return true;
-                }
-            }
-        }
-
-        if ($this->checkAccess("visible")) {
-            ilUtil::sendFailure($this->lng->txt("msg_no_perm_write"));
-            $this->ctrl->redirectByClass('ilinfoscreengui', '');
-        }
-
-        $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
     }
 
     const TAB_VIEW_CONTENT = "view_content";
@@ -590,17 +545,14 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     const TAB_METADATA = "edit_advanced_settings";
     const TAB_SUBTYPES = "subtypes";
 
-    /**
-     * Adds the default tabs to the gui
-     */
     public function getTabs()
     {
         $this->help->setScreenIdComponent("prg");
-        if ($this->checkAccess("read")) {
+        if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
             $this->tabs_gui->addTab(self::TAB_VIEW_CONTENT, $this->lng->txt("content"), $this->getLinkTarget("view"));
         }
 
-        if ($this->checkAccess("read")) {
+        if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
             $this->tabs_gui->addTab(
                 self::TAB_INFO,
                 $this->lng->txt("info_short"),
@@ -608,7 +560,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             );
         }
 
-        if ($this->checkAccess("write")) {
+        if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
             $this->tabs_gui->addTab(
                 self::TAB_SETTINGS,
                 $this->lng->txt("settings"),
@@ -616,21 +568,17 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             );
         }
 
-        if (
-            $this->checkAccess("manage_members") ||
-            $this->ilAccess->checkPositionAccess(
-                ilOrgUnitOperation::OP_VIEW_MEMBERS,
-                (int) $this->object->getRefId()
-            )
-        ) {
+        if ($this->checkAccess(ilOrgUnitOperation::OP_VIEW_MEMBERS)) {
             $this->tabs_gui->addTab(
                 self::TAB_MEMBERS,
-                $this->lng->txt("members"),
+                $this->lng->txt("assignments"),
                 $this->getLinkTarget("members")
             );
         }
 
-        if ($this->object->hasAdvancedMetadata()) {
+        if ($this->object->hasAdvancedMetadata()
+            && $this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)
+        ) {
             $this->tabs_gui->addTab(
                 self::TAB_METADATA,
                 $this->lng->txt('meta_data'),
@@ -652,11 +600,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             case self::TAB_VIEW_CONTENT:
             case self::SUBTAB_VIEW_TREE:
             case 'view':
-                if ($this->checkAccess("read")) {
+                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)) {
                     $this->tabs_gui->addSubTab(self::TAB_VIEW_CONTENT, $this->lng->txt("view"), $this->getLinkTarget("view"));
                 }
 
-                if ($this->checkAccess("write")) {
+                if ($this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_WRITE)) {
                     $this->tabs_gui->addSubTab(self::SUBTAB_VIEW_TREE, $this->lng->txt("cntr_manage"), $this->getLinkTarget(self::SUBTAB_VIEW_TREE));
                 }
                 break;
@@ -689,7 +637,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
             case 'members':
                 $this->tabs_gui->addSubTab('edit_participants', $this->lng->txt('edit_participants'), $this->getLinkTarget('members'));
-                $this->tabs_gui->addSubTab('auto_memberships', $this->lng->txt('auto_memberships'), $this->getLinkTarget('memberships'));
+                if ($this->getPermissionsHelper()->may(ilOrgUnitOperation::OP_MANAGE_MEMBERS)) {
+                    $this->tabs_gui->addSubTab('auto_memberships', $this->lng->txt('auto_memberships'), $this->getLinkTarget('memberships'));
+                }
                 break;
         }
     }
@@ -756,9 +706,9 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected function fillInfoScreen($a_info_screen)
     {
-        if (!$this->object->getTypeSettings()->getTypeId() ||
+        if (!$this->object->getSettings()->getTypeSettings()->getTypeId() ||
             !ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository']
-                ->readType($this->object->getTypeSettings()->getTypeId())
+                ->getType($this->object->getSettings()->getTypeSettings()->getTypeId())
         ) {
             return;
         }
@@ -767,7 +717,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
             'prg',
             $this->object->getId(),
             'prg_type',
-            $this->object->getTypeSettings()->getTypeId()
+            $this->object->getSettings()->getTypeSettings()->getTypeId()
         );
         $record_gui->setInfoObject($a_info_screen);
         $record_gui->parse();
@@ -775,7 +725,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
 
     protected function edit()
     {
-        $this->denyAccessIfNot("write");
+        $this->denyAccessIfNot(ilPRGPermissionsHelper::ROLEPERM_WRITE);
 
         $link = $this->ctrl->getLinkTargetByClass(ilObjStudyProgrammeSettingsGUI::class, 'view');
         $this->ctrl->redirectToURL($link);
@@ -805,10 +755,10 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         global $DIC;
         $ilNavigationHistory = $DIC['ilNavigationHistory'];
 
-        if (!$this->getCreationMode() &&
-            $this->ilAccess->checkAccess('read', '', $_GET['ref_id'])) {
+        if (!$this->getCreationMode()
+            && $this->checkAccess(ilPRGPermissionsHelper::ROLEPERM_READ)
+        ) {
             $link = ilLink::_getLink($_GET["ref_id"], "iass");
-
             $ilNavigationHistory->addItem(
                 $_GET['ref_id'],
                 $link,
@@ -841,6 +791,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     protected function deliverCertificateObject()
     {
         global $DIC;
+
+        $this->lng->loadLanguageModule('cert');
 
         $user_id = (int) $this->user->getId();
         $obj_id = (int) $this->object->getId();

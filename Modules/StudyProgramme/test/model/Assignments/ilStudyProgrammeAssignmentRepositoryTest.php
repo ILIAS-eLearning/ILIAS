@@ -78,7 +78,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
     public function test_save_and_load()
     {
         $repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
-        $ass = $repo->read(current(self::$created)->getId());
+        $ass = $repo->get(current(self::$created)->getId());
         $this->assertEquals($ass->getId(), current(self::$created)->getId());
         $this->assertEquals($ass->getRootId(), self::$prg_2->getId());
         $this->assertEquals($ass->getUserId(), self::$usr_1->getId());
@@ -90,7 +90,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
         $repo->update($ass);
 
         $repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
-        $ass = $repo->read(current(self::$created)->getId());
+        $ass = $repo->get(current(self::$created)->getId());
         $this->assertEquals($ass->getId(), current(self::$created)->getId());
         $this->assertEquals($ass->getRootId(), self::$prg_1->getId());
         $this->assertEquals($ass->getUserId(), self::$usr_1->getId());
@@ -105,15 +105,15 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
     public function test_read_by_prg_id()
     {
         $repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
-        $this->assertCount(0, $repo->readByPrgId(-1));
+        $this->assertCount(0, $repo->getByPrgId(-1));
 
-        $asss = $repo->readByPrgId(self::$prg_1->getId());
+        $asss = $repo->getByPrgId(self::$prg_1->getId());
         $this->assertCount(1, $asss);
         $ass = array_shift($asss);
         $this->assertEquals($ass->getRootId(), self::$prg_1->getId());
         $this->assertEquals($ass->getUserId(), self::$usr_1->getId());
 
-        $asss = $repo->readByPrgId(self::$prg_2->getId());
+        $asss = $repo->getByPrgId(self::$prg_2->getId());
         $this->assertCount(3, $asss);
         $this->assertEquals(
             array_map(function ($ass) {
@@ -133,9 +133,9 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
     public function test_read_by_usr_id()
     {
         $repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
-        $this->assertCount(0, $repo->readByUsrId(-1));
+        $this->assertCount(0, $repo->getByUsrId(-1));
 
-        $asss = $repo->readByUsrId(self::$usr_1->getId());
+        $asss = $repo->getByUsrId(self::$usr_1->getId());
         $this->assertCount(2, $asss);
         $this->assertEquals(
             array_map(function ($ass) {
@@ -144,7 +144,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
             [self::$prg_1->getId(),self::$prg_2->getId()]
         );
 
-        $asss = $repo->readByUsrId(self::$usr_2->getId());
+        $asss = $repo->getByUsrId(self::$usr_2->getId());
         $this->assertCount(2, $asss);
         foreach ($asss as $ass) {
             $this->assertEquals($ass->getRootId(), self::$prg_2->getId());
@@ -157,9 +157,9 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
     public function test_read_by_usr_and_prg_ids()
     {
         $repo = new ilStudyProgrammeAssignmentDBRepository($this->db);
-        $this->assertCount(0, $repo->readByUsrIdAndPrgId(-1, -2));
+        $this->assertCount(0, $repo->getByUsrIdAndPrgId(-1, -2));
 
-        $asss = $repo->readByUsrIdAndPrgId(self::$usr_2->getId(), self::$prg_2->getId());
+        $asss = $repo->getByUsrIdAndPrgId(self::$usr_2->getId(), self::$prg_2->getId());
         $this->assertCount(2, $asss);
         foreach ($asss as $ass) {
             $this->assertEquals($ass->getRootId(), self::$prg_2->getId());
@@ -210,13 +210,13 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $repo->readDueToRestart()),
+            }, $repo->getDueToRestart()),
             $ref
         );
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $u_a_repo->getDueToRestartInstances()),
+            }, $u_a_repo->getDueToRestart()),
             $ref
         );
 
@@ -231,13 +231,13 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $repo->readDueToRestart()),
+            }, $repo->getDueToRestart()),
             $ref
         );
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $u_a_repo->getDueToRestartInstances()),
+            }, $u_a_repo->getDueToRestart()),
             $ref
         );
 
@@ -249,13 +249,13 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $repo->readDueToRestart()),
+            }, $repo->getDueToRestart()),
             []
         );
         $this->assertEquals(
             array_map(function ($ass) {
                 return $ass->getId();
-            }, $u_a_repo->getDueToRestartInstances()),
+            }, $u_a_repo->getDueToRestart()),
             []
         );
     }
@@ -289,8 +289,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCa
                     array_keys(self::$created),
                     false,
                     'integer'
-                    )
-
+                )
             );
         }
     }

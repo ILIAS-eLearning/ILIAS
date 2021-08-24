@@ -16,6 +16,23 @@ class ilStudyProgrammeDIC
         return self::$dic;
     }
 
+    public static function specificDicFor(\ilObjStudyProgramme $prg) : Container
+    {
+        global $DIC;
+        $dic = new Container();
+
+        $dic['permissionhelper'] = function ($dic) use ($prg, $DIC) {
+            return new ilPRGPermissionsHelper(
+                $DIC['ilAccess'],
+                new ilOrgUnitPositionAccess(),
+                $prg
+            );
+        };
+
+        return $dic;
+    }
+
+
     protected static function buildDIC() : Container
     {
         global $DIC;
@@ -83,12 +100,20 @@ class ilStudyProgrammeDIC
                 $DIC['ilTabs']
             );
         };
+
+        $dic['PRGMessages'] = function ($dic) use ($DIC) {
+            $messages = new ilPRGMessageCollection();
+            return new ilPRGMessagePrinter(
+                $messages,
+                $DIC['lng']
+            );
+        };
+
         $dic['ilObjStudyProgrammeMembersGUI'] = function ($dic) use ($DIC) {
             return new ilObjStudyProgrammeMembersGUI(
                 $DIC['tpl'],
                 $DIC['ilCtrl'],
                 $DIC['ilToolbar'],
-                $DIC['ilAccess'],
                 $DIC['lng'],
                 $DIC['ilUser'],
                 $DIC['ilTabs'],
@@ -96,7 +121,9 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeUserAssignmentDB'],
                 $dic['ilStudyProgrammeRepositorySearchGUI'],
                 $dic['ilObjStudyProgrammeIndividualPlanGUI'],
-                $dic['ilStudyProgrammePositionBasedAccess']
+                $dic['PRGMessages'],
+                $dic['DataFactory'],
+                new ilConfirmationGUI()
             );
         };
         $dic['ilObjStudyProgrammeAutoMembershipsGUI'] = function ($dic) use ($DIC) {
@@ -150,9 +177,9 @@ class ilStudyProgrammeDIC
                 $DIC['ilCtrl'],
                 $DIC['lng'],
                 $DIC['ilUser'],
-                $DIC['ilAccess'],
                 $dic['ilStudyProgrammeUserProgressDB'],
-                $dic['ilStudyProgrammeUserAssignmentDB']
+                $dic['ilStudyProgrammeUserAssignmentDB'],
+                $dic['PRGMessages']
             );
         };
         $dic['ilObjStudyProgrammeAutoCategoriesGUI'] = function ($dic) use ($DIC) {
@@ -173,40 +200,17 @@ class ilStudyProgrammeDIC
             return new \ILIAS\Data\Factory();
         };
         $dic['ilStudyProgrammeUserProgressDB'] = function ($dic) use ($DIC) {
-            $lng = $DIC['lng'];
-            if (strpos(get_class($lng), 'class@anonymous') === 0) {
-                $lng = new \ilSetupLanguage("en");
-            }
-
-            return new ilStudyProgrammeUserProgressDB(
-                $dic['model.Progress.ilStudyProgrammeProgressRepository'],
-                $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
-                $lng,
-                $dic['ilStudyProgrammeEvents']
-            );
+            return $dic['model.Progress.ilStudyProgrammeProgressRepository'];
         };
+
         $dic['ilStudyProgrammeUserAssignmentDB'] = function ($dic) use ($DIC) {
-            $tree = $DIC->offsetExists('tree') ?
-                $DIC['tree'] : new ilTree(ROOT_FOLDER_ID);
-
-            $logger = $DIC['ilLog'];
-            if (strpos(get_class($logger), 'class@anonymous') === 0) {
-                $logger = ilLoggerFactory::getLogger('setup');
-            }
-
-            return new ilStudyProgrammeUserAssignmentDB(
-                $dic['ilStudyProgrammeUserProgressDB'],
-                $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
-                $tree,
-                $dic['ilStudyProgrammeEvents']
-            );
+            return $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'];
         };
+
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };
-        $dic['ilStudyProgrammePositionBasedAccess'] = function ($dic) {
-            return new ilStudyProgrammePositionBasedAccess(new ilOrgUnitPositionAccess());
-        };
+
         $dic['ilStudyProgrammeMailMemberSearchGUI'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeMailMemberSearchGUI(
                 $DIC['ilCtrl'],
@@ -227,7 +231,7 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC->refinery(),
                 $dic['DataFactory'],
-                $dic['ilStudyProgrammeUserProgressDB']
+                $dic['PRGMessages']
             );
         };
         $dic['ilStudyProgrammeChangeDeadlineGUI'] = function ($dic) use ($DIC) {
@@ -242,7 +246,7 @@ class ilStudyProgrammeDIC
                 $DIC->http()->request(),
                 $DIC->refinery(),
                 $dic['DataFactory'],
-                $dic['ilStudyProgrammeUserProgressDB']
+                $dic['PRGMessages']
             );
         };
         $dic['ilStudyProgrammeDashboardViewGUI'] = function ($dic) use ($DIC) {
@@ -271,6 +275,10 @@ class ilStudyProgrammeDIC
             return ilLoggerFactory::getLogger('prg');
         };
 
+        $dic['current_user'] = function ($dic) use ($DIC) {
+            return $DIC['ilUser'];
+        };
+        
         return $dic;
     }
 }

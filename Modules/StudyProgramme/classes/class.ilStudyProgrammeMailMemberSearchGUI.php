@@ -130,6 +130,11 @@ class ilStudyProgrammeMailMemberSearchGUI
         return $data;
     }
 
+    protected function getPRGMembersGUI() : ilObjStudyProgrammeMembersGUI
+    {
+        return ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
+    }
+
     protected function sendMailToSelectedUsers() : bool
     {
         if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
@@ -150,9 +155,10 @@ class ilStudyProgrammeMailMemberSearchGUI
         }
         ilMailFormCall::setRecipients($rcps);
 
+        $members_gui = $this->getPRGMembersGUI();
         ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-            $this,
-            'members',
+            $members_gui,
+            'view',
             array(),
             array(
                 'type' => 'new',
@@ -167,7 +173,7 @@ class ilStudyProgrammeMailMemberSearchGUI
     protected function generateContextArray() : array
     {
         $context_array = [];
-        $ref_id = $this->getObjectRefId();
+        $ref_id = $this->getRootPrgRefId();
         $type = ilObject::_lookupType($ref_id, true);
         switch ($type) {
             case 'prg':
@@ -194,14 +200,13 @@ class ilStudyProgrammeMailMemberSearchGUI
         $link .= $this->lng->txt('prg_mail_permanent_link');
         $link .= chr(13) . chr(10) . chr(13) . chr(10);
         include_once 'Services/Link/classes/class.ilLink.php';
-        $link .= ilLink::_getLink($this->getObjectRefId());
+        $link .= ilLink::_getLink($this->getRootPrgRefId());
         return rawurlencode(base64_encode($link));
     }
 
-    protected function getObjectRefId() : int
+    protected function getRootPrgRefId() : int
     {
         $assignment = array_shift($this->getAssignments());
-        $obj = $assignment->getStudyProgramme();
-        return $obj->getRefId();
+        return ilObjStudyProgramme::getRefIdFor($assignment->getRootId());
     }
 }
