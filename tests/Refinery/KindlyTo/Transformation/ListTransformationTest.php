@@ -5,10 +5,10 @@ namespace ILIAS\Tests\Refinery\KindlyTo\Transformation;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 /**
  * Test transformations in this Group
@@ -34,7 +34,7 @@ class ListTransformationTest extends TestCase
      */
     public function testFailingTransformations($origValue)
     {
-        $this->expectException(ConstraintViolationException::class);
+        $this->expectException(UnexpectedValueException::class);
         $transformList = new ListTransformation(new StringTransformation());
         $transformList->transform($origValue);
     }

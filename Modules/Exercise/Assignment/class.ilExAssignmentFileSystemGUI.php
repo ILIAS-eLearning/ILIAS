@@ -9,9 +9,17 @@
  */
 class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 {
+    protected int $requested_ass_id;
+    protected string $requested_old_name;
+
     public function __construct($a_main_directory)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_ass_id = $request->getRequestedAssId();
+        $this->requested_old_name = $request->getRequestedOldName();
 
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_main_directory);
@@ -39,7 +47,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     {
         $filename = ilUtil::stripSlashes($_FILES["new_file"]["name"]);
 
-        ilExAssignment::instructionFileInsertOrder($filename, $_GET['ass_id']);
+        ilExAssignment::instructionFileInsertOrder($filename, $this->requested_ass_id);
         parent::uploadFile();
     }
 
@@ -47,16 +55,16 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["ass_id"]) {
-            ilExAssignment::saveInstructionFilesOrderOfAssignment($_GET['ass_id'], $_POST["order"]);
+        if ($this->requested_ass_id > 0) {
+            ilExAssignment::saveInstructionFilesOrderOfAssignment($this->requested_ass_id, $_POST["order"]);
             $ilCtrl->redirect($this, "listFiles");
         }
     }
 
     public function deleteFile() : void
     {
-        if ($_GET["ass_id"]) {
-            ilExAssignment::instructionFileDeleteOrder($_GET['ass_id'], $_POST["file"]);
+        if ($this->requested_ass_id > 0) {
+            ilExAssignment::instructionFileDeleteOrder($this->requested_ass_id, $_POST["file"]);
 
             parent::deleteFile();
         }
@@ -67,12 +75,12 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
      */
     public function renameFile() : void
     {
-        if ($_GET["ass_id"]) {
+        if ($this->requested_ass_id > 0) {
             $new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
-            $old_name = str_replace("/", "", $_GET["old_name"]);
+            $old_name = str_replace("/", "", $this->requested_old_name);
 
             if ($new_name != $old_name) {
-                ilExAssignment::renameInstructionFile($old_name, $new_name, $_GET['ass_id']);
+                ilExAssignment::renameInstructionFile($old_name, $new_name, $this->requested_ass_id);
             }
         }
         parent::renameFile();

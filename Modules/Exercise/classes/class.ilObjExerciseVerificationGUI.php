@@ -142,12 +142,18 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+        $ctrl->redirectByClass("ilsharedresourceGUI");
     }
 
     /**

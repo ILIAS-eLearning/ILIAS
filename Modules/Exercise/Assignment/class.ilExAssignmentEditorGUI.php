@@ -27,6 +27,7 @@ class ilExAssignmentEditorGUI
     protected Mandatory\RandomAssignmentsManager $random_manager;
     protected ?ilObjExercise $exc;
     protected ilExAssignmentTypesGUI $type_guis;
+    protected string $requested_ass_type;
 
     public function __construct(
         int $a_exercise_id,
@@ -50,6 +51,7 @@ class ilExAssignmentEditorGUI
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $request = $DIC->exercise()->internal()->gui()->request();
         $this->exc = $request->getRequestedExercise();
+        $this->requested_ass_type = $request->getRequestedAssType();
         $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
             $request->getRequestedExercise()
         );
@@ -69,7 +71,7 @@ class ilExAssignmentEditorGUI
         
         switch ($class) {
             case "ilpropertyformgui":
-                $form = $this->initAssignmentForm($_GET["ass_type"]);
+                $form = $this->initAssignmentForm($this->requested_ass_type);
                 $ilCtrl->forwardCommand($form);
                 break;
 

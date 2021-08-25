@@ -11,8 +11,8 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -44,7 +44,7 @@ class RecordTransformationTest extends TestCase
                     new StringTransformation(),
                     new IntegerTransformation())
             );
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -63,7 +63,7 @@ class RecordTransformationTest extends TestCase
 
         try {
             $result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'anotherIntTrafo' => 1));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -82,7 +82,7 @@ class RecordTransformationTest extends TestCase
 
         try {
             $result = $recordTransformation->transform(array('stringTrafo' => 'hello', 'floatTrafo' => 1));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -108,7 +108,7 @@ class RecordTransformationTest extends TestCase
                     'floatTrafo' => 1
                 )
             );
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -127,7 +127,7 @@ class RecordTransformationTest extends TestCase
 
         try {
             $result = $recordTransformation->transform(array('someKey' => 'hello', 1));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

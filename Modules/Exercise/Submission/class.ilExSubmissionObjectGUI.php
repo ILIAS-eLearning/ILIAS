@@ -14,6 +14,19 @@ use ILIAS\Portfolio\Export\PortfolioHtmlExport;
  */
 class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 {
+    protected $selected_wsp_obj_id;
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function __construct(
+        ilObjExercise $a_exercise,
+        ilExSubmission $a_submission
+    ) {
+        parent::__construct($a_exercise, $a_submission);
+        $this->selected_wsp_obj_id = $this->request->getSelectedWspObjId();
+    }
+
     public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
@@ -129,6 +142,12 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
     {
         global $DIC;
 
+        $back_ref_id = $DIC->http()->wrapper()->query()->retrieve(
+            "ref_id",
+            $DIC->refinery()->kindlyTo()->int()
+        ) ?? 0;
+
+
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
                         
@@ -148,8 +167,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
                     $ref_id = $_REQUEST['ref_id'];
                     $ilCtrl->setParameterByClass("ilobjportfoliogui", "ref_id", $ref_id);
-
-                    $ilCtrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
+                    $ilCtrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", $back_ref_id);
 
                     $prtf_link = $ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "view");
                     $ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
@@ -296,13 +314,13 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             $this->returnToParentObject();
         }
 
-        if (!$_GET["sel_wsp_obj"]) {
+        if ($this->selected_wsp_obj_id == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"));
             $this->createBlogObject();
             return;
         }
         
-        $parent_node = $_GET["sel_wsp_obj"];
+        $parent_node = $this->selected_wsp_obj_id;
 
         $blog = new ilObjBlog();
         $blog->setTitle($this->exercise->getTitle() . " - " . $this->assignment->getTitle());
@@ -335,9 +353,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             $this->returnToParentObject();
         }
         
-        if ($_GET["sel_wsp_obj"]) {
+        if ($this->selected_wsp_obj_id > 0) {
             $tree = new ilWorkspaceTree($this->submission->getUserId());
-            $node = $tree->getNodeData($_GET["sel_wsp_obj"]);
+            $node = $tree->getNodeData($this->selected_wsp_obj_id);
             if ($node && $node["type"] == "blog") {
                 $this->submission->deleteAllFiles();
                 $this->handleRemovedUpload();
@@ -451,7 +469,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         if ($template_object_id > 0) {
             $ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
         }
-        $ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
+        $ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", $this->requested_ref_id);
         $ctrl->redirectByClass(array("ildashboardgui", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
     }
 
@@ -500,7 +518,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $this->ctrl->setParameterByClass("ilObjPortfolioGUI", "ass_id", $this->assignment->getId());
                 $this->ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
                 $this->ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $prtt);
-                $this->ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
+                $this->ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", $this->requested_ref_id);
                 $this->ctrl->redirectByClass(array("ildashboardgui", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
             } else {
                 // do not use template

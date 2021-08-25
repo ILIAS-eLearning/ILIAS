@@ -4,10 +4,11 @@
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\ProblemBuilder;
+use UnexpectedValueException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -16,6 +17,7 @@ class ListTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    use ProblemBuilder;
 
     private Transformation $transformation;
 
@@ -29,12 +31,7 @@ class ListTransformation implements Transformation
      */
     public function transform($from)
     {
-        if (false === is_array($from)) {
-            throw new ConstraintViolationException(
-                'The input value must be an array',
-                'must_be_array'
-            );
-        }
+        $this->check($from);
 
         $result = [];
         foreach ($from as $value) {
@@ -43,5 +40,33 @@ class ListTransformation implements Transformation
         }
 
         return $result;
+    }
+
+    public function getError()
+    {
+        return 'The value MUST be of type array.';
+    }
+
+    public function check($value)
+    {
+        if (!$this->accepts($value)) {
+            throw new UnexpectedValueException($this->getErrorMessage($value));
+        }
+
+        return null;
+    }
+
+    public function accepts($value) : bool
+    {
+        return is_array($value);
+    }
+
+    public function problemWith($value) : ?string
+    {
+        if (!$this->accepts($value)) {
+            return $this->getErrorMessage($value);
+        }
+
+        return null;
     }
 }

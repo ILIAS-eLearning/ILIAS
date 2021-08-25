@@ -21,6 +21,8 @@ class ilExAssignmentGUI
     protected InternalService $service;
     protected MandatoryAssignmentsManager $mandatory_manager;
     protected UIServices $ui;
+    protected int $requested_ass_id;
+
 
     /**
      * @throws ilExcUnknownAssignmentTypeException
@@ -29,7 +31,11 @@ class ilExAssignmentGUI
         ilObjExercise $a_exc,
         InternalService $service
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_ass_id = $request->getRequestedAssId();
 
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -184,7 +190,7 @@ class ilExAssignmentGUI
     }
 
     /**
-     * @throws ilDateTimeException
+     * @throws ilDateTimeException|ilExcUnknownAssignmentTypeException
      */
     protected function addSchedule(
         ilInfoScreenGUI $a_info,
@@ -212,7 +218,7 @@ class ilExAssignmentGUI
             if ($state->hasGenerallyStarted()) {
                 $ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $a_ass->getId());
                 $but = $this->ui->factory()->button()->primary($lng->txt("exc_start_assignment"), $ilCtrl->getLinkTargetByClass("ilobjexercisegui", "startAssignment"));
-                $ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $_GET["ass_id"]);
+                $ilCtrl->setParameterByClass("ilobjexercisegui", "ass_id", $this->requested_ass_id);
                 $but = $this->ui->renderer()->render($but);
             }
 
