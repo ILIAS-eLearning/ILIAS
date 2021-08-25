@@ -5,7 +5,7 @@
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
@@ -13,7 +13,7 @@ use UnexpectedValueException;
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class BooleanTransformation implements Transformation
+class BooleanTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
