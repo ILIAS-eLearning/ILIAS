@@ -1,5 +1,3 @@
-@il-drilldown-item-padding: 10px;
-
 .il-drilldown {
 	// reset user agent CSS
 	ul, li {
@@ -19,10 +17,8 @@
 		position: relative; // so backnav can be positioned on top
 		display: flex;
 		align-items: center;
-		min-height: 48px;
 		margin-bottom: @il-slate-content-spacing;
-		padding: @il-drilldown-item-padding;
-		padding-left: 0px;
+		padding: @il-slate-bulky-padding;
 		h2 {
 			// remove default headline margin, headline is centered using flex
 			margin: 0;
@@ -51,7 +47,7 @@
 		}
 	}
 	header.show-backnav {
-		padding-left: 40px; // to make space for back arrow icon
+		padding-left: @il-slate-bulky-glyph-size * 2;
 		.backnav {
 			display: block;
 		}
@@ -83,8 +79,7 @@
 		align-items: center;
 		justify-content: space-between;
 		width: 100%;
-		min-height: 48px;
-		padding: @il-drilldown-item-padding;
+		padding: @il-slate-bulky-padding;
 		margin-bottom: @il-slate-content-spacing;
 		font-size: @il-slate-bulky-label-size;
 		line-height: @il-slate-bulky-label-size * 1.133333333333333;

@@ -10240,10 +10240,8 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
-  min-height: 48px;
   margin-bottom: 2px;
-  padding: 10px;
-  padding-left: 0px;
+  padding: 10px 40px 15px 10px;
 }
 .il-drilldown header h2 {
   margin: 0;
@@ -10269,7 +10267,7 @@ footer {
   font-size: 1.5rem;
 }
 .il-drilldown header.show-backnav {
-  padding-left: 40px;
+  padding-left: 4rem;
 }
 .il-drilldown header.show-backnav .backnav {
   display: block;
@@ -10296,8 +10294,7 @@ footer {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 48px;
-  padding: 10px;
+  padding: 10px 40px 15px 10px;
   margin-bottom: 2px;
   font-size: 1.5rem;
   line-height: 1.7rem;
