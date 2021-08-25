@@ -10,11 +10,16 @@ class ilLearnerProgressDB
 {
     protected ilLSItemsDB $items_db;
     protected ilAccess $access;
+    protected ilObjectDataCache $obj_data_cache;
 
-    public function __construct(ilLSItemsDB $items_db, ilAccess $access)
-    {
+    public function __construct(
+        ilLSItemsDB $items_db,
+        ilAccess $access,
+        ilObjectDataCache $obj_data_cache
+    ) {
         $this->items_db = $items_db;
         $this->access = $access;
+        $this->obj_data_cache = $obj_data_cache;
     }
 
     /**
@@ -47,7 +52,11 @@ class ilLearnerProgressDB
     protected function getLearningProgressFor(int $usr_id, LSItem $ls_item) : int
     {
         $obj_id = $this->getObjIdForRefId($ls_item->getRefId());
-        $il_lp_status = ilLPStatus::_lookupStatus($obj_id, $usr_id);
+
+        $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        if (ilObjectLP::isSupportedObjectType($this->obj_data_cache->lookupType($obj_id))) {
+            $il_lp_status = ilLPStatus::_lookupStatus($obj_id, $usr_id, true);
+        }
         return (int) $il_lp_status;
     }
 

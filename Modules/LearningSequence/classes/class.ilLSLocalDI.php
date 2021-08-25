@@ -44,7 +44,8 @@ class ilLSLocalDI extends Container
         $this["db.progress"] = function ($c) use ($dic) : ilLearnerProgressDB {
             return new ilLearnerProgressDB(
                 $c["db.lsitems"],
-                $dic["ilAccess"]
+                $dic["ilAccess"],
+                $dic['ilObjDataCache']
             );
         };
 
