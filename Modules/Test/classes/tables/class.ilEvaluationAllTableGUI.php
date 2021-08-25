@@ -150,6 +150,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
     {
         global $DIC;
         $lng = $DIC['lng'];
+        $cols = [];
         if (!$this->anonymity) {
             $cols["gender"] = array(
                 "txt" => $lng->txt("gender"),
