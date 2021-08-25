@@ -403,7 +403,7 @@ class ilObjLearningSequence extends ilContainer
     public function getLSLearnerItems(int $usr_id) : array
     {
         $db = $this->getLearnerProgressDB();
-        return $db->getLearnerItems($usr_id, $this->getRefId(), $this->getLSItems());
+        return $db->getLearnerItems($usr_id, $this->getRefId());
     }
 
     public function getLSRoles() : ilLearningSequenceRoles

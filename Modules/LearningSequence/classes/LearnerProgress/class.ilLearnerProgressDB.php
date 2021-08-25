@@ -18,13 +18,18 @@ class ilLearnerProgressDB
      * @var ilAccess
      */
     protected $access;
-
+    
+    /** @var ilObjectDataCache */
+    protected $obj_data_cache;
+    
     public function __construct(
         ilLSItemsDB $items_db,
-        ilAccess $access
+        ilAccess $access,
+        ilObjectDataCache $obj_data_cache
     ) {
         $this->items_db = $items_db;
         $this->access = $access;
+        $this->obj_data_cache = $obj_data_cache;
     }
     /**
      * Decorate LSItems with learning progress and availability (from conditions)
@@ -48,13 +53,17 @@ class ilLearnerProgressDB
 
     protected function getObjIdForRefId(int $ref_id) : int
     {
-        return (int) ilObject::_lookupObjId($ref_id);
+        return (int) $this->obj_data_cache->lookupObjId($ref_id);
     }
 
     protected function getLearningProgressFor(int $usr_id, LSItem $ls_item) : int
     {
         $obj_id = $this->getObjIdForRefId($ls_item->getRefId());
-        $il_lp_status = ilLPStatus::_lookupStatus($obj_id, $usr_id, true);
+
+        $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        if (ilObjectLP::isSupportedObjectType($this->obj_data_cache->lookupType($obj_id))) {
+            $il_lp_status = ilLPStatus::_lookupStatus($obj_id, $usr_id, true);
+        }
         return (int) $il_lp_status;
     }
 
