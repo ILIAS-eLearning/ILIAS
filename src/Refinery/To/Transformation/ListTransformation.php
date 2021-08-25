@@ -9,11 +9,12 @@ use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\ProblemBuilder;
 use UnexpectedValueException;
+use ILIAS\Refinery\Constraint;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ListTransformation implements Transformation
+class ListTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
