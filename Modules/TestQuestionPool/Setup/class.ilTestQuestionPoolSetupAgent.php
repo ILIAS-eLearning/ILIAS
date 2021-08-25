@@ -1,13 +1,13 @@
 <?php
 
 use ILIAS\Setup\Agent\NullAgent;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\Objective;
 
 class ilTestQuestionPoolSetupAgent extends NullAgent
 {
-    public function getMigrations() : array
+    public function getUpdateObjective(ILIAS\Setup\Config $config = null) : ILIAS\Setup\Objective
     {
-        return [
-            "8.0" => new TQP80Migration()
-        ];
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilTestQuestionPool80DBUpdateSteps());
     }
 }
