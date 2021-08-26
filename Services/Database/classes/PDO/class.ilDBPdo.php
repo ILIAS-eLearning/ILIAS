@@ -192,7 +192,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $this->dropTable($table_name, false);
         }
 
-        return $this->manager->createTable($table_name, $fields, array());
+        return (bool)$this->manager->createTable($table_name, $fields, array());
     }
 
     /**

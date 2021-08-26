@@ -21,12 +21,9 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @return int|bool
-     */
-    public function createTable($name, $fields, array $options = array())
+    public function createTable(string $name, array $fields, array $options = array()) : bool
     {
-        return $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
+        return (bool) $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
     }
 
 

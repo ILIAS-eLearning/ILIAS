@@ -257,16 +257,11 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         return $this->pdo->exec($statement);
     }
 
-    /**
-     * @param $name
-     * @param $fields
-     * @return int|bool
-     */
-    public function createTable($name, $fields, array $options = array())
+    public function createTable(string $name, array $fields, array $options = array()) : bool
     {
         $options['type'] = $this->db_instance->getStorageEngine();
 
-        return $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
+        return (bool) $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
     }
 
     public function getIndexName(string $idx) : string
