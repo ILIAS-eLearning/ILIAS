@@ -11,9 +11,9 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\IsArrayOfSameType;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -43,7 +43,7 @@ class TupleTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(array(1, 2));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -60,7 +60,7 @@ class TupleTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(array(1, 2));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -78,7 +78,7 @@ class TupleTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(array(1, 2, 3));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
         $this->fail();
@@ -125,7 +125,7 @@ class TupleTransformationTest extends TestCase
             $transformation = new TupleTransformation(
                 array(new IntegerTransformation(), 'hello')
             );
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

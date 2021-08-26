@@ -1,3 +1,4 @@
+/**
 * This file is part of ILIAS, a powerful learning management system
 * published by ILIAS open source e-Learning e.V.
 *
@@ -11,6 +12,8 @@
 * https://www.ilias.de
 * https://github.com/ILIAS-eLearning
 *
+********************************************************************
+*/
 /**
 * ILIAS language file (All entries)
 *
@@ -16587,3 +16590,6 @@ irss#:#resource_id#:#Resource ID
 irss#:#storage_id#:#Storage ID
 irss#:#max_revision#:#Max. Revision
 irss#:#stakeholders#:#Stakeholders
+ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
+ui#:#ui_link_label#:#Label
+ui#:#ui_link_url#:#URL

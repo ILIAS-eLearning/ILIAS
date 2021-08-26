@@ -1172,20 +1172,10 @@ abstract class assQuestion
         );
     }
 
-    /**
-     * Logs an action into the Test&Assessment log
-     *
-     * @param string $logtext The log text
-     * @param int|string $active_id
-     * @param int|string $question_id If given, saves the question id to the database
-     */
-    public static function logAction(string $logtext = "", $active_id = "", $question_id = "") : void
+    public static function logAction(string $logtext, int $active_id, int $question_id) : void
     {
-        $original_id = "";
-        if (strlen($question_id)) {
-            $original_id = self::_getOriginalId($question_id);
-        }
-        
+        $original_id = self::_getOriginalId($question_id);
+
         require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
         require_once 'Modules/Test/classes/class.ilObjTest.php';
         
@@ -2971,7 +2961,9 @@ abstract class assQuestion
                     $ilUser = $DIC['ilUser'];
                     include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
                     $username = ilObjTestAccess::_getParticipantData($active_id);
-                    assQuestion::logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points", ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points, $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+                    assQuestion::logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points",
+                        ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points,
+                        $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
                 }
             }
 

@@ -13,6 +13,7 @@ use ILIAS\Refinery\To\Transformation\IntegerTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -50,7 +51,7 @@ class SeriesTest extends TestCase
 
         try {
             $result = $series->transform(42.0);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

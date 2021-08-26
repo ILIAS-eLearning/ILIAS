@@ -26,7 +26,9 @@ a class that implements from `ILIAS\Setup\Agent`, you MUST put it in the subfold
 you could just extend from the `NullAgent`.
 
 ```php
-class MySetupAgent extends NullAgent
+use ILIAS\Setup;
+
+class MySetupAgent extends Setup\Agent\NullAgent
 {
 }
 ```
@@ -56,7 +58,9 @@ class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 This new class then needs to be wired into the Agent:
 
 ```php
-class MySetupAgent extends NullAgent
+use ILIAS\Setup;
+
+class MySetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
