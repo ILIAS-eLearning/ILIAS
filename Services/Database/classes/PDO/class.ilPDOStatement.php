@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilPDOStatement is a Wrapper Class for PDOStatement
@@ -9,10 +9,7 @@
 class ilPDOStatement implements ilDBStatement
 {
 
-    /**
-     * @var PDOStatement
-     */
-    protected $pdo_statement;
+    protected \PDOStatement $pdo_statement;
 
 
     /**
@@ -25,27 +22,27 @@ class ilPDOStatement implements ilDBStatement
 
 
     /**
-     * @param int $fetch_mode
-     * @return mixed
+     * @return mixed|void
      * @throws ilDatabaseException
      */
-    public function fetchRow($fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
+    public function fetchRow(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
     {
-        if ($fetch_mode == ilDBConstants::FETCHMODE_ASSOC) {
+        if ($fetch_mode === ilDBConstants::FETCHMODE_ASSOC) {
             return $this->pdo_statement->fetch(PDO::FETCH_ASSOC);
-        } elseif ($fetch_mode == ilDBConstants::FETCHMODE_OBJECT) {
-            return $this->pdo_statement->fetch(PDO::FETCH_OBJ);
-        } else {
-            throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
         }
+
+        if ($fetch_mode === ilDBConstants::FETCHMODE_OBJECT) {
+            return $this->pdo_statement->fetch(PDO::FETCH_OBJ);
+        }
+
+        throw new ilDatabaseException("No valid fetch mode given, choose ilDBConstants::FETCHMODE_ASSOC or ilDBConstants::FETCHMODE_OBJECT");
     }
 
 
     /**
-     * @param int $fetch_mode
      * @return mixed|void
      */
-    public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
+    public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
     {
         return $this->fetchRow($fetch_mode);
     }
@@ -54,43 +51,31 @@ class ilPDOStatement implements ilDBStatement
     /**
      * Pdo allows for a manual closing of the cursor.
      */
-    public function closeCursor()
+    public function closeCursor(): void
     {
         $this->pdo_statement->closeCursor();
     }
 
 
-    /**
-     * @return int
-     */
-    public function rowCount()
+    public function rowCount() : int
     {
         return $this->pdo_statement->rowCount();
     }
 
 
-    /**
-     * @return stdClass
-     */
-    public function fetchObject()
+    public function fetchObject() : ?stdClass
     {
-        return $this->fetch(ilDBConstants::FETCHMODE_OBJECT);
+        return $this->fetch(ilDBConstants::FETCHMODE_OBJECT) ?: null;
     }
 
 
-    /**
-     * @return array
-     */
-    public function fetchAssoc()
+    public function fetchAssoc() : ?array
     {
         return $this->fetch(ilDBConstants::FETCHMODE_ASSOC);
     }
 
 
-    /**
-     * @return int
-     */
-    public function numRows()
+    public function numRows() : int
     {
         return $this->pdo_statement->rowCount();
     }
@@ -99,25 +84,22 @@ class ilPDOStatement implements ilDBStatement
     /**
      * @inheritdoc
      */
-    public function execute($a_data = null)
+    public function execute(array $a_data = null) : ilDBStatement
     {
         $this->pdo_statement->execute($a_data);
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function errorCode()
+    public function errorCode(): string
     {
         return $this->pdo_statement->errorCode();
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
-    public function errorInfo()
+    public function errorInfo(): array
     {
         return $this->pdo_statement->errorInfo();
     }

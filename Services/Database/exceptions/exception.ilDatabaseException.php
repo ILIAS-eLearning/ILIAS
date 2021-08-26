@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDatabaseException
@@ -26,15 +26,12 @@ class ilDatabaseException extends ilException
 
     /**
      * @param $code
-     * @return string
      */
-    protected function tranlateException($code)
+    protected function tranlateException($code): string
     {
         $message = 'An undefined Database Exception occured';
-        switch ($code) {
-            case static::DB_GENERAL:
-                $message = 'An undefined Database Exception occured';
-                break;
+        if ($code === static::DB_GENERAL) {
+            $message = 'An undefined Database Exception occured';
         }
 
         return $message . '. ';

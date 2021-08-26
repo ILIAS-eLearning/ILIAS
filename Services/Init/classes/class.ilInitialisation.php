@@ -512,11 +512,11 @@ class ilInitialisation
         define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
         define("CLIENT_NAME", $ilClientIniFile->readVariable('client', 'name')); // Change SS
 
-        $val = $ilClientIniFile->readVariable("db", "type");
-        if ($val == "") {
-            define("IL_DB_TYPE", "mysql");
+        $db_type = $ilClientIniFile->readVariable("db", "type");
+        if ($db_type === "") {
+            define("IL_DB_TYPE", ilDBConstants::TYPE_PDO_MYSQL_INNODB);
         } else {
-            define("IL_DB_TYPE", $val);
+            define("IL_DB_TYPE", $db_type);
         }
 
         $ilGlobalCacheSettings = new ilGlobalCacheSettings();

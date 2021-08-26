@@ -55,6 +55,7 @@ class ilBookingPrefBookCron extends ilCronJob
 
     public function getDefaultScheduleValue() : ?int
     {
+        return null;
     }
 
     public function hasAutoActivation() : bool

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -26,6 +26,9 @@ class ilDatabaseExistsObjective extends \ilDatabaseObjective
         return true;
     }
 
+    /**
+     * @return \ilDatabaseServerIsConnectableObjective[]|\ilDatabaseCreatedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         $preconditions = [

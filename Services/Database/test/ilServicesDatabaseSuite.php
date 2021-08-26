@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -33,18 +33,11 @@ class ilServicesDatabaseSuite extends TestSuite
 {
 
     /**
-     * @return ilServicesDatabaseSuite
-     *
      * @throws ReflectionException
      */
-    public static function suite()
+    public static function suite(): \ilServicesDatabaseSuite
     {
         $suite = new self();
-
-        require_once('./Services/Database/test/Atom/ilDatabaseAtomSuite.php'); // This seems to be needed in UnitTests
-        $suite->addTestSuite(new ilDatabaseAtomSuite());
-
-        require_once('./Services/Database/test/Setup/ilDatabaseSetupSuite.php'); // This seems to be needed in UnitTests
         $suite->addTestSuite(ilDatabaseSetupSuite::suite());
 
         return $suite;

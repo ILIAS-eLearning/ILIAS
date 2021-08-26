@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilDBStatement
@@ -13,43 +13,26 @@ interface ilDBStatement
      * @param $fetch_mode int Is either ilDBConstants::FETCHMODE_ASSOC OR ilDBConstants::FETCHMODE_OBJECT
      * @return mixed Returns an array in fetchmode assoc and an object in fetchmode object.
      */
-    public function fetchRow($fetch_mode);
+    public function fetchRow(int $fetch_mode);
 
 
     /**
-     * @param int $fetch_mode
      * @return mixed
      */
-    public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
+    public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
 
 
-    /**
-     * @return int
-     */
-    public function rowCount();
+    public function rowCount() : int;
 
 
-    /**
-     * @return int
-     */
-    public function numRows();
+    public function numRows() : int;
 
 
-    /**
-     * @return stdClass
-     */
-    public function fetchObject();
+    public function fetchObject() : ?stdClass;
 
 
-    /**
-     * @return array
-     */
-    public function fetchAssoc();
+    public function fetchAssoc() : ?array;
 
 
-    /**
-     * @param array $a_data
-     * @return \ilPDOStatement
-     */
-    public function execute($a_data = null);
+    public function execute(array $a_data = null) : ilDBStatement;
 }
