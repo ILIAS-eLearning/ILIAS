@@ -46,6 +46,11 @@ class UserDataRepository
         $this->defaultTitle = $defaultTitle;
     }
 
+    /**
+     * @param UserDataFilter $filter
+     * @param string[] $ilCtrlStack
+     * @return array<int, UserCertificateDto>
+     */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
         $sql = 'SELECT
@@ -104,7 +109,7 @@ FROM
         }
 
         if ($filter->getLimitOffset() !== null && $filter->getLimitCount() !== null) {
-            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount());
+            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount(), true);
         }
 
         return $result;

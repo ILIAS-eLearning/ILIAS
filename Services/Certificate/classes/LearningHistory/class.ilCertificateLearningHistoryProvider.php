@@ -98,15 +98,19 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
             $objectId = $certificate->getUserCertificate()->getObjId();
 
             $this->ctrl->setParameterByClass(
-                'ilUserCertificateGUI',
+                ilUserCertificateGUI::class,
                 'certificate_id',
                 $certificate->getUserCertificate()->getId()
             );
-            $href = $this->ctrl->getLinkTargetByClass(['ilDashboardGUI',
-                                                             'ilAchievementsGUI',
-                                                             'ilUserCertificateGUI'
-            ], 'download');
-            $this->ctrl->clearParametersByClass('ilUserCertificateGUI');
+            $href = $this->ctrl->getLinkTargetByClass(
+                [
+                    ilDashboardGUI::class,
+                    ilAchievementsGUI::class,
+                    ilUserCertificateGUI::class
+                ],
+                'download'
+            );
+            $this->ctrl->clearParametersByClass(ilUserCertificateGUI::class);
 
             $prefixTextWithLink = sprintf(
                 $this->lng->txt('certificate_achievement_sub_obj'),

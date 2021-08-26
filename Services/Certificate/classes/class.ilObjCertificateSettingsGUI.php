@@ -72,15 +72,15 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
-        switch ($next_class) {
-            case 'ilpermissiongui':
+        switch (strtolower($next_class)) {
+            case strtolower(ilPermissionGUI::class):
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "settings";
                 }
 
@@ -104,9 +104,9 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         if ($this->access->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"),
                 [],
-                'ilpermissiongui'
+                strtolower(ilPermissionGUI::class)
             );
         }
     }

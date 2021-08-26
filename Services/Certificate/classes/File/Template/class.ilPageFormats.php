@@ -20,7 +20,7 @@ class ilPageFormats
 
     /**
      * Retrieves predefined page formats
-     * @return array Associative array containing available page formats>
+     * @return array<string, array{name: string, value: string, width: string, height: string}>
      */
     public function fetchPageFormats() : array
     {

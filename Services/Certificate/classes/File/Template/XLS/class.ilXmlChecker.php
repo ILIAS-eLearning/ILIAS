@@ -41,7 +41,7 @@ class ilXMLChecker extends ilSaxParser
     public int $texts;
     public int $text_size;
 
-    public function __construct(string $a_xml_file = '', $throwException = false)
+    public function __construct(string $a_xml_file = '', bool $throwException = false)
     {
         parent::__construct($a_xml_file, $throwException);
         $this->has_error = false;
@@ -55,15 +55,6 @@ class ilXMLChecker extends ilSaxParser
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
-    }
-
-    /**
-     * start the parser
-     * @throws ilSaxParserException
-     */
-    public function startParsing() : void
-    {
-        parent::startParsing();
     }
 
     /**
@@ -99,7 +90,7 @@ class ilXMLChecker extends ilSaxParser
     /**
      * @param XmlParser|resource $a_xml_parser
      */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs) : void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         $this->elements++;
         $this->attributes += count($a_attribs);

@@ -43,7 +43,6 @@ class UserCertificateDto
         $this->issuedOnTimestamp = $issuedOnTimestamp;
         $this->userId = $userId;
         $this->downloadLink = (string) $downloadLink;
-
         $this->userFirstName = $userFirstName;
         $this->userLastName = $userLastName;
         $this->userLogin = $userLogin;
@@ -51,49 +50,31 @@ class UserCertificateDto
         $this->userSecondEmail = $userSecondEmail;
     }
 
-    /**
-     * @return string
-     */
     public function getObjectTitle() : string
     {
         return $this->objectTitle;
     }
 
-    /**
-     * @return int
-     */
     public function getObjectId() : int
     {
         return $this->objectId;
     }
 
-    /**
-     * @return int
-     */
     public function getIssuedOnTimestamp() : int
     {
         return $this->issuedOnTimestamp;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function getDownloadLink() : string
     {
         return $this->downloadLink;
     }
 
-    /**
-     * @return int
-     */
     public function getCertificateId() : int
     {
         return $this->certificateId;
@@ -107,49 +88,31 @@ class UserCertificateDto
         return $this->objectRefIds;
     }
 
-    /**
-     * @return string
-     */
     public function getUserFirstName() : string
     {
         return $this->userFirstName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLastName() : string
     {
         return $this->userLastName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLogin() : string
     {
         return $this->userLogin;
     }
 
-    /**
-     * @return string
-     */
     public function getUserEmail() : string
     {
         return $this->userEmail;
     }
 
-    /**
-     *
-     */
     public function addRefId(int $refId) : void
     {
         $this->objectRefIds[] = $refId;
     }
 
-    /**
-     * @return string
-     */
     public function getUserSecondEmail() : string
     {
         return $this->userSecondEmail;
