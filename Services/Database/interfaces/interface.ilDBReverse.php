@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilDBReverse
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -10,32 +9,22 @@ interface ilDBReverse
 {
 
     /**
-     * @param $table_name
-     * @param $field_name
-     * @return array
+     * @return mixed[]
      */
-    public function getTableFieldDefinition($table_name, $field_name);
-
+    public function getTableFieldDefinition(string $table_name, string $field_name) : array;
 
     /**
-     * @param $table
-     * @param $constraint_name
-     * @return array
+     * @return mixed[]
      */
-    public function getTableIndexDefinition($table, $constraint_name);
-
+    public function getTableIndexDefinition(string $table, string $constraint_name) : array;
 
     /**
-     * @param $table
-     * @param $index_name
-     * @return array
+     * @return mixed[]
      */
-    public function getTableConstraintDefinition($table, $index_name);
-
+    public function getTableConstraintDefinition(string $table, string $index_name) : array;
 
     /**
-     * @param $trigger
-     * @return array
+     * @return mixed[]
      */
-    public function getTriggerDefinition($trigger);
+    public function getTriggerDefinition(string $trigger) : array;
 }

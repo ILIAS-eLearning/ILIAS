@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,10 +11,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
 
-    /**
-     * @var Refinery
-     */
-    protected $refinery;
+    protected Refinery $refinery;
 
     public function __construct(Refinery $refinery)
     {
@@ -35,7 +32,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
-        return $this->refinery->custom()->transformation(function ($data) {
+        return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
                 $data["type"] ?? "innodb",
@@ -56,6 +53,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @noinspection PhpParamsInspection */
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
@@ -72,6 +70,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     {
         $p = [];
         if ($config !== null) {
+            /** @noinspection PhpParamsInspection */
             $p[] = new \ilDatabaseConfigStoredObjective($config);
         }
         $p[] = new \ilDatabaseUpdatedObjective();

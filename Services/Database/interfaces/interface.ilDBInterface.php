@@ -1,690 +1,362 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilDBInterface
- *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilDBInterface
 {
 
-    /**
-     * @return bool
-     */
-    public function doesCollationSupportMB4Strings();
+    public function doesCollationSupportMB4Strings() : bool;
 
     /**
      * @param $query string to sanitize, all MB4-Characters like emojis will re replaced with ???
-     *
      * @return string sanitized query
      */
-    public function sanitizeMB4StringIfNotSupported($query);
+    public function sanitizeMB4StringIfNotSupported(string $query) : string;
 
     /**
      * Get reserved words. This must be overwritten in DBMS specific class.
      * This is mainly used to check whether a new identifier can be problematic
      * because it is a reserved word. So createTable / alterTable usually check
      * these.
+     * @return string[]
      */
-    public static function getReservedWords();
-
+    public static function getReservedWords() : array;
 
     /**
-     * @param null $tmpClientIniFile
+     * @param ilIniFile|null $tmpClientIniFile
      */
-    public function initFromIniFile($tmpClientIniFile = null);
+    public function initFromIniFile(ilIniFile $ini = null) : void;
 
-
-    /**
-     * @param bool $return_false_on_error
-     * @return mixed
-     */
-    public function connect($return_false_on_error = false);
-
+    public function connect(bool $return_false_on_error = false) : ?bool;
 
     /**
      * @param $table_name string
-     *
-     * @return int
      */
-    public function nextId($table_name);
+    public function nextId(string $table_name) : int;
 
-
-    /**
-     * @param $table_name
-     * @param $fields
-     * @param bool $drop_table
-     * @param bool $ignore_erros
-     * @return mixed
-     */
-    public function createTable($table_name, $fields, $drop_table = false, $ignore_erros = false);
-
+    public function createTable(
+        string $table_name,
+        array $fields,
+        bool $drop_table = false,
+        bool $ignore_erros = false
+    ) : bool;
 
     /**
      * @param $table_name   string
      * @param $primary_keys array
      */
-    public function addPrimaryKey($table_name, $primary_keys);
+    public function addPrimaryKey(string $table_name, array $primary_keys) : bool;
 
+    public function createSequence(string $table_name, int $start = 1) : bool;
 
-    /**
-     * @param $table_name
-     * @param int $start
-     */
-    public function createSequence($table_name, $start = 1);
-
-
-    /**
-     * @param $table_name
-     * @return string
-     */
-    public function getSequenceName($table_name);
-
+    public function getSequenceName(string $table_name) : string;
 
     /**
      * @param $table_name string
-     *
-     * @return bool
      */
-    public function tableExists($table_name);
-
+    public function tableExists(string $table_name) : bool;
 
     /**
      * @param $table_name  string
      * @param $column_name string
-     *
-     * @return bool
      */
-    public function tableColumnExists($table_name, $column_name);
-
+    public function tableColumnExists(string $table_name, string $column_name) : bool;
 
     /**
      * @param $table_name  string
      * @param $column_name string
      * @param $attributes  array
      */
-    public function addTableColumn($table_name, $column_name, $attributes);
+    public function addTableColumn(string $table_name, string $column_name, array $attributes) : bool;
 
+    public function dropTable(string $table_name, bool $error_if_not_existing = true) : bool;
 
-    /**
-     * @param $table_name
-     * @param bool $error_if_not_existing
-     * @return bool
-     */
-    public function dropTable($table_name, $error_if_not_existing = true);
-
-
-    /**
-     * @param $old_name
-     * @param $new_name
-     *
-     * @return mixed
-     */
-    public function renameTable($old_name, $new_name);
-
+    public function renameTable(string $old_name, string $new_name) : bool;
 
     /**
      * Run a (read-only) Query on the database
-     *
-     * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
-     *
-     * $ilBench->startDbBench($sql);
-     * .... [run the query]
-     * $ilBench->stopDbBench();
-     *
      * @param $query string
-     *
-     * @return \ilPDOStatement
      */
-    public function query($query);
-
+    public function query(string $query) : ilDBStatement;
 
     /**
-     * @param $query_result
-     * @param int $fetch_mode
-     * @return array
+     * @param ilDBStatement $query_result
+     * @return mixed[]
      */
-    public function fetchAll($query_result, $fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
-
+    public function fetchAll(ilDBStatement $statement, int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC) : array;
 
     /**
      * @param $table_name string
      */
-    public function dropSequence($table_name);
-
+    public function dropSequence(string $table_name) : bool;
 
     /**
      * @param $table_name  string
      * @param $column_name string
      */
-    public function dropTableColumn($table_name, $column_name);
-
+    public function dropTableColumn(string $table_name, string $column_name) : bool;
 
     /**
      * @param $table_name      string
      * @param $column_old_name string
      * @param $column_new_name string
      */
-    public function renameTableColumn($table_name, $column_old_name, $column_new_name);
-
-
-    /**
-     * @param $table_name string
-     * @param $values
-     * @return int|void
-     */
-    public function insert($table_name, $values);
-
+    public function renameTableColumn(string $table_name, string $column_old_name, string $column_new_name) : bool;
 
     /**
-     * @param $query_result PDOStatement
-     *
-     * @return mixed|null
+     * @param       $table_name string
      */
-    public function fetchObject($query_result);
+    public function insert(string $table_name, array $values) : void;
 
+    /**
+     * @param $query_result ilDBStatement
+     */
+    public function fetchObject(ilDBStatement $query_result) : ?stdClass;
 
     /**
      * @param $table_name string
      * @param $values     array
      * @param $where      array
-     * @return int|void
      */
-    public function update($table_name, $values, $where);
-
+    public function update(string $table_name, array $values, array $where) : void;
 
     /**
      * Run a (write) Query on the database
-     *
-     * The implementation MUST start and stop a $ilBench Database-Benchmark, e.g.:
-     *
-     * $ilBench->startDbBench($sql);
-     * .... [run the query]
-     * $ilBench->stopDbBench();
-     *
      * @param $query string
-     * @return int|void
      */
-    public function manipulate($query);
-
+    public function manipulate(string $query) : bool;
 
     /**
      * @param $query_result ilDBStatement
-     *
-     * @return mixed
      */
-    public function fetchAssoc($query_result);
-
+    public function fetchAssoc(ilDBStatement $statement) : ?array;
 
     /**
-     * @param $query_result PDOStatement
-     *
-     * @return int
+     * @param $query_result ilDBStatement
      */
-    public function numRows($query_result);
-
+    public function numRows(ilDBStatement $statement) : int;
 
     /**
-     * @param $value
-     * @param $type
-     *
-     * @return string
+     * @param mixed  $value
      */
-    public function quote($value, $type);
+    public function quote($value, string $type) : string;
 
+    public function addIndex(string $table_name, array $fields, string $index_name = '', bool $fulltext = false) : bool;
 
-    /**
-     * @param $table_name
-     * @param $fields
-     * @param string $index_name
-     * @param bool $fulltext
-     * @return bool
-     */
-    public function addIndex($table_name, $fields, $index_name = '', $fulltext = false);
-
-
-    /**
-     * @param $table_name
-     * @param $fields
-     *
-     * @return mixed
-     */
-    public function indexExistsByFields($table_name, $fields);
-
-    /**
-     * @param int $fetchMode
-     * @return mixed
-     */
-    //	public function fetchRow($fetchMode = ilDBConstants::FETCHMODE_ASSOC);
+    public function indexExistsByFields(string $table_name, array $fields) : bool;
 
     /**
      * Get DSN. This must be overwritten in DBMS specific class.
      */
-    public function getDSN();
-
+    public function getDSN() : string;
 
     /**
      * Get DSN. This must be overwritten in DBMS specific class.
      */
-    public function getDBType();
-
+    public function getDBType() : string;
 
     /**
      * Abstraction of lock table
-     *
-     * @deprecated Use ilAtomQuery instead
      * @param array table definitions
-     * @return
+     * @deprecated Use ilAtomQuery instead
      */
-    public function lockTables($tables);
-
+    public function lockTables(array $tables) : void;
 
     /**
      * Unlock tables locked by previous lock table calls
-     *
      * @deprecated Use ilAtomQuery instead
-     * @return
      */
-    public function unlockTables();
-
+    public function unlockTables() : void;
 
     /**
      * @param $field  string
      * @param $values array
-     * @param bool $negate
-     * @param string $type
-     * @return string
      */
-    public function in($field, $values, $negate = false, $type = "");
-
+    public function in(string $field, array $values, bool $negate = false, string $type = "") : string;
 
     /**
      * @param $query  string
      * @param $types  string[]
      * @param $values mixed[]
-     * @return \ilDBStatement
      */
-    public function queryF($query, $types, $values);
-
+    public function queryF(string $query, array $types, array $values) : ilDBStatement;
 
     /**
      * @param $query  string
      * @param $types  string[]
      * @param $values mixed[]
-     * @return string
      */
-    public function manipulateF($query, $types, $values);
-
+    public function manipulateF(string $query, array $types, array $values) : bool;
 
     /**
-     * Return false iff slave is not supported.
-     *
-     * @param $bool
-     * @return bool
+     * @deprecated
      */
-    public function useSlave($bool);
+    public function useSlave(bool $bool) : bool;
 
-
-    /**
-     * @param $limit
-     * @param $offset
-     */
-    public function setLimit($limit, $offset);
-
+    public function setLimit(int $limit, int $offset) : void;
 
     /**
      * Generate a like subquery.
-     *
-     * @param string $column
-     * @param string $type
      * @param mixed $value
-     * @param bool $case_insensitive
-     * @return string
      */
-    public function like($column, $type, $value = "?", $case_insensitive = true);
-
+    public function like(string $column, string $type, $value = "?", bool $case_insensitive = true) : string;
 
     /**
      * @return string the now statement
      */
-    public function now();
-
+    public function now() : string;
 
     /**
      * Replace into method.
-     *
-     * @param    string        table name
-     * @param    array         primary key values: array("field1" => array("text", $name), "field2" => ...)
-     * @param    array         other values: array("field1" => array("text", $name), "field2" => ...)
+     * @param string        table name
+     * @param array         primary key values: array("field1" => array("text", $name), "field2" => ...)
+     * @param array         other values: array("field1" => array("text", $name), "field2" => ...)
      */
-    public function replace($table, $primaryKeys, $otherColumns);
-
+    public function replace(string $table, array $primary_keys, array $other_columns) : void;
 
     /**
      * @param $columns
      * @param $value
      * @param $type
-     * @param bool $emptyOrNull
      * @return string
      */
-    public function equals($columns, $value, $type, $emptyOrNull = false);
+    public function equals($columns, $value, $type, bool $emptyOrNull = false);
 
+    public function setDBUser(string $user) : void;
 
-    /**
-     * @param $user
-     */
-    public function setDBUser($user);
+    public function setDBPort(int $port) : void;
 
+    public function setDBPassword(string $password) : void;
 
-    /**
-     * @param $port
-     */
-    public function setDBPort($port);
-
+    public function setDBHost(string $host) : void;
 
     /**
-     * @param $password
+     * @param string $a_exp
      */
-    public function setDBPassword($password);
-
+    public function upper(string $expression) : string;
 
     /**
-     * @param $host
+     * @param string $a_exp
      */
-    public function setDBHost($host);
-
+    public function lower(string $expression) : string;
 
     /**
-     * @param $a_exp
-     * @return string
+     * @param string $a_exp
      */
-    public function upper($a_exp);
-
-
-    /**
-     * @param $a_exp
-     * @return string
-     */
-    public function lower($a_exp);
-
-
-    /**
-     * @param $a_exp
-     * @return string
-     */
-    public function substr($a_exp);
+    public function substr(string $expression) : string;
 
     /**
      * Prepare a query (SELECT) statement to be used with execute.
-     *
-     * @param	string $a_query
-     *
-     * @return	\ilDBStatement
      */
-    public function prepare($a_query, $a_types = null, $a_result_types = null);
-
+    public function prepare(string $a_query, array $a_types = null, array $a_result_types = null) : ilDBStatement;
 
     /**
-     * @param $a_query
-     * @param null $a_types
-     * @return ilDBStatement
+     * @param array|null $a_types
      */
-    public function prepareManip($a_query, $a_types = null);
+    public function prepareManip(string $a_query, array $a_types = null) : ilDBStatement;
 
+    public function enableResultBuffering(bool $a_status) : void;
 
     /**
-     * @param $a_status
-     */
-    public function enableResultBuffering($a_status);
-
-
-    /**
-     * @param $stmt
-     * @param array $data
      * @throws ilDatabaseException
-     * @return ilDBStatement
      */
-    public function execute($stmt, $data = array());
+    public function execute(ilDBStatement $stmt, array $data = []) : ilDBStatement;
+
+    public function sequenceExists(string $sequence) : bool;
 
     /**
-     * @param $sequence
-     * @return mixed
+     * @return string[]
      */
-    public function sequenceExists($sequence);
+    public function listSequences() : array;
 
+
+
+    public function supports(string $feature) : bool;
+
+    public function supportsFulltext() : bool;
+
+    public function supportsSlave() : bool;
+
+    public function supportsTransactions() : bool;
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function listSequences();
-
-
-
-    //
-    // type-specific methods
-    //
-
-    /**
-     * @param $feature
-     * @return bool
-     */
-    public function supports($feature);
-
-
-    /**
-     * @return bool
-     */
-    public function supportsFulltext();
-
-
-    /**
-     * @return bool
-     */
-    public function supportsSlave();
-
-
-    /**
-     * @return bool
-     */
-    public function supportsTransactions();
-
-    //
-    //
-    //
-    /**
-     * @return array
-     */
-    public function listTables();
-
+    public function listTables() : array;
 
     /**
      * @param string $module Manager|Reverse
-     *
      * @return ilDBReverse|ilDBManager
-     *
      * @internal Please do not use this in consumer code outside the Setup-Process or DB-Update-Steps.
      */
-    public function loadModule($module);
-
+    public function loadModule(string $module);
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getAllowedAttributes();
+    public function getAllowedAttributes() : array;
 
+    public function concat(array $values, bool $allow_null = true) : string;
 
-    /**
-     * @param array $values
-     * @param bool $allow_null
-     * @return mixed
-     */
-    public function concat(array $values, $allow_null = true);
+    public function locate(string $a_needle, string $a_string, int $a_start_pos = 1) : string;
 
+    public function quoteIdentifier(string $identifier, bool $check_option = false) : string;
 
-    /**
-     * @param $a_needle
-     * @param $a_string
-     * @param int $a_start_pos
-     * @return mixed
-     */
-    public function locate($a_needle, $a_string, $a_start_pos = 1);
+    public function modifyTableColumn(string $table, string $column, array $attributes) : bool;
 
+    public function free(ilDBStatement $a_st) : void;
+
+    public function checkTableName(string $a_name) : bool;
+
+    public static function isReservedWord(string $a_word) : bool;
 
     /**
-     * @param $identifier
-     * @param bool $check_option
-     * @return string
-     */
-    public function quoteIdentifier($identifier, $check_option = false);
-
-
-    /**
-     * @param $table
-     * @param $column
-     * @param $attributes
-     * @return bool
-     */
-    public function modifyTableColumn($table, $column, $attributes);
-
-
-    /**
-     * @param $a_st
-     * @return mixed
-     */
-    public function free($a_st);
-
-
-    /**
-     * @param $a_name
-     * @return bool
-     */
-    public function checkTableName($a_name);
-
-
-    /**
-     * @param $a_word
-     * @return bool
-     */
-    public static function isReservedWord($a_word);
-
-
-    /**
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function beginTransaction();
-
+    public function beginTransaction() : bool;
 
     /**
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function commit();
-
+    public function commit() : bool;
 
     /**
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function rollback();
+    public function rollback() : bool;
 
+    public function constraintName(string $a_table, string $a_constraint) : string;
 
-    /**
-     * @param $a_table
-     * @param $a_constraint
-     * @return string
-     */
-    public function constraintName($a_table, $a_constraint);
+    public function dropIndex(string $a_table, string $a_name = "i1") : bool;
 
+    public function createDatabase(string $a_name, string $a_charset = "utf8", string $a_collation = "") : bool;
 
-    /**
-     * @param $a_table
-     * @param string $a_name
-     * @return bool
-     */
-    public function dropIndex($a_table, $a_name = "i1");
+    public function dropIndexByFields(string $table_name, array $afields) : bool;
 
+    public function getPrimaryKeyIdentifier() : string;
 
-    /**
-     * @param $a_name
-     * @param string $a_charset
-     * @param string $a_collation
-     * @return mixed
-     */
-    public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
+    public function addFulltextIndex(string $table_name, array $afields, string $a_name = 'in') : bool;
 
+    public function dropFulltextIndex(string $a_table, string $a_name) : bool;
 
-    /**
-     * @param $table_name
-     * @param $afields
-     * @return bool
-     */
-    public function dropIndexByFields($table_name, $afields);
+    public function isFulltextIndex(string $a_table, string $a_name) : bool;
 
+    public function setStorageEngine(string $storage_engine) : void;
 
-    /**
-     * @return string
-     */
-    public function getPrimaryKeyIdentifier();
-
-
-    /**
-     * @param $table_name
-     * @param $afields
-     * @param string $a_name
-     * @return bool
-     */
-    public function addFulltextIndex($table_name, $afields, $a_name = 'in');
-
-
-    /**
-     * @param $a_table
-     * @param $a_name
-     * @return bool
-     */
-    public function dropFulltextIndex($a_table, $a_name);
-
-
-    /**
-     * @param $a_table
-     * @param $a_name
-     * @return bool
-     */
-    public function isFulltextIndex($a_table, $a_name);
-
-
-    /**
-     * @param $storage_engine
-     */
-    public function setStorageEngine($storage_engine);
-
-
-    /**
-     * @return string
-     */
-    public function getStorageEngine();
-
+    public function getStorageEngine() : string;
 
     /**
      * @return \ilAtomQuery
      */
     public function buildAtomQuery();
 
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null) : string;
 
     /**
-     * @param string $a_field_name
-     * @param string $a_seperator
-     * @param string $a_order
-     * @return string
-     */
-    public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null);
-
-
-    /**
-     * @param string $a_field_name
-     * @param string $a_dest_type
      * @return string;
      */
-    public function cast($a_field_name, $a_dest_type);
+    public function cast(string $a_field_name, string $a_dest_type) : string;
 }

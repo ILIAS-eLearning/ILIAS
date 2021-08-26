@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -21,6 +21,9 @@ class ilDatabaseInitializedObjective implements Setup\Objective
         return true;
     }
 
+    /**
+     * @return \ilIniFilesLoadedObjective[]|\ilDatabaseConfigStoredObjective[]|\ilDatabasePopulatedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         // If there is no config for the database the existing config seems
@@ -47,8 +50,8 @@ class ilDatabaseInitializedObjective implements Setup\Objective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
         $type = $client_ini->readVariable("db", "type");
-        if ($type == "") {
-            $type = "mysql";
+        if ($type === "") {
+            $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB;
         }
 
         $db = \ilDBWrapperFactory::getWrapper($type);

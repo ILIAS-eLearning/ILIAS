@@ -49,6 +49,9 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
 class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
 {
+    protected Test_ilDatabaseUpdateSteps $steps;
+    protected ilDatabaseUpdateStepsExecutedObjective $objective;
+
     protected function setUp() : void
     {
         $this->steps = new Test_ilDatabaseUpdateSteps;
@@ -90,6 +93,8 @@ class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
     public function testUsesExecutionLock()
     {
         $execution_log = new class($this) implements ilDatabaseUpdateStepExecutionLog {
+            protected $test;
+
             public function __construct($test)
             {
                 $this->test = $test;

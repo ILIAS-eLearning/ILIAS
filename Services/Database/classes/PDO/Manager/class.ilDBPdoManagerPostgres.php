@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDBPdoManager
@@ -11,9 +11,9 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     /**
      * @return \ilPostgresQueryUtils
      */
-    public function getQueryUtils()
+    public function getQueryUtils(): \ilMySQLQueryUtils
     {
-        if (!$this->query_utils) {
+        if ($this->query_utils === null) {
             $this->query_utils = new ilPostgresQueryUtils($this->db_instance);
         }
 
@@ -22,35 +22,18 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
 
     /**
-     * @param $name
-     * @param $fields
-     * @param array $options
-     * @return string
-     * @throws \ilDatabaseException
+     * @return int|bool
      */
-    public function getTableCreationQuery($name, $fields, $options = array())
-    {
-        return $this->getQueryUtils()->createTable($name, $fields, $options);
-    }
-
-
-    /**
-     * @param $name
-     * @param $fields
-     * @param array $options
-     * @return int
-     */
-    public function createTable($name, $fields, $options = array())
+    public function createTable($name, $fields, array $options = array())
     {
         return $this->pdo->exec($this->getQueryUtils()->createTable($name, $fields, $options));
     }
 
 
     /**
-     * @param null $database
-     * @return array
+     * @return mixed[]
      */
-    public function listTables($database = null)
+    public function listTables(string $database = null) : array
     {
         $db = $this->db_instance;
 
@@ -70,48 +53,14 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function createDatabase($name)
+
+    public function alterTable(string $name, array $changes, bool $check) : bool
     {
-        $db = $this->db_instance;
-        $name = $db->quoteIdentifier($name, true);
-
-        return $db->manipulate("CREATE DATABASE $name");
-    }
-
-
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function dropDatabase($name)
-    {
-        $db = $this->db_instance;
-
-        $name = $db->quoteIdentifier($name, true);
-
-        return $db->manipulate("DROP DATABASE $name");
-    }
-
-
-    /**
-     * @param $name
-     * @param $changes
-     * @param $check
-     * @return bool
-     */
-    public function alterTable($name, $changes, $check)
-    {
-        $db = $this->db_instance;
-        $reverse = $db->loadModule(ilDBConstants::MODULE_REVERSE);
         /**
          * @var $db      ilDBPdoPostgreSQL
          * @var $reverse ilDBPdoReversePostgres
          */
-        foreach ($changes as $change_name => $change) {
+        foreach (array_keys($changes) as $change_name) {
             switch ($change_name) {
                 case 'add':
                 case 'remove':
@@ -136,7 +85,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         }
 
         if (!empty($changes['remove']) && is_array($changes['remove'])) {
-            foreach ($changes['remove'] as $field_name => $field) {
+            foreach (array_keys($changes['remove']) as $field_name) {
                 $field_name = $db->quoteIdentifier($field_name, true);
                 $query = 'DROP ' . $field_name;
                 $result = $db->manipulate("ALTER TABLE $name $query");
@@ -150,7 +99,8 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                     $server_info = $db->getServerVersion();
 
                     if (is_array($server_info) && $server_info['major'] < 8) {
-                        throw new ilDatabaseException('changing column type for "' . $change_name . '\" requires PostgreSQL 8.0 or above');
+                        /** @noinspection PhpUndefinedVariableInspection */
+                        throw new ilDatabaseException('changing column type for "' . $change_name ?? 'undefined' . '\" requires PostgreSQL 8.0 or above');
                     }
 
                     $query = "ALTER $field_name TYPE " . $db->getFieldDefinition()->getTypeDeclaration($field);
@@ -183,21 +133,21 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
                 $result = $db->manipulate("ALTER INDEX " . $this->getIndexName($index_name) . " RENAME TO " . $this->getIndexName($index_newname));
             }
         }
-        
+
         return true;
     }
 
 
     /**
-     * @param $table
-     * @return array
+     * @return mixed[]
      */
-    public function listTableFields($table)
+    public function listTableFields(string $table) : array
     {
         $db = $this->db_instance;
 
         $table = $db->quoteIdentifier($table, true);
         $res = $this->pdo->query("select * from $table");
+        $data = [];
         for ($i = 0; $i < $res->columnCount(); $i++) {
             $data[] = $res->getColumnMeta($i)["name"];
         }
@@ -206,10 +156,9 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
 
     /**
-     * @param $table
-     * @return array
+     * @return int[]|string[]
      */
-    public function listTableIndexes($table)
+    public function listTableIndexes(string $table) : array
     {
         $db = $this->db_instance;
 
@@ -217,7 +166,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
         $subquery = "SELECT indexrelid FROM pg_index, pg_class";
         $subquery .= " WHERE pg_class.relname=$table AND pg_class.oid=pg_index.indrelid AND indisunique != 't' AND indisprimary != 't'";
         $query = "SELECT relname FROM pg_class WHERE oid IN ($subquery)";
-        $indexes = $db->queryCol($query, 'text');
+        $indexes = $db->queryCol($query, PDO::FETCH_ASSOC);
 
         $result = array();
         foreach ($indexes as $index) {
@@ -236,10 +185,9 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
 
     /**
-     * @param $table
-     * @return array
+     * @return int[]|string[]
      */
-    public function listTableConstraints($table)
+    public function listTableConstraints(string $table) : array
     {
         $db = $this->db_instance;
 
@@ -267,13 +215,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $seq_name
-     * @param int $start
-     * @param array $options
-     * @return mixed
-     */
-    public function createSequence($seq_name, $start = 1, $options = array())
+    public function createSequence(string $seq_name, int $start = 1, array $options = []) : bool
     {
         $db = $this->db_instance;
 
@@ -283,11 +225,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $seq_name
-     * @return mixed
-     */
-    public function dropSequence($seq_name)
+    public function dropSequence(string $seq_name) : bool
     {
         $db = $this->db_instance;
 
@@ -297,12 +235,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $table
-     * @param $name
-     * @return mixed
-     */
-    public function dropIndex($table, $name)
+    public function dropIndex(string $table, string $name) : bool
     {
         $db = $this->db_instance;
 
@@ -313,11 +246,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $idx
-     * @return mixed
-     */
-    protected function fixIndexName($idx)
+    protected function fixIndexName(string $idx) : string
     {
         $idx_pattern = '/^' . preg_replace('/%s/', '([a-z0-9_]+)', ilDBPdoFieldDefinition::INDEX_FORMAT) . '$/i';
         $idx_name = preg_replace($idx_pattern, '\\1', $idx);
@@ -330,10 +259,10 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
 
 
     /**
-     * @param null $database
-     * @return array
+     * @param string|null $database
+     * @return mixed[]
      */
-    public function listSequences($database = null)
+    public function listSequences(string $database = null) : array
     {
         $db = $this->db_instance;
 
@@ -354,13 +283,7 @@ class ilDBPdoManagerPostgres extends ilDBPdoManager
     }
 
 
-    /**
-     * @param $table
-     * @param $name
-     * @param bool $primary
-     * @return int
-     */
-    public function dropConstraint($table, $name, $primary = false)
+    public function dropConstraint(string $table, string $name, bool $primary = false) : bool
     {
         $table_quoted = $this->getDBInstance()->quoteIdentifier($table, true);
         $name = $this->getDBInstance()->quoteIdentifier($table . '_' . $this->getDBInstance()->getIndexName($name), true);

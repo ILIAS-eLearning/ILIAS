@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,7 +6,7 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface
+class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL
 {
 
     /**
@@ -15,31 +15,19 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface
     protected $storage_engine = 'InnoDB';
 
 
-    /**
-     * @return bool
-     */
-    public function supportsFulltext()
+    public function supportsFulltext() : bool
     {
         return false;
     }
 
 
-    /**
-     * @return bool
-     */
-    public function supportsTransactions()
+    public function supportsTransactions() : bool
     {
         return false;
     }
 
 
-    /**
-     * @param $table_name
-     * @param $afields
-     * @param string $a_name
-     * @return bool
-     */
-    public function addFulltextIndex($table_name, $afields, $a_name = 'in')
+    public function addFulltextIndex(string $table_name, array $afields, string $a_name = 'in') : bool
     {
         return false; // NOT SUPPORTED
     }

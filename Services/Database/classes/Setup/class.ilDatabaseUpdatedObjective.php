@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -22,6 +22,9 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         return true;
     }
 
+    /**
+     * @return \ilDatabaseInitializedObjective[]|\ILIAS\Setup\Objective\ClientIdReadObjective[]|\ilIniFilesPopulatedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -43,6 +46,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         // update to run. This is a memento to the fact, that dependency injection
         // is something we want. Currently, every component could just service
         // locate the whole world via the global $DIC.
+        /** @noRector  */
         $DIC = $GLOBALS["DIC"] ?? [];
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["ilDB"] = $db;
@@ -53,17 +57,17 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             {
                 $this->io = $io;
             }
-            public function write()
+            public function write(): void
             {
             }
-            public function info()
+            public function info(): void
             {
             }
-            public function warning($msg)
+            public function warning($msg): void
             {
                 $this->io->inform($msg);
             }
-            public function error($msg)
+            public function error($msg): void
             {
                 throw new Setup\UnachievableException(
                     "Problem in DB-Update: $msg"
@@ -72,20 +76,20 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger()
+            public function getRootLogger(): object
             {
                 return new class() {
-                    public function write()
+                    public function write(): void
                     {
                     }
                 };
             }
         };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure()
+            public function getStructure(): void
             {
             }
-            public function setIniFile()
+            public function setIniFile(): void
             {
             }
         };
@@ -111,11 +115,7 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
         }
 
-        $db_update = new class($db, $client_ini) extends ilDBUpdate {
-            public function loadXMLInfo()
-            {
-            }
-        };
+        $db_update = new ilDBUpdate($db);
 
         $db_update->applyUpdate();
         $db_update->applyHotfix();
