@@ -1,4 +1,16 @@
-/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file
 *
@@ -576,7 +588,7 @@ adve#:#adve_page_editor_settings#:#ILIAS Page Editor
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 assessment#:#autosave#:#Automatic saving
-assessment#:#autosave_info#:#Answers are automatically saved in specified intervals to avoid data loss.
+assessment#:#autosave_info#:#The answers of the participants to the last opened question are automatically saved by ILIAS. These automatically saved answers are <b>not</b> considered to be answers authorised by the participant. Therefore, they are not taken into account by ILIAS during the automated evaluation. Automatically saved answers must always be evaluated manually! They are also not displayed in the result view of the respective test taker. The automatic saving of answers is only intended for emergencies, e.g. if the browser window is closed by mistake!
 assessment#:#autosave_ival#:#Interval
 assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed
 assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
@@ -610,6 +622,7 @@ assessment#:#assessment_scoring_adjust#:#Enable corrections
 assessment#:#assessment_scoring_adjust_desc#:#Enables the corrections feature to allow modifications to questions in a test.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Question types available in adjustment
 assessment#:#assessment_log_scoring_adjustment_desc#:#Question types checked here are available in adjustment. This setting is regardless of the current ability of the question types, e.g. a question that does not support adjustment is still shown here.
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.
 assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
@@ -1774,8 +1787,8 @@ assessment#:#tst_btn_show_best_solutions#:#Show Best Solutions
 assessment#:#tst_btn_hide_best_solutions#:#Hide Best Solutions
 assessment#:#tst_settings_header_intro#:#Information Before Start of Test
 assessment#:#tst_settings_header_execution#:#Administering the Test: Access
-assessment#:#tst_starting_time_desc#:#Point in time after which the test can be started by clicking the button ‚Start‘, participants can provide answers to questions.
-assessment#:#tst_ending_time_desc#:#Point in time at which the test will be finished: Participants an no longer answer questions, the test is finished by ILIAS.
+assessment#:#tst_starting_time_desc#:#Time from which the test can be started. From this moment on, clicking the button "Start test" is possible and participants can answer questions.
+assessment#:#tst_ending_time_desc#:#Time from which participants can no longer submit answers. <b>Important</b>: Do <b>not</b> use this option for e-exams/distance exams. Instead, use the function "Limit processing time", see below. Only then will the test be ended on the server side and each participant's last entry automatically saved as an authorised answer.
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test for the indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administering the Test: Test Run

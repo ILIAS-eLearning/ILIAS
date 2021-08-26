@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\DI\Container;
+
 /**
  * Class ilOrgUnitUserAssignment
  *
@@ -83,6 +85,12 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
     protected function raiseEvent(string $event)
     {
         global $DIC;
+        /**
+         * @var $DIC Container
+         */
+        if(!$DIC->offsetExists('ilAppEventHandler')) {
+            return;
+        }
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilAppEventHandler->raise('Modules/OrgUnit', $event, array(
             'obj_id' => $this->getOrguId(),

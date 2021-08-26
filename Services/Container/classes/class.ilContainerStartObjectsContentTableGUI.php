@@ -58,6 +58,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         
         $this->lng = $lng;
+        $this->lng->loadLanguageModule('rep');
         $this->ctrl = $ilCtrl;
         
         $this->start_object = $a_start_objects;

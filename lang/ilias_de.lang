@@ -1,4 +1,16 @@
-* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* This file is part of ILIAS, a powerful learning management system
+* published by ILIAS open source e-Learning e.V.
+*
+* ILIAS is licensed with the GPL-3.0,
+* see https://www.gnu.org/licenses/gpl-3.0.en.html
+* You should have received a copy of said license along with the
+* source code, too.
+*
+* If this is not the case or you just want to try ILIAS, you'll find
+* us at:
+* https://www.ilias.de
+* https://github.com/ILIAS-eLearning
+*
 /**
 * ILIAS language file (All entries)
 *
@@ -643,7 +655,7 @@ adve#:#adve_use_physical#:#str|emp|imp durch <b>B</b>|<i>I</i>|<u>U</u> ersetzen
 adve#:#adve_use_physical_info#:#Die Einstellung ersetzt die Buttons der semantischen Styleklassen für strong, emphatic und important durch die fest definierten Auszeichnungen <b>B</b> (bold), <i>I</i> (italic) und <u>U</u> (underline). Achtung: hierbei kann es zu Inkonsistenzen kommen, wenn über den Styleeditor den Styleklassen für strong, emphatic und important andere Auszeichnungen zugeordnet wurden.
 adve#:#adve_use_tiny_mce#:#TinyMCE für WYSIWYG-Editieren aktivieren
 assessment#:#autosave#:#Automatisches Speichern
-assessment#:#autosave_info#:#Antworten werden von ILIAS automatisch gespeichert, um einen Datenverlust zu vermeiden.
+assessment#:#autosave_info#:#Die Antworten der Teilnehmenden auf die jeweils zuletzt geöffnete Frage wird von ILIAS automatisch gespeichert. Diese automatisch gespeicherten Antworten gelten <b>nicht</b> als durch den Teilnehmenden autorisierte Antworten. Sie werden daher von ILIAS bei der automatisierten Auswertung auch nicht berücksichtigt. Automatisch gespeicherte Antworten müssen immer manuell bewertet werden! Sie werden auch nicht in der Ergebnisansicht des jeweiligen Testteilnehmers angezeigt. Das automatische Speichern der Antworten ist nur für den Notfall gedacht, z. B. beim versehentlichen Schließen des Browserfensters!
 assessment#:#autosave_ival#:#Speicherintervall
 assessment#:#tst_block_passes_after_passed#:#Weitere Testdurchläufe nach dem Bestehen des Tests verhindern
 assessment#:#tst_block_passes_after_passed_info#:#Nachdem ein Teilnehmer den Test bestanden hat werden dem Teilnehmer mit dieser Option keine weiteren Testdurchläufe erlaubt.
@@ -677,6 +689,7 @@ assessment#:#assessment_scoring_adjust#:#Nachkorrekturmodus aktivieren
 assessment#:#assessment_scoring_adjust_desc#:#Aktiviert den Nachkorrekturmodus, um nachträglich die Bewertung von Fragen in Tests anzupassen.
 assessment#:#assessment_log_scoring_adjustment_activate#:#Verfügbare Fragetypen für den Nachkorrekturmodus
 assessment#:#assessment_log_scoring_adjustment_desc#:#Gewählte Fragetypen stehen im Nachkorrekturmodus zur Verfügung. Diese Einstellung berücksichtigt nicht, ob die Frage im Nachkorrekturmodus bearbeitet werden kann.
+assessment#:#tst_corrections_incompatible_question_set_type#:#Eine Nachkorrektur ist nur möglich, wenn der Test eine fest definierte Fragenauswahl verwendet.
 assessment#:#tst_corrections_qst_remove_confirmation#:#Möchten Sie die Frage "%s (ID: %s)" wirklich endgültig aus dem Test entfernen?
 assessment#:#tst_corrections_tab_question#:#Frage
 assessment#:#tst_corrections_tab_solution#:#Lösung
@@ -1916,7 +1929,7 @@ assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse
 assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
 assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
 assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Ab diesem Moment ist das Klicken des Buttons „Test starten“ möglich, und Teilnehmer können Fragen beantworten.
-assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers automatisch gespeichert.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, ab dem Teilnehmer keine Antworten mehr abgeben können. <b>Wichtig</b>: Benutzen Sie diese Option <b>nicht</b> für E-Klausuren/Fernklausuren. Verwenden Sie stattdessen die Funktion „Bearbeitungsdauer begrenzen“, siehe unten. Nur dann wird der Test serverseitig beendet und die letzte Eingabe jedes Teilnehmers als autorisierte Antwort automatisch gespeichert.
 assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
 assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
 assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
