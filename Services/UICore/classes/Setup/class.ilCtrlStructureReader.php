@@ -19,16 +19,13 @@ final class ilCtrlStructureReader
      * array key constants that are used for certain information.
      */
     public const KEY_CLASS_NAME = 'class_name';
-    public const KEY_CALLED_BY  = 'called';
+    public const KEY_CALLED_BY  = 'called_by';
     public const KEY_CALLS      = 'calls';
     public const KEY_CID        = 'cid';
 
     /**
      * regex patterns used to read the call structure.
-     *
      * they're also known as horcruxes or dark magic, don't touch them!
-     *
-     * IL_CTRL_DECLARATION_REGEXP
      */
     private const REGEX_ILCTRL_DECLARATION  = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
     private const REGEX_INTERESTING_FILES   = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
