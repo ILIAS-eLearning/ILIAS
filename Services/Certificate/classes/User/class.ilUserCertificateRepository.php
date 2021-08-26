@@ -221,6 +221,9 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
     }
 
     /**
+     * @param int $userId
+     * @param int $objectId
+     * @return ilUserCertificate
      * @throws ilException
      */
     public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
@@ -429,6 +432,11 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         throw new ilException('No certificate found for user certificate id: ' . $id);
     }
 
+    /**
+     * @param int $userId
+     * @param int[] $objectIds
+     * @return int[]
+     */
     public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds) : array
     {
         $this->logger->info(sprintf(
@@ -459,12 +467,16 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
-            $result[] = $row['obj_id'];
+            $result[] = (int) $row['obj_id'];
         }
 
         return $result;
     }
 
+    /**
+     * @param int $objectId
+     * @return int[]
+     */
     public function fetchUserIdsWithCertificateForObject(int $objectId) : array
     {
         $this->logger->info(sprintf('START - Fetch certificate for object("%s")"', $objectId));
@@ -479,7 +491,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
 
         while ($row = $this->database->fetchAssoc($query)) {
             $this->logger->debug(sprintf('Fetched certificate: "%s"', json_encode($row, JSON_THROW_ON_ERROR)));
-            $result[] = $row['user_id'];
+            $result[] = (int) $row['user_id'];
         }
 
         return $result;
@@ -496,6 +508,11 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
         $this->logger->info(sprintf('END - Successfully deleted certificate for user("%s")"', $userId));
     }
 
+    /**
+     * @param int $objId
+     * @param int $userId
+     * @return ilUserCertificate[]
+     */
     private function fetchCertificatesOfObject(int $objId, int $userId) : array
     {
         $this->logger->info(sprintf(
@@ -582,7 +599,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
     }
 
     /**
-     * @param string[] $row
+     * @param array<string, mixed> $row
      * @return ilUserCertificate
      */
     private function createUserCertificate(array $row) : ilUserCertificate
@@ -600,8 +617,8 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             (int) $row['version'],
             $row['ilias_version'],
             (bool) $row['currently_active'],
-            $row['background_image_path'],
-            $row['thumbnail_image_path'],
+            (string) $row['background_image_path'],
+            (string) $row['thumbnail_image_path'],
             isset($row['id']) ? (int) $row['id'] : null
         );
     }

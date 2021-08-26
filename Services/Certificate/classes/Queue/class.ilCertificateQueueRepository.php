@@ -51,6 +51,9 @@ class ilCertificateQueueRepository
         $this->logger->info(sprintf('END - Entry(id: "%s") deleted from queue', $id));
     }
 
+    /**
+     * @return ilCertificateQueueEntry[]
+     */
     public function getAllEntriesFromQueue() : array
     {
         $this->logger->info('START - Fetch all entries from queue');
@@ -66,13 +69,13 @@ class ilCertificateQueueRepository
             ));
             
             $result[] = new ilCertificateQueueEntry(
-                $row['obj_id'],
-                $row['usr_id'],
+                (int) $row['obj_id'],
+                (int) $row['usr_id'],
                 $row['adapter_class'],
                 $row['state'],
-                $row['template_id'],
-                $row['started_timestamp'],
-                $row['id']
+                (int) $row['template_id'],
+                (int) $row['started_timestamp'],
+                (int) $row['id']
             );
         }
 

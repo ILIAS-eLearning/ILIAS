@@ -349,6 +349,10 @@ WHERE obj_id = ' . $this->database->quote($objId, 'integer');
         $this->logger->info(sprintf('END - Certificate template deactivated for object: "%s"', $objId));
     }
 
+    /**
+     * @param array<string, mixed> $row
+     * @return ilCertificateTemplate
+     */
     private function createCertificateTemplate(array $row) : ilCertificateTemplate
     {
         return new ilCertificateTemplate(

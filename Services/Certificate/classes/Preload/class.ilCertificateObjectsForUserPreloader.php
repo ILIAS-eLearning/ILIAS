@@ -6,6 +6,7 @@
  */
 class ilCertificateObjectsForUserPreloader
 {
+    /** @var array<int, int[]> */
     private static array $certificates = [];
     private ilUserCertificateRepository $userCertificateRepository;
 
@@ -15,7 +16,7 @@ class ilCertificateObjectsForUserPreloader
     }
 
     /**
-     * @param int   $userId
+     * @param int $userId
      * @param int[] $objIds
      */
     public function preLoad(int $userId, array $objIds) : void

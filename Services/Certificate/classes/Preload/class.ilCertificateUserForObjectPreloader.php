@@ -6,6 +6,7 @@
  */
 class ilCertificateUserForObjectPreloader
 {
+    /** @var array<int, int[]> */
     private static array $certificates = [];
     private ilUserCertificateRepository $userCertificateRepository;
     private ilCertificateActiveValidator $activeValidator;
