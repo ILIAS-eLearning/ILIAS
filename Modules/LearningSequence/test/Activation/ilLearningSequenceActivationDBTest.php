@@ -138,7 +138,7 @@ class ilLearningSequenceActivationDBTest extends TestCase
             ->expects($this->once())
             ->method('quote')
             ->with(44, 'integer')
-            ->willReturn(44)
+            ->willReturn('44')
         ;
         $this->db
             ->expects($this->once())

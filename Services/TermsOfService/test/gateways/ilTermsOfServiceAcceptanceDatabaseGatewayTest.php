@@ -178,7 +178,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
             ->expects($this->once())
             ->method('quote')
             ->with($entity->getUserId(), 'integer')
-            ->willReturn($entity->getUserId());
+            ->willReturn((string) $entity->getUserId());
 
         $database
             ->expects($this->once())

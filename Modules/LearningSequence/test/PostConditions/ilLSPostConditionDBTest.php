@@ -41,11 +41,12 @@ class ilLSPostConditionDBTest extends TestCase
             . "WHERE ref_id IN (20,22)" . PHP_EOL
         ;
 
+        $return = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->expects($this->once())
             ->method('query')
             ->with($sql)
-            ->willReturn([])
+            ->willReturn($return)
         ;
         $this->db
             ->expects($this->once())

@@ -193,7 +193,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             ->expects($this->once())
             ->method('quote')
             ->with(333, 'integer')
-            ->willReturn(333)
+            ->willReturn('333')
         ;
         $this->db
             ->expects($this->once())
@@ -244,7 +244,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             ->expects($this->once())
             ->method('quote')
             ->with(333, 'integer')
-            ->willReturn(333)
+            ->willReturn('333')
         ;
         $this->db
             ->expects($this->once())

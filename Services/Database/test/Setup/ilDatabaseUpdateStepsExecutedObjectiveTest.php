@@ -49,8 +49,8 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
 class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
 {
-    protected Test_ilDatabaseUpdateSteps $steps;
-    protected ilDatabaseUpdateStepsExecutedObjective $objective;
+    public Test_ilDatabaseUpdateSteps $steps;
+    public ilDatabaseUpdateStepsExecutedObjective $objective;
 
     protected function setUp() : void
     {

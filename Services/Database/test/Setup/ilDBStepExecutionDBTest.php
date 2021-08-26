@@ -102,7 +102,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
     public function testGetLastStartedStepStartsWithZero() : void
     {
-        $result = new \StdClass;
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->method("query")
             ->willReturn($result);
@@ -115,7 +115,7 @@ class ilDBStepExecutionDBTest extends TestCase
 
     public function testGetLastFinishedStepStartsWithZero() : void
     {
-        $result = new \StdClass;
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->method("query")
             ->willReturn($result);
@@ -204,7 +204,7 @@ class ilDBStepExecutionDBTest extends TestCase
                 "CLASS"
             );
 
-        $result = new \StdClass;
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db->expects($this->once())
             ->method("query")
             ->with(
@@ -233,7 +233,7 @@ class ilDBStepExecutionDBTest extends TestCase
                 "CLASS"
             );
 
-        $result = new \StdClass;
+        $result = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db->expects($this->once())
             ->method("query")
             ->with(
