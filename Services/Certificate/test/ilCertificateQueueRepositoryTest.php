@@ -71,7 +71,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $databaseMock->expects($this->once())
             ->method('quote')
             ->with(30, 'integer')
-            ->willReturn(30);
+            ->willReturn('30');
 
         $databaseMock->expects($this->once())
             ->method('manipulate')
