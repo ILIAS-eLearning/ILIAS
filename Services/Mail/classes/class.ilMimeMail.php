@@ -6,10 +6,10 @@
  */
 class ilMimeMail
 {
-    const MAIL_SUBJECT_PREFIX = '[ILIAS]';
+    public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
 
-    /** @var \ilMailMimeTransport|null */
-    protected static $defaultTransport;
+    /** @var ilMailMimeTransport|null */
+    protected static $defaultTransport = null;
 
     /** @var string */
     protected $subject = '';
@@ -23,52 +23,34 @@ class ilMimeMail
     /** @var string */
     protected $finalBodyAlt = '';
 
-    /**
-     * list of To addresses
-     * @var	array
-     */
-    protected $sendto = array();
+    /** @var string[] */
+    protected $sendto = [];
 
-    /**
-     * @var	array
-     */
-    protected $acc = array();
+    /** @var string[] */
+    protected $acc = [];
 
-    /**
-     * @var	array
-     */
-    protected $abcc = array();
+    /** @var string[] */
+    protected $abcc = [];
 
-    /**
-     * @var array
-     */
-    protected $images = array();
+    /** @var array<string, array{path: string, cid: string, name: string}> */
+    protected $images = [];
 
-    /**
-     * 	paths of attached files
-     * 	@var array
-     */
-    protected $aattach = array();
+    /** @var string[]  */
+    protected $aattach = [];
 
-    /**
-     * @var array
-     */
-    protected $actype = array();
+    /** @var string[] */
+    protected $actype = [];
 
-    /**
-     * @var array
-     */
-    protected $adispo = array();
+    /** @var string[] */
+    protected $adispo = [];
 
-    /**
-     * @var array
-     */
-    protected $adisplay = array();
+    /** @var string[]|null[] */
+    protected $adisplay = [];
 
-    /** @var \ilMailMimeSender */
+    /** @var ilMailMimeSender */
     protected $sender;
 
-    /** @var \ilSetting */
+    /** @var ilSetting */
     protected $settings;
 
     /**
@@ -80,20 +62,20 @@ class ilMimeMail
 
         $this->settings = $DIC->settings();
 
-        if (!(self::getDefaultTransport() instanceof \ilMailMimeTransport)) {
+        if (!(self::getDefaultTransport() instanceof ilMailMimeTransport)) {
             $factory = $DIC["mail.mime.transport.factory"];
             self::setDefaultTransport($factory->getTransport());
         }
     }
 
     /**
-     * @param \ilMailMimeTransport|null $transport
-     * @throws \InvalidArgumentException
+     * @param ilMailMimeTransport|null $transport
+     * @throws InvalidArgumentException
      */
-    public static function setDefaultTransport($transport)
+    public static function setDefaultTransport(?ilMailMimeTransport $transport) : void
     {
-        if (!is_null($transport) && !($transport instanceof \ilMailMimeTransport)) {
-            throw new \InvalidArgumentException(\sprintf(
+        if ($transport !== null && !($transport instanceof ilMailMimeTransport)) {
+            throw new InvalidArgumentException(sprintf(
                 "The passed argument must be null or of type 'ilMailMimeTransport', %s given!",
                 gettype($transport)
             ));
@@ -102,19 +84,12 @@ class ilMimeMail
         self::$defaultTransport = $transport;
     }
 
-    /**
-     * @return \ilMailMimeTransport|null
-     */
-    public static function getDefaultTransport()
+    public static function getDefaultTransport() : ?ilMailMimeTransport
     {
         return self::$defaultTransport;
     }
 
-    /**
-     * @param string $subject Define the subject line of the email
-     * @param bool   $a_add_prefix
-     */
-    public function Subject($subject, $a_add_prefix = false)
+    public function Subject(string $subject, bool $a_add_prefix = false) : void
     {
         if ($a_add_prefix) {
             // #9096
@@ -122,7 +97,7 @@ class ilMimeMail
             if (false === $subjectPrefix) {
                 $subjectPrefix = self::MAIL_SUBJECT_PREFIX;
             }
-            if (strlen($subjectPrefix) > 0) {
+            if ($subjectPrefix !== '') {
                 $subject = $subjectPrefix . ' ' . $subject;
             }
         }
@@ -130,27 +105,21 @@ class ilMimeMail
         $this->subject = $subject;
     }
 
-    /**
-     * @return string
-     */
-    public function getSubject()
+    public function getSubject() : string
     {
         return $this->subject;
     }
 
-    /**
-     * @param ilMailMimeSender $sender
-     */
-    public function From(ilMailMimeSender $sender)
+    public function From(ilMailMimeSender $sender) : void
     {
         $this->sender = $sender;
     }
 
     /**
      * Set the mail recipient
-     * @param string|array To email address, accept both a single address or an array of addresses
+     * @param string|string[] To email address, accept both a single address or an array of addresses
      */
-    public function To($to)
+    public function To($to) : void
     {
         if (is_array($to)) {
             $this->sendto = $to;
@@ -161,9 +130,9 @@ class ilMimeMail
 
     /**
      * Set the cc mail recipient
-     * @param string|array CC email address, accept both a single address or an array of addresses
+     * @param string|string[] CC email address, accept both a single address or an array of addresses
      */
-    public function Cc($cc)
+    public function Cc($cc) : void
     {
         if (is_array($cc)) {
             $this->acc = $cc;
@@ -174,9 +143,9 @@ class ilMimeMail
 
     /**
      * Set the bcc mail recipient
-     * @param string|array BCC email address, accept both a single address or an array of addresses
+     * @param string|string[] BCC email address, accept both a single address or an array of addresses
      */
-    public function Bcc($bcc)
+    public function Bcc($bcc) : void
     {
         if (is_array($bcc)) {
             $this->abcc = $bcc;
@@ -186,71 +155,63 @@ class ilMimeMail
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getTo()
+    public function getTo() : array
     {
         return $this->sendto;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getCc()
+    public function getCc() : array
     {
         return $this->acc;
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getBcc()
+    public function getBcc() : array
     {
         return $this->abcc;
     }
 
-    /**
-     * @param string $body
-     */
-    public function Body($body)
+    public function Body(string $body) : void
     {
         $this->body = $body;
     }
 
-    /**
-     * @return string
-     */
-    public function getFinalBody()
+    public function getFinalBody() : string
     {
         return $this->finalBody;
     }
 
-    /**
-     * @return string
-     */
-    public function getFinalBodyAlt()
+    public function getFinalBodyAlt() : string
     {
         return $this->finalBodyAlt;
     }
 
-    /**
-     * @return ilMailMimeSender
-     */
-    public function getFrom()
+    public function getFrom() : ilMailMimeSender
     {
         return $this->sender;
     }
 
     /**
      * Attach a file to the mail
-     * @param string $filename     Path of the file to attach
-     * @param string $file_type    MIME-type of the file. default to 'application/x-unknown-content-type'
-     * @param string $disposition  Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
-     * @param string $display_name Filename to use in email (if different from source file)
+     * @param string $filename Path of the file to attach
+     * @param string $file_type MIME-type of the file. default to 'application/x-unknown-content-type'
+     * @param string $disposition Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+     * @param string|null $display_name Filename to use in email (if different from source file)
      */
-    public function Attach($filename, $file_type = '', $disposition = 'inline', $display_name = null)
-    {
-        if ($file_type == '') {
+    public function Attach(
+        string $filename,
+        string $file_type = '',
+        string $disposition = 'inline',
+        ?string $display_name = null
+    ) : void {
+        if ($file_type === '') {
             $file_type = 'application/octet-stream';
         }
 
@@ -261,23 +222,23 @@ class ilMimeMail
     }
 
     /**
-     * @return array An array of attachments. Each element must container to associative keys, 'path' and 'name'
+     * @return array{path: string, name: string}[]
      */
-    public function getAttachments()
+    public function getAttachments() : array
     {
-        $attachments = array();
+        $attachments = [];
 
         $i = 0;
         foreach ($this->aattach as $attachment) {
             $name = '';
-            if (isset($this->adisplay[$i]) && strlen($this->adisplay[$i]) > 0) {
+            if (isset($this->adisplay[$i]) && is_string($this->adisplay[$i]) && $this->adisplay[$i] !== '') {
                 $name = $this->adisplay[$i];
             }
 
-            $attachments[] = array(
+            $attachments[] = [
                 'path' => $attachment,
                 'name' => $name
-            );
+            ];
             ++$i;
         }
 
@@ -285,9 +246,9 @@ class ilMimeMail
     }
 
     /**
-     * @return array An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
+     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
      */
-    public function getImages()
+    public function getImages() : array
     {
         return array_values($this->images);
     }
@@ -295,54 +256,47 @@ class ilMimeMail
     /**
      * Build the relevant email data
      */
-    protected function build()
+    protected function build() : void
     {
         global $DIC;
 
         $this->finalBodyAlt = '';
         $this->finalBody = '';
-        $this->images = array();
+        $this->images = [];
 
         if ($DIC->settings()->get('mail_send_html', 0)) {
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
-            $this->buildBodyParts($skin);
+            $this->buildBodyMultiParts($skin);
             $this->buildHtmlInlineImages($skin);
         } else {
-            $this->finalBody = $this->body;
+            $this->finalBody = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body);
         }
     }
 
-    /**
-     * @param string $skin
-     */
-    protected function buildBodyParts($skin)
+    protected function buildBodyMultiParts(string $skin) : void
     {
-        if (0 == strlen($this->body)) {
+        if ($this->body === '') {
             $this->body = ' ';
         }
 
-        if (strip_tags($this->body, '<b><u><i><a>') == $this->body) {
+        if (strip_tags($this->body, '<b><u><i><a>') === $this->body) {
             // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
             $this->finalBodyAlt = $this->body;
-            $this->body = \ilUtil::makeClickable(nl2br($this->body));
+            $this->body = ilUtil::makeClickable(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
-            $this->finalBodyAlt = strip_tags(str_ireplace(array("<br />", "<br>", "<br/>"), "\n", $this->body));
+            $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
         }
 
         $this->finalBody = str_replace('{PLACEHOLDER}', $this->body, $this->getHtmlEnvelope($skin));
     }
 
-    /**
-     * @param string $skin
-     * @return string
-     */
-    protected function getHtmlEnvelope($skin)
+    protected function getHtmlEnvelope(string $skin) : string
     {
         $bracket_path = './Services/Mail/templates/default/tpl.html_mail_template.html';
 
-        if ($skin != 'default') {
+        if ($skin !== 'default') {
             $tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
             if (file_exists($tplpath)) {
@@ -353,14 +307,11 @@ class ilMimeMail
         return file_get_contents($bracket_path);
     }
 
-    /**
-     * @param string $skin
-     */
-    protected function buildHtmlInlineImages($skin)
+    protected function buildHtmlInlineImages(string $skin) : void
     {
         $this->gatherImagesFromDirectory('./Services/Mail/templates/default/img');
 
-        if ($skin != 'default') {
+        if ($skin !== 'default') {
             $skinDirectory = './Customizing/global/skin/' . $skin . '/Services/Mail/img';
             if (is_dir($skinDirectory) && is_readable($skinDirectory)) {
                 $this->gatherImagesFromDirectory($skinDirectory, true);
@@ -368,37 +319,31 @@ class ilMimeMail
         }
     }
 
-    /**
-     * @param $directory
-     * @param bool $clearPrevious
-     */
-    protected function gatherImagesFromDirectory($directory, $clearPrevious = false)
+    protected function gatherImagesFromDirectory(string $directory, bool $clearPrevious = false) : void
     {
         if ($clearPrevious) {
-            $this->images = array();
+            $this->images = [];
         }
 
-        foreach (new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file) {
-            /**
-             * @var $file \SplFileInfo
-             */
+        foreach (new RegexIterator(new DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file) {
+            /** @var $file SplFileInfo */
             $cid = 'img/' . $file->getFilename();
 
-            $this->images[$cid] = array(
+            $this->images[$cid] = [
                 'path' => $file->getPathname(),
                 'cid' => $cid,
                 'name' => $file->getFilename()
-            );
+            ];
         }
     }
 
     /**
-     * @param $transport \ilMailMimeTransport|null
-     * @return bool A boolean flag whether or not the transport might be successful
+     * @param $transport ilMailMimeTransport|null
+     * @return bool A boolean flag whether the transport might be successful
      */
-    public function Send(\ilMailMimeTransport $transport = null)
+    public function Send(ilMailMimeTransport $transport = null) : bool
     {
-        if (!($transport instanceof \ilMailMimeTransport)) {
+        if (!($transport instanceof ilMailMimeTransport)) {
             $transport = self::getDefaultTransport();
         }
 

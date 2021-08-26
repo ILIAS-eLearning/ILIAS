@@ -616,6 +616,7 @@ class ilMail
             $message = $this->replacePlaceholders($message, $usrId);
         }
         $message = $this->formatLinebreakMessage((string) $message);
+        $message = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $message);
 
         if (!$usrId) {
             $usrId = '0';

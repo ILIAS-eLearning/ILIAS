@@ -162,7 +162,7 @@ class ilMailFormGUI
         $files = $this->decodeAttachmentFiles(isset($_POST['attachments']) ? (array) $_POST['attachments'] : array());
 
         $mailer = $this->umail
-            ->withContextId(ilMailFormCall::getContextId() ? ilMailFormCall::getContextId() : '')
+            ->withContextId(ilMailFormCall::getContextId() ?: '')
             ->withContextParameters(is_array(ilMailFormCall::getContextParameters()) ? ilMailFormCall::getContextParameters() : []);
 
         $mailer->setSaveInSentbox(true);
