@@ -11,7 +11,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilCtrl
+class ilCtrlLegacy
 {
     const IL_RTOKEN_NAME = 'rtoken';
     

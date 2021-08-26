@@ -1,18 +1,22 @@
 <?php declare(strict_types=1);
 
 use ILIAS\Setup;
-use ILIAS\DI;
 
+/**
+ * Class ilCtrlStructureStoredObjective
+ */
 class ilCtrlStructureStoredObjective implements Setup\Objective
 {
-    const TABLE_CLASSFILES = "ctrl_classfile";
-    const TABLE_CALLS = "ctrl_calls";
-
     /**
      * @var ilCtrlStructureReader
      */
-    protected $ctrl_reader;
+    protected ilCtrlStructureReader $ctrl_reader;
 
+    /**
+     * ilCtrlStructureStoredObjective constructor.
+     *
+     * @param ilCtrlStructureReader $ctrl_reader
+     */
     public function __construct(\ilCtrlStructureReader $ctrl_reader)
     {
         $this->ctrl_reader = $ctrl_reader;
@@ -47,9 +51,7 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        return [
-            new \ilDatabaseInitializedObjective()
-        ];
+        return [];
     }
 
     /**
@@ -57,28 +59,11 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        if (!$db) {
-            throw new Setup\UnachievableException("Need DB to store control-structure");
-        }
-
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }
 
-        // ATTENTION: This is a total abomination. It only exists to allow various
-        // sub components of the various readers to run. This is a memento to the
-        // fact, that dependency injection is something we want. Currently, every
-        // component could just service locate the whole world via the global $DIC.
-        $DIC = $GLOBALS["DIC"];
-        $GLOBALS["DIC"] = new DI\Container();
-        $GLOBALS["DIC"]["ilDB"] = $db;
-
-        $reader = $this->ctrl_reader->withDB($db);
-        $reader->executed = false;
-        $reader->readStructure(true);
-
-        $GLOBALS["DIC"] = $DIC;
+        $this->ctrl_reader->readStructure();
 
         return $environment;
     }
@@ -88,17 +73,6 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        if (!$db) {
-            throw new Setup\UnachievableException("Need DB to read control-structure");
-        }
-
-        if (!defined("ILIAS_ABSOLUTE_PATH")) {
-            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
-        }
-
-        $reader = $this->ctrl_reader->withDB($db);
-
-        return !$reader->executed;
+        return !$this->ctrl_reader->isExecuted();
     }
 }

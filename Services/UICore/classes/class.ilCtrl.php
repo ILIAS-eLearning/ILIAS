@@ -177,9 +177,9 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * Holds the current CID trace (e.g. 'cid1:cid2:cid3').
      *
-     * @var string
+     * @var string|null
      */
-    private string $cid_trace;
+    private ?string $cid_trace = null;
 
     /**
      * Holds the read control structure from the php artifact.
@@ -273,29 +273,23 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * Returns the classname of the current request's baseclass.
      *
-     * @return string
-     * @throws ilCtrlException if no baseclass was found.
+     * @return string|null
      */
-    private function getBaseClass() : string
+    private function getBaseClass() : ?string
     {
-        $base_class = null;
-        if (null === $this->base_class) {
-            $request = $this->http_service->wrapper()->query();
-            if ($request->has(self::PARAM_BASE_CLASS)) {
-                $class_name = $request->retrieve(
-                    self::PARAM_BASE_CLASS,
-                    $this->refinery->to()->string()
-                );
+        $request = $this->http_service->wrapper()->query();
+        if ($request->has(self::PARAM_BASE_CLASS)) {
+            $class_name = $request->retrieve(
+                self::PARAM_BASE_CLASS,
+                $this->refinery->to()->string()
+            );
 
-                $base_class = strtolower($class_name);
-            } else {
-                throw new ilCtrlException("ilCtrl cant find any baseclass.");
-            }
+            $base_class = strtolower($class_name);
         } else {
             $base_class = $this->base_class;
         }
 
-        return $base_class;
+        return $base_class ?? null;
     }
 
     /**
@@ -352,7 +346,7 @@ final class ilCtrl implements ilCtrlInterface
      * @param string $cid_trace
      * @return string|null
      */
-    private function getTraceForTargetClass(string $target_class, string $cid_trace) : ?string
+    private function getTraceForTargetClass(string $target_class, string $cid_trace = null) : ?string
     {
         // lowercase the $target_class in case the developer forgot.
         $target_class = strtolower($target_class);
@@ -360,7 +354,7 @@ final class ilCtrl implements ilCtrlInterface
         $target_cid   = $this->getCidFromInfo($target_info);
 
         // the target cid can be returned, if its the only one in trace.
-        if ($target_cid === $cid_trace) {
+        if (null === $cid_trace || $target_cid === $cid_trace) {
             return $target_cid;
         }
 
@@ -372,6 +366,9 @@ final class ilCtrl implements ilCtrlInterface
         if ($target_cid === $current_cid) {
             return $target_cid;
         }
+
+        $d = $this->getCalledClassesFromInfo($current_info);
+        $k = $this->getCalledByClassesFromInfo($target_info);
 
         // the target cid is appended, if it's a child of the current cid.
         // it is possible to establish that relation in two ways:
@@ -704,6 +701,17 @@ final class ilCtrl implements ilCtrlInterface
     }
 
     /**
+     * Helper function to fetch class path of passed class information.
+     *
+     * @param array $class_info
+     * @return string
+     */
+    private function getPathFromInfo(array $class_info) : string
+    {
+        return $class_info[ilCtrlStructureReader::KEY_CLASS_PATH];
+    }
+
+    /**
      * Helper function to fetch called classes of passed class information.
      *
      * @param array $class_info
@@ -771,6 +779,8 @@ final class ilCtrl implements ilCtrlInterface
             throw new ilException("Cannot forward to class '$class_name', CID-Trace could not be generated.");
         }
 
+        $current_trace = $this->cid_trace;
+
         // update cid trace and populate call.
         $this->cid_trace = $cid_trace;
         $this->populateCall(
@@ -779,27 +789,27 @@ final class ilCtrl implements ilCtrlInterface
             self::UI_MODE_PROCESS
         );
 
-        return $a_gui_object->executeCommand();
+        $html = $a_gui_object->executeCommand();
+
+        // reset trace why-so-ever.
+        $this->cid_trace = $current_trace;
+
+        return $html;
     }
 
     /**
      * @inheritDoc
      */
-    public function getHTML($a_gui_object, array $a_parameters = null, array $class_path = []) : string
+    public function getHTML($a_gui_object, array $a_parameters = null) : string
     {
         $class_name = strtolower(get_class($a_gui_object));
-
-        if (0 < count($class_path)) {
-            $class_path = array_merge($class_name, $class_path);
-            $parameters = $this->getParameterArrayByClass($class_path);
-            $cid_trace  = $parameters[self::PARAM_CMD_TRACE];
-        } else {
-            $cid_trace = $this->getTraceForTargetClass($class_name, $this->cid_trace);
-        }
+        $cid_trace = $this->getTraceForTargetClass($class_name, $this->cid_trace);
 
         if (null === $cid_trace) {
             throw new ilException("Could not fetch or generate CID trace for target class " . $class_name);
         }
+
+        $current_trace = $this->cid_trace;
 
         // update cid trace and populate call.
         $this->cid_trace = $cid_trace;
@@ -814,6 +824,9 @@ final class ilCtrl implements ilCtrlInterface
         } else {
             $html = $a_gui_object->getHTML();
         }
+
+        // reset the trace, tbh I have no idea why but apparently
+        $this->cid_trace = $current_trace;
 
         return $html;
     }
@@ -893,7 +906,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function addTab($a_lang_var, $a_link, $a_cmd, $a_class)
     {
-        // TODO: Implement addTab() method.
+        throw new ilCtrlException(__METHOD__ . " is deprecated, use ilTabs instead.");
     }
 
     /**
@@ -901,7 +914,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getTabs()
     {
-        // TODO: Implement getTabs() method.
+        throw new ilCtrlException(__METHOD__ . " is deprecated, use ilTabs instead.");
     }
 
     /**
@@ -915,73 +928,83 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCallStructure($a_class)
+    public function saveParameter(object $a_obj, $a_parameter) : void
     {
-        // TODO: Implement getCallStructure() method.
+        $this->saveParameterByClass(get_class($a_obj), $a_parameter);
     }
 
     /**
      * @inheritDoc
      */
-    public function readCallStructure($a_class, $a_nr = 0, $a_parent = 0)
+    public function saveParameterByClass(string $a_class, $a_parameter) : void
     {
-        // TODO: Implement readCallStructure() method.
+        if (empty($a_parameter)) {
+            throw new ilCtrlException("Cannot save empty parameters or empty string, " . var_dump($a_parameter) . " given");
+        }
+
+        if (!is_array($a_parameter)) {
+            $a_parameter = [$a_parameter];
+        }
+
+        foreach ($a_parameter as $parameter_name) {
+            $this->saved_parameters[strtolower($a_class)][] = $parameter_name;
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function saveParameter($a_obj, $a_parameter)
+    public function setParameter(object $a_obj, string $a_parameter, $a_value) : void
     {
-        // TODO: Implement saveParameter() method.
+        $this->setParameterByClass(get_class($a_obj), $a_parameter, $a_value);
     }
 
     /**
      * @inheritDoc
      */
-    public function saveParameterByClass($a_class, $a_parameter)
+    public function setParameterByClass(string $a_class, string $a_parameter, $a_value) : void
     {
-        // TODO: Implement saveParameterByClass() method.
+        $this->parameters[strtolower($a_class)][$a_parameter] = $a_value;
     }
 
     /**
      * @inheritDoc
      */
-    public function setParameter($a_obj, $a_parameter, $a_value)
+    public function clearParameters(object $a_obj) : void
     {
-        // TODO: Implement setParameter() method.
+        $this->clearParametersByClass(get_class($a_obj));
     }
 
     /**
      * @inheritDoc
      */
-    public function setParameterByClass($a_class, $a_parameter, $a_value)
+    public function clearParametersByClass(string $a_class) : void
     {
-        // TODO: Implement setParameterByClass() method.
+        $class_name = strtolower($a_class);
+
+        if (isset($this->saved_parameters[$class_name])) {
+            unset($this->saved_parameters[$class_name]);
+        }
+
+        if (isset($this->parameters[$class_name])) {
+            unset($this->parameters[$class_name]);
+        }
     }
 
     /**
      * @inheritDoc
      */
-    public function clearParameterByClass($a_class, $a_parameter)
+    public function clearParameterByClass(string $a_class, string $a_parameter) : void
     {
-        // TODO: Implement clearParameterByClass() method.
-    }
+        $class_name = strtolower($a_class);
 
-    /**
-     * @inheritDoc
-     */
-    public function clearParameters($a_obj)
-    {
-        // TODO: Implement clearParameters() method.
-    }
+        if (isset($this->saved_parameters[$class_name][$a_parameter])) {
+            unset($this->saved_parameters[$class_name][$a_parameter]);
+        }
 
-    /**
-     * @inheritDoc
-     */
-    public function clearParametersByClass($a_class)
-    {
-        // TODO: Implement clearParametersByClass() method.
+        if (isset($this->parameters[$class_name][$a_parameter])) {
+            unset($this->parameters[$class_name][$a_parameter]);
+        }
     }
 
     /**
@@ -996,7 +1019,7 @@ final class ilCtrl implements ilCtrlInterface
             }
 
             $class_name = (is_object($a_gui_class)) ?
-                get_class($a_gui_class) :
+                strtolower(get_class($a_gui_class)) :
                 strtolower($a_gui_class)
             ;
 
@@ -1028,17 +1051,22 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function lookupClassPath($a_class_name)
+    public function lookupClassPath(string $a_class) : string
     {
-        // TODO: Implement lookupClassPath() method.
+        $class_info = $this->getClassInfoByName($a_class);
+        return $this->getPathFromInfo($class_info);
     }
 
     /**
      * @inheritDoc
      */
-    public function getClassForClasspath($a_class_path)
+    public function getClassForClasspath(string $a_class_path) : string
     {
-        // TODO: Implement getClassForClasspath() method.
+        $path  = pathinfo($a_class_path);
+        $file  = $path["basename"];
+        $class = substr($file, 6, strlen($file) - 10);
+
+        return $class;
     }
 
     /**
@@ -1112,15 +1140,17 @@ final class ilCtrl implements ilCtrlInterface
 
         // all commands which are not $safe_commands MUST pass the
         // CSRF token validation in order to be returned.
-        if (!empty($safe_commands) &&
-            !$this->verifyToken($this->get_request) &&
-            (
-                !in_array($get_command, $safe_commands, true) ||
-                !in_array($post_command, $safe_commands, true)
-            )
-        ) {
-            return $fallback_command;
-        }
+
+        // @TODO: fix CSRF validation
+//        if (!empty($safe_commands) &&
+//            !$this->verifyToken($this->get_request) &&
+//            (
+//                !in_array($get_command, $safe_commands, true) ||
+//                !in_array($post_command, $safe_commands, true)
+//            )
+//        ) {
+//            return $fallback_command;
+//        }
 
         $command = (self::CMD_POST === $get_command) ?
             $post_command : $get_command
@@ -1606,7 +1636,15 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getUrlParameters($a_classes, string $a_str, string $a_cmd = null, bool $xml_style = false) : string
     {
-        $parameters = $this->getParameterArrayByClass($a_classes, $a_cmd);
+        if (is_array($a_classes)) {
+            $parameters = [];
+            foreach ($a_classes as $class) {
+                array_merge($parameters, $this->getParameterArrayByClass($class));
+            }
+        } else {
+            $parameters = $this->getParameterArrayByClass($a_classes, $a_cmd);
+        }
+
         foreach ($parameters as $param_name => $value) {
             // if the given value is appendable as string, do it.
             if ('' !== (string) $value) {
@@ -1631,12 +1669,21 @@ final class ilCtrl implements ilCtrlInterface
     }
 
     /**
-     * @inheritDoc
+     * Returns all parameters that have been saved or set using multiple
+     * or one classname.
+     *
+     * @param string      $a_class
+     * @param string|null $a_cmd
+     * @return array
      */
-    public function getParameterArrayByClass($classes, $a_cmd = null) : array
+    private function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array
     {
-        if (empty($classes)) {
+        if (empty($a_class)) {
             return [];
+        }
+
+        if (null === $this->cid_trace) {
+            $this->cid_trace = $this->getTraceForTargetClass($a_class);
         }
 
         $parameters = [];
@@ -1667,17 +1714,10 @@ final class ilCtrl implements ilCtrlInterface
             }
         }
 
-        // if an array of classes is provided, the last entry is used.
-        if (is_array($classes)) {
-            $command_class = strtolower($classes[(count($classes) - 1)]);
-        } else {
-            $command_class = strtolower($classes);
-        }
-
-        $command_class_info = $this->getClassInfoByName($command_class);
+        $command_class_info = $this->getClassInfoByName(strtolower($a_class));
 
         // set default GET parameters
-        $parameters[self::PARAM_BASE_CLASS] = $this->getBaseClass();
+        $parameters[self::PARAM_BASE_CLASS] = $this->getBaseClass() ?? $this->getClassFromInfo($command_class_info);
         $parameters[self::PARAM_CMD_CLASS]  = $this->getClassFromInfo($command_class_info);
         $parameters[self::PARAM_CMD_TRACE]  = $this->cid_trace;
         $parameters[self::PARAM_CMD]        = $a_cmd ?? $this->command;

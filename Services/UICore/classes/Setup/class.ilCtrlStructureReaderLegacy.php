@@ -2,14 +2,14 @@
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilCtrlStructureReader
-*
-* Reads call structure of classes into db
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Class ilCtrlStructureReader
+ *
+ * Reads call structure of classes into db
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ *
+ */
 class ilCtrlStructureReaderLegacy
 {
     public $executed;
@@ -30,8 +30,8 @@ class ilCtrlStructureReaderLegacy
     }
 
     /**
-    * parse code files and store call structure in db
-    */
+     * parse code files and store call structure in db
+     */
     public function getStructure()
     {
         $ilDB = $this->getDB();
@@ -48,11 +48,6 @@ class ilCtrlStructureReaderLegacy
     // ----------------------
     // READING CTRL STRUCTURE
     // ----------------------
-
-    public  function readStructureOnly():ilCtrlStructure
-    {
-
-    }
 
     public function readStructure(
         $a_force = false,
@@ -120,8 +115,7 @@ class ilCtrlStructureReaderLegacy
             try {
                 $cs = $this->parseFileTo($cs, $full_path, $content);
             } catch (\LogicException $e) {
-                $e->setMessage("In file \"$full_path\": " . $e->getMessage());
-                throw $e;
+                throw new \LogicException("In file \"$full_path\": " . $e->getMessage(), $e->getCode(), $e);
             } catch (\RuntimeException $e) {
                 if (!isset($e->class) || !isset($e->file_path)) {
                     throw $e;
@@ -181,7 +175,7 @@ class ilCtrlStructureReaderLegacy
         return realpath(str_replace(['//'], ['/'], $path));
     }
 
-    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
+    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)$~i";
 
     protected function isInterestingFile(string $file) : bool
     {

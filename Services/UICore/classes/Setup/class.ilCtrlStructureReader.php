@@ -18,6 +18,7 @@ final class ilCtrlStructureReader
     /**
      * array key constants that are used for certain information.
      */
+    public const KEY_CLASS_PATH = 'absolute_path';
     public const KEY_CLASS_NAME = 'class_name';
     public const KEY_CALLED_BY  = 'called_by';
     public const KEY_CALLS      = 'calls';
@@ -32,6 +33,13 @@ final class ilCtrlStructureReader
     private const REGEX_GUI_CLASSES         = "~^.*[/\\\\]class\.(.*GUI)\.php$~i";
 
     /**
+     * Holds whether the reader has been executed or not.
+     *
+     * @var bool
+     */
+    private static bool $executed = false;
+
+    /**
      * Holds the temporarily read data.
      *
      * @var array
@@ -39,11 +47,19 @@ final class ilCtrlStructureReader
     private array $temp_data = [];
 
     /**
+     * @return bool
+     */
+    public function isExecuted() : bool
+    {
+        return self::$executed;
+    }
+
+    /**
      * Returns the read call structure for ilCtrl.
      *
      * @return array
      */
-    public function readStructureOnly() : array
+    public function readStructure() : array
     {
         error_reporting(E_ALL);
 
@@ -52,9 +68,8 @@ final class ilCtrlStructureReader
         $x = 1;
 
         foreach ($classmap as $class => $class_path) {
-            if (
+            if (null !== $this->getGUIClassNameFromClassPath($class_path) &&
                 $this->isInterestingFile(basename($class_path))
-                && $this->getGUIClassNameFromClassPath($class_path) !== null
             ) {
                 $content = @file_get_contents($class_path);
                 if ($this->containsClassDefinitionFor($class, $content)) {
@@ -69,19 +84,22 @@ final class ilCtrlStructureReader
                                 foreach ($calls as $call) {
                                     $this->temp_data[$call][] = $class;
                                 }
-                                $classes[strtolower($class)] = [
-                                    self::KEY_CID => $this->generateCid($x),
-                                    self::KEY_CALLS => $calls,
-                                    self::KEY_CALLED_BY => $called,
-                                    self::KEY_CLASS_NAME => $class
-                                ];
                             }
+                            $classes[strtolower($class)] = [
+                                self::KEY_CID => $this->generateCid($x),
+                                self::KEY_CALLS => $calls,
+                                self::KEY_CALLED_BY => $called,
+                                self::KEY_CLASS_NAME => $class,
+                                self::KEY_CLASS_PATH => $this->getRelativeClassPath($class_path),
+                            ];
+
                             $x++;
                         }
                     } catch (Throwable $t) {
-
+                        $x = 1;
                     }
                 }
+
                 unset($content);
             }
         }
@@ -100,14 +118,25 @@ final class ilCtrlStructureReader
             }
         }
 
+        self::$executed = true;
+
         return $classes;
+    }
+
+    /**
+     * @param string $absolute_path
+     * @return string
+     */
+    private function getRelativeClassPath(string $absolute_path) : string
+    {
+        return  '.' . str_replace($this->getILIASAbsolutePath(), '', $absolute_path);
     }
 
     /**
      * @param string $file
      * @return bool
      */
-    protected function isInterestingFile(string $file) : bool
+    private function isInterestingFile(string $file) : bool
     {
         try {
             return (bool) preg_match(self::REGEX_INTERESTING_FILES, $file);
@@ -120,7 +149,7 @@ final class ilCtrlStructureReader
      * @param int $cnt
      * @return string
      */
-    protected function generateCid(int $cnt) : string
+    private function generateCid(int $cnt) : string
     {
         return base_convert((string) $cnt, 10, 36);
     }
@@ -129,7 +158,7 @@ final class ilCtrlStructureReader
      * @param string $path
      * @return string|null
      */
-    protected function getGUIClassNameFromClassPath(string $path) : ?string
+    private function getGUIClassNameFromClassPath(string $path) : ?string
     {
         $res = [];
         if (preg_match(self::REGEX_GUI_CLASSES, $path, $res)) {
@@ -143,16 +172,16 @@ final class ilCtrlStructureReader
      * @param string $content
      * @return bool
      */
-    protected function containsClassDefinitionFor(string $class, string $content) : bool
+    private function containsClassDefinitionFor(string $class, string $content) : bool
     {
         $regexp = "~.*class\s+$class~mi";
-        return preg_match($regexp, $content) != 0;
+        return preg_match($regexp, $content) !== 0;
     }
 
     /**
      * @return null|<string,string[]>
      */
-    protected function getCalls(string $content) : ?array
+    private function getCalls(string $content) : ?array
     {
         return $this->getIlCtrlDeclarations($content, "ilctrl_calls");
     }
@@ -160,7 +189,7 @@ final class ilCtrlStructureReader
     /**
      * @return null|<string,string[]>
      */
-    protected function getCalledBys(string $content) : ?array
+    private function getCalledBys(string $content) : ?array
     {
         return $this->getIlCtrlDeclarations($content, "ilctrl_iscalledby");
     }
@@ -168,7 +197,7 @@ final class ilCtrlStructureReader
     /**
      * @return null|<string,string[]>
      */
-    protected function getIlCtrlDeclarations(string $content, string $which) : ?array
+    private function getIlCtrlDeclarations(string $content, string $which) : ?array
     {
         $regexp = str_replace("{WHICH}", $which, self::REGEX_ILCTRL_DECLARATION);
         $res = [];
@@ -197,20 +226,22 @@ final class ilCtrlStructureReader
     /**
      * @return string
      */
-    protected function getILIASAbsolutePath() : string
+    private function getILIASAbsolutePath() : string
     {
-        if (defined("ILIAS_ABSOLUTE_PATH")) {
-            return $this->normalizePath(ILIAS_ABSOLUTE_PATH);
-        }
 
-        return dirname(__FILE__, 5);
+        $ilias_path = (defined("ILIAS_ABSOLUTE_PATH")) ?
+            $this->normalizePath(ILIAS_ABSOLUTE_PATH) :
+            dirname(__FILE__, 5)
+        ;
+
+        return rtrim($ilias_path, '/');
     }
 
     /**
      * @param string $path
      * @return string
      */
-    protected function normalizePath(string $path) : string
+    private function normalizePath(string $path) : string
     {
         return realpath(str_replace(['//'], ['/'], $path));
     }

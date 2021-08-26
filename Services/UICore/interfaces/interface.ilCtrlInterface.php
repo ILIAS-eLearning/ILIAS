@@ -43,11 +43,10 @@ interface ilCtrlInterface
      * returns the flow of control to the calling class.
      * @param object     $a_gui_object GUI class that implements getHTML() method to return its HTML
      * @param array|null $a_parameters parameter array
-     * @param array      $class_path
      * @return string
      * @throws ilCtrlException
      */
-    public function getHTML(object $a_gui_object, array $a_parameters = null, array $class_path = []) : string;
+    public function getHTML(object $a_gui_object, array $a_parameters = null) : string;
 
     /**
      * Set context of current user interface. A context is a ILIAS repository
@@ -110,118 +109,105 @@ interface ilCtrlInterface
     public function getCmdNode() : string;
 
     /**
-     * Add a tab to tabs array (@param string $a_lang_var language variable
+     * Add a tab to tabs array
+     *
+     * @deprecated use $ilTabs
+     *
+     * @param string $a_lang_var language variable
      * @param string $a_link  link
      * @param string $a_cmd   command (must be same as in link)
      * @param string $a_class command class (must be same as in link)
-     * @deprecated use $ilTabs)
      */
     public function addTab($a_lang_var, $a_link, $a_cmd, $a_class);
 
     /**
-     * Get tabs array        (@return    array        array of tab entries (array("lang_var", "link", "cmd", "class))
-     * @deprecated, use $ilTabs)
+     * Get tabs array
+     *
+     * @deprecated use $ilTabs
+     *
+     * @return array array("lang_var", "link", "cmd", "class)
      */
     public function getTabs();
 
     /**
-     * Get controller call history.
-     * This is used for the developer mode and presented in the footer
-     * @return    array        array of call history entries
+     * Returns the descending stacktrace of ilCtrl calls that have been made.
+     *
+     * @return array<int, string>
      */
     public function getCallHistory() : array;
 
     /**
-     * Get call structure of class context. This method must be called
-     * for the top level gui class in the leading php script. It must be
-     * called before the the current command is forwarded to the top level
-     * gui class. Example:
-     *    $ilCtrl->getCallStructure("ilrepositorygui");
-     *    $repository_gui = new ilRepositoryGUI();
-     *    $ilCtrl->forwardCommand($repository_gui);
-     * @param string $a_class gui class name
-     * @access    public
+     * Sets parameters for the given object.
+     *
+     * @see ilCtrlInterface::saveParameterByClass()
+     *
+     * @param object          $a_obj
+     * @param string|string[] $a_parameter
      */
-    public function getCallStructure($a_class);
+    public function saveParameter(object $a_obj, $a_parameter) : void;
 
     /**
-     * Reads call structure from db
+     * Sets a parameter for the given GUI class that must be passed in every
+     * target link generation. This means ilCtrl considers these parameters
+     * whenever a link-generation method is called afterwards, and uses the
+     * currently given value for these parameters for the next URL as well.
+     *
+     * Typical examples are ref_id or obj_id, where the constructor of a class
+     * can use the statement $ilCtrl->saveParameterByClass(self::class, ['ref_id'])
+     *
+     * @see ilCtrlInterface::getLinkTargetByClass(), ilCtrlInterface::getFormActionByClass()
+     *
+     * @param string          $a_class
+     * @param string|string[] $a_parameter
      */
-    public function readCallStructure($a_class, $a_nr = 0, $a_parent = 0);
+    public function saveParameterByClass(string $a_class, $a_parameter) : void;
 
     /**
-     * Set parameters that should be passed in every form and link of a
-     * gui class. All links that relate to the specified gui object class and
-     * are build e.g. by using getLinkTarger() or getFormAction() will include
-     * this parameter. This is the mechanism to add url parameters to the standard
-     * url target everytime.
-     * A typical example is the "ref_id" that should be included in almost every
-     * link or form action url. So the constructor of ilRepositoryGUI includes
-     * the command:
-     *    $this->ctrl->saveParameter($this, array("ref_id"));
-     * @param object $a_obj               gui object that will process the parameter
-     * @param mixed  $a_parameter         parameter name (string) or array of parameter
-     *                                    names
-     * @access    public
+     * Sets a parameter for the given GUI object and appends the given value.
+     *
+     * @see ilCtrlInterface::setParameterByClass()
+     *
+     * @param object $a_obj
+     * @param string $a_parameter
+     * @param mixed  $a_value
+     * @return mixed
      */
-    public function saveParameter($a_obj, $a_parameter);
+    public function setParameter(object $a_obj, string $a_parameter, $a_value) : void;
 
     /**
-     * Save parameter for a class
-     * @param string    class name
-     * @param string    parameter name
+     * Sets a parameter for the given GUI class and appends the given value as well.
+     * unlike @see ilCtrlInterface::saveParameterByClass() this method uses the
+     * given value for future link generation method calls, instead of using the
+     * value already given.
+     *
+     * @param string $a_class
+     * @param string $a_parameter
+     * @param mixed  $a_value
+     * @return mixed
      */
-    public function saveParameterByClass($a_class, $a_parameter);
+    public function setParameterByClass(string $a_class, string $a_parameter, $a_value);
 
     /**
-     * Set parameters that should be passed a form and link of a
-     * gui class. All links that relate to the specified gui object class and
-     * are build e.g. by using getLinkTarger() or getFormAction() will include
-     * this parameter. This is the mechanism to add url parameters to the standard
-     * url target. The difference to the saveParameter() method is, that setParameter()
-     * does not simply forward the url parameter of the last request. You can set
-     * a spefific value.
-     * If this parameter is also a "saved parameter" (set by saveParameter() method)
-     * the saved value will be overwritten.
-     * The method is usually used in conjunction with a getFormAction() or getLinkTarget()
-     * call. E.g.:
-     *        $this->ctrl->setParameter($this, "obj_id", $data_row["obj_id"]);
-     *        $obj_link = $this->ctrl->getLinkTarget($this, "view");
-     * @param object $a_obj       gui object
-     * @param string $a_parameter parameter name
-     * @param string $a_parameter parameter value
+     * Removes all currently set or saved parameters for the given GUI object.
+     *
+     * @param object $a_obj
      */
-    public function setParameter($a_obj, $a_parameter, $a_value);
+    public function clearParameters(object $a_obj) : void;
 
     /**
-     * Same as setParameterByClass, except that a class name is passed.
-     * @param string $a_class     gui class name
-     * @param string $a_parameter parameter name
-     * @param string $a_parameter parameter value
+     * Removes all currently set or saved parameters for the given GUI class.
+     *
+     * @param string $a_class
      */
-    public function setParameterByClass($a_class, $a_parameter, $a_value);
+    public function clearParametersByClass(string $a_class) : void;
 
     /**
-     * Same as setParameterByClass, except that a class name is passed.
-     * @param string $a_class     gui class name
-     * @param string $a_parameter parameter name
-     * @param string $a_parameter parameter value
+     * Removes a specific parameter of a specific class that is currently set or saved.
+     *
+     * @param string $a_class
+     * @param string $a_parameter
      */
-    public function clearParameterByClass($a_class, $a_parameter);
-
-    /**
-     * Clears all parameters that have been set via setParameter for
-     * a GUI class.
-     * @param object $a_obj gui object
-     */
-    public function clearParameters($a_obj);
-
-    /**
-     * Clears all parameters that have been set via setParameter for
-     * a GUI class.
-     * @param string $a_class gui class name
-     */
-    public function clearParametersByClass($a_class);
+    public function clearParameterByClass(string $a_class, string $a_parameter) : void;
 
     /**
      * Get next class in the control path from the current class
@@ -236,17 +222,23 @@ interface ilCtrlInterface
     /**
      * Get class path that can be used in include statements
      * for a given class name.
-     * @param string $a_class_name class name
+     *
+     * @param string $a_class
+     * @return string
      */
-    public function lookupClassPath($a_class_name);
+    public function lookupClassPath(string $a_class) : string;
 
     /**
-     * this method assumes that the class path has the format "dir/class.<class_name>.php"
-     * @param string $a_class_path class path
-     * @access    public
-     * @return    string        class name
+     * Returns the effective classname for a given path.
+     *
+     * @deprecated if you know the classpath you most likely called
+     *             lookupClassPath already, which means you already
+     *             know the classname.
+     *
+     * @param string $a_class_path
+     * @return string
      */
-    public function getClassForClasspath($a_class_path);
+    public function getClassForClasspath(string $a_class_path) : string;
 
     /**
      * set target script name
@@ -526,10 +518,10 @@ interface ilCtrlInterface
     /**
      * Get URL parameters for a class and append them to a string.
      *
-     * @param             $a_classes
-     * @param string      $a_str
-     * @param string|null $a_cmd
-     * @param bool        $xml_style
+     * @param string|string[] $a_classes
+     * @param string          $a_str
+     * @param string|null     $a_cmd
+     * @param bool            $xml_style
      * @return string
      */
     public function getUrlParameters($a_classes, string $a_str, string $a_cmd = null, bool $xml_style = false) : string;
@@ -542,16 +534,6 @@ interface ilCtrlInterface
      * @return array
      */
     public function getParameterArray(object $a_gui_obj, $a_cmd = null) : array;
-
-    /**
-     * Returns all parameters that have been saved or set using multiple
-     * or one classname.
-     *
-     * @param string|string[] $classes
-     * @param string|null     $a_cmd
-     * @return array
-     */
-    public function getParameterArrayByClass($classes, string $a_cmd = null) : array;
 
     /**
      * Inserts an ilCtrl call record into the database.

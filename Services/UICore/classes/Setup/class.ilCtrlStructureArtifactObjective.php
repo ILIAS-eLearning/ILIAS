@@ -31,8 +31,8 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
      */
     public function build() : Setup\Artifact
     {
-        $reader = new ilCtrlStructureReader2();
+        $reader = new ilCtrlStructureReader();
 
-        return new Setup\Artifact\ArrayArtifact($reader->readStructureOnly());
+        return new Setup\Artifact\ArrayArtifact($reader->readStructure());
     }
 }

@@ -4,6 +4,9 @@ use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
 
+/**
+ * Class ilUICoreSetupAgent
+ */
 class ilUICoreSetupAgent implements Setup\Agent
 {
     /**
@@ -11,6 +14,9 @@ class ilUICoreSetupAgent implements Setup\Agent
      */
     protected $ctrl_reader;
 
+    /**
+     * ilUICoreSetupAgent constructor.
+     */
     public function __construct()
     {
         $this->ctrl_reader = new \ilCtrlStructureReader();
@@ -74,7 +80,7 @@ class ilUICoreSetupAgent implements Setup\Agent
 
     public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
     {
-        if ($name == "reloadCtrlStructure") {
+        if ("reloadCtrlStructure" === $name) {
             return new ObjectiveCollection(
                 "Reload Control Structure of ILIAS",
                 false,

@@ -2,18 +2,16 @@
 
 /**
  * Interface ilCtrlCommandHandler is responsible for exceptional
- * command determinations.
+ * command manipulations.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * This interface describes how a command-handler must look like. It's
- * only purpose is to handle exceptional command determination cases
- * temporarily, until $_POST and $_GET modifications are prohibited
- * altogether. This is mostly in regards to @see ilTable2GUI of which
- * $_POST manipulations were made within ilCtrl itself.
- *
- * @see ilCtrlInterface::getCmd() now accepts ilCtrlCommandHandler's
- *                                as an optional parameter.
+ * This interface describes how a command handler must look like. It's
+ * Lifespan is temporarily though, because with the recent refactoring
+ * of ilCtrl, several $_POST and $_GET manipulations were made directly
+ * within @see ilCtrlInterface::getCmd() which will be prohibited in
+ * the future. Therefore this method now accepts an additional Handler
+ * of this interface for the transitioning phase.
  */
 interface ilCtrlCommandHandler
 {
