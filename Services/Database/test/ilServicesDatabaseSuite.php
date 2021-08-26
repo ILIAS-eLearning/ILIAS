@@ -38,6 +38,8 @@ class ilServicesDatabaseSuite extends TestSuite
     public static function suite(): \ilServicesDatabaseSuite
     {
         $suite = new self();
+        /** @noRector */
+        require_once('./Services/Database/test/Setup/ilDatabaseSetupSuite.php');
         $suite->addTestSuite(ilDatabaseSetupSuite::suite());
 
         return $suite;
