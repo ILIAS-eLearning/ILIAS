@@ -292,7 +292,7 @@ class ilTable2GUI extends ilTableGUI
                 if ($new_column) {
                     $set = true;
                 }
-                if (isset($c["default"])) {
+                if (isset($c["default"]) && $c["default"]) {
                     $this->selected_column[$k] = true;
                 }
             }
