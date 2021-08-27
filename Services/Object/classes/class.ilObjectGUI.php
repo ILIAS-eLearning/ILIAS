@@ -253,8 +253,10 @@ class ilObjectGUI
         if (is_object($this->object)) {
             if ($this->call_by_reference && $this->ref_id == $this->requested_ref_id) {
                 $this->ctrl->setContext(
-                    $this->object->getId(),
-                    $this->object->getType()
+                    new ilCtrlContext(
+                        $this->object->getId(),
+                        $this->object->getType()
+                    )
                 );
             }
         }

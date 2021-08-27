@@ -3,148 +3,145 @@
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
- * This class provides processing control methods.
- * A global instance is available via variable $ilCtrl
- * xml_style parameters: This mode was activated per default in the past, is now set to false but still being
- * used and needed, if link information is passed to the xslt processing e.g. in content pages.
+ * Class ilCtrl provides processing control methods. A global
+ * instance is available through $DIC->ctrl() or $ilCtrl.
+ *
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  * @author Alex Killing <alex.killing@gmx.de>
  */
 interface ilCtrlInterface
 {
     /**
-     * Calls base class of current request. The base class is
-     * passed via $_GET["baseClass"] and is the first class in
-     * the call sequence of the request. Do not call this method
-     * within other scripts than ilias.php.
-     * @throws ilCtrlException
+     * $_GET request parameter names, used throughout ilCtrl.
+     */
+    public const PARAM_CSRF_TOKEN      = 'csrf_token';
+    public const PARAM_REDIRECT        = 'redirectSource';
+    public const PARAM_CMD_FALLBACK    = 'fallbackCmd';
+    public const PARAM_BASE_CLASS      = 'baseClass';
+    public const PARAM_CMD_CLASS       = 'cmdClass';
+    public const PARAM_CMD_MODE        = 'cmdMode';
+    public const PARAM_CMD_TRACE       = 'cmdNode';
+    public const PARAM_CMD             = 'cmd';
+
+    /**
+     * different modes used for UI plugins (or in dev-mode).
+     */
+    public const CMD_MODE_PROCESS = 'execComm';
+    public const CMD_MODE_HTML    = 'getHtml';
+    public const CMD_MODE_ASYNC   = 'asynch';
+
+    /**
+     * Calls the currently provided baseclass.
+     *
+     * This method cannot be called until either:
+     *
+     *      a) @see ilCtrlInterface::initBaseClass() is called, or
+     *      b) @see ilCtrlInterface::PARAM_BASE_CLASS is provided as $_GET parameter.
+     *
+     * @throws ilCtrlException if neither of those options are true OR
+     *                         the current baseclass was not yet read by
+     *                         the @see ilCtrlStructureReader.
      */
     public function callBaseClass() : void;
 
     /**
-     * get directory of current module
+     * Initializes ilCtrl with a new baseclass.
+     *
+     * Note that this means, the URL information will be removed
+     * and only the given baseclass will appended for future link
+     * target generations from this point.
+     *
+     * @param string $a_base_class
+     */
+    public function initBaseClass(string $a_base_class) : void;
+
+    /**
+     * Forwards the request by invoking executeCommand() on the
+     * given GUI object.
+     *
+     * If any output was generated in that method, it will be
+     * returned by this method as well.
+     *
+     * @param object $a_gui_object
      * @return mixed
-     * @throws Exception
-     * @deprecated
+     * @throws ilCtrlException if executeCommand() cannot be invoked.
      */
-    public function getModuleDir();
+    public function forwardCommand(object $a_gui_object) : mixed;
 
     /**
-     * Forward flow of control to next gui class
-     * this invokes the executeCommand() method of the
-     * gui object that is passed via reference
-     * @param object $a_gui_object gui object that should receive
-     * @return mixed return data of invoked executeCommand() method
-     * @throws ilCtrlException
-     */
-    public function forwardCommand(object $a_gui_object);
-
-    /**
-     * Gets an HTML output from another GUI class and
-     * returns the flow of control to the calling class.
-     * @param object     $a_gui_object GUI class that implements getHTML() method to return its HTML
-     * @param array|null $a_parameters parameter array
+     * Returns the HTML output of another GUI object by invoking
+     * getHTML() with optional parameters on it.
+     *
+     * @param object     $a_gui_object
+     * @param array|null $a_parameters
      * @return string
-     * @throws ilCtrlException
+     * @throws ilCtrlException if getHTML() cannot be invoked.
      */
     public function getHTML(object $a_gui_object, array $a_parameters = null) : string;
 
     /**
-     * Set context of current user interface. A context is a ILIAS repository
-     * object (obj ID + obj type) with an additional optional subobject (ID + Type)
+     * Returns the command passed with the current POST or GET request.
      *
-     * @param int         $a_obj_id
-     * @param string      $a_obj_type
-     * @param int         $a_sub_obj_id
-     * @param string|null $a_sub_obj_type
+     * Note that $safe_commands will need no CSRF token validation, all
+     * other commands have to check-pass the validation.
+     *
+     * The optional command handler is used for exceptional cases within
+     * some sort of transitioning phase, because $_POST and $_GET
+     * manipulations were made within this method. Since they will be
+     * prohibited in the future, a handler allows to still take advantage
+     * of that.
+     *
+     * @param string                    $fallback_command
+     * @param array                     $safe_commands
+     * @param ilCtrlCommandHandler|null $handler
+     * @return string
      */
-    public function setContext(
-        int $a_obj_id,
-        string $a_obj_type,
-        int $a_sub_obj_id = 0,
-        string $a_sub_obj_type = null
-    ) : void;
+    public function getCmd(
+        string $fallback_command = "",
+        array $safe_commands = [],
+        ilCtrlCommandHandler $handler = null
+    ) : string;
 
     /**
-     * Get context object id
+     * Set the current command
      *
-     * @return int|null
+     * @param string $a_cmd
      */
-    public function getContextObjId() : ?int;
+    public function setCmd(string $a_cmd) : void;
 
     /**
-     * Get context object type
+     * Returns the command class which should be executed next.
      *
      * @return string|null
      */
-    public function getContextObjType() : ?string;
+    public function getCmdClass() : ?string;
 
     /**
-     * Get context subobject id
+     * Sets the current command class
      *
-     * @return int|null
+     * @param object|string $a_cmd_class
      */
-    public function getContextSubObjId() : ?int;
+    public function setCmdClass(object|string $a_cmd_class) : void;
 
     /**
-     * Get context subobject type
+     * Returns the classname of the next class in the control flow.
      *
-     * @return string|null
+     * @param object|string|null $a_gui_class
+     * @return string|false
+     * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function getContextSubObjType() : ?string;
-
-    /**
-     * Check whether target is valid
-     *
-     * @deprecated
-     *
-     * @param string|object $a_class
-     * @return bool
-     */
-    public function checkTargetClass($a_class) : bool;
-
-    /**
-     * Get command target node
-     * @return    string        id of current command target node
-     */
-    public function getCmdNode() : string;
-
-    /**
-     * Add a tab to tabs array
-     *
-     * @deprecated use $ilTabs
-     *
-     * @param string $a_lang_var language variable
-     * @param string $a_link  link
-     * @param string $a_cmd   command (must be same as in link)
-     * @param string $a_class command class (must be same as in link)
-     */
-    public function addTab($a_lang_var, $a_link, $a_cmd, $a_class);
-
-    /**
-     * Get tabs array
-     *
-     * @deprecated use $ilTabs
-     *
-     * @return array array("lang_var", "link", "cmd", "class)
-     */
-    public function getTabs();
-
-    /**
-     * Returns the descending stacktrace of ilCtrl calls that have been made.
-     *
-     * @return array<int, string>
-     */
-    public function getCallHistory() : array;
+    public function getNextClass(object|string $a_gui_class = null) : string|false;
 
     /**
      * Sets parameters for the given object.
      *
      * @see ilCtrlInterface::saveParameterByClass()
      *
-     * @param object          $a_obj
+     * @param object          $a_gui_obj
      * @param string|string[] $a_parameter
+     * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameter(object $a_obj, $a_parameter) : void;
+    public function saveParameter(object $a_gui_obj, array|string $a_parameter) : void;
 
     /**
      * Sets a parameter for the given GUI class that must be passed in every
@@ -159,23 +156,25 @@ interface ilCtrlInterface
      *
      * @param string          $a_class
      * @param string|string[] $a_parameter
+     * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameterByClass(string $a_class, $a_parameter) : void;
+    public function saveParameterByClass(string $a_class, array|string $a_parameter) : void;
 
     /**
      * Sets a parameter for the given GUI object and appends the given value.
      *
      * @see ilCtrlInterface::setParameterByClass()
      *
-     * @param object $a_obj
+     * @param object $a_gui_obj
      * @param string $a_parameter
      * @param mixed  $a_value
-     * @return mixed
+     * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function setParameter(object $a_obj, string $a_parameter, $a_value) : void;
+    public function setParameter(object $a_gui_obj, string $a_parameter, mixed $a_value) : void;
 
     /**
      * Sets a parameter for the given GUI class and appends the given value as well.
+     *
      * unlike @see ilCtrlInterface::saveParameterByClass() this method uses the
      * given value for future link generation method calls, instead of using the
      * value already given.
@@ -183,16 +182,25 @@ interface ilCtrlInterface
      * @param string $a_class
      * @param string $a_parameter
      * @param mixed  $a_value
-     * @return mixed
+     * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function setParameterByClass(string $a_class, string $a_parameter, $a_value);
+    public function setParameterByClass(string $a_class, string $a_parameter, mixed $a_value) : void;
+
+    /**
+     * Returns all parameters that have been saved or set for a GUI object.
+     *
+     * @param object $a_gui_obj
+     * @param null   $a_cmd
+     * @return array
+     */
+    public function getParameterArray(object $a_gui_obj, $a_cmd = null) : array;
 
     /**
      * Removes all currently set or saved parameters for the given GUI object.
      *
-     * @param object $a_obj
+     * @param object $a_gui_obj
      */
-    public function clearParameters(object $a_obj) : void;
+    public function clearParameters(object $a_gui_obj) : void;
 
     /**
      * Removes all currently set or saved parameters for the given GUI class.
@@ -210,14 +218,134 @@ interface ilCtrlInterface
     public function clearParameterByClass(string $a_class, string $a_parameter) : void;
 
     /**
-     * Get next class in the control path from the current class
-     * to the target command class. This is the class that should
-     * be instantiated and be invoked via $ilCtrl->forwardCommand($class)
-     * next.
-     * @param object|string $a_gui_class
-     * @return string|bool class name of next class or false on failure.
+     * Returns a link target for the given information.
+     *
+     * @param object $a_gui_obj
+     * @param string $a_cmd
+     * @param string $a_anchor
+     * @param bool   $is_async
+     * @param bool   $has_xml_style
+     * @return string
      */
-    public function getNextClass($a_gui_class = null);
+    public function getLinkTarget(
+        object $a_gui_obj,
+        string $a_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string;
+
+    /**
+     * Returns a link target for the given information.
+     *
+     * @param string|string[] $a_class
+     * @param string          $a_cmd
+     * @param string          $a_anchor
+     * @param bool            $is_async
+     * @param bool            $has_xml_style
+     * @return string
+     */
+    public function getLinkTargetByClass(
+        array|string $a_class,
+        string $a_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string;
+
+    /**
+     * Returns a form action link for the given information.
+     *
+     * @param object $a_gui_obj
+     * @param string $a_fallback_cmd
+     * @param string $a_anchor
+     * @param bool   $is_async
+     * @param bool   $has_xml_style
+     * @return string
+     */
+    public function getFormAction(
+        object $a_gui_obj,
+        string $a_fallback_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string;
+
+    /**
+     * Returns a form action link for the given information.
+     *
+     * @param string|string[] $a_class
+     * @param string          $a_fallback_cmd
+     * @param string          $a_anchor
+     * @param bool            $is_async
+     * @param bool            $has_xml_style
+     * @return string
+     */
+    public function getFormActionByClass(
+        array|string $a_class,
+        string $a_fallback_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false,
+        bool $has_xml_style = false
+    ) : string;
+
+    /**
+     * Sets the current ilCtrl context. A context consist of an obj-id and -type
+     * with possible sub-id and -type.
+     *
+     * @param ilCtrlContext $context
+     */
+    public function setContext(ilCtrlContext $context) : void;
+
+    /**
+     * Returns the current ilCtrl context.
+     *
+     * @return ilCtrlContext
+     */
+    public function getContext() : ilCtrlContext;
+
+    /**
+     * Get context object id
+     *
+     * @deprecated use getContext() instead.
+     *
+     * @return int|null
+     */
+    public function getContextObjId() : ?int;
+
+    /**
+     * Get context object type
+     *
+     * @deprecated use getContext() instead.
+     *
+     * @return string|null
+     */
+    public function getContextObjType() : ?string;
+
+    /**
+     * Get context subobject id
+     *
+     * @deprecated use getContext() instead.
+     *
+     * @return int|null
+     */
+    public function getContextSubObjId() : ?int;
+
+    /**
+     * Get context subobject type
+     *
+     * @deprecated use getContext() instead.
+     *
+     * @return string|null
+     */
+    public function getContextSubObjType() : ?string;
+
+    /**
+     * Returns the descending stacktrace of ilCtrl calls that have been made.
+     *
+     * @return array<int, string>
+     */
+    public function getCallHistory() : array;
 
     /**
      * Get class path that can be used in include statements
@@ -225,6 +353,7 @@ interface ilCtrlInterface
      *
      * @param string $a_class
      * @return string
+     * @throws ilCtrlException if the class cannot be found.
      */
     public function lookupClassPath(string $a_class) : string;
 
@@ -237,105 +366,23 @@ interface ilCtrlInterface
      *
      * @param string $a_class_path
      * @return string
+     * @throws ilCtrlException in the future.
      */
     public function getClassForClasspath(string $a_class_path) : string;
 
     /**
-     * set target script name
-     * @param string $a_target_script target script name
+     * Sets the current ilCtrl target script (default ilias.php).
+     *
+     * @param string $a_target_script
      */
     public function setTargetScript(string $a_target_script) : void;
 
     /**
-     * Get target script name
-     * @return    string        target script name
+     * Returns the current ilCtrl target script.
+     *
+     * @return string
      */
     public function getTargetScript() : string;
-
-    /**
-     * Initialises new base class
-     * Note: this resets the whole current ilCtrl context completely.
-     * You can call callBaseClass() after that.
-     * @param string        base class name
-     */
-    public function initBaseClass(string $a_base_class) : void;
-
-    /**
-     * Returns the command passed with the current POST or GET request.
-     *
-     * Note that $safe_commands will need no CSRF token validation.
-     *
-     * @param string                    $fallback_command
-     * @param array                     $safe_commands
-     * @param ilCtrlCommandHandler|null $handler
-     * @return string
-     */
-    public function getCmd(string $fallback_command = "", array $safe_commands = [], ilCtrlCommandHandler $handler = null) : string;
-
-    /**
-     * Set the current command
-     *
-     * @TODO: argue why it should not be used.
-     *
-     * @deprecated
-     *
-     * @param string $a_cmd
-     */
-    public function setCmd(string $a_cmd) : void;
-
-    /**
-     * Sets the current command class
-     *
-     * @TODO: argue why it should not be used.
-     *
-     * @deprecated
-     *
-     * @param object|string $a_cmd_class
-     */
-    public function setCmdClass($a_cmd_class) : void;
-
-    /**
-     * Returns the command class which should be executed next.
-     *
-     * @return string
-     */
-    public function getCmdClass() : string;
-
-    /**
-     * Returns a form action link for the given information.
-     *
-     * @param object $a_gui_object
-     * @param string $a_fallback_cmd
-     * @param string $a_anchor
-     * @param bool   $a_asynch
-     * @param bool   $xml_style
-     * @return string
-     */
-    public function getFormAction(
-        object $a_gui_object,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false,
-        bool $xml_style = false
-    ) : string;
-
-    /**
-     * Returns a form action link for the given information.
-     *
-     * @param string|string[] $a_class
-     * @param string          $a_fallback_cmd
-     * @param string          $a_anchor
-     * @param bool            $a_asynch
-     * @param bool            $xml_style
-     * @return string
-     */
-    public function getFormActionByClass(
-        $a_class,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false,
-        bool $xml_style = false
-    ) : string;
 
     /**
      * Returns the given URL appended with a CSRF token.
@@ -410,42 +457,6 @@ interface ilCtrlInterface
     public function isAsynch() : bool;
 
     /**
-     * Returns a link target for the given information.
-     *
-     * @param object $a_gui_obj
-     * @param string $a_cmd
-     * @param string $a_anchor
-     * @param bool   $a_asynch
-     * @param bool   $xml_style
-     * @return string
-     */
-    public function getLinkTarget(
-        object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false,
-        bool $xml_style = false
-    ) : string;
-
-    /**
-     * Returns a link target for the given information.
-     *
-     * @param string|string[] $a_class
-     * @param string          $a_cmd
-     * @param string          $a_anchor
-     * @param bool            $a_asynch
-     * @param bool            $xml_style
-     * @return string
-     */
-    public function getLinkTargetByClass(
-        $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false,
-        bool $xml_style = false
-    ) : string;
-
-    /**
      * Sets the return command of a given GUI object.
      *
      * @param object $a_gui_obj
@@ -514,26 +525,6 @@ interface ilCtrlInterface
      * @return string
      */
     public function getRedirectSource() : string;
-
-    /**
-     * Get URL parameters for a class and append them to a string.
-     *
-     * @param string|string[] $a_classes
-     * @param string          $a_str
-     * @param string|null     $a_cmd
-     * @param bool            $xml_style
-     * @return string
-     */
-    public function getUrlParameters($a_classes, string $a_str, string $a_cmd = null, bool $xml_style = false) : string;
-
-    /**
-     * Returns all parameters that have been saved or set for a GUI object.
-     *
-     * @param object $a_gui_obj
-     * @param null   $a_cmd
-     * @return array
-     */
-    public function getParameterArray(object $a_gui_obj, $a_cmd = null) : array;
 
     /**
      * Inserts an ilCtrl call record into the database.
