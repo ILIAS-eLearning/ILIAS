@@ -816,7 +816,7 @@ class ilCalendarPresentationGUI
         // default to today
         $now = new \ilDate(time(), IL_CAL_UNIX);
         $this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
-        if (array_key_exists('seed', $_REQUEST)) {
+        if (isset($_REQUEST['seed'])) {
             $this->seed = new ilDate($_GET['seed'], IL_CAL_DATE);
         } elseif (!$this->getRepositoryMode()) {
             $session_seed = ilSession::get('cal_seed');
