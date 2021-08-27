@@ -59,7 +59,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
         $i = 0;
         $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(true));
+        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
 
         global $ilDB;
         $ilDB = $ildb_mock;
@@ -138,7 +138,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
         $i = 0;
         $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(true));
+        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
 
         global $ilDB;
         $ilDB = $ildb_mock;
@@ -217,7 +217,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $ildb_mock->expects($this->any())->method('quote')->will($this->returnCallback(''));
         $i = 0;
         $ildb_mock->expects($this->any())->method('nextId')->will($this->returnValue($i++));
-        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(true));
+        $ildb_mock->expects($this->any())->method('insert')->will($this->returnValue(1));
 
         global $ilDB;
         $ilDB = $ildb_mock;
