@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * @ingroup ServicesCertificate
@@ -9,31 +11,17 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUI
 {
-    const CMD_DOWNLOAD = 'download';
+    public const CMD_DOWNLOAD = 'download';
+    private ilLogger $certificateLogger;
+    private ServerRequestInterface $request;
+    private ilLanguage $language;
+    private ilCtrl $ctrl;
 
-    /** @var ilLogger */
-    private $certificateLogger;
-
-    /** @var ServerRequestInterface */
-    private $request;
-
-    /** @var ilLanguage */
-    private $language;
-
-    /** @var ilCtrl */
-    private $controller;
-
-    /**
-     * @param ilLanguage|null $language
-     * @param ServerRequestInterface $request
-     * @param ilLogger $certificateLogger
-     * @param ilCtrl $controller
-     */
     public function __construct(
-        ilLanguage $language = null,
-        ServerRequestInterface $request = null,
-        ilLogger $certificateLogger = null,
-        ilCtrl $controller = null
+        ?ilLanguage $language = null,
+        ?ServerRequestInterface $request = null,
+        ?ilLogger $certificateLogger = null,
+        ?ilCtrl $ctrl = null
     ) {
         global $DIC;
 
@@ -52,22 +40,17 @@ class ilUserCertificateApiGUI
         }
         $this->certificateLogger = $certificateLogger;
 
-        if ($controller === null) {
-            $controller = $DIC->ctrl();
+        if ($ctrl === null) {
+            $ctrl = $DIC->ctrl();
         }
-        $this->controller = $controller;
-
+        $this->ctrl = $ctrl;
 
         $this->language->loadLanguageModule('cert');
     }
 
-
-    /**
-     *
-     */
     public function executeCommand() : void
     {
-        $cmd = $this->controller->getCmd();
+        $cmd = $this->ctrl->getCmd();
 
         switch ($cmd) {
             case self::CMD_DOWNLOAD:
@@ -79,10 +62,6 @@ class ilUserCertificateApiGUI
         }
     }
 
-
-    /**
-     * @throws \ilException
-     */
     public function download() : void
     {
         $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);

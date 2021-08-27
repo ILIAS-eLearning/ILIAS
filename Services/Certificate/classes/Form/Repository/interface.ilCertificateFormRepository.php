@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,11 +6,7 @@
  */
 interface ilCertificateFormRepository
 {
-    /**
-     * @param ilCertificateGUI $certificateGUI
-     * @return ilPropertyFormGUI
-     */
-    public function createForm(ilCertificateGUI $certificateGUI);
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI;
 
     /**
      * @param array $formFields
@@ -19,7 +15,7 @@ interface ilCertificateFormRepository
     public function save(array $formFields);
 
     /**
-     * @param $content
+     * @param string $content
      * @return mixed
      */
     public function fetchFormFieldData(string $content);

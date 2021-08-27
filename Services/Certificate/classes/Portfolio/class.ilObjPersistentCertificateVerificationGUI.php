@@ -1,30 +1,22 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilObjPersistentCertificateVerificationGUI
 {
-    /**
-     * @var
-     */
-    private $dic;
-
-    /**
-     * @var ilPortfolioCertificateFileService
-     */
-    private $fileService;
-
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private Container $dic;
+    private ilPortfolioCertificateFileService $fileService;
+    private ilLanguage $language;
 
     public function __construct(
-        \ILIAS\DI\Container $dic = null,
-        ilPortfolioCertificateFileService $fileService = null,
-        ilLanguage $language = null
+        ?Container $dic = null,
+        ?ilPortfolioCertificateFileService $fileService = null,
+        ?ilLanguage $language = null
     ) {
         if (null === $dic) {
             global $DIC;
@@ -45,15 +37,15 @@ class ilObjPersistentCertificateVerificationGUI
 
     /**
      * @param ilPortfolioPage $a_page
-     * @param int $objectId
-     * @param int $userId
+     * @param int             $objectId
+     * @param int             $userId
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId)
+    public function downloadFromPortfolioPage(ilPortfolioPage $a_page, int $objectId, int $userId) : void
     {
-        if (ilPCVerification::isInPortfolioPage($a_page, 'crta', (int) $objectId)) {
-            $this->fileService->deliverCertificate((int) $userId, (int) $objectId);
+        if (ilPCVerification::isInPortfolioPage($a_page, 'crta', $objectId)) {
+            $this->fileService->deliverCertificate($userId, $objectId);
         }
 
         throw new ilException($this->language->txt('permission_denied'));

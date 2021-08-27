@@ -7,41 +7,37 @@ use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 use ilDBConstants;
 use ilUserCertificateApiGUI;
+use ilDBInterface;
+use ilLogger;
+use ilCtrl;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class UserDataRepository
 {
-    /** @var \ilDBInterface */
-    private $database;
-
-    /** @var \ilLogger */
-    private $logger;
-
-    /** @var null|string */
-    private $defaultTitle;
-
-    /** @var \ilCtrl */
-    private $controller;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private string $defaultTitle;
+    private ilCtrl $ctrl;
 
     /**
-     * @param \ilDBInterface $database
-     * @param \ilLogger $logger
-     * @param \ilCtrl $controller
-     * @param string|null $defaultTitle The default title is use if the title of an repository object could not be
-     *                                  determined. This could be the case if the object is deleted from system and
-     *                                  mechanisms to store the title of deleted objects (table: object_data_del) failed.
+     * @param ilDBInterface $database
+     * @param ilLogger      $logger
+     * @param ilCtrl        $ctrl
+     * @param string|null   $defaultTitle The default title is use if the title of an repository object could not be
+     *                                    determined. This could be the case if the object is deleted from system and
+     *                                    mechanisms to store the title of deleted objects (table: object_data_del) failed.
      */
     public function __construct(
-        \ilDBInterface $database,
-        \ilLogger $logger,
-        \ilCtrl $controller,
-        string $defaultTitle = null
+        ilDBInterface $database,
+        ilLogger $logger,
+        ilCtrl $ctrl,
+        ?string $defaultTitle = null
     ) {
         $this->database = $database;
         $this->logger = $logger;
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
 
         if (null === $defaultTitle) {
             global $DIC;
@@ -52,8 +48,8 @@ class UserDataRepository
 
     /**
      * @param UserDataFilter $filter
-     * @param array $ilCtrlStack
-     * @return array
+     * @param string[] $ilCtrlStack
+     * @return array<int, UserCertificateDto>
      */
     public function getUserData(UserDataFilter $filter, array $ilCtrlStack) : array
     {
@@ -89,9 +85,9 @@ FROM
             $link = '';
             if ([] !== $ilCtrlStack) {
                 $ilCtrlStack[] = ilUserCertificateApiGUI::class;
-                $this->controller->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
-                $link = $this->controller->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
-                $this->controller->clearParametersByClass(ilUserCertificateApiGUI::class);
+                $this->ctrl->setParameterByClass(ilUserCertificateApiGUI::class, 'certificate_id', $id);
+                $link = $this->ctrl->getLinkTargetByClass($ilCtrlStack, ilUserCertificateApiGUI::CMD_DOWNLOAD);
+                $this->ctrl->clearParametersByClass(ilUserCertificateApiGUI::class);
             }
 
             $dataObject = new UserCertificateDto(
@@ -113,18 +109,12 @@ FROM
         }
 
         if ($filter->getLimitOffset() !== null && $filter->getLimitCount() !== null) {
-            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount());
+            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount(), true);
         }
 
         return $result;
     }
 
-
-    /**
-     * @param UserDataFilter $filter
-     *
-     * @return int
-     */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
         $sql = 'SELECT
@@ -134,16 +124,12 @@ FROM
 
         $query = $this->database->query($sql);
 
-        $max_count = intval($this->database->fetchAssoc($query)["count"]);
-
-        return $max_count;
+        return (int) $this->database->fetchAssoc($query)["count"];
     }
-
 
     /**
      * @param UserDataFilter $filter
      * @param bool           $max_count_only
-     *
      * @return string
      */
     private function getQuery(UserDataFilter $filter, bool $max_count_only = false) : string
@@ -195,11 +181,6 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
         return $sql;
     }
 
-
-    /**
-     * @param UserDataFilter $filter
-     * @return string
-     */
     private function createOrderByClause(UserDataFilter $filter) : string
     {
         $sorts = $filter->getSorts();

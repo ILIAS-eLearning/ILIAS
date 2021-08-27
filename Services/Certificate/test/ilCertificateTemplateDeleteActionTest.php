@@ -24,7 +24,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'something',
                 md5('something'),
                 '[]',
-                '1',
+                1,
                 'v5.4.0',
                 1234567890,
                 true,
@@ -73,7 +73,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'something',
                 md5('something'),
                 '[]',
-                '1',
+                1,
                 'v5.4.0',
                 1234567890,
                 true

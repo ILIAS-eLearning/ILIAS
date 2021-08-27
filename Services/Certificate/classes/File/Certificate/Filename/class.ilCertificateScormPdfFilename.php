@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,18 +6,10 @@
  */
 class ilCertificateScormPdfFilename implements ilCertificateFilename
 {
-    /** @var ilSetting*/
-    private $scormSetting;
-    /** @var ilCertificateFilename */
-    private $origin;
-    /** @var ilLanguage */
-    private $lng;
+    private ilSetting $scormSetting;
+    private ilCertificateFilename $origin;
+    private ilLanguage $lng;
 
-    /**
-     * @param ilCertificateFilename $origin
-     * @param ilLanguage $lng
-     * @param ilSetting $scormSetting
-     */
     public function __construct(ilCertificateFilename $origin, ilLanguage $lng, ilSetting $scormSetting)
     {
         $this->scormSetting = $scormSetting;
@@ -25,9 +17,6 @@ class ilCertificateScormPdfFilename implements ilCertificateFilename
         $this->lng = $lng;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
         $fileName = $this->origin->createFileName($presentation);

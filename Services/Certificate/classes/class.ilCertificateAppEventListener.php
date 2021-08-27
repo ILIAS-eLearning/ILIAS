@@ -1,78 +1,42 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * Class ilCertificateAppEventListener
- *
- * @author Niels Theen <ntheen@databay.de>
+ * @author  Niels Theen <ntheen@databay.de>
  * @version $Id:$
- *
  * @package Services/Certificate
  */
 class ilCertificateAppEventListener implements ilAppEventListener
 {
-    /** @var \ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
+    private ilObjectDataCache $objectDataCache;
+    private ilLogger $logger;
+    protected string $component = '';
+    protected string $event = '';
+    protected array $parameters = [];
+    private ilCertificateQueueRepository $certificateQueueRepository;
+    private ilCertificateTypeClassMap $certificateClassMap;
+    private ilCertificateTemplateRepository $templateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
-    /** @var ilObjectDataCache */
-    private $objectDataCache;
-
-    /** @var ilLogger */
-    private $logger;
-
-    /** @var string */
-    protected $component = '';
-
-    /** @var string */
-    protected $event = '';
-
-    /** @var array */
-    protected $parameters = [];
-
-    /**
-     * @var ilCertificateQueueRepository
-     */
-    private $certificateQueueRepository;
-
-    /**
-     * @var ilCertificateTypeClassMap
-     */
-    private $certificateClassMap;
-
-    /**
-     * @var ilCertificateTemplateRepository
-     */
-    private $templateRepository;
-
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
-
-    /**
-     * ilCertificateAppEventListener constructor.
-     * @param \ilDBInterface $db
-     * @param \ilObjectDataCache $objectDataCache
-     * @param \ilLogger $logger
-     */
     public function __construct(
-        \ilDBInterface $db,
-        \ilObjectDataCache $objectDataCache,
-        \ilLogger $logger
+        ilDBInterface $db,
+        ilObjectDataCache $objectDataCache,
+        ilLogger $logger
     ) {
         $this->db = $db;
         $this->objectDataCache = $objectDataCache;
         $this->logger = $logger;
-        $this->certificateQueueRepository = new \ilCertificateQueueRepository($this->db, $this->logger);
-        $this->certificateClassMap = new \ilCertificateTypeClassMap();
-        $this->templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-        $this->userCertificateRepository = new \ilUserCertificateRepository($this->db, $this->logger);
+        $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
+        $this->certificateClassMap = new ilCertificateTypeClassMap();
+        $this->templateRepository = new ilCertificateTemplateRepository($this->db, $this->logger);
+        $this->userCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
     }
 
-    /**
-     * @param string $component
-     * @return \ilCertificateAppEventListener
-     */
     public function withComponent(string $component) : self
     {
         $clone = clone $this;
@@ -82,10 +46,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param string $event
-     * @return \ilCertificateAppEventListener
-     */
     public function withEvent(string $event) : self
     {
         $clone = clone $this;
@@ -95,10 +55,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @param array $parameters
-     * @return \ilCertificateAppEventListener
-     */
     public function withParameters(array $parameters) : self
     {
         $clone = clone $this;
@@ -108,9 +64,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         return $clone;
     }
 
-    /**
-     * @return bool
-     */
     protected function isLearningAchievementEvent() : bool
     {
         return (
@@ -119,9 +72,6 @@ class ilCertificateAppEventListener implements ilAppEventListener
         );
     }
 
-    /**
-     * @return bool
-     */
     protected function isUserDeletedEvent() : bool
     {
         return (
@@ -133,15 +83,15 @@ class ilCertificateAppEventListener implements ilAppEventListener
     protected function isCompletedStudyProgramme() : bool
     {
         return (
-                'Modules/StudyProgramme' === $this->component &&
-                'userSuccessful' === $this->event
-                );
+            'Modules/StudyProgramme' === $this->component &&
+            'userSuccessful' === $this->event
+        );
     }
-    
+
     /**
-     *
+     * @throws IOException
      */
-    public function handle()
+    public function handle() : void
     {
         try {
             if ($this->isLearningAchievementEvent()) {
@@ -151,15 +101,18 @@ class ilCertificateAppEventListener implements ilAppEventListener
             } elseif ($this->isCompletedStudyProgramme()) {
                 $this->handleCompletedStudyProgramme();
             }
-        } catch (\ilException $e) {
+        } catch (ilException $e) {
             $this->logger->error($e->getMessage());
         }
     }
 
     /**
-     * @inheritdoc
+     * @param string $a_component
+     * @param string $a_event
+     * @param array  $a_parameter
+     * @throws IOException
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent($a_component, $a_event, $a_parameter) : void
     {
         global $DIC;
 
@@ -176,16 +129,13 @@ class ilCertificateAppEventListener implements ilAppEventListener
             ->handle();
     }
 
-    /**
-     * @throws \ilException
-     */
-    private function handleLPUpdate()
+    private function handleLPUpdate() : void
     {
-        $status = $this->parameters['status'] ?? \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        $status = $this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         $settings = new ilSetting('certificate');
 
-        if ($status == \ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+        if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             $objectId = $this->parameters['obj_id'] ?? 0;
             $userId = $this->parameters['usr_id'] ?? 0;
 
@@ -229,9 +179,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
                     ));
                 }
             } else {
-                $this->logger->info(sprintf(
-                    "Object type is not of interest, skipping certificate evaluation for this object"
-                ));
+                $this->logger->info('Object type is not of interest, skipping certificate evaluation for this object');
             }
 
             if ($type === 'crs') {
@@ -246,9 +194,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 'Triggering certificate evaluation of possible depending course objects ...'
             );
 
-            foreach (\ilObject::_getAllReferences($objectId) as $refId) {
-                $templateRepository = new \ilCertificateTemplateRepository($this->db, $this->logger);
-                $progressEvaluation = new \ilCertificateCourseLearningProgressEvaluation($templateRepository);
+            foreach (ilObject::_getAllReferences($objectId) as $refId) {
+                $templateRepository = new ilCertificateTemplateRepository($this->db, $this->logger);
+                $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
 
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
                 if (0 === count($templatesOfCompletedCourses)) {
@@ -301,9 +249,9 @@ class ilCertificateAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    private function handleDeletedUser()
+    private function handleDeletedUser() : void
     {
         $portfolioFileService = new ilPortfolioCertificateFileService();
 
@@ -329,24 +277,29 @@ class ilCertificateAppEventListener implements ilAppEventListener
     }
 
     /**
-     * @param $type
-     * @param $objectId
-     * @param int $userId
+     * @param                       $type
+     * @param                       $objectId
+     * @param int                   $userId
      * @param ilCertificateTemplate $template
-     * @param ilSetting $settings
+     * @param ilSetting             $settings
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
      */
-    private function processEntry($type, $objectId, int $userId, ilCertificateTemplate $template, ilSetting $settings)
-    {
+    private function processEntry(
+        $type,
+        $objectId,
+        int $userId,
+        ilCertificateTemplate $template,
+        ilSetting $settings
+    ) : void {
         $className = $this->certificateClassMap->getPlaceHolderClassNameByType($type);
 
-        $entry = new \ilCertificateQueueEntry(
+        $entry = new ilCertificateQueueEntry(
             $objectId,
             $userId,
             $className,
-            \ilCronConstants::IN_PROGRESS,
+            ilCronConstants::IN_PROGRESS,
             $template->getId(),
             time()
         );
@@ -355,14 +308,14 @@ class ilCertificateAppEventListener implements ilAppEventListener
         if ($mode === 'persistent_certificate_mode_instant') {
             $cronjob = new ilCertificateCron();
             $cronjob->init();
-            $cronjob->processEntry(0, $entry, array());
+            $cronjob->processEntry(0, $entry, []);
             return;
         }
 
         $this->certificateQueueRepository->addToQueue($entry);
     }
 
-    private function handleCompletedStudyProgramme()
+    private function handleCompletedStudyProgramme() : void
     {
         $settings = new ilSetting('certificate');
         $objectId = $this->parameters['prg_id'] ?? 0;
@@ -370,19 +323,20 @@ class ilCertificateAppEventListener implements ilAppEventListener
         try {
             $template = $this->templateRepository->fetchCurrentlyActiveCertificate($objectId);
             if (true === $template->isCurrentlyActive()) {
-                $entry = new \ilCertificateQueueEntry(
+                $entry = new ilCertificateQueueEntry(
                     $objectId,
                     $userId,
                     ilStudyProgrammePlaceholderValues::class,
-                    \ilCronConstants::IN_PROGRESS,
+                    ilCronConstants::IN_PROGRESS,
                     $template->getId(),
                     time()
-                                                      );
+                );
                 $mode = $settings->get('persistent_certificate_mode', '');
                 if ($mode === 'persistent_certificate_mode_instant') {
                     $cronjob = new ilCertificateCron();
                     $cronjob->init();
-                    return $cronjob->processEntry(0, $entry, array());
+                    $cronjob->processEntry(0, $entry, []);
+                    return;
                 }
                 $this->certificateQueueRepository->addToQueue($entry);
             }

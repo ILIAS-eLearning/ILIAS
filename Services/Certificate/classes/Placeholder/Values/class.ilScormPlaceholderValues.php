@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,58 +6,22 @@
  */
 class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
+    private ilLanguage $language;
+    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilCertificateDateHelper $dateHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateUtilHelper $utilHelper;
+    private ilCertificateObjectLPHelper $objectLPHelper;
+    private ilCertificateLPStatusHelper $lpStatusHelper;
 
-    /**
-     * @var ilDefaultPlaceholderValues|null
-     */
-    private $defaultPlaceHolderValuesObject;
-
-    /**
-     * @var ilCertificateDateHelper|null
-     */
-    private $dateHelper;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateUtilHelper|null
-     */
-    private $utilHelper;
-
-    /**
-     * @var ilCertificateObjectLPHelper|null
-     */
-    private $objectLPHelper;
-
-    /**
-     * @var ilCertificateLPStatusHelper|null
-     */
-    private $lpStatusHelper;
-
-    /**
-     * @param ilDefaultPlaceholderValues|null $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateDateHelper|null $dateHelper
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateUtilHelper|null $utilHelper
-     * @param ilCertificateObjectLPHelper|null $objectLPHelper
-     * @param ilCertificateLPStatusHelper|null $lpStatusHelper
-     */
     public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateDateHelper $dateHelper = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateUtilHelper $utilHelper = null,
-        ilCertificateObjectLPHelper $objectLPHelper = null,
-        ilCertificateLPStatusHelper $lpStatusHelper = null
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateDateHelper $dateHelper = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateUtilHelper $utilHelper = null,
+        ?ilCertificateObjectLPHelper $objectLPHelper = null,
+        ?ilCertificateLPStatusHelper $lpStatusHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -100,16 +64,16 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
-     * @param $userId
-     * @param $objId
-     * @throws ilInvalidCertificateException
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @param int $userId
+     * @param int $objId
+     * @return array - [PLACEHOLDER] => 'actual value'
+     * @throws ilDatabaseException
+     * @throws ilDateTimeException
      * @throws ilException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
@@ -117,7 +81,12 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $points = $object->getPointsInPercent();
-        $txtPoints = number_format($points, 1, $this->language->txt('lang_sep_decimal'), $this->language->txt('lang_sep_thousand')) . ' %';
+        $txtPoints = number_format(
+            $points,
+            1,
+            $this->language->txt('lang_sep_decimal'),
+            $this->language->txt('lang_sep_thousand')
+        ) . ' %';
         if (is_null($points)) {
             $txtPoints = $this->language->txt('certificate_points_notavailable');
         }
@@ -127,7 +96,12 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         if (is_null($max_points)) {
             $txtMaxPoints = $this->language->txt('certificate_points_notavailable');
         } elseif ($max_points != floor($max_points)) {
-            $txtMaxPoints = number_format($max_points, 1, $this->language->txt('lang_sep_decimal'), $this->language->txt('lang_sep_thousand'));
+            $txtMaxPoints = number_format(
+                $max_points,
+                1,
+                $this->language->txt('lang_sep_decimal'),
+                $this->language->txt('lang_sep_thousand')
+            );
         }
 
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
@@ -203,7 +177,6 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
      * @return array
@@ -230,7 +203,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
             $this->language->txt('lang_sep_thousand')
         );
 
-        $insert_tags = array();
+        $insert_tags = [];
         foreach ($placeholders as $id => $caption) {
             $insert_tags[$id] = $caption;
         }

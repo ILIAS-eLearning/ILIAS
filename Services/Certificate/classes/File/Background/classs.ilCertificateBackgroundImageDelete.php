@@ -6,31 +6,24 @@
  */
 class ilCertificateBackgroundImageDelete
 {
+    private string $certificatePath;
+    private ilCertificateBackgroundImageFileService $fileService;
 
-    /**
-     * @var string
-     */
-    private $certificatePath;
-
-    /**
-     * @var ilCertificateBackgroundImageFileService
-     */
-    private $fileService;
-
-    /**
-     * @param string                                  $certificatePath
-     * @param ilCertificateBackgroundImageFileService $fileService
-     */
     public function __construct(string $certificatePath, ilCertificateBackgroundImageFileService $fileService)
     {
         $this->certificatePath = $certificatePath;
         $this->fileService = $fileService;
     }
 
-    public function deleteBackgroundImage(string $version)
+    public function deleteBackgroundImage(?int $version) : void
     {
         if (file_exists($this->fileService->getBackgroundImageThumbPath())) {
             unlink($this->fileService->getBackgroundImageThumbPath());
+        }
+
+        $version_string = '';
+        if (is_int($version) && $version >= 0) {
+            $version_string = (string) $version;
         }
 
         $filename = $this->certificatePath . 'background_' . $version . '.jpg';

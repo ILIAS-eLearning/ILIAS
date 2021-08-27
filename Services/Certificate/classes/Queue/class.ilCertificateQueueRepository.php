@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,57 +6,41 @@
  */
 class ilCertificateQueueRepository
 {
-    /**
-     * @var ilDBInterface
-     */
-    private $database;
+    private ilDBInterface $database;
+    private ilLogger $logger;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     */
-    public function __construct(\ilDBInterface $database, ilLogger $logger)
+    public function __construct(ilDBInterface $database, ilLogger $logger)
     {
         $this->database = $database;
         $this->logger = $logger;
     }
 
-    /**
-     * @param ilCertificateQueueEntry $certificateQueueEntry
-     */
-    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry)
+    public function addToQueue(ilCertificateQueueEntry $certificateQueueEntry) : void
     {
         $this->logger->info('START - Add new entry to certificate cron job queue');
 
         $id = $this->database->nextId('il_cert_cron_queue');
 
-        $row = array(
-            'id' => array('integer', $id),
-            'obj_id' => array('integer', $certificateQueueEntry->getObjId()),
-            'usr_id' => array('integer', $certificateQueueEntry->getUserId()),
-            'adapter_class' => array('text', $certificateQueueEntry->getAdapterClass()),
-            'state' => array('text', $certificateQueueEntry->getState()),
-            'started_timestamp' => array('integer', $certificateQueueEntry->getStartedTimestamp()),
-            'template_id' => array('integer', $certificateQueueEntry->getTemplateId()),
+        $row = [
+            'id' => ['integer', $id],
+            'obj_id' => ['integer', $certificateQueueEntry->getObjId()],
+            'usr_id' => ['integer', $certificateQueueEntry->getUserId()],
+            'adapter_class' => ['text', $certificateQueueEntry->getAdapterClass()],
+            'state' => ['text', $certificateQueueEntry->getState()],
+            'started_timestamp' => ['integer', $certificateQueueEntry->getStartedTimestamp()],
+            'template_id' => ['integer', $certificateQueueEntry->getTemplateId()],
+        ];
 
-        );
-
-        $this->logger->debug(sprintf('Save queue entry with following values: %s', json_encode($row, JSON_PRETTY_PRINT)));
-        $this->logger->info(sprintf('END - Added entry to queue'));
+        $this->logger->debug(sprintf(
+            'Save queue entry with following values: %s',
+            json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+        ));
+        $this->logger->info('END - Added entry to queue');
 
         $this->database->insert('il_cert_cron_queue', $row);
     }
 
-    /**
-     * @param integer $id
-     * @throws ilDatabaseException
-     */
-    public function removeFromQueue($id)
+    public function removeFromQueue(int $id) : void
     {
         $this->logger->info(sprintf('START - Remove entry(id: "%s") from queue', $id));
 
@@ -68,27 +52,30 @@ class ilCertificateQueueRepository
     }
 
     /**
-     * @return array
+     * @return ilCertificateQueueEntry[]
      */
-    public function getAllEntriesFromQueue()
+    public function getAllEntriesFromQueue() : array
     {
         $this->logger->info('START - Fetch all entries from queue');
 
         $sql = 'SELECT * FROM il_cert_cron_queue';
         $query = $this->database->query($sql);
 
-        $result = array();
+        $result = [];
         while ($row = $this->database->fetchAssoc($query)) {
-            $this->logger->debug(sprintf('Queue entry found: "%s"', json_encode($row, JSON_PRETTY_PRINT)));
-
+            $this->logger->debug(sprintf(
+                'Queue entry found: "%s"',
+                json_encode($row, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+            ));
+            
             $result[] = new ilCertificateQueueEntry(
-                $row['obj_id'],
-                $row['usr_id'],
+                (int) $row['obj_id'],
+                (int) $row['usr_id'],
                 $row['adapter_class'],
                 $row['state'],
-                $row['template_id'],
-                $row['started_timestamp'],
-                $row['id']
+                (int) $row['template_id'],
+                (int) $row['started_timestamp'],
+                (int) $row['id']
             );
         }
 
@@ -97,10 +84,7 @@ class ilCertificateQueueRepository
         return $result;
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function removeFromQueueByUserId(int $user_id)
+    public function removeFromQueueByUserId(int $user_id) : void
     {
         $this->logger->info(sprintf('START - Remove entries for user(user_id: "%s") from queue', $user_id));
 

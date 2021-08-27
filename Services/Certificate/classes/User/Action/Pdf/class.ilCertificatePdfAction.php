@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,44 +6,18 @@
  */
 class ilCertificatePdfAction
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger;
+    private ilLogger $logger;
+    private ilPdfGenerator $pdfGenerator;
+    private ilCertificateUtilHelper $ilUtilHelper;
+    private ilErrorHandling $errorHandler;
+    private string $translatedErrorText;
 
-    /**
-     * @var ilPdfGenerator
-     */
-    private $pdfGenerator;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
-
-    /**
-     * @var ilErrorHandling
-     */
-    private $errorHandler;
-
-    /**
-     * @var string
-     */
-    private $translatedErrorText;
-
-    /**
-     * @param ilLogger $logger
-     * @param ilPdfGenerator $pdfGenerator
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilErrorHandling|null $errorHandler
-     * @param string $translatedErrorText
-     */
     public function __construct(
         ilLogger $logger,
         ilPdfGenerator $pdfGenerator,
-        ilCertificateUtilHelper $ilUtilHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null,
         string $translatedErrorText = '',
-        ilErrorHandling $errorHandler = null
+        ?ilErrorHandling $errorHandler = null
     ) {
         $this->logger = $logger;
         $this->pdfGenerator = $pdfGenerator;
@@ -74,12 +48,6 @@ class ilCertificatePdfAction
         return $pdfScalar;
     }
 
-    /**
-     * @param int $userId
-     * @param int $objectId
-     * @param string $pdfDownloadName
-     * @return string
-     */
     public function downloadPdf(int $userId, int $objectId) : string
     {
         try {
