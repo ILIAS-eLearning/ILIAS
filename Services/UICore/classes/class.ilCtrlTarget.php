@@ -49,6 +49,11 @@ final class ilCtrlTarget
     private ?string $cmd;
 
     /**
+     * @var ilCtrlTarget|null
+     */
+    private ?self $nested_target;
+
+    /**
      * ilCtrlTarget constructor.
      * @param string|null $token
      * @param string|null $base_class
@@ -268,5 +273,23 @@ final class ilCtrlTarget
     {
         $this->cmd = $cmd;
         return $this;
+    }
+
+    /**
+     * @param ilCtrlTarget|null $target
+     * @return $this
+     */
+    public function setNestedTarget(?self $target) : ilCtrlTarget
+    {
+        $this->nested_target = $target;
+        return $this;
+    }
+
+    /**
+     * @return ilCtrlTarget|null
+     */
+    public function getNestedTarget() : ?ilCtrlTarget
+    {
+        return $this->nested_target;
     }
 }

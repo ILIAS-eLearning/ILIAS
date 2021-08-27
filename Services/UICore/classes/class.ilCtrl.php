@@ -217,17 +217,29 @@ final class ilCtrl implements ilCtrlInterface
             throw new ilCtrlException( get_class($a_gui_object) . " doesn't implement getHTML().");
         }
 
+        $this->target->setNestedTarget(
+            new ilCtrlTarget(
+                null,
+                $this->getBaseClass(),
+                null,
+                $this->target->getCidTrace(),
+            )
+        );
+
         $this->populateCall(
             $class_name,
             $this->getCmd(),
             self::CMD_MODE_HTML
         );
 
-        if (null !== $a_parameters) {
-            return $a_gui_object->getHTML($a_parameters);
-        }
+        $html = (null !== $a_parameters) ?
+            $a_gui_object->getHTML($a_parameters) :
+            $a_gui_object->getHTML()
+        ;
 
-        return $a_gui_object->getHTML();
+        $this->target->setNestedTarget(null);
+
+        return $html;
     }
 
     /**
@@ -321,6 +333,12 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getNextClass(object|string $a_gui_class = null) : string|false
     {
+        if (null !== $this->target->getNestedTarget()) {
+            $cid_trace = $this->target->getNestedTarget()->getCidTrace();
+        } else {
+            $cid_trace = $this->target->getCidTrace();
+        }
+
         if (null !== $a_gui_class) {
             // abort if an invalid argument was supplied.
             if (!is_object($a_gui_class) && !is_string($a_gui_class)) {
@@ -332,12 +350,9 @@ final class ilCtrl implements ilCtrlInterface
                 strtolower($a_gui_class)
             ;
 
-            $cid_trace = $this->determineCidTrace($a_gui_class, true);
-            if (null !== $cid_trace) {
-                $current_cid  = $this->target->getCurrentCidFrom($cid_trace);
-                $current_info = $this->getStructureInfoByCid($current_cid);
+            $gui_cid = $this->getStructureInfoByName($a_gui_class);
+            if ($this->target->getCurrentCid() === $gui_cid) {
 
-                return $this->getClassName($current_info);
             }
         }
 
