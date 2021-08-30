@@ -82,9 +82,13 @@ interface Agent
     public function getMigrations() : array;
 
     /**
-     * Get a named objective from this agent.
+     * Gets all named objectives
+     * The keys of the returned array are the commands.
      *
-     * @throw InvalidArgumentException if there is no such objective.
+     * Only the AgentCollection should return an array where the cmd of the named objective is the array key.
+     *
+     * @param Config|null $config
+     * @return array<string|int, ObjectiveConstructor>
      */
-    public function getNamedObjective(string $name, Config $config = null) : Objective;
+    public function getNamedObjectives(?Config $config = null) : array;
 }

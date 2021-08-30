@@ -12,6 +12,11 @@ use ILIAS\Data\Factory as DataFactory;
 use Symfony\Component\Console\Input\InputInterface;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Agent;
+use Symfony\Component\Console\Output\StreamOutput;
+use ilUICoreSetupAgent;
+use ilLanguage;
+use ilSetupAgent;
+use ILIAS\Setup\AgentCollection;
 
 class TestConfig implements Config
 {
@@ -109,11 +114,16 @@ class AchieveCommandTest extends TestCase
                 return $config;
             }));
 
+        $namedObjectives = [
+            "my.objective" => new Setup\ObjectiveCollection(
+                "My Objective", false, $objective
+            ),
+        ];
+
         $agent
             ->expects($this->once())
-            ->method("getNamedObjective")
-            ->with($objective_name, $config)
-            ->willReturn($objective);
+            ->method("getNamedObjectives")
+            ->willReturn($namedObjectives);
 
         $objective
             ->expects($this->once())
@@ -133,5 +143,48 @@ class AchieveCommandTest extends TestCase
             "config" => $config_file,
             "objective" => $objective_name
         ]);
+    }
+
+    public function testListNamedObjectives() : void
+    {
+        $refinery = new Refinery(
+            $this->createMock(DataFactory::class),
+            $this->createMock(ilLanguage::class)
+        );
+        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+
+        $agentCollection = new AgentCollection(
+            $this->refinery,
+            [
+                "uicore" => new ilUICoreSetupAgent(),
+                "common" => new ilSetupAgent($refinery, $this->createMock(DataFactory::class))
+            ]
+        );
+
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $agent_finder
+            ->expects($this->any())
+            ->method("getAgents")
+            ->willReturn($agentCollection);
+
+        $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
+
+        $input_mock = $this->createMock(InputInterface::class);
+        $input_mock
+            ->expects($this->any())
+            ->method("getOption")
+            ->willReturn(true);
+
+        $output = new StreamOutput(fopen('php://memory', 'wb', false));
+
+        $command->execute($input_mock, $output);
+        rewind($output->getStream());
+
+        $outputData = stream_get_contents($output->getStream());
+
+        foreach ($agentCollection->getNamedObjectives(new Setup\NullConfig()) as $cmd => $namedObjective) {
+            $this->assertStringContainsString($cmd, $outputData);
+            $this->assertStringContainsString($namedObjective->getDescription(), $outputData);
+        }
     }
 }
