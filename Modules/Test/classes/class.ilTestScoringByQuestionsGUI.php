@@ -298,11 +298,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             */
 
             if (isset($active_id)) {
-                $scorer->recalculateSolution($active_id, $pass);
+                //$scorer->recalculateSolution($active_id, $pass);
                 $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
                 $correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
             } else {
-                $scorer->recalculateSolutions();
+                //$scorer->recalculateSolutions();
             }
         }
 
