@@ -10228,24 +10228,120 @@ footer {
     border-top: none;
   }
 }
-.il-drilldown ul {
-  list-style: none;
+.il-drilldown ul,
+.il-drilldown li {
   padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.il-drilldown .menulevel,
+.il-drilldown .menulevel:focus,
+.il-drilldown .menulevel:active {
+  text-align: left;
+  background: transparent;
+  border: none;
+}
+.il-drilldown header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+  padding: 10px 40px 15px 10px;
+}
+.il-drilldown header h2 {
+  margin: 0;
+}
+.il-drilldown header .backnav {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.il-drilldown header .backnav .btn-bulky {
+  height: 100%;
+}
+.il-drilldown header .backnav .btn-bulky .glyphicon {
+  display: none;
+}
+.il-drilldown header .backnav .btn-bulky:before {
+  content: " \e605";
+  display: block;
+  font-family: "il-icons";
+  font-size: 1.5rem;
+}
+.il-drilldown header.show-backnav {
+  padding-left: 4rem;
+}
+.il-drilldown header.show-backnav .backnav {
+  display: block;
+}
+.il-drilldown li > .menulevel,
+.il-drilldown li > .btn-bulky,
+.il-drilldown li > .link-bulky,
+.il-drilldown li > hr {
+  display: none;
+}
+.il-drilldown .engaged ~ ul > li > .menulevel,
+.il-drilldown .engaged ~ ul > li > .btn-bulky,
+.il-drilldown .engaged ~ ul > li > .link-bulky {
+  display: flex;
+}
+.il-drilldown .engaged ~ ul > li > hr {
+  display: block;
+}
+.il-drilldown .menulevel,
+.il-drilldown .btn-bulky,
+.il-drilldown .link-bulky {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 40px 15px 10px;
+  margin-bottom: 2px;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+}
+.il-drilldown hr {
+  margin: 10px 0;
+}
+.il-drilldown .menulevel {
+  background-color: #f2f2f2;
+}
+.il-drilldown .menulevel:hover {
+  background-color: rgba(76, 101, 134, 0.3);
+  color: inherit;
+}
+.il-drilldown .menulevel:after {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-left: 6px;
 }
 .il-drilldown .btn-bulky,
 .il-drilldown .link-bulky {
-  align-items: center;
-  display: flex;
+  background-color: transparent;
 }
-.il-drilldown .il-drilldown-current .btn-bulky,
-.il-drilldown .il-drilldown-current .link-bulky {
-  cursor: auto;
+.il-drilldown .btn-bulky:hover,
+.il-drilldown .link-bulky:hover {
+  background-color: rgba(76, 101, 134, 0.3);
+  color: inherit;
 }
-.il-drilldown .il-drilldown-structure,
-.il-drilldown .il-drilldown-current ul,
-.il-drilldown .il-drilldown-backlink ul,
-.il-drilldown .il-drilldown-visible ul {
-  display: none;
+.il-drilldown .btn-bulky .icon,
+.il-drilldown .link-bulky .icon {
+  align-self: flex-start;
+  margin-top: 3px;
+  margin-right: 5px;
+  filter: invert(50%);
+}
+.il-drilldown .btn-bulky .bulky-label,
+.il-drilldown .link-bulky .bulky-label {
+  flex-grow: 1;
+  white-space: normal;
+  text-align: left;
+  word-break: normal;
 }
 .icon {
   display: inline-block;
