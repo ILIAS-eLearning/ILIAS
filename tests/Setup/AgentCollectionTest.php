@@ -334,35 +334,116 @@ class AgentCollectionTest extends TestCase
         $this->assertNull($cb->getAgent("c5"));
     }
 
-    public function testGetNamedObjective() : void
+    public function testGetNamedObjectivesSorting() : void
     {
         $refinery = $this->createMock(Refinery::class);
+        $config = new Setup\NullConfig();
 
-        $o = $this->newObjective();
-        $c1 = $this->newAgent();
-        $c2 = $this->newAgent();
-        $conf2 = $this->newConfig();
+        $aAgent = $this->newAgent();
+        $bAgent = $this->newAgent();
+        $cAgent = $this->newAgent();
+        $dAgent = $this->newAgent();
 
-        $conf = new Setup\ConfigCollection(
-            ["sub" => new Setup\ConfigCollection(
-                [ "c2" => $conf2 ]
-            )]
-        );
+        $aReturn = [
+            "a-2" => $this->newNamedObjective(),
+            "a-1" => $this->newNamedObjective()
+        ];
 
-        $c = new Setup\AgentCollection(
+        $bReturn = [
+            "b-1" => $this->newNamedObjective(),
+            "b-3" => $this->newNamedObjective(),
+            "b-2" => $this->newNamedObjective(),
+        ];
+
+        $cReturn = [
+            "c-2" => $this->newNamedObjective(),
+            "c-1" => $this->newNamedObjective()
+        ];
+
+        $dReturn = [
+            "d-2" => $this->newNamedObjective(),
+            "d-3" => $this->newNamedObjective(),
+            "d-1" => $this->newNamedObjective()
+        ];
+
+        $aAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($aReturn);
+
+        $bAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($bReturn);
+
+        $cAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($cReturn);
+
+        $dAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($dReturn);
+
+        $testAgentCollection = new Setup\AgentCollection(
             $refinery,
-            [ "sub" => new Setup\AgentCollection(
-                $refinery,
-                ["c1" => $c1, "c2" => $c2]
-            )]
+            ["aAgent" => $aAgent, "cAgent" => $cAgent, "bAgent" => $bAgent, "dAgent" => $dAgent]
         );
 
-        $c2->expects($this->once())
-            ->method("getNamedObjective")
-            ->with("the_objective", $conf2)
-            ->willReturn($o);
+        $expected = [
+            "aAgent.a-1" => $aReturn["a-1"],
+            "aAgent.a-2" => $aReturn["a-2"],
+            "bAgent.b-1" => $bReturn["b-1"],
+            "bAgent.b-2" => $bReturn["b-2"],
+            "bAgent.b-3" => $bReturn["b-3"],
+            "cAgent.c-1" => $cReturn["c-1"],
+            "cAgent.c-2" => $cReturn["c-2"],
+            "dAgent.d-1" => $dReturn["d-1"],
+            "dAgent.d-2" => $dReturn["d-2"],
+            "dAgent.d-3" => $dReturn["d-3"],
+        ];
 
-        $res = $c->getNamedObjective("sub.c2.the_objective", $conf);
-        $this->assertSame($o, $res);
+        $this->assertSame($expected, $testAgentCollection->getNamedObjectives($config));
+    }
+
+    public function testGetNamedObjectives() : void
+    {
+        $refinery = $this->createMock(Refinery::class);
+        $config = new Setup\NullConfig();
+
+        $aAgent = $this->newAgent();
+        $bAgent = $this->newAgent();
+
+        $aReturn = [
+            "a-1" => $this->newNamedObjective(),
+            "a-2" => $this->newNamedObjective()
+        ];
+
+        $bReturn = [
+            "b-1" => $this->newNamedObjective(),
+            "b-2" => $this->newNamedObjective(),
+        ];
+
+        $aAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($aReturn);
+        $bAgent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->willReturn($bReturn);
+
+        $testAgentCollection = new Setup\AgentCollection(
+            $refinery,
+            ["aAgent" => $aAgent, "bAgent" => $bAgent]
+        );
+
+        $result = $testAgentCollection->getNamedObjectives($config);
+
+        $this->assertSame($aReturn["a-1"], $result["aAgent.a-1"]);
+        $this->assertSame($aReturn["a-2"], $result["aAgent.a-2"]);
+        $this->assertSame($bReturn["b-1"], $result["bAgent.b-1"]);
+        $this->assertSame($bReturn["b-2"], $result["bAgent.b-2"]);
     }
 }

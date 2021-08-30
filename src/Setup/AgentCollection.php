@@ -196,36 +196,6 @@ class AgentCollection implements Agent
         return $migrations;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
-    {
-        $names = explode(".", $name);
-        $front = array_shift($names);
-        if (!isset($this->agents[$front])) {
-            throw new \InvalidArgumentException(
-                "Can't find named objective '$name'."
-            );
-        }
-
-        if ($config) {
-            $this->checkConfig($config);
-            $config = $config->maybeGetConfig($front);
-        }
-
-        try {
-            return $this->agents[$front]->getNamedObjective(implode(".", $names), $config);
-        }
-        catch (\InvalidArgumentException $e) {
-            throw new \InvalidArgumentException(
-                "Can't find named objective '$name'.",
-                0,
-                $e
-            );
-        }
-    }
-
     protected function getKey(Migration $migration) : string
     {
         $names = explode("\\", get_class($migration));
@@ -239,5 +209,32 @@ class AgentCollection implements Agent
                 "Expected ConfigCollection for configuration."
             );
         }
+    }
+
+    /**
+     * @return Agent[]
+     */
+    public function getAgents() : array
+    {
+        return $this->agents;
+    }
+
+    /** @inheritDoc */
+    public function getNamedObjectives(?Config $config = null) : array
+    {
+        $agents = $this->agents;
+        ksort($agents);
+        $namedObjectives = [];
+
+        foreach ($agents as $agentKey => $agent) {
+            $objectives = $agent->getNamedObjectives($config);
+            ksort($objectives);
+
+            foreach ($objectives as $name => $objectiveCollection) {
+                $namedObjectives["$agentKey.$name"] = $objectiveCollection;
+            }
+        }
+
+        return $namedObjectives;
     }
 }

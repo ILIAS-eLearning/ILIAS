@@ -16,7 +16,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\NoConfirmationException;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Setup\AgentCollection;
+use ILIAS\Setup\NullConfig;
+use InvalidArgumentException;
 
 /**
  * Achieves an objective
@@ -58,21 +59,60 @@ class AchieveCommand extends Command
     public function configure()
     {
         $this->setDescription("Achieve a named objective from an agent.");
-        $this->addArgument("objective", InputArgument::REQUIRED, "Objective to be execute from an agent. Format: \$AGENT::\$OBJECTIVE");
+        $this->addArgument("objective", InputArgument::OPTIONAL,
+            "Objective to be execute from an agent. Format: \$AGENT::\$OBJECTIVE");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
-        $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
+        $this->addOption("config", null, InputOption::VALUE_OPTIONAL|InputOption::VALUE_IS_ARRAY,
+            "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
+        $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $objective_name = $input->getArgument('objective');
-
         $io = new IOWrapper($input, $output);
         $io->printLicenseMessage();
-        $io->title("Achieve objective: $objective_name");
 
+        if ($this->shouldListNamedObjectives($input)) {
+            $this->executeListNamedObjectives($io, $output);
+            return;
+        }
+
+        $this->executeAchieveObjective($io, $input);
+    }
+
+    private function shouldListNamedObjectives(InputInterface $input) : bool
+    {
+        $listNamedObjectives = $input->getOption("list") !== null
+            && is_bool($input->getOption("list"))
+            && (bool) $input->getOption("list");
+
+        if($listNamedObjectives) {
+            return true;
+        }
+
+        return !$this->hasArguments($input) && !$this->hasOptions($input);
+    }
+
+    private function executeListNamedObjectives(IOWrapper $io, OutputInterface $output) : void
+    {
+        $io->title("Listing available objectives");
+
+        $agentCollection = $this->agent_finder->getAgents();
+        $config = new NullConfig();
+
+        foreach ($agentCollection->getNamedObjectives($config) as $cmd => $objectiveCollection) {
+            $output->write(str_pad($cmd, IOWrapper::LABEL_WIDTH));
+            $output->writeln($objectiveCollection->getDescription() . "\n");
+        }
+    }
+
+    private function executeAchieveObjective(IOWrapper $io, InputInterface $input) : void
+    {
         $agent = $this->getRelevantAgent($input);
+        $objective_name = $input->getArgument('objective');
+
+        $io->title("Achieve objective: $objective_name");
 
         if ($input->getArgument("config")) {
             $config = $this->readAgentConfig($agent, $input);
@@ -80,11 +120,19 @@ class AchieveCommand extends Command
             $config = null;
         }
 
-        $objective = $agent->getNamedObjective($objective_name, $config);
+        $namedObjectives = $agent->getNamedObjectives(new NullConfig());
+
+        if (isset($namedObjectives[$objective_name])) {
+            $objective = $namedObjectives[$objective_name];
+        } else {
+            throw new InvalidArgumentException(
+                "There is no named objective '$objective_name'"
+            );
+        }
 
         if (count($this->preconditions) > 0) {
             $objective = new ObjectiveWithPreconditions(
-                $objective,
+                $objective->create(),
                 ...$this->preconditions
             );
         }
@@ -102,6 +150,29 @@ class AchieveCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborted the attempt to achieve '$objective_name', a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
+    }
+
+    private function hasOptions(InputInterface $input) : bool
+    {
+        foreach ($input->getOptions() as $value) {
+            if ((bool) $value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private function hasArguments(InputInterface $input) : bool
+    {
+        foreach ($input->getArguments() as $argument => $value) {
+            if ($argument === "command") {
+                continue;
+            }
+            if (isset($value)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function parseAgentMethod(string $agent_method) : ?array

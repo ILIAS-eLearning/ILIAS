@@ -3,6 +3,7 @@
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Config;
 
 class ilUICoreSetupAgent implements Setup\Agent
 {
@@ -15,6 +16,23 @@ class ilUICoreSetupAgent implements Setup\Agent
     {
         $this->ctrl_reader = new \ilCtrlStructureReader();
     }
+
+    public function getNamedObjectives(?Config $config = null) : array
+    {
+        return [
+            "reloadCtrlStructure" => new Setup\ObjectiveConstructor("Reload Control Structure of ILIAS",
+                static function () : ObjectiveCollection {
+                    return new ObjectiveCollection(
+                        "",
+                        false,
+                        new \ilCtrlStructureStoredObjective(
+                            new \ilCtrlStructureReader()
+                        ),
+                        new \ilComponentDefinitionsStoredObjective(false)
+                    );
+                })
+        ];
+}
 
     /**
      * @inheritdoc
@@ -70,22 +88,5 @@ class ilUICoreSetupAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [];
-    }
-
-    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
-    {
-        if ($name == "reloadCtrlStructure") {
-            return new ObjectiveCollection(
-                "Reload Control Structure of ILIAS",
-                false,
-                new \ilCtrlStructureStoredObjective(
-                    new \ilCtrlStructureReader()
-                ),
-                new \ilComponentDefinitionsStoredObjective(false)
-            );
-        }
-        throw new \InvalidArgumentException(
-            "There is no named objective '$name'"
-        );
     }
 }
