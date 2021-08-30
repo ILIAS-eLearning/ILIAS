@@ -582,7 +582,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             if ($ilBench instanceof ilBenchmark) {
                 $ilBench->startDbBench($query);
             }
-            $r = $this->pdo->exec($query);
+            $num_affected_rows = $this->pdo->exec($query);
             if ($ilBench instanceof ilBenchmark) {
                 $ilBench->stopDbBench();
             }
@@ -590,7 +590,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, $e->getCode());
         }
 
-        return (int) $r;
+        return (int) $num_affected_rows;
     }
 
     /**
