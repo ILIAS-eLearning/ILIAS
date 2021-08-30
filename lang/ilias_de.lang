@@ -16593,3 +16593,5 @@ irss#:#stakeholders#:#Stakeholders
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
+ui#:#datetime_required#:Zeit/Datum erforderlich
+ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
