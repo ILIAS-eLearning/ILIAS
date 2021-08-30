@@ -16608,3 +16608,5 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 content#:#cont_media#:#Images/Media
 content#:#cont_sur_block_format#:#Surrounding Section
+ui#:#datetime_required#:Time/Date required
+ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.

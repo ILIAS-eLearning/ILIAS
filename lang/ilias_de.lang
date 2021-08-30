@@ -16620,3 +16620,5 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur
 prg#:#status_unchanged#:#Status unverändert
 content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_sur_block_format#:#Umgebender Block
+ui#:#datetime_required#:Zeit/Datum erforderlich
+ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
