@@ -58,6 +58,8 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Section):
                 return $this->renderSection($component, $default_renderer);
 
+            case ($component instanceof F\Duration):
+                return $this->renderDurationField($component, $default_renderer);
 
             case ($component instanceof F\Group):
             case ($component instanceof F\Link):
@@ -92,9 +94,6 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\DateTime):
                 return $this->renderDateTimeField($component, $default_renderer);
-
-            case ($component instanceof F\Duration):
-                return $this->renderDurationField($component, $default_renderer);
 
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
