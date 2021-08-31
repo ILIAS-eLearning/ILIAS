@@ -79,6 +79,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
         if (!is_array($value) || count($value) !== 2) {
             throw new \InvalidArgumentException(
                 "Expected one key and a group value or one key only as value."
+                ." got '" .print_r($value,true) ."' instead."
             );
         }
         list($key, $group_value) = $value;
@@ -109,20 +110,39 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
             throw new \LogicException("Can only collect if input has a name.");
         }
 
-        $key = "";
+        $key = $post_input->getOr($this->getName(), "");
+        $clone = clone $this;
+
+        if($key === "") {
+            if($this->isRequired()) {
+                $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_switchable_group_required"));
+                return $clone->withError("" . $clone->content->error());
+            } else {
+                $clone->content = $clone->data_factory->ok([$key, []]);
+            }
+            return $clone;
+        }
 
         if (!$this->isDisabled()) {
-            $key = $post_input->get($this->getName());
-            $clone = $this->withValue($key);
+            $clone = $clone->withValue($key);
             $clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
-        } else {
-            $clone = $this;
         }
 
         if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
-            $clone->content = $this->applyOperationsTo($clone->getValue());
+
+            $contents = [];
+            $group_inputs = $clone->inputs[$key]->getInputs();
+
+            foreach($group_inputs as $subkey => $group_input) {
+                $content = $group_input->getContent();
+                 if ($content->isOK()) {
+                    $contents[$subkey] = $content->value();
+                }
+            }
+
+            $clone->content = $this->applyOperationsTo([$key, $contents]);
             if ($clone->content->isError()) {
                 return $clone->withError("" . $clone->content->error());
             }
