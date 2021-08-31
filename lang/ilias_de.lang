@@ -16597,3 +16597,4 @@ ui#:#datetime_required#:Zeit/Datum erforderlich
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
 content#:#cont_media#:#Bilder/Audio/Video
 content#:#cont_sur_block_format#:#Umgebender Block
+ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
