@@ -644,7 +644,7 @@ class ilExPeerReviewGUI
             exit();
         }
         
-        $peer_id = (int) $this->requested_peer_id;
+        $peer_id = $this->requested_peer_id;
         $crit_id = $this->requested_crit_id;
         $giver_id = $ilUser->getId();
         

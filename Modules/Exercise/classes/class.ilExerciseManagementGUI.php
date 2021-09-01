@@ -453,10 +453,10 @@ class ilExerciseManagementGUI
 
         $download_task = new ilDownloadSubmissionsBackgroundTask(
             (int) $GLOBALS['DIC']->user()->getId(),
-            (int) $this->exercise->getRefId(),
-            (int) $this->exercise->getId(),
+            $this->exercise->getRefId(),
+            $this->exercise->getId(),
             $this->ass_id,
-            (int) $participant_id
+            $participant_id
         );
 
         if ($download_task->run()) {
@@ -527,6 +527,7 @@ class ilExerciseManagementGUI
 
         $this->setBackToMembers();
 
+        /** @var $button_print \ILIAS\UI\Component\Component */
         $button_print = $this->ui_factory->button()->standard($this->lng->txt('print'), "#")
             ->withOnLoadCode(function ($id) {
                 return "$('#$id').click(function() { window.print(); return false; });";
@@ -814,6 +815,10 @@ class ilExerciseManagementGUI
     public function saveEvaluationFromModalObject() : void
     {
         $form = $this->getEvaluationModalForm([]);
+        $user_id = 0;
+        $comment = "";
+        $mark = "";
+        $grade = "";
         if ($form->checkInput()) {
             $comment = trim($form->getInput('comment'));
             $user_id = (int) $form->getInput('mem_id');
@@ -821,10 +826,12 @@ class ilExerciseManagementGUI
             $mark = trim($form->getInput('mark'));
         }
 
-        if ($this->assignment->getId() && $user_id) {
+        if ($this->assignment->getId() && $user_id > 0) {
             $member_status = $this->assignment->getMemberStatus($user_id);
             $member_status->setComment(ilUtil::stripSlashes($comment));
-            $member_status->setStatus($grade);
+            if ($grade != "") {
+                $member_status->setStatus($grade);
+            }
             $member_status->setMark($mark);
             if ($comment != "") {
                 $member_status->setFeedback(true);
@@ -1165,14 +1172,14 @@ class ilExerciseManagementGUI
         }
         // multi-ass
         else {
-            if (count($this->selected_assignments) == 0) {
+            if (count($this->selected_ass_ids) == 0) {
                 ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
                 $this->ctrl->redirect($this, "showParticipant");
             }
             
             $user_id = $this->requested_part_id;
             
-            foreach ($this->selected_assignments as $ass_id) {
+            foreach ($this->selected_ass_ids as $ass_id) {
                 $submission = new ilExSubmission(new ilExAssignment($ass_id), $user_id);
                 $tmembers = $submission->getUserIds();
                 if (!$a_keep_teams) {

@@ -29,6 +29,14 @@ class ilExAssignmentEditorGUI
     protected ilExAssignmentTypesGUI $type_guis;
     protected string $requested_ass_type;
     protected int $requested_type;
+    /**
+     * @var int[]
+     */
+    protected array $requested_ass_ids;
+    /**
+     * @var int[]
+     */
+    protected array $requested_order;
 
     public function __construct(
         int $a_exercise_id,
