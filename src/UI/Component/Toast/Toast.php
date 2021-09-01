@@ -16,11 +16,6 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 interface Toast extends Component
 {
     /**
-     * @param string|Shy|Link $title
-     */
-    public function __construct($title, Icon $icon, SignalGeneratorInterface $signal_generator);
-
-    /**
      * @return string|Shy|Link
      */
     public function getTitle();
