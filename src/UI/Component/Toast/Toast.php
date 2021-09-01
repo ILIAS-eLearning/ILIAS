@@ -7,6 +7,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
  * Interface Toast
@@ -17,7 +18,7 @@ interface Toast extends Component
     /**
      * @param string|Shy|Link $title
      */
-    public function __construct($title, Icon $icon);
+    public function __construct($title, Icon $icon, SignalGeneratorInterface $signal_generator);
 
     /**
      * @return string|Shy|Link
