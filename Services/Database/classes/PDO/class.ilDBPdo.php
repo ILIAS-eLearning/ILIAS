@@ -143,7 +143,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         $this->setUsername($clientIniFile->readVariable("db", "user"));
         $this->setHost($clientIniFile->readVariable("db", "host"));
         $this->setPort((int) $clientIniFile->readVariable("db", "port"));
-        $this->setPassword($clientIniFile->readVariable("db", "pass"));
+        $this->setPassword((string) $clientIniFile->readVariable("db", "pass"));
         $this->setDbname($clientIniFile->readVariable("db", "name"));
         $this->setDBType($clientIniFile->readVariable("db", "type"));
 
