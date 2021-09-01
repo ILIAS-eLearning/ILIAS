@@ -53,8 +53,6 @@ interface Toast extends Component
 
     /**
      * Get the signal to show this toast in the frontend
-     *
-     * @return Signal
      */
-    public function getShowSignal();
+    public function getShowSignal() : Signal;
 }
