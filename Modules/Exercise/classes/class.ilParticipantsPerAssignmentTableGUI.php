@@ -8,7 +8,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
+class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
 {
     protected array $teams = array();
 
@@ -22,7 +22,6 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         int $a_item_id
     ) {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_item_id);
-
         $ctrl = $this->ctrl;
 
         $this->ass_types = ilExAssignmentTypes::getInstance();
@@ -46,7 +45,7 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         $this->ass = new ilExAssignment($a_item_id);
         
         $this->setTitle($lng->txt("exc_assignment") . ": " . $this->ass->getTitle());
-        $this->setSelectAllCheckbox("member");
+        $this->setSelectAllCheckbox("sel_part_ids");
     }
     
     protected function parseData() : array
@@ -250,7 +249,8 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
         $ilCtrl->setParameter($this->parent_obj, "member_id", $member_id);
                         
         // multi-select id
-        $this->tpl->setVariable("NAME_ID", "member");
+        $this->tpl->setVariable("NAME_ID", "sel_part_ids");
+        $this->tpl->setVariable("LISTED_NAME_ID", "listed_part_ids");
         $this->tpl->setVariable("VAL_ID", $member_id);
 
         $this->parseRow($member_id, $this->ass, $a_set);

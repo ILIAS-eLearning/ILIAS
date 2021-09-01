@@ -28,6 +28,7 @@ This section documents the general concepts and structures of the Exercise Modul
 * [Assignment](#assignment)
 * [Assignment Types](#assignment-types)
 * [Member](#member)
+* [Member Status](#member-status)
 * [Team](#team)
 * [Assignment Member State](#assignment-member-state)
 * [Submission](#submission)
@@ -50,6 +51,24 @@ This section documents the general concepts and structures of the Exercise Modul
 ### Business Rules
 
 - Learners manage team screen will respect the privacy settings of the users (published profile).
+
+## Assignment Member Status
+
+Manages a number of properties that are attached to members during an assignment. The main source for this data are the "Submission and Grades" screens.
+
+* DB Table: `exc_mem_ass_status`
+
+* Note for tutors (`exc_mem_ass_status.notice`): A note for other tutors visible in the "Submission and Grades" view only.
+* Returned Flag:
+* Solved Flag:
+* Grade (`exc_mem_ass_status.status`): "Not graded", "passed" or "failed".
+* Status Time:
+* Sent Flag:
+* Sent Time:
+* Feedback Flag:
+* Feedback Time:
+* Mark (`exc_mem_ass_status.mark`): A textual mark entered by the tutor and presented to the learner as part of the detailed assignment presentation.
+* Evaluation Statement (`exc_mem_ass_status.u_comment`): Statement wich is entered by the tutor and presented to the learner as part of the detailed assignment presentation.
 
 ## Assignment Member State
 

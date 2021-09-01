@@ -28,6 +28,7 @@ class ilExAssignmentEditorGUI
     protected ?ilObjExercise $exc;
     protected ilExAssignmentTypesGUI $type_guis;
     protected string $requested_ass_type;
+    protected int $requested_type;
 
     public function __construct(
         int $a_exercise_id,
@@ -50,11 +51,14 @@ class ilExAssignmentEditorGUI
         $this->types = ilExAssignmentTypes::getInstance();
         $this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $request = $DIC->exercise()->internal()->gui()->request();
-        $this->exc = $request->getRequestedExercise();
-        $this->requested_ass_type = $request->getRequestedAssType();
+        $this->exc = $request->getExercise();
+        $this->requested_ass_type = $request->getAssType();
+        $this->requested_type = $request->getType();
         $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
-            $request->getRequestedExercise()
+            $request->getExercise()
         );
+        $this->requested_ass_ids = $request->getAssignmentIds();
+        $this->requested_order = $request->getOrder();
     }
 
     /**
@@ -142,11 +146,11 @@ class ilExAssignmentEditorGUI
         // #16163 - ignore ass id from request
         $this->assignment = null;
 
-        if (!(int) $_POST["type"]) {
+        if ($this->requested_type == 0) {
             $ilCtrl->redirect($this, "listAssignments");
         }
 
-        $form = $this->initAssignmentForm((int) $_POST["type"], "create");
+        $form = $this->initAssignmentForm($this->requested_type, "create");
         $tpl->setContent($form->getHTML());
     }
 
@@ -886,7 +890,7 @@ class ilExAssignmentEditorGUI
         ilExAssignmentReminder $reminder,
         array $a_input
     ) : void {
-        if ($reminder->getReminderStatus() == null) {
+        if ($reminder->getReminderStatus() === null) {
             $action = "save";
         } else {
             $action = "update";
@@ -914,7 +918,7 @@ class ilExAssignmentEditorGUI
         // #16163 - ignore ass id from request
         $this->assignment = null;
         
-        $form = $this->initAssignmentForm((int) $_POST["type"], "create");
+        $form = $this->initAssignmentForm($this->requested_type, "create");
         $input = $this->processForm($form);
         if (is_array($input)) {
             $ass = new ilExAssignment();
@@ -1151,7 +1155,7 @@ class ilExAssignmentEditorGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
         
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (count($this->requested_ass_ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listAssignments");
         } else {
@@ -1161,7 +1165,7 @@ class ilExAssignmentEditorGUI
             $cgui->setCancel($lng->txt("cancel"), "listAssignments");
             $cgui->setConfirm($lng->txt("delete"), "deleteAssignments");
             
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_ass_ids as $i) {
                 $cgui->addItem("id[]", $i, ilExAssignment::lookupTitle($i));
             }
             
@@ -1179,14 +1183,12 @@ class ilExAssignmentEditorGUI
         $lng = $this->lng;
         
         $delete = false;
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
-                $ass = new ilExAssignment(ilUtil::stripSlashes($id));
-                $ass->delete();
-                $delete = true;
-            }
+        foreach ($this->requested_ass_ids as $id) {
+            $ass = new ilExAssignment(ilUtil::stripSlashes($id));
+            $ass->delete();
+            $delete = true;
         }
-        
+
         if ($delete) {
             ilUtil::sendSuccess($lng->txt("exc_assignments_deleted"), true);
         }
@@ -1199,7 +1201,10 @@ class ilExAssignmentEditorGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        ilExAssignment::saveAssOrderOfExercise($this->exercise_id, $_POST["order"]);
+        ilExAssignment::saveAssOrderOfExercise(
+            $this->exercise_id,
+            $this->requested_order
+        );
         
         ilUtil::sendSuccess($lng->txt("exc_saved_order"), true);
         $ilCtrl->redirect($this, "listAssignments");

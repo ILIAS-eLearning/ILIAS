@@ -7,6 +7,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Modal\RoundTrip;
 use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise\GUIRequest;
 
 /**
  * Class ilExerciseManagementGUI
@@ -51,8 +52,23 @@ class ilExerciseManagementGUI
     protected int $requested_member_id;
     protected int $requested_part_id;
     protected int $requested_ass_id;
-    protected int $requested_idl_id;
+    protected string $requested_idl_id;
     protected bool $done;
+    protected array $requested_learning_comments;
+    protected string $requested_comment;
+    protected string $requested_user_login;
+    protected array $selected_participants;
+    protected array $listed_participants;
+    protected array $selected_ass_ids;
+    protected array $listed_ass_ids;
+    protected array $requested_marks;                      // key might be ass_ids or user_ids!
+    protected array $requested_status;                     // key might be ass_ids or user_ids!
+    protected array $requested_tutor_notices;                     // key might be ass_ids or user_ids!
+    protected array $requested_group_members;                     // "grpt"
+    protected array $requested_files;                     // "file"
+    protected string $requested_filter_status;
+    protected string $requested_filter_feedback;
+    protected GUIRequest $request;
 
     /**
      * Constructor
@@ -79,20 +95,35 @@ class ilExerciseManagementGUI
 
         $this->task_factory = $DIC->backgroundTasks()->taskFactory();
 
-        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->request = $DIC->exercise()->internal()->gui()->request();
+        $request = $this->request;
 
         $this->service = $service;
 
-        $this->exercise = $request->getRequestedExercise();
+        $this->exercise = $request->getExercise();
         if ($a_ass) {
             $this->assignment = $a_ass;
             $this->ass_id = $this->assignment->getId();
         }
-        $this->requested_member_id = $request->getRequestedMemberId();
-        $this->requested_part_id = $request->getRequestedParticipantId();
-        $this->requested_ass_id = $request->getRequestedAssId();
-        $this->requested_idl_id = $request->getRequestedIdlId();
+        $this->requested_member_id = $request->getMemberId();
+        $this->requested_part_id = $request->getParticipantId();
+        $this->requested_ass_id = $request->getAssId();
+        $this->requested_idl_id = $request->getIdlId();
         $this->done = $request->getDone();
+        $this->requested_learning_comments = $request->getLearningComments();
+        $this->requested_comment = $request->getComment();
+        $this->requested_user_login = $request->getUserLogin();
+        $this->selected_participants = $request->getSelectedParticipants();
+        $this->listed_participants = $request->getListedParticipants();
+        $this->selected_ass_ids = $request->getSelectedAssignments();
+        $this->listed_ass_ids = $request->getListedAssignments();
+        $this->requested_marks = $request->getMarks();
+        $this->requested_status = $request->getStatus();
+        $this->requested_tutor_notices = $request->getTutorNotices();
+        $this->requested_group_members = $request->getGroupMembers();
+        $this->requested_files = $request->getFiles();
+        $this->requested_filter_status = $request->getFilterStatus();
+        $this->requested_filter_feedback = $request->getFilterFeedback();
 
         $this->ctrl->saveParameter($this, array("vw", "member_id"));
     }
@@ -215,7 +246,7 @@ class ilExerciseManagementGUI
     
     protected function getViewBack() : string
     {
-        switch ($_REQUEST["vw"]) {
+        switch ($this->request->getBackView()) {
             case self::VIEW_PARTICIPANT:
                 $back_cmd = "showParticipant";
                 break;
@@ -243,7 +274,7 @@ class ilExerciseManagementGUI
             $this->ctrl->getLinkTarget($this, $back_cmd)
         );
 
-        return new ilExSubmission($this->assignment, $_REQUEST["member_id"], null, true);
+        return new ilExSubmission($this->assignment, $this->requested_member_id, null, true);
     }
     
     public function addSubTabs(string $a_activate) : void
@@ -404,7 +435,7 @@ class ilExerciseManagementGUI
             }
             $this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
             
-            $exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+            $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
             $tpl->setContent(
                 $exc_tab->getHTML() .
                 $this->initIndividualDeadlineModal()
@@ -418,7 +449,7 @@ class ilExerciseManagementGUI
 
     public function downloadSubmissionsObject() : void
     {
-        $participant_id = $_REQUEST['part_id'];
+        $participant_id = $this->requested_part_id;
 
         $download_task = new ilDownloadSubmissionsBackgroundTask(
             (int) $GLOBALS['DIC']->user()->getId(),
@@ -445,7 +476,7 @@ class ilExerciseManagementGUI
     public function membersApplyObject() : void
     {
         $this->saveStatusAllObject(null, false);
-        $exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+        $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
         $exc_tab->resetOffset();
         $exc_tab->writeFilterToSession();
         
@@ -457,7 +488,7 @@ class ilExerciseManagementGUI
      */
     public function membersResetObject() : void
     {
-        $exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
+        $exc_tab = new ilParticipantsPerAssignmentTableGUI($this, "members", $this->exercise, $this->assignment->getId());
         $exc_tab->resetOffset();
         $exc_tab->resetFilter();
         
@@ -468,14 +499,16 @@ class ilExerciseManagementGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-                
-        if (is_array($_POST["lcomment"])) {
-            foreach ($_POST["lcomment"] as $k => $v) {
-                $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
-                $marks_obj->setComment(ilUtil::stripSlashes($v));
-                $marks_obj->setMark(ilUtil::stripSlashes($_POST["mark"][$k]));
-                $marks_obj->update();
-            }
+
+        foreach ($this->requested_learning_comments as $k => $v) {
+            $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
+            $marks_obj->setComment(ilUtil::stripSlashes($v));
+            $marks_obj->update();
+        }
+        foreach ($this->requested_marks as $k => $v) {
+            $marks_obj = new ilLPMarks($this->exercise->getId(), (int) $k);
+            $marks_obj->setMark(ilUtil::stripSlashes($v));
+            $marks_obj->update();
         }
         ilUtil::sendSuccess($lng->txt("exc_msg_saved_grades"), true);
         $ilCtrl->redirect($this, "showGradesOverview");
@@ -702,32 +735,7 @@ class ilExerciseManagementGUI
         $modal_tpl = new ilTemplate("tpl.exc_report_evaluation_modal.html", true, true, "Modules/Exercise");
         $modal_tpl->setVariable("USER_NAME", $a_data['uname']);
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
-        $form->setId(uniqid('form'));
-
-        //Grade
-        $options = array(
-            self::GRADE_NOT_GRADED => $this->lng->txt("exc_notgraded"),
-            self::GRADE_PASSED => $this->lng->txt("exc_passed"),
-            self::GRADE_FAILED => $this->lng->txt("exc_failed")
-        );
-        $si = new ilSelectInputGUI($this->lng->txt("exc_tbl_status"), "grade");
-        $si->setOptions($options);
-        $si->setValue($a_data['status']);
-        $form->addItem($si);
-
-        //Mark
-        $mark_input = new ilTextInputGUI($this->lng->txt("exc_tbl_mark"), "mark");
-        $mark_input->setValue($a_data['mark']);
-        $mark_input->setMaxLength(32);
-        $mark_input->setSize(4);
-        $form->addItem($mark_input);
-
-        $item = new ilHiddenInputGUI('mem_id');
-        $item->setValue($a_data['uid']);
-        $form->addItem($item);
-
+        $form = $this->getEvaluationModalForm($a_data);
         //TODO: CHECK ilias string utils. ilUtil shortenText with net blank.
         if ($this->exercise->hasTutorFeedbackText()) {
             $max_chars = 500;
@@ -745,12 +753,6 @@ class ilExerciseManagementGUI
                 $text .= "<label for='post-1' class='read-more-trigger'></label>";
             }
             $modal_tpl->setVariable("USER_TEXT", $text);
-
-            $ta = new ilTextAreaInputGUI($this->lng->txt("exc_comment"), 'comment');
-            $ta->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $ta->setValue($a_data['comment']);
-            $ta->setRows(10);
-            $form->addItem($ta);
         }
 
         $modal_tpl->setVariable("FORM", $form->getHTML());
@@ -764,6 +766,46 @@ class ilExerciseManagementGUI
         return  $this->ui_factory->modal()->roundtrip(strtoupper($this->lng->txt("grade_evaluate")), $this->ui_factory->legacy($modal_tpl->get()))->withActionButtons([$submit_btn]);
     }
 
+    public function getEvaluationModalForm(
+        array $a_data
+    ) : ilPropertyFormGUI {
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, "saveEvaluationFromModal"));
+        $form->setId(uniqid('form'));
+
+        //Grade
+        $options = array(
+            self::GRADE_NOT_GRADED => $this->lng->txt("exc_notgraded"),
+            self::GRADE_PASSED => $this->lng->txt("exc_passed"),
+            self::GRADE_FAILED => $this->lng->txt("exc_failed")
+        );
+        $si = new ilSelectInputGUI($this->lng->txt("exc_tbl_status"), "grade");
+        $si->setOptions($options);
+        $si->setValue($a_data['status'] ?? "");
+        $form->addItem($si);
+
+        //Mark
+        $mark_input = new ilTextInputGUI($this->lng->txt("exc_tbl_mark"), "mark");
+        $mark_input->setValue($a_data['mark'] ?? "");
+        $mark_input->setMaxLength(32);
+        $mark_input->setSize(4);
+        $form->addItem($mark_input);
+
+        $item = new ilHiddenInputGUI('mem_id');
+        $item->setValue($a_data['uid'] ?? "");
+        $form->addItem($item);
+
+        //TODO: CHECK ilias string utils. ilUtil shortenText with net blank.
+        if ($this->exercise->hasTutorFeedbackText()) {
+            $ta = new ilTextAreaInputGUI($this->lng->txt("exc_comment"), 'comment');
+            $ta->setInfo($this->lng->txt("exc_comment_for_learner_info"));
+            $ta->setValue($a_data['comment'] ?? "");
+            $ta->setRows(10);
+            $form->addItem($ta);
+        }
+        return $form;
+    }
+
     // Save assignment submission grade(status) and comment from the roundtrip modal.
 
     /**
@@ -771,10 +813,13 @@ class ilExerciseManagementGUI
      */
     public function saveEvaluationFromModalObject() : void
     {
-        $comment = trim($_POST['comment']);
-        $user_id = (int) $_POST['mem_id'];
-        $grade = trim($_POST["grade"]);
-        $mark = trim($_POST['mark']);
+        $form = $this->getEvaluationModalForm([]);
+        if ($form->checkInput()) {
+            $comment = trim($form->getInput('comment'));
+            $user_id = (int) $form->getInput('mem_id');
+            $grade = trim($form->getInput('grade'));
+            $mark = trim($form->getInput('mark'));
+        }
 
         if ($this->assignment->getId() && $user_id) {
             $member_status = $this->assignment->getMemberStatus($user_id);
@@ -797,12 +842,12 @@ class ilExerciseManagementGUI
      */
     public function addUserFromAutoCompleteObject() : void
     {
-        if (!strlen(trim($_POST['user_login']))) {
+        if ($this->requested_user_login == "") {
             ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
             $this->membersObject();
             return;
         }
-        $users = explode(',', $_POST['user_login']);
+        $users = explode(',', $this->requested_user_login);
 
         $user_ids = array();
         foreach ($users as $user) {
@@ -919,7 +964,7 @@ class ilExerciseManagementGUI
             $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
             $ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
             
-            $part_tab = new ilExParticipantTableGUI(
+            $part_tab = new ilAssignmentsPerParticipantTableGUI(
                 $this,
                 "showParticipant",
                 $this->exercise,
@@ -933,11 +978,10 @@ class ilExerciseManagementGUI
     }
 
     /**
-     * @throws ilExcUnknownAssignmentTypeException
      */
     public function showParticipantApplyObject() : void
     {
-        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
+        $exc_tab = new ilAssignmentsPerParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
         $exc_tab->resetOffset();
         $exc_tab->writeFilterToSession();
         
@@ -945,11 +989,10 @@ class ilExerciseManagementGUI
     }
 
     /**
-     * @throws ilExcUnknownAssignmentTypeException
      */
     public function showParticipantResetObject() : void
     {
-        $exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
+        $exc_tab = new ilAssignmentsPerParticipantTableGUI($this, "showParticipant", $this->exercise, $this->requested_part_id);
         $exc_tab->resetOffset();
         $exc_tab->resetFilter();
         
@@ -962,7 +1005,7 @@ class ilExerciseManagementGUI
     public function selectParticipantObject() : void
     {
         $ctrl = $this->ctrl;
-        $ctrl->setParameter($this, "part_id", ilUtil::stripSlashes($_POST["part_id"]));
+        $ctrl->setParameter($this, "part_id", $this->requested_part_id);
         $ctrl->redirect($this, "showParticipant");
     }
 
@@ -1098,12 +1141,12 @@ class ilExerciseManagementGUI
         $members = [];
         // multi-user
         if ($this->assignment) {
-            if (!$_POST["member"]) {
+            if (count($this->selected_participants) == 0) {
                 ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
                 $this->ctrl->redirect($this, "members");
             }
                     
-            foreach (array_keys($_POST["member"]) as $user_id) {
+            foreach ($this->selected_participants as $user_id) {
                 $submission = new ilExSubmission($this->assignment, $user_id);
                 $tmembers = $submission->getUserIds();
                 if (!$a_keep_teams) {
@@ -1122,14 +1165,14 @@ class ilExerciseManagementGUI
         }
         // multi-ass
         else {
-            if (!$_POST["ass"]) {
+            if (count($this->selected_assignments) == 0) {
                 ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
                 $this->ctrl->redirect($this, "showParticipant");
             }
             
             $user_id = $this->requested_part_id;
             
-            foreach (array_keys($_POST["ass"]) as $ass_id) {
+            foreach ($this->selected_assignments as $ass_id) {
                 $submission = new ilExSubmission(new ilExAssignment($ass_id), $user_id);
                 $tmembers = $submission->getUserIds();
                 if (!$a_keep_teams) {
@@ -1230,27 +1273,29 @@ class ilExerciseManagementGUI
      * Save assignment status (participant view)
      * @throws ilExcUnknownAssignmentTypeException
      */
-    public function saveStatusParticipantObject(array $a_selected = null) : void
+    public function saveStatusParticipantObject(array $selected_ass_ids = null) : void
     {
         $ilCtrl = $this->ctrl;
         
         $member_id = $this->requested_part_id;
         $data = array();
-        foreach (array_keys($_POST["id"]) as $ass_id) {
-            if (is_array($a_selected) &&
-                !in_array($ass_id, $a_selected)) {
+        $marks = $this->requested_marks;
+        $status = $this->requested_status;
+        $notices = $this->requested_tutor_notices;
+        foreach ($this->listed_ass_ids as $ass_id) {
+            if (is_array($selected_ass_ids) &&
+                !in_array($ass_id, $selected_ass_ids)) {
                 continue;
             }
             
             $data[$ass_id][$member_id] = array(
-                "status" => ilUtil::stripSlashes($_POST["status"][$ass_id])
+                "status" => $status[$ass_id]
             );
-            
-            if (array_key_exists("mark", $_POST)) {
-                $data[$ass_id][$member_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$ass_id]);
+            if (isset($marks[$ass_id])) {
+                $data[$ass_id][$member_id]["mark"] = $marks[$ass_id];
             }
-            if (array_key_exists("notice", $_POST)) {
-                $data[$ass_id][$member_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$ass_id]);
+            if (isset($notices[$ass_id])) {
+                $data[$ass_id][$member_id]["notice"] = $notices[$ass_id];
             }
         }
         
@@ -1265,7 +1310,10 @@ class ilExerciseManagementGUI
         array $a_selected = null,
         bool $a_redirect = true
     ) : void {
-        $user_ids = (array) array_keys((array) $_POST['id']);
+        $user_ids = $this->listed_participants;
+        $marks = $this->requested_marks;
+        $notices = $this->requested_tutor_notices;
+        $status = $this->requested_status;
         $filtered_user_ids = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
             'edit_submissions_grades',
             'edit_submissions_grades',
@@ -1281,14 +1329,14 @@ class ilExerciseManagementGUI
             }
 
             $data[-1][$user_id] = array(
-                "status" => ilUtil::stripSlashes($_POST["status"][$user_id])
+                "status" => $status[$user_id]
             );
 
-            if (array_key_exists("mark", $_POST)) {
-                $data[-1][$user_id]["mark"] = ilUtil::stripSlashes($_POST["mark"][$user_id]);
+            if (isset($marks[$user_id])) {
+                $data[-1][$user_id]["mark"] = $marks[$user_id];
             }
-            if (array_key_exists("notice", $_POST)) {
-                $data[-1][$user_id]["notice"] = ilUtil::stripSlashes($_POST["notice"][$user_id]);
+            if (isset($notices[$user_id])) {
+                $data[-1][$user_id]["notice"] = $notices[$user_id];
             }
         }
         $this->saveStatus($data, $a_redirect);
@@ -1299,12 +1347,12 @@ class ilExerciseManagementGUI
      */
     public function saveStatusSelectedObject() : void
     {
-        $members = $this->getMultiActionUserIds();
+        //$members = $this->getMultiActionUserIds();
         
         if ($this->assignment) {
-            $this->saveStatusAllObject(array_keys($members));
+            $this->saveStatusAllObject($this->selected_participants);
         } else {
-            $this->saveStatusParticipantObject(array_keys($members));
+            $this->saveStatusParticipantObject($this->selected_ass_ids);
         }
     }
     
@@ -1369,9 +1417,9 @@ class ilExerciseManagementGUI
         $res = array("result" => false);
         
         if ($this->ctrl->isAsynch()) {
-            $ass_id = (int) $_POST["ass_id"];
-            $user_id = (int) $_POST["mem_id"];
-            $comment = trim($_POST["comm"]);
+            $ass_id = $this->requested_ass_id;
+            $user_id = $this->requested_member_id;
+            $comment = trim($this->requested_comment);
             
             if ($ass_id && $user_id) {
                 $submission = new ilExSubmission($this->assignment, $user_id);
@@ -1539,7 +1587,7 @@ class ilExerciseManagementGUI
         $all_members = array();
         foreach (ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId()) as $grp_id => $group) {
             if (sizeof($group["members"])) {
-                $grp_team = new ilCheckboxGroupInputGUI($lng->txt("obj_grp") . " \"" . $group["title"] . "\"", "grpt_" . $grp_id);
+                $grp_team = new ilCheckboxGroupInputGUI($lng->txt("obj_grp") . " \"" . $group["title"] . "\"", "grpt[" . $grp_id . "]");
                 $grp_value = $options = array();
                 foreach ($group["members"] as $user_id) {
                     $user_name = ilUserUtil::getNamePresentation($user_id, false, false, "", true);
@@ -1575,6 +1623,8 @@ class ilExerciseManagementGUI
     public function createTeamsFromGroupsObject() : void
     {
         $lng = $this->lng;
+
+        $req_members = $this->requested_group_members;
         
         $form = $this->initGroupForm();
         if ($form->checkInput()) {
@@ -1582,9 +1632,8 @@ class ilExerciseManagementGUI
             $all_members = $teams = array();
             $valid = true;
             foreach (array_keys($map) as $grp_id) {
-                $postvar = "grpt_" . $grp_id;
-                $members = $_POST[$postvar];
-                if (is_array($members)) {
+                if (isset($req_members[$grp_id]) && is_array($req_members[$grp_id])) {
+                    $members = $req_members[$grp_id];
                     $teams[] = $members;
                     $invalid_team_members = array();
                     
@@ -1606,7 +1655,7 @@ class ilExerciseManagementGUI
                             $grp_title = $map[$all_members[$user_id]]["title"];
                             $alert[] = sprintf($lng->txt("exc_adopt_group_teams_conflict"), $user_name, $grp_title);
                         }
-                        $input = $form->getItemByPostVar($postvar);
+                        $input = $form->getItemByPostVar("grpt[" . $grp_id . "]");
                         $input->setAlert(implode("<br/>", $alert));
                     }
                 }
@@ -1776,7 +1825,7 @@ class ilExerciseManagementGUI
      */
     public function saveMultiFeedbackObject() : void
     {
-        $this->assignment->saveMultiFeedbackFiles($_POST["file"], $this->exercise);
+        $this->assignment->saveMultiFeedbackFiles($this->requested_files, $this->exercise);
         
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "members");
@@ -1999,12 +2048,8 @@ class ilExerciseManagementGUI
 
     public function initFilter() : void
     {
-        if ($_POST["filter_status"]) {
-            $this->filter["status"] = trim(ilUtil::stripSlashes($_POST["filter_status"]));
-        }
-
-        if ($_POST["filter_feedback"]) {
-            $this->filter["feedback"] = trim(ilUtil::stripSlashes($_POST["filter_feedback"]));
+        if ($this->requested_filter_status != "") {
+            $this->filter["status"] = $this->requested_filter_status;
         }
 
         $this->lng->loadLanguageModule("search");
@@ -2012,10 +2057,6 @@ class ilExerciseManagementGUI
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "listTextAssignment"));
 
         // Status
-
-        if ($_POST["filter_status"]) {
-            $this->filter["status"] = trim(ilUtil::stripSlashes($_POST["filter_status"]));
-        }
 
         $si_status = new ilSelectInputGUI($this->lng->txt("exc_tbl_status"), "filter_status");
         $options = array(
@@ -2040,8 +2081,8 @@ class ilExerciseManagementGUI
         // Submissions and Feedback
         #24713
         if ($this->assignment->getPeerReview()) {
-            if ($_POST["filter_feedback"]) {
-                $this->filter["feedback"] = trim(ilUtil::stripSlashes($_POST["filter_feedback"]));
+            if ($this->requested_filter_feedback != "") {
+                $this->filter["feedback"] = $this->requested_filter_feedback;
             } else {
                 $this->filter["feedback"] = "submission_feedback";
             }

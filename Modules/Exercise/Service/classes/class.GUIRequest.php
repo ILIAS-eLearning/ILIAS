@@ -8,28 +8,14 @@ use ILIAS\HTTP;
 use ILIAS\Refinery;
 
 /**
- * Exercise gui request wrapper
- *
+ * Exercise gui request wrapper. This class processes all
+ * request parameters which are not handled by form classes already.
+ * POST overwrites GET with the same name.
+ * POST/GET parameters may be passed to the class for testing purposes.
  * @author Alexander Killing <killing@leifos.de>
  */
 class GUIRequest
 {
-    protected int $requested_ref_id;
-    protected int $requested_ass_id;
-    protected int $requested_member_id;
-    protected int $requested_part_id;       // check if this can be merged with member id
-    protected string $requested_ass_type;
-    protected string $requested_old_name;
-    protected bool $done;                   // see ilExcIdl.js
-    protected string $requested_idl_id;
-    protected int $requested_user_id;
-    protected string $requested_sort_order;
-    protected string $requested_sort_by;
-    protected int $requested_offset;
-    protected int $requested_ass_id_goto;
-    protected int $selected_wsp_obj_id;
-    protected ?\ilExAssignment $ass = null;
-    protected ?\ilObjExercise $exc = null;
     protected HTTP\Services $http;
     protected Refinery\Factory $refinery;
     protected ?array $passed_query_params;
@@ -54,28 +40,6 @@ class GUIRequest
         $this->refinery = $refinery;
         $this->passed_post_data = $passed_post_data;
         $this->passed_query_params = $passed_query_params;
-
-        $this->requested_ref_id = $this->int("ref_id");
-        $this->requested_ass_id = $this->int("ass_id");
-        $this->requested_ass_id_goto = $this->int("ass_id_goto");
-        $this->requested_ass_type = $this->str("ass_type");
-        $this->requested_member_id = $this->int("member_id");
-        $this->requested_part_id = $this->int("part_id");
-        $this->requested_ass_type = $this->str("old_name");
-        $this->requested_user_id = $this->int("user_id");
-        $this->requested_sort_order = $this->str("sort_order");
-        $this->requested_sort_by = $this->str("sort_by");
-        $this->requested_offset = $this->int("offset");
-        $this->done = (bool) $this->int("dn");
-        $this->requested_idl_id = $this->str("idlid");   // may be comma separated
-        $this->selected_wsp_obj_id = $this->int("sel_wsp_obj");
-
-        if ($this->getRequestedAssId() > 0) {
-            $this->ass = new \ilExAssignment($this->getRequestedAssId());
-        }
-        if ($this->getRequestedRefId() > 0 && \ilObject::_lookupType($this->getRequestedRefId(), true) == "exc") {
-            $this->exc = new \ilObjExercise($this->getRequestedRefId());
-        }
     }
 
     // get integer parameter kindly
@@ -85,11 +49,87 @@ class GUIRequest
         return (int) ($this->get($key, $t) ?? 0);
     }
 
+    // get integer array kindly
+    protected function intArray($key) : array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to int
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, (int) $v];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
     // get string parameter kindly
     protected function str($key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
-        return (string) ($this->get($key, $t) ?? "");
+        return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
+    }
+
+    // get string array kindly
+    protected function strArray($key) : array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, \ilUtil::stripSlashes((string) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
+    /**
+     * Check if parameter is an array
+     */
+    protected function isArray(string $key) : bool
+    {
+        if ($this->passed_query_params === null && $this->passed_post_data === null) {
+            $no_transform = $this->refinery->custom()->transformation(function ($v) {
+                return $v;
+            });
+            $w = $this->http->wrapper();
+            if ($w->post()->has($key)) {
+                return is_array($w->post()->retrieve($key, $no_transform));
+            }
+            if ($w->query()->has($key)) {
+                return is_array($w->query()->retrieve($key, $no_transform));
+            }
+        }
+        if (isset($this->passed_post_data[$key])) {
+            return is_array($this->passed_post_data[$key]);
+        }
+        if (isset($this->passed_query_params[$key])) {
+            return is_array($this->passed_query_params[$key]);
+        }
+        return false;
     }
 
     /**
@@ -110,91 +150,447 @@ class GUIRequest
             }
         }
         if (isset($this->passed_post_data[$key])) {
-            return $this->passed_post_data[$key];
+            return $t->transform($this->passed_post_data[$key]);
         }
         if (isset($this->passed_query_params[$key])) {
-            return $this->passed_query_params[$key];
+            return $t->transform($this->passed_query_params[$key]);
         }
         return null;
     }
 
-    public function getRequestedRefId() : int
+    //
+    // General exercise and assignment related
+    //
+
+    /**
+     * @return int[]
+     */
+    protected function getIds() : array
     {
-        return $this->requested_ref_id;
+        // "id" parameter used in team submission gui
+        if ($this->isArray("id")) {
+            return $this->intArray("id");
+        } else {
+            $team_id = $this->int("id");
+            return ($team_id > 0)
+                ? [$this->int("id")]
+                : [];
+        }
     }
 
-    public function getRequestedAssId() : int
+    /**
+     * note: shares "id" parameter with team ids
+     * @return int[]
+     */
+    public function getAssignmentIds() : array
     {
-        return $this->requested_ass_id;
+        return $this->getIds();
     }
 
-    public function getRequestedAssIdGoto() : int
+    public function getRefId() : int
     {
-        return $this->requested_ass_id_goto;
+        return $this->int("ref_id");
     }
 
-    public function getRequestedMemberId() : int
+    public function getAssId() : int
     {
-        return $this->requested_member_id;
+        return $this->int("ass_id");
     }
 
-    public function getRequestedParticipantId() : int
+    /**
+     * @return int[]
+     */
+    public function getAssIds() : array
     {
-        return $this->requested_part_id;
+        return $this->intArray("ass");
     }
 
-    public function getRequestedExercise() : ?\ilObjExercise
+    public function getAssIdGoto() : int
     {
-        return $this->exc;
+        return $this->int("ass_id_goto");
     }
 
-    public function getRequestedAssignment() : ?\ilExAssignment
+    /**
+     * @throws \ilExcUnknownAssignmentTypeException
+     */
+    public function getExercise() : ?\ilObjExercise
     {
-        return $this->ass;
+        if ($this->getRefId() > 0 && \ilObject::_lookupType($this->getRefId(), true) == "exc") {
+            return new \ilObjExercise($this->getRefId());
+        }
+        return null;
     }
 
-    public function getRequestedAssType() : string
+    /**
+     * @throws \ilExcUnknownAssignmentTypeException
+     */
+    public function getAssignment() : ?\ilExAssignment
     {
-        return $this->requested_ass_type;
+        if ($this->getAssId() > 0) {
+            return new \ilExAssignment($this->getAssId());
+        }
+        return null;
     }
 
-    public function getRequestedOldName() : string
+    public function getAssType() : string
     {
-        return $this->requested_old_name;
+        return $this->str("ass_type");
     }
 
+    // also assignment type? see ilExAssignmentEditor
+    public function getType() : int
+    {
+        return $this->int("type");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSelectedAssignments() : array
+    {
+        return $this->intArray("sel_ass_ids");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getListedAssignments() : array
+    {
+        return $this->intArray("listed_ass_ids");
+    }
+
+    //
+    // User related
+    //
+
+    public function getMemberId() : int
+    {
+        return $this->int("member_id");
+    }
+
+    // can me merged with member id?
+    public function getParticipantId() : int
+    {
+        return $this->int("part_id");
+    }
+
+    public function getUserId() : int
+    {
+        return $this->int("user_id");
+    }
+
+    public function getUserLogin() : string
+    {
+        return trim($this->str("user_login"));
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSelectedParticipants() : array
+    {
+        return $this->intArray("sel_part_ids");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getListedParticipants() : array
+    {
+        return $this->intArray("listed_part_ids");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getGroupMembers() : array
+    {
+        return $this->intArray("grpt");
+    }
+
+    //
+    // File related
+    //
+
+    public function getOldName() : string
+    {
+        return $this->str("old_name");
+    }
+
+    public function getNewName() : string
+    {
+        return $this->str("new_name");
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getFiles() : array
+    {
+        return $this->strArray("file");
+    }
+
+    public function getFile() : string
+    {
+        return $this->str("file");
+    }
+
+    //
+    // Individual deadline related
+    //
+
+    // sie ilExcIdl.js
     public function getDone() : bool
     {
-        return $this->done;
+        return (bool) $this->int("dn");
     }
 
-    public function getRequestedIdlId() : bool
+    public function getIdlId() : string
     {
-        return $this->requested_idl_id;
+        return $this->str("idlid");   // may be comma separated
     }
 
-    public function getRequestedUserId() : int
+    /**
+     * @return string[]
+     */
+    public function getListedIdlIDs() : array
     {
-        return $this->requested_user_id;
+        return $this->strArray("listed_idl_ids");
     }
 
-    public function getRequestedOffset() : int
+    //
+    // Table / Filter related
+    //
+
+    public function getOffset() : int
     {
-        return $this->requested_offset;
+        return $this->int("offset");
     }
 
-    public function getRequestedSortOrder() : string
+    public function getSortOrder() : string
     {
-        return $this->requested_sort_order;
+        return $this->str("sort_order");
     }
 
-    public function getRequestedSortBy() : string
+    public function getSortBy() : string
     {
-        return $this->requested_sort_by;
+        return $this->str("sort_by");
     }
+
+    public function getFilterStatus() : string
+    {
+        return trim($this->str("requested_filter_status"));
+    }
+
+    public function getFilterFeedback() : string
+    {
+        return trim($this->str("requested_filter_feedback"));
+    }
+
+    //
+    // Workspace related
+    //
 
     public function getSelectedWspObjId() : string
     {
-        return $this->selected_wsp_obj_id;
+        return $this->int("sel_wsp_obj");
+    }
+
+    //
+    // Peer review related
+    //
+
+    public function getReviewGiverId() : int
+    {
+        $giver_peer_id = $this->str("fu");
+        $parts = explode("__", $giver_peer_id);
+        if (count($parts) > 1) {
+            return (int) $parts[0];
+        }
+        return 0;
+    }
+
+    public function getReviewPeerId() : int
+    {
+        $giver_peer_id = $this->str("fu");
+        $parts = explode("__", $giver_peer_id);
+        if (count($parts) > 1) {
+            return (int) $parts[1];
+        }
+
+        return 0;
+    }
+
+    public function getReviewCritId() : string
+    {
+        $giver_peer_id = $this->str("fu");
+        $parts = explode("__", $giver_peer_id);
+        if (isset($parts[2])) {
+            return (string) $parts[2];
+        }
+        return "";
+    }
+
+    // different from "fu" parameter above!
+    public function getPeerId() : int
+    {
+        return $this->int("peer_id");
+    }
+
+    // different from "fu" parameter above!
+    public function getCritId() : string
+    {
+        return $this->str("crit_id");
+    }
+
+    // peer review files?
+    public function getFileHash() : string
+    {
+        return trim($this->str("fuf"));
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCatalogueIds() : array
+    {
+        return $this->getIds();
+    }
+
+    public function getCatalogueId() : int
+    {
+        return $this->int("cat_id");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getCriteriaIds() : array
+    {
+        return $this->getIds();
+    }
+
+
+    //
+    // Team related
+    //
+
+    /**
+     * @return int[]
+     */
+    public function getTeamIds() : array
+    {
+        return $this->getIds();
+    }
+
+    //
+    // Order / positions related
+    //
+
+    /**
+     * @return int[]
+     */
+    public function getOrder() : array
+    {
+        return $this->intArray("order");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getPositions() : array
+    {
+        return $this->intArray("pos");
+    }
+
+    //
+    // Text related
+    //
+
+    public function getMinCharLimit() : int
+    {
+        return $this->int("min_char_limit");
+    }
+
+    //
+    // Status / LP related
+    //
+
+    /**
+     * @return string[]
+     */
+    public function getLearningComments() : array
+    {
+        return $this->strArray("lcomment");
+    }
+
+    /**
+     * key might be ass_ids or user_ids!
+     * @return string[]
+     */
+    public function getMarks() : array
+    {
+        return $this->strArray("mark");
+    }
+
+    /**
+     * key might be ass_ids or user_ids!
+     * @return string[]
+     */
+    public function getTutorNotices() : array
+    {
+        return $this->strArray("notice");
+    }
+
+    /**
+     * key might be ass_ids or user_ids!
+     * @return string[]
+     */
+    public function getStatus() : array
+    {
+        return $this->strArray("status");
+    }
+
+    public function getComment() : string
+    {
+        return $this->str("comment");
+    }
+
+    public function getRatingValue() : string
+    {
+        return $this->str("value");
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getSubmittedFileIds() : array
+    {
+        return $this->intArray("delivered");
+    }
+
+    public function getSubmittedFileId() : int
+    {
+        return $this->int("delivered");
+    }
+
+    public function getResourceObjectId() : int
+    {
+        return $this->int("item");
+    }
+
+    public function getBlogId() : int
+    {
+        return $this->int("blog_id");
+    }
+
+    public function getPortfolioId() : int
+    {
+        return $this->int("prtf_id");
+    }
+
+    public function getBackView() : int
+    {
+        return $this->int("vw");
     }
 }

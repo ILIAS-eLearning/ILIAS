@@ -56,7 +56,7 @@ abstract class ilExSubmissionBaseGUI
             ->mandatoryAssignments($this->exercise);
 
         $this->request = $DIC->exercise()->internal()->gui()->request();
-        $this->requested_ref_id = $this->request->getRequestedRefId();
+        $this->requested_ref_id = $this->request->getRefId();
         
         // :TODO:
         $this->ctrl = $ilCtrl;

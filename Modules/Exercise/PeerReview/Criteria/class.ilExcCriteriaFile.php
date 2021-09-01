@@ -10,6 +10,19 @@
  */
 class ilExcCriteriaFile extends ilExcCriteria
 {
+    protected string $requested_file_hash = "";
+
+    public function __construct()
+    {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        parent::__construct();
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_file_hash = $request->getFileHash();
+    }
+
     public function getType() : string
     {
         return "file";
@@ -102,8 +115,8 @@ class ilExcCriteriaFile extends ilExcCriteria
      */
     public function getFileByHash()
     {
-        $hash = trim($_GET["fuf"]);
-        if ($hash) {
+        $hash = trim($this->requested_file_hash);
+        if ($hash != "") {
             foreach ($this->getFiles() as $file) {
                 if (md5($file) == $hash) {
                     return $file;

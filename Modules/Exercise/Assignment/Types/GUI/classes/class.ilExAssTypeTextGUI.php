@@ -15,15 +15,19 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
      * @var ilLanguage
      */
     protected $lng;
+    protected $requested_min_char_limit = 0;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_min_char_limit = $request->getMinCharLimit();
     }
 
     /**
@@ -42,7 +46,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
 
         $max_char_limit = new ilNumberInputGUI($lng->txt("exc_max_char_limit"), "max_char_limit");
         $max_char_limit->allowDecimals(false);
-        $max_char_limit->setMinValue((int) $_POST['min_char_limit'] + 1);
+        $max_char_limit->setMinValue($this->requested_min_char_limit + 1);
 
         $max_char_limit->setSize(3);
 
@@ -82,10 +86,7 @@ class ilExAssTypeTextGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
     }
 }

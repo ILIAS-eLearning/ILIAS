@@ -22,16 +22,13 @@ class ilExerciseHandlerGUI
         global $DIC;
 
         $request = $DIC->exercise()->internal()->gui()->request();
-        $this->requested_ref_id = $request->getRequestedRefId();
+        $this->requested_ref_id = $request->getRefId();
 
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tpl = $DIC["tpl"];
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $ilCtrl = $DIC->ctrl();
-
-        // initialisation stuff
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
     }
 
     /**

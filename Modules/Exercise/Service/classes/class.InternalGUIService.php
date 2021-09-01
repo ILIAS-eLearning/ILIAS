@@ -70,7 +70,7 @@ class InternalGUIService
     public function getExerciseGUI(?int $ref_id = null) : \ilObjExerciseGUI
     {
         if ($ref_id === null) {
-            $ref_id = $this->request->getRequestedRefId();
+            $ref_id = $this->request->getRefId();
         }
         return new \ilObjExerciseGUI([], $ref_id, true);
     }
@@ -78,7 +78,7 @@ class InternalGUIService
     public function getRandomAssignmentGUI(\ilObjExercise $exc = null) : \ilExcRandomAssignmentGUI
     {
         if ($exc === null) {
-            $exc = $this->request->getRequestedExercise();
+            $exc = $this->request->getExercise();
         }
         return new \ilExcRandomAssignmentGUI(
             $this->ui,
@@ -95,13 +95,13 @@ class InternalGUIService
         $member_id = null
     ) : \ilExSubmissionGUI {
         if ($exc === null) {
-            $exc = $this->request->getRequestedExercise();
+            $exc = $this->request->getExercise();
         }
         if ($ass === null) {
-            $ass = $this->request->getRequestedAssignment();
+            $ass = $this->request->getAssignment();
         }
         if ($member_id === null) {
-            $member_id = $this->request->getRequestedMemberId();
+            $member_id = $this->request->getMemberId();
         }
         return new \ilExSubmissionGUI(
             $exc,
