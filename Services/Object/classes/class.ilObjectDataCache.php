@@ -12,6 +12,9 @@
 */
 class ilObjectDataCache
 {
+    /** @var array<int, bool> */
+    protected $trans_loaded = [];
+    
     public $db = null;
     public $reference_cache = array();
     public $object_data_cache = array();
