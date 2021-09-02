@@ -15,15 +15,12 @@ class ilLSLocalDI extends Container
     ) : void {
         $ref_id = (int) $object->getRefId();
         $obj_id = (int) $object->getId();
-        $obj_title = $object->getTitle();
-
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
 
         $this["obj.ref_id"] = $ref_id;
         $this["obj.obj_id"] = $obj_id;
-
         $this["usr.id"] = $current_user_id;
 
         $this["obj.sorting"] = function ($c) : ilContainerSorting {
