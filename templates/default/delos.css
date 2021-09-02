@@ -16583,6 +16583,36 @@ div.ilRatingOverlay {
   padding-left: 30px;
   margin: 0;
 }
+.read-more-state {
+  display: none;
+}
+.read-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: 0.25s ease;
+}
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+}
+.read-more-state ~ .read-more-trigger:before {
+  content: 'Show more';
+}
+.read-more-state:checked ~ .read-more-trigger:before {
+  content: 'Show less';
+}
+.read-more-trigger {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0.5em;
+  color: #757575;
+  font-size: 0.9em;
+  line-height: 2;
+  border: 1px solid #dddddd;
+  border-radius: 0.25em;
+}
 .progress {
   height: 15px;
   min-width: 100px;
@@ -18441,24 +18471,14 @@ table.mceToolbar td {
   line-height: 23px;
   min-height: 23px;
 }
-/* basic responsiveness (beta)
-	no more specific section. no more delos_sm.less data (treated as bug)
-	"Responsive" code has to be inserted like:
-	.myClass {
-		...
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			...
-		}
-	}
-*/
-/* print css */
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
     /* text-shadow: none !important;
-        color: black !important; // Black prints faster: h5bp.com/s
-        background: transparent !important;
-        box-shadow: none !important; */
+    color: black !important; // Black prints faster: h5bp.com/s
+    background: transparent !important;
+    box-shadow: none !important; */
   }
   a,
   a:visited {
@@ -18550,34 +18570,4 @@ table.mceToolbar td {
   a[href]:after {
     content: "";
   }
-}
-.read-more-state {
-  display: none;
-}
-.read-more-target {
-  opacity: 0;
-  max-height: 0;
-  font-size: 0;
-  transition: 0.25s ease;
-}
-.read-more-state:checked ~ .read-more-wrap .read-more-target {
-  opacity: 1;
-  font-size: inherit;
-  max-height: 999em;
-}
-.read-more-state ~ .read-more-trigger:before {
-  content: 'Show more';
-}
-.read-more-state:checked ~ .read-more-trigger:before {
-  content: 'Show less';
-}
-.read-more-trigger {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0 0.5em;
-  color: #757575;
-  font-size: 0.9em;
-  line-height: 2;
-  border: 1px solid #dddddd;
-  border-radius: 0.25em;
 }
