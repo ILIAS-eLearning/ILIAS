@@ -184,6 +184,10 @@ export default class PageUIActionHandler {
         this.ui.setSectionFormat(model.getSectionFormat());
         break;
 
+      case "format.media":
+        this.ui.setMediaFormat(model.getMediaFormat());
+        break;
+
       case "format.save":
         this.sendFormatCommand(params);
         break;
@@ -320,7 +324,8 @@ export default class PageUIActionHandler {
     drop_action = af.page().command().format(
       pcids,
       params.parFormat,
-      params.secFormat
+      params.secFormat,
+      params.medFormat
     );
 
     this.client.sendCommand(drop_action).then(result => {
