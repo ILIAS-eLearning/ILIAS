@@ -382,7 +382,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         if (false === $this->notificationCache->exists($cacheKey)) {
             $condition = ' ';
             if ($event_type == 0) {
-                $condition = ' OR frm_notification.interested_events = ' . $this->db->quote(0, 'integer');
+                $condition = ' OR frm_notification.interested_events >= ' . $this->db->quote(0, 'integer');
             }
             
             $res = $this->db->queryf(
@@ -428,7 +428,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         if (false === $this->notificationCache->exists($cacheKey)) {
             $condition = ' ';
             if ($event_type == 0) {
-                $condition = ' OR interested_events = ' . $this->db->quote(0, 'integer');
+                $condition = ' OR interested_events >= ' . $this->db->quote(0, 'integer');
             }
             
             $res = $this->db->queryF(
@@ -438,7 +438,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_notification.thread_id
 				WHERE frm_notification.thread_id = %s
 				AND frm_notification.user_id != %s
-				AND frm_notification.interested_events = %s ' . $condition,
+				AND frm_notification.interested_events & %s ' . $condition,
                 array('integer', 'integer', 'integer'),
                 array($this->getThreadId(), $this->user->getId(), $event_type)
             );
