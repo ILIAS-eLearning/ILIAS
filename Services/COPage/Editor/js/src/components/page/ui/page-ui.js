@@ -510,13 +510,20 @@ export default class PageUI {
           });
           break;
 
+        case "format.media":
+          multi_button.addEventListener("click", (event) => {
+            dispatch.dispatch(action.page().editor().formatMedia(format));
+          });
+          break;
+
         case "format.save":
           multi_button.addEventListener("click", (event) => {
             const pcids = new Set(this.model.getSelected());
             dispatch.dispatch(action.page().editor().formatSave(
               pcids,
               model.getParagraphFormat(),
-              model.getSectionFormat()
+              model.getSectionFormat(),
+              model.getMediaFormat()
             ));
           });
           break;
@@ -540,12 +547,15 @@ export default class PageUI {
     if (f2) {
       dispatch.dispatch(action.page().editor().formatSection(f2));
     }
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown ul li button");
+    const f3 = b3.dataset.copgEdParFormat;
+    if (f3) {
+      dispatch.dispatch(action.page().editor().formatMedia(f3));
+    }
   }
 
   setParagraphFormat(format) {
-    console.log("setParagraphFormat " + format);
     const b1 = document.querySelector("#il-copg-format-paragraph div.dropdown > button");
-    console.log(b1);
     if (b1) {
       b1.firstChild.textContent = format + " ";
     }
@@ -555,6 +565,13 @@ export default class PageUI {
     const b2 = document.querySelector("#il-copg-format-section div.dropdown > button");
     if (b2) {
       b2.firstChild.textContent = format + " ";
+    }
+  }
+
+  setMediaFormat(format) {
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown > button");
+    if (b3) {
+      b3.firstChild.textContent = format + " ";
     }
   }
 
