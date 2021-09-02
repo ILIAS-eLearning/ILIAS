@@ -202,7 +202,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
 
-        $this->object = $this->getObject();
         $this->data_factory = new Data\Factory();
     }
 

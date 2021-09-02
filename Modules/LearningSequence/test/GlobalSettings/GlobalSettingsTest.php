@@ -2,7 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 
-class LSGlobalSettingsTest extends TestCase
+class GlobalSettingsTest extends TestCase
 {
     public function testConstruction() : LSGlobalSettings
     {
@@ -12,7 +12,6 @@ class LSGlobalSettingsTest extends TestCase
             $interval,
             $settings->getPollingIntervalSeconds()
         );
-
         return $settings;
     }
 
