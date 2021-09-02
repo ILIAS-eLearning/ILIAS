@@ -943,7 +943,17 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
         $this->addMiniMonth($tpl);
 
-        return $tpl->get();
+        $panel_tpl = new \ilTemplate(
+            'tpl.cal_block_panel.html',
+            true,
+            true,
+            'Services/Calendar'
+        );
+
+        $this->addConsultationHourButtons($panel_tpl);
+        $this->addSubscriptionButton($panel_tpl);
+
+        return $tpl->get().$panel_tpl->get();
     }
 
     /**
@@ -968,40 +978,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
         return $this->lng->txt("cal_no_events_block");
     }
 
-    /**
-     * overwrites base implementation for adding subscription and consultation hour links
-     * @return string
-     */
-    public function getHTMLNew()
-    {
-        global $DIC;
-
-        $ui_factory = $DIC->ui()->factory();
-        $ui_renderer = $DIC->ui()->renderer();
-
-        $block_html = parent::getHTMLNew();
-
-
-
-        $panel_tpl = new \ilTemplate(
-            'tpl.cal_block_panel.html',
-            true,
-            true,
-            'Services/Calendar'
-        );
-
-        $this->addConsultationHourButtons($panel_tpl);
-        $this->addSubscriptionButton($panel_tpl);
-
-        $panel = $ui_factory->panel()
-                     ->secondary()
-                     ->legacy(
-                         '',
-                         $ui_factory->legacy($panel_tpl->get())
-                     );
-
-        return $block_html . $ui_renderer->render([$panel]);
-    }
 
     /**
      * Add consultation hour buttons
@@ -1023,7 +999,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
         );
         $counter = 0;
         foreach ($links as $link) {
-
             $ui_factory  = $DIC->ui()->factory();
             $ui_renderer = $DIC->ui()->renderer();
 
