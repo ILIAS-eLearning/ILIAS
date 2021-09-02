@@ -1024,12 +1024,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return " LOWER(" . $expression . ") ";
     }
 
-    /**
-     * @param string $a_exp
-     */
-    public function substr(string $expression) : string
+    public function substr(string $a_exp, int $a_pos = 1, int $a_len = -1) : string
     {
-        return "";
+        $lenstr = "";
+        if ($a_len > -1) {
+            $lenstr = ", " . $a_len;
+        }
+        return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
     }
 
     /**
