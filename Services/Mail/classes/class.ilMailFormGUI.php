@@ -80,31 +80,31 @@ class ilMailFormGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
-            case 'ilmailfoldergui':
+            case ilMailFolderGUI::class:
                 $this->ctrl->forwardCommand(new ilMailFolderGUI());
                 break;
 
-            case 'ilmailattachmentgui':
+            case ilMailAttachmentGUI::class:
                 $this->ctrl->setReturn($this, "returnFromAttachments");
                 $this->ctrl->forwardCommand(new ilMailAttachmentGUI());
                 break;
 
-            case 'ilmailsearchgui':
+            case ilMailSearchGUI::class:
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchGUI());
                 break;
 
-            case 'ilmailsearchcoursesgui':
+            case ilMailSearchCoursesGUI::class:
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
                 break;
             
-            case 'ilmailinglistsgui':
+            case ilMailingListsGUI::class:
                 $this->ctrl->setReturn($this, 'searchResults');
                 $this->ctrl->forwardCommand(new ilMailingListsGUI());
                 break;
 
-            case 'ilmailsearchgroupsgui':
+            case ilMailSearchGroupsGUI::class:
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;
@@ -166,13 +166,13 @@ class ilMailFormGUI
         } else {
             $mailer->savePostData($this->user->getId(), [], "", "", "", "", "", "", "", "");
 
-            $this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
 
             if (ilMailFormCall::isRefererStored()) {
                 ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
                 $this->ctrl->redirectToURL(ilMailFormCall::getRefererRedirectUrl());
             } else {
-                $this->ctrl->redirectByClass('ilmailgui');
+                $this->ctrl->redirectByClass(ilMailGUI::class);
             }
         }
 
@@ -228,7 +228,7 @@ class ilMailFormGUI
         if (ilMailFormCall::isRefererStored()) {
             ilUtil::redirect(ilMailFormCall::getRefererRedirectUrl());
         } else {
-            $this->ctrl->redirectByClass(['ilmailgui', 'ilmailfoldergui']);
+            $this->ctrl->redirectByClass([ilMailGUI::class, ilMailFolderGUI::class]);
         }
 
         $this->showForm();
@@ -293,11 +293,11 @@ class ilMailFormGUI
         $this->saveMailBeforeSearch();
 
         if (isset($this->httpRequest->getParsedBody()['search_crs'])) {
-            $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'cmd', 'showMembers');
+            $this->ctrl->setParameterByClass(ilMailSearchCoursesGUI::class, 'cmd', 'showMembers');
         }
         
-        $this->ctrl->setParameterByClass('ilmailsearchcoursesgui', 'ref', 'mail');
-        $this->ctrl->redirectByClass('ilmailsearchcoursesgui');
+        $this->ctrl->setParameterByClass(ilMailSearchCoursesGUI::class, 'ref', 'mail');
+        $this->ctrl->redirectByClass(ilMailSearchCoursesGUI::class);
     }
 
     
@@ -305,8 +305,8 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        $this->ctrl->setParameterByClass('ilmailsearchgroupsgui', 'ref', 'mail');
-        $this->ctrl->redirectByClass('ilmailsearchgroupsgui');
+        $this->ctrl->setParameterByClass(ilMailSearchGroupsGUI::class, 'ref', 'mail');
+        $this->ctrl->redirectByClass(ilMailSearchGroupsGUI::class);
     }
 
     public function search() : void
@@ -320,8 +320,8 @@ class ilMailFormGUI
             ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
             $this->searchUsers(false);
         } else {
-            $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode(ilSession::get("mail_search_search")));
-            $this->ctrl->redirectByClass("ilmailsearchgui");
+            $this->ctrl->setParameterByClass(ilMailSearchGUI::class, "search", urlencode(ilSession::get("mail_search_search")));
+            $this->ctrl->redirectByClass(ilMailSearchGUI::class);
         }
     }
 
@@ -357,7 +357,7 @@ class ilMailFormGUI
             ilMailFormCall::getContextParameters()
         );
 
-        $this->ctrl->redirectByClass("ilmailattachmentgui");
+        $this->ctrl->redirectByClass(ilMailAttachmentGUI::class);
     }
 
     public function returnFromAttachments() : void
@@ -824,8 +824,8 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        $this->ctrl->setParameterByClass('ilmailinglistsgui', 'ref', 'mail');
-        $this->ctrl->redirectByClass('ilmailinglistsgui');
+        $this->ctrl->setParameterByClass(ilMailingListsGUI::class, 'ref', 'mail');
+        $this->ctrl->redirectByClass(ilMailingListsGUI::class);
     }
 
     /**

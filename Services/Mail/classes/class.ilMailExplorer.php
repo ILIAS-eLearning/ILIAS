@@ -88,7 +88,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     protected function getNodeStateToggleCmdClasses($record) : array
     {
         return [
-            'ilMailGUI',
+            ilMailGUI::class,
         ];
     }
 
@@ -136,9 +136,9 @@ class ilMailExplorer extends ilTreeExplorerGUI
             $a_node['child'] = 0;
         }
 
-        $this->ctrl->setParameterByClass('ilMailFolderGUI', 'mobj_id', $a_node['child']);
-        $href = $this->ctrl->getLinkTargetByClass(['ilMailGUI', 'ilMailFolderGUI']);
-        $this->ctrl->clearParametersByClass('ilMailFolderGUI');
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $a_node['child']);
+        $href = $this->ctrl->getLinkTargetByClass([ilMailGUI::class, ilMailFolderGUI::class]);
+        $this->ctrl->clearParametersByClass(ilMailFolderGUI::class);
 
         return $href;
     }

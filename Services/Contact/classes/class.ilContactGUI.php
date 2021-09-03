@@ -72,12 +72,12 @@ class ilContactGUI
         $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
         
         switch ($forward_class) {
-            case 'ilmailformgui':
+            case ilMailFormGUI::class:
                 include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
-            case 'ilmailsearchcoursesgui':
+            case ilMailSearchCoursesGUI::class:
                 include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
                 $this->activateTab('mail_my_courses');
@@ -86,7 +86,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
                 break;
 
-            case 'ilmailsearchgroupsgui':
+            case ilMailSearchGroupsGUI::class:
                 include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
                 $this->activateTab('mail_my_groups');
@@ -95,7 +95,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;
             
-            case 'ilmailinglistsgui':
+            case ilMailingListsGUI::class:
                 include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
                 $this->activateTab('mail_my_mailing_lists');
@@ -104,7 +104,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailingListsGUI());
                 break;
 
-            case 'ilusersgallerygui':
+            case ilUsersGalleryGUI::class:
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }
@@ -117,7 +117,7 @@ class ilContactGUI
                 $this->tpl->printToStdout();
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case ilPublicUserProfileGUI::class:
                 require_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
                 $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['user']));
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
@@ -132,7 +132,7 @@ class ilContactGUI
                     if (ilBuddySystem::getInstance()->isEnabled()) {
                         $cmd = 'showContacts';
                     } else {
-                        $this->ctrl->redirectByClass('ilmailsearchcoursesgui');
+                        $this->ctrl->redirectByClass(ilMailSearchCoursesGUI::class);
                     }
                 }
 
@@ -157,7 +157,7 @@ class ilContactGUI
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ]);
                     $view_selection->setValue(
-                        strtolower($this->ctrl->getCmdClass()) === 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
+                        strtolower($this->ctrl->getCmdClass()) === ilUsersGalleryGUI::class ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
                     );
                     $this->toolbar->addInputItem($view_selection);
 
@@ -173,13 +173,13 @@ class ilContactGUI
                     $this->tabs_gui->addSubTab(
                         'mail_my_mailing_lists',
                         $this->lng->txt('mail_my_mailing_lists'),
-                        $this->ctrl->getLinkTargetByClass('ilmailinglistsgui')
+                        $this->ctrl->getLinkTargetByClass(ilMailingListsGUI::class)
                     );
                 }
             }
 
-            $this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-            $this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+            $this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class));
+            $this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class));
             $this->has_sub_tabs = true;
         } else {
             $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cadm.svg'));
@@ -189,22 +189,22 @@ class ilContactGUI
             if (ilBuddySystem::getInstance()->isEnabled()) {
                 $this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', ['ilUsersGalleryGUI', get_class($this)]), true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', [ilUsersGalleryGUI::class, get_class($this)]), true)) {
                     $this->tabs_gui->addSubTab('buddy_view_table', $this->lng->txt('buddy_view_table'), $this->ctrl->getLinkTarget($this));
-                    $this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI'));
+                    $this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass(ilUsersGalleryGUI::class));
                 }
 
                 if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
                     $this->tabs_gui->addTab(
                         'mail_my_mailing_lists',
                         $this->lng->txt('mail_my_mailing_lists'),
-                        $this->ctrl->getLinkTargetByClass('ilmailinglistsgui')
+                        $this->ctrl->getLinkTargetByClass(ilMailingListsGUI::class)
                     );
                 }
             }
 
-            $this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass('ilmailsearchcoursesgui'));
-            $this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
+            $this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class));
+            $this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class));
         }
     }
 
@@ -232,7 +232,7 @@ class ilContactGUI
         if (isset($this->httpRequest->getParsedBody()['contacts_view'])) {
             switch ($this->httpRequest->getParsedBody()['contacts_view']) {
                 case self::CONTACTS_VIEW_GALLERY:
-                    $this->ctrl->redirectByClass('ilUsersGalleryGUI');
+                    $this->ctrl->redirectByClass(ilUsersGalleryGUI::class);
                     break;
 
                 case self::CONTACTS_VIEW_TABLE:

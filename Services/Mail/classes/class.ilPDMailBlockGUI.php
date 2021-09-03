@@ -242,7 +242,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         } else {
             \ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
         }
-        $this->ctrl->redirectByClass('ildashboardgui', 'show');
+        $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
     

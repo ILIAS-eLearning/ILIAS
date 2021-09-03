@@ -91,7 +91,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     
     public function addMailIdToDelete(int $mail_id) : void
     {
-        $this->mail_ids[] = (int) $mail_id;
+        $this->mail_ids[] = $mail_id;
     }
 
     

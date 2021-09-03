@@ -57,12 +57,12 @@ class ilObjMailGUI extends ilObjectGUI
         $this->prepareOutput();
 
         switch ($next_class) {
-            case 'ilpermissiongui':
+            case ilPermissionGUI::class:
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case 'ilmailtemplategui':
+            case ilMailTemplateGUI::class:
                 if (!$this->isViewAllowed()) {
                     $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
                 }
@@ -132,18 +132,18 @@ class ilObjMailGUI extends ilObjectGUI
         if ($this->isViewAllowed()) {
             $this->tabs->addTarget(
                 'mail_templates',
-                $this->ctrl->getLinkTargetByClass('ilmailtemplategui', 'showTemplates'),
+                $this->ctrl->getLinkTargetByClass(ilMailTemplateGUI::class, 'showTemplates'),
                 '',
-                'ilmailtemplategui'
+                ilMailTemplateGUI::class
             );
         }
 
         if ($this->isPermissionChangeAllowed()) {
             $this->tabs->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], 'perm'),
+                $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
-                'ilpermissiongui'
+                ilPermissionGUI::class
             );
         }
     }
@@ -212,12 +212,12 @@ class ilObjMailGUI extends ilObjectGUI
         include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
         $incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
         $incoming_mail_gui->setDisabled(!$this->isEditingAllowed());
-        $this->ctrl->setParameterByClass('ilobjuserfoldergui', 'ref_id', USER_FOLDER_ID);
+        $this->ctrl->setParameterByClass(ilObjUserFolderGUI::class, 'ref_id', USER_FOLDER_ID);
         $incoming_mail_gui->setInfo(sprintf(
             $this->lng->txt('mail_settings_incoming_type_see_also'),
-            $this->ctrl->getLinkTargetByClass('ilobjuserfoldergui', 'settings')
+            $this->ctrl->getLinkTargetByClass(ilObjUserFolderGUI::class, 'settings')
         ));
-        $this->ctrl->clearParametersByClass('ilobjuserfoldergui');
+        $this->ctrl->clearParametersByClass(ilObjUserFolderGUI::class);
         $form->addItem($incoming_mail_gui);
 
         $show_mail_settings_gui = new ilCheckboxInputGUI($this->lng->txt('show_mail_settings'), 'show_mail_settings');
@@ -658,7 +658,7 @@ class ilObjMailGUI extends ilObjectGUI
             $request->getQueryParams()['cmd'] = '';
             $request->getQueryParams()['target'] = '';
             $request->getQueryParams()['ref_id'] = ROOT_FOLDER_ID;
-            $request->getQueryParams()['baseClass'] = 'ilRepositoryGUI';
+            $request->getQueryParams()['baseClass'] = ilRepositoryGUI::class;
             ilUtil::sendFailure(
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),

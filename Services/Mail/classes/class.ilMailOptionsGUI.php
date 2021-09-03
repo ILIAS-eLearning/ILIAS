@@ -84,11 +84,11 @@ class ilMailOptionsGUI
     {
         if (!$this->settings->get('show_mail_settings')) {
             $referrer = $this->request->getQueryParams()['referrer'] ?? '';
-            if (strtolower('ilPersonalSettingsGUI') === strtolower($referrer)) {
-                $this->ctrl->redirectByClass('ilPersonalSettingsGUI');
+            if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
+                $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
                 return;
             }
-            $this->ctrl->redirectByClass('ilMailGUI');
+            $this->ctrl->redirectByClass(ilMailGUI::class);
             return;
         }
 

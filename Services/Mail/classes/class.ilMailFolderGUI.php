@@ -99,16 +99,16 @@ class ilMailFolderGUI
 
         $nextClass = $this->ctrl->getNextClass($this);
         switch ($nextClass) {
-            case 'ilcontactgui':
+            case ilContactGUI::class:
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
-            case 'ilmailoptionsgui':
+            case ilMailOptionsGUI::class:
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
-            case 'ilpublicuserprofilegui':
+            case ilPublicUserProfileGUI::class:
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $profileGui = new ilPublicUserProfileGUI((int) ($this->httpRequest->getQueryParams()['user'] ?? 0));
 
@@ -302,8 +302,8 @@ class ilMailFolderGUI
         $parentFolderId = $this->mbox->getParentFolderId($this->currentFolderId);
         if ($parentFolderId > 0 && $this->mbox->deleteFolder($this->currentFolderId)) {
             ilUtil::sendInfo($this->lng->txt('mail_folder_deleted'), true);
-            $this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', $parentFolderId);
-            $this->ctrl->redirectByClass('ilMailGUI');
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'mobj_id', $parentFolderId);
+            $this->ctrl->redirectByClass(ilMailGUI::class);
         } else {
             ilUtil::sendFailure($this->lng->txt('mail_error_delete'));
             $this->showFolder();
@@ -349,8 +349,8 @@ class ilMailFolderGUI
         $newFolderId = $this->mbox->addFolder($this->currentFolderId, $form->getInput('subfolder_title'));
         if ($newFolderId > 0) {
             ilUtil::sendSuccess($this->lng->txt('mail_folder_created'), true);
-            $this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', $newFolderId);
-            $this->ctrl->redirectByClass('ilMailGUI');
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'mobj_id', $newFolderId);
+            $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
         ilUtil::sendFailure($this->lng->txt('mail_folder_exists'));
@@ -392,8 +392,8 @@ class ilMailFolderGUI
 
         if ($this->mbox->renameFolder($this->currentFolderId, $form->getInput('subfolder_title'))) {
             ilUtil::sendSuccess($this->lng->txt('mail_folder_name_changed'), true);
-            $this->ctrl->setParameterByClass('ilMailGUI', 'mobj_id', $this->currentFolderId);
-            $this->ctrl->redirectByClass('ilMailGUI');
+            $this->ctrl->setParameterByClass(ilMailGUI::class, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->redirectByClass(ilMailGUI::class);
         }
 
         ilUtil::sendFailure($this->lng->txt('mail_folder_exists'));
@@ -614,11 +614,11 @@ class ilMailFolderGUI
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $replyBtn = ilLinkButton::getInstance();
             $replyBtn->setCaption('reply');
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $mailData['folder_id']);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', $mailId);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
-            $replyBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
-            $this->ctrl->clearParametersByClass('ilmailformgui');
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $mailData['folder_id']);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'reply');
+            $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
             $replyBtn->setAccessKey(ilAccessKey::REPLY);
             $replyBtn->setPrimary(true);
             $this->toolbar->addStickyItem($replyBtn);
@@ -626,11 +626,11 @@ class ilMailFolderGUI
 
         $fwdBtn = ilLinkButton::getInstance();
         $fwdBtn->setCaption('forward');
-        $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $mailData['folder_id']);
-        $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', $mailId);
-        $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
-        $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass('ilmailformgui'));
-        $this->ctrl->clearParametersByClass('ilmailformgui');
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $mailData['folder_id']);
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'forward');
+        $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
+        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         $fwdBtn->setAccessKey(ilAccessKey::FORWARD_MAIL);
         if (!$replyBtn) {
             $fwdBtn->setPrimary(true);

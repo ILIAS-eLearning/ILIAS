@@ -70,7 +70,7 @@ class ilMailSearchCoursesGUI
     {
         $forward_class = $this->ctrl->getNextClass($this);
         switch ($forward_class) {
-            case 'ilbuddysystemgui':
+            case ilBuddySystemGUI::class:
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }
@@ -537,6 +537,6 @@ class ilMailSearchCoursesGUI
         if ($added) {
             ilUtil::sendSuccess($this->lng->txt("wsp_share_success"), true);
         }
-        $this->ctrl->redirectByClass("ilworkspaceaccessgui", "share");
+        $this->ctrl->redirectByClass(ilWorkspaceAccessGUI::class, "share");
     }
 }

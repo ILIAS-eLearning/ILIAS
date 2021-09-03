@@ -525,11 +525,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             }
 
             if ($this->isDraftFolder()) {
-                $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', $mail['mail_id']);
-                $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
-                $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
-                $link_mark_as_read = $this->ctrl->getLinkTargetByClass('ilmailformgui');
-                $this->ctrl->clearParametersByClass('ilmailformgui');
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mail['mail_id']);
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->_currentFolderId);
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'draft');
+                $link_mark_as_read = $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class);
+                $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
             } else {
                 $this->ctrl->setParameter($this->getParentObject(), 'mail_id', $mail['mail_id']);
                 $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
@@ -789,16 +789,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
     protected function addViewRowAction(array $mail, array &$buttons) : void
     {
         if ($this->isDraftFolder()) {
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int) $mail['mail_id']);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', (int) $mail['mail_id']);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->_currentFolderId);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'draft');
             $viewButton = $this->uiFactory
                 ->link()
                 ->standard(
                     $this->lng->txt('view'),
-                    $this->ctrl->getLinkTargetByClass('ilmailformgui')
+                    $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
                 );
-            $this->ctrl->clearParametersByClass('ilmailformgui');
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         } else {
             $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
             $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
@@ -819,16 +819,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
     {
         if (!$this->isDraftFolder()) {
             if (isset($mail['sender_id']) && $mail['sender_id'] > 0 && $mail['sender_id'] !== ANONYMOUS_USER_ID) {
-                $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
-                $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int) $mail['mail_id']);
-                $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->_currentFolderId);
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', (int) $mail['mail_id']);
+                $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'reply');
                 $replyButton = $this->uiFactory
                     ->link()
                     ->standard(
                         $this->lng->txt('reply'),
-                        $this->ctrl->getLinkTargetByClass('ilmailformgui')
+                        $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
                     );
-                $this->ctrl->clearParametersByClass('ilmailformgui');
+                $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
                 $buttons[] = $replyButton;
             }
@@ -839,16 +839,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
     protected function addForwardRowAction(array $mail, array &$buttons) : void
     {
         if (!$this->isDraftFolder()) {
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int) $mail['mail_id']);
-            $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->_currentFolderId);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', (int) $mail['mail_id']);
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'forward');
             $forwardButton = $this->uiFactory
                 ->link()
                 ->standard(
                     $this->lng->txt('forward'),
-                    $this->ctrl->getLinkTargetByClass('ilmailformgui')
+                    $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class)
                 );
-            $this->ctrl->clearParametersByClass('ilmailformgui');
+            $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
             $buttons[] = $forwardButton;
         }

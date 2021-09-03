@@ -76,15 +76,15 @@ class ilMailGUI
         $type = $this->httpRequest->getQueryParams()['type'] ?? '';
         $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
 
-        $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->currentFolderId);
-        $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->currentFolderId);
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
 
         if ('search_res' === $type) {
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
-            $this->ctrl->redirectByClass('ilmailformgui', 'searchResults');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchResults');
         } elseif ('attach' === $type) {
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
-            $this->ctrl->redirectByClass('ilmailformgui', 'mailAttachment');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailAttachment');
         } elseif ('new' === $type) {
             $to = $this->httpRequest->getQueryParams()['rcp_to'] ?? '';
             ilSession::set('rcp_to', ilUtil::stripSlashes($to));
@@ -99,13 +99,13 @@ class ilMailGUI
             ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
 
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
-            $this->ctrl->redirectByClass('ilmailformgui', 'mailUser');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
         } elseif ('reply' === $type) {
             ilSession::set('mail_id', $mailId);
-            $this->ctrl->redirectByClass('ilmailformgui', 'replyMail');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'replyMail');
         } elseif ('read' === $type) {
             ilSession::set('mail_id', $mailId);
-            $this->ctrl->redirectByClass('ilmailfoldergui', 'showMail');
+            $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('deliverFile' === $type) {
             ilSession::set('mail_id', $mailId);
 
@@ -116,10 +116,10 @@ class ilMailGUI
                 $fileName = $this->httpRequest->getQueryParams()['filename'];
             }
             ilSession::set('filename', ilUtil::stripSlashes($fileName));
-            $this->ctrl->redirectByClass('ilmailfoldergui', 'deliverFile');
+            $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'deliverFile');
         } elseif ('message_sent' === $type) {
             ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
-            $this->ctrl->redirectByClass('ilmailfoldergui');
+            $this->ctrl->redirectByClass(ilMailFolderGUI::class);
         } elseif ('role' === $type) {
             $roles = $this->httpRequest->getParsedBody()['roles'] ?? [];
             if (is_array($roles) && count($roles) > 0) {
@@ -129,14 +129,14 @@ class ilMailGUI
             }
 
             ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
-            $this->ctrl->redirectByClass('ilmailformgui', 'mailRole');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailRole');
         }
 
         $view = (string) ($this->httpRequest->getQueryParams()['view'] ?? '');
         if ('my_courses' === $view) {
             $search_crs = ilUtil::stripSlashes($this->httpRequest->getQueryParams()['search_crs']);
             $this->ctrl->setParameter($this, 'search_crs', $search_crs);
-            $this->ctrl->redirectByClass('ilmailformgui', 'searchCoursesTo');
+            $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchCoursesTo');
         }
 
         if (isset($this->httpRequest->getQueryParams()['viewmode'])) {
@@ -147,21 +147,21 @@ class ilMailGUI
         $this->showHeader();
 
         switch (strtolower($this->forwardClass)) {
-            case 'ilmailformgui':
+            case ilMailFormGUI::class:
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
-            case 'ilcontactgui':
+            case ilContactGUI::class:
                 $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
-            case 'ilmailoptionsgui':
+            case ilMailOptionsGUI::class:
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
-            case 'ilmailfoldergui':
+            case ilMailFolderGUI::class:
                 $this->ctrl->forwardCommand(new ilMailFolderGUI());
                 break;
 
@@ -178,7 +178,7 @@ class ilMailGUI
     
     private function setViewMode() : void
     {
-        $targetClass = $this->httpRequest->getQueryParams()['target'] ?? 'ilmailfoldergui';
+        $targetClass = $this->httpRequest->getQueryParams()['target'] ?? ilMailFolderGUI::class;
         $type = $this->httpRequest->getQueryParams()['type'] ?? '';
         $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
 
@@ -186,12 +186,12 @@ class ilMailGUI
 
         if ('redirect_to_read' === $type) {
             $this->ctrl->setParameterByClass(
-                'ilMailFolderGUI',
+                ilMailFolderGUI::class,
                 'mail_id',
                 $mailId
             );
-            $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
-            $this->ctrl->redirectByClass('ilMailFolderGUI', 'showMail');
+            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('add_subfolder' === $type) {
             $this->ctrl->redirectByClass($targetClass, 'addSubFolder');
         } elseif ('enter_folderdata' === $type) {
@@ -216,39 +216,39 @@ class ilMailGUI
 
         ilUtil::infoPanel();
 
-        $this->ctrl->setParameterByClass('ilmailfoldergui', 'mobj_id', $this->currentFolderId);
-        $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass('ilmailfoldergui'));
-        $this->ctrl->clearParametersByClass('ilmailformgui');
+        $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
+        $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
+        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-        $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'new');
-        $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->currentFolderId);
-        $DIC->tabs()->addTarget('compose', $this->ctrl->getLinkTargetByClass('ilmailformgui'));
-        $this->ctrl->clearParametersByClass('ilmailformgui');
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'new');
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->currentFolderId);
+        $DIC->tabs()->addTarget('compose', $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
+        $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-        $this->ctrl->setParameterByClass('ilcontactgui', 'mobj_id', $this->currentFolderId);
-        $DIC->tabs()->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass('ilcontactgui'));
-        $this->ctrl->clearParametersByClass('ilcontactgui');
+        $this->ctrl->setParameterByClass(ilContactGUI::class, 'mobj_id', $this->currentFolderId);
+        $DIC->tabs()->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass(ilContactGUI::class));
+        $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
         if ($DIC->settings()->get('show_mail_settings')) {
-            $this->ctrl->setParameterByClass('ilmailoptionsgui', 'mobj_id', $this->currentFolderId);
-            $DIC->tabs()->addTarget('options', $this->ctrl->getLinkTargetByClass('ilmailoptionsgui'));
-            $this->ctrl->clearParametersByClass('ilmailoptionsgui');
+            $this->ctrl->setParameterByClass(ilMailOptionsGUI::class, 'mobj_id', $this->currentFolderId);
+            $DIC->tabs()->addTarget('options', $this->ctrl->getLinkTargetByClass(ilMailOptionsGUI::class));
+            $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
         }
 
         switch ($this->forwardClass) {
-            case 'ilmailformgui':
+            case ilMailFormGUI::class:
                 $DIC->tabs()->setTabActive('compose');
                 break;
 
-            case 'ilcontactgui':
+            case ilContactGUI::class:
                 $DIC->tabs()->setTabActive('mail_addressbook');
                 break;
 
-            case 'ilmailoptionsgui':
+            case ilMailOptionsGUI::class:
                 $DIC->tabs()->setTabActive('options');
                 break;
 
-            case 'ilmailfoldergui':
+            case ilMailFolderGUI::class:
             default:
                 $DIC->tabs()->setTabActive('fold');
                 break;

@@ -60,7 +60,6 @@ class ilFormatMail extends ilMail
     
     /**
     * get reply recipients for cc
-    * @access	public
     */
     public function formatReplyRecipientsForCC() : string
     {
@@ -91,7 +90,6 @@ class ilFormatMail extends ilMail
     
     /**
     * get reply recipient
-    * @access	public
     * @return string
     */
     public function formatReplyRecipient()
@@ -107,7 +105,6 @@ class ilFormatMail extends ilMail
     }
     /**
     * format a forward subject
-    * @access	public
     * @return string
     */
     public function formatForwardSubject()
@@ -120,7 +117,6 @@ class ilFormatMail extends ilMail
 
     /**
     * append search result to recipient
-    * @access	public
     * @param array names to append
     * @param string rcp type ('to','cc','bc')
     */
