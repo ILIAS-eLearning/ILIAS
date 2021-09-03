@@ -4,7 +4,7 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author  Jan Posselt <jposselt@databay.de>
@@ -13,7 +13,7 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     protected array $_folderNode = [];
     protected ilMailFolderGUI $_parentObject;
     protected int $_currentFolderId = 0;
@@ -558,7 +558,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $css_class = $mail['m_status'] === 'read' ? 'mailread' : 'mailunread';
 
             if ($result instanceof ilMailSearchResult) {
-                $search_result = array();
+                $search_result = [];
                 foreach ($result->getFields($mail['mail_id']) as $content) {
                     if ('title' === $content[0]) {
                         $mail['msr_subject_link_read'] = $link_mark_as_read;

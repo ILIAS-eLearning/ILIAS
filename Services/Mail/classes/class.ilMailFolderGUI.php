@@ -16,7 +16,7 @@ class ilMailFolderGUI
     private bool $confirmTrashDeletion = false;
     private bool $errorDelete = false;
     /** @var ilGlobalTemplate */
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private ilToolbarGUI $toolbar;
@@ -911,7 +911,7 @@ class ilMailFolderGUI
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (str_contains($filename, '..')) {
+                while (strpos($filename, '..')) {
                     $filename = str_replace('..', '', $filename);
                 }
 

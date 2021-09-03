@@ -16,7 +16,7 @@ use JetBrains\PhpStorm\NoReturn;
 class ilMailTemplateGUI
 {
     protected ilPropertyFormGUI $form;
-    protected ?ilGlobalPageTemplate $tpl;
+    protected ?ilGlobalTemplateInterface $tpl;
     protected ?ilCtrl $ctrl;
     protected ?ilLanguage $lng;
     protected ?ilToolbarGUI $toolbar;
@@ -31,7 +31,7 @@ class ilMailTemplateGUI
     /**
      * ilMailTemplateGUI constructor.
      * @param ilObject $parentObject
-     * @param ilGlobalPageTemplate|null $tpl
+     * @param ilGlobalTemplateInterface|null $tpl
      * @param ilCtrl|null $ctrl
      * @param ilLanguage|null $lng
      * @param ilToolbarGUI|null $toolbar
@@ -44,7 +44,7 @@ class ilMailTemplateGUI
      */
     public function __construct(
         ilObject $parentObject,
-        ilGlobalPageTemplate $tpl = null,
+        ilGlobalTemplateInterface $tpl = null,
         ilCtrl $ctrl = null,
         ilLanguage $lng = null,
         ilToolbarGUI $toolbar = null,

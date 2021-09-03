@@ -71,7 +71,7 @@ class ilMailSearchCoursesTableGUI extends ilTable2GUI
             $this->mailing_allowed = $this->rbacsystem->checkAccess('internal_mail', $mail->getMailObjectReferenceId());
         }
 
-        $mode = array();
+        $mode = [];
         
         if ($type === "crs") {
             $mode["short"] = "crs";

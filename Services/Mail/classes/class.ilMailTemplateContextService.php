@@ -65,7 +65,7 @@ class ilMailTemplateContextService
      * @return ilMailTemplateContext
      * @throws ilMailException
      */
-    public static function getTemplateContextById(string $a_id): \ilMailTemplateContext
+    public static function getTemplateContextById(string $a_id) : \ilMailTemplateContext
     {
         $contexts = self::getTemplateContexts($a_id);
         $first_context = current($contexts);
@@ -81,18 +81,18 @@ class ilMailTemplateContextService
      * @param null|string|array $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts(mixed $a_id = null): array
+    public static function getTemplateContexts($a_id = null) : array
     {
         global $DIC;
 
-        $templates = array();
+        $templates = [];
 
         if ($a_id && !is_array($a_id)) {
-            $a_id = array($a_id);
+            $a_id = [$a_id];
         }
 
         $query = 'SELECT * FROM mail_tpl_ctx';
-        $where = array();
+        $where = [];
         if ($a_id) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
@@ -154,7 +154,7 @@ class ilMailTemplateContextService
         global $DIC;
 
         $query = "SELECT id FROM mail_tpl_ctx WHERE id = %s";
-        $res = $DIC->database()->queryF($query, array('text'), array($a_context->getId()));
+        $res = $DIC->database()->queryF($query, ['text'], [$a_context->getId()]);
         $row = $DIC->database()->fetchAssoc($res);
         $row_id = $row['id'] ?? null;
         $context_exists = ($row_id === $a_context->getId());

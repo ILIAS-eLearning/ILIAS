@@ -39,7 +39,7 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);
 
-        $sorted_role_ids = array();
+        $sorted_role_ids = [];
         $counter = 2;
 
         foreach ($role_ids as $role_id) {

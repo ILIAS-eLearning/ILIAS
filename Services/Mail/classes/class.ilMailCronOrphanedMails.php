@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 include_once "./Services/Cron/classes/class.ilCronJob.php";
 include_once "./Services/Cron/classes/class.ilCronJobResult.php";
@@ -15,7 +15,7 @@ require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
  */
 class ilMailCronOrphanedMails extends ilCronJob
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilDBInterface $db;
@@ -70,14 +70,14 @@ class ilMailCronOrphanedMails extends ilCronJob
 
     public function getValidScheduleTypes() : array
     {
-        return array(
+        return [
             self::SCHEDULE_TYPE_DAILY,
             self::SCHEDULE_TYPE_WEEKLY,
             self::SCHEDULE_TYPE_MONTHLY,
             self::SCHEDULE_TYPE_QUARTERLY,
             self::SCHEDULE_TYPE_YEARLY,
             self::SCHEDULE_TYPE_IN_DAYS
-        );
+        ];
     }
 
     public function getDefaultScheduleType() : int

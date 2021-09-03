@@ -43,7 +43,7 @@ class ilMailFormCall
      * @return string
      */
     public static function getLinkTarget(
-        mixed $gui,
+        $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
@@ -61,7 +61,7 @@ class ilMailFormCall
      * @return string
      */
     public static function getRedirectTarget(
-        mixed $gui,
+        $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],
@@ -81,7 +81,7 @@ class ilMailFormCall
      */
     protected static function getTargetUrl(
         string $argument_separator,
-        mixed $gui,
+        $gui,
         string $cmd,
         array $gui_params = [],
         array $mail_params = [],

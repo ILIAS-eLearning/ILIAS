@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use JetBrains\PhpStorm\NoReturn;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
 * @author Jens Conze
@@ -23,7 +23,7 @@ class ilMailFormGUI
     private ilFormatMail $umail;
     private ilMailBox $mbox;
     private ilFileDataMail $mfile;
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     private int $requestMailObjId = 0;
     private ?array $requestAttachments = null;
     private string $requestMailSubject = "";

@@ -72,7 +72,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('buddysystem');
 
-        $mode = array();
+        $mode = [];
         if ($type === 'crs') {
             $mode["checkbox"] = 'search_crs';
             $mode["short"] = 'crs';

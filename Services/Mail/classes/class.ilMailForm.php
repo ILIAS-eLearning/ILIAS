@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author Nadia Ahmad
@@ -9,7 +9,7 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilMailForm
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
 
     /**
      * @param string $quotedTerm

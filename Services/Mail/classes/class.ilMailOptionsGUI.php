@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailOptionsGUI
 {
-    private ?ilGlobalPageTemplate $tpl;
+    private ?ilGlobalTemplateInterface $tpl;
     private ?ilCtrl $ctrl;
     private ?ilLanguage $lng;
     private ?ilSetting $settings;
@@ -23,7 +23,7 @@ class ilMailOptionsGUI
 
     /**
      * ilMailOptionsGUI constructor.
-     * @param ilGlobalPageTemplate|null $tpl
+     * @param ilGlobalTemplateInterface|null $tpl
      * @param ilCtrl|null $ctrl
      * @param ilSetting|null $setting
      * @param ilLanguage|null $lng
@@ -33,7 +33,7 @@ class ilMailOptionsGUI
      * @param ilMailbox|null $malBox
      */
     public function __construct(
-        ilGlobalPageTemplate $tpl = null,
+        ilGlobalTemplateInterface $tpl = null,
         ilCtrl $ctrl = null,
         ilSetting $setting = null,
         ilLanguage $lng = null,

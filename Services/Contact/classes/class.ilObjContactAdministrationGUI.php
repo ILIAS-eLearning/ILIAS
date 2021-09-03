@@ -54,11 +54,11 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool('read')) {
-            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), array('', 'view', 'showConfigurationForm', 'saveConfigurationForm'), __CLASS__);
+            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), ['', 'view', 'showConfigurationForm', 'saveConfigurationForm'], __CLASS__);
         }
 
         if ($this->checkPermissionBool('edit_permission')) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], 'ilpermissiongui');
         }
     }
 
@@ -131,10 +131,10 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
             $form = $this->getConfigurationForm();
-            $form->setValuesByArray(array(
+            $form->setValuesByArray([
                 'enable'  => (bool) ilBuddySystem::getInstance()->getSetting('enabled', false),
                 'use_osd' => isset($cfg['buddysystem_request']) && in_array('osd', $cfg['buddysystem_request'], true)
-            ));
+            ]);
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -159,16 +159,16 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
-        $new_cfg = array();
+        $new_cfg = [];
         foreach ($cfg as $type => $channels) {
-            $new_cfg[$type] = array();
+            $new_cfg[$type] = [];
             foreach ($channels as $channel) {
                 $new_cfg[$type][$channel] = true;
             }
         }
 
         if (!isset($new_cfg['buddysystem_request']) || !is_array($new_cfg['buddysystem_request'])) {
-            $new_cfg['buddysystem_request'] = array();
+            $new_cfg['buddysystem_request'] = [];
         }
 
         if ($form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request'])) {

@@ -261,7 +261,7 @@ class ilFileDataMail extends ilFileData
      * @param string $a_content
      * @return
      */
-    public function storeAsAttachment(string $a_filename, string $a_content) : mixed
+    public function storeAsAttachment(string $a_filename, string $a_content)
     {
         if (strlen($a_content) >= $this->getUploadLimit()) {
             return 1;
@@ -334,7 +334,7 @@ class ilFileDataMail extends ilFileData
         return true;
     }
     /**
-    * unlink files: expects an array of filenames e.g. array('foo','bar')
+    * unlink files: expects an array of filenames e.g. ['foo','bar']
     * @param array filenames to delete
     * @access	public
     * @return string error message with filename that couldn't be deleted

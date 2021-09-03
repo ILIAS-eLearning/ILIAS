@@ -87,7 +87,7 @@ class ilMailSearchGUI
     public function adopt() : void
     {
         // necessary because of select all feature of ilTable2GUI
-        $recipients = array();
+        $recipients = [];
         $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_addr']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_addr'] : []);
         $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_usr']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_usr'] : []);
         $recipients = array_merge($recipients, isset($this->httpRequest->getParsedBody()['search_name_to_grp']) ? (array) $this->httpRequest->getParsedBody()['search_name_to_grp'] : []);
@@ -200,7 +200,7 @@ class ilMailSearchGUI
 
         $search = trim($search);
 
-        $result = array();
+        $result = [];
         if (\ilStr::strLen($search) < 3) {
             echo json_encode($result);
             exit;
@@ -208,7 +208,7 @@ class ilMailSearchGUI
 
         // #14768
         $quoted = ilUtil::stripSlashes($search);
-        $quoted = str_replace(array('%', '_'), array('\%', '\_'), $quoted);
+        $quoted = str_replace(['%', '_'], ['\%', '\_'], $quoted);
 
         $search_recipients = ($this->isDefaultRequestContext());
 
@@ -253,15 +253,15 @@ class ilMailSearchGUI
 
             $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
             $user_search->enableActiveCheck(true);
-            $user_search->setFields(array('login'));
+            $user_search->setFields(['login']);
             $result_obj = $user_search->performSearch();
             $contacts_search_result->mergeEntries($result_obj);
 
-            $user_search->setFields(array('firstname'));
+            $user_search->setFields(['firstname']);
             $result_obj = $user_search->performSearch();
             $contacts_search_result->mergeEntries($result_obj);
 
-            $user_search->setFields(array('lastname'));
+            $user_search->setFields(['lastname']);
             $result_obj = $user_search->performSearch();
             $contacts_search_result->mergeEntries($result_obj);
 
@@ -279,7 +279,7 @@ class ilMailSearchGUI
             $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
             $has_mail_addr = false;
-            $result = array();
+            $result = [];
             $counter = 0;
             foreach ($users as $user) {
                 $login = ilObjUser::_lookupLogin($user);
@@ -299,7 +299,7 @@ class ilMailSearchGUI
                     $result[$counter]['email'] = ilObjUser::_lookupEmail($user);
                 }
 
-                if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y', "g"))) {
+                if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), ['y', "g"])) {
                     $name = ilObjUser::_lookupName($user);
                     $result[$counter]['firstname'] = $name['firstname'];
                     $result[$counter]['lastname'] = $name['lastname'];
@@ -348,15 +348,15 @@ class ilMailSearchGUI
 
         $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
         $user_search->enableActiveCheck(true);
-        $user_search->setFields(array('login'));
+        $user_search->setFields(['login']);
         $result_obj = $user_search->performSearch();
         $all_results->mergeEntries($result_obj);
 
-        $user_search->setFields(array('firstname'));
+        $user_search->setFields(['firstname']);
         $result_obj = $user_search->performSearch();
         $all_results->mergeEntries($result_obj);
 
-        $user_search->setFields(array('lastname'));
+        $user_search->setFields(['lastname']);
         $result_obj = $user_search->performSearch();
         $all_results->mergeEntries($result_obj);
 
@@ -373,7 +373,7 @@ class ilMailSearchGUI
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
-            $result = array();
+            $result = [];
             $counter = 0;
             foreach ($users as $user) {
                 $login = ilObjUser::_lookupLogin($user);
@@ -387,7 +387,7 @@ class ilMailSearchGUI
                 }
                 $result[$counter]['login'] = $login;
 
-                if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), array('y', "g"))) {
+                if (in_array(ilObjUser::_lookupPref($user, 'public_profile'), ['y', "g"])) {
                     $name = ilObjUser::_lookupName($user);
                     $result[$counter]['firstname'] = $name['firstname'];
                     $result[$counter]['lastname'] = $name['lastname'];
@@ -445,7 +445,7 @@ class ilMailSearchGUI
         $query_parser->parse();
 
         $search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
-        $search->setFilter(array('grp'));
+        $search->setFilter(['grp']);
         $result = $search->performSearch();
         $group_results->mergeEntries($result);
         $group_results->setMaxHits(PHP_INT_MAX);
@@ -453,13 +453,13 @@ class ilMailSearchGUI
         $group_results->setRequiredPermission('read');
         $group_results->filter(ROOT_FOLDER_ID, true);
 
-        $visible_groups = array();
+        $visible_groups = [];
         if ($group_results->getResults()) {
             $tbl_grp = new ilTable2GUI($this);
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
             $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
-            $result = array();
+            $result = [];
             $counter = 0;
 
             $this->object_data_cache->preloadReferenceCache(array_keys($group_results->getResults()));
@@ -471,7 +471,7 @@ class ilMailSearchGUI
                 }
 
                 if ($this->isDefaultRequestContext()) {
-                    $members = array();
+                    $members = [];
                     $roles = $this->rbacreview->getAssignableChildRoles($grp['ref_id']);
                     foreach ($roles as $role) {
                         if (str_starts_with($role['title'], 'il_grp_member_') ||
@@ -540,7 +540,7 @@ class ilMailSearchGUI
     protected function addPermission($a_obj_ids) : void
     {
         if (!is_array($a_obj_ids)) {
-            $a_obj_ids = array($a_obj_ids);
+            $a_obj_ids = [$a_obj_ids];
         }
 
         $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);

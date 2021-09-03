@@ -55,9 +55,9 @@ class ilMailingLists
      * @param array $a_ids
      * @return ilMailingList[]
      */
-    public function getSelected(array $a_ids = array()) : array
+    public function getSelected(array $a_ids = []) : array
     {
-        $entries = array();
+        $entries = [];
         
         if (is_array($a_ids) && !empty($a_ids)) {
             $counter = 0;
@@ -77,11 +77,11 @@ class ilMailingLists
             '
 			SELECT * FROM addressbook_mlist
 			WHERE user_id = %s',
-            array('integer'),
-            array($this->user->getId())
+            ['integer'],
+            [$this->user->getId()]
         );
         
-        $entries = array();
+        $entries = [];
         
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

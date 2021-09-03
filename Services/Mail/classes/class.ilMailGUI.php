@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailGUI
 {
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private string $forwardClass = '';

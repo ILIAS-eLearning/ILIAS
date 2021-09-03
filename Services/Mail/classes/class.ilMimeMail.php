@@ -12,14 +12,14 @@ class ilMimeMail
     protected string $body = '';
     protected string $finalBody = '';
     protected string $finalBodyAlt = '';
-    protected array $sendto = array();
-    protected array $acc = array();
-    protected array $abcc = array();
-    protected array $images = array();
-    protected array $aattach = array();
-    protected array $actype = array();
-    protected array $adispo = array();
-    protected array $adisplay = array();
+    protected array $sendto = [];
+    protected array $acc = [];
+    protected array $abcc = [];
+    protected array $images = [];
+    protected array $aattach = [];
+    protected array $actype = [];
+    protected array $adispo = [];
+    protected array $adisplay = [];
     protected ilMailMimeSender $sender;
     protected ilSetting $settings;
     protected ilMailMimeSubjectBuilder $subjectBuilder;
@@ -81,7 +81,7 @@ class ilMimeMail
      * Set the mail recipient
      * @param string|string[] To email address, accept both a single address or an array of addresses
      */
-    public function To(mixed $to) : void
+    public function To($to) : void
     {
         if (is_array($to)) {
             $this->sendto = $to;
@@ -94,7 +94,7 @@ class ilMimeMail
      * Set the cc mail recipient
      * @param string|string[] CC email address, accept both a single address or an array of addresses
      */
-    public function Cc(mixed $cc) : void
+    public function Cc($cc) : void
     {
         if (is_array($cc)) {
             $this->acc = $cc;
@@ -107,7 +107,7 @@ class ilMimeMail
      * Set the bcc mail recipient
      * @param string|string[] BCC email address, accept both a single address or an array of addresses
      */
-    public function Bcc(mixed $bcc) : void
+    public function Bcc($bcc) : void
     {
         if (is_array($bcc)) {
             $this->abcc = $bcc;

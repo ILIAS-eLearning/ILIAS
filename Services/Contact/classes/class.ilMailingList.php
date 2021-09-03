@@ -71,21 +71,22 @@ class ilMailingList
 				lmode
 			)
 			VALUES(%s, %s, %s, %s, %s, %s, %s)',
-            array(	'integer',
-                    'integer',
-                    'text',
-                    'text',
-                    'timestamp',
-                    'timestamp',
-                    'integer'),
-            array(	$nextId,
-                    $this->getUserId(),
-                    $this->getTitle(),
-                    $this->getDescription(),
-                    $this->getCreatedate(),
-                    null,
-                    $this->getMode()
-        )
+            ['integer',
+             'integer',
+             'text',
+             'text',
+             'timestamp',
+             'timestamp',
+             'integer'
+            ],
+            [$nextId,
+             $this->getUserId(),
+             $this->getTitle(),
+             $this->getDescription(),
+             $this->getCreatedate(),
+             null,
+             $this->getMode()
+            ]
         );
         
         $this->mail_id = $nextId;
@@ -105,20 +106,20 @@ class ilMailingList
 					lmode = %s
 				WHERE ml_id =  %s
 				AND user_id =  %s',
-                array(	'text',
-                        'text',
-                        'timestamp',
-                        'integer',
-                        'integer',
-                        'integer'
-                ),
-                array(	$this->getTitle(),
-                            $this->getDescription(),
-                            $this->getChangedate(),
-                            $this->getMode(),
-                            $this->getId(),
-                            $this->getUserId()
-            )
+                ['text',
+                 'text',
+                 'timestamp',
+                 'integer',
+                 'integer',
+                 'integer'
+                ],
+                [$this->getTitle(),
+                 $this->getDescription(),
+                 $this->getChangedate(),
+                 $this->getMode(),
+                 $this->getId(),
+                 $this->getUserId()
+                ]
             );
             
             return true;
@@ -137,8 +138,8 @@ class ilMailingList
 				DELETE FROM addressbook_mlist
 				WHERE ml_id = %s
 				AND user_id = %s',
-                array('integer', 'integer'),
-                array($this->getId(), $this->getUserId())
+                ['integer', 'integer'],
+                [$this->getId(), $this->getUserId()]
             );
             
             return true;
@@ -155,8 +156,8 @@ class ilMailingList
 				SELECT * FROM addressbook_mlist 
 				WHERE ml_id = %s
 				AND user_id =%s',
-                array('integer', 'integer'),
-                array($this->getId(), $this->getUserId())
+                ['integer', 'integer'],
+                [$this->getId(), $this->getUserId()]
             );
     
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -177,17 +178,17 @@ class ilMailingList
     {
         $res = $this->db->queryf(
             'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass INNER JOIN usr_data ON usr_data.usr_id = addressbook_mlist_ass.usr_id WHERE ml_id = %s',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
 
-        $entries = array();
+        $entries = [];
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $entries[$row->a_id] = array(
+            $entries[$row->a_id] = [
                 'a_id'   => $row->a_id,
                 'usr_id' => $row->usr_id
-            );
+            ];
         }
         
         return $entries;
@@ -202,8 +203,8 @@ class ilMailingList
         $nextId = $this->db->nextId('addressbook_mlist_ass');
         $this->db->manipulateF(
             'INSERT INTO addressbook_mlist_ass (a_id, ml_id, usr_id) VALUES(%s, %s, %s)',
-            array('integer', 'integer', 'integer'),
-            array($nextId, $this->getId(), $usr_id)
+            ['integer', 'integer', 'integer'],
+            [$nextId, $this->getId(), $usr_id]
         );
         return true;
     }
@@ -216,8 +217,8 @@ class ilMailingList
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE a_id = %s',
-            array('integer'),
-            array($a_id)
+            ['integer'],
+            [$a_id]
         );
         return true;
     }
@@ -229,8 +230,8 @@ class ilMailingList
     {
         $this->db->manipulateF(
             'DELETE FROM addressbook_mlist_ass WHERE ml_id = %s',
-            array('integer'),
-            array($this->getId())
+            ['integer'],
+            [$this->getId()]
         );
         return true;
     }
@@ -292,8 +293,8 @@ class ilMailingList
 
         $res = $ilDB->queryf(
             'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
-            array('integer', 'integer'),
-            array($a_ml_id, $a_usr_id)
+            ['integer', 'integer'],
+            [$a_ml_id, $a_usr_id]
         );
         $row = $ilDB->fetchObject($res);
         
@@ -302,7 +303,7 @@ class ilMailingList
     
     public function setMode(int $a_mode) : void
     {
-        if (in_array($a_mode, array(self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY))) {
+        if (in_array($a_mode, [self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY])) {
             $this->mode = $a_mode;
         }
     }

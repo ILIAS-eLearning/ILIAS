@@ -69,7 +69,7 @@ class ilContactGUI
         $forward_class = $this->ctrl->getNextClass($this);
 
         // delete all stored maildata
-        $this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
+        $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
         
         switch ($forward_class) {
             case 'ilmailformgui':
@@ -151,13 +151,13 @@ class ilContactGUI
             if (ilBuddySystem::getInstance()->isEnabled()) {
                 $this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array(ilUsersGalleryGUI::class, get_class($this))), true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', [ilUsersGalleryGUI::class, get_class($this)]), true)) {
                     require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
-                    $view_selection->setOptions(array(
+                    $view_selection->setOptions([
                         self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
-                    ));
+                    ]);
                     $view_selection->setValue(
                         strtolower($this->ctrl->getCmdClass()) === 'ilusersgallerygui' ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
                     );
@@ -191,7 +191,7 @@ class ilContactGUI
             if (ilBuddySystem::getInstance()->isEnabled()) {
                 $this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this))), true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', ['ilUsersGalleryGUI', get_class($this)]), true)) {
                     $this->tabs_gui->addSubTab('buddy_view_table', $this->lng->txt('buddy_view_table'), $this->ctrl->getLinkTarget($this));
                     $this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass('ilUsersGalleryGUI'));
                 }
@@ -320,10 +320,10 @@ class ilContactGUI
 
         $mail_data = $this->umail->getSavedData();
         if (!is_array($mail_data)) {
-            $this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
+            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
         }
 
-        $logins = array();
+        $logins = [];
         foreach ($usr_ids as $usr_id) {
             $logins[] = ilObjUser::_lookupLogin($usr_id);
         }
@@ -381,10 +381,10 @@ class ilContactGUI
         }
 
         $room = ilChatroom::byRoomId($room_id, true);
-        $no_access = array();
-        $no_login = array();
-        $valid_users = array();
-        $valid_user_to_login_map = array();
+        $no_access = [];
+        $no_login = [];
+        $valid_users = [];
+        $valid_user_to_login_map = [];
 
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
@@ -451,7 +451,7 @@ class ilContactGUI
         }
         $link = '<p><a target="chatframe" href="' . $url . '" title="' . $this->lng->txt('goto_invitation_chat') . '">' . $this->lng->txt('goto_invitation_chat') . '</a></p>';
 
-        $userlist = array();
+        $userlist = [];
         foreach ($valid_users as $id) {
             $room->inviteUserToPrivateRoom($id, $scope);
             $room->sendInvitationNotification(
@@ -503,7 +503,7 @@ class ilContactGUI
 
         $ilChatroom = new ilChatroom();
         $chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
-        $subrooms = array();
+        $subrooms = [];
 
         foreach ($chat_rooms as $room_id => $title) {
             $subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $this->user->getId());
@@ -515,7 +515,7 @@ class ilContactGUI
         $form->setTitle($this->lng->txt('mail_invite_users_to_chat'));
 
         $psel = new ilSelectInputGUI($this->lng->txt('chat_select_room'), 'room_id');
-        $options = array();
+        $options = [];
 
         asort($chat_rooms);
         foreach ($chat_rooms as $room_id => $room) {

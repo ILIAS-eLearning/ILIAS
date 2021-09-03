@@ -27,7 +27,7 @@ class ilMail
     private ?ilAppEventHandler $eventHandler;
     private ?ilMailAddressTypeFactory $mailAddressTypeFactory;
     private ?ilMailRfc822AddressParserFactory $mailAddressParserFactory;
-    protected mixed $contextId;
+    protected $contextId;
     protected array $contextParameters = [];
     protected ?ilLogger $logger;
     protected array $mailOptionsByUsrIdMap = [];
@@ -1063,10 +1063,10 @@ class ilMail
         ?string $a_rcp_to,
         ?string $a_rcp_cc,
         ?string $a_rcp_bcc,
-        mixed $a_m_email,
+        $a_m_email,
         string $a_m_subject,
         ?string $a_m_message,
-        mixed $a_use_placeholders,
+        $a_use_placeholders,
         ?string $a_tpl_context_id = null,
         ?array $a_tpl_ctx_params = []
     ) : bool {
@@ -1569,7 +1569,7 @@ class ilMail
      * @param bool|null $a_flag
      * @return self|bool
      */
-    public function appendInstallationSignature(bool $a_flag = null) : mixed
+    public function appendInstallationSignature(bool $a_flag = null)
     {
         if (null === $a_flag) {
             return $this->appendInstallationSignature;

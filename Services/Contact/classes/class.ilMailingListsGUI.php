@@ -85,7 +85,7 @@ class ilMailingListsGUI
     
     public function confirmDelete() : bool
     {
-        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? array($this->httpRequest->getQueryParams()['ml_id']) : $this->httpRequest->getParsedBody()['ml_id'];
+        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? [$this->httpRequest->getQueryParams()['ml_id']] : $this->httpRequest->getParsedBody()['ml_id'];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -148,7 +148,7 @@ class ilMailingListsGUI
             return true;
         }
 
-        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? array($this->httpRequest->getQueryParams()['ml_id']) : $this->httpRequest->getParsedBody()['ml_id'];
+        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? [$this->httpRequest->getQueryParams()['ml_id']] : $this->httpRequest->getParsedBody()['ml_id'];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -157,10 +157,10 @@ class ilMailingListsGUI
         
         $mail_data = $this->umail->getSavedData();
         if (!is_array($mail_data)) {
-            $this->umail->savePostData($this->user->getId(), array(), '', '', '', '', '', '', '', '');
+            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
         }
     
-        $lists = array();
+        $lists = [];
         foreach ($ml_ids as $id) {
             if (ilMailingList::_isOwner($id, $this->user->getId()) &&
                !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
@@ -209,7 +209,7 @@ class ilMailingListsGUI
         $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showForm'));
         $this->toolbar->addButtonInstance($create_btn);
 
-        $result = array();
+        $result = [];
         $entries = $this->mlists->getAll();
         if (count($entries)) {
             $tbl->enable('select_all');
@@ -340,18 +340,18 @@ class ilMailingListsGUI
     
     private function setValuesByObject() : void
     {
-        $this->form_gui->setValuesByArray(array(
+        $this->form_gui->setValuesByArray([
             'title'       => $this->mlists->getCurrentMailingList()->getTitle(),
             'description' => $this->mlists->getCurrentMailingList()->getDescription()
-        ));
+        ]);
     }
     
     private function setDefaultValues() : void
     {
-        $this->form_gui->setValuesByArray(array(
+        $this->form_gui->setValuesByArray([
             'title'       => '',
             'description' => ''
-        ));
+        ]);
     }
 
     public function showForm() : void
@@ -391,7 +391,7 @@ class ilMailingListsGUI
 
         require_once 'Services/Contact/classes/class.ilMailingListsMembersTableGUI.php';
         $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
-        $result = array();
+        $result = [];
 
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
         $create_btn = ilLinkButton::getInstance();
@@ -404,7 +404,7 @@ class ilMailingListsGUI
             $tbl->enable('select_all');
             $tbl->setSelectAllCheckbox('a_id');
 
-            $usr_ids = array();
+            $usr_ids = [];
             foreach ($assigned_entries as $entry) {
                 $usr_ids[] = $entry['usr_id'];
             }
@@ -451,7 +451,7 @@ class ilMailingListsGUI
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
 
-        $usr_ids = array();
+        $usr_ids = [];
         foreach ($assigned_entries as $entry) {
             $usr_ids[] = $entry['usr_id'];
         }
@@ -507,7 +507,7 @@ class ilMailingListsGUI
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveAssignmentForm'));
         $form->setTitle($this->lng->txt('mail_assign_entry_to_mailing_list') . ' ' . $this->mlists->getCurrentMailingList()->getTitle());
 
-        $options = array();
+        $options = [];
         $options[''] = $this->lng->txt('please_select');
 
         require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
