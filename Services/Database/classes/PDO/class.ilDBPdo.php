@@ -32,7 +32,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     /**
      * @var string
      */
-    protected $storage_engine = 'MyISAM';
+    protected $storage_engine = 'InnoDB';
     protected string $dsn = '';
     protected array $attributes = array(
         //		PDO::ATTR_EMULATE_PREPARES => true,
@@ -648,7 +648,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 break;
         }
 
-        return $this->pdo->quote($value, $pdo_type);
+        return $this->pdo->quote((string)$value, $pdo_type);
     }
 
     public function indexExistsByFields(string $table_name, array $fields) : bool

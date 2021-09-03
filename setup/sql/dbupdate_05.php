@@ -7041,7 +7041,10 @@ if (!$ilDB->tableExists(ilDBStepExecutionDB::TABLE_NAME)) {
 }
 
 ?>
-
+<#5807>
+<?php
+    $ilDB->migrateAllTablesToEngine();
+?>
 
 <?php
 // Dear colleague!

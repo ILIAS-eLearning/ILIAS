@@ -123,10 +123,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
             case ilDBConstants::TYPE_GALERA:
                 $db->manipulate('SET default_storage_engine=InnoDB;');
                 break;
-            case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-            case ilDBConstants::TYPE_MYSQL:
-                $db->manipulate('SET default_storage_engine=MyISAM;');
-                break;
 
         }
     }
