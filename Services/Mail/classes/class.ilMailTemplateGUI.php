@@ -5,7 +5,6 @@
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use JetBrains\PhpStorm\NoReturn;
 
 /**
  * Class ilMailTemplateGUI
@@ -415,7 +414,7 @@ class ilMailTemplateGUI
     /**
      * @throws ilMailException
      */
-    #[NoReturn] public function getAjaxPlaceholdersById() : void
+    public function getAjaxPlaceholdersById() : void
     {
         $triggerValue = $this->http->request()->getQueryParams()['triggerValue'] ?? '';
         $contextId = ilUtil::stripSlashes($triggerValue);

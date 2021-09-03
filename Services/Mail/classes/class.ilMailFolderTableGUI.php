@@ -91,7 +91,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns(): array
     {
-        $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column) : bool {
+        $optionalColumns = array_filter($this->getColumnDefinition(), static function (array $column) : bool {
             return isset($column['optional']) && $column['optional'];
         });
 

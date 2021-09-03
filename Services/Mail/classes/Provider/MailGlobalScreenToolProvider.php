@@ -26,7 +26,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
      */
     public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
     {
-        $identification = function ($id) {
+        $identification = function ($id) : \ILIAS\GlobalScreen\Identification\IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
 
@@ -41,7 +41,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                 ->tool($identification('mail_folders_tree'))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () {
+                ->withContentWrapper(function () : \ILIAS\UI\Component\Legacy\Legacy {
                     $exp = new ilMailExplorer(new ilMailGUI(), $this->dic->user()->getId());
 
                     return $this->dic->ui()->factory()->legacy($exp->getHTML(true));

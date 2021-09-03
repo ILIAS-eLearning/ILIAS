@@ -99,7 +99,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                 $factory->standard($id('mail_bucket'))
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
-                        function () {
+                        function () : void {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
                         }
                     )

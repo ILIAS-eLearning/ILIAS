@@ -17,11 +17,11 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 class ilMailSearchCoursesGUI
 {
     private ServerRequestInterface $httpRequest;
-    private string|null $view = null;
+    private ?string $view = null;
     /**
      * @var string[]
      */
-    private array|null $requestSearchCrs = null;
+    private ?array $requestSearchCrs = null;
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

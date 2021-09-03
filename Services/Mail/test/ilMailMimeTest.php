@@ -81,7 +81,7 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
-        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(static function ($key) : bool {
             if ('mail_allow_external' == $key) {
                 return false;
             }
@@ -107,7 +107,7 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
-        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(static function ($key) : bool {
             if ('mail_allow_external' == $key) {
                 return true;
             }
@@ -139,7 +139,7 @@ class ilMailMimeTest extends ilMailBaseTest
             'get',
         ])->getMock();
 
-        $settings->expects($this->any())->method('get')->will($this->returnCallback(function ($key) {
+        $settings->expects($this->any())->method('get')->will($this->returnCallback(static function ($key) : bool {
             if ('mail_allow_external' == $key) {
                 return true;
             }

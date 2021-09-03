@@ -5,8 +5,6 @@
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
 
-require_once './Services/Language/classes/class.ilLanguageFactory.php';
-
 /**
  * Class ilMailTemplateContext
  * @author  Michael Jansen <mjansen@databay.de>

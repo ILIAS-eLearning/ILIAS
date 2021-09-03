@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use JetBrains\PhpStorm\NoReturn;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**

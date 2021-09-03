@@ -106,7 +106,7 @@ class ilMailTemplateService
     {
         $templates = $this->repository->getAll();
 
-        $templates = array_map(function (\ilMailTemplate $template) {
+        $templates = array_map(static function (\ilMailTemplate $template) : array {
             return $template->toArray();
         }, $templates);
 

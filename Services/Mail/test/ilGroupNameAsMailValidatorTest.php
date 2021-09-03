@@ -14,7 +14,7 @@ class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
      */
     public function testGroupIsDetectedIfGroupNameExists() : void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) {
+        $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) : bool {
             return true;
         });
 
@@ -26,7 +26,7 @@ class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
      */
     public function testGroupIsNotDetectedIfGroupNameDoesNotExists() : void
     {
-        $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) {
+        $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) : bool {
             return false;
         });
 

@@ -104,7 +104,7 @@ class ilMailTest extends ilMailBaseTest
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $nextId = 0;
-        $db->expects($this->any())->method('nextId')->willReturnCallback(function () use (&$nextId) {
+        $db->expects($this->any())->method('nextId')->willReturnCallback(function () use (&$nextId) : int {
             ++$nextId;
 
             return $nextId;
@@ -145,7 +145,7 @@ class ilMailTest extends ilMailBaseTest
             ->getMock();
         $mailTransport->expects($this->exactly(1))->method('send')->with($this->callback(function (
             ilMimeMail $mailer
-        ) use ($loginToIdMap) {
+        ) use ($loginToIdMap) : bool {
             $totalBcc = [];
             foreach ($mailer->getBcc() as $bcc) {
                 $totalBcc = array_filter(array_map('trim', explode(',', $bcc))) + $totalBcc;

@@ -44,12 +44,12 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
-                    function () use ($dic) {
+                    static function () use ($dic) : bool {
                         return ($dic->user()->getId() !== ANONYMOUS_USER_ID);
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic) {
+                    static function () use ($dic) : bool {
                         return $dic->rbac()->system()->checkAccess(
                             'internal_mail',
                             ilMailGlobalServices::getMailObjectRefId()
