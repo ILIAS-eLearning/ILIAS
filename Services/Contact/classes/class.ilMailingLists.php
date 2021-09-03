@@ -32,7 +32,7 @@ class ilMailingLists
 {
     private ilDBInterface $db;
     private ilObjUser $user;
-    private ?ilMailingList $ml;
+    private ?ilMailingList $ml = null;
 
     /**
      * ilMailingLists constructor.
@@ -62,7 +62,7 @@ class ilMailingLists
         if (is_array($a_ids) && !empty($a_ids)) {
             $counter = 0;
             while ($id = array_pop($a_ids)) {
-                $entries[$counter] = new ilMailingList($this->user, $id);
+                $entries[$counter] = new ilMailingList($this->user, (int)$id);
                 
                 ++$counter;
             }
@@ -86,13 +86,13 @@ class ilMailingLists
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $tmpObj = new ilMailingList($this->user, 0);
-            $tmpObj->setId($row->ml_id);
-            $tmpObj->setUserId($row->user_id);
+            $tmpObj->setId((int)$row->ml_id);
+            $tmpObj->setUserId((int)$row->user_id);
             $tmpObj->setTitle($row->title);
             $tmpObj->setDescription($row->description);
             $tmpObj->setCreatedate($row->createdate);
-            $tmpObj->setChangedate($row->changedae);
-            $tmpObj->setMode($row->lmode);
+            $tmpObj->setChangedate($row->changedate);
+            $tmpObj->setMode((int)$row->lmode);
             
             $entries[$counter] = $tmpObj;
             
@@ -123,9 +123,9 @@ class ilMailingLists
     }
 
     /**
-     * @return ilMailingList
+     * @return ilMailingList|null
      */
-    public function getCurrentMailingList() : ilMailingList
+    public function getCurrentMailingList() : ?ilMailingList
     {
         return $this->ml;
     }

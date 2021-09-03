@@ -34,7 +34,7 @@ class ilMailingList
     private string $title = '';
     private string $description = '';
     private string $createdate;
-    private string $changedate;
+    private ?string $changedate;
 
     private ilDBInterface $db;
     
@@ -163,13 +163,13 @@ class ilMailingList
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
     
             if (is_object($row)) {
-                $this->setId($row->ml_id);
-                $this->setUserId($row->user_id);
+                $this->setId((int)$row->ml_id);
+                $this->setUserId((int)$row->user_id);
                 $this->setTitle($row->title);
                 $this->setDescription($row->description);
                 $this->setCreatedate($row->createdate);
-                $this->setChangedate($row->changedae);
-                $this->setMode($row->lmode);
+                $this->setChangedate($row->changedate);
+                $this->setMode((int)$row->lmode);
             }
         }
     }
@@ -276,11 +276,11 @@ class ilMailingList
     {
         return $this->createdate;
     }
-    public function setChangedate(string $a_changedate) : void
+    public function setChangedate(?string $a_changedate) : void
     {
         $this->changedate = $a_changedate;
     }
-    public function getChangedate() : string
+    public function getChangedate() : ?string
     {
         return $this->changedate;
     }

@@ -5,7 +5,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
-require_once 'Services/Utilities/classes/class.ilStr.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
 /**

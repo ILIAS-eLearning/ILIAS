@@ -4,7 +4,6 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 
-require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once "Services/Contact/classes/class.ilMailingLists.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
 
@@ -38,7 +37,7 @@ class ilMailingListsGUI
     {
         global $DIC;
 
-        $this->tpl = $DIC['tpl'];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
         $this->rbacsystem = $DIC['rbacsystem'];
@@ -50,9 +49,7 @@ class ilMailingListsGUI
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
-        if (isset($this->httpRequest->getQueryParams()['ml_id'])) {
-            $this->mlists->setCurrentMailingList($this->httpRequest->getQueryParams()['ml_id']);
-        }
+        $this->mlists->setCurrentMailingList(isset($this->httpRequest->getQueryParams()['ml_id']) ? (int) $this->httpRequest->getQueryParams()['ml_id'] : 0);
 
         $this->ctrl->saveParameter($this, 'mobj_id');
         $this->ctrl->saveParameter($this, 'ref');
@@ -85,7 +82,7 @@ class ilMailingListsGUI
     
     public function confirmDelete() : bool
     {
-        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? [$this->httpRequest->getQueryParams()['ml_id']] : $this->httpRequest->getParsedBody()['ml_id'];
+        $ml_ids = isset($this->httpRequest->getQueryParams()['ml_id']) ? [(int)$this->httpRequest->getQueryParams()['ml_id']] : [(int)$this->httpRequest->getParsedBody()['ml_id']];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -118,8 +115,8 @@ class ilMailingListsGUI
         if (isset($this->httpRequest->getParsedBody()['ml_id']) && is_array($this->httpRequest->getParsedBody()['ml_id'])) {
             $counter = 0;
             foreach ($this->httpRequest->getParsedBody()['ml_id'] as $id) {
-                if (ilMailingList::_isOwner($id, $this->user->getId())) {
-                    $this->mlists->get(ilUtil::stripSlashes($id))->delete();
+                if (ilMailingList::_isOwner((int)$id, $this->user->getId())) {
+                    $this->mlists->get((int)ilUtil::stripSlashes($id))->delete();
                     ++$counter;
                 }
             }
@@ -162,7 +159,7 @@ class ilMailingListsGUI
     
         $lists = [];
         foreach ($ml_ids as $id) {
-            if (ilMailingList::_isOwner($id, $this->user->getId()) &&
+            if (ilMailingList::_isOwner((int)$id, $this->user->getId()) &&
                !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists[] = '#il_ml_' . $id;
             }
@@ -171,7 +168,7 @@ class ilMailingListsGUI
         if (count($lists)) {
             $mail_data = $this->umail->appendSearchResult($lists, 'to');
             $this->umail->savePostData(
-                $mail_data['user_id'],
+                (int)$mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
@@ -277,7 +274,7 @@ class ilMailingListsGUI
     
     public function saveForm() : void
     {
-        if ($this->mlists->getCurrentMailingList()->getId()) {
+        if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
             if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
             }
@@ -359,7 +356,7 @@ class ilMailingListsGUI
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
         
-        if ($this->mlists->getCurrentMailingList()->getId()) {
+        if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
             if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
             }
@@ -469,7 +466,7 @@ class ilMailingListsGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_members.html', 'Services/Contact');
         $this->tpl->setVariable('DELETE_CONFIRMATION', $c_gui->getHTML());
 
-        $this->tpl->print();
+        $this->tpl->printToStdout();
         return true;
     }
 

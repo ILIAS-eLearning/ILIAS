@@ -5,7 +5,6 @@
 use Psr\Http\Message\ServerRequestInterface;
 
 require_once './Services/User/classes/class.ilObjUser.php';
-require_once "Services/Mail/classes/class.ilMailbox.php";
 require_once "Services/Mail/classes/class.ilFormatMail.php";
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 
@@ -156,7 +155,7 @@ class ilMailSearchCoursesGUI
         $ids = ((int) $this->httpRequest->getQueryParams()['search_crs']) ? [(int) $this->httpRequest->getQueryParams()['search_crs']] : ilSession::get('search_crs');
         
         foreach ($ids as $crs_id) {
-            $ref_ids = ilObject::_getAllReferences($crs_id);
+            $ref_ids = ilObject::_getAllReferences((int) $crs_id);
 
             foreach ($ref_ids as $ref_id) {
                 $roles = $this->rbacreview->getAssignableChildRoles($ref_id);
@@ -295,7 +294,7 @@ class ilMailSearchCoursesGUI
                 $isOffline = !$oTmpCrs->isActivated();
                 $hasUntrashedReferences = ilObject::_hasUntrashedReference($crs_id);
                 $showMemberListEnabled = (boolean) $oTmpCrs->getShowMembers();
-                $ref_ids = array_keys(ilObject::_getAllReferences($crs_id));
+                $ref_ids = array_keys(ilObject::_getAllReferences((int) $crs_id));
                 $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $ref_ids[0]);
 
                 if ($hasUntrashedReferences && ((!$isOffline && $showMemberListEnabled) || $isPrivilegedUser)) {
@@ -316,7 +315,7 @@ class ilMailSearchCoursesGUI
                     }
                     unset($oTmpCrs);
                     
-                    $ref_ids = ilObject::_getAllReferences($crs_id);
+                    $ref_ids = ilObject::_getAllReferences((int) $crs_id);
                     $ref_id = current($ref_ids);
                     $path_arr = $this->tree->getPathFull($ref_id, $this->tree->getRootId());
                     $path_counter = 0;
@@ -336,11 +335,11 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->setParameter($this, 'search_crs', $crs_id);
                     $this->ctrl->setParameter($this, 'view', 'mycourses');
                     
-                    if ($this->httpRequest->getQueryParams()["ref"] === "mail") {
+                    if (isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "mail") {
                         if ($this->mailing_allowed) {
                             $current_selection_list->addItem($this->lng->txt("mail_members"), '', $this->ctrl->getLinkTarget($this, "mail"));
                         }
-                    } elseif ($this->httpRequest->getQueryParams()["ref"] === "wsp") {
+                    } elseif (isset($this->httpRequest->getQueryParams()["ref"]) && $this->httpRequest->getQueryParams()["ref"] === "wsp") {
                         $current_selection_list->addItem($this->lng->txt("wsp_share_with_members"), '', $this->ctrl->getLinkTarget($this, "share"));
                     }
                     $current_selection_list->addItem($this->lng->txt("mail_list_members"), '', $this->ctrl->getLinkTarget($this, "showMembers"));
