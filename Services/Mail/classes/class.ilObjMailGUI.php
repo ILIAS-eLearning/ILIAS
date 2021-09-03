@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -14,7 +14,7 @@ class ilObjMailGUI extends ilObjectGUI
     public const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
 
     public const PASSWORD_PLACE_HOLDER = '***********************';
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
 
     protected ilTabsGUI $tabs;
 

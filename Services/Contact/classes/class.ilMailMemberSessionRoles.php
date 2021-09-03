@@ -47,8 +47,8 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
             // mailbox addresses are not supported in general since title of object might be empty
             $mailbox = $this->lng->txt('il_sess_participant') . ' <#' . $role_title . '>';
 
-            $i = substr($role_title, 0, 12);
-            if ($i === 'il_sess_part') {
+            $role_prefix = substr($role_title, 0, 12);
+            if ($role_prefix === 'il_sess_part') {
                 $sorted_role_ids[1]['default_checked'] = true;
                 $sorted_role_ids[1]['role_id'] = $role_id;
                 $sorted_role_ids[1]['mailbox'] = $mailbox;

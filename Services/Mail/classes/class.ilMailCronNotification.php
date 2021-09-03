@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 include_once "Services/Cron/classes/class.ilCronJob.php";
 
@@ -13,7 +13,7 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilMailCronNotification extends ilCronJob
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected bool $initDone = false;

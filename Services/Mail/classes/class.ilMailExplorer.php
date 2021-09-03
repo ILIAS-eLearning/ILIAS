@@ -78,7 +78,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
      */
     public function build(
         Factory $factory,
-        mixed $record,
+        $record,
         $environment = null
     ) : Node {
         $node = parent::build($factory, $record, $environment);
@@ -99,7 +99,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent(mixed $a_node) : string
+    public function getNodeContent($a_node) : string
     {
         $content = $a_node['title'];
 
@@ -115,7 +115,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeIcon(mixed $a_node) : string
+    public function getNodeIcon($a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
@@ -134,7 +134,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeHref(mixed $a_node) : string
+    public function getNodeHref($a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;

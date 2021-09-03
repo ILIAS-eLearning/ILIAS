@@ -9,7 +9,7 @@ class ilMailBody
     /**
      * @var mixed|null|string|string[]
      */
-    private mixed $bodyContent;
+    private $bodyContent;
 
     /**
      * @param string $content

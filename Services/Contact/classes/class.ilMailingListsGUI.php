@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once "Services/Table/classes/class.ilTable2GUI.php";
 require_once "Services/Contact/classes/class.ilMailingLists.php";
@@ -16,8 +16,8 @@ require_once "Services/Mail/classes/class.ilFormatMail.php";
 */
 class ilMailingListsGUI
 {
-    private RequestInterface $httpRequest;
-    protected ilGlobalPageTemplate $tpl;
+    private ServerRequestInterface $httpRequest;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;

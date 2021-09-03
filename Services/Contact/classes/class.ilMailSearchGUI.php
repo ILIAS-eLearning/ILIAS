@@ -21,8 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-use JetBrains\PhpStorm\NoReturn;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
 * @author Jens Conze
@@ -32,9 +31,9 @@ use Psr\Http\Message\RequestInterface;
 */
 class ilMailSearchGUI
 {
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
@@ -185,7 +184,7 @@ class ilMailSearchGUI
         return $form;
     }
 
-    #[NoReturn] public function lookupRecipientAsync() : void
+    public function lookupRecipientAsync() : void
     {
         include_once 'Services/JSON/classes/class.ilJsonUtil.php';
         include_once 'Services/Mail/classes/class.ilMailForm.php';

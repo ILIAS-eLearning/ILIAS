@@ -142,8 +142,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->mailer->Debugoutput = static function (string $message, $level) : void {
             if (
-                str_contains($message, 'Invalid address') ||
-                str_contains($message, 'Message body empty')
+                strpos($message, 'Invalid address') ||
+                strpos($message, 'Message body empty')
             ) {
                 ilLoggerFactory::getLogger('mail')->warning($message);
             } else {

@@ -8,7 +8,7 @@
  */
 class ilMailAttachmentGUI
 {
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;

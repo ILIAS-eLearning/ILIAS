@@ -194,10 +194,10 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * @param string $field
-     * @param mixed  $a_str
+     * @param $a_str
      * @return string
      */
-    protected function getQueryConditionByFieldAndValue(string $field, mixed $a_str) : string
+    protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
     {
         return $this->db->like($field, 'text', $a_str . '%');
     }

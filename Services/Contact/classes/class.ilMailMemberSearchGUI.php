@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilMailMemberSearchGUI
@@ -10,19 +10,19 @@ use Psr\Http\Message\RequestInterface;
 **/
 class ilMailMemberSearchGUI
 {
-    private RequestInterface $httpRequest;
-    protected mixed $mail_roles;
+    private ServerRequestInterface $httpRequest;
+    protected $mail_roles;
     /**
      * @var ilObjGroupGUI|ilObjCourseGUI
      */
-    protected mixed $gui;
+    protected $gui;
     protected ilAbstractMailMemberRoles $objMailMemberRoles;
     /**
      * @var null object ilCourseParticipants || ilGroupParticipants
      */
-    protected mixed $objParticipants;
+    protected $objParticipants;
     protected ilCtrl $ctrl;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
     private int $ref_id;
@@ -33,7 +33,7 @@ class ilMailMemberSearchGUI
      * @param                           $ref_id
      * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
-    public function __construct(mixed $gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
+    public function __construct($gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {
         global $DIC;
 
@@ -296,7 +296,7 @@ class ilMailMemberSearchGUI
     }
 
     /**
-     * @return mixed
+     * @return
      */
     private function getMailRoles()
     {

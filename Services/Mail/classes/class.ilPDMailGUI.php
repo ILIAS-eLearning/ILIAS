@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once 'Services/Mail/classes/class.ilMail.php';
 
@@ -13,7 +13,7 @@ require_once 'Services/Mail/classes/class.ilMail.php';
  */
 class ilPDMailGUI
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     protected ILIAS $ilias;
     protected ilRbacSystem $rbacsystem;
     protected ilLanguage $lng;

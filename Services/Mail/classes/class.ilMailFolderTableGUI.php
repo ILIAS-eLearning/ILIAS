@@ -412,6 +412,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         ) {
             return true;
         }
+        return false;
     }
 
     /**

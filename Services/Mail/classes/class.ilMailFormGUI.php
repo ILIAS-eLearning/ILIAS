@@ -13,7 +13,7 @@ use Psr\Http\Message\RequestInterface;
 */
 class ilMailFormGUI
 {
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;
@@ -25,7 +25,7 @@ class ilMailFormGUI
     private ilFileDataMail $mfile;
     private RequestInterface $httpRequest;
     private int $requestMailObjId = 0;
-    private array|null $requestAttachments = null;
+    private ?array $requestAttachments = null;
     private string $requestMailSubject = "";
     protected ?ilMailTemplateService $templateService;
     private ?ilMailBodyPurifier $purifier;
@@ -763,7 +763,7 @@ class ilMailFormGUI
         $this->tpl->printToStdout();
     }
 
-    #[NoReturn] public function lookupRecipientAsync() : void
+    public function lookupRecipientAsync() : void
     {
         $search = '';
         if (isset($this->httpRequest->getQueryParams()["term"]) && is_string($this->httpRequest->getQueryParams()["term"])) {

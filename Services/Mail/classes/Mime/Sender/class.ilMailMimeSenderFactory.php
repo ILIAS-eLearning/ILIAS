@@ -11,7 +11,7 @@ class ilMailMimeSenderFactory
 
     /** @var ilMailMimeSender[] */
     protected array $senders = [];
-    protected ?int $anonymousUsrId = 0;
+    protected int $anonymousUsrId = 0;
 
     /**
      * ilMailMimeSenderFactory constructor.

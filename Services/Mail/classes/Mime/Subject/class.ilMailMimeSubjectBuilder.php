@@ -50,7 +50,7 @@ class ilMailMimeSubjectBuilder
                 }
             }
 
-            if ($prefix !== '') {
+            if ($prefix && $prefix !== '') {
                 $subject = $prefix . ' ' . $subject;
             }
         }

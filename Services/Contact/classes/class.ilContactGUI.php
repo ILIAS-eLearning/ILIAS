@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once 'Services/Mail/classes/class.ilFormatMail.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
@@ -18,13 +18,13 @@ class ilContactGUI
 {
     public const CONTACTS_VIEW_GALLERY = 1;
     public const CONTACTS_VIEW_TABLE = 2;
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     /**
-     * @var int[]
+     * @var int[]|null
      */
-    private array|null $postUsrId = null;
+    private ?array $postUsrId = null;
 
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs_gui;
@@ -35,6 +35,7 @@ class ilContactGUI
     protected ilErrorHandling $error;
     protected ilRbacSystem $rbacsystem;
     protected bool $has_sub_tabs = false;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * ilContactGUI constructor.
@@ -53,6 +54,7 @@ class ilContactGUI
         $this->error = $DIC['ilErr'];
         $this->rbacsystem = $DIC['rbacsystem'];
         $this->httpRequest = $DIC->http()->request();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, "mobj_id");
 
@@ -149,7 +151,7 @@ class ilContactGUI
             if (ilBuddySystem::getInstance()->isEnabled()) {
                 $this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array('ilUsersGalleryGUI', get_class($this))), true)) {
+                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', array(ilUsersGalleryGUI::class, get_class($this))), true)) {
                     require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions(array(
@@ -386,7 +388,7 @@ class ilContactGUI
 
         foreach ($usr_ids as $usr_id) {
             $login = ilObjUser::_lookupLogin($usr_id);
-            if ($login === '') {
+            if (!$login || $login === '') {
                 $no_login[$usr_id] = $usr_id;
                 continue;
             }
@@ -493,10 +495,8 @@ class ilContactGUI
             $this->ctrl->redirect($this);
         }
 
-        /** @var $DIC \ILIAS\DI\Container */
-        global $DIC;
-        $usr_ids = $DIC->refinery()->kindlyTo()->listOf(
-            $DIC->refinery()->kindlyTo()->int()
+        $usr_ids = $this->refinery->kindlyTo()->listOf(
+            $this->refinery->kindlyTo()->int()
         )->transform($usr_ids);
 
         require_once 'Modules/Chatroom/classes/class.ilChatroom.php';

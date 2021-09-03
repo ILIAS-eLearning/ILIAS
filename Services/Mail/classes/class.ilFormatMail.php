@@ -31,7 +31,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyMessage() : mixed
+    public function formatReplyMessage()
     {
         if (empty($this->mail_data)) {
             return false;
@@ -50,7 +50,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplySubject() : mixed
+    public function formatReplySubject()
     {
         if (empty($this->mail_data)) {
             return false;
@@ -95,7 +95,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatReplyRecipient() : mixed
+    public function formatReplyRecipient()
     {
         if (empty($this->mail_data)) {
             return false;
@@ -111,7 +111,7 @@ class ilFormatMail extends ilMail
     * @access	public
     * @return string
     */
-    public function formatForwardSubject() : mixed
+    public function formatForwardSubject()
     {
         if (empty($this->mail_data)) {
             return false;

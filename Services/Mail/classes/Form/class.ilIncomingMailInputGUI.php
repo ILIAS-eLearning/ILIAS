@@ -76,7 +76,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     /**
      * @inheritdoc
      */
-    public function getItemByPostVar($a_post_var) : mixed
+    public function getItemByPostVar($a_post_var)
     {
         $this->initializeOptions();
         return parent::getItemByPostVar($a_post_var);

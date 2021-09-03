@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 require_once 'Services/Table/classes/class.ilTable2GUI.php';
 require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
@@ -18,7 +18,7 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
 */
 class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     /**
      * @var ilLanguage
      */

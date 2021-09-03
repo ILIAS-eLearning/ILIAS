@@ -10,14 +10,14 @@
 * @ingroup ServicesMail
 */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 include_once('Services/Table/classes/class.ilTable2GUI.php');
 
 
 class ilMailSearchCoursesTableGUI extends ilTable2GUI
 {
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     /**
      * @var ilLanguage
      */

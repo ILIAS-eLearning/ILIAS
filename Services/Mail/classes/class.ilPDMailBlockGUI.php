@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 include_once 'Services/Block/classes/class.ilBlockGUI.php';
 include_once 'Services/Mail/classes/class.ilMailUserCache.php';
@@ -15,7 +15,7 @@ include_once 'Services/Mail/classes/class.ilMailUserCache.php';
 class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static $block_type = 'pdmail';
-    private RequestInterface $httpRequest;
+    private ServerRequestInterface $httpRequest;
     private int $requestMailObjId = 0;
 
     /**

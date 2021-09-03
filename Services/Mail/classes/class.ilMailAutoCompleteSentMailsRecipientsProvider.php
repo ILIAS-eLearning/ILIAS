@@ -61,8 +61,8 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         if (
             is_array($this->data) &&
             (
-                str_contains($this->data['login'], ',') ||
-                str_contains($this->data['login'], ';')
+                strpos($this->data['login'], ',') ||
+                strpos($this->data['login'], ';')
             )
         ) {
             $parts = array_filter(array_map('trim', preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))));
