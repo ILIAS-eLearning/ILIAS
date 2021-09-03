@@ -48,9 +48,7 @@ class ilMailFolderGUI
         $this->initFolder();
     }
 
-    /**
-     *
-     */
+    
     protected function initFolder() : void
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
@@ -65,10 +63,7 @@ class ilMailFolderGUI
         $this->currentFolderId = $folderId;
     }
 
-    /**
-     * @param string $originalCommand
-     * @return string
-     */
+    
     protected function parseCommand(string $originalCommand) : string
     {
         $matches = [];
@@ -80,8 +75,6 @@ class ilMailFolderGUI
     }
 
     /**
-     * @param string $command
-     * @return int
      * @throws InvalidArgumentException
      */
     protected function parseFolderIdFromCommand(string $command) : int
@@ -97,9 +90,7 @@ class ilMailFolderGUI
         throw new InvalidArgumentException("Cannot parse a numeric folder id from command string!");
     }
 
-    /**
-     *
-     */
+    
     public function executeCommand() : void
     {
         $cmd = $this->parseCommand(
@@ -189,9 +180,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     * @param bool $isUserSubFolder
-     */
+    
     protected function addSubFolderCommands(bool $isUserSubFolder = false) : void
     {
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -209,7 +198,6 @@ class ilMailFolderGUI
 
     /**
      * Shows current folder. Current Folder is determined by $this->httpRequest->getQueryParams()["mobj_id"]
-     * @param bool $oneConfirmationDialogueRendered
      */
     protected function showFolder(bool $oneConfirmationDialogueRendered = false) : void
     {
@@ -322,10 +310,7 @@ class ilMailFolderGUI
         }
     }
 
-    /**
-     * @param string $mode
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getSubFolderForm(string $mode = 'create') : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -374,7 +359,6 @@ class ilMailFolderGUI
 
     /**
      * Called if the acting user wants to create a folder
-     * @param ilPropertyFormGUI|null $form
      */
     protected function addSubFolder(ilPropertyFormGUI $form = null) : void
     {
@@ -418,7 +402,6 @@ class ilMailFolderGUI
 
     /**
      * Called if the acting user wants to rename a folder
-     * @param ilPropertyFormGUI|null $form
      */
     protected function renameSubFolder(ilPropertyFormGUI $form = null) : void
     {
@@ -433,7 +416,6 @@ class ilMailFolderGUI
     }
 
     /**
-     * @param bool $ignoreHttpGet
      * @return int[]
      */
     protected function getMailIdsFromRequest(bool $ignoreHttpGet = false) : array
@@ -983,9 +965,7 @@ class ilMailFolderGUI
         }
     }
 
-    /**
-     * @return ilMailFolderTableGUI
-     */
+    
     protected function getMailFolderTable() : ilMailFolderTableGUI
     {
         $sentFolderId = $this->mbox->getSentFolder();
@@ -1004,9 +984,7 @@ class ilMailFolderGUI
         return $table;
     }
 
-    /**
-     *
-     */
+    
     protected function applyFilter() : void
     {
         $table = $this->getMailFolderTable();
@@ -1016,9 +994,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    /**
-     *
-     */
+    
     protected function resetFilter() : void
     {
         $table = $this->getMailFolderTable();

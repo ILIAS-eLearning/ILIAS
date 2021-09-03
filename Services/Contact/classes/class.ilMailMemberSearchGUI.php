@@ -31,7 +31,6 @@ class ilMailMemberSearchGUI
      * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI $gui
      * @param                           $ref_id
-     * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
     public function __construct($gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {
@@ -53,9 +52,7 @@ class ilMailMemberSearchGUI
         $this->mail_roles = $objMailMemberRoles->getMailRoles($ref_id);
     }
 
-    /**
-     * @return bool
-     */
+    
     public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -105,9 +102,7 @@ class ilMailMemberSearchGUI
         ilSession::set('ilMailMemberSearchGUIReferer', $referer);
     }
 
-    /**
-     * @return string
-     */
+    
     private function getStoredReferer() : string
     {
         return (string) ilSession::get('ilMailMemberSearchGUIReferer');
@@ -138,9 +133,9 @@ class ilMailMemberSearchGUI
                         'showSearchForm',
                         ['type' => 'role'],
                         [
-                            'type'   => 'role',
+                            'type' => 'role',
                             'rcp_to' => implode(',', $role_mail_boxes),
-                            'sig'    => $this->gui->createMailSignature()
+                            'sig' => $this->gui->createMailSignature()
                         ],
                         $this->generateContextArray()
                     ));
@@ -160,9 +155,7 @@ class ilMailMemberSearchGUI
         $this->showSearchForm();
     }
     
-    /**
-     * @return array
-     */
+    
     protected function generateContextArray() : array
     {
         $contextParameters = [];
@@ -173,8 +166,8 @@ class ilMailMemberSearchGUI
             case 'crs':
                 if ($this->access->checkAccess('write', '', $this->ref_id)) {
                     $contextParameters = [
-                        'ref_id'                            => $this->ref_id,
-                        'ts'                                => time(),
+                        'ref_id' => $this->ref_id,
+                        'ts' => time(),
                         ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(
                             ilObject::_lookupObjId($this->ref_id),
                             ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX,
@@ -192,8 +185,8 @@ class ilMailMemberSearchGUI
                 if ($this->access->checkAccess('write', '', $this->ref_id)) {
                     $contextParameters = [
                         ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
-                        'ref_id'                    => $this->ref_id,
-                        'ts'                        => time()
+                        'ref_id' => $this->ref_id,
+                        'ts' => time()
                     ];
                 }
                 break;
@@ -212,9 +205,7 @@ class ilMailMemberSearchGUI
         $this->tpl->setContent($tbl->getHTML());
     }
 
-    /**
-     * @return bool
-     */
+    
     protected function sendMailToSelectedUsers() : bool
     {
         if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
@@ -242,7 +233,7 @@ class ilMailMemberSearchGUI
             [],
             [
                 'type' => 'new',
-                'sig'  => $this->gui->createMailSignature(),
+                'sig' => $this->gui->createMailSignature(),
             ],
             $this->generateContextArray()
         ));
@@ -258,9 +249,7 @@ class ilMailMemberSearchGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilParticipants
-     */
+    
     protected function getObjParticipants() : ilParticipants
     {
         return $this->objParticipants;
@@ -274,9 +263,7 @@ class ilMailMemberSearchGUI
         $this->objParticipants = $objParticipants;
     }
     
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function initMailToMembersForm() : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('mail');
@@ -303,9 +290,7 @@ class ilMailMemberSearchGUI
         return $this->mail_roles;
     }
     
-    /**
-     * @return ilRadioGroupInputGUI
-     */
+    
     protected function getMailRadioGroup() : ilRadioGroupInputGUI
     {
         $mail_roles = $this->getMailRoles();

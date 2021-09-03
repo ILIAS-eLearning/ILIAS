@@ -12,9 +12,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
 {
     protected array $fields = [];
     
-    /**
-     *
-     */
+    
     public function parse() : void
     {
         if ($this->getFields()) {
@@ -43,9 +41,7 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
         $this->fields = $fields;
     }
 
-    /**
-     * @return array
-     */
+    
     public function getFields() : array
     {
         return $this->fields;

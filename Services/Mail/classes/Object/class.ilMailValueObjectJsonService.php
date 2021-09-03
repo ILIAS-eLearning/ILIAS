@@ -9,7 +9,6 @@ class ilMailValueObjectJsonService
 
     /**
      * @param ilMailValueObject[] $mailValueObjects
-     * @return string
      */
     public function convertToJson(array $mailValueObjects) : string
     {
@@ -34,7 +33,6 @@ class ilMailValueObjectJsonService
     }
 
     /**
-     * @param string $json
      * @return ilMailValueObject[]
      */
     public function convertFromJson(string $json) : array

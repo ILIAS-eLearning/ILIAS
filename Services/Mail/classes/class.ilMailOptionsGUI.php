@@ -23,14 +23,6 @@ class ilMailOptionsGUI
 
     /**
      * ilMailOptionsGUI constructor.
-     * @param ilGlobalTemplateInterface|null $tpl
-     * @param ilCtrl|null $ctrl
-     * @param ilSetting|null $setting
-     * @param ilLanguage|null $lng
-     * @param ilObjUser|null $user
-     * @param ServerRequestInterface|null $request
-     * @param ilFormatMail|null $mail
-     * @param ilMailbox|null $malBox
      */
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
@@ -112,17 +104,13 @@ class ilMailOptionsGUI
         }
     }
 
-    /**
-     * @param ilMailOptionsFormGUI $form
-     */
+    
     public function setForm(ilMailOptionsFormGUI $form) : void
     {
         $this->form = $form;
     }
 
-    /**
-     * @return ilMailOptionsFormGUI
-     */
+    
     protected function getForm() : ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(

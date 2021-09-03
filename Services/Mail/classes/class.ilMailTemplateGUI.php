@@ -29,17 +29,6 @@ class ilMailTemplateGUI
 
     /**
      * ilMailTemplateGUI constructor.
-     * @param ilObject $parentObject
-     * @param ilGlobalTemplateInterface|null $tpl
-     * @param ilCtrl|null $ctrl
-     * @param ilLanguage|null $lng
-     * @param ilToolbarGUI|null $toolbar
-     * @param ilRbacSystem|null $rbacsystem
-     * @param ilErrorHandling|null $error
-     * @param Services|null $http
-     * @param Factory|null $uiFactory
-     * @param Renderer|null $uiRenderer
-     * @param ilMailTemplateService|null $templateService
      */
     public function __construct(
         ilObject $parentObject,
@@ -111,17 +100,13 @@ class ilMailTemplateGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    /**
-     * @return bool
-     */
+    
     private function isEditingAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('write', $this->parentObject->getRefId());
     }
 
-    /**
-     *
-     */
+    
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -138,9 +123,7 @@ class ilMailTemplateGUI
         }
     }
 
-    /**
-     *
-     */
+    
     protected function showTemplates() : void
     {
         $contexts = ilMailTemplateContextService::getTemplateContexts();
@@ -211,7 +194,6 @@ class ilMailTemplateGUI
     }
 
     /**
-     * @param ilPropertyFormGUI|null $form
      * @throws ilMailException
      */
     protected function showInsertTemplateForm(ilPropertyFormGUI $form = null) : void
@@ -223,9 +205,7 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
+    
     protected function updateTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -284,9 +264,7 @@ class ilMailTemplateGUI
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
+    
     protected function showEditTemplateForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
@@ -312,25 +290,20 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param ilMailTemplate $template
-     */
+    
     protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template) : void
     {
         $form->setValuesByArray([
-            'tpl_id'    => $template->getTplId(),
-            'title'     => $template->getTitle(),
-            'context'   => $template->getContext(),
-            'lang'      => $template->getLang(),
+            'tpl_id' => $template->getTplId(),
+            'title' => $template->getTitle(),
+            'context' => $template->getContext(),
+            'lang' => $template->getLang(),
             'm_subject' => $template->getSubject(),
             'm_message' => $template->getMessage(),
         ]);
     }
 
-    /**
-     *
-     */
+    
     protected function confirmDeleteTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -374,9 +347,7 @@ class ilMailTemplateGUI
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    /**
-     *
-     */
+    
     protected function deleteTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -433,8 +404,6 @@ class ilMailTemplateGUI
     }
 
     /**
-     * @param ilMailTemplate|null $template
-     * @return ilPropertyFormGUI
      * @throws ilMailException
      */
     protected function getTemplateForm(ilMailTemplate $template = null) : ilPropertyFormGUI
@@ -542,9 +511,7 @@ class ilMailTemplateGUI
         return $form;
     }
 
-    /**
-     *
-     */
+    
     public function unsetAsContextDefault() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -572,9 +539,7 @@ class ilMailTemplateGUI
         $this->ctrl->redirect($this, 'showTemplates');
     }
 
-    /**
-     *
-     */
+    
     public function setAsContextDefault() : void
     {
         if (!$this->isEditingAllowed()) {

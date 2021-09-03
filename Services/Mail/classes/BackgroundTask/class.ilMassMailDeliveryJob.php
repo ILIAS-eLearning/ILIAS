@@ -18,8 +18,6 @@ class ilMassMailDeliveryJob extends AbstractJob
 
     /**
      * ilMassMailDeliveryJob constructor.
-     * @param \ILIAS\DI\Container|null $dic
-     * @param ilMailValueObjectJsonService|null $mailJsonService
      */
     public function __construct()
     {

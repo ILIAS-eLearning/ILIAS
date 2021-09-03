@@ -14,8 +14,6 @@ class ilRoleMailboxSearch
 
     /**
      * ilRoleMailboxSearch constructor.
-     * @param ilMailRfc822AddressParserFactory $parserFactory
-     * @param ilDBInterface|null $db
      */
     public function __construct(
         ilMailRfc822AddressParserFactory $parserFactory,
@@ -71,7 +69,6 @@ class ilRoleMailboxSearch
      * objects that are possible recipients for the role mailbox address.
      *
      * If Pear Mail is not installed, then the mailbox address
-     * @param string $a_address_list
      * @return int[] Array with role ids that were found
      */
     public function searchRoleIdsByAddressString(string $a_address_list) : array

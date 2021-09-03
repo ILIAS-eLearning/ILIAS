@@ -347,12 +347,12 @@ class ilMailSearchCoursesGUI
                     $this->ctrl->clearParameters($this);
                     
                     $rowData = [
-                        "CRS_ID"                 => $crs_id,
-                        "CRS_NAME"               => $this->cache->lookupTitle($crs_id),
-                        "CRS_NO_MEMBERS"         => count($crs_members),
-                        "CRS_PATH"               => $path,
+                        "CRS_ID" => $crs_id,
+                        "CRS_NAME" => $this->cache->lookupTitle($crs_id),
+                        "CRS_NO_MEMBERS" => count($crs_members),
+                        "CRS_PATH" => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
-                        "hidden_members"         => $hiddenMembers,
+                        "hidden_members" => $hiddenMembers,
                     ];
                     $counter++;
                     $tableData[] = $rowData;
@@ -450,11 +450,11 @@ class ilMailSearchCoursesGUI
                     }
 
                     $rowData = [
-                        'members_id'      => $member,
-                        'members_login'   => $login,
-                        'members_name'    => $fullname,
+                        'members_id' => $member,
+                        'members_login' => $login,
+                        'members_name' => $fullname,
                         'members_crs_grp' => $this->cache->lookupTitle($crs_id),
-                        'search_crs'      => $crs_id
+                        'search_crs' => $crs_id
                     ];
 
                     if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {

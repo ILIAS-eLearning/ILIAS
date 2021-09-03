@@ -23,9 +23,7 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
         $this->rbacreview = $DIC['rbacreview'];
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRadioOptionTitle() : string
     {
         return $this->lng->txt('mail_grp_roles');

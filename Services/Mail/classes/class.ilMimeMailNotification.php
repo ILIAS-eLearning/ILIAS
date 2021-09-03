@@ -15,9 +15,7 @@ abstract class ilMimeMailNotification extends ilMailNotification
     protected ilMimeMail $mime_mail;
     protected string $current_recipient;
 
-    /**
-     * @param string $a_rcp
-     */
+    
     public function sendMimeMail(string $a_rcp) : void
     {
         $this->mime_mail->To($a_rcp);
@@ -40,18 +38,14 @@ abstract class ilMimeMailNotification extends ilMailNotification
         return $this->mime_mail;
     }
 
-    /**
-     * @param string $a_code
-     */
+    
     protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('registration');
     }
 
-    /**
-     * @param int $a_usr_id
-     */
+    
     protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
@@ -59,7 +53,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
     }
 
     /**
-     * @param string $rcp
      * @throws ilMailException
      */
     protected function handleCurrentRecipient(string $rcp) : void
@@ -91,7 +84,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
     }
 
     /**
-     * @param string $current_recipient
      * @return ilMimeMailNotification
      */
     public function setCurrentRecipient(string $current_recipient) : \ilMimeMailNotification
@@ -100,16 +92,13 @@ abstract class ilMimeMailNotification extends ilMailNotification
         return $this;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getCurrentRecipient() : string
     {
         return $this->current_recipient;
     }
 
     /**
-     * @param ilMimeMail $mime_mail
      * @return ilMimeMailNotification
      */
     public function setMimeMail(ilMimeMail $mime_mail) : \ilMimeMailNotification

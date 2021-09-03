@@ -13,9 +13,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
     protected ilDBInterface $db;
     protected ilSetting $settings;
 
-    /**
-     * @param ilMailCronOrphanedMailsDeletionCollector $collector
-     */
+    
     public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
@@ -26,9 +24,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         $this->db = $DIC->database();
     }
     
-    /**
-     *
-     */
+    
     private function deleteAttachments() : void
     {
         $attachment_paths = [];
@@ -102,9 +98,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         $this->db->manipulate('DELETE FROM mail_attachment WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
     }
     
-    /**
-     *
-     */
+    
     private function deleteMails() : void
     {
         $this->db->manipulate('DELETE FROM mail WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
@@ -122,9 +116,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         }
     }
     
-    /**
-     *
-     */
+    
     public function processDeletion() : void
     {
         if (count($this->collector->getMailIdsToDelete()) > 0) {

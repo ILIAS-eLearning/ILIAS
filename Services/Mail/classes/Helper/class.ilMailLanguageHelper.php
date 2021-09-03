@@ -8,18 +8,13 @@
  */
 class ilMailLanguageHelper
 {
-    /**
-     * @param string $isoCode
-     * @return ilLanguage
-     */
+    
     public function getLanguageByIsoCode(string $isoCode) : ilLanguage
     {
         return ilLanguageFactory::_getLanguage($isoCode);
     }
 
-    /**
-     * @return ilLanguage
-     */
+    
     public function getCurrentLanguage() : ilLanguage
     {
         global $DIC;

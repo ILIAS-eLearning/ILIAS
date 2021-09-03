@@ -31,8 +31,6 @@ class ilMailFormGUI
 
     /**
      * ilMailFormGUI constructor.
-     * @param ilMailTemplateService|null $templateService
-     * @param ilMailBodyPurifier|null $bodyPurifier
      */
     public function __construct(
         ilMailTemplateService $templateService = null,
@@ -121,10 +119,7 @@ class ilMailFormGUI
         }
     }
 
-    /**
-     * @param array $files
-     * @return array
-     */
+    
     protected function decodeAttachmentFiles(array $files) : array
     {
         $decodedFiles = [];
@@ -292,9 +287,7 @@ class ilMailFormGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     *
-     */
+    
     public function searchCoursesTo() : void
     {
         $this->saveMailBeforeSearch();
@@ -307,9 +300,7 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass('ilmailsearchcoursesgui');
     }
 
-    /**
-     *
-     */
+    
     public function searchGroupsTo() : void
     {
         $this->saveMailBeforeSearch();
@@ -802,9 +793,7 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    /**
-     *
-     */
+    
     protected function saveMailBeforeSearch() : void
     {
         $files = [];
@@ -830,9 +819,7 @@ class ilMailFormGUI
         );
     }
 
-    /**
-     *
-     */
+    
     public function searchMailingListsTo() : void
     {
         $this->saveMailBeforeSearch();

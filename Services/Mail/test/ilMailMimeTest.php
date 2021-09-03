@@ -190,8 +190,6 @@ class ilMailMimeTest extends ilMailBaseTest
     }
 
     /**
-     * @param int $usrId
-     * @return ilObjUser
      * @throws ReflectionException
      */
     protected function getUserById(int $usrId) : ilObjUser

@@ -15,8 +15,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
     /**
      * ilMailMimeTransportBase constructor.
-     * @param ilSetting $settings
-     * @param ilAppEventHandler $eventHandler
      */
     public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
     {
@@ -27,17 +25,13 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->setMailer($mail);
     }
 
-    /**
-     * @return PHPMailer
-     */
+    
     protected function getMailer() : PHPMailer
     {
         return $this->mailer;
     }
 
-    /**
-     * @param PHPMailer $mailer
-     */
+    
     protected function setMailer(PHPMailer $mailer) : void
     {
         $this->mailer = $mailer;
@@ -51,9 +45,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    /**
-     *
-     */
+    
     protected function onBeforeSend() : void
     {
     }
@@ -170,7 +162,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         }
 
         $this->eventHandler->raise('Services/Mail', 'externalEmailDelegated', [
-            'mail'   => $mail,
+            'mail' => $mail,
             'result' => $result,
         ]);
 

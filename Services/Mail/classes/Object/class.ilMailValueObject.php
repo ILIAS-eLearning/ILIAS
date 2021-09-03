@@ -19,15 +19,7 @@ class ilMailValueObject
     private string $from;
 
     /**
-     * @param string $from
-     * @param string $recipients
-     * @param string $recipientsCC
-     * @param string $recipientsBCC
-     * @param string $subject
-     * @param string $body
      * @param string[] $attachments
-     * @param bool $usePlaceholders
-     * @param bool $saveInSentBox
      */
     public function __construct(
         string $from,
@@ -51,41 +43,31 @@ class ilMailValueObject
         $this->saveInSentBox = $saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRecipients() : string
     {
         return $this->recipients;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRecipientsCC() : string
     {
         return $this->recipientsCC;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRecipientsBCC() : string
     {
         return $this->recipientsBCC;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getBody() : string
     {
         return $this->body;
@@ -99,25 +81,19 @@ class ilMailValueObject
         return $this->attachments;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function isUsingPlaceholders() : bool
     {
         return $this->usePlaceholders;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function shouldSaveInSentBox() : bool
     {
         return $this->saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getFrom() : string
     {
         return $this->from;

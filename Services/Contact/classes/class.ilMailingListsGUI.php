@@ -82,7 +82,7 @@ class ilMailingListsGUI
     
     public function confirmDelete() : bool
     {
-        $ml_ids = isset($this->httpRequest->getQueryParams()['ml_id']) ? [(int)$this->httpRequest->getQueryParams()['ml_id']] : [(int)$this->httpRequest->getParsedBody()['ml_id']];
+        $ml_ids = isset($this->httpRequest->getQueryParams()['ml_id']) ? [(int) $this->httpRequest->getQueryParams()['ml_id']] : [(int) $this->httpRequest->getParsedBody()['ml_id']];
         if (!$ml_ids) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -115,8 +115,8 @@ class ilMailingListsGUI
         if (isset($this->httpRequest->getParsedBody()['ml_id']) && is_array($this->httpRequest->getParsedBody()['ml_id'])) {
             $counter = 0;
             foreach ($this->httpRequest->getParsedBody()['ml_id'] as $id) {
-                if (ilMailingList::_isOwner((int)$id, $this->user->getId())) {
-                    $this->mlists->get((int)ilUtil::stripSlashes($id))->delete();
+                if (ilMailingList::_isOwner((int) $id, $this->user->getId())) {
+                    $this->mlists->get((int) ilUtil::stripSlashes($id))->delete();
                     ++$counter;
                 }
             }
@@ -159,7 +159,7 @@ class ilMailingListsGUI
     
         $lists = [];
         foreach ($ml_ids as $id) {
-            if (ilMailingList::_isOwner((int)$id, $this->user->getId()) &&
+            if (ilMailingList::_isOwner((int) $id, $this->user->getId()) &&
                !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists[] = '#il_ml_' . $id;
             }
@@ -168,7 +168,7 @@ class ilMailingListsGUI
         if (count($lists)) {
             $mail_data = $this->umail->appendSearchResult($lists, 'to');
             $this->umail->savePostData(
-                (int)$mail_data['user_id'],
+                (int) $mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
@@ -338,7 +338,7 @@ class ilMailingListsGUI
     private function setValuesByObject() : void
     {
         $this->form_gui->setValuesByArray([
-            'title'       => $this->mlists->getCurrentMailingList()->getTitle(),
+            'title' => $this->mlists->getCurrentMailingList()->getTitle(),
             'description' => $this->mlists->getCurrentMailingList()->getDescription()
         ]);
     }
@@ -346,7 +346,7 @@ class ilMailingListsGUI
     private function setDefaultValues() : void
     {
         $this->form_gui->setValuesByArray([
-            'title'       => '',
+            'title' => '',
             'description' => ''
         ]);
     }
@@ -493,9 +493,7 @@ class ilMailingListsGUI
         return true;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getAssignmentForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -544,9 +542,7 @@ class ilMailingListsGUI
         return $form;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function saveAssignmentForm() : bool
     {
         if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
@@ -572,10 +568,7 @@ class ilMailingListsGUI
         return true;
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     * @return bool
-     */
+    
     public function showAssignmentForm(?ilPropertyFormGUI $form = null) : bool
     {
         if (!$this->mlists->getCurrentMailingList()->getId()) {

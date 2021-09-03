@@ -11,9 +11,7 @@ class ilMailAddressTest extends ilMailBaseTest
     const LOCAL_PART = 'phpunit';
     const DOMAIN_PART = 'ilias.de';
 
-    /**
-     * @return ilMailAddress
-     */
+    
     public function testInstanceCanBeCreated() : ilMailAddress
     {
         $address = new ilMailAddress(self::LOCAL_PART, self::DOMAIN_PART);
@@ -25,7 +23,6 @@ class ilMailAddressTest extends ilMailBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMailAddress $address
      */
     public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address) : void
     {

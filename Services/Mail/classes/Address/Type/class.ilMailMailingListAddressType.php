@@ -11,10 +11,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 
     /**
      * ilMailMailingListAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
-     * @param ilMailingLists $lists
      */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,

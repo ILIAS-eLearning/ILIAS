@@ -106,8 +106,6 @@ class ilMailAddressParserTest extends ilMailBaseTest
     }
 
     /**
-     * @param string $addresses
-     * @param array $expected
      * @dataProvider emailAddressesProvider
      */
     public function testBuiltInAddressParser(string $addresses, array $expected) : void
@@ -124,8 +122,6 @@ class ilMailAddressParserTest extends ilMailBaseTest
     }
 
     /**
-     * @param string $addresses
-     * @param array $expected
      * @dataProvider emailAddressesProvider
      */
     public function testPearAddressParser(string $addresses, array $expected) : void
@@ -139,7 +135,6 @@ class ilMailAddressParserTest extends ilMailBaseTest
 
     /**
      * @dataProvider emailInvalidAddressesProvider
-     * @param string $addresses
      */
     public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void
     {

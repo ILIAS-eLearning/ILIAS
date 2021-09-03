@@ -11,19 +11,14 @@ class ilMailSearchLuceneResultParser
     protected ilMailSearchResult $result;
     protected string $xml;
 
-    /**
-     * @param ilMailSearchResult $result
-     * @param string             $xml
-     */
+    
     public function __construct(ilMailSearchResult $result, string $xml)
     {
         $this->result = $result;
         $this->xml = $xml;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getXml() : string
     {
         return $this->xml;
@@ -37,9 +32,7 @@ class ilMailSearchLuceneResultParser
         return $this->result;
     }
 
-    /**
-     *
-     */
+    
     public function parse() : void
     {
         if ($this->getXml() === '') {

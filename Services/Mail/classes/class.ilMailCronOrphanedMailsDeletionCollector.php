@@ -11,9 +11,7 @@ class ilMailCronOrphanedMailsDeletionCollector
     protected ilSetting $settings;
     protected array $mail_ids = [];
 
-    /**
-     *
-     */
+    
     public function __construct()
     {
         global $DIC;
@@ -24,9 +22,7 @@ class ilMailCronOrphanedMailsDeletionCollector
         $this->collect();
     }
 
-    /**
-     *
-     */
+    
     public function collect() : void
     {
         $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash');
@@ -92,17 +88,13 @@ class ilMailCronOrphanedMailsDeletionCollector
         }
     }
 
-    /**
-     * @param int $mail_id
-     */
+    
     public function addMailIdToDelete(int $mail_id) : void
     {
         $this->mail_ids[] = (int) $mail_id;
     }
 
-    /**
-     * @return array
-     */
+    
     public function getMailIdsToDelete() : array
     {
         return $this->mail_ids;

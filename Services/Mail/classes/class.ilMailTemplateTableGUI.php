@@ -20,10 +20,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
 
     /**
      * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param Factory $uiFactory
-     * @param Renderer $uiRenderer
-     * @param bool $readOnly
      */
     public function __construct(
         object $a_parent_obj,
@@ -59,11 +55,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->contexts = \ilMailTemplateContextService::getTemplateContexts();
     }
 
-    /**
-     * @param  string $column
-     * @param array   $row
-     * @return string
-     */
+    
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
@@ -110,10 +102,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
+    
     protected function formatActionsDropDown(array $row) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);

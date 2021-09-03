@@ -33,10 +33,7 @@ class ilMailOptions
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
-    /**
-     * @param int $usrId
-     * @param ilMailTransportSettings|null $mailTransportSettings
-     */
+    
     public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
     {
         global $DIC;
@@ -80,10 +77,10 @@ class ilMailOptions
                 'user_id' => ['integer', $this->usrId],
             ],
             [
-                'linebreak'            => ['integer', $this->linebreak],
-                'signature'            => ['text', $this->signature],
-                'incoming_type'        => ['integer', $this->incomingType],
-                'mail_address_option'  => ['integer', $this->emailAddressMode],
+                'linebreak' => ['integer', $this->linebreak],
+                'signature' => ['text', $this->signature],
+                'incoming_type' => ['integer', $this->incomingType],
+                'mail_address_option' => ['integer', $this->emailAddressMode],
                 'cronjob_notification' => ['integer', (int) $this->isCronJobNotificationEnabled],
             ]
         );
@@ -138,9 +135,9 @@ class ilMailOptions
     public function updateOptions() : int
     {
         $data = [
-            'signature'           => ['text', $this->getSignature()],
-            'linebreak'           => ['integer', $this->getLinebreak()],
-            'incoming_type'       => ['integer', $this->getIncomingType()],
+            'signature' => ['text', $this->getSignature()],
+            'linebreak' => ['integer', $this->getLinebreak()],
+            'incoming_type' => ['integer', $this->getIncomingType()],
             'mail_address_option' => ['integer', $this->getEmailAddressMode()],
         ];
 
@@ -159,90 +156,67 @@ class ilMailOptions
         );
     }
 
-    /**
-     * @return int
-     */
+    
     public function getLinebreak() : int
     {
         return $this->linebreak;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getSignature() : string
     {
         return $this->signature;
     }
 
-    /**
-     * @return int
-     */
+    
     public function getIncomingType() : int
     {
         return $this->incomingType;
     }
 
-    /**
-     * @param int $linebreak
-     */
+    
     public function setLinebreak(int $linebreak) : void
     {
         $this->linebreak = $linebreak;
     }
 
-    /**
-     * @param string $signature
-     */
+    
     public function setSignature(string $signature) : void
     {
         $this->signature = $signature;
     }
 
-    /**
-     * @param int $incomingType
-     */
+    
     public function setIncomingType(int $incomingType) : void
     {
         $this->incomingType = $incomingType;
     }
 
-    /**
-     * @param bool $isCronJobNotificationEnabled
-     */
+    
     public function setIsCronJobNotificationStatus(bool $isCronJobNotificationEnabled) : void
     {
         $this->isCronJobNotificationEnabled = $isCronJobNotificationEnabled;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function isCronJobNotificationEnabled() : bool
     {
         return $this->isCronJobNotificationEnabled;
     }
 
-    /**
-     * @return int
-     */
+    
     public function getEmailAddressMode() : int
     {
         return $this->emailAddressMode;
     }
 
-    /**
-     * @param int $emailAddressMode
-     */
+    
     public function setEmailAddressMode(int $emailAddressMode) : void
     {
         $this->emailAddressMode = $emailAddressMode;
     }
 
-    /**
-     * @param int $usrId
-     * @return int
-     */
+    
     private static function lookupNotificationSetting(int $usrId) : int
     {
         global $DIC;

@@ -11,7 +11,6 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 
     /**
      * ilMailAddressTypeHelperImpl constructor.
-     * @param string $installationHost
      */
     public function __construct(string $installationHost)
     {
@@ -74,10 +73,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
         return ilMailGlobalServices::getMailObjectRefId();
     }
 
-    /**
-     * @param int $usrId
-     * @return bool
-     */
+    
     public function receivesInternalMailsOnly(int $usrId) : bool
     {
         $options = new ilMailOptions($usrId);

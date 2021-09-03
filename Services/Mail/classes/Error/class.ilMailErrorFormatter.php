@@ -22,7 +22,6 @@ class ilMailErrorFormatter
      * Formats an error string based on the passed list of errors. If the list contains > 1 elements, the 1st error
      * will be used as a headline for the list of errors.
      * @param $errors \ilMailError[]
-     * @return string
      */
     public function format(array $errors) : string
     {

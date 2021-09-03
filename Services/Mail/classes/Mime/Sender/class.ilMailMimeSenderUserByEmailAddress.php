@@ -9,8 +9,6 @@ class ilMailMimeSenderUserByEmailAddress extends ilMailMimeSenderUser
 {
     /**
      * ilMailMimeSenderUserByEmailAddress constructor.
-     * @param ilSetting $settings
-     * @param string $emailAddress
      */
     public function __construct(ilSetting $settings, string $emailAddress)
     {

@@ -11,12 +11,7 @@ class ilMailForm
 {
     private ServerRequestInterface $httpRequest;
 
-    /**
-     * @param string $quotedTerm
-     * @param string $term
-     * @param bool $doRecipientSearch
-     * @return array
-     */
+    
     public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
     {
         global $DIC;

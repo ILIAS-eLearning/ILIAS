@@ -16,10 +16,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
 
-    /**
-     * @param string $id
-     * @return IdentificationInterface
-     */
+    
     private function getIdentifier(string $id) : IdentificationInterface
     {
         return $this->if->identifier($id);

@@ -245,9 +245,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
-    /**
-     * @param array $data
-     */
+    
     protected function preloadData(array $data) : void
     {
         $usr_ids = [];

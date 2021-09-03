@@ -20,33 +20,25 @@ class ilMailCronOrphanedMailsFolderMailObject
         $this->setMailSubject($mail_subject);
     }
 
-    /**
-     * @return int
-     */
+    
     public function getMailId() : int
     {
         return $this->mail_id;
     }
 
-    /**
-     * @param int $mail_id
-     */
+    
     public function setMailId(int $mail_id) : void
     {
         $this->mail_id = $mail_id;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getMailSubject() : string
     {
         return $this->mail_subject;
     }
 
-    /**
-     * @param string $mail_subject
-     */
+    
     public function setMailSubject(string $mail_subject) : void
     {
         $this->mail_subject = $mail_subject;

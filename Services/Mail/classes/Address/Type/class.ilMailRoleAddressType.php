@@ -13,12 +13,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
 
     /**
      * ilMailRoleAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilRoleMailboxSearch $roleMailboxSearch
-     * @param ilLogger $logger
-     * @param ilRbacSystem $rbacsystem
-     * @param ilRbacReview $rbacreview
      */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
@@ -36,7 +30,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
     }
 
     /**
-     * @param ilMailAddress $address
      * @return int[]
      */
     protected function getRoleIdsByAddress(ilMailAddress $address) : array
@@ -48,10 +41,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return $roleIds;
     }
 
-    /**
-     * @param int $senderId
-     * @return bool
-     */
+    
     protected function maySendToGlobalRole(int $senderId) : bool
     {
         if ($senderId == ANONYMOUS_USER_ID) {

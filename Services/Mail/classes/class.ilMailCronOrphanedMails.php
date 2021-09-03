@@ -22,10 +22,8 @@ class ilMailCronOrphanedMails extends ilCronJob
     protected ilObjUser $user;
     protected bool $initDone = false;
 
-    /**
-     *
-     */
-    protected function init(): void
+    
+    protected function init() : void
     {
         global $DIC;
 
@@ -178,7 +176,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         return $result;
     }
 
-    private function processNotification(): void
+    private function processNotification() : void
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotificationCollector.php';
@@ -193,7 +191,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $notifier->processNotification();
     }
 
-    private function processDeletion(): void
+    private function processDeletion() : void
     {
         $this->init();
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsDeletionCollector.php';

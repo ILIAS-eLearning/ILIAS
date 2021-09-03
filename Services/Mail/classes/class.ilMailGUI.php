@@ -57,9 +57,7 @@ class ilMailGUI
         }
     }
 
-    /**
-     *
-     */
+    
     protected function initFolder() : void
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
@@ -72,9 +70,7 @@ class ilMailGUI
         $this->currentFolderId = $folderId;
     }
 
-    /**
-     *
-     */
+    
     public function executeCommand() : void
     {
         $type = $this->httpRequest->getQueryParams()['type'] ?? '';
@@ -179,9 +175,7 @@ class ilMailGUI
         }
     }
 
-    /**
-     *
-     */
+    
     private function setViewMode() : void
     {
         $targetClass = $this->httpRequest->getQueryParams()['target'] ?? 'ilmailfoldergui';
@@ -209,9 +203,7 @@ class ilMailGUI
         }
     }
 
-    /**
-     *
-     */
+    
     private function showHeader() : void
     {
         global $DIC;

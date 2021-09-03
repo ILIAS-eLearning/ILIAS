@@ -14,9 +14,6 @@ class ilMailCronOrphanedMailsNotifier
 
     /**
      * ilMailCronOrphanedMailsNotifier constructor.
-     * @param ilMailCronOrphanedMailsNotificationCollector $collector
-     * @param int                                          $threshold
-     * @param int                                          $mail_notify_orphaned
      */
     public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, int $threshold, int $mail_notify_orphaned)
     {
@@ -29,9 +26,7 @@ class ilMailCronOrphanedMailsNotifier
         $this->mail_notify_orphaned = $mail_notify_orphaned;
     }
 
-    /**
-     * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
-     */
+    
     private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         if ($this->threshold > $this->mail_notify_orphaned) {
@@ -52,17 +47,15 @@ class ilMailCronOrphanedMailsNotifier
                 $this->db->insert(
                     'mail_cron_orphaned',
                     [
-                        'mail_id'      => ['integer', $mail_id],
-                        'folder_id'    => ['integer', $folder_id],
+                        'mail_id' => ['integer', $mail_id],
+                        'folder_id' => ['integer', $folder_id],
                         'ts_do_delete' => ['integer', $ts_for_deletion], ]
                 );
             }
         }
     }
 
-    /**
-     * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
-     */
+    
     private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotification.php';
@@ -73,9 +66,7 @@ class ilMailCronOrphanedMailsNotifier
         $mail->send();
     }
 
-    /**
-     *
-     */
+    
     public function processNotification() : void
     {
         foreach ($this->collector->getCollection() as $collection_obj) {

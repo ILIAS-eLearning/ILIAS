@@ -150,9 +150,7 @@ class ilMailAttachmentGUI
         $this->showAttachments();
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getToolbarForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -208,9 +206,9 @@ class ilMailAttachmentGUI
             }
 
             $data[$counter] = [
-                'checked'        => $checked,
-                'filename'       => $file['name'],
-                'filesize'       => (int) $file['size'],
+                'checked' => $checked,
+                'filename' => $file['name'],
+                'filesize' => (int) $file['size'],
                 'filecreatedate' => (int) $file['ctime'],
             ];
 

@@ -17,8 +17,6 @@ class ilMailCachedAddressType implements ilMailAddressType
 
     /**
      * ilMailCachedRoleAddressType constructor.
-     * @param ilMailAddressType $inner
-     * @param bool $useCache
      */
     public function __construct(ilMailAddressType $inner, bool $useCache)
     {
@@ -26,9 +24,7 @@ class ilMailCachedAddressType implements ilMailAddressType
         $this->useCache = $useCache;
     }
 
-    /**
-     * @return string
-     */
+    
     private function getCacheKey() : string
     {
         $address = $this->getAddress();

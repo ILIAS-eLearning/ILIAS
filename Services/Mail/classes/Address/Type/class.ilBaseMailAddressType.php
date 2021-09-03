@@ -16,9 +16,6 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 
     /**
      * ilBaseMailAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
      */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
@@ -32,7 +29,6 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 
     /**
      * @param $senderId int
-     * @return bool
      */
     abstract protected function isValid(int $senderId) : bool;
 
@@ -46,18 +42,13 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         return $this->isValid($senderId);
     }
 
-    /**
-     * @param string $languageVariable
-     * @param array $placeHolderValues
-     */
+    
     protected function pushError(string $languageVariable, array $placeHolderValues = []) : void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
     }
 
-    /**
-     *
-     */
+    
     private function resetErrors() : void
     {
         $this->errors = [];

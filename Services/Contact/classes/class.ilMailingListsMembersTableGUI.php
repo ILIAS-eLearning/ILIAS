@@ -23,7 +23,6 @@ class ilMailingListsMembersTableGUI extends ilTable2GUI
     /**
      * @param                $a_parent_obj
      * @param string         $a_parent_cmd
-     * @param ilMailingList  $mailing_list
      */
     public function __construct($a_parent_obj, $a_parent_cmd, ilMailingList $mailing_list)
     {

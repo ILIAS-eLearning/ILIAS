@@ -12,8 +12,6 @@ class ilMailAddress
 
     /**
      * ilMailAddress constructor.
-     * @param string $mailbox
-     * @param string $host
      */
     public function __construct(string $mailbox, string $host)
     {
@@ -21,41 +19,31 @@ class ilMailAddress
         $this->host = $host;
     }
 
-    /**
-     * @param string $host
-     */
+    
     public function setHost(string $host) : void
     {
         $this->host = $host;
     }
 
-    /**
-     * @param string $mailbox
-     */
+    
     public function setMailbox(string $mailbox) : void
     {
         $this->mailbox = $mailbox;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getHost() : string
     {
         return $this->host;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getMailbox() : string
     {
         return $this->mailbox;
     }
 
-    /**
-     * @return string
-     */
+    
     public function __toString() : string
     {
         return implode('@', [

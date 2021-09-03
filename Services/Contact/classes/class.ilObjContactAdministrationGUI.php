@@ -23,11 +23,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
      */
     public $lng;
 
-    /**
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
-     */
+    
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC, $ilErr;
@@ -87,9 +83,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getConfigurationForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -117,9 +111,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI|null $form
-     */
+    
     protected function showConfigurationForm(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
@@ -132,7 +124,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
             $form = $this->getConfigurationForm();
             $form->setValuesByArray([
-                'enable'  => (bool) ilBuddySystem::getInstance()->getSetting('enabled', false),
+                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', false),
                 'use_osd' => isset($cfg['buddysystem_request']) && in_array('osd', $cfg['buddysystem_request'], true)
             ]);
         }
@@ -140,9 +132,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
+    
     protected function saveConfigurationForm() : void
     {
         $this->checkPermission('write');

@@ -10,32 +10,24 @@ class ilMailSearchResult
 {
     protected array $result = [];
 
-    /**
-     *
-     */
+    
     public function __construct()
     {
     }
 
-    /**
-     * @param array $item
-     */
+    
     public function addItem(int $id, array $fields) : void
     {
         $this->result[$id] = $fields;
     }
 
-    /**
-     * @return array
-     */
+    
     public function getIds() : array
     {
         return array_keys($this->result);
     }
 
     /**
-     * @param int $id
-     * @return array
      * @throws OutOfBoundsException
      */
     public function getFields(int $id) : array

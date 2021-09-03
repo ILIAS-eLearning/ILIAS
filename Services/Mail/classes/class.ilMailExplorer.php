@@ -37,9 +37,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setOrderField('title,m_type');
     }
 
-    /**
-     *
-     */
+    
     protected function initFolder() : void
     {
         $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
@@ -50,9 +48,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->currentFolderId = $folderId;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getTreeLabel() : string
     {
         return $this->lng->txt("mail_folders");

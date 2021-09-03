@@ -8,9 +8,7 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    /**
-     * @return array
-     */
+    
     public function addressProvider() : array
     {
         return [
@@ -41,9 +39,6 @@ class ilMailAddressListTest extends ilMailBaseTest
     }
 
     /**
-     * @param array $leftAddresses
-     * @param array $rightAddresses
-     * @param int $numberOfExpectedItems
      * @dataProvider addressProvider
      */
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(

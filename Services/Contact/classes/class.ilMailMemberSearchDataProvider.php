@@ -24,10 +24,7 @@ class ilMailMemberSearchDataProvider
     ];
     protected ilLanguage $lng;
 
-    /**
-     * @param ilParticipants $objParticipants
-     * @param int $a_ref_id
-     */
+    
     public function __construct(ilParticipants $objParticipants, int $a_ref_id)
     {
         global $DIC;

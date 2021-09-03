@@ -42,7 +42,6 @@ class ilMimeMail
     }
 
     /**
-     * @param ilMailMimeTransport|null $transport
      * @throws InvalidArgumentException
      */
     public static function setDefaultTransport(?ilMailMimeTransport $transport) : void

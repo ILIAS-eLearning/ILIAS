@@ -15,8 +15,6 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
 
     /**
      * ilMailOnlyExternalAddressList constructor.
-     * @param ilMailAddressList $origin
-     * @param string $installationHost
      * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument and returns an integer >= 0
      */
     public function __construct(

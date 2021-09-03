@@ -39,8 +39,6 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @param int $templateId
-     * @return \ilMailTemplate
      * @throws \OutOfBoundsException
      */
     public function findById(int $templateId) : \ilMailTemplate
@@ -60,7 +58,6 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @param string $contextId
      * @return \ilMailTemplate[]
      */
     public function findByContextId(string $contextId) : array
@@ -84,20 +81,18 @@ class ilMailTemplateRepository
         }
     }
 
-    /**
-     * @param \ilMailTemplate $template
-     */
+    
     public function store(\ilMailTemplate $template) : void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(
                 'mail_man_tpl',
                 [
-                    'title'      => ['text', $template->getTitle()],
-                    'context'    => ['text', $template->getContext()],
-                    'lang'       => ['text', $template->getLang()],
-                    'm_subject'  => ['text', $template->getSubject()],
-                    'm_message'  => ['text', $template->getMessage()],
+                    'title' => ['text', $template->getTitle()],
+                    'context' => ['text', $template->getContext()],
+                    'lang' => ['text', $template->getLang()],
+                    'm_subject' => ['text', $template->getSubject()],
+                    'm_message' => ['text', $template->getMessage()],
                     'is_default' => ['text', $template->isDefault()],
                 ],
                 [
@@ -107,12 +102,12 @@ class ilMailTemplateRepository
         } else {
             $nextId = $this->db->nextId('mail_man_tpl');
             $this->db->insert('mail_man_tpl', [
-                'tpl_id'     => ['integer', $nextId],
-                'title'      => ['text', $template->getTitle()],
-                'context'    => ['text', $template->getContext()],
-                'lang'       => ['text', $template->getLang()],
-                'm_subject'  => ['text', $template->getSubject()],
-                'm_message'  => ['text', $template->getMessage()],
+                'tpl_id' => ['integer', $nextId],
+                'title' => ['text', $template->getTitle()],
+                'context' => ['text', $template->getContext()],
+                'lang' => ['text', $template->getLang()],
+                'm_subject' => ['text', $template->getSubject()],
+                'm_message' => ['text', $template->getMessage()],
                 'is_default' => ['integer', $template->isDefault()],
             ]);
             $template->setTplId($nextId);

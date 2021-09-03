@@ -9,9 +9,7 @@
  */
 class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
 {
-    /**
-     *
-     */
+    
     public function testGroupIsDetectedIfGroupNameExists() : void
     {
         $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) : bool {
@@ -21,9 +19,7 @@ class ilGroupNameAsMailValidatorTest extends ilMailBaseTest
         $this->assertTrue($validator->validate(new ilMailAddress('phpunit', 'someHost')));
     }
 
-    /**
-     *
-     */
+    
     public function testGroupIsNotDetectedIfGroupNameDoesNotExists() : void
     {
         $validator = new ilGroupNameAsMailValidator('someHost', function (string $groupName) : bool {

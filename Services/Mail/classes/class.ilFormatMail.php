@@ -61,7 +61,6 @@ class ilFormatMail extends ilMail
     /**
     * get reply recipients for cc
     * @access	public
-    * @return string
     */
     public function formatReplyRecipientsForCC() : string
     {
@@ -124,7 +123,6 @@ class ilFormatMail extends ilMail
     * @access	public
     * @param array names to append
     * @param string rcp type ('to','cc','bc')
-    * @return array
     */
     public function appendSearchResult(array $a_names, string $a_type) : array
     {
@@ -159,10 +157,7 @@ class ilFormatMail extends ilMail
         return $this->mail_data;
     }
 
-    /**
-     * @param string $message
-     * @return string
-     */
+    
     public function formatLinebreakMessage(string $message) : string
     {
         $formatted = [];
@@ -182,9 +177,7 @@ class ilFormatMail extends ilMail
         return $formatted;
     }
 
-    /**
-     * @return string
-     */
+    
     public function appendSignature() : string
     {
         $message = (string) ($this->mail_data['m_message'] ?? '');
@@ -193,9 +186,7 @@ class ilFormatMail extends ilMail
         return $message;
     }
 
-    /**
-     * @return string
-     */
+    
     public function prependSignature() : string
     {
         $message = (string) ($this->mail_data['m_message'] ?? '');

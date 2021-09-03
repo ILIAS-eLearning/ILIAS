@@ -9,8 +9,6 @@ class ilMailMimeTransportFactory
 
     /**
      * ilMailMimeTransportFactory constructor.
-     * @param ilSetting $settings
-     * @param ilAppEventHandler $eventHandler
      */
     public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
     {
@@ -18,9 +16,7 @@ class ilMailMimeTransportFactory
         $this->eventHandler = $eventHandler;
     }
 
-    /**
-     * @return ilMailMimeTransport
-     */
+    
     public function getTransport() : ilMailMimeTransport
     {
         if (!(bool) $this->settings->get('mail_allow_external')) {

@@ -36,21 +36,7 @@ class ilMail
     protected int $maxRecipientCharacterLength = 998;
     protected ?ilMailMimeSenderFactory $senderFactory;
 
-    /**
-     * @param int $a_user_id
-     * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
-     * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
-     * @param ilAppEventHandler|null $eventHandler
-     * @param ilLogger|null $logger
-     * @param ilDBInterface|null $db
-     * @param ilLanguage|null $lng
-     * @param ilFileDataMail|null $mailFileData
-     * @param ilMailOptions|null $mailOptions
-     * @param ilMailbox|null $mailBox
-     * @param ilMailMimeSenderFactory|null $senderFactory
-     * @param callable|null $usrIdByLoginCallable
-     * @param int|null $mailAdminNodeRefId
-     */
+    
     public function __construct(
         int $a_user_id,
         ilMailAddressTypeFactory $mailAddressTypeFactory = null,
@@ -129,7 +115,6 @@ class ilMail
     }
 
     /**
-     * @param string $contextId
      * @return ilMail
      */
     public function withContextId(string $contextId) : self
@@ -142,7 +127,6 @@ class ilMail
     }
 
     /**
-     * @param array $parameters
      * @return ilMail
      */
     public function withContextParameters(array $parameters) : self
@@ -154,19 +138,13 @@ class ilMail
         return $clone;
     }
 
-    /**
-     * @return bool
-     */
+    
     protected function isSystemMail() : bool
     {
         return $this->user_id == ANONYMOUS_USER_ID;
     }
 
-    /**
-     * @param string $newRecipient
-     * @param string $existingRecipients
-     * @return bool
-     */
+    
     public function existsRecipient(string $newRecipient, string $existingRecipients) : bool
     {
         $newAddresses = new ilMailAddressListImpl($this->parseAddresses($newRecipient));
@@ -179,17 +157,13 @@ class ilMail
         return count($diffedAddresses) === 0;
     }
 
-    /**
-     * @param bool $saveInSentbox
-     */
+    
     public function setSaveInSentbox(bool $saveInSentbox) : void
     {
         $this->save_in_sentbox = $saveInSentbox;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function getSaveInSentbox() : bool
     {
         return $this->save_in_sentbox;
@@ -203,9 +177,7 @@ class ilMail
         $this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
     }
 
-    /**
-     * @return int
-     */
+    
     public function getMailObjectReferenceId() : int
     {
         return $this->mail_obj_ref_id;
@@ -215,7 +187,6 @@ class ilMail
      * Prepends the full name of each ILIAS login name (if user has a public profile) found
      * in the passed string and brackets the ILIAS login name afterwards.
      * @param string $recipients A string containing to, cc or bcc recipients
-     * @return string
      */
     public function formatNamesForOutput(string $recipients) : string
     {
@@ -246,10 +217,7 @@ class ilMail
         return implode(', ', $names);
     }
 
-    /**
-     * @param int $mailId
-     * @return array|null
-     */
+    
     public function getPreviousMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -271,10 +239,7 @@ class ilMail
         return $this->mail_data;
     }
 
-    /**
-     * @param int $mailId
-     * @return array|null
-     */
+    
     public function getNextMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -299,7 +264,6 @@ class ilMail
     /**
      * @param int $a_folder_id The id of the folder
      * @param array $filter An optional filter array
-     * @return array
      */
     public function getMailsOfFolder(int $a_folder_id, array $filter = []) : array
     {
@@ -331,10 +295,7 @@ class ilMail
         return array_filter($mails);
     }
 
-    /**
-     * @param int $folderId
-     * @return int
-     */
+    
     public function countMailsOfFolder(int $folderId) : int
     {
         $res = $this->db->queryF(
@@ -346,9 +307,7 @@ class ilMail
         return $this->db->numRows($res);
     }
 
-    /**
-     * @param int $folderId
-     */
+    
     public function deleteMailsOfFolder(int $folderId) : void
     {
         $mails = $this->getMailsOfFolder($folderId);
@@ -357,10 +316,7 @@ class ilMail
         }
     }
 
-    /**
-     * @param int $mailId
-     * @return array|null
-     */
+    
     public function getMail(int $mailId) : ?array
     {
         $res = $this->db->queryF(
@@ -414,8 +370,6 @@ class ilMail
 
     /**
      * @param int[] $mailIds
-     * @param int $folderId
-     * @return bool
      */
     public function moveMailsToFolder(array $mailIds, int $folderId) : bool
     {
@@ -460,10 +414,7 @@ class ilMail
         }
     }
 
-    /**
-     * @param array|null $row
-     * @return array|null
-     */
+    
     protected function fetchMailData(?array $row) : ?array
     {
         if (!is_array($row) || empty($row)) {
@@ -486,17 +437,13 @@ class ilMail
         return $row;
     }
 
-    /**
-     * @param int $usrId
-     * @param int $folderId
-     * @return int
-     */
+    
     public function getNewDraftId(int $usrId, int $folderId) : int
     {
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
-            'mail_id'   => ['integer', $nextId],
-            'user_id'   => ['integer', $usrId],
+            'mail_id' => ['integer', $nextId],
+            'user_id' => ['integer', $usrId],
             'folder_id' => ['integer', $folderId],
             'sender_id' => ['integer', $usrId],
         ]);
@@ -521,19 +468,19 @@ class ilMail
         $this->db->update(
             $this->table_mail,
             [
-                'folder_id'        => ['integer', $a_folder_id],
-                'attachments'      => ['clob', serialize($a_attachments)],
-                'send_time'        => ['timestamp', date('Y-m-d H:i:s', time())],
-                'rcp_to'           => ['clob', $a_rcp_to],
-                'rcp_cc'           => ['clob', $a_rcp_cc],
-                'rcp_bcc'          => ['clob', $a_rcp_bcc],
-                'm_status'         => ['text', 'read'],
-                'm_email'          => ['integer', $a_m_email],
-                'm_subject'        => ['text', $a_m_subject],
-                'm_message'        => ['clob', $a_m_message],
+                'folder_id' => ['integer', $a_folder_id],
+                'attachments' => ['clob', serialize($a_attachments)],
+                'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+                'rcp_to' => ['clob', $a_rcp_to],
+                'rcp_cc' => ['clob', $a_rcp_cc],
+                'rcp_bcc' => ['clob', $a_rcp_bcc],
+                'm_status' => ['text', 'read'],
+                'm_email' => ['integer', $a_m_email],
+                'm_subject' => ['text', $a_m_subject],
+                'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
-                'tpl_ctx_id'       => ['text', $a_tpl_context_id],
-                'tpl_ctx_params'   => ['blob', json_encode((array) $a_tpl_context_params)],
+                'tpl_ctx_id' => ['text', $a_tpl_context_id],
+                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_context_params)],
             ],
             [
                 'mail_id' => ['integer', $a_draft_id],
@@ -544,7 +491,6 @@ class ilMail
     }
 
     /**
-     * @param int $folderId
      * @param int $senderUsrId
      * @param array $attachments
      * @param string $to
@@ -554,11 +500,7 @@ class ilMail
      * @param int $email
      * @param string $subject
      * @param string $message
-     * @param int $usrId
-     * @param int $usePlaceholders
-     * @param string|null $templateContextId
      * @param array|null $templateContextParameters
-     * @return int
      */
     private function sendInternalMail(
         int $folderId,
@@ -620,20 +562,20 @@ class ilMail
 
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
-            'mail_id'        => ['integer', $nextId],
-            'user_id'        => ['integer', $usrId],
-            'folder_id'      => ['integer', $folderId],
-            'sender_id'      => ['integer', $senderUsrId],
-            'attachments'    => ['clob', serialize($attachments)],
-            'send_time'      => ['timestamp', date('Y-m-d H:i:s', time())],
-            'rcp_to'         => ['clob', $to],
-            'rcp_cc'         => ['clob', $cc],
-            'rcp_bcc'        => ['clob', $bcc],
-            'm_status'       => ['text', $status],
-            'm_email'        => ['integer', $email],
-            'm_subject'      => ['text', $subject],
-            'm_message'      => ['clob', $message],
-            'tpl_ctx_id'     => ['text', $templateContextId],
+            'mail_id' => ['integer', $nextId],
+            'user_id' => ['integer', $usrId],
+            'folder_id' => ['integer', $folderId],
+            'sender_id' => ['integer', $senderUsrId],
+            'attachments' => ['clob', serialize($attachments)],
+            'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+            'rcp_to' => ['clob', $to],
+            'rcp_cc' => ['clob', $cc],
+            'rcp_bcc' => ['clob', $bcc],
+            'm_status' => ['text', $status],
+            'm_email' => ['integer', $email],
+            'm_subject' => ['text', $subject],
+            'm_message' => ['clob', $message],
+            'tpl_ctx_id' => ['text', $templateContextId],
             'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters)],
         ]);
 
@@ -644,26 +586,21 @@ class ilMail
 
         if ($raiseEvent) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
-                'id'          => $nextId,
-                'subject'     => (string) $subject,
-                'body'        => (string) $message,
+                'id' => $nextId,
+                'subject' => (string) $subject,
+                'body' => (string) $message,
                 'from_usr_id' => (int) $senderUsrId,
-                'to_usr_id'   => (int) $usrId,
-                'rcp_to'      => (string) $to,
-                'rcp_cc'      => (string) $cc,
-                'rcp_bcc'     => (string) $bcc,
+                'to_usr_id' => (int) $usrId,
+                'rcp_to' => (string) $to,
+                'rcp_cc' => (string) $cc,
+                'rcp_bcc' => (string) $bcc,
             ]);
         }
 
         return (int) $nextId;
     }
 
-    /**
-     * @param string $message
-     * @param int $usrId
-     * @param bool $replaceEmptyPlaceholders
-     * @return string
-     */
+    
     protected function replacePlaceholders(
         string $message,
         int $usrId = 0,
@@ -687,17 +624,7 @@ class ilMail
         return $message;
     }
 
-    /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
-     * @param array $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
-     * @return bool
-     */
+    
     protected function distributeMail(
         string $to,
         string $cc,
@@ -765,17 +692,7 @@ class ilMail
         return true;
     }
 
-    /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param array $usrIds
-     * @param string $subject
-     * @param string $message
-     * @param array $attachments
-     * @param int $sentMailId
-     * @param bool $usePlaceholders
-     */
+    
     protected function sendChanneledMails(
         string $to,
         string $cc,
@@ -874,14 +791,7 @@ class ilMail
         );
     }
 
-    /**
-     * @param string $subject
-     * @param string $message
-     * @param array $attachments
-     * @param bool $usePlaceholders
-     * @param array $usrIdToExternalEmailAddressesMap
-     * @param array $usrIdToMessageMap
-     */
+    
     protected function delegateExternalEmails(
         string $subject,
         string $message,
@@ -989,10 +899,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
      * @return   ilMailError[] An array of errors determined on validation
      */
     protected function checkMail(string $to, string $cc, string $bcc, string $subject) : array
@@ -1014,7 +920,6 @@ class ilMail
 
     /**
      * Check if recipients are valid
-     * @param string $recipients
      * @return ilMailError[] An array of errors determined on validation
      * @throws ilMailException
      */
@@ -1044,18 +949,13 @@ class ilMail
     /**
      * save post data in table
      * @access    public
-     * @param int $a_user_id
      * @param array $a_attachments
      * @param string $a_rcp_to
      * @param string $a_rcp_cc
      * @param string $a_rcp_bcc
      * @param int $a_m_email
-     * @param string $a_m_subject
      * @param string $a_m_message
      * @param int $a_use_placeholders
-     * @param string|null $a_tpl_context_id
-     * @param array|null $a_tpl_ctx_params
-     * @return    bool
      */
     public function savePostData(
         int $a_user_id,
@@ -1098,16 +998,16 @@ class ilMail
                 'user_id' => ['integer', $this->user_id],
             ],
             [
-                'attachments'      => ['clob', serialize($a_attachments)],
-                'rcp_to'           => ['clob', $a_rcp_to],
-                'rcp_cc'           => ['clob', $a_rcp_cc],
-                'rcp_bcc'          => ['clob', $a_rcp_bcc],
-                'm_email'          => ['integer', $a_m_email],
-                'm_subject'        => ['text', $a_m_subject],
-                'm_message'        => ['clob', $a_m_message],
+                'attachments' => ['clob', serialize($a_attachments)],
+                'rcp_to' => ['clob', $a_rcp_to],
+                'rcp_cc' => ['clob', $a_rcp_cc],
+                'rcp_bcc' => ['clob', $a_rcp_bcc],
+                'm_email' => ['integer', $a_m_email],
+                'm_subject' => ['text', $a_m_subject],
+                'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
-                'tpl_ctx_id'       => ['text', $a_tpl_context_id],
-                'tpl_ctx_params'   => ['blob', json_encode((array) $a_tpl_ctx_params)],
+                'tpl_ctx_id' => ['text', $a_tpl_context_id],
+                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_ctx_params)],
             ]
         );
 
@@ -1116,9 +1016,7 @@ class ilMail
         return true;
     }
 
-    /**
-     * @return array|null
-     */
+    
     public function getSavedData() : ?array
     {
         $res = $this->db->queryF(
@@ -1134,12 +1032,6 @@ class ilMail
 
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param string $a_m_subject
-     * @param string $a_m_message
-     * @param array $a_attachment
      * @param bool|int $a_use_placeholders
      * @return ilMailError[]
      */
@@ -1250,13 +1142,6 @@ class ilMail
     /**
      * This method is used to finally send internal messages and external emails
      * To use the mail system as a consumer, please use \ilMail::enqueue
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
-     * @param array $attachments
-     * @param bool $usePlaceholders
      * @return ilMailError[]
      * @see \ilMail::enqueue()
      * @internal
@@ -1336,9 +1221,6 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @return ilMailError[] An array of errors determined on validation
      */
     public function validateRecipients(string $to, string $cc, string $bcc) : array
@@ -1361,12 +1243,6 @@ class ilMail
 
     /**
      * Stores a message in the sent bod of the current user
-     * @param array $attachment
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $subject
-     * @param string $message
      * @return int mail id
      */
     protected function saveInSentbox(
@@ -1393,12 +1269,8 @@ class ilMail
     }
 
     /**
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
      * @param string $subject
      * @param string $message
-     * @param array $attachments
      */
     private function sendMimeMail(string $to, string $cc, string $bcc, $subject, $message, array $attachments) : void
     {
@@ -1447,7 +1319,6 @@ class ilMail
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
      * Returns an array with recipient ilMailAddress instances
-     * @param string $addresses
      * @return ilMailAddress[] An array with objects of type ilMailAddress
      */
     protected function parseAddresses(string $addresses) : array
@@ -1475,9 +1346,7 @@ class ilMail
     }
 
     /**
-     * @param string $recipients
      * @param bool $onlyExternalAddresses
-     * @return int
      */
     protected function getCountRecipient(string $recipients, $onlyExternalAddresses = true) : int
     {
@@ -1494,11 +1363,7 @@ class ilMail
     }
 
     /**
-     * @param string $toRecipients
-     * @param string $ccRecipients
      * @param $bccRecipients
-     * @param bool $onlyExternalAddresses
-     * @return int
      */
     protected function getCountRecipients(
         string $toRecipients,
@@ -1513,10 +1378,7 @@ class ilMail
         );
     }
 
-    /**
-     * @param string $recipients
-     * @return string
-     */
+    
     protected function getEmailRecipients(string $recipients) : string
     {
         $addresses = new ilMailOnlyExternalAddressList(
@@ -1554,9 +1416,7 @@ class ilMail
         ) . "\n\n";
     }
 
-    /**
-     * @return string
-     */
+    
     public static function _getIliasMailerName() : string
     {
         /** @var ilMailMimeSenderFactory $senderFactory */
@@ -1566,7 +1426,6 @@ class ilMail
     }
 
     /**
-     * @param bool|null $a_flag
      * @return self|bool
      */
     public function appendInstallationSignature(bool $a_flag = null)
@@ -1612,7 +1471,6 @@ class ilMail
     /**
      * @param int $a_usr_id
      * @param     $a_language ilLanguage|null
-     * @return string
      */
     public static function getSalutation($a_usr_id, ilLanguage $a_language = null) : string
     {
@@ -1636,10 +1494,7 @@ class ilMail
             $name['lastname'] . ',';
     }
 
-    /**
-     * @param int $usrId
-     * @return ilObjUser
-     */
+    
     protected function getUserInstanceById(int $usrId) : ilObjUser
     {
         if (!isset($this->userInstancesByIdMap[$usrId])) {
@@ -1658,10 +1513,7 @@ class ilMail
         $this->userInstancesByIdMap = $userInstanceByIdMap;
     }
 
-    /**
-     * @param int $usrId
-     * @return ilMailOptions
-     */
+    
     protected function getMailOptionsByUserId(int $usrId) : ilMailOptions
     {
         if (!isset($this->mailOptionsByUsrIdMap[$usrId])) {

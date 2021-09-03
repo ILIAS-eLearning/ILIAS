@@ -70,7 +70,6 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
 
     /**
      * @param string $a_field
-     * @return bool
      */
     public function numericOrdering($a_field) : bool
     {
@@ -78,8 +77,6 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $column
-     * @param string $value
      * @return string
      */
     protected function formatValue(string $column, string $value) : ?string

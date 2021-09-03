@@ -12,7 +12,6 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
 
     /**
      * ilMailMimeSenderSystem constructor.
-     * @param ilSetting $settings
      * @param ilObjUser ilObjUser
      */
     public function __construct(ilSetting $settings, ilObjUser $user)

@@ -11,13 +11,7 @@ use OrgUnit\User\ilOrgUnitUser;
  */
 class ilMailTemplateContextTest extends ilMailBaseTest
 {
-    /**
-     * @param OrgUnitUserService $orgUnitUserService
-     * @param ilMailEnvironmentHelper $envHelper
-     * @param ilMailUserHelper $usernameHelper
-     * @param ilMailLanguageHelper $languageHelper
-     * @return ilMailTemplateContext
-     */
+    
     public function getAnonymousTemplateContext(
         OrgUnitUserService $orgUnitUserService,
         ilMailEnvironmentHelper $envHelper,
@@ -57,8 +51,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     }
 
     /**
-     * @param int $amount
-     * @return array
      * @throws ReflectionException
      */
     private function generateOrgUnitUsers(int $amount) : array
@@ -79,7 +71,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
     }
 
     /**
-     * @return array
      * @throws ReflectionException
      */
     public function userProvider() : array
@@ -133,8 +124,6 @@ class ilMailTemplateContextTest extends ilMailBaseTest
 
     /**
      * @dataProvider userProvider
-     * @param ilObjUser $user
-     * @param ilOrgUnitUser $ouUser
      * @param ilOrgUnitUser[] $superiors
      * @throws ReflectionException
      */

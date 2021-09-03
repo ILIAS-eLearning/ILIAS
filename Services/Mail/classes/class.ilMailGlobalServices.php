@@ -87,7 +87,6 @@ class ilMailGlobalServices
      *
      * @access    public
      * @param $usr_id
-     * @param int $leftInterval
      * @return int The number on unread mails (system messages + inbox mails) for the passed user id
      * @static
      *
@@ -145,7 +144,7 @@ class ilMailGlobalServices
         $row2 = $DIC->database()->fetchAssoc($res);
 
         self::$global_mail_services_cache[$cacheKey] = [
-            'count'    => (int) ($row['cnt'] + $row2['cnt']),
+            'count' => (int) ($row['cnt'] + $row2['cnt']),
             'max_time' => max(
                 (string) $row['send_time'],
                 (string) $row2['send_time']

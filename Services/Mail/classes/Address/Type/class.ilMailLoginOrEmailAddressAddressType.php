@@ -11,10 +11,6 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 
     /**
      * ilMailMailingListAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
-     * @param ilRbacSystem $rbacsystem
      */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,

@@ -17,9 +17,7 @@ class ilMailCronOrphanedMailsNotificationCollector
     protected ilDBInterface $db;
     protected ilSetting $setting;
 
-    /**
-     *
-     */
+    
     public function __construct()
     {
         global $DIC;
@@ -30,9 +28,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         $this->collect();
     }
 
-    /**
-     *
-     */
+    
     public function collect() : void
     {
         $mail_notify_orphaned = (int) $this->setting->get('mail_notify_orphaned');
@@ -106,9 +102,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         }
     }
 
-    /**
-     * @param ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj
-     */
+    
     public function addCollectionObject(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
@@ -116,7 +110,6 @@ class ilMailCronOrphanedMailsNotificationCollector
 
     /**
      * @param $user_id
-     * @return bool
      */
     private function existsCollectionObjForUserId(int $user_id) : bool
     {

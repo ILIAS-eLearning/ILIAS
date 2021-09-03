@@ -16,9 +16,6 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
 
     /**
      * ilIncomingMailInputGUI constructor.
-     * @param string $title
-     * @param string $post_var
-     * @param bool   $freeOptionChoice
      */
     public function __construct(string $title = '', string $post_var = '', bool $freeOptionChoice = true)
     {
@@ -26,9 +23,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $this->setFreeOptionChoice($freeOptionChoice);
     }
 
-    /**
-     *
-     */
+    
     protected function initializeOptions() : void
     {
         if (!$this->optionsInitialized) {
@@ -91,25 +86,19 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         return parent::getSubInputItemsRecursive();
     }
 
-    /**
-     * @return bool
-     */
+    
     public function isFreeOptionChoice() : bool
     {
         return $this->freeOptionChoice;
     }
 
-    /**
-     * @param bool $freeOptionChoice
-     */
+    
     public function setFreeOptionChoice(bool $freeOptionChoice) : void
     {
         $this->freeOptionChoice = $freeOptionChoice;
     }
 
-    /**
-     *
-     */
+    
     private function addSubOptions() : void
     {
         global $DIC;

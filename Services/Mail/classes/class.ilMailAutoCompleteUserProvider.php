@@ -8,10 +8,7 @@ require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.ph
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
-    /**
-     * @param string $quoted_term
-     * @param string $term
-     */
+    
     public function __construct(string $quoted_term, string $term)
     {
         parent::__construct($quoted_term, $term);
@@ -19,7 +16,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Valid" implementation of iterator interface
-     * @return bool
      */
     public function valid() : bool
     {
@@ -30,20 +26,18 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Current" implementation of iterator interface
-     * @return  array
      */
     public function current() : array
     {
         return [
-            'login'     => $this->data['login'],
+            'login' => $this->data['login'],
             'firstname' => $this->data['firstname'],
-            'lastname'  => $this->data['lastname'],
+            'lastname' => $this->data['lastname'],
         ];
     }
 
     /**
      * "Key" implementation of iterator interface
-     * @return string
      */
     public function key() : string
     {
@@ -72,9 +66,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $this->res = $this->db->query($query);
     }
 
-    /**
-     * @return string
-     */
+    
     protected function getSelectPart() : string
     {
         $fields = [
@@ -103,9 +95,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(', ', $fields);
     }
 
-    /**
-     * @return string
-     */
+    
     protected function getFromPart() : string
     {
         $joins = [];
@@ -129,7 +119,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * @param string
-     * @return string
      */
     protected function getWherePart(string $search_query) : string
     {
@@ -183,18 +172,14 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(' AND ', $outer_conditions);
     }
 
-    /**
-     * @return string
-     */
+    
     protected function getOrderByPart() : string
     {
         return 'login ASC';
     }
 
     /**
-     * @param string $field
      * @param $a_str
-     * @return string
      */
     protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
     {
@@ -203,7 +188,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * Get searchable fields
-     * @return array
      */
     protected function getFields() : array
     {

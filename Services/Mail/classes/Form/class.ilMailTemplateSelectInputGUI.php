@@ -11,12 +11,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
     protected array $fields = [];
     protected string $url;
 
-    /**
-     * @param string $a_title
-     * @param string $a_postvar
-     * @param string $url
-     * @param array $fields
-     */
+    
     public function __construct(string $a_title = '', string $a_postvar = '', string $url = '', array $fields = [])
     {
         parent::__construct($a_title, $a_postvar);

@@ -12,10 +12,7 @@ class ilGroupNameAsMailValidator
     /** @var callable */
     protected $groupNameCheckCallable;
 
-    /**
-     * @param string $host
-     * @param callable|null $groupNameCheckCallable
-     */
+    
     public function __construct(string $host, callable $groupNameCheckCallable = null)
     {
         $this->host = $host;
@@ -31,8 +28,6 @@ class ilGroupNameAsMailValidator
 
     /**
      * Validates if the given address contains a valid group name to send an email
-     * @param ilMailAddress $address
-     * @return bool
      */
     public function validate(ilMailAddress $address) : bool
     {
@@ -44,8 +39,6 @@ class ilGroupNameAsMailValidator
 
     /**
      * Checks if the given host is valid in the email context
-     * @param string $host
-     * @return bool
      */
     private function isHostValid(string $host) : bool
     {

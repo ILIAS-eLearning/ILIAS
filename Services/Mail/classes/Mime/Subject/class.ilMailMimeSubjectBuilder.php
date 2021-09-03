@@ -12,8 +12,6 @@ class ilMailMimeSubjectBuilder
 
     /**
      * ilMailMimeSubjectBuilder constructor.
-     * @param ilSetting $settings
-     * @param string $defaultPrefix
      */
     public function __construct(ilSetting $settings, string $defaultPrefix)
     {
@@ -21,12 +19,7 @@ class ilMailMimeSubjectBuilder
         $this->defaultPrefix = $defaultPrefix;
     }
 
-    /**
-     * @param string $subject
-     * @param bool $addPrefix
-     * @param string $contextPrefix
-     * @return string
-     */
+    
     public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
     {
         $subject = trim($subject);

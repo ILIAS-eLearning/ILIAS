@@ -13,10 +13,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     protected string $term = '';
     protected int $user_id = 0;
 
-    /**
-     * @param string $quoted_term
-     * @param string $term
-     */
+    
     public function __construct(string $quoted_term, string $term)
     {
         global $DIC;
@@ -29,7 +26,6 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 
     /**
      * "Valid" implementation of iterator interface
-     * @return bool
      */
     public function valid() : bool
     {

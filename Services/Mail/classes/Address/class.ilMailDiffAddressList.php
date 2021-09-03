@@ -12,8 +12,6 @@ class ilMailDiffAddressList implements ilMailAddressList
 
     /**
      * ilMailDiffAddressList constructor.
-     * @param ilMailAddressList $left
-     * @param ilMailAddressList $right
      */
     public function __construct(ilMailAddressList $left, ilMailAddressList $right)
     {

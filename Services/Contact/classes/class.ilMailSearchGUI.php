@@ -76,9 +76,7 @@ class ilMailSearchGUI
         return true;
     }
 
-    /**
-     * @return bool
-     */
+    
     private function isDefaultRequestContext() : bool
     {
         return !isset($this->httpRequest->getQueryParams()['ref']) || $this->httpRequest->getQueryParams()['ref'] !== 'wsp';

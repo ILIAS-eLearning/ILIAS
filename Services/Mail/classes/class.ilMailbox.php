@@ -22,7 +22,6 @@ class ilMailbox
 
     /**
      * ilMailbox constructor.
-     * @param int $a_user_id
      */
     public function __construct(int $a_user_id = 0)
     {
@@ -47,26 +46,24 @@ class ilMailbox
             $this->lng->loadLanguageModule("mail");
 
             $this->actions = [
-                'moveMails'       => $this->lng->txt('mail_move_to'),
-                'markMailsRead'   => $this->lng->txt('mail_mark_read'),
+                'moveMails' => $this->lng->txt('mail_move_to'),
+                'markMailsRead' => $this->lng->txt('mail_mark_read'),
                 'markMailsUnread' => $this->lng->txt('mail_mark_unread'),
-                'deleteMails'     => $this->lng->txt('delete'),
+                'deleteMails' => $this->lng->txt('delete'),
             ];
         }
 
         // array contains basic folders and there lng translation for every new user
         $this->defaultFolders = [
-            'b_inbox'  => 'inbox',
-            'c_trash'  => 'trash',
+            'b_inbox' => 'inbox',
+            'c_trash' => 'trash',
             'd_drafts' => 'drafts',
-            'e_sent'   => 'sent',
-            'z_local'  => 'local',
+            'e_sent' => 'sent',
+            'z_local' => 'local',
         ];
     }
 
-    /**
-     * @return int
-     */
+    
     public function getInboxFolder() : int
     {
         $res = $this->db->queryF(
@@ -80,9 +77,7 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
+    
     public function getDraftsFolder() : int
     {
         $res = $this->db->queryF(
@@ -96,9 +91,7 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
+    
     public function getTrashFolder() : int
     {
         $res = $this->db->queryF(
@@ -112,9 +105,7 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
+    
     public function getSentFolder() : int
     {
         $res = $this->db->queryF(
@@ -128,18 +119,13 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    /**
-     * @return int
-     */
+    
     private function getRootFolderId() : int
     {
         return $this->mtree->getRootId();
     }
 
-    /**
-     * @param int $folderId
-     * @return array
-     */
+    
     public function getActions(int $folderId) : array
     {
         if ($folderId) {
@@ -176,11 +162,7 @@ class ilMailbox
         }
     }
 
-    /**
-     * @param int $parentFolderId
-     * @param string $name
-     * @return int
-     */
+    
     public function addFolder(int $parentFolderId, string $name) : int
     {
         if ($this->folderNameExists($name)) {
@@ -198,11 +180,7 @@ class ilMailbox
         return (int) $nextId;
     }
 
-    /**
-     * @param int $folderId
-     * @param string $name
-     * @return bool
-     */
+    
     public function renameFolder(int $folderId, string $name) : bool
     {
         if ($this->folderNameExists($name)) {
@@ -220,7 +198,6 @@ class ilMailbox
 
     /**
      * @param $name
-     * @return bool
      */
     protected function folderNameExists(string $name) : bool
     {
@@ -235,8 +212,6 @@ class ilMailbox
     }
 
     /**
-     * @param int $folderId
-     * @return bool
      * @throws ilInvalidTreeStructureException
      */
     public function deleteFolder(int $folderId) : bool
@@ -281,7 +256,6 @@ class ilMailbox
 
     /**
      * @param $folderId
-     * @return array
      */
     public function getFolderData(int $folderId) : array
     {
@@ -294,15 +268,12 @@ class ilMailbox
 
         return [
             'obj_id' => (int) $row['obj_id'],
-            'title'  => (string) $row['title'],
-            'type'   => (string) $row['m_type'],
+            'title' => (string) $row['title'],
+            'type' => (string) $row['m_type'],
         ];
     }
 
-    /**
-     * @param int $folderId
-     * @return int
-     */
+    
     public function getParentFolderId(int $folderId) : int
     {
         $res = $this->db->queryF(
@@ -315,9 +286,7 @@ class ilMailbox
         return is_array($row) ? (int) $row['parent'] : 0;
     }
 
-    /**
-     * @return array
-     */
+    
     public function getSubFolders() : array
     {
         $userFolders = [];
@@ -331,8 +300,8 @@ class ilMailbox
             $row = $this->db->fetchAssoc($res);
 
             $userFolders[] = [
-                'title'  => $key,
-                'type'   => (string) $row['m_type'],
+                'title' => $key,
+                'type' => (string) $row['m_type'],
                 'obj_id' => (int) $row['obj_id'],
             ];
         }
@@ -351,8 +320,8 @@ class ilMailbox
         );
         while ($row = $this->db->fetchAssoc($res)) {
             $userFolders[] = [
-                'title'  => (string) $row['title'],
-                'type'   => (string) $row['m_type'],
+                'title' => (string) $row['title'],
+                'type' => (string) $row['m_type'],
                 'obj_id' => (int) $row['child'],
             ];
         }
@@ -360,25 +329,19 @@ class ilMailbox
         return $userFolders;
     }
 
-    /**
-     * @param int $usrId
-     */
+    
     public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
 
-    /**
-     * @return int
-     */
+    
     public function getUsrId() : int
     {
         return $this->usrId;
     }
 
-    /**
-     *
-     */
+    
     public function delete() : void
     {
         $this->db->manipulateF(
@@ -420,7 +383,6 @@ class ilMailbox
     /**
      * Update existing mails. Set sender id to 0 and import name to login name.
      * This is only necessary for deleted users.
-     * @param string $nameToShow
      */
     public function updateMailsOfDeletedUser(string $nameToShow) : void
     {
@@ -431,10 +393,7 @@ class ilMailbox
         );
     }
 
-    /**
-     * @param int $folderId
-     * @return bool
-     */
+    
     public function isOwnedFolder(int $folderId) : bool
     {
         $folderData = $this->getFolderData($folderId);

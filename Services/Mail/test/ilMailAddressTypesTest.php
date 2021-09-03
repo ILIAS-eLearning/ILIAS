@@ -34,7 +34,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
     /**
      * @param $groupNameValidatorMock
-     * @return ilMailAddressTypeFactory
      * @throws ReflectionException
      */
     private function getAddressTypeFactory($groupNameValidatorMock) : ilMailAddressTypeFactory
@@ -60,8 +59,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     }
 
     /**
-     * @param ilMailAddressType $type
-     * @return ilMailAddressType
      * @throws ReflectionException
      */
     private function getWrappedAddressType(ilMailAddressType $type) : ilMailAddressType

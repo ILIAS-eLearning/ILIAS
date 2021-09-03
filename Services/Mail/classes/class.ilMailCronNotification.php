@@ -18,10 +18,8 @@ class ilMailCronNotification extends ilCronJob
     protected ilSetting $settings;
     protected bool $initDone = false;
 
-    /**
-     *
-     */
-    protected function init(): void
+    
+    protected function init() : void
     {
         global $DIC;
 

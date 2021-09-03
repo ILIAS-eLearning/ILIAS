@@ -24,7 +24,6 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
 
     /**
      * ilManualPlaceholderInputGUI constructor.
-     * @param string $dependencyElementId
      */
     public function __construct(string $dependencyElementId)
     {
@@ -40,9 +39,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         $this->tpl->addJavaScript('Services/Mail/js/ilMailComposeFunctions.js');
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRerenderUrl() : string
     {
         return $this->rerenderUrl;
@@ -56,52 +53,38 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->rerenderTriggerElementName;
     }
 
-    /**
-     * @param string $elementId
-     * @param string $url
-     */
+    
     public function supportsRerenderSignal(string $elementId, string $url) : void
     {
         $this->rerenderTriggerElementName = $elementId;
         $this->rerenderUrl = $url;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getAdviseText() : string
     {
         return $this->adviseText;
     }
 
-    /**
-     * @param string $adviseText
-     */
+    
     public function setAdviseText(string $adviseText) : void
     {
         $this->adviseText = $adviseText;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getInstructionText() : string
     {
         return $this->instructionText;
     }
 
-    /**
-     * @param string $instructionText
-     */
+    
     public function setInstructionText(string $instructionText) : void
     {
         $this->instructionText = $instructionText;
     }
 
-    /**
-     * @param string $placeholder
-     * @param string $title
-     */
+    
     public function addPlaceholder(string $placeholder, string $title) : void
     {
         $this->placeholders[$placeholder]['placeholder'] = $placeholder;
@@ -121,7 +104,6 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     }
 
     /**
-     * @param bool $ajax
      * @return string|void
      */
     public function render(bool $ajax = false)

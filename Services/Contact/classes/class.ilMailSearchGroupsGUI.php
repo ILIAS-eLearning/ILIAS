@@ -340,12 +340,12 @@ class ilMailSearchGroupsGUI
                     $this->ctrl->clearParameters($this);
                     
                     $rowData = [
-                        'CRS_ID'                 => $grp_id,
-                        'CRS_NAME'               => $this->cache->lookupTitle($grp_id),
-                        'CRS_NO_MEMBERS'         => count($grp_members),
-                        'CRS_PATH'               => $path,
+                        'CRS_ID' => $grp_id,
+                        'CRS_NAME' => $this->cache->lookupTitle($grp_id),
+                        'CRS_NO_MEMBERS' => count($grp_members),
+                        'CRS_PATH' => $path,
                         'COMMAND_SELECTION_LIST' => $current_selection_list->getHTML(),
-                        "hidden_members"         => $hiddenMembers
+                        "hidden_members" => $hiddenMembers
                     ];
                     $counter++;
                     $tableData[] = $rowData;
@@ -413,11 +413,11 @@ class ilMailSearchGroupsGUI
                         }
 
                         $rowData = [
-                            'members_id'      => $member["id"],
-                            'members_login'   => $member["login"],
-                            'members_name'    => $fullname,
+                            'members_id' => $member["id"],
+                            'members_login' => $member["login"],
+                            'members_name' => $fullname,
                             'members_crs_grp' => $group_obj->getTitle(),
-                            'search_grp'      => $grp_id,
+                            'search_grp' => $grp_id,
                         ];
 
                         if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {

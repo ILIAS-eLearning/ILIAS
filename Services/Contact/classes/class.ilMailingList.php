@@ -163,13 +163,13 @@ class ilMailingList
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
     
             if (is_object($row)) {
-                $this->setId((int)$row->ml_id);
-                $this->setUserId((int)$row->user_id);
+                $this->setId((int) $row->ml_id);
+                $this->setUserId((int) $row->user_id);
                 $this->setTitle($row->title);
                 $this->setDescription($row->description);
                 $this->setCreatedate($row->createdate);
                 $this->setChangedate($row->changedate);
-                $this->setMode((int)$row->lmode);
+                $this->setMode((int) $row->lmode);
             }
         }
     }
@@ -186,7 +186,7 @@ class ilMailingList
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $entries[$row->a_id] = [
-                'a_id'   => $row->a_id,
+                'a_id' => $row->a_id,
                 'usr_id' => $row->usr_id
             ];
         }
@@ -194,10 +194,7 @@ class ilMailingList
         return $entries;
     }
 
-    /**
-     * @param int $usr_id
-     * @return bool
-     */
+    
     public function assignUser(int $usr_id = 0) : bool
     {
         $nextId = $this->db->nextId('addressbook_mlist_ass');
@@ -209,10 +206,7 @@ class ilMailingList
         return true;
     }
 
-    /**
-     * @param int $a_id
-     * @return bool
-     */
+    
     public function deleteEntry(int $a_id = 0) : bool
     {
         $this->db->manipulateF(
@@ -223,9 +217,7 @@ class ilMailingList
         return true;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function deassignAllEntries() : bool
     {
         $this->db->manipulateF(
@@ -313,9 +305,7 @@ class ilMailingList
         return $this->mode;
     }
 
-    /**
-     * @param int $usr_id
-     */
+    
     public static function removeAssignmentsByUserId(int $usr_id) : void
     {
         /** @var $ilDB ilDBInterface */

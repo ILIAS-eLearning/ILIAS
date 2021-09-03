@@ -12,9 +12,7 @@ class ilMailLuceneSearcher
     protected ilMailSearchResult $result;
     protected ilSetting $settings;
 
-    /**
-     *
-     */
+    
     public function __construct(ilLuceneQueryParser $query_parser, ilMailSearchResult $result)
     {
         global $DIC;
@@ -26,8 +24,6 @@ class ilMailLuceneSearcher
     }
 
     /**
-     * @param int $user_id
-     * @param int $mail_folder_id
      * @throws Exception
      */
     public function search(int $user_id, int $mail_folder_id) : void

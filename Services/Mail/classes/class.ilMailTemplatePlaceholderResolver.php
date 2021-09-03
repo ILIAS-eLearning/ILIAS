@@ -12,8 +12,6 @@ class ilMailTemplatePlaceholderResolver
 
     /**
      * ilMailTemplateProcessor constructor.
-     * @param ilMailTemplateContext $context
-     * @param string $a_message
      */
     public function __construct(ilMailTemplateContext $context, string $a_message)
     {
@@ -22,10 +20,7 @@ class ilMailTemplatePlaceholderResolver
     }
 
     /**
-     * @param ilObjUser|null $user
-     * @param array $contextParameters
      * @param $replaceEmptyPlaceholders bool
-     * @return string
      */
     public function resolve(
         ilObjUser $user = null,

@@ -7,7 +7,6 @@
 class ilMailTemplateContextService
 {
     /**
-     * @param string $a_component
      * @param string[] $a_new_templates
      */
     public static function clearFromXml(string $a_component, array $a_new_templates)
@@ -61,7 +60,6 @@ class ilMailTemplateContextService
     }
 
     /**
-     * @param string $a_id
      * @return ilMailTemplateContext
      * @throws ilMailException
      */

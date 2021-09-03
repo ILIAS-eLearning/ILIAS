@@ -27,9 +27,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    /**
-     *
-     */
+    
     public function send() : void
     {
         foreach ($this->getRecipients() as $rcp) {

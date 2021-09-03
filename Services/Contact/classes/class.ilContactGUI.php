@@ -142,9 +142,7 @@ class ilContactGUI
         return true;
     }
 
-    /**
-     *
-     */
+    
     private function showSubTabs() : void
     {
         if ($this->tabs_gui->hasTabs()) {
@@ -155,7 +153,7 @@ class ilContactGUI
                     require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions([
-                        self::CONTACTS_VIEW_TABLE   => $this->lng->txt('buddy_view_table'),
+                        self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ]);
                     $view_selection->setValue(
@@ -246,9 +244,7 @@ class ilContactGUI
         $this->ctrl->redirect($this);
     }
 
-    /**
-     *
-     */
+    
     protected function applyContactsTableFilter() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
@@ -264,9 +260,7 @@ class ilContactGUI
         $this->showContacts();
     }
 
-    /**
-     *
-     */
+    
     protected function resetContactsTableFilter() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
@@ -282,9 +276,7 @@ class ilContactGUI
         $this->showContacts();
     }
 
-    /**
-     *
-     */
+    
     protected function showContacts() : void
     {
         if (!ilBuddySystem::getInstance()->isEnabled()) {
@@ -301,9 +293,7 @@ class ilContactGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     *
-     */
+    
     protected function mailToUsers() : bool
     {
         if (!$this->rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {

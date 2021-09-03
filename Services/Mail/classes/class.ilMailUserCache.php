@@ -14,7 +14,6 @@ class ilMailUserCache
 
     /**
      * @static
-     * @param array $usr_ids
      */
     public static function preloadUserObjects(array $usr_ids) : void
     {

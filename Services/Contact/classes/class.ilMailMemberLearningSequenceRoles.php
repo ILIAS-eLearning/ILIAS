@@ -15,9 +15,7 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
         $this->rbacreview = $DIC->rbac()->review();
     }
 
-    /**
-     * @return string
-     */
+    
     public function getRadioOptionTitle() : string
     {
         return $this->lng->txt('mail_lso_roles');

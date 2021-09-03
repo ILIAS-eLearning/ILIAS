@@ -7,10 +7,7 @@
  */
 class ilMailRfc822AddressParserFactory
 {
-    /**
-     * @param string $address
-     * @return ilMailRecipientParser
-     */
+    
     public function getParser(string $address) : ilMailRecipientParser
     {
         return new ilMailRfc822AddressParser(new ilMailPearRfc822WrapperAddressParser($address));

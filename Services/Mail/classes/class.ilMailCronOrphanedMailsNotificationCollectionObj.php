@@ -22,25 +22,19 @@ class ilMailCronOrphanedMailsNotificationCollectionObj
         $this->setUserId($user_id);
     }
     
-    /**
-     * @return int
-     */
+    
     public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * @param int $user_id
-     */
+    
     public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
 
-    /**
-     * @param ilMailCronOrphanedMailsFolderObject $folder_obj
-     */
+    
     public function addFolderObject(ilMailCronOrphanedMailsFolderObject $folder_obj) : void
     {
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;

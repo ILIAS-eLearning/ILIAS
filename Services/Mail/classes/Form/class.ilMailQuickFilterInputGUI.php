@@ -10,9 +10,7 @@ include_once 'Services/Form/classes/class.ilTextInputGUI.php';
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    /**
-     * @return bool
-     */
+    
     public function checkInput() : bool
     {
         global $DIC;

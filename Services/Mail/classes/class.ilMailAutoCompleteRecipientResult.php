@@ -20,9 +20,7 @@ class ilMailAutoCompleteRecipientResult
     protected int $max_entries;
     public array $result = [];
 
-    /**
-     * @param int $mode
-     */
+    
     public function __construct(int $mode)
     {
         global $DIC;
@@ -38,7 +36,6 @@ class ilMailAutoCompleteRecipientResult
     }
 
     /**
-     * @param int $mode
      * @throws InvalidArgumentException
      */
     protected function initMode(int $mode) : void
@@ -49,9 +46,7 @@ class ilMailAutoCompleteRecipientResult
         $this->mode = $mode;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function isResultAddable() : bool
     {
         if ($this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
@@ -68,11 +63,7 @@ class ilMailAutoCompleteRecipientResult
         return true;
     }
 
-    /**
-     * @param string $login
-     * @param string $firstname
-     * @param string $lastname
-     */
+    
     public function addResult(string $login, string $firstname, string $lastname) : void
     {
         if (!isset($this->handled_recipients[$login])) {
@@ -90,17 +81,13 @@ class ilMailAutoCompleteRecipientResult
         }
     }
 
-    /**
-     * @return array
-     */
+    
     public function getItems() : array
     {
         return $this->result;
     }
 
-    /**
-     * @return int
-     */
+    
     public function numItems() : int
     {
         return count($this->result['items']);

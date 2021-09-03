@@ -11,10 +11,6 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilMailOptionsGUITest extends ilMailBaseTest
 {
     /**
-     * @param ServerRequestInterface $request
-     * @param ilCtrl $ctrl
-     * @param ilSetting $settings
-     * @return ilMailOptionsGUI
      * @throws ReflectionException
      */
     protected function getMailOptionsGUI(

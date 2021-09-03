@@ -22,7 +22,6 @@ abstract class ilMailBaseTest extends TestCase
     }
 
     /**
-     * @param string $name
      * @param $value
      */
     protected function setGlobalVariable(string $name, $value) : void

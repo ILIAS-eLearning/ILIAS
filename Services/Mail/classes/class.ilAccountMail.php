@@ -63,17 +63,13 @@ class ilAccountMail
         return $this->lang_variables_as_fallback;
     }
 
-    /**
-     * @return bool
-     */
+    
     public function shouldAttachConfiguredFiles() : bool
     {
         return $this->attachConfiguredFiles;
     }
 
-    /**
-     * @param bool $attachConfiguredFiles
-     */
+    
     public function setAttachConfiguredFiles(bool $attachConfiguredFiles) : void
     {
         $this->attachConfiguredFiles = $attachConfiguredFiles;
@@ -151,10 +147,7 @@ class ilAccountMail
         unset($this->u_password, $this->user, $this->target);
     }
 
-    /**
-     * @param array $mailData
-     * @return array
-     */
+    
     private function ensureValidMailDataShape(array $mailData) : array
     {
         foreach (['lang', 'subject', 'body', 'sal_f', 'sal_g', 'sal_m', 'type'] as $key) {

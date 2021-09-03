@@ -9,37 +9,33 @@ require_once 'Services/Utilities/classes/class.ilStr.php';
  */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {
-    /**
-     * @var array
-     */
+    
     protected array $users_stack = [];
     
     /**
      * "Current" implementation of iterator interface
-     * @return  array
      */
     public function current() : array
     {
         if (is_array($this->data)) {
             return [
-                'login'     => $this->data['login'],
+                'login' => $this->data['login'],
                 'firstname' => '',
-                'lastname'  => '',
+                'lastname' => '',
             ];
         }
 
         if (count($this->users_stack) > 0) {
             return [
-                'login'     => array_shift($this->users_stack),
+                'login' => array_shift($this->users_stack),
                 'firstname' => '',
-                'lastname'  => '',
+                'lastname' => '',
             ];
         }
     }
 
     /**
      * "Key" implementation of iterator interface
-     * @return string
      */
     public function key() : string
     {
@@ -52,9 +48,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         }
     }
 
-    /**
-     * @return bool
-     */
+    
     public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);

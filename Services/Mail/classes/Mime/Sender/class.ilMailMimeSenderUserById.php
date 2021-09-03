@@ -12,8 +12,6 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
 
     /**
      * ilMailMimeSenderUserById constructor.
-     * @param ilSetting $settings
-     * @param int $usrId
      */
     public function __construct(ilSetting $settings, int $usrId)
     {
@@ -24,10 +22,7 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
         parent::__construct($settings, self::$userInstances[$usrId]);
     }
 
-    /**
-     * @param int $usrId
-     * @param ilObjUser $user
-     */
+    
     public static function addUserToCache(int $usrId, ilObjUser $user) : void
     {
         self::$userInstances[$usrId] = $user;

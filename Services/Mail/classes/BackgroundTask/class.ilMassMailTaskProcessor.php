@@ -20,12 +20,6 @@ class ilMassMailTaskProcessor
 
     /**
      * @param TaskManager $taskManager
-     * @param TaskFactory|null $taskFactory
-     * @param ilLanguage|null $language
-     * @param ilLogger|null $logger
-     * @param Container|null $dic
-     * @param ilMailValueObjectJsonService|null $objectJsonService
-     * @param string $anonymousUserId
      */
     public function __construct(
         TaskManager $taskManager = null,
@@ -125,10 +119,7 @@ class ilMassMailTaskProcessor
         }
     }
 
-    /**
-     * @param \ILIAS\BackgroundTasks\Task $task
-     * @param int $userId
-     */
+    
     private function runTask(\ILIAS\BackgroundTasks\Task $task, int $userId) : void
     {
         $bucket = new BasicBucket();
@@ -142,11 +133,7 @@ class ilMassMailTaskProcessor
     }
 
     /**
-     * @param int $userId
-     * @param string $contextId
-     * @param array $contextParameters
      * @param $remainingObjects
-     * @return \ILIAS\BackgroundTasks\Task
      */
     private function createInteraction(
         int $userId,

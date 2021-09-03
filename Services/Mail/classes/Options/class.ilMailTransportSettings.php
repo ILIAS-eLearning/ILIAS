@@ -11,7 +11,6 @@ class ilMailTransportSettings
 
     /**
      * ilMailTransportSettings constructor.
-     * @param ilMailOptions $mailOptions
      */
     public function __construct(ilMailOptions $mailOptions)
     {
@@ -20,8 +19,6 @@ class ilMailTransportSettings
 
     /**
      * Validates the current instance settings and eventually adjusts these
-     * @param string $firstMail
-     * @param string $secondMail
      */
     public function adjust(string $firstMail, string $secondMail) : void
     {

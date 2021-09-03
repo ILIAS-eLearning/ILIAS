@@ -9,9 +9,7 @@ class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
     protected ilBaseMailRfc822AddressParser $aggregatedParser;
 
-    /**
-     * @param ilBaseMailRfc822AddressParser $addresses
-     */
+    
     public function __construct(ilBaseMailRfc822AddressParser $addresses)
     {
         parent::__construct($addresses->getAddresses());

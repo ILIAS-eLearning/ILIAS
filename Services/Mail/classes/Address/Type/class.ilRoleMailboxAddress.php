@@ -17,11 +17,7 @@ class ilRoleMailboxAddress
 
     /**
      * ilRoleMailboxAddress constructor.
-     * @param int $roleId
      * @param bool $localize A boolean flag whether mailbox addresses should be localized
-     * @param ilMailRfc822AddressParserFactory|null $parserFactory
-     * @param ilDBInterface|null $db
-     * @param ilLanguage|null $lng
      */
     public function __construct(
         int $roleId,

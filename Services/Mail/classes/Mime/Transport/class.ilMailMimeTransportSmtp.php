@@ -6,9 +6,7 @@
  */
 class ilMailMimeTransportSmtp extends ilMailMimeTransportBase
 {
-    /**
-     *
-     */
+    
     protected function onBeforeSend() : void
     {
         $this->mailer->isSMTP();

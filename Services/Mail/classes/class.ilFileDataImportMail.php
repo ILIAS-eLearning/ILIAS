@@ -57,7 +57,6 @@ class ilFileDataImportMail extends ilFileDataImport
     * store uploaded file in filesystem
     * @param array HTTP_POST_FILES
     * @access	public
-    * @return bool
     */
     public function storeUploadedFile(array $a_http_post_file) : bool
     {
@@ -145,10 +144,10 @@ class ilFileDataImportMail extends ilFileDataImport
                 continue;
             }
             $this->files[] = [
-                'name'     => $file,
+                'name' => $file,
                 'abs_path' => $a_dir . "/" . $file,
-                'size'     => filesize($a_dir . "/" . $file),
-                'ctime'    => filectime($a_dir . '/' . $file),
+                'size' => filesize($a_dir . "/" . $file),
+                'ctime' => filectime($a_dir . '/' . $file),
             ];
         }
         closedir($dp);
@@ -160,7 +159,6 @@ class ilFileDataImportMail extends ilFileDataImport
     * check if directory is writable
     * overwritten method from base class
     * @access	private
-    * @return bool
     */
     public function __checkReadWrite() : bool
     {

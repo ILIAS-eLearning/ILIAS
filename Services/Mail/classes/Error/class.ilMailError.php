@@ -12,8 +12,6 @@ class ilMailError
 
     /**
      * ilMailError constructor.
-     * @param string $languageVariable
-     * @param array  $placeHolderValues
      */
     public function __construct(string $languageVariable, array $placeHolderValues = [])
     {
@@ -21,18 +19,13 @@ class ilMailError
         $this->placeHolderValues = $placeHolderValues;
     }
 
-    /**
-     * @return string
-     */
+    
     public function getLanguageVariable() : string
     {
         return $this->languageVariable;
     }
 
-    /**
-     * @return array
-     */
-    public function getPlaceholderValues() : array
+    public function getPlaceHolderValues() : array
     {
         return $this->placeHolderValues;
     }

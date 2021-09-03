@@ -24,9 +24,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
 
     /**
      * ilMailOptionsFormGUI constructor.
-     * @param ilMailOptions $options
      * @param $parentGui
-     * @param string $positiveCmd
      * @throws InvalidArgumentException
      */
     public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
@@ -54,9 +52,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->init();
     }
 
-    /**
-     *
-     */
+    
     protected function init() : void
     {
         $this->setTitle($this->lng->txt('mail_settings'));
@@ -90,9 +86,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
 
-    /**
-     * @return bool
-     */
+    
     public function save() : bool
     {
         if (!$this->checkInput()) {
@@ -131,14 +125,12 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
+    
     public function populate() : void
     {
         $data = [
-            'linebreak'            => $this->options->getLinebreak(),
-            'signature'            => $this->options->getSignature(),
+            'linebreak' => $this->options->getLinebreak(),
+            'signature' => $this->options->getSignature(),
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
         ];
 
