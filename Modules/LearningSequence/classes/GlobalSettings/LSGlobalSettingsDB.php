@@ -7,5 +7,5 @@ interface LSGlobalSettingsDB
 {
     public function getSettings() : LSGlobalSettings;
 
-    public function storeSettings(LSGlobalSettings $settings);
+    public function storeSettings(LSGlobalSettings $settings) : void;
 }

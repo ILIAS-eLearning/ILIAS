@@ -14,19 +14,17 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
     const CMD_SAVE = 'save';
     const F_POLL_INTERVAL = 'polling';
 
-    /**
-     * @var ilLSGlobalSettingsDB
-     */
-    protected $settings_db;
+    protected ilLSGlobalSettingsDB $settings_db;
 
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         $this->type = 'lsos';
 
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->settings_db = new ilLSGlobalSettingsDB($DIC['ilSetting']);
         $this->ui_factory = $DIC['ui.factory'];
