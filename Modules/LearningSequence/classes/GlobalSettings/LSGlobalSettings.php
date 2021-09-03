@@ -5,10 +5,8 @@
  */
 class LSGlobalSettings
 {
-    /**
-     * @var float
-     */
-    protected $polling_interval_seconds;
+
+    protected float $polling_interval_seconds;
 
     public function __construct(float $polling_interval_seconds)
     {

@@ -43,10 +43,7 @@ class LSControlBuilder implements ControlBuilder
     protected LSURLBuilder $url_builder;
     protected ilLanguage $lng;
 
-    /**
-     * @var LSGlobalSettings
-     */
-    protected $global_settings;
+    protected LSGlobalSettings $global_settings;
 
     public function __construct(
         Factory $ui_factory,

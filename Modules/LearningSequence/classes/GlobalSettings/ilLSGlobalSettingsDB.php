@@ -8,10 +8,7 @@ class ilLSGlobalSettingsDB implements LSGlobalSettingsDB
     const SETTING_POLL_INTERVAL = 'lso_polling_interval';
     const POLL_INTERVAL_DEFAULT = 10; //in seconds
 
-    /**
-     * @var IlSettings
-     */
-    protected $il_settings;
+    protected ilSetting $il_settings;
 
     public function __construct(\ilSetting $il_settings)
     {
@@ -28,7 +25,7 @@ class ilLSGlobalSettingsDB implements LSGlobalSettingsDB
         return new LSGlobalSettings($interval_seconds);
     }
 
-    public function storeSettings(LSGlobalSettings $settings)
+    public function storeSettings(LSGlobalSettings $settings) : void
     {
         $this->il_settings->set(
             self::SETTING_POLL_INTERVAL,

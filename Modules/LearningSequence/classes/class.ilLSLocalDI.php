@@ -13,8 +13,8 @@ class ilLSLocalDI extends Container
         DataFactory $data_factory,
         ilObjLearningSequence $object
     ) : void {
-        $ref_id = (int) $object->getRefId();
-        $obj_id = (int) $object->getId();
+        $ref_id = $object->getRefId();
+        $obj_id = $object->getId();
 
         $current_user = $dic['ilUser'];
         $current_user_id = (int) $current_user->getId();
