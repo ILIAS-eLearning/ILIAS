@@ -19,6 +19,7 @@
 		<pagecontent pc_type="grid" name="Grid" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="1" order_nr="67"/>
 		<pagecontent pc_type="gcell" name="GridCell" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
 		<pagecontent pc_type="iim" name="InteractiveImage" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="100"/>
+		<pagecontent pc_type="contpop" name="ContentPopup" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
 		<pagecontent pc_type="blog" name="Blog" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="100"/>
 		<pagecontent pc_type="incl" name="ContentInclude" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="0" top_item="1" order_nr="110"/>
 		<pagecontent pc_type="lpe" name="LoginPageElement" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="120"/>
