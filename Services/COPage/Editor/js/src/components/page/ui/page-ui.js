@@ -228,6 +228,14 @@ export default class PageUI {
     return this.uiModel.pcDefinition.names[type];
   }
 
+  getCnameForPCID(pcid) {
+    const el = document.querySelector("[data-pcid='" + pcid + "']");
+    if (el) {
+      return el.dataset.cname;
+    }
+    return null;
+  }
+
   /**
    * Click and DBlClick is not naturally supported on browsers (click is also fired on
    * dblclick, time period for dblclick varies)
@@ -488,9 +496,37 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const model = this.model;
+    const selected = model.getSelected();
+    let pcModel, cname;
 
 
     this.toolSlate.setContent(this.uiModel.formatSelection);
+
+    document.querySelector("#il-copg-format-paragraph").
+        style.display = "none";
+    document.querySelector("#il-copg-format-section").
+        style.display = "none";
+    document.querySelector("#il-copg-format-media").
+        style.display = "none";
+    console.log("***INIT FORMAT");
+    console.log(selected);
+    selected.forEach((id) => {
+      cname = this.getCnameForPCID(id.split(":")[1]);
+      switch (cname) {
+        case "MediaObject":
+          document.querySelector("#il-copg-format-media").
+              style.display = "";
+          break;
+        case "Section":
+          document.querySelector("#il-copg-format-section").
+              style.display = "";
+          break;
+        case "Paragraph":
+          document.querySelector("#il-copg-format-paragraph").
+              style.display = "";
+          break;
+      }
+    });
 
     document.querySelectorAll("[data-copg-ed-type='format']").forEach(multi_button => {
       const act = multi_button.dataset.copgEdAction;
