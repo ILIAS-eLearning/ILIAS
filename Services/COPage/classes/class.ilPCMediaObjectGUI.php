@@ -91,7 +91,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $this->ctrl = $ilCtrl;
 
-        $this->ctrl->saveParameter($this, "pool_view");
+        $this->ctrl->saveParameter($this, ["pool_view", "pcid"]);
 
         //		var_dump($_POST);
         //ilUtil::printBacktrace(10); exit;
@@ -1397,21 +1397,23 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             } else {
                 $cmd = "insert";
             }
-            
-            $ilCtrl->setParameter($this, "subCmd", "insertNew");
-            $ilTabs->addSubTabTarget(
-                "cont_new_mob",
-                $ilCtrl->getLinkTarget($this, $cmd),
-                $cmd
-            );
 
-            $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-            $ilTabs->addSubTabTarget(
-                "cont_mob_from_media_pool",
-                $ilCtrl->getLinkTarget($this, $cmd),
-                $cmd
-            );
-            $ilCtrl->setParameter($this, "subCmd", "");
+            if ($a_change_obj_ref) {
+                $ilCtrl->setParameter($this, "subCmd", "insertNew");
+                $ilTabs->addSubTabTarget(
+                    "cont_new_mob",
+                    $ilCtrl->getLinkTarget($this, $cmd),
+                    $cmd
+                );
+
+                $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+                $ilTabs->addSubTabTarget(
+                    "cont_mob_from_media_pool",
+                    $ilCtrl->getLinkTarget($this, $cmd),
+                    $cmd
+                );
+                $ilCtrl->setParameter($this, "subCmd", "");
+            }
         }
     }
 
