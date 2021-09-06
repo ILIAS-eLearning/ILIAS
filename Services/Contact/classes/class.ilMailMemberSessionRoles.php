@@ -29,10 +29,6 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
         return $this->lng->txt('mail_sess_roles');
     }
 
-    /**
-     * @param $ref_id
-     * @return array sorted_roles
-     */
     public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);

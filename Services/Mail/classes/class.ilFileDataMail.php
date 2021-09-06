@@ -103,7 +103,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return array array An array containing the 'path' and the 'filename' for the passed MD5 hash
+     * @return array{path: string, filename: string} An array containing the 'path' and the 'filename' for the passed MD5 hash
      * @throws \OutOfBoundsException
      */
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId) : array
@@ -114,7 +114,7 @@ class ilFileDataMail extends ilFileData
             [$mailId]
         );
 
-        if (1 !== (int) $this->db->numRows($res)) {
+        if (1 !== $this->db->numRows($res)) {
             throw new \OutOfBoundsException();
         }
 
@@ -204,7 +204,6 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * get all attachments of a specific user
-    * @access	public
     */
     public function getUserFilesData() : array
     {
@@ -214,7 +213,6 @@ class ilFileDataMail extends ilFileData
     /**
     * get all files which are not sent
     * find them in directory data/mail/
-    * @access	private
     */
     private function getUnsentFiles() : array
     {
@@ -268,8 +266,10 @@ class ilFileDataMail extends ilFileData
         fclose($fp);
         return true;
     }
-    
-    
+
+    /**
+     * @param array{name:string, tmp_name:string}
+     */
     public function storeUploadedFile(array $file) : void
     {
         $file['name'] = ilUtil::_sanitizeFilemame($file['name']);

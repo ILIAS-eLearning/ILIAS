@@ -54,7 +54,7 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
      */
     public function getUserIdByLogin(string $login) : int
     {
-        return (int) ilObjUser::getUserIdByLogin($login);
+        return ilObjUser::getUserIdByLogin($login);
     }
 
     /**

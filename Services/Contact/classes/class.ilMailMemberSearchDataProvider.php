@@ -15,6 +15,9 @@ class ilMailMemberSearchDataProvider
     protected array $data = [];
     protected ilParticipants $objParticipants;
     protected ilObjectDataCache $dataCache;
+    /**
+     * @var array<string, int>
+     */
     protected array $roleSortWeightMap = [
         'il_crs_a' => 10,
         'il_grp_a' => 10,
@@ -96,7 +99,7 @@ class ilMailMemberSearchDataProvider
     }
 
     /**
-     * @param string[] $roleTitles
+     * @param string[]
      * @return string[]
      */
     private function sortRoles(array $roleTitles) : array

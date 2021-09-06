@@ -71,13 +71,13 @@ class ilContactGUI
         // delete all stored maildata
         $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
         
-        switch ($forward_class) {
-            case ilMailFormGUI::class:
+        switch (strtolower($forward_class)) {
+            case strtolower(ilMailFormGUI::class):
                 include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
-            case ilMailSearchCoursesGUI::class:
+            case strtolower(ilMailSearchCoursesGUI::class):
                 include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
 
                 $this->activateTab('mail_my_courses');
@@ -86,7 +86,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
                 break;
 
-            case ilMailSearchGroupsGUI::class:
+            case strtolower(ilMailSearchGroupsGUI::class):
                 include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
 
                 $this->activateTab('mail_my_groups');
@@ -95,7 +95,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;
             
-            case ilMailingListsGUI::class:
+            case strtolower(ilMailingListsGUI::class):
                 include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
 
                 $this->activateTab('mail_my_mailing_lists');
@@ -104,7 +104,7 @@ class ilContactGUI
                 $this->ctrl->forwardCommand(new ilMailingListsGUI());
                 break;
 
-            case ilUsersGalleryGUI::class:
+            case strtolower(ilUsersGalleryGUI::class):
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }
@@ -117,7 +117,7 @@ class ilContactGUI
                 $this->tpl->printToStdout();
                 break;
 
-            case ilPublicUserProfileGUI::class:
+            case strtolower(ilPublicUserProfileGUI::class):
                 require_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
                 $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['user']));
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));

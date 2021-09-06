@@ -79,32 +79,32 @@ class ilMailFormGUI
     public function executeCommand() : void
     {
         $forward_class = $this->ctrl->getNextClass($this);
-        switch ($forward_class) {
+        switch (strtolower($forward_class)) {
             case ilMailFolderGUI::class:
                 $this->ctrl->forwardCommand(new ilMailFolderGUI());
                 break;
 
-            case ilMailAttachmentGUI::class:
+            case strtolower(ilMailAttachmentGUI::class):
                 $this->ctrl->setReturn($this, "returnFromAttachments");
                 $this->ctrl->forwardCommand(new ilMailAttachmentGUI());
                 break;
 
-            case ilMailSearchGUI::class:
+            case strtolower(ilMailSearchGUI::class):
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchGUI());
                 break;
 
-            case ilMailSearchCoursesGUI::class:
+            case strtolower(ilMailSearchCoursesGUI::class):
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchCoursesGUI());
                 break;
             
-            case ilMailingListsGUI::class:
+            case strtolower(ilMailingListsGUI::class):
                 $this->ctrl->setReturn($this, 'searchResults');
                 $this->ctrl->forwardCommand(new ilMailingListsGUI());
                 break;
 
-            case ilMailSearchGroupsGUI::class:
+            case strtolower(ilMailSearchGroupsGUI::class):
                 $this->ctrl->setReturn($this, "searchResults");
                 $this->ctrl->forwardCommand(new ilMailSearchGroupsGUI());
                 break;

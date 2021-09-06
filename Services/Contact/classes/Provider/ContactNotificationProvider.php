@@ -28,7 +28,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
     public function getNotifications() : array
     {
         if (
-            0 === (int) $this->dic->user()->getId() ||
+            0 === $this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous() ||
             !\ilBuddySystem::getInstance()->isEnabled()
         ) {

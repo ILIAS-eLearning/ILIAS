@@ -32,6 +32,8 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
                 'lastname' => '',
             ];
         }
+
+        return [];
     }
 
     /**
@@ -46,6 +48,8 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         if (count($this->users_stack) > 0) {
             return $this->users_stack[0];
         }
+
+        return '';
     }
 
     

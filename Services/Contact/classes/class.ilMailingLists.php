@@ -68,7 +68,10 @@ class ilMailingLists
         
         return $entries;
     }
-    
+
+    /**
+     * @return ilMailingList[]
+     */
     public function getAll() : array
     {
         $res = $this->db->queryf(

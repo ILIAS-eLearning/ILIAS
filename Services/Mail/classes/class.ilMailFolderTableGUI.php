@@ -446,7 +446,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     'mail_filter_only_with_attachments' => $this->filter['mail_filter_only_with_attachments'],
                 ];
             } else {
-                ilMailBoxQuery::$filter = (array) $this->filter;
+                ilMailBoxQuery::$filter = $this->filter;
             }
 
             if (
@@ -464,7 +464,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             ilMailBoxQuery::$folderId = $this->_currentFolderId;
             ilMailBoxQuery::$userId = $this->user->getId();
-            ilMailBoxQuery::$limit = (int) $this->getLimit();
+            ilMailBoxQuery::$limit = $this->getLimit(); // TODO: returns strings
             ilMailBoxQuery::$offset = $this->getOffset();
             ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
             ilMailBoxQuery::$orderColumn = $this->getOrderField();

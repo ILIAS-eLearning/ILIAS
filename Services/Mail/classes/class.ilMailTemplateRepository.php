@@ -49,7 +49,7 @@ class ilMailTemplateRepository
             [$templateId]
         );
 
-        if (1 === (int) $this->db->numRows($res)) {
+        if (1 === $this->db->numRows($res)) {
             $row = $this->db->fetchAssoc($res);
             return new \ilMailTemplate($row);
         }

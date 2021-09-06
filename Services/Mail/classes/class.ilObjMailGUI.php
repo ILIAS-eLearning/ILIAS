@@ -56,13 +56,13 @@ class ilObjMailGUI extends ilObjectGUI
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
-        switch ($next_class) {
-            case ilPermissionGUI::class:
+        switch (strtolower($next_class)) {
+            case strtolower(ilPermissionGUI::class):
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
-            case ilMailTemplateGUI::class:
+            case strtolower(ilMailTemplateGUI::class):
                 if (!$this->isViewAllowed()) {
                     $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
                 }
@@ -134,7 +134,7 @@ class ilObjMailGUI extends ilObjectGUI
                 'mail_templates',
                 $this->ctrl->getLinkTargetByClass(ilMailTemplateGUI::class, 'showTemplates'),
                 '',
-                ilMailTemplateGUI::class
+                strtolower(ilMailTemplateGUI::class)
             );
         }
 
@@ -143,7 +143,7 @@ class ilObjMailGUI extends ilObjectGUI
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
-                ilPermissionGUI::class
+                strtolower(ilPermissionGUI::class)
             );
         }
     }

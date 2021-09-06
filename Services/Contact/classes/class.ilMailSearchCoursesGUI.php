@@ -19,7 +19,7 @@ class ilMailSearchCoursesGUI
     private ServerRequestInterface $httpRequest;
     private ?string $view = null;
     /**
-     * @var string[]
+     * @var string[]|null
      */
     private ?array $requestSearchCrs = null;
     protected ilGlobalTemplateInterface $tpl;
@@ -69,8 +69,8 @@ class ilMailSearchCoursesGUI
     public function executeCommand() : bool
     {
         $forward_class = $this->ctrl->getNextClass($this);
-        switch ($forward_class) {
-            case ilBuddySystemGUI::class:
+        switch (strtolower($forward_class)) {
+            case strtolower(ilBuddySystemGUI::class):
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
                 }

@@ -147,21 +147,21 @@ class ilMailGUI
         $this->showHeader();
 
         switch (strtolower($this->forwardClass)) {
-            case ilMailFormGUI::class:
+            case strtolower(ilMailFormGUI::class):
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
-            case ilContactGUI::class:
+            case strtolower(ilContactGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
-            case ilMailOptionsGUI::class:
+            case strtolower(ilMailOptionsGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
-            case ilMailFolderGUI::class:
+            case strtolower(ilMailFolderGUI::class):
                 $this->ctrl->forwardCommand(new ilMailFolderGUI());
                 break;
 

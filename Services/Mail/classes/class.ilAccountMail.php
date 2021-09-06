@@ -36,6 +36,9 @@ class ilAccountMail
     */
     public string $target = "";
     private bool $lang_variables_as_fallback = false;
+    /**
+     * @var string[]
+     */
     private array $attachments = [];
     private bool $attachConfiguredFiles = false;
 
@@ -147,7 +150,10 @@ class ilAccountMail
         unset($this->u_password, $this->user, $this->target);
     }
 
-    
+    /**
+     * @param string[]
+     * @return string[]
+     */
     private function ensureValidMailDataShape(array $mailData) : array
     {
         foreach (['lang', 'subject', 'body', 'sal_f', 'sal_g', 'sal_m', 'type'] as $key) {
@@ -162,6 +168,9 @@ class ilAccountMail
         return $mailData;
     }
 
+    /**
+     * @return string[]
+     */
     private function readAccountMail(string $a_lang) : array
     {
         if (!is_array($this->amail[$a_lang])) {
@@ -319,7 +328,8 @@ class ilAccountMail
                 $this->getUserPassword(),
                 ILIAS_HTTP_PATH . "/login.php?client_id=" . CLIENT_ID,
                 CLIENT_NAME,
-                $ilSetting->get("admin_email"), ],
+                $ilSetting->get("admin_email"),
+            ],
             $a_string
         );
             

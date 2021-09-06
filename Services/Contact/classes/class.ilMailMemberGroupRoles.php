@@ -30,7 +30,6 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
     }
 
     /**
-     * @param $ref_id
      * @return array sorted_roles
      */
     public function getMailRoles(int $ref_id) : array

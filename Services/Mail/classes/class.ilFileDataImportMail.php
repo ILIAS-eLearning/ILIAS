@@ -56,7 +56,6 @@ class ilFileDataImportMail extends ilFileDataImport
     /**
     * store uploaded file in filesystem
     * @param array HTTP_POST_FILES
-    * @access	public
     */
     public function storeUploadedFile(array $a_http_post_file) : bool
     {

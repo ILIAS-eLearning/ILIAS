@@ -54,7 +54,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
 
         if ($this->checkPermissionBool('edit_permission')) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], ilPermissionGUI::class);
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], strtolower(ilPermissionGUI::class));
         }
     }
 
@@ -67,8 +67,8 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
 
-        switch ($next_class) {
-            case ilPermissionGUI::class:
+        switch (strtolower($next_class)) {
+            case strtolower(ilPermissionGUI::class):
                 require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);

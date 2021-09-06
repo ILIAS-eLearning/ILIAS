@@ -30,7 +30,7 @@ class ilMailbox
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
 
-        $this->usrId = (int) $a_user_id;
+        $this->usrId = $a_user_id;
         $this->table_mail_obj_data = 'mail_obj_data';
         $this->table_tree = 'mail_tree';
 
@@ -177,7 +177,7 @@ class ilMailbox
         );
         $this->mtree->insertNode($nextId, $parentFolderId);
 
-        return (int) $nextId;
+        return $nextId;
     }
 
     

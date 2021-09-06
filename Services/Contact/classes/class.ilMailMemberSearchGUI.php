@@ -154,8 +154,7 @@ class ilMailMemberSearchGUI
         $form->setValuesByPost();
         $this->showSearchForm();
     }
-    
-    
+
     protected function generateContextArray() : array
     {
         $contextParameters = [];

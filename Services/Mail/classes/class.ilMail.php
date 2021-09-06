@@ -448,7 +448,7 @@ class ilMail
             'sender_id' => ['integer', $usrId],
         ]);
 
-        return (int) $nextId;
+        return $nextId;
     }
 
     public function updateDraft(
@@ -590,14 +590,14 @@ class ilMail
                 'subject' => (string) $subject,
                 'body' => (string) $message,
                 'from_usr_id' => (int) $senderUsrId,
-                'to_usr_id' => (int) $usrId,
+                'to_usr_id' => $usrId,
                 'rcp_to' => (string) $to,
                 'rcp_cc' => (string) $cc,
                 'rcp_bcc' => (string) $bcc,
             ]);
         }
 
-        return (int) $nextId;
+        return $nextId;
     }
 
     

@@ -98,17 +98,17 @@ class ilMailFolderGUI
         );
 
         $nextClass = $this->ctrl->getNextClass($this);
-        switch ($nextClass) {
-            case ilContactGUI::class:
+        switch (strtolower($nextClass)) {
+            case strtolower(ilContactGUI::class):
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
-            case ilMailOptionsGUI::class:
+            case strtolower(ilMailOptionsGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
-            case ilPublicUserProfileGUI::class:
+            case strtolower(ilPublicUserProfileGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail'));
                 $profileGui = new ilPublicUserProfileGUI((int) ($this->httpRequest->getQueryParams()['user'] ?? 0));
 
