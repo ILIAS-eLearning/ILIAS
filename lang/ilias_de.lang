@@ -14907,6 +14907,7 @@ copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
+copa#:#copa_activation_online_info#:#Nur wenn die Inhaltsseite online geschaltet ist, können Benutzer auf die Inhaltsseite zugreifen. Wenn nicht, ist die Inhaltsseite nur für Administratoren verfügbar.
 common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten

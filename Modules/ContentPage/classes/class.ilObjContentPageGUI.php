@@ -70,6 +70,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('content');
+        $this->lng->loadLanguageModule('rep');
 
         if ($this->object instanceof ilObjContentPage) {
             $this->infoScreenEnabled = (bool) ilContainer::_lookupContainerSetting(
@@ -593,19 +594,37 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ]
         );
 
+        $this->addAvailabilitySection($a_form);
+
         $presentationHeader = new ilFormSectionHeaderGUI();
         $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
         $a_form->addItem($presentationHeader);
+
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
+    }
+
+    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    {
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+        $online->setInfo($this->lng->txt('copa_activation_online_info'));
+        $form->addItem($online);
     }
 
     protected function getEditFormCustomValues(array &$a_values) : void
     {
+        $a_values['activation_online'] = !($this->object->getOfflineStatus() === null) && !$this->object->getOfflineStatus();
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
     protected function updateCustom(ilPropertyFormGUI $a_form) : void
     {
+        $this->object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $this->object->update();
+
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
             $a_form,

@@ -14900,6 +14900,7 @@ copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
+copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration

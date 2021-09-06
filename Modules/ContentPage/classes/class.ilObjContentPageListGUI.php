@@ -56,12 +56,21 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
     {
         $properties = [];
 
-        $settingsStorage = new StorageImpl($this->settings);
-        if (!$settingsStorage->getSettings()->isReadingTimeEnabled()) {
+        $maySee = $this->rbacsystem->checkAccess('visible', $this->ref_id);
+        $mayRead = $this->rbacsystem->checkAccess('read', $this->ref_id);
+
+        if (!$maySee && !$mayRead) {
             return $properties;
         }
 
-        if (!$this->access->checkAccess('read', '', $this->ref_id)) {
+        $properties = parent::getProperties();
+
+        if (!$mayRead || ilObject::lookupOfflineStatus($this->obj_id)) {
+            return $properties;
+        }
+
+        $settingsStorage = new StorageImpl($this->settings);
+        if (!$settingsStorage->getSettings()->isReadingTimeEnabled()) {
             return $properties;
         }
 
