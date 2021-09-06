@@ -1399,8 +1399,7 @@ class ilUtil
                 }
             }
         }
-        
-        return implode($str_arr, " ");
+        return implode(' ', $str_arr);
     }
 
     /**
