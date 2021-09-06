@@ -485,7 +485,7 @@ class ilCronManager implements \ilCronManagerInterface
 
         $where = [];
         if ($a_id) {
-            $where[] = $ilDB->in('job_id', $a_id, '', 'text');
+            $where[] = $ilDB->in('job_id', $a_id, false, 'text');
         } else {
             $where[] = 'class != ' . $ilDB->quote(IL_COMP_PLUGIN, 'text');
         }
