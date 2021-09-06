@@ -110,11 +110,24 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
     }
 
+    private function addAvailabilitySection(ilPropertyFormGUI $form) : void
+    {
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
+        $online->setInfo($this->lng->txt('frm_activation_online_info'));
+        $form->addItem($online);
+    }
+
     public function getCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->settingsTabs();
         $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
         $a_form->setTitle($this->lng->txt('frm_settings_form_header'));
+
+        $this->addAvailabilitySection($a_form);
 
         $presentationHeader = new ilFormSectionHeaderGUI();
         $presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
@@ -287,6 +300,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         $a_values['default_view'] = $default_view;
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
+
+        $object = $this->parent_obj->object;
+        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -324,6 +340,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         }
         $this->parent_obj->objProperties->update();
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
+
+        $object = $this->parent_obj->object;
+        $object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
+        $object->update();
     }
 
     public function showMembers() : void
