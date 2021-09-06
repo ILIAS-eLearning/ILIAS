@@ -122,8 +122,10 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     {
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
-
-        $updated = $page->pasteContents($this->getIdForPCId($target_pcid));
+        $updated = $page->pasteContents(
+            $this->getIdForPCId($target_pcid),
+            $page->getPageConfig()->getEnableSelfAssessment()
+        );
 
         return $this->sendPage($updated);
     }
