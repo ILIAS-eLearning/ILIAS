@@ -88,7 +88,11 @@ class ilStudyProgrammeDashboardViewGUI
                 continue;
             }
 
-            $current_prg = $current->getStudyProgramme();
+            try {
+                $current_prg = $current->getStudyProgramme();
+            } catch(\ilException $e) {
+                continue;
+            }
 
             /** @var ilStudyProgrammeSettings $current_prg_settings */
             $current_prg_settings = $current_prg->getRawSettings();
