@@ -150,7 +150,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					mb.model.actions.disengageAll();
 				}
 				mb.model.actions.initMoreButton(amount);
-				mb.renderer.render(mb.model.getState());
+				mb.renderer.renderDeferred(mb.model.getState());
 			},
 			init_desktop = function(initially_active) {
 				var mb = il.UI.maincontrols.mainbar,
@@ -639,6 +639,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 
 (function($, mainbar) {
+	mainbar.deferredRenderingExecutor = (function () {
+		let timer = 0;
+
+		return function(callback, ms) {
+			clearTimeout(timer);
+			timer = setTimeout(callback, ms);
+		};
+	})();
+
 	mainbar.renderer = (function($) {
 		var css = {
 				engaged: 'engaged'
@@ -839,6 +848,11 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						btn.getElement().appendTo(more_slate.getElement().children('.il-maincontrols-slate-content'));
 					}
 				},
+				renderDeferred: function (model_state) {
+					mainbar.deferredRenderingExecutor(function () {
+						mainbar.renderer.render(model_state);
+					}, 200);
+				},
 				render: function (model_state) {
 					var entry_ids = Object.keys(model_state.entries),
 						last_entry_id = entry_ids[entry_ids.length - 1],
@@ -881,7 +895,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			public_interface = {
 				addEntry: actions.addEntry,
 				calcAmountOfButtons: more.calcAmountOfButtons,
-				render: actions.render
+				render: actions.render,
+				renderDeferred: actions.renderDeferred
 			};
 
 		return public_interface;
