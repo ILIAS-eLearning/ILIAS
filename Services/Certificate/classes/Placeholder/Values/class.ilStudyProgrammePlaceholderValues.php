@@ -6,7 +6,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     /**
      * @var ilDefaultPlaceholderValues
      */
-    private $defaultPlaceHolderValuesObject;
+    private $defaultPlaceholderValuesObject;
 
     /**
      * @var ilLanguage|null
@@ -69,7 +69,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         }
         $this->ilUtilHelper = $ilUtilHelper;
 
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
     }
 
     /**
@@ -88,7 +88,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
         $object = $this->objectHelper->getInstanceByObjId($objId);
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
         $latest_progress = array_reduce(
             $object->getProgressesOf($userId),
             function ($one, $other) {
@@ -133,7 +133,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId)
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $type = $object->getSubType();
