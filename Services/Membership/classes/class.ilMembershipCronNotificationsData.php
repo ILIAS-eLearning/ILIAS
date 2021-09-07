@@ -75,7 +75,6 @@ class ilMembershipCronNotificationsData
         include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
 
         // all group/course notifications: ref id => user ids
-        // array<int, int[]>
         $this->objects = ilMembershipNotifications::getActiveUsersforAllObjects();
 
         if (sizeof($this->objects)) {
