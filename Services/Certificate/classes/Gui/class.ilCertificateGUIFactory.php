@@ -43,7 +43,7 @@ class ilCertificateGUIFactory
         switch ($type) {
             case 'tst':
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
-                $placeholderValuesObject = new ilTestPlaceHolderValues();
+                $placeholderValuesObject = new ilTestPlaceholderValues();
 
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
@@ -83,7 +83,7 @@ class ilCertificateGUIFactory
                 break;
             case 'exc':
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
-                $placeholderValuesObject = new ilExercisePlaceHolderValues();
+                $placeholderValuesObject = new ilExercisePlaceholderValues();
 
                 $formFactory = new ilCertificateSettingsExerciseRepository(
                     $object,
