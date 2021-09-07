@@ -14,7 +14,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @var ilDefaultPlaceholderValues|null
      */
-    private $defaultPlaceHolderValuesObject;
+    private $defaultPlaceholderValuesObject;
 
     /**
      * @var ilCertificateDateHelper|null
@@ -69,7 +69,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
@@ -132,7 +132,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
 
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
 
-        $placeHolders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeHolders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeHolders['SCORM_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
         $placeHolders['SCORM_POINTS'] = $txtPoints;
@@ -210,7 +210,7 @@ class ilScormPlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
