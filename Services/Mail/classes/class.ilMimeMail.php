@@ -12,13 +12,37 @@ class ilMimeMail
     protected string $body = '';
     protected string $finalBody = '';
     protected string $finalBodyAlt = '';
+    /**
+     * @var string[]
+     */
     protected array $sendto = [];
+    /**
+     * @var string[]
+     */
     protected array $acc = [];
+    /**
+     * @var string[]
+     */
     protected array $abcc = [];
+    /**
+     * @var array{path:string, cid:string, name:string}[]
+     */
     protected array $images = [];
+    /**
+     * @var string[]
+     */
     protected array $aattach = [];
+    /**
+     * @var string[]
+     */
     protected array $actype = [];
+    /**
+     * @var string[]
+     */
     protected array $adispo = [];
+    /**
+     * @var string[]
+     */
     protected array $adisplay = [];
     protected ilMailMimeSender $sender;
     protected ilSetting $settings;

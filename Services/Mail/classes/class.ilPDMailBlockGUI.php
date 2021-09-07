@@ -34,6 +34,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
     protected $ctrl;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
+    /**
+     * @var string[]
+     */
     protected array $mails = [];
     protected int $inbox;
 

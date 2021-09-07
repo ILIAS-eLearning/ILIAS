@@ -15,7 +15,13 @@ class ilMailbox
     protected ilDBInterface $db;
     protected ilTree $mtree;
     protected int $usrId;
+    /**
+     * @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
+     */
     protected array $actions = [];
+    /**
+     * @var array{b_inbox => string, c_trash => string, d_drafts => string, e_sent => string, z_local => string}
+     */
     protected array $defaultFolders = [];
     protected string $table_mail_obj_data;
     protected string $table_tree;
@@ -125,7 +131,9 @@ class ilMailbox
         return $this->mtree->getRootId();
     }
 
-    
+    /**
+     * @return array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
+     */
     public function getActions(int $folderId) : array
     {
         if ($folderId) {
@@ -255,7 +263,7 @@ class ilMailbox
     }
 
     /**
-     * @param $folderId
+     * @return array{obj_id: int, title: string, type: string}
      */
     public function getFolderData(int $folderId) : array
     {

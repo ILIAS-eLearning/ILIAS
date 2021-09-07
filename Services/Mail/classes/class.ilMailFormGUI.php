@@ -119,7 +119,10 @@ class ilMailFormGUI
         }
     }
 
-    
+    /**
+     * @param string[] $files
+     * @return string[]
+     */
     protected function decodeAttachmentFiles(array $files) : array
     {
         $decodedFiles = [];

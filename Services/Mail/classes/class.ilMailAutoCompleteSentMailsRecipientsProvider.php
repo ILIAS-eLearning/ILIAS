@@ -9,11 +9,14 @@ require_once 'Services/Utilities/classes/class.ilStr.php';
  */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {
-    
+    /**
+     * @var string[]
+     */
     protected array $users_stack = [];
     
     /**
      * "Current" implementation of iterator interface
+     * @return array{login: string, firstname: string, lastname:string}
      */
     public function current() : array
     {

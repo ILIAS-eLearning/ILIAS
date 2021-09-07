@@ -73,7 +73,9 @@ class ilMailTemplateService
         return $this->repository->findByContextId($contextId);
     }
 
-    
+    /**
+     * @param int[] $templateIds
+     */
     public function deleteTemplatesByIds(array $templateIds) : void
     {
         $this->repository->deleteByIds($templateIds);

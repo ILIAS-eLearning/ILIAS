@@ -15,9 +15,15 @@ class ilMailAutoCompleteRecipientResult
 
     protected bool $allow_smtp;
     protected int $user_id;
+    /**
+     * @var array<string, int>
+     */
     protected array $handled_recipients = [];
     protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
     protected int $max_entries;
+    /**
+     * @var array{hasMoreResults: bool, items: array}
+     */
     public array $result = [];
 
     
@@ -81,7 +87,9 @@ class ilMailAutoCompleteRecipientResult
         }
     }
 
-    
+    /**
+     * @return array{hasMoreResults: bool, items: array}
+     */
     public function getItems() : array
     {
         return $this->result;

@@ -66,6 +66,9 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
+    /**
+     * @return int[]
+     */
     public function getValidScheduleTypes() : array
     {
         return [

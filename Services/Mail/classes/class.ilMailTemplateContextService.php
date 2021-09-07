@@ -9,7 +9,7 @@ class ilMailTemplateContextService
     /**
      * @param string[] $a_new_templates
      */
-    public static function clearFromXml(string $a_component, array $a_new_templates)
+    public static function clearFromXml(string $a_component, array $a_new_templates) : void
     {
         global $DIC;
 

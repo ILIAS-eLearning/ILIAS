@@ -19,9 +19,6 @@ class ilMailTemplatePlaceholderResolver
         $this->message = $a_message;
     }
 
-    /**
-     * @param $replaceEmptyPlaceholders bool
-     */
     public function resolve(
         ilObjUser $user = null,
         array $contextParameters = [],

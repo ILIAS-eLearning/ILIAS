@@ -26,6 +26,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Current" implementation of iterator interface
+     * @return array{login: string, firstname: string, lastname:string}
      */
     public function current() : array
     {
@@ -188,6 +189,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * Get searchable fields
+     * @return string[]
      */
     protected function getFields() : array
     {

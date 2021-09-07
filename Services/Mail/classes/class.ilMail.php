@@ -20,6 +20,9 @@ class ilMail
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
+    /**
+     * @var string[]|null
+     */
     protected ?array $mail_data = [];
     protected ?int $mail_obj_ref_id;
     protected bool $save_in_sentbox;
@@ -30,7 +33,13 @@ class ilMail
     protected $contextId;
     protected array $contextParameters = [];
     protected ?ilLogger $logger;
+    /**
+     * @var ilMailOptions[]
+     */
     protected array $mailOptionsByUsrIdMap = [];
+    /**
+     * @var ilObjUser[]
+     */
     protected array $userInstancesByIdMap = [];
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
@@ -126,9 +135,6 @@ class ilMail
         return $clone;
     }
 
-    /**
-     * @return ilMail
-     */
     public function withContextParameters(array $parameters) : self
     {
         $clone = clone $this;
@@ -217,7 +223,9 @@ class ilMail
         return implode(', ', $names);
     }
 
-    
+    /**
+     * @return string[]|null
+     */
     public function getPreviousMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -239,7 +247,9 @@ class ilMail
         return $this->mail_data;
     }
 
-    
+    /**
+     * @return string[]|null
+     */
     public function getNextMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -264,6 +274,7 @@ class ilMail
     /**
      * @param int $a_folder_id The id of the folder
      * @param array $filter An optional filter array
+     * @return string[]
      */
     public function getMailsOfFolder(int $a_folder_id, array $filter = []) : array
     {
@@ -316,7 +327,9 @@ class ilMail
         }
     }
 
-    
+    /**
+     * @return string[]|null
+     */
     public function getMail(int $mailId) : ?array
     {
         $res = $this->db->queryF(
@@ -414,7 +427,10 @@ class ilMail
         }
     }
 
-    
+    /**
+     * @param string[]|null $row
+     * @return string[]|null
+     */
     protected function fetchMailData(?array $row) : ?array
     {
         if (!is_array($row) || empty($row)) {
@@ -491,16 +507,7 @@ class ilMail
     }
 
     /**
-     * @param int $senderUsrId
-     * @param array $attachments
-     * @param string $to
-     * @param string $cc
-     * @param string $bcc
-     * @param string $status
-     * @param int $email
-     * @param string $subject
-     * @param string $message
-     * @param array|null $templateContextParameters
+     * @param string[] $attachments
      */
     private function sendInternalMail(
         int $folderId,
@@ -624,7 +631,9 @@ class ilMail
         return $message;
     }
 
-    
+    /**
+     * @param string[] $attachments
+     */
     protected function distributeMail(
         string $to,
         string $cc,
@@ -692,7 +701,10 @@ class ilMail
         return true;
     }
 
-    
+    /**
+     * @param int[]  $usrIds
+     * @param string[]  $attachments
+     */
     protected function sendChanneledMails(
         string $to,
         string $cc,
@@ -791,7 +803,9 @@ class ilMail
         );
     }
 
-    
+    /**
+     * @param string[] $attachments
+     */
     protected function delegateExternalEmails(
         string $subject,
         string $message,
@@ -948,14 +962,7 @@ class ilMail
 
     /**
      * save post data in table
-     * @access    public
-     * @param array $a_attachments
-     * @param string $a_rcp_to
-     * @param string $a_rcp_cc
-     * @param string $a_rcp_bcc
-     * @param int $a_m_email
-     * @param string $a_m_message
-     * @param int $a_use_placeholders
+     * @param string[]|null $a_attachments
      */
     public function savePostData(
         int $a_user_id,
@@ -1033,6 +1040,7 @@ class ilMail
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
      * @param bool|int $a_use_placeholders
+     * @param string[] $a_attachment
      * @return ilMailError[]
      */
     public function enqueue(
@@ -1142,6 +1150,7 @@ class ilMail
     /**
      * This method is used to finally send internal messages and external emails
      * To use the mail system as a consumer, please use \ilMail::enqueue
+     * @param string[] $attachments
      * @return ilMailError[]
      * @see \ilMail::enqueue()
      * @internal
@@ -1243,6 +1252,7 @@ class ilMail
 
     /**
      * Stores a message in the sent bod of the current user
+     * @param string[] $attachment
      * @return int mail id
      */
     protected function saveInSentbox(

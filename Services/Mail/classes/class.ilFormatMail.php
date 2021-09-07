@@ -117,7 +117,7 @@ class ilFormatMail extends ilMail
 
     /**
     * append search result to recipient
-    * @param array names to append
+    * @param string[] names to append
     * @param string rcp type ('to','cc','bc')
     */
     public function appendSearchResult(array $a_names, string $a_type) : array

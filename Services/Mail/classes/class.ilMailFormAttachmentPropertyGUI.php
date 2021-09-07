@@ -14,6 +14,9 @@ include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
 class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
 {
     public string $buttonLabel;
+    /**
+     * @var string[]
+     */
     public array $items = [];
 
     /**

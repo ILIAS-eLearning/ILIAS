@@ -168,7 +168,7 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * adopt attachments (in case of forwarding a mail)
-    * @param array attachments
+    * @param string[] attachments
     * @param int mail_id
     * @access	public
     * @return string error message
@@ -312,8 +312,7 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * unlink files: expects an array of filenames e.g. ['foo','bar']
-    * @param array filenames to delete
-    * @access	public
+    * @param string[] filenames to delete
     * @return string error message with filename that couldn't be deleted
     */
     public function unlinkFiles(array $a_filenames) : string
@@ -352,7 +351,7 @@ class ilFileDataMail extends ilFileData
     /**
      * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
      * @param int $a_mail_id id of mail in sent box
-     * @param array $a_attachments to save
+     * @param string[] $a_attachments to save
      */
     public function saveFiles(int $a_mail_id, array $a_attachments) : void
     {
@@ -365,10 +364,6 @@ class ilFileDataMail extends ilFileData
         }
     }
 
-    /**
-     * @param $a_mail_id
-     * @param $a_usr_id
-     */
     public static function getStorage(int $a_mail_id, int $a_usr_id) : \ilFSStorageMail
     {
         static $fsstorage_cache = [];
@@ -402,7 +397,7 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * check if files exist
-    * @param array filenames to check
+    * @param string[] filenames to check
     * @access	public
     */
     public function checkFilesExist(array $a_files) : bool
@@ -635,6 +630,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
+     * @param string[] $files
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      * @throws ilException

@@ -35,6 +35,9 @@ class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionP
         $this->mail_templates = [];
     }
 
+    /**
+     * @inheritcoc
+     */
     public function beginTag(string $name, array $attributes) : void
     {
         if ($name === "mailtemplates") {

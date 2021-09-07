@@ -18,9 +18,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
-    /**
-     * @param        $a_parent_obj
-     */
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,

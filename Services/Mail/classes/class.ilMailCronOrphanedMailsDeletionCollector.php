@@ -9,6 +9,9 @@ class ilMailCronOrphanedMailsDeletionCollector
 {
     protected ilDBInterface $db;
     protected ilSetting $settings;
+    /**
+     * @var int[]
+     */
     protected array $mail_ids = [];
 
     
@@ -94,7 +97,9 @@ class ilMailCronOrphanedMailsDeletionCollector
         $this->mail_ids[] = $mail_id;
     }
 
-    
+    /**
+     * @return int[]
+     */
     public function getMailIdsToDelete() : array
     {
         return $this->mail_ids;

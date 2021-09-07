@@ -30,7 +30,7 @@ class ilObjMailGUI extends ilObjectGUI
 
     /**
      * ilObjMailGUI constructor.
-     * @param      $a_data
+     *
      */
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {

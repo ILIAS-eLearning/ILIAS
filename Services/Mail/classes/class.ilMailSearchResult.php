@@ -21,7 +21,9 @@ class ilMailSearchResult
         $this->result[$id] = $fields;
     }
 
-    
+    /**
+     * @return int[]
+     */
     public function getIds() : array
     {
         return array_keys($this->result);
