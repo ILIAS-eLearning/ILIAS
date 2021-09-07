@@ -35,7 +35,7 @@ class ilMailError
     /**
      * @return array
      */
-    public function getPlaceHolderValues() : array
+    public function getPlaceholderValues() : array
     {
         return $this->placeHolderValues;
     }
