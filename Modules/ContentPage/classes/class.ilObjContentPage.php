@@ -68,6 +68,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     {
         assert($new_obj instanceof ilObjContentPage);
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
+        $this->cloneMetaData($new_obj);
 
         $ot = ilObjectTranslation::getInstance($this->getId());
         $ot->copy($new_obj->getId());
@@ -141,6 +142,8 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
         $this->setOfflineStatus(true);
         $this->update();
+
+        $this->createMetaData();
     }
 
     protected function doUpdate() : void
@@ -153,6 +156,8 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $trans->setDefaultTitle($this->getTitle());
         $trans->setDefaultDescription($this->getLongDescription());
         $trans->save();
+
+        $this->updateMetaData();
     }
 
     protected function doDelete() : void

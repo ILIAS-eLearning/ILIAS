@@ -40,4 +40,5 @@ interface ilContentPageObjectConstants
     public const UI_TAB_ID_LP = 'learning_progress';
     public const UI_TAB_ID_EXPORT = 'export';
     public const UI_TAB_ID_PERMISSIONS = 'perm_settings';
+    public const UI_TAB_ID_MD = 'meta_data';
 }
