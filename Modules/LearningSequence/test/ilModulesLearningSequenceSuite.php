@@ -30,6 +30,7 @@ class ilModulesLearningSequenceSuite extends TestSuite
         require_once("./Modules/LearningSequence/test/LSItems/LSItemTest.php");
         require_once("./Modules/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
         require_once("./Modules/LearningSequence/test/GlobalSettings/GlobalSettingsTest.php");
+        require_once("./Modules/LearningSequence/test/LearnerProgress/ilLSLPEventHandlerTest.php");
 
         $suite->addTestSuite("ilLearningSequenceActivationTest");
         $suite->addTestSuite("ilLearningSequenceActivationDBTest");
@@ -50,6 +51,7 @@ class ilModulesLearningSequenceSuite extends TestSuite
         $suite->addTestSuite("LSItemTest");
         $suite->addTestSuite("LSLearnerItemTest");
         $suite->addTestSuite("GlobalSettingsTest");
+        $suite->addTestSuite("ilLSLPEventHandlerTest");
 
         return $suite;
     }

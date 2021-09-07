@@ -9,9 +9,13 @@ class ilLSLPEventHandler
 {
     protected ilTree $tree;
     protected ilLPStatusWrapper $lpstatus;
+    protected array $cached_parent_lso = [];
+    protected array $cached_refs_for_obj = [];
 
-    public function __construct(ilTree $tree, ilLPStatusWrapper $lp_status_wrapper)
-    {
+    public function __construct(
+        ilTree $tree,
+        ilLPStatusWrapper $lp_status_wrapper
+    ) {
         $this->tree = $tree;
         $this->lpstatus = $lp_status_wrapper;
     }
@@ -24,7 +28,7 @@ class ilLSLPEventHandler
             if (!is_null($lso_info)) {
                 $obj_id = $lso_info['obj_id'];
                 $usr_id = $parameter['usr_id'];
-                $this->lpstatus::_refreshStatus($obj_id, [$usr_id]);
+                $this->lpstatus::_updateStatus($obj_id, $usr_id);
             }
         }
     }
@@ -34,11 +38,18 @@ class ilLSLPEventHandler
      */
     protected function getParentLSO(int $child_ref_id) : ?array
     {
+        if (!array_key_exists($child_ref_id, $this->cached_parent_lso)) {
+            $this->cached_parent_lso[$child_ref_id] = $this->getParentLSOByFullPath($child_ref_id);
+        }
+        return $this->cached_parent_lso[$child_ref_id];
+    }
+
+    private function getParentLSOByFullPath(int $child_ref_id)
+    {
         $path = $this->tree->getPathFull($child_ref_id);
         if (!$path) {
             return null;
         }
-
         foreach ($path as $hop) {
             if ($hop['type'] === 'lso') {
                 return $hop;
@@ -52,6 +63,9 @@ class ilLSLPEventHandler
      */
     protected function getRefIdsOfObjId(int $triggerer_obj_id) : array
     {
-        return ilObject::_getAllReferences($triggerer_obj_id);
+        if (!array_key_exists($triggerer_obj_id, $this->cached_refs_for_obj)) {
+            $this->cached_refs_for_obj[$triggerer_obj_id] = ilObject::_getAllReferences($triggerer_obj_id);
+        }
+        return $this->cached_refs_for_obj;
     }
 }
