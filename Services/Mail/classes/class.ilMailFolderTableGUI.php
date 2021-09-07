@@ -464,7 +464,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             ilMailBoxQuery::$folderId = $this->_currentFolderId;
             ilMailBoxQuery::$userId = $this->user->getId();
-            ilMailBoxQuery::$limit = $this->getLimit(); // TODO: returns strings
+            ilMailBoxQuery::$limit = (int) $this->getLimit(); // TODO: returns strings
             ilMailBoxQuery::$offset = $this->getOffset();
             ilMailBoxQuery::$orderDirection = $this->getOrderDirection();
             ilMailBoxQuery::$orderColumn = $this->getOrderField();

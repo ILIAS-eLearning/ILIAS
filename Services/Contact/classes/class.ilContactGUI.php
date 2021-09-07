@@ -322,7 +322,7 @@ class ilContactGUI
         if (count($logins) > 0) {
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
-                $mail_data['user_id'],
+                (int)$mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
@@ -366,7 +366,7 @@ class ilContactGUI
         $room_id = (int) $room_ids[0];
         $scope = 0;
 
-        if (count($room_ids) > 0) {
+        if (count($room_ids) > 1) {
             $scope = (int) $room_ids[1];
         }
 
@@ -443,11 +443,11 @@ class ilContactGUI
 
         $userlist = [];
         foreach ($valid_users as $id) {
-            $room->inviteUserToPrivateRoom($id, $scope);
+            $room->inviteUserToPrivateRoom((int)$id, $scope);
             $room->sendInvitationNotification(
                 null,
                 $this->user->getId(),
-                $id,
+                (int)$id,
                 $scope,
                 $url
             );

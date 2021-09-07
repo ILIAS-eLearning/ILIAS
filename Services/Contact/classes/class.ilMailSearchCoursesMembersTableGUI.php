@@ -163,7 +163,7 @@ class ilMailSearchCoursesMembersTableGUI extends ilTable2GUI
         }
 
         if ($this->context === 'mail' && ilBuddySystem::getInstance()->isEnabled()) {
-            $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($a_set['members_id']);
+            $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int) $a_set['members_id']);
             if (
                 $a_set['members_id'] !== $this->user->getId() &&
                 $relation->isUnlinked() &&

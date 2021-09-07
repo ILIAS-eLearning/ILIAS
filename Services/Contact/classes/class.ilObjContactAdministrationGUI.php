@@ -54,7 +54,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         }
 
         if ($this->checkPermissionBool('edit_permission')) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], strtolower(ilPermissionGUI::class));
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], ilPermissionGUI::class);
         }
     }
 

@@ -134,7 +134,7 @@ class ilObjMailGUI extends ilObjectGUI
                 'mail_templates',
                 $this->ctrl->getLinkTargetByClass(ilMailTemplateGUI::class, 'showTemplates'),
                 '',
-                strtolower(ilMailTemplateGUI::class)
+                ilMailTemplateGUI::class
             );
         }
 
@@ -143,7 +143,7 @@ class ilObjMailGUI extends ilObjectGUI
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
-                strtolower(ilPermissionGUI::class)
+                ilPermissionGUI::class
             );
         }
     }

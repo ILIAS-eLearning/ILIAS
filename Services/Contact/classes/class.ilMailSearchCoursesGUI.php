@@ -110,7 +110,8 @@ class ilMailSearchCoursesGUI
         self::$user_id = "test";
         $view = $this->httpRequest->getQueryParams()['view'] ?? $this->view;
         if ($view === 'mycourses') {
-            $ids = ((int) $this->httpRequest->getQueryParams()['search_crs']) ? [(int) $this->httpRequest->getQueryParams()['search_crs']] : $this->httpRequest->getParsedBody()['search_crs'];
+            $post_id = $this->httpRequest->getParsedBody()['search_crs'] ?? 0;
+            $ids = isset($this->httpRequest->getQueryParams()['search_crs']) ? [(int) $this->httpRequest->getQueryParams()['search_crs']] : $post_id;
             
             if ($ids) {
                 $this->mailCourses();
@@ -119,7 +120,8 @@ class ilMailSearchCoursesGUI
                 $this->showMyCourses();
             }
         } elseif ($view === 'crs_members') {
-            $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? [(int) $this->httpRequest->getQueryParams()['search_members']] : $this->httpRequest->getParsedBody()['search_members'];
+            $post_id = $this->httpRequest->getParsedBody()['search_members'] ?? 0;
+            $ids = isset($this->httpRequest->getQueryParams()['search_members']) ? [(int) $this->httpRequest->getQueryParams()['search_members']] : $post_id;
             if ($ids) {
                 $this->mailMembers();
             } else {
@@ -152,7 +154,8 @@ class ilMailSearchCoursesGUI
 
         require_once './Services/Object/classes/class.ilObject.php';
         require_once 'Services/Mail/classes/Address/Type/class.ilMailRoleAddressType.php';
-        $ids = ((int) $this->httpRequest->getQueryParams()['search_crs']) ? [(int) $this->httpRequest->getQueryParams()['search_crs']] : ilSession::get('search_crs');
+        $post_id = $this->httpRequest->getParsedBody()['search_crs'] ?? 0;
+        $ids = isset($this->httpRequest->getQueryParams()['search_crs']) ? [(int) $this->httpRequest->getQueryParams()['search_crs']] : $post_id;
         
         foreach ($ids as $crs_id) {
             $ref_ids = ilObject::_getAllReferences((int) $crs_id);
@@ -170,7 +173,7 @@ class ilMailSearchCoursesGUI
                                 $members[] = $rcpt;
                             }
                         } else {
-                            $members[] = (new \ilRoleMailboxAddress($role['obj_id']))->value();
+                            $members[] = (new \ilRoleMailboxAddress((int)$role['obj_id']))->value();
                         }
                     }
                 }
@@ -184,7 +187,7 @@ class ilMailSearchCoursesGUI
         }
 
         $this->umail->savePostData(
-            $mail_data["user_id"],
+            (int)$mail_data["user_id"],
             $mail_data["attachments"],
             $mail_data["rcp_to"],
             $mail_data["rcp_cc"],
@@ -219,8 +222,9 @@ class ilMailSearchCoursesGUI
                 ""
             );
         }
-    
-        $ids = ((int) $this->httpRequest->getQueryParams()['search_members']) ? [(int) $this->httpRequest->getQueryParams()['search_members']] : $this->httpRequest->getParsedBody()['search_members'];
+
+        $post_id = $this->httpRequest->getParsedBody()['search_crs'] ?? [0];
+        $ids = isset($this->httpRequest->getQueryParams()['search_members']) ? [(int) $this->httpRequest->getQueryParams()['search_members']] : $post_id;
         
         foreach ($ids as $member) {
             $login = ilObjUser::_lookupLogin($member);
@@ -229,7 +233,7 @@ class ilMailSearchCoursesGUI
         $mail_data = $this->umail->appendSearchResult($members, "to");
 
         $this->umail->savePostData(
-            $mail_data["user_id"],
+            (int)$mail_data["user_id"],
             $mail_data["attachments"],
             $mail_data["rcp_to"],
             $mail_data["rcp_cc"],
@@ -388,12 +392,12 @@ class ilMailSearchCoursesGUI
     {
         include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
 
-        if ($this->httpRequest->getQueryParams()["search_crs"] !== "") {
-            $this->requestSearchCrs = explode(",", $this->httpRequest->getQueryParams()["search_crs"]);
+        if (!isset($this->httpRequest->getQueryParams()["search_crs"]) || $this->httpRequest->getQueryParams()["search_crs"] !== "") {
+            $this->requestSearchCrs = explode(",", $this->httpRequest->getQueryParams()["search_crs"] ?? "");
         }
 
         if (is_array($this->requestSearchCrs)) {
-            $this->requestSearchCrs = array_filter(array_map('intval', $this->httpRequest->getParsedBody()['search_crs']));
+            $this->requestSearchCrs = array_filter(array_map('intval', $this->httpRequest->getParsedBody()['search_crs'] ?? []));
         }
 
         if (!is_array($this->requestSearchCrs) ||
@@ -458,7 +462,7 @@ class ilMailSearchCoursesGUI
                     ];
 
                     if ('mail' === $context && ilBuddySystem::getInstance()->isEnabled()) {
-                        $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($member);
+                        $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int)$member);
                         $state_name = ilStr::convertUpperCamelCaseToUnderscoreCase($relation->getState()->getName());
                         $rowData['status'] = '';
                         if ($member !== $this->user->getId()) {

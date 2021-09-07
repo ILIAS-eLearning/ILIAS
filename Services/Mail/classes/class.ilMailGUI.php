@@ -236,19 +236,19 @@ class ilMailGUI
         }
 
         switch ($this->forwardClass) {
-            case ilMailFormGUI::class:
+            case strtolower(ilMailFormGUI::class):
                 $DIC->tabs()->setTabActive('compose');
                 break;
 
-            case ilContactGUI::class:
+            case strtolower(ilContactGUI::class):
                 $DIC->tabs()->setTabActive('mail_addressbook');
                 break;
 
-            case ilMailOptionsGUI::class:
+            case strtolower(ilMailOptionsGUI::class):
                 $DIC->tabs()->setTabActive('options');
                 break;
 
-            case ilMailFolderGUI::class:
+            case strtolower(ilMailFolderGUI::class):
             default:
                 $DIC->tabs()->setTabActive('fold');
                 break;
