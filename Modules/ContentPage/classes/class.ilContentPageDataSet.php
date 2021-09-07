@@ -136,6 +136,12 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     self::OBJ_TYPE . ':' . $a_rec['id'],
                     self::OBJ_TYPE . ':' . $newObject->getId()
                 );
+                $a_mapping->addMapping(
+                    'Services/MetaData',
+                    'md',
+                    $a_rec['id'] . ':0:' . self::OBJ_TYPE,
+                    $newObject->getId() . ':0:' . self::OBJ_TYPE
+                );
                 break;
         }
     }

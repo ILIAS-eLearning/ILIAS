@@ -38,6 +38,7 @@ use ILIAS\HTTP\GlobalHttpState;
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectContentStyleSettingsGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilObjectTranslationGUI
  * @ilCtrl_Calls      ilObjContentPageGUI: ilPageMultiLangGUI
+ * @ilCtrl_Calls      ilObjContentPageGUI: ilMDEditorGUI
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
@@ -161,6 +162,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 self::UI_TAB_ID_LP,
                 $this->lng->txt('learning_progress'),
                 $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class)
+            );
+        }
+
+        if ($this->checkPermissionBool('write')) {
+            $this->tabs->addTab(
+                self::UI_TAB_ID_MD,
+                $this->lng->txt('meta_data'),
+                $this->ctrl->getLinkTargetByClass(ilMDEditorGUI::class)
             );
         }
 
@@ -292,6 +301,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->activateTab(self::UI_TAB_ID_PERMISSIONS);
 
                 $this->ctrl->forwardCommand(new ilPermissionGUI($this));
+                break;
+
+            case strtolower(ilMDEditorGUI::class):
+                $this->checkPermission('write');
+
+                $this->prepareOutput();
+                $this->tabs->activateTab(self::UI_TAB_ID_MD);
+
+
+                $md_gui = new ilMDEditorGUI($this->object->getId(), 0, $this->object->getType());
+                $md_gui->addObserver($this->object, 'MDUpdateListener', 'General');
+                $this->ctrl->forwardCommand($md_gui);
                 break;
 
             case strtolower(ilLearningProgressGUI::class):

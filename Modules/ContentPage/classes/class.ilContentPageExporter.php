@@ -58,12 +58,15 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     {
         $pageObjectIds = [];
         $styleIds = [];
+        $metadataIds = [];
 
         foreach ($a_ids as $copaObjId) {
             $copa = ilObjectFactory::getInstanceByObjId($copaObjId, false);
             if (!$copa || !($copa instanceof ilObjContentPage)) {
                 continue;
             }
+
+            $metadataIds[] = $copaObjId . ':0:' . self::OBJ_TYPE;
 
             $copaPageObjIds = $copa->getPageObjIds();
             foreach ($copaPageObjIds as $copaPageObjId) {
@@ -85,6 +88,14 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
                 'component' => 'Services/COPage',
                 'entity' => 'pg',
                 'ids' => $pageObjectIds,
+            ];
+        }
+
+        if (count($metadataIds) > 0) {
+            $deps[] = [
+                'component' => 'Services/MetaData',
+                'entity' => 'md',
+                'ids' => $metadataIds,
             ];
         }
 
