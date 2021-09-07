@@ -417,7 +417,7 @@
 				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
 				template = template.replace(/\[\[participants-header\]\]/g, participantsNames.join(', '));
 			}
-			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
+			template = template.replace(/\[\[conversationfv\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 
@@ -438,18 +438,6 @@
 
 			return $template;
 		},
-
-		closeNotificationCenter: function() {
-			try {
-				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
-					$("#" + getModule().notificationItemId)
-				);
-				notificationContainer.closeNotificationCenter();
-			} catch (e) {
-				console.error(e);
-			}
-		},
-
 		rerenderNotifications: function(conversation, withServerSideRendering = true) {
 			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
 
@@ -464,24 +452,18 @@
 			}
 
 			try {
-				let $notificationRoot = $("#" + getModule().notificationItemId),
-					notificationContainer = il.UI.item.notification.getNotificationItemObject(
-						$notificationRoot
-					), doCloseNotificationCenter = false;
-
-				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
-					doCloseNotificationCenter = true;
-				} else if (0 === currentNotificationItemsAdded && conversations.length > 0) {
-				}
+				let $notificationRoot = $("#" + getModule().notificationItemId);
+				let	menuContainer = il.UI.item.notification.getNotificationItemObject($notificationRoot);
+				console.log('XXXX')
+				console.log(menuContainer)
 
 				getModule().notificationItemsAdded = conversations.length;
-
 				if (withServerSideRendering) {
 					let conversationIds = conversations.map(function (conversation) {
 						return conversation.id;
 					}).join(",");
 
-					notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+					menuContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
 						"ids": conversationIds
 					});
 				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
@@ -496,7 +478,7 @@
 							delete getModule().conversationMessageTimes[conversation.id];
 						}
 
-						notificationContainer.setItemDescription(function() {
+						menuContainer.setItemDescription(function() {
 							if (0 === getModule().notificationItemsAdded) {
 								return il.Language.txt("chat_osc_nc_no_conv");
 							} else if (1 === getModule().notificationItemsAdded) {
@@ -507,10 +489,7 @@
 						}());
 
 						if (0 === conversations.length) {
-							notificationContainer.removeItemProperties();
-							if (doCloseNotificationCenter) {
-								getModule().closeNotificationCenter();
-							}
+							menuContainer.removeItemProperties();
 						} else {
 							let latestTimestamp = Math.max(
 								Object
@@ -524,7 +503,7 @@
 							})(getModule().conversationMessageTimes, e => e.ts !== latestTimestamp);
 
 							if (formattedTimestamps.length > 0) {
-								notificationContainer.setItemPropertyValueAtPosition(formattedTimestamps[0], 1);
+								menuContainer.setItemPropertyValueAtPosition(formattedTimestamps[0], 1);
 							}
 						}
 					} catch (e) {
