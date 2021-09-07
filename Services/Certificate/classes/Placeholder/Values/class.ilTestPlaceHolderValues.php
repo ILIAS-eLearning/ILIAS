@@ -4,12 +4,12 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
+class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
 {
     /**
      * @var ilDefaultPlaceholderValues
      */
-    private $defaultPlaceHolderValuesObject;
+    private $defaultPlaceholderValuesObject;
 
     /**
      * @var ilCertificateObjectHelper|null
@@ -76,7 +76,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -154,7 +154,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
             $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
         }
 
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($passed);
         $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput($result_array['test']['total_reached_points']);
@@ -188,7 +188,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
