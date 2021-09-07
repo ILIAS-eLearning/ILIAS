@@ -4269,7 +4269,7 @@ class ilUtil
 
         $ilIliasIniFile = $DIC["ilIliasIniFile"];
 
-        if ($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
+        if ((isset($_SERVER['SHELL']) && $_SERVER['SHELL']) || PHP_SAPI === 'cli' ||
             // fallback for windows systems, useful in crons
             (class_exists("ilContext") && !ilContext::usesHTTP())) {
             return $ilIliasIniFile->readVariable('server', 'http_path');
