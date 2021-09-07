@@ -1013,3 +1013,13 @@ if (!$ilDB->tableColumnExists("prg_usr_progress", "sent_mail_expires")) {
     ]);
 }
 ?>
+
+<#53>
+<?php
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilTestPlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilTestPlaceHolderValues', 'text')
+);
+$ilDB->manipulate(
+    "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
+);
+?>
