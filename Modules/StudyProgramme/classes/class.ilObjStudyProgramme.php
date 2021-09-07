@@ -1623,7 +1623,8 @@ class ilObjStudyProgramme extends ilContainer
     public static function addMemberToProgrammes(string $src_type, int $src_id, int $usr_id) : void
     {
         foreach (self::getProgrammesMonitoringMemberSource($src_type, $src_id) as $prg) {
-            if (!$prg->hasAssignmentsOfSingleProgramForUser($usr_id)) {
+            if ($prg->isActive() &&
+                !$prg->hasAssignmentsOfSingleProgramForUser($usr_id)) {
                 $assigned_by = ilStudyProgrammeAutoMembershipSource::SOURCE_MAPPING[$src_type];
                 $prg->assignUser($usr_id, $assigned_by);
             }
