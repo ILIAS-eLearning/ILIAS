@@ -16,6 +16,8 @@ https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 
 Link formattings lead to subtle issues (e.g. #30906) sometimes, since they are not part of the DOM structure on the client side and added later via PHP. This may result in invalid XML. There are different possible ways to handle this, e.g. make links part of DOM already on the client side will allow Tiny to tidy up the structure. In PHP the replacement of [xln] ans similar tags could be improved, by processing pairs of opening and closing tags and check their inner content for validity before replacing them with XML counterparts.
 
+In general the old string manipulations should be replaced by DOM manipulates whenever possible when transforming the client side data.
+
 
 ## Mid Term
 
