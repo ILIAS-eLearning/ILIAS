@@ -70,7 +70,7 @@ abstract class assBaseTestCase extends TestCase
      */
     protected function getGlobalTemplateMock()
     {
-        return $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+        return $this->getMockBuilder(\ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
     /**

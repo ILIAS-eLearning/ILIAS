@@ -24,6 +24,7 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilAssSpecificFeedbac
  */
 class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition, ilAssSpecificFeedbackOptionLabelProvider
 {
+    private bool $isSingleline;
     /**
     * The given answers of the single choice question
     *
@@ -209,9 +210,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
+            $this->setTitle((string)$data["title"]);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setComment($data["description"]);
+            $this->setComment((string)$data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);

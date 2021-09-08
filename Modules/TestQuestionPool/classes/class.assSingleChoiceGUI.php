@@ -553,7 +553,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     array("edit", "insert", "exec_pg"),
                     "",
                     "",
-                    $force_active
+                    false
                 );
             }
 
@@ -709,7 +709,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
                 if (strlen($file_temp_name)) {
                     // check suffix
-                    $suffix = strtolower(array_pop(explode(".", $file_org_name)));
+                    $file_name_parts = explode(".", $file_org_name);
+                    $suffix = strtolower(array_pop($file_name_parts));
                     if (in_array($suffix, array( "jpg", "jpeg", "png", "gif" ))) {
                         // upload image
                         $filename = $this->object->buildHashedImageFilename($file_org_name);

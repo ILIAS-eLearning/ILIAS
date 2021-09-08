@@ -75,7 +75,7 @@ abstract class assQuestionGUI
     private ilAssQuestionPreviewSession $previewSession;
 
     public assQuestion $object;
-    public ilTemplate $tpl;
+    public ilGlobalPageTemplate $tpl;
     public ilLanguage $lng;
 
     public $error;
@@ -1056,7 +1056,7 @@ abstract class assQuestionGUI
             $question->setUseTagsForRteOnly(false);
         }
         $form->addItem($question);
-
+        $nr_tries = 0;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // duration
             $duration = new ilDurationInputGUI($this->lng->txt("working_time"), "Estimated");
