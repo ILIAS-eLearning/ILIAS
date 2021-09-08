@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\Skill\Service;
 
@@ -10,31 +25,14 @@ namespace ILIAS\Skill\Service;
  */
 class SkillUserLevelManager
 {
-    /**
-     * @var \ilBasicSkillLevelRepository
-     */
-    protected $level_repo;
+    protected \ilBasicSkillLevelRepository $level_repo;
+    protected \ilBasicSkillUserLevelRepository $user_level_repo;
+    protected \ilSkillObjectAdapterInterface $obj_adapter;
 
-    /**
-     * @var \ilBasicSkillUserLevelRepository
-     */
-    protected $user_level_repo;
-
-    /**
-     * @var \ilSkillObjectAdapterInterface
-     */
-    protected $obj_adapter;
-
-    /**
-     * Constructor
-     * @param \ilBasicSkillLevelRepository|null     $a_level_repo
-     * @param \ilBasicSkillUserLevelRepository|null $a_user_level_repo
-     * @param \ilSkillObjectAdapterInterface|null   $a_obj_adapter
-     */
     public function __construct(
-        \ilBasicSkillLevelRepository $a_level_repo = null,
-        \ilBasicSkillUserLevelRepository $a_user_level_repo = null,
-        \ilSkillObjectAdapterInterface $a_obj_adapter = null
+        ?\ilBasicSkillLevelRepository $a_level_repo = null,
+        ?\ilBasicSkillUserLevelRepository $a_user_level_repo = null,
+        ?\ilSkillObjectAdapterInterface $a_obj_adapter = null
     ) {
         global $DIC;
 
@@ -46,15 +44,6 @@ class SkillUserLevelManager
             ?: new \ilSkillObjectAdapter();
     }
 
-    /**
-     * @param int    $user_id
-     * @param int    $a_level_id
-     * @param int    $a_trigger_ref_id
-     * @param int    $a_tref_id
-     * @param bool   $a_self_eval
-     * @param string $a_unique_identifier
-     * @param float  $a_next_level_fulfilment
-     */
     public function writeSkillLevel(
         int $user_id,
         int $a_level_id,
@@ -63,7 +52,7 @@ class SkillUserLevelManager
         bool $a_self_eval,
         string $a_unique_identifier,
         float $a_next_level_fulfilment
-    ) {
+    ) : void {
         $skill_id = $this->level_repo->lookupLevelSkillId($a_level_id);
         $trigger_ref_id = $a_trigger_ref_id;
         $trigger_obj_id = $this->obj_adapter->getObjIdForRefId($trigger_ref_id);

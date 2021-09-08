@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 
 /**
@@ -14,36 +29,18 @@ class ilSkillLevelTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilAccessHandler $access;
+    protected int $skill_id;
+    protected ilBasicSkill $skill;
+    protected int $tref_id;
+    protected bool $in_use;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var int
-     */
-    protected $skill_id;
-
-    /**
-     * @var ilBasicSkill
-     */
-    protected $skill;
-
-    /**
-     * @var int
-     */
-    protected $tref_id;
-
-    /**
-     * @var bool
-     */
-    protected $in_use = false;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_skill_id, $a_parent_obj, $a_parent_cmd, $a_tref_id = 0, $a_in_use = false)
+    public function __construct(
+        int $a_skill_id,
+        $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_tref_id = 0,
+        bool $a_in_use = false)
     {
         global $DIC;
 
@@ -95,11 +92,9 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     }
 
     /**
-     * Should this field be sorted numeric?
-     *
-     * @return	bool		numeric ordering; default is false
+     * @inheritdoc
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         if ($a_field == "nr") {
             return true;
@@ -107,18 +102,12 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * Get skill level data
-     *
-     * @param
-     * @return
-     */
-    public function getSkillLevelData()
+    public function getSkillLevelData() : array
     {
         $levels = $this->skill->getLevelData();
     
         // add ressource data
-        $res = array();
+        $res = [];
         $resources = new ilSkillResources($this->skill_id, $this->tref_id);
         foreach ($resources->getResources() as $level_id => $item) {
             $res[$level_id] = array_keys($item);
@@ -131,10 +120,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

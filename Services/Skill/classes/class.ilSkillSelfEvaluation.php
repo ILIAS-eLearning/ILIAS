@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Self evaluation application class
@@ -9,47 +24,15 @@
  */
 class ilSkillSelfEvaluation
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected int $id;
+    protected int $user_id;
+    protected int $top_skill_id;
+    protected string $created;
+    protected string $last_update;
+    protected array $levels;
 
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var int
-     */
-    protected $top_skill_id;
-
-    /**
-     * @var string
-     */
-    protected $created;
-
-    /**
-     * @var string
-     */
-    protected $last_update;
-
-    /**
-     * @var array
-     */
-    protected $levels;
-
-    /**
-     * Constructor
-     *
-     * @param
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -60,112 +43,61 @@ class ilSkillSelfEvaluation
         }
     }
 
-    /**
-     * Set id
-     *
-     * @param	int	id
-     */
-    public function setId($a_val)
+    public function setId(int $a_val) : void
     {
         $this->id = $a_val;
     }
 
-    /**
-     * Get id
-     *
-     * @return	int	id
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * Set user id
-     *
-     * @param	int	user id
-     */
-    public function setUserId($a_val)
+    public function setUserId(int $a_val) : void
     {
         $this->user_id = $a_val;
     }
-    
-    /**
-     * Get user id
-     *
-     * @return	int	user id
-     */
-    public function getUserId()
+
+    public function getUserId() : int
     {
         return $this->user_id;
     }
-    
-    /**
-     * Set top skill id
-     *
-     * @param	int	top skill id
-     */
-    public function setTopSkillId($a_val)
+
+    public function setTopSkillId(int $a_val) : void
     {
         $this->top_skill_id = $a_val;
     }
 
-    /**
-     * Get top skill id
-     *
-     * @return	int	top skill id
-     */
-    public function getTopSkillId()
+    public function getTopSkillId() : int
     {
         return $this->top_skill_id;
     }
 
-    /**
-     * Set created at
-     *
-     * @param	string	created at
-     */
-    public function setCreated($a_val)
+    public function setCreated(string $a_val) : void
     {
         $this->created = $a_val;
     }
 
-    /**
-     * Get created at
-     *
-     * @return	string	created at
-     */
-    public function getCreated()
+    public function getCreated() : string
     {
         return $this->created;
     }
 
-    /**
-     * Set last update
-     *
-     * @param	string	last update
-     */
-    public function setLastUpdate($a_val)
+    public function setLastUpdate(string $a_val) : void
     {
         $this->last_update = $a_val;
     }
 
-    /**
-     * Get last update
-     *
-     * @return	string	last update
-     */
-    public function getLastUpdate()
+    public function getLastUpdate() : string
     {
         return $this->last_update;
     }
 
     /**
-     * Set level
-     *
-     * @param	array	level; index: skill id, value: level id (or 0 for no skills)
+     * @param array|null $a_val level; index: skill id, value: level id (or 0 for no skills)
+     * @param bool       $a_keep_existing
      */
-    public function setLevels($a_val, $a_keep_existing = false)
+    public function setLevels(?array $a_val, bool $a_keep_existing = false) : void
     {
         if (!$a_keep_existing) {
             $this->levels = $a_val;
@@ -176,20 +108,12 @@ class ilSkillSelfEvaluation
         }
     }
 
-    /**
-     * Get level
-     *
-     * @return	array	level
-     */
-    public function getLevels()
+    public function getLevels() : array
     {
         return $this->levels;
     }
 
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -209,17 +133,14 @@ class ilSkillSelfEvaluation
             "SELECT * FROM skl_self_eval_level WHERE " .
             " self_eval_id = " . $ilDB->quote($this->getId(), "integer")
             );
-        $levels = array();
+        $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $levels[$rec["skill_id"]] = $rec["level_id"];
         }
         $this->setLevels($levels);
     }
 
-    /**
-     * Create self evaluation
-     */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
 
@@ -247,10 +168,7 @@ class ilSkillSelfEvaluation
         }
     }
 
-    /**
-     * Update self evaluation
-     */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -280,10 +198,7 @@ class ilSkillSelfEvaluation
         }
     }
 
-    /**
-     * Delete self evaluation
-     */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -298,10 +213,7 @@ class ilSkillSelfEvaluation
             );
     }
 
-    /**
-     * Get all self evaluations
-     */
-    public static function getAllSelfEvaluationsOfUser($a_user, $a_one_per_top_skill = false)
+    public static function getAllSelfEvaluationsOfUser(int $a_user, bool $a_one_per_top_skill = false) : array
     {
         global $DIC;
 
@@ -313,9 +225,9 @@ class ilSkillSelfEvaluation
             "ORDER BY last_update DESC"
             );
 
-        $self_evaluation = array();
+        $self_evaluation = [];
 
-        $top_skills = array();
+        $top_skills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (!$a_one_per_top_skill || !in_array($rec["top_skill_id"], $top_skills)) {
                 $self_evaluation[] = $rec;
@@ -327,13 +239,9 @@ class ilSkillSelfEvaluation
     }
 
     /**
-     * Lookup property
-     *
-     * @param int $a_id level id
-     * @param string $a_prop property
      * @return mixed property value
      */
-    protected static function lookupProperty($a_id, $a_prop)
+    protected static function lookupProperty(int $a_id, string $a_prop)
     {
         global $DIC;
 
@@ -353,7 +261,7 @@ class ilSkillSelfEvaluation
      * Note: this method does not make much sense in general, since it
      * assumes that all basic skills have the same level
      */
-    public static function getAverageLevel($a_se_id, $a_user_id, $a_top_skill_id)
+    public static function getAverageLevel(int $a_se_id, int $a_user_id, int $a_top_skill_id) : ?array
     {
         global $DIC;
 
@@ -377,7 +285,7 @@ class ilSkillSelfEvaluation
                 if ($child["type"] == "skll") {
                     $sk = new ilBasicSkill($child["child"]);
                     $ls = $sk->getLevelData();
-                    $ord = array();
+                    $ord = [];
                     foreach ($ls as $k => $l) {
                         $ord[$l["id"]] = $k + 1;
                     }
@@ -404,15 +312,9 @@ class ilSkillSelfEvaluation
         return null;
     }
 
-    /**
-     * Determine steps
-     *
-     * @param
-     * @return
-     */
-    public static function determineSteps($a_sn_id)
+    public static function determineSteps(int $a_sn_id) : array
     {
-        $steps = array();
+        $steps = [];
         if ($a_sn_id > 0) {
             $stree = new ilSkillTree();
 
