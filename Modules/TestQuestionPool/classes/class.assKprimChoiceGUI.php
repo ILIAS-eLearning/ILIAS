@@ -16,11 +16,6 @@ require_once 'Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAd
 class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable, ilGuiAnswerScoringAdjustable
 {
     /**
-     * @var assKprimChoice
-     */
-    public $object;
-    
-    /**
      * @param $qId
      */
     public function __construct($qId = -1)
