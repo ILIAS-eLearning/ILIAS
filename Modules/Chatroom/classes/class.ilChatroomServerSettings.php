@@ -35,18 +35,23 @@ class ilChatroomServerSettings
         $server_settings = json_decode($row['server_settings'], false, 512, JSON_THROW_ON_ERROR);
 
         $settings = new self();
-        $settings->setPort((int) $server_settings->port);
-        $settings->setProtocol((string) $server_settings->protocol);
-        $settings->setInstance((string) $client_settings->name);
-        $settings->setDomain((string) $server_settings->address);
-        $settings->setSmiliesEnabled((bool) $client_settings->enable_smilies);
-        $settings->setAuthKey((string) $client_settings->auth->key);
-        $settings->setAuthSecret((string) $client_settings->auth->secret);
-        $settings->setClientUrlEnabled((bool) $server_settings->client_proxy);
-        $settings->setIliasUrlEnabled((bool) $server_settings->ilias_proxy);
-        $settings->setClientUrl((string) $server_settings->client_url);
-        $settings->setIliasUrl((string) $server_settings->ilias_url);
-        $settings->setSubDirectory((string) $server_settings->sub_directory);
+        if ($server_settings instanceof stdClass) {
+            $settings->setPort((int) $server_settings->port);
+            $settings->setProtocol((string) $server_settings->protocol);
+            $settings->setDomain((string) $server_settings->address);
+            $settings->setSmiliesEnabled((bool) $client_settings->enable_smilies);
+            $settings->setClientUrlEnabled((bool) $server_settings->client_proxy);
+            $settings->setIliasUrlEnabled((bool) $server_settings->ilias_proxy);
+            $settings->setClientUrl((string) $server_settings->client_url);
+            $settings->setIliasUrl((string) $server_settings->ilias_url);
+            $settings->setSubDirectory((string) $server_settings->sub_directory);
+        }
+
+        if ($client_settings instanceof stdClass) {
+            $settings->setInstance((string) $client_settings->name);
+            $settings->setAuthKey((string) $client_settings->auth->key);
+            $settings->setAuthSecret((string) $client_settings->auth->secret);
+        }
 
         return $settings;
     }
