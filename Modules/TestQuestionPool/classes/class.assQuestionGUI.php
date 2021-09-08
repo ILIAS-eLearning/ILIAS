@@ -1,11 +1,45 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once './Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+require_once './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
+require_once './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
+
+require_once './Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
+
+require_once './Services/Link/classes/class.ilLink.php';
+
+require_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
+require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+
+require_once './Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
-require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
-require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
-require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
+require_once './Modules/Test/classes/class.ilTestExpressPage.php';
+require_once './Modules/Test/classes/class.ilTestExpressPage.php';
+require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
+require_once './Modules/Test/classes/class.ilObjTest.php';
+require_once './Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+
+require_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
+require_once './Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
+
+require_once './Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
+
+require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
+require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php';
+require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+require_once './Modules/TestQuestionPool/classes/tables/class.ilAnswerFrequencyStatisticTableGUI.php';
+require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
+require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
+require_once './Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
+
 
 /**
 * Basic GUI class for assessment questions
@@ -26,54 +60,47 @@ abstract class assQuestionGUI
     const FORM_ENCODING_MULTIPART = 'multipart/form-data';
     
     const SESSION_PREVIEW_DATA_BASE_INDEX = 'ilAssQuestionPreviewAnswers';
-    
-    /**
-    * Question object
-    *
-    * A reference to the matching question object
-    *
-    * @var assQuestion
-    */
-    public $object;
+    private $ui;
+    private ilObjectDataCache $ilObjDataCache;
+    private ilHelpGUI $ilHelp;
+    private ilAccess $access;
+    private ilObjUser $ilUser;
+    private ilTabsGUI $ilTabs;
+    private ilRbacSystem $rbacsystem;
 
-    /** @var ilGlobalTemplateInterface */
-    public $tpl;
-    public $lng;
+    protected ilCtrl $ctrl;
+    private array $new_id_listeners = array();
+    private int $new_id_listener_cnt = 0;
+
+    private ilAssQuestionPreviewSession $previewSession;
+
+    public assQuestion $object;
+    public ilTemplate $tpl;
+    public ilLanguage $lng;
+
     public $error;
-    public $errormessage;
+    public string $errormessage;
     
-    /**
-     * sequence number in test
-     */
-    public $sequence_no;
-    /**
-     * question count in test
-     */
-    public $question_count;
+    /** sequence number in test */
+    public int $sequence_no;
+
+    /** question count in test */
+    public int $question_count;
     
     private $taxonomyIds = array();
     
     private $targetGuiClass = null;
 
-    private $questionActionCmd = 'handleQuestionAction';
+    private string $questionActionCmd = 'handleQuestionAction';
 
-    /**
-     * @var ilQuestionHeaderBlockBuilder
-     */
-    private $questionHeaderBlockBuilder;
+    private ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder;
 
-    /**
-     * @var ilTestQuestionNavigationGUI
-     */
-    private $navigationGUI;
+    private ilTestQuestionNavigationGUI $navigationGUI;
 
     const PRESENTATION_CONTEXT_TEST = 'pContextTest';
     const PRESENTATION_CONTEXT_RESULTS = 'pContextResults';
 
-    /**
-     * @var string
-     */
-    private $presentationContext = null;
+    private ?string $presentationContext = null;
 
     const RENDER_PURPOSE_PLAYBACK = 'renderPurposePlayback';
     const RENDER_PURPOSE_DEMOPLAY = 'renderPurposeDemoplay';
@@ -81,44 +108,31 @@ abstract class assQuestionGUI
     const RENDER_PURPOSE_PRINT_PDF = 'renderPurposePrintPdf';
     const RENDER_PURPOSE_INPUT_VALUE = 'renderPurposeInputValue';
     
-    /**
-     * @var string
-     */
-    private $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
+    private string $renderPurpose = self::RENDER_PURPOSE_PLAYBACK;
 
     const EDIT_CONTEXT_AUTHORING = 'authoring';
     const EDIT_CONTEXT_ADJUSTMENT = 'adjustment';
     
-    /**
-     * @var string
-     */
-    private $editContext = self::EDIT_CONTEXT_AUTHORING;
+    private string $editContext = self::EDIT_CONTEXT_AUTHORING;
     
-    // hey: prevPassSolutions - flag to indicate that a previous answer is shown
-    /**
-     * @var bool
-     */
-    private $previousSolutionPrefilled = false;
-    // hey.
-    
-    /**
-     * @var \ilPropertyFormGUI
-     */
-    protected $editForm;
+    private bool $previousSolutionPrefilled = false;
 
-    /**
-    * assQuestionGUI constructor
-    */
+    protected ilPropertyFormGUI $editForm;
+
     public function __construct()
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->ui = $DIC->ui();
+        $this->ilObjDataCache = $DIC['ilObjDataCache'];
+        $this->access = $DIC->access();
+        $this->ilHelp = $DIC['ilHelp'];
+        $this->ilUser = $DIC['ilUser'];
+        $this->ilTabs = $DIC['ilTabs'];
+        $this->rbacsystem = $DIC['rbacsystem'];
 
-        $this->lng = &$lng;
-        $this->tpl = &$tpl;
-        $this->ctrl = &$ilCtrl;
         $this->ctrl->saveParameter($this, "q_id");
         $this->ctrl->saveParameter($this, "prev_qid");
         $this->ctrl->saveParameter($this, "calling_test");
@@ -131,31 +145,17 @@ abstract class assQuestionGUI
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $this->errormessage = $this->lng->txt("fill_out_all_required_fields");
-        
-        $this->selfassessmenteditingmode = false;
-        $this->new_id_listeners = array();
-        $this->new_id_listener_cnt = 0;
-        
-        $this->navigationGUI = null;
     }
     
-    /**
-     * this method can be overwritten per question type
-     *
-     * @return bool
-     */
-    public function hasInlineFeedback()
+    public function hasInlineFeedback() : bool
     {
         return false;
     }
     
-    public function addHeaderAction()
+    public function addHeaderAction() : void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-
-        $DIC->ui()->mainTemplate()->setVariable(
+        $this->ui->mainTemplate()->setVariable(
             "HEAD_ACTION",
             $this->getHeaderAction()
         );
@@ -168,30 +168,25 @@ abstract class assQuestionGUI
             false
         );
         
-        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $DIC->ui()->mainTemplate());
+        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $this->ui->mainTemplate());
         
-        $redrawActionsUrl = $DIC->ctrl()->getLinkTarget($this, 'redrawHeaderAction', '', true);
-        $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
+        $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
+        $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
     }
     
-    public function redrawHeaderAction()
+    public function redrawHeaderAction() : void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        echo $this->getHeaderAction() . $DIC->ui()->mainTemplate()->getOnLoadCodeForAsynch();
+        echo $this->getHeaderAction() . $this->ui->mainTemplate()->getOnLoadCodeForAsynch();
         exit;
     }
     
-    public function getHeaderAction()
+    public function getHeaderAction() : string
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        /* @var ilObjectDataCache $ilObjDataCache */
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-        
-        $parentObjType = $ilObjDataCache->lookupType($this->object->getObjId());
+        $parentObjType = $this->ilObjDataCache->lookupType($this->object->getObjId());
         
         $dispatcher = new ilCommonActionDispatcherGUI(
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
-            $DIC->access(),
+            $this->access,
             $parentObjType,
             $_GET["ref_id"],
             $this->object->getObjId()
@@ -202,10 +197,10 @@ abstract class assQuestionGUI
         $ha = $dispatcher->initHeaderAction();
         $ha->enableComments(true, false);
         
-        return $ha->getHeaderAction($DIC->ui()->mainTemplate());
+        return $ha->getHeaderAction($this->ui->mainTemplate());
     }
     
-    public function getNotesHTML()
+    public function getNotesHTML() : string
     {
         $notesGUI = new ilNoteGUI($this->object->getObjId(), $this->object->getId(), 'quest');
         $notesGUI->enablePublicNotes(true);
@@ -214,14 +209,9 @@ abstract class assQuestionGUI
         return $notesGUI->getNotesHTML();
     }
 
-    /**
-    * execute command
-    */
     public function executeCommand()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
-        $ilHelp->setScreenIdComponent('qpl');
+        $this->ilHelp->setScreenIdComponent('qpl');
 
         $cmd = $this->ctrl->getCmd("editQuestion");
         $next_class = $this->ctrl->getNextClass($this);
@@ -232,11 +222,9 @@ abstract class assQuestionGUI
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();
 
-                require_once 'Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($_GET['postvar'])));
                 return $this->ctrl->forwardCommand($form_prop_dispatch);
-                break;
 
             default:
                 $ret = $this->$cmd();
@@ -250,95 +238,75 @@ abstract class assQuestionGUI
         return $cmd;
     }
 
-    /**
-    * needed for page editor compliance
-    */
-    public function getType()
+    /** needed for page editor compliance */
+    public function getType() : string
     {
         return $this->getQuestionType();
     }
 
-    /**
-     * @return string
-     */
-    public function getPresentationContext()
+    public function getPresentationContext() : string
     {
         return $this->presentationContext;
     }
 
-    /**
-     * @param string $presentationContext
-     */
-    public function setPresentationContext($presentationContext)
+    public function setPresentationContext(string $presentationContext) : void
     {
         $this->presentationContext = $presentationContext;
     }
     
-    public function isTestPresentationContext()
+    public function isTestPresentationContext() : bool
     {
         return $this->getPresentationContext() == self::PRESENTATION_CONTEXT_TEST;
     }
 
     // hey: previousPassSolutions - setter/getter for Previous Solution Prefilled flag
-    /**
-     * @return boolean
-     */
-    public function isPreviousSolutionPrefilled()
+    public function isPreviousSolutionPrefilled() : bool
     {
         return $this->previousSolutionPrefilled;
     }
-    
-    /**
-     * @param boolean $previousSolutionPrefilled
-     */
-    public function setPreviousSolutionPrefilled($previousSolutionPrefilled)
+
+    public function setPreviousSolutionPrefilled(bool $previousSolutionPrefilled) : void
     {
         $this->previousSolutionPrefilled = $previousSolutionPrefilled;
     }
     // hey.
 
-    /**
-     * @return string
-     */
-    public function getRenderPurpose()
+    public function getRenderPurpose() : string
     {
         return $this->renderPurpose;
     }
 
-    /**
-     * @param string $renderPurpose
-     */
-    public function setRenderPurpose($renderPurpose)
+    public function setRenderPurpose(string $renderPurpose) : void
     {
         $this->renderPurpose = $renderPurpose;
     }
     
-    public function isRenderPurposePrintPdf()
+    public function isRenderPurposePrintPdf() : bool
     {
         return $this->getRenderPurpose() == self::RENDER_PURPOSE_PRINT_PDF;
     }
     
-    public function isRenderPurposePreview()
+    public function isRenderPurposePreview() : bool
     {
         return $this->getRenderPurpose() == self::RENDER_PURPOSE_PREVIEW;
     }
     
-    public function isRenderPurposeInputValue()
+    public function isRenderPurposeInputValue() : bool
     {
         return $this->getRenderPurpose() == self::RENDER_PURPOSE_INPUT_VALUE;
     }
     
-    public function isRenderPurposePlayback()
+    public function isRenderPurposePlayback() : bool
     {
         return $this->getRenderPurpose() == self::RENDER_PURPOSE_PLAYBACK;
     }
     
-    public function isRenderPurposeDemoplay()
+    public function isRenderPurposeDemoplay() : bool
     {
         return $this->getRenderPurpose() == self::RENDER_PURPOSE_DEMOPLAY;
     }
     
-    public function renderPurposeSupportsFormHtml()
+    public function renderPurposeSupportsFormHtml() : bool
     {
         if ($this->isRenderPurposePrintPdf()) {
             return false;
@@ -351,103 +319,79 @@ abstract class assQuestionGUI
         return true;
     }
     
-    /**
-     * @return string
-     */
-    public function getEditContext()
+    public function getEditContext() : string
     {
         return $this->editContext;
     }
     
-    /**
-     * @param string $editContext
-     */
-    public function setEditContext($editContext)
+    public function setEditContext(string $editContext) : void
     {
         $this->editContext = $editContext;
     }
     
-    /**
-     * @param bool $isAuthoringEditContext
-     */
-    public function isAuthoringEditContext()
+    public function isAuthoringEditContext() : bool
     {
         return $this->getEditContext() == self::EDIT_CONTEXT_AUTHORING;
     }
     
-    /**
-     * @param bool $isAdjustmentEditContext
-     */
-    public function isAdjustmentEditContext()
+    public function isAdjustmentEditContext() : bool
     {
         return $this->getEditContext() == self::EDIT_CONTEXT_ADJUSTMENT;
     }
     
-    public function setAdjustmentEditContext()
+    public function setAdjustmentEditContext() : void
     {
-        return $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
+        $this->setEditContext(self::EDIT_CONTEXT_ADJUSTMENT);
     }
     
-    /**
-     * @return ilTestQuestionNavigationGUI
-     */
-    public function getNavigationGUI()
+    public function getNavigationGUI() : ilTestQuestionNavigationGUI
     {
         return $this->navigationGUI;
     }
 
-    /**
-     * @param ilTestQuestionNavigationGUI $navigationGUI
-     */
-    public function setNavigationGUI($navigationGUI)
+    public function setNavigationGUI(ilTestQuestionNavigationGUI $navigationGUI) : void
     {
         $this->navigationGUI = $navigationGUI;
     }
     
-    public function setTaxonomyIds($taxonomyIds)
+    public function setTaxonomyIds(array $taxonomyIds) : void
     {
         $this->taxonomyIds = $taxonomyIds;
     }
     
-    public function getTaxonomyIds()
+    public function getTaxonomyIds() : array
     {
         return $this->taxonomyIds;
     }
     
-    public function setTargetGui($linkTargetGui)
+    public function setTargetGui($linkTargetGui) : void
     {
         $this->setTargetGuiClass(get_class($linkTargetGui));
     }
     
-    public function setTargetGuiClass($targetGuiClass)
+    public function setTargetGuiClass($targetGuiClass) : void
     {
         $this->targetGuiClass = $targetGuiClass;
     }
     
-    public function getTargetGuiClass()
+    public function getTargetGuiClass() : string
     {
         return $this->targetGuiClass;
     }
 
-    /**
-     * @param \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
-     */
-    public function setQuestionHeaderBlockBuilder($questionHeaderBlockBuilder)
+    public function setQuestionHeaderBlockBuilder(\ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder) : void
     {
         $this->questionHeaderBlockBuilder = $questionHeaderBlockBuilder;
     }
 
     // fau: testNav - get the question header block bulder (for tweaking)
-    /**
-     * @return \ilQuestionHeaderBlockBuilder $questionHeaderBlockBuilder
-     */
-    public function getQuestionHeaderBlockBuilder()
+    public function getQuestionHeaderBlockBuilder() : \ilQuestionHeaderBlockBuilder
     {
         return $this->questionHeaderBlockBuilder;
     }
     // fau.
 
-    public function setQuestionActionCmd($questionActionCmd)
+    public function setQuestionActionCmd(string $questionActionCmd) : void
     {
         $this->questionActionCmd = $questionActionCmd;
 
@@ -456,7 +400,7 @@ abstract class assQuestionGUI
         }
     }
 
-    public function getQuestionActionCmd()
+    public function getQuestionActionCmd() : string
     {
         return $this->questionActionCmd;
     }
@@ -465,28 +409,19 @@ abstract class assQuestionGUI
      * Evaluates a posted edit form and writes the form data in the question object
      * @return integer A positive value, if one of the required fields wasn't set, else 0
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
+        return 0;
     }
 
-    /**
-    * output assessment
-    */
     public function assessment()
     {
-        /**
-         * @var $tpl ilGlobalTemplate
-         */
-        global $DIC;
-        $tpl = $DIC['tpl'];
-
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
 
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
+
         $usage_table = new ilQuestionUsagesTableGUI($this, 'assessment', '', $this->object);
 
-        $tpl->setContent(implode('<br />', array(
+        $this->tpl->setContent(implode('<br />', array(
             $stats_table->getHTML(),
             $usage_table->getHTML()
         )));
@@ -494,28 +429,20 @@ abstract class assQuestionGUI
 
     /**
      * Creates a question gui representation and returns the alias to the question gui
-     * note: please do not use $this inside this method to allow static calls
-     *
-     * @param string $question_type The question type as it is used in the language database
-     * @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
-     *
-     * @return assQuestionGUI The alias to the question object
      */
-    public static function _getQuestionGUI($question_type, $question_id = -1)
+    public static function _getQuestionGUI(string $question_type = '', int $question_id = -1) : assQuestionGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
-        
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        
-        if ((!$question_type) and ($question_id > 0)) {
+
+        if (($question_type === '') && ($question_id > 0)) {
             $question_type = assQuestion::getQuestionTypeFromDb($question_id);
         }
         
-        if (strlen($question_type) == 0) {
-            return null;
+        if ($question_type === '') {
+            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
         }
 
         assQuestion::_includeClass($question_type, 1);
@@ -538,8 +465,6 @@ abstract class assQuestionGUI
      */
     public static function _getGUIClassNameForId($a_q_id)
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $q_type = assQuestion::getQuestionTypeFromDb($a_q_id);
         $class_name = assQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
@@ -553,40 +478,19 @@ abstract class assQuestionGUI
         return $q_type . "GUI";
     }
 
-    /**
-    * Creates a question gui representation
-    *
-    * Creates a question gui representation and returns the alias to the question gui
-    *
-    * @param string $question_type The question type as it is used in the language database
-    * @param integer $question_id The database ID of an existing question to load it into assQuestionGUI
-    * @return object The alias to the question object
-    * @access public
-     *
-     * @deprecated: WTF is this? GUIobject::question should be a GUIobject !? WTF is a question alias !?
-    */
-    public function &createQuestionGUI($question_type, $question_id = -1)
-    {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $this->question = assQuestionGUI::_getQuestionGUI($question_type, $question_id);
-    }
-    
-    public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
+    public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl) : void
     {
         foreach ($this->getPresentationJavascripts() as $jsFile) {
             $tpl->addJavaScript($jsFile);
         }
     }
     
-    public function getPresentationJavascripts()
+    public function getPresentationJavascripts() : array
     {
         return array();
     }
 
-    /**
-    * get question template
-    */
-    public function getQuestionTemplate()
+    public function getQuestionTemplate() : void
     {
         // @todo Björn: Maybe this has to be changed for PHP 7/ILIAS 5.2.x (ilObjTestGUI::executeCommand, switch -> default case -> $this->prepareOutput(); already added a template to the CONTENT variable wrapped in a block named content)
         if (!$this->tpl->blockExists('content')) {
@@ -602,24 +506,17 @@ abstract class assQuestionGUI
         }
     }
     
-    /**
-     * @param $form
-     */
-    protected function renderEditForm($form)
+    protected function renderEditForm(ilPropertyFormGUI $form) : void
     {
         $this->getQuestionTemplate();
         $this->tpl->setVariable("QUESTION_DATA", $form->getHTML());
     }
 
     /**
-    * Returns the ILIAS Page around a question
-    *
-    * @return string The ILIAS page content
-    * @access public
-    */
-    public function getILIASPage($html = "")
+     * Returns the ILIAS Page around a question
+     */
+    public function getILIASPage(string $html = "") : string
     {
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
         $page_gui = new ilAssQuestionPageGUI($this->object->getId());
         $page_gui->setQuestionHTML(array($this->object->getId() => $html));
         $presentation = $page_gui->presentation();
@@ -627,31 +524,18 @@ abstract class assQuestionGUI
         return $presentation;
     }
 
-    /**
-    * output question page
-    */
     public function outQuestionPage($a_temp_var, $a_postponed = false, $active_id = "", $html = "", $inlineFeedbackEnabled = false)
     {
-        // hey: prevPassSolutions - add the "use previous answer"
-        // hey: prevPassSolutions - refactored identifiers
         if ($this->object->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
             // hey
             ilUtil::sendInfo($this->getPreviousSolutionProvidedMessage());
             $html .= $this->getPreviousSolutionConfirmationCheckboxHtml();
-        } elseif // (!) --> if ($this->object->getTestQuestionConfig()->isUnchangedAnswerPossible())
-        // hey.
-// fau: testNav - add the "use unchanged answer checkbox"
-        // hey: prevPassSolutions - refactored identifiers
-        ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible()) {
-            // hey.
+        } elseif ($this->object->getTestPresentationConfig()->isUnchangedAnswerPossible()) {
             $html .= $this->getUseUnchangedAnswerCheckboxHtml();
         }
-        // fau.
 
         $this->lng->loadLanguageModule("content");
 
-        // fau: testNav - add question buttons below question, add actions menu
-        include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
         $page_gui = new ilAssQuestionPageGUI($this->object->getId());
         $page_gui->setOutputMode("presentation");
         $page_gui->setTemplateTargetVar($a_temp_var);
@@ -660,7 +544,6 @@ abstract class assQuestionGUI
             $html .= $this->getNavigationGUI()->getHTML();
             $page_gui->setQuestionActionsHTML($this->getNavigationGUI()->getActionsHTML());
         }
-        // fau.
 
         if (strlen($html)) {
             if ($inlineFeedbackEnabled && $this->hasInlineFeedback()) {
@@ -670,45 +553,32 @@ abstract class assQuestionGUI
             $page_gui->setQuestionHTML(array($this->object->getId() => $html));
         }
 
-        // fau: testNav - fill the header with subtitle blocks for question info an actions
         $page_gui->setPresentationTitle($this->questionHeaderBlockBuilder->getPresentationTitle());
         $page_gui->setQuestionInfoHTML($this->questionHeaderBlockBuilder->getQuestionInfoHTML());
-        // fau.
 
         return $page_gui->presentation();
     }
-    
-    // fau: testNav - get the html of the "use unchanged answer checkbox"
-    protected function getUseUnchangedAnswerCheckboxHtml()
+
+    protected function getUseUnchangedAnswerCheckboxHtml() : string
     {
-        // hey: prevPassSolutions - use abstracted template to share with other purposes of this kind
         $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
         $tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->object->getTestPresentationConfig()->getUseUnchangedAnswerLabel());
-        // hey.
         return $tpl->get();
     }
-    // fau.
 
-    // hey: prevPassSolutions - build prev solution message / build "use previous answer checkbox" html
-    protected function getPreviousSolutionProvidedMessage()
+    protected function getPreviousSolutionProvidedMessage() : string
     {
         return $this->lng->txt('use_previous_solution_advice');
     }
     
-    protected function getPreviousSolutionConfirmationCheckboxHtml()
+    protected function getPreviousSolutionConfirmationCheckboxHtml() : string
     {
         $tpl = new ilTemplate('tpl.tst_question_additional_behaviour_checkbox.html', true, true, 'Modules/TestQuestionPool');
-        // hey: prevPassSolutions - use abtract template
         $tpl->setVariable('TXT_FORCE_FORM_DIFF_LABEL', $this->lng->txt('use_previous_solution'));
-        // hey.
         return $tpl->get();
     }
-    // hey.
-    
-    /**
-    * cancel action
-    */
-    public function cancel()
+
+    public function cancel() : void
     {
         if ($_GET["calling_test"]) {
             $_GET["ref_id"] = $_GET["calling_test"];
@@ -726,11 +596,7 @@ abstract class assQuestionGUI
         }
     }
 
-    /**
-     * @param string $return_to
-     * @param string $return_to_feedback  ilAssQuestionFeedbackEditingGUI
-     */
-    public function originalSyncForm($return_to = "", $return_to_feedback = '')
+    public function originalSyncForm(string $return_to = "", string $return_to_feedback = '') : void
     {
         if (strlen($return_to)) {
             $this->ctrl->setParameter($this, "return_to", $return_to);
@@ -751,7 +617,7 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
     
-    public function sync()
+    public function sync() : void
     {
         $original_id = $this->object->original_id;
         if ($original_id) {
@@ -769,7 +635,7 @@ abstract class assQuestionGUI
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
                     ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
                 }
-                require_once 'Services/Link/classes/class.ilLink.php';
+
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
             $_GET["ref_id"] = $_GET["calling_test"];
@@ -782,7 +648,7 @@ abstract class assQuestionGUI
         }
     }
 
-    public function cancelSync()
+    public function cancelSync() : void
     {
         if (strlen($_GET["return_to"])) {
             $this->ctrl->redirect($this, $_GET["return_to"]);
@@ -796,7 +662,6 @@ abstract class assQuestionGUI
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
                     ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
                 }
-                require_once 'Services/Link/classes/class.ilLink.php';
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
             $_GET["ref_id"] = $_GET["calling_test"];
@@ -809,21 +674,16 @@ abstract class assQuestionGUI
         }
     }
     
-    /**
-    * save question
-    */
     public function saveEdit()
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-
+        $ilUser = $this->ilUser;
         $result = $this->writePostData();
         if ($result == 0) {
             $ilUser->setPref("tst_lastquestiontype", $this->object->getQuestionType());
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = $this->object->_questionExists($this->object->original_id);
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
+
             if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
             } elseif ($_GET["calling_test"]) {
@@ -835,12 +695,10 @@ abstract class assQuestionGUI
                 $tree = $DIC['tree'];
                 $ilDB = $DIC['ilDB'];
                 $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                
-                include_once("./Modules/Test/classes/class.ilObjTest.php");
+// TODO: Courier Antipattern!
                 $_GET["ref_id"] = $_GET["test_ref_id"];
                 $test = new ilObjTest($_GET["test_ref_id"], true);
-                
-                require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+
                 $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
@@ -860,13 +718,9 @@ abstract class assQuestionGUI
         }
     }
 
-    /**
-    * save question
-    */
-    public function save()
+    public function save() : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $this->ilUser;
         $old_id = $_GET["q_id"];
         $result = $this->writePostData();
 
@@ -876,27 +730,21 @@ abstract class assQuestionGUI
             $this->object->saveToDb();
             $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
 
-
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'return_to', 'editQuestion');
                 $this->ctrl->redirect($this, "originalSyncForm");
                 return;
             } elseif ($_GET["calling_test"]) {
-                require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                    
-                    include_once("./Modules/Test/classes/class.ilObjTest.php");
+// TODO: Courier Antipattern!
                     $_GET["ref_id"] = $_GET["calling_test"];
                     $test = new ilObjTest($_GET["calling_test"], true);
-                    
-                    require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
                     $new_id = $test->insertQuestion(
@@ -929,8 +777,6 @@ abstract class assQuestionGUI
                      */
                     if ($_REQUEST['prev_qid']) {
                         // @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
-                        // mbecker: Possible fix: Just instantiate the obj?
-                        include_once("./Modules/Test/classes/class.ilObjTest.php");
                         $test = new ilObjTest($_GET["ref_id"], true);
                         $test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
                     }
@@ -939,19 +785,13 @@ abstract class assQuestionGUI
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
                         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-                        include_once("./Modules/Test/classes/class.ilObjTest.php");
+// TODO: Courier Antipattern!
                         $test = new ilObjTest($_GET["ref_id"], true);
-
-                        require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
                         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
-
                         $test->insertQuestion(
                             $testQuestionSetConfigFactory->getQuestionSetConfig(),
                             $this->object->getId()
                         );
-                        
-                        require_once 'Modules/Test/classes/class.ilTestExpressPage.php';
                         $_REQUEST['q_id'] = $this->object->getId();
                         ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
                     }
@@ -968,13 +808,9 @@ abstract class assQuestionGUI
         }
     }
 
-    /**
-    * save question
-    */
-    public function saveReturn()
+    public function saveReturn() : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
+        $ilUser = $this->ilUser;
         $old_id = $_GET["q_id"];
         $result = $this->writePostData();
         if ($result == 0) {
@@ -982,14 +818,12 @@ abstract class assQuestionGUI
             $ilUser->writePref("tst_lastquestiontype", $this->object->getQuestionType());
             $this->object->saveToDb();
             $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-            include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
             if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'test_express_mode', $_REQUEST['test_express_mode']);
                 $this->ctrl->redirect($this, "originalSyncForm");
                 return;
             } elseif ($_GET["calling_test"]) {
-                require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $test = new ilObjTest($_GET["calling_test"]);
                 #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
@@ -998,12 +832,10 @@ abstract class assQuestionGUI
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                    
-                    include_once("./Modules/Test/classes/class.ilObjTest.php");
+// TODO: Courier Antipattern!
                     $_GET["ref_id"] = $_GET["calling_test"];
                     $test = new ilObjTest($_GET["calling_test"], true);
-                    
-                    require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
+
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
                     $new_id = $test->insertQuestion(
@@ -1044,10 +876,7 @@ abstract class assQuestionGUI
         }
     }
 
-    /**
-    * apply changes
-    */
-    public function apply()
+    public function apply() : void
     {
         $this->writePostData();
         $this->object->saveToDb();
@@ -1056,12 +885,9 @@ abstract class assQuestionGUI
     }
     
     /**
-    * get context path in content object tree
-    *
-    * @param	int		$a_endnode_id		id of endnode
-    * @param	int		$a_startnode_id		id of startnode
-    */
-    public function getContextPath($cont_obj, $a_endnode_id, $a_startnode_id = 1)
+     * get context path in content object tree
+     */
+    public function getContextPath($cont_obj, int $a_endnode_id, int $a_startnode_id = 1) : string
     {
         $path = "";
 
@@ -1079,66 +905,52 @@ abstract class assQuestionGUI
         return $path;
     }
 
-    public function setSequenceNumber($nr)
+    public function setSequenceNumber(int $nr) : void
     {
         $this->sequence_no = $nr;
     }
     
-    public function getSequenceNumber()
+    public function getSequenceNumber() : int
     {
         return $this->sequence_no;
     }
     
-    public function setQuestionCount($a_question_count)
+    public function setQuestionCount(int $a_question_count) : void
     {
         $this->question_count = $a_question_count;
     }
     
-    public function getQuestionCount()
+    public function getQuestionCount() : int
     {
         return $this->question_count;
     }
     
-    public function getErrorMessage()
+    public function getErrorMessage() : string
     {
         return $this->errormessage;
     }
     
-    public function setErrorMessage($errormessage)
+    public function setErrorMessage(string $errormessage) : void
     {
         $this->errormessage = $errormessage;
     }
 
-    public function addErrorMessage($errormessage)
+    public function addErrorMessage(string $errormessage) : void
     {
         $this->errormessage .= ((strlen($this->errormessage)) ? "<br />" : "") . $errormessage;
     }
-    
+
+    /** Why are you here? Some magic for plugins? */
     public function outAdditionalOutput()
     {
     }
 
-    /**
-    * Returns the question type string
-    *
-    * Returns the question type string
-    *
-    * @result string The question type string
-    * @access public
-    */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return $this->object->getQuestionType();
     }
     
-    /**
-    * Returns a HTML value attribute
-    *
-    * @param mixed $a_value A given text or value
-    * @result string The value as HTML value attribute
-    * @access public
-    */
-    public function getAsValueAttribute($a_value)
+    public function getAsValueAttribute(string $a_value) : string
     {
         $result = "";
         if (strlen($a_value)) {
@@ -1149,10 +961,10 @@ abstract class assQuestionGUI
 
     // scorm2004-start
     /**
-    * Add a listener that is notified with the new question ID, when
-    * a new question is saved
-    */
-    public function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
+     * Add a listener that is notified with the new question ID, when
+     * a new question is saved
+     */
+    public function addNewIdListener($a_object, string $a_method, string $a_parameters = "") : void
     {
         $cnt = $this->new_id_listener_cnt;
         $this->new_id_listeners[$cnt]["object"] = &$a_object;
@@ -1161,30 +973,19 @@ abstract class assQuestionGUI
         $this->new_id_listener_cnt++;
     }
 
-    /**
-    * Call the new id listeners
-    */
-    public function callNewIdListeners($a_new_id)
+    public function callNewIdListeners(int $a_new_id) : void
     {
         for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
             $this->new_id_listeners[$i]["parameters"]["new_id"] = $a_new_id;
             $object = &$this->new_id_listeners[$i]["object"];
             $method = $this->new_id_listeners[$i]["method"];
             $parameters = $this->new_id_listeners[$i]["parameters"];
-            //var_dump($object);
-            //var_dump($method);
-            //var_dump($parameters);
-
             $object->$method($parameters);
         }
     }
     
-    /**
-    * Add the command buttons of a question properties form
-    */
-    public function addQuestionFormCommandButtons($form)
+    public function addQuestionFormCommandButtons(ilPropertyFormGUI $form) : void
     {
-        //if (!$this->object->getSelfAssessmentEditingMode() && !$_GET["calling_test"]) $form->addCommandButton("saveEdit", $this->lng->txt("save_edit"));
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
         }
@@ -1194,10 +995,9 @@ abstract class assQuestionGUI
     /**
     * Add basic question form properties:
     * assessment: title, author, description, question, working time
-    *
     * @return	int	Default Nr of Tries
     */
-    public function addBasicQuestionFormProperties($form)
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form) :int
     {
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -1245,7 +1045,6 @@ abstract class assQuestionGUI
         if (!$this->object->getSelfAssessmentEditingMode()) {
             if ($this->object->getAdditionalContentEditingMode() != assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT) {
                 $question->setUseRte(true);
-                include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
                 $question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
                 $question->addPlugin("latex");
                 $question->addButton("latex");
@@ -1253,7 +1052,6 @@ abstract class assQuestionGUI
                 $question->setRTESupport($this->object->getId(), "qpl", "assessment");
             }
         } else {
-            require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
             $question->setRteTags(ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
             $question->setUseTagsForRteOnly(false);
         }
@@ -1289,12 +1087,13 @@ abstract class assQuestionGUI
             $ni->setMaxLength(5);
             $form->addItem($ni);
         }
+        return  (int)$nr_tries;
     }
     
-    protected function saveTaxonomyAssignments()
+    protected function saveTaxonomyAssignments() : void
     {
         if (count($this->getTaxonomyIds())) {
-            require_once 'Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
+
             
             foreach ($this->getTaxonomyIds() as $taxonomyId) {
                 $postvar = "tax_node_assign_$taxonomyId";
@@ -1306,18 +1105,15 @@ abstract class assQuestionGUI
         }
     }
     
-    protected function populateTaxonomyFormSection(ilPropertyFormGUI $form)
+    protected function populateTaxonomyFormSection(ilPropertyFormGUI $form) : void
     {
         if (count($this->getTaxonomyIds())) {
             // this is needed by ilTaxSelectInputGUI in some cases
-            require_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
             ilOverlayGUI::initJavaScript();
 
             $sectHeader = new ilFormSectionHeaderGUI();
             $sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
             $form->addItem($sectHeader);
-
-            require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 
             foreach ($this->getTaxonomyIds() as $taxonomyId) {
                 $taxonomy = new ilObjTaxonomy($taxonomyId);
@@ -1327,7 +1123,7 @@ abstract class assQuestionGUI
                 $taxSelect = new ilTaxSelectInputGUI($taxonomy->getId(), $postvar, true);
                 $taxSelect->setTitle($label);
 
-                require_once 'Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
+
                 $taxNodeAssignments = new ilTaxNodeAssignment(ilObject::_lookupType($this->object->getObjId()), $this->object->getObjId(), 'quest', $taxonomyId);
                 $assignedNodes = $taxNodeAssignments->getAssignmentsOfItem($this->object->getId());
 
@@ -1340,32 +1136,11 @@ abstract class assQuestionGUI
     }
     
     /**
-    * Returns the answer generic feedback depending on the results of the question
-    *
-    * @deprecated Use getGenericFeedbackOutput instead.
-    * @param integer $active_id Active ID of the user
-    * @param integer $pass Active pass
-    * @return string HTML Code with the answer specific feedback
-    * @access public
-    */
-    public function getAnswerFeedbackOutput($active_id, $pass)
-    {
-        return $this->getGenericFeedbackOutput($active_id, $pass);
-    }
-
-    /**
-     * Returns the answer specific feedback for the question
-
-     *
-     * @param integer $active_id Active ID of the user
-     * @param integer $pass Active pass
-     * @return string HTML Code with the answer specific feedback
-     * @access public
+     * @param   int|null  $pass      Active pass
      */
-    public function getGenericFeedbackOutput($active_id, $pass)
+    public function getGenericFeedbackOutput(int $active_id, $pass) : string
     {
         $output = "";
-        include_once "./Modules/Test/classes/class.ilObjTest.php";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
         if (strlen($manual_feedback)) {
             return $manual_feedback;
@@ -1384,7 +1159,7 @@ abstract class assQuestionGUI
         return $this->object->prepareTextareaOutput($output, true);
     }
 
-    public function getGenericFeedbackOutputForCorrectSolution()
+    public function getGenericFeedbackOutputForCorrectSolution() : string
     {
         return $this->object->prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), true),
@@ -1392,7 +1167,7 @@ abstract class assQuestionGUI
         );
     }
 
-    public function getGenericFeedbackOutputForIncorrectSolution()
+    public function getGenericFeedbackOutputForIncorrectSolution() : string
     {
         return $this->object->prepareTextareaOutput(
             $this->object->feedbackOBJ->getGenericFeedbackTestPresentation($this->object->getId(), false),
@@ -1402,17 +1177,11 @@ abstract class assQuestionGUI
 
     /**
      * Returns the answer specific feedback for the question
-     *
-     * This method should be overwritten by the actual question.
-     *
-     * @todo Mark this method abstract!
      * @param array $userSolution ($userSolution[<value1>] = <value2>)
-     * @return string HTML Code with the answer specific feedback
-     * @access public
      */
-    abstract public function getSpecificFeedbackOutput($userSolution);
-    
-    public function outQuestionType()
+    abstract public function getSpecificFeedbackOutput(array $userSolution) : string;
+
+    public function outQuestionType() : string
     {
         $count = $this->object->usageNumber();
         
@@ -1426,23 +1195,11 @@ abstract class assQuestionGUI
         
         return assQuestion::_getQuestionTypeName($this->object->getQuestionType());
     }
-    
-    public function showSuggestedSolution()
-    {
-        $this->suggestedsolution();
-    }
 
-    /**
-    * Allows to add suggested solutions for questions
-    *
-    * @access public
-    */
-    public function suggestedsolution()
+    public function suggestedsolution() : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        global $DIC;
-        $ilAccess = $DIC['ilAccess'];
+        $ilUser = $this->ilUser;
+        $ilAccess = $this->access;
 
         $save = (is_array($_POST["cmd"]) && array_key_exists("suggestedsolution", $_POST["cmd"])) ? true : false;
 
@@ -1468,7 +1225,7 @@ abstract class assQuestionGUI
                 "type" => "file"
             );
         } elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0)) {
-            $oldOutputMode = $this->getRenderPurpose();
+            $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
             
             $solution_array = array(
@@ -1483,7 +1240,6 @@ abstract class assQuestionGUI
         if ($save && strlen($_POST["solutiontext"])) {
             $solution_array["value"] = $_POST["solutiontext"];
         }
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         if (count($solution_array)) {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
@@ -1493,7 +1249,6 @@ abstract class assQuestionGUI
             $form->setId("suggestedsolutiondisplay");
 
             // suggested solution output
-            include_once "./Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php";
             $title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
             $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "Modules/TestQuestionPool");
             if (strlen($solution_array["internal_link"])) {
@@ -1540,7 +1295,8 @@ abstract class assQuestionGUI
                         $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
                         $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
                         if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
-                            return $this->originalSyncForm("suggestedsolution");
+                            $this->originalSyncForm("suggestedsolution");
+                            return;
                         } else {
                             ilUtil::sendSuccess($this->lng->txt("suggested_solution_added_successfully"), true);
                             $this->ctrl->redirect($this, "suggestedsolution");
@@ -1599,7 +1355,8 @@ abstract class assQuestionGUI
                     }
                     $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
                     if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
-                        return $this->originalSyncForm("suggestedsolution");
+                        $this->originalSyncForm("suggestedsolution");
+                        return;
                     } else {
                         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
                         $this->ctrl->redirect($this, "suggestedsolution");
@@ -1642,12 +1399,11 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $changeoutput . $output);
     }
     
-    public function outSolutionExplorer()
+    public function outSolutionExplorer() : void
     {
         global $DIC;
         $tree = $DIC['tree'];
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
         $type = $_GET["link_new_type"];
         $search = $_GET["search_link_type"];
         $this->ctrl->setParameter($this, "link_new_type", $type);
@@ -1678,12 +1434,11 @@ abstract class assQuestionGUI
         $this->tpl->setVariable("ADM_CONTENT", $template->get());
     }
     
-    public function saveSuggestedSolution()
+    public function saveSuggestedSolution() : void
     {
         global $DIC;
         $tree = $DIC['tree'];
 
-        include_once("./Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php");
         switch ($_POST["solutiontype"]) {
             case "lm":
                 $type = "lm";
@@ -1702,12 +1457,10 @@ abstract class assQuestionGUI
                 $search = "pg";
                 break;
             case "file":
-                return $this->suggestedsolution();
-                break;
             case "text":
             default:
-                return $this->suggestedsolution();
-                break;
+                $this->suggestedsolution();
+                return;
         }
         if (isset($_POST['solutiontype'])) {
             $this->ctrl->setParameter($this, 'expandCurrentPath', 1);
@@ -1717,17 +1470,13 @@ abstract class assQuestionGUI
         $this->ctrl->redirect($this, "outSolutionExplorer");
     }
 
-    public function cancelExplorer()
+    public function cancelExplorer() : void
     {
         $this->ctrl->redirect($this, "suggestedsolution");
     }
     
-    public function outPageSelector()
+    public function outPageSelector() : void
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
-        require_once 'Modules/LearningModule/classes/class.ilLMPageObject.php';
-        require_once 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
-
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
         $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
@@ -1773,7 +1522,6 @@ abstract class assQuestionGUI
             }
         }
 
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
         $table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
         $table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($_GET['search_link_type'])));
         $table->setData($rows);
@@ -1781,11 +1529,8 @@ abstract class assQuestionGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function outChapterSelector()
+    public function outChapterSelector() : void
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
-        require_once 'Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
-
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
         $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
@@ -1814,7 +1559,7 @@ abstract class assQuestionGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function outGlossarySelector()
+    public function outGlossarySelector() : void
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
@@ -1840,18 +1585,18 @@ abstract class assQuestionGUI
         $this->tpl->setContent($table->getHTML());
     }
     
-    public function linkChilds()
+    public function linkChilds() : void
     {
         $this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
         switch ($_GET["search_link_type"]) {
             case "pg":
-                return $this->outPageSelector();
+                $this->outPageSelector();
                 break;
             case "st":
-                return $this->outChapterSelector();
+                $this->outChapterSelector();
                 break;
             case "glo":
-                return $this->outGlossarySelector();
+                $this->outGlossarySelector();
                 break;
             case "lm":
                 $subquestion_index = ($_GET["subquestion_index"] > 0) ? $_GET["subquestion_index"] : 0;
@@ -1862,7 +1607,7 @@ abstract class assQuestionGUI
         }
     }
 
-    public function addPG()
+    public function addPG() : void
     {
         $subquestion_index = 0;
         if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
@@ -1873,7 +1618,7 @@ abstract class assQuestionGUI
         $this->ctrl->redirect($this, "suggestedsolution");
     }
 
-    public function addST()
+    public function addST() : void
     {
         $subquestion_index = 0;
         if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
@@ -1884,7 +1629,7 @@ abstract class assQuestionGUI
         $this->ctrl->redirect($this, "suggestedsolution");
     }
 
-    public function addGIT()
+    public function addGIT() : void
     {
         $subquestion_index = 0;
         if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
@@ -1895,20 +1640,14 @@ abstract class assQuestionGUI
         $this->ctrl->redirect($this, "suggestedsolution");
     }
 
-    public function isSaveCommand()
+    public function isSaveCommand() : bool
     {
         return in_array($this->ctrl->getCmd(), array('save', 'saveEdit', 'saveReturn'));
     }
         
-    /**
-     * extracts values of all constants of given class with given prefix as array
-     * can be used to get all possible commands in case of these commands are defined as constants
-     *
-     * @param string $guiClassName
-     * @param string $cmdConstantNameBegin
-     * @return array
-     */
-    public static function getCommandsFromClassConstants($guiClassName, $cmdConstantNameBegin = 'CMD_')
+    public static function getCommandsFromClassConstants(
+        string $guiClassName,
+        string $cmdConstantNameBegin = 'CMD_') : array
     {
         $reflectionClass = new ReflectionClass($guiClassName);
         
@@ -1927,17 +1666,12 @@ abstract class assQuestionGUI
         return $commands;
     }
     
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilTabs = $DIC['ilTabs'];
-
-        $ilTabs->clearTargets();
+        $this->ilTabs->clearTargets();
 
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        $q_type = $this->object->getQuestionType();
+         $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
@@ -1946,50 +1680,48 @@ abstract class assQuestionGUI
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+            if ($this->rbacsystem->checkAccess('write', $_GET["ref_id"])) {
                 // edit page
-                $ilTabs->addTarget(
+                $this->ilTabs->addTarget(
                     "edit_page",
                     $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
                     array("edit", "insert", "exec_pg"),
                     "",
                     "",
-                    $force_active
+                    false
                 );
             }
 
-            $this->addTab_QuestionPreview($ilTabs);
+            $this->addTab_QuestionPreview($this->ilTabs);
         }
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
+        if ($this->rbacsystem->checkAccess('write', $_GET["ref_id"])) {
             $url = "";
             if ($classname) {
                 $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
             }
-            $force_active = false;
             // edit question properties
-            $ilTabs->addTarget(
+            $this->ilTabs->addTarget(
                 "edit_question",
                 $url,
                 $this->getEditQuestionTabCommands(),
                 $classname,
                 "",
-                $force_active
+                false
             );
         }
 
         // add tab for question feedback within common class assQuestionGUI
-        $this->addTab_QuestionFeedback($ilTabs);
+        $this->addTab_QuestionFeedback($this->ilTabs);
 
         // add tab for question hint within common class assQuestionGUI
-        $this->addTab_QuestionHints($ilTabs);
+        $this->addTab_QuestionHints($this->ilTabs);
 
         // add tab for question's suggested solution within common class assQuestionGUI
-        $this->addTab_SuggestedSolution($ilTabs, $classname);
+        $this->addTab_SuggestedSolution($this->ilTabs, $classname);
 
         // Assessment of questions sub menu entry
         if ($_GET["q_id"]) {
-            $ilTabs->addTarget(
+            $this->ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
                 array("assessment"),
@@ -1998,10 +1730,10 @@ abstract class assQuestionGUI
             );
         }
 
-        $this->addBackTab($ilTabs);
+        $this->addBackTab($this->ilTabs);
     }
     
-    public function addTab_SuggestedSolution(ilTabsGUI $tabs, $classname)
+    public function addTab_SuggestedSolution(ilTabsGUI $tabs, string $classname) : void
     {
         if ($_GET["q_id"]) {
             $tabs->addTarget(
@@ -2016,76 +1748,44 @@ abstract class assQuestionGUI
         }
     }
     
-    final public function getEditQuestionTabCommands()
+    final public function getEditQuestionTabCommands() : array
     {
         return array_merge($this->getBasicEditQuestionTabCommands(), $this->getAdditionalEditQuestionCommands());
     }
     
-    protected function getBasicEditQuestionTabCommands()
+    protected function getBasicEditQuestionTabCommands() : array
     {
         return array('editQuestion', 'save', 'saveEdit', 'originalSyncForm');
     }
     
-    protected function getAdditionalEditQuestionCommands()
+    protected function getAdditionalEditQuestionCommands() : array
     {
         return array();
     }
     
-    /**
-     * adds the feedback tab to ilTabsGUI
-     *
-     * @global ilCtrl $ilCtrl
-     * @param ilTabsGUI $tabs
-     */
-    protected function addTab_QuestionFeedback(ilTabsGUI $tabs)
+    protected function addTab_QuestionFeedback(ilTabsGUI $tabs) : void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
         $tabCommands = self::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
         
-        $tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+        $tabLink = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         
-        $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
+        $tabs->addTarget('tst_feedback', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
     }
 
-    /**
-     * @param ilTabsGUI $tabs
-     */
-    protected function addTab_Units(ilTabsGUI $tabs)
+    protected function addTab_Units(ilTabsGUI $tabs) : void
     {
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $tabs->addTarget('units', $ilCtrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
+        $tabs->addTarget('units', $this->ctrl->getLinkTargetByClass('ilLocalUnitConfigurationGUI', ''), '', 'illocalunitconfigurationgui');
     }
     
-    /**
-     * adds the hints tab to ilTabsGUI
-     *
-     * @global ilCtrl $ilCtrl
-     * @param ilTabsGUI $tabs
-     */
-    protected function addTab_QuestionHints(ilTabsGUI $tabs)
+    protected function addTab_QuestionHints(ilTabsGUI $tabs) : void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
-
-        switch ($ilCtrl->getCmdClass()) {
+        switch ($this->ctrl->getCmdClass()) {
             case 'ilassquestionhintsgui':
-                
                 $tabCommands = self::getCommandsFromClassConstants('ilAssQuestionHintsGUI');
                 break;
 
             case 'ilassquestionhintgui':
-                
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
                 $tabCommands = self::getCommandsFromClassConstants('ilAssQuestionHintGUI');
                 break;
             
@@ -2094,15 +1794,13 @@ abstract class assQuestionGUI
                 $tabCommands = array();
         }
 
-        $tabLink = $ilCtrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+        $tabLink = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
         
-        $tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $ilCtrl->getCmdClass(), '');
+        $tabs->addTarget('tst_question_hints_tab', $tabLink, $tabCommands, $this->ctrl->getCmdClass(), '');
     }
     
-    protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI)
+    protected function addTab_QuestionPreview(ilTabsGUI $tabsGUI) : void
     {
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-
         $tabsGUI->addTarget(
             ilAssQuestionPreviewGUI::TAB_ID_QUESTION_PREVIEW,
             $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW),
@@ -2111,6 +1809,7 @@ abstract class assQuestionGUI
         );
     }
 
+    // TODO: OWN "PASS" IN THE REFACTORING getSolutionOutput
     abstract public function getSolutionOutput(
         $active_id,
         $pass = null,
@@ -2123,7 +1822,7 @@ abstract class assQuestionGUI
         $show_question_text = true
     );
     
-    protected function hasCorrectSolution($activeId, $passIndex)
+    protected function hasCorrectSolution($activeId, $passIndex) : bool
     {
         $reachedPoints = $this->object->getAdjustedReachedPoints($activeId, $passIndex, true);
         $maximumPoints = $this->object->getMaximumPoints();
@@ -2131,12 +1830,12 @@ abstract class assQuestionGUI
         return $reachedPoints == $maximumPoints;
     }
     
-    public function isAutosaveable()
+    public function isAutosaveable() : bool
     {
         return $this->object->isAutosaveable();
     }
 
-    protected function writeQuestionGenericPostData()
+    protected function writeQuestionGenericPostData() : void
     {
         $this->object->setTitle($_POST["title"]);
         $this->object->setAuthor($_POST["author"]);
@@ -2159,26 +1858,18 @@ abstract class assQuestionGUI
         );
     }
 
+    // TODO: OWN "PASS" IN THE REFACTORING getPreview
     abstract public function getPreview($show_question_only = false, $showInlineFeedback = false);
 
-    /**
-     * @param string		$formaction
-     * @param integer		$active_id
-     * @param integer|null 	$pass
-     * @param bool 			$is_question_postponed
-     * @param bool 			$user_post_solutions
-     * @param bool 			$show_specific_inline_feedback
-     */
     final public function outQuestionForTest(
-        $formaction,
-        $active_id,
-        // hey: prevPassSolutions - pass will be always available from now on
-        $pass,
-        // hey.
-        $is_question_postponed = false,
-        $user_post_solutions = false,
-        $show_specific_inline_feedback = false
-    ) {
+        string $formaction,
+        int $active_id,
+        ?int $pass,
+        bool $is_question_postponed = false,
+        bool $user_post_solutions = false,
+        bool $show_specific_inline_feedback = false
+    ) : void
+    {
         $formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
         
         $test_output = $this->getTestOutput(
@@ -2204,11 +1895,12 @@ abstract class assQuestionGUI
         return $formAction;
     }
     
-    public function magicAfterTestOutput()
+    public function magicAfterTestOutput() : void
     {
         return;
     }
-    
+
+    // TODO: OWN "PASS" IN THE REFACTORING getPreview
     abstract public function getTestOutput(
         $active_id,
         $pass,
@@ -2217,15 +1909,12 @@ abstract class assQuestionGUI
         $show_specific_inline_feedback
     );
 
-    public function getFormEncodingType()
+    public function getFormEncodingType() : string
     {
         return self::FORM_ENCODING_URLENCODE;
     }
 
-    /**
-     * @param ilTabsGUI $ilTabs
-     */
-    protected function addBackTab(ilTabsGUI $ilTabs)
+    protected function addBackTab(ilTabsGUI $ilTabs) : void
     {
         if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
             $ref_id = $_GET["calling_test"];
@@ -2245,7 +1934,6 @@ abstract class assQuestionGUI
             if ($consumer instanceof ilQuestionEditingFormConsumer) {
                 $ilTabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
             } else {
-                require_once 'Services/Link/classes/class.ilLink.php';
                 $ilTabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
             }
         } else {
@@ -2253,123 +1941,76 @@ abstract class assQuestionGUI
         }
     }
 
-    /**
-     * @var ilAssQuestionPreviewSession
-     */
-    private $previewSession;
-
-    /**
-     * @param \ilAssQuestionPreviewSession $previewSession
-     */
-    public function setPreviewSession($previewSession)
+    public function setPreviewSession(ilAssQuestionPreviewSession $previewSession) : void
     {
         $this->previewSession = $previewSession;
     }
 
-    /**
-     * @return \ilAssQuestionPreviewSession
-     */
-    public function getPreviewSession()
+    public function getPreviewSession() : ilAssQuestionPreviewSession
     {
         return $this->previewSession;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function buildBasicEditFormObject()
+    protected function buildBasicEditFormObject() : ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-
         $form->setFormAction($this->ctrl->getFormAction($this));
-
         $form->setId($this->getType());
         $form->setTitle($this->outQuestionType());
-
         $form->setTableWidth('100%');
-
         $form->setMultipart(true);
-        
         return $form;
     }
 
-    public function showHints()
+    public function showHints() : void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+       $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
     }
 
-    /**
-     *
-     */
-    protected function buildEditForm()
+    protected function buildEditForm() : ilPropertyFormGUI
     {
-        $errors = $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
+        $this->editQuestion(true); // TODO bheyser: editQuestion should be added to the abstract base class with a unified signature
         return $this->editForm;
     }
     
-    /**
-     * @return string
-     */
-    public function buildFocusAnchorHtml()
+    public function buildFocusAnchorHtml() : string
     {
         return '<div id="focus"></div>';
     }
     
-    public function isAnswerFreuqencyStatisticSupported()
+    public function isAnswerFrequencyStatisticSupported() : bool
     {
         return true;
     }
     
-    public function getSubQuestionsIndex()
+    public function getSubQuestionsIndex() : array
     {
         return array(0);
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         return array();
     }
     
-    /**
-     * @param $parentGui
-     * @param $parentCmd
-     * @param $relevantAnswers
-     * @param $questionIndex
-     * @return ilAnswerFrequencyStatisticTableGUI
-     */
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
-        require_once 'Modules/TestQuestionPool/classes/tables/class.ilAnswerFrequencyStatisticTableGUI.php';
-        
-        $table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, $this->object);
+        $table = new ilAnswerFrequencyStatisticTableGUI($parentGui, $parentCmd, get_class($this->object));
         $table->setQuestionIndex($questionIndex);
         $table->setData($this->getAnswersFrequency($relevantAnswers, $questionIndex));
         $table->initColumns();
-        
         return $table;
     }
-    
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function prepareReprintableCorrectionsForm(ilPropertyFormGUI $form)
+
+    public function prepareReprintableCorrectionsForm(ilPropertyFormGUI $form) : void
     {
     }
     
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
     }
-    
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
     }
 }

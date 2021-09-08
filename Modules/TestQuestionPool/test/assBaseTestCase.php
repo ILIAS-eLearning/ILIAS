@@ -13,7 +13,40 @@ abstract class assBaseTestCase extends TestCase
      */
     protected function setUp() : void
     {
+        global $DIC;
         $GLOBALS['DIC'] = new \ILIAS\DI\Container();
+
+
+        require_once './Services/Language/classes/class.ilLanguage.php';
+        $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
+        $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
+        unset($DIC['lng']);
+        $DIC['lng'] = $lng_mock;
+        $GLOBALS['lng'] = $DIC['lng'];
+
+        $dataCache_mock = $this->createMock('ilObjectDataCache', array(), array(), '', false);
+        $DIC['ilObjDataCache'] = $dataCache_mock;
+        $GLOBALS['ilObjDataCache'] = $DIC['ilObjDataCache'];
+
+        $access_mock = $this->createMock('ilAccess', array(), array(), '', false);
+        $DIC['ilAccess'] = $access_mock;
+        $GLOBALS['ilAccess'] = $DIC['ilAccess'];
+
+        $help_mock = $this->createMock('ilHelpGUI', array(), array(), '', false);
+        $DIC['ilHelp'] = $help_mock;
+        $GLOBALS['ilHelp'] = $help_mock;
+
+        $user_mock = $this->createMock('ilObjUser', array(), array(), '', false);
+        $DIC['ilUser'] = $user_mock;
+        $GLOBALS['ilUser'] = $user_mock;
+
+        $tabs_mock = $this->createMock('ilTabsGUI', array(), array(), '', false);
+        $DIC['ilTabs'] = $tabs_mock;
+        $GLOBALS['ilTabs'] = $tabs_mock;
+
+        $rbacsystem_mock = $this->createMock('ilRbacSystem', array(), array(), '', false);
+        $DIC['rbacsystem'] = $rbacsystem_mock;
+        $GLOBALS['rbacsystem'] = $rbacsystem_mock;
 
         parent::setUp();
     }

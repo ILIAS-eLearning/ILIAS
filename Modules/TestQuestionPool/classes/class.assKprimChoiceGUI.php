@@ -38,12 +38,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     /**
      * @return bool
      */
-    public function hasInlineFeedback()
+    public function hasInlineFeedback() : bool
     {
         return $this->object->feedbackOBJ->isSpecificAnswerFeedbackAvailable($this->object->getId());
     }
 
-    protected function getAdditionalEditQuestionCommands()
+    protected function getAdditionalEditQuestionCommands() : array
     {
         return array('uploadImage', 'removeImage');
     }
@@ -102,12 +102,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($upload = false)
+    protected function writePostData(bool $always = false) : int
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
         
-        if ($upload) {
+        if ($always) {
             $answersInput = $form->getItemByPostVar('kprim_answers');
             $answersInput->setIgnoreMissingUploadsEnabled(true);
             
@@ -136,7 +136,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm()
+    protected function buildEditForm() : ilPropertyFormGUI
     {
         $form = $this->buildBasicEditFormObject();
         
@@ -322,7 +322,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param integer $pass
      * @return string
      */
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         return ''; // question type supports inline answer specific feedback
     }
@@ -848,7 +848,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return $aggregate;
     }
 
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
         
@@ -872,7 +872,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param $questionIndex
      * @return ilKprimChoiceAnswerFreqStatTableGUI
      */
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilKprimChoiceAnswerFreqStatTableGUI.php';
         
@@ -884,7 +884,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return $table;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt('points'), 'points');
@@ -912,14 +912,12 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $kprimAnswers->setQuestionObject($this->object);
         $kprimAnswers->setValues($this->object->getAnswers());
         $form->addItem($kprimAnswers);
-        
-        return $form;
     }
     
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints(
             (float) $form->getInput('points')
