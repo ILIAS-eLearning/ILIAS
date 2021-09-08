@@ -51,22 +51,17 @@ class ilLSLPEventHandlerTest extends TestCase
             'usr_id' => 101
         ];
 
-        $path = [
-            [
-                'type' => 'lso',
-                'obj_id' => 43
-            ]
-        ];
+        $obj_id = 43;
 
         $this->tree
             ->expects($this->exactly(2))
-            ->method('getPathFull')
-            ->willReturn($path)
+            ->method('getParentNodeData')
+            ->willReturn($obj_id)
         ;
 
         $obj = new ilLSLPEventHandlerStub($this->tree, $this->lp_status);
         $obj->updateLPForChildEvent($values);
-        //do not call getPathFull again!
+        //do not call getParentNodeData again!
         $obj->updateLPForChildEvent($values);
     }
 }
