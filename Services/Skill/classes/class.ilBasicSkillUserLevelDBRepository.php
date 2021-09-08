@@ -33,7 +33,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_user_has_level WHERE "
             . " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
     }
@@ -56,7 +57,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $now = ilUtil::now();
         if ($update) {
             // this will only be set in self eval case, means this will always have a $rec
-            $ilDB->manipulate("UPDATE skl_user_skill_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_user_skill_level SET " .
                 " level_id = " . $ilDB->quote(0, "integer") . "," .
                 " next_level_fulfilment = " . $ilDB->quote(0.0, "float") . "," .
                 " status_date = " . $ilDB->quote($now, "timestamp") .
@@ -90,7 +92,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 ")");
         }
 
-        $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_user_has_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
             . " AND skill_id = " . $ilDB->quote($a_skill_id, "integer")
             . " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
@@ -114,7 +117,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $recent = "";
 
         $ilDB->setLimit(1, 0);
-        $set = $ilDB->query("SELECT * FROM skl_user_skill_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT * FROM skl_user_skill_level WHERE " .
             "skill_id = " . $ilDB->quote($a_skill_id, "integer") . " AND " .
             "user_id = " . $ilDB->quote($a_user_id, "integer") . " AND " .
             "tref_id = " . $ilDB->quote($a_tref_id, "integer") . " AND " .
@@ -188,7 +192,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         if ($update) {
             // this will only be set in self eval case, means this will always have a $rec
             $now = ilUtil::now();
-            $ilDB->manipulate("UPDATE skl_user_skill_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_user_skill_level SET " .
                 " level_id = " . $ilDB->quote($a_level_id, "integer") . "," .
                 " status_date = " . $ilDB->quote($now, "timestamp") . "," .
                 " next_level_fulfilment = " . $ilDB->quote($a_next_level_fulfilment, "float") .
@@ -202,7 +207,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             );
         } else {
             if ($a_unique_identifier != "") {
-                $ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE " .
+                $ilDB->manipulate(
+                    "DELETE FROM skl_user_skill_level WHERE " .
                     " user_id = " . $ilDB->quote($a_user_id, "integer") .
                     " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
                     " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
@@ -237,7 +243,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
 
         // fix (removed level_id and added skill id, since table should hold only
         // one entry per skill)
-        $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_user_has_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
             . " AND skill_id = " . $ilDB->quote($skill_id, "integer")
             . " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
@@ -277,7 +284,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
 
         $changed = false;
 
-        $aff_rows = $ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+        $aff_rows = $ilDB->manipulate(
+            "DELETE FROM skl_user_skill_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
             . " AND trigger_obj_id = " . $ilDB->quote($a_trigger_obj_id, "integer")
             . " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
@@ -287,7 +295,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $changed = true;
         }
 
-        $aff_rows = $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        $aff_rows = $ilDB->manipulate(
+            "DELETE FROM skl_user_has_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
             . " AND trigger_obj_id = " . $ilDB->quote($a_trigger_obj_id, "integer")
             . " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
@@ -302,10 +311,12 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_user_skill_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
         );
-        $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_user_has_level WHERE "
             . " user_id = " . $ilDB->quote($a_user_id, "integer")
         );
     }
@@ -320,7 +331,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     ) : int {
         $ilDB = $this->db;
 
-        $set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT level_id FROM skl_user_has_level " .
             " WHERE trigger_obj_type = " . $ilDB->quote($a_type, "text") .
             " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
@@ -349,7 +361,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     ) : array {
         $ilDB = $this->db;
 
-        $set = $ilDB->query($q = "SELECT * FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT * FROM skl_user_has_level " .
             " WHERE skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -376,7 +389,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             ? " AND self_eval = " . $ilDB->quote($a_eval_by, "integer")
             : "";
 
-        $set = $ilDB->query($q = "SELECT * FROM skl_user_skill_level " .
+        $set = $ilDB->query(
+            $q = "SELECT * FROM skl_user_skill_level " .
             " WHERE skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -400,7 +414,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     ) : int {
         $ilDB = $this->db;
 
-        $set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT level_id FROM skl_user_has_level " .
             " WHERE trigger_obj_id = " . $ilDB->quote($a_object_id, "integer") .
             " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
@@ -430,7 +445,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     ) : int {
         $ilDB = $this->db;
 
-        $set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT level_id FROM skl_user_has_level " .
             " WHERE skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -454,7 +470,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT level_id FROM skl_user_has_level " .
             " WHERE skill_id = " . $ilDB->quote($a_skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
@@ -477,7 +494,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $ilDB = $this->db;
 
         $ilDB->setLimit(1, 0);
-        $set = $ilDB->query($q = "SELECT level_id FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT level_id FROM skl_user_has_level " .
             " WHERE trigger_obj_id = " . $ilDB->quote($a_object_id, "integer") .
             " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
@@ -501,7 +519,8 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $ilDB = $this->db;
 
         $ilDB->setLimit(1, 0);
-        $set = $ilDB->query($q = "SELECT status_date FROM skl_user_has_level " .
+        $set = $ilDB->query(
+            $q = "SELECT status_date FROM skl_user_has_level " .
             " WHERE trigger_obj_id = " . $ilDB->quote($a_object_id, "integer") .
             " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .

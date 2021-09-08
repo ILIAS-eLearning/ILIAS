@@ -46,8 +46,15 @@ class SkillUserService
         float $a_next_level_fulfilment = 0.0
     ) : void {
         $user_id = $this->user_id;
-        $this->manager_service->getUserLevelManager()->writeSkillLevel($user_id, $a_level_id, $a_trigger_ref_id,
-            $a_tref_id, $a_self_eval, $a_unique_identifier, $a_next_level_fulfilment);
+        $this->manager_service->getUserLevelManager()->writeSkillLevel(
+            $user_id,
+            $a_level_id,
+            $a_trigger_ref_id,
+            $a_tref_id,
+            $a_self_eval,
+            $a_unique_identifier,
+            $a_next_level_fulfilment
+        );
     }
 
     public function getProfiles()

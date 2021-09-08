@@ -45,5 +45,4 @@ interface ilBasicSkillLevelRepository
     public function fixLevelNumbering(int $skill_id) : void;
 
     public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill;
-
 }

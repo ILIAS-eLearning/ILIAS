@@ -35,7 +35,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $pskills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($stree->isInTree($rec["skill_node_id"])) {
@@ -56,7 +56,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND skill_node_id = " . $ilDB->quote($a_skill_node_id, "integer")
-            );
+        );
         if (!$ilDB->fetchAssoc($set)) {
             $ilDB->manipulate("INSERT INTO skl_personal_skill " .
                 "(user_id, skill_node_id) VALUES (" .
@@ -76,7 +76,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND skill_node_id = " . $ilDB->quote($a_skill_node_id, "integer")
-            );
+        );
     }
 
     public static function removeSkills(int $a_user_id) : void
@@ -88,7 +88,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
     
@@ -126,7 +126,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             " AND skill_id = " . $ilDB->quote($a_basic_skill, "integer") .
             " AND level_id = " . $ilDB->quote($a_level, "integer") .
             " AND wsp_id = " . $ilDB->quote($a_wsp_id, "integer")
-            );
+        );
         if (!$ilDB->fetchAssoc($set)) {
             $ilDB->manipulate("INSERT INTO skl_assigned_material " .
                 "(user_id, top_skill_id, tref_id, skill_id, level_id, wsp_id) VALUES (" .
@@ -154,7 +154,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $mat = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $mat[] = $rec;
@@ -176,7 +176,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["cnt"];
     }
@@ -315,7 +315,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "SELECT skill_node_id, user_id FROM skl_personal_skill " .
             " WHERE " . $ilDB->in("skill_node_id", $pskill_ids, false, "integer") .
             " GROUP BY skill_node_id, user_id"
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (isset($tref_ids[(int) $rec["skill_node_id"]])) {
                 $a_usages[$tref_ids[$rec["skill_node_id"]] . ":" . $rec["skill_node_id"]][ilSkillUsage::PERSONAL_SKILL][] =

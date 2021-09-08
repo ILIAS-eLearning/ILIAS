@@ -68,8 +68,10 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
         $obj_type = ilObject::_lookupType($a_set["obj_id"]);
         $this->tpl->setVariable(
             "OBJECT_IMG",
-            ilUtil::img(ilObject::_getIcon(
-                $a_set["obj_id"]),
+            ilUtil::img(
+                ilObject::_getIcon(
+                    $a_set["obj_id"]
+                ),
                 $this->lng->txt("icon") . " " . $this->lng->txt($obj_type)
             )
         );

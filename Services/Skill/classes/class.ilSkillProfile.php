@@ -111,7 +111,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
     public function getSkillLevels() : array
     {
-        usort($this->skill_level, function($level_a, $level_b) {
+        usort($this->skill_level, function ($level_a, $level_b) {
             return $level_a['order_nr'] <=> $level_b['order_nr'];
         });
 
@@ -125,7 +125,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
@@ -134,7 +134,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_level " .
             " WHERE profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->addSkillLevel(
                 (int) $rec["base_skill_id"],
@@ -170,7 +170,7 @@ class ilSkillProfile implements ilSkillUsageInfo
                 array("order_nr" => array("integer", (int) $level["order_nr"]),
                     "level_id" => array("integer", (int) $level["level_id"])
                     )
-                );
+            );
         }
     }
 
@@ -185,13 +185,13 @@ class ilSkillProfile implements ilSkillUsageInfo
             " description = " . $ilDB->quote($this->getDescription(), "text") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
             " AND ref_id = " . $ilDB->quote($this->getRefId(), "integer")
-            );
+        );
         
         // profile levels
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         foreach ($this->skill_level as $level) {
             $ilDB->replace(
                 "skl_profile_level",
@@ -202,7 +202,7 @@ class ilSkillProfile implements ilSkillUsageInfo
                 array("order_nr" => array("integer", (int) $level["order_nr"]),
                       "level_id" => array("integer", (int) $level["level_id"])
                 )
-                );
+            );
             
             /*$ilDB->manipulate("INSERT INTO skl_profile_level ".
                 "(profile_id, base_skill_id, tref_id, level_id) VALUES (".
@@ -224,7 +224,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         // profile users
         $ilDB->manipulate(
@@ -242,7 +242,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_profile WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     public static function deleteProfilesFromObject(int $a_ref_id) : void
@@ -320,7 +320,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile " .
             " ORDER BY title "
-            );
+        );
         $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[$rec["id"]] = $rec;
@@ -382,7 +382,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT " . $a_field . " FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_field];
     }
@@ -440,7 +440,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_user " .
             " WHERE profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $name = ilUserUtil::getNamePresentation($rec["user_id"]);
@@ -464,7 +464,7 @@ class ilSkillProfile implements ilSkillUsageInfo
                 "user_id" => array("integer", (int) $a_user_id),
                 ),
             []
-            );
+        );
     }
 
     public function removeUserFromProfile(int $a_user_id) : void
@@ -475,7 +475,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "DELETE FROM skl_profile_user WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
     public static function removeUserFromAllProfiles(int $a_user_id) : void
@@ -505,7 +505,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ON (u.profile_id = p.id) " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " ORDER BY p.title ASC"
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $user_profiles[] = $rec;
         }
@@ -541,7 +541,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT count(*) ucnt FROM skl_profile_user " .
             " WHERE profile_id = " . $ilDB->quote($a_profile_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["ucnt"];
     }

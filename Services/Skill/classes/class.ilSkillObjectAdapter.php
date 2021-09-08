@@ -44,5 +44,4 @@ class ilSkillObjectAdapter implements ilSkillObjectAdapterInterface
     {
         return ilObject::_lookupTitle($a_obj_id);
     }
-
 }

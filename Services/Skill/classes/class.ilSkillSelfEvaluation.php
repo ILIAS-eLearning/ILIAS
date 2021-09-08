@@ -120,7 +120,7 @@ class ilSkillSelfEvaluation
         $set = $ilDB->query(
             "SELECT * FROM skl_self_eval WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->setUserId($rec["user_id"]);
             $this->setTopSkillId($rec["top_skill_id"]);
@@ -132,7 +132,7 @@ class ilSkillSelfEvaluation
         $set = $ilDB->query(
             "SELECT * FROM skl_self_eval_level WHERE " .
             " self_eval_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $levels[$rec["skill_id"]] = $rec["level_id"];
@@ -178,12 +178,12 @@ class ilSkillSelfEvaluation
             ", top_skill_id = " . $ilDB->quote($this->getTopSkillId(), "integer") .
             ", last_update = " . $ilDB->now() .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         $ilDB->manipulate(
             "DELETE FROM skl_self_eval_level WHERE "
             . " self_eval_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         $levels = $this->getLevels();
         if (is_array($levels)) {
@@ -205,12 +205,12 @@ class ilSkillSelfEvaluation
         $ilDB->manipulate(
             "DELETE FROM skl_self_eval WHERE "
             . " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         $ilDB->manipulate(
             "DELETE FROM skl_self_eval_level WHERE "
             . " self_eval_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     public static function getAllSelfEvaluationsOfUser(int $a_user, bool $a_one_per_top_skill = false) : array
@@ -223,7 +223,7 @@ class ilSkillSelfEvaluation
             "SELECT * FROM skl_self_eval WHERE user_id = " .
             $ilDB->quote($a_user, "integer") . " " .
             "ORDER BY last_update DESC"
-            );
+        );
 
         $self_evaluation = [];
 
@@ -250,7 +250,7 @@ class ilSkillSelfEvaluation
         $set = $ilDB->query(
             "SELECT $a_prop FROM skl_self_eval WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_prop];
     }

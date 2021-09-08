@@ -269,7 +269,7 @@ class ilSkillDataSet extends ilDataSet
                             $set = $ilDB->query(
                                 "SELECT * FROM skl_templ_ref " .
                                 " WHERE skl_node_id = " . $ilDB->quote($s["child"], "integer")
-                                );
+                            );
                             $rec = $ilDB->fetchAssoc($set);
 
                             $top_node = ($s["child"] == $id)
@@ -363,7 +363,7 @@ class ilSkillDataSet extends ilDataSet
                         }
                         $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
-                            " WHERE ". $ilDB->in("id", $profile_ids, false, "integer")
+                            " WHERE " . $ilDB->in("id", $profile_ids, false, "integer")
                         );
                         while ($rec = $ilDB->fetchAssoc($set)) {
                             $this->data[] = [

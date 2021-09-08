@@ -209,5 +209,4 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
         return $lng->txt($a_node["type"]);
     }
-
 }

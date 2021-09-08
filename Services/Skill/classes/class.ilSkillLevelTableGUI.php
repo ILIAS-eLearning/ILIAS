@@ -40,8 +40,8 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $a_parent_obj,
         string $a_parent_cmd,
         int $a_tref_id = 0,
-        bool $a_in_use = false)
-    {
+        bool $a_in_use = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();

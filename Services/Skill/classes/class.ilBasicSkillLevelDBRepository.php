@@ -36,7 +36,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_level WHERE "
             . " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
     }
@@ -56,14 +57,14 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             "import_id" => array("text", $a_import_id),
             "creation_date" => array("timestamp", ilUtil::now())
         ));
-
     }
 
     protected function getMaxLevelNr(int $skill_id) : int
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT MAX(nr) mnr FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT MAX(nr) mnr FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
@@ -79,7 +80,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             $and = " AND id = " . $ilDB->quote($a_id, "integer");
         }
 
-        $set = $ilDB->query("SELECT * FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT * FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer") .
             $and .
             " ORDER BY nr"
@@ -98,7 +100,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT $a_prop FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT $a_prop FROM skl_level WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
@@ -147,7 +150,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
 
         $cnt = 1;
         foreach ($order as $id => $o) {
-            $ilDB->manipulate("UPDATE skl_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($id, "integer")
             );
@@ -159,7 +163,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_level WHERE "
             . " id = " . $ilDB->quote($a_id, "integer")
         );
     }
@@ -168,13 +173,15 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT id, nr FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT id, nr FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer") .
             " ORDER BY nr ASC"
         );
         $cnt = 1;
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $ilDB->manipulate("UPDATE skl_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($rec["id"], "integer")
             );
@@ -186,7 +193,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT * FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT * FROM skl_level WHERE " .
             " id = " . $ilDB->quote($a_level_id, "integer")
         );
         $skill = null;

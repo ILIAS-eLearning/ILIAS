@@ -55,7 +55,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT * FROM skl_templ_ref " .
             " WHERE skl_node_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setSkillTemplateId((int) $rec["templ_id"]);
     }
@@ -83,7 +83,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             "UPDATE skl_templ_ref SET " .
             " templ_id = " . $ilDB->quote($this->getSkillTemplateId(), "integer") .
             " WHERE skl_node_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     public function delete() : void
@@ -93,7 +93,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $ilDB->manipulate(
             "DELETE FROM skl_templ_ref WHERE "
             . " skl_node_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         parent::delete();
     }
@@ -139,7 +139,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT * FROM skl_templ_ref " .
             " WHERE templ_id = " . $ilDB->quote($a_template_id, "integer")
-            );
+        );
         $trefs = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $trefs[] = (int) $rec["skl_node_id"];

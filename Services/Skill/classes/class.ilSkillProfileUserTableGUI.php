@@ -35,8 +35,8 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $a_parent_obj,
         string $a_parent_cmd,
         ilSkillProfile $a_profile,
-        bool $a_write_permission = false)
-    {
+        bool $a_write_permission = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();

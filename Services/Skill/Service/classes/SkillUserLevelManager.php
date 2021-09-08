@@ -71,17 +71,39 @@ class SkillUserLevelManager
         $update = false;
 
         // self evaluations will update, if the last self evaluation is on the same day
-        if ($a_self_eval && $this->user_level_repo->hasRecentSelfEvaluation($trigger_obj_id, $user_id, $skill_id,
-                $a_tref_id, $trigger_ref_id)) {
-            $status_date = $this->user_level_repo->hasRecentSelfEvaluation($trigger_obj_id, $user_id, $skill_id,
-                $a_tref_id, $trigger_ref_id);
+        if ($a_self_eval && $this->user_level_repo->hasRecentSelfEvaluation(
+            $trigger_obj_id,
+            $user_id,
+            $skill_id,
+            $a_tref_id,
+            $trigger_ref_id
+        )) {
+            $status_date = $this->user_level_repo->hasRecentSelfEvaluation(
+                $trigger_obj_id,
+                $user_id,
+                $skill_id,
+                $a_tref_id,
+                $trigger_ref_id
+            );
             if ($status_date != "") {
                 $update = true;
             }
         }
 
-        $this->user_level_repo->writeUserSkillLevelStatus($skill_id, $trigger_ref_id, $trigger_obj_id, $trigger_title,
-            $trigger_type, $update, $status_date, $a_level_id, $user_id, $a_tref_id, $a_self_eval, $a_unique_identifier,
-            $a_next_level_fulfilment);
+        $this->user_level_repo->writeUserSkillLevelStatus(
+            $skill_id,
+            $trigger_ref_id,
+            $trigger_obj_id,
+            $trigger_title,
+            $trigger_type,
+            $update,
+            $status_date,
+            $a_level_id,
+            $user_id,
+            $a_tref_id,
+            $a_self_eval,
+            $a_unique_identifier,
+            $a_next_level_fulfilment
+        );
     }
 }

@@ -54,8 +54,8 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         string $a_parent_cmd,
         $a_select_gui,
         string $a_select_cmd,
-        string $a_select_par = "obj_id")
-    {
+        string $a_select_par = "obj_id"
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -222,5 +222,4 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
         return $lng->txt($a_node["type"]);
     }
-
 }
