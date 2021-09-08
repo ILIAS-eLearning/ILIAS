@@ -1,28 +1,30 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+/**
  * Interface ilBasicSkillObjectAdapter
  */
 interface ilSkillObjectAdapterInterface
 {
-    /**
-     * Get object id for reference id
-     * @param int $a_ref_id
-     * @return int
-     */
     public function getObjIdForRefId(int $a_ref_id) : int;
 
-    /**
-     * Get object type for object id
-     * @param int $a_obj_id
-     * @return null|string
-     */
     public function getTypeForObjId(int $a_obj_id) : ?string;
 
-    /**
-     * Get object title for object id
-     * @param int $a_obj_id
-     * @return null|string
-     */
-    public function getTitleForObjId(int $a_obj_id) : ?string;
+    public function getTitleForObjId(int $a_obj_id) : string;
 }

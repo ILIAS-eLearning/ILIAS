@@ -1,11 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelRepository
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
     public function __construct(ilDBInterface $db = null)
     {
@@ -15,10 +29,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             ?: $DIC->database();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function deleteUserLevelsOfSkill(int $skill_id)
+    public function deleteUserLevelsOfSkill(int $skill_id) : void
     {
         $ilDB = $this->db;
 
@@ -33,13 +44,13 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
     public function resetUserSkillLevelStatus(
         bool $update,
         int $trigger_obj_id,
-        $status_date,
+        string $status_date,
         int $a_user_id,
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0,
         bool $a_self_eval = false
-    ) {
+    ) : void {
         $ilDB = $this->db;
 
         $now = ilUtil::now();
@@ -97,7 +108,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0
-    ) {
+    ) : string {
         $ilDB = $this->db;
 
         $recent = "";
@@ -121,9 +132,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $recent;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNewAchievementsPerUser(
         string $a_timestamp,
         string $a_timestamp_to = null,
@@ -148,12 +156,12 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $to .
             $user .
             " ORDER BY user_id, status_date ASC ");
-        $achievments = array();
+        $achievements = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $achievments[$rec["user_id"]][] = $rec;
+            $achievements[$rec["user_id"]][] = $rec;
         }
 
-        return $achievments;
+        return $achievements;
     }
 
     /**
@@ -166,14 +174,14 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         ?string $trigger_title,
         ?string $trigger_type,
         bool $update,
-        $status_date,
+        string $status_date,
         int $a_level_id,
         int $a_user_id,
         int $a_tref_id = 0,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    ) {
+    ) : void {
         $ilDB = $this->db;
         $a_status = ilBasicSkill::ACHIEVED;
 
@@ -290,10 +298,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $changed;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function removeAllUserData(int $a_user_id)
+    public function removeAllUserData(int $a_user_id) : void
     {
         $ilDB = $this->db;
 
@@ -305,9 +310,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMaxLevelPerType(
         int $skill_id,
         array $levels,
@@ -326,7 +328,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
         );
 
-        $has_level = array();
+        $has_level = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $has_level[$rec["level_id"]] = true;
         }
@@ -339,9 +341,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAllLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -358,16 +357,13 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " ORDER BY status_date DESC"
         );
 
-        $levels = array();
+        $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $levels[] = $rec;
         }
         return $levels;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAllHistoricLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -387,16 +383,13 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $by .
             " ORDER BY status_date DESC"
         );
-        $levels = array();
+        $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $levels[] = $rec;
         }
         return $levels;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMaxLevelPerObject(
         int $skill_id,
         array $levels,
@@ -415,7 +408,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
         );
 
-        $has_level = array();
+        $has_level = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $has_level[$rec["level_id"]] = true;
         }
@@ -428,9 +421,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMaxLevel(
         int $skill_id,
         array $levels,
@@ -447,7 +437,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
         );
 
-        $has_level = array();
+        $has_level = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $has_level[$rec["level_id"]] = true;
         }
@@ -460,9 +450,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool
     {
         $ilDB = $this->db;
@@ -480,9 +467,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLastLevelPerObject(
         int $skill_id,
         int $a_tref_id,
@@ -507,9 +491,6 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $rec["level_id"];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLastUpdatePerObject(
         int $skill_id,
         int $a_tref_id,

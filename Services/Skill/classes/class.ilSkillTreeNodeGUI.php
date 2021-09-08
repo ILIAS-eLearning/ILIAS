@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Basic GUI class for skill tree nodes
@@ -9,85 +26,28 @@
  */
 class ilSkillTreeNodeGUI
 {
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilLocatorGUI $locator;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjUser $user;
+    protected ilTree $tree;
+    protected ilPropertyFormGUI $form;
+    protected object $parentgui;
     /**
-     * @var ilCtrl
+     * @var null|object
      */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-
-    /**
-     * @var object
-     */
-    protected $parentgui;
-
     public $node_object;
-    public $in_use = false;
-    public $use_checked = false;
-    /**
-     * @var ilAccessHandler
-     */
-    public $access;
+    public bool $in_use = false;
+    public bool $use_checked = false;
+    public ilAccessHandler $access;
+    protected ServerRequestInterface $request;
+    protected int $requested_ref_id;
+    protected int $requested_obj_id;
+    protected string $requested_backcmd;
+    protected int $requested_tmpmode;
 
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var string
-     */
-    protected $requested_backcmd;
-
-    /**
-     * @var int
-     */
-    protected $requested_tmpmode;
-
-    /**
-    * constructor
-    *
-    * @param	object		$a_content_obj		node object
-    */
-    public function __construct($a_node_id = 0)
+    public function __construct(int $a_node_id = 0)
     {
         global $DIC;
 
@@ -111,17 +71,11 @@ class ilSkillTreeNodeGUI
 
         if ($a_node_id > 0 &&
             $this->getType() == ilSkillTreeNode::_lookupType($a_node_id)) {
-            $this->readNodeObject((int) $a_node_id);
+            $this->readNodeObject($a_node_id);
         }
     }
 
-    /**
-     * Is in use?
-     *
-     * @param
-     * @return
-     */
-    public function isInUse()
+    public function isInUse() : bool
     {
         if (!is_object($this->node_object)) {
             return false;
@@ -140,34 +94,17 @@ class ilSkillTreeNodeGUI
         return $this->in_use;
     }
 
-    /**
-     * Check permission pool
-     *
-     * @param string $a_perm
-     * @return bool
-     */
-    public function checkPermissionBool($a_perm)
+    public function checkPermissionBool(string $a_perm) : bool
     {
         return $this->access->checkAccess($a_perm, "", $this->requested_ref_id);
     }
 
-
-    /**
-    * Set Parent GUI class
-    *
-    * @param	object	$a_parentgui	Parent GUI class
-    */
-    public function setParentGUI($a_parentgui)
+    public function setParentGUI(object $a_parentgui) : void
     {
         $this->parentgui = $a_parentgui;
     }
 
-    /**
-    * Get Parent GUI class (ilObjSCORM2004LearningModuleGUI).
-    *
-    * @return	object	Parent GUI class
-    */
-    public function getParentGUI()
+    public function getParentGUI() : object
     {
         return $this->parentgui;
     }
@@ -175,15 +112,12 @@ class ilSkillTreeNodeGUI
     /**
      * Get node object instance
      */
-    public function readNodeObject($a_node_id)
+    public function readNodeObject(int $a_node_id) : void
     {
         $this->node_object = ilSkillTreeNodeFactory::getInstance($a_node_id);
     }
-    
-    /**
-     * Save Titles
-     */
-    public function saveAllTitles()
+
+    public function saveAllTitles() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -194,7 +128,7 @@ class ilSkillTreeNodeGUI
     /**
      * Delete nodes in the hierarchy
      */
-    public function deleteNodes()
+    public function deleteNodes() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -205,7 +139,7 @@ class ilSkillTreeNodeGUI
     /**
      * Copy items to clipboard, then cut them from the current tree
      */
-    public function cutItems()
+    public function cutItems() : void
     {
         $lng = $this->lng;
 
@@ -214,7 +148,7 @@ class ilSkillTreeNodeGUI
         }
         
         $items = ilUtil::stripSlashesArray($_POST["id"]);
-        $todel = array();			// delete IDs < 0 (needed for non-js editing)
+        $todel = [];			// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
@@ -237,7 +171,7 @@ class ilSkillTreeNodeGUI
         
         ilSkillTreeNode::saveChildsOrder(
             $this->requested_obj_id,
-            array(),
+            [],
             $this->requested_tmpmode
         );
 
@@ -247,7 +181,7 @@ class ilSkillTreeNodeGUI
     /**
      * Copy items to clipboard
      */
-    public function copyItems()
+    public function copyItems() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -257,7 +191,7 @@ class ilSkillTreeNodeGUI
         }
 
         $items = ilUtil::stripSlashesArray($_POST["id"]);
-        $todel = array();				// delete IDs < 0 (needed for non-js editing)
+        $todel = [];				// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
@@ -279,10 +213,7 @@ class ilSkillTreeNodeGUI
         $this->redirectToParent();
     }
 
-    /**
-     * cancel delete
-     */
-    public function cancelDelete()
+    public function cancelDelete() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -292,7 +223,7 @@ class ilSkillTreeNodeGUI
     /**
      * confirmed delete
      */
-    public function confirmedDelete()
+    public function confirmedDelete() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -303,17 +234,14 @@ class ilSkillTreeNodeGUI
         $this->getParentGUI()->confirmedDelete(false);
         ilSkillTreeNode::saveChildsOrder(
             $this->requested_obj_id,
-            array(),
+            [],
             $this->requested_tmpmode
         );
 
         $this->redirectToParent();
     }
 
-    /**
-     * Set Locator Items
-     */
-    public function setLocator()
+    public function setLocator() : void
     {
         $ilLocator = $this->locator;
         $tpl = $this->tpl;
@@ -370,11 +298,8 @@ class ilSkillTreeNodeGUI
         
         $tpl->setLocator();
     }
-    
-    /**
-     * Set skill node description
-     */
-    public function setSkillNodeDescription()
+
+    public function setSkillNodeDescription() : void
     {
         $tpl = $this->tpl;
 
@@ -399,20 +324,15 @@ class ilSkillTreeNodeGUI
     /**
      * Create skill tree node
      */
-    public function create()
+    public function create() : void
     {
         $tpl = $this->tpl;
         
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
     }
-    
-    /**
-     * Add status input
-     *
-     * @param ilPropertyFormGUI $a_form form
-     */
-    public function addStatusInput(ilPropertyFormGUI $a_form)
+
+    public function addStatusInput(ilPropertyFormGUI $a_form) : void
     {
         $lng = $this->lng;
 
@@ -424,11 +344,8 @@ class ilSkillTreeNodeGUI
         }
         $a_form->addItem($radg);
     }
-    
-    /**
-     * Edit properties form
-     */
-    public function editProperties()
+
+    public function editProperties() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -445,9 +362,9 @@ class ilSkillTreeNodeGUI
     /**
      * Get property values for edit form
      */
-    public function getPropertyValues()
+    public function getPropertyValues() : void
     {
-        $values = array();
+        $values = [];
         
         $values["title"] = $this->node_object->getTitle();
         $values["description"] = $this->node_object->getDescription();
@@ -462,7 +379,7 @@ class ilSkillTreeNodeGUI
      * Save skill tree node
      *
      */
-    public function save()
+    public function save() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -478,7 +395,7 @@ class ilSkillTreeNodeGUI
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             ilSkillTreeNode::saveChildsOrder(
                 $this->requested_obj_id,
-                array(),
+                [],
                 in_array($this->getType(), array("sktp", "sctp"))
             );
             $this->afterSave();
@@ -487,11 +404,8 @@ class ilSkillTreeNodeGUI
             $tpl->setContent($this->form->getHTML());
         }
     }
-    
-    /**
-     * After saving
-     */
-    public function afterSave()
+
+    public function afterSave() : void
     {
         $this->redirectToParent();
     }
@@ -501,7 +415,7 @@ class ilSkillTreeNodeGUI
      * Update skill tree node
      *
      */
-    public function update()
+    public function update() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -521,23 +435,15 @@ class ilSkillTreeNodeGUI
             $tpl->setContent($this->form->getHTML());
         }
     }
-    
-    /**
-     * After update
-     */
-    public function afterUpdate()
+
+    public function afterUpdate() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "editProperties");
     }
-    
-    /**
-     * Init  form.
-     *
-     * @param        int        $a_mode        Edit Mode
-     */
-    public function initForm($a_mode = "edit")
+
+    public function initForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -585,20 +491,15 @@ class ilSkillTreeNodeGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Cancel saving
-     */
-    public function cancelSave()
+    public function cancelSave() : void
     {
         $this->redirectToParent();
     }
 
     /**
      * Redirect to parent (identified by current obj_id)
-     *
-     * @param
      */
-    public function redirectToParent($a_tmp_mode = false)
+    public function redirectToParent(bool $a_tmp_mode = false) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -629,11 +530,8 @@ class ilSkillTreeNodeGUI
                 break;
         }
     }
-    
-    /**
-     * Save order
-     */
-    public function saveOrder()
+
+    public function saveOrder() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -654,7 +552,7 @@ class ilSkillTreeNodeGUI
     /**
      * Insert basic skills from clipboard
      */
-    public function insertBasicSkillClip()
+    public function insertBasicSkillClip() : void
     {
         $nodes = ilSkillTreeNode::insertItemsFromClip("skll", $this->requested_obj_id);
         $this->redirectToParent();
@@ -663,7 +561,7 @@ class ilSkillTreeNodeGUI
     /**
      * Insert skill categories from clipboard
      */
-    public function insertSkillCategoryClip()
+    public function insertSkillCategoryClip() : void
     {
         $nodes = ilSkillTreeNode::insertItemsFromClip("scat", $this->requested_obj_id);
         $this->redirectToParent();
@@ -672,7 +570,7 @@ class ilSkillTreeNodeGUI
     /**
      * Insert skill template references from clipboard
      */
-    public function insertTemplateReferenceClip()
+    public function insertTemplateReferenceClip() : void
     {
         $nodes = ilSkillTreeNode::insertItemsFromClip("sktr", $this->requested_obj_id);
         $this->redirectToParent();
@@ -681,7 +579,7 @@ class ilSkillTreeNodeGUI
     /**
      * Insert skill template from clipboard
      */
-    public function insertSkillTemplateClip()
+    public function insertSkillTemplateClip() : void
     {
         $nodes = ilSkillTreeNode::insertItemsFromClip("sktp", $this->requested_obj_id);
         $this->redirectToParent();
@@ -690,16 +588,13 @@ class ilSkillTreeNodeGUI
     /**
      * Insert skill template category from clipboard
      */
-    public function insertTemplateCategoryClip()
+    public function insertTemplateCategoryClip() : void
     {
         $nodes = ilSkillTreeNode::insertItemsFromClip("sctp", $this->requested_obj_id);
         $this->redirectToParent();
     }
-    
-    /**
-     * Set title icon
-     */
-    public function setTitleIcon()
+
+    public function setTitleIcon() : void
     {
         $tpl = $this->tpl;
         
@@ -720,12 +615,7 @@ class ilSkillTreeNodeGUI
     //// Usage
     ////
 
-    /**
-     * Add usage tab
-     *
-     * @param
-     */
-    public function addUsageTab($a_tabs)
+    public function addUsageTab(ilTabsGUI $a_tabs) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -737,11 +627,7 @@ class ilSkillTreeNodeGUI
         );
     }
 
-
-    /**
-     * Show skill usage
-     */
-    public function showUsage()
+    public function showUsage() : void
     {
         $tpl = $this->tpl;
 
@@ -762,10 +648,7 @@ class ilSkillTreeNodeGUI
         $tpl->setContent($html);
     }
 
-    /**
-     * @param $a_tabs
-     */
-    public function addObjectsTab($a_tabs)
+    public function addObjectsTab(ilTabsGUI $a_tabs) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -777,10 +660,7 @@ class ilSkillTreeNodeGUI
         );
     }
 
-    /**
-     * Show assigned objects
-     */
-    public function showObjects()
+    public function showObjects() : void
     {
         $tpl = $this->tpl;
 
@@ -796,11 +676,8 @@ class ilSkillTreeNodeGUI
 
         $tpl->setContent($tab->getHTML());
     }
-    
-    /**
-     * Export seleced nodes
-     */
-    public function exportSelectedNodes()
+
+    public function exportSelectedNodes() : void
     {
         $ilCtrl = $this->ctrl;
 

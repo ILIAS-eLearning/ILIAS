@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill Template Reference
@@ -9,21 +24,10 @@
  */
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected int $skill_template_id;
 
-    /**
-     * @var int
-     */
-    protected $skill_template_id;
-
-    /**
-     * Constructor
-     * @access	public
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -32,30 +36,17 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $this->setType("sktr");
     }
 
-    /**
-     * Set skill template id
-     *
-     * @param int $a_val skill template id
-     */
-    public function setSkillTemplateId($a_val)
+    public function setSkillTemplateId(int $a_val) : void
     {
         $this->skill_template_id = $a_val;
     }
-    
-    /**
-     * Get skill template id
-     *
-     * @return int skill template id
-     */
-    public function getSkillTemplateId()
+
+    public function getSkillTemplateId() : int
     {
         return $this->skill_template_id;
     }
-    
-    /**
-     * Read data from database
-     */
-    public function read()
+
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -69,10 +60,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $this->setSkillTemplateId((int) $rec["templ_id"]);
     }
 
-    /**
-     * Create skill template reference
-     */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
         
@@ -84,11 +72,8 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             $ilDB->quote($this->getSkillTemplateId(), "integer") .
             ")");
     }
-    
-    /**
-     * Update node
-     */
-    public function update()
+
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -100,12 +85,8 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             " WHERE skl_node_id = " . $ilDB->quote($this->getId(), "integer")
             );
     }
-    
 
-    /**
-     * Delete skill
-     */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -117,10 +98,7 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         parent::delete();
     }
 
-    /**
-     * Copy basic skill template
-     */
-    public function copy()
+    public function copy() : ilSkillTemplateReference
     {
         $sktr = new ilSkillTemplateReference();
         $sktr->setTitle($this->getTitle());
@@ -133,14 +111,8 @@ class ilSkillTemplateReference extends ilSkillTreeNode
 
         return $sktr;
     }
-    
-    /**
-     * Lookup template ID
-     *
-     * @param	int			node ID
-     * @return	string		template ID
-     */
-    public static function _lookupTemplateId($a_obj_id)
+
+    public static function _lookupTemplateId(int $a_obj_id) : int
     {
         global $DIC;
 
@@ -151,16 +123,14 @@ class ilSkillTemplateReference extends ilSkillTreeNode
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["templ_id"];
+        return (int) $obj_rec["templ_id"];
     }
 
     /**
-     * Lookup tref ids for template id
-     *
-     * @param $a_template_id (top) template node id
-     * @return array array of integer tref ids
+     * @param int $a_template_id (top) template node id
+     * @return array|int[]
      */
-    public static function _lookupTrefIdsForTopTemplateId($a_template_id)
+    public static function _lookupTrefIdsForTopTemplateId(int $a_template_id) : array
     {
         global $DIC;
 
@@ -170,21 +140,19 @@ class ilSkillTemplateReference extends ilSkillTreeNode
             "SELECT * FROM skl_templ_ref " .
             " WHERE templ_id = " . $ilDB->quote($a_template_id, "integer")
             );
-        $trefs = array();
+        $trefs = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $trefs[] = $rec["skl_node_id"];
+            $trefs[] = (int) $rec["skl_node_id"];
         }
         return $trefs;
     }
 
 
     /**
-     * Get all tref ids for a template id
-     *
      * @param int $a_tid template node id (node id in template tree)
-     * @return array of ids
+     * @return array|int[]
      */
-    public static function _lookupTrefIdsForTemplateId($a_tid)
+    public static function _lookupTrefIdsForTemplateId(int $a_tid) : array
     {
         $tree = new ilSkillTree();
         $top_template_id = $tree->getTopParentNodeId($a_tid);

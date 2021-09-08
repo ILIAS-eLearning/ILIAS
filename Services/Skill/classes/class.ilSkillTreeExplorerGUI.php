@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -10,34 +27,19 @@
 class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilLanguage $lng;
+    protected ServerRequestInterface $request;
+    protected int $requested_obj_id;
+    protected int $requested_tref_id;
 
     /**
-     * @var \Psr\Http\Message\ServerRequestInterface
+     * @param object|string[] $a_parent_obj
+     * @param string        $a_parent_cmd
      */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_tref_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -56,15 +58,11 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $this->setShowDraftNodes(true);
         $this->setShowOutdatedNodes(true);
     }
-    
-    
+
     /**
-     * Get node content
-     *
-     * @param array $a_node node data
-     * @return string content
+     * @inheritdoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -100,12 +98,9 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     }
     
     /**
-     * Get node content
-     *
-     * @param array $a_node node data
-     * @return string icon path
+     * @inheritdoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $a_parent_id_parts = explode(":", $a_node["id"]);
         $a_parent_skl_tree_id = $a_parent_id_parts[0];
@@ -130,12 +125,9 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     }
 
     /**
-     * Is node highlighted?
-     *
-     * @param mixed $a_node node object/array
-     * @return bool node visible true/false
+     * @inheritdoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         $id_parts = explode(":", $a_node["id"]);
         if ($id_parts[1] == 0) {
@@ -160,12 +152,9 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     }
     
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @inheritdoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -211,12 +200,9 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     }
 
     /**
-     * Is clickable
-     *
-     * @param array $a_node node data
-     * @return bool clickable true/false
+     * @inheritdoc
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return true;
     }

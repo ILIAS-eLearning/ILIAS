@@ -1,42 +1,52 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Interface ilBasicSkillUserLevelRepository
  */
 interface ilBasicSkillUserLevelRepository
 {
-
-    /**
-     * Delete user levels of a skill
-     * @param int $skill_id
-     */
-    public function deleteUserLevelsOfSkill(int $skill_id);
+    public function deleteUserLevelsOfSkill(int $skill_id) : void;
 
     /**
      * Reset skill level status. This is currently only used for self evaluations with a "no competence" level.
      * It has to be discussed, how this should be provided for non-self-evaluations.
-     * @param bool  $update           update or insert
-     * @param int   $trigger_obj_id   triggering object id
-     * @param mixed $status_date      date status
-     * @param int   $a_user_id        user id
-     * @param int   $a_skill_id       skill id
-     * @param int   $a_tref_id        skill tref id
-     * @param int   $a_trigger_ref_id triggering repository object ref id
-     * @param bool  $a_self_eval      currently needs to be set to true
+     * @param bool   $update           update or insert
+     * @param int    $trigger_obj_id   triggering object id
+     * @param string $status_date     date status
+     * @param int    $a_user_id        user id
+     * @param int    $a_skill_id       skill id
+     * @param int    $a_tref_id        skill tref id
+     * @param int    $a_trigger_ref_id triggering repository object ref id
+     * @param bool   $a_self_eval      currently needs to be set to true
      * @throws ilSkillException
      */
     public function resetUserSkillLevelStatus(
         bool $update,
         int $trigger_obj_id,
-        $status_date,
+        string $status_date,
         int $a_user_id,
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0,
         bool $a_self_eval = false
-    );
+    ) : void;
 
     /**
      * Has recent self evaluation. Check if self evaluation for user/object has been done on the same day
@@ -46,7 +56,7 @@ interface ilBasicSkillUserLevelRepository
      * @param int $a_skill_id       skill id
      * @param int $a_tref_id        skill tref id
      * @param int $a_trigger_ref_id triggering repository object ref id
-     * @return mixed
+     * @return string
      */
     public function hasRecentSelfEvaluation(
         int $trigger_obj_id,
@@ -54,16 +64,8 @@ interface ilBasicSkillUserLevelRepository
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0
-    );
+    ) : string;
 
-    /**
-     * Get new achievements
-     * @param string $a_timestamp
-     * @param string $a_timestamp_to
-     * @param int    $a_user_id
-     * @param int    $a_self_eval
-     * @return array
-     */
     public function getNewAchievementsPerUser(
         string $a_timestamp,
         string $a_timestamp_to = null,
@@ -79,7 +81,7 @@ interface ilBasicSkillUserLevelRepository
      * @param null|string $trigger_title           triggering object title
      * @param null|string $trigger_type            triggering object type
      * @param bool        $update                  update or insert
-     * @param mixed       $status_date             date status
+     * @param string      $status_date             date status
      * @param int         $a_level_id              skill level id
      * @param int         $a_user_id               user id
      * @param int         $a_tref_id               skill tref id
@@ -94,14 +96,14 @@ interface ilBasicSkillUserLevelRepository
         ?string $trigger_title,
         ?string $trigger_type,
         bool $update,
-        $status_date,
+        string $status_date,
         int $a_level_id,
         int $a_user_id,
         int $a_tref_id = 0,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    );
+    ) : void;
 
     /**
      * Remove a user skill completely
@@ -118,22 +120,8 @@ interface ilBasicSkillUserLevelRepository
         string $a_unique_identifier = ""
     ) : bool;
 
-    /**
-     * Remove all data of a user
-     * @param int $a_user_id
-     */
-    public function removeAllUserData(int $a_user_id);
+    public function removeAllUserData(int $a_user_id) : void;
 
-    /**
-     * Get max levels per type
-     * @param int    $skill_id
-     * @param array  $levels
-     * @param int    $a_tref_id
-     * @param string $a_type
-     * @param int    $a_user_id
-     * @param int    $a_self_eval
-     * @return int
-     */
     public function getMaxLevelPerType(
         int $skill_id,
         array $levels,
@@ -143,14 +131,6 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : int;
 
-    /**
-     * Get all level entries
-     * @param int $skill_id
-     * @param int $a_tref_id
-     * @param int $a_user_id
-     * @param int $a_self_eval
-     * @return array
-     */
     public function getAllLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -158,14 +138,6 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : array;
 
-    /**
-     * Get all historic level entries
-     * @param int $skill_id
-     * @param int $a_tref_id
-     * @param int $a_user_id
-     * @param int $a_eval_by
-     * @return array
-     */
     public function getAllHistoricLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -173,16 +145,6 @@ interface ilBasicSkillUserLevelRepository
         int $a_eval_by = 0
     ) : array;
 
-    /**
-     * Get max levels per object
-     * @param int   $skill_id
-     * @param array $levels
-     * @param int   $a_tref_id
-     * @param int   $a_object_id
-     * @param int   $a_user_id
-     * @param int   $a_self_eval
-     * @return int
-     */
     public function getMaxLevelPerObject(
         int $skill_id,
         array $levels,
@@ -192,15 +154,6 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : int;
 
-    /**
-     * Get max levels
-     * @param int   $skill_id
-     * @param array $levels
-     * @param int   $a_tref_id
-     * @param int   $a_user_id
-     * @param int   $a_self_eval
-     * @return int
-     */
     public function getMaxLevel(
         int $skill_id,
         array $levels,
@@ -209,24 +162,8 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : int;
 
-    /**
-     * Has user self evaluated a skill?
-     * @param int $a_user_id
-     * @param int $a_skill_id
-     * @param int $a_tref_id
-     * @return bool
-     */
     public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool;
 
-    /**
-     * Get last level set per object
-     * @param int $skill_id
-     * @param int $a_tref_id
-     * @param int $a_object_id
-     * @param int $a_user_id
-     * @param int $a_self_eval
-     * @return null|int
-     */
     public function getLastLevelPerObject(
         int $skill_id,
         int $a_tref_id,
@@ -235,15 +172,6 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : ?int;
 
-    /**
-     * Get last update per object
-     * @param int $skill_id
-     * @param int $a_tref_id
-     * @param int $a_object_id
-     * @param int $a_user_id
-     * @param int $a_self_eval
-     * @return null|string
-     */
     public function getLastUpdatePerObject(
         int $skill_id,
         int $a_tref_id,

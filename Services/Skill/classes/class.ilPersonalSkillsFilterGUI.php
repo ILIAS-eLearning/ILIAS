@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Filter for personal skills
@@ -10,24 +25,15 @@
  */
 class ilPersonalSkillsFilterGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
         $this->lng = $DIC->language();
     }
 
-    /**
-     * Add to toolbar
-     */
-    public function addToToolbar(ilToolbarGUI $toolbar, $a_include_target = true)
+    public function addToToolbar(ilToolbarGUI $toolbar, bool $a_include_target = true) : void
     {
         $lng = $this->lng;
 
@@ -83,7 +89,7 @@ class ilPersonalSkillsFilterGUI
     /**
      * Save filter values to session
      */
-    public function save()
+    public function save() : void
     {
         $from = new ilDateTimeInputGUI("", "from");
         $from->checkInput();
@@ -102,13 +108,7 @@ class ilPersonalSkillsFilterGUI
         ilSession::set("skmg_pf_to", $t);
     }
 
-    /**
-     * Is entry in range?
-     * @param array $level_data
-     * @param array $level_entry
-     * @return bool
-     */
-    public function isInRange($level_data, $level_entry)
+    public function isInRange(array $level_data, array $level_entry) : bool
     {
         // from
         if (ilSession::get("skmg_pf_from") != "") {
@@ -136,26 +136,15 @@ class ilPersonalSkillsFilterGUI
             return false;
         }
 
-
-        //var_dump($level_data);
-        //var_dump($level_entry); exit;
         return true;
     }
 
-    /**
-     * Show target level?
-     * @return int
-     */
-    public function showTargetLevel()
+    public function showTargetLevel() : int
     {
         return (int) !ilSession::get("skmg_pf_target_level");
     }
 
-    /**
-     * Show materials and ressources?
-     * @return int
-     */
-    public function showMaterialsRessources()
+    public function showMaterialsRessources() : int
     {
         return (int) !ilSession::get("skmg_pf_mat_res");
     }

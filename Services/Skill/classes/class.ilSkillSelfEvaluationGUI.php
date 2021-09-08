@@ -1,5 +1,23 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Self evaluation
@@ -11,64 +29,18 @@
  */
 class ilSkillSelfEvaluationGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected ServerRequestInterface $request;
+    protected int $requested_se_id;
+    protected int $requested_sn_id;
+    protected int $requested_step;
+    protected int $sn_id;
+    protected ilPropertyFormGUI $form;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_se_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_sn_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_step;
-
-    /**
-     * @var int
-     */
-    protected $sn_id;
-
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -90,18 +62,13 @@ class ilSkillSelfEvaluationGUI
         $this->requested_sn_id = (int) ($params["sn_id"] ?? 0);
         $this->requested_step = (int) ($params["step"] ?? 0);
 
-        $this->readSelfEvaluation();
-
         $this->sn_id = ((int) $_POST["sn_id"] > 0)
             ? (int) $_POST["sn_id"]
             : $this->requested_sn_id;
         $ilCtrl->setParameter($this, "sn_id", $this->sn_id);
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -109,18 +76,7 @@ class ilSkillSelfEvaluationGUI
         $this->$cmd();
     }
 
-    /**
-     * Read self_evaluation
-     */
-    public function readSelfEvaluation()
-    {
-        //		$this->self_evaluation = new ilSelfEvaluation((int) $_GET[save_param]);
-    }
-
-    /**
-     * List all self evaluations
-     */
-    public function listSelfEvaluations()
+    public function listSelfEvaluations() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -154,11 +110,7 @@ class ilSkillSelfEvaluationGUI
         $tpl->setContent($table->getHTML());
     }
 
-
-    /**
-     * Confirm self_evaluation deletion
-     */
-    public function confirmSelfEvaluationDeletion()
+    public function confirmSelfEvaluationDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -186,10 +138,7 @@ class ilSkillSelfEvaluationGUI
         }
     }
 
-    /**
-     * Delete self_evaluation
-     */
-    public function deleteSelfEvaluation()
+    public function deleteSelfEvaluation() : void
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -206,13 +155,7 @@ class ilSkillSelfEvaluationGUI
         $ilCtrl->redirect($this, "listSelfEvaluations");
     }
 
-
-    /**
-     * startSelfEvaluation
-     *
-     * @param
-     */
-    public function startSelfEvaluation($a_mode = "create")
+    public function startSelfEvaluation(string $a_mode = "create") : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -261,10 +204,7 @@ class ilSkillSelfEvaluationGUI
         $tpl->setContent($se_tpl->get());
     }
 
-    /**
-     * Save self evaluation
-     */
-    public function saveSelfEvaluation()
+    public function saveSelfEvaluation() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -291,30 +231,17 @@ class ilSkillSelfEvaluationGUI
         $ilCtrl->redirect($this, "");
     }
 
-    /**
-     * Edit self evaluation
-     */
-    public function editSelfEvaluation()
+    public function editSelfEvaluation() : void
     {
         $this->startSelfEvaluation("edit");
     }
 
-    /**
-     * Update self evaluation and go one step back
-     */
-    public function updateBackSelfEvaluation()
+    public function updateBackSelfEvaluation() : void
     {
         $this->updateSelfEvaluation(true);
     }
-    
-    
-    
-    /**
-     * Update self evaluation
-     *
-     * @param
-     */
-    public function updateSelfEvaluation($a_back = false)
+
+    public function updateSelfEvaluation(bool $a_back = false) : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -351,13 +278,7 @@ class ilSkillSelfEvaluationGUI
     //// Presentation view
     ////
 
-    /**
-     * Get presentation view
-     *
-     * @param
-     * @return
-     */
-    public function getPresentationView($a_user_id)
+    public function getPresentationView(int $a_user_id) : string
     {
         $ses = ilSkillSelfEvaluation::getAllSelfEvaluationsOfUser($a_user_id);
 
@@ -371,9 +292,10 @@ class ilSkillSelfEvaluationGUI
     }
 
     /**
-     * Set self evaluation presentation form
+     * @param mixed $se
+     * @throws ilDateTimeException
      */
-    public function setSelfEvaluationPresentationForm($se)
+    public function setSelfEvaluationPresentationForm($se) : void
     {
         $lng = $this->lng;
 

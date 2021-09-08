@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill tree
@@ -16,14 +31,7 @@ class ilSkillTree extends ilTree
         $this->setTableNames('skl_tree', 'skl_tree_node');
     }
 
-    /**
-     * Get skill tree path
-     *
-     * @param int $a_base_skill_id base skill id
-     * @param int $a_tref_id template reference id
-     * @return array path
-     */
-    public function getSkillTreePath($a_base_skill_id, $a_tref_id = 0)
+    public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0) : array
     {
         if ($a_tref_id > 0) {
             $path = $this->getPathFull($a_tref_id);
@@ -65,17 +73,10 @@ class ilSkillTree extends ilTree
         if (is_array($path)) {
             return $path;
         }
-        return array();
+        return [];
     }
 
-    /**
-     * Get skill tree path as string
-     *
-     * @param int $a_base_skill_id base skill id
-     * @param int $a_tref_id template reference id
-     * @return string path
-     */
-    public function getSkillTreePathAsString($a_base_skill_id, $a_tref_id = 0)
+    public function getSkillTreePathAsString(int $a_base_skill_id, int $a_tref_id = 0) : string
     {
         $path = $this->getSkillTreePath($a_base_skill_id, $a_tref_id);
         $str = "";
@@ -89,26 +90,13 @@ class ilSkillTree extends ilTree
         return $str;
     }
 
-    /**
-     * Get top parent node id for a node
-     *
-     * @param int $a_node_id
-     * @return int top parent node id
-     */
-    public function getTopParentNodeId($a_node_id)
+    public function getTopParentNodeId(int $a_node_id) : int
     {
         $path = $this->getPathId($a_node_id);
         return (int) $path[1];
     }
 
-    /**
-     * Get max order nr
-     *
-     * @param int $a_par_id parent id
-     * @param bool $a_templates templates? true/false
-     * @return int max order nr
-     */
-    public function getMaxOrderNr($a_par_id, $a_templates = false)
+    public function getMaxOrderNr(int $a_par_id, bool $a_templates = false) : int
     {
         if ($a_par_id != $this->readRootId()) {
             $childs = $this->getChilds($a_par_id);

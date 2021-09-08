@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * TableGUI class for skill profile skill level assignment
@@ -13,36 +30,13 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected int $skill_id;
+    protected int $tref_id;
+    protected ilBasicSkill $skill;
+    protected ServerRequestInterface $request;
+    protected int $requested_level_id;
 
-    /**
-     * @var int
-     */
-    protected $skill_id;
-
-    /**
-     * @var int
-     */
-    protected $tref_id;
-
-    /**
-     * @var ilBasicSkill
-     */
-    protected $skill;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_level_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id)
+    public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id)
     {
         global $DIC;
 
@@ -71,11 +65,8 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_level_profile_assignment_row.html", "Services/Skill");
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

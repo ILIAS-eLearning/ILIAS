@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\Skill\Service;
 
@@ -10,19 +25,9 @@ namespace ILIAS\Skill\Service;
  */
 class SkillUserService
 {
-    /**
-     * @var SkillInternalManagerService $manager_service
-     */
-    protected $manager_service;
+    protected SkillInternalManagerService $manager_service;
+    protected int $user_id;
 
-    /**
-     * @var int $user_id
-     */
-    protected $user_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(int $user_id, SkillInternalManagerService $manager_service = null)
     {
         global $DIC;
@@ -32,14 +37,6 @@ class SkillUserService
             ?: $DIC->skills()->internal()->manager();
     }
 
-    /**
-     * @param int    $a_level_id
-     * @param int    $a_user_id
-     * @param int    $a_trigger_ref_id
-     * @param int    $a_tref_id
-     * @param bool   $a_self_eval
-     * @param string $a_unique_identifier
-     */
     public function writeSkillLevel(
         int $a_level_id,
         int $a_trigger_ref_id,
@@ -47,7 +44,7 @@ class SkillUserService
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    ) {
+    ) : void {
         $user_id = $this->user_id;
         $this->manager_service->getUserLevelManager()->writeSkillLevel($user_id, $a_level_id, $a_trigger_ref_id,
             $a_tref_id, $a_self_eval, $a_unique_identifier, $a_next_level_fulfilment);

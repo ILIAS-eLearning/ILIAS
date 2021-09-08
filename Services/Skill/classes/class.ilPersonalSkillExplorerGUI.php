@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Explorer for selecting a personal skill
@@ -23,45 +38,23 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @var object|string
      */
     protected $select_gui;
+    protected string $select_cmd;
+    protected string $select_par;
+    protected array $all_nodes;
+    protected array $node;
+    protected array $child_nodes;
+    protected array $parent;
 
-    /**
-     * @var string
-     */
-    protected $select_cmd;
-
-    /**
-     * @var string
-     */
-    protected $select_par;
-
-    /**
-     * @var array
-     */
-    protected $all_nodes;
-
-    /**
-     * @var array
-     */
-    protected $node;
-
-    /**
-     * @var array
-     */
-    protected $child_nodes;
-
-    /**
-     * @var array
-     */
-    protected $parent;
-
-    protected $selectable = array();
-    protected $selectable_child_nodes = array();
+    protected $selectable = [];
+    protected $selectable_child_nodes = [];
     protected $has_selectable_nodes = false;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "obj_id")
+    public function __construct(
+        $a_parent_obj,
+        string $a_parent_cmd,
+        $a_select_gui,
+        string $a_select_cmd,
+        string $a_select_par = "obj_id")
     {
         global $DIC;
 
@@ -88,7 +81,6 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             $this->node[$n["child"]] = $n;
             $this->child_nodes[$n["parent"]][] = $n;
             $this->parent[$n["child"]] = $n["parent"];
-            //echo "-$k-"; var_dump($n);
         }
 
         
@@ -96,34 +88,18 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->buildSelectableTree($this->tree->readRootId());
     }
 
-    /**
-     * Set selectable nodes exist?
-     *
-     * @param bool $a_val selectable nodes exist
-     */
-    protected function setHasSelectableNodes($a_val)
+    protected function setHasSelectableNodes(bool $a_val) : void
     {
         $this->has_selectable_nodes = $a_val;
     }
 
-    /**
-     * Get selectable nodes exist?
-     *
-     * @return bool selectable nodes exist
-     */
-    public function getHasSelectableNodes()
+    public function getHasSelectableNodes() : bool
     {
         return $this->has_selectable_nodes;
     }
 
-    /**
-     * Build selectable tree
-     *
-     * @param int $a_node_id tree id
-     */
-    public function buildSelectableTree($a_node_id)
+    public function buildSelectableTree(int $a_node_id) : void
     {
-        //echo "<br>-$a_node_id-";
         if (in_array(ilSkillTreeNode::_lookupStatus($a_node_id), array(ilSkillTreeNode::STATUS_DRAFT, ilSkillTreeNode::STATUS_OUTDATED))) {
             return;
         }
@@ -138,7 +114,6 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             }
         }
         foreach ($this->getOriginalChildsOfNode($a_node_id) as $n) {
-            //echo "+".$n["child"]."+";
             $this->buildSelectableTree($n["child"]);
         }
         if ($this->selectable[$a_node_id]) {
@@ -154,37 +129,32 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         if (is_array($this->selectable_child_nodes[$a_parent_node_id])) {
             $childs = $this->selectable_child_nodes[$a_parent_node_id];
             $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
         }
-        return array();
+        return [];
     }
 
     /**
      * Get original childs of node (whole tree)
-     *
-     * @param int $a_parent_id parent id
-     * @return array childs
      */
-    public function getOriginalChildsOfNode($a_parent_id)
+    public function getOriginalChildsOfNode(int $a_parent_id) : array
     {
         if (is_array($this->child_nodes[$a_parent_id])) {
             return $this->child_nodes[$a_parent_id];
         }
-        return array();
+        return [];
     }
 
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @param object|array $a_node
+     * @return string
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -198,12 +168,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Get node content
-     *
-     * @param array
-     * @return
+     * @param object|array $a_node
+     * @return string
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -212,40 +180,39 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
         return $title;
     }
-    
+
     /**
-     * Is clickable
-     *
-     * @param
-     * @return
+     * @param object|array $a_node
+     * @return bool
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if (!ilSkillTreeNode::_lookupSelfEvaluation($a_node["child"])) {
             return false;
         }
         return true;
     }
-    
+
     /**
      * get image path (may be overwritten by derived classes)
+     *
+     * @param object|array $a_node
+     * @return string
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $t = $a_node["type"];
-        if (in_array($t, array("sktr"))) {
+        if ($t == "sktr") {
             return ilUtil::getImagePath("icon_skll.svg");
         }
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }
 
     /**
-     * Get node icon alt attribute
-     *
-     * @param mixed $a_node node object/array
-     * @return string image alt attribute
+     * @param object|array $a_node
+     * @return string
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
