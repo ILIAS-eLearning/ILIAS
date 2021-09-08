@@ -1470,7 +1470,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 }
             }
         }
-        if (array_key_exists("imagemap_x", $_POST)) {
+        if(isset($_POST['imagemap_x'])) {
             $force_active = true;
         }
         if (!$force_active) {
