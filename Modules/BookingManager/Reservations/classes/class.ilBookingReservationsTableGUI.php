@@ -524,6 +524,10 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
             }
 
+            // see ilCourseParticipantsTableGUI
+            $user_columns = array_diff($user_columns,
+                ['consultation_hour', 'prtf', 'roles', 'org_units']);
+
             // user data fields
             $query = new ilUserQuery();
             $query->setLimit(9999);

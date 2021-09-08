@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceHolderValuesTest extends ilCertificateBaseTestCase
+class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testGetPlaceholderValues()
     {
@@ -70,7 +70,7 @@ class ilExercisePlaceHolderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('2018-09-10 12:01:33');
 
 
-        $placeHolderObject = new ilExercisePlaceHolderValues(
+        $placeHolderObject = new ilExercisePlaceholderValues(
             $defaultPlaceholders,
             $language,
             $objectHelper,
@@ -146,7 +146,7 @@ class ilExercisePlaceHolderValuesTest extends ilCertificateBaseTestCase
             ->method('getPlaceholderValuesForPreview')
             ->willReturn(array('SOME_PLACEHOLDER' => 'something'));
 
-        $placeHolderObject = new ilExercisePlaceHolderValues(
+        $placeHolderObject = new ilExercisePlaceholderValues(
             $defaultPlaceholders,
             $language,
             $objectHelper,

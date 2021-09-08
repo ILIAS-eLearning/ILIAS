@@ -532,7 +532,9 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                         $rte->addPlugin("link");
                         $rte->addPlugin("code");
 
-                        $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
+                        if (method_exists($rte, 'removeAllContextMenuItems')) {
+                            $rte->removeAllContextMenuItems(); //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
+                        }
                         
                         // #11980 - p-tag is mandatory but we do not want the icons it comes with
                         $rte->disableButtons(array("anchor", "alignleft", "aligncenter",
