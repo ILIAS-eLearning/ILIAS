@@ -170,24 +170,18 @@ class ilPCParagraph extends ilPageContent
         } else {
             $text = $a_text;
         }
-
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
         }
 
-        // DOMXML_LOAD_PARSING, DOMXML_LOAD_VALIDATING, DOMXML_LOAD_RECOVERING
-        $check = "";
-        foreach ($text as $t) {
-            $check .= "<Paragraph>" . $t["text"] . "</Paragraph>";
-        }
-        /*$temp_dom = domxml_open_mem('<?xml version="1.0" encoding="UTF-8"?><Paragraph>'.$text[0]["text"].'</Paragraph>',
-            DOMXML_LOAD_PARSING, $error);*/
-        $temp_dom = domxml_open_mem(
-            '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $check . '</Paragraph>',
-            DOMXML_LOAD_PARSING,
-            $error
-        );
-        //$this->text = $a_text;
+
+        $error = $this->checkTextArray($text);
+
+        /*      we currently do no try to fix xml
+        if (!empty($error)) {
+            $text = $this->fixTextArray($text);
+            $error = $this->checkTextArray($text);
+        };*/
 
         // remove all childs
         if (empty($error)) {
@@ -249,6 +243,9 @@ class ilPCParagraph extends ilPageContent
             return true;
         } else {
             // We want the correct number of \n here to have the real lines numbers
+            $check = array_reduce($text, function ($t, $i) {
+                return $t . $i["text"];
+            });
             $text = str_replace("<br>", "\n", $check);		// replace <br> with \n to get correct line
             $text = str_replace("<br/>", "\n", $text);
             $text = str_replace("<br />", "\n", $text);
@@ -274,6 +271,56 @@ class ilPCParagraph extends ilPageContent
 
             return $estr;
         }
+    }
+
+    /**
+     * Check text array
+     * @param array
+     * @return ?array
+     */
+    protected function checkTextArray($text)
+    {
+        $check = "";
+        foreach ($text as $t) {
+            $check .= "<Paragraph>" . $t["text"] . "</Paragraph>";
+        }
+        $error = null;
+        //try {
+            $temp_dom = domxml_open_mem(
+                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $check . '</Paragraph>',
+                DOMXML_LOAD_PARSING,
+                $error
+            );
+        //} catch (Exception $e) {
+
+        //}
+        return $error;
+    }
+
+    /**
+     * @param array
+     * @return array
+     */
+    protected function fixTextArray($text)
+    {
+        $dom = new DOMDocument();
+        $dom->recover = true;
+        // try to fix
+        for ($i = 0; $i < count($text); $i++) {
+            $dom->loadXML('<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
+                LIBXML_NOWARNING | LIBXML_NOERROR);
+            foreach($dom->childNodes as $node) {
+                if ($node->nodeName == "Paragraph") {
+                    $inner = "";
+                    foreach ($node->childNodes as $child)
+                    {
+                        $inner .= $dom->saveXML($child);
+                    }
+                    $text[$i]["text"] = $inner;
+                }
+            }
+        }
+        return $text;
     }
 
     /**
@@ -1331,7 +1378,6 @@ class ilPCParagraph extends ilPageContent
         if ($t === false) {
             return false;
         }
-
         $pc_id = explode(":", $a_pc_id);
         $insert_at = explode(":", $a_insert_at);
         $t_id = explode(":", $t["id"]);
