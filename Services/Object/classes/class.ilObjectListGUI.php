@@ -1341,7 +1341,7 @@ class ilObjectListGUI
     {
         $alert = array();
         foreach ((array) $this->getProperties() as $prop) {
-            if ($prop['alert'] == true) {
+            if (isset($prop['alert']) && $prop['alert'] == true) {
                 $alert[] = $prop;
             }
         }

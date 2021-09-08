@@ -228,6 +228,14 @@ export default class PageUI {
     return this.uiModel.pcDefinition.names[type];
   }
 
+  getCnameForPCID(pcid) {
+    const el = document.querySelector("[data-pcid='" + pcid + "']");
+    if (el) {
+      return el.dataset.cname;
+    }
+    return null;
+  }
+
   /**
    * Click and DBlClick is not naturally supported on browsers (click is also fired on
    * dblclick, time period for dblclick varies)
@@ -488,9 +496,37 @@ export default class PageUI {
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
     const model = this.model;
+    const selected = model.getSelected();
+    let pcModel, cname;
 
 
     this.toolSlate.setContent(this.uiModel.formatSelection);
+
+    document.querySelector("#il-copg-format-paragraph").
+        style.display = "none";
+    document.querySelector("#il-copg-format-section").
+        style.display = "none";
+    document.querySelector("#il-copg-format-media").
+        style.display = "none";
+    console.log("***INIT FORMAT");
+    console.log(selected);
+    selected.forEach((id) => {
+      cname = this.getCnameForPCID(id.split(":")[1]);
+      switch (cname) {
+        case "MediaObject":
+          document.querySelector("#il-copg-format-media").
+              style.display = "";
+          break;
+        case "Section":
+          document.querySelector("#il-copg-format-section").
+              style.display = "";
+          break;
+        case "Paragraph":
+          document.querySelector("#il-copg-format-paragraph").
+              style.display = "";
+          break;
+      }
+    });
 
     document.querySelectorAll("[data-copg-ed-type='format']").forEach(multi_button => {
       const act = multi_button.dataset.copgEdAction;
@@ -510,13 +546,20 @@ export default class PageUI {
           });
           break;
 
+        case "format.media":
+          multi_button.addEventListener("click", (event) => {
+            dispatch.dispatch(action.page().editor().formatMedia(format));
+          });
+          break;
+
         case "format.save":
           multi_button.addEventListener("click", (event) => {
             const pcids = new Set(this.model.getSelected());
             dispatch.dispatch(action.page().editor().formatSave(
               pcids,
               model.getParagraphFormat(),
-              model.getSectionFormat()
+              model.getSectionFormat(),
+              model.getMediaFormat()
             ));
           });
           break;
@@ -540,12 +583,15 @@ export default class PageUI {
     if (f2) {
       dispatch.dispatch(action.page().editor().formatSection(f2));
     }
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown ul li button");
+    const f3 = b3.dataset.copgEdParFormat;
+    if (f3) {
+      dispatch.dispatch(action.page().editor().formatMedia(f3));
+    }
   }
 
   setParagraphFormat(format) {
-    console.log("setParagraphFormat " + format);
     const b1 = document.querySelector("#il-copg-format-paragraph div.dropdown > button");
-    console.log(b1);
     if (b1) {
       b1.firstChild.textContent = format + " ";
     }
@@ -555,6 +601,13 @@ export default class PageUI {
     const b2 = document.querySelector("#il-copg-format-section div.dropdown > button");
     if (b2) {
       b2.firstChild.textContent = format + " ";
+    }
+  }
+
+  setMediaFormat(format) {
+    const b3 = document.querySelector("#il-copg-format-media div.dropdown > button");
+    if (b3) {
+      b3.firstChild.textContent = format + " ";
     }
   }
 

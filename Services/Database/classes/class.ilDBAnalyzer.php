@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -37,7 +37,6 @@ class ilDBAnalyzer
     /**
      * ilDBAnalyzer constructor.
      *
-     * @param \ilDBInterface $ilDBInterface
      *
      * @deprecated Use global ilDB only. If something is missing there, please contact fs@studer-raimann.ch
      */
@@ -62,7 +61,7 @@ class ilDBAnalyzer
      * @param    string        table name
      * @return    array        field information array
      */
-    public function getFieldInformation($a_table, $a_remove_not_allowed_attributes = false)
+    public function getFieldInformation($a_table, $a_remove_not_allowed_attributes = false): array
     {
         $fields = $this->manager->listTableFields($a_table);
         $inf = array();
@@ -78,7 +77,7 @@ class ilDBAnalyzer
             // collect other alternatives
             reset($rdef);
             $alt_types = "";
-            foreach ($rdef as $k => $rd) {
+            foreach (array_keys($rdef) as $k) {
                 if ($k != $best_alt) {
                     $alt_types .= ($rdef[$k]["type"] ?? "") . ($rdef[$k]["length"] ?? "") . " ";
                 }
@@ -97,7 +96,7 @@ class ilDBAnalyzer
             );
 
             if ($a_remove_not_allowed_attributes) {
-                foreach ($inf[$field] as $k => $v) {
+                foreach (array_keys($inf[$field]) as $k) {
                     if ($k != "type" && !in_array($k, $this->allowed_attributes[$inf[$field]["type"]])) {
                         unset($inf[$field][$k]);
                     }
@@ -147,12 +146,11 @@ class ilDBAnalyzer
      * This should be used on ILIAS 3.10.x "MySQL" tables only.
      *
      * @param    string        table name
-     * @return    string        name of autoincrement field
+     * @return mixed|bool name of autoincrement field
      */
     public function getAutoIncrementField($a_table)
     {
         $fields = $this->manager->listTableFields($a_table);
-        $inf = array();
 
         foreach ($fields as $field) {
             $rdef = $this->reverse->getTableFieldDefinition($a_table, $field);
@@ -171,7 +169,7 @@ class ilDBAnalyzer
      * @param    string        table name
      * @return    array        primary key information array
      */
-    public function getPrimaryKeyInformation($a_table)
+    public function getPrimaryKeyInformation($a_table): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
@@ -202,7 +200,7 @@ class ilDBAnalyzer
      * @param    string        table name
      * @return    array        indices information array
      */
-    public function getIndicesInformation($a_table, $a_abstract_table = false)
+    public function getIndicesInformation($a_table, $a_abstract_table = false): array
     {
         //$constraints = $this->manager->listTableConstraints($a_table);
         $indexes = $this->manager->listTableIndexes($a_table);
@@ -228,7 +226,6 @@ class ilDBAnalyzer
             if (!$info["primary"]) {
                 $i["name"] = $c;
                 $i["fulltext"] = false;
-                $suffix = ($a_abstract_table) ? "_idx" : "";
 
                 if ($mysql_info[$i["name"]]["Index_type"] == "FULLTEXT"
                     || $mysql_info[$i["name"] . "_idx"]["Index_type"] == "FULLTEXT"
@@ -259,14 +256,13 @@ class ilDBAnalyzer
      * @param    string        table name
      * @return    array        indices information array
      */
-    public function getConstraintsInformation($a_table, $a_abstract_table = false)
+    public function getConstraintsInformation($a_table, $a_abstract_table = false): array
     {
         $constraints = $this->manager->listTableConstraints($a_table);
 
         $cons = array();
         foreach ($constraints as $c) {
             $info = $this->reverse->getTableConstraintDefinition($a_table, $c);
-            //var_dump($info);
             $i = array();
             if ($info["unique"]) {
                 $i["name"] = $c;
@@ -289,7 +285,7 @@ class ilDBAnalyzer
      * Check whether sequence is defined for current table (only works on "abstraced" tables)
      *
      * @param    string        table name
-     * @return mixed false, if no sequence is defined, start number otherwise
+     * @return float|int|bool false, if no sequence is defined, start number otherwise
      *
      * @throws \ilDatabaseException
      * @deprecated Please do not use since this method will lead to a ilDatabaseException. Will be removed later
@@ -300,7 +296,7 @@ class ilDBAnalyzer
         if (is_array($seq) && in_array($a_table, $seq)) {
             // sequence field is (only) primary key field of table
             $pk = $this->getPrimaryKeyInformation($a_table);
-            if (is_array($pk["fields"]) && count($pk["fields"] == 1)) {
+            if (is_array($pk["fields"]) && count($pk["fields"]) === 1) {
                 $seq_field = key($pk["fields"]);
             } else {
                 throw new ilDatabaseException("ilDBAnalyzer::hasSequence: Error, sequence defined, but no one-field primary key given. Table: "
@@ -309,9 +305,8 @@ class ilDBAnalyzer
 
             $set = $this->il_db->query("SELECT MAX(" . $this->il_db->quoteIdentifier($seq_field) . ") ma FROM " . $this->il_db->quoteIdentifier($a_table) . "");
             $rec = $this->il_db->fetchAssoc($set);
-            $next = $rec["ma"] + 1;
 
-            return $next;
+            return $rec["ma"] + 1;
         }
 
         return false;

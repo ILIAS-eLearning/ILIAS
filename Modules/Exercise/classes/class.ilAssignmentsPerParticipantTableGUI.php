@@ -7,7 +7,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
+class ilAssignmentsPerParticipantTableGUI extends ilExerciseSubmissionTableGUI
 {
     protected ilObjUser $user;
     
@@ -40,7 +40,6 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
     {
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
-
         $this->addCommandButton("saveStatusParticipant", $this->lng->txt("save"));
 
         // #14650 - invalid user
@@ -146,7 +145,8 @@ class ilExParticipantTableGUI extends ilExerciseSubmissionTableGUI
         $ilCtrl->setParameter($this->parent_obj, "ass_id", $a_set["ass"]->getId());
 
         // multi-select id
-        $this->tpl->setVariable("NAME_ID", "ass");
+        $this->tpl->setVariable("NAME_ID", "sel_ass_ids");
+        $this->tpl->setVariable("LISTED_NAME_ID", "listed_ass_ids");
         $this->tpl->setVariable("VAL_ID", $a_set["ass"]->getId());
 
         $this->parseRow($this->user->getId(), $a_set["ass"], $a_set);

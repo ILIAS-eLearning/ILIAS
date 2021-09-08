@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,6 +7,9 @@ use ILIAS\DI;
 
 class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
+    /**
+     * @return \ilDatabaseInitializedObjective[]|\ilIniFilesLoadedObjective[]
+     */
     public function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -69,35 +72,35 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilLog"] = new class() {
-            public function write()
+            public function write(): void
             {
             }
-            public function info()
+            public function info(): void
             {
             }
-            public function warning($msg)
+            public function warning($msg): void
             {
             }
-            public function error($msg)
+            public function error($msg): void
             {
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getRootLogger()
+            public function getRootLogger(): object
             {
                 return new class() {
-                    public function write()
+                    public function write(): void
                     {
                     }
                 };
             }
         };
         $GLOBALS["ilCtrlStructureReader"] = new class() {
-            public function getStructure()
+            public function getStructure(): void
             {
             }
-            public function setIniFile()
+            public function setIniFile(): void
             {
             }
         };
@@ -123,11 +126,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
         }
 
-        $db_update = new class($db, $client_ini) extends ilDBUpdate {
-            public function loadXMLInfo()
-            {
-            }
-        };
+        $db_update = new  ilDBUpdate($db);
         $db_update->readCustomUpdatesInfo(true);
 
         $storage->storeStableCounter(

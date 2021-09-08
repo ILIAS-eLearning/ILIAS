@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,60 +10,33 @@ class ilDatabaseSetupConfig implements Setup\Config
     const DEFAULT_COLLATION = "utf8_general_ci";
     const DEFAULT_PATH_TO_DB_DUMP = "./setup/sql/ilias3.sql";
 
-    /**
-     * @var	mixed
-     */
-    protected $type;
+    protected string $type;
 
-    /**
-     * @var string
-     */
-    protected $host;
+    protected string $host;
 
-    /**
-     * @var string|null
-     */
-    protected $port;
+    protected ?int $port = null;
 
-    /**
-     * @var	string
-     */
-    protected $database;
+    protected string $database;
 
-    /**
-     * @var bool
-     */
-    protected $create_database;
+    protected bool $create_database;
 
-    /**
-     * @var string|null
-     */
-    protected $collation;
+    protected string $collation;
 
-    /**
-     * @var	string
-     */
-    protected $user;
+    protected string $user;
 
-    /**
-     * @var	Password|null
-     */
-    protected $password;
+    protected ?\ILIAS\Data\Password $password = null;
 
-    /**
-     * @var	string|null
-     */
-    protected $path_to_db_dump;
+    protected string $path_to_db_dump;
 
     public function __construct(
-        $type,
+        string $type,
         string $host,
         string $database,
         string $user,
         Password $password = null,
         bool $create_database = true,
         string $collation = null,
-        string $port = null,
+        int $port = null,
         string $path_to_db_dump = null
     ) {
         if (!in_array($type, \ilDBConstants::getInstallableTypes())) {
@@ -81,13 +54,13 @@ class ilDatabaseSetupConfig implements Setup\Config
         $this->database = trim($database);
         $this->user = trim($user);
         $this->password = $password;
-        $this->create_database = trim($create_database);
+        $this->create_database = $create_database;
         $this->collation = $collation ? trim($collation) : self::DEFAULT_COLLATION;
         $this->port = $port;
         $this->path_to_db_dump = $path_to_db_dump ?? self::DEFAULT_PATH_TO_DB_DUMP;
     }
 
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -97,7 +70,7 @@ class ilDatabaseSetupConfig implements Setup\Config
         return $this->host;
     }
 
-    public function getPort() : ?string
+    public function getPort() : ?int
     {
         return $this->port;
     }
@@ -139,12 +112,12 @@ class ilDatabaseSetupConfig implements Setup\Config
     {
         return new class($this) extends \ilIniFile {
             /**
-            * reads a single variable from a group
-            * @access	public
-            * @param	string		group name
-            * @param	string		value
-            * @return	mixed		return value string or boolean 'false' on failure
-            */
+             * reads a single variable from a group
+             * @access	public
+             * @param	string		group name
+             * @param	string		value
+             * @return mixed|void return value string or boolean 'false' on failure
+             */
             public function readVariable($a_group, $a_var_name)
             {
                 if ($a_group !== "db") {
@@ -172,67 +145,69 @@ class ilDatabaseSetupConfig implements Setup\Config
                         );
                 }
             }
+
+            /** @noinspection MagicMethodsValidityInspection */
             public function __construct(\ilDatabaseSetupConfig $config)
             {
                 $this->config = $config;
             }
-            public function read()
+            public function read(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function parse()
+            public function parse(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function fixIniFile()
+            public function fixIniFile(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function write()
+            public function write(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function show()
+            public function show(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getGroupCount()
+            public function getGroupCount(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroups()
+            public function readGroups(): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function groupExists($a_group_name)
+            public function groupExists($a_group_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function readGroup($a_group_name)
+            public function readGroup($a_group_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function addGroup($a_group_name)
+            public function addGroup($a_group_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function removeGroup($a_group_name)
+            public function removeGroup($a_group_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function variableExists($a_group, $a_var_name)
+            public function variableExists($a_group, $a_var_name): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function setVariable($a_group_name, $a_var_name, $a_var_value)
+            public function setVariable($a_group_name, $a_var_name, $a_var_value): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function error($a_errmsg)
+            public function error($a_errmsg): void
             {
                 throw new \LogicException("Just a mock here...");
             }
-            public function getError()
+            public function getError(): void
             {
                 throw new \LogicException("Just a mock here...");
             }

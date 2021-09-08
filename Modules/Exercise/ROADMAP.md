@@ -22,6 +22,10 @@ Note: Some of the rules listed in this roadmap may be superseded by general ILIA
 
 ## Mid Term
 
+### Fix ilExcCriteria
+
+The ilExcCriteria class does stuff on application and gui level and should be divided into multiple interfaces.
+
 ### Split up large classes (ongoing)
 
 - Especially ilExAssignment should be split up in several repository / manager classes.

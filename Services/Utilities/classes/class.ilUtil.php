@@ -3612,6 +3612,7 @@ class ilUtil
 
             $res = $ilDB->query($query);
             $counter = 0;
+            $ref_ids = [];
             while ($row = $ilDB->fetchObject($res)) {
                 // Filter recovery folder
                 if ($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id)) {
@@ -3624,7 +3625,7 @@ class ilUtil
 
                 $ref_ids[] = $row->ref_id;
             }
-            return $ref_ids ? $ref_ids : array();
+            return $ref_ids;
         } // End Administrators
 
         // Check ownership if it is not asked for edit_permission or a create permission
@@ -4268,7 +4269,7 @@ class ilUtil
 
         $ilIliasIniFile = $DIC["ilIliasIniFile"];
 
-        if ($_SERVER['SHELL'] || php_sapi_name() == 'cli' ||
+        if ((isset($_SERVER['SHELL']) && $_SERVER['SHELL']) || PHP_SAPI === 'cli' ||
             // fallback for windows systems, useful in crons
             (class_exists("ilContext") && !ilContext::usesHTTP())) {
             return $ilIliasIniFile->readVariable('server', 'http_path');

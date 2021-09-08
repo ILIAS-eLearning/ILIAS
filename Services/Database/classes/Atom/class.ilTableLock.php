@@ -1,42 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilTableLock
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilTableLock implements ilTableLockInterface
 {
 
-    /**
-     * @var string
-     */
-    protected $table_name = '';
-    /**
-     * @var bool
-     */
-    protected $lock_sequence = false;
-    /**
-     * @var string
-     */
-    protected $alias = '';
-    /**
-     * @var int
-     */
-    protected $lock_level = ilAtomQuery::LOCK_WRITE;
-    /**
-     * @var bool
-     */
-    protected $checked = false;
-    /**
-     * @var ilDBInterface
-     */
-    protected $ilDBInstance;
-
+    protected string $table_name = '';
+    protected bool $lock_sequence = false;
+    protected string $alias = '';
+    protected int $lock_level = ilAtomQuery::LOCK_WRITE;
+    protected bool $checked = false;
+    protected \ilDBInterface $ilDBInstance;
 
     /**
      * ilTableLock constructor.
-     *
      * @param string $table_name
      */
     public function __construct($table_name, ilDBInterface $ilDBInterface)
@@ -45,13 +24,12 @@ class ilTableLock implements ilTableLockInterface
         $this->ilDBInstance = $ilDBInterface;
     }
 
-
     /**
      * @throws \ilAtomQueryException
      */
-    public function check()
+    public function check() : void
     {
-        if (!in_array($this->getLockLevel(), array( ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE ))) {
+        if (!in_array($this->getLockLevel(), [ilAtomQuery::LOCK_READ, ilAtomQuery::LOCK_WRITE], true)) {
             throw new ilAtomQueryException('', ilAtomQueryException::DB_ATOM_LOCK_WRONG_LEVEL);
         }
         if (!$this->getTableName() || !$this->ilDBInstance->tableExists($this->getTableName())) {
@@ -61,116 +39,66 @@ class ilTableLock implements ilTableLockInterface
         $this->setChecked(true);
     }
 
-
-    /**
-     * @param bool $lock_bool
-     * @return $this
-     */
-    public function lockSequence($lock_bool)
+    public function lockSequence(bool $lock_bool) : ilTableLockInterface
     {
         $this->setLockSequence($lock_bool);
 
         return $this;
     }
 
-
-    /**
-     * @param $alias_name
-     * @return $this
-     */
-    public function aliasName($alias_name)
+    public function aliasName(string $alias_name) : ilTableLockInterface
     {
         $this->setAlias($alias_name);
 
         return $this;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTableName()
+    public function getTableName() : string
     {
         return $this->table_name;
     }
 
-
-    /**
-     * @param string $table_name
-     */
-    public function setTableName($table_name)
+    public function setTableName(string $table_name) : void
     {
         $this->table_name = $table_name;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isLockSequence()
+    public function isLockSequence() : bool
     {
         return $this->lock_sequence;
     }
 
-
-    /**
-     * @param boolean $lock_sequence
-     */
-    public function setLockSequence($lock_sequence)
+    public function setLockSequence(bool $lock_sequence) : void
     {
         $this->lock_sequence = $lock_sequence;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function getAlias() : string
     {
         return $this->alias;
     }
 
-
-    /**
-     * @param string $alias
-     */
-    public function setAlias($alias)
+    public function setAlias(string $alias) : void
     {
         $this->alias = $alias;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getLockLevel()
+    public function getLockLevel() : int
     {
         return $this->lock_level;
     }
 
-
-    /**
-     * @param int $lock_level
-     */
-    public function setLockLevel($lock_level)
+    public function setLockLevel(int $lock_level) : void
     {
         $this->lock_level = $lock_level;
     }
 
-
-    /**
-     * @return boolean
-     */
-    public function isChecked()
+    public function isChecked() : bool
     {
         return $this->checked;
     }
 
-
-    /**
-     * @param boolean $checked
-     */
-    public function setChecked($checked)
+    public function setChecked(bool $checked) : void
     {
         $this->checked = $checked;
     }

@@ -4,7 +4,8 @@
  */
 class InitUIFramework
 {
-    public function init(\ILIAS\DI\Container $c){
+    public function init(\ILIAS\DI\Container $c)
+    {
         $c["ui.factory"] = function ($c) {
             $c["lng"]->loadLanguageModule("ui");
             return new ILIAS\UI\Implementation\Factory(
@@ -116,7 +117,9 @@ class InitUIFramework
             );
         };
         $c["ui.factory.menu"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Menu\Factory();
+            return new ILIAS\UI\Implementation\Component\Menu\Factory(
+                $c['ui.signal_generator']
+            );
         };
         $c["ui.factory.symbol.glyph"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory();
@@ -238,5 +241,4 @@ class InitUIFramework
             return new ilImagePathResolver();
         };
     }
-
 }

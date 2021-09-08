@@ -8,56 +8,20 @@ namespace Certificate\API\Data;
  */
 class UserCertificateDto
 {
-    /** @var string */
-    private $objectTitle = '';
-
+    private string $objectTitle = '';
     /** @var int[] */
-    private $objectRefIds = [];
+    private array $objectRefIds = [];
+    private int $objectId = 0;
+    private int $issuedOnTimestamp = 0;
+    private int $userId = 0;
+    private string $downloadLink = '';
+    private int $certificateId = 0;
+    private string $userFirstName = '';
+    private string $userLastName = '';
+    private string $userLogin = '';
+    private string $userEmail = '';
+    private string $userSecondEmail = '';
 
-    /** @var int */
-    private $objectId = 0;
-
-    /** @var int */
-    private $issuedOnTimestamp = 0;
-
-    /** @var int */
-    private $userId = 0;
-
-    /** @var string */
-    private $downloadLink = '';
-
-    /** @var int */
-    private $certificateId = 0;
-
-    /** @var string */
-    private $userFirstName = '';
-
-    /** @var string */
-    private $userLastName = '';
-
-    /** @var string */
-    private $userLogin = '';
-
-    /** @var string */
-    private $userEmail = '';
-
-    /** @var string */
-    private $userSecondEmail = '';
-
-    /**
-     * @param int $certificateId
-     * @param string $objectTitle
-     * @param int $objectId
-     * @param int $issuedOnTimestamp
-     * @param int $userId
-     * @param string $userFirstName
-     * @param string $userLastName
-     * @param string $userLogin
-     * @param string $userEmail
-     * @param string $userSecondEmail
-     * @param array $objectRefId
-     * @param string|null $downloadLink
-     */
     public function __construct(
         int $certificateId,
         string $objectTitle,
@@ -69,8 +33,8 @@ class UserCertificateDto
         string $userLogin,
         string $userEmail,
         string $userSecondEmail,
-        array $objectRefId = array(),
-        string $downloadLink = null
+        array $objectRefId = [],
+        ?string $downloadLink = null
     ) {
         $this->certificateId = $certificateId;
         $this->objectTitle = $objectTitle;
@@ -78,8 +42,7 @@ class UserCertificateDto
         $this->objectId = $objectId;
         $this->issuedOnTimestamp = $issuedOnTimestamp;
         $this->userId = $userId;
-        $this->downloadLink = $downloadLink;
-
+        $this->downloadLink = (string) $downloadLink;
         $this->userFirstName = $userFirstName;
         $this->userLastName = $userLastName;
         $this->userLogin = $userLogin;
@@ -87,49 +50,31 @@ class UserCertificateDto
         $this->userSecondEmail = $userSecondEmail;
     }
 
-    /**
-     * @return string
-     */
     public function getObjectTitle() : string
     {
         return $this->objectTitle;
     }
 
-    /**
-     * @return int
-     */
     public function getObjectId() : int
     {
         return $this->objectId;
     }
 
-    /**
-     * @return int
-     */
     public function getIssuedOnTimestamp() : int
     {
         return $this->issuedOnTimestamp;
     }
 
-    /**
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->userId;
     }
 
-    /**
-     * @return string
-     */
     public function getDownloadLink() : string
     {
         return $this->downloadLink;
     }
 
-    /**
-     * @return int
-     */
     public function getCertificateId() : int
     {
         return $this->certificateId;
@@ -143,49 +88,31 @@ class UserCertificateDto
         return $this->objectRefIds;
     }
 
-    /**
-     * @return string
-     */
     public function getUserFirstName() : string
     {
         return $this->userFirstName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLastName() : string
     {
         return $this->userLastName;
     }
 
-    /**
-     * @return string
-     */
     public function getUserLogin() : string
     {
         return $this->userLogin;
     }
 
-    /**
-     * @return string
-     */
     public function getUserEmail() : string
     {
         return $this->userEmail;
     }
 
-    /**
-     *
-     */
     public function addRefId(int $refId) : void
     {
         $this->objectRefIds[] = $refId;
     }
 
-    /**
-     * @return string
-     */
     public function getUserSecondEmail() : string
     {
         return $this->userSecondEmail;

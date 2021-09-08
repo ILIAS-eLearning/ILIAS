@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,16 +6,9 @@
  */
 class ilCertificateUserCertificateAccessValidator
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $userCertificateRepository;
+    private ilUserCertificateRepository $userCertificateRepository;
 
-    /**
-     * ilCertificateHasUserCertificateValidator constructor.
-     * @param ilUserCertificateRepository|null $userCertificateRepository
-     */
-    public function __construct(ilUserCertificateRepository $userCertificateRepository = null)
+    public function __construct(?ilUserCertificateRepository $userCertificateRepository = null)
     {
         if (null === $userCertificateRepository) {
             global $DIC;
@@ -27,12 +20,7 @@ class ilCertificateUserCertificateAccessValidator
         $this->userCertificateRepository = $userCertificateRepository;
     }
 
-    /**
-     * @param int $userId
-     * @param int $objId
-     * @return bool
-     */
-    public function validate(int $userId, int $objId)
+    public function validate(int $userId, int $objId) : bool
     {
         try {
             $this->userCertificateRepository->fetchActiveCertificate($userId, $objId);

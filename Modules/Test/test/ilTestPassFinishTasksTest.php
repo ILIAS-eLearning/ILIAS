@@ -14,18 +14,12 @@ class ilTestPassFinishTasksTest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $class = new class {
-            public function numRows()
-            {
-                return 0;
-            }
-        };
-        $returnObj = new $class();
+        $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $db_mock = $this->createMock(ilDBInterface::class);
         $db_mock->expects($this->any())
                 ->method("queryF")
-                ->willReturn($returnObj);
+                ->willReturn($return_statement);
 
         $this->setGlobalVariable("ilDB", $db_mock);
 

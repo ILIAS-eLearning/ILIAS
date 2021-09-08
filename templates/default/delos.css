@@ -10036,6 +10036,10 @@ footer {
     width: 63px;
   }
 }
+footer {
+  background-color: #4c6586;
+  padding: 20px 0 15px 5px;
+}
 .il-maincontrols-footer {
   color: white;
   font-size: 0.9em;
@@ -10228,24 +10232,120 @@ footer {
     border-top: none;
   }
 }
-.il-drilldown ul {
-  list-style: none;
+.il-drilldown ul,
+.il-drilldown li {
   padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.il-drilldown .menulevel,
+.il-drilldown .menulevel:focus,
+.il-drilldown .menulevel:active {
+  text-align: left;
+  background: transparent;
+  border: none;
+}
+.il-drilldown header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+  padding: 10px 40px 15px 10px;
+}
+.il-drilldown header h2 {
+  margin: 0;
+}
+.il-drilldown header .backnav {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.il-drilldown header .backnav .btn-bulky {
+  height: 100%;
+}
+.il-drilldown header .backnav .btn-bulky .glyphicon {
+  display: none;
+}
+.il-drilldown header .backnav .btn-bulky:before {
+  content: " \e605";
+  display: block;
+  font-family: "il-icons";
+  font-size: 1.5rem;
+}
+.il-drilldown header.show-backnav {
+  padding-left: 4rem;
+}
+.il-drilldown header.show-backnav .backnav {
+  display: block;
+}
+.il-drilldown li > .menulevel,
+.il-drilldown li > .btn-bulky,
+.il-drilldown li > .link-bulky,
+.il-drilldown li > hr {
+  display: none;
+}
+.il-drilldown .engaged ~ ul > li > .menulevel,
+.il-drilldown .engaged ~ ul > li > .btn-bulky,
+.il-drilldown .engaged ~ ul > li > .link-bulky {
+  display: flex;
+}
+.il-drilldown .engaged ~ ul > li > hr {
+  display: block;
+}
+.il-drilldown .menulevel,
+.il-drilldown .btn-bulky,
+.il-drilldown .link-bulky {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 40px 15px 10px;
+  margin-bottom: 2px;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+}
+.il-drilldown hr {
+  margin: 10px 0;
+}
+.il-drilldown .menulevel {
+  background-color: #f2f2f2;
+}
+.il-drilldown .menulevel:hover {
+  background-color: rgba(76, 101, 134, 0.3);
+  color: inherit;
+}
+.il-drilldown .menulevel:after {
+  content: " \e606";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-left: 6px;
 }
 .il-drilldown .btn-bulky,
 .il-drilldown .link-bulky {
-  align-items: center;
-  display: flex;
+  background-color: transparent;
 }
-.il-drilldown .il-drilldown-current .btn-bulky,
-.il-drilldown .il-drilldown-current .link-bulky {
-  cursor: auto;
+.il-drilldown .btn-bulky:hover,
+.il-drilldown .link-bulky:hover {
+  background-color: rgba(76, 101, 134, 0.3);
+  color: inherit;
 }
-.il-drilldown .il-drilldown-structure,
-.il-drilldown .il-drilldown-current ul,
-.il-drilldown .il-drilldown-backlink ul,
-.il-drilldown .il-drilldown-visible ul {
-  display: none;
+.il-drilldown .btn-bulky .icon,
+.il-drilldown .link-bulky .icon {
+  align-self: flex-start;
+  margin-top: 3px;
+  margin-right: 5px;
+  filter: invert(50%);
+}
+.il-drilldown .btn-bulky .bulky-label,
+.il-drilldown .link-bulky .bulky-label {
+  flex-grow: 1;
+  white-space: normal;
+  text-align: left;
+  word-break: normal;
 }
 .icon {
   display: inline-block;
@@ -11652,56 +11752,6 @@ div.ilFrame {
     padding: 0 15px;
   }
 }
-/*
-	it would be good to limit the content width in some cases
-	- for many forms 1400px is too wide
-	- but not for all (e.g. question editing if tiny is used)
-	- screens that use tables often need the full width
-	- screens with (container) item lists often look ugly on 1400px (title <-> action arrow distance)
-	1028px is the current max. width of the center column if at least one other column
-	is displayed. This or any higher value could be set for the center column as a max-width,
-	but not for all screens, options:
-	- introduce a limiting class for center col and set this as "default", add another class that deactivates the
-	  limit (-> screens that have wide content need to activate this class)
-	- keep the current wide center col, introduce only a limiting class (-> screens that want a narrow view need
-	  to activate the class)
-	- use a limiting class only on some UI elements, e.g. forms and container item lists
-*/
-#il_center_col {
-  /* max-width: 1028px; */
-}
-/* left navigation area (used, e.g. for explorer trees) */
-.ilLeftNav {
-  top: 0;
-  bottom: 0;
-  width: 300px;
-  float: left;
-  position: absolute;
-  padding: 5px;
-  margin-left: 15px;
-  overflow: auto;
-  background-color: white;
-  border-right: 3px solid #979797;
-  z-index: 100;
-  position: fixed;
-  top: 117px;
-}
-@media only screen and (max-width: 1200px) {
-  .ilLeftNav {
-    /* at last temporary, since it overlaps content */
-    display: none;
-  }
-}
-[dir="rtl"] .ilLeftNav {
-  float: right;
-  margin-left: 0;
-  margin-right: 15px;
-  border-right: none;
-  border-left: 3px solid #979797;
-}
-/* --------------------------------------------------------------
-	"Classic" delos part
--------------------------------------------------------------- */
 /* --------------------------------------------------------------
    GLOBAL STYLES
 -------------------------------------------------------------- */
@@ -12347,72 +12397,6 @@ div.ilPermanentLinkWrapper .ilPermalinkContainer .btn-group {
 div.ilPermanentLinkWrapper .ilPermalinkContainer .input-group-btn {
   width: 28px;
 }
-div.il_Footer {
-  padding: 10px 0;
-  font-size: 90%;
-  text-align: center;
-}
-footer.ilFooter {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px !important;
-  font-size: 0.9em;
-  height: 70px;
-  margin: 0 auto;
-  padding: 20px 0 0;
-  text-align: left;
-  background-color: #4c6586;
-  color: white;
-}
-@media only screen and (max-width: 768px) {
-  footer.ilFooter {
-    height: auto;
-  }
-}
-footer.ilFooter div.ilFooterContainer {
-  color: white;
-  line-height: 1.75;
-  padding: 0 15px;
-}
-footer.ilFooter a.permalink_label,
-footer.ilFooter div.ilFooterContainer > a {
-  color: white;
-  white-space: nowrap;
-}
-footer.ilFooter a.permalink_label:hover,
-footer.ilFooter div.ilFooterContainer > a:hover {
-  color: white;
-}
-@media only screen and (max-width: 768px) {
-  footer.ilFooter a.permalink_label > span.glyphicon {
-    display: inline;
-  }
-}
-footer.ilFooter .ilPermalinkContainer {
-  width: auto;
-  padding-right: 5px;
-  line-height: 22px;
-}
-footer.ilFooter .ilPermalinkContainer > label {
-  display: table-cell;
-  vertical-align: middle;
-  padding-right: 5px;
-}
-@media only screen and (max-width: 768px) {
-  footer.ilFooter .ilPermalinkContainer > label {
-    padding-right: 0;
-    width: 24px;
-  }
-}
-@media only screen and (max-width: 768px) {
-  footer.ilFooter .ilPermalinkContainer {
-    padding-right: 0;
-  }
-}
-[dir="rtl"] footer.ilFooter {
-  text-align: right;
-}
 /* ----------------- invisible border ------------- */
 div.invisible_border {
   margin: 15px;
@@ -12665,40 +12649,6 @@ div.ilBox {
   border: 1px solid #dddddd;
   padding: 10px;
   margin-bottom: 20px;
-}
-/* Top-Bar */
-div.ilTopBar {
-  background-color: #434343;
-  color: white;
-  padding: 5px 10px;
-}
-div.ilTopBar a {
-  color: #f5f5f5;
-}
-div.ilTopBar a:hover,
-div.ilTopBar a:active,
-div.ilTopBar a:focus {
-  color: white;
-}
-div.ilTopBarLeft {
-  float: left;
-}
-[dir="rtl"] div.ilTopBarLeft {
-  float: right;
-}
-div.ilTopBarRight {
-  float: right;
-}
-[dir="rtl"] div.ilTopBarRight {
-  float: left;
-}
-div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
-  margin-right: 25px;
-  color: black;
-}
-[dir="rtl"] div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
-  margin-right: 0;
-  margin-left: 25px;
 }
 div.ilSideBarHead {
   margin-top: 10px;
@@ -13212,56 +13162,6 @@ li.ilExplSecHighlight {
 }
 div.il_ExplorerItemDescription {
   margin-left: 40px;
-}
-a.ilTreeView {
-  position: fixed;
-  top: 117px;
-  z-index: 1020;
-  bottom: 160px;
-  background-color: white;
-  border: 1px solid #dddddd;
-  border-left: none;
-  -webkit-box-shadow: 1px 1px 2px #b9b9b9;
-  box-shadow: 1px 1px 2px #b9b9b9;
-  width: 6px;
-}
-@media only screen and (max-width: 1200px) {
-  a.ilTreeView {
-    /* at last temporary, since it overlaps content */
-    display: none;
-  }
-}
-a.ilTreeView > img {
-  display: inline-block;
-  margin-left: -2px;
-  max-width: inherit;
-  background-color: white;
-  border-right: 2px solid #dddddd;
-  width: 28px;
-  height: 28px;
-}
-a.ilTreeView:hover > img,
-a.ilTreeView:active > img,
-a.ilTreeView:focus > img {
-  margin-left: 0;
-}
-a.ilTreeView:hover,
-a.ilTreeView:active,
-a.ilTreeView:focus {
-  outline: 0;
-}
-[dir="rtl"] a.ilTreeView {
-  border: 1px solid #dddddd;
-  border-right: none;
-}
-[dir="rtl"] a.ilTreeView > img {
-  margin-left: 0;
-  margin-right: -5px;
-}
-[dir="rtl"] a.ilTreeView:hover > img,
-[dir="rtl"] a.ilTreeView:active > img,
-[dir="rtl"] a.ilTreeView:focus > img {
-  margin-right: 0;
 }
 /* Explorer2, jsTree */
 .jstree.jstree-default a {
@@ -14659,465 +14559,6 @@ li.ilWikiBlockItem {
 #block_wikiside_0 .panel-body {
   overflow: visible;
 }
-#ilTopNav {
-  margin: -38px 0 0 65px;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav {
-    min-height: 0;
-    display: block;
-    padding: 0;
-    margin: 0;
-  }
-}
-#ilTopNav.navbar {
-  padding-top: 1px;
-  padding-bottom: 1px;
-  min-height: 33px;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav.navbar {
-    min-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-}
-#ilTopNav.navbar > .navbar-collapse {
-  margin: 0;
-  padding: 0 0 0 5px;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav.navbar > .navbar-collapse:empty + div.navbar-header button.navbar-toggle {
-    display: none;
-  }
-}
-#ilTopNav.navbar-default {
-  background-color: transparent;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-  border: 0 none;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav.navbar-default {
-    background-color: #f9f9f9;
-  }
-}
-#ilTopNav .dropdown-menu {
-  float: left;
-  right: auto;
-  left: 0;
-  min-width: 100%;
-  background-color: white;
-}
-#ilTopNav .dropdown-menu li a {
-  background-color: transparent;
-  color: #5d5d5d;
-}
-#ilTopNav .dropdown-menu li a:hover {
-  background-color: #e2e8ef;
-  color: #363636;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav .dropdown-menu {
-    float: none;
-    left: auto;
-    right: auto;
-  }
-}
-#ilTopNav .navbar-nav {
-  float: left;
-  margin-left: 5px;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav .navbar-nav {
-    float: none;
-    margin-left: 0;
-  }
-}
-#ilTopNav .navbar-nav > li {
-  margin: 0 0 0 10px;
-}
-#ilTopNav .navbar-nav > li > a {
-  margin: 0;
-  padding: 5px 10px 6px;
-  text-transform: uppercase;
-  font-size: 14px;
-  border-top: 4px solid white;
-  background-color: transparent;
-  color: #808080;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav .navbar-nav > li > a {
-    margin: 0 10px 0 0;
-    padding: 5px 10px 6px;
-    border-top: 0;
-    color: #808080;
-  }
-}
-#ilTopNav .navbar-nav > li > a:hover,
-#ilTopNav .navbar-nav > li > a:active,
-#ilTopNav .navbar-nav > li > a:focus {
-  background-color: transparent;
-  color: #808080;
-}
-#ilTopNav .navbar-nav > .active > a,
-#ilTopNav .navbar-nav > .open > a,
-#ilTopNav .navbar-nav > .active > a:hover,
-#ilTopNav .navbar-nav > .open > a:hover,
-#ilTopNav .navbar-nav > .active > a:active,
-#ilTopNav .navbar-nav > .open > a:active,
-#ilTopNav .navbar-nav > .active > a:focus,
-#ilTopNav .navbar-nav > .open > a:focus {
-  outline: 0 none;
-  border-top: 4px solid #4c6586;
-  background-color: #fafafa;
-  color: #808080;
-  -webkit-box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
-  box-shadow: 3px 9px 9px 0px rgba(0, 0, 0, 0.176);
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav .navbar-nav > .active > a,
-  #ilTopNav .navbar-nav > .open > a,
-  #ilTopNav .navbar-nav > .active > a:hover,
-  #ilTopNav .navbar-nav > .open > a:hover,
-  #ilTopNav .navbar-nav > .active > a:active,
-  #ilTopNav .navbar-nav > .open > a:active,
-  #ilTopNav .navbar-nav > .active > a:focus,
-  #ilTopNav .navbar-nav > .open > a:focus {
-    border-top: 0 none;
-    background-color: inherit;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav button.navbar-toggle {
-    position: fixed;
-    top: 0;
-    left: 40px;
-    height: 40px;
-    border-radius: 0;
-    border-width: 0;
-    background-color: #767676;
-    color: #f5f5f5;
-    margin: 0;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav button.navbar-toggle .icon-bar {
-    background-color: #f5f5f5;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav button.navbar-toggle:hover {
-    background-color: #aeaeae;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #ilTopNav button.navbar-toggle:hover .icon-bar {
-    background-color: white;
-  }
-}
-[dir="rtl"] #ilTopNav .dropdown-menu {
-  float: right;
-  left: auto;
-  right: 0;
-  padding: 5px 0;
-  text-align: right;
-}
-[dir="rtl"] #ilTopNav .navbar-nav {
-  float: right;
-  margin-left: 0;
-  margin-right: 70px;
-}
-@media only screen and (max-width: 768px) {
-  [dir="rtl"] #ilTopNav .navbar-nav {
-    margin-right: 0;
-    padding-right: 0;
-  }
-}
-[dir="rtl"] #ilTopNav .navbar-nav > li {
-  margin: 0 10px 0 0;
-}
-@media only screen and (max-width: 768px) {
-  [dir="rtl"] #ilTopNav .navbar-nav > li > a {
-    float: right;
-    width: 100%;
-    margin: 0;
-  }
-}
-[dir="rtl"] #ilTopNav.navbar > .navbar-collapse {
-  padding: 0 5px 0 0;
-}
-@media only screen and (max-width: 768px) {
-  [dir="rtl"] #ilTopNav button.navbar-toggle {
-    left: auto;
-    right: 40px;
-  }
-}
-/* Main Menu Top Title */
-.ilTopTitle {
-  float: left;
-  font-weight: 600;
-  padding: 0 0 0 15px;
-  white-space: nowrap;
-  line-height: 40px;
-}
-@media only screen and (max-width: 768px) {
-  .ilTopTitle {
-    display: none;
-  }
-}
-[dir="rtl"] .ilTopTitle {
-  float: right;
-  padding: 0 15px 0 0;
-}
-@media only screen and (max-width: 768px) {
-  .ilTopTitleVisible {
-    display: block;
-  }
-}
-input.ilOpenIDBox {
-  background: url("images/openid.png") no-repeat 1px 2px white;
-  padding-left: 20px;
-}
-[dir="rtl"] input.ilOpenIDBox {
-  background-position: 2px 1px;
-  padding-left: 0;
-  padding-right: 20px;
-}
-#ilTopBar.ilTopBar {
-  padding: 0;
-  height: 40px;
-  top: 0;
-  z-index: 1040;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopBar.ilTopBar {
-    z-index: 1030;
-  }
-}
-.ilTopFixed {
-  z-index: 1030;
-  position: fixed;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-}
-#ilTopBarNav {
-  float: right;
-  margin: 0;
-  padding: 0;
-  margin-right: 14px;
-  list-style: none outside none;
-}
-@media only screen and (max-width: 768px) {
-  #ilTopBarNav {
-    margin-right: 0;
-  }
-}
-#ilTopBarNav .dropdown-menu {
-  background-color: #aeaeae;
-  border-radius: 0;
-  margin: 0;
-  color: #f5f5f5;
-}
-#ilTopBarNav .dropdown-menu a {
-  background-color: transparent;
-  color: #f5f5f5;
-}
-#ilTopBarNav .dropdown-menu a:hover,
-#ilTopBarNav .dropdown-menu a:active,
-#ilTopBarNav .dropdown-menu a:focus {
-  background-color: #e2e8ef;
-  color: #aeaeae;
-}
-#ilTopBarNav > li {
-  float: left;
-  display: block;
-  position: relative;
-}
-#ilTopBarNav > li > a {
-  margin-right: 1px;
-  display: block;
-  padding: 10px;
-  position: relative;
-  min-width: 40px;
-  height: 40px;
-  text-align: center;
-  background-color: #767676;
-  color: #f5f5f5;
-}
-#ilTopBarNav > li > a:hover,
-#ilTopBarNav > li > a:active,
-#ilTopBarNav > li > a:focus {
-  outline: 0 none;
-  color: white;
-  text-decoration: none;
-  background-color: #aeaeae;
-}
-#ilTopBarNav > .active > a,
-#ilTopBarNav > .open > a,
-#ilTopBarNav > .active > a:hover,
-#ilTopBarNav > .open > a:hover,
-#ilTopBarNav > .active > a:active,
-#ilTopBarNav > .open > a:active,
-#ilTopBarNav > .active > a:focus,
-#ilTopBarNav > .open > a:focus {
-  outline: 0 none;
-  color: white;
-  text-decoration: none;
-  background-color: #aeaeae;
-}
-#ilTopBarNav #userlog > a {
-  padding: 0 10px 0 0;
-}
-#ilTopBarNav #userlog > a img {
-  height: 40px;
-  width: 40px;
-  margin-right: 0px;
-  padding: 5px;
-}
-#ilTopBarNav #userlog .dropdown-menu {
-  min-width: 100%;
-}
-#ilTopBarNav #userlog .dropdown-menu > li > a {
-  padding-left: 50px;
-}
-[dir="rtl"] #ilTopBarNav {
-  float: left;
-  margin: 0;
-  margin-left: 14px;
-  text-align: right;
-}
-[dir="rtl"] #ilTopBarNav .badge {
-  margin-left: 0;
-  margin-right: -5px;
-}
-[dir="rtl"] #ilTopBarNav .dropdown-menu a {
-  text-align: right;
-}
-[dir="rtl"] #ilTopBarNav > li {
-  float: right;
-}
-[dir="rtl"] #ilTopBarNav > li > a {
-  margin-right: 1px;
-}
-[dir="rtl"] #ilTopBarNav #userlog > a {
-  padding: 0 0 0 10px;
-}
-[dir="rtl"] #ilTopBarNav #userlog > a img {
-  margin-left: 0;
-}
-.ilMainHeader {
-  background-color: white;
-  height: 80px;
-  border-bottom: 3px solid #757575;
-}
-@media only screen and (max-width: 768px) {
-  .ilMainHeader {
-    height: auto;
-    border-bottom: 0 none;
-  }
-}
-.ilMainHeader.ilTopFixed {
-  top: 40px;
-}
-@media only screen and (max-width: 768px) {
-  .ilMainHeader.ilTopFixed {
-    height: 0;
-  }
-}
-.ilMainHeader > header > .row > a.navbar-brand {
-  height: auto;
-  display: inline-block;
-  padding: 0;
-  margin: 15px 15px 0;
-}
-@media only screen and (max-width: 768px) {
-  .ilMainHeader > header > .row > a.navbar-brand {
-    height: 0;
-    padding: 0;
-    margin: 0;
-  }
-}
-.ilMainHeader > header > .row > a.navbar-brand > img {
-  display: inline-block;
-  height: 50px;
-  width: 50px;
-}
-@media only screen and (max-width: 768px) {
-  .ilMainHeader > header > .row > a.navbar-brand > img {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 40px;
-    width: 40px;
-  }
-}
-@media only screen and (max-width: 768px) {
-  [dir="rtl"] .ilMainHeader > header > .row > a.navbar-brand > img {
-    left: auto;
-    right: 0;
-  }
-}
-.ilMainMenu {
-  background-color: white;
-}
-.ilMainMenu.ilTopFixed {
-  top: 110px;
-}
-@media only screen and (max-width: 768px) {
-  .ilMainMenu.ilTopFixed {
-    position: fixed;
-    top: 40px;
-    border-bottom: 0 none;
-  }
-}
-.ilMainMenuEntries {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-}
-div.ilMemberViewMainHeader {
-  background-color: #981a0a;
-}
-div.ilTopMemberView {
-  text-align: center;
-}
-div.ilTopMemberView h3 {
-  padding: 0;
-  margin: 0;
-  line-height: 40px;
-}
-@media only screen and (max-width: 768px) {
-  div.ilTopMemberView {
-    display: none;
-  }
-}
-.ilFixedTopSpacer {
-  padding-top: 117px;
-}
-@media only screen and (max-width: 768px) {
-  .ilFixedTopSpacer {
-    margin-top: 40px;
-    padding-top: 0;
-  }
-}
-.ilFixedTopSpacerBarOnly {
-  padding-top: 40px;
-}
-@media only screen and (max-width: 768px) {
-  .ilFixedTopSpacerBarOnly {
-    margin-top: 40px;
-    padding-top: 0;
-  }
-}
-ul.il-mm-selfloading {
-  width: 768px;
-  list-style: none;
-  margin-left: 0;
-  padding-left: 0;
-}
 /* Services/UIComponent/Tabs */
 .nav-tabs > li {
   margin: 0 4px 0 0;
@@ -15756,13 +15197,6 @@ img.ilPollQuestionImage {
 }
 #main_menu_search {
   width: 80%;
-}
-#ilTopBarNav .dropdown-menu #ilMMSearchMenu a,
-#ilTopBarNav .dropdown-menu #ilMMSearchMenu a:hover,
-#ilTopBarNav .dropdown-menu #ilMMSearchMenu a:active,
-#ilTopBarNav .dropdown-menu #ilMMSearchMenu a:focus {
-  background-color: transparent;
-  color: #f5f5f5;
 }
 div.ilMainMenuSearch {
   padding: 0 10px 3px;
@@ -16960,19 +16394,6 @@ div.ilStartupSection form.form-horizontal {
     width: auto;
   }
 }
-div#il_startup_logo img {
-  height: 50px;
-  width: 50px;
-  margin: 15px 15px 0;
-}
-@media only screen and (max-width: 768px) {
-  div#il_startup_logo img {
-    margin: 10px;
-    max-width: 100%;
-    height: 40px;
-    width: 40px;
-  }
-}
 /* Services/Bookmarks */
 #block_pdbookm_0 #tree_div {
   overflow: auto;
@@ -17161,6 +16582,36 @@ div.ilRatingOverlay {
 .ilExcAssignmentInfoTool ul {
   padding-left: 30px;
   margin: 0;
+}
+.read-more-state {
+  display: none;
+}
+.read-more-target {
+  opacity: 0;
+  max-height: 0;
+  font-size: 0;
+  transition: 0.25s ease;
+}
+.read-more-state:checked ~ .read-more-wrap .read-more-target {
+  opacity: 1;
+  font-size: inherit;
+  max-height: 999em;
+}
+.read-more-state ~ .read-more-trigger:before {
+  content: 'Show more';
+}
+.read-more-state:checked ~ .read-more-trigger:before {
+  content: 'Show less';
+}
+.read-more-trigger {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0.5em;
+  color: #757575;
+  font-size: 0.9em;
+  line-height: 2;
+  border: 1px solid #dddddd;
+  border-radius: 0.25em;
 }
 .progress {
   height: 15px;
@@ -19020,24 +18471,14 @@ table.mceToolbar td {
   line-height: 23px;
   min-height: 23px;
 }
-/* basic responsiveness (beta)
-	no more specific section. no more delos_sm.less data (treated as bug)
-	"Responsive" code has to be inserted like:
-	.myClass {
-		...
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			...
-		}
-	}
-*/
-/* print css */
+/* print less */
 @media print {
   * {
     /* see bug 0022342 */
     /* text-shadow: none !important;
-        color: black !important; // Black prints faster: h5bp.com/s
-        background: transparent !important;
-        box-shadow: none !important; */
+    color: black !important; // Black prints faster: h5bp.com/s
+    background: transparent !important;
+    box-shadow: none !important; */
   }
   a,
   a:visited {
@@ -19129,34 +18570,4 @@ table.mceToolbar td {
   a[href]:after {
     content: "";
   }
-}
-.read-more-state {
-  display: none;
-}
-.read-more-target {
-  opacity: 0;
-  max-height: 0;
-  font-size: 0;
-  transition: 0.25s ease;
-}
-.read-more-state:checked ~ .read-more-wrap .read-more-target {
-  opacity: 1;
-  font-size: inherit;
-  max-height: 999em;
-}
-.read-more-state ~ .read-more-trigger:before {
-  content: 'Show more';
-}
-.read-more-state:checked ~ .read-more-trigger:before {
-  content: 'Show less';
-}
-.read-more-trigger {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0 0.5em;
-  color: #757575;
-  font-size: 0.9em;
-  line-height: 2;
-  border: 1px solid #dddddd;
-  border-radius: 0.25em;
 }

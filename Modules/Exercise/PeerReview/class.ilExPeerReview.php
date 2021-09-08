@@ -243,12 +243,10 @@ class ilExPeerReview
             }
         }
         
-        /* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria)
-        if(!$values)
-        {
+        /* #18491 - values can be empty, text is optional (rating/file values are handled internally in criteria) */
+        if (!$values) {
             return false;
         }
-        */
         
         foreach ($this->assignment->getPeerReviewCriteriaCatalogueItems() as $crit) {
             $crit_id = $crit->getId()
@@ -259,10 +257,10 @@ class ilExPeerReview
                 $a_data["giver_id"],
                 $a_data["peer_id"]
             );
-            if (!$crit->validate($values[$crit_id])) {
+            if (!$crit->validate($values[$crit_id] ?? null)) {
                 return false;
             }
-            if ($crit->hasValue($values[$crit_id])) {
+            if ($crit->hasValue($values[$crit_id] ?? null)) {
                 $all_empty = false;
             }
         }

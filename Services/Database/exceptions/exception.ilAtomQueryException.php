@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilAtomQueryException
@@ -21,9 +21,8 @@ class ilAtomQueryException extends ilDatabaseException
 
     /**
      * @param $code
-     * @return string
      */
-    protected function tranlateException($code)
+    protected function tranlateException($code): string
     {
         $message = 'An undefined Exception occured';
         switch ($code) {

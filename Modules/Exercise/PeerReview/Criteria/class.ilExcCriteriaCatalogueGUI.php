@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\GUIRequest;
+
 /**
  * Class ilExcCriteriaCatalogueGUI
  *
@@ -16,6 +18,7 @@ class ilExcCriteriaCatalogueGUI
     protected ilToolbarGUI $toolbar;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjExercise $exc_obj;
+    protected GUIRequest $request;
     
     public function __construct(ilObjExercise $a_exc_obj)
     {
@@ -28,6 +31,8 @@ class ilExcCriteriaCatalogueGUI
         $this->toolbar = $DIC->toolbar();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->exc_obj = $a_exc_obj;
+
+        $this->request = $DIC->exercise()->internal()->gui()->request();
     }
 
     /**
@@ -47,7 +52,7 @@ class ilExcCriteriaCatalogueGUI
                 $ilTabs->clearTargets();
                 $ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, ""));
                 $ilCtrl->saveParameter($this, "cat_id");
-                $crit_gui = new ilExcCriteriaGUI($_REQUEST["cat_id"]);
+                $crit_gui = new ilExcCriteriaGUI($this->request->getCatalogueId());
                 $ilCtrl->forwardCommand($crit_gui);
                 break;
             
@@ -86,8 +91,9 @@ class ilExcCriteriaCatalogueGUI
         $all_cat = ilExcCriteriaCatalogue::getInstancesByParentId($this->exc_obj->getId());
                 
         $pos = 0;
-        asort($_POST["pos"]);
-        foreach (array_keys($_POST["pos"]) as $id) {
+        $req_positions = $this->request->getPositions();
+        asort($req_positions);
+        foreach (array_keys($req_positions) as $id) {
             if (array_key_exists($id, $all_cat)) {
                 $pos += 10;
                 $all_cat[$id]->setPosition($pos);
@@ -105,8 +111,8 @@ class ilExcCriteriaCatalogueGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         
-        $ids = $_POST["id"];
-        if (!sizeof($ids)) {
+        $ids = $this->request->getCatalogueIds();
+        if (count($ids) == 0) {
             ilUtil::sendInfo($lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
         }
@@ -131,8 +137,8 @@ class ilExcCriteriaCatalogueGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        $ids = $_POST["id"];
-        if (!sizeof($ids)) {
+        $ids = $this->request->getCatalogueIds();
+        if (count($ids) == 0) {
             $ilCtrl->redirect($this, "view");
         }
         
@@ -237,8 +243,8 @@ class ilExcCriteriaCatalogueGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $id = (int) $_REQUEST["cat_id"];
-        if ($id) {
+        $id = $this->request->getCatalogueId();
+        if ($id > 0) {
             $cat_obj = new ilExcCriteriaCatalogue($id);
             if ($cat_obj->getParent() == $this->exc_obj->getId()) {
                 $ilCtrl->setParameter($this, "cat_id", $id);

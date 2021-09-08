@@ -39,6 +39,7 @@ const ACTIONS = {
   FORMAT_CANCEL: "format.cancel",             // cancel format selection
   FORMAT_PARAGRAPH: "format.paragraph",   // select paragraph format
   FORMAT_SECTION: "format.section",       // select section format
+  FORMAT_MEDIA: "format.media",       // select section format
   MULTI_DELETE: "multi.delete",       // delete selection
   MULTI_ACTIVATE: "multi.activate",       // activate selection
   SWITCH_SINGLE: "switch.single",       // single mode: click selects single component for editing

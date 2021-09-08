@@ -22,10 +22,6 @@ class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCas
             ->disableOriginalConstructor()
             ->getMock();
 
-        $object
-            ->expects($this->never())
-            ->method('saveCertificateVisibility');
-
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($object);
 

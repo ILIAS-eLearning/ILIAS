@@ -18,42 +18,60 @@ function base()
     $ctrl = $DIC->ctrl();
 
     //Step 1: define the inputs
-    $date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
+    $date = $ui->input()->field()->dateTime("Pick a date/time", "Pick any date you want. It will be shown in format YYYY-MM-DD");
+
     $formatted = $date
         ->withMinValue(new \DateTimeImmutable())
-        ->withFormat($data->dateFormat()->germanShort());
-    $time = $date->withTimeOnly(true);
-    $both = $date->withUseTime(true);
+        ->withFormat($data->dateFormat()->germanShort())
+        ->withLabel('future only')
+        ->withByline('Only allows to pick a date in the future. It will be shown in format DD.MM.YYYY');
+
+    $time = $date->withTimeOnly(true)
+        ->withLabel('time only')
+        ->withByline('Only pick a time. It will be shown in format HH:mm');
+
+    $both = $date->withUseTime(true)
+        ->withLabel('both date and time')
+        ->withByline('Pick any date and time you want. It will be shown in format YYYY-MM-DD HH:mm and be saved for your local time zone.');
 
     //setting a timezone will return a date with this timezone.
     $tz = 'Asia/Tokyo';
-    $timezoned = $both->withTimezone($tz)->withByline('Result-value will have TZ ' . $tz);
+    $timezoned = $both->withTimezone($tz)
+        ->withValue('')
+        ->withLabel('to Tokyo time')
+        ->withByline('Pick any date and time you want. It will be shown in format YYYY-MM-DD HH:mm and be saved for Tokyo time zone.');
 
     //if you want a date converted to the timezone, do it on the date:
     $date_now = new \DateTime('now');
     $date_zoned = new \DateTime('now', new \DateTimeZone($tz));
 
-
     //here is the usage of Data/DateFormat
     $format = $timezoned->getFormat()->toString() . ' H:i';
-    $timezoned_preset1 = $timezoned->withValue($date_now->format($format))
-        ->withByline('This is local "now"');
-    $timezoned_preset2 = $timezoned->withValue($date_zoned->format($format))
-        ->withByline('This is "now" in ' . $tz);
+    $timezoned_preset1 = $timezoned
+        ->withValue($date_now->format($format))
+        ->withLabel('to Tokyo time with local preset')
+        ->withByline('Local time+date is preset. However, output will be in Tokyo timezone');
+    $timezoned_preset2 = $timezoned
+        ->withValue($date_zoned->format($format))
+        ->withLabel('Tokyo time, both preset and output')
+        ->withByline('Tokyo time+date is preset. Output is also Tokyo time.');
+
+    $disabled =  $date
+        ->withValue($date_now->format($format))
+        ->withDisabled(true)
+        ->withLabel('disabled')
+        ->withByline('You cannot pick anything, as the field is disabled');
 
     //Step 2: define form and form actions
     $form = $ui->input()->container()->form()->standard('#', [
         'date' => $date,
         'formatted' => $formatted,
-        'time' => $time,
-        'both' => $both,
-        'timezoned' => $timezoned,
-        'timezoned_preset1' => $timezoned_preset1,
-        'timezoned_preset2' => $timezoned_preset2,
-        'disabled' => $date
-            ->withValue($date_now->format($format))
-            ->withLabel('disabled')
-            ->withDisabled(true)
+        'time_only' => $time,
+        'both_datetime' => $both,
+        'to_tokyotime' => $timezoned,
+        'tokyotime_local_preset' => $timezoned_preset1,
+        'tokyotime' => $timezoned_preset2,
+        'disabled' => $disabled
     ]);
 
     //Step 3: implement some form data processing.

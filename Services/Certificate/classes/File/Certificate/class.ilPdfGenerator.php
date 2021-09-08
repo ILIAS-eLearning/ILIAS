@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,39 +6,17 @@
  */
 class ilPdfGenerator
 {
-    /**
-     * @var ilUserCertificateRepository
-     */
-    private $certificateRepository;
+    private ilUserCertificateRepository $certificateRepository;
+    private ilLogger $logger;
+    private ilCertificateRpcClientFactoryHelper $rpcHelper;
+    private ilCertificatePdfFileNameFactory $pdfFilenameFactory;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCertificateRpcClientFactoryHelper|null
-     */
-    private $rpcHelper;
-
-    /**
-     * @var ilCertificatePdfFileNameFactory|null
-     */
-    private $pdfFilenameFactory;
-
-    /**
-     * @param ilUserCertificateRepository $userCertificateRepository
-     * @param ilLogger $logger
-     * @param ilCertificateRpcClientFactoryHelper|null $rpcHelper
-     * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
-     * @param ilLanguage|null $lng
-     */
     public function __construct(
         ilUserCertificateRepository $userCertificateRepository,
         ilLogger $logger,
-        ilCertificateRpcClientFactoryHelper $rpcHelper = null,
-        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
-        ilLanguage $lng = null
+        ?ilCertificateRpcClientFactoryHelper $rpcHelper = null,
+        ?ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 
@@ -61,11 +39,11 @@ class ilPdfGenerator
     }
 
     /**
-     * @param $userCertificateId
-     * @return mixed
+     * @param int $userCertificateId
+     * @return string
      * @throws ilException
      */
-    public function generate(int $userCertificateId)
+    public function generate(int $userCertificateId) : string
     {
         $certificate = $this->certificateRepository->fetchCertificate($userCertificateId);
 
@@ -73,9 +51,9 @@ class ilPdfGenerator
     }
 
     /**
-     * @param $userId
-     * @param $objId
-     * @return mixed
+     * @param int $userId
+     * @param int $objId
+     * @return string
      * @throws ilException
      */
     public function generateCurrentActiveCertificate(int $userId, int $objId) : string
@@ -85,6 +63,14 @@ class ilPdfGenerator
         return $this->createPDFScalar($certificate);
     }
 
+    /**
+     * @param int $userId
+     * @param int $objId
+     * @return string
+     * @throws ilDatabaseException
+     * @throws ilException
+     * @throws ilObjectNotFoundException
+     */
     public function generateFileName(int $userId, int $objId) : string
     {
         $certificate = $this->certificateRepository->fetchActiveCertificateForPresentation($userId, $objId);
@@ -99,10 +85,6 @@ class ilPdfGenerator
         return $pdfFileName;
     }
 
-    /**
-     * @param $certificate
-     * @return mixed
-     */
     private function createPDFScalar(ilUserCertificate $certificate) : string
     {
         $certificateContent = $certificate->getCertificateContent();

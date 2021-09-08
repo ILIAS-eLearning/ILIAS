@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\GUIRequest;
+
 /**
  * Submission team
  *
@@ -22,11 +24,17 @@ class ilExSubmissionTeamGUI
     protected ilExAssignment $assignment;
     protected ilExSubmission $submission;
     protected ?ilExAssignmentTeam $team;
+    /**
+     * @var int[]
+     */
+    protected array $requested_team_ids = [];
+    protected GUIRequest $request;
     
     public function __construct(
         ilObjExercise $a_exercise,
         ilExSubmission $a_submission
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->toolbar = $DIC->toolbar();
@@ -45,6 +53,9 @@ class ilExSubmissionTeamGUI
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->tpl = $tpl;
+
+        $this->request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_team_ids = $this->request->getTeamIds();
     }
 
     /**
@@ -296,20 +307,18 @@ class ilExSubmissionTeamGUI
         $tpl = $this->tpl;
         
         if (!$this->submission->isTutor()) {
-            $ids = [];
             if ($a_full_delete) {
                 $ids = $this->team->getMembers();
-            } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
-                $ids = $_POST["id"];
+            } else {
+                $ids = $this->requested_team_ids;
             }
-            $ids = array_filter(array_map('intval', $ids));
 
             if (0 === count($ids) && !$this->canEditTeam()) {
                 ilUtil::sendFailure($this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "submissionScreenTeam");
             }
         } else {
-            $ids = array_filter(array_map('intval', array($_GET["id"])));
+            $ids = $this->requested_team_ids;
             if (0 === count($ids)) {
                 $this->returnToParentObject();
             }
@@ -369,8 +378,8 @@ class ilExSubmissionTeamGUI
         $ids = [];
         if ($a_full_delete) {
             $ids = $this->team->getMembers();
-        } elseif (isset($_POST["id"]) && is_array($_POST["id"])) {
-            $ids = $_POST["id"];
+        } else {
+            $ids = $this->requested_team_ids;
         }
         $ids = array_filter(array_map('intval', $ids));
 
@@ -450,7 +459,58 @@ class ilExSubmissionTeamGUI
         $tbl = new ilExAssignmentTeamLogTableGUI($this, "showTeamLog", $this->team);
         $this->tpl->setContent($tbl->getHTML());
     }
-        
+
+    /**
+     * Get Adopt form
+     */
+    public function getAdoptForm() : ilPropertyFormGUI
+    {
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $ilUser = $this->user;
+
+        $form = new ilPropertyFormGUI();
+        $form->setTitle($lng->txt("exc_team_assignment_adopt_user"));
+        $form->setFormAction($ctrl->getFormAction($this, "createAdoptedTeam"));
+
+        $teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
+        $teams->setValue(-1);
+
+        $teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none_user"), -1));
+
+        $current_map = ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId());
+
+        $options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
+        foreach ($options as $id => $item) {
+            $members = array();
+            $free = false;
+            foreach ($item["user_team"] as $user_id) {
+                $members[$user_id] = ilUserUtil::getNamePresentation($user_id);
+
+                if (array_key_exists($user_id, $current_map)) {
+                    $members[$user_id] .= " (" . $lng->txt("exc_team_assignment_adopt_already_assigned") . ")";
+                } else {
+                    $free = true;
+                }
+            }
+            asort($members);
+            $members = implode("<br />", $members);
+            $option = new ilRadioOption($item["title"], $id);
+            $option->setInfo($members);
+            if (!$free) {
+                $option->setDisabled(true);
+            }
+            $teams->addOption($option);
+        }
+
+        $form->addItem($teams);
+
+        $form->addCommandButton("createAdoptedTeam", $lng->txt("save"));
+        $form->addCommandButton("returnToParent", $lng->txt("cancel"));
+
+        return $form;
+    }
+
     public function createTeamObject() : void
     {
         $ilCtrl = $this->ctrl;
@@ -461,44 +521,7 @@ class ilExSubmissionTeamGUI
         if ($this->submission->canSubmit()) {
             $options = ilExAssignmentTeam::getAdoptableTeamAssignments($this->assignment->getExerciseId(), $this->assignment->getId(), $ilUser->getId());
             if (sizeof($options)) {
-                $form = new ilPropertyFormGUI();
-                $form->setTitle($lng->txt("exc_team_assignment_adopt_user"));
-                $form->setFormAction($ilCtrl->getFormAction($this, "createAdoptedTeam"));
-
-                $teams = new ilRadioGroupInputGUI($lng->txt("exc_assignment"), "ass_adpt");
-                $teams->setValue(-1);
-
-                $teams->addOption(new ilRadioOption($lng->txt("exc_team_assignment_adopt_none_user"), -1));
-                
-                $current_map = ilExAssignmentTeam::getAssignmentTeamMap($this->assignment->getId());
-
-                foreach ($options as $id => $item) {
-                    $members = array();
-                    $free = false;
-                    foreach ($item["user_team"] as $user_id) {
-                        $members[$user_id] = ilUserUtil::getNamePresentation($user_id);
-                        
-                        if (array_key_exists($user_id, $current_map)) {
-                            $members[$user_id] .= " (" . $lng->txt("exc_team_assignment_adopt_already_assigned") . ")";
-                        } else {
-                            $free = true;
-                        }
-                    }
-                    asort($members);
-                    $members = implode("<br />", $members);
-                    $option = new ilRadioOption($item["title"], $id);
-                    $option->setInfo($members);
-                    if (!$free) {
-                        $option->setDisabled(true);
-                    }
-                    $teams->addOption($option);
-                }
-
-                $form->addItem($teams);
-
-                $form->addCommandButton("createAdoptedTeam", $lng->txt("save"));
-                $form->addCommandButton("returnToParent", $lng->txt("cancel"));
-
+                $form = $this->getAdoptForm();
                 $tpl->setContent($form->getHTML());
                 return;
             }
@@ -524,9 +547,11 @@ class ilExSubmissionTeamGUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         $lng = $this->lng;
-        
+
+        $form = $this->getAdoptForm();
+        $form->checkInput();
         if ($this->submission->canSubmit()) {
-            $src_ass_id = (int) $_POST["ass_adpt"];
+            $src_ass_id = $form->getInput("ass_adpt");
             if ($src_ass_id > 0) {
                 ilExAssignmentTeam::adoptTeams($src_ass_id, $this->assignment->getId(), $ilUser->getId(), $this->exercise->getRefId());
             } else {
@@ -545,13 +570,14 @@ class ilExSubmissionTeamGUI
      */
     public function addUserFromAutoCompleteObject() : void
     {
-        if (!strlen(trim($_POST['user_login']))) {
+        $user_login = $this->request->getUserLogin();
+        if ($user_login == "") {
             ilUtil::sendFailure($this->lng->txt('msg_no_search_string'));
             $this->submissionScreenTeamObject();
             return;
         }
         
-        $users = explode(',', $_POST['user_login']);
+        $users = explode(',', $user_login);
 
         $user_ids = array();
         foreach ($users as $user) {

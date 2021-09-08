@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilAtomQuery
- *
  * Use ilAtomQuery to fire Database-Actions which have to be done without beeing influenced by other queries or which can influence other queries as
  * well. Depending on the current Database-engine, this can be done by using transaction or with table-locks
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilAtomQuery
@@ -25,20 +23,13 @@ interface ilAtomQuery
     const ANO_NON_REPEATED_READ = 3;
     const ANO_PHANTOM = 4;
 
-
     /**
      * Add table-names which are influenced by your queries, MyISAm has to lock those tables.
      * You get an ilTableLockInterface with further possibilities, e.g.:
-     *
      * $ilAtomQuery->addTableLock('my_table')->lockSequence(true)->aliasName('my_alias');
-     *
      * the lock-level is determined by ilAtomQuery
-     *
-     * @param $table_name
-     * @return \ilTableLockInterface
      */
-    public function addTableLock($table_name);
-
+    public function addTableLock(string $table_name) : ilTableLockInterface;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -46,22 +37,17 @@ interface ilAtomQuery
      * $ilAtomQuery->addQueryClosure( function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
      *        $ilDB->doStuff();
      *    });
-     *
-     *
      * An example (Callable Class):
      * class ilMyAtomQueryClass {
      *      public function __invoke(ilDBInterface $ilDB) {
      *          $ilDB->doStuff();
      *      }
      * }
-     *
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     *
      * @param \Callable $query
      * @throws ilAtomQueryException
      */
-    public function addQueryCallable(callable $query);
-
+    public function addQueryCallable(callable $query) : void;
 
     /**
      * Every action on the database during this isolation has to be passed as Callable to ilAtomQuery.
@@ -69,51 +55,36 @@ interface ilAtomQuery
      * $ilAtomQuery->addQueryClosure( function (ilDBInterface $ilDB) use ($new_obj_id, $current_id) {
      *        $ilDB->doStuff();
      *    });
-     *
-     *
      * An example (Callable Class):
      * class ilMyAtomQueryClass {
      *      public function __invoke(ilDBInterface $ilDB) {
      *          $ilDB->doStuff();
      *      }
      * }
-     *
      * $ilAtomQuery->addQueryClosure(new ilMyAtomQueryClass());
-     *
      * @param \Callable $query
      * @throws ilAtomQueryException
      */
-    public function replaceQueryCallable(callable $query);
-
+    public function replaceQueryCallable(callable $query) : void;
 
     /**
      * Fire your Queries
-     *
      * @throws \ilAtomQueryException
      */
-    public function run();
-
+    public function run() : void;
 
     /**
-     * @param $isolation_level
      * @throws \ilAtomQueryException
      */
-    public static function checkIsolationLevel($isolation_level);
-
+    public static function checkIsolationLevel(int $isolation_level) : void;
 
     /**
      * Returns the current Isolation-Level
-     *
-     * @return int
      */
-    public function getIsolationLevel();
-
+    public function getIsolationLevel() : int;
 
     /**
      * Provides a check if your callable is ready to be used in ilAtomQuery
-     *
-     * @param callable $query
-     * @return bool
      */
-    public function checkCallable(callable $query);
+    public function checkCallable(callable $query) : bool;
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,22 +7,13 @@
  */
 class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private array $placeholder;
+    private ilLanguage $language;
 
-    /**
-     * @var ilLanguage
-     */
-    private $language;
-
-    /**
-     * @param ilLanguage $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
-    public function __construct(ilLanguage $language, ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null)
-    {
+    public function __construct(
+        ilLanguage $language,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+    ) {
         if (null === $userDefinedFieldPlaceHolderDescriptionObject) {
             $userDefinedFieldPlaceHolderDescriptionObject = new ilUserDefinedFieldsPlaceholderDescription();
         }
@@ -31,7 +22,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
         $language->loadLanguageModule('certificate');
         $this->language = $language;
 
-        $this->placeholder = array(
+        $this->placeholder = [
             'USER_LOGIN' => $language->txt('certificate_ph_login'),
             'USER_FULLNAME' => $language->txt('certificate_ph_fullname'),
             'USER_FIRSTNAME' => $language->txt('certificate_ph_firstname'),
@@ -48,21 +39,19 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
             'USER_MATRICULATION' => $language->txt('certificate_ph_matriculation'),
             'DATE' => $language->txt("certificate_ph_date"),
             'DATETIME' => $language->txt("certificate_ph_datetime"),
-        );
+        ];
 
         $this->placeholder = array_merge($this->placeholder, $userDefinedPlaceholderHtmlDescription);
     }
-
 
     /**
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
-     * @param null $template
-     * @return array|mixed
+     * @param ilTemplate|null $template
+     * @return string
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');
@@ -83,8 +72,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {

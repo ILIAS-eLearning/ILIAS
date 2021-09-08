@@ -11,10 +11,10 @@
 class ilExcCriteriaCatalogue
 {
     protected ilDBInterface $db;
-    protected int $id;
+    protected ?int $id = null;
     protected ?int $parent;
     protected ?string $title;
-    protected int $pos;
+    protected int $pos = 0;
     
     public function __construct(int $a_id = null)
     {

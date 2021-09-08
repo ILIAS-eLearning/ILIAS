@@ -1,33 +1,23 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilPortfolioCertificateFileService
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
+    private Filesystem $filesystem;
+    private ilLogger $logger;
+    private const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
+    private const CERTIFICATE_FILENAME = 'certificate.pdf';
 
-    /**
-     * @var ilLogger|null
-     */
-    private $logger;
-
-
-    const PERSISTENT_CERTIFICATES_DIRECTORY = 'PersistentCertificates/';
-
-    const CERTIFICATE_FILENAME = 'certificate.pdf';
-
-    /**
-     * @param Filesystem|null $filesystem
-     * @param ilLogger        $logger
-     */
-    public function __construct(Filesystem $filesystem = null, ilLogger $logger = null)
+    public function __construct(?Filesystem $filesystem = null, ?ilLogger $logger = null)
     {
         global $DIC;
 
@@ -45,11 +35,11 @@ class ilPortfolioCertificateFileService
     /**
      * @param int $userId
      * @param int $objectId
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws IOException
      * @throws ilException
      */
-    public function createCertificateFile(int $userId, int $objectId)
+    public function createCertificateFile(int $userId, int $objectId) : void
     {
         $userCertificateRepository = new ilUserCertificateRepository();
 
@@ -73,12 +63,12 @@ class ilPortfolioCertificateFileService
     }
 
     /**
-     * @param $userId
-     * @param $objectId
+     * @param int $userId
+     * @param int $objectId
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function deliverCertificate(int $userId, int $objectId)
+    public function deliverCertificate(int $userId, int $objectId) : void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId;
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;
@@ -90,10 +80,10 @@ class ilPortfolioCertificateFileService
             $userCertificate = $userCertificateRepository->fetchActiveCertificateForPresentation($userId, $objectId);
 
             $downloadFilePath = CLIENT_DATA_DIR . '/' . $completePath;
-            $delivery = new \ilFileDelivery($downloadFilePath);
-            $delivery->setMimeType(\ilMimeTypeUtil::APPLICATION__PDF);
+            $delivery = new ilFileDelivery($downloadFilePath);
+            $delivery->setMimeType(ilMimeTypeUtil::APPLICATION__PDF);
             $delivery->setConvertFileNameToAsci(true);
-            $delivery->setDownloadFileName(\ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf'));
+            $delivery->setDownloadFileName(ilFileUtils::getValidFilename($userCertificate->getObjectTitle() . '.pdf'));
 
             $delivery->deliver();
         }
@@ -101,9 +91,9 @@ class ilPortfolioCertificateFileService
 
     /**
      * @param int $userId
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws IOException
      */
-    public function deleteUserDirectory(int $userId)
+    public function deleteUserDirectory(int $userId) : void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
@@ -115,10 +105,10 @@ class ilPortfolioCertificateFileService
     /**
      * @param int $userId
      * @param int $objectId
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public function deleteCertificateFile(int $userId, int $objectId)
+    public function deleteCertificateFile(int $userId, int $objectId) : void
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId;
 
@@ -129,14 +119,13 @@ class ilPortfolioCertificateFileService
         }
     }
 
-
     /**
      * @param int $userId
      * @param int $objectId
      * @return string
      * @throws ilException
      */
-    public function createCertificateFilePath(int $userId, int $objectId)
+    public function createCertificateFilePath(int $userId, int $objectId) : string
     {
         $dirPath = self::PERSISTENT_CERTIFICATES_DIRECTORY . $userId . '/' . $objectId . '/';
         $fileName = $objectId . '_' . self::CERTIFICATE_FILENAME;

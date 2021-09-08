@@ -71,7 +71,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
         $last_finished_step = $execution_log->getLastFinishedStep($this->steps_class);
         if ($last_started_step !== $last_finished_step) {
             $this->throwStepNotFinishedException($last_started_step, $last_finished_step);
-            throw \LogicException(
+            throw new LogicException(
                 "ilDatabaseUpdateStepExecutionLog::throwStepNotFinishedException should throw an exception."
             );
         }

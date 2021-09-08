@@ -15,7 +15,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @var ilDefaultPlaceholderValues
      */
-    private $defaultPlaceHolderValuesObject;
+    private $defaultPlaceholderValuesObject;
 
     /**
      * @var ilCertificateObjectHelper|null
@@ -75,7 +75,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -103,9 +103,9 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         $this->dateHelper = $dateHelper;
     }
 
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $placeholders['OBJECT_TITLE'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_object_title'));
         $placeholders['OBJECT_DESCRIPTION'] = $this->utilHelper->prepareFormOutput($this->language->txt('lti_cert_ph_object_description'));
@@ -118,7 +118,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
 
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         /* @var ilObjLTIConsumer $object */
         $object = $this->objectHelper->getInstanceByObjId($objId);

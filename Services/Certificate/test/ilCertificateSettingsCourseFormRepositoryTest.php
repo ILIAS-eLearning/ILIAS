@@ -8,7 +8,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
 {
     public function testSaveSettings()
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -101,7 +101,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
 
     public function testFetchFormFieldData()
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
             ->getMock();
 

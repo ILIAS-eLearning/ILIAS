@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,5 @@
  */
 interface ilCertificateFilename
 {
-    /**
-     * @param ilUserCertificatePresentation $presentation
-     * @return string
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string;
 }

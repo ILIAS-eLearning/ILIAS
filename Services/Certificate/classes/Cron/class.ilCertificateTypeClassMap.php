@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,21 +6,24 @@
  */
 class ilCertificateTypeClassMap
 {
-    private $typeClassMap = array(
-        'crs' => array('placeholder' => ilCoursePlaceholderValues::class),
-        'tst' => array('placeholder' => ilTestPlaceHolderValues::class),
-        'exc' => array('placeholder' => ilExercisePlaceHolderValues::class),
-        'cmix' => array('placeholder' => ilCmiXapiPlaceholderValues::class),
-        'lti' => array('placeholder' => ilLTIConsumerPlaceholderValues::class),
-        'sahs' => array('placeholder' => ilScormPlaceholderValues::class),
-    );
+    /**
+     * @var array<string, array{placeholder: string}>
+     */
+    private array $typeClassMap = [
+        'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
+        'tst' => ['placeholder' => ilTestPlaceholderValues::class],
+        'exc' => ['placeholder' => ilExercisePlaceholderValues::class],
+        'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
+        'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
+        'sahs' => ['placeholder' => ilScormPlaceholderValues::class]
+    ];
 
     /**
      * @param string $type
      * @return string
      * @throws ilException
      */
-    public function getPlaceHolderClassNameByType($type) : string
+    public function getPlaceHolderClassNameByType(string $type) : string
     {
         if (false === $this->typeExistsInMap($type)) {
             throw new ilException('The given type ' . $type . 'is not mapped as a class on the class map');
@@ -29,11 +32,7 @@ class ilCertificateTypeClassMap
         return $this->typeClassMap[$type]['placeholder'];
     }
 
-    /**
-     * @param string $type
-     * @return bool
-     */
-    public function typeExistsInMap($type) : bool
+    public function typeExistsInMap(string $type) : bool
     {
         return array_key_exists($type, $this->typeClassMap);
     }

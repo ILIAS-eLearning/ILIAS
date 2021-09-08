@@ -11,6 +11,12 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 {
     protected int $requested_ass_id;
     protected string $requested_old_name;
+    protected string $requested_new_name;
+    protected array $requested_order;
+    /**
+     * @var string[]
+     */
+    protected array $requested_file;
 
     public function __construct($a_main_directory)
     {
@@ -18,8 +24,11 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         global $DIC;
 
         $request = $DIC->exercise()->internal()->gui()->request();
-        $this->requested_ass_id = $request->getRequestedAssId();
-        $this->requested_old_name = $request->getRequestedOldName();
+        $this->requested_ass_id = $request->getAssId();
+        $this->requested_old_name = $request->getOldName();
+        $this->requested_new_name = $request->getNewName();
+        $this->requested_order = $request->getOrder();
+        $this->requested_file = $request->getFiles();
 
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_main_directory);
@@ -56,7 +65,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
         $ilCtrl = $this->ctrl;
 
         if ($this->requested_ass_id > 0) {
-            ilExAssignment::saveInstructionFilesOrderOfAssignment($this->requested_ass_id, $_POST["order"]);
+            ilExAssignment::saveInstructionFilesOrderOfAssignment($this->requested_ass_id, $this->requested_order);
             $ilCtrl->redirect($this, "listFiles");
         }
     }
@@ -64,7 +73,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     public function deleteFile() : void
     {
         if ($this->requested_ass_id > 0) {
-            ilExAssignment::instructionFileDeleteOrder($this->requested_ass_id, $_POST["file"]);
+            ilExAssignment::instructionFileDeleteOrder($this->requested_ass_id, $this->requested_file);
 
             parent::deleteFile();
         }
@@ -76,7 +85,7 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
     public function renameFile() : void
     {
         if ($this->requested_ass_id > 0) {
-            $new_name = str_replace("..", "", ilUtil::stripSlashes($_POST["new_name"]));
+            $new_name = str_replace("..", "", ilUtil::stripSlashes($this->requested_new_name));
             $old_name = str_replace("/", "", $this->requested_old_name);
 
             if ($new_name != $old_name) {

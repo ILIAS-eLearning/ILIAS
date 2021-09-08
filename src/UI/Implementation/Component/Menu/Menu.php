@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,7 +7,6 @@ namespace ILIAS\UI\Implementation\Component\Menu;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Menu as IMenu;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Basic Menu Control
@@ -16,11 +14,24 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 abstract class Menu implements IMenu\Menu
 {
     use ComponentHelper;
-    use JavaScriptBindable;
+
     /**
-     * @var \ILIAS\UI\Component\Component []
+     * @var string
+     */
+    protected $label;
+
+    /**
+     * @var Component[]
      */
     protected $items = [];
+
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
+    }
 
     /**
      * @inheritdoc
@@ -30,9 +41,6 @@ abstract class Menu implements IMenu\Menu
         return $this->items;
     }
 
-    /**
-     * @param array	$items
-     */
     protected function checkItemParameter(array $items)
     {
         $classes = [

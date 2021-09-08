@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDBConstants
@@ -76,10 +76,7 @@ class ilDBConstants
     const PREPARE_MANIP = false;
     // Other
     const MB4_REPLACEMENT = "?";
-    /**
-     * @var array
-     */
-    protected static $descriptions = array(
+    protected static array $descriptions = array(
         // Main
         ilDBConstants::TYPE_MYSQL => "MySQL 5.5.x or higher (MyISAM engine)",
         ilDBConstants::TYPE_MYSQLI => "MySQL 5.5.x or higher (MyISAM engine)",
@@ -96,9 +93,9 @@ class ilDBConstants
 
 
     /**
-     * @return array
+     * @return string[]
      */
-    public static function getInstallableTypes()
+    public static function getInstallableTypes(): array
     {
         return array(
             // Main
@@ -112,10 +109,9 @@ class ilDBConstants
 
 
     /**
-     * @param bool $with_descriptions
-     * @return array
+     * @return mixed[]
      */
-    public static function getAvailableTypes($with_descriptions = true)
+    public static function getAvailableTypes(bool $with_descriptions = true): array
     {
         $types = self::getSupportedTypes();
         if ($with_descriptions) {
@@ -130,10 +126,7 @@ class ilDBConstants
     }
 
 
-    /**
-     * @return array
-     */
-    public static function getSupportedTypes()
+    public static function getSupportedTypes(): array
     {
         return array(
             ilDBConstants::TYPE_MYSQL,
@@ -146,7 +139,7 @@ class ilDBConstants
     /**
      * @return string[]
      */
-    public static function getAvailableCollations()
+    public static function getAvailableCollations(): array
     {
         return [
             ilDBConstants::MYSQL_COLLATION_UTF8,
@@ -173,9 +166,8 @@ class ilDBConstants
 
     /**
      * @param $type
-     * @return string
      */
-    public static function describe($type)
+    public static function describe($type): string
     {
         return self::$descriptions[$type];
     }

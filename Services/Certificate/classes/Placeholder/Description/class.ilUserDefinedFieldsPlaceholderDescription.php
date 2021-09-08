@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,14 +6,11 @@
  */
 class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    private $placeholder;
+    private array $placeholder;
 
-    /**
-     * @param ilUserDefinedFields|null $userDefinedFieldsObject
-     */
-    public function __construct(ilUserDefinedFields $userDefinedFieldsObject = null)
+    public function __construct(?ilUserDefinedFields $userDefinedFieldsObject = null)
     {
-        $this->placeholder = array();
+        $this->placeholder = [];
 
         if (null === $userDefinedFieldsObject) {
             $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
@@ -32,7 +29,6 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array

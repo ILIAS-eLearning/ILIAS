@@ -121,7 +121,8 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilObjectDefinitionProcessor($db),
             new \ilPDFGenerationDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
-            new \ilSecurePathDefinitionProcessor($db)
+            new \ilSecurePathDefinitionProcessor($db),
+            new \ilCtrlBaseclassDefinitionProcessor($db)
         );
         $reader->purge();
         $reader->readComponentDefinitions();

@@ -37,7 +37,7 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 
         $request = $DIC->exercise()->internal()->gui()->request();
         $this->random_manager = $DIC->exercise()->internal()->domain()->assignment()->randomAssignments(
-            $request->getRequestedExercise()
+            $request->getExercise()
         );
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -86,12 +86,13 @@ class ilAssignmentsTableGUI extends ilTable2GUI
                 $data[$idx]["peer_invalid"] = true;
                 $peer_review = new ilExPeerReview(new ilExAssignment($row["id"]));
                 $peer_reviews = $peer_review->validatePeerReviewGroups();
-                $data[$idx]["peer_invalid"] = $peer_reviews["invalid"];
+                if (is_array($peer_reviews)) {
+                    $data[$idx]["peer_invalid"] = $peer_reviews["invalid"];
+                }
             }
             $data[$idx]["ass_type"] = $this->types->getById($row["type"]);
             $data[$idx]["type"] = $data[$idx]["ass_type"]->getTitle();
         }
-        
         $this->setData($data);
     }
     

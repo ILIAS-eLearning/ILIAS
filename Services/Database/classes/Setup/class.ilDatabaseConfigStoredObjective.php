@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -22,6 +22,9 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         return false;
     }
 
+    /**
+     * @return \ilDatabaseExistsObjective[]|\ilIniFilesLoadedObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -40,7 +43,7 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         $client_ini->setVariable("db", "user", $this->config->getUser());
         $client_ini->setVariable("db", "port", $this->config->getPort() ?? "");
         $pw = $this->config->getPassword();
-        $client_ini->setVariable("db", "pass", $pw ? $pw->toString() : "");
+        $client_ini->setVariable("db", "pass", $pw !== null ? $pw->toString() : "");
 
         if (!$client_ini->write()) {
             throw new Setup\UnachievableException("Could not write client.ini.php");
@@ -54,7 +57,7 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
         $port = $this->config->getPort() ?? "";
-        $pass = $this->config->getPassword() ? $this->config->getPassword()->toString() : "";
+        $pass = $this->config->getPassword() !== null ? $this->config->getPassword()->toString() : "";
 
         return
             $client_ini->readVariable("db", "type") !== $this->config->getType() ||

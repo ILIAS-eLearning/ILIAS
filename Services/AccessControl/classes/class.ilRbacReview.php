@@ -652,6 +652,8 @@ class ilRbacReview
             $GLOBALS['DIC']['ilLog']->logStack();
             throw new InvalidArgumentException(__METHOD__ . ': No ref_id given!');
         }
+
+        $and = '';
         if ($a_assignable_only === true) {
             $and = 'AND assign = ' . $ilDB->quote('y', 'text');
         }

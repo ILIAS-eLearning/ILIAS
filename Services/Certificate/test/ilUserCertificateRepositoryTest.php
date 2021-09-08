@@ -92,7 +92,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => array('clob', '/some/where/thumbnail.svg'),
+                'thumbnail_image_path' => '/some/where/thumbnail.svg',
                 'title' => 'Some Title'
             ),
             array(
@@ -110,7 +110,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
                 'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => array('clob', '/some/where/thumbnail.svg'),
+                'thumbnail_image_path' => '/some/where/thumbnail.svg',
                 'title' => 'Someother Title'
             )
         );
@@ -159,7 +159,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'ilias_version' => 'v5.4.0',
                 'currently_active' => true,
                 'background_image_path' => '/some/where/background.jpg',
-                'thumbnail_image_path' => array('clob', '/some/where/thumbnail.svg'),
+                'thumbnail_image_path' => '/some/where/thumbnail.svg',
             ),
             array(
                 'id' => 142,
@@ -176,7 +176,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                 'ilias_version' => 'v5.3.0',
                 'currently_active' => true,
                 'background_image_path' => '/some/where/else/background.jpg',
-                'thumbnail_image_path' => array('clob', '/some/where/thumbnail.svg'),
+                'thumbnail_image_path' => '/some/where/thumbnail.svg',
             )
         );
 
