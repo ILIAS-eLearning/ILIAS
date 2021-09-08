@@ -9,10 +9,14 @@
  */
 class ilChatroomServerSettings
 {
+    private const DEFAULT_PORT = 8585;
+    private const DEFAULT_PROCOTOL = 'http://';
+    private const DEFAULT_HOST = '192.168.1.94';
+    
     public const PREFIX = '/backend';
-    private int $port = 8585;
-    private string $protocol = 'http://';
-    private string $domain = '192.168.1.94';
+    private int $port = self::DEFAULT_PORT;
+    private string $protocol = self::DEFAULT_PROCOTOL;
+    private string $domain = self::DEFAULT_HOST;
     private string $instance = '123456';
     private bool $smilies_enabled = false;
     private string $authKey = '';
@@ -36,21 +40,21 @@ class ilChatroomServerSettings
 
         $settings = new self();
         if ($server_settings instanceof stdClass) {
-            $settings->setPort((int) $server_settings->port);
-            $settings->setProtocol((string) $server_settings->protocol);
-            $settings->setDomain((string) $server_settings->address);
-            $settings->setSmiliesEnabled((bool) $client_settings->enable_smilies);
-            $settings->setClientUrlEnabled((bool) $server_settings->client_proxy);
-            $settings->setIliasUrlEnabled((bool) $server_settings->ilias_proxy);
-            $settings->setClientUrl((string) $server_settings->client_url);
-            $settings->setIliasUrl((string) $server_settings->ilias_url);
-            $settings->setSubDirectory((string) $server_settings->sub_directory);
+            $settings->setPort((int) ($server_settings->port ?? self::DEFAULT_PORT));
+            $settings->setProtocol((string) ($server_settings->protocol ?? self::DEFAULT_PROCOTOL));
+            $settings->setDomain((string) ($server_settings->address ?? self::DEFAULT_HOST));
+            $settings->setSmiliesEnabled((bool) ($client_settings->enable_smilies ?? false));
+            $settings->setClientUrlEnabled((bool) ($server_settings->client_proxy ?? false));
+            $settings->setIliasUrlEnabled((bool) ($server_settings->ilias_proxy ?? false));
+            $settings->setClientUrl((string) ($server_settings->client_url ?? ''));
+            $settings->setIliasUrl((string) ($server_settings->ilias_url ?? ''));
+            $settings->setSubDirectory((string) ($server_settings->sub_directory ?? ''));
         }
 
         if ($client_settings instanceof stdClass) {
-            $settings->setInstance((string) $client_settings->name);
-            $settings->setAuthKey((string) $client_settings->auth->key);
-            $settings->setAuthSecret((string) $client_settings->auth->secret);
+            $settings->setInstance((string) ($client_settings->name ?? ''));
+            $settings->setAuthKey((string) ($client_settings->auth->key ?? ''));
+            $settings->setAuthSecret((string) ($client_settings->auth->secret ?? ''));
         }
 
         return $settings;
