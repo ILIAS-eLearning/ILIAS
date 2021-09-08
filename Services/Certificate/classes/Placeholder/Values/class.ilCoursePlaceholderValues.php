@@ -9,7 +9,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     /**
      * @var ilDefaultPlaceholderValues
      */
-    private $defaultPlaceHolderValuesObject;
+    private $defaultPlaceholderValuesObject;
 
     /**
      * @var ilLanguage|null
@@ -85,7 +85,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->ilUtilHelper = $ilUtilHelper;
 
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
@@ -97,7 +97,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->lpStatusHelper = $lpStatusHelper;
 
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
     }
 
     /**
@@ -128,7 +128,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     {
         $courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
         $completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
@@ -156,7 +156,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId)
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

@@ -245,15 +245,26 @@ class ilECSAppEventListener implements ilAppEventListener
             );
             if ($user->getAuthMode() == $msettings->getAuthMode()) {
                 $log->info('Adding user ' . $assignment->getUid() . ' to course/group: ' . $assignment->getObjId());
-                include_once './Services/Membership/classes/class.ilParticipants.php';
-                
-                if (
-                    ilObject::_lookupType($assignment->getObjId()) == 'crs' ||
-                    ilObject::_lookupType($assignment->getObjId()) == 'grp'
-                ) {
-                    include_once './Modules/Course/classes/class.ilCourseConstants.php';
-                    $part = ilParticipants::getInstanceByObjId($assignment->getObjId());
-                    $part->add($user->getId(), ilCourseConstants::CRS_MEMBER);
+                $obj_type = ilObject::_lookupType($assignment->getObjId());
+                if ($obj_type !== 'crs' && $obj_type !== 'grp') {
+                    $log->error('Invalid assignment type: ' . $obj_type);
+                    $log->logStack(ilLogLevel::ERROR);
+                    continue;
+                }
+                $refs = ilObject::_getAllReferences($assignment->getObjId());
+                $ref_id = end($refs);
+
+                try {
+                    $part = ilParticipants::getInstance((int) $ref_id);
+                    if ($obj_type === 'crs') {
+                        $part->add($user->getId(), ilCourseConstants::CRS_MEMBER);
+                    } elseif ($obj_type === 'grp') {
+                        $part->add($user->getId(), IL_GRP_MEMBER);
+                    }
+                } catch (InvalidArgumentException $e) {
+                    $log->error('Invalid ref_id given: ' . (int) $ref_id);
+                    $log->logStack(ilLogLevel::ERROR);
+                    continue;
                 }
             } else {
                 $log->notice('Auth mode of user: ' . $user->getAuthMode() . ' conflicts ' . $msettings->getAuthMode());
