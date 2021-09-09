@@ -461,7 +461,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->replace(
             "skl_profile_user",
             array("profile_id" => array("integer", $this->getId()),
-                "user_id" => array("integer", (int) $a_user_id),
+                "user_id" => array("integer", $a_user_id),
                 ),
             []
         );

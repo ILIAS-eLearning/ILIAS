@@ -419,7 +419,7 @@ class ilSkillDataSet extends ilDataSet
                     } else {
                         $skl_subtree_deps = [];
                         foreach ($sel_nodes as $n) {
-                            if (in_array(ilSkillTreeNode::_lookupType((int) $n), $exp_types)) {
+                            if (in_array(ilSkillTreeNode::_lookupType($n), $exp_types)) {
                                 $skl_subtree_deps[] = $n;
                             }
                         }
