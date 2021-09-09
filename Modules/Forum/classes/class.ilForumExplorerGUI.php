@@ -220,19 +220,17 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         return $this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
-            $node['pos_author_id'],
-            $node['pos_display_user_id'],
-            $node['pos_usr_alias'],
-            $node['import_name']
+            (int)$node['pos_author_id'] ?? 0,
+            (int)$node['pos_display_user_id'],
+            (string)$node['pos_usr_alias'],
+            (string)$node['import_name']
         );
     }
 
-    /**
-     * @inheritDoc
-     */
+
     public function getNodeId($a_node)
     {
-        return $a_node['pos_pk'];
+        return $a_node['pos_pk'] ?? 0;
     }
 
     /**

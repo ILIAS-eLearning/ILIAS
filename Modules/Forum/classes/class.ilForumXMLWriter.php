@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -19,7 +19,9 @@
 class ilForumXMLWriter extends ilXmlWriter
 {
     public $forum_id = null;
-
+    private $target_dir_relative;
+    private $target_dir_absolute;
+    
     /**
     * constructor
     * @param	string	xml version
@@ -68,10 +70,7 @@ class ilForumXMLWriter extends ilXmlWriter
             WHERE od.obj_id = ' . $ilDB->quote($this->forum_id, 'integer');
 
         $res = $ilDB->query($query_frm);
-
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            break;
-        }
+        $row = $ilDB->fetchObject($res);
 
         $this->xmlStartTag("Forum", null);
 
@@ -98,7 +97,6 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("FileUpload", null, (int) $row->file_upload_allowed);
         $this->xmlElement("UpdateUserId", null, $row->update_user);
         $this->xmlElement("UserId", null, (int) $row->top_usr_id);
-        $this->xmlElement("AuthorId", null, (int) $row->thr_author_id);
 
         $query_thr = "SELECT frm_threads.* " .
                     " FROM frm_threads " .
@@ -132,17 +130,7 @@ class ilForumXMLWriter extends ilXmlWriter
             $query .= " ORDER BY frm_posts_tree.lft ASC";
             $resPosts = $ilDB->query($query);
 
-            $lastDepth = null;
             while ($rowPost = $ilDB->fetchObject($resPosts)) {
-                /*
-                // Used for nested postings
-                if( $rowPost->depth < $lastDepth )
-                {
-                    for( $i = $rowPost->depth; $i <= $lastDepth; $i++ )
-                    {
-                        $this->xmlEndTag("Post");
-                    }
-                }*/
 
                 $this->xmlStartTag("Post");
                 $this->xmlElement("Id", null, (int) $rowPost->pos_pk);
@@ -202,7 +190,6 @@ class ilForumXMLWriter extends ilXmlWriter
                     $rowPost->pos_pk
                 );
 
-                $set = array();
                 if (count($tmp_file_obj->getFilesOfPost())) {
                     foreach ($tmp_file_obj->getFilesOfPost() as $file) {
                         $this->xmlStartTag("Attachment");
@@ -215,22 +202,8 @@ class ilForumXMLWriter extends ilXmlWriter
                     }
                 }
 
-                //Used for nested postings
-                //$lastDepth = $rowPost->depth;
-
                 $this->xmlEndTag("Post");
             }
-            /*
-            // Used for nested postings
-            if( $lastDepth )
-            {
-                for( $i = 1; $i <= $lastDepth ; $i++ )
-                {
-                    $this->xmlEndTag("Post");
-                }
-
-                $lastDepth = null;
-            }*/
             $this->xmlEndTag("Thread");
         }
         $this->xmlEndTag("Forum");

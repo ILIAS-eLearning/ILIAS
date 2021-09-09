@@ -9,7 +9,7 @@
 class ilForumNotificationCache
 {
     /** @var array<string, mixed> */
-    private $storage = [];
+    private array $storage = [];
 
     public function fetch(string $id)
     {
@@ -34,7 +34,7 @@ class ilForumNotificationCache
      * @param array $values
      * @return string A MD5 encoded key based on the given arrays
      */
-    public function createKeyByValues(array $values)
+    public function createKeyByValues(array $values) : string
     {
         foreach ($values as &$value) {
             if ($value !== null && !is_scalar($value)) {
@@ -47,8 +47,6 @@ class ilForumNotificationCache
             $value = (string) $value;
         }
 
-        $cacheKey = md5(implode('|', $values));
-
-        return $cacheKey;
+        return md5(implode('|', $values));
     }
 }

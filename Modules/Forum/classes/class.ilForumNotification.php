@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -26,6 +26,7 @@ class ilForumNotification
     private $ref_id;
     private $db;
     private $user;
+    private $user_id_noti;
     
     
     /**
@@ -36,7 +37,6 @@ class ilForumNotification
     {
         global $DIC;
         
-        $this->lng = $DIC->language();
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->ref_id = $ref_id;
@@ -137,9 +137,10 @@ class ilForumNotification
             array($this->getUserId(), $this->getForumId(), 0)
         );
             
-        while ($row = $this->db->fetchAssoc($res)) {
-            return $row['admin_force_noti'];
+        if ($row = $this->db->fetchAssoc($res)) {
+            return (int) $row['admin_force_noti'];
         }
+        return 0;
     }
     
     public function isUserToggleNotification()
@@ -154,9 +155,10 @@ class ilForumNotification
             array($this->getUserId(), $this->getForumId(), 0 )
         );
                 
-        while ($row = $this->db->fetchAssoc($res)) {
-            return $row['user_toggle_noti'];
+        if ($row = $this->db->fetchAssoc($res)) {
+            return (int) $row['user_toggle_noti'];
         }
+        return 0;
     }
     
     public function insertAdminForce()

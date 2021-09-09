@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -81,7 +81,7 @@ class ilForumAuthorInformationCache
      * @param int $usr_id
      * @return ilObjUser|null
      */
-    public static function getUserObjectById($usr_id)
+    public static function getUserObjectById(int $usr_id): ?ilObjUser
     {
         if (!$usr_id) {
             return null;
@@ -91,6 +91,6 @@ class ilForumAuthorInformationCache
             self::preloadUserObjects(array($usr_id));
         }
 
-        return isset(self::$user_instances[$usr_id]) ? self::$user_instances[$usr_id] : null;
+        return self::$user_instances[$usr_id] ?? null;
     }
 }

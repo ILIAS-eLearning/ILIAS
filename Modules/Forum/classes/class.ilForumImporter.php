@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,11 +10,6 @@
  */
 class ilForumImporter extends ilXmlImporter
 {
-    /**
-     * Import XML
-     * @param
-     * @return void
-     */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         // case i container

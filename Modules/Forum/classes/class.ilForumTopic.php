@@ -1,74 +1,72 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id:$
-*
-* @ingroup ModulesForum
-*/
+ * @author  Michael Jansen <mjansen@databay.de>
+ * @version $Id:$
+ * @ingroup ModulesForum
+ */
 class ilForumTopic
 {
-    private $id = 0;
-    
-    private $forum_id = 0;
-    
-    private $frm_obj_id = 0;
-    
-    private $display_user_id = 0;
-    
-    private $user_alias = '';
-    
-    private $subject = '';
-    
-    private $createdate = null;
-    
-    private $changedate = null;
-    
-    private $num_posts = 0;
-    
-    private $last_post_string = '';
-    
-    private $visits = 0;
-    
-    private $import_name = '';
-    
-    private $is_sticky = 0;
-    
-    private $is_closed = 0;
-    
-    private $orderField = '';
+    private int $id = 0;
+
+    private int $forum_id = 0;
+
+    private int $frm_obj_id = 0;
+
+    private int $display_user_id = 0;
+
+    private string $user_alias = '';
+
+    private string $subject = '';
+
+    private ?string $createdate = null;
+
+    private ?string $changedate = null;
+
+    private int $num_posts = 0;
+
+    private string $last_post_string = '';
+
+    private int $visits = 0;
+
+    private string $import_name = '';
+
+    private int $is_sticky = 0;
+
+    private int $is_closed = 0;
+
+    private string $orderField = '';
 
     /** @var null|ilForumPost */
-    private $last_post = null;
+    private ?ilForumPost $last_post = null;
 
-    private $db = null;
-    
-    private $is_moderator = false;
+    private $db;
 
-    private $thr_author_id = 0;
-    
+    private bool $is_moderator = false;
+
+    private int $thr_author_id = 0;
+
+    private int|float $average_rating = 0.0;
+
+    private string $orderDirection = 'DESC';
+
+    protected static array $possibleOrderDirections = array('ASC', 'DESC');
+    private $user;
+    private int $num_new_posts;
+    private int $num_unread_posts;
+    private bool $user_notification_enabled;
+    private $thread_sorting;
+
     /**
-     * @var double
+     * Constructor
+     * Returns an object of a forum topic. The constructor calls the private method read()
+     * to load the topic data from database into the object.
+     * @param integer $a_id                primary key of a forum topic (optional)
+     * @param bool    $a_is_moderator      moderator-status of the current user (optional)
+     * @param bool    $preventImplicitRead Prevents the implicit database query if an id was passed
+     * @access    public
      */
-    private $average_rating = 0;
-
-    private $orderDirection = 'DESC';
-
-    protected static $possibleOrderDirections = array('ASC', 'DESC');
-    
-    /**
-    * Constructor
-    *
-    * Returns an object of a forum topic. The constructor calls the private method read()
-    * to load the topic data from database into the object.
-    *
-    * @param  	integer	$a_id			primary key of a forum topic (optional)
-    * @param  	bool	$a_is_moderator	moderator-status of the current user (optional)
-    * @param	bool	$preventImplicitRead	Prevents the implicit database query if an id was passed
-    *
-    * @access	public
-    */
     public function __construct($a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
     {
         global $DIC;
@@ -77,7 +75,7 @@ class ilForumTopic
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->id = $a_id;
-        
+
         if (!$preventImplicitRead) {
             $this->read();
         }
@@ -93,69 +91,69 @@ class ilForumTopic
         $this->setSubject($data['thr_subject']);
         $this->setDisplayUserId((int) $data['thr_display_user_id']);
         $this->setUserAlias($data['thr_usr_alias']);
-        $this->setLastPostString($data['last_post_string']);
+        $this->setLastPostString($data['thr_last_post']);
         $this->setCreateDate($data['thr_date']);
         $this->setChangeDate($data['thr_update']);
         $this->setVisits((int) $data['visits']);
-        $this->setImportName($data['import_name']);
+        $this->setImportName((string) $data['import_name']);
         $this->setSticky((int) $data['is_sticky']);
         $this->setClosed((int) $data['is_closed']);
-        $this->setAverageRating($data['avg_rating']);
-        $this->setThrAuthorId($data['thr_author_id']);
+        $this->setAverageRating(isset($data['avg_rating']) ? (float) $data['avg_rating'] : 0);
+
+        $this->setThrAuthorId((int) $data['thr_author_id']);
 
         // Aggregated values
-        $this->setNumPosts((int) $data['num_posts']);
-        $this->setNumUnreadPosts((int) $data['num_unread_posts']);
-        $this->setNumNewPosts((int) $data['num_new_posts']);
-        $this->setUserNotificationEnabled((bool) $data['usr_notification_is_enabled']);
+        if (isset($data['num_posts'])) {
+            $this->setNumPosts((int) $data['num_posts']);
+        }
+        if (isset($data['num_unread_posts'])) {
+            $this->setNumUnreadPosts((int) $data['num_unread_posts']);
+        }
+        if (isset($data['num_new_posts'])) {
+            $this->setNumNewPosts((int) $data['num_new_posts']);
+        }
+        if (isset($data['usr_notification_is_enabled'])) {
+            $this->setUserNotificationEnabled((bool) $data['usr_notification_is_enabled']);
+        }
     }
-    
-    /**
-    * Inserts the object data into database
-    *
-    * @return 	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function insert()
+
+    public function insert() : bool
     {
         if ($this->forum_id) {
             $nextId = $this->db->nextId('frm_threads');
-                        
+
             $this->db->insert(
                 'frm_threads',
                 array(
-                'thr_pk' => array('integer', $nextId),
-                'thr_top_fk' => array('integer', $this->forum_id),
-                'thr_subject' => array('text', $this->subject),
-                'thr_display_user_id' => array('integer', $this->display_user_id),
-                'thr_usr_alias' => array('text', $this->user_alias),
-                'thr_num_posts' => array('integer', $this->num_posts),
-                'thr_last_post' => array('text', $this->last_post_string),
-                'thr_date' => array('timestamp', $this->createdate),
-                'thr_update' => array('timestamp', null),
-                'import_name' => array('text', $this->import_name),
-                'is_sticky' => array('integer', $this->is_sticky),
-                'is_closed' => array('integer', $this->is_closed),
-                'avg_rating' => array('float', $this->average_rating),
-                'thr_author_id' => array('integer', $this->thr_author_id)
-            )
+                    'thr_pk' => array('integer', (int) $nextId),
+                    'thr_top_fk' => array('integer', (int) $this->forum_id),
+                    'thr_subject' => array('text', $this->subject),
+                    'thr_display_user_id' => array('integer', (int) $this->display_user_id),
+                    'thr_usr_alias' => array('text', $this->user_alias),
+                    'thr_num_posts' => array('integer', (int) $this->num_posts),
+                    'thr_last_post' => array('text', $this->last_post_string),
+                    'thr_date' => array('timestamp', $this->createdate),
+                    'thr_update' => array('timestamp', null),
+                    'import_name' => array('text', $this->import_name),
+                    'is_sticky' => array('integer', (int) $this->is_sticky),
+                    'is_closed' => array('integer', (int) $this->is_closed),
+                    'avg_rating' => array('text', (string) ((float) $this->average_rating)),
+                    'thr_author_id' => array('integer', (int) $this->thr_author_id)
+                )
             );
 
             $this->id = $nextId;
-                            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Updates an existing topic
-    *
-    * @return 	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function update()
+     * Updates an existing topic
+     */
+    public function update() : bool
     {
         if ($this->id) {
             $this->db->manipulateF(
@@ -168,32 +166,29 @@ class ilForumTopic
 					thr_last_post = %s,
 					avg_rating = %s
 				WHERE thr_pk = %s',
-                array('integer', 'text','timestamp', 'integer', 'text', 'float', 'integer'),
-                array(	$this->forum_id,
-                        $this->subject,
-            /*			$this->changedate, */
-                        date('Y-m-d H:i:s'),
-                        $this->num_posts,
-                        $this->last_post_string,
-                        $this->average_rating,
-                        $this->id
-            )
+                array('integer', 'text', 'timestamp', 'integer', 'text', 'float', 'integer'),
+                array(
+                    $this->forum_id,
+                    $this->subject,
+                    /*			$this->changedate, */
+                    date('Y-m-d H:i:s'),
+                    $this->num_posts,
+                    $this->last_post_string,
+                    (float) $this->average_rating,
+                    $this->id
+                )
             );
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Reads the data of the current object id from database and loads it into the object.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    *
-    * @access 	private
-    */
-    private function read()
+     * Reads the data of the current object id from database and loads it into the object.
+     */
+    private function read() : bool
     {
         if ($this->id) {
             $res = $this->db->queryf(
@@ -209,50 +204,43 @@ class ilForumTopic
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
             if (is_object($row)) {
-                $this->thr_pk = $row->pos_pk;   // thr_pk = pos_pk ??!??!
-                $this->forum_id = $row->thr_top_fk;
-                $this->display_user_id = $row->thr_display_user_id;
-                $this->user_alias = $row->thr_usr_alias;
+                $this->forum_id = (int) $row->thr_top_fk;
+                $this->display_user_id = (int) $row->thr_display_user_id;
+                $this->user_alias = (string) $row->thr_usr_alias;
                 $this->subject = html_entity_decode($row->thr_subject);
-                $this->createdate = $row->thr_date;
-                $this->changedate = $row->thr_update;
-                $this->import_name = $row->import_name;
-                $this->num_posts = $row->thr_num_posts;
-                $this->last_post_string = $row->thr_last_post;
-                $this->visits = $row->visits;
-                $this->is_sticky = $row->is_sticky;
-                $this->is_closed = $row->is_closed;
-                $this->frm_obj_id = $row->frm_obj_id;
-                $this->average_rating = $row->avg_rating;
-                $this->thr_author_id = $row->thr_author_id;
-                
+                $this->createdate = (string)$row->thr_date;
+                $this->changedate = (string)$row->thr_update;
+                $this->import_name =(string) $row->import_name ?? '';
+                $this->num_posts = (int) $row->thr_num_posts;
+                $this->last_post_string = (string)$row->thr_last_post;
+                $this->visits = (int) $row->visits;
+                $this->is_sticky = (int) $row->is_sticky;
+                $this->is_closed = (int) $row->is_closed;
+                $this->frm_obj_id = (int) $row->frm_obj_id;
+                $this->average_rating = (float) $row->avg_rating;
+                $this->thr_author_id = (int) $row->thr_author_id;
+
                 return true;
             }
             $this->id = 0;
             return false;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Calls the private method read() to load the topic data from database into the object.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function reload()
+     * Calls the private method read() to load the topic data from database into the object.
+     */
+    public function reload() : bool
     {
         return $this->read();
     }
-    
+
     /**
-    * Fetches the primary key of the first post node of the current topic from database and returns it.
-    *
-    * @return  	integer		primary key of the first post node
-    * @access 	public
-    */
-    public function getFirstPostId()
+     * Fetches the primary key of the first post node of the current topic from database and returns it.
+     */
+    public function getFirstPostId() : int
     {
         $res = $this->db->queryf(
             '
@@ -262,24 +250,23 @@ class ilForumTopic
             array('integer', 'integer'),
             array($this->id, '1')
         );
-        
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
-        return $row->pos_fk ? $row->pos_fk : 0;
+
+        if($row = $this->db->fetchObject($res)) {
+            return (int) $row->pos_fk;
+        }
+        return 0;
     }
-    
+
     /**
-    * Updates the visit counter of the current topic.
-    *
-    * @access	public
-    */
-    public function updateVisits()
+     * Updates the visit counter of the current topic.
+     */
+    public function updateVisits() : bool
     {
         $checkTime = time() - (60 * 60);
-        
-        if ($_SESSION['frm_visit_frm_threads_' . $this->id] < $checkTime) {
-            $_SESSION['frm_visit_frm_threads_' . $this->id] = time();
-        
+
+        if (ilSession::get('frm_visit_frm_threads_' . $this->id) < $checkTime) {
+            ilSession::set('frm_visit_frm_threads_' . $this->id, time());
+
             $this->db->manipulateF(
                 '
 				UPDATE frm_threads
@@ -289,18 +276,14 @@ class ilForumTopic
                 array($this->id)
             );
         }
-        
+
         return true;
     }
-    
+
     /**
-    * Fetches and returns the number of posts for the given user id.
-    *
-    * @param  	integer		$a_user_id		user id
-    * @return	integer		number of posts
-    * @access	public
-    */
-    public function countPosts($ignoreRoot = false)
+     * Fetches and returns the number of posts for the given user id.
+     */
+    public function countPosts($ignoreRoot = false) : int
     {
         $res = $this->db->queryf(
             '
@@ -311,20 +294,16 @@ class ilForumTopic
             array('integer'),
             array($this->id)
         );
-        
+
         $rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-            
+
         return $rec['cnt'];
     }
 
     /**
      * Fetches and returns the number of active posts for the given user id.
-     *
-     * @param bool $ignoreRoot
-     * @return    integer        number of active posts
-     * @access    public
      */
-    public function countActivePosts($ignoreRoot = false)
+    public function countActivePosts($ignoreRoot = false) : int
     {
         $res = $this->db->queryf(
             '
@@ -337,19 +316,19 @@ class ilForumTopic
             array('integer', 'integer', 'integer', 'integer'),
             array('1', '0', $this->user->getId(), $this->id)
         );
-            
+
         $rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-            
+
         return $rec['cnt'];
     }
-    
+
     /**
      * Fetches and returns an object of the first post in the current topic
      * @param bool $isModerator
      * @param bool $preventImplicitRead
-    * @return	ilForumPost		object of a post
-    */
-    public function getFirstPostNode($isModerator = false, $preventImplicitRead = false)
+     * @return    ilForumPost        object of a post
+     */
+    public function getFirstPostNode($isModerator = false, $preventImplicitRead = false) : ilForumPost
     {
         $res = $this->db->queryF(
             '
@@ -361,22 +340,19 @@ class ilForumTopic
             array('integer', 'integer'),
             array(0, $this->id)
         );
-            
+
         $row = $this->db->fetchAssoc($res);
-        
-        $post = new ilForumPost($row['pos_pk'], $isModerator, $preventImplicitRead);
+
+        $post = new ilForumPost((int)$row['pos_pk'], $isModerator, $preventImplicitRead);
         $post->assignData($row);
 
         return $post;
     }
-    
+
     /**
-    * Fetches and returns an object of the last post in the current topic.
-    *
-    * @return	ilForumPost		object of the last post
-    * @access	public
-    */
-    public function getLastPost()
+     * Fetches and returns an object of the last post in the current topic.
+     */
+    public function getLastPost() : bool|ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -389,22 +365,19 @@ class ilForumTopic
                 array('integer'),
                 array($this->id)
             );
-            
+
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-            return new ilForumPost($row->pos_pk);
+            return new ilForumPost((int) $row->pos_pk);
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Fetches and returns an object of the last active post in the current topic.
-    *
-    * @return	ilForumPost		object of the last active post
-    * @access	public
-    */
-    public function getLastActivePost()
+     * Fetches and returns an object of the last active post in the current topic.
+     */
+    public function getLastActivePost() : bool|ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -419,19 +392,19 @@ class ilForumTopic
                 array('integer', 'integer', 'integer', 'integer'),
                 array($this->id, '1', '0', $this->user->getId())
             );
-            
+
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-            
+
             return new ilForumPost($row->pos_pk);
         }
-        
+
         return false;
     }
-    
-    public function getAllPosts()
+
+    public function getAllPosts() : array
     {
         $posts = array();
-        
+
         if ($this->id) {
             $res = $this->db->queryf(
                 '
@@ -441,36 +414,34 @@ class ilForumTopic
                 array('integer'),
                 array($this->id)
             );
-            
+
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $posts[$row->pos_pk] = $row;
             }
         }
-        
+
         return is_array($posts) ? $posts : array();
     }
- 
+
     /**
-    * Fetches and returns an array of posts from the post tree, starting with the node object passed by
-    * the first paramter.
-    *
-    * @param    ilForumPost	$a_post_node	node-object of a post
-    * @return	array		array of post objects
-    * @access	public
-    */
-    public function getPostTree(ilForumPost $a_post_node)
+     * Fetches and returns an array of posts from the post tree, starting with the node object passed by
+     * the first paramter.
+     * @param ilForumPost $a_post_node node-object of a post
+     * @return    array        array of post objects
+     */
+    public function getPostTree(ilForumPost $a_post_node) : array
     {
         $posts = array();
-        
+
         $data = array();
         $data_types = array();
-    
+
         if ($a_post_node->getLft() > 1) {
             $dummy_root_condition = 'lft >= %s AND lft < %s';
         } else {
             $dummy_root_condition = 'lft > %s AND lft < %s';
         }
-        
+
         $query = '
 			SELECT 			is_author_moderator, pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
 							pos_display_user_id, pos_usr_alias, pos_subject,
@@ -479,7 +450,7 @@ class ilForumTopic
 							import_name, fpt_pk, parent_pos, lft, depth,
 							(CASE
 							WHEN fur.post_id IS NULL ' .
-                                ($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '') . '
+            ($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '') . '
 							THEN 0
 							ELSE 1
 							END) post_read,
@@ -500,9 +471,15 @@ class ilForumTopic
 				 
 			WHERE 			' . $dummy_root_condition . '
 				AND 		thr_fk = %s';
-        
+
         array_push($data_types, 'integer', 'integer', 'integer', 'integer');
-        array_push($data, $this->user->getId(), $a_post_node->getLft(), $a_post_node->getRgt(), $a_post_node->getThreadId());
+        array_push(
+            $data,
+            $this->user->getId(),
+            $a_post_node->getLft(),
+            $a_post_node->getRgt(),
+            $a_post_node->getThreadId()
+        );
 
         if ($this->orderField != "") {
             $query .= " ORDER BY " . $this->orderField . " " . $this->getOrderDirection();
@@ -512,7 +489,7 @@ class ilForumTopic
 
         $usr_ids = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $post = new ilForumPost($row['pos_pk'], false, true);
+            $post = new ilForumPost((int)$row['pos_pk'], false, true);
             $post->assignData($row);
 
             if (!$this->is_moderator) {
@@ -535,18 +512,17 @@ class ilForumTopic
 
         return $posts;
     }
-    
+
     /**
-    * Moves all posts within the current thread to a new forum
-    *
-    * @param    integer 	$old_obj_id object id of the current forum
-    * @param    integer 	$old_pk		primary key of old forum
-    * @param    integer 	$new_obj_id	object id of the new forum
-    * @param    integer 	$new_pk		primary key of new forum
-    * @return	integer 	number of afffected rows by updating posts
-    * @access	public
-    */
-    public function movePosts($old_obj_id, $old_pk, $new_obj_id, $new_pk)
+     * Moves all posts within the current thread to a new forum
+     * @param integer $old_obj_id object id of the current forum
+     * @param integer $old_pk     primary key of old forum
+     * @param integer $new_obj_id object id of the new forum
+     * @param integer $new_pk     primary key of new forum
+     * @return    integer    number of afffected rows by updating posts
+     * @throws ilFileUtilsException
+     */
+    public function movePosts($old_obj_id, $old_pk, $new_obj_id, $new_pk) : int
     {
         if ($this->id) {
             $nodes = $this->getAllPosts();
@@ -630,7 +606,7 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array($new_pk, $this->id)
             );
-            
+
             // update all related news
             $posts = $this->db->queryf(
                 '
@@ -638,7 +614,7 @@ class ilForumTopic
                 array('integer'),
                 array($this->id)
             );
-            
+
             $old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
 
             $new_obj_id = ilForum::_lookupObjIdForForumId($new_pk);
@@ -654,14 +630,14 @@ class ilForumTopic
                 $news_item->setContextObjId($new_obj_id);
                 $news_item->update();
             }
-            
+
             return count($nodes);
         }
-        
+
         return 0;
     }
-    
-    public function getNestedSetPostChildren($pos_id = null, $levels = null)
+
+    public function getNestedSetPostChildren($pos_id = null, $levels = null) : array
     {
         $data = null;
         $objProperties = ilForumProperties::getInstance($this->getFrmObjId());
@@ -699,7 +675,7 @@ class ilForumTopic
 							fur.post_id,
 							(CASE
 							WHEN fur.post_id IS NULL ' .
-                                ($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '') . '
+            ($this->user->getId() == ANONYMOUS_USER_ID ? ' AND 1 = 2 ' : '') . '
 							THEN 0
 							ELSE 1
 							END) post_read,
@@ -714,8 +690,7 @@ class ilForumTopic
 				 ON         fpt2.lft BETWEEN fpt.lft AND fpt.rgt
 				 AND		fpt.thr_fk = fpt2.thr_fk
 				 AND		fpt.pos_fk != fpt2.pos_fk ';
-                                
-    
+
         $query .= '
 			LEFT JOIN		frm_user_read fur
 				ON			fur.thread_id = fp.pos_thr_fk
@@ -729,10 +704,13 @@ class ilForumTopic
 
         if ($data) {
             $query .= '		AND fpt.lft > ' . $this->db->quote($data['lft'], 'integer') .
-                    '		AND fpt.lft < ' . $this->db->quote($data['rgt'], 'integer') . ' ';
+                '		AND fpt.lft < ' . $this->db->quote($data['rgt'], 'integer') . ' ';
         }
         if ($is_post_activation_enabled && !$this->is_moderator) {
-            $query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($this->user->getId(), 'integer') . ') ';
+            $query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote(
+                    $this->user->getId(),
+                    'integer'
+                ) . ') ';
         }
 
         if ($data && is_numeric($levels)) {
@@ -756,7 +734,7 @@ class ilForumTopic
 							fur.post_id
 					ORDER BY fpt.rgt DESC
 		';
-        
+
         $queryCounter = '
 			SELECT			pos_fk
 			FROM			frm_posts_tree fpt
@@ -765,7 +743,10 @@ class ilForumTopic
 			WHERE			fpt.thr_fk = ' . $this->db->quote($this->id, 'integer');
 
         if ($is_post_activation_enabled && !$this->is_moderator) {
-            $queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote($this->user->getId(), 'integer') . ') ';
+            $queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote(
+                    $this->user->getId(),
+                    'integer'
+                ) . ') ';
         }
         $queryCounter .= ' ORDER BY fpt.rgt DESC';
 
@@ -783,7 +764,7 @@ class ilForumTopic
             if ((int) $row['pos_display_user_id']) {
                 $usr_ids[] = (int) $row['pos_display_user_id'];
             }
-            
+
             $row['counter'] = $counter[$row['pos_pk']];
             $children[] = $row;
         }
@@ -792,14 +773,11 @@ class ilForumTopic
 
         return $children;
     }
-    
+
     /**
-    * Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0).
-    * @param    integer		$a_user_id		id of an user
-    * @return	bool		true in case of success, false in case of failure
-    * @access	public
-    */
-    public function isNotificationEnabled($a_user_id)
+     * Check whether a user's notification about new posts in a thread is enabled (result > 0) or not (result == 0).
+     */
+    public function isNotificationEnabled(int $a_user_id) : bool
     {
         if ($this->id && $a_user_id) {
             $result = $this->db->queryf(
@@ -813,20 +791,17 @@ class ilForumTopic
             while ($record = $this->db->fetchAssoc($result)) {
                 return (bool) $record['cnt'];
             }
-            
+
             return false;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Enable a user's notification about new posts in a thread.
-    * @param    integer	$a_user_id		id of an user
-    * @return	bool	true in case of success, false in case of failure
-    * @access	public
-    */
-    public function enableNotification($a_user_id)
+     * Enable a user's notification about new posts in a thread.
+     */
+    public function enableNotification(int $a_user_id) : bool
     {
         if ($this->id && $a_user_id) {
             if (!$this->isNotificationEnabled($a_user_id)) {
@@ -847,17 +822,14 @@ class ilForumTopic
             }
             return false;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Disable a user's notification about new posts in a thread.
-    * @param    integer	$a_user_id		id of an user
-    * @return	bool	true in case of success, false in case of failure
-    * @access	public
-    */
-    public function disableNotification($a_user_id)
+     * Disable a user's notification about new posts in a thread.
+     */
+    public function disableNotification(int $a_user_id) : bool
     {
         if ($this->id && $a_user_id) {
             $this->db->manipulateF(
@@ -868,20 +840,17 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array($a_user_id, $this->id)
             );
-                
+
             return false;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Sets the current topic sticky.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function makeSticky()
+     * Sets the current topic sticky.
+     */
+    public function makeSticky() : bool
     {
         if ($this->id && !$this->is_sticky) {
             $this->db->manipulateF(
@@ -892,22 +861,19 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array('1', $this->id)
             );
-            
+
             $this->is_sticky = 1;
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Sets the current topic non-sticky.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function unmakeSticky()
+     * Sets the current topic non-sticky.
+     */
+    public function unmakeSticky() : bool
     {
         if ($this->id && $this->is_sticky) {
             $this->db->manipulateF(
@@ -918,22 +884,19 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array('0', $this->id)
             );
-            
+
             $this->is_sticky = 0;
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Closes the current topic.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function close()
+     * Closes the current topic.
+     */
+    public function close() : bool
     {
         if ($this->id && !$this->is_closed) {
             $this->db->manipulateF(
@@ -944,22 +907,19 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array('1', $this->id)
             );
-                
+
             $this->is_closed = 1;
-            
+
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-    * Reopens the current topic.
-    *
-    * @return  	bool	true in case of success, false in case of failure
-    * @access 	public
-    */
-    public function reopen()
+     * Reopens the current topic.
+     */
+    public function reopen() : bool
     {
         if ($this->id && $this->is_closed) {
             $this->db->manipulateF(
@@ -970,79 +930,85 @@ class ilForumTopic
                 array('integer', 'integer'),
                 array('0', $this->id)
             );
-                                
+
             $this->is_closed = 0;
-            
+
             return true;
         }
-        
+
         return false;
     }
 
-    /**
-     * @return int
-     */
-    public function getAverageRating()
+    public function getAverageRating() : float|int
     {
-        return $this->average_rating;
+        return (float) $this->average_rating;
     }
 
-    /**
-     * @param int $average_rating
-     */
-    public function setAverageRating($average_rating)
+    public function setAverageRating(float|int $average_rating)
     {
-        $this->average_rating = $average_rating;
+        $this->average_rating = (float) $average_rating;
     }
 
     public function setId($a_id)
     {
         $this->id = $a_id;
     }
-    public function getId()
+
+    public function getId() : int
     {
         return $this->id;
     }
-    public function setForumId($a_forum_id)
+
+    public function setForumId(int $a_forum_id)
     {
         $this->forum_id = $a_forum_id;
     }
-    public function getForumId()
+
+    public function getForumId() : int
     {
         return $this->forum_id;
     }
-    public function setDisplayUserId($a_user_id)
+
+    public function setDisplayUserId(int $a_user_id)
     {
         $this->display_user_id = $a_user_id;
     }
-    public function getDisplayUserId()
+
+    public function getDisplayUserId() : int
     {
         return $this->display_user_id;
     }
+
     public function setUserAlias($a_user_alias)
     {
         $this->user_alias = $a_user_alias;
     }
-    public function getUserAlias()
+
+    public function getUserAlias() : string
     {
         return $this->user_alias;
     }
+
     public function setSubject($a_subject)
     {
         $this->subject = $a_subject;
     }
-    public function getSubject()
+
+    public function getSubject() : string
     {
         return $this->subject;
     }
+
     public function setCreateDate($a_createdate)
     {
         $this->createdate = $a_createdate;
     }
-    public function getCreateDate()
+
+    public function getCreateDate() : string
     {
-        return $this->createdate;
+        return $this->createdate ?? '';
     }
+
     public function setChangeDate($a_changedate)
     {
         if ($a_changedate == '0000-00-00 00:00:00') {
@@ -1051,104 +1017,116 @@ class ilForumTopic
             $this->changedate = $a_changedate;
         }
     }
-    public function getChangeDate()
+
+    public function getChangeDate() : string
     {
         return $this->changedate;
     }
-    public function setImportName($a_import_name)
+
+    public function setImportName(string $a_import_name)
     {
         $this->import_name = $a_import_name;
     }
-    public function getImportName()
+
+    public function getImportName() : string
     {
         return $this->import_name;
     }
+
     public function setLastPostString($a_last_post)
     {
         if ($a_last_post == '') {
             $a_last_post = null;
         }
-        
+
         $this->last_post_string = $a_last_post;
     }
-    public function getLastPostString()
+
+    public function getLastPostString() : string
     {
         return $this->last_post_string;
     }
+
     public function setVisits($a_visits)
     {
         $this->visits = $a_visits;
     }
-    public function getVisits()
+
+    public function getVisits() : int
     {
         return $this->visits;
     }
+
     public function setSticky($a_sticky)
     {
         $this->is_sticky = $a_sticky;
     }
-    public function isSticky()
+
+    public function getSticky() : int
     {
-        return $this->is_sticky == 1 ? true : false;
+        return (int) $this->is_sticky;
     }
+
+    public function isSticky() : bool
+    {
+        return $this->is_sticky == 1;
+    }
+
     public function setClosed($a_closed)
     {
         $this->is_closed = $a_closed;
     }
-    public function isClosed()
+
+    public function isClosed() : bool
     {
-        return $this->is_closed == 1 ? true : false;
+        return $this->is_closed == 1;
     }
+
     public function setOrderField($a_order_field)
     {
         $this->orderField = $a_order_field;
     }
-    public function getOrderField()
+
+    public function getOrderField() : string
     {
         return $this->orderField;
     }
+
     public function setModeratorRight($bool)
     {
         $this->is_moderator = $bool;
     }
-    public function getModeratorRight()
+
+    public function getModeratorRight() : bool
     {
         return $this->is_moderator;
     }
-    public function getFrmObjId()
+
+    public function getFrmObjId() : int
     {
         return $this->frm_obj_id;
     }
 
-    /**
-     * @param int $thr_author_id
-     */
-    public function setThrAuthorId($thr_author_id)
+    public function setThrAuthorId(int $thr_author_id)
     {
         $this->thr_author_id = $thr_author_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getThrAuthorId()
+    public function getThrAuthorId() : int
     {
-        return $this->thr_author_id;
+        return (int) $this->thr_author_id;
     }
-    
+
     /**
-    * Looks up the title/subject of a topic/thread
-    *
-    * @param	integer id of the topic/thread
-    * @return  	string	title/subject of the topic/thread
-    * @access 	public
-    * @static
-    */
-    public static function _lookupTitle($a_topic_id)
+     * Looks up the title/subject of a topic/thread
+     * @param integer id of the topic/thread
+     * @return    string    title/subject of the topic/thread
+     */
+    public static function _lookupTitle(int $a_topic_id) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $res = $ilDB->queryf(
             '
 			SELECT thr_subject
@@ -1162,7 +1140,7 @@ class ilForumTopic
         if (is_object($row)) {
             return $row->thr_subject;
         }
-        
+
         return '';
     }
 
@@ -1170,10 +1148,10 @@ class ilForumTopic
     {
         $this->db->update(
             'frm_threads',
-            array('thr_subject' => array('text',$this->getSubject())),
+            array('thr_subject' => array('text', $this->getSubject())),
             array('thr_pk' => array('integer', $this->getId()))
         );
-        
+
         $first_node = $this->getFirstPostNode();
         $first_node->setSubject($this->getSubject());
         $first_node->update();
@@ -1183,16 +1161,13 @@ class ilForumTopic
      * @param $a_num_posts
      * @return ilForumTopic
      */
-    public function setNumPosts($a_num_posts)
+    public function setNumPosts($a_num_posts) : static
     {
         $this->num_posts = $a_num_posts;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumPosts()
+    public function getNumPosts() : int
     {
         return $this->num_posts;
     }
@@ -1201,16 +1176,13 @@ class ilForumTopic
      * @param int $num_new_posts
      * @return ilForumTopic
      */
-    public function setNumNewPosts($num_new_posts)
+    public function setNumNewPosts(int $num_new_posts) : static
     {
         $this->num_new_posts = $num_new_posts;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumNewPosts()
+    public function getNumNewPosts() : int
     {
         return $this->num_new_posts;
     }
@@ -1219,16 +1191,13 @@ class ilForumTopic
      * @param int $num_unread_posts
      * @return ilForumTopic
      */
-    public function setNumUnreadPosts($num_unread_posts)
+    public function setNumUnreadPosts($num_unread_posts) : static
     {
         $this->num_unread_posts = $num_unread_posts;
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNumUnreadPosts()
+    public function getNumUnreadPosts() : int
     {
         return $this->num_unread_posts;
     }
@@ -1237,35 +1206,32 @@ class ilForumTopic
      * @param boolean $user_notification_enabled
      * @return ilForumTopic
      */
-    public function setUserNotificationEnabled($user_notification_enabled)
+    public function setUserNotificationEnabled(bool $user_notification_enabled) : static
     {
         $this->user_notification_enabled = $user_notification_enabled;
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getUserNotificationEnabled()
+    public function getUserNotificationEnabled() : bool
     {
         return $this->user_notification_enabled;
     }
 
-    public function setOrderDirection($direction)
+    public function setOrderDirection($direction) : static
     {
         if (!in_array(strtoupper($direction), self::$possibleOrderDirections)) {
             $direction = current(self::$possibleOrderDirections);
         }
-        
+
         $this->orderDirection = $direction;
         return $this;
     }
 
-    public function getOrderDirection()
+    public function getOrderDirection() : string
     {
         return $this->orderDirection;
     }
-    
+
     public static function lookupForumIdByTopicId($a_topic_id)
     {
         global $DIC;
@@ -1281,11 +1247,12 @@ class ilForumTopic
 
         return $row['thr_top_fk'];
     }
-    
+
     public function getSorting()
     {
         return $this->thread_sorting;
     }
+
     public function updateMergedThread()
     {
         $this->db->update(
@@ -1304,26 +1271,26 @@ class ilForumTopic
      * @param integer $thread_id
      * @return string datetime
      */
-    public static function _lookupDate($thread_id)
+    public static function _lookupDate(int $thread_id) : string
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $res = $ilDB->queryF(
             'SELECT thr_date FROM frm_threads WHERE thr_pk = %s',
             array('integer'),
-            array((int) $thread_id)
+            array($thread_id)
         );
-        
+
         $row = $ilDB->fetchAssoc($res);
-        
-        return $row['thr_date'] ? $row['thr_date'] : '0000-00-00 00:00:00';
+
+        return $row['thr_date'] ?: '0000-00-00 00:00:00';
     }
 
     /**
      * @return ilForumPost|null
      */
-    public function getLastPostForThreadOverview()
+    public function getLastPostForThreadOverview() : ?ilForumPost
     {
         return $this->last_post;
     }

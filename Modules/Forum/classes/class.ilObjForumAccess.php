@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -52,7 +52,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param string $a_target
      * @return bool
      */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 
@@ -78,7 +78,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $a_pos_id
      * @return int
      */
-    public static function _getThreadForPosting($a_pos_id)
+    public static function _getThreadForPosting($a_pos_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -100,7 +100,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $a_obj_id
      * @return int
      */
-    public static function _lookupDiskUsage($a_obj_id)
+    public static function _lookupDiskUsage($a_obj_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -133,7 +133,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param string $text
      * @return string
      */
-    public static function prepareMessageForLists($text)
+    public static function prepareMessageForLists($text) : string
     {
         $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
@@ -163,7 +163,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $ref_id
      * @return array
      */
-    public static function getLastPostByRefId($ref_id)
+    public static function getLastPostByRefId(int $ref_id) : array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }
@@ -173,7 +173,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $ref_id
      * @return array
      */
-    public static function getStatisticsByRefId($ref_id)
+    public static function getStatisticsByRefId(int $ref_id) : array
     {
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
@@ -183,7 +183,7 @@ class ilObjForumAccess extends ilObjectAccess
      * @param int $usr_id
      * @return ilObjUser|boolean
      */
-    public static function getCachedUserInstance($usr_id)
+    public static function getCachedUserInstance(int $usr_id) : bool|ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
             self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);

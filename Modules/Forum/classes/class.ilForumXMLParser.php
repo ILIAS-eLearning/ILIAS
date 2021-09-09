@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilForumXMLParser extends ilSaxParser
@@ -26,7 +26,25 @@ class ilForumXMLParser extends ilSaxParser
     protected $schema_version = null;
 
     private $db;
-
+    private ilObjUser $aobject;
+    private $importDirectory;
+    private array $forumArray;
+    private array $postArray;
+    private array $threadArray;
+    private string $cdata;
+    private array $contentArray;
+    /**
+     * @var int
+     */
+    private int $forum_obj_id = 0;
+    private int $frm_last_mapped_top_usr_id = 0;
+    private mixed $lastHandledForumId;
+    private ilForumTopic $forumThread;
+    private int $lastHandledThreadId;
+    private ilForumPost $forumPost;
+    private $result;
+    private int $lastHandledPostId;
+    
     /**
      * Constructor
      *
@@ -305,7 +323,7 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setPostActivation((int) $this->forumArray['PostingActivation']);
                     $newObjProp->setPresetSubject((int) $this->forumArray['PresetSubject']);
                     $newObjProp->setAddReSubject((int) $this->forumArray['PresetRe']);
-                    $newObjProp->setNotificationType($this->forumArray['NotificationType'] ? $this->forumArray['NotificationType'] : 'all_users');
+                    $newObjProp->setNotificationType($this->forumArray['NotificationType'] ?: 'all_users');
                     $newObjProp->setAdminForceNoti((int) $this->forumArray['ForceNotification']);
                     $newObjProp->setUserToggleNoti((int) $this->forumArray['ToggleNotification']);
                     $newObjProp->setFileUploadAllowed((int) $this->forumArray['FileUpload']);
@@ -572,6 +590,7 @@ class ilForumXMLParser extends ilSaxParser
 
     private function getIdAndAliasArray($imp_usr_id, $param = 'import')
     {
+        $where = '';
         $select = 'SELECT od.obj_id, ud.login FROM object_data od INNER JOIN usr_data ud ON od.obj_id = ud.usr_id';
         if ($param == 'import') {
             $where = ' WHERE od.import_id = ' . $this->db->quote(

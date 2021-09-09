@@ -1,22 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilForumCronNotificationDataProvider
- *
  * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 {
     /**
-     * @var null
+     * @var int|null
      */
-    public $notification_type = null;
+    public ?int $notification_type = null;
 
     /**
      * @var int $ref_id
      */
-    protected $ref_id = 0;
+    protected int $ref_id = 0;
 
     /**
      * @var int $obj_id
@@ -135,12 +134,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
 
     /** @var ilForumNotificationCache */
     private $notificationCache;
-
+    
     /**
-     * @param $row
      * @param ilForumNotificationCache|null $notificationCache
      */
-    public function __construct($row, $notification_type, ilForumNotificationCache $notificationCache = null)
+    public function __construct($row, int $notification_type, ilForumNotificationCache $notificationCache = null)
     {
         $this->notification_type = $notification_type;
         $this->obj_id = $row['obj_id'];
@@ -186,17 +184,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->read();
     }
 
-    /**
-     *
-     */
     protected function read()
     {
         $this->readAttachments();
     }
 
-    /**
-     *
-     */
     private function readAttachments()
     {
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
@@ -210,130 +202,82 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         }
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function addRecipient($user_id)
+    public function addRecipient(int $user_id)
     {
-        $this->cron_recipients[] = (int) $user_id;
+        $this->cron_recipients[] = $user_id;
     }
 
-    /**
-     * @return array
-     */
-    public function getCronRecipients()
+    public function getCronRecipients(): array
     {
         return $this->cron_recipients;
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId(): int
     {
         return $this->ref_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId(): int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @return int frm_data.top_pk
-     */
-    public function getForumId()
+    public function getForumId(): int
     {
         return $this->forum_id;
     }
 
-    /**
-     * @return string frm_data.top_name
-     */
-    public function getForumTitle()
+    public function getForumTitle(): string
     {
         return $this->forum_title;
     }
 
-    /**
-     * @return int
-     */
-    public function getThreadId()
+    public function getThreadId(): int
     {
         return $this->thread_id;
     }
 
-    /**
-     * @return string frm_threads.thr_subject
-     */
-    public function getThreadTitle()
+    public function getThreadTitle(): string
     {
         return $this->thread_title;
     }
 
-    /**
-     * @return int
-     */
-    public function getPostId()
+    public function getPostId(): int
     {
         return $this->post_id;
     }
 
-    /**
-     * @return string frm_posts.pos_subject
-     */
-    public function getPostTitle()
+    public function getPostTitle(): string
     {
         return $this->post_title;
     }
 
-    /**
-     * @return string frm_posts.pos_message
-     */
-    public function getPostMessage()
+    public function getPostMessage(): string
     {
         return $this->post_message;
     }
 
-    /**
-     * @return string frm_posts.pos_date
-     */
-    public function getPostDate()
+    public function getPostDate(): ?string
     {
         return $this->post_date;
     }
 
-    /**
-     * @return string frm_posts.pos_update
-     */
-    public function getPostUpdate()
+    public function getPostUpdate(): ?string
     {
         return $this->post_update;
     }
 
-    /**
-     * @return string frm_posts.pos_cens
-     */
-    public function getPostCensored()
+    public function getPostCensored(): bool|string
     {
         return $this->post_censored;
     }
 
-    /**
-     * @return string frm_posts.pos_cens_date
-     */
-    public function getPostCensoredDate()
+    public function getPostCensoredDate(): ?string
     {
         return $this->post_censored_date;
     }
 
-    /**
-     * @return string
-     */
-    public function getCensorshipComment()
+    public function getCensorshipComment(): string
     {
         return $this->post_censored_comment;
     }
@@ -341,73 +285,51 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     /**
      * @return array file names
      */
-    public function getAttachments()
+    public function getAttachments(): array
     {
         return $this->attachments;
     }
 
-    /**
-     * @param null $notification_type
-     */
-    public function setNotificationType($notification_type)
+    public function setNotificationType(int $notification_type)
     {
         $this->notification_type = $notification_type;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosDisplayUserId()
+    public function getPosDisplayUserId(): int
     {
         return $this->pos_display_user_id;
     }
 
-
-    /**
-     * @return string frm_posts.pos_usr_alias
-     */
-    public function getPosUserAlias()
+    public function getPosUserAlias(): string
     {
         return $this->pos_usr_alias;
     }
 
-    /**
-     * @return int
-     */
-    public function getPostUpdateUserId()
+    public function getPostUpdateUserId(): int
     {
         return $this->post_update_user_id;
     }
 
-    /**
-     * @param int $post_update_user_id
-     */
-    public function setPostUpdateUserId($post_update_user_id)
+    public function setPostUpdateUserId(int $post_update_user_id)
     {
         $this->post_update_user_id = $post_update_user_id;
     }
 
-    public function setPosAuthorId($pos_author_id)
+    public function setPosAuthorId(int $pos_author_id)
     {
         $this->pos_author_id = $pos_author_id;
     }
-    public function getPosAuthorId()
+    public function getPosAuthorId() : int
     {
         return $this->pos_author_id;
     }
 
-    /**
-     * @return bool
-     */
-    public function isAnonymized()
+    public function isAnonymized(): bool
     {
         return $this->is_anonymized;
     }
 
-    /**
-     * @return int
-     */
-    public function getDeletedBy()
+    public function getDeletedBy(): int|string
     {
         return $this->deleted_by;
     }
@@ -428,9 +350,9 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         if ($this->post_user_name === null) {
             $this->post_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
                 $user_lang,
-                (int) $this->getPosAuthorId(),
-                (int) $this->getPosDisplayUserId(),
-                (string) $this->getPosUserAlias(),
+                $this->getPosAuthorId(),
+                $this->getPosDisplayUserId(),
+                $this->getPosUserAlias(),
                 (string) $this->getImportName()
             ));
         }
@@ -438,17 +360,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->post_user_name;
     }
     
-    /**
-     * @inheritdoc
-     */
-    public function getPostUpdateUserName(\ilLanguage $user_lang)
+    public function getPostUpdateUserName(\ilLanguage $user_lang) : string
     {
         if ($this->update_user_name === null) {
             $this->update_user_name = $this->getPublicUserInformation(self::getAuthorInformation(
                 $user_lang,
-                (int) $this->getPosAuthorId(),
-                (int) $this->getPostUpdateUserId(),
-                (string) $this->getPosUserAlias(),
+                $this->getPosAuthorId(),
+                $this->getPostUpdateUserId(),
+                $this->getPosUserAlias(),
                 (string) $this->getImportName()
             ));
         }
@@ -497,10 +416,10 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $cacheKey = $this->notificationCache->createKeyByValues(array(
             $this->notification_type,
             $lng->getLangKey(),
-            (int) $authorUsrId,
-            (int) $displayUserId,
-            (string) $usrAlias,
-            (string) $importName
+            $authorUsrId,
+            $displayUserId,
+            $usrAlias,
+            $importName
         ));
 
         if (false === $this->notificationCache->exists($cacheKey)) {

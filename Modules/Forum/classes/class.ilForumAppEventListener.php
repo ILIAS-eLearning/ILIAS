@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -10,7 +10,7 @@
 */
 class ilForumAppEventListener implements ilAppEventListener
 {
-    protected static $ref_ids = array();
+    protected static array $ref_ids = array();
     
     /**
     * Handle an event in a listener.
@@ -371,7 +371,6 @@ class ilForumAppEventListener implements ilAppEventListener
                             $post->getPosAuthorId()
                         );
                         break;
-                        break;
                     case 'savedAsDraft':
                     case 'updatedDraft':
                     case 'deletedDraft':
@@ -446,26 +445,24 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
         }
     }
-
-    /**
-     * @param int $obj_id
-     */
-    private static function getCachedReferences($obj_id)
+    
+    private static function getCachedReferences(int $obj_id)
     {
         if (!array_key_exists($obj_id, self::$ref_ids)) {
             self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);
         }
         return self::$ref_ids[$obj_id];
     }
-
+    
     /**
      * @param ilObjForumNotificationDataProvider $provider
-     * @param int                                $notification_type
-     * @param ilLogger                           $logger
+     * @param int $notification_type
+     * @param ilLogger $logger
+     * @throws ilException
      */
     private static function delegateNotification(
         ilObjForumNotificationDataProvider $provider,
-        $notification_type,
+        int $notification_type,
         \ilLogger $logger
     ) {
         switch ($notification_type) {
@@ -478,11 +475,11 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
 
             default:
-                // get recipients who wants to get forum notifications
+                // get recipients who want to get forum notifications
                 $logger->debug('Determining subscribers for global forum notifications ...');
                 $frm_recipients = $provider->getForumNotificationRecipients($notification_type);
 
-                // get recipients who wants to get thread notifications
+                // get recipients who want to get thread notifications
                 $logger->debug('Determining subscribers for thread notifications ...');
                 $thread_recipients = $provider->getThreadNotificationRecipients($notification_type);
 
@@ -492,12 +489,13 @@ class ilForumAppEventListener implements ilAppEventListener
                 break;
         }
     }
-
+    
     /**
      * @param ilObjForumNotificationDataProvider $provider
      * @param ilLogger $logger
      * @param int $notificationTypes
      * @param array $recipients
+     * @throws ilException
      */
     public static function sendNotification(
         ilObjForumNotificationDataProvider $provider,

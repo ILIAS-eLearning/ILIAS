@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -31,9 +31,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
     protected $overview_setting = '';
 
     /**
-     * @var array
+     * @var ForumDto
      */
-    protected $topicData = array();
+    protected $topicData;
 
     /**
      * @var ilCtrl
@@ -62,16 +62,17 @@ class ilForumTopicTableGUI extends ilTable2GUI
     
     private $user;
     private $settings;
-
+    
     /**
-     * @param        $a_parent_obj
+     * @param $a_parent_obj
      * @param string $a_parent_cmd
      * @param string $template_context
-     * @param int    $ref_id
-     * @param bool   $is_moderator
+     * @param int $ref_id
+     * @param array $topicData
+     * @param bool $is_moderator
      * @param string $overview_setting
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $template_context = '', $ref_id = 0, $topicData = array(), $is_moderator = false, $overview_setting = '')
+    public function __construct($a_parent_obj, $a_parent_cmd = '', $template_context = '', $ref_id = 0, ForumDto $topicData, $is_moderator = false, $overview_setting = '')
     {
         global $DIC;
 
@@ -211,8 +212,17 @@ class ilForumTopicTableGUI extends ilTable2GUI
     protected function fillRow($thread)
     {
         $this->ctrl->setParameter($this->getParentObject(), 'thr_pk', $thread->getId());
+        global $DIC;
+        $thread_ids = [];
+        if($DIC->http()->wrapper()->post()->has('thread_ids')) {
+            $thread_ids = $DIC->http()->wrapper()->post()->retrieve(
+                'thread_ids',
+                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
+            );
+        }
+
         if ('mergeThreads' == $this->parent_cmd) {
-            $checked = $this->max_count == 1 || (isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']));
+            $checked = $this->max_count == 1 || (isset($thread_ids) && in_array($thread->getId(), $thread_ids));
             $this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
                 $checked,
                 'thread_ids[]',
@@ -220,7 +230,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             ));
         } elseif ('showThreads' == $this->parent_cmd) {
             $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-                (isset($_POST['thread_ids']) && in_array($thread->getId(), $_POST['thread_ids']) ? true : false),
+                (isset($thread_ids) && in_array($thread->getId(), $thread_ids) ? true : false),
                 'thread_ids[]',
                 $thread->getId()
             ));
@@ -295,7 +305,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
         if ($this->is_post_draft_allowed) {
             $draft_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
-            $this->tpl->setVariable('VAL_DRAFTS', (int) $draft_statistics[$thread->getId()]);
+            $this->tpl->setVariable('VAL_DRAFTS', (int) isset($draft_statistics[$thread->getId()])?$draft_statistics[$thread->getId()] : 0);
         }
         // Last posting
         if ($num_posts > 0) {
@@ -374,10 +384,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
             'order_direction' => $this->getOrderDirection()
         );
 
-        $data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int) $this->getLimit(), (int) $this->getOffset());
+        $data = $this->getMapper()->getAllThreads($this->topicData->getTopPk(), $params, (int) $this->getLimit(), (int) $this->getOffset());
         if (!count($data['items']) && $this->getOffset() > 0) {
             $this->resetOffset();
-            $data = $this->getMapper()->getAllThreads($this->topicData['top_pk'], $params, (int) $this->getLimit(), (int) $this->getOffset());
+            $data = $this->getMapper()->getAllThreads($this->topicData->getTopPk(), $params, (int) $this->getLimit(), (int) $this->getOffset());
         }
 
         $this->setMaxCount($data['cnt']);
@@ -479,7 +489,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $topicData
+     * @param ForumDto $topicData
      * @return ilForumTopicTableGUI
      */
     public function setTopicData($topicData)
@@ -489,7 +499,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array
+     * @return ForumDto
      */
     public function getTopicData()
     {

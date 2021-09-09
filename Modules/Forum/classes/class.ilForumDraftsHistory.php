@@ -1,5 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilForumDraftHistory
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -7,7 +8,7 @@
 class ilForumDraftsHistory
 {
     const MEDIAOBJECT_TYPE = 'frm~h:html';
-    
+
     /**
      * @var int
      */
@@ -24,14 +25,14 @@ class ilForumDraftsHistory
      * @var string
      */
     protected $post_message = '';
-    
+
     /**
      * @var string
      */
     protected $draft_date = '0000-00-00 00:00:00';
-    
+
     public $db;
-    
+
     /**
      * @return int
      */
@@ -39,7 +40,7 @@ class ilForumDraftsHistory
     {
         return $this->history_id;
     }
-    
+
     /**
      * @param int $history_id
      */
@@ -47,7 +48,7 @@ class ilForumDraftsHistory
     {
         $this->history_id = $history_id;
     }
-    
+
     /**
      * @return int
      */
@@ -55,7 +56,7 @@ class ilForumDraftsHistory
     {
         return $this->draft_id;
     }
-    
+
     /**
      * @param int $draft_id
      */
@@ -63,7 +64,7 @@ class ilForumDraftsHistory
     {
         $this->draft_id = $draft_id;
     }
-    
+
     /**
      * @return string
      */
@@ -71,7 +72,7 @@ class ilForumDraftsHistory
     {
         return $this->post_subject;
     }
-    
+
     /**
      * @param string $post_subject
      */
@@ -79,7 +80,7 @@ class ilForumDraftsHistory
     {
         $this->post_subject = $post_subject;
     }
-    
+
     /**
      * @return string
      */
@@ -87,7 +88,7 @@ class ilForumDraftsHistory
     {
         return $this->post_message;
     }
-    
+
     /**
      * @param string $post_message
      */
@@ -95,7 +96,7 @@ class ilForumDraftsHistory
     {
         $this->post_message = $post_message;
     }
-    
+
     /**
      * @return string
      */
@@ -103,7 +104,7 @@ class ilForumDraftsHistory
     {
         return $this->draft_date;
     }
-    
+
     /**
      * @param string $draft_date
      */
@@ -111,7 +112,7 @@ class ilForumDraftsHistory
     {
         $this->draft_date = $draft_date;
     }
-    
+
     /**
      * ilForumDraftsHistory constructor.
      * @param int $history_id
@@ -120,7 +121,7 @@ class ilForumDraftsHistory
     {
         global $DIC;
         $this->db = $DIC->database();
-        
+
         if (isset($history_id) && $history_id > 0) {
             $this->readByHistoryId($history_id);
         }
@@ -128,7 +129,6 @@ class ilForumDraftsHistory
 
     /**
      * @param $history_id
-     * @return ilForumDraftsHistory
      */
     private function readByHistoryId($history_id)
     {
@@ -137,7 +137,7 @@ class ilForumDraftsHistory
             array('integer'),
             array((int) $history_id)
         );
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $this->setHistoryId($row['history_id']);
             $this->setDraftId($row['draft_id']);
@@ -146,12 +146,12 @@ class ilForumDraftsHistory
             $this->setDraftDate($row['draft_date']);
         }
     }
-    
+
     public static function getInstancesByDraftId($draft_id)
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $res = $ilDB->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY draft_date DESC',
             array('integer'),
@@ -161,13 +161,13 @@ class ilForumDraftsHistory
         while ($row = $ilDB->fetchAssoc($res)) {
             $tmp_obj = new self;
             $tmp_obj = self::populateWithDatabaseRecord($tmp_obj, $row);
-        
+
             $instances[] = $tmp_obj;
         }
         unset($tmp_obj);
         return $instances;
     }
-    
+
     /**
      * @param ilForumDraftsHistory $history_draft
      * @param array                $row
@@ -180,10 +180,10 @@ class ilForumDraftsHistory
         $history_draft->setPostMessage($row['post_message']);
         $history_draft->setPostSubject($row['post_subject']);
         $history_draft->setDraftDate($row['draft_date']);
-        
+
         return $history_draft;
     }
-    
+
     public function delete()
     {
         $this->db->manipulatef(
@@ -192,7 +192,7 @@ class ilForumDraftsHistory
             array($this->getHistoryId())
         );
     }
-    
+
     /**
      * @param $draft_id
      */
@@ -204,7 +204,7 @@ class ilForumDraftsHistory
             array('integer'),
             array((int) $draft_id)
         );
-        
+
         if ($row = $this->db->fetchAssoc($res)) {
             $this->setHistoryId($row['history_id']);
             $this->setDraftId($row['draft_id']);
@@ -212,6 +212,7 @@ class ilForumDraftsHistory
             $this->setPostMessage($row['post_message']);
         }
     }
+
     /**
      * @param $draft_id
      */
@@ -223,7 +224,7 @@ class ilForumDraftsHistory
             array('integer'),
             array($draft_id)
         );
-        
+
         while ($row = $this->db->fetchAssoc($res)) {
             $this->setHistoryId($row['history_id']);
             $this->setDraftId($row['draft_id']);
@@ -231,7 +232,7 @@ class ilForumDraftsHistory
             $this->setPostMessage($row['post_message']);
         }
     }
-    
+
     public function addDraftToHistory()
     {
         $next_id = $this->db->nextId('frm_drafts_history');
@@ -246,12 +247,12 @@ class ilForumDraftsHistory
         );
         $this->setHistoryId($next_id);
     }
-    
+
     public function addMobsToDraftsHistory($message)
     {
         // copy temporary media objects (frm~)
         $mediaObjects = ilRTE::_getMediaObjects($this->getPostMessage(), 0);
-        
+
         $myMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~h:html', $this->getHistoryId());
         foreach ($mediaObjects as $mob) {
             foreach ($myMediaObjects as $myMob) {
@@ -264,7 +265,7 @@ class ilForumDraftsHistory
             ilObjMediaObject::_saveUsage($mob, 'frm~h:html', $this->getHistoryId());
         }
     }
-    
+
     public function deleteMobs()
     {
         // delete mobs of draft history
@@ -277,13 +278,13 @@ class ilForumDraftsHistory
             }
         }
     }
-    
+
     public function rollbackAutosave()
     {
         $draft = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
         $draft->setPostSubject($this->getPostSubject());
         $draft->setPostMessage($this->getPostMessage());
-        
+
         ilForumUtil::moveMediaObjects(
             $this->getPostMessage(),
             self::MEDIAOBJECT_TYPE,
@@ -291,17 +292,17 @@ class ilForumDraftsHistory
             ilForumPostDraft::MEDIAOBJECT_TYPE,
             $draft->getDraftId()
         );
-        
+
         $draft->updateDraft();
         $this->deleteHistoryByDraftIds(array($draft->getDraftId()));
-        
+
         return $draft;
     }
-    
+
     /**
      * @param array $post_ids
      */
-    public function deleteHistoryByPostIds($post_ids = array())
+    public function deleteHistoryByPostIds($post_ids = array()) : array
     {
         $draft_ids = array();
         if (count($post_ids) > 0) {
@@ -310,29 +311,29 @@ class ilForumDraftsHistory
 			FROM frm_posts_drafts  
  			INNER JOIN frm_drafts_history ON frm_posts_drafts.draft_id
  			WHERE ' . $this->db->in('post_id', $post_ids, false, 'integer'));
-            
+
             while ($row = $this->db->fetchAssoc($res)) {
-                $draft_ids[] = $row['draft_id'];
+                $draft_ids[] = (int) $row['draft_id'];
             }
-            
+
             $this->deleteHistoryByDraftIds($draft_ids);
         }
         return $draft_ids;
     }
-    
+
     public function deleteHistoryByDraftIds($draft_ids = array())
     {
         if (count($draft_ids) > 0) {
             $res = $this->db->query('SELECT history_id FROM frm_drafts_history 
  					WHERE ' . $this->db->in('draft_id', $draft_ids, false, 'integer'));
-            
+
             while ($row = $this->db->fetchAssoc($res)) {
-                $this->setHistoryId($row['history_id']);
+                $this->setHistoryId((int) $row['history_id']);
                 $this->deleteMobs();
             }
-            
+
             $this->db->manipulate('DELETE FROM frm_drafts_history WHERE '
-                    . $this->db->in('draft_id', $draft_ids, false, 'integer'));
+                . $this->db->in('draft_id', $draft_ids, false, 'integer'));
         }
     }
 }

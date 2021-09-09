@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -116,9 +116,6 @@ class ilForumPostsDeleted
         }
     }
 
-    /**
-     *
-     */
     public function insert()
     {
         $next_id = $this->db->nextId('frm_posts_deleted');
@@ -143,9 +140,6 @@ class ilForumPostsDeleted
         ));
     }
 
-    /**
-     *
-     */
     public function deleteNotifiedEntries()
     {
         $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
@@ -156,7 +150,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getDeletedId()
+    public function getDeletedId() : int
     {
         return $this->deleted_id;
     }
@@ -164,7 +158,7 @@ class ilForumPostsDeleted
     /**
      * @param int $deleted_id
      */
-    public function setDeletedId($deleted_id)
+    public function setDeletedId(int $deleted_id)
     {
         $this->deleted_id = $deleted_id;
     }
@@ -177,10 +171,7 @@ class ilForumPostsDeleted
         return $this->deleted_date;
     }
 
-    /**
-     * @param null $deleted_date
-     */
-    public function setDeletedDate($deleted_date)
+    public function setDeletedDate(string $deleted_date)
     {
         $this->deleted_date = $deleted_date;
     }
@@ -188,7 +179,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getDeletedBy()
+    public function getDeletedBy() : string
     {
         return $this->deleted_by;
     }
@@ -196,7 +187,7 @@ class ilForumPostsDeleted
     /**
      * @param string $deleted_by
      */
-    public function setDeletedBy($deleted_by)
+    public function setDeletedBy(string $deleted_by)
     {
         $this->deleted_by = $deleted_by;
     }
@@ -204,7 +195,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getForumTitle()
+    public function getForumTitle() : string
     {
         return $this->forum_title;
     }
@@ -212,7 +203,7 @@ class ilForumPostsDeleted
     /**
      * @param string $forum_title
      */
-    public function setForumTitle($forum_title)
+    public function setForumTitle(string $forum_title)
     {
         $this->forum_title = $forum_title;
     }
@@ -220,7 +211,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getThreadTitle()
+    public function getThreadTitle() : string
     {
         return $this->thread_title;
     }
@@ -228,7 +219,7 @@ class ilForumPostsDeleted
     /**
      * @param string $thread_title
      */
-    public function setThreadTitle($thread_title)
+    public function setThreadTitle(string $thread_title)
     {
         $this->thread_title = $thread_title;
     }
@@ -236,7 +227,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getPostTitle()
+    public function getPostTitle() : string
     {
         return $this->post_title;
     }
@@ -244,7 +235,7 @@ class ilForumPostsDeleted
     /**
      * @param string $post_title
      */
-    public function setPostTitle($post_title)
+    public function setPostTitle(string $post_title)
     {
         $this->post_title = $post_title;
     }
@@ -252,7 +243,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getPostMessage()
+    public function getPostMessage() : string
     {
         return $this->post_message;
     }
@@ -260,7 +251,7 @@ class ilForumPostsDeleted
     /**
      * @param string $post_message
      */
-    public function setPostMessage($post_message)
+    public function setPostMessage(string $post_message)
     {
         $this->post_message = $post_message;
     }
@@ -268,7 +259,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getPostDate()
+    public function getPostDate() : string
     {
         return $this->post_date;
     }
@@ -276,7 +267,7 @@ class ilForumPostsDeleted
     /**
      * @param string $post_date
      */
-    public function setPostDate($post_date)
+    public function setPostDate(string $post_date)
     {
         $this->post_date = $post_date;
     }
@@ -284,7 +275,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -292,7 +283,7 @@ class ilForumPostsDeleted
     /**
      * @param int $obj_id
      */
-    public function setObjId($obj_id)
+    public function setObjId(int $obj_id)
     {
         $this->obj_id = $obj_id;
     }
@@ -300,7 +291,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
@@ -308,7 +299,7 @@ class ilForumPostsDeleted
     /**
      * @param int $ref_id
      */
-    public function setRefId($ref_id)
+    public function setRefId(int $ref_id)
     {
         $this->ref_id = $ref_id;
     }
@@ -316,7 +307,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getThreadId()
+    public function getThreadId() : int
     {
         return $this->thread_id;
     }
@@ -324,7 +315,7 @@ class ilForumPostsDeleted
     /**
      * @param int $thread_id
      */
-    public function setThreadId($thread_id)
+    public function setThreadId(int $thread_id)
     {
         $this->thread_id = $thread_id;
     }
@@ -332,7 +323,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getForumId()
+    public function getForumId() : int
     {
         return $this->forum_id;
     }
@@ -340,7 +331,7 @@ class ilForumPostsDeleted
     /**
      * @param int $forum_id
      */
-    public function setForumId($forum_id)
+    public function setForumId(int $forum_id)
     {
         $this->forum_id = $forum_id;
     }
@@ -348,7 +339,7 @@ class ilForumPostsDeleted
     /**
      * @return int
      */
-    public function getPosDisplayUserId()
+    public function getPosDisplayUserId() : int
     {
         return $this->pos_display_user_id;
     }
@@ -356,7 +347,7 @@ class ilForumPostsDeleted
     /**
      * @param int $pos_display_user_id
      */
-    public function setPosDisplayUserId($pos_display_user_id)
+    public function setPosDisplayUserId(int $pos_display_user_id)
     {
         $this->pos_display_user_id = $pos_display_user_id;
     }
@@ -364,7 +355,7 @@ class ilForumPostsDeleted
     /**
      * @return string
      */
-    public function getPosUserAlias()
+    public function getPosUserAlias() : string
     {
         return $this->pos_usr_alias;
     }
@@ -372,7 +363,7 @@ class ilForumPostsDeleted
     /**
      * @param string $pos_usr_alias
      */
-    public function setPosUserAlias($pos_usr_alias)
+    public function setPosUserAlias(string $pos_usr_alias)
     {
         $this->pos_usr_alias = $pos_usr_alias;
     }
@@ -380,7 +371,7 @@ class ilForumPostsDeleted
     /**
      * @return boolean
      */
-    public function isThreadDeleted()
+    public function isThreadDeleted() : bool
     {
         return $this->thread_deleted;
     }
@@ -388,7 +379,7 @@ class ilForumPostsDeleted
     /**
      * @param boolean $thread_deleted
      */
-    public function setThreadDeleted($thread_deleted)
+    public function setThreadDeleted(bool $thread_deleted)
     {
         $this->thread_deleted = $thread_deleted;
     }

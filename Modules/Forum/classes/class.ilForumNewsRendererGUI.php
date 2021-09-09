@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -17,6 +17,7 @@ class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
      */
     public function getObjectLink() : string
     {
+        $add = '';
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "pos"
             && $n->getContextSubObjId() > 0) {

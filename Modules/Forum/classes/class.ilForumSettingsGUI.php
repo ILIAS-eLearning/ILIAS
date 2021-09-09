@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -33,6 +33,9 @@ class ilForumSettingsGUI
     private $notificationSettingsForm;
 
     public $ref_id;
+    private $obj_service;
+     /** @var $dic  \ILIAS\DI\Container */
+    private $dic;
     
     /**
      * ilForumSettingsGUI constructor.
@@ -42,6 +45,7 @@ class ilForumSettingsGUI
     {
         global $DIC;
 
+        $this->dic = $DIC;
         $this->parent_obj = $parent_obj;
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -196,8 +200,14 @@ class ilForumSettingsGUI
             if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
                 if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+                    $cmd = '';
+                    if($this->dic->http()->wrapper()->query()->has('cmd')) {
+                       $cmd =  $this->dic->http()->wrapper()->query()->retrieve('cmd',
+                        $this->dic->refinery()->string());
+                    }
+                    
                     $mem_active = array('showMembers', 'forums_notification_settings');
-                    (in_array($_GET['cmd'], $mem_active)) ? $force_mem_active = true : $force_mem_active = false;
+                    (in_array($cmd, $mem_active)) ? $force_mem_active = true : $force_mem_active = false;
 
                     $this->tabs->addSubTabTarget(
                         'notifications',
@@ -266,8 +276,9 @@ class ilForumSettingsGUI
         $this->parent_obj->objProperties->setDefaultView($default_view);
 
         // BUGFIX FOR 11271
-        if (isset($_SESSION['viewmode'])) {
-            $_SESSION['viewmode'] = $default_view;
+
+        if (ilSession::get('viewmode')) {
+            ilSession::set('viewmode', $default_view);
         }
 
         if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
@@ -412,14 +423,62 @@ class ilForumSettingsGUI
 
     public function saveEventsForUser()
     {
-        $hidden_value = json_decode($_POST['hidden_value']);
+        /** @var $DIC  \ILIAS\DI\Container */
+        global $DIC;
+    
+        $hidden_value = [];
+        if($DIC->http()->wrapper()->post()->has('hidden_value')) {
+            $hidden_value = $DIC->http()->wrapper()->post()->retrieve(
+                'hidden_value',
+                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string())
+            );
+        }
+    
+        $notify_modified = 0;
+        if($DIC->http()->wrapper()->post()->has('notify_modified')) {
+            $notify_modified = $DIC->http()->wrapper()->post()->retrieve(
+                'notify_modified',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+        $notify_censored = 0;
+        if($DIC->http()->wrapper()->post()->has('notify_censored')) {
+            $notify_censored = $DIC->http()->wrapper()->post()->retrieve(
+                'notify_censored',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+        $notify_uncensored = 0;
+        if($DIC->http()->wrapper()->post()->has('notify_uncensored')) {
+            $notify_uncensored = $DIC->http()->wrapper()->post()->retrieve(
+                'notify_uncensored',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+        $notify_post_deleted = 0;
+        if($DIC->http()->wrapper()->post()->has('notify_post_deleted')) {
+            $notify_post_deleted = $DIC->http()->wrapper()->post()->retrieve(
+                'notify_post_deleted',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+    
+        $notify_thread_deleted = 0;
+        if($DIC->http()->wrapper()->post()->has('notify_thread_deleted')) {
+            $notify_thread_deleted = $DIC->http()->wrapper()->post()->retrieve(
+                'notify_thread_deleted',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+        
+        $hidden_value = json_decode($hidden_value);
         $interested_events = 0;
     
-        $interested_events += (int) $_POST['notify_modified'];
-        $interested_events += (int) $_POST['notify_censored'];
-        $interested_events += (int) $_POST['notify_uncensored'];
-        $interested_events += (int) $_POST['notify_post_deleted'];
-        $interested_events += (int) $_POST['notify_thread_deleted'];
+        $interested_events += (int) $notify_modified;
+        $interested_events += (int) $notify_censored;
+        $interested_events += (int) $notify_uncensored;
+        $interested_events += (int) $notify_post_deleted;
+        $interested_events += (int) $notify_thread_deleted;
     
         $frm_noti = new ilForumNotification($hidden_value->ref_id);
         $frm_noti->setUserId($hidden_value->usr_id_events);
@@ -439,12 +498,18 @@ class ilForumSettingsGUI
             );
         }
 
-        if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
+        $user_ids = [];
+        if($this->dic->http()->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
+            $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+        }
+        
+        if (count($user_ids) == 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
-            foreach ($_POST['user_id'] as $user_id) {
+            foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
 
@@ -469,13 +534,19 @@ class ilForumSettingsGUI
                 $this->parent_obj->error->MESSAGE
             );
         }
-
-        if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
+    
+        $user_ids = [];
+        if($this->dic->http()->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+        }
+    
+        if (count($user_ids) == 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
-            foreach ($_POST['user_id'] as $user_id) {
+            foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
 
@@ -498,12 +569,19 @@ class ilForumSettingsGUI
                 $this->parent_obj->error->MESSAGE
             );
         }
-        if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
+        
+        $user_ids = [];
+        if($this->dic->http()->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+        }
+    
+        if (count($user_ids) == 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
-            foreach ($_POST['user_id'] as $user_id) {
+            foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
                 $frm_noti->setUserToggle(1);
@@ -530,13 +608,19 @@ class ilForumSettingsGUI
                 $this->parent_obj->error->MESSAGE
             );
         }
-
-        if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
+    
+        $user_ids = [];
+        if($this->dic->http()->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+        }
+    
+        if (count($user_ids) == 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
-            foreach ($_POST['user_id'] as $user_id) {
+            foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
                 $frm_noti->setUserToggle(0);
@@ -696,7 +780,13 @@ class ilForumSettingsGUI
 
         // check input
         if ($this->notificationSettingsForm->checkInput()) {
-            if (isset($_POST['notification_type']) && $_POST['notification_type'] == 'all_users') {
+            $notification_type = '';
+            if($this->dic->http()->wrapper()->post()->has('notification_type')) {
+                $notification_type = $this->dic->http()->wrapper()->post()->retrieve('notification_type',
+                    $this->dic->refinery()->kindlyTo()->string());
+            }
+    
+            if (strlen($notification_type) && $notification_type == 'all_users') {
                 // set values and call update
                 $notification_events = $this->notificationSettingsForm->getInput('notification_events');
                 $interested_events = 0;
@@ -713,12 +803,12 @@ class ilForumSettingsGUI
                 $this->parent_obj->objProperties->setInterestedEvents($interested_events);
                 $this->updateUserNotifications(true);
             } else {
-                if ($_POST['notification_type'] == 'per_user') {
+                if ($notification_type == 'per_user') {
                     $this->parent_obj->objProperties->setNotificationType('per_user');
                     $this->parent_obj->objProperties->setAdminForceNoti(1);
                     $this->parent_obj->objProperties->setUserToggleNoti(0);
                     $this->updateUserNotifications();
-                } else { //  if($_POST['notification_type'] == 'default')
+                } else { //  if($notification_type] == 'default')
                     $this->parent_obj->objProperties->setNotificationType('default');
                     $this->parent_obj->objProperties->setAdminForceNoti(0);
                     $this->parent_obj->objProperties->setUserToggleNoti(0);
@@ -735,6 +825,5 @@ class ilForumSettingsGUI
         $this->notificationSettingsForm->setValuesByPost();
 
         $this->showMembers();
-        return;
     }
 }

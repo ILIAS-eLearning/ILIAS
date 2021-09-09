@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -23,10 +23,13 @@ class ilForumModeratorsGUI
     private $oForumModerators;
 
     private $ref_id = 0;
+    private $access;
+    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
-        global $DIC;
+        global $DIC; /** @var $DIC ILIAS\DI\Container  */
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -38,18 +41,24 @@ class ilForumModeratorsGUI
         
         $this->tabs->activateTab('frm_moderators');
         $this->lng->loadLanguageModule('search');
+        $this->http_wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
 
-        if (!$this->access->checkAccess('write', '', (int) $_GET['ref_id'])) {
+        if ($this->http_wrapper->query()->has('ref_id')) {
+            $this->ref_id = $this->http_wrapper->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
+        if (!$this->access->checkAccess('write', '', (int) $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $this->oForumModerators = new ilForumModerators((int) $_GET['ref_id']);
-        $this->ref_id = (int) $_GET['ref_id'];
+        $this->oForumModerators = new ilForumModerators((int) $this->ref_id);
+
     }
 
-    /**
-     *
-     */
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -72,9 +81,6 @@ class ilForumModeratorsGUI
         }
     }
 
-    /**
-     *
-     */
     public function addModerator($users = array())
     {
         if (!$users) {
@@ -103,18 +109,24 @@ class ilForumModeratorsGUI
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    /**
-     *
-     */
     public function detachModeratorRole()
     {
-        if (!isset($_POST['usr_id']) || !is_array($_POST['usr_id'])) {
+        $usr_ids = [];
+        global $DIC;
+        if($DIC->http()->wrapper()->post()->has('usr_id')) {
+            $usr_ids = $DIC->http()->wrapper()->post()->retrieve(
+                'usr_id',
+                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
+            );
+        }
+
+        if (!isset($usr_ids) || !is_array($usr_ids)) {
             ilUtil::sendFailure($this->lng->txt('frm_moderators_select_at_least_one'));
             return $this->showModerators();
         }
 
         $entries = $this->oForumModerators->getCurrentModerators();
-        if (count($_POST['usr_id']) == count($entries)) {
+        if (count($usr_ids) == count($entries)) {
             ilUtil::sendFailure($this->lng->txt('frm_at_least_one_moderator'));
             return $this->showModerators();
         }
@@ -124,7 +136,7 @@ class ilForumModeratorsGUI
         $objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
         $frm_noti_type = $objFrmProps->getNotificationType();
         
-        foreach ($_POST['usr_id'] as $usr_id) {
+        foreach ($usr_ids as $usr_id) {
             $this->oForumModerators->detachModeratorRole((int) $usr_id);
 
             if ($isCrsGrp && $frm_noti_type != 'default') {
@@ -140,13 +152,12 @@ class ilForumModeratorsGUI
 
         ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
+        return false;
     }
 
-    /**
-     *
-     */
     public function showModerators()
     {
+        global $DIC;
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $this->toolbar,
@@ -157,8 +168,13 @@ class ilForumModeratorsGUI
                 'add_from_container' => $this->oForumModerators->getRefId()
             )
         );
-
-        $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int) $_GET['ref_id']);
+        if ($DIC->http()->wrapper()->query()->has('ref_id')) {
+            $this->ref_id = $DIC->http()->wrapper()->query()->retrieve(
+                'ref_id',
+                $DIC->refinery()->kindlyTo()->int()
+            );
+        }
+        $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int) $this->ref_id);
 
         $entries = $this->oForumModerators->getCurrentModerators();
         $num = count($entries);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * Class ilForumPostDraft
@@ -80,7 +80,8 @@ class ilForumPostDraft
      * @var array
      */
     protected static $drafts_settings_cache = array();
-
+    private $db;
+    
     /**
      * @param $draft ilForumPostDraft
      * @param $row   array
@@ -94,13 +95,13 @@ class ilForumPostDraft
         $draft->setPostAuthorId((int) $row['post_author_id']);
         $draft->setPostDisplayUserId((int) $row['pos_display_usr_id']);
         $draft->setUpdateUserId((int) $row['update_user_id']);
-        $draft->setPostSubject($row['post_subject']);
-        $draft->setPostMessage($row['post_message']);
-        $draft->setPostDate($row['post_date']);
-        $draft->setPostUpdate($row['post_update']);
-        $draft->setPostUserAlias($row['post_user_alias']);
-        $draft->setNotify($row['notify']);
-        $draft->setPostNotify($row['post_notify']);
+        $draft->setPostSubject((string) $row['post_subject']);
+        $draft->setPostMessage((string) $row['post_message']);
+        $draft->setPostDate((string) $row['post_date']);
+        $draft->setPostUpdate((string) $row['post_update']);
+        $draft->setPostUserAlias((string) $row['post_user_alias']);
+        $draft->setNotify((int) $row['notify']);
+        $draft->setPostNotify((int) $row['post_notify']);
     }
     
     /**
@@ -314,7 +315,7 @@ class ilForumPostDraft
     /**
      * @return int
      */
-    public function getNotify()
+    public function getNotify() : int
     {
         return $this->notify;
     }
@@ -322,9 +323,9 @@ class ilForumPostDraft
     /**
      * @param int $notify
      */
-    public function setNotify($notify)
+    public function setNotify(int $notify)
     {
-        $this->notify = $notify;
+        $this->notify = (int) $notify;
     }
     
     /**

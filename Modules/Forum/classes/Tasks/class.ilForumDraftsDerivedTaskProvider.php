@@ -58,7 +58,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
             );
 
             $isThread = false;
-            if (0 === (int) $draft->getThreadId()) {
+            if (0 === $draft->getThreadId()) {
                 $isThread = true;
             }
 
@@ -85,7 +85,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
     {
         foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
-                return (int) $refId;
+                return $refId;
             }
         }
 

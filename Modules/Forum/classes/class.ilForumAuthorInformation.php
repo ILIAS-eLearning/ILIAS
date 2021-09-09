@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,35 +9,33 @@
  */
 class ilForumAuthorInformation
 {
-    /**
-     * @var int
-     */
-    protected $display_id;
+    /** @var int */
+    protected int $display_id;
 
     /**
      * @var string
      */
-    protected $alias;
+    protected string $alias;
 
     /**
      * @var string
      */
-    protected $import_name;
+    protected string $import_name;
 
     /**
      * @var array
      */
-    protected $public_profile_link_attributes = array();
+    protected array $public_profile_link_attributes = array();
 
     /**
      * @var string
      */
-    protected $author_name;
+    protected string $author_name;
 
     /**
      * @var string
      */
-    protected $author_short_name;
+    protected string $author_short_name;
 
     /**
      * @var string
@@ -47,61 +45,67 @@ class ilForumAuthorInformation
     /**
      * @var string
      */
-    protected $linked_short_name;
+    protected string $linked_short_name;
 
     /**
      * @var string
      */
-    protected $suffix = '';
+    protected string $suffix = '';
 
     /**
      * @var string
      */
-    protected $profilePicture;
+    protected string $profilePicture;
 
     /**
      * @var ilObjUser
      */
-    protected $author;
+    protected ?ilObjUser $author = null;
 
     /**
      * @var array
      */
-    protected $files = array();
+    protected array $files = [];
 
     /**
      * @var int
      */
-    protected $author_id;
+    protected int $author_id;
 
     /**
-     * @var \ilLanguage|null
+     * @var ilLanguage|null
      */
-    protected $lng;
+    protected ?ilLanguage $lng;
 
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
-    protected $globalLng;
+    protected ilLanguage $globalLng;
 
     /**
      * @var \ilObjUser
      */
-    protected $globalUser;
+    protected ilObjUser $globalUser;
 
     /** @var bool */
-    protected $is_deleted = false;
+    protected bool $is_deleted = false;
 
     /**
-     * @param int    $author_id
-     * @param int    $display_id
-     * @param string $alias
-     * @param string $import_name
-     * @param array  $public_profile_link_attributes
-     * @param \ilLanguage|null  $lng
+     * @param int             $author_id
+     * @param int             $display_id
+     * @param string          $alias
+     * @param string          $import_name
+     * @param array           $public_profile_link_attributes
+     * @param ilLanguage|null $lng
      */
-    public function __construct($author_id, $display_id, $alias, $import_name, array $public_profile_link_attributes = array(), \ilLanguage $lng = null)
-    {
+    public function __construct(
+        int $author_id,
+        int $display_id,
+        string $alias,
+        string $import_name,
+        array $public_profile_link_attributes = array(),
+        ilLanguage $lng = null
+    ) {
         global $DIC;
 
         $this->globalUser = $DIC->user();
@@ -117,9 +121,6 @@ class ilForumAuthorInformation
         $this->init();
     }
 
-    /**
-
-     */
     protected function initUserInstance()
     {
         if (is_numeric($this->display_id) && $this->display_id > 0) {
@@ -131,7 +132,7 @@ class ilForumAuthorInformation
             }
         }
 
-        if (!$this->author) {
+        if (!$this->author instanceof ilObjUser) {
             $this->author = new ilObjUser();
             $this->author->setId(0);
             $this->author->setPref('public_profile', 'n');
@@ -142,7 +143,7 @@ class ilForumAuthorInformation
     /**
      * @return bool
      */
-    protected function doesAuthorAccountExists()
+    protected function doesAuthorAccountExists() : bool
     {
         return $this->getAuthor() instanceof ilObjUser && $this->getAuthor()->getId();
     }
@@ -150,7 +151,7 @@ class ilForumAuthorInformation
     /**
      * @return bool
      */
-    protected function isAuthorAnonymous()
+    protected function isAuthorAnonymous() : bool
     {
         return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
     }
@@ -158,7 +159,7 @@ class ilForumAuthorInformation
     /**
      * @return bool
      */
-    protected function isCurrentUserSessionLoggedIn()
+    protected function isCurrentUserSessionLoggedIn() : bool
     {
         return !$this->globalUser->isAnonymous();
     }
@@ -166,7 +167,7 @@ class ilForumAuthorInformation
     /**
      * @param bool $with_profile_link
      */
-    protected function buildAuthorProfileLink($with_profile_link = false)
+    protected function buildAuthorProfileLink(bool $with_profile_link)
     {
         $link = '';
 
@@ -192,13 +193,10 @@ class ilForumAuthorInformation
         $this->linked_short_name = $linked_login;
     }
 
-    /**
-     *
-     */
     protected function init()
     {
         $translationLanguage = $this->globalLng;
-        if ($this->lng instanceof \ilLanguage) {
+        if ($this->lng instanceof ilLanguage) {
             $translationLanguage = $this->lng;
         }
 
@@ -218,7 +216,11 @@ class ilForumAuthorInformation
                     $this->profilePicture = $this->getUserImagePath($this->getAuthor());
                 } else {
                     $this->profilePicture = $this->getAvatarImageSource(
-                        ilStr::subStr($this->getAuthor()->getFirstname(), 0, 1) . ilStr::subStr($this->getAuthor()->getLastname(), 0, 1),
+                        ilStr::subStr(
+                            $this->getAuthor()->getFirstname(),
+                            0,
+                            1
+                        ) . ilStr::subStr($this->getAuthor()->getLastname(), 0, 1),
                         $this->getAuthor()->getId()
                     );
                 }
@@ -232,7 +234,10 @@ class ilForumAuthorInformation
                 $this->getAuthor()->setGender('');
                 $this->author_short_name = $this->author_name = $this->getAuthor()->getLogin();
                 $this->buildAuthorProfileLink(false);
-                $this->profilePicture = $this->getAvatarImageSource($this->author_short_name, $this->getAuthor()->getId());
+                $this->profilePicture = $this->getAvatarImageSource(
+                    $this->author_short_name,
+                    $this->getAuthor()->getId()
+                );
             }
         } elseif ($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias)) {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
@@ -261,30 +266,21 @@ class ilForumAuthorInformation
         }
     }
 
-    /**
-     * @param ilObjUser $user
-     * @return string
-     */
-    protected function getUserImagePath(\ilObjUser $user)
+    protected function getUserImagePath(\ilObjUser $user) : string
     {
         if (!\ilContext::hasHTML()) {
-            return'';
+            return '';
         }
 
         return $user->getPersonalPicturePath('xsmall');
     }
 
-    /**
-     * @param string $name
-     * @param int $usrId
-     * @return string
-     */
-    protected function getAvatarImageSource($name, $usrId = ANONYMOUS_USER_ID)
+    protected function getAvatarImageSource(string $name, int $usrId = ANONYMOUS_USER_ID) : string
     {
         global $DIC;
 
         if (!\ilContext::hasHTML()) {
-            return'';
+            return '';
         }
 
         /** @var ilUserAvatar $avatar */
@@ -295,27 +291,17 @@ class ilForumAuthorInformation
         return $avatar->getUrl();
     }
 
-    /**
-     * @return string
-     */
-    public function getProfilePicture()
+    public function getProfilePicture() : string
     {
         return $this->profilePicture;
     }
 
-    /**
-     * @return ilObjUser
-     */
-    public function getAuthor()
+    public function getAuthor() : ilObjUser
     {
         return $this->author;
     }
 
-    /**
-     * @param bool $without_short_name
-     * @return string
-     */
-    public function getAuthorName($without_short_name = false)
+    public function getAuthorName(bool $without_short_name = false) : string
     {
         if (!$without_short_name) {
             return $this->author_name;
@@ -324,58 +310,37 @@ class ilForumAuthorInformation
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getAuthorShortName()
+    public function getAuthorShortName() : string
     {
         return $this->author_short_name;
     }
 
-    /**
-     * @return string
-     */
-    public function getLinkedAuthorName()
+    public function getLinkedAuthorName() : string
     {
         return $this->linked_public_name;
     }
 
-    /**
-     * @return string
-     */
-    public function getLinkedAuthorShortName()
+    public function getLinkedAuthorShortName() : string
     {
         return $this->linked_short_name;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasSuffix()
+    public function hasSuffix() : int
     {
         return strlen($this->suffix);
     }
 
-    /**
-     * @return string
-     */
-    public function getSuffix()
+    public function getSuffix() : string
     {
         return $this->suffix;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeleted()
+    public function isDeleted() : bool
     {
         return $this->is_deleted;
     }
 
-    /**
-     * @return string
-     */
-    public function getAlias()
+    public function getAlias() : string
     {
         return $this->alias;
     }

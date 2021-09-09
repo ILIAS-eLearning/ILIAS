@@ -156,10 +156,10 @@ class ilForumAutoSaveAsyncDraftAction
 
     /**
      * @param string $type
-     * @param int $draftId
-     * @param int[] $uploadedObjects
-     * @param int[] $oldMediaObjects
-     * @param int[] $curMediaObjects
+     * @param int    $draftId
+     * @param int[]  $uploadedObjects
+     * @param int[]  $oldMediaObjects
+     * @param int[]  $curMediaObjects
      */
     protected function handleMedia(
         string $type,

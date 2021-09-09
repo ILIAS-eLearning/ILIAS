@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -30,7 +30,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     /**
      * @return int
      */
-    public function getCurrentFrmRefId()
+    public function getCurrentFrmRefId() : int
     {
         return $this->current_frm_ref_id;
     }

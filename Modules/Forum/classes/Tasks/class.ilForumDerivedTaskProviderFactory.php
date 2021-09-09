@@ -5,7 +5,7 @@
  * Class ilForumDerivedTaskProviderFactory
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilForumDerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
+class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
     protected ilTaskService $taskService;
     protected ilAccessHandler $accessHandler;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -67,12 +67,11 @@ class ilForumExporter extends ilXmlExporter
 
         return $deps;
     }
-
+    
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
