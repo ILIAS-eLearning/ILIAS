@@ -43,7 +43,7 @@ function pageFooterDemoFooter($f)
 }
 
 
-if ($_GET['new_footer_ui'] == '1') {
+if (array_key_exists('new_footer_ui',$_GET) && $_GET['new_footer_ui'] == '1') {
     chdir('../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
 
