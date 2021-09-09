@@ -29,11 +29,11 @@ class ilSkillTreeNode
     protected string $type;
     protected int $id;
     protected string $title;
-    protected ?string $description;
+    protected string $description;
     protected bool $self_eval;
     protected int $order_nr;
     protected string $import_id;
-    protected ?string $creation_date;
+    protected string $creation_date;
     /**
      * @var int|bool
      */
@@ -73,12 +73,12 @@ class ilSkillTreeNode
         return $this->skill_tree;
     }
 
-    public function setDescription(?string $a_description) : void
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
 
-    public function getDescription() : ?string
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -133,12 +133,12 @@ class ilSkillTreeNode
         return $this->import_id;
     }
 
-    protected function setCreationDate(?string $a_val) : void
+    protected function setCreationDate(string $a_val) : void
     {
         $this->creation_date = $a_val;
     }
 
-    public function getCreationDate() : ?string
+    public function getCreationDate() : string
     {
         return $this->creation_date;
     }
@@ -188,12 +188,12 @@ class ilSkillTreeNode
         }
         $this->setType($this->data_record["type"]);
         $this->setTitle($this->data_record["title"]);
-        $this->setDescription($this->data_record["description"]);
+        $this->setDescription($this->data_record["description"] ?? "");
         $this->setOrderNr($this->data_record["order_nr"]);
         $this->setSelfEvaluation($this->data_record["self_eval"]);
         $this->setStatus($this->data_record["status"]);
-        $this->setImportId($this->data_record["import_id"]);
-        $this->setCreationDate($this->data_record["creation_date"]);
+        $this->setImportId($this->data_record["import_id"] ?? "");
+        $this->setCreationDate($this->data_record["creation_date"] ?? "");
     }
 
     /**

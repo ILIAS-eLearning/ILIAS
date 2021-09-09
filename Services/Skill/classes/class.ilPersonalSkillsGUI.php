@@ -278,7 +278,7 @@ class ilPersonalSkillsGUI
         }
     }
 
-    public function setTabs(string $a_activate) : bool
+    public function setTabs(string $a_activate) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

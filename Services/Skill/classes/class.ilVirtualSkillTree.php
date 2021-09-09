@@ -29,7 +29,6 @@ class ilVirtualSkillTree
 {
     protected ilLanguage $lng;
     protected ilSkillTree $tree;
-    protected array $parent;
 
     protected static ?array $order_node_data = null;
     protected bool $include_drafts = false;
@@ -144,8 +143,6 @@ class ilVirtualSkillTree
             $childs[$k]["tref_id"] = $cid_parts[1];
             $childs[$k]["cskill_id"] = $cid;
             $childs[$k]["parent"] = $a_parent_id;
-            
-            $this->parent[$c["id"]] = $a_parent_id;
             
             // @todo: prepare this for tref id?
             if (ilSkillTreeNode::_lookupStatus($c["child"]) == ilSkillTreeNode::STATUS_DRAFT ||
