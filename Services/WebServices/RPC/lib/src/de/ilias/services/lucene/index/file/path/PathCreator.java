@@ -64,5 +64,5 @@ public interface PathCreator {
 	 * @param res
 	 * @return String
 	 */
-	public String getExtension(CommandQueueElement el, ResultSet res);
+	public String getExtension(CommandQueueElement el, ResultSet res) throws PathCreatorException;
 }
