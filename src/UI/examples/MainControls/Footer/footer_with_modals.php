@@ -38,7 +38,7 @@ function pageFooterDemo2Footer()
     return $footer;
 }
 
-if (array_key_exists('new_footer_2_ui',$_GET) && $_GET['new_footer_2_ui'] == '1') {
+if (is_array($_GET) && array_key_exists('new_footer_2_ui',$_GET) && $_GET['new_footer_2_ui'] == '1') {
     chdir('../../../../../');
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     require_once('src/UI/examples/MainControls/Footer/footer.php');
