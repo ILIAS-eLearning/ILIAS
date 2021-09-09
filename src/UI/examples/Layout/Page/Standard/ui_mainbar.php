@@ -1,6 +1,23 @@
 <?php
-declare(strict_types=1);
-namespace ILIAS\UI\examples\Layout\Page\Standard;
+
+function ui_mainbar()
+{
+    global $DIC;
+    $f = $DIC['ui.factory'];
+    $df = new \ILIAS\Data\Factory();
+    $renderer = $DIC['ui.renderer'];
+    $request = $DIC->http()->request();
+
+    $url = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=1';
+    $mainbar = $f->button()->standard('Mainbar', $url);
+    $url2 = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=2';
+    $mainbar2 = $f->button()->standard('Mainbar Combined', $url2);
+
+    return $renderer->render([
+        $mainbar,
+        $mainbar2
+    ]);
+}
 
 function getUIMainbar($f, $uri, $condensed = false)
 {
@@ -164,32 +181,14 @@ function getUIContent($f, $request)
     return[$t, $c];
 }
 
-function ui_mainbar()
-{
-    global $DIC;
-    $f = $DIC['ui.factory'];
-    $df = new \ILIAS\Data\Factory();
-    $renderer = $DIC['ui.renderer'];
-    $request = $DIC->http()->request();
 
-    $url = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=1';
-    $mainbar = $f->button()->standard('Mainbar', $url);
-    $url2 = 'src/UI/examples/Layout/Page/Standard/ui_mainbar.php?ui_mainbar=2';
-    $mainbar2 = $f->button()->standard('Mainbar Combined', $url2);
-
-    return $renderer->render([
-        $mainbar,
-        $mainbar2
-    ]);
-}
 
 if ($_GET['ui_mainbar'] == '1' ||
     $_GET['ui_mainbar'] == '2'
 ) {
-    //init ILIAS
-    chdir(__DIR__ . '/../../../../../..');
-    require_once("Services/Init/classes/class.ilInitialisation.php");
-    \ilInitialisation::initILIAS();
+    chdir('../../../../../../');
+    require_once('src/UI/examples/Layout/Page/Standard/ui.php');
+    _initIliasForPreview();
 
     //get resources
     global $DIC;
