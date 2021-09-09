@@ -170,6 +170,11 @@ abstract class Slate implements ISlate\Slate
         return $this->appendTriggeredSignal($signal, 'in_view');
     }
 
+    public function appendOnFirstView(Signal $signal) : \ILIAS\UI\Component\MainControls\Slate\Slate
+    {
+        return $this->appendTriggeredSignal($signal, 'on_first_view');
+    }
+
 
     abstract public function withMappedSubNodes(callable $f);
 

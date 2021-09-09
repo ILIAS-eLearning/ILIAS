@@ -662,19 +662,24 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				getElement: function(){
 					return $('#' + this.html_id);
 				},
+
 				engage: function() {
 					var element = this.getElement(),
 						loaded = element.hasClass(css.engaged);
 
 					element.addClass(css.engaged);
 					element.removeClass(css.disengaged);
+
 					if(! loaded) {
-						element.trigger('in_view'); //this is most important for async loading of slates,
-													//it triggers the GlobalScreen-Service.
+						//this is most important for async loading of slates,
+						//it triggers the GlobalScreen-Service.
+						element.trigger('on_first_view'); 
 					}
+					element.trigger('in_view'); 
 					if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
 						il.UI.maincontrols.metabar.disengageAll();
 					}
+				
 					this.additional_engage();
 				},
 				disengage: function() {
