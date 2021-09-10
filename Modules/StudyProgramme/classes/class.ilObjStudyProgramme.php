@@ -2224,10 +2224,7 @@ class ilObjStudyProgramme extends ilContainer
         if (is_null($node_obj_id)) {
             $node_obj_id = $this->getId();
         }
-        // thanks to some caching within ilLPStatusWrapper
-        // the status may not be read properly otherwise ...
-        ilLPStatusWrapper::_resetInfoCaches($node_obj_id);
-        ilLPStatusWrapper::_refreshStatus($node_obj_id, [$usr_id]);
+        ilLPStatusWrapper::_updateStatus($node_obj_id, $usr_id);
     }
 
     protected function updateParentProgress(ilStudyProgrammeProgress $progress) : ilStudyProgrammeProgress
