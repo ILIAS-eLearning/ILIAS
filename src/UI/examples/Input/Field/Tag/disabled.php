@@ -11,17 +11,17 @@ function disabled()
     $renderer = $DIC->ui()->renderer();
 
     //Step 1: Define the tag input field
-    $multi_select_input = $ui->input()
+    $tag_input = $ui->input()
         ->field()
         ->tag(
             "Basic Tag",
             ['Interesting', 'Boring', 'Animating', 'Repetitious'],
             "Just some tags"
-        )->withDisabled(true)->withValue(["Boring, Animating"]);
+        )->withDisabled(true)->withValue(["Boring", "Animating"]);
 
     //Step 2: Define the form and attach the section.
-    $form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);
+    $form = $ui->input()->container()->form()->standard("#", [$tag_input]);
 
-    //Step 4: Render the form with the text input field
+    //Step 3: Render the form with the text input field
     return $renderer->render($form);
 }

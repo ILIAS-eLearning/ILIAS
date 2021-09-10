@@ -218,7 +218,10 @@ class DateTime extends Input implements C\Input\Field\DateTime
      */
     protected function getConstraintForRequirement()
     {
-        return $this->refinery->string()->hasMinLength(1);
+        return $this->refinery->string()->hasMinLength(1)
+            ->withProblemBuilder(function ($txt, $value) {
+                return $txt("datetime_required");
+            });
     }
 
     /**
