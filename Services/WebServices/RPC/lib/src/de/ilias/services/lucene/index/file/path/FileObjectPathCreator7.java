@@ -93,16 +93,15 @@ public class FileObjectPathCreator7  implements PathCreator
 			logger.info("Detected file object path is: " + versionPath.toString());
 
 			file = new File(versionPath.toString());
-			if(file.exists() && file.canRead()) {
-				return file;
+			if (!file.exists()) {
+			  throw new PathCreatorException("Cannot find file: " + fullPath.toString());
 			}
-			return null;
-		} 
-		catch (ConfigurationException e) {
-			throw new PathCreatorException(e);
-		}
-		catch (SQLException e) {
-			throw new PathCreatorException(e);
+
+			if (!file.canRead()) {
+			  throw new PathCreatorException("Cannot read file: " + fullPath.toString());
+			}
+
+			return file;
 		}
 		catch (NullPointerException e) {
 			throw new PathCreatorException(e);
