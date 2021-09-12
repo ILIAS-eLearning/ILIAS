@@ -191,6 +191,11 @@ class ilCalendarExport
             $this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
             return false;
         }
+        $test_date = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd');
+        if (!strlen($test_date)) {
+            return false;
+        }
+
 
         $this->writer->addLine('BEGIN:VEVENT');
 
