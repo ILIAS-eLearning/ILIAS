@@ -280,9 +280,12 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
             $usrId
         );
 
-        ilLPStatusWrapper::_updateStatus(
-            $this->getId(),
-            $usrId
-        );
+        $lp = ilObjectLP::getInstance($this->getId());
+        if ($lp->isActive() && ((int) $lp->getCurrentMode() === ilLPObjSettings::LP_MODE_CONTENT_VISITED)) {
+            ilLPStatusWrapper::_updateStatus(
+                $this->getId(),
+                $usrId
+            );
+        }
     }
 }
