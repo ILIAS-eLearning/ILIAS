@@ -29,7 +29,7 @@ namespace ILIAS\UI\examples\MainControls\MetaBar;
 
  * @return string
  */
-function extended_notifications()
+function extended_example_for_developers()
 {
     //Set up the gears as always
     global $DIC;
