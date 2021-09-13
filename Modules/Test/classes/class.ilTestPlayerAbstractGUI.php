@@ -1526,8 +1526,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        if($this->ctrl->getCmd() == 'outQuestionSummary') {
-            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
+        if ($this->ctrl->getCmd() == 'outQuestionSummary') {
+            $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboard'));
         } else {
             $template->setVariable("REDIRECT_URL", "");
         }
@@ -2888,9 +2888,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     {
         $fixedSeed = $questionId . $this->testSession->getActiveId() . $this->testSession->getPass();
         
-        if (strlen($fixedSeed < ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH)) {
+        if (strlen($fixedSeed) < self::FIXED_SHUFFLER_SEED_MIN_LENGTH) {
             $fixedSeed *= (
-                10 * (ilTestPlayerAbstractGUI::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
+                10 * (self::FIXED_SHUFFLER_SEED_MIN_LENGTH - strlen($fixedSeed))
             );
         }
         
