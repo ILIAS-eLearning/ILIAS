@@ -28,11 +28,12 @@ class ilLearnerProgressDBTest extends TestCase
     {
         $this->items_db = $this->createMock(ilLSItemsDB::class);
         $this->access = $this->createMock(ilAccess::class);
+        $this->obj_data_cache = $this->createMock(ilObjectDataCache::class);
     }
 
     public function testCreateObject() : void
     {
-        $obj = new ilLearnerProgressDB($this->items_db, $this->access);
+        $obj = new ilLearnerProgressDB($this->items_db, $this->access, $this->obj_data_cache);
 
         $this->assertInstanceOf(ilLearnerProgressDB::class, $obj);
     }
@@ -46,7 +47,7 @@ class ilLearnerProgressDBTest extends TestCase
             ->willReturn([])
         ;
 
-        $obj = new ilLearnerProgressDB($this->items_db, $this->access);
+        $obj = new ilLearnerProgressDB($this->items_db, $this->access, $this->obj_data_cache);
         $result = $obj->getLearnerItems(100, 33);
 
         $this->assertIsArray($result);
@@ -82,7 +83,7 @@ class ilLearnerProgressDBTest extends TestCase
             ->willReturn([$ls_item])
         ;
 
-        $obj = new ilLearnerProgressDB($this->items_db, $this->access);
+        $obj = new ilLearnerProgressDB($this->items_db, $this->access, $this->obj_data_cache);
         $result = $obj->getLearnerItems(100, 44);
 
         $this->assertIsArray($result);
@@ -122,7 +123,7 @@ class ilLearnerProgressDBTest extends TestCase
             ->willReturn([$ls_item])
         ;
 
-        $obj = new ilLearnerProgressDBStub($this->items_db, $this->access);
+        $obj = new ilLearnerProgressDBStub($this->items_db, $this->access, $this->obj_data_cache);
         $result = $obj->getLearnerItems(100, 44);
 
         foreach ($result as $ls_learner_item) {
