@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Data\Version;
+
 /**
 * Database Update class
 *
@@ -13,22 +15,24 @@ class ilPluginDBUpdate extends ilDBUpdate
     protected const PLUGIN_UPDATE_FILE = "/sql/dbupdate.php";
 
     protected \ilDBInterface $db;
-    protected \ilComponentDataDB $component_data_db;
+    protected \ilComponentDataDBWrite $component_data_db;
     protected string $plugin_id;
+    protected ?Version $target_version;
 
     /**
      * constructor
      * @noinspection MagicMethodsValidityInspection
      */
     public function __construct(
-        \ilComponentDataDB $component_data_db,
+        \ilComponentDataDBWrite $component_data_db,
         \ilDBInterface $db,
-        string $plugin_id
+        string $plugin_id,
+        Version $target_version = null
     ) {
         $this->component_data_db = $component_data_db;
         $this->db = $db;
         $this->plugin_id = $plugin_id;
-        
+        $this->target_version = $target_version;
 
         $this->current_file = $this->getFileForStep(0 /* doesn't matter */);
         ;
@@ -67,7 +71,16 @@ class ilPluginDBUpdate extends ilDBUpdate
      */
     public function setCurrentVersion(int $a_version) : void
     {
-        throw new \LogicException("NYI");
+        if (!is_numeric($a_version)) {
+            throw new \InvalidArgumentException(
+                "Expected numeric version, got '$a_version' instead."
+            );
+        }
+        $this->component_data_db->setCurrentPluginVersion(
+            $this->plugin_id,
+            $this->target_version,
+            (int) $a_version
+        );
     }
 
     public function loadXMLInfo()
