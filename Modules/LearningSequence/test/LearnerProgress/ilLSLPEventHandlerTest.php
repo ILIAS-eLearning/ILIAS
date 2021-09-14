@@ -58,7 +58,10 @@ class ilLSLPEventHandlerTest extends TestCase
         $this->tree
             ->expects($this->exactly(2))
             ->method('getParentNodeData')
-            ->willReturn($obj_id)
+            ->willReturn([
+                "type" => "lso",
+                "obj_id" => $obj_id
+            ])
         ;
 
         $obj = new ilLSLPEventHandlerStub($this->tree, $this->lp_status);
