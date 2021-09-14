@@ -37,15 +37,23 @@ abstract class ilPlugin
      */
     protected $message;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilDBInterface $db;
+    protected ilComponentDataDBWrite $component_data_db;
 
     public function __construct()
     {
         global $DIC;
 
-        $this->__init();
         $this->provider_collection = new PluginProviderCollection();
+        $this->db = $DIC["ilDB"];
         $this->component_data_db = $DIC["component.db"];
+
+
+        // Fix for authentication plugins
+        $this->loadLanguageModule();
+
+        // Custom initialisation for plugin.
+        $this->init();
     }
 
     protected function getPluginInfo() : ilPluginInfo
@@ -59,7 +67,7 @@ abstract class ilPlugin
                 $this->getSlotId()
             )
             ->getPluginByName(
-                $this->getPluginByName()
+                $this->getPluginName()
             );
     }
 
@@ -415,13 +423,10 @@ abstract class ilPlugin
         ilGlobalCache::flushAll();
 
         $dbupdate = new ilPluginDBUpdate(
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName(),
-            $ilDB,
-            true,
-            $this->getTablePrefix()
+            $this->component_data_db,
+            $this->db,
+            $this->getId(),
+            $this->getPluginInfo()->getAvailableVersion()
         );
 
         $result = $dbupdate->applyUpdate();
@@ -518,22 +523,12 @@ abstract class ilPlugin
     }
 
     /**
-     * Default initialization
-     */
-    private function __init()
-    {
-        // load language module
-
-        // Fix for authentication plugins
-        $this->loadLanguageModule();
-
-        // call slot and plugin init methods
-        $this->init();
-    }
-
-    /**
      * Object initialization. Can be overwritten by plugin class
      * (and should be made protected)
+     *
+     * TODO: Maybe this should be removed or be documented better. This is called
+     * during __construct. If this contains expensive stuff this will be bad for
+     * overall system performance, because Plugins tend to be constructed a lot.
      */
     protected function init()
     {
