@@ -20,6 +20,7 @@ use ILIAS\Data;
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLPPollingGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningSequenceMembershipGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilLearningProgressGUI
  *
@@ -279,6 +280,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 $struct = ['ilrepositorygui','ilobjtestgui'];
                 $this->ctrl->redirectByClass($struct, $cmd);
                 break;
+            case 'ilobjlearningsequencelppollinggui':
+                $gui = $this->object->getLocalDI()["gui.learner.lp"];
+                $this->ctrl->setCmd($cmd);
+                $this->ctrl->forwardCommand($gui);
+                break;
+
 
             case false:
                 if ($cmd === '') {
