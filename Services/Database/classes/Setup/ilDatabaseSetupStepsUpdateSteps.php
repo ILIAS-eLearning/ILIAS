@@ -13,12 +13,12 @@ class ilDatabaseSetupStepsUpdateSteps implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
     
-    public function step_1(\ilDBInterface $db)
+    public function step_1()
     {
-        if ($db->tableExists(self::TABLE_NAME)
-        && $db->tableColumnExists(self::TABLE_NAME, self::FIELD_STARTED)
+        if ($this->db->tableExists(self::TABLE_NAME)
+        && $this->db->tableColumnExists(self::TABLE_NAME, self::FIELD_STARTED)
         ) {
-            $db->modifyTableColumn(self::TABLE_NAME, self::FIELD_STARTED, [
+            $this->db->modifyTableColumn(self::TABLE_NAME, self::FIELD_STARTED, [
                 'length' => 26,
                 'type' => ilDBConstants::T_TEXT,
                 'notnull' => false
@@ -26,12 +26,12 @@ class ilDatabaseSetupStepsUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
     
-    public function step_2(\ilDBInterface $db)
+    public function step_2()
     {
-        if ($db->tableExists(self::TABLE_NAME)
-        && $db->tableColumnExists(self::TABLE_NAME, self::FIELD_FINISHED)
+        if ($this->db->tableExists(self::TABLE_NAME)
+        && $this->db->tableColumnExists(self::TABLE_NAME, self::FIELD_FINISHED)
         ) {
-            $db->modifyTableColumn(self::TABLE_NAME, self::FIELD_FINISHED, [
+            $this->db->modifyTableColumn(self::TABLE_NAME, self::FIELD_FINISHED, [
                 'length' => 26,
                 'type' => ilDBConstants::T_TEXT,
                 'notnull' => false

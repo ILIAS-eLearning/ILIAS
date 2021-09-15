@@ -11,12 +11,12 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
     
-    public function step_1(\ilDBInterface $db)
+    public function step_1()
     {
         $column_name = 'individual';
 
-        if (!$db->tableColumnExists(self::TABLE_NAME, $column_name)) {
-            $db->addTableColumn(
+        if (!$this->db->tableColumnExists(self::TABLE_NAME, $column_name)) {
+            $this->db->addTableColumn(
                 self::TABLE_NAME,
                 $column_name,
                 [
@@ -29,26 +29,26 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
             $query = 'UPDATE ' . self::TABLE_NAME
                 . ' SET ' . $column_name . ' = 1'
                 . ' WHERE last_change_by IS NOT NULL';
-            $db->manipulate($query);
+            $this->db->manipulate($query);
         }
     }
     
-    public function step_2(\ilDBInterface $db)
+    public function step_2()
     {
         $old = "risky_to_fail_mail_send";
         $new = "sent_mail_risky_to_fail";
         $table = "prg_usr_progress";
-        if ($db->tableColumnExists(self::TABLE_NAME, $old) && !$db->tableColumnExists(self::TABLE_NAME, $new)) {
-            $db->renameTableColumn(self::TABLE_NAME, $old, $new);
+        if ($this->db->tableColumnExists(self::TABLE_NAME, $old) && !$this->db->tableColumnExists(self::TABLE_NAME, $new)) {
+            $this->db->renameTableColumn(self::TABLE_NAME, $old, $new);
         }
     }
     
-    public function step_3(\ilDBInterface $db)
+    public function step_3()
     {
         $column_name = 'sent_mail_expires';
 
-        if (!$db->tableColumnExists(self::TABLE_NAME, $column_name)) {
-            $db->addTableColumn(
+        if (!$this->db->tableColumnExists(self::TABLE_NAME, $column_name)) {
+            $this->db->addTableColumn(
                 self::TABLE_NAME,
                 $column_name,
                 [
