@@ -38,23 +38,24 @@ class LSControlBuilder implements ControlBuilder
     protected ?LocatorBuilder $loc = null;
     protected ?JavaScriptBindable $start = null;
     protected ?string $additional_js = null;
-
     protected Factory $ui_factory;
     protected LSURLBuilder $url_builder;
     protected ilLanguage $lng;
-
     protected LSGlobalSettings $global_settings;
+    protected LSURLBuilder $lp_url_builder;
 
     public function __construct(
         Factory $ui_factory,
         LSURLBuilder $url_builder,
         ilLanguage $language,
-        LSGlobalSettings $global_settings
+        LSGlobalSettings $global_settings,
+        LSURLBuilder $lp_url_builder
     ) {
         $this->ui_factory = $ui_factory;
         $this->url_builder = $url_builder;
         $this->lng = $language;
         $this->global_settings = $global_settings;
+        $this->lp_url_builder = $lp_url_builder;
     }
 
     /**
@@ -260,17 +261,14 @@ class LSControlBuilder implements ControlBuilder
      *
      * The start-control is exclusively used to open an ILIAS-Object in a new windwow/tab.
      */
-    public function start(string $label, string $url, int $parameter = null) : ControlBuilder
+    public function start(string $label, string $url, int $obj_id) : ControlBuilder
     {
         if ($this->start) {
             throw new \LogicException("Only one start-control per view...", 1);
         }
-        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, $parameter);
-        $lp_cmd = str_replace(
-            '&cmd=view&',
-            '&cmd=' . self::CMD_CHECK_CURRENT_ITEM_LP . '&',
-            $this_cmd
-        );
+
+        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, 0);
+        $lp_cmd = $this->lp_url_builder->getHref(self::CMD_CHECK_CURRENT_ITEM_LP, $obj_id);
 
         $this->setListenerJS($lp_cmd, $this_cmd);
         $this->start = $this->ui_factory->button()
@@ -278,10 +276,11 @@ class LSControlBuilder implements ControlBuilder
             ->withOnLoadCode(function ($id) use ($url) {
                 $interval = $this->global_settings->getPollingIntervalMilliseconds();
                 return "$('#{$id}').on('click', function(ev) {
-					var il_ls_win = window.open('$url');
-					window._lso_current_item_lp = -1;
-					window.setInterval(lso_checkLPOfObject, $interval);
-				})";
+                    var _lso_win = window.open('$url');
+				});
+                window._lso_current_item_lp = -1;
+                window.setInterval(lso_checkLPOfObject, $interval);
+                ";
             });
 
         return $this;
