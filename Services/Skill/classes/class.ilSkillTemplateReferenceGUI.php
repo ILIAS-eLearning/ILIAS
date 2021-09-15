@@ -243,7 +243,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $sktr->setTitle($_POST["title"]);
         $sktr->setDescription($_POST["description"]);
         $sktr->setSkillTemplateId($_POST["skill_template_id"]);
-        $sktr->setSelfEvaluation($_POST["selectable"]);
+        $sktr->setSelfEvaluation((bool) $_POST["selectable"]);
         $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $sktr->setStatus($_POST["status"]);
         $sktr->create();
@@ -284,7 +284,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             //			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
             $this->node_object->setTitle($_POST["title"]);
             $this->node_object->setDescription($_POST["description"]);
-            $this->node_object->setSelfEvaluation($_POST["selectable"]);
+            $this->node_object->setSelfEvaluation((bool) $_POST["selectable"]);
             $this->node_object->setStatus($_POST["status"]);
             $this->node_object->update();
 

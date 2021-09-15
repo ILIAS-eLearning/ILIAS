@@ -115,7 +115,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $it->setStatus($this->form->getInput("status"));
-        $it->setSelfEvaluation($_POST["self_eval"]);
+        $it->setSelfEvaluation((bool) $_POST["self_eval"]);
         $it->create();
         ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
@@ -141,7 +141,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setSelfEvaluation($_POST["self_eval"]);
+        $this->node_object->setSelfEvaluation((bool) $_POST["self_eval"]);
         $this->node_object->setStatus($_POST["status"]);
         $this->node_object->update();
     }

@@ -104,6 +104,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
             return;
         }
 
+        $this->selectable[$a_node_id] = false;
         if (ilSkillTreeNode::_lookupSelfEvaluation($a_node_id)) {
             $this->selectable[$a_node_id] = true;
             $cid = $a_node_id;
@@ -131,7 +132,8 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      */
     public function getChildsOfNode($a_parent_node_id) : array
     {
-        if (is_array($this->selectable_child_nodes[$a_parent_node_id])) {
+        if (isset($this->selectable_child_nodes[$a_parent_node_id])
+            && is_array($this->selectable_child_nodes[$a_parent_node_id])) {
             $childs = $this->selectable_child_nodes[$a_parent_node_id];
             $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
@@ -144,7 +146,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      */
     public function getOriginalChildsOfNode(int $a_parent_id) : array
     {
-        if (is_array($this->child_nodes[$a_parent_id])) {
+        if (isset($this->child_nodes[$a_parent_id]) && is_array($this->child_nodes[$a_parent_id])) {
             return $this->child_nodes[$a_parent_id];
         }
         return [];

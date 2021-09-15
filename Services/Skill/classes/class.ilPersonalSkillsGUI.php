@@ -41,10 +41,10 @@ class ilPersonalSkillsGUI
     protected string $intro_text = "";
     protected array $hidden_skills = [];
     protected string $mode = "";
-    protected string $gap_mode;
+    protected string $gap_mode = "";
     protected int $gap_mode_obj_id;
     protected string $gap_mode_type;
-    protected string $gap_cat_title;
+    protected string $gap_cat_title = "";
 
     protected UIServices $ui;
     protected ilCtrl $ctrl;
@@ -61,7 +61,7 @@ class ilPersonalSkillsGUI
 
     protected int $obj_id = 0;
     protected array $obj_skills = [];
-    protected int $profile_id;
+    protected int $profile_id = 0;
     protected array $profile_levels;
     protected array $user_profiles;
     protected array $cont_profiles;
@@ -1465,7 +1465,12 @@ class ilPersonalSkillsGUI
         return $tpl->get();
     }
 
-    public function getScaleBar(array $a_levels, array $a_activated_levels) : string
+    /**
+     * @param array $a_levels
+     * @param array|string $a_activated_levels
+     * @return string
+     */
+    public function getScaleBar(array $a_levels, $a_activated_levels) : string
     {
         $vals = [];
 

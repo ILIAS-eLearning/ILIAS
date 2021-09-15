@@ -34,10 +34,8 @@ class ilSkillTreeNodeGUI
     protected ilTree $tree;
     protected ilPropertyFormGUI $form;
     protected object $parentgui;
-    /**
-     * @var null|object
-     */
-    public $node_object;
+    public ?object $node_object;
+    protected int $tref_id = 0;
     public bool $in_use = false;
     public bool $use_checked = false;
     public ilAccessHandler $access;
@@ -306,7 +304,10 @@ class ilSkillTreeNodeGUI
         $desc = "";
         if (is_object($this->node_object)) {
             $tree = new ilSkillTree();
-            $path = $this->node_object->getSkillTree()->getSkillTreePath($this->node_object->getId());
+            $path = $this->node_object->getSkillTree()->getSkillTreePath(
+                $this->node_object->getId(),
+                $this->tref_id
+            );
             $sep = "";
             foreach ($path as $p) {
                 if (in_array($p["type"], array("scat", "skll", "sktr"))) {
@@ -634,7 +635,7 @@ class ilSkillTreeNodeGUI
         $base_skill_id = ($this->base_skill_id > 0)
             ? $this->base_skill_id
             : $this->node_object->getId();
-        $usages = $usage_info->getAllUsagesInfoOfSubtree($base_skill_id . ":" . $this->tref_id);
+        $usages = $usage_info->getAllUsagesInfoOfSubtree($base_skill_id, $this->tref_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {

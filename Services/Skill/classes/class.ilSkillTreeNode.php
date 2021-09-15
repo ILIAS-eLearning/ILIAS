@@ -32,12 +32,9 @@ class ilSkillTreeNode
     protected string $description;
     protected bool $self_eval;
     protected int $order_nr;
-    protected string $import_id;
+    protected string $import_id = "";
     protected string $creation_date;
-    /**
-     * @var int|bool
-     */
-    protected $status;
+    protected int $status;
     protected array $data_record;
 
     public const STATUS_PUBLISH = 0;
@@ -190,7 +187,7 @@ class ilSkillTreeNode
         $this->setTitle($this->data_record["title"]);
         $this->setDescription($this->data_record["description"] ?? "");
         $this->setOrderNr($this->data_record["order_nr"]);
-        $this->setSelfEvaluation($this->data_record["self_eval"]);
+        $this->setSelfEvaluation((bool) $this->data_record["self_eval"]);
         $this->setStatus($this->data_record["status"]);
         $this->setImportId($this->data_record["import_id"] ?? "");
         $this->setCreationDate($this->data_record["creation_date"] ?? "");
@@ -267,18 +264,12 @@ class ilSkillTreeNode
         return $obj_rec["type"];
     }
 
-    /**
-     * @param int|bool $a_val
-     */
-    public function setStatus($a_val) : void
+    public function setStatus(int $a_val) : void
     {
         $this->status = $a_val;
     }
 
-    /**
-     * @return int|bool
-     */
-    public function getStatus()
+    public function getStatus() : int
     {
         return $this->status;
     }
@@ -339,7 +330,7 @@ class ilSkillTreeNode
             $ilDB->now() . ", " .
             $ilDB->quote((int) $this->getSelfEvaluation(), "integer") . ", " .
             $ilDB->quote($this->getOrderNr(), "integer") . ", " .
-            $ilDB->quote((int) $this->getStatus(), "integer") . ", " .
+            $ilDB->quote($this->getStatus(), "integer") . ", " .
             $ilDB->now() . ", " .
             $ilDB->quote($this->getImportId(), "text") .
             ")";
@@ -359,7 +350,7 @@ class ilSkillTreeNode
             " ,description = " . $ilDB->quote($this->getDescription(), "clob") .
             " ,self_eval = " . $ilDB->quote((int) $this->getSelfEvaluation(), "integer") .
             " ,order_nr = " . $ilDB->quote($this->getOrderNr(), "integer") .
-            " ,status = " . $ilDB->quote((int) $this->getStatus(), "integer") .
+            " ,status = " . $ilDB->quote($this->getStatus(), "integer") .
             " ,import_id = " . $ilDB->quote($this->getImportId(), "text") .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
 

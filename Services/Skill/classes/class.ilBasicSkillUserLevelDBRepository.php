@@ -490,7 +490,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : ?int {
+    ) : int {
         $ilDB = $this->db;
 
         $ilDB->setLimit(1, 0);
@@ -504,9 +504,11 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " ORDER BY status_date DESC"
         );
 
-        $rec = $ilDB->fetchAssoc($set);
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec["level_id"];
+        }
 
-        return $rec["level_id"];
+        return 0;
     }
 
     public function getLastUpdatePerObject(
@@ -529,8 +531,10 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " ORDER BY status_date DESC"
         );
 
-        $rec = $ilDB->fetchAssoc($set);
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec["status_date"];
+        }
 
-        return $rec["status_date"];
+        return null;
     }
 }

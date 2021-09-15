@@ -498,7 +498,7 @@ class ilSkillDataSet extends ilDataSet
                         $scat->setTitle($a_rec["Title"]);
                         $scat->setDescription($a_rec["Description"]);
                         $scat->setImportId("il_" . $source_inst_id . "_scat_" . $a_rec["Child"]);
-                        $scat->setSelfEvaluation($a_rec["SelfEval"]);
+                        $scat->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $scat->setOrderNr($order);
                         $scat->setStatus($status);
                         $scat->create();
@@ -511,7 +511,7 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setTitle($a_rec["Title"]);
                         $skll->setDescription($a_rec["Description"]);
                         $skll->setImportId("il_" . $source_inst_id . "_skll_" . $a_rec["Child"]);
-                        $skll->setSelfEvaluation($a_rec["SelfEval"]);
+                        $skll->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $skll->setOrderNr($order);
                         $skll->setStatus($status);
                         $skll->create();
@@ -527,7 +527,7 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setTitle($a_rec["Title"]);
                             $sktr->setDescription($a_rec["Description"]);
                             $sktr->setImportId("il_" . $source_inst_id . "_sktr_" . $a_rec["Child"]);
-                            $sktr->setSelfEvaluation($a_rec["SelfEval"]);
+                            $sktr->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                             $sktr->setOrderNr($order);
                             $sktr->setSkillTemplateId($template_id);
                             $sktr->setStatus($status);

@@ -136,7 +136,7 @@ class ilSkillResources implements ilSkillUsageInfo
 
     public function getResourcesOfLevel(int $a_level_id) : array
     {
-        $ret = (is_array($this->resources[$a_level_id]))
+        $ret = (isset($this->resources[$a_level_id]) && is_array($this->resources[$a_level_id]))
             ? $this->resources[$a_level_id]
             : [];
             
