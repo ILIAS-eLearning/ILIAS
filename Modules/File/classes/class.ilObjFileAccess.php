@@ -260,7 +260,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         if (self::$_inlineFileExtensionsArray
             === null
         ) {        // the === makes a huge difference, if the array is empty
-            require_once 'Services/Administration/classes/class.ilSetting.php';
             $settings = new ilSetting('file_access');
             self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1,
                 PREG_SPLIT_NO_EMPTY);
