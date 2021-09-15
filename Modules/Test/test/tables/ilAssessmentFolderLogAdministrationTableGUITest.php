@@ -26,6 +26,7 @@ class ilAssessmentFolderLogAdministrationTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
+        $this->setGlobalVariable("component.db", $this->createMock(ilComponentDataDB::class)); 
         $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
 
