@@ -9,29 +9,11 @@
  */
 class ilForumAuthorInformationCache
 {
-    /**
-     * @var array
-     * @static
-     */
-    protected static $user_instances = array();
+    protected static array $user_instances = array();
+    protected static array $requested_usr_ids = array();
+    protected static array $requested_usr_ids_key_map = array();
 
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids = array();
-
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids_key_map = array();
-
-    /**
-     * @static
-     * @param array $usr_ids
-     */
-    public static function preloadUserObjects(array $usr_ids)
+    public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -76,12 +58,7 @@ class ilForumAuthorInformationCache
         }
     }
 
-    /**
-     * @static
-     * @param int $usr_id
-     * @return ilObjUser|null
-     */
-    public static function getUserObjectById(int $usr_id): ?ilObjUser
+    public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {
         if (!$usr_id) {
             return null;

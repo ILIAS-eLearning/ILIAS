@@ -3,8 +3,7 @@
 
 /**
  * Importer class for forums
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id: $
  * @ingroup ModulesForum
  */
@@ -15,7 +14,7 @@ class ilForumImporter extends ilXmlImporter
         // case i container
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-        } else {	// case ii, non container
+        } else {    // case ii, non container
             $newObj = new ilObjForum();
             $newObj->setType('frm');
             $newObj->create();

@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * Forum Administration Settings.
  * @author            Nadia Matuschek <nmatuschek@databay.de>
@@ -12,17 +11,14 @@
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
-    /** @var \ILIAS\DI\RBACServices */
-    private $rbac;
-    /** @var ilErrorHandling */
-    private $error;
+    private \ILIAS\DI\RBACServices $rbac;
+    private ilErrorHandling $error;
 
-    /**
-     * Contructor
-     * @access public
-     */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        /**
+         * @var $DIC \ILIAS\DI\Container
+         */
         global $DIC;
 
         $this->rbac = $DIC->rbac();
@@ -33,10 +29,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('forum');
     }
 
-    /**
-     * @return bool
-     */
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         if (!$this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
@@ -64,10 +57,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         return true;
     }
 
-    /**
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -87,10 +77,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function editSettings(ilPropertyFormGUI $form = null)
+    public function editSettings(ilPropertyFormGUI $form = null) : void
     {
         $this->tabs_gui->activateTab('settings');
 
@@ -102,10 +89,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHtml());
     }
 
-    /**
-     * Save settings
-     */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $this->checkPermission("write");
 
@@ -132,16 +116,13 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $this->settings->set('save_post_drafts', (int) $form->getInput('save_post_drafts'));
         $this->settings->set('autosave_drafts', (int) $form->getInput('autosave_drafts'));
         $this->settings->set('autosave_drafts_ival', (int) $form->getInput('autosave_drafts_ival'));
-        
+
         ilUtil::sendSuccess($this->lng->txt('settings_saved'));
         $form->setValuesByPost();
         $this->editSettings($form);
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function populateForm(ilPropertyFormGUI $form)
+    protected function populateForm(ilPropertyFormGUI $form) : void
     {
         $frma_set = new ilSetting('frma');
 
@@ -151,7 +132,8 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora', false),
             'forum_notification' => (int) $this->settings->get('forum_notification') === 1 ? true : false,
             'activate_captcha_anonym' => ilCaptchaUtil::isActiveForForum(),
-            'file_upload_allowed_fora' => (int) $this->settings->get('file_upload_allowed_fora', ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
+            'file_upload_allowed_fora' => (int) $this->settings->get('file_upload_allowed_fora',
+                ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
             'save_post_drafts' => (int) $this->settings->get('save_post_drafts', 0),
             'autosave_drafts' => (int) $this->settings->get('autosave_drafts', 0),
             'autosave_drafts_ival' => (int) $this->settings->get('autosave_drafts_ival', 30),
@@ -159,17 +141,15 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         ));
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getSettingsForm()
+    protected function getSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));
         $form->setTitle($this->lng->txt('settings'));
 
         $frm_radio = new ilRadioGroupInputGUI($this->lng->txt('frm_displayed_infos'), 'forum_overview');
-        $frm_radio->addOption(new ilRadioOption($this->lng->txt('new') . ', ' . $this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'), '0'));
+        $frm_radio->addOption(new ilRadioOption($this->lng->txt('new') . ', ' . $this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'),
+            '0'));
         $frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'), '1'));
         $frm_radio->setInfo($this->lng->txt('frm_disp_info_desc'));
         $form->addItem($frm_radio);
@@ -182,9 +162,12 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
         $form->addItem($check);
 
-        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'), 'file_upload_allowed_fora');
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'), ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'), ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
+        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'),
+            'file_upload_allowed_fora');
+        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'),
+            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
+        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
+            ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
         $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
         $form->addItem($file_upload);
 
@@ -239,25 +222,27 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         return $form;
     }
 
-    /**
-     * @param string $a_form_id
-     * @return array
-     */
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
 
                 $fields = array(
-                    'enable_fora_statistics' => array($this->settings->get('enable_fora_statistics', false), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'enable_anonymous_fora' => array($this->settings->get('enable_anonymous_fora', false), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'enable_fora_statistics' => array($this->settings->get('enable_fora_statistics', false),
+                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ),
+                    'enable_anonymous_fora' => array($this->settings->get('enable_anonymous_fora', false),
+                                                     ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    )
                 );
 
                 return array(array("editSettings", $fields));
 
             case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
                 $fields = array(
-                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForForum(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForForum(),
+                                                           ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    )
                 );
 
                 return array('obj_frma' => array('editSettings', $fields));

@@ -3,20 +3,15 @@
 
 /**
  * Class ilForumStatisticsTableGUI
- *
- * @author	Michael Jansen <mjansen@databay.de>
- * @version	$Id$
- *
- * @ingroup ModulesForum
+ * @author     Michael Jansen <mjansen@databay.de>
+ * @version    $Id$
+ * @ingroup    ModulesForum
  */
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
     private bool $hasActiveLp = false;
-    /** @var int[] */
     private array $completed = [];
-    /** @var int[] */
     private array $failed = [];
-    /** @var int[] */
     private array $in_progress = [];
 
     public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, ilObjForum $forum)
@@ -38,7 +33,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
                 ((string) ceil((100 / count($columns)))) . '%s'
             );
         }
-        
+
         if ($this->hasActiveLp) {
             $this->lng->loadLanguageModule('trac');
             $this->completed = ilLPStatusWrapper::_lookupCompletedForObject($forum->getId());
@@ -48,7 +43,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
 
         $this->setDefaultOrderField('ranking');
         $this->setDefaultOrderDirection('desc');
-        
+
         $this->enable('hits');
         $this->enable('sort');
     }
@@ -90,11 +85,10 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
             ];
         }
 
-
         return $columns;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         parent::fillRow($a_set);
 
@@ -125,13 +119,12 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         }
     }
 
-
-    public function numericOrdering($a_field)
+    public function numericOrdering($a_field) : bool
     {
         switch ($a_field) {
             case 'ranking':
                 return true;
-            
+
             default:
                 return false;
         }

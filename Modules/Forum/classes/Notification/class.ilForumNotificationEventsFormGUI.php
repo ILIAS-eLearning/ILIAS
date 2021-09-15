@@ -20,7 +20,7 @@ class ilForumNotificationEventsFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    private function initForm()
+    private function initForm() : void
     {
         $this->setId(uniqid('frm_ntf_set_' . $this->ref_id));
 

@@ -29,9 +29,6 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
         $this->lng->loadLanguageModule('forum');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTasks(int $user_id) : array
     {
         $tasks = [];
@@ -92,9 +89,6 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
         return 0;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isActive() : bool
     {
         return (bool) $this->settings->get('save_post_drafts', null);

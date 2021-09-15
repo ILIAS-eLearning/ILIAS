@@ -3,33 +3,30 @@
 
 /**
  * Class ilForumModeratorsGUI
- * @author Nadia Matuschek <nmatuschek@databay.de>
+ * @author       Nadia Matuschek <nmatuschek@databay.de>
  * @ilCtrl_Calls ilForumModeratorsGUI: ilRepositorySearchGUI
- * @ingroup ModulesForum
+ * @ingroup      ModulesForum
  */
 class ilForumModeratorsGUI
 {
-    private $ctrl;
-    private $tpl;
-    private $lng;
-    private $tabs;
-    private $error;
-    private $user;
-    private $toolbar;
-    
-    /**
-     * @var ilForumModerators
-     */
-    private $oForumModerators;
+    private ilCtrl $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilTabsGUI $tabs;
+    private mixed $error;
+    private ilObjUser $user;
+    private ilToolbarGUI $toolbar;
+    private ilForumModerators $oForumModerators;
 
-    private $ref_id = 0;
-    private $access;
+    private int $ref_id = 0;
+    private ilAccessHandler $access;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
-        global $DIC; /** @var $DIC ILIAS\DI\Container  */
+        global $DIC;
+        /** @var $DIC ILIAS\DI\Container */
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -38,7 +35,7 @@ class ilForumModeratorsGUI
         $this->error = $DIC['ilErr'];
         $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
-        
+
         $this->tabs->activateTab('frm_moderators');
         $this->lng->loadLanguageModule('search');
         $this->http_wrapper = $DIC->http()->wrapper();
@@ -59,7 +56,7 @@ class ilForumModeratorsGUI
 
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -81,7 +78,7 @@ class ilForumModeratorsGUI
         }
     }
 
-    public function addModerator($users = array())
+    public function addModerator($users = array()) : void
     {
         if (!$users) {
             ilUtil::sendFailure($this->lng->txt('frm_moderators_select_one'));
@@ -91,7 +88,7 @@ class ilForumModeratorsGUI
         $isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
         $objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
         $frm_noti_type = $objFrmProps->getNotificationType();
-        
+
         foreach ($users as $user_id) {
             $this->oForumModerators->addModeratorRole((int) $user_id);
             if ($isCrsGrp && $frm_noti_type != 'default') {
@@ -109,11 +106,11 @@ class ilForumModeratorsGUI
         $this->ctrl->redirect($this, 'showModerators');
     }
 
-    public function detachModeratorRole()
+    public function detachModeratorRole() : void
     {
         $usr_ids = [];
         global $DIC;
-        if($DIC->http()->wrapper()->post()->has('usr_id')) {
+        if ($DIC->http()->wrapper()->post()->has('usr_id')) {
             $usr_ids = $DIC->http()->wrapper()->post()->retrieve(
                 'usr_id',
                 $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
@@ -122,20 +119,20 @@ class ilForumModeratorsGUI
 
         if (!isset($usr_ids) || !is_array($usr_ids)) {
             ilUtil::sendFailure($this->lng->txt('frm_moderators_select_at_least_one'));
-            return $this->showModerators();
+            $this->ctrl->redirect($this, 'showModerators');
         }
 
         $entries = $this->oForumModerators->getCurrentModerators();
         if (count($usr_ids) == count($entries)) {
             ilUtil::sendFailure($this->lng->txt('frm_at_least_one_moderator'));
-            return $this->showModerators();
+            $this->ctrl->redirect($this, 'showModerators');
         }
 
         $isCrsGrp = ilForumNotification::_isParentNodeGrpCrs($this->ref_id);
 
         $objFrmProps = ilForumProperties::getInstance(ilObject::_lookupObjId($this->ref_id));
         $frm_noti_type = $objFrmProps->getNotificationType();
-        
+
         foreach ($usr_ids as $usr_id) {
             $this->oForumModerators->detachModeratorRole((int) $usr_id);
 
@@ -152,10 +149,9 @@ class ilForumModeratorsGUI
 
         ilUtil::sendSuccess($this->lng->txt('frm_moderators_detached_role_successfully'), true);
         $this->ctrl->redirect($this, 'showModerators');
-        return false;
     }
 
-    public function showModerators()
+    public function showModerators() : void
     {
         global $DIC;
         ilRepositorySearchGUI::fillAutoCompleteToolbar(

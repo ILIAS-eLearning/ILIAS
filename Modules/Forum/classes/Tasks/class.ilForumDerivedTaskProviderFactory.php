@@ -40,9 +40,6 @@ class ilForumDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
             : $ctrl;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getProviders() : array
     {
         return [

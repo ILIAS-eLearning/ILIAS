@@ -9,27 +9,21 @@
  */
 class ilObjForumAccess extends ilObjectAccess
 {
-    /**
-     * @var array
-     * @static
-     */
-    protected static $userInstanceCache = array();
+    protected static array $userInstanceCache = array();
 
     /**
      * get commands
      * this method returns an array of all possible commands/permission combinations
      * example:
      * $commands = array
-     *	(
-     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *	);
-     * Comment mjansen: Cannot make this static because parent method is not static ...
-     * @return array
+     *    (
+     *        array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+     *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+     *    );
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array(
                 'permission' => 'read',
                 'cmd' => 'showThreads',
@@ -42,15 +36,10 @@ class ilObjForumAccess extends ilObjectAccess
                 'lang_var' => 'settings'
             ),
         );
-
-        return $commands;
     }
 
     /**
      * Check whether goto script will succeed
-     * Comment mjansen: Cannot make this static because parent method is not static ...
-     * @param string $a_target
-     * @return bool
      */
     public static function _checkGoto($a_target) : bool
     {
@@ -74,11 +63,8 @@ class ilObjForumAccess extends ilObjectAccess
 
     /**
      * Get thread id for posting
-     * @static
-     * @param int $a_pos_id
-     * @return int
      */
-    public static function _getThreadForPosting($a_pos_id) : int
+    public static function _getThreadForPosting(int $a_pos_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -96,11 +82,8 @@ class ilObjForumAccess extends ilObjectAccess
 
     /**
      * Returns the number of bytes used on the harddisk by the specified forum
-     * @static
-     * @param int $a_obj_id
-     * @return int
      */
-    public static function _lookupDiskUsage($a_obj_id) : int
+    public static function _lookupDiskUsage(int $a_obj_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -129,11 +112,8 @@ class ilObjForumAccess extends ilObjectAccess
 
     /**
      * Prepare message for container view
-     * @static
-     * @param string $text
-     * @return string
      */
-    public static function prepareMessageForLists($text) : string
+    public static function prepareMessageForLists(string $text) : string
     {
         $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
@@ -145,10 +125,6 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    /**
-     * @param array $obj_ids
-     * @param array $ref_ids
-     */
     public static function _preloadData($obj_ids, $ref_ids)
     {
         /*
@@ -158,31 +134,16 @@ class ilObjForumAccess extends ilObjectAccess
         ilObjForum::preloadForumIdsByRefIds((array) $ref_ids);
     }
 
-    /**
-     * @static
-     * @param int $ref_id
-     * @return array
-     */
     public static function getLastPostByRefId(int $ref_id) : array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }
 
-    /**
-     * @static
-     * @param int $ref_id
-     * @return array
-     */
     public static function getStatisticsByRefId(int $ref_id) : array
     {
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
 
-    /**
-     * @static
-     * @param int $usr_id
-     * @return ilObjUser|boolean
-     */
     public static function getCachedUserInstance(int $usr_id) : bool|ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {

@@ -15,10 +15,7 @@ class ilForum
 
     const DEFAULT_PAGE_HITS = 30;
 
-    /**
-     * @var array
-     */
-    protected static $moderators_by_ref_id_map = array();
+    protected static array $moderators_by_ref_id_map = array();
 
     public $lng;
     public mixed $error;
@@ -26,27 +23,10 @@ class ilForum
     public $user;
     public $settings;
 
-    /**
-     * database table name
-     * @var string
-     * @see    setDbTable(), getDbTable()
-     * @access private
-     */
     private string $dbTable;
 
-    /**
-     * class name
-     * @var string class name
-     * @access private
-     */
     private string $className = "ilForum";
 
-    /**
-     * database table field for sorting the results
-     * @var string
-     * @see    setOrderField()
-     * @access private
-     */
     private string $orderField;
 
     private string $mdb2Query = '';
@@ -83,10 +63,6 @@ class ilForum
         $this->lng = $lng;
     }
 
-    /**
-     * set object id which refers to ILIAS obj_id
-     * @param integer    object id
-     */
     public function setForumId(int $a_obj_id)
     {
         if (!isset($a_obj_id)) {
@@ -107,19 +83,11 @@ class ilForum
         $this->ref_id = $a_ref_id;
     }
 
-    /**
-     * get forum id
-     * @return    integer    object id of forum
-     */
     public function getForumId() : int
     {
         return $this->id;
     }
 
-    /**
-     * get forum ref_id
-     * @return    integer    reference id of forum
-     */
     public function getForumRefId() : int
     {
         return $this->ref_id;
@@ -127,8 +95,6 @@ class ilForum
 
     /**
      * set database field for sorting results
-     * @param string $orderField database field for sorting
-     * @see                $orderField
      */
     private function setOrderField(string $orderField)
     {
@@ -139,22 +105,11 @@ class ilForum
         }
     }
 
-    /**
-     * get name of orderField
-     * @return    string    name of orderField
-     * @see                $orderField
-     */
     public function getOrderField() : string
     {
         return $this->orderField;
     }
 
-    /**
-     * set database table
-     * @param string $dbTable database table
-     * @see                $dbTable
-     * @access             public
-     */
     public function setDbTable(string $dbTable)
     {
         if ($dbTable == "") {
@@ -164,11 +119,6 @@ class ilForum
         }
     }
 
-    /**
-     * get name of database table
-     * @return    string    name of database table
-     * @see                $dbTable
-     */
     public function getDbTable() : string
     {
         return $this->dbTable;
@@ -222,8 +172,6 @@ class ilForum
 
     /**
      * get number of max. visible datasets
-     * @return    integer    $pageHits
-     * @see                $pageHits
      */
     public function getPageHits() : int
     {
@@ -263,7 +211,6 @@ class ilForum
 
     /**
      * get one thread-dataset by WhereCondition
-     * @return    ilForumTopic    $result dataset of the thread
      */
     public function getOneThread() : ilForumTopic
     {
@@ -292,18 +239,6 @@ class ilForum
 
     /**
      * generate new dataset in frm_posts
-     * @param int    $forum_id
-     * @param int    $thread_id
-     * @param int    $author_id
-     * @param int    $display_user_id
-     * @param string $message
-     * @param int    $parent_pos
-     * @param int    $notify
-     * @param string $subject
-     * @param string $alias
-     * @param string $date datetime|timestamp
-     * @param int    $status
-     * @param int    $send_activation_mail
      * @return int   new post_id
      */
     public function generatePost(
@@ -319,7 +254,7 @@ class ilForum
         string $date = '',
         int $status = 1,
         int $send_activation_mail = 0
-    ) {
+    ) : int {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
         $objNewPost->setThreadId($thread_id);
@@ -414,12 +349,6 @@ class ilForum
     }
 
     /**
-     * @param ilForumTopic $thread
-     * @param string       $message
-     * @param int          $notify
-     * @param int          $notify_posts
-     * @param int          $status
-     * @param bool         $withFirstVisibleEntry
      * @return int The id of the new posting, created implicitly when creating new threads
      */
     public function generateThread(
@@ -1416,7 +1345,7 @@ class ilForum
     /**
      * insert node under parent node
      */
-    public function insertPostNode(int $a_node_id, int $a_parent_id, int $tree_id, string $a_date = '')
+    public function insertPostNode(int $a_node_id, int $a_parent_id, int $tree_id, string $a_date = '') : void
     {
         $a_date = $a_date ?: date("Y-m-d H:i:s");
 
@@ -1529,9 +1458,10 @@ class ilForum
             array('0', $tree_id)
         );
 
-        $row = $this->db->fetchObject($res);
-
-        return $this->fetchPostNodeData($row);
+        if($row = $this->db->fetchObject($res)) {
+            return $this->fetchPostNodeData($row);
+        }
+        else return [];
     }
 
     /**
@@ -1550,9 +1480,10 @@ class ilForum
             array($post_id)
         );
 
-        $row = $this->db->fetchObject($res);
-
-        return $this->fetchPostNodeData($row);
+        if($row = $this->db->fetchObject($res)) {
+            return $this->fetchPostNodeData($row);
+        }
+        else return [];
     }
 
     /**
@@ -1679,7 +1610,7 @@ class ilForum
     /**
      * update page hits of given forum- or thread-ID
      */
-    public function updateVisits($ID)
+    public function updateVisits($ID) : void
     {
         $checkTime = time() - (60 * 60);
         $session_key = "frm_visit_" . $this->dbTable . "_" . $ID;
@@ -1992,10 +1923,7 @@ class ilForum
         return 0;
     }
 
-    /**
-     * @throws ilException
-     */
-    public function mergeThreads(int $source_id, int $target_id)
+    public function mergeThreads(int $source_id, int $target_id) : void
     {
         // selected source and target objects
         $sourceThread = new \ilForumTopic($source_id);
@@ -2089,7 +2017,7 @@ class ilForum
         $ilAtomQuery->run();
 
         // check notifications
-        \ilForumNotification::mergeThreadNotificiations($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
+        \ilForumNotification::mergeThreadNotifications($sourceThreadForMerge->getId(), $targetThreadForMerge->getId());
 
         // delete frm_thread_access entries
         \ilObjForum::_deleteAccessEntries($sourceThreadForMerge->getId());

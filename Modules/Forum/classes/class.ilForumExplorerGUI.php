@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Component\Tree\Node\Node;
@@ -10,44 +11,30 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilForumExplorerGUI extends ilTreeExplorerGUI
 {
-    /** @var ilForumTopic */
-    protected $thread;
-
-    /** @var ilForumPost */
-    protected $root_node;
-
-    /** @var array */
-    protected $node_id_to_parent_node_id_map = [];
-
-    /** @var int */
-    protected $max_entries = PHP_INT_MAX;
-
-    /** @var array */
-    protected $preloaded_children = [];
+    protected ilForumTopic $thread;
+    protected ilForumPost $root_node;
+    protected array $node_id_to_parent_node_id_map = [];
+    protected int $max_entries = PHP_INT_MAX;
+    protected array $preloaded_children = [];
 
     /** @var ilForumAuthorInformation[] */
-    protected $authorInformation = [];
+    protected array $authorInformation = [];
+    protected int $currentPostingId = 0;
 
     /** @var int */
-    protected $currentPostingId = 0;
-    
-    /** @var int  */
     private $currentPage = 0;
 
-    /**
-     * ilForumExplorerGUI constructor.
-     * @param $a_expl_id
-     * @param $a_parent_obj
-     * @param $a_parent_cmd
-     * @param ilForumTopic $thread
-     * @param ilForumPost $root
-     */
-    public function __construct(string $a_expl_id, object $a_parent_obj, string $a_parent_cmd, ilForumTopic $thread, ilForumPost $root)
-    {
+    public function __construct(
+        string $a_expl_id,
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilForumTopic $thread,
+        ilForumPost $root
+    ) {
         global $DIC;
 
         parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $DIC->repositoryTree());
-        
+
         $this->setSkipRootNode(false);
         $this->setAjax(false);
         $this->setPreloadChilds(true);
@@ -65,9 +52,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->setNodeOpen($this->root_node->getId());
     }
 
-    /**
-     *
-     */
     protected function initPosting() : void
     {
         $postingId = (int) ($this->httpRequest->getParsedBody()['pos_pk'] ?? 0);
@@ -78,9 +62,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->currentPostingId = (int) $postingId;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getChildsOfNode($a_parent_node_id) : array
     {
         if ($this->preloaded) {
@@ -94,17 +75,11 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
     }
 
-    /**
-     * @param int $currentPage
-     */
     public function setCurrentPage(int $currentPage) : void
     {
         $this->currentPage = $currentPage;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function preloadChilds() : void
     {
         $this->preloaded_children = [];
@@ -125,25 +100,16 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->preloaded = true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getChildren($record, $environment = null) : array
     {
         return $this->getChildsOfNode((int) $record['pos_pk']);
     }
 
-    /**
-     * @return string
-     */
     public function getTreeLabel() : string
     {
         return $this->lng->txt("frm_posts");
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTreeComponent() : Tree
     {
         $rootNode = [
@@ -160,16 +126,13 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
 
         $tree = $this->ui->factory()->tree()
-            ->expandable($this->getTreeLabel(), $this)
-            ->withData($rootNode)
-            ->withHighlightOnNodeClick(false);
+                         ->expandable($this->getTreeLabel(), $this)
+                         ->withData($rootNode)
+                         ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function createNode(
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
         $record
@@ -198,9 +161,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $node;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getNodeStateToggleCmdClasses($record) : array
     {
         return [
@@ -209,10 +169,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
     }
 
-    /**
-     * @param array $node
-     * @return ilForumAuthorInformation
-     */
     private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation
     {
         if (isset($this->authorInformation[(int) $node['pos_pk']])) {
@@ -220,22 +176,18 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         return $this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
-            (int)$node['pos_author_id'] ?? 0,
-            (int)$node['pos_display_user_id'],
-            (string)$node['pos_usr_alias'],
-            (string)$node['import_name']
+            (int) $node['pos_author_id'] ?? 0,
+            (int) $node['pos_display_user_id'],
+            (string) $node['pos_usr_alias'],
+            (string) $node['import_name']
         );
     }
 
-
-    public function getNodeId($a_node)
+    public function getNodeId($a_node) : int
     {
-        return $a_node['pos_pk'] ?? 0;
+        return (isset($a_node['pos_pk']) ? (int) $a_node['pos_pk'] : 0);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNodeIcon($a_node) : string
     {
         if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
@@ -245,10 +197,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNodeHref($a_node) : string
+    public function getNodeHref($a_node): string
     {
         if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
             return '';
@@ -271,13 +220,10 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'page', null);
-        
+
         return $url;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNodeContent($a_node) : string
     {
         return $a_node['pos_subject'];

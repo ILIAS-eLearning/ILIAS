@@ -3,8 +3,7 @@
 
 /**
  * Exporter class for sessions
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id: $
  * @ingroup ModulesForum
  */
@@ -12,26 +11,16 @@ class ilForumExporter extends ilXmlExporter
 {
     private $ds;
 
-    /**
-     * Initialisation
-     */
     public function init() : void
     {
     }
 
 
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $xml = '';
 
-        if (ilObject::_lookupType($a_id) == 'frm') {
+        if (ilObject::_lookupType($a_id) === 'frm') {
             $writer = new ilForumXMLWriter();
             $writer->setForumId($a_id);
             ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
@@ -43,9 +32,6 @@ class ilForumExporter extends ilXmlExporter
         return $xml;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $deps = [];
@@ -67,7 +53,7 @@ class ilForumExporter extends ilXmlExporter
 
         return $deps;
     }
-    
+
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which

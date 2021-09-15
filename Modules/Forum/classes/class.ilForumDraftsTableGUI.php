@@ -7,15 +7,8 @@
  */
 class ilForumDraftsTableGUI extends ilTable2GUI
 {
-    /** @var bool */
-    protected $mayEdit = false;
+    protected bool $mayEdit = false;
 
-    /**
-     * ilForumDraftsTableGUI constructor.
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param bool   $mayEdit
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, bool $mayEdit)
     {
         $this->mayEdit = $mayEdit;
@@ -27,7 +20,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.forums_threads_drafts_table.html', 'Modules/Forum');
     }
 
-    public function initTableColumns()
+    public function initTableColumns() : void
     {
         $this->addColumn('', 'check', '1px', true);
         $this->addColumn($this->lng->txt('drafts'), '');
@@ -37,7 +30,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    protected function fillRow($draft)
+    protected function fillRow($draft) : void
     {
         global $DIC;
         $draft_ids = [];

@@ -4,17 +4,12 @@
 
 /**
  * Forum news renderer
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author  Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  * @ingroup ModuleForum
  */
 class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-    /**
-     * Get object link
-     * @return string link href url
-     */
     public function getObjectLink() : string
     {
         $add = '';

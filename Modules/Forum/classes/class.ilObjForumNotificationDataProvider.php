@@ -7,44 +7,23 @@
  */
 class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 {
-    /** @var int $ref_id */
-    protected $ref_id = 0;
-    /** @var int $obj_id */
-    protected $obj_id = 0;
-    /** @var string|null $post_user_name */
-    protected $post_user_name = null;
-    /** @var string|null $update_user_name */
-    protected $update_user_name = null;
-    /** @var int */
-    public $pos_author_id = 0;
-    /** @var int */
-    protected $forum_id = 0;
-    /** @var string $forum_title */
-    protected $forum_title = '';
-    /** @var string $thread_title */
-    protected $thread_title = '';
-    /** @var array $attachments */
-    protected $attachments = [];
-    /** @var ilForumPost */
-    public $objPost;
+    protected int $ref_id = 0;
+    protected int $obj_id = 0;
+    protected ?string $post_user_name = null;
+    protected ?string $update_user_name = null;
+    public int $pos_author_id = 0;
+    protected int $forum_id = 0;
+    protected string $forum_title = '';
+    protected string $thread_title = '';
+    protected array $attachments = [];
+    public ilForumPost $objPost;
     private $db;
     private $access;
     private $user;
+    protected bool $is_anonymized = false;
+    private ilForumNotificationCache $notificationCache;
 
-    /**
-     * @var bool
-     */
-    protected $is_anonymized = false;
-
-    /** @var ilForumNotificationCache */
-    private $notificationCache;
-
-    /**
-     * @param ilForumPost              $objPost
-     * @param int                      $ref_id
-     * @param ilForumNotificationCache $notificationCache
-     */
-    public function __construct(ilForumPost $objPost, $ref_id, \ilForumNotificationCache $notificationCache)
+    public function __construct(ilForumPost $objPost, int $ref_id, \ilForumNotificationCache $notificationCache)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -59,113 +38,71 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->read();
     }
 
-    /**
-     * @return int
-     */
     public function getRefId() : int
     {
         return (int) $this->ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return (int) $this->obj_id;
     }
 
-    /**
-     * @return int
-     */
     public function getThreadId() : int
     {
         return (int) $this->objPost->getThreadId();
     }
 
-    /**
-     * @return int
-     */
     public function getPostId() : int
     {
         return $this->objPost->getId();
     }
 
-    /**
-     * @return int
-     */
     public function getForumId() : int
     {
         return (int) $this->forum_id;
     }
 
-    /**
-     * @return string frm_data.top_name
-     */
     public function getForumTitle() : string
     {
         return $this->forum_title;
     }
 
-    /**
-     * @return string frm_threads.thr_subject
-     */
     public function getThreadTitle() : string
     {
         return $this->thread_title;
     }
 
-    /**
-     * @return string frm_posts.pos_subject
-     */
     public function getPostTitle() : string
     {
         return $this->objPost->getSubject();
     }
 
-    /**
-     * @return string frm_posts.pos_message
-     */
     public function getPostMessage() : string
     {
         return $this->objPost->getMessage();
     }
 
-    /**
-     * @return string frm_posts.pos_display_user_id
-     */
     public function getPosDisplayUserId() : int
     {
         return (int) $this->objPost->getDisplayUserId();
     }
 
-    /**
-     * @return string frm_posts.pos_date
-     */
     public function getPostDate() : string
     {
         return $this->objPost->getCreateDate();
     }
 
-    /**
-     * @return string frm_posts.pos_update
-     */
     public function getPostUpdate() : string
     {
         return $this->objPost->getChangeDate();
     }
 
-    /**
-     * @return bool frm_posts.pos_cens
-     */
-    public function getPostCensored() : bool
+    public function getPostCensored() : int
     {
-        return $this->objPost->isCensored();
+        return (int)$this->objPost->isCensored();
     }
 
-    /**
-     * @return string frm_posts.pos_cens_date
-     */
     public function getPostCensoredDate() : string
     {
         return $this->objPost->getCensoredDate();
@@ -176,33 +113,21 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->objPost->getCensorshipComment();
     }
 
-    /**
-     * @return array file names
-     */
     public function getAttachments() : array
     {
         return $this->attachments;
     }
 
-    /**
-     * @return string frm_posts.pos_usr_alias
-     */
     public function getPosUserAlias() : string
     {
         return $this->objPost->getUserAlias();
     }
 
-    /**
-     * @return bool
-     */
     public function isAnonymized() : bool
     {
         return $this->is_anonymized;
     }
 
-    /**
-     * @return string
-     */
     public function getImportName() : string
     {
         return $this->objPost->getImportName();
@@ -230,9 +155,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->post_user_name;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getPostUpdateUserName(\ilLanguage $user_lang) : string
     {
         if ($this->update_user_name === null) {
@@ -256,10 +178,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->update_user_name;
     }
 
-    /**
-     * @param ilForumAuthorInformation $authorinfo
-     * @return string
-     */
     public function getPublicUserInformation(ilForumAuthorInformation $authorinfo) : string
     {
         if ($authorinfo->hasSuffix()) {
@@ -388,11 +306,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return array_unique($rcps);
     }
 
-    /**
-     * @param $notification_type
-     * @return array|mixed
-     */
-    public function getThreadNotificationRecipients($notification_type) : mixed
+    public function getThreadNotificationRecipients(int $notification_type) : array
     {
         if (!$this->getThreadId()) {
             return [];
@@ -428,14 +342,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
             $this->notificationCache->store($cacheKey, $usrIds);
         }
 
-        $usrIds = $this->notificationCache->fetch($cacheKey);
-
-        return $usrIds;
+        return (array) $this->notificationCache->fetch($cacheKey);
     }
 
-    /**
-     * @return array
-     */
     public function getPostAnsweredRecipients() : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues(array(
@@ -456,9 +365,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $rcps;
     }
 
-    /**
-     * @return array
-     */
     public function getPostActivationRecipients() : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues(array(
@@ -477,26 +383,16 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (array) $rcps;
     }
 
-    /**
-     * @param $pos_author_id
-     */
-    public function setPosAuthorId($pos_author_id)
+    public function setPosAuthorId($pos_author_id) : void
     {
-        $this->pos_author_id = $pos_author_id;
+        $this->pos_author_id = (int) $pos_author_id;
     }
 
-    /**
-     * @return int
-     */
     public function getPosAuthorId() : int
     {
         return $this->pos_author_id;
     }
 
-    /**
-     * @param int $objId
-     * @return int[]
-     */
     private function getRefIdsByObjId(int $objId) : array
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
@@ -532,9 +428,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $usrIds;
     }
 
-    /**
-     * @return string
-     */
     public function getDeletedBy() : string
     {
         global $DIC;
@@ -547,11 +440,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         }
     }
 
-    /**
-     * @param $notification_type
-     * @return int
-     */
-    private function getEventType($notification_type) : int
+    private function getEventType(int $notification_type) : int
     {
         $event_type = 0;
         switch ($notification_type) {

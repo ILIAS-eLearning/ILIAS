@@ -21,10 +21,7 @@ class ilForumExportGUI
      * @var bool
      */
     protected $is_moderator = false;
-    /**
-     * @var ilForum
-     */
-    protected $frm;
+    protected ilForum $frm;
     private ilForumProperties $objProperties;
     private $http_wrapper;
     private $refinery;
@@ -59,9 +56,6 @@ class ilForumExportGUI
         $this->is_moderator = $this->access->checkAccess('moderate_frm', '', $this->retrieveRefId());
     }
 
-    /**
-     *
-     */
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -74,7 +68,7 @@ class ilForumExportGUI
         }
     }
 
-    public function printThread()
+    public function printThread() : void
     {
         if (!$this->access->checkAccess('read,visible', '', $this->retrieveRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -135,18 +129,14 @@ class ilForumExportGUI
     /**
      * Prepare the export (init MathJax rendering)
      */
-    protected function prepare()
+    protected function prepare() : void
     {
         ilMathJax::getInstance()
                  ->init(ilMathJax::PURPOSE_EXPORT)
                  ->setZoomFactor(10);
     }
 
-    /**
-     * @param int          $objId
-     * @param ilForumTopic $thread
-     */
-    public function ensureThreadBelongsToForum(int $objId, \ilForumTopic $thread)
+    public function ensureThreadBelongsToForum(int $objId, \ilForumTopic $thread) : void
     {
         $forumId = \ilObjForum::lookupForumIdByObjId($objId);
         if ($thread->getForumId() !== $forumId) {
@@ -154,13 +144,7 @@ class ilForumExportGUI
         }
     }
 
-    /**
-     * @param \ilGlobalTemplate $tpl
-     * @param ilForumPost       $post
-     * @param int               $counter
-     * @param int               $mode
-     */
-    protected function renderPostHtml(\ilGlobalTemplate $tpl, ilForumPost $post, $counter, $mode)
+    protected function renderPostHtml(\ilGlobalTemplate $tpl, ilForumPost $post, int $counter, int $mode) : void
     {
         $tpl->setCurrentBlock('posts_row');
 
@@ -311,7 +295,7 @@ class ilForumExportGUI
         $tpl->parseCurrentBlock('posts_row');
     }
 
-    public function printPost()
+    public function printPost() : void
     {
         if (!$this->access->checkAccess('read,visible', '', $this->retrieveRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -361,7 +345,7 @@ class ilForumExportGUI
         $tpl->printToStdout();
     }
 
-    public function exportHTML()
+    public function exportHTML() : void
     {
         if (!$this->access->checkAccess('read,visible', '', $this->retrieveRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);

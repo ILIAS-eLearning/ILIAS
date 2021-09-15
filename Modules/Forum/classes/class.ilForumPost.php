@@ -9,78 +9,34 @@
 class ilForumPost
 {
     private int $id = 0;
-
     private int $forum_id = 0;
-
     private int $thread_id = 0;
-
     private int $display_user_id = 0;
-
     private string $user_alias = '';
-
     private string $subject = '';
-
     private string $message = '';
-
     private string $createdate = '0000-00-00 00:00:00';
-
     private ?string $changedate = '0000-00-00 00:00:00';
-
     private int $user_id_update = 0;
-
     private int $censored = 0;
-
     private ?string $censorship_comment = '';
-
     private ?string $censored_date = '0000-00-00 00:00:00';
-
     private int $notification = 0;
-
     private string $import_name = '';
-
     private int $status = 1;
-
     private int $tree_id = 0;
-
     private int $parent_id = 0;
-
     private int $lft = 0;
-
     private int $rgt = 0;
-
     private int $depth = 0;
-
-    /**
-     * @var ilForumTopic
-     */
     private ?ilForumTopic $objThread = null;
-
     private $db = null;
-
-    /**
-     *  current user in a forum
-     * @var bool
-     */
     private bool $is_moderator = false;
-
-    /**
-     * author_id of a post is a moderator
-     * @var int|null
-     */
     private ?int $is_author_moderator = null;
-
     private bool $post_read = false;
-
     private int $pos_author_id = 0;
-
     private ?string $post_activation_date = null;
 
-    /**
-     * ilForumPost constructor.
-     * @param int  $a_id
-     * @param bool $a_is_moderator
-     * @param bool $preventImplicitRead
-     */
     public function __construct(int $a_id = 0, $a_is_moderator = false, $preventImplicitRead = false)
     {
         global $DIC;
@@ -240,7 +196,7 @@ class ilForumPost
         return $this->read();
     }
 
-    public function activatePost()
+    public function activatePost() : void
     {
         if ($this->id) {
             $now = date("Y-m-d H:i:s");
@@ -320,12 +276,12 @@ class ilForumPost
         return false;
     }
 
-    public function isPostRead()
+    public function isPostRead() : bool
     {
         return $this->getIsRead();
     }
 
-    public function isRead($a_user_id = 0)
+    public function isRead($a_user_id = 0) : bool
     {
         if ($a_user_id && $this->id) {
             $res = $this->db->queryF(
@@ -337,13 +293,13 @@ class ilForumPost
                 array($a_user_id, $this->id)
             );
 
-            return $res->numRows() ? true : false;
+            return (bool) $res->numRows();
         }
 
         return false;
     }
 
-    public function hasReplies()
+    public function hasReplies() : bool
     {
         if ($this->id && $this->rgt && $this->lft) {
             $res = $this->db->queryF(
@@ -361,7 +317,7 @@ class ilForumPost
         return false;
     }
 
-    public function isOwner($a_user_id = 0)
+    public function isOwner($a_user_id = 0) : bool
     {
         if ($this->pos_author_id && $a_user_id) {
             if ((int) $this->pos_author_id == (int) $a_user_id) {
@@ -372,9 +328,9 @@ class ilForumPost
         return false;
     }
 
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
-        $this->id = $a_id;
+        $this->id = (int) $a_id;
     }
 
     public function getId() : int
@@ -382,9 +338,9 @@ class ilForumPost
         return (int) $this->id;
     }
 
-    public function setForumId($a_forum_id)
+    public function setForumId($a_forum_id) : void
     {
-        $this->forum_id = $a_forum_id;
+        $this->forum_id = (int) $a_forum_id;
     }
 
     public function getForumId() : int
@@ -392,9 +348,9 @@ class ilForumPost
         return (int) $this->forum_id;
     }
 
-    public function setThreadId($a_thread_id)
+    public function setThreadId($a_thread_id) : void
     {
-        $this->thread_id = $a_thread_id;
+        $this->thread_id = (int) $a_thread_id;
     }
 
     public function getThreadId() : int
@@ -402,9 +358,9 @@ class ilForumPost
         return (int) $this->thread_id;
     }
 
-    public function setDisplayUserId($a_user_id)
+    public function setDisplayUserId($a_user_id) : void
     {
-        $this->display_user_id = $a_user_id;
+        $this->display_user_id = (int) $a_user_id;
     }
 
     public function getDisplayUserId() : int
@@ -412,7 +368,7 @@ class ilForumPost
         return (int) $this->display_user_id;
     }
 
-    public function setUserAlias($a_user_alias)
+    public function setUserAlias($a_user_alias) : void
     {
         $this->user_alias = $a_user_alias;
     }
@@ -422,7 +378,7 @@ class ilForumPost
         return $this->user_alias;
     }
 
-    public function setSubject($a_subject)
+    public function setSubject($a_subject) : void
     {
         $this->subject = $a_subject;
     }
@@ -432,7 +388,7 @@ class ilForumPost
         return $this->subject;
     }
 
-    public function setMessage($a_message)
+    public function setMessage($a_message) : void
     {
         $this->message = $a_message;
     }
@@ -442,7 +398,7 @@ class ilForumPost
         return $this->message;
     }
 
-    public function setCreateDate($a_createdate)
+    public function setCreateDate($a_createdate) : void
     {
         $this->createdate = $a_createdate;
     }
@@ -452,7 +408,7 @@ class ilForumPost
         return $this->createdate;
     }
 
-    public function setChangeDate($a_changedate)
+    public function setChangeDate($a_changedate) : void
     {
         $this->changedate = $a_changedate;
     }
@@ -462,9 +418,9 @@ class ilForumPost
         return $this->changedate;
     }
 
-    public function setUpdateUserId($a_user_id_update)
+    public function setUpdateUserId($a_user_id_update) : void
     {
-        $this->user_id_update = $a_user_id_update;
+        $this->user_id_update = (int) $a_user_id_update;
     }
 
     public function getUpdateUserId() : int
@@ -472,7 +428,7 @@ class ilForumPost
         return (int) $this->user_id_update;
     }
 
-    public function setCensorship($a_censorship)
+    public function setCensorship($a_censorship) : void
     {
         $this->censored = $a_censorship;
     }
@@ -482,7 +438,7 @@ class ilForumPost
         return $this->censored == 1 ? true : false;
     }
 
-    public function setCensorshipComment($a_comment)
+    public function setCensorshipComment($a_comment) : void
     {
         $this->censorship_comment = $a_comment;
     }
@@ -492,7 +448,7 @@ class ilForumPost
         return $this->censorship_comment;
     }
 
-    public function setNotification($a_notification)
+    public function setNotification($a_notification) : void
     {
         $this->notification = $a_notification;
     }
@@ -502,7 +458,7 @@ class ilForumPost
         return $this->notification == 1 ? true : false;
     }
 
-    public function setImportName($a_import_name)
+    public function setImportName($a_import_name) : void
     {
         $this->import_name = $a_import_name;
     }
@@ -512,7 +468,7 @@ class ilForumPost
         return $this->import_name;
     }
 
-    public function setStatus($a_status)
+    public function setStatus($a_status) : void
     {
         $this->status = $a_status;
     }
@@ -522,9 +478,9 @@ class ilForumPost
         return $this->status == 1 ? true : false;
     }
 
-    public function setTreeId($a_tree_id)
+    public function setTreeId($a_tree_id) : void
     {
-        $this->tree_id = $a_tree_id;
+        $this->tree_id = (int) $a_tree_id;
     }
 
     public function getTreeId() : int
@@ -532,14 +488,14 @@ class ilForumPost
         return $this->tree_id;
     }
 
-    public function setParentId($a_parent_id)
+    public function setParentId($a_parent_id) : void
     {
-        $this->parent_id = $a_parent_id;
+        $this->parent_id = (int) $a_parent_id;
     }
 
-    public function setIsRead($a_is_read)
+    public function setIsRead($a_is_read) : void
     {
-        $this->post_read = $a_is_read;
+        $this->post_read = (bool) $a_is_read;
     }
 
     public function getIsRead() : bool
@@ -552,9 +508,9 @@ class ilForumPost
         return (int) $this->parent_id;
     }
 
-    public function setLft($a_lft)
+    public function setLft($a_lft) : void
     {
-        $this->lft = $a_lft;
+        $this->lft = (int) $a_lft;
     }
 
     public function getLft() : int
@@ -562,9 +518,9 @@ class ilForumPost
         return (int) $this->lft;
     }
 
-    public function setRgt($a_rgt)
+    public function setRgt($a_rgt) : void
     {
-        $this->rgt = $a_rgt;
+        $this->rgt = (int) $a_rgt;
     }
 
     public function getRgt() : int
@@ -572,9 +528,9 @@ class ilForumPost
         return (int) $this->rgt;
     }
 
-    public function setDepth($a_depth)
+    public function setDepth($a_depth) : void
     {
-        $this->depth = $a_depth;
+        $this->depth = (int) $a_depth;
     }
 
     public function getDepth() : int
@@ -582,7 +538,7 @@ class ilForumPost
         return (int) $this->depth;
     }
 
-    public function setThread(ilForumTopic $thread)
+    public function setThread(ilForumTopic $thread) : void
     {
         $this->objThread = $thread;
     }
@@ -592,74 +548,47 @@ class ilForumPost
         return $this->objThread;
     }
 
-    /**
-     * @param int $pos_author_id
-     */
-    public function setPosAuthorId($pos_author_id)
+    public function setPosAuthorId(int $pos_author_id) : void
     {
         $this->pos_author_id = $pos_author_id;
     }
 
-    /**
-     * @return int
-     */
     public function getPosAuthorId() : int
     {
         return (int) $this->pos_author_id;
     }
 
-    /**
-     * @return int|null
-     */
     public function getIsAuthorModerator() : ?int
     {
         return $this->is_author_moderator;
     }
 
-    /**
-     * @param int|null
-     */
-    public function setIsAuthorModerator($is_author_moderator)
+    public function setIsAuthorModerator($is_author_moderator) : void
     {
         $this->is_author_moderator = $is_author_moderator;
     }
 
-    /**
-     * @return string
-     */
     public function getCensoredDate() : string
     {
         return $this->censored_date;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPostActivationDate() : ?string
     {
         return $this->post_activation_date;
     }
 
-    /**
-     * @param string $post_activation_date
-     */
-    public function setPostActivationDate($post_activation_date)
+    public function setPostActivationDate($post_activation_date) : void
     {
         $this->post_activation_date = $post_activation_date;
     }
 
-    /**
-     * @param string $censored_date
-     */
-    public function setCensoredDate($censored_date)
+    public function setCensoredDate($censored_date) : void
     {
         $this->censored_date = $censored_date;
     }
 
-    /**
-     * @param $row
-     */
-    public function assignData($row)
+    public function assignData($row) : void
     {
         $this->setUserAlias((string) $row['pos_usr_alias']);
         $this->setSubject((string) $row['pos_subject']);
@@ -681,18 +610,13 @@ class ilForumPost
         $this->setLft((int) $row['lft']);
         $this->setRgt((int) $row['rgt']);
         $this->setDepth((int) $row['depth']);
-//        $this->setIsRead($row['post_read']);
+        $this->setIsRead((bool) (isset($row['post_read']) && (int) $row['post_read'] ?? 1));
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((int) $row['is_author_moderator']);
     }
 
-    /**
-     * @param int   $sourceThreadId
-     * @param int   $targetThreadId
-     * @param int[] $excludedPostIds
-     */
-    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = [])
+    public static function mergePosts(int $sourceThreadId, int $targetThreadId, array $excludedPostIds = []) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -709,10 +633,6 @@ class ilForumPost
         );
     }
 
-    /**
-     * @param int $post_id
-     * @return int
-     */
     public static function lookupNotifyByPostId(int $post_id) : int
     {
         global $DIC;

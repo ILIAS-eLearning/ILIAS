@@ -9,7 +9,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
     /**
      * Parse results and call setData
      */
-    public function parse()
+    public function parse() : void
     {
         global $DIC;
 
@@ -37,11 +37,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
         $this->setData($rows);
     }
 
-    /**
-     * Fill result row
-     * @param array $a_set
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);

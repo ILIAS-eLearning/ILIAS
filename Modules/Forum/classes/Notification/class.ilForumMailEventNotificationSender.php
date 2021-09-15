@@ -26,26 +26,11 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     const PERMANENT_LINK_FORUM = 'PL_Forum';
 
-    /**
-     * @var bool
-     */
     protected bool $is_cronjob = false;
 
-    /**
-     * @var ilForumNotificationMailData
-     */
     protected ilForumNotificationMailData $provider;
-
-    /**
-     * @var ilLogger
-     */
     protected ilLogger $logger;
 
-    /**
-     * ilForumMailNotification constructor.
-     * @param ilForumNotificationMailData $provider
-     * @param ilLogger                    $logger
-     */
     public function __construct(ilForumNotificationMailData $provider, ilLogger $logger)
     {
         parent::__construct(false);
@@ -53,9 +38,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->logger = $logger;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function initMail() : ilMail
     {
         $mail = parent::initMail();
@@ -64,9 +46,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $mail;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function sendMail(array $a_rcp, bool $a_parse_recipients = true) : void
     {
         $this->logger->debug(sprintf(
@@ -77,9 +56,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->logger->debug('Notification transport delegated');
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function setSubject(string $a_subject): string
     {
         $value = parent::setSubject($a_subject);
@@ -88,10 +64,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $value;
     }
 
-    /**
-     * @return bool
-     * @throws ilException
-     */
     public function send() : bool
     {
         global $DIC;
@@ -293,26 +265,16 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->language->loadLanguageModule('forum');
     }
 
-    /**
-     * @return boolean
-     */
     public function isCronjob() : bool
     {
         return (bool) $this->is_cronjob;
     }
 
-    /**
-     * @param boolean $is_cronjob
-     */
     public function setIsCronjob(bool $is_cronjob)
     {
         $this->is_cronjob = (bool) $is_cronjob;
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
     private function getPermanentLink(string $type = self::PERMANENT_LINK_POST) : string
     {
         global $DIC;
@@ -349,9 +311,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $posting_link;
     }
 
-    /**
-     * @return string
-     */
     private function getPostMessage() : string
     {
         $pos_message = $this->provider->getPostMessage();
@@ -522,23 +481,13 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $body;
     }
 
-    /**
-     * @param string $subject
-     * @internal
-     */
-    private function addMailSubject(string $subject)
+    private function addMailSubject(string $subject) : void
     {
         $this->initMail();
 
         $this->setSubject($this->createSubjectText($subject));
     }
 
-    /**
-     * @param string $date
-     * @return string
-     * @throws ilDateTimeException
-     * @internal
-     */
     private function createMailDate(string $date) : string
     {
         ilDatePresentation::setLanguage($this->language);
@@ -552,10 +501,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return $date;
     }
 
-    /**
-     * @param string $subject
-     * @return string
-     */
     private function createSubjectText(string $subject) : string
     {
         return sprintf(

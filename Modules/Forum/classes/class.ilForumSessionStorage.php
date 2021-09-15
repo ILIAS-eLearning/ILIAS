@@ -7,25 +7,24 @@
  */
 class ilForumSessionStorage
 {
-    private $session = [];
-    
-    /**
-     * ilForumSessionStorage constructor.
-     */
+    private array $session = [];
+
     public function __construct($session_key = 'frm_selected_post')
     {
         $this->session = \ilSession::get($session_key) ?? [];
     }
-    
-    public function get($thread_id)
+
+    public function get($thread_id) : int
     {
         $this->session = \ilSession::get('frm_selected_post') ?? [];
-        
-        if($thread_id > 0 && isset($this->session[$thread_id])) return $this->session[$thread_id];
+
+        if ($thread_id > 0 && isset($this->session[$thread_id])) {
+            return $this->session[$thread_id];
+        }
         return 0;
     }
-    
-    public function set($thread_id, $post_id)
+
+    public function set($thread_id, $post_id) : void
     {
         $this->session[$thread_id] = $post_id;
         \ilSession::set('frm_selected_post', $this->session);

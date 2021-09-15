@@ -7,14 +7,8 @@
  */
 class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 {
-    /**
-     * @var int
-     */
-    protected $current_frm_ref_id = 0;
+    protected int $current_frm_ref_id = 0;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(
         $a_parent_obj,
         $a_parent_cmd,
@@ -27,25 +21,16 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
         $this->setSelectMode('frm_ref_id');
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentFrmRefId() : int
     {
         return $this->current_frm_ref_id;
     }
 
-    /**
-     * @param int $current_frm_ref_id
-     */
-    public function setCurrentFrmRefId($current_frm_ref_id)
+    public function setCurrentFrmRefId(int $current_frm_ref_id) : void
     {
         $this->current_frm_ref_id = $current_frm_ref_id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isNodeClickable($a_node) : bool
     {
         global $DIC;
@@ -55,33 +40,24 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
                 return false;
             }
 
-            return $DIC->access()->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeClickable($a_node);
+            return $DIC->access()->checkAccess('moderate_frm', '',
+                    $a_node['child']) && parent::isNodeClickable($a_node);
         }
 
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isNodeVisible($a_node) : bool
-    {
-        return parent::isNodeVisible($a_node);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function isNodeSelectable($a_node) : bool
     {
         global $DIC;
-        
+
         if ($a_node['type'] == 'frm') {
             if ($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() == $a_node['child']) {
                 return false;
             }
 
-            return $DIC->access()->checkAccess('moderate_frm', '', $a_node['child']) && parent::isNodeSelectable($a_node);
+            return $DIC->access()->checkAccess('moderate_frm', '',
+                    $a_node['child']) && parent::isNodeSelectable($a_node);
         }
 
         return false;

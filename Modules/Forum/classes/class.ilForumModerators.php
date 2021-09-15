@@ -2,46 +2,34 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilForumModerators
-*
-* @author Nadia Matuschek <nmatuschek@databay.de>
-*
-* @ingroup ModulesForum
-*/
+ * Class ilForumModerators
+ * @author  Nadia Matuschek <nmatuschek@databay.de>
+ * @ingroup ModulesForum
+ */
 class ilForumModerators
 {
-    private $ref_id = 0;
+    private int $ref_id = 0;
     private $rbac;
-    
+
     public function __construct($a_ref_id)
     {
         global $DIC;
-        
+
         $this->rbac = $DIC->rbac();
-        $this->ref_id = $a_ref_id;
+        $this->ref_id = (int) $a_ref_id;
     }
 
-    /**
-     * @param int $ref_id
-     */
-    public function setRefId($ref_id)
+    public function setRefId($ref_id) : void
     {
-        $this->ref_id = $ref_id;
+        $this->ref_id = (int) $ref_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
-    /**
-     * @param $a_usr_id
-     * @return bool
-     */
-    public function addModeratorRole($a_usr_id)
+
+    public function addModeratorRole($a_usr_id) : bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
@@ -51,20 +39,16 @@ class ilForumModerators
                 break;
             }
         }
-        
+
         if ((int) $a_rol_id) {
-            $user = $this->rbac->admin()->assignUser($a_rol_id, $a_usr_id);
+            $this->rbac->admin()->assignUser($a_rol_id, $a_usr_id);
             return true;
         }
-    
+
         return false;
     }
-    
-    /**
-     * @param $a_usr_id
-     * @return bool
-     */
-    public function detachModeratorRole($a_usr_id)
+
+    public function detachModeratorRole($a_usr_id) : bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
@@ -74,18 +58,15 @@ class ilForumModerators
                 break;
             }
         }
-        
+
         if ((int) $a_rol_id) {
-            $user = $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
+            $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
             return true;
         }
-    
+
         return false;
     }
-    
-    /**
-     * @return array
-     */
+
     public function getCurrentModerators() : array
     {
         $assigned_users = [];
@@ -98,10 +79,7 @@ class ilForumModerators
         }
         return $assigned_users;
     }
-    
-    /**
-     * @return array
-     */
+
     public function getUsers() : array
     {
         $assigned_users = [];

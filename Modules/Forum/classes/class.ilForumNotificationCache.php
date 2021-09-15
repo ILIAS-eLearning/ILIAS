@@ -3,7 +3,6 @@
 
 /**
  * Class ilForumNotificationCache
- *
  * @author Niels Theen <ntheen@databay.de>
  */
 class ilForumNotificationCache

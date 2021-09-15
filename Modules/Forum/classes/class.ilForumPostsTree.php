@@ -7,105 +7,94 @@
  */
 class ilForumPostsTree
 {
-    private $thr_fk = 0;
-    private $pos_fk = 0;
-    private $parent_pos = 0;
-    private $lft = 0;
-    private $rgt = 0;
-    private $depth = 0;
-    
-    private $source_thread_id = 0;
-    private $target_thread_id = 0;
-    
+    private int $pos_fk = 0;
+    private int $parent_pos = 0;
+    private int $lft = 0;
+    private int $rgt = 0;
+    private int $depth = 0;
+
+    private int $source_thread_id = 0;
+    private int $target_thread_id = 0;
+
     private $db;
 
-    public function setDepth($depth)
+    public function setDepth(int $depth) : void
     {
         $this->depth = $depth;
     }
 
-    public function getDepth()
+    public function getDepth() : int
     {
         return $this->depth;
     }
 
-    public function setLft($lft)
+    public function setLft(int $lft) : void
     {
         $this->lft = $lft;
     }
 
-    public function getLft()
+    public function getLft() : int
     {
         return $this->lft;
     }
 
-    public function setParentPos($parent_pos)
+    public function setParentPos(int $parent_pos) : void
     {
         $this->parent_pos = $parent_pos;
     }
 
-    public function getParentPos()
+    public function getParentPos() : int
     {
         return $this->parent_pos;
     }
 
-    public function setPosFk($pos_fk)
+    public function setPosFk(int $pos_fk) : void
     {
         $this->pos_fk = $pos_fk;
     }
 
-    public function getPosFk()
+    public function getPosFk() : int
     {
         return $this->pos_fk;
     }
 
-    public function setRgt($rgt)
+    public function setRgt(int $rgt) : void
     {
         $this->rgt = $rgt;
     }
 
-    public function getRgt()
+    public function getRgt() : int
     {
         return $this->rgt;
     }
 
-    public function setThrFk($thr_fk)
-    {
-        $this->thr_fk = $thr_fk;
-    }
-
-    public function getThrFk()
-    {
-        return $this->thr_fk;
-    }
-
-    public function setSourceThreadId($source_thread_id)
+    public function setSourceThreadId(int $source_thread_id) : void
     {
         $this->source_thread_id = $source_thread_id;
     }
 
-    public function getSourceThreadId()
+    public function getSourceThreadId() : int
     {
         return $this->source_thread_id;
     }
 
-    public function setTargetThreadId($target_thread_id)
+    public function setTargetThreadId(int $target_thread_id) : void
     {
         $this->target_thread_id = $target_thread_id;
     }
 
-    public function getTargetThreadId()
+    public function getTargetThreadId() : int
     {
         return $this->target_thread_id;
     }
-    
+
     public function __construct()
     {
         global $DIC;
         $this->db = $DIC->database();
     }
 
-    public function merge()
+    public function merge() : void
     {
         $this->db->update(
             'frm_posts_tree',
@@ -123,23 +112,20 @@ class ilForumPostsTree
         );
     }
 
-    /***
-     * @param integer $root_node_id
-     * @param integer $rgt
-     */
-    public static function updateTargetRootRgt($root_node_id, $rgt)
+    public static function updateTargetRootRgt(int $root_node_id, int $rgt) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $ilDB->update(
             'frm_posts_tree',
             array(
-            'rgt' => array('integer', $rgt)),
+                'rgt' => array('integer', $rgt)
+            ),
             array(
-            'parent_pos' => array('integer', 0),
-            'pos_fk' => array('integer', $root_node_id)
-        )
+                'parent_pos' => array('integer', 0),
+                'pos_fk' => array('integer', $root_node_id)
+            )
         );
     }
 }

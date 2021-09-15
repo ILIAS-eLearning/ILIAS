@@ -9,95 +9,24 @@
  */
 class ilForumAuthorInformation
 {
-    /** @var int */
     protected int $display_id;
-
-    /**
-     * @var string
-     */
     protected string $alias;
-
-    /**
-     * @var string
-     */
     protected string $import_name;
-
-    /**
-     * @var array
-     */
     protected array $public_profile_link_attributes = array();
-
-    /**
-     * @var string
-     */
     protected string $author_name;
-
-    /**
-     * @var string
-     */
     protected string $author_short_name;
-
-    /**
-     * @var string
-     */
     protected $linked_public_name;
-
-    /**
-     * @var string
-     */
     protected string $linked_short_name;
-
-    /**
-     * @var string
-     */
     protected string $suffix = '';
-
-    /**
-     * @var string
-     */
     protected string $profilePicture;
-
-    /**
-     * @var ilObjUser
-     */
     protected ?ilObjUser $author = null;
-
-    /**
-     * @var array
-     */
     protected array $files = [];
-
-    /**
-     * @var int
-     */
     protected int $author_id;
-
-    /**
-     * @var ilLanguage|null
-     */
     protected ?ilLanguage $lng;
-
-    /**
-     * @var ilLanguage
-     */
     protected ilLanguage $globalLng;
-
-    /**
-     * @var \ilObjUser
-     */
     protected ilObjUser $globalUser;
-
-    /** @var bool */
     protected bool $is_deleted = false;
 
-    /**
-     * @param int             $author_id
-     * @param int             $display_id
-     * @param string          $alias
-     * @param string          $import_name
-     * @param array           $public_profile_link_attributes
-     * @param ilLanguage|null $lng
-     */
     public function __construct(
         int $author_id,
         int $display_id,
@@ -121,7 +50,7 @@ class ilForumAuthorInformation
         $this->init();
     }
 
-    protected function initUserInstance()
+    protected function initUserInstance() :void
     {
         if (is_numeric($this->display_id) && $this->display_id > 0) {
             // Try to read user instance from preloaded cache array
@@ -140,34 +69,22 @@ class ilForumAuthorInformation
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function doesAuthorAccountExists() : bool
     {
         return $this->getAuthor() instanceof ilObjUser && $this->getAuthor()->getId();
     }
 
-    /**
-     * @return bool
-     */
     protected function isAuthorAnonymous() : bool
     {
         return $this->doesAuthorAccountExists() && $this->getAuthor()->isAnonymous();
     }
 
-    /**
-     * @return bool
-     */
     protected function isCurrentUserSessionLoggedIn() : bool
     {
         return !$this->globalUser->isAnonymous();
     }
 
-    /**
-     * @param bool $with_profile_link
-     */
-    protected function buildAuthorProfileLink(bool $with_profile_link)
+    protected function buildAuthorProfileLink(bool $with_profile_link) : void
     {
         $link = '';
 
@@ -193,7 +110,7 @@ class ilForumAuthorInformation
         $this->linked_short_name = $linked_login;
     }
 
-    protected function init()
+    protected function init() : void
     {
         $translationLanguage = $this->globalLng;
         if ($this->lng instanceof ilLanguage) {
