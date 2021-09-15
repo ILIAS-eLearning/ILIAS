@@ -101,17 +101,33 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
 
         $storage = $DIC->resourceStorage();
 
-//        if ($this->isInline()) { // FSX
-//            $consumer = $storage->consume()->inline($this->resource->getIdentification());
-//        } else {
-        $consumer = $storage->consume()->download($this->resource->getIdentification());
-//        }
+        if ($this->isInline($a_hist_entry_id)) {
+            $consumer = $storage->consume()->inline($this->resource->getIdentification());
+        } else {
+            $consumer = $storage->consume()->download($this->resource->getIdentification());
+        }
 
         if ($a_hist_entry_id) {
             $consumer->setRevisionNumber($a_hist_entry_id);
         }
         $consumer->run();
 
+    }
+
+    /**
+     * @param null $a_hist_entry_id
+     * @return bool
+     */
+    private function isInline($a_hist_entry_id = null)
+    {
+        try {
+            $revision = $a_hist_entry_id ?
+                $this->resource->getSpecificRevision($a_hist_entry_id) :
+                $this->resource->getCurrentRevision();
+            return \ilObjFileAccess::_isFileInline($revision->getTitle());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
