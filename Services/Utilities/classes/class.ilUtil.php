@@ -3651,6 +3651,7 @@ class ilUtil
 
         $res = $ilDB->query($query);
         $counter = 0;
+        $ref_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($counter >= $limit) {
                 break;
@@ -3667,7 +3668,7 @@ class ilUtil
                 $ref_ids[] = $row->ref_id;
             }
         }
-        return $ref_ids ? $ref_ids : array();
+        return $ref_ids ?: [];
     }
 
 
