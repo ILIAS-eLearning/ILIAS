@@ -21,10 +21,6 @@ abstract class ilPlugin
 {
 
     /**
-     * @var ilPluginSlot
-     */
-    protected $slot;
-    /**
      * @var bool
      */
     protected $lang_initialised = false;
@@ -168,7 +164,7 @@ abstract class ilPlugin
      */
     public static function _getDirectory(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : string
     {
-        return ilPluginSlot::_getPluginsDirectory($a_ctype, $a_cname, $a_slot_id) . "/" . $a_pname;
+        return $DIC["component.db"]->getPluginByName($a_pname)->getPath();
     }
 
 
@@ -540,7 +536,6 @@ abstract class ilPlugin
      *
      * Only very little classes seem to care about this:
      *    - Services/Component/classes/class.ilObjComponentSettingsGUI.php
-     *    - Services/Component/classes/class.ilPluginSlotInfo.php
      *    - Services/Component/classes/class.ilPluginsOverviewTableGUI.php
      *    - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
      */
@@ -838,9 +833,9 @@ abstract class ilPlugin
     public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : ilPlugin
     {
         global $DIC;
-        $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
-
         $component_data_db = $DIC["component.db"];
+
+        $slot_name = $component_data_db->getPluginSlotById($a_slot_id)->getName();
         if (!$component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)) {
             return null;
         }
