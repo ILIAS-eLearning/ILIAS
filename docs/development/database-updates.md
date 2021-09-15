@@ -44,7 +44,7 @@ setup will pass an `ilDBInterface`-instance to be used by the steps and it is re
 to store the `ilDBInterface` into a property as shown below.
 
 ```php
-class MyDBUpdateSteps implements ilDatabaseUpdateSteps
+class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
@@ -64,16 +64,16 @@ class MySetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new MyDBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilMyDBUpdateSteps());
     }
 }
 ``` 
 
-In the MyDBUpdateSteps you can add your consecutive steps by adding methods according
+In the ilMyDBUpdateSteps you can add your consecutive steps by adding methods according
 to this schema:
 
 ```php
-class MyDBUpdateSteps implements ilDatabaseUpdateSteps
+class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
