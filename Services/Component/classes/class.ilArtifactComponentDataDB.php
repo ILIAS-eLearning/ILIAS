@@ -272,4 +272,15 @@ class ilArtifactComponentDataDB implements ilComponentDataDBWrite
         $this->plugin_state_db->setCurrentPluginVersion($plugin_id, $version, $db_version);
         $this->buildDatabase();
     }
+
+    public function setActivation(string $plugin_id, bool $activated)
+    {
+        if (!$this->hasPluginId($plugin_id)) {
+            throw new \InvalidArgumentException(
+                "Unknown plugin $plugin_id."
+            );
+        }
+        $this->plugin_state_db->setActivation($plugin_id, $activated);
+        $this->buildDatabase();
+    }
 }

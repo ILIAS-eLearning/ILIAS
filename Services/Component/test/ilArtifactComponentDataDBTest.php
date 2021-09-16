@@ -62,6 +62,9 @@ class ilArtifactComponentDataDBTest extends TestCase
             {
                 return false;
             }
+            public function setActivation(string $id, bool $activated) : void
+            {
+            }
             public function getCurrentPluginVersion(string $id) : ?Data\Version
             {
                 return (new Data\Factory())->version("0.9.1");
@@ -514,4 +517,85 @@ class ilArtifactComponentDataDBTest extends TestCase
         $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
         $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
     }
+
+    public function testSetActivationCallsStateDB()
+    {
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $plugin_state_db->expects($this->once())
+            ->method("setActivation")
+            ->with("plg1", true);
+
+        $db->setActivation("plg1", true);
+    }
+
+    public function testSetActivationTriggersRebuild()
+    {
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            public int $build_called = 0;
+            protected function buildDatabase()
+            {
+                $this->build_called++;
+                parent::buildDatabase();
+            }
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $this->assertEquals(1, $db->build_called);
+
+        $db->setActivation("plg1", false);
+
+        $this->assertEquals(2, $db->build_called);
+    }
+
+
 }
