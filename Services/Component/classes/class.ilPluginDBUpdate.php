@@ -15,24 +15,21 @@ class ilPluginDBUpdate extends ilDBUpdate
     protected const PLUGIN_UPDATE_FILE = "/sql/dbupdate.php";
 
     protected \ilDBInterface $db;
-    protected \ilComponentDataDBWrite $component_data_db;
-    protected string $plugin_id;
-    protected ?Version $target_version;
+    protected \ilPluginInfo $plugin;
 
     /**
      * constructor
      * @noinspection MagicMethodsValidityInspection
      */
     public function __construct(
-        \ilComponentDataDBWrite $component_data_db,
         \ilDBInterface $db,
-        string $plugin_id,
-        Version $target_version = null
+        \ilPluginInfo $plugin
     ) {
-        $this->component_data_db = $component_data_db;
+        $this->client_ini = null;
         $this->db = $db;
-        $this->plugin_id = $plugin_id;
-        $this->target_version = $target_version;
+        $this->plugin = $plugin;
+
+        $this->currentVersion = $plugin->getCurrentDBVersion() ?? 0;
 
         $this->current_file = $this->getFileForStep(0 /* doesn't matter */);
         ;
@@ -42,11 +39,6 @@ class ilPluginDBUpdate extends ilDBUpdate
         $this->readDBUpdateFile();
         $this->readLastUpdateFile();
         $this->readFileVersion();
-    }
-
-    protected function getPluginInfo() : \ilPluginInfo
-    {
-        return $this->component_data_db->getPluginById($this->plugin_id);
     }
 
     /**
@@ -62,7 +54,6 @@ class ilPluginDBUpdate extends ilDBUpdate
      */
     public function getCurrentVersion() : int
     {
-        $this->currentVersion = $this->getPluginInfo()->getCurrentDBVersion() ?? null;
         return $this->currentVersion;
     }
 
@@ -71,16 +62,7 @@ class ilPluginDBUpdate extends ilDBUpdate
      */
     public function setCurrentVersion(int $a_version) : void
     {
-        if (!is_numeric($a_version)) {
-            throw new \InvalidArgumentException(
-                "Expected numeric version, got '$a_version' instead."
-            );
-        }
-        $this->component_data_db->setCurrentPluginVersion(
-            $this->plugin_id,
-            $this->target_version,
-            (int) $a_version
-        );
+        $this->currentVersion = $a_version;
     }
 
     public function loadXMLInfo()
@@ -107,19 +89,13 @@ class ilPluginDBUpdate extends ilDBUpdate
 
     public function getDBUpdateScriptName() : string
     {
-        $plugin = $this->getPluginInfo();
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
-        return "Customizing/global/plugins/" . $component->getType() . "/" . $component->getName() . "/" .
-            $slot->getName() . "/" . $plugin->getName() . self::PLUGIN_UPDATE_FILE;
+        return $this->plugin->getPath() . self::PLUGIN_UPDATE_FILE;
     }
 
     protected function getTablePrefix() : string
     {
-        $plugin = $this->getPluginInfo();
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
-
-        return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
+        $component = $this->plugin->getComponent();
+        $slot = $this->plugin->getPluginSlot();
+        return $component->getId() . "_" . $slot->getId() . "_" . $this->plugin->getId();
     }
 }

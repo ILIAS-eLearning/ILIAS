@@ -300,9 +300,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         // dbupdate
         $db_update = new ilPluginDBUpdate(
-            $this->component_data_db,
             $this->db,
-            $plugin->getId()
+            $plugin
         );
         if (!isset($db_update->error)) {
             $db_curr = $plugin->getCurrentDBVersion();

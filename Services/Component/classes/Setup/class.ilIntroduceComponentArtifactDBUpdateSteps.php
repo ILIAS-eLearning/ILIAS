@@ -32,10 +32,56 @@ class ilIntroduceComponentArtifactDBUpdateSteps implements ilDatabaseUpdateSteps
     public function step_1()
     {
         $this->db->dropTable("il_component");
-    } 
+    }
 
     public function step_2()
     {
         $this->db->dropTable("il_pluginslot");
+    }
+
+    public function step_3()
+    {
+        $this->db->manipulate("DELETE FROM il_plugin WHERE plugin_id IS NULL");
+    }
+
+    public function step_4()
+    {
+        $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
+    }
+
+    public function step_5()
+    {
+        if (!$this->db->tableColumnExists("il_plugin", "component_type")) {
+            return;
+        }
+
+        $this->db->dropTableColumn("il_plugin", "component_type");
+    }
+
+    public function step_6()
+    {
+        if (!$this->db->tableColumnExists("il_plugin", "component_name")) {
+            return;
+        }
+
+        $this->db->dropTableColumn("il_plugin", "component_name");
+    }
+
+    public function step_7()
+    {
+        if (!$this->db->tableColumnExists("il_plugin", "slot_id")) {
+            return;
+        }
+
+        $this->db->dropTableColumn("il_plugin", "slot_id");
+    }
+
+    public function step_8()
+    {
+        if (!$this->db->tableColumnExists("il_plugin", "name")) {
+            return;
+        }
+
+        $this->db->dropTableColumn("il_plugin", "name");
     }
 }
