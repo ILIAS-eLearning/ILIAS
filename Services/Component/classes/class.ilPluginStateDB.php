@@ -12,4 +12,5 @@ interface ilPluginStateDB
     public function getCurrentPluginVersion(string $id) : ?Version;
     public function getCurrentPluginDBVersion(string $id) : ?int;
     public function setCurrentPluginVersion(string $id, Version $version, int $db_version);
+    public function remove(string $id);
 }

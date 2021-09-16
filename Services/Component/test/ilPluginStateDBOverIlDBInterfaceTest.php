@@ -216,4 +216,20 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
         $this->db->setActivation($PLUGIN_ID, false);
     }
+
+
+    public function testRemove()
+    {
+        $PLUGIN_ID = "plg1";
+
+        $this->il_db->expects($this->once())
+            ->method("quote")
+            ->with($PLUGIN_ID, "text")
+            ->willReturn("PLUGIN_ID");
+        $this->il_db->expects($this->once())
+            ->method("manipulate")
+            ->with("DELETE FROM il_plugin WHERE plugin_id = PLUGIN_ID");
+
+        $this->db->remove($PLUGIN_ID);
+    }
 }

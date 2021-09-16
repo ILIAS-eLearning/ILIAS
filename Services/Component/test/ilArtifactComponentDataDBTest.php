@@ -76,6 +76,9 @@ class ilArtifactComponentDataDBTest extends TestCase
             public function setCurrentPluginVersion(string $id, Data\Version $v, int $db_version)
             {
             }
+            public function remove(string $id) : void
+            {
+            }
         };
 
         $this->db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
@@ -597,5 +600,83 @@ class ilArtifactComponentDataDBTest extends TestCase
         $this->assertEquals(2, $db->build_called);
     }
 
+    public function testRemoveStateInformationOfCallsStateDB()
+    {
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $plugin_state_db->expects($this->once())
+            ->method("remove")
+            ->with("plg1");
+
+        $db->removeStateInformationOf("plg1");
+    }
+
+    public function testRemoveStateInformationOfTriggersRebuild()
+    {
+        $plugin_state_db = $this->createMock(ilPluginStateDB::class);
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+            public int $build_called = 0;
+            protected function buildDatabase()
+            {
+                $this->build_called++;
+                parent::buildDatabase();
+            }
+            protected function readComponentData() : array
+            {
+                return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
+            }
+            protected function readPluginData() : array
+            {
+                return [
+                    "plg1" => [
+                        "Modules",
+                        "Module1",
+                        "Slot1",
+                        "Plugin1",
+                        "1.9.1",
+                        "8.0",
+                        "8.999",
+                        "Richard Klees",
+                        "richard.klees@concepts-and-training.de",
+                        true,
+                        false,
+                        null
+                    ]
+                ];
+            }
+        };
+
+        $this->assertEquals(1, $db->build_called);
+
+        $db->removeStateInformationOf("plg1");
+
+        $this->assertEquals(2, $db->build_called);
+    }
 
 }

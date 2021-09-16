@@ -105,4 +105,12 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         }
         $this->has_data = false;
     }
+
+    public function remove(string $id) : void
+    {
+        $this->db->manipulate(
+            "DELETE FROM " . self::TABLE_NAME . " WHERE plugin_id = " . $this->db->quote($id, "text")
+        );
+        $this->has_data = false;
+    }
 }
