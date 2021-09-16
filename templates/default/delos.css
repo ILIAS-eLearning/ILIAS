@@ -15725,6 +15725,12 @@ img.ilPollQuestionImage {
 #ilMMSearch ul li label {
   font-weight: normal;
 }
+#ilMMSearchMenu legend {
+  margin-bottom: 0;
+  margin-top: 20px;
+  font-size: 16px;
+  border-bottom: 0;
+}
 #ilMMSearchMenu p {
   white-space: nowrap;
 }
