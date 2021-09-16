@@ -1180,7 +1180,7 @@ class ilObjectDefinition // extends ilSaxParser
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
-                $loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
+                $loc = $plugin->getPath() . "/classes";
                 // The plugin_id is the same as the type_id in repository object plugins.
                 $pl = ilObjectPlugin::getPluginObjectByType($pl_id);
 

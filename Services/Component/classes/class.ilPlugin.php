@@ -152,19 +152,6 @@ abstract class ilPlugin
             $slot->getName() . "/" . $plugin->getName();
     }
 
-
-    /**
-     * Get plugin directory
-     *
-     * Only very little classes seem to care about this:
-     *     - Services/Object/classes/class.ilObjectDefinition.php
-     */
-    public static function _getDirectory(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : string
-    {
-        return $DIC["component.db"]->getPluginByName($a_pname)->getPath();
-    }
-
-
     /**
      *
      * @return string
