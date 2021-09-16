@@ -4,12 +4,9 @@
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
-<<<<<<< HEAD
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ArrayEnvironment;
-=======
 use ILIAS\Data\Version;
->>>>>>> Services/Component: removed outdated code
 
 /**
  * Abstract Class ilPlugin
@@ -416,29 +413,14 @@ abstract class ilPlugin
         $ilDB = $DIC->database();
         $lng = $DIC->language();
 
-        ilGlobalCache::flushAll();
-
         $dbupdate = new ilPluginDBUpdate(
-            $this->component_data_db,
             $this->db,
-            $this->getId(),
-            $this->getPluginInfo()->getAvailableVersion()
+            $this->getPluginInfo()
         );
 
-        $result = $dbupdate->applyUpdate();
-        $message = '';
-        if ($dbupdate->updateMsg == "no_changes") {
-            $message = $lng->txt("no_changes") . ". " . $lng->txt("database_is_uptodate");
-        } else {
-            foreach ($dbupdate->updateMsg as $row) {
-                $message .= $lng->txt($row["msg"]) . ": " . $row["nr"] . "<br/>";
-            }
-        }
+        $dbupdate->applyUpdate();
 
-        $this->message .= $message;
-        ilGlobalCache::flushAll();
-
-        return $result;
+        return $dbupdate->getCurrentVersion();
     }
 
 
@@ -556,16 +538,6 @@ abstract class ilPlugin
 
     public function install()
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "UPDATE il_plugin SET plugin_id = " . $ilDB->quote($this->getId(), "text") .
-            " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-            " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-            " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-            " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-
-        $ilDB->manipulate($q);
         $this->afterInstall();
     }
 
@@ -575,9 +547,6 @@ abstract class ilPlugin
      */
     public function activate()
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
         $result = true;
 
         // check whether update is necessary
@@ -591,17 +560,8 @@ abstract class ilPlugin
         }
         if ($result === true) {
             $result = $this->beforeActivation();
-            // activate plugin
-            if ($result === true) {
-                $q = "UPDATE il_plugin SET active = " . $ilDB->quote(1, "integer") .
-                    " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-                    " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-                    " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-                    " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-
-                $ilDB->manipulate($q);
-                $this->afterActivation();
-            }
+            $this->component_data_db->setActivation($this->getId(), true);
+            $this->afterActivation();
         }
 
         return $result;
@@ -643,18 +603,7 @@ abstract class ilPlugin
      */
     public function deactivate()
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $result = true;
-
-        $q = "UPDATE il_plugin SET active = " . $ilDB->quote(0, "integer") .
-            " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-            " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-            " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-            " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-
-        $ilDB->manipulate($q);
+        $this->component_data_db->setActivation($this->getId(), false);
         $this->afterDeactivation();
 
         return $result;
@@ -699,14 +648,7 @@ abstract class ilPlugin
 
             $this->clearEventListening();
 
-            // db version is kept in il_plugin - will be deleted, too
-
-            $q = "DELETE FROM il_plugin" .
-                " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-                " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-                " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-                " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-            $ilDB->manipulate($q);
+            $this->component_data_db->removeStateInformationOf($this->getId());
 
             $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
             $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
@@ -736,8 +678,6 @@ abstract class ilPlugin
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilGlobalCache::flushAll();
-
         $result = $this->beforeUpdate();
         if ($result === false) {
             return false;
@@ -748,23 +688,20 @@ abstract class ilPlugin
 
         // DB update
         if ($result === true) {
-            $result = $this->updateDatabase();
+            $db_version = $this->updateDatabase();
         }
 
         $this->readEventListening();
 
         // set last update version to current version
         if ($result === true) {
-            $q = "UPDATE il_plugin SET last_update_version = " . $ilDB->quote($this->getVersion(), "text") .
-                " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
-                " AND component_name = " . $ilDB->quote($this->getComponentName(), "text") .
-                " AND slot_id = " . $ilDB->quote($this->getSlotId(), "text") .
-                " AND name = " . $ilDB->quote($this->getPluginName(), "text");
-
-            $ilDB->manipulate($q);
+            $this->component_data_db->setCurrentPluginVersion(
+                $this->getPluginInfo()->getId(),
+                $this->getPluginInfo()->getAvailableVersion(),
+                $db_version
+            );
             $this->afterUpdate();
         }
-        ilGlobalCache::flushAll();
 
         return $result;
     }
@@ -905,20 +842,12 @@ abstract class ilPlugin
     public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id)
     {
         global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "SELECT name FROM il_plugin " .
-            " WHERE component_type = " . $ilDB->quote($a_ctype, "text") .
-            " AND component_name = " . $ilDB->quote($a_cname, "text") .
-            " AND slot_id = " . $ilDB->quote($a_slot_id, "text") .
-            " AND plugin_id = " . $ilDB->quote($a_plugin_id, "text");
-
-        $set = $ilDB->query($q);
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["name"];
+        try {
+            return $DIC["component.db"]->getPluginById($a_plugin_id)->getName();
+        } catch (\InvalidArgumentException $e) {
+            return null;
         }
     }
-
 
     /**
      * @param $a_ctype
@@ -926,22 +855,15 @@ abstract class ilPlugin
      * @param $a_slot_id
      * @param $a_plugin_name
      *
-     * @return string
+     * @return string | null
      */
     protected static function lookupIdForName(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_name) : string
     {
         global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "SELECT plugin_id FROM il_plugin " .
-            " WHERE component_type = " . $ilDB->quote($a_ctype, "text") .
-            " AND component_name = " . $ilDB->quote($a_cname, "text") .
-            " AND slot_id = " . $ilDB->quote($a_slot_id, "text") .
-            " AND name = " . $ilDB->quote($a_plugin_name, "text");
-
-        $set = $ilDB->query($q);
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["plugin_id"];
+        try {
+            return $DIC["component.db"]->getPluginByName($a_plugin_name)->getName();
+        } catch (\InvalidArgumentException $e) {
+            return null;
         }
     }
 
@@ -953,20 +875,16 @@ abstract class ilPlugin
     protected static function lookupTypeInformationsForId(string $id) : ?string
     {
         global $DIC;
-        $ilDB = $DIC->database();
-
-        $q = "SELECT component_type, component_name, slot_id FROM il_plugin "
-            . " WHERE plugin_id = " . $ilDB->quote($id, "text");
-
-        $set = $ilDB->query($q);
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return [
-                $rec["component_type"],
-                $rec["component_name"],
-                $rec["slot_id"],
-            ];
+        try {
+            $plugin_info = $DIC["component.db"]->getPluginById($id);
+        } catch (\InvalidArgumentException $e) {
+            return null;
         }
-        return null;
+        return [
+            $plugin_info->getComponent()->getType(),
+            $plugin_info->getComponent()->getName(),
+            $plugin_info->getPluginSlot()->getId()
+        ];
     }
 
 
