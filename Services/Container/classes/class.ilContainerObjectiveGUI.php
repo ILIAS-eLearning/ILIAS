@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * GUI class for course objective view
@@ -8,27 +20,19 @@
  */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
+    const MATERIALS_TESTS = 1;
+    const MATERIALS_OTHER = 2;
+
     private \ilLogger $logger;
     protected ilTabsGUI $tabs;
     protected array $objective_map;
     protected ilToolbarGUI $toolbar;
-
-    protected $force_details = 0;
-
+    protected int $force_details = 0;
     protected ilCourseObjectiveListGUI $objective_list_gui;
     protected array $rendered_items = [];
-
-    /**
-     * @var \ilLOSettings
-     */
-    protected $loc_settings;
-    
-    const MATERIALS_TESTS = 1;
-    const MATERIALS_OTHER = 2;
-    
-    private $output_html = '';
-    
-    private $test_assignments = null;
+    protected ilLOSettings $loc_settings;
+    private string $output_html = '';
+    private ?ilLOTestAssignments $test_assignments = null;
     
     public function __construct(ilContainerGUI $a_container_gui)
     {
@@ -46,58 +50,32 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $this->lng = $lng;
         parent::__construct($a_container_gui);
         
-        $this->initDetails();
         $this->initTestAssignments();
     }
     
-    /**
-     * Get test assignments object
-     * @return ilLOTestAssignments
-     */
-    public function getTestAssignments()
+    public function getTestAssignments() : ilLOTestAssignments
     {
         return $this->test_assignments;
     }
     
-    /**
-     * @return \ilLOSettings
-     */
-    public function getSettings()
+    public function getSettings() : ilLOSettings
     {
         return $this->loc_settings;
     }
     
-    
-    
-    /**
-     * get details level
-     * @access public
-     * @param
-     * @return int
-     */
     public function getDetailsLevel(int $a_item_id) : int
     {
         // no details anymore
         return self::DETAILS_ALL;
     }
     
-    /**
-     * Impementation of abstract method getMainContent
-     * @access public
-     * @return string
-     */
     public function getMainContent() : string
     {
         $lng = $this->lng;
-        $ilTabs = $this->tabs;
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         $has_results = false;
-
-        // see bug #7452
-        //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
-
 
         $tpl = new ilTemplate("tpl.container_page.html", true, true, "Services/Container");
 
@@ -125,15 +103,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     
         $this->initRenderer();
     
-        if (!$is_manage && !$is_order) {
-            // currently inactive
-            // $this->showStatus($tpl);
-        }
         if (!$is_manage) {
             $this->showObjectives($is_order);
                         
-            // $this->showMaterials($tpl,self::MATERIALS_TESTS, false, !$is_order);
-            
             // check for results
             $has_results = ilLOUserResults::hasResults($this->getContainerObject()->getId(), $ilUser->getId());
             
@@ -153,9 +125,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $this->output_html .= $this->renderTest($this->loc_settings->getQualifiedTest(), null, false, true);
             }
             
-            $this->showMaterials($tpl, self::MATERIALS_OTHER, false, !$is_order);
+            $this->showMaterials(self::MATERIALS_OTHER, false, !$is_order);
         } else {
-            $this->showMaterials($tpl, null, $is_manage);
+            $this->showMaterials(null, $is_manage);
         }
 
         // reset results by setting or for admins
@@ -285,8 +257,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
         // order/block
         if ($a_is_order) {
-            $this->addFooterRow();
-        
             $this->output_html .= $this->renderer->getHTML();
 
             $this->renderer->resetDetails();
@@ -297,36 +267,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
     }
     
-    /**
-     * add footer row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function addFooterRow()
-    {
-        // no details
-        return;
-        
-        /*
-        $ilCtrl = $this->ctrl;
-
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getContainerObject()->getRefId());
-        $ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "1");
-        $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
-        $this->renderer->addDetailsLevel(2, $url, ($this->details_level == self::DETAILS_TITLE));
-
-        $ilCtrl->setParameterByClass("ilrepositorygui", "details_level", "2");
-        $url = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
-        $this->renderer->addDetailsLevel(3, $url, ($this->details_level == self::DETAILS_ALL));
-
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
-        */
-    }
-    
-    protected function renderTest($a_test_ref_id, $a_objective_id, $a_is_initial = false, $a_add_border = false, $a_lo_result = array())
-    {
+    protected function renderTest(
+        int $a_test_ref_id,
+        int $a_objective_id,
+        bool $a_is_initial = false
+    ) : string {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -369,15 +314,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return "<div class='ilContObjectivesViewTestItem'>" . $this->renderItem($node_data) . "</div>";
     }
     
-    /**
-     * Show all other (no assigned tests, no assigned materials) materials
-     *
-     * @access public
-     * @param object $tpl template object
-     * @return void
-     */
-    public function showMaterials($a_tpl, $a_mode = null, $a_is_manage = false, $a_as_accordion = false)
-    {
+    // Show all other (no assigned tests, no assigned materials) materials
+    protected function showMaterials(
+        int $a_mode = null,
+        bool $a_is_manage = false,
+        bool $a_as_accordion = false
+    ) {
         $lng = $this->lng;
 
         $this->clearAdminCommandsDetermination();
@@ -520,7 +462,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return $objective_map;
     }
     
-    protected function addItemDetails(ilObjectListGUI $a_item_list_gui, array $a_item)
+    protected function addItemDetails(ilObjectListGUI $a_item_list_gui, array $a_item) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -651,8 +593,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
     }
     
-    protected function updateResult($a_res, $a_item_ref_id, $a_objective_id, $a_user_id)
-    {
+    protected function updateResult(
+        array $a_res,
+        int $a_item_ref_id,
+        int $a_objective_id,
+        int $a_user_id
+    ) : array {
         if ($this->loc_settings->getQualifiedTest() == $a_item_ref_id) {
             // Check for existing test run, and decrease tries, reset final if run exists
             $active = ilObjTest::isParticipantsLastPassActive(
@@ -829,18 +775,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $acc_content[] = $this->renderTest(
                     $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_INITIAL),
                     $a_objective_id,
-                    true,
-                    false,
-                    $a_lo_result
+                    true
                 );
                 $initial_shown = true;
             } elseif ($this->getSettings()->hasSeparateQualifiedTests()) {
                 $acc_content[] = $this->renderTest(
                     $this->getTestAssignments()->getTestByObjective($a_objective_id, ilLOSettings::TYPE_TEST_QUALIFIED),
                     $a_objective_id,
-                    false,
-                    false,
-                    $a_lo_result
+                    false
                 );
             }
             
@@ -867,23 +809,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
         return "";
     }
-    
-    /**
-     * init details
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initDetails()
-    {
-        $ilUser = $this->user;
-                
-        // no details
-        return;
-    }
-    
-    protected function initTestAssignments()
+
+    protected function initTestAssignments() : void
     {
         $this->test_assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
     }
@@ -1097,13 +1024,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     /**
      * Get objective result summary
-     * @param bool
-     * @param int
-     * @param array
-     * @todo refactor to presentation class
      */
-    public static function getObjectiveResultSummary($a_has_initial_test, $a_objective_id, $a_lo_result)
-    {
+    public static function getObjectiveResultSummary(
+        bool $a_has_initial_test,
+        int $a_objective_id,
+        array $a_lo_result
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1147,17 +1073,15 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     /**
      * Render progressbar(s) for given objective and result data
-     *
-     * @param bool $a_has_initial_test
-     * @param int $a_objective_id
-     * @param bool $a_lo_result
-     * @param bool $a_list_mode
-     * @param bool $a_sub
-     * @param mixed $a_tt_suffix
-     * @return string
      */
-    public static function buildObjectiveProgressBar($a_has_initial_test, $a_objective_id, array $a_lo_result, $a_list_mode = false, $a_sub = false, $a_tt_suffix = null)
-    {
+    public static function buildObjectiveProgressBar(
+        bool $a_has_initial_test,
+        int $a_objective_id,
+        array $a_lo_result,
+        bool $a_list_mode = false,
+        bool $a_sub = false,
+        string $a_tt_suffix = null
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1262,15 +1186,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $lng->txt('crs_lobj_pm_min_goal')
         );
     }
-    
-    /**
-     * @param \ilCourseObjective $a_objective
-     * @param array|null         $a_lo_result
-     * @return string
-     * @throws \ilTemplateException
-     */
-    protected function buildAccordionTitle(ilCourseObjective $a_objective, array $a_lo_result = null)
-    {
+
+    protected function buildAccordionTitle(
+        ilCourseObjective $a_objective,
+        array $a_lo_result = null
+    ) : string {
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
@@ -1398,7 +1318,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return $tpl->get();
     }
     
-    protected function buildAccordionContent(array $a_items)
+    protected function buildAccordionContent(array $a_items) : string
     {
         $tpl = new ilTemplate("tpl.objective_accordion_content.html", true, true, "Services/Container");
         foreach ($a_items as $item) {

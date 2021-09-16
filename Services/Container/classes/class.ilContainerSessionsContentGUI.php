@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Shows all items in one block.
@@ -9,18 +20,10 @@
  */
 class ilContainerSessionsContentGUI extends ilContainerContentGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    protected $force_details = array();
+    protected ilTabsGUI $tabs;
+    protected array $force_details = [];
     
-    /**
-    * Constructor
-    *
-    */
-    public function __construct($container_gui_obj)
+    public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
 
@@ -28,19 +31,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
         parent::__construct($container_gui_obj);
         $this->lng = $lng;
         $this->initDetails();
     }
     
 
-    /**
-     * get details level
-     * @access public
-     * @param	int	$a_item_id
-     * @return	int	DEATAILS_LEVEL
-     */
     public function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
@@ -56,15 +52,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
     }
 
-
-    /**
-    * Get content HTML for main column.
-    */
     public function getMainContent() : string
     {
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
         // see bug #7452
         //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
 
@@ -80,10 +69,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         return $tpl->get();
     }
 
-    /**
-    * Show Materials
-    */
-    public function __showMaterials($a_tpl)
+    public function __showMaterials(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
 
@@ -155,12 +141,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
     }
 
-    /**
-     * Show link to show/hide all previous/next sessions
-     * @return string
-     */
-    protected function renderSessionLimitLink($a_previous = true)
-    {
+    protected function renderSessionLimitLink(
+        bool $a_previous = true
+    ) : string {
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -211,8 +194,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     }
     
     
-    public function addFooterRow($tpl) : void
-    {
+    public function addFooterRow(
+        ilTemplate $tpl
+    ) : void {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
@@ -352,4 +336,4 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $items[(int) $admin_panel_enabled][(int) $include_side_block] = $sort->sortItems($items);
         return $items;
     }
-} // END class.ilContainerSessionsContentGUI
+}

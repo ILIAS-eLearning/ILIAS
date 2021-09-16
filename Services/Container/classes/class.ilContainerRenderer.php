@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilContainerRenderer
@@ -9,80 +20,49 @@
  */
 class ilContainerRenderer
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    const UNIQUE_SEPARATOR = "-";
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilObjectDefinition $obj_definition;
     protected ilContainerGUI $container_gui;
 
     // switches
-    protected $enable_manage_select_all; // [bool]
-    protected $enable_multi_download; // [bool]
-    protected $active_block_ordering; // [bool]
+    protected bool $enable_manage_select_all;
+    protected bool $enable_multi_download;
+    protected bool $active_block_ordering;
     
     // properties
-    protected $type_blocks = array(); // [array]
-    protected $custom_blocks = array(); // [array]
-    protected $items = array(); // [array]
-    protected $hidden_items = array(); // [array]
-    protected $block_items = array(); // [array]
-    protected $details = array(); // [array]
-    protected $item_ids = array(); // [array]
+    protected array $type_blocks = [];
+    protected array $custom_blocks = [];
+    protected array $items = [];
+    protected array $hidden_items = [];
+    protected array $block_items = [];
+    protected array $details = [];
+    protected array $item_ids = [];
     
     // block (unique) ids
-    protected $rendered_blocks = array(); // [array]
-    protected $bl_cnt = 0; // [int]
-    protected $cur_row_type; // [string]
-    
+    protected array $rendered_blocks = [];
+    protected int $bl_cnt = 0;
+
     // ordering
-    protected $block_pos = array(); // [array]
-    protected $block_custom_pos = array(); // [array]
-    protected $order_cnt = 0; // [int]
+    protected array $block_pos = [];
+    protected array $block_custom_pos = [];
+    protected int $order_cnt = 0;
 
-    /**
-     * @var array
-     */
-    protected $show_more = [];
-    
-    const UNIQUE_SEPARATOR = "-";
+    protected array $show_more = [];
+    protected int $view_mode;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilCtrl $ctrl;
 
-    /**
-     * @var int
-     */
-    protected $view_mode;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * Constructor
-     *
-     * @param bool $a_enable_manage_select_all
-     * @param bool $a_enable_multi_download
-     * @param bool $a_active_block_ordering
-     * @param array $a_block_custom_positions
-     */
-    public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_block_ordering = false, $a_block_custom_positions = [], $container_gui_obj = null, $a_view_mode =
-        ilContainerContentGUI::VIEW_MODE_LIST)
-    {
+    public function __construct(
+        bool $a_enable_manage_select_all = false,
+        bool $a_enable_multi_download = false,
+        bool $a_active_block_ordering = false,
+        array $a_block_custom_positions = [],
+        ?ilContainerGUI $container_gui_obj = null,
+        int $a_view_mode = ilContainerContentGUI::VIEW_MODE_LIST
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -94,14 +74,13 @@ class ilContainerRenderer
         $this->active_block_ordering = (bool) $a_active_block_ordering;
         $this->block_custom_pos = $a_block_custom_positions;
         $this->view_mode = $a_view_mode;
-        $this->container_gui = $container_gui_obj;
+        /** @var $obj ilContainerGUI */
+        $obj = $container_gui_obj;
+        $this->container_gui = $obj;
         $this->ctrl = $DIC->ctrl();
     }
 
-    /**
-     * Get view mode
-     */
-    protected function getViewMode()
+    protected function getViewMode() : int
     {
         return $this->view_mode;
     }
@@ -110,16 +89,11 @@ class ilContainerRenderer
     // blocks
     //
     
-    /**
-     * Add type block
-     *
-     * @param string $a_type repository object type
-     * @param string $a_prefix html snippet
-     * @param string $a_postfix html snippet
-     * @return boolean
-     */
-    public function addTypeBlock($a_type, $a_prefix = null, $a_postfix = null)
-    {
+    public function addTypeBlock(
+        string $a_type,
+        string $a_prefix = null,
+        string $a_postfix = null
+    ) : bool {
         if ($a_type != "itgr" &&
             !$this->hasTypeBlock($a_type)) {
             $this->type_blocks[$a_type] = array(
@@ -131,27 +105,21 @@ class ilContainerRenderer
         return false;
     }
     
-    /**
-     * Type block already exists?
-     *
-     * @param string $a_type repository object type
-     * @return bool
-     */
-    public function hasTypeBlock($a_type)
+    public function hasTypeBlock(string $a_type) : bool
     {
         return array_key_exists($a_type, $this->type_blocks);
     }
     
     /**
      * Add custom block
-     *
      * @param mixed $a_id
-     * @param string $a_caption
-     * @param string $a_actions html snippet
-     * @return boolean
      */
-    public function addCustomBlock($a_id, $a_caption, $a_actions = null, $a_data = array())
-    {
+    public function addCustomBlock(
+        $a_id,
+        string $a_caption,
+        string $a_actions = null,
+        array $a_data = []
+    ) : bool {
         if (!$this->hasCustomBlock($a_id)) {
             $this->custom_blocks[$a_id] = array(
                 "caption" => $a_caption
@@ -165,22 +133,18 @@ class ilContainerRenderer
     
     /**
      * Custom block already exists?
-     *
      * @param mixed $a_id
-     * @return bool
      */
-    public function hasCustomBlock($a_id)
+    public function hasCustomBlock($a_id) : bool
     {
         return array_key_exists($a_id, $this->custom_blocks);
     }
     
     /**
      * Any block with id exists?
-     *
      * @param mixed $a_id
-     * @return bool
      */
-    public function isValidBlock($a_id)
+    public function isValidBlock($a_id) : bool
     {
         return ($this->hasTypeBlock($a_id) ||
             $this->hasCustomBlock($a_id));
@@ -196,21 +160,20 @@ class ilContainerRenderer
      *
      * @param mixed $a_id
      */
-    public function hideItem($a_id)
+    public function hideItem($a_id) : void
     {
         // see hasItem();
         $this->hidden_items[$a_id] = true;
-        
+
         // #16629 - do not remove hidden items from other blocks
         // $this->removeItem($a_id);
     }
     
     /**
      * Remove item (from any block)
-     *
      * @param mixed $a_id
      */
-    public function removeItem($a_id)
+    public function removeItem($a_id) : void
     {
         if (!$this->hasItem($a_id)) {
             return;
@@ -244,9 +207,8 @@ class ilContainerRenderer
      * Item with id exists?
      *
      * @param mixed $a_id
-     * @return bool
      */
-    public function hasItem($a_id)
+    public function hasItem($a_id) : bool
     {
         return (array_key_exists($a_id, $this->item_ids) ||
             array_key_exists($a_id, $this->hidden_items));
@@ -256,14 +218,15 @@ class ilContainerRenderer
      * Add item to existing block
      *
      * @param mixed $a_block_id
-     * @param string $a_item_type repository object type
      * @param mixed $a_item_id
-     * @param string $a_item_html html snippet
-     * @param bool $a_force enable multiple rendering
-     * @return boolean
      */
-    public function addItemToBlock($a_block_id, $a_item_type, $a_item_id, $a_item_html, $a_force = false)
-    {
+    public function addItemToBlock(
+        $a_block_id,
+        string $a_item_type,
+        $a_item_id,
+        string $a_item_html,
+        bool $a_force = false
+    ) : bool {
         if ($this->isValidBlock($a_block_id) &&
             $a_item_type != "itgr" &&
             (!$this->hasItem($a_item_id) || $a_force)) {
@@ -294,33 +257,27 @@ class ilContainerRenderer
 
     /**
      * Add show more button to a block
+     * @param mixed $a_block_id
      */
-    public function addShowMoreButton($a_block_id)
+    public function addShowMoreButton($a_block_id) : void
     {
         $this->show_more[] = $a_block_id;
     }
     
-    /**
-     * Add details level
-     *
-     * @param int $a_level
-     * @param string $a_url
-     * @param bool $a_active
-     */
-    public function addDetailsLevel($a_level, $a_url, $a_active = false)
-    {
+    public function addDetailsLevel(
+        int $a_level,
+        string $a_url,
+        bool $a_active = false
+    ) : void {
         $this->details[$a_level] = array(
             "url" => $a_url
             ,"active" => (bool) $a_active
         );
     }
     
-    /**
-     * Reset/remove all detail levels
-     */
-    public function resetDetails()
+    public function resetDetails() : void
     {
-        $this->details = array();
+        $this->details = [];
     }
     
     
@@ -329,23 +286,17 @@ class ilContainerRenderer
     //
     
     /**
-     * Set block position
-     *
      * @param mixed $a_block_id
-     * @param int $a_pos
      */
-    public function setBlockPosition($a_block_id, $a_pos)
-    {
+    public function setBlockPosition(
+        $a_block_id,
+        int $a_pos
+    ) : void {
         if ($this->isValidBlock($a_block_id)) {
             $this->block_pos[$a_block_id] = $a_pos;
         }
     }
     
-    /**
-     * Get rendered html (of all blocks)
-     *
-     * @return string
-     */
     public function getHTML() : string
     {
         $valid = false;
@@ -375,10 +326,6 @@ class ilContainerRenderer
         return "";
     }
     
-    /**
-     * @param string $a_type repository object type
-     * @return string
-     */
     public function renderSingleTypeBlock(string $a_type) : string
     {
         $block_tpl = $this->initBlockTemplate();
@@ -390,10 +337,7 @@ class ilContainerRenderer
     }
     
     /**
-     * Get rendered html of single custom block
-     *
      * @param mixed $a_id
-     * @return string
      */
     public function renderSingleCustomBlock($a_id) : string
     {
@@ -410,17 +354,12 @@ class ilContainerRenderer
     // render (helper)
     //
     
-    /**
-     * Process block positions
-     *
-     * @return array block ids
-     */
-    protected function processBlockPositions()
+    protected function processBlockPositions() : array
     {
         // manual order
         if (is_array($this->block_custom_pos) && sizeof($this->block_custom_pos)) {
             $tmp = $this->block_pos;
-            $this->block_pos = array();
+            $this->block_pos = [];
             foreach ($this->block_custom_pos as $idx => $block_id) {
                 if ($this->isValidBlock($block_id)) {
                     $this->block_pos[$block_id] = $idx;
@@ -464,31 +403,24 @@ class ilContainerRenderer
     }
     
     /**
-     * Render custom block
-     *
-     * @param ilTemplate $a_block_tpl
      * @param mixed $a_block_id
-     * @param bool $a_is_single
-     * @return boolean
      */
-    protected function renderHelperCustomBlock(ilTemplate $a_block_tpl, $a_block_id, $a_is_single = false)
-    {
+    protected function renderHelperCustomBlock(
+        ilTemplate $a_block_tpl,
+        $a_block_id,
+        bool $a_is_single = false
+    ) : bool {
         if ($this->hasCustomBlock($a_block_id)) {
             return $this->renderHelperGeneric($a_block_tpl, $a_block_id, $this->custom_blocks[$a_block_id], $a_is_single);
         }
         return false;
     }
     
-    /**
-     * Render type block
-     *
-     * @param ilTemplate $a_block_tpl
-     * @param string $a_type repository object type
-     * @param bool $a_is_single
-     * @return boolean
-     */
-    protected function renderHelperTypeBlock(ilTemplate $a_block_tpl, $a_type, $a_is_single = false)
-    {
+    protected function renderHelperTypeBlock(
+        ilTemplate $a_block_tpl,
+        string $a_type,
+        bool $a_is_single = false
+    ) : bool {
         if ($this->hasTypeBlock($a_type)) {
             $block = $this->type_blocks[$a_type];
             $block["type"] = $a_type;
@@ -498,21 +430,19 @@ class ilContainerRenderer
     }
         
     /**
-     * Render block
-     *
-     * @param ilTemplate $a_block_tpl
      * @param mixed $a_block_id
-     * @param array $a_block block properties
-     * @param bool $a_is_single
-     * @return boolean
      */
-    protected function renderHelperGeneric(ilTemplate $a_block_tpl, $a_block_id, array $a_block, $a_is_single = false)
-    {
+    protected function renderHelperGeneric(
+        ilTemplate $a_block_tpl,
+        $a_block_id,
+        array $a_block,
+        bool $a_is_single = false
+    ) : bool {
         $ctrl = $this->ctrl;
         if (!in_array($a_block_id, $this->rendered_blocks)) {
             $this->rendered_blocks[] = $a_block_id;
         
-            $block_types = array();
+            $block_types = [];
             if (isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) {
                 foreach ($this->block_items[$a_block_id] as $item_id) {
                     if (isset($this->items[$item_id]["type"])) {
@@ -608,31 +538,21 @@ class ilContainerRenderer
         return false;
     }
     
-    /**
-     * Init template
-     *
-     * @return ilTemplate
-     */
-    protected function initBlockTemplate()
+    protected function initBlockTemplate() : ilTemplate
     {
-        // :TODO: obsolete?
-        $this->cur_row_type = "row_type_1";
-
         return new ilTemplate("tpl.container_list_block.html", true, true, "Services/Container");
     }
     
-    /**
-     * Render block header
-     *
-     * @param ilTemplate $a_tpl
-     * @param string $a_type
-     * @param string $a_text
-     * @param array $a_types_in_block
-     * @param string $a_commands_html
-     * @param int $a_order_id
-     */
-    protected function addHeaderRow(ilTemplate $a_tpl, $a_type = "", $a_text = "", array $a_types_in_block = null, $a_commands_html = null, $a_order_id = null, $a_data = array())
-    {
+    // Render block header
+    protected function addHeaderRow(
+        ilTemplate $a_tpl,
+        string $a_type = "",
+        string $a_text = "",
+        array $a_types_in_block = null,
+        string $a_commands_html = "",
+        int $a_order_id = 0,
+        array $a_data = []
+    ) : void {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $objDefinition = $this->obj_definition;
@@ -696,32 +616,19 @@ class ilContainerRenderer
         $a_tpl->setVariable("BLOCK_HEADER_CONTENT", $title);
         $a_tpl->setVariable("CHR_COMMANDS", $a_commands_html);
         $a_tpl->parseCurrentBlock();
-        
-        //$a_tpl->touchBlock("container_row");
-        
-        $this->resetRowType();
     }
     
-    /**
-     * Render item row
-     *
-     * @param ilTemplate $a_tpl
-     * @param string $a_html
-     * @param int $a_ref_id
-     */
-    protected function addStandardRow(ilTemplate $a_tpl, $a_html, $a_ref_id = 0)
-    {
-        // :TODO: obsolete?
-        $this->cur_row_type = ($this->cur_row_type == "row_type_1")
-            ? "row_type_2"
-            : "row_type_1";
-
+    protected function addStandardRow(
+        ilTemplate $a_tpl,
+        string $a_html,
+        int $a_ref_id = 0
+    ) : void {
         if ($a_ref_id > 0) {
-            $a_tpl->setCurrentBlock($this->cur_row_type);
+            $a_tpl->setCurrentBlock("row");
             $a_tpl->setVariable("ROW_ID", 'id="item_row_' . $a_ref_id . '"');
             $a_tpl->parseCurrentBlock();
         } else {
-            $a_tpl->touchBlock($this->cur_row_type);
+            $a_tpl->touchBlock("row");
         }
         
         $a_tpl->setCurrentBlock("container_standard_row");
@@ -734,7 +641,7 @@ class ilContainerRenderer
     /**
      * Render "select all"
      */
-    protected function renderSelectAllBlock(ilTemplate $a_tpl)
+    protected function renderSelectAllBlock(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         
@@ -746,42 +653,21 @@ class ilContainerRenderer
         $a_tpl->parseCurrentBlock();
     }
     
-    /**
-     * Render separator row
-     *
-     * @param ilTemplate $a_tpl
-     */
-    protected function addSeparatorRow(ilTemplate $a_tpl)
+    protected function addSeparatorRow(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("container_block");
         $a_tpl->parseCurrentBlock();
     }
-    
-    /**
-     * Reset internal row type
-     */
-    protected function resetRowType()
-    {
-        // :TODO: obsolete?
-        $this->cur_row_type = "";
-    }
-    
+
     /**
      * Get downloadable repository object types
-     *
-     * @return array
      */
-    protected function getDownloadableTypes()
+    protected function getDownloadableTypes() : array
     {
         return array("fold", "file");
     }
     
-    /**
-     * Render detail level
-     *
-     * @param ilTemplate $a_tpl
-     */
-    public function renderDetails(ilTemplate $a_tpl)
+    public function renderDetails(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         

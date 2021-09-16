@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use Psr\Http\Message\RequestInterface;
 
@@ -11,65 +22,18 @@ use Psr\Http\Message\RequestInterface;
 class ilMemberViewSettings
 {
     public const SESSION_MEMBER_VIEW_CONTAINER = 'member_view_container';
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
-
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilMemberViewSettings
-     */
-    private static $instance = null;
-
-    /**
-     * @var bool
-     */
-    private $active = false;
-
-    /**
-     * @var bool
-     */
-    private $enabled = false;
-
-    /**
-     * @var null | int
-     */
-    private $container = null;
-
-    /**
-     * @var int[]
-     */
-    private $container_items = array();
-
-    /**
-     * @var int
-     */
-    private $current_ref_id = 0;
+    protected ilLogger $logger;
+    protected RequestInterface $request;
+    protected ilCtrl $ctrl;
+    protected ilTree $tree;
+    protected ilSetting $settings;
+    private static ?ilMemberViewSettings $instance = null;
+    private bool $active = false;
+    private bool $enabled = false;
+    private ?int $container = null;
+    private array $container_items = [];
+    private int $current_ref_id = 0;
     
-    /**
-     * Constructor (singleton)
-     */
     private function __construct()
     {
         global $DIC;
@@ -83,9 +47,6 @@ class ilMemberViewSettings
     }
 
 
-    /**
-     * @return ilMemberViewSettings
-     */
     public static function getInstance() : ilMemberViewSettings
     {
         if (self::$instance != null) {
@@ -94,26 +55,17 @@ class ilMemberViewSettings
         return self::$instance = new ilMemberViewSettings();
     }
 
-    /**
-     * @return int|null
-     */
     public function getContainer() : ?int
     {
         return $this->container;
     }
 
-    /**
-     * @return int
-     */
     public function getCurrentRefId() : int
     {
         return $this->current_ref_id;
     }
 
-    /**
-     * @param int $container
-     */
-    public function setContainer(int $container)
+    public function setContainer(int $container) : void
     {
         $this->container = $container;
         ilSession::set(self::SESSION_MEMBER_VIEW_CONTAINER, $this->container);
@@ -122,7 +74,6 @@ class ilMemberViewSettings
 
     /**
      * Check if member view currently enabled
-     * @return bool
      */
     public function isActive() : bool
     {
@@ -152,8 +103,6 @@ class ilMemberViewSettings
     
     /**
      * Check if member view is currently enabled for given ref id
-     * @param int $a_ref_id
-     * @return bool
      */
     public function isActiveForRefId(int $a_ref_id) : bool
     {
@@ -171,7 +120,6 @@ class ilMemberViewSettings
     
     /**
      * Enable member view for this session and container.
-     * @param int $a_ref_id
      */
     public function activate(int $a_ref_id) : void
     {
@@ -179,10 +127,6 @@ class ilMemberViewSettings
         $this->setContainer($a_ref_id);
     }
     
-    /**
-     * Deactivate member view
-     * @return
-     */
     public function deactivate() : void
     {
         $this->active = false;
@@ -192,8 +136,6 @@ class ilMemberViewSettings
     
     /**
      * Toggle activation status
-     * @param int  $a_ref_id
-     * @param bool $a_activation
      */
     public function toggleActivation(int $a_ref_id, bool $a_activation) : void
     {
@@ -206,7 +148,6 @@ class ilMemberViewSettings
     
     /**
      * Check if members view is enabled in the administration
-     * @return bool
      */
     public function isEnabled() : bool
     {

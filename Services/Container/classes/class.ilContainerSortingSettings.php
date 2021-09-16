@@ -1,35 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilContainerSortingSettings
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
+    private static array $instances = array();
+    protected int $obj_id;
+    protected int $sort_mode = ilContainer::SORT_TITLE;
+    protected int $sort_direction = ilContainer::SORT_DIRECTION_ASC;
+    protected int $new_items_position = ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM;
+    protected int $new_items_order = ilContainer::SORT_NEW_ITEMS_ORDER_TITLE;
+    protected ilDBInterface $db;
 
-    private static $instances = array();
-    
-    protected $obj_id;
-    protected $sort_mode = ilContainer::SORT_TITLE;
-    protected $sort_direction = ilContainer::SORT_DIRECTION_ASC;
-    protected $new_items_position = ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM;
-    protected $new_items_order = ilContainer::SORT_NEW_ITEMS_ORDER_TITLE;
-
-    protected $db;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_obj_id = 0)
+    public function __construct(int $a_obj_id = 0)
     {
         global $DIC;
 
@@ -53,9 +51,8 @@ class ilContainerSortingSettings
     
     /**
      * Load inherited settings
-     * @return ilContainerSortingSettings
      */
-    public function loadEffectiveSettings()
+    public function loadEffectiveSettings() : self
     {
         if ($this->getSortMode() != ilContainer::SORT_INHERIT) {
             return $this;
@@ -106,7 +103,7 @@ class ilContainerSortingSettings
     }
 
 
-    public static function _readSortMode($a_obj_id)
+    public static function _readSortMode(int $a_obj_id) : int
     {
         global $DIC;
 
@@ -122,23 +119,12 @@ class ilContainerSortingSettings
         return ilContainer::SORT_INHERIT;
     }
 
-
-    /**
-     * lookup sort mode
-     *
-     * @access public
-     * @static
-     *
-     * @param int obj_id
-     */
-    public static function _lookupSortMode($a_obj_id)
+    public static function _lookupSortMode(int $a_obj_id) : int
     {
         global $DIC;
 
-        $tree = $DIC->repositoryTree();
         $ilDB = $DIC->database();
-        $objDefinition = $DIC["objDefinition"];
-        
+
         // Try to read from table
         $query = "SELECT * FROM container_sorting_set " .
             "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
@@ -159,17 +145,10 @@ class ilContainerSortingSettings
         return $inherited_settings->getSortMode();
     }
     
-    /**
-     * Clone settings
-     *
-     * @access public
-     * @static
-     *
-     * @param int orig obj_id
-     * @þaram int new obj_id
-     */
-    public static function _cloneSettings($a_old_id, $a_new_id)
-    {
+    public static function _cloneSettings(
+        int $a_old_id,
+        int $a_new_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -194,106 +173,63 @@ class ilContainerSortingSettings
                 ")";
             $ilDB->manipulate($query);
         }
-        return true;
     }
     
-    /**
-     * get sort mode
-     *
-     * @access public
-     *
-     */
-    public function getSortMode()
+    public function getSortMode() : int
     {
-        return $this->sort_mode ? $this->sort_mode : 0;
+        return $this->sort_mode ?: 0;
     }
     
-    public function getSortDirection() : string
+    public function getSortDirection() : int
     {
         return $this->sort_direction ?: ilContainer::SORT_DIRECTION_ASC;
     }
 
-    /**
-     * GET new item position
-     * @return int position
-     */
-    public function getSortNewItemsPosition()
+    public function getSortNewItemsPosition() : int
     {
         return $this->new_items_position;
     }
 
-    /**
-     * GET new item order
-     * @return int position
-     */
-    public function getSortNewItemsOrder()
+    public function getSortNewItemsOrder() : int
     {
         return $this->new_items_order;
     }
 
     /**
-     * set sort mode
-     *
-     * @access public
-     * @param int MODE_TITLE | MODE_MANUAL | MODE_ACTIVATION
-     *
+     * @param int $a_mode MODE_TITLE | MODE_MANUAL | MODE_ACTIVATION
      */
-    public function setSortMode($a_mode)
+    public function setSortMode(int $a_mode) : void
     {
-        $this->sort_mode = (int) $a_mode;
+        $this->sort_mode = $a_mode;
     }
     
-    /**
-     * Set sort direction
-     * @param int $a_direction
-     */
-    public function setSortDirection(int $a_direction)
+    public function setSortDirection(int $a_direction) : void
     {
         $this->sort_direction = $a_direction;
     }
 
-    /**
-     * SET new item position
-     * @param int $a_position
-     */
-    public function setSortNewItemsPosition($a_position)
+    public function setSortNewItemsPosition(int $a_position) : void
     {
-        $this->new_items_position = (int) $a_position;
+        $this->new_items_position = $a_position;
     }
 
-    /**
-     * SET new item order
-     * @param int $a_order
-     */
-    public function setSortNewItemsOrder($a_order)
+    public function setSortNewItemsOrder(int $a_order) : void
     {
         $this->new_items_order = (int) $a_order;
     }
 
-    /**
-     * Update
-     *
-     * @access public
-     *
-     */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
         $query = "DELETE FROM container_sorting_set " .
             "WHERE obj_id = " . $ilDB->quote($this->obj_id, 'integer');
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
         
         $this->save();
     }
 
-    /**
-     * save settings
-     *
-     * @access public
-     *
-     */
-    public function save()
+    public function save() : void
     {
         $ilDB = $this->db;
 
@@ -306,12 +242,9 @@ class ilContainerSortingSettings
             $this->db->quote($this->new_items_position, 'integer') . ', ' .
             $this->db->quote($this->new_items_order, 'integer') . ' ' .
             ")";
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
     }
     
-    /**
-     * Delete setting
-     */
     public function delete() : void
     {
         $ilDB = $this->db;
@@ -340,11 +273,9 @@ class ilContainerSortingSettings
     }
     
     /**
-     * get String representation of sort mode
-     * @param int $a_sort_mode
-     * @return
+     * Get string representation of sort mode
      */
-    public static function sortModeToString($a_sort_mode)
+    public static function sortModeToString(int $a_sort_mode) : string
     {
         global $DIC;
 
@@ -369,12 +300,11 @@ class ilContainerSortingSettings
 
     /**
      * sorting XML-export for all container objects
-     *
-     * @param ilXmlWriter $xml
-     * @param $obj_id
      */
-    public static function _exportContainerSortingSettings(ilXmlWriter $xml, $obj_id)
-    {
+    public static function _exportContainerSortingSettings(
+        ilXmlWriter $xml,
+        int $obj_id
+    ) : void {
         $settings = self::getInstanceByObjId($obj_id);
 
         $attr = array();
@@ -431,12 +361,11 @@ class ilContainerSortingSettings
 
     /**
      * sorting import for all container objects
-     *
-     * @param $attibs array (type, direction, position, order)
-     * @param $obj_id
      */
-    public static function _importContainerSortingSettings($attibs, $obj_id)
-    {
+    public static function _importContainerSortingSettings(
+        array $attibs,
+        int $obj_id
+    ) : void {
         $settings = self::getInstanceByObjId($obj_id);
 
         switch ($attibs['type']) {

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * XML parser for container structure
@@ -9,35 +20,20 @@
  */
 class ilContainerXmlParser
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilSetting $settings;
+    protected ilObjectDefinition $obj_definition;
+    protected ilLogger $cont_log;
+    private int $source = 0;
+    private ?ilImportMapping $mapping = null;
+    private string $xml = '';
+    private string $sxml = "";
+    private int $root_id = 0;
+    public static array $style_map = array();
 
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilLogger
-     */
-    protected $cont_log;
-
-    private $source = 0;
-    private $mapping = null;
-    private $xml = '';
-    
-    private $sxml = null;
-    private $root_id = 0;
-    
-    public static $style_map = array();
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilImportMapping $mapping, $xml = '')
-    {
+    public function __construct(
+        ilImportMapping $mapping,
+        string $xml = ''
+    ) {
         global $DIC;
 
         $this->settings = $DIC->settings();
@@ -47,17 +43,12 @@ class ilContainerXmlParser
         $this->cont_log = ilLoggerFactory::getLogger('cont');
     }
 
-    /**
-     * Get ilImportMapping object
-     *
-     * @return ilImportMapping $map
-     */
-    public function getMapping()
+    public function getMapping() : ?ilImportMapping
     {
         return $this->mapping;
     }
     
-    public function parse($a_root_id)
+    public function parse(string $a_root_id) : void
     {
         $this->sxml = simplexml_load_string($this->xml);
         $this->root_id = $a_root_id;
@@ -67,8 +58,10 @@ class ilContainerXmlParser
         }
     }
     
-    protected function initItem(SimpleXMLElement $item, int $a_parent_node) : void
-    {
+    protected function initItem(
+        SimpleXMLElement $item,
+        int $a_parent_node
+    ) : void {
         $ilSetting = $this->settings;
         
         $title = (string) $item['Title'];

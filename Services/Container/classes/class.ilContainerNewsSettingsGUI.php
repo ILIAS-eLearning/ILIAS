@@ -1,74 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  *  News settings for containers
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerNewsSettingsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilSetting $setting;
+    protected ilObjectGUI $parent_gui;
+    protected ilObject $object;
+    protected bool $has_timeline;
+    protected bool $has_cron_notifications;
+    protected bool $has_hide_by_date;
+    protected bool $has_public_notification;
+    protected bool $has_block_forced;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilSetting
-     */
-    protected $setting;
-
-    /**
-     * @var ilObjectGUI
-     */
-    protected $parent_gui;
-
-    /**
-     * @var ilObject
-     */
-    protected $object;
-
-    /**
-     * @var bool
-     */
-    protected $has_timeline;
-
-    /**
-     * @var bool
-     */
-    protected $has_cron_notifications;
-
-    /**
-     * @var bool
-     */
-    protected $has_hide_by_date;
-
-    /**
-     * @var bool
-     */
-    protected $has_public_notification;
-
-    /**
-     * @var bool
-     */
-    protected $has_block_forced;
-
-    /**
-     * Constructor
-     */
     public function __construct(ilObjectGUI $a_parent_gui)
     {
         global $DIC;
@@ -84,10 +47,7 @@ class ilContainerNewsSettingsGUI
         $this->initDefaultOptions();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
@@ -106,10 +66,7 @@ class ilContainerNewsSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init settings form.
-     */
-    public function initForm()
+    public function initForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         //from crs/grp/cat settings - additional feature - news
@@ -222,10 +179,7 @@ class ilContainerNewsSettingsGUI
         return $form;
     }
 
-    /**
-     * Save settings form
-     */
-    public function save()
+    public function save() : void
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
@@ -269,10 +223,8 @@ class ilContainerNewsSettingsGUI
         }
     }
 
-    /**
-     * Set all possible news options as false;
-     */
-    public function initDefaultOptions()
+    // Set all possible news options as false;
+    public function initDefaultOptions() : void
     {
         $this->has_timeline = false;
         $this->has_cron_notifications = false;
@@ -280,91 +232,52 @@ class ilContainerNewsSettingsGUI
         $this->has_block_forced = false;
     }
 
-    /**
-     * Set if the container has timeline or not
-     * @param bool $a_value
-     */
-    public function setTimeline(bool $a_value)
+    public function setTimeline(bool $a_value) : void
     {
         $this->has_timeline = $a_value;
     }
 
-    /**
-     * Get if the container has timeline or not
-     * @return bool
-     */
     public function getTimeline() : bool
     {
         return $this->has_timeline;
     }
 
-    /**
-     * Set if the container has a configurable cron job to send notifications.
-     * @param bool $a_value
-     */
-    public function setCronNotifications(bool $a_value)
+    public function setCronNotifications(bool $a_value) : void
     {
         $this->has_cron_notifications = $a_value;
     }
 
-    /**
-     * Get if the container has a configurable cron job to send notifications.
-     * @return mixed
-     */
     public function getCronNotifications() : bool
     {
         return $this->getCronNotifications();
     }
 
-    /**
-     * Set if the container can hide news created before a date
-     * @param bool $a_value
-     */
-    public function setHideByDate(bool $a_value)
+    public function setHideByDate(bool $a_value) : void
     {
         $this->has_hide_by_date = $a_value;
     }
 
-    /**
-     * Get if the container can hide news created before a date.
-     * @return bool
-     */
     public function getHideByDate() : bool
     {
         return $this->has_hide_by_date;
     }
 
-    /**
-     * Set if this repository object has public notifications
-     * @param bool $a_value
-     */
-    public function setPublicNotification(bool $a_value)
+    public function setPublicNotification(bool $a_value) : void
     {
         $this->has_public_notification = $a_value;
     }
 
-    /**
-     * Get if this repository object has public notifications available.
-     * @return bool
-     */
-    public function getPublicNotification()
+    public function getPublicNotification() : bool
     {
         return $this->has_public_notification;
     }
 
-    /**
-     * Set if the News block is forced
-     * @param bool $a_value
-     */
-    public function setNewsBlockForced(bool $a_value)
+    // Set if the repository object has the news block forced
+    public function setNewsBlockForced(bool $a_value) : void
     {
         $this->has_block_forced = $a_value;
     }
 
-    /**
-     * Get if the repository object has the news block forced
-     * @return bool
-     */
     public function getNewsBlockForced() : bool
     {
         return $this->has_block_forced;

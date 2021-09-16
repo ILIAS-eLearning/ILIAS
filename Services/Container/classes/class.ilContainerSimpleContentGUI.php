@@ -1,27 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Shows all items in one block.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerSimpleContentGUI extends ilContainerContentGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    protected $force_details;
+    protected ilTabsGUI $tabs;
+    protected int $force_details;
     
-    /**
-    * Constructor
-    *
-    */
-    public function __construct($container_gui_obj)
-    {
+    public function __construct(
+        ilContainerGUI $container_gui_obj
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -32,10 +36,6 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         $this->initDetails();
     }
 
-
-    /**
-    * Get content HTML for main column.
-    */
     public function getMainContent() : string
     {
         // see bug #7452
@@ -57,12 +57,9 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         return $tpl->get();
     }
 
-    /**
-    * Show Materials
-    */
-    public function __showMaterials($a_tpl)
-    {
-        $ilAccess = $this->access;
+    public function __showMaterials(
+        ilTemplate $a_tpl
+    ) : void {
         $lng = $this->lng;
 
         $this->items = $this->getContainerObject()->getSubItems($this->getContainerGUI()->isActiveAdministrationPanel());
@@ -122,12 +119,6 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         }
     }
     
-    /**
-     * get details level
-     * @access public
-     * @param	int	$a_item_id
-     * @return	int	DEATAILS_LEVEL
-     */
     public function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
@@ -142,4 +133,4 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
             return self::DETAILS_TITLE;
         }
     }
-} // END class.ilContainerSimpleContentGUI
+}

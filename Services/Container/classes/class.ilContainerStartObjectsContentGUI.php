@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilContainerStartObjectsContentGUI
@@ -9,38 +20,19 @@
  */
 class ilContainerStartObjectsContentGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $start_object; // [ilContainerStartObjects]
-    protected $enable_desktop; // [bool]
-    protected $parent_gui; // [ilContainerGUI]
-    protected $parent_obj;
+    protected ilTemplate $tpl;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilObjUser $user;
+    protected ilContainerStartObjects $start_object;
+    protected bool $enable_desktop;
+    protected ilContainerGUI $parent_gui;
+    protected ilContainer $parent_obj;
     
-    /**
-     * Constructor
-     *
-     * @param ilContainer $a_parent_obj
-     */
-    public function __construct($a_gui, ilContainer $a_parent_obj)
-    {
+    public function __construct(
+        ilContainerGUI $a_gui,
+        ilContainer $a_parent_obj
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -55,15 +47,11 @@ class ilContainerStartObjectsContentGUI
         );
     }
     
-    /**
-     * Toggle add-to/remove-from-desktop
-     *
-     * @param bool $a_value
-     * @param ilContainerGUI $a_parent_gui
-     */
-    public function enableDesktop($a_value, ilContainerGUI $a_parent_gui)
-    {
-        $this->enable_desktop = (bool) $a_value;
+    public function enableDesktop(
+        bool $a_value,
+        ilContainerGUI $a_parent_gui
+    ) : void {
+        $this->enable_desktop = $a_value;
         
         if ($this->enable_desktop) {
             $this->parent_gui = $a_parent_gui;

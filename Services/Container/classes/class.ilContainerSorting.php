@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  *
@@ -8,34 +19,17 @@
  */
 class ilContainerSorting
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    protected static $instances = array();
-
-    protected $obj_id;
-    protected $db;
-    
-    protected $sorting_settings = null;
     const ORDER_DEFAULT = 999999;
 
+    protected ilLogger $log;
+    protected ilTree $tree;
+    protected static $instances = array();
+    protected int $obj_id;
+    protected ilDBInterface $db;
+    protected ?ilContainerSortingSettings $sorting_settings = null;
     protected array $sorting = [];
 
-    /**
-     * Constructor
-     *
-     * @access private
-     * @param int obj_id
-     *
-     */
-    private function __construct($a_obj_id)
+    private function __construct(int $a_obj_id)
     {
         global $DIC;
 
@@ -49,24 +43,12 @@ class ilContainerSorting
         $this->read();
     }
     
-    /**
-     * Get sorting settings
-     * @return ilContainerSortingSettings
-     */
-    public function getSortingSettings()
+    public function getSortingSettings() : ?ilContainerSortingSettings
     {
         return $this->sorting_settings;
     }
     
-    /**
-     * get instance by obj_id
-     *
-     * @access public
-     * @param int obj_id
-     * @return object ilContainerSorting
-     * @static
-     */
-    public static function _getInstance($a_obj_id)
+    public static function _getInstance(int $a_obj_id) : self
     {
         if (isset(self::$instances[$a_obj_id])) {
             return self::$instances[$a_obj_id];
@@ -76,10 +58,8 @@ class ilContainerSorting
     
     /**
      * Get positions of subitems
-     * @param int $a_obj_id
-     * @return
      */
-    public static function lookupPositions($a_obj_id)
+    public static function lookupPositions(int $a_obj_id) : array
     {
         global $DIC;
 
@@ -95,14 +75,10 @@ class ilContainerSorting
         return $sorted;
     }
     
-    /**
-     * clone sorting
-     *
-     * @return
-     * @static
-     */
-    public function cloneSorting($a_target_id, $a_copy_id)
-    {
+    public function cloneSorting(
+        int $a_target_id,
+        int $a_copy_id
+    ) : void {
         $ilDB = $this->db;
 
         $ilLog = ilLoggerFactory::getLogger("cont");
@@ -196,19 +172,9 @@ class ilContainerSorting
             $ilLog->debug($query);
             $ilDB->manipulate($query);
         }
-        return true;
     }
     
-    
-    
-    /**
-     * sort subitems
-     *
-     * @access public
-     * @param array item data
-     * @return array sorted item data
-     */
-    public function sortItems($a_items)
+    public function sortItems(array $a_items) : array
     {
         if (!is_array($a_items)) {
             return [];
@@ -322,13 +288,12 @@ class ilContainerSorting
     
     /**
      * sort subitems (items of sessions or learning objectives)
-     *
-     * @access public
-     * @param
-     * @return
      */
-    public function sortSubItems($a_parent_type, $a_parent_id, $a_items)
-    {
+    public function sortSubItems(
+        string $a_parent_type,
+        int $a_parent_id,
+        array $a_items
+    ) : array {
         switch ($this->getSortingSettings()->getSortMode()) {
             case ilContainer::SORT_MANUAL:
                 $items = array();
@@ -405,17 +370,7 @@ class ilContainerSorting
         $this->saveItems($new_indexed);
     }
     
-    
-    /**
-     * save items
-     *
-     * @access protected
-     * @param string parent_type only used for sessions and objectives in the moment. Otherwise empty
-     * @param int parent id
-     * @param array array of items
-     * @return
-     */
-    protected function saveItems($a_items)
+    protected function saveItems(array $a_items) : void
     {
         $ilDB = $this->db;
         
@@ -433,18 +388,13 @@ class ilContainerSorting
                 )
             );
         }
-        return true;
     }
     
-    /**
-     * Save subitem ordering (sessions, learning objectives)
-     * @param string $a_parent_type
-     * @param integer $a_parent_id
-     * @param array $a_items
-     * @return
-     */
-    protected function saveSubItems($a_parent_type, $a_parent_id, $a_items)
-    {
+    protected function saveSubItems(
+        string $a_parent_type,
+        int $a_parent_id,
+        array $a_items
+    ) : void {
         $ilDB = $this->db;
 
         foreach ($a_items as $child_id => $position) {
@@ -461,15 +411,12 @@ class ilContainerSorting
                 )
             );
         }
-        return true;
     }
         
     /**
      * Save block custom positions (for current object id)
-     *
-     * @param array $a_values
      */
-    protected function saveBlockPositions(array $a_values)
+    protected function saveBlockPositions(array $a_values) : void
     {
         $ilDB = $this->db;
         asort($a_values);
@@ -486,8 +433,6 @@ class ilContainerSorting
     
     /**
      * Read block custom positions (for current object id)
-     *
-     * @return array
      */
     public function getBlockPositions() : array
     {
@@ -504,20 +449,10 @@ class ilContainerSorting
         return [];
     }
     
-    
-    /**
-     * Read
-     *
-     * @access private
-     *
-     */
-    private function read()
+    private function read() : void
     {
-        $tree = $this->tree;
-        
         if (!$this->obj_id) {
             $this->sorting_settings = new ilContainerSortingSettings();
-            return true;
         }
         
         $sorting_settings = ilContainerSortingSettings::getInstanceByObjId($this->obj_id);
@@ -532,16 +467,12 @@ class ilContainerSorting
                 $this->sorting['all'][$row->child_id] = $row->position;
             }
         }
-        return true;
     }
 
     /**
      * Position and order sort order for new object without position in manual sorting type
-     *
-     * @param $items
-     * @return array
      */
-    private function sortOrderDefault($items)
+    private function sortOrderDefault(array $items) : array
     {
         $no_position = array();
 

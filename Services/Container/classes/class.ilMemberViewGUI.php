@@ -1,19 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * @author Stefan Meyer <meyer.leifos.com>
  */
 class ilMemberViewGUI
 {
-    
-    /**
-     * Show member view switch
-     * @return
-     * @param int $a_ref_id
-     */
-    public static function showMemberViewSwitch($a_ref_id)
+    public static function showMemberViewSwitch(int $a_ref_id) : bool
     {
         global $DIC;
 
@@ -24,9 +29,6 @@ class ilMemberViewGUI
         if (!$settings->isEnabled()) {
             return false;
         }
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
         $tree = $DIC->repositoryTree();
         $lng = $DIC->language();
         $ilTabs = $DIC->tabs();
@@ -38,8 +40,6 @@ class ilMemberViewGUI
         }
         
         // TODO: check edit_permission
-        
-        $active = $settings->isActive();
         
         $type = ilObject::_lookupType(ilObject::_lookupObjId($a_ref_id));
         if (($type == 'crs' or $type == 'grp') and $ilAccess->checkAccess('write', '', $a_ref_id)) {

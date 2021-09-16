@@ -1,32 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Adapter for advanced metadata service
  *
- * @author killing@leifos.de
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterAdvMDAdapter
 {
-    protected $types = ["crs", "cat", "grp", "sess"];
-
-    protected $supported_types = [
+    protected array $types = ["crs", "cat", "grp", "sess"];
+    protected array $supported_types = [
         ilAdvancedMDFieldDefinition::TYPE_SELECT,
         ilAdvancedMDFieldDefinition::TYPE_TEXT,
         ilAdvancedMDFieldDefinition::TYPE_INTEGER,
         ilAdvancedMDFieldDefinition::TYPE_SELECT_MULTI,
     ];
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -53,11 +55,9 @@ class ilContainerFilterAdvMDAdapter
 
     /**
      * Get fields
-     *
-     * @param int $a_record_id
      * @return ilAdvancedMDFieldDefinition[]
      */
-    public function getFields($a_record_id) : array
+    public function getFields(int $a_record_id) : array
     {
         $fields = array_filter(ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id), function ($f) {
             /** @var ilAdvancedMDFieldDefinition $f */
@@ -68,12 +68,9 @@ class ilContainerFilterAdvMDAdapter
 
     /**
      * Get name for filter
-     * @param $record_id
-     * @param $filter_id
-     * @return string
      * @throws ilException
      */
-    public function getTitle($record_id, $filter_id)
+    public function getTitle(int $record_id, int $filter_id) : string
     {
         $lng = $this->lng;
 
@@ -86,24 +83,15 @@ class ilContainerFilterAdvMDAdapter
     }
 
     /**
-     * Get adv type
-     * @param int $filter_id
-     * @return string
      * @throws ilException
      */
-    public function getAdvType($filter_id)
+    public function getAdvType(int $filter_id) : string
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
         return $field->getType();
     }
 
-    /**
-     * Get options
-     *
-     * @param
-     * @return
-     */
-    public function getOptions($filter_id)
+    public function getOptions(int $filter_id) : array
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
         return $field->getOptions();

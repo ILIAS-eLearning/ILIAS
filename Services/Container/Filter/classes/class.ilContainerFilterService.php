@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Container filter service factory.
@@ -10,26 +21,14 @@
  *
  * Main entry point.
  *
- * @author @leifos.de
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterService
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
+    protected ilLanguage $lng;
     protected ?ilContainerFilterFieldData $field_data;
+    protected ilContainerFilterAdvMDAdapter $adv_adapter;
 
-    /**
-     * @var ilContainerFilterAdvMDAdapter
-     */
-    protected $adv_adapter;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilLanguage $lng = null,
         ilContainerFilterAdvMDAdapter $adv_adapter = null,
@@ -50,49 +49,28 @@ class ilContainerFilterService
             : $container_field_data;
     }
 
-    /**
-     * Utilities
-     * @return ilContainerFilterUtil
-     */
     public function util() : ilContainerFilterUtil
     {
         return new ilContainerFilterUtil($this, $this->adv_adapter, $this->lng);
     }
 
-    /**
-     * @return ilContainerFilterAdvMDAdapter
-     */
     public function advancedMetadata() : ilContainerFilterAdvMDAdapter
     {
         return $this->adv_adapter;
     }
 
-    /**
-     * @return ilContainerFilterFieldData
-     */
     public function data() : ilContainerFilterFieldData
     {
         return $this->field_data;
     }
 
-
-    /**
-     * Field
-     *
-     * @param int $record_set_id
-     * @param int $field_id
-     * @return ilContainerFilterField
-     */
     public function field(int $record_set_id, int $field_id) : ilContainerFilterField
     {
         return new ilContainerFilterField($record_set_id, $field_id);
     }
 
     /**
-     * Set
-     *
-     * @param array $fields
-     * @return ilContainerFilterSet
+     * Filter Set
      */
     public function set(array $fields) : ilContainerFilterSet
     {
@@ -101,7 +79,6 @@ class ilContainerFilterService
 
     /**
      * Get standard set
-     * @return ilContainerFilterSet
      */
     public function standardSet() : ilContainerFilterSet
     {
@@ -121,11 +98,8 @@ class ilContainerFilterService
 
     /**
      * User filter
-     *
-     * @param array|null $data
-     * @return ilContainerUserFilter
      */
-    public function userFilter($data)
+    public function userFilter(?array $data) : ilContainerUserFilter
     {
         return new ilContainerUserFilter($data);
     }

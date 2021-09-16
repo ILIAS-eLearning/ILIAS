@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * XML writer for container structure
@@ -9,23 +20,12 @@
  */
 class ilContainerXmlWriter extends ilXmlWriter
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
+    protected ?ilExportOptions $exp_options = null;
+    private int $source = 0;
+    protected ilObjectDefinition $objDefinition;
 
-    protected $exp_options = null;
-    private $source = 0;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objDefinition;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
