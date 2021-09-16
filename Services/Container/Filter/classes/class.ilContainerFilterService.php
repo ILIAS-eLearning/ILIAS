@@ -20,6 +20,8 @@ class ilContainerFilterService
      */
     protected $lng;
 
+    protected ?ilContainerFilterFieldData $field_data;
+
     /**
      * @var ilContainerFilterAdvMDAdapter
      */

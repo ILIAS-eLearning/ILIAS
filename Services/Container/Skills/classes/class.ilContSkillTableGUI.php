@@ -44,6 +44,8 @@ class ilContSkillTableGUI extends ilTable2GUI
      */
     protected $container_skill_collector;
 
+    protected ilSkillTree $skill_tree;
+
     /**
      * Constructor
      */
@@ -109,7 +111,6 @@ class ilContSkillTableGUI extends ilTable2GUI
     protected function fillRow($a_set)
     {
         $tpl = $this->tpl;
-        $skill_tree = $this->skill_tree;
 
         $tpl->setVariable("TITLE", $a_set["title"]);
 

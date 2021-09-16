@@ -63,17 +63,11 @@ class ilContainerXmlParser
         $this->root_id = $a_root_id;
         
         foreach ($this->sxml->Item as $item) {
-            $this->initItem($item, $this->mapping->getTargetId());
+            $this->initItem($item, (int) $this->mapping->getTargetId());
         }
     }
     
-    /**
-     * Init Item
-     * @param object $item
-     * @param object $a_parent_node
-     * @return
-     */
-    protected function initItem($item, $a_parent_node)
+    protected function initItem(SimpleXMLElement $item, int $a_parent_node) : void
     {
         $ilSetting = $this->settings;
         
@@ -134,15 +128,12 @@ class ilContainerXmlParser
         }
     }
     
-    /**
-     * Parse timing info
-     * @param object $a_ref_id
-     * @param object $a_parent_id
-     * @param object $timing
-     * @return
-     */
-    protected function parseTiming($a_ref_id, $a_parent_id, $timing)
-    {
+    // Parse timing info
+    protected function parseTiming(
+        int $a_ref_id,
+        int $a_parent_id,
+        SimpleXMLElement $timing
+    ) : void {
         $type = (string) $timing['Type'];
         $visible = (string) $timing['Visible'];
         $changeable = (string) $timing['Changeable'];
@@ -190,17 +181,13 @@ class ilContainerXmlParser
         }
     }
     
-    /**
-     * Create the objects
-     * @param object $ref_id
-     * @param object $obj_id
-     * @param object $type
-     * @param object $title
-     * @param object $parent_node
-     * @return int | null
-     */
-    protected function createObject($ref_id, $obj_id, $type, $title, $parent_node) : ? int
-    {
+    protected function createObject(
+        int $ref_id,
+        int $obj_id,
+        string $type,
+        string $title,
+        int $parent_node
+    ) : ? int {
         $objDefinition = $this->obj_definition;
 
         // A mapping for this object already exists => create reference

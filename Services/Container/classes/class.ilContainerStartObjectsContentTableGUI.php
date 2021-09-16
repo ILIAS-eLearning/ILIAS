@@ -205,17 +205,12 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         return $item_list_gui;
     }
     
-    /**
-     * Get list gui for object instance
-     *
-     * @param array $a_item
-     * @return string
-     */
-    protected function getListItem($a_item)
+    // Get list gui html
+    protected function getListItem(array $a_item) : string
     {
         $item_list_gui = $this->getItemListGUI($a_item["type"]);
         if (!$item_list_gui) {
-            return;
+            return "";
         }
 
         $item_list_gui->setContainerObject($this);
@@ -255,9 +250,10 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 $a_item["description"]
             );
         }
+        return "";
     }
     
-    public function fillRow($a_set)
+    public function fillRow($a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

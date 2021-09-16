@@ -9,21 +9,9 @@
  */
 class ilContainerMemberSkills
 {
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var array
-     */
-    protected $skills = array();
-
-    /**
-     * @var int object id
-     */
-    protected $obj_id;
+    protected \ilDBInterface $db;
+    protected array $skills = array();
+    protected int $obj_id;
 
     /**
      * @var int

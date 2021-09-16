@@ -1,29 +1,29 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Save container block property
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContainerBlockPropertiesStorage:
  */
 class ilContainerBlockPropertiesStorage
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -32,10 +32,7 @@ class ilContainerBlockPropertiesStorage
         $this->user = $DIC->user();
     }
 
-    /**
-    * execute command
-    */
-    public function &executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -45,10 +42,7 @@ class ilContainerBlockPropertiesStorage
         }
     }
     
-    /**
-     * Store property
-     */
-    public function store()
+    public function store() : void
     {
         $ilUser = $this->user;
 
@@ -64,31 +58,22 @@ class ilContainerBlockPropertiesStorage
         }
     }
     
-    /**
-     * Store property in session or db
-     *
-     * @param string $a_block_id
-     * @param int $a_user_id
-     * @param string $a_property
-     * @param string $a_value
-     */
-    public static function storeProperty($a_block_id, $a_user_id, $a_property, $a_value)
-    {
+    public static function storeProperty(
+        string $a_block_id,
+        int $a_user_id,
+        string $a_property,
+        string $a_value
+    ) : void {
         $_SESSION["cont_block"][$a_block_id][$a_user_id][$a_property] = $a_value;
         ilLoggerFactory::getLogger("cont")
             ->debug("block id: " . $a_block_id . ", user id: " . $a_user_id . ", property: " . $a_property . ", val: " . print_r($a_value, true));
     }
     
-    /**
-     * Get property in session or db
-     *
-     * @param string $a_block_id
-     * @param int $a_user_id
-     * @param string $a_property
-     * @return bool|string
-     */
-    public static function getProperty($a_block_id, $a_user_id, $a_property)
-    {
+    public static function getProperty(
+        string $a_block_id,
+        int $a_user_id,
+        string $a_property
+    ) : string {
         $val = false;
         if (isset($_SESSION["cont_block"][$a_block_id][$a_user_id][$a_property])) {
             $val = $_SESSION["cont_block"][$a_block_id][$a_user_id][$a_property];

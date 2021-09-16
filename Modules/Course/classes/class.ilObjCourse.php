@@ -503,16 +503,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     
     /**
      * Get subitems of container
-     * @param bool $a_admin_panel_enabled[optional]
-     * @param bool $a_include_side_block[optional]
+     * @param bool $a_admin_panel_enabled [optional]
+     * @param bool $a_include_side_block  [optional]
      * @return array
      */
     public function getSubItems(
-        $a_admin_panel_enabled = false,
-        $a_include_side_block = false,
-        $a_get_single = 0,
+        bool $a_admin_panel_enabled = false,
+        bool $a_include_side_block = false,
+        int $a_get_single = 0,
         \ilContainerUserFilter $container_user_filter = null
-    ) {
+    ) : array {
         // Caching
         if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
@@ -543,7 +543,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         $this->view_mode = $a_mode;
     }
-    public function getViewMode()
+    public function getViewMode() : int
     {
         return $this->view_mode;
     }
@@ -1916,10 +1916,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     * Add additional information to sub item, e.g. used in
     * courses for timings information etc.
     */
-    public function addAdditionalSubItemInformation(&$a_item_data)
+    public function addAdditionalSubItemInformation(array &$object) : void
     {
         include_once './Services/Object/classes/class.ilObjectActivation.php';
-        ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+        ilObjectActivation::addAdditionalSubItemInformation($object);
     }
     
     /**
@@ -2223,7 +2223,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
     
-    public function getOrderType()
+    public function getOrderType() : int
     {
         if ($this->enabledObjectiveView()) {
             return ilContainer::SORT_MANUAL;

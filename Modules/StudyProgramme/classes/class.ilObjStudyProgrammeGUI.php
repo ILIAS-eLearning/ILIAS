@@ -648,7 +648,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     /**
      * Disable default content subtabs
      */
-    public function setContentSubTabs()
+    public function setContentSubTabs() : void
     {
         return;
     }

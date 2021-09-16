@@ -40,6 +40,8 @@ class ilContSkillAdminGUI
      */
     protected $container;
 
+    protected ilSkillTree $skill_tree;
+
     /**
      * @var ilContainerSkills
      */
@@ -89,6 +91,8 @@ class ilContSkillAdminGUI
      * @var string
      */
     protected $requested_selected_skill;
+
+    protected int $ref_id;
 
     /**
      * Constructor
@@ -373,7 +377,7 @@ class ilContSkillAdminGUI
 
         foreach ($_POST["usr_id"] as $user_id) {
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
-            $mem_skills->removeAllSkillLevels($this->container->getRefId());
+            $mem_skills->removeAllSkillLevels();
         }
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -491,9 +495,9 @@ class ilContSkillAdminGUI
             foreach ($_POST["id"] as $id) {
                 $s = explode(":", $id);
                 $this->container_skills->removeSkill($s[0], $s[1]);
+                ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
             }
             $this->container_skills->save();
-            ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
         }
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 

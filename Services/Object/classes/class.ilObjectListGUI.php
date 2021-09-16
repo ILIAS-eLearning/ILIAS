@@ -1383,7 +1383,7 @@ class ilObjectListGUI
     
     /**
      * Force visible access only.
-     * @param type $a_stat
+     * @param bool $a_stat
      */
     public function forceVisibleOnly($a_stat)
     {
@@ -1392,7 +1392,7 @@ class ilObjectListGUI
 
     /**
      * Force unreadable
-     * @return type
+     * @return bool
      */
     public function isVisibleOnlyForced()
     {

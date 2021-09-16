@@ -36,7 +36,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
     /**
     * Get content HTML for main column.
     */
-    public function getMainContent()
+    public function getMainContent() : string
     {
         // see bug #7452
         //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -102,17 +102,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         $a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
     }
     
-    /**
-     * init details
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initDetails()
+    protected function initDetails() : void
     {
-        $ilUser = $this->user;
-        
         if ($_GET['expand']) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
@@ -133,20 +124,19 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
     
     /**
      * get details level
-     *
      * @access public
-     * @param	int	$a_session_id
+     * @param	int	$a_item_id
      * @return	int	DEATAILS_LEVEL
      */
-    public function getDetailsLevel($a_session_id)
+    public function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_session_id])) {
-            return $_SESSION['sess']['expanded'][$a_session_id];
+        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
+            return $_SESSION['sess']['expanded'][$a_item_id];
         }
-        if ($a_session_id == $this->force_details) {
+        if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
         } else {
             return self::DETAILS_TITLE;

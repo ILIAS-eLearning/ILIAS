@@ -10,9 +10,8 @@
  */
 class ilContainerFilterFieldData
 {
-    /**
-     * Constructor
-     */
+    protected \ilDBInterface $db;
+
     public function __construct()
     {
         global $DIC;

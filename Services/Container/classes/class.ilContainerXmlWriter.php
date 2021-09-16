@@ -38,10 +38,9 @@ class ilContainerXmlWriter extends ilXmlWriter
     
     /**
      * Write XML
-     * @return
      * @throws UnexpectedValueException Thrown if obj_id is not of type webr or no obj_id is given
      */
-    public function write()
+    public function write() : void
     {
         $this->xmlStartTag('Items');
         $this->writeSubitems($this->source);
@@ -51,10 +50,8 @@ class ilContainerXmlWriter extends ilXmlWriter
     /**
      * Write tree childs
      * Recursive method
-     * @param object $a_ref_id
-     * @return
      */
-    protected function writeSubitems($a_ref_id)
+    protected function writeSubitems(int $a_ref_id) : void
     {
         $tree = $this->tree;
     
@@ -62,7 +59,7 @@ class ilContainerXmlWriter extends ilXmlWriter
         if ($a_ref_id != $this->source) {
             $mode = $this->exp_options->getOptionByRefId($a_ref_id, ilExportOptions::KEY_ITEM_MODE);
             if ($mode == null or $mode == ilExportOptions::EXPORT_OMIT) {
-                return false;
+                return;
             }
         }
 
@@ -90,17 +87,14 @@ class ilContainerXmlWriter extends ilXmlWriter
         }
         
         $this->xmlEndTag('Item');
-        return true;
     }
     
     
     /**
      * Write course item information
      * Starting time, ending time...
-     * @param int $a_ref_id
-     * @return
      */
-    protected function writeCourseItemInformation($a_ref_id)
+    protected function writeCourseItemInformation(int $a_ref_id) : void
     {
         $item = ilObjectActivation::getItem($a_ref_id);
         
@@ -136,16 +130,10 @@ class ilContainerXmlWriter extends ilXmlWriter
         $this->xmlEndTag('Timing');
     }
     
-    /**
-     * Build XML header
-     * @return
-     */
-    protected function buildHeader()
+    protected function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE Container PUBLIC \"-//ILIAS//DTD Container//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_container_4_1.dtd\">");
         $this->xmlSetGenCmt("Container object");
         $this->xmlHeader();
-
-        return true;
     }
 }

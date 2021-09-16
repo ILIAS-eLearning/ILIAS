@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Filter administration for containers
  *
@@ -21,7 +23,7 @@ class ilContainerFilterAdminGUI
     protected $lng;
 
     /**
-     * @var ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $main_tpl;
 
@@ -44,6 +46,10 @@ class ilContainerFilterAdminGUI
      * @var int
      */
     protected $ref_id;
+
+    protected ilContainerGUI $container_gui;
+
+    protected ServerRequestInterface $request;
 
     /**
      * Constructor
@@ -154,7 +160,7 @@ class ilContainerFilterAdminGUI
             }
         }
 
-        $fields[0] = $f->input()->field()->multiselect($lng->txt("cont_std_record_title"), $options)
+        $fields[0] = $f->input()->field()->multiSelect($lng->txt("cont_std_record_title"), $options)
             ->withRequired(false)
             ->withValue($selected);
 
@@ -168,7 +174,7 @@ class ilContainerFilterAdminGUI
                     $selected[] = $fl->getFieldId();
                 }
             }
-            $fields[$rs->getRecordId()] = $f->input()->field()->multiselect($rs->getTitle(), $options, $rs->getDescription())
+            $fields[$rs->getRecordId()] = $f->input()->field()->multiSelect($rs->getTitle(), $options, $rs->getDescription())
                 ->withRequired(false)
                 ->withValue($selected);
         }

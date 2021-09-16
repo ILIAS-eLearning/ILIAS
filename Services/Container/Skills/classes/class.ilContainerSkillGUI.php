@@ -47,6 +47,8 @@ class ilContainerSkillGUI
      */
     protected $skmg_settings;
 
+    protected int $ref_id;
+
     /**
      * Constructor
      *

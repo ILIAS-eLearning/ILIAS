@@ -37,20 +37,19 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
     /**
      * get details level
-     *
      * @access public
-     * @param	int	$a_session_id
+     * @param	int	$a_item_id
      * @return	int	DEATAILS_LEVEL
      */
-    public function getDetailsLevel($a_session_id)
+    public function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_session_id])) {
-            return $_SESSION['sess']['expanded'][$a_session_id];
+        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
+            return $_SESSION['sess']['expanded'][$a_item_id];
         }
-        if (in_array($a_session_id, $this->force_details)) {
+        if (in_array($a_item_id, $this->force_details)) {
             return self::DETAILS_ALL;
         } else {
             return self::DETAILS_TITLE;
@@ -61,7 +60,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     /**
     * Get content HTML for main column.
     */
-    public function getMainContent()
+    public function getMainContent() : string
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -212,14 +211,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     }
     
     
-    /**
-     * add footer row
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function addFooterRow($tpl)
+    public function addFooterRow($tpl) : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -230,17 +222,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $tpl->parseCurrentBlock();
     }
     
-    /**
-     * init details
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initDetails()
+    protected function initDetails() : void
     {
-        $ilUser = $this->user;
-        
         if (isset($_GET['expand'])) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;

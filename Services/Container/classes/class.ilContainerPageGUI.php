@@ -17,6 +17,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
      * @var ilObjectDefinition
      */
     protected $obj_definition;
+    protected int $requested_ref_id = 0;
 
     /**
     * Constructor

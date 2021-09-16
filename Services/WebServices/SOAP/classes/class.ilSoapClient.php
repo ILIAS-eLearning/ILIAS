@@ -102,7 +102,7 @@ class ilSoapClient
     
     /**
      * enable wsdl mode
-     * @param type $a_stat
+     * @param bool $a_stat
      */
     public function enableWSDL($a_stat)
     {
@@ -111,7 +111,7 @@ class ilSoapClient
     
     /**
      * Check if wsdl is enabled
-     * @return type
+     * @return bool
      */
     public function enabledWSDL()
     {

@@ -70,12 +70,8 @@ class ilContainerStartObjectsContentGUI
         }
     }
     
-    /**
-     * Get container start objects list (presentation)
-     *
-     * @return string
-     */
-    public function getHTML()
+    // Set HTML in main template
+    public function getHTML() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -94,27 +90,20 @@ class ilContainerStartObjectsContentGUI
         );
     }
     
-    /**
-     * Render COPage
-     *
-     * @see ilContainerGUI
-     * @return string
-     */
-    protected function getPageHTML()
+    protected function getPageHTML() : string
     {
         $tpl = $this->tpl;
         $ilSetting = $this->settings;
-        $ilUser = $this->user;
-        
+
         if (!$ilSetting->get("enable_cat_page_edit")) {
-            return;
+            return "";
         }
         
         $page_id = $this->start_object->getObjId();
         
         // if page does not exist, return nothing
         if (!ilPageUtil::_existsAndNotEmpty("cstr", $page_id)) {
-            return;
+            return "";
         }
 
         $tpl->setVariable(

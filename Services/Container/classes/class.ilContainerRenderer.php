@@ -24,6 +24,8 @@ class ilContainerRenderer
      */
     protected $obj_definition;
 
+    protected ilContainerGUI $container_gui;
+
     // switches
     protected $enable_manage_select_all; // [bool]
     protected $enable_multi_download; // [bool]
@@ -344,7 +346,7 @@ class ilContainerRenderer
      *
      * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $valid = false;
         
@@ -370,36 +372,37 @@ class ilContainerRenderer
             
             return $block_tpl->get();
         }
+        return "";
     }
     
     /**
-     * Get rendered html of single type block
-     *
      * @param string $a_type repository object type
-     * @return html
+     * @return string
      */
-    public function renderSingleTypeBlock($a_type)
+    public function renderSingleTypeBlock(string $a_type) : string
     {
         $block_tpl = $this->initBlockTemplate();
 
         if ($this->renderHelperTypeBlock($block_tpl, $a_type, true)) {
             return $block_tpl->get();
         }
+        return "";
     }
     
     /**
      * Get rendered html of single custom block
      *
      * @param mixed $a_id
-     * @return html
+     * @return string
      */
-    public function renderSingleCustomBlock($a_id)
+    public function renderSingleCustomBlock($a_id) : string
     {
         $block_tpl = $this->initBlockTemplate();
 
         if ($this->renderHelperCustomBlock($block_tpl, $a_id, true)) {
             return $block_tpl->get();
         }
+        return "";
     }
         
     

@@ -100,13 +100,7 @@ class ilContainerNewsSettingsGUI
         }
     }
 
-    /**
-     * Show
-     *
-     * @param
-     * @return
-     */
-    public function show()
+    public function show() : void
     {
         $form = $this->initForm();
         $this->tpl->setContent($form->getHTML());
@@ -271,7 +265,7 @@ class ilContainerNewsSettingsGUI
             $this->ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
-            $this->tpl->setContent($form->getHtml());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 

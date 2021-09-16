@@ -540,7 +540,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * Set content sub tabs
      */
-    public function setContentSubTabs()
+    public function setContentSubTabs() : void
     {
         $this->addStandardContainerSubTabs();
         //only display the import tab at the first level
@@ -637,7 +637,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * @param $tpl
      */
-    public function showAdministrationPanel()
+    public function showAdministrationPanel() : void
     {
         parent::showAdministrationPanel();
         global $DIC;
@@ -670,7 +670,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     }
 
 
-    protected function getTreeSelectorGUI($cmd)
+    protected function getTreeSelectorGUI(string $cmd) : ilTreeExplorerGUI
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -781,7 +781,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     }
 
 
-    public function cancelMoveLinkObject()
+    public function cancelMoveLinkObject() : void
     {
         global $DIC;
         $parent_ref_id = $_SESSION["clipboard"]["parent"];

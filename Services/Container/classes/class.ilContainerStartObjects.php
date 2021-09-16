@@ -15,7 +15,7 @@ class ilContainerStartObjects
     protected $tree;
 
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -25,7 +25,7 @@ class ilContainerStartObjects
     protected $obj_data_cache;
 
     /**
-     * @var Logger
+     * @var ilLogger
      */
     protected $log;
 
@@ -93,12 +93,7 @@ class ilContainerStartObjects
         return true;
     }
     
-    /**
-     * Delete item by sequence id
-     * @param type $a_crs_start_id
-     * @return boolean
-     */
-    public function delete($a_crs_start_id)
+    public function delete(int $a_crs_start_id) : bool
     {
         $ilDB = $this->db;
         
@@ -109,11 +104,7 @@ class ilContainerStartObjects
         return true;
     }
     
-    /**
-     * Delete item by ref_id
-     * @param type $a_item_ref_id
-     */
-    public function deleteItem($a_item_ref_id)
+    public function deleteItem(int $a_item_ref_id) : void
     {
         $ilDB = $this->db;
         
@@ -121,10 +112,9 @@ class ilContainerStartObjects
             " WHERE crs_id = " . $ilDB->quote($this->getObjId(), 'integer') .
             " AND item_ref_id = " . $ilDB->quote($a_item_ref_id, 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
 
-    public function exists($a_item_ref_id)
+    public function exists(int $a_item_ref_id) : bool
     {
         $ilDB = $this->db;
         
@@ -187,6 +177,7 @@ class ilContainerStartObjects
 
     public function getPossibleStarters()
     {
+        $poss_items = [];
         foreach (ilObjectActivation::getItems($this->getRefId(), false) as $node) {
             switch ($node['type']) {
                 case 'lm':
@@ -198,7 +189,7 @@ class ilContainerStartObjects
                     break;
             }
         }
-        return $poss_items ? $poss_items : array();
+        return $poss_items;
     }
 
     public function allFullfilled($a_user_id)
@@ -281,13 +272,7 @@ class ilContainerStartObjects
         return true;
     }
     
-    /**
-     * Check if object is start object
-     * @param type $a_container_id
-     * @param type $a_item_ref_id
-     * @return boolean
-     */
-    public static function isStartObject($a_container_id, $a_item_ref_id)
+    public static function isStartObject(int $a_container_id, int $a_item_ref_id) : bool
     {
         global $DIC;
 

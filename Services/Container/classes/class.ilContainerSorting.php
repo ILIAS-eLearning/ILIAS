@@ -9,7 +9,7 @@
 class ilContainerSorting
 {
     /**
-     * @var Logger
+     * @var ilLogger
      */
     protected $log;
 
@@ -25,6 +25,8 @@ class ilContainerSorting
     
     protected $sorting_settings = null;
     const ORDER_DEFAULT = 999999;
+
+    protected array $sorting = [];
 
     /**
      * Constructor
@@ -82,14 +84,15 @@ class ilContainerSorting
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+        $sorted = [];
+
         $query = "SELECT * FROM container_sorting WHERE " .
             "obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $sorted[$row->child_id] = $row->position;
         }
-        return $sorted ? $sorted : array();
+        return $sorted;
     }
     
     /**
@@ -367,16 +370,12 @@ class ilContainerSorting
     }
     
     /**
-     * Save post
-     *
-     * @access public
-     * @param array of positions e.g array(crs => array(1,2,3),'lres' => array(3,5,6))
-     *
+     * @param array $a_type_positions positions e.g array(crs => array(1,2,3),'lres' => array(3,5,6))
      */
-    public function savePost($a_type_positions)
+    public function savePost(array $a_type_positions) : void
     {
         if (!is_array($a_type_positions)) {
-            return false;
+            return;
         }
         $items = [];
         foreach ($a_type_positions as $key => $position) {
@@ -392,7 +391,8 @@ class ilContainerSorting
         }
         
         if (!count($items)) {
-            return $this->saveItems(array());
+            $this->saveItems(array());
+            return;
         }
         
         asort($items);

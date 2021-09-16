@@ -34,6 +34,8 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
      */
     protected $ui;
 
+    protected ilSkillTree $skill_tree;
+
     /**
      * Constructor
      */

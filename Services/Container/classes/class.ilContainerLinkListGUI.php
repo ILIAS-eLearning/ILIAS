@@ -57,6 +57,7 @@ class ilContainerLinkListGUI
     {
         $lng = $this->lng;
         $tree = $this->tree;
+        $cnt = [];
         
         $tpl = new ilGlobalTemplate(
             "tpl.container_link_help.html",
@@ -83,7 +84,6 @@ class ilContainerLinkListGUI
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable("TYPE", $lng->txt("objs_" . $type) .
                     " (" . ((int) $cnt[$type]) . ")");

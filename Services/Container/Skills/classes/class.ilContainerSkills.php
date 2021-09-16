@@ -11,7 +11,7 @@ class ilContainerSkills
 {
 
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 

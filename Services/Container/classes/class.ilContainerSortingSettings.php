@@ -42,12 +42,7 @@ class ilContainerSortingSettings
         $this->read();
     }
     
-    /**
-     * Get singleton instance
-     * @param int $a_obj_id
-     * @return ilContainerSortingSettings
-     */
-    public static function getInstanceByObjId($a_obj_id) : self
+    public static function getInstanceByObjId(int $a_obj_id) : self
     {
         if (isset(self::$instances[$a_obj_id])) {
             return self::$instances[$a_obj_id];
@@ -80,11 +75,7 @@ class ilContainerSortingSettings
     }
     
     
-    /**
-     * Read inherited settings of course/group
-     * @param int $a_container_obj_id
-     */
-    public function getInheritedSettings($a_container_obj_id)
+    public function getInheritedSettings(int $a_container_obj_id) : self
     {
         $tree = $this->tree;
         
@@ -161,12 +152,7 @@ class ilContainerSortingSettings
         return self::lookupSortModeFromParentContainer($a_obj_id);
     }
     
-    /**
-     * Lookup sort mode from parent container
-     * @param object $a_obj_id
-     * @return
-     */
-    public static function lookupSortModeFromParentContainer($a_obj_id)
+    public static function lookupSortModeFromParentContainer(int $a_obj_id) : int
     {
         $settings = self::getInstanceByObjId($a_obj_id);
         $inherited_settings = $settings->getInheritedSettings($a_obj_id);
@@ -222,13 +208,9 @@ class ilContainerSortingSettings
         return $this->sort_mode ? $this->sort_mode : 0;
     }
     
-    /**
-     * Get sort direction
-     * @return type
-     */
-    public function getSortDirection()
+    public function getSortDirection() : string
     {
-        return $this->sort_direction ? $this->sort_direction : ilContainer::SORT_DIRECTION_ASC;
+        return $this->sort_direction ?: ilContainer::SORT_DIRECTION_ASC;
     }
 
     /**
@@ -263,11 +245,11 @@ class ilContainerSortingSettings
     
     /**
      * Set sort direction
-     * @param type $a_direction
+     * @param int $a_direction
      */
-    public function setSortDirection($a_direction)
+    public function setSortDirection(int $a_direction)
     {
-        $this->sort_direction = (int) $a_direction;
+        $this->sort_direction = $a_direction;
     }
 
     /**
@@ -329,9 +311,8 @@ class ilContainerSortingSettings
     
     /**
      * Delete setting
-     * @return
      */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -339,17 +320,10 @@ class ilContainerSortingSettings
         $ilDB->query($query);
     }
     
-    /**
-     * read settings
-     *
-     * @access private
-     * @param
-     *
-     */
-    protected function read()
+    protected function read() : void
     {
         if (!$this->obj_id) {
-            return true;
+            return;
         }
         
         $query = "SELECT * FROM container_sorting_set " .
@@ -361,7 +335,7 @@ class ilContainerSortingSettings
             $this->sort_direction = $row->sort_direction;
             $this->new_items_position = $row->new_items_position;
             $this->new_items_order = $row->new_items_order;
-            return true;
+            return;
         }
     }
     
@@ -406,6 +380,7 @@ class ilContainerSortingSettings
         $attr = array();
         switch ($settings->getSortMode()) {
             case ilContainer::SORT_MANUAL:
+                $order = 'Title';
                 switch ($settings->getSortNewItemsOrder()) {
                     case ilContainer::SORT_NEW_ITEMS_ORDER_ACTIVATION:
                         $order = 'Activation';

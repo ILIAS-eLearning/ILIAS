@@ -200,7 +200,7 @@ class ilMemberViewSettings
         if ($a_activation) {
             $this->activate($a_ref_id);
         } else {
-            $this->deactivate($a_ref_id);
+            $this->deactivate();
         }
     }
     
@@ -245,11 +245,11 @@ class ilMemberViewSettings
     /**
      * Find effective ref_id for request
      */
-    protected function findEffectiveRefId()
+    protected function findEffectiveRefId() : int
     {
         if ($this->ctrl->isAsynch()) {
             // Ignore asynchronous requests
-            return;
+            return 0;
         }
 
         $ref_id = (int) ($this->request->getQueryParams()['ref_id'] ?? 0);
@@ -263,5 +263,6 @@ class ilMemberViewSettings
                 $this->current_ref_id = (int) $target_arr[1];
             }
         }
+        return 0;
     }
 }

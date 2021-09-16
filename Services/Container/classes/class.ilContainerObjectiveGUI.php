@@ -8,22 +8,15 @@
  */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
-    /**
-     * @var \ilLogger |null
-     */
-    private $logger = null;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    private \ilLogger $logger;
+    protected ilTabsGUI $tabs;
+    protected array $objective_map;
+    protected ilToolbarGUI $toolbar;
 
     protected $force_details = 0;
+
+    protected ilCourseObjectiveListGUI $objective_list_gui;
+    protected array $rendered_items = [];
 
     /**
      * @var \ilLOSettings
@@ -37,14 +30,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
     private $test_assignments = null;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object container gui object
-     * @return
-     */
-    public function __construct($a_container_gui)
+    public function __construct(ilContainerGUI $a_container_gui)
     {
         global $DIC;
 
@@ -85,12 +71,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
     /**
      * get details level
-     *
      * @access public
      * @param
-     * @return
+     * @return int
      */
-    public function getDetailsLevel($a_objective_id)
+    public function getDetailsLevel(int $a_item_id) : int
     {
         // no details anymore
         return self::DETAILS_ALL;
@@ -98,17 +83,17 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
     /**
      * Impementation of abstract method getMainContent
-     *
      * @access public
-     * @return
+     * @return string
      */
-    public function getMainContent()
+    public function getMainContent() : string
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
+        $has_results = false;
 
         // see bug #7452
         //		$ilTabs->setSubTabActive($this->getContainerObject()->getType().'_content');
@@ -145,7 +130,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             // $this->showStatus($tpl);
         }
         if (!$is_manage) {
-            $this->showObjectives($tpl, $is_order);
+            $this->showObjectives($is_order);
                         
             // $this->showMaterials($tpl,self::MATERIALS_TESTS, false, !$is_order);
             
@@ -189,15 +174,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         
         return $tpl->get();
     }
-    
+
     /**
-     * show status
-     *
-     * @access public
-     * @param
-     * @return
+     * @deprecated  (?)
      */
-    public function showStatus($tpl)
+    public function showStatus() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -212,14 +193,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $this->output_html .= $info_tpl->get();
     }
     
-    /**
-     * show objectives
-     *
-     * @access public
-     * @param object $tpl template object
-     * @return
-     */
-    public function showObjectives($a_tpl, $a_is_order = false)
+    public function showObjectives(bool $a_is_order = false) : void
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
@@ -240,7 +214,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         
         // All objectives
         if (!count($objective_ids = ilCourseObjective::_getObjectiveIds($this->getContainerObject()->getId(), true))) {
-            return false;
+            return;
         }
         
         $this->objective_list_gui = new ilCourseObjectiveListGUI();
@@ -313,7 +287,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         if ($a_is_order) {
             $this->addFooterRow();
         
-            $this->output_html .= $output_html . $this->renderer->getHTML();
+            $this->output_html .= $this->renderer->getHTML();
 
             $this->renderer->resetDetails();
         }
@@ -373,12 +347,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $title = sprintf($this->lng->txt('crs_loc_qtst_for_objective'), ilCourseObjective::lookupObjectiveTitle($a_objective_id));
             }
             $node_data['objective_id'] = $a_objective_id;
-            $node_data['objective_status'] =
-                (
-                    $a_lo_result['status'] == ilLOUserResults::STATUS_COMPLETED ?
-                    false :
-                    false
-                );
+            $node_data['objective_status'] = false;
         } else {
             $obj_id = ilObject::_lookupObjId($a_test_ref_id);
             $title = ilObject::_lookupTitle($obj_id);
@@ -409,7 +378,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      */
     public function showMaterials($a_tpl, $a_mode = null, $a_is_manage = false, $a_as_accordion = false)
     {
-        $ilAccess = $this->access;
         $lng = $this->lng;
 
         $this->clearAdminCommandsDetermination();
@@ -484,6 +452,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     
                     $this->output_html .= $this->renderer->getHTML();
                 } else {
+                    $txt = "";
                     switch ($a_mode) {
                         case self::MATERIALS_TESTS:
                             $txt = $lng->txt('objs_tst');
@@ -509,7 +478,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
     }
     
-    protected function buildObjectiveMap()
+    protected function buildObjectiveMap() : array
     {
         $objective_map = array();
         // begin-patch lok
@@ -697,26 +666,30 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $a_objective_id,
                     $a_user_id
                 )) {
-                    ($a_res['tries'] > 0) ? --$a_res['tries'] : 0;
+                    if ($a_res['tries'] > 0) {
+                        --$a_res['tries'];
+                    }
                     $a_res['is_final'] = 0;
                 }
             }
         }
         return $a_res;
     }
-    
+
     /**
-     * render objective
-     *
-     * @access protected
-     * @param int objective id
-     * @param bool co page status
-     * @param ilAccordionGUI $a_accordion
-     * @param array $a_lo_result
-     * @return string html
+     * @param int                 $a_objective_id
+     * @param bool                $a_has_lo_page
+     * @param ilAccordionGUI|null $a_accordion if not given, returned as string
+     * @param array|null          $a_lo_result
+     * @return string
+     * @throws ilTemplateException
      */
-    protected function renderObjective($a_objective_id, &$a_has_lo_page, ilAccordionGUI $a_accordion = null, array $a_lo_result = null)
-    {
+    protected function renderObjective(
+        int $a_objective_id,
+        bool &$a_has_lo_page,
+        ilAccordionGUI $a_accordion = null,
+        array $a_lo_result = null
+    ) : string {
         $ilUser = $this->user;
         $lng = $this->lng;
         
@@ -871,23 +844,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 );
             }
             
-            
-            /*
-            if($this->loc_settings->getInitialTest() &&
-                $this->loc_settings->getType() == ilLOSettings::LOC_INITIAL_SEL &&
-                !$a_lo_risult["initial_status"])
-            {
-                $acc_content[] = $this->renderTest($this->loc_settings->getInitialTest(), $a_objective_id, true, false, $a_lo_result);
-                $initial_shown = true;
-            }
-            if(!$initial_shown &&
-                $this->loc_settings->getQualifiedTest() &&
-                $this->loc_settings->isQualifiedTestPerObjectiveVisible())
-            {
-                $acc_content[] = $this->renderTest($this->loc_settings->getQualifiedTest(), $a_objective_id, false, false, $a_lo_result);
-            }
-            */
-            
             $co_page = null;
             if (ilPageUtil::_existsAndNotEmpty("lobj", $objective->getObjectiveId())) {
                 $a_has_lo_page = true;
@@ -909,6 +865,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 (isset($_GET["oobj"]) && (int) $_GET["oobj"] == $objective->getObjectiveId())
             );
         }
+        return "";
     }
     
     /**
@@ -931,13 +888,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $this->test_assignments = ilLOTestAssignments::getInstance($this->getContainerObject()->getId());
     }
     
-    /**
-     * Parse learning objective results.
-     * @return type
-     */
-    protected function parseLOUserResults()
+    // Parse learning objective results.
+    protected function parseLOUserResults() : array
     {
         $ilUser = $this->user;
+        $initial_status = null;
         
         $res = array();
                 
@@ -973,31 +928,30 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     
     /**
      * Render progress bar(s)
-     *
-     * @param int $a_perc_result
-     * @param int $a_perc_limit
-     * @param string $a_css
-     * @param string $a_caption
-     * @param string $a_url
-     * @param string $a_tt_id
-     * @param string $a_tt_txt
-     * @param string $a_next_step
-     * @param string $a_sub (html)
-     * @param int $a_sub_style
-     * @return type
+     * @param int|null    $a_perc_result
+     * @param int|null    $a_perc_limit
+     * @param string|null $a_css
+     * @param string|null $a_caption
+     * @param string|null $a_url
+     * @param string|null $a_tt_id
+     * @param string|null $a_tt_txt
+     * @param string|null $a_next_step
+     * @param bool        $a_sub
+     * @param int         $a_sub_style
+     * @return string
      */
     public static function renderProgressBar(
-        $a_perc_result = null,
-        $a_perc_limit = null,
-        $a_css = null,
-        $a_caption = null,
-        $a_url = null,
-        $a_tt_id = null,
-        $a_tt_txt = null,
-        $a_next_step = null,
-        $a_sub = false,
-        $a_sub_style = 30
-    ) {
+        int $a_perc_result = null,
+        int $a_perc_limit = null,
+        string $a_css = null,
+        string $a_caption = null,
+        string $a_url = null,
+        string $a_tt_id = null,
+        string $a_tt_txt = null,
+        string $a_next_step = null,
+        bool $a_sub = false,
+        int $a_sub_style = 30
+    ) : string {
         global $DIC;
 
         $tpl = new ilTemplate("tpl.objective_progressbar.html", true, true, "Services/Container");
@@ -1056,35 +1010,34 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
     /**
      * Render progress bar(s)
-     *
-     * @param int $a_perc_result
-     * @param int $a_perc_limit
-     * @param int $a_compare_value
-     * @param string $a_caption
-     * @param string $a_url
-     * @param string $a_tt_id
-     * @param string $a_tt_txt
-     * @param string $a_next_step
-     * @param string $a_sub (html)
-     * @param int $a_sub_style
-     * @param string $a_main_text
-     * @param string $a_required_text
-     * @return type
+     * @param int|null    $a_perc_result
+     * @param int|null    $a_perc_limit
+     * @param int|null    $a_compare_value
+     * @param string|null $a_caption
+     * @param string|null $a_url
+     * @param string|null $a_tt_id
+     * @param string|null $a_tt_txt
+     * @param string|null $a_next_step
+     * @param bool        $a_sub
+     * @param int         $a_sub_style
+     * @param string      $a_main_text
+     * @param string      $a_required_text
+     * @return string
      */
     public static function renderProgressMeter(
-        $a_perc_result = null,
-        $a_perc_limit = null,
-        $a_compare_value = null,
-        $a_caption = null,
-        $a_url = null,
-        $a_tt_id = null,
-        $a_tt_txt = null,
-        $a_next_step = null,
-        $a_sub = false,
-        $a_sub_style = 30,
-        $a_main_text = '',
-        $a_required_text = ''
-    ) {
+        int $a_perc_result = null,
+        int $a_perc_limit = null,
+        int $a_compare_value = null,
+        string $a_caption = null,
+        string $a_url = null,
+        string $a_tt_id = null,
+        string $a_tt_txt = null,
+        string $a_next_step = null,
+        bool $a_sub = false,
+        int $a_sub_style = 30,
+        string $a_main_text = '',
+        string $a_required_text = ''
+    ) : string {
         global $DIC;
 
         $tpl = new ilTemplate("tpl.objective_progressmeter.html", true, true, "Services/Container");
@@ -1104,12 +1057,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 (int) $a_perc_limit,
                 (int) $a_compare_value
             );
-            if (strlen($a_main_text)) {
-                #$pMeter = $pMeter->withMainText($a_main_text);
-            }
-            if (strlen($a_required_text)) {
-                #$pMeter = $pMeter->withRequiredText($a_required_text);
-            }
             $tpl->setVariable('PROGRESS_METER', $uiRenderer->render($pMeter));
         }
 
@@ -1162,14 +1109,14 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $lng = $DIC->language();
         $lng->loadLanguageModule('crs');
 
-        $is_qualified         =
+        $is_qualified =
             ($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED);
         $is_qualified_initial =
             (
                 $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
                 ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()
             );
-        $has_completed        =
+        $has_completed =
             ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
 
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
@@ -1326,7 +1273,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     {
         global $DIC;
 
-        $renderer   = $DIC->ui()->renderer();
+        $renderer = $DIC->ui()->renderer();
         $ui_factory = $DIC->ui()->factory();
 
         $tpl = new ilTemplate("tpl.objective_accordion_title.html", true, true, "Services/Container");
@@ -1362,7 +1309,6 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
 
         if ($initial_res !== null) {
-
             $link = \ilLOUtils::getTestResultLinkForUser(
                 $a_lo_result["itest"],
                 $a_lo_result["user_id"]
@@ -1398,13 +1344,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $qual_lim = null;
 
         if ($a_lo_result['type'] == ilLOUserResults::TYPE_QUALIFIED) {
-
             $qual_res = (int) $a_lo_result['result_perc'];
             $qual_lim = (int) $a_lo_result['limit_perc'];
         }
 
         if ($qual_res !== null) {
-
             $link = \ilLOUtils::getTestResultLinkForUser(
                 $a_lo_result["qtest"],
                 $a_lo_result["user_id"]
@@ -1465,15 +1409,12 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return $tpl->get();
     }
     
-    /**
-     * show action button
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function showButton($a_cmd, $a_text, $a_target = '', $a_id = "")
-    {
+    protected function showButton(
+        string $a_cmd,
+        string $a_text,
+        string $a_target = '',
+        string $a_id = ""
+    ) : void {
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
         

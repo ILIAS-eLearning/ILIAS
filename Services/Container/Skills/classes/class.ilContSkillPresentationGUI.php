@@ -120,12 +120,7 @@ class ilContSkillPresentationGUI
         }
     }
 
-    /**
-     * Set permanent link
-     * @param
-     * @return
-     */
-    protected function setPermanentLink()
+    protected function setPermanentLink() : void
     {
         $type = $this->container->getType();
         $ref_id = $this->container->getRefId();
