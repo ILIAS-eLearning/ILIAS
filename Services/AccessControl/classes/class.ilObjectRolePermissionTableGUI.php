@@ -293,7 +293,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 }
             } else {
                 if ($objDefinition->isPlugin($this->getObjType())) {
-                    if (ilPlugin::langExitsById($this->getObjType(), $row['perm']['operation'])) {
+                    if (ilObjectPlugin::langExitsById($this->getObjType(), $row['perm']['operation'])) {
                         $perm = ilObjectPlugin::lookupTxtById($this->getObjType(), $row['perm']['operation']);
                     }
                 }

@@ -128,4 +128,23 @@ abstract class ilObjectPlugin extends ilObject2
     {
         return $this->plugin->getParentTypes();
     }
+
+    /**
+     * Is searched lang var available in plugin lang files
+     *
+     * @param string $pluginId
+     * @param string $langVar
+     *
+     * @return bool
+     */
+    public static function langExitsById(string $pluginId, string $langVar) : bool
+    {
+        global $DIC;
+        $lng = $DIC->language();
+
+        $pl = self::getPluginObjectByType($pluginId);
+        $pl->loadLanguageModule();
+
+        return $lng->exists($pl->getPrefix() . "_" . $langVar);
+    }
 }
