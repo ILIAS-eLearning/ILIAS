@@ -20,8 +20,8 @@ class ilFileDataForumDrafts extends ilFileData
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
 
-        $this->obj_id = $obj_id;
-        $this->draft_id = $draft_id;
+        $this->obj_id = (int) $obj_id;
+        $this->draft_id = (int) $draft_id;
 
         parent::__construct();
         $this->drafts_path = parent::getPath() . "/forum/drafts";

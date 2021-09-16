@@ -53,7 +53,6 @@ class ilForumModeratorsGUI
         }
 
         $this->oForumModerators = new ilForumModerators((int) $this->ref_id);
-
     }
 
     public function executeCommand() : void

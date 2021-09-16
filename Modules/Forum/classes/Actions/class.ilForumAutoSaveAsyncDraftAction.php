@@ -154,13 +154,6 @@ class ilForumAutoSaveAsyncDraftAction
         return $response;
     }
 
-    /**
-     * @param string $type
-     * @param int    $draftId
-     * @param int[]  $uploadedObjects
-     * @param int[]  $oldMediaObjects
-     * @param int[]  $curMediaObjects
-     */
     protected function handleMedia(
         string $type,
         int $draftId,
@@ -182,9 +175,6 @@ class ilForumAutoSaveAsyncDraftAction
         }
     }
 
-    /**
-     * @return array<string, mixed>
-     */
     protected function getInputValuesFromForm() : array
     {
         $inputValues = [];

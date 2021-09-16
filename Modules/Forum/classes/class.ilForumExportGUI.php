@@ -17,10 +17,7 @@ class ilForumExportGUI
     public $error;
     public $user;
     public $ilObjDataCache;
-    /**
-     * @var bool
-     */
-    protected $is_moderator = false;
+    protected bool $is_moderator = false;
     protected ilForum $frm;
     private ilForumProperties $objProperties;
     private $http_wrapper;

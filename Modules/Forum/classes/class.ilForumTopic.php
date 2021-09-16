@@ -34,7 +34,7 @@ class ilForumTopic
     protected static array $possibleOrderDirections = array('ASC', 'DESC');
     private $user;
     private ?int $num_new_posts = 0;
-    private ?int $num_unread_posts= 0;
+    private ?int $num_unread_posts = 0;
     private bool $user_notification_enabled;
 
     /**
@@ -310,11 +310,12 @@ class ilForumTopic
             array(0, $this->id)
         );
 
-        $row = $this->db->fetchAssoc($res);
-
-        $post = new ilForumPost((int) $row['pos_pk'], $isModerator, $preventImplicitRead);
-        $post->assignData($row);
-
+        if ($row = $this->db->fetchAssoc($res)) {
+            $post = new ilForumPost((int) $row['pos_pk'], $isModerator, $preventImplicitRead);
+            $post->assignData($row);
+        } else {
+            $post = new ilForumPost(0, $isModerator, $preventImplicitRead);
+        }
         return $post;
     }
 

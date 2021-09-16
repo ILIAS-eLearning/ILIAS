@@ -207,7 +207,7 @@ class ilForumCronNotification extends ilCronJob
                 self::$deleted_ids_cache[$row['deleted_id']] = $row['deleted_id'];
             }
 
-            $ref_id = $this->getFirstAccessibleRefIdBUserAndObjId($row['user_id'], $row['obj_id']);
+            $ref_id = $this->getFirstAccessibleRefIdBUserAndObjId((int) $row['user_id'], (int) $row['obj_id']);
             if ($ref_id < 1) {
                 $this->logger->debug(sprintf(
                     'The recipient with id %s has no "read" permission for object with id %s',
@@ -219,8 +219,8 @@ class ilForumCronNotification extends ilCronJob
 
             $row['ref_id'] = $ref_id;
 
-            if ($this->existsProviderObject($row['pos_pk'], $notification_type)) {
-                self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient($row['user_id']);
+            if ($this->existsProviderObject((int) $row['pos_pk'], $notification_type)) {
+                self::$providerObject[$row['pos_pk'] . '_' . $notification_type]->addRecipient((int) $row['user_id']);
             } else {
                 $this->addProviderObject($row, $notification_type);
             }

@@ -119,8 +119,8 @@ class ilForumDraftsHistory
         ilForumDraftsHistory $history_draft,
         array $row
     ) : ilForumDraftsHistory {
-        $history_draft->setHistoryId($row['history_id']);
-        $history_draft->setDraftId($row['draft_id']);
+        $history_draft->setHistoryId((int) $row['history_id']);
+        $history_draft->setDraftId((int) $row['draft_id']);
         $history_draft->setPostMessage($row['post_message']);
         $history_draft->setPostSubject($row['post_subject']);
         $history_draft->setDraftDate($row['draft_date']);

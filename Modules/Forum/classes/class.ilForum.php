@@ -1720,7 +1720,7 @@ class ilForum
 
         $tmp_file_obj = new ilFileDataForum($this->getForumId());
         foreach ($a_ids as $pos_id) {
-            $tmp_file_obj->setPosId($pos_id);
+            $tmp_file_obj->setPosId((int) $pos_id);
             $files = $tmp_file_obj->getFilesOfPost();
             foreach ($files as $file) {
                 $tmp_file_obj->unlinkFile($file["name"]);
@@ -1837,7 +1837,7 @@ class ilForum
             array($user_id, $this->id)
         );
 
-        while ($record = $this->db->fetchAssoc($result)) {
+        if ($record = $this->db->fetchAssoc($result)) {
             return (bool) $record['cnt'];
         }
 
@@ -1858,7 +1858,7 @@ class ilForum
             array($user_id, $thread_id)
         );
 
-        while ($record = $this->db->fetchAssoc($result)) {
+        if ($record = $this->db->fetchAssoc($result)) {
             return (bool) $record['cnt'];
         }
 
@@ -1874,16 +1874,10 @@ class ilForum
         global $DIC;
         $ilDB = $DIC->database();
 
-        switch ($a_sort_mode) {
-            case self::SORT_DATE:
-                $sort = 'thr_date';
-                break;
-
-            case self::SORT_TITLE:
-            default:
-                $sort = 'thr_subject';
-                break;
-        }
+        $sort = match ($a_sort_mode) {
+            self::SORT_DATE => 'thr_date',
+            default => 'thr_subject',
+        };
 
         $res = $ilDB->queryf(
             '

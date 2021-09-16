@@ -14,7 +14,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public const CAPTCHA_INPUT = 'captcha';
 
     /** @var string[] */
-    private $input_items = [];
+    private array $input_items = [];
     private ilObjForumGUI $delegatingGui;
     private ilForumProperties $properties;
     private bool $allowPseudonyms;

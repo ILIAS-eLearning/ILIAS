@@ -311,7 +311,7 @@ class ilForumPost
                 array($this->lft, $this->rgt, $this->thread_id)
             );
 
-            return $res->numRows() ? true : false;
+            return (bool) $res->numRows();
         }
 
         return false;

@@ -104,20 +104,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->initSessionStorage();
 
-        $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $thr_pk = 0;
-        if ($this->http->wrapper()->query()->has('thr_pk')) {
-            $thr_pk = $this->http->wrapper()->query()->retrieve(
-                'thr_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $thr_pk = $this->retrieveThrPk();
         $pos_pk = 0;
         if ($this->http->wrapper()->query()->has('pos_pk')) {
             $pos_pk = $this->http->wrapper()->query()->retrieve(
@@ -164,6 +152,42 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         $this->session_storage = new ilForumSessionStorage('frm_selected_post');
+    }
+
+    private function retrieveRefId() : int
+    {
+        $ref_id = 0;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $ref_id = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return $ref_id;
+    }
+
+    private function retrieveThrPk() : int
+    {
+        $thr_pk = 0;
+        if ($this->http->wrapper()->query()->has('thr_pk')) {
+            $thr_pk = $this->http->wrapper()->query()->retrieve(
+                'thr_pk',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return (int) $thr_pk;
+    }
+
+    private function retrieveDraftId() : int
+    {
+        $draft_id = 0;
+        if ($this->http->wrapper()->query()->has('draft_id')) {
+            $draft_id = $this->http->wrapper()->query()->retrieve(
+                'draft_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return (int) $draft_id;
     }
 
     /**
@@ -234,13 +258,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     private function decorateWithAutosave(ilPropertyFormGUI $form) : void
     {
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
 
         if (ilForumPostDraft::isAutoSavePostDraftAllowed()) {
             $interval = ilForumPostDraft::lookupAutosaveInterval();
@@ -320,13 +338,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!in_array($cmd, $exclude_cmds)) {
             $this->prepareOutput();
         }
-        $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
         $user = 0;
         if ($this->http->wrapper()->query()->has('user')) {
             $user = $this->http->wrapper()->query()->retrieve(
@@ -761,12 +773,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $cmd = 'showThreads';
             }
             $ref_id = 0;
-            if ($this->http->wrapper()->query()->has('ref_id')) {
-                $ref_id = $this->http->wrapper()->query()->retrieve(
-                    'ref_id',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
+            $ref_id = $this->retrieveRefId();
 
             $tbl = new ilForumTopicTableGUI(
                 $this,
@@ -794,20 +801,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
     ) : void {
         $frm = $this->object->Forum;
 
-        $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $draft_id = $this->retrieveDraftId();
 
         foreach ($drafts as $draft) {
             $tmp_file_obj = new ilFileDataForumDrafts($this->object->getId(), $draft->getDraftId());
@@ -1638,12 +1633,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->tpl->setTitleIcon(ilObject::_getIcon("", "big", "frm"));
         $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
 
         $this->tabs->setBackTarget(
             $this->lng->txt('all_topics'),
@@ -1875,13 +1865,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function cancelDraftObject() : void
     {
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
 
         $this->requestAction = '';
         if ($draft_id > 0) {
@@ -1977,13 +1961,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $isReply = in_array($this->requestAction, ['showreply', 'ready_showreply']);
         $isDraft = in_array($this->requestAction, ['publishDraft', 'editdraft']);
 
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
 
         // init objects
         $oForumObjects = $this->getForumObjects();
@@ -2209,13 +2187,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->replyEditForm->addCommandButton('savePost', $this->lng->txt('save'));
         }
         $hidden_draft_id = new ilHiddenInputGUI('draft_id');
-        $auto_save_draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $auto_save_draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $auto_save_draft_id = $this->retrieveDraftId();
 
         $hidden_draft_id->setValue($auto_save_draft_id);
         $this->replyEditForm->addItem($hidden_draft_id);
@@ -2274,14 +2246,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function createTopLevelPostObject() : void
     {
-        $draft_id = 0;
         $draft_obj = null;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
 
         if ($draft_id > 0 && !$this->user->isAnonymous()
             && ilForumPostDraft::isSavePostDraftAllowed()) {
@@ -2316,13 +2282,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function publishSelectedDraftObject() : void
     {
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
         if ($draft_id > 0) {
             $this->publishDraftObject(false);
         }
@@ -2357,13 +2317,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $post_id = $this->objCurrentPost->getId();
 
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
         $draft_obj = new ilForumPostDraft($this->user->getId(), $post_id, (int) $draft_id);
 
         if ($use_replyform) {
@@ -2475,13 +2429,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $message .= $this->lng->txt('forums_post_new_entry');
             }
 
-            $thr_pk = 0;
-            if ($this->http->wrapper()->query()->has('thr_pk')) {
-                $thr_pk = $this->http->wrapper()->query()->retrieve(
-                    'thr_pk',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
+            $thr_pk = $this->retrieveThrPk();
 
             $frm_session_values = ilSession::get('frm');
             if (is_array($frm_session_values)) {
@@ -2548,12 +2496,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $topicData = $frm->getOneTopic();
 
             $ref_id = 0;
-            if ($this->http->wrapper()->query()->has('ref_id')) {
-                $ref_id = $this->http->wrapper()->query()->retrieve(
-                    'ref_id',
-                    $this->refinery->kindlyTo()->int()
-                );
-            }
+            $ref_id = $this->retrieveRefId();
             $post_draft_id = 0;
             if ($this->http->wrapper()->post()->has('draft_id')) {
                 $post_draft_id = $this->http->wrapper()->post()->retrieve(
@@ -2926,19 +2869,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function viewThreadObject() : bool
     {
         $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $thr_pk = 0;
-        if ($this->http->wrapper()->query()->has('thr_pk')) {
-            $thr_pk = $this->http->wrapper()->query()->retrieve(
-                'thr_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $thr_pk = $this->retrieveThrPk();
 
         $bottom_toolbar = clone $this->toolbar;
         $bottom_toolbar_split_button_items = [];
@@ -3495,12 +3427,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             );
         }
         $ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
 
         $backurl = '';
         if ($this->http->wrapper()->query()->has('backurl')) {
@@ -4411,12 +4338,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             );
         }
 
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
         if ($isForumNotificationEnabled && $userMayDisableNotifications) {
             $frm_noti = new ilForumNotification((int) $ref_id);
             $frm_noti->setUserId($this->user->getId());
@@ -4541,12 +4463,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->objProperties->isUserToggleNoti() == 0) {
             return true;
         }
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
         if ($this->isParentObjectCrsOrGrp()) {
             $frm_noti = new ilForumNotification((int) $ref_id);
             $frm_noti->setUserId($this->user->getId());
@@ -5048,19 +4965,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function saveAsDraftObject() : bool
     {
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $thr_pk = $this->retrieveThrPk();
 
-        if ($this->http->wrapper()->query()->has('thr_pk')) {
-            $thr_pk = $this->http->wrapper()->query()->retrieve(
-                'thr_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
         $del_file = [];
         if ($this->http->wrapper()->post()->has('del_file')) {
             $del_file = $this->http->wrapper()->post()->retrieve(
@@ -5212,24 +5119,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function updateDraftObject()
     {
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->query()->has('thr_pk')) {
-            $thr_pk = $this->http->wrapper()->query()->retrieve(
-                'thr_pk',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $draft_id = $this->retrieveDraftId();
+        $thr_pk = $this->retrieveThrPk();
 
         if (!$this->objCurrentTopic->getId()) {
             ilUtil::sendFailure($this->lng->txt('frm_action_not_possible_thr_deleted'), true);
@@ -5390,18 +5282,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     protected function deleteSelectedDraft(ilForumPostDraft $draft_obj = null) : void
     {
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $draft_id = $this->retrieveDraftId();
 
         if (
             !$this->access->checkAccess('add_reply', '', (int) $ref_id) ||
@@ -5518,13 +5400,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         int $pageIndex = 0,
         ilForumPostDraft $draft = null
     ) {
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $draft_id = $this->retrieveDraftId();
 
         $actions = [];
         $modalActions = [];
@@ -5867,19 +5743,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     private function renderPostingForm(ilTemplate $tpl, ilForum $frm, ilForumPost $node, string $action) : void
     {
-        if ($this->http->wrapper()->query()->has('ref_id')) {
-            $ref_id = $this->http->wrapper()->query()->retrieve(
-                'ref_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        $draft_id = 0;
-        if ($this->http->wrapper()->query()->has('draft_id')) {
-            $draft_id = $this->http->wrapper()->query()->retrieve(
-                'draft_id',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
+        $ref_id = $this->retrieveRefId();
+        $draft_id = $this->retrieveDraftId();
 
         if (
             $action == 'showedit' && (
@@ -6056,5 +5921,4 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         return ilUtil::stripSlashes($order_by);
     }
-
 }
