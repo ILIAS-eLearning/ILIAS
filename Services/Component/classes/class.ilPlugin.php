@@ -304,45 +304,7 @@ abstract class ilPlugin
         return $lng->txt($this->getPrefix() . "_" . $a_var, $this->getPrefix());
     }
 
-    /**
-     * @param string $a_mod_prefix
-     * @param string $a_pl_id
-     * @param string $a_lang_var
-     *
-     * @return string
-     */
-    public static function lookupTxt(string $a_mod_prefix, string $a_pl_id, string $a_lang_var) : string
-    {
-        global $DIC;
-        $lng = $DIC->language();
-
-        // this enables default language fallback
-        $prefix = $a_mod_prefix . "_" . $a_pl_id;
-
-        return $lng->txt($prefix . "_" . $a_lang_var, $prefix);
-    }
-
-    /**
-     * Is searched lang var available in plugin lang files
-     *
-     * @param string $pluginId
-     * @param string $langVar
-     *
-     * @return bool
-     */
-    public static function langExitsById(string $pluginId, string $langVar) : bool
-    {
-        global $DIC;
-        $lng = $DIC->language();
-
-        $pl = ilObjectPlugin::getPluginObjectByType($pluginId);
-        $pl->loadLanguageModule();
-
-        return $lng->exists($pl->getPrefix() . "_" . $langVar);
-    }
-
     // ------------------------------------------
-
 
     /**
      * Has the plugin a configure class?
