@@ -83,5 +83,6 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
                 ]
             );
         }
+        $this->has_data = false;
     }
 }
