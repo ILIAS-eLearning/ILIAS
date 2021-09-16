@@ -46,6 +46,26 @@ class ilPluginStateDBOverIlDBInterface implements ilPluginStateDB
         return $this->data[$id][0] ?? false;
     }
 
+    public function setActivation(string $id, bool $activated) : void
+    {
+        $this->getData();
+        if (!isset($this->data[$id])) {
+            throw new \InvalidArgumentException(
+                "Unknown plugin '$id'"
+            );
+        }
+        $this->db->update(
+            self::TABLE_NAME,
+            [
+                "active" => ["integer", $activated ? 1 : 0]
+            ],
+            [
+                "plugin_id" => ["text", $id]
+            ]
+        );
+        $this->has_data = false;
+    }
+
     public function getCurrentPluginVersion(string $id) : ?Version
     {
         $this->getData();

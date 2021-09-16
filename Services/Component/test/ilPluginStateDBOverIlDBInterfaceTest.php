@@ -150,4 +150,70 @@ class ilPluginStateDBOverIlDBInterfaceTest extends TestCase
 
         $this->db->setCurrentPluginVersion($PLUGIN_ID, $VERSION, $DB_VERSION);
     }
+
+    public function testSetActivationNotExistingPlugin()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->db->setActivation("SOME_ID", true);
+    }
+
+    public function testSetActivationTrue()
+    {
+        $handle = $this->createMock(\ilDBStatement::class);
+
+        $this->il_db->expects($this->once())
+            ->method("query")
+            ->with("SELECT * FROM il_plugin")
+            ->willReturn($handle);
+        $this->il_db->expects($this->once())
+            ->method("fetchAll")
+            ->with($handle)
+            ->willReturn(self::$plugin_data);
+
+        $PLUGIN_ID = "plg1";
+
+        $this->il_db->expects($this->once())
+            ->method("update")
+            ->with(
+                "il_plugin",
+                [
+                    "active" => ["integer", 1],
+                ],
+                [
+                    "plugin_id" => ["text", $PLUGIN_ID],
+                ]
+            );
+
+        $this->db->setActivation($PLUGIN_ID, true);
+    }
+
+    public function testSetActivationFalse()
+    {
+        $handle = $this->createMock(\ilDBStatement::class);
+
+        $this->il_db->expects($this->once())
+            ->method("query")
+            ->with("SELECT * FROM il_plugin")
+            ->willReturn($handle);
+        $this->il_db->expects($this->once())
+            ->method("fetchAll")
+            ->with($handle)
+            ->willReturn(self::$plugin_data);
+
+        $PLUGIN_ID = "plg1";
+
+        $this->il_db->expects($this->once())
+            ->method("update")
+            ->with(
+                "il_plugin",
+                [
+                    "active" => ["integer", 0],
+                ],
+                [
+                    "plugin_id" => ["text", $PLUGIN_ID],
+                ]
+            );
+
+        $this->db->setActivation($PLUGIN_ID, false);
+    }
 }
