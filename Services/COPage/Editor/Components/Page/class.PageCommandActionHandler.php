@@ -122,8 +122,8 @@ class PageCommandActionHandler implements Server\CommandActionHandler
     {
         $target_pcid = $body["data"]["target_pcid"];
         $page = $this->page_gui->getPageObject();
-
-        $updated = $page->pasteContents($this->getIdForPCId($target_pcid));
+        $updated = $page->pasteContents($this->getIdForPCId($target_pcid),
+            $page->getPageConfig()->getEnableSelfAssessment());
 
         return $this->sendPage($updated);
     }
@@ -160,6 +160,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $pcids = $body["data"]["pcids"];
         $par = $body["data"]["paragraph_format"];
         $sec = $body["data"]["section_format"];
+        $med = $body["data"]["media_format"];
         $page = $this->page_gui->getPageObject();
 
         $hids = array_map(
@@ -169,7 +170,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
             $pcids
         );
 
-        $updated = $page->assignCharacteristic($hids, $par, $sec);
+        $updated = $page->assignCharacteristic($hids, $par, $sec, $med);
         return $this->sendPage($updated);
     }
 

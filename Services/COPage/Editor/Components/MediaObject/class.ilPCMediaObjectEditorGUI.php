@@ -21,8 +21,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $acc = new ilAccordionGUI();
         $acc->addItem($lng->txt("cont_upload_file"), $this->getRenderedUploadForm($ui_wrapper, $lng));
         $acc->addItem($lng->txt("cont_add_url"), $this->getRenderedUrlForm($ui_wrapper, $lng));
-        $acc->addItem($lng->txt("cont_choose_from_pool"), $this->getRenderedPoolLink($ui_wrapper, $lng));
-        $acc->addItem($lng->txt("cont_choose_from_clipboard"), $this->getRenderedClipboardLink($ui_wrapper, $lng, $page_gui));
+        $acc->addItem($lng->txt("cont_choose_from_pool"), $this->getRenderedPoolBar($ui_wrapper, $lng));
+        $acc->addItem($lng->txt("cont_choose_from_clipboard"), $this->getRenderedClipboardBar($ui_wrapper, $lng, $page_gui));
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
@@ -206,7 +206,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
      * @param
      * @return
      */
-    protected function getRenderedPoolLink(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng)
+    protected function getRenderedPoolBar(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng)
     {
         global $DIC;
 
@@ -214,18 +214,29 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
+        $buttons = [];
+
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
-        $l = $ui_wrapper->getRenderedLink(
+        $buttons[] = $ui_wrapper->getButton(
             $lng->txt("cont_choose_media_pool"),
-            "MediaObject",
             "media-action",
             "select.pool",
-            ["url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")]
+            [
+                "url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")
+            ],
+            "MediaObject"
+        );
+        $buttons[] = $ui_wrapper->getButton(
+            $lng->txt("cancel"),
+            "form-button",
+            "component.cancel",
+            [
+            ],
+            "Page"
         );
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
 
-        return $l;
-        //http://scorsese.local/ilias_6/ilias.php?ref_id=86&obj_id=3&active_node=3&hier_id=pg&subCmd=poolSelection&cmd=insert&cmdClass=ilpcmediaobjectgui&cmdNode=ow:oi:o3:o6:ek:ec&baseClass=ilLMEditorGUI
+        return $ui_wrapper->getRenderedFormFooter($buttons);
     }
 
     /**
@@ -235,7 +246,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
      * @param                                       $page_gui
      * @return string
      */
-    protected function getRenderedClipboardLink(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng,
+    protected function getRenderedClipboardBar(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng,
         $page_gui)
     {
         global $DIC;
@@ -246,16 +257,26 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
 
         $ctrl->setParameterByClass("ileditclipboardgui", "returnCommand", rawurlencode($return_cmd));
 
-        $l = $ui_wrapper->getRenderedLink(
+        $buttons = [];
+
+        $buttons[] = $ui_wrapper->getButton(
             $lng->txt("cont_open_clipboard"),
-            "MediaObject",
             "media-action",
             "open.clipboard",
-            ["url" => $ctrl->getLinkTargetByClass([get_class($page_gui), "ileditclipboardgui"], "getObject")]
+            ["url" => $ctrl->getLinkTargetByClass([get_class($page_gui), "ileditclipboardgui"], "getObject")],
+            "MediaObject"
         );
 
-        return $l;
-        //http://scorsese.local/ilias_5_4_x/ilias.php?ref_id=512&obj_id=5595&active_node=5595&returnCommand=ilias.php%3Fref_id%3D512%26obj_id%3D5595%26active_node%3D5595%26hier_id%3D1%26pc_id%3D5e9a9817c21a81b1a7cee4307aa82e82%26cmd%3DinsertFromClipboard%26cmdClass%3Dilpageeditorgui%26cmdNode%3Dpw%3Apj%3Apz%3Apu%3Aew%26baseClass%3DilLMEditorGUI&cmd=getObject&cmdClass=ileditclipboardgui&cmdNode=pw:pj:pz:pu:17&baseClass=ilLMEditorGUI
+        $buttons[] = $ui_wrapper->getButton(
+            $lng->txt("cancel"),
+            "form-button",
+            "component.cancel",
+            [
+            ],
+            "Page"
+        );
+
+        return $ui_wrapper->getRenderedFormFooter($buttons);
     }
 
 }

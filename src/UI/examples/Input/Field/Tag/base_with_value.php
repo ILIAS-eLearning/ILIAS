@@ -11,14 +11,14 @@ function base_with_value()
     $renderer = $DIC->ui()->renderer();
 
     //Step 1: Define the tag input field
-    $multi_select_input = $ui->input()->field()->tag(
+    $tag_input = $ui->input()->field()->tag(
         "Basic TagInput",
         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
         "Just some tags"
     )->withValue(["Interesting"]);
 
     //Step 2, define form and form actions
-    $form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);
+    $form = $ui->input()->container()->form()->standard("#", [$tag_input]);
 
     //Return the rendered form
     return  $renderer->render($form);

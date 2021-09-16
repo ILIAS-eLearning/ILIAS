@@ -34,7 +34,7 @@ trait SymbolDecoratorTrait
         if ($this->symbol_decorator instanceof Closure) {
             $existing = $this->symbol_decorator;
             $this->symbol_decorator = static function (Symbol $c) use ($symbol_decorator, $existing) : Symbol {
-                $component = $existing();
+                $component = $existing($c);
 
                 return $symbol_decorator($component);
             };

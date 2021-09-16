@@ -2243,7 +2243,7 @@ class ilPageObjectGUI
         // block styles
         $sel = new \ILIAS\COPage\Editor\Components\Section\SectionStyleSelector($ui_wrapper, $a_style_id);
         $dd = $sel->getStyleSelector("", $type = "par-action", $action = "sec.class", $attr = "class", true);
-        $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_block_format"));
+        $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_sur_block_format"));
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
 
 

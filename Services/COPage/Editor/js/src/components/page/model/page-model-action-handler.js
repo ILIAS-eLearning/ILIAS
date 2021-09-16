@@ -145,6 +145,10 @@ export default class ModelActionHandler {
         this.model.setSectionFormat(params.format);
         break;
 
+      case "format.media":
+        this.model.setMediaFormat(params.format);
+        break;
+
       case "format.paragraph":
         this.model.setParagraphFormat(params.format);
         break;

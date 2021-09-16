@@ -91,20 +91,14 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
         $this->ctrl = $ilCtrl;
 
-        $this->ctrl->saveParameter($this, "pool_view");
+        $this->ctrl->saveParameter($this, ["pool_view", "pcid"]);
 
         //		var_dump($_POST);
         //ilUtil::printBacktrace(10); exit;
         //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         
-        $this->setCharacteristics(array(
-            "MediaContainer" => $this->lng->txt("cont_Media"),
-            "MediaContainerMax50" => "MediaContainerMax50",
-            "MediaContainerFull100" => "MediaContainerFull100",
-            "MediaContainerHighlighted" => "MediaContainerHighlighted",
-            "MediaContainerSeparated" => "MediaContainerSeparated"
-        ));
+        $this->setCharacteristics(self::_getStandardCharacteristics());
     }
 
     /**
@@ -1403,21 +1397,67 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             } else {
                 $cmd = "insert";
             }
-            
-            $ilCtrl->setParameter($this, "subCmd", "insertNew");
-            $ilTabs->addSubTabTarget(
-                "cont_new_mob",
-                $ilCtrl->getLinkTarget($this, $cmd),
-                $cmd
-            );
 
-            $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
-            $ilTabs->addSubTabTarget(
-                "cont_mob_from_media_pool",
-                $ilCtrl->getLinkTarget($this, $cmd),
-                $cmd
-            );
-            $ilCtrl->setParameter($this, "subCmd", "");
+            if ($a_change_obj_ref) {
+                $ilCtrl->setParameter($this, "subCmd", "insertNew");
+                $ilTabs->addSubTabTarget(
+                    "cont_new_mob",
+                    $ilCtrl->getLinkTarget($this, $cmd),
+                    $cmd
+                );
+
+                $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
+                $ilTabs->addSubTabTarget(
+                    "cont_mob_from_media_pool",
+                    $ilCtrl->getLinkTarget($this, $cmd),
+                    $cmd
+                );
+                $ilCtrl->setParameter($this, "subCmd", "");
+            }
         }
     }
+
+    /**
+     * Get characteristics
+     */
+    public static function _getStandardCharacteristics()
+    {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        return array(
+            "MediaContainer" => $lng->txt("cont_Media"),
+            "MediaContainerMax50" => "MediaContainerMax50",
+            "MediaContainerFull100" => "MediaContainerFull100",
+            "MediaContainerHighlighted" => "MediaContainerHighlighted",
+            "MediaContainerSeparated" => "MediaContainerSeparated"
+        );
+    }
+
+    /**
+     * Get characteristics
+     */
+    public static function _getCharacteristics($a_style_id)
+    {
+        $chars = self::_getStandardCharacteristics();
+        if ($a_style_id > 0 &&
+            ilObject::_lookupType($a_style_id) == "sty") {
+            $style = new ilObjStyleSheet($a_style_id);
+            $chars = $style->getCharacteristics("media_cont");
+            $new_chars = array();
+            foreach ($chars as $char) {
+                if ($chars[$char] != "") {	// keep lang vars for standard chars
+                    $new_chars[$char] = $chars[$char];
+                } else {
+                    $new_chars[$char] = $char;
+                }
+                asort($new_chars);
+            }
+            $chars = $new_chars;
+        }
+        return $chars;
+    }
+
 }

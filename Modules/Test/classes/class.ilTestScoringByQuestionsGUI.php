@@ -291,18 +291,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
             ilUtil::sendSuccess($msg, true);
 
-            /* disabled for Mantis 25850
-            $scorer = new ilTestScoring($this->object);
-            $scorer->setPreserveManualScores(true);
-            $scorer->recalculateSolutions();
-            */
-
             if (isset($active_id)) {
-                $scorer->recalculateSolution($active_id, $pass);
                 $correction_feedback = $this->object->getSingleManualFeedback($active_id, $qst_id, $pass);
                 $correction_points = assQuestion::_getReachedPoints($active_id, $qst_id, $pass);
-            } else {
-                $scorer->recalculateSolutions();
             }
         }
 
@@ -372,7 +363,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $question_gui->setUseIntermediateSolution(false);
             $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
             $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);
-
         }
         $result_output = $question_gui->getSolutionOutput(
             $active_id,
@@ -423,7 +413,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $this->lng->txt('part_received_a_of_b_points'),
                 $question_gui->object->getReachedPoints($active_id, $pass),
                 $max_points
-                    )
+            )
         );
 
         echo $tmp_tpl->get();

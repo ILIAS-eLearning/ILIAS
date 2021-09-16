@@ -56,6 +56,15 @@ class ilPCSectionGUI extends ilPageContentGUI
             $to->setSideBySide(false);
             $on_load_code2 = $to->getOnloadCode();
 
+            $rep_sel = $form->getItemByPostVar("permission_ref_id");
+            $on_load_code3 = "";
+            if ($rep_sel) {
+                $exp = $rep_sel->getExplorerGUI();
+                $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "permission_ref_id");
+                $on_load_code3 = $exp->getOnloadCode();
+                $this->ctrl->setParameterByClass("ilformpropertydispatchgui", "postvar", "");
+            }
+
             $html = $params["ui_wrapper"]->getRenderedForm(
                 $form,
                 $params["buttons"]
@@ -63,6 +72,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
             $html .= "<script>" .
                 implode("\n", array_merge($on_load_code1, $on_load_code2)) .
+                "\n" . $on_load_code3 .
                 "</script>";
 
             return $html;

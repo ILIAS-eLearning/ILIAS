@@ -279,13 +279,11 @@ class Duration extends Group implements C\Input\Field\Duration
      */
     public function withTimezone(string $tz) : C\Input\Field\Duration
     {
-        $trafo = $this->refinery->dateTime()->changeTimezone($tz);
         $clone = clone $this;
         $clone->timezone = $tz;
-
         $clone->inputs = array_map(
-            function ($inpt) use ($trafo) {
-                return $inpt->withAdditionalTransformation($trafo);
+            function ($inpt) use ($tz) {
+                return $inpt->withTimezone($tz);
             },
             $clone->inputs
         );

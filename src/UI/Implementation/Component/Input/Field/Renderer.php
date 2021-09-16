@@ -58,6 +58,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Section):
                 return $this->renderSection($component, $default_renderer);
 
+            case ($component instanceof F\Duration):
+                return $this->renderDurationField($component, $default_renderer);
+
             case ($component instanceof F\Group):
                 return $default_renderer->render($component->getInputs());
 
@@ -90,9 +93,6 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\DateTime):
                 return $this->renderDateTimeField($component, $default_renderer);
-
-            case ($component instanceof F\Duration):
-                return $this->renderDurationField($component, $default_renderer);
 
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
@@ -290,33 +290,32 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         $configuration = $component->getConfiguration();
-        /**
-         * @var $component F\Tag
-         */
+        $value = $component->getValue();
+        
+        if ($value) {
+            $value = array_map(
+                function ($v) {
+                    return ['value' => urlencode($v), 'display' => $v];
+                },
+                $value
+            );
+        }
+
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($configuration) {
+            function ($id) use ($configuration, $value) {
                 $encoded = json_encode($configuration);
-                return "il.UI.Input.tagInput.init('{$id}', {$encoded});";
+                $value = json_encode($value);
+                return "il.UI.Input.tagInput.init('{$id}', {$encoded}, {$value});";
             }
         );
         $id = $this->bindJSandApplyId($component, $tpl);
 
-        if ($component->getValue()) {
-            $value = $component->getValue();
-            $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
-            foreach ($value as $tag) {
-                $tpl->setCurrentBlock('existing_tags');
-                $tpl->setVariable("FIELD_NAME", $component->getName());
-                $tpl->setVariable("TAG_NAME", $tag);
-                $tpl->parseCurrentBlock();
-            }
-        }
-
         if ($component->isDisabled()) {
-            $tpl->setVariable("DISABLED", 'disabled');
+            $tpl->setVariable("DISABLED", "disabled");
+            $tpl->setVariable("READONLY", "readonly");
         }
 
-        return $this->wrapInFormContext($component, $tpl->get());
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
     protected function renderPasswordField(F\Password $component, RendererInterface $default_renderer) : string
@@ -658,14 +657,13 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
-        $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
-        //from ilCalendarUtil::initDateTimePicker
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-
-        $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
+        
+        $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
+        $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
+
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');

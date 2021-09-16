@@ -98,6 +98,7 @@ export default class PageModel {
       page_components_undo: [],
       sectionFormat: "",
       paragraphFormat: "",
+      mediaFormat: "",
       addedSection: false,
       pasting: false,
       autoSavedPCID: null
@@ -410,6 +411,14 @@ export default class PageModel {
 
   getSectionFormat() {
     return this.model.sectionFormat;
+  }
+
+  setMediaFormat(format) {
+    this.model.mediaFormat = format;
+  }
+
+  getMediaFormat() {
+    return this.model.mediaFormat;
   }
 
   setParagraphFormat(format) {

@@ -1123,6 +1123,10 @@ class ilUserImportParser extends ilSaxParser
                             if (count($this->udf_data)) {
                                 $this->userObj->setUserDefinedData($this->udf_data);
                             }
+
+                            if (!$this->userObj->getLanguage()) {
+                                $this->userObj->setLanguage($this->lng->getDefaultLanguage());
+                            }
                             
                             $this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
                             $this->userObj->create();
