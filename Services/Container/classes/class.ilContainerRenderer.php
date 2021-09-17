@@ -458,7 +458,7 @@ class ilContainerRenderer
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
                     ? $a_block_id
-                    : null;
+                    : 0;
                 $this->addHeaderRow(
                     $a_block_tpl,
                     $a_block["type"] ?? '',
@@ -478,7 +478,7 @@ class ilContainerRenderer
                 if (is_array($this->block_items[$a_block_id])) {
                     foreach ($this->block_items[$a_block_id] as $item_id) {
                         if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
-                            $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], $item_id);
+                            $this->addStandardRow($a_block_tpl, $this->items[$item_id]["html"], (int) $item_id);
                         } else {
                             $cards[] = $this->items[$item_id]["html"];
                         }
