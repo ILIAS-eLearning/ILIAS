@@ -13,6 +13,7 @@ class ilTestSkillEvaluationToolbarGUITest extends ilTestBaseTestCase
     {
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $lng_mock = $this->createMock(ilLanguage::class);
+        $this->setGlobalVariable("lng", $lng_mock);
 
         $parentGui_mock = $this->createMock(ilTestSkillEvaluationGUI::class);
         $this->toolbarGUI = new ilTestSkillEvaluationToolbarGUI(
