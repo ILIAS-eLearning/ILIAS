@@ -52,42 +52,6 @@ abstract class ilAppointmentCustomModalPlugin extends ilPlugin
     }
 
     /**
-     * Get component type
-     * @return string
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    /**
-     * Get component Name
-     * @return string
-     */
-    final public function getComponentName()
-    {
-        return "Calendar";
-    }
-
-    /**
-     * Get slot
-     * @return string
-     */
-    final public function getSlot()
-    {
-        return "AppointmentCustomModal";
-    }
-
-    /**
-     * Get Slot id
-     * @return string
-     */
-    final public function getSlotId()
-    {
-        return "capm";
-    }
-
-    /**
      * Replace the content inside the modal.
      * @return mixed
      */

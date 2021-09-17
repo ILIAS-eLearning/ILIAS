@@ -49,42 +49,6 @@ abstract class ilAppointmentCustomGridPlugin extends ilPlugin
         return $this->start_date;
     }
 
-    /**
-     * Get component type
-     * @return string
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    /**
-     * Get component Name
-     * @return string
-     */
-    final public function getComponentName()
-    {
-        return "Calendar";
-    }
-
-    /**
-     * Get slot name
-     * @return string
-     */
-    final public function getSlot()
-    {
-        return "AppointmentCustomGrid";
-    }
-
-    /**
-     * Get slot Id
-     * @return string
-     */
-    final public function getSlotId()
-    {
-        return "capg";
-    }
-
     //Day, Week and Month views.
 
     /**
