@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skills of a container
@@ -9,28 +24,11 @@
  */
 class ilContainerSkills
 {
+    protected ilDBInterface $db;
+    protected array $skills = [];
+    protected int $id;
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var array
-     */
-    protected $skills = array();
-
-    /**
-     * @var int object id
-     */
-    protected $id;
-
-    /**
-     * Constrictor
-     *
-     * @param int $a_obj_id
-     */
-    public function __construct($a_obj_id)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
@@ -42,41 +40,22 @@ class ilContainerSkills
         }
     }
 
-    /**
-     * Set id
-     *
-     * @param int $a_val object id
-     */
-    public function setId($a_val)
+    public function setId(int $a_val) : void
     {
         $this->id = $a_val;
     }
 
-    /**
-     * Get id
-     *
-     * @return int object id
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * Reset skills
-     */
-    public function resetSkills()
+    public function resetSkills() : void
     {
-        $this->skills = array();
+        $this->skills = [];
     }
 
-    /**
-     * Add skill
-     *
-     * @param int $a_skill_id skill id
-     * @param int $a_val tref id
-     */
-    public function addSkill($a_skill_id, $a_tref_id)
+    public function addSkill(int $a_skill_id, int $a_tref_id) : void
     {
         $this->skills[$a_skill_id . "-" . $a_tref_id] = array(
             "skill_id" => $a_skill_id,
@@ -84,49 +63,30 @@ class ilContainerSkills
         );
     }
 
-    /**
-     * Remove skill
-     *
-     * @param int $a_skill_id skill id
-     * @param int $a_val tref id
-     */
-    public function removeSkill($a_skill_id, $a_tref_id)
+    public function removeSkill(int $a_skill_id, int $a_tref_id) : void
     {
         unset($this->skills[$a_skill_id . "-" . $a_tref_id]);
     }
 
-
-    /**
-     * Get skills
-     *
-     * @return
-     */
-    public function getSkills()
+    public function getSkills() : array
     {
         return $this->skills;
     }
 
     /**
-     * Get odered skills
-     *
-     * @param
-     * @return
+     * @return array[]|string[]
      */
-    public function getOrderedSkills()
+    public function getOrderedSkills() : array
     {
         $vtree = new ilVirtualSkillTree();
         return $vtree->getOrderedNodeset($this->getSkills(), "skill_id", "tref_id");
     }
 
-
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $db = $this->db;
 
-        $this->skills = array();
+        $this->skills = [];
         $set = $db->query("SELECT * FROM cont_skills " .
             " WHERE id  = " . $db->quote($this->getId(), "integer"));
         while ($rec = $db->fetchAssoc($set)) {
@@ -134,10 +94,7 @@ class ilContainerSkills
         }
     }
 
-    /**
-     * Delete
-     */
-    public function delete()
+    public function delete() : void
     {
         $db = $this->db;
 
@@ -145,10 +102,7 @@ class ilContainerSkills
             " id = " . $db->quote($this->getId(), "integer"));
     }
 
-    /**
-     * Save
-     */
-    public function save()
+    public function save() : void
     {
         $db = $this->db;
 

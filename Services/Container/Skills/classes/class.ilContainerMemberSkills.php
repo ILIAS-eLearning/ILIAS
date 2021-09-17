@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skills of a container
@@ -9,31 +24,14 @@
  */
 class ilContainerMemberSkills
 {
-    protected \ilDBInterface $db;
-    protected array $skills = array();
+    protected ilDBInterface $db;
+    protected array $skills = [];
     protected int $obj_id;
+    protected int $user_id;
+    protected array $skill_levels = [];
+    protected bool $published = false;
 
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var array
-     */
-    protected $skill_levels = array();
-
-    /**
-     * @var bool
-     */
-    protected $published = false;
-
-    /**
-     * Constrictor
-     *
-     * @param int $a_obj_id
-     */
-    public function __construct($a_obj_id, $a_user_id)
+    public function __construct(int $a_obj_id, int $a_user_id)
     {
         global $DIC;
 
@@ -46,50 +44,27 @@ class ilContainerMemberSkills
         }
     }
 
-    /**
-     * Set object id
-     *
-     * @param int $a_val object id
-     */
-    public function setObjId($a_val)
+    public function setObjId(int $a_val) : void
     {
         $this->obj_id = $a_val;
     }
 
-    /**
-     * Get object id
-     *
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * Set user id
-     *
-     * @param int $a_val user id
-     */
-    public function setUserId($a_val)
+    public function setUserId(int $a_val) : void
     {
         $this->user_id = $a_val;
     }
 
-    /**
-     * Get user id
-     *
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    /**
-     * Read
-     */
-    public function read()
+    public function read() : void
     {
         $db = $this->db;
 
@@ -98,7 +73,7 @@ class ilContainerMemberSkills
             " WHERE obj_id = " . $db->quote($this->getObjId(), "integer") .
             " AND user_id = " . $db->quote($this->getUserId(), "integer")
         );
-        $this->skill_levels = array();
+        $this->skill_levels = [];
         while ($rec = $this->db->fetchAssoc($set)) {
             $this->skill_levels[$rec["skill_id"] . ":" . $rec["tref_id"]] = $rec["level_id"];
             $this->published = $rec["published"];	// this is a little weak, but the value should be the same for all save skills
@@ -106,21 +81,17 @@ class ilContainerMemberSkills
     }
 
     /**
-     * Get Skill levels
-     *
      * @return array (key is skill_id:tref_id, value is level id)
      */
-    public function getSkillLevels()
+    public function getSkillLevels() : array
     {
         return $this->skill_levels;
     }
 
     /**
-     * Get ordered skill levels
-     *
      * @return array[] each item comes with keys "level_id", "skill_id", "tref_id"
      */
-    public function getOrderedSkillLevels()
+    public function getOrderedSkillLevels() : array
     {
         $skill_levels = array_map(function ($a, $k) {
             $s = explode(":", $k);
@@ -131,23 +102,15 @@ class ilContainerMemberSkills
         return $vtree->getOrderedNodeset($skill_levels, "skill_id", "tref_id");
     }
 
-
-    /**
-     * Get published
-     *
-     * @return bool
-     */
-    public function getPublished()
+    public function getPublished() : bool
     {
         return $this->published;
     }
 
     /**
-     * Save levels for skills
-     *
      * @param array $a_level_data (key is skill_id:tref_id, value is level id)
      */
-    public function saveLevelForSkills($a_level_data)
+    public function saveLevelForSkills(array $a_level_data) : void
     {
         $db = $this->db;
 
@@ -170,10 +133,8 @@ class ilContainerMemberSkills
 
     /**
      * Delete all level data for current user
-     *
-     * @param
      */
-    public function delete()
+    public function delete() : void
     {
         $db = $this->db;
 
@@ -182,10 +143,7 @@ class ilContainerMemberSkills
             " AND user_id = " . $db->quote($this->getUserId(), "integer"));
     }
 
-    /**
-     * Publish
-     */
-    public function publish($a_ref_id)
+    public function publish(int $a_ref_id) : bool
     {
         $db = $this->db;
 
@@ -193,7 +151,7 @@ class ilContainerMemberSkills
             $this->getUserId(),
             $this->getObjId(),
             false,
-            $this->getObjId()
+            (string) $this->getObjId()
         );
 
         foreach ($this->skill_levels as $sk => $l) {
@@ -225,17 +183,13 @@ class ilContainerMemberSkills
         return $changed;
     }
 
-
-    /**
-     * Remove all skill levels
-     */
-    public function removeAllSkillLevels()
+    public function removeAllSkillLevels() : void
     {
         ilBasicSkill::removeAllUserSkillLevelStatusOfObject(
             $this->getUserId(),
             $this->getObjId(),
             false,
-            $this->getObjId()
+            (string) $this->getObjId()
         );
 
         $this->delete();

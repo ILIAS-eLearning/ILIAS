@@ -1,76 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
- * Skill presentatio for container (course/group)
+ * Skill presentation for container (course/group)
  *
  * @author Alex Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContSkillPresentationGUI: ilPersonalSkillsGUI
  */
 class ilContSkillPresentationGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilContainerGUI $container_gui;
+    protected ilContainer $container;
+    protected ilObjUser $user;
+    protected ilContainerSkills $container_skills;
+    protected ilContainerGlobalProfiles $container_global_profiles;
+    protected ilContainerLocalProfiles $container_local_profiles;
+    protected ilContSkillCollector $container_skill_collector;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilContainerGUI
-     */
-    protected $container_gui;
-
-    /**
-     * @var ilContainer
-     */
-    protected $container;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilContainerSkills
-     */
-    protected $container_skills;
-
-    /**
-     * @var ilContainerGlobalProfiles
-     */
-    protected $container_global_profiles;
-
-    /**
-     * @var ilContainerLocalProfiles
-     */
-    protected $container_local_profiles;
-
-    /**
-     * @var ilContSkillCollector
-     */
-    protected $container_skill_collector;
-
-    /**
-     * Constructor
-     *
-     * @param
-     */
-    public function __construct($a_container_gui)
+    public function __construct(ilContainerGUI $a_container_gui)
     {
         global $DIC;
 
@@ -81,7 +48,9 @@ class ilContSkillPresentationGUI
         $this->user = $DIC->user();
 
         $this->container_gui = $a_container_gui;
-        $this->container = $a_container_gui->object;
+        /* @var $obj ilContainer */
+        $obj = $this->container_gui->object;
+        $this->container = $obj;
 
         $this->container_skills = new ilContainerSkills($this->container->getId());
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
@@ -94,10 +63,7 @@ class ilContSkillPresentationGUI
         );
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -114,7 +80,7 @@ class ilContSkillPresentationGUI
                 break;
             
             default:
-                if (in_array($cmd, array("show"))) {
+                if ($cmd == "show") {
                     $this->$cmd();
                 }
         }
@@ -127,12 +93,7 @@ class ilContSkillPresentationGUI
         $this->tpl->setPermanentLink($type, "", $ref_id . "_comp", "", "");
     }
 
-    /**
-     * Get personal skills gui
-     *
-     * @return ilPersonalSkillsGUI
-     */
-    protected function getPersonalSkillsGUI()
+    protected function getPersonalSkillsGUI() : ilPersonalSkillsGUI
     {
         $lng = $this->lng;
 
@@ -146,18 +107,13 @@ class ilContSkillPresentationGUI
         return $gui;
     }
 
-
-
-    /**
-     * Show
-     */
-    public function show()
+    public function show() : void
     {
         $gui = $this->getPersonalSkillsGUI();
         $gui->listProfilesForGap();
     }
 
-    protected function getSubtreeObjectIds()
+    protected function getSubtreeObjectIds() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -165,22 +121,16 @@ class ilContSkillPresentationGUI
             $DIC->repositoryTree()->getNodeData($this->container->getRefId())
         );
         
-        $objects = array();
+        $objects = [];
         
         foreach ($nodes as $node) {
             $objects[] = $node['obj_id'];
         }
 
-
         return $objects;
     }
 
-    /**
-     * Is container skill presentation accessible
-     * @param $ref_id
-     * @return bool
-     */
-    public static function isAccessible($ref_id)
+    public static function isAccessible(int $ref_id) : bool
     {
         global $DIC;
 

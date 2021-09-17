@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * TableGUI class for competences in containers
@@ -20,38 +35,17 @@ class ilContSkillTableGUI extends ilTable2GUI
     protected $lng;
 
     /**
-     * @var ilTemplate
+     * @var ilGlobalTemplateInterface
      */
     protected $tpl;
+    protected ilContainerSkills $container_skills;
+    protected ilContainerGlobalProfiles $container_global_profiles;
+    protected ilContainerLocalProfiles $container_local_profiles;
+    protected ilContSkillCollector $container_skill_collector;
 
-    /**
-     * @var ilContainerSkills
-     */
-    protected $container_skills;
-
-    /**
-     * @var ilContainerGlobalProfiles
-     */
-    protected $container_global_profiles;
-
-    /**
-     * @var ilContainerLocalProfiles
-     */
-    protected $container_local_profiles;
-
-    /**
-     * @var ilContSkillCollector
-     */
-    protected $container_skill_collector;
-
-    protected ilSkillTree $skill_tree;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         ilContainerSkills $a_cont_skills,
         ilContainerGlobalProfiles $a_cont_glb_profiles,
         ilContainerLocalProfiles $a_cont_lcl_profiles
@@ -61,8 +55,6 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
-
-        $this->skill_tree = new ilSkillTree();
 
         $this->container_skills = $a_cont_skills;
         $this->container_global_profiles = $a_cont_glb_profiles;
@@ -91,24 +83,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    /**
-     * Get skills
-     *
-     * @param
-     * @return
-     */
-    public function getSkills()
+    public function getSkills() : array
     {
         $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }
 
-
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $tpl = $this->tpl;
 
