@@ -52,66 +52,20 @@ abstract class ilPlugin
     protected function getPluginInfo() : ilPluginInfo
     {
         return $this->component_data_db
-            ->getComponentByTypeAndName(
-                $this->getComponentType(),
-                $this->getComponentName()
-            )
-            ->getPluginSlotById(
-                $this->getSlotId()
-            )
             ->getPluginByName(
                 $this->getPluginName()
             );
     }
 
+    protected function getComponentInfo() : ilComponentInfo
+    {
+        return $this->getPluginInfo()->getComponent();
+    }
 
-    /**
-     * Get Component Type
-     *
-     * Must be overwritten in plugin class of plugin slot.
-     *
-     * This is only every used inside this class.
-     *
-     * @return    string    Component Type
-     */
-    abstract public function getComponentType();
-
-
-    /**
-     * Get Component Name.
-     *
-     * Must be overwritten in plugin class of plugin slot.
-     *
-     * This is only every used inside this class.
-     *
-     * @return    string    Component Name
-     */
-    abstract public function getComponentName();
-
-
-    /**
-     * Get Slot Name.
-     *
-     * Must be overwritten in plugin class of plugin slot.
-     *
-     * This is only every used inside this class.
-     *
-     * @return    string    Slot Name
-     */
-    abstract public function getSlot();
-
-
-    /**
-     * Get Slot ID.
-     *
-     * Must be overwritten in plugin class of plugin slot.
-     *
-     * This is only every used inside this class.
-     *
-     * @return    string    Slot Id
-     */
-    abstract public function getSlotId();
-
+    protected function getPluginSlotInfo() : ilSlotInfo
+    {
+        return $this->getPluginInfo()->getPluginSlot();
+    }
 
     /**
      * Get Plugin Name. Must be same as in class name il<Name>Plugin
@@ -146,8 +100,8 @@ abstract class ilPlugin
     public function getDirectory() : string
     {
         $plugin = $this->getPluginInfo();
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
+        $component = $this->getComponentInfo();
+        $slot = $this->getPluginSlotInfo();
         return "Customizing/global/plugins/" . $component->getType() . "/" . $component->getName() . "/" .
             $slot->getName() . "/" . $plugin->getName();
     }
@@ -347,8 +301,8 @@ abstract class ilPlugin
     public function getPrefix() : string
     {
         $plugin = $this->getPluginInfo();
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
+        $component = $this->getComponentInfo();
+        $slot = $this->getPluginSlotInfo();
 
         return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
     }
@@ -425,8 +379,7 @@ abstract class ilPlugin
      */
     public function getStyleSheetLocation(string $a_css_file) : string
     {
-        $d2 = ilComponent::lookupId($this->getComponentType(), $this->getComponentName()) . "_" . $this->getSlotId() . "_" .
-            ilPlugin::lookupIdForName($this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName());
+        $d2 = $this->getComponentInfo()->getId() . "_" . $this->getPluginSlotInfo()->getId() . "_" . $this->getPluginInfo()->getId();
 
         $css = ilUtil::getStyleSheetLocation("output", $a_css_file, $d2);
         if (is_int(strpos($css, "Customizing"))) {
@@ -663,10 +616,10 @@ abstract class ilPlugin
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName()
+            $this->getComponentInfo()->getType(),
+            $this->getComponentInfo()->getName(),
+            $this->getPluginSlotInfo()->getId(),
+            $this->getPluginInfo()->getName()
         );
         $reader->clearEvents();
         $reader->startParsing();
@@ -680,10 +633,10 @@ abstract class ilPlugin
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
-            $this->getComponentType(),
-            $this->getComponentName(),
-            $this->getSlotId(),
-            $this->getPluginName()
+            $this->getComponentInfo()->getType(),
+            $this->getComponentInfo()->getName(),
+            $this->getPluginSlotInfo()->getId(),
+            $this->getPluginInfo()->getName()
         );
         $reader->clearEvents();
     }

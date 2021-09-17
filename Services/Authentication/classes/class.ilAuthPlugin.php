@@ -8,42 +8,6 @@
  */
 abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 {
-
-	/**
-	 * @return string Component-name
-	 */
-	public function getComponentName()
-	{
-		return 'Authentication';
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getComponentType()
-	{
-		return IL_COMP_SERVICE;
-	}
-
-
-	/**
-	 * @return string Slot-Name
-	 */
-	public function getSlot()
-	{
-		return 'AuthenticationHook';
-	}
-
-
-	/**
-	 * @return string Slot-ID
-	 */
-	public function getSlotId()
-	{
-		return 'authhk';
-	}
-
 	/**
 	 * Does your AuthProvider needs "ext_account"? return true, false otherwise.
 	 *

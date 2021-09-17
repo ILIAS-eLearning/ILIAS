@@ -31,26 +31,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         $this->db = $DIC->database();
     }
 
-    public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-    
-    public function getComponentName()
-    {
-        return "Repository";
-    }
-
-    public function getSlot()
-    {
-        return "RepositoryObject";
-    }
-
-    public function getSlotId()
-    {
-        return "robj";
-    }
-
     public static function _getIcon(string $a_type) : string
     {
         return ilPlugin::_getImagePath(

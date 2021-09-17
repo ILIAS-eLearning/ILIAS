@@ -15,51 +15,6 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
  */
 abstract class ilCloudHookPlugin extends ilPlugin
 {
-
-    /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
-    {
-        return IL_COMP_MODULE;
-    }
-
-
-    /**
-     * Get Component Name.
-     *
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
-    {
-        return "Cloud";
-    }
-
-
-    /**
-     * Get Slot Name.
-     *
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
-    {
-        return "CloudHook";
-    }
-
-
-    /**
-     * Get Slot ID.
-     *
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
-    {
-        return "cldh";
-    }
-
-
     public function getPluginTablePrefix()
     {
         $id = $this->getId();
