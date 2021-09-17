@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +15,6 @@ class ilStudyProgrammeTypeInfoTest extends TestCase
     const VALID_LNG_CODE_1 = 'de';
     const VALID_LNG_CODE_2 = 'en';
     const VALID_LNG_CODE_N = null;
-
 
     public function testSuccessCreate() : void
     {

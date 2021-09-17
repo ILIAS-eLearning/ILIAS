@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Class ilStudyProgrammeAutoCategory
@@ -9,36 +7,17 @@ declare(strict_types = 1);
  */
 class ilStudyProgrammeAutoCategory
 {
-    /**
-     * @var int
-     */
-    protected $prg_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $category_ref_id;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var int
-     */
-    protected $last_edited_usr_id;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected $last_edited;
+    protected int $prg_obj_id;
+    protected int $category_ref_id;
+    protected string $title;
+    protected int $last_edited_usr_id;
+    protected DateTimeImmutable $last_edited;
 
     public function __construct(
         int $prg_obj_id,
         int $category_ref_id,
         int $last_edited_usr_id,
-        \DateTimeImmutable $last_edited
+        DateTimeImmutable $last_edited
     ) {
         $this->prg_obj_id = $prg_obj_id;
         $this->category_ref_id = $category_ref_id;
@@ -61,7 +40,7 @@ class ilStudyProgrammeAutoCategory
         return $this->last_edited_usr_id;
     }
 
-    public function getLastEdited() : \DateTimeImmutable
+    public function getLastEdited() : DateTimeImmutable
     {
         return $this->last_edited;
     }

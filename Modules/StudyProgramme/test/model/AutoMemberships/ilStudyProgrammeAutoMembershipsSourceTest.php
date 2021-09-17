@@ -1,12 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class ilStudyProgrammeAutoMembershipsSourceTest extends TestCase
 {
-    protected $backupGlobals = false;
+    protected int $prg_obj_id;
+    protected string $source_type;
+    protected int $source_id;
+    protected bool $enbl;
+    protected int $usr_id;
+    protected DateTimeImmutable $dat;
 
     public function setUp() : void
     {
-        PHPUnit_Framework_Error_Deprecated::$enabled = false;
         $this->prg_obj_id = 123;
         $this->source_type = ilStudyProgrammeAutoMembershipSource::TYPE_ROLE;
         $this->source_id = 666;
@@ -15,7 +21,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
         $this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
     }
 
-    public function testConstruction()
+    public function testConstruction() : ilStudyProgrammeAutoMembershipSource
     {
         $ams = new ilStudyProgrammeAutoMembershipSource(
             $this->prg_obj_id,
@@ -35,7 +41,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
     /**
      * @depends testConstruction
      */
-    public function testGetPrgObjId($ams)
+    public function testGetPrgObjId(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $this->assertEquals(
             $this->prg_obj_id,
@@ -46,7 +52,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
     /**
      * @depends testConstruction
      */
-    public function testGetSourceType($ams)
+    public function testGetSourceType(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $this->assertEquals(
             $this->source_type,
@@ -56,7 +62,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
     /**
      * @depends testConstruction
      */
-    public function testGetSourceId($ams)
+    public function testGetSourceId(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $this->assertEquals(
             $this->source_id,
@@ -67,7 +73,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
     /**
      * @depends testConstruction
      */
-    public function testGetLastEditorId($ams)
+    public function testGetLastEditorId(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $this->assertEquals(
             $this->usr_id,
@@ -78,7 +84,7 @@ class ilStudyProgrammeAutoMembershipsSourceTest extends \PHPUnit\Framework\TestC
     /**
      * @depends testConstruction
      */
-    public function testGetLastEdited($ams)
+    public function testGetLastEdited(ilStudyProgrammeAutoMembershipSource $ams) : void
     {
         $this->assertEquals(
             $this->dat,

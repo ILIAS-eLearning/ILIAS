@@ -1,9 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-require_once("Services/Block/classes/class.ilBlockGUI.php");
-require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.php');
 
 /**
  * Personal Desktop-Presentation for the Study Programme
@@ -15,41 +12,20 @@ require_once('./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdmin.ph
 class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 {
     const BLOCK_TYPE = "prgsimplelist";
-    
+
+    protected ilSetting $setting;
     /**
-     * @var ilLanguage
+     * @var ilComponentLogger|ilLogger
      */
-    protected $il_lng;
-    
-    /**
-     * @var ilUser
-     */
-    protected $il_user;
-    
-    /**
-     * @var ilAccessHandler
-     */
-    protected $il_access;
-    
-    /**
-     * @var ilSetting
-     */
-    protected $il_setting;
+    protected $logger;
+    protected ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db;
 
     /**
      * @var ilStudyProgrammeAssignment[]
      */
-    protected $users_assignments;
-
-    /**
-    * @var visible_on_pd_mode
-    */
-    protected $visible_on_pd_mode;
-    
-    /**
-    * @var show_info_message
-    */
-    protected $show_info_message;
+    protected array $users_assignments;
+    protected ?string $visible_on_pd_mode;
+    protected bool $show_info_message;
 
     public function __construct()
     {
@@ -57,16 +33,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 
         parent::__construct();
 
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilSetting = $DIC['ilSetting'];
-        $this->il_lng = $lng;
-        $this->il_user = $ilUser;
-        $this->il_access = $ilAccess;
-        $this->il_setting = $ilSetting;
-        $this->il_logger = ilLoggerFactory::getLogger('prg');
-
+        $this->setting = $DIC['ilSetting'];
+        $this->logger = ilLoggerFactory::getLogger('prg');
         $this->sp_user_assignment_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
 
         // No need to load data, as we won't display this.
@@ -85,7 +53,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
             return;
         }
 
-        $this->setTitle($this->il_lng->txt("objs_prg"));
+        $this->setTitle($this->lng->txt("objs_prg"));
     }
     
     public function getHTML() : string
@@ -103,7 +71,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return parent::getHTML();
     }
     
-    public function getDataSectionContent()
+    public function getDataSectionContent() : string
     {
         $content = "";
         foreach ($this->users_assignments as $assignment) {
@@ -117,9 +85,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
                 $list_item->setVisibleOnPDMode($this->visible_on_pd_mode);
                 $content .= $list_item->getHTML();
             } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
-                $this->il_logger->alert("$e");
+                $this->logger->alert("$e");
             } catch (ilStudyProgrammeTreeException $e) {
-                $this->il_logger->alert("$e");
+                $this->logger->alert("$e");
             }
         }
         return $content;
@@ -147,8 +115,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
     }
     
-    
-    protected function userHasVisibleStudyProgrammes()
+    protected function userHasVisibleStudyProgrammes() : bool
     {
         if (count($this->users_assignments) == 0) {
             return false;
@@ -161,7 +128,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
 
-    protected function userHasReadableStudyProgrammes()
+    protected function userHasReadableStudyProgrammes() : bool
     {
         if (count($this->users_assignments) == 0) {
             return false;
@@ -174,29 +141,29 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
     
-    protected function getVisibleOnPDMode()
+    protected function getVisibleOnPDMode() : void
     {
-        $this->visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
+        $this->visible_on_pd_mode = $this->setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
     }
 
-    protected function hasPermission(ilStudyProgrammeAssignment $assignment, $permission)
+    protected function hasPermission(ilStudyProgrammeAssignment $assignment, string $permission) : bool
     {
         $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
+        return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
-    protected function getToShowInfoMessage()
+    protected function getToShowInfoMessage() : void
     {
         $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
         $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
     }
 
-    protected function isVisible(ilStudyProgrammeAssignment $assignment)
+    protected function isVisible(ilStudyProgrammeAssignment $assignment) : bool
     {
         return $this->hasPermission($assignment, "visible");
     }
 
-    protected function isReadable(ilStudyProgrammeAssignment $assignment)
+    protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
     {
         if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -205,24 +172,25 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return $this->hasPermission($assignment, "read");
     }
     
-    protected function shouldShowThisList()
+    protected function shouldShowThisList() : bool
     {
-        global $DIC;
-        $ctrl = $DIC->ctrl();
-        return ($_GET["cmd"] == "jumpToSelectedItems" ||
-                ($ctrl->getCmdClass() == "ildashboardgui" && $ctrl->getCmd() == "show")
-            ) && !$_GET["expand"];
+        $jump_to_selected_list = $_GET["cmd"] == "jumpToSelectedItems";
+        $is_ilDashboardGUI = $this->ctrl->getCmdClass() == "ildashboardgui";
+        $is_cmd_show = $this->ctrl->getCmd() == "show";
+
+        return ($jump_to_selected_list || ($is_ilDashboardGUI && $is_cmd_show)) && !$_GET["expand"];
     }
     
-    protected function getUsersAssignments()
+    protected function getUsersAssignments() : void
     {
-        $this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->il_user->getId());
+        $this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->user->getId());
     }
     
-    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeAssignment $a_assignment)
-    {
+    protected function new_ilStudyProgrammeAssignmentListGUI(
+        ilStudyProgrammeAssignment $assignment
+    ) : ilStudyProgrammeProgressListGUI {
         $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-        $progress = $prg->getProgressForAssignment($a_assignment->getId());
+        $progress = $prg->getProgressForAssignment($assignment->getId());
         $progress_gui = new ilStudyProgrammeProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;
