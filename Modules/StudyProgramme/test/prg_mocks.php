@@ -39,7 +39,7 @@ trait ProgressRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeProgress $progress)
+    public function delete(ilStudyProgrammeProgress $progress) : void
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -77,7 +77,7 @@ trait AssignmentRepoMockNIFT
     {
         throw new Exception("Not implemented for testing", 1);
     }
-    public function delete(ilStudyProgrammeAssignment $assignment)
+    public function delete(ilStudyProgrammeAssignment $assignment) : void
     {
         throw new Exception("Not implemented for testing", 1);
     }
@@ -119,7 +119,7 @@ class ProgressRepoMock implements ilStudyProgrammeProgressRepository
         return $this->progresses[$id];
     }
 
-    public function update(ilStudyProgrammeProgress $progress)
+    public function update(ilStudyProgrammeProgress $progress) : void
     {
         $this->progresses[$progress->getNodeId()] = $progress;
     }
@@ -147,11 +147,11 @@ class AssignmentRepoMock implements ilStudyProgrammeAssignmentRepository
 
     use AssignmentRepoMockNIFT;
 
-    public function get(int $id)
+    public function get(int $id) : ?ilStudyProgrammeAssignment
     {
         return $this->assignments[$id];
     }
-    public function update(ilStudyProgrammeAssignment $assignment)
+    public function update(ilStudyProgrammeAssignment $assignment) : void
     {
         $this->assignments[$assignment->getId()] = $assignment;
     }
@@ -184,13 +184,18 @@ class SettingsMock extends ilStudyProgrammeSettings
 
 class PrgMock extends ilObjStudyProgramme
 {
+    public $tree;
+
     public function __construct(
         int $id,
         $env
     ) {
         $this->id = $id;
         $this->env = $env;
-        $this->events = new class() {
+        $this->events = new class() extends ilStudyProgrammeEvents {
+            public function __construct()
+            {
+            }
             public function userSuccessful(ilStudyProgrammeProgress $a_progress) : void
             {
             }

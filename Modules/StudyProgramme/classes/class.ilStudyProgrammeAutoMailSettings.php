@@ -1,50 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types = 1);
-
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeAutoMailSettings
 {
-    /**
-     * @var bool
-     */
-    protected $send_re_assigned_mail;
-
-    /**
-     * @var int | null
-     */
-    protected $reminder_not_restarted_by_user_days;
-
-    /**
-     * @var int | null
-     */
-    protected $processing_ends_not_successful_days;
+    protected bool $send_re_assigned_mail;
+    protected ?int $reminder_not_restarted_by_user_days;
+    protected ?int $processing_ends_not_successful_days;
 
     public function __construct(
         bool $send_re_assigned_mail,
         ?int $reminder_not_restarted_by_user_days,
         ?int $processing_ends_not_successful_days
     ) {
-        if (
-            !is_null($reminder_not_restarted_by_user_days) &&
-            1 > $reminder_not_restarted_by_user_days
-        ) {
-            throw new InvalidArgumentException(
-                'Numbers less than 1 are not allowed'
-            );
+        if (!is_null($reminder_not_restarted_by_user_days) && 1 > $reminder_not_restarted_by_user_days) {
+            throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
 
-        if (
-            !is_null($processing_ends_not_successful_days) &&
-            1 > $processing_ends_not_successful_days
-        ) {
-            throw new InvalidArgumentException(
-                'Numbers less than 1 are not allowed'
-            );
+        if (!is_null($processing_ends_not_successful_days) && 1 > $processing_ends_not_successful_days) {
+            throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
 
         $this->send_re_assigned_mail = $send_re_assigned_mail;
@@ -67,7 +44,7 @@ class ilStudyProgrammeAutoMailSettings
         return $this->processing_ends_not_successful_days;
     }
 
-    public function withSendReAssignedMail(bool $do_it) : \ilStudyProgrammeAutoMailSettings
+    public function withSendReAssignedMail(bool $do_it) : ilStudyProgrammeAutoMailSettings
     {
         $clone = clone $this;
         $clone->send_re_assigned_mail = $do_it;
@@ -76,11 +53,9 @@ class ilStudyProgrammeAutoMailSettings
 
     public function withReminderNotRestartedByUserDays(
         ?int $days
-    ) : \ilStudyProgrammeAutoMailSettings {
+    ) : ilStudyProgrammeAutoMailSettings {
         if (!is_null($days) && 1 > $days) {
-            throw new InvalidArgumentException(
-                'Numbers less than 1 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
 
         $clone = clone $this;
@@ -90,19 +65,27 @@ class ilStudyProgrammeAutoMailSettings
 
     public function withProcessingEndsNotSuccessfulDays(
         ?int $days
-    ) : \ilStudyProgrammeAutoMailSettings {
+    ) : ilStudyProgrammeAutoMailSettings {
         if (!is_null($days) && 1 > $days) {
-            throw new InvalidArgumentException(
-                'Numbers less than 1 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 1 are not allowed');
         }
         $clone = clone $this;
         $clone->processing_ends_not_successful_days = $days;
         return $clone;
     }
 
-    public function toFormInput(Field\Factory $input, \ilLanguage $ilLng, Refinery $refinery) : Field\Input
+    public function toFormInput(Field\Factory $input, ilLanguage $ilLng, Refinery $refinery) : Field\Input
     {
+        $reminder = null;
+        if (!is_null($this->getReminderNotRestartedByUserDays())) {
+            $reminder = [$this->getReminderNotRestartedByUserDays()];
+        }
+
+        $processing_end = null;
+        if (!is_null($this->getProcessingEndsNotSuccessfulDays())) {
+            $processing_end = [$this->getProcessingEndsNotSuccessfulDays()];
+        }
+
         return $input->section(
             [
                 "send_re_assigned_mail" => $input->checkbox(
@@ -119,7 +102,7 @@ class ilStudyProgrammeAutoMailSettings
                     $ilLng->txt("send_info_to_re_assign_mail"),
                     $ilLng->txt("send_info_to_re_assign_mail_info")
                 )
-                ->withValue($this->getReminderNotRestartedByUserDays() !== null ? [$this->getReminderNotRestartedByUserDays()] : null),
+                ->withValue($reminder),
 
                 "processing_ends_not_success" => $input->optionalGroup(
                     [$input->numeric(
@@ -129,12 +112,12 @@ class ilStudyProgrammeAutoMailSettings
                     $ilLng->txt("send_risky_to_fail_mail"),
                     $ilLng->txt("send_risky_to_fail_mail_info")
                 )
-                ->withValue($this->getProcessingEndsNotSuccessfulDays() !== null ? [$this->getProcessingEndsNotSuccessfulDays()] : null)
+                ->withValue($processing_end)
             ],
             $ilLng->txt("prg_cron_job_configuration")
         )
         ->withAdditionalTransformation($refinery->custom()->transformation(function ($vals) {
-            return new \ilStudyProgrammeAutoMailSettings(
+            return new ilStudyProgrammeAutoMailSettings(
                 $vals["send_re_assigned_mail"],
                 isset($vals["prg_user_not_restarted_time_input"]) ? (int) $vals["prg_user_not_restarted_time_input"][0] : null,
                 isset($vals["processing_ends_not_success"]) ? (int) $vals["processing_ends_not_success"][0] : null

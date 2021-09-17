@@ -1,39 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
-
 
 class ilPrgUserRiskyToFailCronJob extends ilCronJob
 {
     const ID = 'prg_user_risky_to_fail';
 
     /**
-     * @var ilStudyProgrammeSettingsRepository
+     * @var mixed
      */
-    protected $programme_settings_db;
-
-    /**
-     * @var ilStudyProgrammeProgressRepository
-     */
-    protected $user_progress_db;
-
-    /**
-     * @var ilStudyProgrammeEvents
-     */
-    protected $events;
-    
-    /**
-     * @var Pimple\Container;
-     */
-    protected $dic;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected $log;
+    protected ilLanguage $lng;
+    protected Pimple\Container $dic;
 
     public function __construct()
     {
@@ -122,7 +101,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getNow() : \DateTimeImmutable
+    protected function getNow() : DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
@@ -137,7 +116,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         return $this->dic['ilStudyProgrammeUserProgressDB'];
     }
 
-    protected function getEvents()
+    protected function getEvents() : ilStudyProgrammeEvents
     {
         return $this->dic['ilStudyProgrammeEvents'];
     }

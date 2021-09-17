@@ -1,13 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-
-/**
- * Class ilObjStudyProgrammeIndividualPlanGUI
- *
- * @author: Richard Klees <richard.klees@concepts-and-training.de>
- */
 
 class ilObjStudyProgrammeIndividualPlanGUI
 {
@@ -16,58 +9,24 @@ class ilObjStudyProgrammeIndividualPlanGUI
     const POST_VAR_DEADLINE = "deadline";
     const MANUAL_STATUS_NONE = -1;
 
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-
-    /**
-     * @var ilObjStudyProgramme
-     */
-    public $object;
-
-    /**
-     * @var ilLng
-     */
-    public $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    public $user;
-
+    public ilGlobalTemplateInterface $tpl;
+    public ilCtrl $ctrl;
+    public ilLanguage $lng;
+    public ilObjUser $user;
+    protected ilStudyProgrammeProgressRepository $progress_repository;
+    protected ilStudyProgrammeAssignmentRepository $assignment_repository;
+    protected ilPRGMessagePrinter $messages;
+    protected ?ilStudyProgrammeAssignment $assignment_object;
+    public ?ilObjStudyProgramme $object;
+    protected ?ilPRGPermissionsHelper $permissions;
     protected $parent_gui;
-
-    /**
-     * @var ilStudyProgrammeProgressDB
-     */
-    protected $progress_repository;
-
-    /**
-     * @var ilStudyProgrammeAssignmentRepository
-     */
-    protected $assignment_repository;
-
-    /**
-     * @var ilPRGMessages[]
-     */
-    protected $messages;
-
-    /**
-     * @var ilPRGPermissionsHelper
-     */
-    protected $permissions;
+    protected int $ref_id;
 
     public function __construct(
-        \ilGlobalTemplateInterface $tpl,
-        \ilCtrl $ilCtrl,
-        \ilLanguage $lng,
-        \ilObjUser $ilUser,
+        ilGlobalTemplateInterface $tpl,
+        ilCtrl $ilCtrl,
+        ilLanguage $lng,
+        ilObjUser $ilUser,
         ilStudyProgrammeProgressRepository $progress_repository,
         ilStudyProgrammeAssignmentRepository $assignment_repository,
         ilPRGMessagePrinter $messages
@@ -76,13 +35,11 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->user = $ilUser;
-
-        $this->assignment_object = null;
-
         $this->progress_repository = $progress_repository;
         $this->assignment_repository = $assignment_repository;
         $this->messages = $messages;
 
+        $this->assignment_object = null;
         $this->object = null;
         $this->permissions = null;
 
@@ -91,19 +48,19 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
     }
 
-    public function setParentGUI($a_parent_gui)
+    public function setParentGUI($parent_gui) : void
     {
-        $this->parent_gui = $a_parent_gui;
+        $this->parent_gui = $parent_gui;
     }
 
     public function setRefId(int $ref_id) : void
     {
-        $this->ref_id = $a_ref_id;
-        $this->object = \ilObjStudyProgramme::getInstanceByRefId($ref_id);
+        $this->ref_id = $ref_id;
+        $this->object = ilObjStudyProgramme::getInstanceByRefId($ref_id);
         $this->permissions = ilStudyProgrammeDIC::specificDicFor($this->object)['permissionhelper'];
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -119,14 +76,13 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 $cont = $this->$cmd();
                 break;
             default:
-                throw new ilException("ilObjStudyProgrammeMembersGUI: " .
-                                      "Command not supported: $cmd");
+                throw new ilException("ilObjStudyProgrammeMembersGUI: Command not supported: $cmd");
         }
 
         $this->tpl->setContent($cont);
     }
 
-    protected function getAssignmentId()
+    protected function getAssignmentId() : int
     {
         if (!is_numeric($_GET["ass_id"])) {
             throw new ilException("Expected integer 'ass_id'");
@@ -134,16 +90,16 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return (int) $_GET["ass_id"];
     }
 
-    protected function getAssignmentObject()
+    protected function getAssignmentObject() : ?ilStudyProgrammeAssignment
     {
         if ($this->assignment_object === null) {
             $id = $this->getAssignmentId();
-            $this->assignment_object = $this->assignment_repository->getInstanceById((int) $id);
+            $this->assignment_object = $this->assignment_repository->getInstanceById($id);
         }
         return $this->assignment_object;
     }
 
-    protected function view()
+    protected function view() : string
     {
         $ass = $this->getAssignmentObject();
 
@@ -166,8 +122,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $this->buildFrame("view", $tpl->get());
     }
 
-
-    protected function manage()
+    protected function manage() : string
     {
         $ass = $this->getAssignmentObject();
 
@@ -179,7 +134,6 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 "may not access individual plan of user"
             );
         }
-
 
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
         $this->ctrl->setParameter($this, "cmd", "manage");
@@ -235,7 +189,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $ret;
     }
     
-    protected function updateFromInput()
+    protected function updateFromInput() : void
     {
         $values = $this->digestInput($_POST);
         $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
@@ -251,10 +205,10 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl->redirect($this, "manage");
     }
 
-    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs)
+    protected function updateStatus(array $progress_updates, ilPRGMessageCollection $msgs) : void
     {
         $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = (int) $this->user->getId();
+        $acting_user_id = $this->user->getId();
 
         foreach ($progress_updates as $progress_id => $target_status) {
             switch ($target_status) {
@@ -288,10 +242,10 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs)
+    protected function updateDeadlines(array $deadlines, ilPRGMessageCollection $msgs) : void
     {
         $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = (int) $this->user->getId();
+        $acting_user_id = $this->user->getId();
 
         foreach ($deadlines as $progress_id => $deadline) {
             if (trim($deadline) === '') {
@@ -309,10 +263,10 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs)
+    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollection $msgs) : void
     {
         $programme = $this->parent_gui->getStudyProgramme();
-        $acting_user_id = (int) $this->user->getId();
+        $acting_user_id = $this->user->getId();
 
         foreach ($required_points as $progress_id => $points) {
             $points = (int) $points;
@@ -331,12 +285,12 @@ class ilObjStudyProgrammeIndividualPlanGUI
         }
     }
 
-    protected function showSuccessMessage($a_lng_var)
+    protected function showSuccessMessage(string $lng_var) : void
     {
-        ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
+        $this->tpl->setOnScreenMessage("success", $this->lng->txt("prg_$lng_var"), true);
     }
 
-    protected function buildFrame($tab, $content)
+    protected function buildFrame(string $tab, string $content) : string
     {
         $tabs = [];
         if ($this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)) {
@@ -363,25 +317,25 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $tpl->get();
     }
 
-    protected function getLinkTargetForSubTab($a_tab, $a_ass_id)
+    protected function getLinkTargetForSubTab(string $tab, int $ass_id) : string
     {
-        $this->ctrl->setParameter($this, "ass_id", $a_ass_id);
-        $lnk = $this->ctrl->getLinkTarget($this, $a_tab);
+        $this->ctrl->setParameter($this, "ass_id", $ass_id);
+        $lnk = $this->ctrl->getLinkTarget($this, $tab);
         $this->ctrl->setParameter($this, "ass_id", null);
         return $lnk;
     }
 
-    public function appendIndividualPlanActions(ilTable2GUI $a_table)
+    public function appendIndividualPlanActions(ilTable2GUI $table) : void
     {
-        $a_table->setFormAction($this->ctrl->getFormAction($this));
-        $a_table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
-        $a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
+        $table->setFormAction($this->ctrl->getFormAction($this));
+        $table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
+        $table->addCommandButton("updateFromInput", $this->lng->txt("save"));
     }
 
-    public function getLinkTargetView($a_ass_id)
+    public function getLinkTargetView(int $ass_id) : string
     {
         $cl = "ilObjStudyProgrammeIndividualPlanGUI";
-        $this->ctrl->setParameterByClass($cl, "ass_id", $a_ass_id);
+        $this->ctrl->setParameterByClass($cl, "ass_id", $ass_id);
         $link = $this->ctrl->getLinkTargetByClass($cl, "view");
         $this->ctrl->setParameterByClass($cl, "ass_id", null);
         return $link;

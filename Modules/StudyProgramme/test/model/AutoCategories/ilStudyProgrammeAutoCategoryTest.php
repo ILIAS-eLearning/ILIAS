@@ -1,19 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
-class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class ilStudyProgrammeAutoCategoryTest extends TestCase
 {
-    protected $backupGlobals = false;
+    protected int $prg_obj_id;
+    protected int $cat_ref_id;
+    protected int $usr_id;
+    protected DateTimeImmutable $dat;
 
     public function setUp() : void
     {
-        PHPUnit_Framework_Error_Deprecated::$enabled = false;
         $this->prg_obj_id = 123;
         $this->cat_ref_id = 666;
         $this->usr_id = 6;
         $this->dat = new DateTimeImmutable('2019-06-05 15:25:12');
     }
 
-    public function testConstruction()
+    public function testConstruction() : ilStudyProgrammeAutoCategory
     {
         $ac = new ilStudyProgrammeAutoCategory(
             $this->prg_obj_id,
@@ -31,7 +35,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetPrgObjId($ac)
+    public function testGetPrgObjId(ilStudyProgrammeAutoCategory $ac) : void
     {
         $this->assertEquals(
             $this->prg_obj_id,
@@ -42,7 +46,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetCategoryRefId($ac)
+    public function testGetCategoryRefId(ilStudyProgrammeAutoCategory $ac) : void
     {
         $this->assertEquals(
             $this->cat_ref_id,
@@ -53,7 +57,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEditorId($ac)
+    public function testGetLastEditorId(ilStudyProgrammeAutoCategory $ac) : void
     {
         $this->assertEquals(
             $this->usr_id,
@@ -64,7 +68,7 @@ class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testConstruction
      */
-    public function testGetLastEdited($ac)
+    public function testGetLastEdited(ilStudyProgrammeAutoCategory $ac) : void
     {
         $this->assertEquals(
             $this->dat,

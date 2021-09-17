@@ -1,35 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
-
-/**
- This ivalidates a successful progress if validityOfQualification is reached.
-
- This is deprecated, I think.
- It is perfectly feasible to raise some event for this, though,
- but invalidation is reached by a date rather than a flag set by a cron job.
-  */
+/*
+ * This invalidates a successful progress if validityOfQualification is reached.
+ *
+ * This is deprecated, I think.
+ * It is perfectly feasible to raise some event for this, though,
+ * but invalidation is reached by a date rather than a flag set by a cron job.
+ */
  class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
  {
      const ID = 'prg_invalidate_expired_progresses';
 
-     /**
-      * @var ilStudyProgrammeProgressRepository
-      */
-     protected $user_progress_db;
-
-     /**
-      * @var ilLog
-      */
-     protected $log;
-
-     /**
-      * @var ilLanguage
-      */
-     protected $lng;
+     protected ilStudyProgrammeProgressRepository $user_progress_db;
+     protected ilLog $log;
+     protected ilLanguage $lng;
 
      public function __construct()
      {
