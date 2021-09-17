@@ -58,11 +58,9 @@ class ilForumExportGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
-            default:
-                return $this->$cmd();
-                break;
-        }
+        return match ($next_class) {
+            default => $this->$cmd(),
+        };
     }
 
     public function printThread() : void

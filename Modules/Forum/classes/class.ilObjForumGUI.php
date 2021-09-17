@@ -4280,8 +4280,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 (int) $this->objCurrentPost->getId()
             );
         }
+
+        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         $this->ctrl->redirect($this, 'viewThread');
-        $this->viewThreadObject();
     }
 
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ilObjectListGUI|ilObjForumListGUI

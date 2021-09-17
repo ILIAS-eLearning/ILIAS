@@ -297,13 +297,11 @@ class ilForumCronNotification extends ilCronJob
         global $DIC;
         $lng = $DIC->language();
 
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_FORUM:
-                $a_fields['cron_forum_notification'] = $a_is_active ?
-                    $lng->txt('enabled') :
-                    $lng->txt('disabled');
-                break;
-        }
+        $a_fields['cron_forum_notification'] = match ($a_form_id) {
+            ilAdministrationSettingsFormHandler::FORM_FORUM => $a_is_active ?
+                $lng->txt('enabled') :
+                $lng->txt('disabled'),
+        };
     }
 
     public function activationWasToggled(bool $a_currently_active) : void

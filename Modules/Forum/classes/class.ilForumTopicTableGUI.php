@@ -118,7 +118,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $this->addMultiCommand('html', $this->lng->txt('export_html'));
             if ($this->getIsModerator()) {
                 $this->addMultiCommand('confirmDeleteThreads', $this->lng->txt('delete'));
-                $this->addMultiCommand('merge', $this->lng->txt('merge_posts_into_thread'));
+                $this->addMultiCommand('mergeThreads', $this->lng->txt('merge_posts_into_thread'));
             }
         }
         $this->setShowRowsSelector(true);

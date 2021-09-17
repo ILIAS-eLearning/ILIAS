@@ -407,11 +407,6 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->notificationCache->fetch($cacheKey);
     }
 
-    /**
-     * @param \ilPDOStatement $statement   - statement to be executed by the database
-     *                                     needs to a 'user_id' as result
-     * @return int[]
-     */
     private function createRecipientArray(\ilPDOStatement $statement) : array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
@@ -442,27 +437,13 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
     private function getEventType(int $notification_type) : int
     {
-        $event_type = 0;
-        switch ($notification_type) {
-            case ilForumMailNotification::TYPE_POST_UPDATED:
-                $event_type = ilForumNotificationEvents::UPDATED;
-                break;
-            case ilForumMailNotification::TYPE_POST_CENSORED:
-                $event_type = ilForumNotificationEvents::CENSORED;
-                break;
-            case ilForumMailNotification::TYPE_POST_UNCENSORED:
-                $event_type = ilForumNotificationEvents::UNCENSORED;
-                break;
-            case ilForumMailNotification::TYPE_POST_DELETED:
-                $event_type = ilForumNotificationEvents::POST_DELETED;
-                break;
-            case ilForumMailNotification::TYPE_THREAD_DELETED:
-                $event_type = ilForumNotificationEvents::THREAD_DELETED;
-                break;
-            default:
-                $event_type = 0;
-                break;
-        }
-        return $event_type;
+        return match ($notification_type) {
+            ilForumMailNotification::TYPE_POST_UPDATED => ilForumNotificationEvents::UPDATED,
+            ilForumMailNotification::TYPE_POST_CENSORED => ilForumNotificationEvents::CENSORED,
+            ilForumMailNotification::TYPE_POST_UNCENSORED => ilForumNotificationEvents::UNCENSORED,
+            ilForumMailNotification::TYPE_POST_DELETED => ilForumNotificationEvents::POST_DELETED,
+            ilForumMailNotification::TYPE_THREAD_DELETED => ilForumNotificationEvents::THREAD_DELETED,
+            default => 0,
+        };
     }
 }
