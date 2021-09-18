@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Contact/classes/class.ilAbstractMailMemberRoles.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMemberCourseRoles
@@ -12,9 +10,6 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
     protected ilLanguage $lng;
     protected ilRbacReview $rbacreview;
 
-    /**
-     * ilMailMemberGroupRoles constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -29,9 +24,6 @@ class ilMailMemberGroupRoles extends ilAbstractMailMemberRoles
         return $this->lng->txt('mail_grp_roles');
     }
 
-    /**
-     * @return array sorted_roles
-     */
     public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);

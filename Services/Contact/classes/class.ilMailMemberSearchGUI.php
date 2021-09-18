@@ -25,12 +25,13 @@ class ilMailMemberSearchGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilAccessHandler $access;
-    private int $ref_id;
+    public int $ref_id;
 
     /**
      * ilMailMemberSearchGUI constructor.
      * @param ilObjGroupGUI|ilObjCourseGUI $gui
-     * @param                           $ref_id
+     * @param int $ref_id
+     * @param ilAbstractMailMemberRoles $objMailMemberRoles
      */
     public function __construct($gui, int $ref_id, ilAbstractMailMemberRoles $objMailMemberRoles)
     {

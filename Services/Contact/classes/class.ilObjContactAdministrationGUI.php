@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Object/classes/class.ilObject2GUI.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-
 /**
  * Class ilObjContactAdministrationGUI
  * @author Michael Jansen <mjansen@databay.de>
@@ -17,13 +14,12 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
      * @var ilRbacSystem
      */
     protected $rbacsystem;
-    protected ilSetupErrorHandling $error;
+    protected ilErrorHandling $error;
     /**
      * @var ilLanguage
      */
     public $lng;
 
-    
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC, $ilErr;
@@ -36,31 +32,32 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $this->lng->loadLanguageModule('buddysystem');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getType() : string
     {
         return 'cadm';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool('read')) {
-            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), ['', 'view', 'showConfigurationForm', 'saveConfigurationForm'], __CLASS__);
+            $this->tabs_gui->addTarget(
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'showConfigurationForm'),
+                ['', 'view', 'showConfigurationForm', 'saveConfigurationForm'],
+                self::class
+            );
         }
 
         if ($this->checkPermissionBool('edit_permission')) {
-            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'), ['perm', 'info', 'owner'], ilPermissionGUI::class);
+            $this->tabs_gui->addTarget(
+                'perm_settings',
+                $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'),
+                ['perm', 'info', 'owner'],
+                ilPermissionGUI::class
+            );
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -69,7 +66,6 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
         switch (strtolower($next_class)) {
             case strtolower(ilPermissionGUI::class):
-                require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -86,7 +82,6 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     
     protected function getConfigurationForm() : ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('settings'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveConfigurationForm'));
@@ -114,12 +109,11 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
     
     protected function showConfigurationForm(ilPropertyFormGUI $form = null) : void
     {
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
+        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         if (!($form instanceof ilPropertyFormGUI)) {
-            require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
             $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
             $form = $this->getConfigurationForm();
@@ -146,7 +140,6 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
         ilBuddySystem::getInstance()->setSetting('enabled', $form->getInput('enable') ? 1 : 0);
 
-        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
         $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
         $new_cfg = [];
@@ -161,9 +154,9 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             $new_cfg['buddysystem_request'] = [];
         }
 
-        if ($form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request'])) {
+        if (!array_key_exists('osd', $new_cfg['buddysystem_request']) && $form->getInput('use_osd')) {
             $new_cfg['buddysystem_request']['osd'] = true;
-        } elseif (!(bool) $form->getInput('use_osd') && array_key_exists('osd', $new_cfg['buddysystem_request'])) {
+        } elseif (array_key_exists('osd', $new_cfg['buddysystem_request']) && !(bool) $form->getInput('use_osd')) {
             $new_cfg['buddysystem_request']['osd'] = false;
         }
 

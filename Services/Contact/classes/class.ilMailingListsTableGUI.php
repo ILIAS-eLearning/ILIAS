@@ -1,39 +1,18 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Table/classes/class.ilTable2GUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailingListsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param string $a_template_context
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
+    public function __construct(ilMailingListsGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $this->lng = $DIC['lng'];
-        $this->ctrl = $DIC['ilCtrl'];
-
         $this->setId('show_mlng_lists_tbl');
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj), 'showForm');
         $this->setTitle($this->lng->txt('mail_mailing_lists'));

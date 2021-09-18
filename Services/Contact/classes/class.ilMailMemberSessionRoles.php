@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Contact/classes/class.ilAbstractMailMemberRoles.php';
-
 /**
  * Class ilMailMemberSessionRoles
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -12,9 +10,6 @@ class ilMailMemberSessionRoles extends ilAbstractMailMemberRoles
     protected ilLanguage $lng;
     protected ilRbacReview $rbacreview;
 
-    /**
-     * ilMailMemberSessionRoles constructor.
-     */
     public function __construct()
     {
         global $DIC;

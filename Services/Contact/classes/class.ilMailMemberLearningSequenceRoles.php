@@ -1,5 +1,4 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
@@ -21,9 +20,6 @@ class ilMailMemberLearningSequenceRoles extends ilAbstractMailMemberRoles
         return $this->lng->txt('mail_lso_roles');
     }
 
-    /**
-     * @return array sorted_roles
-     */
     public function getMailRoles(int $ref_id) : array
     {
         $role_ids = $this->rbacreview->getLocalRoles($ref_id);

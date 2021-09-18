@@ -1,15 +1,10 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
-require_once 'Services/Mail/classes/class.ilFormatMail.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-
 /**
 * @author Jens Conze
-* @version $Id$
-*
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilContactGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailSearchLearningSequenceGUI, ilMailingListsGUI
 * @ilCtrl_Calls ilContactGUI: ilMailFormGUI, ilUsersGalleryGUI, ilPublicUserProfileGUI
@@ -37,9 +32,6 @@ class ilContactGUI
     protected bool $has_sub_tabs = false;
     protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * ilContactGUI constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -73,13 +65,10 @@ class ilContactGUI
         
         switch (strtolower($forward_class)) {
             case strtolower(ilMailFormGUI::class):
-                include_once 'Services/Mail/classes/class.ilMailFormGUI.php';
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
                 break;
 
             case strtolower(ilMailSearchCoursesGUI::class):
-                include_once 'Services/Contact/classes/class.ilMailSearchCoursesGUI.php';
-
                 $this->activateTab('mail_my_courses');
 
                 $this->ctrl->setReturn($this, "showContacts");
@@ -87,8 +76,6 @@ class ilContactGUI
                 break;
 
             case strtolower(ilMailSearchGroupsGUI::class):
-                include_once 'Services/Contact/classes/class.ilMailSearchGroupsGUI.php';
-
                 $this->activateTab('mail_my_groups');
 
                 $this->ctrl->setReturn($this, "showContacts");
@@ -96,8 +83,6 @@ class ilContactGUI
                 break;
             
             case strtolower(ilMailingListsGUI::class):
-                include_once 'Services/Contact/classes/class.ilMailingListsGUI.php';
-
                 $this->activateTab('mail_my_mailing_lists');
 
                 $this->ctrl->setReturn($this, "showContacts");
@@ -111,14 +96,11 @@ class ilContactGUI
 
                 $this->tabs_gui->activateSubTab('buddy_view_gallery');
                 $this->activateTab('my_contacts');
-                require_once 'Services/User/Gallery/classes/class.ilUsersGalleryContacts.php';
-                require_once 'Services/User/Gallery/classes/class.ilUsersGalleryGUI.php';
                 $this->ctrl->forwardCommand(new ilUsersGalleryGUI(new ilUsersGalleryContacts()));
                 $this->tpl->printToStdout();
                 break;
 
             case strtolower(ilPublicUserProfileGUI::class):
-                require_once 'Services/User/classes/class.ilPublicUserProfileGUI.php';
                 $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($this->httpRequest->getQueryParams()['user']));
                 $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showContacts'));
                 $this->ctrl->forwardCommand($profile_gui);
@@ -145,23 +127,28 @@ class ilContactGUI
     
     private function showSubTabs() : void
     {
+        $galleryCmdClasses = array_map('strtolower', [ilUsersGalleryGUI::class, self::class]);
         if ($this->tabs_gui->hasTabs()) {
             if (ilBuddySystem::getInstance()->isEnabled()) {
-                $this->tabs_gui->addSubTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
+                $this->tabs_gui->addSubTab(
+                    'my_contacts',
+                    $this->lng->txt('my_contacts'),
+                    $this->ctrl->getLinkTarget($this)
+                );
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', [ilUsersGalleryGUI::class, get_class($this)]), true)) {
-                    require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+                if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
                     $view_selection = new ilSelectInputGUI('', 'contacts_view');
                     $view_selection->setOptions([
                         self::CONTACTS_VIEW_TABLE => $this->lng->txt('buddy_view_table'),
                         self::CONTACTS_VIEW_GALLERY => $this->lng->txt('buddy_view_gallery')
                     ]);
                     $view_selection->setValue(
-                        strtolower($this->ctrl->getCmdClass()) === ilUsersGalleryGUI::class ? self::CONTACTS_VIEW_GALLERY : self::CONTACTS_VIEW_TABLE
+                        strtolower($this->ctrl->getCmdClass()) === strtolower(ilUsersGalleryGUI::class)
+                            ? self::CONTACTS_VIEW_GALLERY
+                            : self::CONTACTS_VIEW_TABLE
                     );
                     $this->toolbar->addInputItem($view_selection);
 
-                    require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
                     $contact_view_btn = ilSubmitButton::getInstance();
                     $contact_view_btn->setCaption('submit');
                     $contact_view_btn->setCommand('changeContactsView');
@@ -178,8 +165,16 @@ class ilContactGUI
                 }
             }
 
-            $this->tabs_gui->addSubTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class));
-            $this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class));
+            $this->tabs_gui->addSubTab(
+                'mail_my_courses',
+                $this->lng->txt('mail_my_courses'),
+                $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class)
+            );
+            $this->tabs_gui->addSubTab(
+                'mail_my_groups',
+                $this->lng->txt('mail_my_groups'),
+                $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class)
+            );
             $this->has_sub_tabs = true;
         } else {
             $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cadm.svg'));
@@ -187,11 +182,23 @@ class ilContactGUI
             $this->help->setScreenIdComponent('contacts');
 
             if (ilBuddySystem::getInstance()->isEnabled()) {
-                $this->tabs_gui->addTab('my_contacts', $this->lng->txt('my_contacts'), $this->ctrl->getLinkTarget($this));
+                $this->tabs_gui->addTab(
+                    'my_contacts',
+                    $this->lng->txt('my_contacts'),
+                    $this->ctrl->getLinkTarget($this)
+                );
 
-                if (in_array(strtolower($this->ctrl->getCmdClass()), array_map('strtolower', [ilUsersGalleryGUI::class, get_class($this)]), true)) {
-                    $this->tabs_gui->addSubTab('buddy_view_table', $this->lng->txt('buddy_view_table'), $this->ctrl->getLinkTarget($this));
-                    $this->tabs_gui->addSubTab('buddy_view_gallery', $this->lng->txt('buddy_view_gallery'), $this->ctrl->getLinkTargetByClass(ilUsersGalleryGUI::class));
+                if (in_array(strtolower($this->ctrl->getCmdClass()), $galleryCmdClasses, true)) {
+                    $this->tabs_gui->addSubTab(
+                        'buddy_view_table',
+                        $this->lng->txt('buddy_view_table'),
+                        $this->ctrl->getLinkTarget($this)
+                    );
+                    $this->tabs_gui->addSubTab(
+                        'buddy_view_gallery',
+                        $this->lng->txt('buddy_view_gallery'),
+                        $this->ctrl->getLinkTargetByClass(ilUsersGalleryGUI::class)
+                    );
                 }
 
                 if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
@@ -203,15 +210,20 @@ class ilContactGUI
                 }
             }
 
-            $this->tabs_gui->addTab('mail_my_courses', $this->lng->txt('mail_my_courses'), $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class));
-            $this->tabs_gui->addTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class));
+            $this->tabs_gui->addTab(
+                'mail_my_courses',
+                $this->lng->txt('mail_my_courses'),
+                $this->ctrl->getLinkTargetByClass(ilMailSearchCoursesGUI::class)
+            );
+            $this->tabs_gui->addTab(
+                'mail_my_groups',
+                $this->lng->txt('mail_my_groups'),
+                $this->ctrl->getLinkTargetByClass(ilMailSearchGroupsGUI::class)
+            );
         }
     }
 
-    /**
-     * @param string $a_id
-     */
-    protected function activateTab($a_id) : void
+    protected function activateTab(string $a_id) : void
     {
         if ($this->has_sub_tabs) {
             $this->tabs_gui->activateSubTab($a_id);
@@ -251,7 +263,6 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
         $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 
         $table->resetOffset();
@@ -267,7 +278,6 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
         $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
 
         $table->resetOffset();
@@ -286,7 +296,6 @@ class ilContactGUI
         $this->tabs_gui->activateSubTab('buddy_view_table');
         $this->activateTab('my_contacts');
 
-        require_once 'Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php';
         $table = new ilBuddySystemRelationsTableGUI($this, 'showContacts');
         $table->populate();
         $this->tpl->setContent($table->getHTML());
@@ -300,7 +309,11 @@ class ilContactGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
 
-        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || !is_array($this->httpRequest->getParsedBody()['usr_id']) || 0 === count($this->httpRequest->getParsedBody()['usr_id'])) {
+        if (
+            !isset($this->httpRequest->getParsedBody()['usr_id']) ||
+            !is_array($this->httpRequest->getParsedBody()['usr_id']) ||
+            0 === count($this->httpRequest->getParsedBody()['usr_id'])
+        ) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_entry'));
             $this->showContacts();
             return true;
@@ -322,7 +335,7 @@ class ilContactGUI
         if (count($logins) > 0) {
             $mail_data = $this->umail->appendSearchResult($logins, 'to');
             $this->umail->savePostData(
-                (int)$mail_data['user_id'],
+                (int) $mail_data['user_id'],
                 $mail_data['attachments'],
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
@@ -346,7 +359,10 @@ class ilContactGUI
      */
     public function submitInvitation() : void
     {
-        if (!isset($this->httpRequest->getParsedBody()['usr_id']) || $this->httpRequest->getParsedBody()['usr_id'] === '') {
+        if (
+            !isset($this->httpRequest->getParsedBody()['usr_id']) ||
+            $this->httpRequest->getParsedBody()['usr_id'] === ''
+        ) {
             ilUtil::sendInfo($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this);
         }
@@ -359,10 +375,14 @@ class ilContactGUI
         }
 
         // get selected users (comma seperated user id list)
-        $usr_ids = explode(',', $this->httpRequest->getParsedBody()['usr_id']);
+        $usr_ids = $this->refinery->kindlyTo()->listOf(
+            $this->refinery->kindlyTo()->int()
+        )->transform(explode(',', $this->httpRequest->getParsedBody()['usr_id']));
 
         // get selected chatroom from POST-String, format: "room_id , scope"
-        $room_ids = explode(',', $this->httpRequest->getParsedBody()['room_id']);
+        $room_ids = $this->refinery->kindlyTo()->listOf(
+            $this->refinery->kindlyTo()->int()
+        )->transform(explode(',', $this->httpRequest->getParsedBody()['room_id']));
         $room_id = (int) $room_ids[0];
         $scope = 0;
 
@@ -433,7 +453,6 @@ class ilContactGUI
 
         $ref_id = $room->getRefIdByRoomId($room_id);
 
-        require_once 'Services/Link/classes/class.ilLink.php';
         if ($scope) {
             $url = ilLink::_getStaticLink($ref_id, 'chtr', true, '_' . $scope);
         } else {
@@ -443,11 +462,11 @@ class ilContactGUI
 
         $userlist = [];
         foreach ($valid_users as $id) {
-            $room->inviteUserToPrivateRoom((int)$id, $scope);
+            $room->inviteUserToPrivateRoom((int) $id, $scope);
             $room->sendInvitationNotification(
                 null,
                 $this->user->getId(),
-                (int)$id,
+                (int) $id,
                 $scope,
                 $url
             );
@@ -473,9 +492,11 @@ class ilContactGUI
 
         $usr_ids = $this->postUsrId;
         if (!is_array($usr_ids)) {
-            if (isset($this->httpRequest->getParsedBody()['usr_id']) &&
+            if (
+                isset($this->httpRequest->getParsedBody()['usr_id']) &&
                 is_array($this->httpRequest->getParsedBody()['usr_id']) &&
-                count($this->httpRequest->getParsedBody()['usr_id']) > 0) {
+                count($this->httpRequest->getParsedBody()['usr_id']) > 0
+            ) {
                 $usr_ids = $this->httpRequest->getParsedBody()['usr_id'];
             }
         }
@@ -489,8 +510,6 @@ class ilContactGUI
             $this->refinery->kindlyTo()->int()
         )->transform($usr_ids);
 
-        require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
-
         $ilChatroom = new ilChatroom();
         $chat_rooms = $ilChatroom->getAccessibleRoomIdByTitleMap($this->user->getId());
         $subrooms = [];
@@ -498,8 +517,6 @@ class ilContactGUI
         foreach ($chat_rooms as $room_id => $title) {
             $subrooms[] = $ilChatroom->getPrivateSubRooms($room_id, $this->user->getId());
         }
-
-        include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('mail_invite_users_to_chat'));
