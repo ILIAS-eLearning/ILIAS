@@ -1,22 +1,28 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
-* ListGUI implementation for Example object plugin. This one
-* handles the presentation in container items (categories, courses, ...)
-* together with the ...Access class.
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * ListGUI implementation for Example object plugin. This one
+ * handles the presentation in container items (categories, courses, ...)
+ * together with the ...Access class.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 abstract class ilObjectPluginListGUI extends ilObjectListGUI
 {
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
 
@@ -26,15 +32,8 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         $this->user = $DIC->user();
     }
 
+    protected ?ilObjectPlugin $plugin;
 
-    /**
-     * @var ilRepositoryObjectPlugin
-     */
-    protected $plugin;
-
-    /**
-    * initialisation
-    */
     final public function init()
     {
         $this->initListActions();
@@ -44,15 +43,10 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         $this->commands = $this->initCommands();
     }
     
-    abstract public function getGuiClass();
-    abstract public function initCommands();
+    abstract public function getGuiClass() : string;
+    abstract public function initCommands() : array;
     
-    /**
-    * Set
-    *
-    * @param
-    */
-    public function setType($a_val)
+    public function setType(string $a_val) : void
     {
         $this->type = $a_val;
     }
@@ -60,80 +54,45 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
     /**
      * @return ilObjectPlugin|null
      */
-    protected function getPlugin()
+    protected function getPlugin() : ?ilObjectPlugin
     {
         if (!$this->plugin) {
-            $this->plugin =
+            /** @var $p ilObjectPlugin */
+            $p =
                 ilPlugin::getPluginObject(
                     IL_COMP_SERVICE,
                     "Repository",
                     "robj",
                     ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
                 );
+            $this->plugin = $p;
         }
         return $this->plugin;
     }
     
-    /**
-    * Get type
-    *
-    * @return	type
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
     
     abstract public function initType();
 
-    /**
-    * txt
-    */
-    public function txt($a_str)
+    public function txt(string $a_str) : string
     {
         return $this->plugin->txt($a_str);
     }
     
 
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
     public function getCommandFrame($a_cmd)
     {
         return ilFrameTargetInfo::_getFrame("MainContent");
     }
 
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
     public function getProperties()
     {
-        $lng = $this->lng;
-        $ilUser = $this->user;
-
-        $props = array();
-
-        return $props;
+        return [];
     }
 
-
-    /**
-    * Get command link url.
-    *
-    * @param	int			$a_ref_id		reference id
-    * @param	string		$a_cmd			command
-    *
-    */
     public function getCommandLink($a_cmd)
     {
         
@@ -144,7 +103,7 @@ abstract class ilObjectPluginListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    protected function initListActions()
+    protected function initListActions() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;

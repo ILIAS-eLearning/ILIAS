@@ -1,31 +1,28 @@
 <?php
 
-include_once("./Services/Component/classes/class.ilPlugin.php");
- 
 /**
-* Abstract parent class for all repository object plugin classes.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesRepository
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Abstract parent class for all repository object plugin classes.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 abstract class ilRepositoryObjectPlugin extends ilPlugin
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -34,58 +31,32 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         $this->db = $DIC->database();
     }
 
-    /**
-    * Get Component Type
-    *
-    * @return        string        Component Type
-    */
     public function getComponentType()
     {
         return IL_COMP_SERVICE;
     }
     
-    /**
-    * Get Component Name.
-    *
-    * @return        string        Component Name
-    */
     public function getComponentName()
     {
         return "Repository";
     }
 
-    /**
-    * Get Slot Name.
-    *
-    * @return        string        Slot Name
-    */
     public function getSlot()
     {
         return "RepositoryObject";
     }
 
-    /**
-    * Get Slot ID.
-    *
-    * @return        string        Slot Id
-    */
     public function getSlotId()
     {
         return "robj";
     }
 
-    /**
-    * Object initialization done by slot.
-    */
     protected function slotInit()
     {
         // nothing to do here
     }
     
-    /**
-    * Get Icon
-    */
-    public static function _getIcon($a_type, $a_size)
+    public static function _getIcon(string $a_type) : string
     {
         return ilPlugin::_getImagePath(
             IL_COMP_SERVICE,
@@ -96,20 +67,15 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         );
     }
     
-    /**
-    * Get class name
-    */
-    public static function _getName($a_id)
+    public static function _getName(string $a_id) : string
     {
         $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_id);
         if ($name != "") {
             return $name;
         }
+        return "";
     }
     
-    /**
-    * Before activation processing
-    */
     protected function beforeActivation()
     {
         $ilDB = $this->db;
@@ -127,7 +93,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
             "SELECT * FROM object_data " .
             " WHERE type = " . $ilDB->quote("typ", "text") .
             " AND title = " . $ilDB->quote($type, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $t_id = $rec["obj_id"];
         } else {
@@ -156,7 +122,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 "SELECT * FROM rbac_ta " .
                 " WHERE typ_id = " . $ilDB->quote($t_id, "integer") .
                 " AND ops_id = " . $ilDB->quote($op, "integer")
-                );
+            );
             if (!$ilDB->fetchAssoc($set)) {
                 $ilDB->manipulate("INSERT INTO rbac_ta " .
                     "(typ_id, ops_id) VALUES (" .
@@ -171,7 +137,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
             "SELECT * FROM rbac_operations " .
             " WHERE class = " . $ilDB->quote("create", "text") .
             " AND operation = " . $ilDB->quote("create_" . $type, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $create_ops_id = $rec["ops_id"];
         } else {
@@ -192,14 +158,14 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 "SELECT obj_id FROM object_data " .
                 " WHERE type = " . $ilDB->quote("typ", "text") .
                 " AND title = " . $ilDB->quote($par_type, "text")
-                );
+            );
             if ($rec = $ilDB->fetchAssoc($set)) {
                 if ($rec["obj_id"] > 0) {
                     $set = $ilDB->query(
                         "SELECT * FROM rbac_ta " .
                         " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
                         " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
-                        );
+                    );
                     if (!$ilDB->fetchAssoc($set)) {
                         $ilDB->manipulate("INSERT INTO rbac_ta " .
                             "(typ_id, ops_id) VALUES (" .
@@ -214,19 +180,18 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         return true;
     }
     
-    protected function beforeUninstallCustom()
+    protected function beforeUninstallCustom() : bool
     {
         // plugin-specific
         // false would indicate that anything went wrong
         return true;
     }
     
-    abstract protected function uninstallCustom();
+    abstract protected function uninstallCustom() : void;
     
     final protected function beforeUninstall()
     {
         if ($this->beforeUninstallCustom()) {
-            include_once "Services/Repository/classes/class.ilRepUtil.php";
             $rep_util = new ilRepUtil();
             $rep_util->deleteObjectType($this->getId());
             
@@ -241,7 +206,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     /**
      * @return string[]
      */
-    public function getParentTypes()
+    public function getParentTypes() : array
     {
         $par_types = array("root", "cat", "crs", "grp", "fold");
         return $par_types;
@@ -249,19 +214,15 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
     /**
      * decides if this repository plugin can be copied
-     *
-     * @return bool
      */
-    public function allowCopy()
+    public function allowCopy() : bool
     {
         return false;
     }
 
     /**
-    * Decide if this repository plugin uses OrgUnit Permissions
-    *
-    * @return bool
-    */
+     * Decide if this repository plugin uses OrgUnit Permissions
+     */
     public function useOrguPermissions() : bool
     {
         return false;

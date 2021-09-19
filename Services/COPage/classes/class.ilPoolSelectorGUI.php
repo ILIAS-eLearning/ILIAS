@@ -9,7 +9,6 @@
  */
 class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 {
-    protected $clickable_types = array();
     protected $selection_subcmd = "";
 
 

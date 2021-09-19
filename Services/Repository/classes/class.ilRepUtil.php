@@ -1,36 +1,29 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectFactory.php");
 
 /**
-* Repository Utilities (application layer, put GUI related stuff into ilRepUtilGUI)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesRepository
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Repository Utilities (application layer, put GUI related stuff into ilRepUtilGUI)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilRepUtil
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilSetting $settings;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -42,12 +35,14 @@ class ilRepUtil
 
     /**
      * Delete objects. Move them to trash (if trash feature is enabled).
-     * @param int       current ref id
-     * @param int[]        array of ref(!) ids to be deleted
-     * @throws \ilRepositoryException on missing permission, objects already deleted,...
+     * @param int   $a_cur_ref_id
+     * @param int[] $a_ids ref ids
+     * @throws ilRepositoryException
      */
-    public static function deleteObjects($a_cur_ref_id, $a_ids)
-    {
+    public static function deleteObjects(
+        int $a_cur_ref_id,
+        array $a_ids
+    ) : void {
         global $DIC;
 
         $ilAppEventHandler = $DIC["ilAppEventHandler"];
@@ -60,8 +55,6 @@ class ilRepUtil
         $user = $DIC->user();
 
         $log = $ilLog;
-        
-        include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
         
         // Remove duplicate ids from array
         $a_ids = array_unique((array) $a_ids);
@@ -134,7 +127,6 @@ class ilRepUtil
                 
                 // TODO: needs other handling
                 // This class shouldn't have to know anything about ECS
-                include_once('./Services/WebServices/ECS/classes/class.ilECSObjectSettings.php');
                 ilECSObjectSettings::_handleDelete($subnodes);
                 if (!$tree->moveToTrash($id, true, $user->getId())) {
                     $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
@@ -167,16 +159,19 @@ class ilRepUtil
     }
     
     /**
-    * remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
-    *
-    * @access	public
-     * @throws \ilRepositoryException
-    */
-    public static function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
-    {
+     * remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
+     * @param int[] $a_ref_ids
+     * @param bool  $a_from_recovery_folder
+     * @throws ilDatabaseException
+     * @throws ilInvalidTreeStructureException
+     * @throws ilObjectNotFoundException
+     * @throws ilRepositoryException
+     */
+    public static function removeObjectsFromSystem(
+        array $a_ref_ids,
+        bool $a_from_recovery_folder = false
+    ) : void {
         global $DIC;
-
-        $logger = $DIC->logger()->rep();
 
         $ilLog = $DIC["ilLog"];
         $ilAppEventHandler = $DIC["ilAppEventHandler"];
@@ -278,14 +273,14 @@ class ilRepUtil
     }
     
     /**
-    * Remove already deleted objects within the objects in trash
-    */
+     * Remove already deleted objects within the objects in trash
+     */
     private static function removeDeletedNodes(
-        $a_node_id,
-        $a_checked,
-        $a_delete_objects,
-        &$a_affected_ids
-    ) {
+        int $a_node_id,
+        array $a_checked,
+        bool $a_delete_objects,
+        array &$a_affected_ids
+    ) : bool {
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
@@ -341,16 +336,17 @@ class ilRepUtil
     }
     
     /**
-    * Move objects from trash back to repository
-     *
-     * @param int $a_cur_ref_id
+     * Move objects from trash back to repository
+     * @param int   $a_cur_ref_id
      * @param int[] $a_ref_ids
-     * @throws \ilDatabaseException
-     * @throws \ilObjectNotFoundException
-     * @throws \ilRepositoryException
-    */
-    public static function restoreObjects($a_cur_ref_id, $a_ref_ids)
-    {
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     * @throws ilRepositoryException
+     */
+    public static function restoreObjects(
+        int $a_cur_ref_id,
+        array $a_ref_ids
+    ) : void {
         global $DIC;
 
         $rbacsystem = $DIC->rbac()->system();
@@ -371,7 +367,6 @@ class ilRepUtil
         }
 
         if (count($no_create)) {
-            include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
             throw new ilRepositoryException($lng->txt("msg_no_perm_paste") . " " . implode(',', $no_create));
         }
         
@@ -386,13 +381,11 @@ class ilRepUtil
                 $tree_id = $tree_ids[0];
                 ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, $tree_id, $affected_ids);
             } catch (Exception $e) {
-                include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
                 throw new ilRepositoryException('Restore from trash failed with message: ' . $e->getMessage());
             }
 
             
             // BEGIN ChangeEvent: Record undelete.
-            require_once('Services/Tracking/classes/class.ilChangeEvent.php');
             global $DIC;
 
             $ilUser = $DIC->user();
@@ -423,10 +416,14 @@ class ilRepUtil
     }
     
     /**
-    * Recursive method to insert all saved nodes of the clipboard
-    */
-    private static function insertSavedNodes($a_source_id, $a_dest_id, $a_tree_id, &$a_affected_ids)
-    {
+     * Recursive method to insert all saved nodes of the clipboard
+     */
+    private static function insertSavedNodes(
+        int $a_source_id,
+        int $a_dest_id,
+        int $a_tree_id,
+        array &$a_affected_ids
+    ) : void {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
@@ -446,13 +443,11 @@ class ilRepUtil
             throw $e;
         }
         
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
         $ref_obj = $factory->getInstanceByRefId($a_source_id, false);
         if ($ref_obj instanceof ilObject) {
             $lroles = $GLOBALS['rbacreview']->getRolesOfRoleFolder($a_source_id, true);
             foreach ($lroles as $role_id) {
-                include_once './Services/AccessControl/classes/class.ilObjRole.php';
                 $role = new ilObjRole($role_id);
                 $role->setParent($a_source_id);
                 $role->delete();
@@ -472,8 +467,9 @@ class ilRepUtil
     // OBJECT TYPE HANDLING / REMOVAL
     //
     
-    protected function findTypeInTrash($a_type)
-    {
+    protected function findTypeInTrash(
+        string $a_type
+    ) : array {
         $ilDB = $this->db;
         
         $res = array();
@@ -491,8 +487,9 @@ class ilRepUtil
         return $res;
     }
     
-    protected function getObjectTypeId($a_type)
-    {
+    protected function getObjectTypeId(
+        string $a_type
+    ) : int {
         $ilDB = $this->db;
 
         $set = $ilDB->query("SELECT obj_id" .
@@ -500,11 +497,12 @@ class ilRepUtil
             " WHERE type = " . $ilDB->quote("typ", "text") .
             " AND title = " . $ilDB->quote($a_type, "text"));
         $row = $ilDB->fetchAssoc($set);
-        return $row["obj_id"];
+        return (int) $row["obj_id"];
     }
                             
-    public function deleteObjectType($a_type)
-    {
+    public function deleteObjectType(
+        string $a_type
+    ) : void {
         $ilDB = $this->db;
         $tree = $this->tree;
         $ilSetting = $this->settings;
@@ -565,7 +563,6 @@ class ilRepUtil
         }
         
         // delete new item settings
-        include_once "Services/Repository/classes/class.ilObjRepositorySettings.php";
         ilObjRepositorySettings::deleteObjectType($a_type);
     }
 }

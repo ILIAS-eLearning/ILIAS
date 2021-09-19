@@ -1,40 +1,35 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
-include_once("./Services/Component/classes/class.ilPlugin.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-/*
-* Object GUI class for plugins
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesRepository
-*/
+/**
+ * Object GUI class for plugins
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
+    protected ilNavigationHistory $nav_history;
+    protected ilTabsGUI $tabs;
+    protected ilPluginAdmin $plugin_admin;
+    protected ilPlugin $plugin;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-
-    protected $plugin;
-    /**
-    * Constructor.
-    */
-    public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
-    {
+    public function __construct(
+        int $a_ref_id = 0,
+        int $a_id_type = self::REPOSITORY_NODE_ID,
+        int $a_parent_node_id = 0
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -50,10 +45,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->plugin = $this->getPlugin();
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -107,14 +99,12 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 break;
 
             case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ilTabs->setTabActive("perm_settings");
                 $ilCtrl->forwardCommand($perm_gui);
                 break;
         
             case 'ilobjectcopygui':
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType($this->getType());
                 $this->ctrl->forwardCommand($cp);
@@ -123,7 +113,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             case 'ilexportgui':
                 // only if plugin supports it?
                 $this->tabs->setTabActive("export");
-                include_once './Services/Export/classes/class.ilExportGUI.php';
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -131,7 +120,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                         
             case 'illearningprogressgui':
                 $ilTabs->setTabActive("learning_progress");
-                include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
@@ -140,7 +128,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($new_gui);
                 break;
             case 'ilcommonactiondispatchergui':
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -149,11 +136,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                     $this->$cmd();
                     return;
                 }
-//				if (strtolower($_GET["baseClass"]) == "iladministrationgui")
-//				{
-//					$this->viewObject();
-//					return;
-//				}
                 if (!$cmd) {
                     $cmd = $this->getStandardCmd();
                 }
@@ -172,10 +154,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    /**
-    * Add object to locator
-    */
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
 
@@ -191,10 +170,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     /**
      * Get plugin object
-     * @return object plugin object
      * @throws ilPluginException
      */
-    protected function getPlugin()
+    protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
             $this->plugin =
@@ -211,21 +189,15 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return $this->plugin;
     }
     
-    /**
-    * Wrapper for txt function
-    */
-    final protected function txt($a_var)
+    final protected function txt(string $a_var) : string
     {
         return $this->getPlugin()->txt($a_var);
     }
     
     /**
      * Use custom creation form titles
-     *
-     * @param string $a_form_type
-     * @return string
      */
-    protected function getCreationFormTitle($a_form_type)
+    protected function getCreationFormTitle(int $a_form_type) : string
     {
         switch ($a_form_type) {
             case self::CFORM_NEW:
@@ -240,17 +212,12 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
     
     /**
-     * Init creation froms
+     * Init creation forms
      *
      * this will create the default creation forms: new, import, clone
-     *
-     * @param	string	$a_new_type
-     * @return	array
      */
     protected function initCreationForms($a_new_type)
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        
         $forms = array();
         $forms[self::CFORM_NEW] = $this->initCreateForm($a_new_type);
 
@@ -265,9 +232,9 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
 
     /**
-     * @return bool returns true iff this plugin object supports cloning
+     * @return bool returns true if this plugin object supports cloning
      */
-    protected function supportsCloning()
+    protected function supportsCloning() : bool
     {
         return true;
     }
@@ -280,7 +247,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     */
     public function initCreateForm($a_new_type)
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -315,7 +281,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
     
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($ilCtrl->getFormAction($this, "update"));
@@ -348,13 +313,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      */
     protected function initImportForm($a_new_type)
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
         $form->setTitle($this->lng->txt("import"));
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
@@ -386,16 +349,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
     * Cmd that will be redirected to after creation of a new object.
     */
-    abstract public function getAfterCreationCmd();
+    abstract public function getAfterCreationCmd() : string;
     
-    abstract public function getStandardCmd();
+    abstract public function getStandardCmd() : string;
     
     //	abstract function performCommand();
     
-    /**
-    * Add info screen tab
-    */
-    public function addInfoTab()
+    public function addInilPluginAdminfoTab() : void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -413,10 +373,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    /**
-    * Add permission tab
-    */
-    public function addPermissionTab()
+    public function addPermissionTab() : void
     {
         $ilAccess = $this->access;
         $ilTabs = $this->tabs;
@@ -434,10 +391,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     }
     
     
-    /**
-    * Add export tab
-    */
-    public function addExportTab()
+    public function addExportTab() : void
     {
         // write
         if ($this->access->checkAccess('write', "", $this->object->getRefId())) {
@@ -450,10 +404,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    /**
-    * show information screen
-    */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -463,7 +414,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         
         $this->checkPermission("visible");
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
 
@@ -478,9 +428,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     /**
      * Add items to info screen
-     * @param ilInfoScreenGUI $info
      */
-    public function addInfoItems($info)
+    public function addInfoItems(ilInfoScreenGUI $info) : void
     {
     }
 
@@ -514,27 +463,18 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $lng->txt("msg_no_perm_read_item"),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ));
-            include_once("./Services/Object/classes/class.ilObjectGUI.php");
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function supportsExport()
+    protected function supportsExport() : bool
     {
         $ilPluginAdmin = $this->plugin_admin;
 
         return $ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "Repository", "robj", $this->getPlugin()->getPluginName());
     }
 
-
-    /**
-     * @return mixed
-     */
-    protected function lookupParentTitleInCreationMode()
+    protected function lookupParentTitleInCreationMode() : string
     {
         return ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
     }

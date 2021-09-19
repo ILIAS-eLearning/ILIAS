@@ -1,27 +1,28 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-/*
-* Dispatcher to all repository object plugins
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_Calls ilObjPluginDispatchGUI:
-* @ingroup ServicesRepository
-*/
+/**
+ * Dispatcher to all repository object plugins
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilObjPluginDispatchGUI:
+ */
 class ilObjPluginDispatchGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
 
-    /**
-    * Constructor.
-    */
     public function __construct()
     {
         global $DIC;
@@ -29,7 +30,7 @@ class ilObjPluginDispatchGUI
         $this->ctrl = $DIC->ctrl();
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -48,10 +49,7 @@ class ilObjPluginDispatchGUI
         }
     }
     
-    /**
-    * Process command
-    */
-    public function processCommand($a_cmd)
+    public function processCommand(string $a_cmd) : void
     {
         switch ($a_cmd) {
             case "forward":
@@ -61,15 +59,14 @@ class ilObjPluginDispatchGUI
     }
     
     /**
-    * Forward command to plugin
-    */
-    public function forward()
+     * Forward command to plugin
+     */
+    public function forward() : void
     {
         $ilCtrl = $this->ctrl;
         
         $type = ilObject::_lookupType($_GET["ref_id"], true);
         if ($type != "") {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $plugin = ilObjectPlugin::getPluginObjectByType($type);
             if ($plugin) {
                 $gui_cn = "ilObj" . $plugin->getPluginName() . "GUI";

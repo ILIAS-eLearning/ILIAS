@@ -1,19 +1,27 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Helper methods for repository object plugins
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesRepository
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Helper methods for repository object plugins
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilRepositoryObjectPluginSlot
 {
-    /**
-    * Adds objects that can be created to the add new object list array
-    */
-    public static function addCreatableSubObjects($a_obj_array)
+    // Adds objects that can be created to the add new object list array
+    public static function addCreatableSubObjects(array $a_obj_array) : array
     {
         global $DIC;
 
@@ -29,16 +37,15 @@ class ilRepositoryObjectPluginSlot
         return $a_obj_array;
     }
     
-    /**
-    * Checks whether a repository type is a plugin or not
-    */
-    public static function isTypePlugin($a_type, $a_active_status = true)
-    {
+    // Checks whether a repository type is a plugin or not
+    public static function isTypePlugin(
+        string $a_type,
+        bool $a_active_status = true
+    ) : bool {
         global $DIC;
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         
-        include_once("./Services/Component/classes/class.ilPlugin.php");
         $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
         if ($pname == "") {
             return false;
@@ -53,20 +60,15 @@ class ilRepositoryObjectPluginSlot
         return false;
     }
     
-    /**
-     * Check whether a repository type is a plugin which has active learning progress
-     *
-     * @param string $a_type
-     * @param bool $a_active_status
-     * @return boolean
-     */
-    public static function isTypePluginWithLP($a_type, $a_active_status = true)
-    {
+    // Check whether a repository type is a plugin which has active learning progress
+    public static function isTypePluginWithLP(
+        string $a_type,
+        bool $a_active_status = true
+    ) : bool {
         global $DIC;
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         
-        include_once("./Services/Component/classes/class.ilPlugin.php");
         $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
         if ($pname == "") {
             return false;

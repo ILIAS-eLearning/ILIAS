@@ -1,8 +1,22 @@
-<?php namespace ILIAS\Repository\Provider;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+namespace ILIAS\Repository\Provider;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -10,6 +24,7 @@ use ilLink;
 use ilObject;
 use ilUtil;
 use InvalidArgumentException;
+use ILIAS\UI\Component\MessageBox\MessageBox;
 
 /**
  * Repository related main menu items
@@ -26,20 +41,11 @@ use InvalidArgumentException;
  */
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
@@ -59,16 +65,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_rep_tree_view");
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
-
-        /*
-        if ($_GET["baseClass"] == "ilRepositoryGUI") {
-            $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
-                ->withAction($link)
-                ->withParent($top)
-                ->withPosition(30)
-                ->withSymbol($icon)
-                ->withTitle($title);
-        }*/
 
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
@@ -133,14 +129,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction($action());
     }
 
-
-
-    /**
-     * Render last visited
-     *
-     * @return string
-     */
-    protected function renderLastVisited()
+    protected function renderLastVisited() : string
     {
         $nav_items = [];
         if (isset($this->dic['ilNavigationHistory'])) {
@@ -179,12 +168,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $this->dic->ui()->renderer()->render($this->getNoLastVisitedMessage());
     }
 
-    /**
-     * No favourites message box
-     *
-     * @return \ILIAS\UI\Component\MessageBox\MessageBox
-     */
-    public function getNoLastVisitedMessage() : \ILIAS\UI\Component\MessageBox\MessageBox
+    // No favourites message box
+    public function getNoLastVisitedMessage() : MessageBox
     {
         global $DIC;
 
@@ -197,14 +182,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $mbox;
     }
 
-
-
-    /**
-     * Render repository tree
-     *
-     * @return string
-     */
-    protected function renderRepoTree()
+    protected function renderRepoTree() : string
     {
         global $DIC;
 

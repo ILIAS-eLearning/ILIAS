@@ -1,60 +1,42 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for
  *
- * @author Alex Killing <alex.killing@gmx.de>
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilTrashTableGUI extends ilTable2GUI
 {
     protected const TABLE_BASE_ID = 'adm_trash_table';
 
-    private $logger = null;
+    protected ilAccessHandler $access;
+    protected ilObjectDefinition $obj_definition;
+    private int $ref_id = 0;
+    private array $current_filter = [];
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-
-    /**
-     * @var int
-     */
-    private $ref_id = 0;
-
-
-    /**
-     * @var array
-     */
-    private $current_filter = [];
-
-
-    /**
-     * ilTrashTableGUI constructor.
-     * @param object $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param int $ref_id
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, int $ref_id)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $ref_id
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();
         $this->obj_definition = $DIC["objDefinition"];
         $this->ref_id = $ref_id;
-
-        $this->logger = $DIC->logger()->rep();
 
         $this->setId(self::TABLE_BASE_ID);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -65,7 +47,7 @@ class ilTrashTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init()
+    public function init() : void
     {
         $this->setTitle(
             $this->lng->txt('rep_trash_table_title') . ' "' .
@@ -101,10 +83,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    /**
-     *
-     */
-    public function initFilter()
+    public function initFilter() : void
     {
         $this->setDefaultFilterVisiblity(true);
 
@@ -147,10 +126,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->current_filter['deleted'] = $deleted->getValue();
     }
 
-    /**
-     * Parse table
-     */
-    public function parse()
+    public function parse() : void
     {
         $this->determineOffsetAndOrder();
 
@@ -191,9 +167,6 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function fillRow($row)
     {
         $this->tpl->setVariable('ID', $row['id']);
@@ -231,10 +204,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_SUBS', (string) (int) $row['num_subs']);
     }
 
-    /**
-     * @return array
-     */
-    protected function prepareTypeFilterTypes()
+    protected function prepareTypeFilterTypes() : array
     {
         $trash = new \ilTreeTrashQueries();
         $subs = $trash->getTrashedNodeTypesForContainer($this->ref_id);

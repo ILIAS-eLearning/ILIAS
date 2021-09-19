@@ -55,9 +55,9 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
     public function getInfoScreenStatus()
     {
         if (ilContainer::_lookupContainerSetting(
-            $this->obj_id,
+            (int) $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            true
+            "1"
         )) {
             return $this->info_screen_enabled;
         }

@@ -1,33 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Recommended content manager
  * (business logic)
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRecommendedContentManager
 {
-    /**
-     * @var ilRecommendedContentDBRepository
-     */
-    protected $repo;
+    protected ilRecommendedContentDBRepository $repo;
+    protected ilRbacReview $rbacreview;
+    protected ilFavouritesManager $fav_manager;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilRecommendedContentDBRepository $repo = null,
         ilRbacReview $rbacreview = null,
@@ -48,30 +45,18 @@ class ilRecommendedContentManager
             : $fav_manager;
     }
 
-    /**
-     * Add role recommendation
-     * @param int $role_id
-     * @param int $ref_id
-     */
-    public function addRoleRecommendation(int $role_id, int $ref_id)
+    public function addRoleRecommendation(int $role_id, int $ref_id) : void
     {
         $this->repo->addRoleRecommendation($role_id, $ref_id);
     }
 
-    /**
-     * Remove role recommendation
-     * @param int $role_id
-     * @param int $ref_id
-     */
-    public function removeRoleRecommendation(int $role_id, int $ref_id)
+    public function removeRoleRecommendation(int $role_id, int $ref_id) : void
     {
         $this->repo->removeRoleRecommendation($role_id, $ref_id);
     }
 
     /**
-     * Add role recommendation
-     * @param int $role_id
-     * @return int[]
+     * @return int[] ref ids of recommendations
      */
     public function getRecommendationsOfRole(int $role_id) : array
     {
@@ -79,63 +64,36 @@ class ilRecommendedContentManager
     }
 
 
-    /**
-     * Add object recommendation
-     * @param int $role_id
-     * @param int $ref_id
-     */
-    public function addObjectRecommendation(int $user_id, int $ref_id)
+    public function addObjectRecommendation(int $user_id, int $ref_id) : void
     {
         $this->repo->addObjectRecommendation($user_id, $ref_id);
     }
 
-    /**
-     * Remove object recommendation
-     * @param int $user_id
-     * @param int $ref_id
-     */
-    public function removeObjectRecommendation(int $user_id, int $ref_id)
+    public function removeObjectRecommendation(int $user_id, int $ref_id) : void
     {
         $this->repo->removeObjectRecommendation($user_id, $ref_id);
     }
 
-    /**
-     * Remove all recommendations of a ref id (role and user/object related)
-     *
-     * @param int $ref_id
-     */
-    public function removeRecommendationsOfRefId(int $ref_id)
+    //  Remove all recommendations of a ref id (role and user/object related)
+    public function removeRecommendationsOfRefId(int $ref_id) : void
     {
         $this->repo->removeRecommendationsOfRefId($ref_id);
     }
 
-    /**
-     * Remove all recommendations of a user
-     *
-     * @param int $user_id
-     */
-    public function removeRecommendationsOfUser(int $user_id)
+    public function removeRecommendationsOfUser(int $user_id) : void
     {
         $this->repo->removeRecommendationsOfUser($user_id);
     }
 
-    /**
-     * Remove all recommendations of a role
-     *
-     * @param int $role_id
-     */
-    public function removeRecommendationsOfRole(int $role_id)
+    public function removeRecommendationsOfRole(int $role_id) : void
     {
         $this->repo->removeRecommendationsOfRole($role_id);
     }
 
     /**
-     * Get open recommendations for user
-     *
-     * @param int $user_sid
      * @return int[] ref ids
      */
-    public function getOpenRecommendationsOfUser(int $user_id)
+    public function getOpenRecommendationsOfUser(int $user_id) : array
     {
         $review = $this->rbacreview;
         $repo = $this->repo;
@@ -153,13 +111,7 @@ class ilRecommendedContentManager
         });
     }
 
-    /**
-     * Decline object recommendation
-     *
-     * @param int $user_id
-     * @param int $ref_id
-     */
-    public function declineObjectRecommendation(int $user_id, int $ref_id)
+    public function declineObjectRecommendation(int $user_id, int $ref_id) : void
     {
         $this->repo->declineObjectRecommendation($user_id, $ref_id);
     }

@@ -1,45 +1,36 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("Services/Component/classes/class.ilComponent.php");
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for module listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRepository
  */
 class ilModulesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    protected $pos_group_options; // [array]
-    protected $old_grp_id; // [int]
+    protected ilObjectDefinition $obj_definition;
+    protected ilSetting $settings;
+    protected ilPluginAdmin $plugin_admin;
+    protected array $pos_group_options;
+    protected int $old_grp_id;
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        bool $a_has_write = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -78,10 +69,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->old_grp_id = 0;
     }
     
-    /**
-    * Get pages for list.
-    */
-    public function getComponents()
+    public function getComponents() : void
     {
         $objDefinition = $this->obj_definition;
         $ilSetting = $this->settings;
@@ -92,7 +80,6 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->pos_group_options = array(0 => $lng->txt("rep_new_item_group_unassigned"));
         $pos_group_map[0] = "9999";
         
-        include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
             // #12807
             if ($item["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
@@ -104,7 +91,6 @@ class ilModulesTableGUI extends ilTable2GUI
         $obj_types = array();
         
         // parse modules
-        include_once("./Services/Component/classes/class.ilModule.php");
         foreach (ilModule::getAvailableCoreModules() as $mod) {
             $has_repo = false;
             $rep_types =
@@ -176,10 +162,6 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
     protected function fillRow($a_set)
     {
         if ($a_set["pos_group"] != $this->old_grp_id) {
@@ -241,18 +223,14 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_MODULE_NAME", $a_set["subdir"]);
     }
 
-    /**
-     * @param $obj_types
-     * @param $component
-     * @param $slotName
-     * @param $slotId
-     * @return mixed
-     */
-    protected function getPluginComponents($obj_types, $component, $slotName, $slotId)
-    {
+    protected function getPluginComponents(
+        array $obj_types,
+        string $component,
+        string $slotName,
+        string $slotId
+    ) : array {
         $ilPluginAdmin = $this->plugin_admin;
         $lng = $this->lng;
-        include_once("./Services/Component/classes/class.ilPlugin.php");
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
         foreach ($pl_names as $pl_name) {
             $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
