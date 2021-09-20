@@ -760,11 +760,8 @@ class ilNewsItem
         
         $per = $a_per;
 
-        include_once("./Services/News/classes/class.ilNewsSubscription.php");
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
-        
         // this is currently not used
-        $ref_ids = ilNewsSubscription::_getSubscriptionsOfUser($a_user_id);
+        $ref_ids = [];
         
         if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n") {
             // get all items of the personal desktop

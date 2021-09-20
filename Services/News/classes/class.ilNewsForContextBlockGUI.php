@@ -922,33 +922,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     }
     
     
-    /**
-    * Unsubscribe current user from news
-    */
-    public function unsubscribeNews()
-    {
-        $ilUser = $this->user;
-        $ilCtrl = $this->ctrl;
-        
-        include_once("./Services/News/classes/class.ilNewsSubscription.php");
-        ilNewsSubscription::_unsubscribe($_GET["ref_id"], $ilUser->getId());
-        $ilCtrl->returnToParent($this);
-    }
-
-    /**
-    * Subscribe current user from news
-    */
-    public function subscribeNews()
-    {
-        $ilUser = $this->user;
-        $ilCtrl = $this->ctrl;
-
-        include_once("./Services/News/classes/class.ilNewsSubscription.php");
-        ilNewsSubscription::_subscribe($_GET["ref_id"], $ilUser->getId());
-        $ilCtrl->returnToParent($this);
-    }
-    
-
     public function showNotifications()
     {
         $ilCtrl = $this->ctrl;
