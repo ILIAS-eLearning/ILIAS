@@ -576,4 +576,21 @@ class ilForumProperties
         global $DIC;
         return $DIC->settings()->get('send_attachments_by_mail') == true ? true : false;
     }
+    
+    public function countStickyThreads() : int
+    {
+        /** @var $DIC ILIAS\DI\Container */
+        global $DIC;
+        
+        $res = $DIC->database()->query(
+            'SELECT COUNT(is_sticky) num_sticky FROM frm_threads
+            INNER JOIN frm_data ON top_pk = thr_top_fk
+            WHERE frm_data.top_frm_fk = ' . $DIC->database()->quote($this->getObjId(), 'integer').'
+            AND is_sticky = '. $DIC->database()->quote(1, 'integer')
+        );
+        if ($row = $DIC->database()->fetchAssoc($res)) {
+            return (int) $row['num_sticky'];
+        }
+        return 0;
+    }
 }
