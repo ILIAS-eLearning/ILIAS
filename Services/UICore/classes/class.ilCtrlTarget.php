@@ -51,7 +51,7 @@ final class ilCtrlTarget
     /**
      * @var ilCtrlTarget|null
      */
-    private ?self $nested_target;
+    private ?self $nested_target = null;
 
     /**
      * ilCtrlTarget constructor.
@@ -219,10 +219,11 @@ final class ilCtrlTarget
             if (0 === $index) {
                 $paths[] = $cid;
             } else {
-                $paths[] = $paths[$index - 1] . $cid;
+                $paths[] = $paths[$index - 1] . self::CID_TRACE_SEPARATOR . $cid;
             }
         }
 
+        // yeah, yeah, that could've been done smoother ofc.
         if (SORT_DESC === $sort) {
             rsort($paths);
         }

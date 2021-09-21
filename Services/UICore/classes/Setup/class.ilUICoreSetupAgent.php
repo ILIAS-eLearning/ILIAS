@@ -12,7 +12,7 @@ class ilUICoreSetupAgent implements Setup\Agent
     /**
      * @var ilCtrlStructureReader
      */
-    protected $ctrl_reader;
+    protected ilCtrlStructureReader $ctrl_reader;
 
     /**
      * ilUICoreSetupAgent constructor.

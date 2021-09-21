@@ -409,7 +409,8 @@ class ilStartUpGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, ''));
+        $x = $this->ctrl->getFormAction($this, 'doStandardAuthentication');
+        $form->setFormAction($this->ctrl->getFormAction($this, 'doStandardAuthentication'));
         $form->setName("formlogin");
         $form->setShowTopButtons(false);
         $form->setTitle($this->lng->txt("login_to_ilias"));

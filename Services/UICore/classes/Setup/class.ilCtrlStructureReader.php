@@ -96,7 +96,7 @@ final class ilCtrlStructureReader
                             $x++;
                         }
                     } catch (Throwable $t) {
-                        $x = 1;
+
                     }
                 }
 

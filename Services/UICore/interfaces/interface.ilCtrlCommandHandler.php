@@ -7,7 +7,7 @@
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * This interface describes how a command handler must look like. It's
- * Lifespan is temporarily though, because with the recent refactoring
+ * lifespan is temporarily though, because with the recent refactoring
  * of ilCtrl, several $_POST and $_GET manipulations were made directly
  * within @see ilCtrlInterface::getCmd() which will be prohibited in
  * the future. Therefore this method now accepts an additional Handler

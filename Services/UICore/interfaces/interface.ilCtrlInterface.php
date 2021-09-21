@@ -48,8 +48,8 @@ interface ilCtrlInterface
      * Initializes ilCtrl with a new baseclass.
      *
      * Note that this means, the URL information will be removed
-     * and only the given baseclass will appended for future link
-     * target generations from this point.
+     * and only the given baseclass is appended for future link
+     * target generations from this point on.
      *
      * @param string $a_base_class
      */
@@ -97,13 +97,16 @@ interface ilCtrlInterface
      * @return string
      */
     public function getCmd(
-        string $fallback_command = "",
+        string $fallback_command = '',
         array $safe_commands = [],
         ilCtrlCommandHandler $handler = null
     ) : string;
 
     /**
-     * Set the current command
+     * Sets the current command.
+     *
+     * @depracated this method should not be used anymore, as all commands
+     *             should be passed by $_GET or $_POST parameters.
      *
      * @param string $a_cmd
      */
@@ -117,7 +120,10 @@ interface ilCtrlInterface
     public function getCmdClass() : ?string;
 
     /**
-     * Sets the current command class
+     * Sets the command class that should be executed next.
+     *
+     * @deprecated this method should not be used anymore, as all command
+     *             classes should be passed by $_GET or $_POST parameters.
      *
      * @param object|string $a_cmd_class
      */
@@ -190,10 +196,19 @@ interface ilCtrlInterface
      * Returns all parameters that have been saved or set for a GUI object.
      *
      * @param object $a_gui_obj
-     * @param null   $a_cmd
      * @return array
+     * @throws ilCtrlException if the given object cannot be found.
      */
-    public function getParameterArray(object $a_gui_obj, $a_cmd = null) : array;
+    public function getParameterArray(object $a_gui_obj) : array;
+
+    /**
+     * Returns all parameters that have been saved or set for a given GUI class.
+     *
+     * @param string $a_class
+     * @return array
+     * @throws ilCtrlException if the given class cannot be found.
+     */
+    public function getParameterArrayByClass(string $a_class) : array;
 
     /**
      * Removes all currently set or saved parameters for the given GUI object.
@@ -226,6 +241,7 @@ interface ilCtrlInterface
      * @param bool   $is_async
      * @param bool   $has_xml_style
      * @return string
+     * @throws ilCtrlException if the provided class cannot be found.
      */
     public function getLinkTarget(
         object $a_gui_obj,
@@ -244,6 +260,7 @@ interface ilCtrlInterface
      * @param bool            $is_async
      * @param bool            $has_xml_style
      * @return string
+     * @throws ilCtrlException if a provided class cannot be found.
      */
     public function getLinkTargetByClass(
         array|string $a_class,
@@ -262,6 +279,7 @@ interface ilCtrlInterface
      * @param bool   $is_async
      * @param bool   $has_xml_style
      * @return string
+     * @throws ilCtrlException if the provided class cannot be found.
      */
     public function getFormAction(
         object $a_gui_obj,
@@ -280,6 +298,7 @@ interface ilCtrlInterface
      * @param bool            $is_async
      * @param bool            $has_xml_style
      * @return string
+     * @throws ilCtrlException if a provided class cannot be found.
      */
     public function getFormActionByClass(
         array|string $a_class,
@@ -288,6 +307,44 @@ interface ilCtrlInterface
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string;
+
+    /**
+     * Redirects to another GUI object.
+     *
+     * @param object $a_gui_obj
+     * @param string $a_cmd
+     * @param string $a_anchor
+     * @param bool   $is_async
+     * @throws ilCtrlException if the provided class cannot be found.
+     */
+    public function redirect(
+        object $a_gui_obj,
+        string $a_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false
+    ) : void;
+
+    /**
+     * Redirects to the provided GUI class.
+     * @param string|string[] $a_class
+     * @param string          $a_cmd
+     * @param string          $a_anchor
+     * @param bool            $is_async
+     * @throws ilCtrlException if a provided class cannot be found.
+     */
+    public function redirectByClass(
+        array|string $a_class,
+        string $a_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false
+    ) : void;
+
+    /**
+     * Redirects to the given URL.
+     *
+     * @param string $a_url
+     */
+    public function redirectToURL(string $a_url) : void;
 
     /**
      * Sets the current ilCtrl context. A context consist of an obj-id and -type
@@ -409,43 +466,6 @@ interface ilCtrlInterface
      * @throws ilException
      */
     public function verifyToken(RequestWrapper $request) : bool;
-
-    /**
-     * Redirects to another GUI object.
-     *
-     * @param object $a_gui_obj
-     * @param string $a_cmd
-     * @param string $a_anchor
-     * @param bool   $a_asynch
-     */
-    public function redirect(
-        object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false
-    ) : void;
-
-    /**
-     * Redirects to an URL.
-     *
-     * @param string $a_url
-     */
-    public function redirectToURL(string $a_url) : void;
-
-    /**
-     * Redirects to the provided GUI class.
-     *
-     * @param string|string[] $a_class
-     * @param string          $a_cmd
-     * @param string          $a_anchor
-     * @param bool            $a_asynch
-     */
-    public function redirectByClass(
-        $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
-        bool $a_asynch = false
-    ) : void;
 
     /**
      * Returns whether the current request is an asynchronous one.
