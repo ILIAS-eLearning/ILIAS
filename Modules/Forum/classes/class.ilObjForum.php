@@ -1199,4 +1199,18 @@ class ilObjForum extends ilObject
             array('thread_id' => array('integer',$merge_source_thread_id))
         );
     }
+    
+    public function getNumStickyThreads(): int
+    {
+        $res = $this->db->query(
+            'SELECT COUNT(is_sticky) num_sticky FROM frm_threads
+            INNER JOIN frm_data ON top_pk = thr_top_fk
+            WHERE frm_data.top_frm_fk = ' . $this->db->quote($this->getId(), 'integer') . '
+            AND is_sticky = ' . $this->db->quote(1, 'integer')
+        );
+        if ($row = $this->db->fetchAssoc($res)) {
+            return (int) $row['num_sticky'];
+        }
+        return 0;
+    }
 }
