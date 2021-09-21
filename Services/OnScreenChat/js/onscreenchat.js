@@ -417,7 +417,7 @@
 				template = template.replace(/\[\[participants-tt\]\]/g, participantsNames.join(', '));
 				template = template.replace(/\[\[participants-header\]\]/g, participantsNames.join(', '));
 			}
-			template = template.replace(/\[\[conversationfv\]\]/g, conversation.id);
+			template = template.replace(/\[\[conversationId\]\]/g, conversation.id);
 			template = template.replace('#:#close#:#', il.Language.txt('close'));
 			template = template.replace('#:#chat_osc_write_a_msg#:#', il.Language.txt('chat_osc_write_a_msg'));
 
@@ -454,8 +454,6 @@
 			try {
 				let $notificationRoot = $("#" + getModule().notificationItemId);
 				let	menuContainer = il.UI.item.notification.getNotificationItemObject($notificationRoot);
-				console.log('XXXX')
-				console.log(menuContainer)
 
 				getModule().notificationItemsAdded = conversations.length;
 				if (withServerSideRendering) {
