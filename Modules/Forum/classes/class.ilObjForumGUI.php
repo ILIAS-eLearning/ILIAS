@@ -685,7 +685,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $subtab == 'showThreads' ? true : false
             );
     
-            if ($this->objProperties->countStickyThreads() > 1) {
+            if ($this->object->getNumStickyThreads() > 1) {
                 $this->tabs->addSubTabTarget(
                     'sticky_threads_sorting',
                     $this->ctrl->getLinkTarget($this, 'sortThreads'),
