@@ -409,13 +409,13 @@ class ilObjAdvancedEditing extends ilObject
     * @static
     * @return integer 0 if the RTE should be disabled, 1 otherwise
     */
-    public static function _getRichTextEditorUserState()
+    public static function _getRichTextEditorUserState() : int
     {
         global $DIC;
 
         $ilUser = $DIC->user();
         if (strlen($ilUser->getPref("show_rte")) > 0) {
-            return $ilUser->getPref("show_rte");
+            return (int) $ilUser->getPref("show_rte");
         }
         return 1;
     }
