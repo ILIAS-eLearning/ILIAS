@@ -1484,12 +1484,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 // Modification of html is done inline here and can't be done
                 // by ilTemplate, because the "phase" is template_show in this
                 // case here.
-                $ilPluginAdmin = $DIC["ilPluginAdmin"];
-                $component_data_db = $DIC["component.db"];
-                $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
-                foreach ($plugins as $pl) {
-                    $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
-                    $gui_class = $ui_plugin->getUIClassInstance();
+                $component_factory = $DIC["component.factory"];
+                foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+                    $gui_class = $plugin->getUIClassInstance();
 
                     $resp = $gui_class->getHTML(
                         "",

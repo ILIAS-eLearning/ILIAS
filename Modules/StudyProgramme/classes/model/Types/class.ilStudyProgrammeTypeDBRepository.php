@@ -34,7 +34,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     protected ilPluginAdmin $plugin_admin;
     protected ilLanguage $lng;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
 
     public function __construct(
         ilDBInterface $db,
@@ -43,7 +43,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         ilObjUser $usr,
         ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
-        ilComponentDataDB $component_data_db
+        ilComponentFactory $component_factory
     ) {
         $this->db = $db;
         $this->settings_repo = $settings_repo;
@@ -52,7 +52,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->usr = $usr;
-        $this->component_data_db = $component_data_db;
+        $this->component_factory = $component_factory;
     }
 
     /**
@@ -98,7 +98,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
             $this->plugin_admin,
             $this->lng,
             $this->usr,
-            $this->component_data_db
+            $this->component_factory
         );
         $return->setDefaultLang($row[self::FIELD_DEFAULT_LANG]);
         $return->setOwner((int) $row[self::FIELD_OWNER]);
@@ -325,17 +325,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
 
     protected function getActivePlugins() : array
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->component_data_db->getPluginSlotById('prgtypehk')->getActivePlugins();
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl) {
-                /** @var ilStudyProgrammeTypeHookPlugin $plugin */
-                $plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl->getName());
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsInSlot('prgtypehk');;
     }
 
     protected function deleteAllTranslationsByTypeId(int $type_id)

@@ -15,16 +15,13 @@ class ilObjSurveyQuestionPool extends ilObject
     protected $user;
 
     /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
     * Online status of questionpool
     *
     * @var string
     */
     public $online;
+
+    protected ilComponentDataDB $component_data_db;
     
     /**
     * Constructor
@@ -39,7 +36,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $this->log = $DIC["ilLog"];
         $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_data_db = $DIC["component.db"];
         $this->type = "spl";
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -786,11 +783,8 @@ class ilObjSurveyQuestionPool extends ilObject
             } else {
                 global $DIC;
 
-                $ilPluginAdmin = $DIC["ilPluginAdmin"];
-                $component_data_db = $DIC["component.db"];
-                $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
-                foreach ($plugins as $plugin) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
+                $component_factory = $DIC["component.factory"];
+                foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$pl->getQuestionTypeTranslation()] = $row;
                     }
@@ -866,8 +860,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $ilLog = $DIC["ilLog"];
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $component_data_db = $DIC["component.db"];
+        $component_factory = $DIC["component.factory"];
         
         $lng->loadLanguageModule("survey");
         $result = $ilDB->query("SELECT * FROM svy_qtype");
@@ -876,9 +869,7 @@ class ilObjSurveyQuestionPool extends ilObject
             if ($row["plugin"] == 0) {
                 $types[$row['type_tag']] = $lng->txt($row["type_tag"]);
             } else {
-                $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
-                foreach ($plugins as $plugin) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
+                foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                     if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                         $types[$row['type_tag']] = $pl->getQuestionTypeTranslation();
                     }
@@ -933,12 +924,7 @@ class ilObjSurveyQuestionPool extends ilObject
     */
     public function isPluginActive($a_pname)
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        if ($ilPluginAdmin->isActive(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $a_pname)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->component_data_db->getPluginByName($a_pname)->isActive();
     }
     
     /**

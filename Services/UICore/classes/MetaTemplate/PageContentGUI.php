@@ -476,12 +476,8 @@ class PageContentGUI
         // Modification of html is done inline here and can't be done
         // by ilTemplate, because the "phase" is template_show in this
         // case here.
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $component_data_db = $DIC["component.db"];
-        $plugins = $component_data_db->getPluginSlotById("uihk")->getActivePlugins();
-        foreach ($plugins as $pl) {
-            $pl = $pl->getName();
-            $ui_plugin = \ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
+        $component_factory = $DIC["component.factory"];
+        foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
 
             $resp = $gui_class->getHTML(

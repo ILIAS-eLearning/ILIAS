@@ -7,6 +7,8 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 /**
  * Administration class for plugins. Handles basic data from plugin.php files.
  *
+ * @deprecated Please use ilComponentDataDB or ilComponentFactory instead.
+ *
  * This class currently needs refactoring. There are a lot of methods which are related to some specific slots.
  *
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -16,32 +18,6 @@ include_once("./Services/Component/classes/class.ilComponent.php");
  */
 class ilPluginAdmin
 {
-
-    /**
-     * @var array
-     */
-    protected $data;
-    /**
-     * @var bool
-     */
-    protected $got_data = false;
-    /**
-     * cached lists of active plugins
-     *
-     * @var    array
-     */
-    public static $active_plugins = array();
-    /**
-     * cached lists of plugin objects
-     *
-     * @var    array
-     */
-    protected static $plugin_objects = array();
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
     protected ilComponentDataDB $component_data_db;
 
 
@@ -51,8 +27,6 @@ class ilPluginAdmin
     public function __construct()
     {
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->lng->loadLanguageModule("cmps");
         $this->component_data_db = $DIC["component.db"];
     }
 
@@ -101,44 +75,5 @@ class ilPluginAdmin
         catch (\InvalidArgumentException $e) {
             return false;
         }
-    }
-
-    /**
-     * Get Plugin Object
-     *
-     * @param string $a_ctype   Component Type
-     * @param string $a_cname   Component Name
-     * @param string $a_slot_id Slot ID
-     * @param string $a_pname   Plugin Name
-     *
-     * @return ilPlugin the plugin
-     */
-    public static function getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname)
-    {
-        // cache the plugin objects
-        if (!isset(self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
-            self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname]
-                = ilPlugin::getPluginObject($a_ctype, $a_cname, $a_slot_id, $a_pname);
-        }
-
-        return self::$plugin_objects[$a_ctype][$a_cname][$a_slot_id][$a_pname];
-    }
-
-    /**
-     * Get a plugin-object by id
-     *
-     * @throws    InvalidArgumentException    if no plugin with that id is found
-     */
-    public static function getPluginObjectById(string $id) : \ilPlugin
-    {
-        global $DIC;
-        $plugin_info = $DIC["component.db"]->getPluginById($id);
-
-        return self::getPluginObject(
-            $plugin_info->getComponent()->getType(),
-            $plugin_info->getComponent()->getName(),
-            $plugin_info->getPluginSlot()->getId(),
-            $plugin_info->getName()
-        );
     }
 }

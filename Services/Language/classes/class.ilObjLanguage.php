@@ -268,22 +268,12 @@ class ilObjLanguage extends ilObject
     public static function refreshPlugins($a_lang_keys = null)
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $component_data_db = $DIC["component.db"];
+        $component_factory = $DIC["component.factory"];
 
         foreach ($component_data_db->getPluginSlots() as $slot) {
-            $act_plugins = $slot->getActivePlugins();
-            foreach ($act_plugins as $plugin) {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
-                $pl = ilPlugin::getPluginObject(
-                    $slot["component_type"],
-                    $slot["component_name"],
-                    $slot["slot_id"],
-                    $plugin->getName()
-                );
-                if (is_object($pl)) {
-                    $pl->updateLanguages($a_lang_keys);
-                }
+            foreach ($component_factory->getActivePluginsInSlot($slot->getId() as $plugin) {
+                $plugin->updateLanguages($a_lang_keys);
             }
         }
     }

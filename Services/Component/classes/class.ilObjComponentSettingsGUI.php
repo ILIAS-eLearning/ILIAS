@@ -49,6 +49,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected $db;
 
     protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
 
     /**
      * ilObjComponentSettingsGUI constructor.
@@ -66,8 +67,16 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->db = $DIC->database();
         $this->type = self::TYPE;
         $this->component_data_db = $DIC["component.db"];
+        $this->component_factory = $DIC["component.factory"];
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule(self::TYPE);
+    }
+
+    protected function getPlugin() : ilPlugin
+    {
+        return $this->component_factory->getPlugin(
+            $this->component_data_db->getPluginByName($_GET[self::P_PLUGIN_NAME])
+        );
     }
 
     /**
@@ -106,12 +115,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                         include_once($path);
                         $nc = new $next_class();
 
-                        $pl = ilPluginAdmin::getPluginObject(
-                            $_GET[self::P_CTYPE],
-                            $_GET[self::P_CNAME],
-                            $_GET[self::P_SLOT_ID],
-                            $_GET[self::P_PLUGIN_NAME]
-                        );
+                        $pl = $this->getPlugin();
 
                         $nc->setPluginObject($pl);
 
@@ -429,12 +433,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function installPlugin() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl = $this->getPlugin();
 
         $pl->install();
         $this->update($pl);
@@ -442,12 +441,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function activatePlugin() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl = $this->getPlugin();
 
         try {
             $result = $pl->activate();
@@ -474,13 +468,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function updatePlugin() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
-
+        $pl = $this->getPlugin();
         $this->update($pl);
     }
 
@@ -507,13 +495,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function deactivatePlugin() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
-
+        $pl = $this->getPlugin();
         $result = $pl->deactivate();
 
         if ($result !== true) {
@@ -536,12 +518,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function refreshLanguages() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl = $this->getPlugin();
 
         $pl->updateLanguages();
 
@@ -562,12 +539,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         global $DIC;
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl = $this->getPlugin();
 
         $pl_info = $this->component_data_db
             ->getComponentByTypeAndName(
@@ -610,12 +582,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function uninstallPlugin() : void
     {
-        $pl = ilPlugin::getPluginObject(
-            $_GET[self::P_CTYPE],
-            $_GET[self::P_CNAME],
-            $_GET[self::P_SLOT_ID],
-            $_GET[self::P_PLUGIN_NAME]
-        );
+        $pl = $this->getPlugin();
 
         try {
             $result = $pl->uninstall();

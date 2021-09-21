@@ -190,8 +190,8 @@ class ilCronManager implements \ilCronManagerInterface
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $component_data_db = $DIC['component.db'];
+        $component_factory = $DIC['component.factory'];
 
         // plugin
         if (strpos($a_job_id, 'pl__') === 0) {
@@ -204,12 +204,7 @@ class ilCronManager implements \ilCronManagerInterface
                     continue;
                 }
 
-                $plugin = $ilPluginAdmin->getPluginObject(
-                    $pl->getComponent()->getType(),
-                    $pl->getComponent()->getName(),
-                    $pl->getPluginSlot()->getId(),
-                    $pl->getName()
-                );
+                $plugin = $component_factory->getPlugin($pl->getId());
 
                 if (!$plugin instanceof ilCronJobProvider) {
                     continue;
@@ -427,9 +422,8 @@ class ilCronManager implements \ilCronManagerInterface
     {
         global $DIC;
 
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $component_data_db = $DIC['component.db'];
+        $component_factory = $DIC['component.factory'];
 
         $res = [];
 
@@ -438,12 +432,7 @@ class ilCronManager implements \ilCronManagerInterface
                 continue;
             }
             
-            $plugin = $ilPluginAdmin->getPluginObject(
-                $pl->getComponent()->getType(),
-                $pl->getComponent()->getName(),
-                $pl->getPluginSlot()->getId(),
-                $pl->getName()
-            );
+            $plugin = $component_factory->getPlugin($pl->getId());
 
             if (!$plugin instanceof ilCronJobProvider) {
                 continue;

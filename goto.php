@@ -31,12 +31,8 @@ $orig_target = $_GET['target'];
 
 // user interface plugin slot hook
 if (is_object($ilPluginAdmin)) {
-    // get user interface plugins
-    $plugins = $DIC["component.db"]->getPluginSlotById("uihk")->getActivePlugins();
-
     // search
-    foreach ($plugins as $pl) {
-        $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
+    foreach ($DIC["component.factory"]->getActivePlugins("uihk") as $ui_plugin) {
         $gui_class = $ui_plugin->getUIClassInstance();
         $gui_class->gotoHook();
     }

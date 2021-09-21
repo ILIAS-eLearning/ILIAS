@@ -88,6 +88,11 @@ class ilPluginInfo
         return $this->pluginslot->getPath() . "/" . $this->getName();
     }
 
+    public function getClassName() : string
+    {
+        return "il" . $this->getName() . "Plugin";
+    }
+
     /**
      * "activated" tells if the administrator of the installation
      * wants the plugin to be effective. Compare to "active".

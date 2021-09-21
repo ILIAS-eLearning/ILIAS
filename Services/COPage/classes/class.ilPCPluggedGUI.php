@@ -25,6 +25,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
     protected ilTabsGUI $tabs;
     protected ?ilPageComponentPlugin $current_plugin = null;
     protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
     
     public function __construct(
         ilPageObject $a_pg_obj,
@@ -36,8 +37,8 @@ class ilPCPluggedGUI extends ilPageContentGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->component_data_db = $DIC["component.db"];
+        $this->component_factory = $DIC["component.factory"];
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
@@ -77,14 +78,9 @@ class ilPCPluggedGUI extends ilPageContentGUI
         // of them, then forward
         $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
         foreach ($plugins as $pl) {
-            $pl_name = $plugins->getName();
+            $pl_name = $pl->getName();
             if ($next_class == strtolower("il" . $pl_name . "plugingui")) {
-                $plugin = $ilPluginAdmin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "COPage",
-                    "pgcp",
-                    $pl_name
-                );
+                $plugin = $this->component_factory->getPlugin($pl->getId());
                 $plugin->setPageObj($this->getPage());
                 $this->current_plugin = $plugin;
                 $this->setPluginName($pl_name);
@@ -124,13 +120,9 @@ class ilPCPluggedGUI extends ilPageContentGUI
         } else {
             $plugin_name = $this->content_obj->getPluginName();
         }
-        if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
-            $plugin_obj = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "COPage",
-                "pgcp",
-                $plugin_name
-            );
+        $plugin = $this->component_data_db->getPluginByName($plugin_name);
+        if ($plugin->isActive()) {
+            $plugin_obj = $this->component_factory->getPlugin($plugin->getId());
             $plugin_obj->setPageObj($this->getPage());
             $gui_obj = $plugin_obj->getUIClassInstance();
             $gui_obj->setPCGUI($this);

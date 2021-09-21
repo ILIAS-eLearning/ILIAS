@@ -88,7 +88,7 @@ class ilOrgUnitType
      */
     protected static $instances = array();
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
 
 
     /**
@@ -102,13 +102,11 @@ class ilOrgUnitType
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
         $ilUser = $DIC['ilUser'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $component_data_db = $DIC['component.db'];
+        $component_factory = $DIC['component.factory'];
         $lng = $DIC['lng'];
         $this->db = $ilDB;
         $this->log = $ilLog;
         $this->user = $ilUser;
-        $this->pluginAdmin = $ilPluginAdmin;
         $this->lng = $lng;
         if ($a_id) {
             $this->id = (int) $a_id;
@@ -757,17 +755,7 @@ class ilOrgUnitType
      */
     protected function getActivePlugins()
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->component_data_db->getPluginSlotById('orgutypehk')->getActivePlugins();
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl) {
-                /** @var ilOrgUnitTypeHookPlugin $plugin */
-                $plugin = $this->pluginAdmin->getPluginObject(IL_COMP_MODULE, 'OrgUnit', 'orgutypehk', $pl->getName());
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsForSlot("orgutypehk");
     }
 
 

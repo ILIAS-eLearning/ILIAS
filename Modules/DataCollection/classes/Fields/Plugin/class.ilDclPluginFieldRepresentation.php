@@ -21,8 +21,7 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
             $plugins = $this->component_data_db->getPluginSlotById(ilDclFieldTypePlugin::SLOT_ID)->getActivePlugins();
             $options = array();
             foreach ($plugins as $plugin) {
-                $plugin_name = $plugin->getName();
-                $plugin_data = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, ilDclFieldTypePlugin::COMPONENT_NAME, ilDclFieldTypePlugin::SLOT_ID, $plugin_name);
+                $plugin_data = $this->component_factory->getPlugin($plugin->getId());
                 $options[$plugin_data->getPluginName()] = $plugin_data->getPluginName();
             }
 

@@ -808,8 +808,8 @@ class ilInitialisation
      */
     protected static function initStyle()
     {
-        global $DIC, $ilPluginAdmin;
-        $component_data_db = $DIC["component.db"];
+        global $DIC;
+        $component_factory = $DIC["component.factory"];
 
         // load style definitions
         self::initGlobal(
@@ -819,9 +819,7 @@ class ilInitialisation
         );
 
         // add user interface hook for style initialisation
-        $plugins = $DIC["component.db"];
-        foreach ($plugins as $pl) {
-            $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl->getName());
+        foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
             $gui_class->modifyGUI("Services/Init", "init_style", array("styleDefinition" => $DIC->systemStyle()));
         }
@@ -1461,17 +1459,12 @@ class ilInitialisation
         $init_ui->init($c);
 
         $component_data_db = $c["component.db"];
+        $component_factory = $c["component.factory"];
         foreach ($component_data_db->getPlugins() as $pl) {
             if (!$pl->isActive()) {
                 continue;
             }
-            $plugin = ilPluginAdmin::getPluginObject(
-                $pl->getComponent()->getType(),
-                $pl->getComponent()->getName(),
-                $pl->getPluginSlot()->getId(),
-                $pl->getName()
-            );
-
+            $plugin = $component_factory->getPlugin($pl->getId());
             $c['ui.renderer'] = $plugin->exchangeUIRendererAfterInitialization($c);
 
             foreach ($c->keys() as $key) {

@@ -27,6 +27,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected ilPluginAdmin $plugin_admin;
     protected ilPlugin $plugin;
     protected PluginSlotGUIRequest $slot_request;
+    protected ilComponentFactory $component_factory;
 
     public function __construct(
         int $a_ref_id = 0,
@@ -49,8 +50,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->tabs = $DIC->tabs();
         $this->locator = $DIC["ilLocator"];
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->user = $DIC->user();
+        $this->component_factory = $DIC["component.factory"];
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
         $this->plugin = $this->getPlugin();
     }
@@ -199,16 +200,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
-            $this->plugin =
-                ilPlugin::getPluginObject(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $this->getType())
-                );
-            if (!is_object($this->plugin)) {
-                throw new ilPluginException("ilObjectPluginGUI: Could not instantiate plugin object for type " . $this->getType() . ".");
-            }
+            $this->plugin = $this->component_factory->getPlugin($this->getType());
         }
         return $this->plugin;
     }

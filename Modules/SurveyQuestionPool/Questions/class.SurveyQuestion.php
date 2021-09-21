@@ -1628,11 +1628,8 @@ class SurveyQuestion
         } else {
             global $DIC;
 
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $component_data_db = $DIC["component.db"];
-            $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
-            foreach ($plugins as $plugin) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
+            $component_factory = $DIC["component.factory"];
+            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $question_type) == 0) {
                     $pl->includeClass("class." . $type . ".php");
                     return true;
@@ -1658,11 +1655,8 @@ class SurveyQuestion
         } else {
             global $DIC;
 
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $component_data_db = $DIC["component.db"];
-            $plugins = $component_data_db->getPluginSlotById("svyq")->getActivePlugins();
-            foreach ($plugins as $plugin) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $plugin->getName());
+            $component_factory = $DIC["component.factory"];
+            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $type_tag) == 0) {
                     return $pl->getQuestionTypeTranslation();
                 }

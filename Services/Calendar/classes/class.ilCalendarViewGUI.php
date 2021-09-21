@@ -324,21 +324,8 @@ class ilCalendarViewGUI
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $component_data_db = $DIC['component.db'];
-
-        $res = array();
-
-        foreach ($component_data_db->getPluginSlotById($a_slot_id)->getActivePlugins() as $plugin) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "Calendar",
-                $a_slot_id,
-                $plugin->getName()
-            );
-        }
-
-        return $res;
+        $component_factory = $DIC['component.factory'];
+        return $component_factory->getActivePluginsInSlot($a_slot_id);
     }
 
     public function getModalTitleByPlugins($a_current_title)
