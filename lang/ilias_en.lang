@@ -4083,6 +4083,7 @@ common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal settings. Check ‘Changeable’ to allow the user to change the values. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal settings. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#Standard User Data Fields
 common#:#usr_settings_saved#:#Global user settings saved successfully!
+common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
@@ -14586,6 +14587,7 @@ dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_delete_cal#:#Delete Calendar
 survey#:#sub_tab_dashboard#:#Dashboard
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
 mail#:#mail_first_email#:#First E-Mail Address
