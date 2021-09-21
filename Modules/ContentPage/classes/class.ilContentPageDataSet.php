@@ -79,11 +79,11 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                             'id' => $obj->getId(),
                             'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'info-tab' => (int) ilContainer::_lookupContainerSetting(
+                            'info-tab' => (string) ((bool) ilContainer::_lookupContainerSetting(
                                 $obj->getId(),
                                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                                true
-                            ),
+                                '1'
+                            )),
                             'style-id' => $obj->getStyleSheetId(),
                         ];
                     }
@@ -123,7 +123,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 ilContainer::_writeContainerSetting(
                     $newObject->getId(),
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                    (int) $a_rec['info-tab']
+                    (string) ((bool) $a_rec['info-tab'])
                 );
 
                 $a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
