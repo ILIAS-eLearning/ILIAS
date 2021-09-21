@@ -30,7 +30,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             "feedback_time", "comment", "notice");
 
     protected ilExAssignmentTypes $ass_types;
-    protected ilExAssignmentTypeInterface $ass_type;
+    protected ?ilExAssignmentTypeInterface $ass_type = null;
 
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -232,7 +232,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
         $has_no_team_yet = ($a_ass->hasTeam() &&
             !ilExAssignmentTeam::getTeamId($a_ass->getId(), $a_user_id));
         
-        
+
         // static columns
 
         if ($this->mode == self::MODE_BY_ASSIGNMENT) {

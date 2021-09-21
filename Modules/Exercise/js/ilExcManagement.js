@@ -24,8 +24,8 @@ il.ExcManagement = {
 					type: 'POST',
 					data: {
 						ass_id: ass_id,
-						mem_id: member_id,
-						comm: comment
+						member_id: member_id,
+						comment: comment
 					},
 					success: function (response) {		
 						$("#"+form_id.substr(5)+"_snip").html(response.snippet);

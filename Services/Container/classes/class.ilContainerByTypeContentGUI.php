@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Shows all items grouped by type.
@@ -9,31 +20,14 @@
  */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $force_details;
-
-    protected $block_limit;
-
-    /**
-     * @var ilContainerUserFilter
-     */
-    protected $container_user_filter;
+    protected bool $force_details;
+    protected int $block_limit;
+    protected ?ilContainerUserFilter $container_user_filter;
     
-    /**
-    * Constructor
-    *
-    */
-    public function __construct($container_gui_obj, \ilContainerUserFilter $container_user_filter = null)
-    {
+    public function __construct(
+        ilContainerGUI $container_gui_obj,
+        ilContainerUserFilter $container_user_filter = null
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();
@@ -44,33 +38,22 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $this->container_user_filter = $container_user_filter;
     }
     
-    /**
-     * get details level
-     *
-     * @access public
-     * @param	int	$a_session_id
-     * @return	int	DEATAILS_LEVEL
-     */
-    public function getDetailsLevel($a_session_id)
+    public function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_session_id])) {
-            return $_SESSION['sess']['expanded'][$a_session_id];
+        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
+            return $_SESSION['sess']['expanded'][$a_item_id];
         }
-        if ($a_session_id == $this->force_details) {
+        if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
         } else {
             return self::DETAILS_TITLE;
         }
     }
-    
 
-    /**
-    * Get content HTML for main column.
-    */
-    public function getMainContent()
+    public function getMainContent() : string
     {
         $ilAccess = $this->access;
 
@@ -106,10 +89,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         return $tpl->get();
     }
     
-    /**
-    * Render Items
-    */
-    public function renderItemList()
+    public function renderItemList() : string
     {
         $this->clearAdminCommandsDetermination();
     
@@ -160,14 +140,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         return $output_html;
     }
     
-    /**
-     * init details
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function initDetails()
+    protected function initDetails() : void
     {
         if (isset($_GET['expand']) && $_GET['expand']) {
             if ($_GET['expand'] > 0) {

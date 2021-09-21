@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\GUIRequest;
+
 /**
  * Class ilExSubmissionGUI
  *
@@ -25,12 +27,14 @@ class ilExSubmissionGUI
     protected ilExAssignment $assignment;
     protected ilExAssignmentTypesGUI $type_guis;
     protected ?int $user_id;
+    protected GUIRequest $request;
     
     public function __construct(
         ilObjExercise $a_exercise,
         ilExAssignment $a_ass,
         int $a_user_id = null
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->user = $DIC->user();
@@ -68,6 +72,7 @@ class ilExSubmissionGUI
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->tpl = $tpl;
+        $this->request = $DIC->exercise()->internal()->gui()->request();
     }
 
     /**
@@ -192,7 +197,8 @@ class ilExSubmissionGUI
             // get overview content from ass type gui
             case self::MODE_OVERVIEW_CONTENT:
                 $type_gui = $this->type_guis->getById($par["submission"]->getAssignment()->getType());
-                return $type_gui->getOverviewContent($par["info"], $par["submission"]);
+                $type_gui->getOverviewContent($par["info"], $par["submission"]);
+                break;
         }
         return "";
     }
@@ -228,7 +234,7 @@ class ilExSubmissionGUI
      */
     public function downloadFeedbackFileObject() : bool
     {
-        $file = $_REQUEST["file"];
+        $file = $this->request->getFile();
 
         if (!isset($file)) {
             ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);
@@ -282,7 +288,7 @@ class ilExSubmissionGUI
     
     public function downloadFileObject() : bool
     {
-        $file = $_REQUEST["file"];
+        $file = $this->request->getFile();
 
         if (!isset($file)) {
             ilUtil::sendFailure($this->lng->txt("exc_select_one_file"), true);

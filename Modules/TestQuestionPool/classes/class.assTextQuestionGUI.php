@@ -42,7 +42,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -113,11 +113,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $answerTexts;
     }
 
-    public function outAdditionalOutput()
-    {
-    }
-
-    public function magicAfterTestOutput()
+    public function magicAfterTestOutput() : void
     {
         // TODO - BEGIN: what exactly is done here? cant we use the parent method?
 
@@ -125,9 +121,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $rtestring = ilRTE::_getRTEClassname();
         include_once "./Services/RTE/classes/class.$rtestring.php";
         $rte = new $rtestring();
-        include_once "./Services/Object/classes/class.ilObject.php";
-        $obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
-        $obj_type = ilObject::_lookupType($_GET["ref_id"], true);
         $rte->addUserTextEditor("textinput");
         $this->outAdditionalOutput();
 
@@ -594,7 +587,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -668,7 +661,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         $firstValue1 = current($userSolution);
         
@@ -901,16 +894,16 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return ''; //print_r($relevant_answers,true);
     }
     
-    public function isAnswerFreuqencyStatisticSupported()
+    public function isAnswerFreuqencyStatisticSupported() : bool
     {
         return false;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->populateQuestionSpecificFormPart($form);
         $this->populateAnswerSpecificFormPart($form);
@@ -921,7 +914,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->writeQuestionSpecificPostData($form);
         $this->writeAnswerSpecificPostData($form);

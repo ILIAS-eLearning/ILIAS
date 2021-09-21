@@ -1,58 +1,36 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
-* TableGUI class for sub items listed in repository administration
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesRepository
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * TableGUI class for sub items listed in repository administration
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilAdminSubItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
+    protected bool $editable = false;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-    
-    /**
-     * @var bool
-     */
-    protected $editable = false;
-
-    
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_ref_id,
-        $editable = false
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_ref_id,
+        bool $editable = false
     ) {
         global $DIC;
 
@@ -65,14 +43,11 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
         
         $this->ref_id = $a_ref_id;
         
         $this->setId('recf_' . $a_ref_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        //		$this->setTitle($lng->txt("items"));
         $this->setSelectAllCheckbox("id[]");
         
         $this->addColumn("", "", "1", 1);
@@ -123,19 +98,12 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->getItems();
     }
     
-    /**
-     * Check if table is editable (write permission granted)
-     * @return bool
-     */
-    public function isEditable()
+    public function isEditable() : bool
     {
         return $this->editable;
     }
     
-    /**
-    * Get items
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $rbacsystem = $this->rbacsystem;
         $objDefinition = $this->obj_definition;
@@ -166,10 +134,6 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setData($items);
     }
     
-    
-    /**
-    * Fill table row
-    */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;
@@ -223,7 +187,5 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             ? $lng->txt("icon") . " " . ilObjectPlugin::lookupTxtById($a_set["type"], "obj_" . $a_set["type"])
             : $lng->txt("icon") . " " . $lng->txt("obj_" . $a_set["type"]);
         $this->tpl->setVariable("IMG_TYPE", ilUtil::img(ilObject::_getIcon($a_set["obj_id"], "small"), $alt));
-        //$this->tpl->setVariable("IMG_TYPE", ilObject::_getIcon($a_set["obj_id"], "small", $this->getIconImageType()),
-        //	$lng->txt("icon")." ".$lng->txt("obj_".$a_set["type"])));
     }
 }

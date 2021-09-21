@@ -18,7 +18,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
             '<xml>Some Content</xml>',
             '[]',
             null,
-            '1',
+            1,
             'v5.4.0',
             true,
             '/some/where/background.jpg',

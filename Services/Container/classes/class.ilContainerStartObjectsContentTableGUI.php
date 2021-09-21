@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * ilContainerStartObjectsContentTableGUI
@@ -8,42 +19,21 @@
  */
 class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    protected $start_object; // [ilContainerStartObjects]
-    protected $item_list_guis; // [array]
-    protected $enable_desktop; // [bool]
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
+    protected ilObjUser $user;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilAccessHandler $access;
+    protected ilObjectDefinition $obj_definition;
+    protected ilContainerStartObjects $start_object;
+    protected array $item_list_guis;
+    protected bool $enable_desktop;
+    protected ilFavouritesManager $fav_manager;
     
-    public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects, $a_enable_desktop = true)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilContainerStartObjects $a_start_objects,
+        bool $a_enable_desktop = true
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -80,7 +70,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->getItems();
     }
     
-    protected function getItems()
+    protected function getItems() : void
     {
         $ilUser = $this->user;
         $ilObjDataCache = $this->obj_data_cache;
@@ -88,7 +78,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         
         $lm_continue = new ilCourseLMHistory($this->start_object->getRefId(), $ilUser->getId());
         $continue_data = $lm_continue->getLMHistory();
-    
+
         $items = array();
         $counter = 0;
         foreach ($this->start_object->getStartObjects() as $start) {
@@ -170,15 +160,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         $this->setData($items);
     }
         
-    /**
-     * Get list gui for object type
-     *
-     * @see ilPDSelectedItemsBlockGUI
-     *
-     * @param string $a_type
-     * @return ilObjectListGUI
-     */
-    protected function getItemListGUI($a_type)
+    protected function getItemListGUI(string $a_type) : ?ilObjectListGUI
     {
         $objDefinition = $this->obj_definition;
 
@@ -205,17 +187,12 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
         return $item_list_gui;
     }
     
-    /**
-     * Get list gui for object instance
-     *
-     * @param array $a_item
-     * @return string
-     */
-    protected function getListItem($a_item)
+    // Get list gui html
+    protected function getListItem(array $a_item) : string
     {
         $item_list_gui = $this->getItemListGUI($a_item["type"]);
         if (!$item_list_gui) {
-            return;
+            return "";
         }
 
         $item_list_gui->setContainerObject($this);
@@ -255,9 +232,10 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
                 $a_item["description"]
             );
         }
+        return "";
     }
     
-    public function fillRow($a_set)
+    public function fillRow($a_set) : void
     {
         $this->tpl->setVariable("VAL_NR", $a_set["nr"]);
         

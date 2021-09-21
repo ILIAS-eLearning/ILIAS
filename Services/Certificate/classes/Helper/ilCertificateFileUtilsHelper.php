@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,7 +11,7 @@ class ilCertificateFileUtilsHelper
      * @return string
      * @throws ilFileUtilsException
      */
-    public function getValidFilename($targetFilename)
+    public function getValidFilename($targetFilename) : string
     {
         return ilFileUtils::getValidFilename($targetFilename);
     }

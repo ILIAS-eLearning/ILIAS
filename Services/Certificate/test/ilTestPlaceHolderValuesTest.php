@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceHolderValuesTest extends ilCertificateBaseTestCase
+class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testA()
     {
@@ -99,7 +99,7 @@ class ilTestPlaceHolderValuesTest extends ilCertificateBaseTestCase
         $dateHelper->method('formatDateTime')
             ->willReturn('2018-01-12 10:32:01');
 
-        $placeholdervalues = new ilTestPlaceHolderValues(
+        $placeholdervalues = new ilTestPlaceholderValues(
             $defaultPlaceholderValues,
             $language,
             $objectHelper,
@@ -180,7 +180,7 @@ class ilTestPlaceHolderValuesTest extends ilCertificateBaseTestCase
         $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
             ->getMock();
 
-        $placeholdervalues = new ilTestPlaceHolderValues(
+        $placeholdervalues = new ilTestPlaceholderValues(
             $defaultPlaceholderValues,
             $language,
             $objectHelper,

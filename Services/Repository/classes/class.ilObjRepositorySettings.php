@@ -1,28 +1,29 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjRepositorySettings
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: class.ilObjSystemFolder.php 33501 2012-03-03 11:11:05Z akill $
- *
- * @ingroup ServicesRepository
  */
 class ilObjRepositorySettings extends ilObject
 {
     const NEW_ITEM_GROUP_TYPE_GROUP = 1;
     const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
     
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id, $a_call_by_reference = true)
+    public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
         $this->type = "reps";
         parent::__construct($a_id, $a_call_by_reference);
@@ -34,7 +35,7 @@ class ilObjRepositorySettings extends ilObject
         return false;
     }
     
-    public static function addNewItemGroupSeparator()
+    public static function addNewItemGroupSeparator() : bool
     {
         global $DIC;
 
@@ -57,7 +58,7 @@ class ilObjRepositorySettings extends ilObject
         return true;
     }
     
-    public static function addNewItemGroup(array $a_titles)
+    public static function addNewItemGroup(array $a_titles) : bool
     {
         global $DIC;
 
@@ -81,7 +82,7 @@ class ilObjRepositorySettings extends ilObject
         return true;
     }
     
-    public static function updateNewItemGroup($a_id, array $a_titles)
+    public static function updateNewItemGroup(int $a_id, array $a_titles) : bool
     {
         global $DIC;
 
@@ -93,7 +94,7 @@ class ilObjRepositorySettings extends ilObject
         return true;
     }
     
-    public static function deleteNewItemGroup($a_id)
+    public static function deleteNewItemGroup(int $a_id) : bool
     {
         global $DIC;
 
@@ -119,7 +120,7 @@ class ilObjRepositorySettings extends ilObject
         return true;
     }
     
-    public static function getNewItemGroups()
+    public static function getNewItemGroups() : array
     {
         global $DIC;
 
@@ -155,7 +156,7 @@ class ilObjRepositorySettings extends ilObject
         return $res;
     }
 
-    public static function updateNewItemGroupOrder(array $a_order)
+    public static function updateNewItemGroupOrder(array $a_order) : void
     {
         global $DIC;
 
@@ -172,7 +173,7 @@ class ilObjRepositorySettings extends ilObject
         }
     }
     
-    protected static function getAllObjTypes()
+    protected static function getAllObjTypes() : array
     {
         global $DIC;
 
@@ -182,7 +183,6 @@ class ilObjRepositorySettings extends ilObject
         $res = array();
         
         // parse modules
-        include_once("./Services/Component/classes/class.ilModule.php");
         foreach (ilModule::getAvailableCoreModules() as $mod) {
             $has_repo = false;
             $rep_types = $objDefinition->getRepositoryObjectTypesForComponent(IL_COMP_MODULE, $mod["subdir"]);
@@ -204,7 +204,6 @@ class ilObjRepositorySettings extends ilObject
         }
         
         // parse plugins
-        include_once("./Services/Component/classes/class.ilPlugin.php");
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
         foreach ($pl_names as $pl_name) {
             $pl_id = ilPlugin::lookupIdForName(IL_COMP_SERVICE, "Repository", "robj", $pl_name);
@@ -216,7 +215,7 @@ class ilObjRepositorySettings extends ilObject
         return $res;
     }
     
-    public static function getNewItemGroupSubItems()
+    public static function getNewItemGroupSubItems() : array
     {
         global $DIC;
 
@@ -232,7 +231,7 @@ class ilObjRepositorySettings extends ilObject
         return $res;
     }
     
-    public static function getDefaultNewItemGrouping()
+    public static function getDefaultNewItemGrouping() : array
     {
         global $DIC;
 
@@ -284,7 +283,7 @@ class ilObjRepositorySettings extends ilObject
         return $res;
     }
     
-    public static function deleteObjectType($a_type)
+    public static function deleteObjectType(string $a_type) : void
     {
         global $DIC;
 

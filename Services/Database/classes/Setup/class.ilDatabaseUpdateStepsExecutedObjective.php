@@ -90,7 +90,7 @@ class ilDatabaseUpdateStepsExecutedObjective implements Objective
             }
             $execution_log->started($this->steps_class, $step);
             $method = self::STEP_METHOD_PREFIX . $step;
-            $this->steps->$method($db);
+            $this->steps->$method();
             $execution_log->finished($this->steps_class, $step);
         }
 

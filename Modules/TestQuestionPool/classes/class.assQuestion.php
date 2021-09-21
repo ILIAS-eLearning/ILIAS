@@ -85,7 +85,7 @@ abstract class assQuestion
      */
     protected $ilias;
 
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
 
     protected ilLanguage $lng;
 
@@ -103,7 +103,7 @@ abstract class assQuestion
      */
     protected array $suggested_solutions;
 
-    protected int $original_id;
+    protected ?int $original_id;
 
     /**
      * Page object
@@ -1514,7 +1514,7 @@ abstract class assQuestion
         try {
             $this->deletePageOfQuestion($question_id);
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Could not delete page of question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Could not delete page of question $question_id: $e");
             return;
         }
         
@@ -1533,7 +1533,7 @@ abstract class assQuestion
             $this->feedbackOBJ->deleteGenericFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
             $this->feedbackOBJ->deleteSpecificAnswerFeedbacks($question_id, $this->isAdditionalContentEditingModePageObject());
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Could not delete additional table data of question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Could not delete additional table data of question $question_id: $e");
             return;
         }
 
@@ -1545,7 +1545,7 @@ abstract class assQuestion
                 array($question_id)
             );
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Could not delete delete question $question_id from a test: $e");
+            $this->ilLog->root()->error("EXCEPTION: Could not delete delete question $question_id from a test: $e");
             return;
         }
 
@@ -1557,7 +1557,7 @@ abstract class assQuestion
                 array($question_id)
             );
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
             return;
         }
 
@@ -1568,7 +1568,7 @@ abstract class assQuestion
                 ilUtil::delDir($directory);
             }
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Could not delete question file directory $directory of question $question_id: $e");
             return;
         }
 
@@ -1587,7 +1587,7 @@ abstract class assQuestion
                 }
             }
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Error deleting the media objects of question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Error deleting the media objects of question $question_id: $e");
             return;
         }
         
@@ -1624,7 +1624,7 @@ abstract class assQuestion
             include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             ilObjQuestionPool::_updateQuestionCount($this->getObjId());
         } catch (Exception $e) {
-            $this->ilLog->write("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
+            $this->ilLog->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
             return;
         }
         
@@ -1850,7 +1850,7 @@ abstract class assQuestion
         return "";
     }
 
-    public function setOriginalId(int $original_id) : void
+    public function setOriginalId(?int $original_id) : void
     {
         $this->original_id = $original_id;
     }
@@ -1969,7 +1969,7 @@ abstract class assQuestion
             }
             
             $next_id = $this->db->nextId('qpl_questions');
-            $affectedRows = $this->db->insert("qpl_questions", array(
+            $this->db->insert("qpl_questions", array(
                 "question_id" => array("integer", $next_id),
                 "question_type_fi" => array("integer", $this->getQuestionTypeID()),
                 "obj_fi" => array("integer", $obj_id),
@@ -1978,7 +1978,7 @@ abstract class assQuestion
                 "author" => array("text", $this->getAuthor()),
                 "owner" => array("integer", $ilUser->getId()),
                 "question_text" => array("clob", null),
-                "points" => array("float", 0),
+                "points" => array("float", "0.0"),
                 "nr_of_tries" => array("integer", $this->getDefaultNrOfTries()), // #10771
                 "working_time" => array("text", $estw_time),
                 "complete" => array("text", $complete),

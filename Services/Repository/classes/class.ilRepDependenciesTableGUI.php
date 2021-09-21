@@ -1,43 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * name table
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRepDependenciesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    
     /**
     * Constructor
     */
-    public function __construct($a_deps)
+    public function __construct(array $a_deps)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
         
         parent::__construct(null, "");

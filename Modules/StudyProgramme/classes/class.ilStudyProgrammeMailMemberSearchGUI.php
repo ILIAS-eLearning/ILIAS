@@ -130,6 +130,11 @@ class ilStudyProgrammeMailMemberSearchGUI
         return $data;
     }
 
+    protected function getPRGMembersGUI() : ilObjStudyProgrammeMembersGUI
+    {
+        return ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeMembersGUI'];
+    }
+
     protected function sendMailToSelectedUsers() : bool
     {
         if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
@@ -150,9 +155,10 @@ class ilStudyProgrammeMailMemberSearchGUI
         }
         ilMailFormCall::setRecipients($rcps);
 
+        $members_gui = $this->getPRGMembersGUI();
         ilUtil::redirect(ilMailFormCall::getRedirectTarget(
-            $this,
-            'members',
+            $members_gui,
+            'view',
             array(),
             array(
                 'type' => 'new',

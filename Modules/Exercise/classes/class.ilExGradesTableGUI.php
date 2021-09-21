@@ -39,7 +39,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $request = $DIC->exercise()->internal()->gui()->request();
         
-        $this->exc = $request->getRequestedExercise();
+        $this->exc = $request->getExercise();
         $this->service = $service;
         $this->random_ass_manager = $service->domain()->assignment()->randomAssignments($this->exc);
 

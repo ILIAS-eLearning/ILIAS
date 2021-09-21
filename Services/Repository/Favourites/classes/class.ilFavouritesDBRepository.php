@@ -1,25 +1,29 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFavouritesDBRepository
 {
+    public static array $is_desktop_item = [];
 
-    /**
-     * @var array
-     */
-    public static $is_desktop_item = [];
-
-    /**
-     * Constructor
-     */
-    public function __construct(\ilDBInterface $db = null, ilTree $tree = null)
-    {
+    public function __construct(
+        \ilDBInterface $db = null,
+        ilTree $tree = null
+    ) {
         global $DIC;
 
         $this->db = (is_null($db))
@@ -31,12 +35,8 @@ class ilFavouritesDBRepository
     }
 
 
-    /**
-     * Add favourite
-     * @param int $user_id
-     * @param int $ref_id
-     */
-    public function add(int $user_id, int $ref_id)
+    // Add favourite
+    public function add(int $user_id, int $ref_id) : void
     {
         $db = $this->db;
 
@@ -60,13 +60,8 @@ class ilFavouritesDBRepository
         }
     }
 
-    /**
-     * Remove favourite
-     *
-     * @param int $user_id
-     * @param int $ref_id
-     */
-    public function remove(int $user_id, int $ref_id)
+    // Remove favourite
+    public function remove(int $user_id, int $ref_id) : void
     {
         $db = $this->db;
 
@@ -84,11 +79,8 @@ class ilFavouritesDBRepository
      *
      * note: the implementation of this method is not good style (directly
      * reading tables object_data and object_reference), must be revised someday...
-     * @param int $user_id
-     * @param array|null $a_types
-     * @return array
      */
-    public function getFavouritesOfUser(int $user_id, array $a_types = null) : array
+    public function getFavouritesOfUser(int $user_id, ?array $a_types = null) : array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
@@ -163,13 +155,8 @@ class ilFavouritesDBRepository
         return $items;
     }
 
-    /**
-     * check wether an item is on the users desktop or not
-     * @param $user_id
-     * @param $ref_id
-     * @return bool
-     */
-    public function ifIsFavourite($user_id, $ref_id)
+    // check whether an item is on the users desktop or not
+    public function ifIsFavourite(int $user_id, int $ref_id) : bool
     {
         $db = $this->db;
 
@@ -190,12 +177,8 @@ class ilFavouritesDBRepository
         return self::$is_desktop_item[$user_id . ":" . $ref_id];
     }
 
-    /**
-     * Load favourites data
-     * @param int $user_id
-     * @param array $ref_ids
-     */
-    public function loadData(int $user_id, array $ref_ids)
+    // Load favourites data
+    public function loadData(int $user_id, array $ref_ids) : void
     {
         $db = $this->db;
         if (!is_array($ref_ids)) {
@@ -224,12 +207,8 @@ class ilFavouritesDBRepository
         }
     }
 
-    /**
-     * Remove favourite entries of a repository item
-     *
-     * @param int $ref_id
-     */
-    public function removeFavouritesOfRefId(int $ref_id)
+    // Remove favourite entries of a repository item
+    public function removeFavouritesOfRefId(int $ref_id) : void
     {
         $db = $this->db;
 
@@ -241,12 +220,8 @@ class ilFavouritesDBRepository
         );
     }
 
-    /**
-     * Remove favourite entries of a user
-     *
-     * @param int $user_id
-     */
-    public function removeFavouritesOfUser(int $user_id)
+    // Remove favourite entries of a user
+    public function removeFavouritesOfUser(int $user_id) : void
     {
         $db = $this->db;
 

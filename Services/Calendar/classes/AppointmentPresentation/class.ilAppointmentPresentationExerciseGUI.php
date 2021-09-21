@@ -23,7 +23,6 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 
         include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
         include_once('./Services/Link/classes/class.ilLink.php');
-        include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 
         $f = $DIC->ui()->factory();
         $r = $DIC->ui()->renderer();

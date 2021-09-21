@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,27 +6,19 @@
  */
 class ilCertificatePdfFilename implements ilCertificateFilename
 {
-    /** @var ilLanguage */
-    private $lng;
+    private ilLanguage $lng;
 
-    /**
-     * ilCertificatePdfFileNameFactory constructor.
-     * @param ilLanguage $lng
-     */
-    public function __construct(\ilLanguage $lng)
+    public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
 
         $this->lng->loadLanguageModule('certificate');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createFileName(ilUserCertificatePresentation $presentation) : string
     {
         $basename = $this->lng->txt('certificate_file_basename');
-        if (!is_string($basename) || 0 === trim($basename)) {
+        if (!is_string($basename) || '' === trim($basename)) {
             $basename = 'Certificate';
         }
 

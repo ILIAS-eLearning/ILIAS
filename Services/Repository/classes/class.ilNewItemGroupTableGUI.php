@@ -1,28 +1,32 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for new item groups
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRepository
  */
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    protected $has_write; // [bool]
+    protected bool $has_write;
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd = "",
+        bool $a_has_write = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -30,7 +34,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
-        $this->has_write = (bool) $a_has_write;
+        $this->has_write = $a_has_write;
                 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -63,10 +67,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->getGroups();
     }
     
-    /**
-    * Get pages for list.
-    */
-    public function getGroups()
+    public function getGroups() : void
     {
         $lng = $this->lng;
         

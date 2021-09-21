@@ -51,7 +51,9 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $database
             ->method('quote')
             ->with($this->anything(), $this->isType('string'))
-            ->will($this->returnArgument(0));
+            ->willReturnCallback(static function ($arg1) : string {
+                return (string) $arg1;
+            });
 
         $data = $provider->getList(
             [

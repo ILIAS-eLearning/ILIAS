@@ -63,7 +63,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
     }
 
     public function getFeedbackPath(
-        int $a_user_id
+        string $a_user_id
     ) : string {
         $path = $this->feedb_path . "/" . $a_user_id;
         if (!file_exists($path)) {
@@ -236,7 +236,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
     }
 
     public function getFeedbackFiles(
-        int $a_user_id
+        string $a_user_id
     ) : array {
         $files = array();
     
@@ -254,7 +254,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
     }
     
     public function countFeedbackFiles(
-        int $a_user_id
+        string $a_user_id
     ) : int {
         $fbf = $this->getFeedbackFiles($a_user_id);
         return count($fbf);
@@ -266,7 +266,7 @@ class ilFSStorageExercise extends ilFileSystemStorage
     }
     
     public function getFeedbackFilePath(
-        int $a_user_id,
+        string $a_user_id,
         string $a_file
     ) : string {
         $dir = $this->getFeedbackPath($a_user_id);

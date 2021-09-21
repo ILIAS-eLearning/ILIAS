@@ -152,7 +152,9 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
 
         $language = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
+            ->onlyMethods(['txt'])
             ->getMock();
+        $language->expects($this->once())->method('txt')->willReturn('certificate_not_well_formed');
 
         $certificateXlsFileLoader = $this->getMockBuilder('ilCertificateXlsFileLoader')
             ->getMock();

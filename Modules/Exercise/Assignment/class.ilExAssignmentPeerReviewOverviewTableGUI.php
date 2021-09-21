@@ -11,7 +11,7 @@
 class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 {
     protected ilExAssignment $ass;
-    protected array $panel_info;
+    protected array $panel_info = [];
     
     public function __construct(
         object $a_parent_obj,

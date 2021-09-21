@@ -1,35 +1,35 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Repository settings.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilObjRepositorySettingsGUI: ilPermissionGUI
- *
- * @ingroup ServicesRepository
  */
 class ilObjRepositorySettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
+    protected ilErrorHandling $error;
+    protected ilSetting $folder_settings;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $folder_settings;
-
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        array $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->error = $DIC["ilErr"];
@@ -47,7 +47,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('cmps');
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilErr = $this->error;
         $ilAccess = $this->access;
@@ -72,7 +72,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
     
     public function getAdminTabs()
@@ -106,7 +105,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
     }
     
-    public function view(ilPropertyFormGUI $a_form = null)
+    public function view(ilPropertyFormGUI $a_form = null) : void
     {
         $this->tabs_gui->activateTab("settings");
         
@@ -117,7 +116,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function initSettingsForm()
+    protected function initSettingsForm() : ilPropertyFormGUI
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -314,7 +313,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $form;
     }
     
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -367,7 +366,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             $this->folder_settings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
             $this->folder_settings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
 
-            require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
             if ($form->getInput('change_event_tracking')) {
                 ilChangeEvent::_activate();
             } else {
@@ -382,7 +380,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->view($form);
     }
     
-    public function customIcons(ilPropertyFormGUI $a_form = null)
+    public function customIcons(ilPropertyFormGUI $a_form = null) : void
     {
         $this->tabs_gui->activateTab("icons");
         
@@ -393,7 +391,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function initCustomIconsForm()
+    protected function initCustomIconsForm() : ilPropertyFormGUI
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -414,7 +412,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $form;
     }
     
-    public function saveCustomIcons()
+    public function saveCustomIcons() : void
     {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
@@ -434,7 +432,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->customIcons($form);
     }
     
-    protected function setModuleSubTabs($a_active)
+    protected function setModuleSubTabs($a_active) : void
     {
         $this->tabs_gui->activateTab('modules');
         
@@ -453,7 +451,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tabs_gui->activateSubTab($a_active);
     }
     
-    protected function listModules()
+    protected function listModules() : void
     {
         $ilAccess = $this->access;
         
@@ -466,7 +464,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($comp_table->getHTML());
     }
     
-    protected function saveModules()
+    protected function saveModules() : void
     {
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
@@ -506,22 +504,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             }
         }
 
-        /*
-        if (count($double) == 0)
-        {
-            ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-        }
-        else
-        {
-            ilUtil::sendInfo($lng->txt("cmps_duplicate_positions")." ".implode($double, ", "), true);
-        }
-        */
-        
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listModules");
     }
     
-    protected function listNewItemGroups()
+    protected function listNewItemGroups() : void
     {
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
@@ -547,7 +534,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($grp_table->getHTML());
     }
     
-    protected function initNewItemGroupForm($a_grp_id = false)
+    protected function initNewItemGroupForm($a_grp_id = false) : ilPropertyFormGUI
     {
         $this->setModuleSubTabs("new_item_groups");
         
@@ -596,7 +583,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         return $form;
     }
     
-    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null)
+    protected function addNewItemGroup(ilPropertyFormGUI $a_form = null) : void
     {
         if (!$a_form) {
             $a_form = $this->initNewItemGroupForm();
@@ -605,7 +592,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function saveNewItemGroup()
+    protected function saveNewItemGroup() : void
     {
         $form = $this->initNewItemGroupForm();
         if ($form->checkInput()) {
@@ -624,7 +611,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->addNewItemGroup($form);
     }
     
-    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null)
+    protected function editNewItemGroup(ilPropertyFormGUI $a_form = null) : void
     {
         $grp_id = (int) $_GET["grp_id"];
         if (!$grp_id) {
@@ -639,7 +626,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function updateNewItemGroup()
+    protected function updateNewItemGroup() : void
     {
         $grp_id = (int) $_GET["grp_id"];
         if (!$grp_id) {
@@ -665,7 +652,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->addNewItemGroup($form);
     }
     
-    protected function addNewItemGroupSeparator()
+    protected function addNewItemGroupSeparator() : void
     {
         if (ilObjRepositorySettings::addNewItemGroupSeparator()) {
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -673,7 +660,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
-    protected function saveNewItemGroupOrder()
+    protected function saveNewItemGroupOrder() : void
     {
         $ilSetting = $this->settings;
         
@@ -704,11 +691,12 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
-    protected function confirmDeleteNewItemGroup()
+    protected function confirmDeleteNewItemGroup() : void
     {
         if (!is_array($_POST["grp_id"])) {
             ilUtil::sendFailure($this->lng->txt("select_one"));
-            return $this->listNewItemGroups();
+            $this->listNewItemGroups();
+            return;
         }
         
         $this->setModuleSubTabs("new_item_groups");
@@ -729,10 +717,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->tpl->setContent($cgui->getHTML());
     }
     
-    protected function deleteNewItemGroup()
+    protected function deleteNewItemGroup() : void
     {
         if (!is_array($_POST["grp_id"])) {
-            return $this->listNewItemGroups();
+            $this->listNewItemGroups();
+            return;
         }
         
         foreach ($_POST["grp_id"] as $grp_id) {
@@ -743,14 +732,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "listNewItemGroups");
     }
     
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm($a_form_id) : ?array
     {
         $ilSetting = $this->settings;
         
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_LP:
                 
-                require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
                 $fields = array('trac_show_repository_views' => array(ilChangeEvent::_isActive(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
                                                 
                 return array(array("view", $fields));
@@ -765,5 +753,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 
                 return array(array("view", $fields));
         }
+        return null;
     }
 }

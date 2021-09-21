@@ -1,6 +1,26 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * Basic skill GUI class
@@ -10,68 +30,22 @@
  */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected Factory $ui_fac;
+    protected Renderer $ui_ren;
+    protected ServerRequestInterface $request;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected int $tref_id = 0;
+    protected int $base_skill_id;
+    protected int $requested_level_id;
+    protected int $requested_root_id;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_fac;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_ren;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    protected $tref_id = 0;
-    protected $base_skill_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_level_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_root_id;
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_node_id = 0)
+    public function __construct(int $a_node_id = 0)
     {
         global $DIC;
 
@@ -95,19 +69,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         
         parent::__construct($a_node_id);
     }
-    
-    /**
-     * Get Node Type
-     */
-    public function getType()
+
+    public function getType() : string
     {
         return "skll";
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -124,10 +92,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    /**
-     * Show properties
-     */
-    public function showProperties()
+    public function showProperties() : void
     {
         $tpl = $this->tpl;
         
@@ -137,10 +102,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent("Properties");
     }
 
-    /**
-     * Save item
-     */
-    public function saveItem()
+    public function saveItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -153,16 +115,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $it->setStatus($this->form->getInput("status"));
-        $it->setSelfEvaluation($_POST["self_eval"]);
+        $it->setSelfEvaluation((bool) $_POST["self_eval"]);
         $it->create();
         ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
     }
 
-    /**
-     * After saving
-     */
-    public function afterSave()
+    public function afterSave() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -174,10 +133,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirectByClass("ilbasicskillgui", "edit");
     }
 
-    /**
-     * Update item
-     */
-    public function updateItem()
+    public function updateItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -185,15 +141,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setSelfEvaluation($_POST["self_eval"]);
+        $this->node_object->setSelfEvaluation((bool) $_POST["self_eval"]);
         $this->node_object->setStatus($_POST["status"]);
         $this->node_object->update();
     }
 
-    /**
-     * Edit skill
-     */
-    public function edit()
+    public function edit() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -215,12 +168,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * Init form.
-     *
-     * @param        int        $a_mode        Edit Mode
-     */
-    public function initForm($a_mode = "edit")
+    public function initForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -262,11 +210,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
-    
-    /**
-     * Edit properties
-     */
-    public function editProperties()
+
+    public function editProperties() : void
     {
         $this->setTabs("properties");
         parent::editProperties();
@@ -279,10 +224,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     //
     //
 
-    /**
-     * Add new level
-     */
-    public function addLevel()
+    public function addLevel() : void
     {
         $tpl = $this->tpl;
 
@@ -290,10 +232,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->ui_ren->render([$form]));
     }
 
-    /**
-     * Edit level
-     */
-    public function editLevel()
+    public function editLevel() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -306,9 +245,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->ui_ren->render([$form]));
     }
 
-    /**
-     * Save level form
-     */
     public function saveLevel() : void
     {
         $tpl = $this->tpl;
@@ -342,9 +278,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->ui_ren->render([$form]));
     }
 
-    /**
-     * Update level form
-     */
     public function updateLevel() : void
     {
         $lng = $this->lng;
@@ -383,12 +316,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->ui_ren->render([$form]));
     }
 
-    /**
-     * Init level form.
-     *
-     * @param string $a_mode form mode
-     */
-    public function initLevelForm($a_mode = "edit")
+    public function initLevelForm(string $a_mode = "edit") : Form
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -437,10 +365,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         return $form;
     }
 
-    /**
-     * Update level order
-     */
-    public function updateLevelOrder()
+    public function updateLevelOrder() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -455,10 +380,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     * Confirm level deletion
-     */
-    public function confirmLevelDeletion()
+    public function confirmLevelDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -488,10 +410,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    /**
-     * Delete levels
-     */
-    public function deleteLevel()
+    public function deleteLevel() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -510,10 +429,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     * Set header for level
-     */
-    public function setLevelHead()
+    public function setLevelHead() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -565,12 +481,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setDescription($desc);
     }
 
-    /**
-     * Set header for skill
-     *
-     * @param string $a_tab active tab
-     */
-    public function setTabs($a_tab = "levels")
+    public function setTabs(string $a_tab = "levels") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -636,7 +547,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     /**
      * Redirect to parent (identified by current obj_id)
      */
-    public function redirectToParent($a_tmp_mode = false)
+    public function redirectToParent(bool $a_tmp_mode = false) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -656,11 +567,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     ////
     //// Level resources
     ////
-    
-    /**
-     * Show level resources
-     */
-    public function showLevelResources()
+
+    public function showLevelResources() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -689,11 +597,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         
         $tpl->setContent($tab->getHTML());
     }
-    
-    /**
-     * Add level resource
-     */
-    public function addLevelResource()
+
+    public function addLevelResource() : void
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
@@ -713,10 +618,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    /**
-     * Save level resource
-     */
-    public function saveLevelResource()
+    public function saveLevelResource() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -738,10 +640,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "showLevelResources");
     }
 
-    /**
-     * Confirm level resources removal
-     */
-    public function confirmLevelResourcesRemoval()
+    public function confirmLevelResourcesRemoval() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -773,11 +672,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
-    /**
-     * Remove level resource
-     */
-    public function removeLevelResources()
+
+    public function removeLevelResources() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -799,10 +695,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->redirect($this, "showLevelResources");
     }
 
-    /**
-     * Save resource settings
-     */
-    public function saveResourceSettings()
+    public function saveResourceSettings() : void
     {
         $ilCtrl = $this->ctrl;
 

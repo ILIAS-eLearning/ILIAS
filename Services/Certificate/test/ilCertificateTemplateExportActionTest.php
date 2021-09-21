@@ -19,7 +19,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 '<xml> Some Content </xml>',
                 md5('<xml> Some Content </xml>'),
                 '[]',
-                '3',
+                3,
                 'v5.4.0',
                 123456789,
                 true,

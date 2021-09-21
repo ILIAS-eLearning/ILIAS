@@ -13,7 +13,6 @@ include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 {
     protected $highlighted_parent = null;
-    protected $clickable_types = array();
     protected $ref_id = null;
 
     /**

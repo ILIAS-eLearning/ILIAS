@@ -9,9 +9,13 @@ class ilLSLPEventHandler
 {
     protected ilTree $tree;
     protected ilLPStatusWrapper $lpstatus;
+    protected array $cached_parent_lso = [];
+    protected array $cached_refs_for_obj = [];
 
-    public function __construct(ilTree $tree, ilLPStatusWrapper $lp_status_wrapper)
-    {
+    public function __construct(
+        ilTree $tree,
+        ilLPStatusWrapper $lp_status_wrapper
+    ) {
         $this->tree = $tree;
         $this->lpstatus = $lp_status_wrapper;
     }
@@ -20,11 +24,10 @@ class ilLSLPEventHandler
     {
         $refs = $this->getRefIdsOfObjId((int) $parameter['obj_id']);
         foreach ($refs as $ref_id) {
-            $lso_info = $this->getParentLSO((int) $ref_id);
-            if (!is_null($lso_info)) {
-                $obj_id = $lso_info['obj_id'];
+            $lso_id = $this->getParentLSOObjId((int) $ref_id);
+            if ($lso_id !== false) {
                 $usr_id = $parameter['usr_id'];
-                $this->lpstatus::_refreshStatus($obj_id, [$usr_id]);
+                $this->lpstatus::_updateStatus($lso_id, $usr_id);
             }
         }
     }
@@ -32,17 +35,19 @@ class ilLSLPEventHandler
     /**
      * get the LSO up from $child_ref_if
      */
-    protected function getParentLSO(int $child_ref_id) : ?array
+    protected function getParentLSOObjId(int $child_ref_id) : ?int
     {
-        $path = $this->tree->getPathFull($child_ref_id);
-        if (!$path) {
-            return null;
+        if (!array_key_exists($child_ref_id, $this->cached_parent_lso)) {
+            $this->cached_parent_lso[$child_ref_id] = $this->getParentLSOIdFromTree($child_ref_id);
         }
+        return $this->cached_parent_lso[$child_ref_id];
+    }
 
-        foreach ($path as $hop) {
-            if ($hop['type'] === 'lso') {
-                return $hop;
-            }
+    private function getParentLSOIdFromTree(int $child_ref_id) : ?int
+    {
+        $parent_nd = $this->tree->getParentNodeData($child_ref_id);
+        if ($parent_nd['type'] === 'lso') {
+            return (int)$parent_nd['obj_id'];
         }
         return null;
     }
@@ -52,6 +57,9 @@ class ilLSLPEventHandler
      */
     protected function getRefIdsOfObjId(int $triggerer_obj_id) : array
     {
-        return ilObject::_getAllReferences($triggerer_obj_id);
+        if (!array_key_exists($triggerer_obj_id, $this->cached_refs_for_obj)) {
+            $this->cached_refs_for_obj[$triggerer_obj_id] = ilObject::_getAllReferences($triggerer_obj_id);
+        }
+        return $this->cached_refs_for_obj[$triggerer_obj_id];
     }
 }

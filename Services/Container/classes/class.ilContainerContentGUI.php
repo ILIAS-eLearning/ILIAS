@@ -12,56 +12,6 @@
  */
 abstract class ilContainerContentGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
     const DETAILS_DEACTIVATED = 0;
     const DETAILS_TITLE = 1;
     const DETAILS_ALL = 2;
@@ -69,42 +19,29 @@ abstract class ilContainerContentGUI
     const VIEW_MODE_LIST = 0;
     const VIEW_MODE_TILE = 1;
 
-    protected $details_level = self::DETAILS_DEACTIVATED;
-
-    /**
-     * @var ilContainerRenderer
-     */
-    protected $renderer;
-    
-    public $container_gui;
-    public $container_obj;
-
-    public $adminCommands = false;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var int
-     */
-    protected $view_mode;
-
-    /** @var array */
-    protected $embedded_block = [];
-
-    /** @var array */
-    protected $items = [];
-
+    protected \ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilPluginAdmin $plugin_admin;
+    protected ilDBInterface $db;
+    protected ilRbacSystem $rbacsystem;
+    protected ilSetting $settings;
+    protected ilObjectDefinition $obj_definition;
+    protected int $details_level = self::DETAILS_DEACTIVATED;
+    protected ilContainerRenderer $renderer;
+    public ilContainerGUI $container_gui;
+    public ilContainer $container_obj;
+    public bool $adminCommands = false;
+    protected ilLogger $log;
+    protected int $view_mode;
+    protected array $embedded_block = [];
+    protected array $items = [];
     /** @var array<string, ilObjectListGUI> */
-    protected $list_gui = [];
+    protected array $list_gui = [];
 
-    /**
-    * Constructor
-    *
-    */
-    public function __construct(&$container_gui_obj)
+    public function __construct(ilContainerGUI $container_gui_obj)
     {
         global $DIC;
 
@@ -121,7 +58,9 @@ abstract class ilContainerContentGUI
         $tpl = $DIC["tpl"];
 
         $this->container_gui = $container_gui_obj;
-        $this->container_obj = $this->container_gui->object;
+        /** @var $obj ilContainer */
+        $obj = $this->container_gui->object;
+        $this->container_obj = $obj;
 
         $tpl->addJavaScript("./Services/Container/js/Container.js");
 
@@ -132,54 +71,31 @@ abstract class ilContainerContentGUI
             : self::VIEW_MODE_LIST;
     }
     
-    /**
-     * Get view mode
-     */
-    protected function getViewMode()
+    protected function getViewMode() : int
     {
         return $this->view_mode;
     }
     
-    
-    /**
-     * get details level
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function getDetailsLevel($a_item_id)
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         return $this->details_level;
     }
 
-    /**
-    * Get container object.
-    *
-    * @return 	object		container object instance
-    */
-    public function getContainerObject()
+    public function getContainerObject() : ilContainer
     {
         return $this->container_obj;
     }
     
-    /**
-    * Get container GUI object
-    *
-    * @return 	object		container GUI instance
-    */
-    public function getContainerGUI()
+    public function getContainerGUI() : ilContainerGUI
     {
         return $this->container_gui;
     }
 
     /**
-    * Sets view output into column layout
-    *
-    * This method sets the output of the right and main column
-    * in the global standard template.
-    */
-    public function setOutput()
+     * This method sets the output of the right and main column
+     * in the global standard template.
+     */
+    public function setOutput() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -217,10 +133,7 @@ abstract class ilContainerContentGUI
         }
     }
 
-    /**
-    * Get HTML for right column
-    */
-    protected function getRightColumnHTML()
+    protected function getRightColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $html = "";
@@ -265,10 +178,7 @@ abstract class ilContainerContentGUI
         return $html;
     }
 
-    /**
-    * Get HTML for center column
-    */
-    protected function getCenterColumnHTML()
+    protected function getCenterColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -305,15 +215,15 @@ abstract class ilContainerContentGUI
     }
 
     /**
-    * Get content HTML for main column, this one must be
-    * overwritten in derived classes.
-    */
-    abstract public function getMainContent();
+     * Get content HTML for main column, this one must be
+     * overwritten in derived classes.
+     */
+    abstract public function getMainContent() : string;
     
     /**
      * Init container renderer
      */
-    protected function initRenderer()
+    protected function initRenderer() : void
     {
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
         
@@ -329,9 +239,9 @@ abstract class ilContainerContentGUI
     }
     
     /**
-    * Get columngui output
-    */
-    private function __forwardToColumnGUI()
+     * Get columngui output
+     */
+    private function __forwardToColumnGUI() : string
     {
         $ilCtrl = $this->ctrl;
         $html = "";
@@ -365,22 +275,16 @@ abstract class ilContainerContentGUI
         return $html;
     }
 
-    /**
-    * cleaer administration commands determination
-    */
-    protected function clearAdminCommandsDetermination()
+    protected function clearAdminCommandsDetermination() : void
     {
         $this->adminCommands = false;
     }
     
-    /**
-    * determin admin commands
-    */
-    protected function determineAdminCommands($a_ref_id, $a_admin_com_included_in_list = false)
-    {
+    protected function determineAdminCommands(
+        int $a_ref_id,
+        bool $a_admin_com_included_in_list = false
+    ) : void {
         $rbacsystem = $this->rbacsystem;
-        
-        //echo "-".$a_admin_com_included_in_list."-";
         
         if (!$this->adminCommands) {
             if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {
@@ -393,10 +297,7 @@ abstract class ilContainerContentGUI
         }
     }
 
-    /**
-    * Get ListGUI object for item
-    */
-    protected function getItemGUI($item_data, $a_show_path = false)
+    protected function getItemGUI(array $item_data) : ilObjectListGUI
     {
         // get item list gui object
         if (!isset($this->list_gui[$item_data["type"]])) {
@@ -439,16 +340,17 @@ abstract class ilContainerContentGUI
         $item_list_gui->forceVisibleOnly(false);
 
         // container specific modifications
-        $this->getContainerGUI()->modifyItemGUI($item_list_gui, $item_data, $a_show_path);
+        $this->getContainerGUI()->modifyItemGUI($item_list_gui, $item_data);
 
         return $item_list_gui;
     }
 
     /**
-    * Determine all blocks that are embedded in the container page
-    */
-    public function determinePageEmbeddedBlocks($a_container_page_html)
-    {
+     * Determine all blocks that are embedded in the container page
+     */
+    public function determinePageEmbeddedBlocks(
+        string $a_container_page_html
+    ) : void {
         $type_grps = $this->getGroupedObjTypes();
         
         // iterate all types
@@ -469,30 +371,24 @@ abstract class ilContainerContentGUI
     }
     
     /**
-    * Add embedded block
-    *
-    * @param
-    */
-    public function addEmbeddedBlock($block_type, $block_parameter)
-    {
+     * Add embedded block
+     * @param string $block_type
+     * @param string|int $block_parameter
+     */
+    public function addEmbeddedBlock(
+        string $block_type,
+        $block_parameter
+    ) : void {
         $this->embedded_block[$block_type][] = $block_parameter;
     }
     
-    /**
-    * Get page embedded blocks
-    */
-    public function getEmbeddedBlocks()
+    public function getEmbeddedBlocks() : array
     {
         return $this->embedded_block;
     }
     
-    /**
-    * Render Page Embedded Blocks
-    */
-    public function renderPageEmbeddedBlocks()
+    public function renderPageEmbeddedBlocks() : void
     {
-        $lng = $this->lng;
-                
         // item groups
         if (isset($this->embedded_block["itgr"]) && is_array($this->embedded_block["itgr"])) {
             $item_groups = array();
@@ -511,7 +407,7 @@ abstract class ilContainerContentGUI
         
         // type specific blocks
         if (isset($this->embedded_block["type"]) && is_array($this->embedded_block["type"])) {
-            foreach ($this->embedded_block["type"] as $k => $type) {
+            foreach ($this->embedded_block["type"] as $type) {
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
@@ -520,7 +416,7 @@ abstract class ilContainerContentGUI
                     
                     $position = 1;
 
-                    foreach ($this->items[$type] as $k => $item_data) {
+                    foreach ($this->items[$type] as $item_data) {
                         if (!$this->renderer->hasItem($item_data["child"])) {
                             $html = $this->renderItem($item_data, $position++);
                             if ($html != "") {
@@ -535,14 +431,14 @@ abstract class ilContainerContentGUI
     
     /**
      * Render an item
-     * @param $a_item_data
-     * @param int $a_position
-     * @param bool $a_force_icon
-     * @param string $a_pos_prefix
-     * @return string
+     * @return \ILIAS\UI\Component\Card\RepositoryObject|string|null
      */
-    public function renderItem($a_item_data, $a_position = 0, $a_force_icon = false, $a_pos_prefix = "")
-    {
+    public function renderItem(
+        array $a_item_data,
+        int $a_position = 0,
+        bool $a_force_icon = false,
+        string $a_pos_prefix = ""
+    ) {
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
         $ilCtrl = $this->ctrl;
@@ -708,20 +604,12 @@ abstract class ilContainerContentGUI
         return $html;
     }
 
-    /**
-     * Render card
-     * @param $a_item_data
-     * @param int $a_position
-     * @param bool $a_force_icon
-     * @param string $a_pos_prefix
-     * @return string
-     */
-    public function renderCard($a_item_data, $a_position = 0, $a_force_icon = false, $a_pos_prefix = "")
-    {
-        global $DIC;
-        $f = $DIC->ui()->factory();
-        $user = $DIC->user();
-
+    public function renderCard(
+        array $a_item_data,
+        int $a_position = 0,
+        bool $a_force_icon = false,
+        string $a_pos_prefix = ""
+    ) : ?\ILIAS\UI\Component\Card\RepositoryObject {
         $item_list_gui = $this->getItemGUI($a_item_data);
         $item_list_gui->setAjaxHash(ilCommonActionDispatcherGUI::buildAjaxHash(
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
@@ -749,12 +637,12 @@ abstract class ilContainerContentGUI
     }
 
     /**
-    * Insert blocks into container page
-    */
-    public function insertPageEmbeddedBlocks($a_output_html)
+     * Insert blocks into container page
+     */
+    public function insertPageEmbeddedBlocks(string $a_output_html) : string
     {
         $this->determinePageEmbeddedBlocks($a_output_html);
-        $this->renderPageEmbeddedBlocks($this->items);
+        $this->renderPageEmbeddedBlocks();
         
         // iterate all types
         foreach ($this->getGroupedObjTypes() as $type => $v) {
@@ -784,12 +672,10 @@ abstract class ilContainerContentGUI
 
     /**
      * Render single block
-     *
-     * @param string block id
-     * @return string
      */
-    public function getSingleTypeBlockAsynch($type)
-    {
+    public function getSingleTypeBlockAsynch(
+        string $type
+    ) : string {
         $this->initRenderer();
         // get all sub items
         $this->items = $this->getContainerObject()->getSubItems(
@@ -836,11 +722,9 @@ abstract class ilContainerContentGUI
     }
     
     /**
-    * Get grouped repository object types.
-    *
-    * @return	array	array of object types
-    */
-    public function getGroupedObjTypes()
+     * Get grouped repository object types.
+     */
+    public function getGroupedObjTypes() : array
     {
         $objDefinition = $this->obj_definition;
         
@@ -851,9 +735,6 @@ abstract class ilContainerContentGUI
         return $this->type_grps;
     }
 
-    /**
-    * Get introduction.
-    */
     public function getIntroduction() : string
     {
         $lng = $this->lng;
@@ -873,12 +754,6 @@ abstract class ilContainerContentGUI
         return $tpl->get();
     }
 
-    /**
-     * Get item groups HTML
-     *
-     * @param
-     * @return
-     */
     public function getItemGroupsHTML(int $a_pos = 0) : int
     {
         if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
@@ -893,13 +768,7 @@ abstract class ilContainerContentGUI
         return $a_pos;
     }
 
-    /**
-     * Render item group
-     *
-     * @param
-     * @return
-     */
-    public function renderItemGroup($a_itgr)
+    public function renderItemGroup(array $a_itgr) : void
     {
         $ilAccess = $this->access;
         $ilUser = $this->user;

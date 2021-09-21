@@ -24,7 +24,9 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     const FIELD_DEADLINE = 'deadline';
     const FIELD_VQ_DATE = 'vq_date';
     const FIELD_INVALIDATED = 'invalidated';
-    const FIELD_MAIL_SEND = 'risky_to_fail_mail_send';
+    const FIELD_MAIL_SENT_RISKYTOFAIL = 'sent_mail_risky_to_fail';
+    const FIELD_MAIL_SENT_WILLEXPIRE = 'sent_mail_expires';
+    const FIELD_IS_INDIVIDUAL = 'individual';
 
     public function __construct(ilDBInterface $db)
     {
@@ -38,7 +40,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      */
     public function createFor(
         ilStudyProgrammeSettings $prg,
-        ilStudyProgrammeAssignment $ass
+        ilStudyProgrammeAssignment $ass,
+        int $acting_user = null
     ) : ilStudyProgrammeProgress {
         $id = $this->nextId();
         $row = [
@@ -52,11 +55,12 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             self::FIELD_COMPLETION_BY => null,
             self::FIELD_LAST_CHANGE => ilUtil::now(),
             self::FIELD_ASSIGNMENT_DATE => ilUtil::now(),
-            self::FIELD_LAST_CHANGE_BY => null,
+            self::FIELD_LAST_CHANGE_BY => $acting_user,
             self::FIELD_COMPLETION_DATE => null,
             self::FIELD_DEADLINE => null,
             self::FIELD_VQ_DATE => null,
-            self::FIELD_INVALIDATED => 0
+            self::FIELD_INVALIDATED => 0,
+            self::FIELD_IS_INDIVIDUAL => 0
         ];
         $this->insertRowDB($row);
         return $this->buildByRow($row);
@@ -67,7 +71,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function read(int $id) : ilStudyProgrammeProgress
+    public function get(int $id) : ilStudyProgrammeProgress
     {
         foreach ($this->loadByFilter([self::FIELD_ID => $id]) as $row) {
             return $this->buildByRow($row);
@@ -81,12 +85,11 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readByIds(
+    public function getByIds(
         int $prg_id,
-        int $assignment_id,
-        int $usr_id
+        int $assignment_id
     ) : ilStudyProgrammeProgress {
-        return $this->readByPrgIdAndAssignmentId($prg_id, $assignment_id);
+        return $this->getByPrgIdAndAssignmentId($prg_id, $assignment_id);
     }
 
     /**
@@ -96,7 +99,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @return ilStudyProgrammeProgress | void
      */
-    public function readByPrgIdAndAssignmentId(int $prg_id, int $assignment_id)
+    public function getByPrgIdAndAssignmentId(int $prg_id, int $assignment_id)
     {
         $rows = $this->loadByFilter(
             [
@@ -110,12 +113,27 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         }
     }
 
+    public function getRootProgressOf(ilStudyProgrammeAssignment $assignment) : ilStudyProgrammeProgress
+    {
+        $rows = $this->loadByFilter(
+            [
+                self::FIELD_PRG_ID => $assignment->getRootId(),
+                self::FIELD_ASSIGNMENT_ID => $assignment->getId(),
+                self::FIELD_USR_ID => $assignment->getUserId()
+            ]
+        );
+
+        foreach ($rows as $row) {
+            return $this->buildByRow($row);
+        }
+    }
+
     /**
      * @inheritdoc
      *
      * @throws ilException
      */
-    public function readByPrgIdAndUserId(int $prg_id, int $usr_id) : array
+    public function getByPrgIdAndUserId(int $prg_id, int $usr_id) : array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id, self::FIELD_USR_ID => $usr_id]) as $row) {
@@ -129,7 +147,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readByPrgId(int $prg_id) : array
+    public function getByPrgId(int $prg_id) : array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id]) as $row) {
@@ -142,7 +160,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      * @return ilStudyProgrammeProgress | void
      * @throws ilException
      */
-    public function readFirstByPrgId(int $prg_id)
+    public function getFirstByPrgId(int $prg_id)
     {
         foreach ($this->loadByFilter([self::FIELD_PRG_ID => $prg_id]) as $row) {
             return $this->buildByRow($row);
@@ -154,7 +172,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readByAssignmentId(int $assignment_id) : array
+    public function getByAssignmentId(int $assignment_id) : array
     {
         $return = [];
         foreach ($this->loadByFilter([self::FIELD_ASSIGNMENT_ID => $assignment_id]) as $row) {
@@ -168,7 +186,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readExpiredSuccessfull() : array
+    public function getExpiredSuccessfull() : array
     {
         $return = [];
         foreach ($this->loadExpiredSuccessful() as $row) {
@@ -182,7 +200,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readPassedDeadline() : array
+    public function getPassedDeadline() : array
     {
         $return = [];
         foreach ($this->loadPassedDeadline() as $row) {
@@ -196,7 +214,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @throws ilException
      */
-    public function readRiskyToFailInstances() : array
+    public function getRiskyToFailInstances() : array
     {
         $return = [];
         foreach ($this->loadRiskyToFailInstance() as $row) {
@@ -228,7 +246,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                         $progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
                 self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null,
                 self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
-                self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0
+                self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0,
+                self::FIELD_IS_INDIVIDUAL => $progress->hasIndividualModifications() ? 1 : 0
             ]
         );
     }
@@ -261,18 +280,33 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 , self::FIELD_DEADLINE => ['text', $row[self::FIELD_DEADLINE]]
                 , self::FIELD_VQ_DATE => ['timestamp', $row[self::FIELD_VQ_DATE]]
                 , self::FIELD_INVALIDATED => ['timestamp', $row[self::FIELD_INVALIDATED]]
+                , self::FIELD_IS_INDIVIDUAL => ['integer', $row[self::FIELD_IS_INDIVIDUAL]]
             ]
         );
     }
 
-    public function deleteDB(int $id)
+    /**
+     * @return int[] node_ids the user had progresses on
+     */
+    public function deleteForAssignmentId(int $assignment_id) : array
     {
-        $this->db->manipulate(
-            'DELETE FROM ' . self::TABLE . ' WHERE ' . self::FIELD_ID . ' = ' . $this->db->quote($id, 'integer')
+        $progresses = $this->getByAssignmentId($assignment_id);
+
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_ASSIGNMENT_ID . ' = '
+            . $this->db->quote($assignment_id, 'integer');
+
+        $this->db->manipulate($query);
+
+        return array_map(
+            function ($progress) {
+                return $progress->getNodeId();
+            },
+            $progresses
         );
     }
 
-    public function reminderSendFor(int $progress_id) : void
+    public function sentRiskyToFailFor(int $progress_id) : void
     {
         $where = [
             self::FIELD_ID => [
@@ -282,7 +316,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         ];
 
         $values = [
-            self::FIELD_MAIL_SEND => [
+            self::FIELD_MAIL_SENT_RISKYTOFAIL => [
                 'timestamp',
                 date('Y-m-d H:i:s')
             ]
@@ -290,6 +324,27 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
 
         $this->db->update(self::TABLE, $values, $where);
     }
+
+    public function sentExpiryInfoFor(int $progress_id) : void
+    {
+        $where = [
+            self::FIELD_ID => [
+                'integer',
+                $progress_id
+            ]
+        ];
+
+        $values = [
+            self::FIELD_MAIL_SENT_WILLEXPIRE => [
+                'timestamp',
+                date('Y-m-d H:i:s')
+            ]
+        ];
+
+        $this->db->update(self::TABLE, $values, $where);
+    }
+
+
 
     protected function updateRowDB(array $data)
     {
@@ -357,6 +412,10 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 'integer',
                 $data[self::FIELD_INVALIDATED]
             ],
+            self::FIELD_IS_INDIVIDUAL => [
+                'integer',
+                $data[self::FIELD_IS_INDIVIDUAL]
+            ]
         ];
 
         $this->db->update(self::TABLE, $values, $where);
@@ -368,42 +427,43 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     protected function buildByRow(array $row) : ilStudyProgrammeProgress
     {
         $prgrs = (new ilStudyProgrammeProgress((int) $row[self::FIELD_ID]))
-            ->setAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
-            ->setNodeId((int) $row[self::FIELD_PRG_ID])
-            ->setUserId((int) $row[self::FIELD_USR_ID])
-            ->setStatus((int) $row[self::FIELD_STATUS])
-            ->setAmountOfPoints((int) $row[self::FIELD_POINTS])
-            ->setCurrentAmountOfPoints((int) $row[self::FIELD_POINTS_CUR])
-            ->setCompletionBy((int) $row[self::FIELD_COMPLETION_BY])
-            ->setDeadline(
+            ->withAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
+            ->withNodeId((int) $row[self::FIELD_PRG_ID])
+            ->withUserId((int) $row[self::FIELD_USR_ID])
+            ->withStatus((int) $row[self::FIELD_STATUS])
+            ->withAmountOfPoints((int) $row[self::FIELD_POINTS])
+            ->withCurrentAmountOfPoints((int) $row[self::FIELD_POINTS_CUR])
+            ->withDeadline(
                 $row[self::FIELD_DEADLINE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
                     null
             )
-            ->setAssignmentDate(
-                DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_ASSIGNMENT_DATE])
+            ->withAssignmentDate(
+                DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_ASSIGNMENT_DATE])
             )
-            ->setCompletionDate(
+            ->withCompletion(
+                (int) $row[self::FIELD_COMPLETION_BY],
                 $row[self::FIELD_COMPLETION_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_COMPLETION_DATE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_COMPLETION_DATE]) :
                     null
             )
-            ->setLastChange(
+            ->withLastChange(
+                (int) $row[self::FIELD_LAST_CHANGE_BY],
                 $row[self::FIELD_LAST_CHANGE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGE]) :
                     null
             )
-            ->setValidityOfQualification(
+            ->withValidityOfQualification(
                 $row[self::FIELD_VQ_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_VQ_DATE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_VQ_DATE]) :
                     null
-            );
+            )
+            ->withIndividualModifications((bool) $row[self::FIELD_IS_INDIVIDUAL]);
+
+
+
         if ((int) $row[self::FIELD_INVALIDATED] === 1) {
             $prgrs = $prgrs->invalidate();
-        }
-
-        if (!is_null($row[self::FIELD_LAST_CHANGE_BY])) {
-            $prgrs = $prgrs->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY]);
         }
 
         return $prgrs;
@@ -437,7 +497,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_VQ_DATE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_VQ_DATE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
             )
             . '    AND ' . self::FIELD_INVALIDATED . ' != 1 OR ' . self::FIELD_INVALIDATED . ' IS NULL';
@@ -460,12 +520,12 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 ],
                 false,
                 'integer'
-             ) . PHP_EOL
+            ) . PHP_EOL
             . 'AND ' . self::FIELD_DEADLINE . ' IS NOT NULL' . PHP_EOL
             . 'AND DATE(' . self::FIELD_DEADLINE . ') < ' . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
-             ) . PHP_EOL
+            ) . PHP_EOL
         ;
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
@@ -488,10 +548,10 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_DEADLINE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_DEADLINE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
             )
-            . '    AND ' . self::FIELD_MAIL_SEND . ' IS NULL'
+            . '    AND ' . self::FIELD_MAIL_SENT_RISKYTOFAIL . ' IS NULL'
         ;
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
@@ -516,9 +576,75 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . ', ' . self::FIELD_DEADLINE
             . ', ' . self::FIELD_VQ_DATE
             . ', ' . self::FIELD_INVALIDATED
+            . ', ' . self::FIELD_IS_INDIVIDUAL
             . ' FROM ' . self::TABLE;
     }
 
+    /**
+     * @param array <int, DateTimeImmutable>    $programmes_and_due
+     * @return ilStudyProgrammeProgress[]
+     */
+    public function getRiskyToFail(array $programmes_and_due) : array
+    {
+        $ret = [];
+        if (count($programmes_and_due) == 0) {
+            return $ret;
+        }
+
+        $where = [];
+        foreach ($programmes_and_due as $programme_obj_id => $due) {
+            $due = $due->format(ilStudyProgrammeProgress::DATE_FORMAT);
+            $where[] = '('
+                . self::FIELD_PRG_ID . '=' . $programme_obj_id
+                . ' AND ' . self::FIELD_DEADLINE . '<=' . $this->db->quote($due, 'text')
+                . ' AND ' . self::FIELD_MAIL_SENT_RISKYTOFAIL . ' IS NULL'
+                . ')';
+        }
+        $query = $this->getSQLHeader() . ' WHERE ' . implode(' OR ', $where);
+        
+        $res = $this->db->query($query);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = $this->buildByRow($rec);
+        }
+        return $ret;
+    }
+
+    /**
+     * @param array <int, DateTimeImmutable>    $programmes_and_due
+     * @return ilStudyProgrammeProgress[]
+     */
+    public function getAboutToExpire(
+        array $programmes_and_due,
+        bool $discard_formerly_notified = true
+    ) : array {
+        $ret = [];
+        if (count($programmes_and_due) == 0) {
+            return $ret;
+        }
+
+        $where = [];
+        foreach ($programmes_and_due as $programme_obj_id => $due) {
+            $due = $due->format(ilStudyProgrammeProgress::DATE_FORMAT_ENDOFDAY);
+            $where_clause = '('
+                . self::FIELD_PRG_ID . '=' . $programme_obj_id
+                . ' AND ' . self::FIELD_VQ_DATE . '<=' . $this->db->quote($due, 'text');
+
+            if ($discard_formerly_notified) {
+                $where_clause .= ' AND ' . self::FIELD_MAIL_SENT_WILLEXPIRE . ' IS NULL';
+            }
+            
+            $where_clause .= ')';
+            $where[] = $where_clause;
+        }
+
+        $query = $this->getSQLHeader() . ' WHERE ' . implode(' OR ', $where);
+        $res = $this->db->query($query);
+        while ($rec = $this->db->fetchAssoc($res)) {
+            $ret[] = $this->buildByRow($rec);
+        }
+        return $ret;
+    }
+        
     protected function nextId() : int
     {
         return (int) $this->db->nextId(self::TABLE);

@@ -16,7 +16,7 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             '<xml>crs</xml>',
             md5('<xml>crs</xml>'),
             '[]',
-            '1',
+            1,
             'v5.4.0',
             $time,
             true,

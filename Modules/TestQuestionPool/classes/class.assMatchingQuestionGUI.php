@@ -46,7 +46,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -760,7 +760,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $neworder;
     }
     
-    public function getPresentationJavascripts()
+    public function getPresentationJavascripts() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -946,7 +946,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -1021,7 +1021,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         $matches = array_values($this->object->matchingpairs);
 
@@ -1141,7 +1141,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $html;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answersByActiveAndPass = array();
         
@@ -1192,7 +1192,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param $questionIndex
      * @return ilMatchingQuestionAnswerFreqStatTableGUI
      */
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)  : ilAnswerFrequencyStatisticTableGUI
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php';
         
@@ -1204,7 +1204,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $table;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssMatchingPairCorrectionsInputGUI.php';
         $pairs = new ilAssMatchingPairCorrectionsInputGUI($this->lng->txt('matching_pairs'), 'pairs');
@@ -1218,7 +1218,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $pairs = $form->getItemByPostVar('pairs')->getPairs();
         

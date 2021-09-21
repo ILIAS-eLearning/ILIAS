@@ -38,7 +38,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
             ->willReturnOnConsecutiveCalls(
                 [
                     'keyword' => 'public_room_ref',
-                    'value'   => '1',
+                    'value' => '1',
                 ],
                 null,
             );
@@ -93,7 +93,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
             ->willReturnOnConsecutiveCalls(
                 [
                     'keyword' => 'public_room_ref',
-                    'value'   => '5',
+                    'value' => '5',
                 ],
                 null
             );

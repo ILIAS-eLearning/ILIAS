@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * ilContainerStartObjectsTableGUI
@@ -8,15 +19,13 @@
  */
 class ilContainerStartObjectsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    protected $start_obj; // [ilContainerStartObjects]
+    protected ilContainerStartObjects $start_obj; // [ilContainerStartObjects]
     
-    public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilContainerStartObjects $a_start_objects
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -77,7 +86,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function getPossibleObjects()
+    protected function getPossibleObjects() : array
     {
         $data = array();
         foreach ($this->start_obj->getPossibleStarters() as $item_ref_id) {
@@ -96,7 +105,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         return $data;
     }
     
-    protected function getStartObjects()
+    protected function getStartObjects() : array
     {
         $data = array();
         $counter = 0;

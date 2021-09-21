@@ -14,14 +14,11 @@ class ilDatabaseSetupConfig implements Setup\Config
 
     protected string $host;
 
-    protected ?string $port = null;
+    protected ?int $port = null;
 
     protected string $database;
 
-    /**
-     * @var bool
-     */
-    protected $create_database;
+    protected bool $create_database;
 
     protected string $collation;
 
@@ -32,14 +29,14 @@ class ilDatabaseSetupConfig implements Setup\Config
     protected string $path_to_db_dump;
 
     public function __construct(
-        $type,
+        string $type,
         string $host,
         string $database,
         string $user,
         Password $password = null,
         bool $create_database = true,
         string $collation = null,
-        string $port = null,
+        int $port = null,
         string $path_to_db_dump = null
     ) {
         if (!in_array($type, \ilDBConstants::getInstallableTypes())) {
@@ -73,7 +70,7 @@ class ilDatabaseSetupConfig implements Setup\Config
         return $this->host;
     }
 
-    public function getPort() : ?string
+    public function getPort() : ?int
     {
         return $this->port;
     }

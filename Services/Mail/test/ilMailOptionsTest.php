@@ -33,7 +33,7 @@ class ilMailOptionsTest extends ilMailBaseTest
 
         $database->expects($this->once())->method('fetchObject')->willReturn($object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
-        $database->method('replace')->willReturn(0);
+        $database->method('replace');
 
         $this->setGlobalVariable('ilDB', $database);
 

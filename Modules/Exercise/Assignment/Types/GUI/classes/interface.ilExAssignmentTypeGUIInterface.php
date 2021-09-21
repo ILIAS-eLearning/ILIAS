@@ -37,7 +37,7 @@ interface ilExAssignmentTypeGUIInterface
      * @param ilInfoScreenGUI $a_info
      * @param ilExSubmission $a_submission
      */
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission);
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void;
 
     /**
      * Set submission

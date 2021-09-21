@@ -1,69 +1,39 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Repository GUI Utilities
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesRepository
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilRepUtilGUI: ilPropertyFormGUI
- *
  */
 class ilRepUtilGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjectDefinition $obj_definition;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
+    protected ?ilLogger $logger = null;
 
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-
-    /**
-     * @var null | \ilLogger
-     */
-    private $logger = null;
-
-
-    /**
-    * Constructor
-    *
-    * @param	object		parent gui object
-    * @param	string		current parent command (like in table2gui)
-    */
-    public function __construct($a_parent_gui, $a_parent_cmd = "")
-    {
+    public function __construct(
+        object $a_parent_gui,
+        string $a_parent_cmd = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -80,13 +50,10 @@ class ilRepUtilGUI
     }
 
     /**
-     * @throws \ilCtrlException
+     * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $logger = $DIC->logger()->rep();
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             case "ilpropertyformgui":
@@ -98,24 +65,17 @@ class ilRepUtilGUI
                 $cmd = $this->ctrl->getCmd('cancel');
                 $this->$cmd();
                 break;
-
         }
     }
 
-    /**
-     * Cancel action
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * @param \ilPropertyFormGUI|null $form
-     * @return bool
-     */
-    public function restoreToNewLocation(\ilPropertyFormGUI $form = null)
-    {
+    public function restoreToNewLocation(
+        \ilPropertyFormGUI $form = null
+    ) : void {
         $this->lng->loadLanguageModule('rep');
 
         if (isset($_POST['trash_id'])) {
@@ -139,9 +99,10 @@ class ilRepUtilGUI
     }
 
     /**
-     * Perform restore to new location
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
      */
-    public function doRestoreToNewLocation()
+    public function doRestoreToNewLocation() : void
     {
         $trash_ids = [];
         if (isset($_REQUEST['trash_ids'])) {
@@ -165,10 +126,7 @@ class ilRepUtilGUI
         }
     }
 
-    /**
-     * @return \ilPropertyFormGUI
-     */
-    protected function initFormTrashTargetLocation()
+    protected function initFormTrashTargetLocation() : ilPropertyFormGUI
     {
         $form = new \ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -205,13 +163,11 @@ class ilRepUtilGUI
 
         return $form;
     }
-    
-    
-    /**
-    * Show delete confirmation table
-    */
-    public function showDeleteConfirmation($a_ids, $a_supress_message = false)
-    {
+
+    public function showDeleteConfirmation(
+        ?array $a_ids,
+        bool $a_supress_message = false
+    ) : bool {
         $lng = $this->lng;
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
@@ -268,7 +224,6 @@ class ilRepUtilGUI
         $deps_html = "";
 
         if (is_array($deps) && count($deps) > 0) {
-            include_once("./Services/Repository/classes/class.ilRepDependenciesTableGUI.php");
             $tab = new ilRepDependenciesTableGUI($deps);
             $deps_html = "<br/><br/>" . $tab->getHTML();
         }
@@ -277,16 +232,12 @@ class ilRepUtilGUI
         return true;
     }
     
-    /**
-     * Build subitem list for multiple references
-     *
-     * @param int $a_obj_id
-     * @param int $a_ref_id
-     * @param string $a_form_name
-     * @return string
-     */
-    public function handleMultiReferences($a_obj_id, $a_ref_id, $a_form_name)
-    {
+    // Build sub-item list for multiple references
+    public function handleMultiReferences(
+        int $a_obj_id,
+        int $a_ref_id,
+        string $a_form_name
+    ) : string {
         $lng = $this->lng;
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -376,15 +327,12 @@ class ilRepUtilGUI
 
             return $tpl->get();
         }
+        return "";
     }
     
-    /**
-    * Get trashed objects for a container
-    *
-    * @param	interger	ref id of container
-    */
-    public function showTrashTable($a_ref_id)
-    {
+    public function showTrashTable(
+        int $a_ref_id
+    ) : void {
         $tpl = $this->tpl;
         $tree = $this->tree;
         $lng = $this->lng;
@@ -395,8 +343,7 @@ class ilRepUtilGUI
             ilUtil::sendInfo($lng->txt("msg_trash_empty"));
             return;
         }
-        include_once("./Services/Repository/classes/class.ilTrashTableGUI.php");
-        $ttab = new ilTrashTableGUI($this->parent_gui, "trash");
+        $ttab = new ilTrashTableGUI($this->parent_gui, "trash", $a_ref_id);
         $ttab->setData($objects);
         
         $tpl->setContent($ttab->getHTML());
@@ -404,12 +351,14 @@ class ilRepUtilGUI
 
     /**
      * Restore objects from trash
-     *
-     * @param    int        current ref id
-     * @param    int[]        array of ref ids to be restored
+     * @param int   $a_cur_ref_id
+     * @param int[] $a_ref_ids array of ref ids to be restored
+     * @return bool
      */
-    public function restoreObjects($a_cur_ref_id, $a_ref_ids)
-    {
+    public function restoreObjects(
+        int $a_cur_ref_id,
+        array $a_ref_ids
+    ) : bool {
         $lng = $this->lng;
         $lng->loadLanguageModule('rep');
         
@@ -444,19 +393,16 @@ class ilRepUtilGUI
         return true;
     }
     
-    /**
-    * Delete objects
-    */
-    public function deleteObjects($a_cur_ref_id, $a_ref_ids)
-    {
+    public function deleteObjects(
+        int $a_cur_ref_id,
+        array $a_ref_ids
+    ) : void {
         $ilSetting = $this->settings;
         $lng = $this->lng;
         
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
-            return false;
         } else {
-            include_once("./Services/Repository/classes/class.ilRepUtil.php");
             try {
                 ilRepUtil::deleteObjects($a_cur_ref_id, $a_ref_ids);
                 if ($ilSetting->get('enable_trash')) {
@@ -466,23 +412,20 @@ class ilRepUtilGUI
                 }
             } catch (Exception $e) {
                 ilUtil::sendFailure($e->getMessage(), true);
-                return false;
             }
         }
     }
     
-    /**
-    * Remove objects from system
-    */
-    public function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
-    {
+    public function removeObjectsFromSystem(
+        array $a_ref_ids,
+        bool $a_from_recovery_folder = false
+    ) : bool {
         $lng = $this->lng;
         
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             return false;
         } else {
-            include_once("./Services/Repository/classes/class.ilRepUtil.php");
             try {
                 ilRepUtil::removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder);
                 ilUtil::sendSuccess($lng->txt("msg_removed"), true);
@@ -497,18 +440,13 @@ class ilRepUtilGUI
     
     /**
      * Build path with deep-link
-     *
-     * @param	array	$ref_ids
-     * @return	array
      */
-    protected function buildPath($ref_ids)
+    protected function buildPath(array $ref_ids) : array
     {
         $tree = $this->tree;
 
-        include_once 'Services/Link/classes/class.ilLink.php';
-        
         if (!count($ref_ids)) {
-            return false;
+            return [];
         }
         
         $result = array();
@@ -538,8 +476,9 @@ class ilRepUtilGUI
      *
      * @param array $a_ids ref_ids
      */
-    public function confirmRemoveFromSystemObject($a_ids)
-    {
+    public function confirmRemoveFromSystemObject(
+        array $a_ids
+    ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;

@@ -112,7 +112,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         }
         $query .= ' (' . implode(', ', $fields) . ')';
 
-        return $this->pdo->exec($query);
+        return (bool) $this->pdo->exec($query);
     }
 
     public function createSequence(string $seq_name, int $start = 1, array $options = []) : bool
@@ -254,7 +254,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
 
         $statement = "ALTER TABLE $name $query";
 
-        return $this->pdo->exec($statement);
+        return (bool) $this->pdo->exec($statement);
     }
 
     public function createTable(string $name, array $fields, array $options = array()) : bool
@@ -395,7 +395,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         }
         $query .= ' (' . implode(', ', $fields) . ')';
 
-        return $this->pdo->exec($query);
+        return (bool) $this->pdo->exec($query);
     }
 
     public function dropIndex(string $table, string $name) : bool
@@ -403,14 +403,14 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
         $table = $this->db_instance->quoteIdentifier($table, true);
         $name = $this->db_instance->quoteIdentifier($this->db_instance->getIndexName($name), true);
 
-        return $this->pdo->exec("DROP INDEX $name ON $table");
+        return (bool) $this->pdo->exec("DROP INDEX $name ON $table");
     }
 
     public function dropSequence(string $seq_name) : bool
     {
         $sequence_name = $this->db_instance->quoteIdentifier($this->db_instance->getSequenceName($seq_name));
 
-        return $this->pdo->exec("DROP TABLE $sequence_name");
+        return (bool) $this->pdo->exec("DROP TABLE $sequence_name");
     }
 
     /**
@@ -432,15 +432,14 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface
             $query = "ALTER TABLE $table DROP INDEX $name";
         }
 
-        return $this->pdo->exec($query);
+        return (bool) $this->pdo->exec($query);
     }
 
     public function dropTable(string $name) : bool
     {
         $db = $this->getDBInstance();
-
         $name = $db->quoteIdentifier($name, true);
 
-        return $db->manipulate("DROP TABLE $name");
+        return (bool) $this->pdo->exec("DROP TABLE $name");
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,19 +6,14 @@
  */
 class ilCertificatePdfFileNameFactory
 {
-    /** @var ilLanguage */
-    private $lng;
+    private ilLanguage $lng;
 
-    /**
-     * ilCertificatePdfFileNameFactory constructor.
-     * @param ilLanguage $lng
-     */
-    public function __construct(\ilLanguage $lng)
+    public function __construct(ilLanguage $lng)
     {
         $this->lng = $lng;
     }
 
-    public function create(ilUserCertificatePresentation $presentation)
+    public function create(ilUserCertificatePresentation $presentation) : string
     {
         $objectType = $presentation->getObjType();
         $pdfFileGenerator = $this->fetchCertificateGenerator($objectType);
@@ -26,10 +21,6 @@ class ilCertificatePdfFileNameFactory
         return $pdfFileGenerator->createFileName($presentation);
     }
 
-    /**
-     * @param string $objectType
-     * @return ilCertificateFilename
-     */
     private function fetchCertificateGenerator(string $objectType) : ilCertificateFilename
     {
         $generator = new ilCertificatePdfFilename($this->lng);

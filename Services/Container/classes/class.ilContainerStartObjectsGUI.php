@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilContainerStartObjectsGUI
@@ -10,43 +21,15 @@
  */
 class ilContainerStartObjectsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    protected $object; // [ilObject]
-    protected $start_object; // [ilContainerStartObjects]
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs_gui;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilToolbarGUI $toolbar;
+    protected ilObject $object;
+    protected ilContainerStartObjects $start_object;
     
     public function __construct(ilObject $a_parent_obj)
     {
@@ -74,10 +57,8 @@ class ilContainerStartObjectsGUI
         $this->lng->loadLanguageModule("crs");
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        // $this->prepareOutput();
-    
         switch ($this->ctrl->getNextClass($this)) {
             case "ilcontainerstartobjectspagegui":
                 $this->checkPermission("write");
@@ -125,7 +106,7 @@ class ilContainerStartObjectsGUI
         }
     }
     
-    protected function checkPermission($a_cmd)
+    protected function checkPermission(string $a_cmd) : void
     {
         $ilAccess = $this->access;
         
@@ -136,7 +117,7 @@ class ilContainerStartObjectsGUI
         }
     }
     
-    public function setTabs($a_active = "manage")
+    public function setTabs(string $a_active = "manage") : void
     {
         $ilSetting = $this->settings;
         
@@ -158,7 +139,7 @@ class ilContainerStartObjectsGUI
         $this->tabs_gui->activateSubTab($a_active);
     }
 
-    protected function listStructureObject()
+    protected function listStructureObject() : void
     {
         $ilToolbar = $this->toolbar;
         
@@ -174,7 +155,7 @@ class ilContainerStartObjectsGUI
         $this->tpl->setContent($table->getHTML());
     }
     
-    protected function saveSortingObject()
+    protected function saveSortingObject() : void
     {
         $pos = $_POST["pos"];
         if (is_array($pos)) {
@@ -191,7 +172,7 @@ class ilContainerStartObjectsGUI
         $this->ctrl->redirect($this, "listStructure");
     }
     
-    protected function askDeleteStarterObject()
+    protected function askDeleteStarterObject() : void
     {
         if (empty($_POST['starter'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -221,7 +202,7 @@ class ilContainerStartObjectsGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    protected function deleteStarterObject()
+    protected function deleteStarterObject() : void
     {
         $this->checkPermission('write');
         
@@ -238,7 +219,7 @@ class ilContainerStartObjectsGUI
         $this->ctrl->redirect($this, "listStructure");
     }
         
-    protected function selectStarterObject()
+    protected function selectStarterObject() : void
     {
         $this->checkPermission('write');
         $this->setTabs();
@@ -247,7 +228,7 @@ class ilContainerStartObjectsGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function addStarterObject()
+    protected function addStarterObject() : void
     {
         $this->checkPermission('write');
 

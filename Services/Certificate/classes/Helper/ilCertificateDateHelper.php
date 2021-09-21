@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,11 +7,11 @@
 class ilCertificateDateHelper
 {
     /**
-     * @param string $date
-     * @param int $dateFormat
+     * @param string|int $date
+     * @param ?int       $dateFormat
      * @return string
      */
-    public function formatDate(string $date, $dateFormat = null) : string
+    public function formatDate($date, ?int $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;
@@ -28,12 +28,12 @@ class ilCertificateDateHelper
     }
 
     /**
-     * @param string $dateTime
-     * @param int $format
+     * @param string|int $dateTime
+     * @param ?int       $dateFormat
      * @return string
      * @throws ilDateTimeException
      */
-    public function formatDateTime(string $dateTime, $dateFormat = null) : string
+    public function formatDateTime($dateTime, ?int $dateFormat = null) : string
     {
         if (null === $dateFormat) {
             $dateFormat = IL_CAL_DATETIME;

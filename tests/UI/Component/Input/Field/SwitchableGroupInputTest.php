@@ -38,9 +38,17 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $this->child1
             ->method("withNameFrom")
             ->willReturn($this->child1);
+        $this->child1
+            ->method("getInputs")
+            ->willReturn([$this->child1]);
+
         $this->child2
             ->method("withNameFrom")
             ->willReturn($this->child2);
+        $this->child2
+            ->method("getInputs")
+            ->willReturn([$this->child2]);
+
 
         $this->switchable_group = (new SwitchableGroup(
             $this->data_factory,
@@ -196,7 +204,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $input_data
             ->expects($this->once())
-            ->method("get")
+            ->method("getOr")
             ->with("name0")
             ->willReturn("child1");
 
@@ -206,12 +214,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
             ->with($input_data)
             ->willReturn($this->child1);
         $this->child1
-            ->expects($this->once())
-            ->method("getValue")
-            ->with()
-            ->willReturn("one");
-        $this->child1
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method("getContent")
             ->with()
             ->willReturn($this->data_factory->ok("one"));
@@ -226,7 +229,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $new_group = $this->switchable_group
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (&$called) {
                 $called = true;
-                $this->assertEquals(["child1", "one"], $v);
+                $this->assertEquals(["child1", ["one"]], $v);
                 return "result";
             }))
             ->withInput($input_data);
@@ -246,7 +249,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $input_data
             ->expects($this->once())
-            ->method("get")
+            ->method("getOr")
             ->with("name0")
             ->willReturn("child2");
 
@@ -293,7 +296,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $input_data
             ->expects($this->once())
-            ->method("get")
+            ->method("getOr")
             ->with("name0")
             ->willReturn("child2");
 
@@ -327,7 +330,7 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
 
         $input_data
             ->expects($this->once())
-            ->method("get")
+            ->method("getOr")
             ->with("name0")
             ->willReturn(123);
 

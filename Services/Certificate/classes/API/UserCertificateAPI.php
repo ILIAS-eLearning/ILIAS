@@ -12,14 +12,9 @@ use Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPI
 {
-    /** @var UserDataRepository */
-    private $userCertificateRepository;
+    private UserDataRepository $userCertificateRepository;
 
-    /**
-     * UserCertificateAPI constructor.
-     * @param UserDataRepository|null $userCertificateRepository
-     */
-    public function __construct(UserDataRepository $userCertificateRepository = null)
+    public function __construct(?UserDataRepository $userCertificateRepository = null)
     {
         if (null === $userCertificateRepository) {
             global $DIC;
@@ -35,10 +30,9 @@ class UserCertificateAPI
 
     /**
      * @param UserDataFilter $filter
-     * @param array $ilCtrlStack - array of ilCtrl-enabled GUI class
-     *                             names that are used to create the link,
-     *                             if this is an empty array (default) no link
-     *                             will be generated
+     * @param string[] $ilCtrlStack An array of ilCtrl-enabled GUI class names that are used to create the link,
+     *                              if this is an empty array (default) no link
+     *                              will be generated
      * @return array<int, UserCertificateDto>
      */
     public function getUserCertificateData(UserDataFilter $filter, array $ilCtrlStack = []) : array
@@ -46,12 +40,6 @@ class UserCertificateAPI
         return $this->userCertificateRepository->getUserData($filter, $ilCtrlStack);
     }
 
-
-    /**
-     * @param UserDataFilter $filter
-     *
-     * @return int
-     */
     public function getUserCertificateDataMaxCount(UserDataFilter $filter) : int
     {
         return $this->userCertificateRepository->getUserCertificateDataMaxCount($filter);

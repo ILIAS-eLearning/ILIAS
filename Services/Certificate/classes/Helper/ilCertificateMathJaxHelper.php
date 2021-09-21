@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,12 +6,12 @@
  */
 class ilCertificateMathJaxHelper
 {
-    public function fillXlsFoContent($xslfo)
+    public function fillXlsFoContent(string $xslfo) : string
     {
         $xlsfo = ilMathJax::getInstance()
-            ->init(ilMathJax::PURPOSE_PDF)
-            ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
-            ->insertLatexImages($xslfo);
+                          ->init(ilMathJax::PURPOSE_PDF)
+                          ->setRendering(ilMathJax::RENDER_PNG_AS_FO_FILE)
+                          ->insertLatexImages($xslfo);
 
         return $xlsfo;
     }

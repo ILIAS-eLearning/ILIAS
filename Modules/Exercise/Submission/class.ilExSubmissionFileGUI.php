@@ -318,13 +318,14 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
+        $file_ids = $this->request->getSubmittedFileIds();
         if (!$this->submission->canSubmit()) {
             ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         }
         
-        if (!is_array($_POST["delivered"]) || count($_POST["delivered"]) == 0) {
+        if (count($file_ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "submissionScreen");
         } else {
@@ -342,7 +343,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
             
             $files = $this->submission->getFiles();
 
-            foreach ($_POST["delivered"] as $i) {
+            foreach ($file_ids as $i) {
                 reset($files);
                 $title = "";
                 foreach ($files as $f) {
@@ -363,13 +364,15 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     public function deleteDeliveredObject() : void
     {
         $ilCtrl = $this->ctrl;
+
+        $file_ids = $this->request->getSubmittedFileIds();
         
         if (!$this->submission->canSubmit()) {
             ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
-        } elseif (!count($_POST["delivered"])) {
+        } elseif (count($file_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("please_select_a_delivered_file_to_delete"), true);
         } else {
-            $this->submission->deleteSelectedFiles($_POST["delivered"]);
+            $this->submission->deleteSelectedFiles($file_ids);
             $this->handleRemovedUpload();
             
             ilUtil::sendSuccess($this->lng->txt("exc_submitted_files_deleted"), true);
@@ -414,7 +417,7 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $delivered_id = $_REQUEST["delivered"];
+        $delivered_id = $this->request->getSubmittedFileId();
 
         if (!$this->submission->canView()) {
             $this->returnToParentObject();

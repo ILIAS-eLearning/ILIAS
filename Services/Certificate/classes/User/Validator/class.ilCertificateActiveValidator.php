@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,34 +6,23 @@
  */
 class ilCertificateActiveValidator
 {
-    /**
-     * @var ilSetting|null
-     */
-    private $setting;
+    private ilSetting $setting;
+    private ilRPCServerSettings $rpcSettings;
 
-    /**
-     * @var ilRPCServerSettings|null|object
-     */
-    private $rpcSettings;
-
-    /**
-     * @param ilSetting|null $setting
-     * @param ilRPCServerSettings|null $rpcSettings
-     */
-    public function __construct(ilSetting $setting = null, ilRPCServerSettings $rpcSettings = null)
+    public function __construct(?ilSetting $setting = null, ?ilRPCServerSettings $rpcSettings = null)
     {
         if (null === $setting) {
             $setting = new ilSetting("certificate");
         }
         $this->setting = $setting;
 
-        if (null == $rpcSettings) {
+        if (null === $rpcSettings) {
             $rpcSettings = ilRPCServerSettings::getInstance();
         }
         $this->rpcSettings = $rpcSettings;
     }
 
-    public function validate()
+    public function validate() : bool
     {
         $globalCertificateActive = (bool) $this->setting->get('active');
 

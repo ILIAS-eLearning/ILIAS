@@ -7,7 +7,6 @@
  */
 interface ilDBInterface
 {
-
     public function doesCollationSupportMB4Strings() : bool;
 
     /**
@@ -107,9 +106,11 @@ interface ilDBInterface
     public function renameTableColumn(string $table_name, string $column_old_name, string $column_new_name) : bool;
 
     /**
-     * @param       $table_name string
+     * @param string $table_name
+     * @param array $values
+     * @return int The number of rows affected by the manipulation
      */
-    public function insert(string $table_name, array $values) : void;
+    public function insert(string $table_name, array $values) : int;
 
     /**
      * @param $query_result ilDBStatement
@@ -120,14 +121,16 @@ interface ilDBInterface
      * @param $table_name string
      * @param $values     array
      * @param $where      array
+     * @return int The number of rows affected by the manipulation
      */
-    public function update(string $table_name, array $values, array $where) : void;
+    public function update(string $table_name, array $values, array $where) : int;
 
     /**
      * Run a (write) Query on the database
      * @param $query string
+     * @return int The number of rows affected by the manipulation
      */
-    public function manipulate(string $query) : bool;
+    public function manipulate(string $query) : int;
 
     /**
      * @param $query_result ilDBStatement
@@ -188,8 +191,9 @@ interface ilDBInterface
      * @param $query  string
      * @param $types  string[]
      * @param $values mixed[]
+     * @return int The number of rows affected by the manipulation
      */
-    public function manipulateF(string $query, array $types, array $values) : bool;
+    public function manipulateF(string $query, array $types, array $values) : int;
 
     /**
      * @deprecated
@@ -214,8 +218,9 @@ interface ilDBInterface
      * @param string        table name
      * @param array         primary key values: array("field1" => array("text", $name), "field2" => ...)
      * @param array         other values: array("field1" => array("text", $name), "field2" => ...)
+     * @return int The number of rows affected by the manipulation
      */
-    public function replace(string $table, array $primary_keys, array $other_columns) : void;
+    public function replace(string $table, array $primary_keys, array $other_columns) : int;
 
     /**
      * @param $columns

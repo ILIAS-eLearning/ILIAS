@@ -60,7 +60,6 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
             true,
             $backgroundImagePath = '/some/where/background.jpg',
             'some/path/test.svg'
-
         );
 
         $repository = new ilCertificateTemplateRepository($database, $logger, $objectDataCache);
@@ -249,7 +248,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('quote')
             ->withConsecutive(array(10, 'integer'), array(200, 'integer'))
-            ->willReturnOnConsecutiveCalls(10, 200);
+            ->willReturnOnConsecutiveCalls('10', '200');
 
         $database->method('query')
             ->with('
@@ -280,7 +279,7 @@ AND obj_id = 200');
 
         $database->method('quote')
             ->withConsecutive(array(10, 'integer'), array(30, 'integer'))
-            ->willReturnOnConsecutiveCalls(10, 30);
+            ->willReturnOnConsecutiveCalls('10', '30');
 
         $database->method('fetchAssoc')->willReturnOnConsecutiveCalls(
             array(
@@ -408,7 +407,7 @@ WHERE id = 30')
 
         $database->method('quote')
             ->with(10, 'integer')
-            ->willReturn(10);
+            ->willReturn('10');
 
         $objectDataCache = $this->getMockBuilder('ilObjectDataCache')
             ->disableOriginalConstructor()

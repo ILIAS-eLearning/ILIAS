@@ -823,7 +823,7 @@ class ilSurveyExecutionGUI
     *
     * @access public
     */
-    public function outNavigationButtons($navigationblock = "top", $page, $stpl)
+    public function outNavigationButtons($navigationblock, $page, $stpl)
     {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");

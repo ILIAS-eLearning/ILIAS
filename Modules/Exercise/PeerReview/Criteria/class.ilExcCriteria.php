@@ -3,7 +3,10 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class ilExcCriteria
+ * Class ilExcCriteria.
+ *
+ * Note: This class does stuff on application and gui layer and
+ * should be divided in multiple interfaces.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @author Alexander Killing <killing@leifos.de>
@@ -13,13 +16,13 @@ abstract class ilExcCriteria
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
-    protected int $id;
+    protected ?int $id = null;
     protected ?int $parent;
     protected ?string $title;
     protected ?string $desc;
-    protected bool $required;
+    protected bool $required = false;
     protected int $pos;
-    protected ?array $def;
+    protected ?array $def = null;
     protected ?ilPropertyFormGUI $form;
     protected ilExAssignment $ass;
     protected int $giver_id;
@@ -114,12 +117,12 @@ abstract class ilExcCriteria
     // properties
     //
     
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
     
-    protected function setId(int $a_id) : void
+    protected function setId(?int $a_id) : void
     {
         $this->id = $a_id;
     }

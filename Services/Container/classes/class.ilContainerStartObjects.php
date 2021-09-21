@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * ilContainerStartObjects
@@ -9,32 +20,18 @@
  */
 class ilContainerStartObjects
 {
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
+    protected ilDBInterface $db;
+    protected ilObjectDataCache $obj_data_cache;
+    protected ilLogger $log;
+    protected int $ref_id;
+    protected int $obj_id;
+    protected array $start_objs = [];
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilObjectDataCache
-     */
-    protected $obj_data_cache;
-
-    /**
-     * @var Logger
-     */
-    protected $log;
-
-    protected $ref_id;
-    protected $obj_id;
-    protected $start_objs = array();
-
-    public function __construct($a_object_ref_id, $a_object_id)
-    {
+    public function __construct(
+        int $a_object_ref_id,
+        int $a_object_id
+    ) {
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -47,32 +44,32 @@ class ilContainerStartObjects
         $this->__read();
     }
     
-    protected function setObjId($a_id)
+    protected function setObjId(int $a_id) : void
     {
         $this->obj_id = $a_id;
     }
     
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
     
-    protected function setRefId($a_ref_id)
+    protected function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
     
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
     
-    public function getStartObjects()
+    public function getStartObjects() : array
     {
-        return $this->start_objs ? $this->start_objs : array();
+        return $this->start_objs ?: array();
     }
         
-    protected function __read()
+    protected function __read() : void
     {
         $tree = $this->tree;
         $ilDB = $this->db;
@@ -90,15 +87,9 @@ class ilContainerStartObjects
                 $this->delete($row->item_ref_id);
             }
         }
-        return true;
     }
     
-    /**
-     * Delete item by sequence id
-     * @param type $a_crs_start_id
-     * @return boolean
-     */
-    public function delete($a_crs_start_id)
+    public function delete(int $a_crs_start_id) : void
     {
         $ilDB = $this->db;
         
@@ -106,14 +97,9 @@ class ilContainerStartObjects
             " WHERE crs_start_id = " . $ilDB->quote($a_crs_start_id, 'integer') .
             " AND crs_id = " . $ilDB->quote($this->getObjId(), 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
     
-    /**
-     * Delete item by ref_id
-     * @param type $a_item_ref_id
-     */
-    public function deleteItem($a_item_ref_id)
+    public function deleteItem(int $a_item_ref_id) : void
     {
         $ilDB = $this->db;
         
@@ -121,10 +107,9 @@ class ilContainerStartObjects
             " WHERE crs_id = " . $ilDB->quote($this->getObjId(), 'integer') .
             " AND item_ref_id = " . $ilDB->quote($a_item_ref_id, 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
 
-    public function exists($a_item_ref_id)
+    public function exists(int $a_item_ref_id) : bool
     {
         $ilDB = $this->db;
         
@@ -136,7 +121,7 @@ class ilContainerStartObjects
         return $res->numRows() ? true : false;
     }
 
-    public function add($a_item_ref_id)
+    public function add(int $a_item_ref_id) : bool
     {
         $ilDB = $this->db;
         
@@ -161,18 +146,19 @@ class ilContainerStartObjects
         return false;
     }
 
-    public function __deleteAll()
+    public function __deleteAll() : void
     {
         $ilDB = $this->db;
         
         $query = "DELETE FROM crs_start" .
             " WHERE crs_id = " . $ilDB->quote($this->getObjId(), 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
         
-    public function setObjectPos($a_start_id, $a_pos)
-    {
+    public function setObjectPos(
+        int $a_start_id,
+        int $a_pos
+    ) : void {
         $ilDB = $this->db;
         
         if (!(int) $a_start_id || !(int) $a_pos) {
@@ -185,8 +171,9 @@ class ilContainerStartObjects
             " AND crs_start_id = " . $ilDB->quote($a_start_id, 'integer'));
     }
 
-    public function getPossibleStarters()
+    public function getPossibleStarters() : array
     {
+        $poss_items = [];
         foreach (ilObjectActivation::getItems($this->getRefId(), false) as $node) {
             switch ($node['type']) {
                 case 'lm':
@@ -198,10 +185,10 @@ class ilContainerStartObjects
                     break;
             }
         }
-        return $poss_items ? $poss_items : array();
+        return $poss_items;
     }
 
-    public function allFullfilled($a_user_id)
+    public function allFullfilled(int $a_user_id) : bool
     {
         foreach ($this->getStartObjects() as $item) {
             if (!$this->isFullfilled($a_user_id, $item['item_ref_id'])) {
@@ -211,7 +198,7 @@ class ilContainerStartObjects
         return true;
     }
 
-    public function isFullfilled($a_user_id, $a_item_id)
+    public function isFullfilled(int $a_user_id, int $a_item_id) : bool
     {
         $ilObjDataCache = $this->obj_data_cache;
 
@@ -256,8 +243,10 @@ class ilContainerStartObjects
         return true;
     }
         
-    public function cloneDependencies($a_target_id, $a_copy_id)
-    {
+    public function cloneDependencies(
+        int $a_target_id,
+        int $a_copy_id
+    ) : void {
         $ilObjDataCache = $this->obj_data_cache;
         $ilLog = $this->log;
         
@@ -278,17 +267,12 @@ class ilContainerStartObjects
             }
         }
         $ilLog->write(__METHOD__ . ': ... end course start objects');
-        return true;
     }
     
-    /**
-     * Check if object is start object
-     * @param type $a_container_id
-     * @param type $a_item_ref_id
-     * @return boolean
-     */
-    public static function isStartObject($a_container_id, $a_item_ref_id)
-    {
+    public static function isStartObject(
+        int $a_container_id,
+        int $a_item_ref_id
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();

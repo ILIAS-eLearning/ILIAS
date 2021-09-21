@@ -1,31 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilContainerLinkListGUI
  *
- * @author Stefan Meyer <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContainerLinkListGUI:
  */
 class ilContainerLinkListGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
+    protected ilCtrl $ctrl;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    public $ctrl;
-
-    /**
-    * Constructor
-    * @access public
-    */
     public function __construct()
     {
         global $DIC;
@@ -38,25 +37,23 @@ class ilContainerLinkListGUI
         $this->ctrl = &$ilCtrl;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        //$this->prepareOutput();
 
         switch ($next_class) {
             default:
                 $this->$cmd();
-
                 break;
         }
-        return true;
     }
     
-    public function show()
+    public function show() : void
     {
         $lng = $this->lng;
         $tree = $this->tree;
+        $cnt = [];
         
         $tpl = new ilGlobalTemplate(
             "tpl.container_link_help.html",
@@ -83,7 +80,6 @@ class ilContainerLinkListGUI
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable("TYPE", $lng->txt("objs_" . $type) .
                     " (" . ((int) $cnt[$type]) . ")");
@@ -97,4 +93,4 @@ class ilContainerLinkListGUI
         $tpl->printToStdout();
         exit;
     }
-} // END class.ilContainerLinkListGUI
+}

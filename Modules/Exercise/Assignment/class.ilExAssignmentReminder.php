@@ -21,7 +21,7 @@ class ilExAssignmentReminder
     protected ilDBInterface $db;
     protected ilTree $tree;
 
-    protected bool $rmd_status;
+    protected ?bool $rmd_status = null;
     protected int $rmd_start;
     protected int $rmd_end;
     protected int $rmd_frequency;
@@ -70,12 +70,12 @@ class ilExAssignmentReminder
      * Set reminder for users without submission.
      * @param bool $a_status activated?
      */
-    public function setReminderStatus(bool $a_status) : void
+    public function setReminderStatus(?bool $a_status) : void
     {
         $this->rmd_status = $a_status;
     }
 
-    public function getReminderStatus() : bool
+    public function getReminderStatus() : ?bool
     {
         return $this->rmd_status;
     }

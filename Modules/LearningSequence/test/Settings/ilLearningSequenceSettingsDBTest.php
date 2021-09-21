@@ -193,13 +193,14 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             ->expects($this->once())
             ->method('quote')
             ->with(333, 'integer')
-            ->willReturn(333)
+            ->willReturn('333')
         ;
+        $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->expects($this->once())
             ->method('query')
             ->with($sql)
-            ->willReturn([])
+            ->willReturn($return_statement)
         ;
         $this->db
             ->expects($this->once())
@@ -244,13 +245,14 @@ class ilLearningSequenceSettingsDBTest extends TestCase
             ->expects($this->once())
             ->method('quote')
             ->with(333, 'integer')
-            ->willReturn(333)
+            ->willReturn('333')
         ;
+        $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->expects($this->once())
             ->method('query')
             ->with($sql)
-            ->willReturn($row)
+            ->willReturn($return_statement)
         ;
         $this->db
             ->expects($this->once())
@@ -260,7 +262,7 @@ class ilLearningSequenceSettingsDBTest extends TestCase
         $this->db
             ->expects($this->once())
             ->method('fetchAssoc')
-            ->with($row)
+            ->with($return_statement)
             ->willReturn($row)
         ;
 

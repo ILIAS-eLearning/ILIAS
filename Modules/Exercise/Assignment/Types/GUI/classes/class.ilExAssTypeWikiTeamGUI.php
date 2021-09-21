@@ -130,10 +130,7 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
         return $values;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
         $this->ctrl->getHTML($this, array("mode" => self::MODE_OVERVIEW, "info" => $a_info, "submission" => $a_submission));
     }

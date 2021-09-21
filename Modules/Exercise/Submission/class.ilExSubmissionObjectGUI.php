@@ -140,12 +140,15 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
     protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $back_ref_id = $DIC->http()->wrapper()->query()->retrieve(
             "ref_id",
             $DIC->refinery()->kindlyTo()->int()
         ) ?? 0;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
 
 
         $lng = $DIC->language();
@@ -165,7 +168,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                     // #10116 / #12791
                     $ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $portfolio_id);
 
-                    $ref_id = $_REQUEST['ref_id'];
+                    $ref_id = $request->getRefId();
                     $ilCtrl->setParameterByClass("ilobjportfoliogui", "ref_id", $ref_id);
                     $ilCtrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", $back_ref_id);
 
@@ -565,15 +568,16 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             ilUtil::sendInfo($this->lng->txt("exercise_time_over"), true);
             $this->returnToParentObject();
         }
-        
-        if ($_POST["item"]) {
+
+        $prtf_id = $this->request->getResourceObjectId();
+        if ($prtf_id > 0) {
             $this->submission->deleteAllFiles();
             $this->handleRemovedUpload();
             
-            $this->submission->addResourceObject($_POST["item"]);
+            $this->submission->addResourceObject($prtf_id);
                         
             ilUtil::sendSuccess($this->lng->txt("exc_portfolio_selected"), true);
-            $this->ctrl->setParameter($this, "prtf_id", $_POST["item"]);
+            $this->ctrl->setParameter($this, "prtf_id", $prtf_id);
             $this->ctrl->redirect($this, "askDirectSubmission");
         }
         
@@ -631,11 +635,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $conf = new ilConfirmationGUI();
         
-        if ($_REQUEST["blog_id"]) {
-            $this->ctrl->setParameter($this, "blog_id", $_REQUEST["blog_id"]);
+        if ($this->request->getBlogId() > 0) {
+            $this->ctrl->setParameter($this, "blog_id", $this->request->getBlogId());
             $txt = $this->lng->txt("exc_direct_submit_blog");
         } else {
-            $this->ctrl->setParameter($this, "prtf_id", $_REQUEST["prtf_id"]);
+            $this->ctrl->setParameter($this, "prtf_id", $this->request->getPortfolioId());
             $txt = $this->lng->txt("exc_direct_submit_portfolio");
         }
         $conf->setFormAction($this->ctrl->getFormAction($this, "directSubmit"));
@@ -661,13 +665,13 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $success = false;
         
         // submit current version of blog
-        if ($_REQUEST["blog_id"]) {
-            $success = $this->submitBlog($_REQUEST["blog_id"]);
+        if ($this->request->getBlogId() > 0) {
+            $success = $this->submitBlog($this->request->getBlogId());
             $this->ctrl->setParameter($this, "blog_id", "");
         }
         // submit current version of portfolio
-        elseif ($_REQUEST["prtf_id"]) {
-            $success = $this->submitPortfolio($_REQUEST["prtf_id"]);
+        elseif ($this->request->getPortfolioId() > 0) {
+            $success = $this->submitPortfolio($this->request->getPortfolioId());
             $this->ctrl->setParameter($this, "prtf_id", "");
         }
                 

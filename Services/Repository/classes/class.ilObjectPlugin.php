@@ -1,32 +1,29 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2.php");
-require_once('./Services/Component/classes/class.ilPlugin.php');
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-/*
-* Object class for plugins. This one wraps around ilObject
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesRepository
-*/
+/**
+ * Object class for plugins. This one wraps around ilObject
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 abstract class ilObjectPlugin extends ilObject2
 {
-    private $object;
+    protected ilPlugin $plugin;
+    protected static array $plugin_by_type = [];
 
-    protected $plugin;
-
-    /**
-     * @var
-     */
-    protected static $plugin_by_type = array();
-
-
-    /**
-     * Constructor.
-     */
-    public function __construct($a_ref_id = 0)
+    public function __construct(int $a_ref_id = 0)
     {
         $this->initType();
         parent::__construct($a_ref_id, true);
@@ -36,11 +33,9 @@ abstract class ilObjectPlugin extends ilObject2
 
     /**
      * Return either a repoObject plugin or a orgunit extension plugin or null if the type is not a plugin.
-     *
-     * @param $type
      * @return null | ilRepositoryObjectPlugin | ilOrgUnitExtensionPlugin
      */
-    public static function getPluginObjectByType($type)
+    public static function getPluginObjectByType(string $type) : ?ilPlugin
     {
         if (!isset(self::$plugin_by_type[$type]) || !self::$plugin_by_type[$type]) {
             list($component, $component_name) = ilPlugin::lookupTypeInformationsForId($type);
@@ -62,7 +57,7 @@ abstract class ilObjectPlugin extends ilObject2
         return self::$plugin_by_type[$type];
     }
 
-    protected static function loadRepoPlugin(string $type_id)
+    protected static function loadRepoPlugin(string $type_id) : void
     {
         $plugin = null;
         $name = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $type_id);
@@ -77,7 +72,7 @@ abstract class ilObjectPlugin extends ilObject2
         self::$plugin_by_type[$type_id] = $plugin;
     }
 
-    protected static function loadOrgUnitPlugin(string $type_id)
+    protected static function loadOrgUnitPlugin(string $type_id) : void
     {
         $plugin = null;
         $name = ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $type_id);
@@ -91,23 +86,19 @@ abstract class ilObjectPlugin extends ilObject2
         self::$plugin_by_type[$type_id] = $plugin;
     }
 
-    /**
-     * @param $plugin_id
-     * @param $lang_var
-     * @return string
-     */
-    public static function lookupTxtById($plugin_id, $lang_var)
-    {
+    public static function lookupTxtById(
+        string $plugin_id,
+        string $lang_var
+    ) : string {
         $pl = self::getPluginObjectByType($plugin_id);
         return $pl->txt($lang_var);
     }
 
     /**
      * Get plugin object
-     * @return object plugin object
      * @throws ilPluginException
      */
-    protected function getPlugin()
+    protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
             $this->plugin =
@@ -124,10 +115,7 @@ abstract class ilObjectPlugin extends ilObject2
         return $this->plugin;
     }
 
-    /**
-     * Wrapper for txt function
-     */
-    final protected function txt($a_var)
+    final public function txt(string $a_var) : string
     {
         return $this->getPlugin()->txt($a_var);
     }
@@ -136,7 +124,7 @@ abstract class ilObjectPlugin extends ilObject2
      * returns a list of all repository object types which can be a parent of this type.
      * @return string[]
      */
-    public function getParentTypes()
+    public function getParentTypes() : array
     {
         return $this->plugin->getParentTypes();
     }

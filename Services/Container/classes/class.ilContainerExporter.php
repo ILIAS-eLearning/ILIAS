@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * container structure export
@@ -9,27 +20,18 @@
  */
 class ilContainerExporter extends ilXmlExporter
 {
-    private $writer = null;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }
     
-    /**
-     * Init export
-     * @return
-     */
-    public function init()
+    public function init() : void
     {
     }
     
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) : array
     {
         if ($a_entity != 'struct') {
-            return;
+            return [];
         }
         
         
@@ -101,25 +103,19 @@ class ilContainerExporter extends ilXmlExporter
         return $res;
     }
     
-    /**
-     * Get xml
-     * @param object $a_entity
-     * @param object $a_schema_version
-     * @param object $a_id
-     * @return
-     */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
     {
         global $DIC;
 
         $log = $DIC->logger()->root();
         if ($a_entity == 'struct') {
             $log->debug(__METHOD__ . ': Received id = ' . $a_id);
-            $ref_ids = ilObject::_getAllReferences($a_id);
+            $ref_ids = ilObject::_getAllReferences((int) $a_id);
             $writer = new ilContainerXmlWriter(end($ref_ids));
             $writer->write();
             return $writer->xmlDumpMem(false);
         }
+        return "";
     }
     
     /**
@@ -129,7 +125,7 @@ class ilContainerExporter extends ilXmlExporter
      *
      * @return
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions($a_entity) : array
     {
         return array(
             "4.1.0" => array(

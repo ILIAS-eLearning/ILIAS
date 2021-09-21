@@ -21,7 +21,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
 
-    public function step_1(\ilDBInterface $db)
+    public function step_1()
     {
         $this->called[] = 1;
         // Call some function on the interface to check if this step
@@ -30,7 +30,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
     // 4 comes before 2 to check if the class gets the sorting right
-    public function step_4(\ilDBInterface $db)
+    public function step_4()
     {
         $this->called[] = 4;
         // Call some function on the interface to check if this step
@@ -38,7 +38,7 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
         $this->db->connect();
     }
 
-    public function step_2(\ilDBInterface $db)
+    public function step_2()
     {
         $this->called[] = 2;
         // Call some function on the interface to check if this step
@@ -49,8 +49,8 @@ class Test_ilDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 
 class ilDatabaseUpdateStepsExecutedObjectiveTest extends TestCase
 {
-    protected Test_ilDatabaseUpdateSteps $steps;
-    protected ilDatabaseUpdateStepsExecutedObjective $objective;
+    public Test_ilDatabaseUpdateSteps $steps;
+    public ilDatabaseUpdateStepsExecutedObjective $objective;
 
     protected function setUp() : void
     {

@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Self evaluation table for single skill
@@ -13,38 +28,18 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilAccessHandler $access;
+    protected int $sn_id;
+    protected ilSkillSelfEvaluation $se;
+    protected array $levels;
+    protected ilBasicSkill $skill;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var int
-     */
-    protected $sn_id;
-
-    /**
-     * @var ilSkillSelfEvaluation
-     */
-    protected $se;
-
-    /**
-     * @var array
-     */
-    protected $levels;
-
-    /**
-     * @var ilBasicSkill
-     */
-    protected $skill;
-
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_sn_id, $a_se = null)
-    {
+    public function __construct(
+        $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_sn_id,
+        ilSkillSelfEvaluation $a_se = null
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -90,13 +85,7 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
 //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    /**
-     * Get levels
-     *
-     * @param
-     * @return
-     */
-    public function getLevels()
+    public function getLevels() : array
     {
         $this->skill = new ilBasicSkill($this->sn_id);
         $levels = array(array("id" => 0));
@@ -106,15 +95,11 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
 
         return $levels;
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
 
-        //var_dump($a_set);
         if ($a_set["id"] == 0) {
             $this->tpl->setVariable("LEVEL_ID", $a_set["id"]);
             $this->tpl->setVariable("SKILL_ID", $this->sn_id);

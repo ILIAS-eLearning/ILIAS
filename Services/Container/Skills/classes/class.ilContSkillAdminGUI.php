@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Container skills administration
@@ -10,92 +27,26 @@
  */
 class ilContSkillAdminGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilContainerGUI $container_gui;
+    protected ilContainer $container;
+    protected ilContainerSkills $container_skills;
+    protected ilContainerGlobalProfiles $container_global_profiles;
+    protected ilContainerLocalProfiles $container_local_profiles;
+    protected ilSkillManagementSettings $skmg_settings;
+    protected ilToolbarGUI $toolbar;
+    protected ilAccessHandler $access;
+    protected int $ref_id;
+    protected ilSkillTree $skill_tree;
+    protected array $params;
+    protected ServerRequestInterface $request;
+    protected int $requested_usr_id;
+    protected string $requested_selected_skill;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilContainerGUI
-     */
-    protected $container_gui;
-
-    /**
-     * @var ilContainer
-     */
-    protected $container;
-
-    /**
-     * @var ilContainerSkills
-     */
-    protected $container_skills;
-
-    /**
-     * @var ilContainerGlobalProfiles
-     */
-    protected $container_global_profiles;
-
-    /**
-     * @var ilContainerLocalProfiles
-     */
-    protected $container_local_profiles;
-
-    /**
-     * @var ilSkillManagementSettings
-     */
-    protected $skmg_settings;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var array
-     */
-    protected $params;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_usr_id;
-
-    /**
-     * @var string
-     */
-    protected $requested_selected_skill;
-
-    /**
-     * Constructor
-     *
-     * @param
-     */
-    public function __construct($a_container_gui)
+    public function __construct(ilContainerGUI $a_container_gui)
     {
         global $DIC;
 
@@ -108,7 +59,9 @@ class ilContSkillAdminGUI
         $this->request = $DIC->http()->request();
 
         $this->container_gui = $a_container_gui;
-        $this->container = $a_container_gui->object;
+        /* @var $obj ilContainer */
+        $obj = $this->container_gui->object;
+        $this->container = $obj;
         $this->ref_id = $this->container->getRefId();
 
         $this->skill_tree = new ilSkillTree();
@@ -129,10 +82,7 @@ class ilContSkillAdminGUI
         $this->lng->loadLanguageModule("error");
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listMembers");
@@ -164,10 +114,7 @@ class ilContSkillAdminGUI
 
     //// MANAGE MEMBERS
 
-    /**
-     * List members
-     */
-    public function listMembers()
+    public function listMembers() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -180,10 +127,7 @@ class ilContSkillAdminGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Assign competences to a member
-     */
-    public function assignCompetences()
+    public function assignCompetences() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -196,10 +140,7 @@ class ilContSkillAdminGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init competence assignment form
-     */
-    public function initCompetenceAssignmentForm()
+    public function initCompetenceAssignmentForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -240,18 +181,13 @@ class ilContSkillAdminGUI
 
         return $form;
     }
-    
-    /**
-     * Get path string
-     *
-     * @return string path string
-     */
-    public function getPathString($a_skill_id, $a_tref_id = 0)
+
+    public function getPathString(int $a_skill_id, int $a_tref_id = 0) : string
     {
         $skill_tree = $this->skill_tree;
 
         $path = $skill_tree->getSkillTreePath($a_skill_id, $a_tref_id);
-        $titles = array();
+        $titles = [];
         foreach ($path as $v) {
             if ($v["type"] != "skrt" && !($v["skill_id"] == $a_skill_id && $v["tref_id"] == $a_tref_id)) {
                 $titles[] = $v["title"];
@@ -261,12 +197,7 @@ class ilContSkillAdminGUI
         return implode(" > ", $titles);
     }
 
-    /**
-     * Save competence assignment
-     *
-     * @param
-     */
-    public function saveCompetenceAssignment()
+    public function saveCompetenceAssignment() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -274,7 +205,7 @@ class ilContSkillAdminGUI
         $form = $this->initCompetenceAssignmentForm();
         $form->checkInput();
 
-        $levels = array();
+        $levels = [];
         foreach ($this->container_skills->getSkills() as $sk) {
             $l = $form->getInput("skill_" . $sk["skill_id"] . "_" . $sk["tref_id"]);
             if ($l != -1) {
@@ -293,10 +224,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listMembers");
     }
 
-    /**
-     * Publish assignments
-     */
-    public function publishAssignments()
+    public function publishAssignments() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -306,7 +234,7 @@ class ilContSkillAdminGUI
             $user_ids[] = $this->requested_usr_id;
         }
 
-        $not_changed = array();
+        $not_changed = [];
         foreach ($user_ids as $user_id) {
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
             if (!$mem_skills->publish($this->container->getRefId())) {
@@ -323,14 +251,10 @@ class ilContSkillAdminGUI
             ilUtil::sendInfo($lng->txt("cont_skll_published_some_not") . " (" . implode("; ", $names) . ")", true);
         }
 
-
         $ctrl->redirect($this, "listMembers");
     }
 
-    /**
-     * Deassign competences confirmation
-     */
-    public function deassignCompetencesConfirm()
+    public function deassignCompetencesConfirm() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -363,17 +287,14 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Deassign competences
-     */
-    public function deassignCompetences()
+    public function deassignCompetences() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
         foreach ($_POST["usr_id"] as $user_id) {
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
-            $mem_skills->removeAllSkillLevels($this->container->getRefId());
+            $mem_skills->removeAllSkillLevels();
         }
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -383,10 +304,7 @@ class ilContSkillAdminGUI
 
     //// MANAGE COMPETENCES
 
-    /**
-     * Select competences
-     */
-    public function listCompetences()
+    public function listCompetences() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -413,10 +331,7 @@ class ilContSkillAdminGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Select skill for container
-     */
-    public function selectSkill()
+    public function selectSkill() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -429,10 +344,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Save selected skill
-     */
-    public function saveSelectedSkill()
+    public function saveSelectedSkill() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -448,10 +360,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listCompetences");
     }
 
-    /**
-     * Confirm
-     */
-    public function confirmRemoveSelectedSkill()
+    public function confirmRemoveSelectedSkill() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -479,10 +388,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Remove skill from course selection
-     */
-    public function removeSelectedSkill()
+    public function removeSelectedSkill() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -491,9 +397,9 @@ class ilContSkillAdminGUI
             foreach ($_POST["id"] as $id) {
                 $s = explode(":", $id);
                 $this->container_skills->removeSkill($s[0], $s[1]);
+                ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
             }
             $this->container_skills->save();
-            ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
         }
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
@@ -503,10 +409,7 @@ class ilContSkillAdminGUI
 
     //// MANAGE PROFILES
 
-    /**
-     * Select competence profiles
-     */
-    public function listProfiles()
+    public function listProfiles() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -516,10 +419,10 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("profiles");
 
-        $options = array();
+        $options = [];
         $options[0] = $lng->txt("please_select");
 
-        $selectable_profiles = array();
+        $selectable_profiles = [];
         $all_profiles = ilSkillProfile::getGlobalProfiles();
         $selected_profiles = $this->container_global_profiles->getProfiles();
         foreach ($all_profiles as $id => $profile) {
@@ -569,10 +472,7 @@ class ilContSkillAdminGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Save selected profile
-     */
-    public function saveSelectedProfile()
+    public function saveSelectedProfile() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -584,7 +484,7 @@ class ilContSkillAdminGUI
             $ctrl->redirect($this, "listProfiles");
         }
 
-        $this->container_global_profiles->addProfile((int) $profile_id);
+        $this->container_global_profiles->addProfile($profile_id);
         $this->container_global_profiles->save();
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -592,10 +492,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listProfiles");
     }
 
-    /**
-     * Confirm removal for selected global profiles
-     */
-    public function confirmRemoveSelectedGlobalProfiles()
+    public function confirmRemoveSelectedGlobalProfiles() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -626,10 +523,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Remove global profiles from course selection
-     */
-    public function removeSelectedGlobalProfiles()
+    public function removeSelectedGlobalProfiles() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -645,10 +539,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listProfiles");
     }
 
-    /**
-     * Confirm removal for single global profile
-     */
-    public function confirmRemoveSingleGlobalProfile()
+    public function confirmRemoveSingleGlobalProfile() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -674,10 +565,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Remove single global profile from course
-     */
-    public function removeSingleGlobalProfile()
+    public function removeSingleGlobalProfile() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -693,10 +581,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listProfiles");
     }
 
-    /**
-     * Confirm deletion for selected local profiles
-     */
-    public function confirmDeleteSelectedLocalProfiles()
+    public function confirmDeleteSelectedLocalProfiles() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -727,10 +612,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Delete local profiles from course selection
-     */
-    public function deleteSelectedLocalProfiles()
+    public function deleteSelectedLocalProfiles() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -748,10 +630,7 @@ class ilContSkillAdminGUI
         $ctrl->redirect($this, "listProfiles");
     }
 
-    /**
-     * Confirm deletion for single local profile
-     */
-    public function confirmDeleteSingleLocalProfile()
+    public function confirmDeleteSingleLocalProfile() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -777,10 +656,7 @@ class ilContSkillAdminGUI
         }
     }
 
-    /**
-     * Delete single local profile from course
-     */
-    public function deleteSingleLocalProfile()
+    public function deleteSingleLocalProfile() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -799,10 +675,7 @@ class ilContSkillAdminGUI
 
     //// SETTINGS
 
-    /**
-     * Settings
-     */
-    public function settings()
+    public function settings() : void
     {
         $tpl = $this->tpl;
         $tabs = $this->tabs;
@@ -814,10 +687,7 @@ class ilContSkillAdminGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init settings form.
-     */
-    public function initSettingsForm()
+    public function initSettingsForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -841,10 +711,7 @@ class ilContSkillAdminGUI
         return $form;
     }
 
-    /**
-     * Save settings
-     */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

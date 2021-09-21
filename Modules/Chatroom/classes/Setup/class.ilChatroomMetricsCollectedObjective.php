@@ -89,7 +89,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
 
             $storage->storeConfigText(
                 "log",
-                $settings['log'] ?? "",
+                (string) $settings['log'] ?? "",
                 "Absolute server path to the chat server's log file."
             );
             $storage->storeConfigText(

@@ -300,19 +300,14 @@ class ilStudyProgrammeAppEventListener
     {
         $usr_id = $params['usr_id'];
         $ref_id = $params['root_prg_ref_id'];
-
         ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
     }
 
-    /**
-     * @throws ilException
-     */
     private static function sendInformToReAssignMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $assignment_id = $params['ass_id'];
-
-        ilObjStudyProgramme::sendInformToReAssignMail($assignment_id, $usr_id);
+        $progress_id = $params['progress_id'];
+        ilObjStudyProgramme::sendInformToReAssignMail($progress_id, $usr_id);
     }
 
     /**
@@ -322,7 +317,6 @@ class ilStudyProgrammeAppEventListener
     {
         $usr_id = $params['usr_id'];
         $progress_id = $params['progress_id'];
-
-        ilStudyProgrammeUserProgress::sendRiskyToFailMail($progress_id, $usr_id);
+        ilObjStudyProgramme::sendRiskyToFailMail($progress_id, $usr_id);
     }
 }

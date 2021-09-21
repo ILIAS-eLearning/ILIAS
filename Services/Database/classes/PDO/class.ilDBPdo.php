@@ -143,7 +143,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         $this->setUsername($clientIniFile->readVariable("db", "user"));
         $this->setHost($clientIniFile->readVariable("db", "host"));
         $this->setPort((int) $clientIniFile->readVariable("db", "port"));
-        $this->setPassword($clientIniFile->readVariable("db", "pass"));
+        $this->setPassword((string) $clientIniFile->readVariable("db", "pass"));
         $this->setDbname($clientIniFile->readVariable("db", "name"));
         $this->setDBType($clientIniFile->readVariable("db", "type"));
 
@@ -192,7 +192,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $this->dropTable($table_name, false);
         }
 
-        return (bool)$this->manager->createTable($table_name, $fields, array());
+        return (bool) $this->manager->createTable($table_name, $fields, array());
     }
 
     /**
@@ -252,8 +252,11 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             'primary' => true,
             'fields' => $fields,
         );
-        $this->manager->createConstraint($table_name,
-            $this->constraintName($table_name, $this->getPrimaryKeyIdentifier()), $definition);
+        $this->manager->createConstraint(
+            $table_name,
+            $this->constraintName($table_name, $this->getPrimaryKeyIdentifier()),
+            $definition
+        );
 
         return true;
     }
@@ -456,10 +459,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->alterTable($table_name, $changes, false);
     }
 
-    /**
-     * @param       $table_name string
-     */
-    public function insert(string $table_name, array $values) : void
+    public function insert(string $table_name, array $values) : int
     {
         $real = array();
         $fields = array();
@@ -473,7 +473,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
 
         $query = $this->sanitizeMB4StringIfNotSupported($query);
 
-        $this->pdo->exec($query);
+        return (int) $this->pdo->exec($query);
     }
 
     /**
@@ -491,12 +491,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $res;
     }
 
-    /**
-     * @param $table_name string
-     * @param $values     array
-     * @param $where      array
-     */
-    public function update(string $table_name, array $columns, array $where) : void
+    public function update(string $table_name, array $columns, array $where) : int
     {
         $fields = array();
         $field_values = array();
@@ -546,6 +541,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
 
             $r = $this->prepareManip($q, $types);
             $this->execute($r, $field_values);
+
+            $num_affected_rows = $r->rowCount();
+
             $this->free($r);
         } else {
             foreach ($where as $k => $col) {
@@ -566,14 +564,16 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 $lim = " AND ";
             }
 
-            $r = $this->manipulateF($q, $types, $values);
+            $num_affected_rows = $this->manipulateF($q, $types, $values);
         }
+        
+        return $num_affected_rows;
     }
 
     /**
-     * @throws \ilDatabaseException
+     * @throws ilDatabaseException
      */
-    public function manipulate(string $query) : bool
+    public function manipulate(string $query) : int
     {
         global $DIC;
         $ilBench = $DIC['ilBench'] ?? null;
@@ -582,7 +582,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             if ($ilBench instanceof ilBenchmark) {
                 $ilBench->startDbBench($query);
             }
-            $r = $this->pdo->exec($query);
+            $num_affected_rows = $this->pdo->exec($query);
             if ($ilBench instanceof ilBenchmark) {
                 $ilBench->stopDbBench();
             }
@@ -590,7 +590,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, $e->getCode());
         }
 
-        return true;
+        return (int) $num_affected_rows;
     }
 
     /**
@@ -835,12 +835,9 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     }
 
     /**
-     * @param $query  string
-     * @param $types  string[]
-     * @param $values mixed[]
      * @throws ilDatabaseException
      */
-    public function manipulateF(string $query, array $types, array $values) : bool
+    public function manipulateF(string $query, array $types, array $values) : int
     {
         if (!is_array($types) || !is_array($values) || count($types) !== count($values)) {
             throw new ilDatabaseException("ilDB::manipulateF: types and values must be arrays of same size. ($query)");
@@ -889,13 +886,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return $this->manager->getQueryUtils()->now();
     }
 
-    /**
-     * Replace into method.
-     * @param string        table name
-     * @param array         primary key values: array("field1" => array("text", $name), "field2" => ...)
-     * @param array         other values: array("field1" => array("text", $name), "field2" => ...)
-     */
-    public function replace(string $table, array $primary_keys, array $other_columns) : void
+    public function replace(string $table, array $primary_keys, array $other_columns) : int
     {
         $a_columns = array_merge($primary_keys, $other_columns);
         $fields = [];
@@ -919,7 +910,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
 
         $q = "REPLACE INTO " . $table . " (" . implode(",", $fields) . ") VALUES (" . implode(",", $placeholders) . ")";
 
-        $this->manipulateF($q, $types, $values);
+        return $this->manipulateF($q, $types, $values);
     }
 
     /**
@@ -1033,12 +1024,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return " LOWER(" . $expression . ") ";
     }
 
-    /**
-     * @param string $a_exp
-     */
-    public function substr(string $expression) : string
+    public function substr(string $a_exp, int $a_pos = 1, int $a_len = -1) : string
     {
-        return "";
+        $lenstr = "";
+        if ($a_len > -1) {
+            $lenstr = ", " . $a_len;
+        }
+        return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
     }
 
     /**
@@ -1238,14 +1230,20 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         try {
             $this->checkTableName($a_new_name);
         } catch (ilDatabaseException $e) {
-            throw new ilDatabaseException("ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage(),
-                $e->getCode(), $e);
+            throw new ilDatabaseException(
+                "ilDB Error: renameTable(" . $a_name . "," . $a_new_name . ")<br />" . $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         }
 
         $this->manager->alterTable($a_name, ["name" => $a_new_name], false);
         if ($this->sequenceExists($a_name)) {
-            $this->manager->alterTable($this->getSequenceName($a_name), ["name" => $this->getSequenceName($a_new_name)],
-                false);
+            $this->manager->alterTable(
+                $this->getSequenceName($a_name),
+                ["name" => $this->getSequenceName($a_new_name)],
+                false
+            );
         }
         // The abstraction_progress is no longer used in ILIAS, see http://www.ilias.de/mantis/view.php?id=19513
         //		$query = "UPDATE abstraction_progress " . "SET table_name = " . $this->quote($a_new_name, 'text') . " " . "WHERE table_name = "

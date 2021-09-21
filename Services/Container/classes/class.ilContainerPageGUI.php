@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Container page GUI class
@@ -13,16 +24,14 @@
  */
 class ilContainerPageGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
+    protected int $requested_ref_id = 0;
 
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_old_nr = 0,
+        string $a_lang = ""
+    ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -35,10 +44,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
     }
 
-    /**
-     * Get profile back url
-     */
-    public function getProfileBackUrl()
+    public function getProfileBackUrl() : string
     {
         $link = ilLink::_getLink((int) $_GET["ref_id"]);
         // make it relative, since profile only accepts relative links as back links
@@ -52,10 +58,6 @@ class ilContainerPageGUI extends ilPageObjectGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Get additional page actions
-     * @return array
-     */
     public function getAdditionalPageActions() : array
     {
         $ctrl = $this->ctrl;

@@ -20,18 +20,12 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
      */
     protected $error;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
     const SEL_TYPE_CHECK = 1;
     const SEL_TYPE_RADIO = 2;
     
     public $root_id = 0;
     public $output = '';
-    public $ctrl = null;
-    
+
     private $checked_items = array();
     private $post_var = '';
     private $form_items = array();
