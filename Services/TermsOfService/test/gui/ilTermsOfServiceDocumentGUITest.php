@@ -3,7 +3,6 @@
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\Services;
 use ILIAS\UI\Component\Button\Standard;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
@@ -18,66 +17,47 @@ use ILIAS\HTTP\GlobalHttpState;
 class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 {
     /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
-    protected $tableDataProviderFactory;
-
+    protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     /** @var MockObject|ilObjTermsOfService */
-    protected $tos;
-
-    /** @var MockObject|ilGlobalPageTemplate */
-    protected $tpl;
-
+    protected ilObjTermsOfService $tos;
+    /** @var MockObject|ilGlobalTemplateInterface */
+    protected ilGlobalTemplateInterface $tpl;
     /** @var MockObject|ilCtrl */
-    protected $ctrl;
-
+    protected ilCtrl $ctrl;
     /** @var MockObject|ilLanguage */
-    protected $lng;
-
+    protected ilLanguage $lng;
     /** @var MockObject|ilRbacSystem */
-    protected $rbacsystem;
-
+    protected ilRbacSystem $rbacsystem;
     /** @var MockObject|ilErrorHandling */
-    protected $error;
-
+    protected ilErrorHandling $error;
     /** @var MockObject|ilObjUser */
-    protected $user;
-
+    protected ilObjUser $user;
     /** @var MockObject|ilLogger */
-    protected $log;
-
+    protected ilLogger $log;
     /** @var MockObject|Factory */
-    protected $uiFactory;
-
+    protected Factory $uiFactory;
     /** @var MockObject|Renderer */
-    protected $uiRenderer;
-
-    /** @var MockObject|ILIAS\HTTP\Services */
-    protected $httpState;
-
+    protected Renderer $uiRenderer;
+    /** @var MockObject|GlobalHttpState */
+    protected GlobalHttpState $httpState;
     /** @var MockObject|ilToolbarGUI */
-    protected $toolbar;
-
+    protected ilToolbarGUI $toolbar;
     /** @var MockObject|FileUpload */
-    protected $fileUpload;
-
+    protected FileUpload $fileUpload;
     /** @var MockObject|Filesystems */
-    protected $fileSystems;
-
+    protected Filesystems $fileSystems;
     /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var MockObject|ilHtmlPurifierInterface */
-    protected $documentPurifier;
+    protected ilHtmlPurifierInterface $documentPurifier;
 
-    /**
-     * @throws ReflectionException
-     */
     protected function setUp() : void
     {
         parent::setUp();
 
         $this->tos = $this->getMockBuilder(ilObjTermsOfService::class)->disableOriginalConstructor()->getMock();
         $this->criterionTypeFactory = $this->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)->disableOriginalConstructor()->getMock();
-        $this->tpl = $this->getMockBuilder(ilGlobalPageTemplate::class)->disableOriginalConstructor()->getMock();
+        $this->tpl = $this->getMockBuilder(ilGlobalTemplateInterface::class)->disableOriginalConstructor()->getMock();
         $this->ctrl = $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock();
         $this->lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $this->rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
@@ -94,9 +74,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $this->documentPurifier = $this->getMockBuilder(ilHtmlPurifierInterface::class)->getMock();
     }
 
-    /**
-     * @return string[]
-     */
     public function commandProvider() : array
     {
         return [
@@ -142,7 +119,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             });
 
         $this->error
-            ->expects($this->any())
             ->method('raiseError')
             ->willThrowException(new ilException('no_permission'));
 
@@ -171,9 +147,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
@@ -188,7 +161,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $lastResetDate->setDate($date->getTimestamp(), IL_CAL_UNIX);
 
         $lastResetDate
-            ->expects($this->any())
             ->method('get')
             ->willReturn([
                 'seconds' => (int) $date->format('s'),
@@ -205,12 +177,10 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ]);
 
         $lastResetDate
-            ->expects($this->any())
             ->method('isNull')
             ->willReturn(true); // Required because of \ilDatePresentation static calls
 
         $this->tos
-            ->expects($this->any())
             ->method('getLastResetDate')
             ->willReturn($lastResetDate);
 
@@ -226,7 +196,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn('confirmReset');
 
         $this->rbacsystem
-            ->expects($this->any())
             ->method('checkAccess')
             ->willReturn(true);
 
@@ -303,9 +272,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
         $gui->executeCommand();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testNoLastResetDateIsDisplayedInMessageBoxWhenAgreementsHaveBeenResetAtLeastOnce() : void
     {
         $this->setGlobalVariable('lng', clone $this->lng);
@@ -316,16 +282,13 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
                               ->getMock();
 
         $lastResetDate
-            ->expects($this->any())
             ->method('get')
             ->willReturn(0);
         $lastResetDate
-            ->expects($this->any())
             ->method('isNull')
             ->willReturn(true);
 
         $this->tos
-            ->expects($this->any())
             ->method('getLastResetDate')
             ->willReturn($lastResetDate);
 
@@ -341,7 +304,6 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willReturn('confirmReset');
 
         $this->rbacsystem
-            ->expects($this->any())
             ->method('checkAccess')
             ->willReturn(true);
 

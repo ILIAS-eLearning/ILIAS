@@ -66,4 +66,6 @@ abstract class ilQuestionsPlugin extends ilPlugin
     }
     
     abstract public function getQuestionType();
+
+    abstract public function getQuestionTypeTranslation() : string;
 }

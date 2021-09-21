@@ -39,12 +39,12 @@ class ilBookCronNotification extends ilCronJob
         $this->book_log = ilLoggerFactory::getLogger("book");
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "book_notification";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         
@@ -52,7 +52,7 @@ class ilBookCronNotification extends ilCronJob
         return $lng->txt("book_notification");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
         
@@ -60,26 +60,27 @@ class ilBookCronNotification extends ilCronJob
         return $lng->txt("book_notification_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
+        return null;
     }
     
-    public function hasAutoActivation()
-    {
-        return false;
-    }
-    
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function run()
+    public function hasFlexibleSchedule() : bool
+    {
+        return false;
+    }
+    
+    public function run() : ilCronJobResult
     {
         $status = ilCronJobResult::STATUS_NO_ACTION;
 

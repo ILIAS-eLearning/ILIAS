@@ -14,12 +14,12 @@ class ilLPCronObjectStatistics extends ilCronJob
 {
     protected $date; // [string]
     
-    public function getId()
+    public function getId() : string
     {
         return "lp_object_statistics";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -29,7 +29,7 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $lng->txt("trac_object_statistics");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -39,27 +39,27 @@ class ilLPCronObjectStatistics extends ilCronJob
         return $lng->txt("trac_object_statistics_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         // all date related operations are based on this timestamp
         // should be midnight of yesterday (see gatherUserData()) to always have full day

@@ -63,15 +63,9 @@ class assClozeGap
     }
 
     /**
-     * Gets the cloze gap type
-     *
-     * Gets the cloze gap type
-     *
-     * @return integer cloze gap type
-     *
      * @see $type for mapping.
      */
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }

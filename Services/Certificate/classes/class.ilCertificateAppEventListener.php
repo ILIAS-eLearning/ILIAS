@@ -181,7 +181,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      */
     private function handleLPUpdate()
     {
-        $status = $this->parameters['status'] ?? \ilLpStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        $status = $this->parameters['status'] ?? \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
 
         $settings = new ilSetting('certificate');
 

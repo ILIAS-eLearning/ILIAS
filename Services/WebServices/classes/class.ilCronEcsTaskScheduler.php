@@ -49,80 +49,42 @@ class ilCronEcsTaskScheduler extends \ilCronJob
         $this->result = new \ilCronJobResult();
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('ecs_cron_task_scheduler');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('ecs_cron_task_scheduler_info');
     }
 
-    /**
-     * Get id
-     *
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * Is to be activated on "installation"
-     *
-     * @return boolean
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * Can the schedule be configured?
-     *
-     * @return boolean
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * Get schedule type
-     *
-     * @return int
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_HOURS;
     }
 
-
-
-    /**
-     * Get schedule value
-     *
-     * @return int|array
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return self::DEFAULT_SCHEDULE_VALUE;
     }
 
-    /**
-     * Run job
-     *
-     * @return \ilCronJobResult
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->logger->debug('Starting ecs task scheduler...');
 

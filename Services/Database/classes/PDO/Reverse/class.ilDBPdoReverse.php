@@ -1,28 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDBPdoReverse
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoReverse implements ilDBReverse
 {
 
-    /**
-     * @var PDO
-     */
-    protected $pdo;
-    /**
-     * @var ilDBPdo
-     */
-    protected $db_instance;
-
+    protected \PDO $pdo;
+    protected \ilDBPdo $db_instance;
+    protected ?\ilMySQLQueryUtils $query_utils = null;
 
     /**
      * ilDBPdoReverse constructor.
-     *
-     * @param \PDO $pdo
-     * @param \ilDBPdo $db_instance
      */
     public function __construct(\PDO $pdo, ilDBPdo $db_instance)
     {
@@ -30,18 +20,9 @@ class ilDBPdoReverse implements ilDBReverse
         $this->db_instance = $db_instance;
     }
 
-    /**
-     * @var ilMySQLQueryUtils
-     */
-    protected $query_utils;
-
-
-    /**
-     * @return \ilMySQLQueryUtils
-     */
-    public function getQueryUtils()
+    public function getQueryUtils() : \ilMySQLQueryUtils
     {
-        if (!$this->query_utils) {
+        if ($this->query_utils === null) {
             $this->query_utils = new ilMySQLQueryUtils($this->db_instance);
         }
 
@@ -49,14 +30,10 @@ class ilDBPdoReverse implements ilDBReverse
     }
 
     /**
-     * @param $table_name
-     * @param $field_name
-     * @return array
+     * @return array<int|string, array<string, mixed>>
      */
-    public function getTableFieldDefinition($table_name, $field_name)
+    public function getTableFieldDefinition(string $table_name, string $field_name) : array
     {
-        $return = array();
-
         $table = $this->db_instance->quoteIdentifier($table_name);
         $query = "SHOW COLUMNS FROM $table LIKE " . $this->db_instance->quote($field_name);
         $res = $this->pdo->query($query);
@@ -71,19 +48,9 @@ class ilDBPdoReverse implements ilDBReverse
             $column = array_change_key_case($column, CASE_LOWER);
             $column['name'] = $column['field'];
             unset($column['field']);
-            //			if ($this->db_instance->options['portability']) {
-            //				if ($this->db_instance->options['field_case'] == CASE_LOWER) {
-            //					$column['name'] = strtolower($column['name']);
-            //				} else {
-            //					$column['name'] = strtoupper($column['name']);
-            //				}
-            //			} else {
             $column = array_change_key_case($column, CASE_LOWER);
-            //			}
             if ($field_name == $column['name']) {
-                $mapped_datatype = $ilDBPdoFieldDefinition->mapNativeDatatype($column);
-
-                list($types, $length, $unsigned, $fixed) = $mapped_datatype;
+                [$types, $length, $unsigned, $fixed] = $ilDBPdoFieldDefinition->mapNativeDatatype($column);
                 $notnull = false;
                 if (empty($column['null']) || $column['null'] !== 'YES') {
                     $notnull = true;
@@ -91,12 +58,12 @@ class ilDBPdoReverse implements ilDBReverse
                 $default = false;
                 if (array_key_exists('default', $column)) {
                     $default = $column['default'];
-                    if (is_null($default) && $notnull) {
+                    if ($notnull && is_null($default)) {
                         $default = '';
                     }
                 }
                 $autoincrement = false;
-                if (!empty($column['extra']) && $column['extra'] == 'auto_increment') {
+                if (!empty($column['extra']) && $column['extra'] === 'auto_increment') {
                     $autoincrement = true;
                 }
 
@@ -116,12 +83,12 @@ class ilDBPdoReverse implements ilDBReverse
                 if ($default !== false) {
                     $definition[0]['default'] = $default;
                 }
-                if ($autoincrement !== false) {
+                if ($autoincrement) {
                     $definition[0]['autoincrement'] = $autoincrement;
                 }
                 foreach ($types as $key => $type) {
                     $definition[$key] = $definition[0];
-                    if ($type == 'clob' || $type == 'blob') {
+                    if ($type === 'clob' || $type === 'blob') {
                         unset($definition[$key]['default']);
                     }
                     $definition[$key]['type'] = $type;
@@ -135,26 +102,23 @@ class ilDBPdoReverse implements ilDBReverse
         throw new ilDatabaseException('it was not specified an existing table column');
     }
 
-
     /**
-     * @param $table
-     * @param $index_name
-     * @return array
+     * @return array<string, array<int|string, array<string, string|int>>&mixed[]>
      * @throws \ilDatabaseException
      */
-    public function getTableIndexDefinition($table, $index_name)
+    public function getTableIndexDefinition(string $table, string $constraint_name) : array
     {
         $table = $this->db_instance->quoteIdentifier($table, true);
         $query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
-        $index_name_pdo = $this->db_instance->getIndexName($index_name);
+        $index_name_pdo = $this->db_instance->getIndexName($constraint_name);
         $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name_pdo)));
         $data = $this->db_instance->fetchAssoc($result);
 
         if ($data) {
-            $index_name = $index_name_pdo;
+            $constraint_name = $index_name_pdo;
         }
 
-        $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name)));
+        $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
 
         $colpos = 1;
         $definition = array();
@@ -163,8 +127,7 @@ class ilDBPdoReverse implements ilDBReverse
 
             $key_name = $row['key_name'];
 
-
-            if ($index_name == $key_name) {
+            if ($constraint_name == $key_name) {
                 if (!$row['non_unique']) {
                     throw new ilDatabaseException('it was not specified an existing table index');
                 }
@@ -185,31 +148,28 @@ class ilDBPdoReverse implements ilDBReverse
         return $definition;
     }
 
-
     /**
-     * @param $table
-     * @param $constraint_name
-     * @return array
+     * @return array<string, array<int|string, array<string, string|int>>&mixed[]>|array<string, bool>
      * @throws \ilDatabaseException
      */
-    public function getTableConstraintDefinition($table, $constraint_name)
+    public function getTableConstraintDefinition(string $table, string $index_name) : array
     {
-        $constraint_name = strtolower($constraint_name);
+        $index_name = strtolower($index_name);
         $table = $this->db_instance->quoteIdentifier($table, true);
         $query = "SHOW INDEX FROM $table /*!50002 WHERE Key_name = %s */";
 
-        if (strtolower($constraint_name) != 'primary') {
-            $constraint_name_pdo = $this->db_instance->getIndexName($constraint_name);
+        if (strtolower($index_name) !== 'primary') {
+            $constraint_name_pdo = $this->db_instance->getIndexName($index_name);
             $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name_pdo)));
             $data = $this->db_instance->fetchAssoc($result);
             if ($data) {
                 // apply 'idxname_format' only if the query succeeded, otherwise
                 // fallback to the given $index_name, without transformation
-                $constraint_name = strtolower($constraint_name_pdo);
+                $index_name = strtolower($constraint_name_pdo);
             }
         }
 
-        $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($constraint_name)));
+        $result = $this->db_instance->query(sprintf($query, $this->db_instance->quote($index_name)));
 
         $colpos = 1;
         $definition = array();
@@ -218,18 +178,14 @@ class ilDBPdoReverse implements ilDBReverse
             $row = array_change_key_case($row, CASE_LOWER);
             $key_name = $row['key_name'];
             if ($this->db_instance->options['portability']) {
-                if ($this->db_instance->options['field_case'] == CASE_LOWER) {
-                    $key_name = strtolower($key_name);
-                } else {
-                    $key_name = strtolower($key_name);
-                }
+                $key_name = strtolower($key_name);
             }
             $key_name = strtolower($key_name); // FSX fix
-            if ($constraint_name == $key_name) {
+            if ($index_name === $key_name) {
                 if ($row['non_unique']) {
                     throw new ilDatabaseException(' is not an existing table constraint');
                 }
-                if ($row['key_name'] == 'PRIMARY') {
+                if (strtolower($row['key_name']) === 'primary') {
                     $definition['primary'] = true;
                 } else {
                     $definition['unique'] = true;
@@ -246,7 +202,7 @@ class ilDBPdoReverse implements ilDBReverse
                     'position' => $colpos++,
                 );
                 if (!empty($row['collation'])) {
-                    $definition['fields'][$column_name]['sorting'] = ($row['collation'] == 'A' ? 'ascending' : 'descending');
+                    $definition['fields'][$column_name]['sorting'] = ($row['collation'] === 'A' ? 'ascending' : 'descending');
                 }
             }
         }
@@ -258,13 +214,10 @@ class ilDBPdoReverse implements ilDBReverse
         return $definition;
     }
 
-
     /**
-     * @param $trigger
-     * @return array|void
      * @throws \ilDatabaseException
      */
-    public function getTriggerDefinition($trigger)
+    public function getTriggerDefinition(string $trigger) : array
     {
         throw new ilDatabaseException('not yet implemented ' . __METHOD__);
     }

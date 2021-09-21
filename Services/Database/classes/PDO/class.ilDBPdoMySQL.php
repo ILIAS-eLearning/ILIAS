@@ -1,22 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilDBPdoMySQL
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
+abstract class ilDBPdoMySQL extends ilDBPdo
 {
 
-    /**
-     * @return bool
-     */
-    public function supportsTransactions()
+    public function supportsTransactions() : bool
     {
         return false;
     }
-
 
     public function initHelpers()
     {
@@ -25,26 +20,20 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
         $this->field_definition = new ilDBPdoMySQLFieldDefinition($this);
     }
 
-
-    protected function initSQLMode()
+    protected function initSQLMode() : void
     {
-        $this->pdo->query("SET SESSION sql_mode = 'IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';");
+        $this->pdo->exec("SET SESSION sql_mode = 'IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';");
     }
 
-
-    /**
-     * @return bool
-     */
-    public function supportsEngineMigration()
+    public function supportsEngineMigration() : bool
     {
         return true;
     }
 
-
     /**
-     * @return array
+     * @return int[]|bool[]
      */
-    protected function getAdditionalAttributes()
+    protected function getAdditionalAttributes() : array
     {
         return array(
             PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
@@ -52,35 +41,35 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
         );
     }
 
-
     /**
-     * @param string $engine
-     * @return array
+     * @return array<int|string, string>
      */
-    public function migrateAllTablesToEngine($engine = ilDBConstants::MYSQL_ENGINE_INNODB)
+    public function migrateAllTablesToEngine(string $engine = ilDBConstants::MYSQL_ENGINE_INNODB) : array
     {
         $engines = $this->queryCol('SHOW ENGINES');
-        if (!in_array($engine, $engines)) {
-            return array();
+        if (!in_array($engine, $engines, true)) {
+            return [];
         }
-
-        $errors = array();
-        foreach ($this->listTables() as $table) {
+        $errors = [];
+        $tables = $this->listTables();
+        array_walk($tables, function (string $table_name) use (&$errors, $engine) {
             try {
-                $this->pdo->exec("ALTER TABLE {$table} ENGINE={$engine}");
+                $this->pdo->exec("ALTER TABLE {$table_name} ENGINE={$engine}");
+                if ($this->sequenceExists($table_name)) {
+                    $this->pdo->exec("ALTER TABLE {$table_name}_seq ENGINE={$engine}");
+                }
             } catch (Exception $e) {
-                $errors[$table] = $e->getMessage();
+                $errors[$table_name] = $e->getMessage();
             }
-        }
+        });
 
         return $errors;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function migrateAllTablesToCollation($collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4)
+    public function migrateAllTablesToCollation(string $collation = ilDBConstants::MYSQL_COLLATION_UTF8MB4) : array
     {
         $ilDBPdoManager = $this->loadModule(ilDBConstants::MODULE_MANAGER);
         $errors = array();
@@ -96,21 +85,15 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
         return $errors;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function supportsCollationMigration()
+    public function supportsCollationMigration() : bool
     {
         return true;
     }
 
-
-    /**
-     * @param string $table_name
-     * @return int
-     */
-    public function nextId($table_name)
+    public function nextId(string $table_name) : int
     {
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($table_name), true);
         $seqcol_name = 'sequence';
@@ -129,14 +112,13 @@ abstract class ilDBPdoMySQL extends ilDBPdo implements ilDBInterface
             $this->pdo->exec($query);
         }
 
-        return $value;
+        return (int) $value;
     }
-
 
     /**
      * @inheritDoc
      */
-    public function doesCollationSupportMB4Strings()
+    public function doesCollationSupportMB4Strings() : bool
     {
         // Currently ILIAS does not support utf8mb4, after that ilDB could check like this:
         //		static $supported;

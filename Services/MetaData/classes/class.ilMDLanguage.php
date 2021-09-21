@@ -193,9 +193,10 @@ class ilMDLanguage extends ilMDBase
             "AND parent_type = " . $ilDB->quote($a_parent_type, 'text');
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->meta_language_id;
         }
-        return $ids ? $ids : array();
+        return $ids;
     }
 }

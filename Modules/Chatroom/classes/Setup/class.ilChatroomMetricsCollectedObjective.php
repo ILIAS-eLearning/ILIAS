@@ -43,7 +43,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             );
             $storage->storeConfigText(
                 "port",
-                $settings['port'] ?? "",
+                (string) ($settings['port'] ?? ""),
                 "Port of the chat server."
             );
             $storage->storeConfigText(

@@ -255,7 +255,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         $reached_points,
                         $maxPointsByQuestionId[$qst_id],
                         $pass,
-                        1,
+                        true,
                         $this->object->areObligationsEnabled()
                     );
                 }

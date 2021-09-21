@@ -9,7 +9,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
 {
     /**
      * ilTermsOfServiceAcceptanceHistoryCriteriaBag constructor.
-     * @param string|ilTermsOfServiceEvaluableCriterion[]
+     * @param string|ilTermsOfServiceEvaluableCriterion[] $data
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
     public function __construct($data = [])
@@ -17,9 +17,9 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         if (is_array($data)) {
             $this->ensureValidArrayTypes($data);
 
-            parent::__construct(array_values(array_map(function (
+            parent::__construct(array_values(array_map(static function (
                 ilTermsOfServiceEvaluableCriterion $criterionAssignment
-            ) {
+            ) : array {
                 return [
                     'id' => $criterionAssignment->getCriterionId(),
                     'value' => $criterionAssignment->getCriterionValue()
@@ -34,12 +34,9 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         }
     }
 
-    /**
-     * @param array $data
-     */
     private function ensureValidArrayTypes(array $data) : void
     {
-        array_walk($data, function ($value) {
+        array_walk($data, static function ($value) : void {
             if (!($value instanceof ilTermsOfServiceEvaluableCriterion)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected instanceof '%s'",
@@ -50,12 +47,9 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         });
     }
 
-    /**
-     * @param array $data
-     */
     private function ensureValidInternalTypes(array $data) : void
     {
-        array_walk($data, function ($value) {
+        array_walk($data, static function ($value) : void {
             if (!is_array($value)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     'Unexpected element found, given %s, expected array',
@@ -63,7 +57,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
                 ));
             }
 
-            if (count($value) !== 2 || !array_key_exists('id', $value) || !array_key_exists('value', $value)) {
+            if (!array_key_exists('id', $value) || !array_key_exists('value', $value) || count($value) !== 2) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
                     "Unexpected element found, given %s, expected array with keys 'id' and 'value'",
                     var_export($value, true)
@@ -72,14 +66,9 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         });
     }
 
-    /**
-     * @inheritdoc
-     */
     public function toJson() : string
     {
-        $json = json_encode($this);
-
-        return $json;
+        return json_encode($this, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -88,7 +77,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
      */
     public function fromJson(string $json) : void
     {
-        $data = json_decode($json, true);
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         if (!is_array($data)) {
             throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
@@ -102,10 +91,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         $this->exchangeArray($data);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function jsonSerialize(): array
+    public function jsonSerialize() : array
     {
         return $this->getArrayCopy();
     }

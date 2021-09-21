@@ -12,7 +12,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 {
     /**
      * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
-     * @throws ReflectionException
      */
     protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -26,7 +25,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     /**
      * @param string $typeIdent
      * @return MockObject|ilTermsOfServiceCriterionType
-     * @throws ReflectionException
      */
     protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
     {
@@ -35,7 +33,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionType
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn($typeIdent);
 
@@ -44,7 +41,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
-     * @throws ReflectionException
      */
     protected function getTypeMockForConstraint() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -53,29 +49,22 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $criterionType1 = $this->getCriterionTypeMock('dummy');
 
         $criterionType1
-            ->expects($this->any())
             ->method('hasUniqueNature')
             ->willReturn(false);
 
         $criterionTypeFactory
-            ->expects($this->any())
             ->method('getTypesByIdentMap')
             ->willReturn([
                 $criterionType1->getTypeIdent() => $criterionType1,
             ]);
 
         $criterionTypeFactory
-            ->expects($this->any())
             ->method('findByTypeIdent')
             ->willReturn($criterionType1);
 
         return $criterionTypeFactory;
     }
 
-    /**
-     * @return array
-     * @throws ReflectionException
-     */
     public function criteriaAssignmentProvider() : array
     {
         $criterionAssignment1 = $this
@@ -86,17 +75,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionAssignment1
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
         $criterionAssignment1
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_global_role');
 
         $criterionAssignment1
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($this->getCriterionConfig(['role_id' => 4]));
 
@@ -108,17 +94,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionAssignment2
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
         $criterionAssignment2
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_language');
 
         $criterionAssignment2
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($this->getCriterionConfig(['lng' => 'de']));
 
@@ -130,17 +113,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionAssignment3
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(0);
 
         $criterionAssignment3
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_language');
 
         $criterionAssignment3
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($this->getCriterionConfig(['lng' => 'de']));
 
@@ -152,17 +132,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionAssignment4
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(0);
 
         $criterionAssignment4
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_global_role');
 
         $criterionAssignment4
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($this->getCriterionConfig(['role_id' => 6]));
 
@@ -177,7 +154,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintAcceptanceWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -192,7 +168,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -215,7 +190,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintCheckWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -230,7 +204,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -268,7 +241,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintProblemDetectionWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -283,7 +255,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -306,7 +277,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintRestrictionWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -321,7 +291,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -354,7 +323,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintProblemBuilderWorksAsExpected(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -369,7 +337,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -392,7 +359,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testConstraintExposesCorrectErrorMessagesAfterMultiAccept(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -407,7 +373,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document1
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -442,7 +407,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment2
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment3
      * @param ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment4
-     * @throws ReflectionException
      */
     public function testCriterionWithSameNatureIsNotAcceptedWhenAlreadyAssigned(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,
@@ -457,7 +421,6 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $document
-            ->expects($this->any())
             ->method('criteria')
             ->willReturn([$criterionAssignment1, $criterionAssignment2]);
 
@@ -467,17 +430,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $criterionType2 = $this->getCriterionTypeMock('usr_language');
 
         $criterionType1
-            ->expects($this->any())
             ->method('hasUniqueNature')
             ->willReturn(false);
 
         $criterionType2
-            ->expects($this->any())
             ->method('hasUniqueNature')
             ->willReturn(true);
 
         $criterionTypeFactory
-            ->expects($this->any())
             ->method('findByTypeIdent')
             ->willReturn($criterionType2);
 
@@ -496,17 +456,14 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             ->getMock();
 
         $criterionWithSameNature
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(0);
 
         $criterionWithSameNature
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn('usr_language');
 
         $criterionWithSameNature
-            ->expects($this->any())
             ->method('getCriterionValue')
             ->willReturn($this->getCriterionConfig(['lng' => 'ru']));
 

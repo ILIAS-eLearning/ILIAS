@@ -1,37 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Component\Component;
 
 /**
  * GUI for Locator element
- *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilLSLocatorGUI
 {
-    /**
-     * @var UrlBuilder
-     */
-    protected $url_builder;
+    protected LSUrlBuilder $url_builder;
+    protected Factory $ui_factory;
+    protected array $items;
 
-    /**
-     * @var array
-     */
-    protected $items;
-
-    public function __construct(
-        LSUrlBuilder $url_builder,
-        Factory $ui_factory
-    ) {
+    public function __construct(LSUrlBuilder $url_builder, Factory $ui_factory)
+    {
         $this->url_builder = $url_builder;
         $this->ui_factory = $ui_factory;
     }
 
-    public function withItems(array $items)
+    public function withItems(array $items) : ilLSLocatorGUI
     {
         $clone = clone $this;
         $clone->items = $items;

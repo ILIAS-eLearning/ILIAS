@@ -1691,14 +1691,8 @@ class ilUtil
     }
 
 
-    /**
-    * convert utf8 to ascii filename
-    *
-    * @param	string		$a_filename		utf8 filename
-    * @static
-    *
-    */
-    public static function getASCIIFilename($a_filename)
+    // convert utf8 to ascii filename
+    public static function getASCIIFilename(string $a_filename) : string
     {
         // The filename must be converted to ASCII, as of RFC 2183,
         // section 2.3.
@@ -3618,6 +3612,7 @@ class ilUtil
 
             $res = $ilDB->query($query);
             $counter = 0;
+            $ref_ids = [];
             while ($row = $ilDB->fetchObject($res)) {
                 // Filter recovery folder
                 if ($tree->isGrandChild(RECOVERY_FOLDER_ID, $row->ref_id)) {
@@ -3630,7 +3625,7 @@ class ilUtil
 
                 $ref_ids[] = $row->ref_id;
             }
-            return $ref_ids ? $ref_ids : array();
+            return $ref_ids;
         } // End Administrators
 
         // Check ownership if it is not asked for edit_permission or a create permission

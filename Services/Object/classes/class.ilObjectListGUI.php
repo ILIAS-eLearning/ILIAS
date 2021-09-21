@@ -74,7 +74,10 @@ class ilObjectListGUI
     public $notice_properties_enabled = true;
     public $commands_enabled = true;
     public $cust_prop = array();
-    public $cust_commands = array();
+    /** @var \ILIAS\UI\Component\Button\Button[]|array[] */
+    public $cust_commands = [];
+    /** @var \ILIAS\UI\Component\Modal\Modal[] */
+    public $cust_modals = [];
     public $info_screen_enabled = false;
     public $condition_depth = 0;
     public $std_cmd_only = false;
@@ -1367,6 +1370,16 @@ class ilObjectListGUI
             array("link" => $a_link, "lang_var" => $a_lang_var,
             "frame" => $a_frame, "onclick" => $onclick);
     }
+
+    public function addCustomCommandButton(
+        \ILIAS\UI\Component\Button\Button $button,
+        ?\ILIAS\UI\Component\Modal\Modal $triggeredModal = null
+    ) : void {
+        $this->cust_commands[] = $button;
+        if ($triggeredModal !== null) {
+            $this->cust_modals[] = $triggeredModal;
+        }
+    }
     
     /**
      * Force visible access only.
@@ -1562,7 +1575,7 @@ class ilObjectListGUI
                 }
                 $this->tpl->setCurrentBlock("item_title_linked");
                 $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
-                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
+                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png"));
                 $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
@@ -2575,6 +2588,11 @@ class ilObjectListGUI
             // custom commands
             if (is_array($this->cust_commands)) {
                 foreach ($this->cust_commands as $command) {
+                    if ($command instanceof \ILIAS\UI\Component\Button\Button) {
+                        $this->current_selection_list->addComponent($command);
+                        continue;
+                    }
+
                     $this->insertCommand(
                         $command["link"],
                         $this->lng->txt($command["lang_var"]),
@@ -3076,6 +3094,10 @@ class ilObjectListGUI
             $this->insertCommands(false, false, "", true)
         );
         
+        if ($this->cust_modals !== []) {
+            $htpl->setVariable('TRIGGERED_MODALS', $this->ui->renderer()->render($this->cust_modals));
+        }
+        
         return $htpl->get();
     }
     
@@ -3518,9 +3540,10 @@ class ilObjectListGUI
     protected function resetCustomData()
     {
         // #15747
-        $this->cust_prop = array();
-        $this->cust_commands = array();
-        $this->sub_item_html = array();
+        $this->cust_prop = [];
+        $this->cust_commands = [];
+        $this->cust_modals = [];
+        $this->sub_item_html = [];
         $this->position_enabled = false;
     }
     

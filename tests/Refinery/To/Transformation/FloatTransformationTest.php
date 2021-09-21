@@ -11,8 +11,8 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 class FloatTransformationTest extends TestCase
 {
@@ -32,7 +32,7 @@ class FloatTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(200);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -45,7 +45,7 @@ class FloatTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform('hello');
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -65,7 +65,7 @@ class FloatTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(-200);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -78,7 +78,7 @@ class FloatTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(0);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

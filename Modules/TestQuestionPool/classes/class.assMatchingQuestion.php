@@ -102,7 +102,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return boolean True, if the matching question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && $this->author
@@ -121,7 +121,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param string $original_id
      *
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -232,7 +232,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param object $db A pear DB object
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -333,11 +333,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Duplicates an assMatchingQuestion
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -886,7 +886,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * Calculates and Returns the maximum points, a learner can reach answering the question
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $points = 0;
 
@@ -948,7 +948,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param array $valuePairs
      * @return array $indexedValues
      */
-    public function fetchIndexedValuesFromValuePairs(array $valuePairs)
+    public function fetchIndexedValuesFromValuePairs(array $valuePairs) : array
     {
         $indexedValues = array();
         
@@ -1103,7 +1103,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1138,16 +1138,18 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
         if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
             if ($matchingsExist) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             } else {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         }
 
         return $saveWorkingDataResult;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         $submittedMatchings = $this->fetchSubmittedMatchingsFromPost();
 
@@ -1179,7 +1181,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $shuffle A flag indicating whether the answers are shuffled or not
     * @see $shuffle
     */
-    public function setShuffle($shuffle = true)
+    public function setShuffle($shuffle = true) : void
     {
         switch ($shuffle) {
             case 0:
@@ -1199,7 +1201,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return integer The question type of the question
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assMatchingQuestion";
     }
@@ -1228,7 +1230,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -1244,7 +1246,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1356,9 +1358,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
     /**
     * Returns a JSON representation of the question
-    * TODO
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         $result = array();
         
@@ -1441,12 +1442,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return json_encode($result);
     }
     
-    public function supportsJavascriptOutput()
+    public function supportsJavascriptOutput() : bool
     {
         return true;
     }
 
-    public function supportsNonJsOutput()
+    public function supportsNonJsOutput() : bool
     {
         return false;
     }
@@ -1596,7 +1597,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId)
+    protected function afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId) : void
     {
         parent::afterSyncWithOriginal($origQuestionId, $dupQuestionId, $origParentObjId, $dupParentObjId);
 

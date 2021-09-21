@@ -520,7 +520,7 @@ abstract class assQuestionGUI
 
         assQuestion::_includeClass($question_type, 1);
 
-        $question_type_gui = assQuestion::getGuiClassNameByQuestionType($question_type);
+        $question_type_gui = $question_type.'GUI';
         $question = new $question_type_gui();
 
         $feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
@@ -568,7 +568,7 @@ abstract class assQuestionGUI
     public function &createQuestionGUI($question_type, $question_id = -1)
     {
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $this->question = &assQuestionGUI::_getQuestionGUI($question_type, $question_id);
+        $this->question = assQuestionGUI::_getQuestionGUI($question_type, $question_id);
     }
     
     public function populateJavascriptFilesRequiredForWorkForm(ilGlobalTemplateInterface $tpl)
@@ -1414,7 +1414,7 @@ abstract class assQuestionGUI
     
     public function outQuestionType()
     {
-        $count = $this->object->isInUse();
+        $count = $this->object->usageNumber();
         
         if ($this->object->_questionExistsInPool($this->object->getId()) && $count) {
             global $DIC;
@@ -1702,9 +1702,9 @@ abstract class assQuestionGUI
                 $search = "pg";
                 break;
             case "file":
-            case "text":
                 return $this->suggestedsolution();
                 break;
+            case "text":
             default:
                 return $this->suggestedsolution();
                 break;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,32 +24,16 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
      */
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
-    /** @var string */
-    protected $presentationMode = self::PRESENTATION_MODE_EDITING;
-    /** @var ilCtrl */
-    protected $ctrl;
-    /** @var ilLanguage */
-    protected $lng;
-    /** @var ilTabsGUI */
-    protected $tabs;
-    /** @var ilObjContentPage */
-    protected $parentObject;
-    /** @var string */
-    protected $backUrl = '';
-    /** @var ilObjUser */
-    protected $actor;
+    protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    protected ilObjContentPage $parentObject;
+    protected string $backUrl = '';
+    protected ilObjUser $actor;
     /** @var callable[] */
-    protected $updateListeners = [];
+    protected array $updateListeners = [];
 
-    /**
-     * ilContentPagePageCommandForwarder constructor.
-     * @param ServerRequestInterface $request
-     * @param ilCtrl $ctrl
-     * @param ilTabsGUI $tabs
-     * @param ilLanguage $lng
-     * @param ilObjContentPage $parentObject
-     * @param ilObjUser $actor
-     */
     public function __construct(
         ServerRequestInterface $request,
         ilCtrl $ctrl,
@@ -68,8 +52,8 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 
         $this->backUrl = $request->getQueryParams()['backurl'] ?? '';
 
-        if (strlen($this->backUrl) > 0) {
-            $this->ctrl->setParameterByClass('ilcontentpagepagegui', 'backurl', rawurlencode($this->backUrl));
+        if ($this->backUrl !== '') {
+            $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'backurl', rawurlencode($this->backUrl));
         }
     }
 
@@ -79,28 +63,15 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     public function onPageUpdate(array $parameters) : void
     {
         foreach ($this->updateListeners as $listener) {
-            call_user_func_array(
-                $listener,
-                [
-                    new PageUpdatedEvent($parameters['page'])
-                ]
-            );
+            $listener(new PageUpdatedEvent($parameters['page']));
         }
     }
 
-    /**
-     * @param callable $updateListener
-     */
     public function addUpdateListener(callable $updateListener) : void
     {
         $this->updateListeners[] = $updateListener;
     }
 
-    /**
-     * @param string $language
-     * @param bool $isEmbedded
-     * @return ilContentPagePageGUI
-     */
     protected function getPageObjectGUI(string $language, bool $isEmbedded = false) : ilContentPagePageGUI
     {
         $pageObjectGUI = new ilContentPagePageGUI($this->parentObject->getId(), 0, $isEmbedded, $language);
@@ -116,19 +87,12 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         return $pageObjectGUI;
     }
 
-    /**
-     * @param string $language
-     * @return bool|mixed
-     */
     protected function doesPageExistsForLanguage(string $language) : bool
     {
         return ilContentPagePage::_exists($this->parentObject->getType(), $this->parentObject->getId(), $language);
     }
 
-    /**
-     * @param string $language
-     */
-    protected function ensurePageObjectExists(string $language)
+    protected function ensurePageObjectExists(string $language) : void
     {
         if (!$this->doesPageExistsForLanguage($language)) {
             $pageObject = new ilContentPagePage();
@@ -139,13 +103,10 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         }
     }
 
-    /**
-     *
-     */
     protected function setBackLinkTab() : void
     {
-        $backUrl = $this->ctrl->getLinkTargetByClass('ilObjContentPageGUI', self::UI_CMD_VIEW);
-        if (strlen($this->backUrl) > 0) {
+        $backUrl = $this->ctrl->getLinkTargetByClass(ilObjContentPageGUI::class, self::UI_CMD_VIEW);
+        if ($this->backUrl !== '') {
             $backUrlParts = parse_url(ilUtil::stripSlashes($this->backUrl));
 
             $script = basename($backUrlParts['path']);
@@ -158,10 +119,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         $this->tabs->setBackTarget($this->lng->txt('back'), $backUrl);
     }
 
-    /**
-     * @param string $language
-     * @return ilContentPagePageGUI
-     */
     protected function buildEditingPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->tabs->clearTargets();
@@ -179,10 +136,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         return $pageObjectGUI;
     }
 
-    /**
-     * @param string $language
-     * @return ilContentPagePageGUI
-     */
     protected function buildPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->ensurePageObjectExists($language);
@@ -200,10 +153,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         return $pageObjectGUI;
     }
 
-    /**
-     * @param string $language
-     * @return ilContentPagePageGUI
-     */
     protected function buildEmbeddedPresentationPageObjectGUI(string $language) : ilContentPagePageGUI
     {
         $this->ensurePageObjectExists($language);
@@ -221,9 +170,6 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         return $pageObjectGUI;
     }
 
-    /**
-     * @param string $presentationMode
-     */
     public function setPresentationMode(string $presentationMode) : void
     {
         $this->presentationMode = $presentationMode;
@@ -249,7 +195,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 
                 $pageObjectGUI = $this->buildPresentationPageObjectGUI($language);
 
-                if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
+                if (is_string($ctrlLink) && $ctrlLink !== '') {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
                     $pageObjectGUI->setFullscreenLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN);
                     $pageObjectGUI->setSourcecodeDownloadScript($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH);
@@ -263,7 +209,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 
                 $pageObjectGUI = $this->buildEmbeddedPresentationPageObjectGUI($language);
 
-                if (is_string($ctrlLink) && strlen($ctrlLink) > 0) {
+                if (is_string($ctrlLink) && $ctrlLink !== '') {
                     $pageObjectGUI->setFileDownloadLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_FILE);
                     $pageObjectGUI->setFullscreenLink($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN);
                     $pageObjectGUI->setSourcecodeDownloadScript($ctrlLink . '&cmd=' . self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH);

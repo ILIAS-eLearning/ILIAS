@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,15 +6,8 @@
  */
 class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConstants
 {
-    /**
-     * @var array
-     */
-    protected $data = [];
-
-    /**
-     * @var int[]
-     */
-    protected $newMobIds = [];
+    /** @var int[] */
+    protected array $newMobIds = [];
 
     /**
      * @inheritdoc
@@ -71,14 +64,14 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
 
     /**
      * @param string $entity
-     * @param array $ids
+     * @param int[] $ids
      */
     protected function readEntityData(string $entity, array $ids) : void
     {
         switch ($entity) {
             case self::OBJ_TYPE:
                 foreach ($ids as $objId) {
-                    if (ilObject::_lookupType($objId) == self::OBJ_TYPE) {
+                    if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
                         $obj = ilObjectFactory::getInstanceByObjId($objId);
 
@@ -146,9 +139,9 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     }
 
     /**
-     * @inheritdoc
+     * This method is an implicit interface method. The types of the arguments may vary.
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids) : array
+    protected function getDependencies(string $a_entity, string $a_version, ?array $a_rec, $a_ids) : array
     {
         return [];
     }

@@ -1,24 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Cron for exercise reminders
  *
  * @author Jesús López <lopez@leifos.com>
- * @ingroup ModulesExercise
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilExcCronReminders extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -26,12 +19,12 @@ class ilExcCronReminders extends ilCronJob
         $this->lng = $DIC->language();
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "exc_reminders";
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
 
@@ -40,7 +33,7 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron");
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
 
@@ -49,27 +42,30 @@ class ilExcCronReminders extends ilCronJob
         return $lng->txt("exc_reminders_cron_info");
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
 
-    public function hasAutoActivation()
-    {
-        return true;
-    }
-
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    public function run()
+    public function hasFlexibleSchedule() : bool
+    {
+        return true;
+    }
+
+    /**
+     * @throws ilExcUnknownAssignmentTypeException
+     */
+    public function run() : ilCronJobResult
     {
         $log = ilLoggerFactory::getLogger("exc");
         $log->debug("--- Start Exercise Reminders Cron");

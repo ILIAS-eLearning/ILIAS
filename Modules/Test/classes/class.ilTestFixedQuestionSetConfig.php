@@ -84,12 +84,12 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         $cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
 
         foreach ($this->testOBJ->questions as $key => $question_id) {
-            $question = assQuestion::_instanciateQuestion($question_id);
+            $question = assQuestion::instantiateQuestion($question_id);
             $cloneTestOBJ->questions[$key] = $question->duplicate(true, null, null, null, $cloneTestOBJ->getId());
 
             $original_id = assQuestion::_getOriginalId($question_id);
 
-            $question = assQuestion::_instanciateQuestion($cloneTestOBJ->questions[$key]);
+            $question = assQuestion::instantiateQuestion($cloneTestOBJ->questions[$key]);
             $question->saveToDb($original_id);
 
             // Save the mapping of old question id <-> new question id

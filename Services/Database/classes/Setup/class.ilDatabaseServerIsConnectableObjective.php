@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -14,7 +14,7 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
             $this->config->getHost(),
             $this->config->getPort(),
             $this->config->getUser(),
-            $pw ? $pw->toString() : ""
+            $pw !== null ? $pw->toString() : ""
         ]));
     }
 
@@ -28,6 +28,9 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
         return true;
     }
 
+    /**
+     * @return mixed[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];

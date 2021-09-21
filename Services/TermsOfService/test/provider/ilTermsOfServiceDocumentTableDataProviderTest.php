@@ -7,11 +7,6 @@
  */
 class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @return ilTermsOfServiceTableDataProvider
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceTableDataProvider
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
@@ -28,7 +23,6 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
     /**
      * @depends testDocumentProviderCanBeCreatedByFactory
      * @param ilTermsOfServiceDocumentTableDataProvider $provider
-     * @throws ReflectionException
      */
     public function testListOfDocumentsCanBeRetrieved(ilTermsOfServiceDocumentTableDataProvider $provider) : void
     {

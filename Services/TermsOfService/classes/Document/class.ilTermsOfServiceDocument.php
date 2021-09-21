@@ -74,67 +74,42 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      */
     protected $text = '';
 
-    /**
-     * @var ilTermsOfServiceDocumentCriterionAssignment[]
-     */
-    protected $criteria = [];
+    /** @var ilTermsOfServiceDocumentCriterionAssignment[] */
+    protected array $criteria = [];
 
-    /**
-     * @var ilTermsOfServiceDocumentCriterionAssignment[]
-     */
-    protected $initialPersistedCriteria = [];
+    /** @var ilTermsOfServiceDocumentCriterionAssignment[] */
+    protected array $initialPersistedCriteria = [];
 
-    /**
-     * @var bool
-     */
-    private $criteriaFetched = false;
+    private bool $criteriaFetched = false;
 
-    /**
-     * @inheritdoc
-     */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function content() : string
     {
         return $this->text;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function title() : string
     {
         return $this->title;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function id() : int
     {
         return (int) $this->id;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function read()
+    public function read() : void
     {
         parent::read();
 
         $this->fetchAllCriterionAssignments();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function buildFromArray(array $array)
+    public function buildFromArray(array $array) : \ActiveRecord
     {
         $document = parent::buildFromArray($array);
 
@@ -143,10 +118,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         return $document;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function create()
+    public function create() : void
     {
         $this->setCreationTs(time());
 
@@ -160,10 +132,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         $this->initialPersistedCriteria = $this->criteria;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function update()
+    public function update() : void
     {
         $this->setModificationTs(time());
 
@@ -192,10 +161,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         parent::update();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete()
+    public function delete() : void
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
             $criterionAssignment->delete();
@@ -206,9 +172,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         parent::delete();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function criteria() : array
     {
         return $this->criteria;
@@ -243,7 +206,9 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
         $this->criteria = array_filter(
             $this->criteria,
-            function (ilTermsOfServiceDocumentCriterionAssignment $currentAssignment) use ($criterionAssignment) {
+            static function (ilTermsOfServiceDocumentCriterionAssignment $currentAssignment) use (
+                $criterionAssignment
+            ) : bool {
                 return !$currentAssignment->equals($criterionAssignment);
             }
         );
@@ -259,9 +224,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         }
     }
 
-    /**
-     * Reads all criterion assignments from database
-     */
     public function fetchAllCriterionAssignments() : void
     {
         if (!$this->criteriaFetched) {

@@ -237,7 +237,7 @@ class ilRepositorySearchGUI
             $toolbar->addStickyItem($ul, true);
         }
 
-        if (count((array) $a_options['user_type'])) {
+        if (isset($a_options['user_type']) && count((array) $a_options['user_type'])) {
             include_once './Services/Form/classes/class.ilSelectInputGUI.php';
             $si = new ilSelectInputGUI("", "user_type");
             $si->setOptions($a_options['user_type']);
@@ -687,7 +687,7 @@ class ilRepositorySearchGUI
                                 '',
                                 false,
                                 false
-                                )
+                            )
                         );
                         $ul->setDataSource($ilCtrl->getLinkTarget(
                             $this,

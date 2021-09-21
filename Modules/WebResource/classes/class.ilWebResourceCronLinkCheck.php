@@ -13,12 +13,12 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilWebResourceCronLinkCheck extends ilCronJob
 {
-    public function getId()
+    public function getId() : string
     {
         return "webr_link_check";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -27,7 +27,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
         return $lng->txt("check_web_resources");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -36,27 +36,27 @@ class ilWebResourceCronLinkCheck extends ilCronJob
         return $lng->txt("check_web_resources_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return 1;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -112,6 +112,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
     
     public function __getCheckPeriod()
     {
+        // Seems to have nerver worked properly, becasuse $this->getScheduleType() implicitly returned always NULL
         switch ($this->getScheduleType()) {
             case self::SCHEDULE_TYPE_DAILY:
                 $period = 24 * 60 * 60;
@@ -135,7 +136,7 @@ class ilWebResourceCronLinkCheck extends ilCronJob
         return $period;
     }
     
-    public function activationWasToggled($a_currently_active)
+    public function activationWasToggled(bool $a_currently_active) : void
     {
         global $DIC;
 

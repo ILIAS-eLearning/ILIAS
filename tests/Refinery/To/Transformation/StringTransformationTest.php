@@ -11,8 +11,8 @@ require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\Data\Result;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 class StringTransformationTest extends TestCase
 {
@@ -39,7 +39,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(200);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -52,7 +52,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(-200);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -65,7 +65,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(0);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -80,7 +80,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(10.5);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -93,7 +93,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(true);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -106,7 +106,7 @@ class StringTransformationTest extends TestCase
 
         try {
             $transformedValue = $this->transformation->transform(false);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

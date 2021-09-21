@@ -56,52 +56,34 @@ class ilMailCronOrphanedMails extends ilCronJob
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return "mail_orphaned_mails";
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         $this->init();
         return $this->lng->txt("mail_orphaned_mails");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         $this->init();
         return $this->lng->txt("mail_orphaned_mails_desc");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getValidScheduleTypes()
+    public function getValidScheduleTypes() : array
     {
         return array(
             self::SCHEDULE_TYPE_DAILY,
@@ -113,34 +95,22 @@ class ilMailCronOrphanedMails extends ilCronJob
         );
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $this->init();
         parent::addCustomSettingsToForm($a_form);
@@ -172,10 +142,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $a_form->addItem($notification);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
         $this->settings->set('mail_threshold', (int) $a_form->getInput('mail_threshold'));
@@ -196,10 +163,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->init();
         $mail_threshold = (int) $this->settings->get('mail_threshold');

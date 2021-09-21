@@ -49,7 +49,7 @@ class ilChatroomExporter extends ilXmlExporter
                 'xsd_file' => 'ilias_chtr_5_3.xsd',
                 'uses_dataset' => false,
                 'min' => '5.3.0',
-                'max' => '5.3.999'
+                'max' => ''
             ]
         ];
     }

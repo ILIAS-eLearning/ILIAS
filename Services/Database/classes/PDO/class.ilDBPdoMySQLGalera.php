@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,13 +6,10 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB implements ilDBInterface
+class ilDBPdoMySQLGalera extends ilDBPdoMySQLInnoDB
 {
 
-    /**
-     * @return bool
-     */
-    public function supportsTransactions()
+    public function supportsTransactions() : bool
     {
         return true;
     }

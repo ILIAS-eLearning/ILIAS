@@ -8,7 +8,7 @@
 class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriterionType
 {
     /** @var string[] */
-    protected $countryCodes = [];
+    protected array $countryCodes = [];
 
     /**
      * ilTermsOfServiceUserHasCountryCriterion constructor.
@@ -19,25 +19,16 @@ class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriteri
         $this->countryCodes = $countryCodes;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTypeIdent() : string
     {
         return 'usr_country';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasUniqueNature() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
     {
         $country = $config['country'] ?? '';
@@ -46,14 +37,9 @@ class ilTermsOfServiceUserHasCountryCriterion implements ilTermsOfServiceCriteri
             return false;
         }
 
-        $result = strtolower($country) === strtolower($user->getSelectedCountry());
-
-        return $result;
+        return strtolower($country) === strtolower($user->getSelectedCountry());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
     {
         return new ilTermsOfServiceUserHasCountryCriterionGUI($this, $lng, $this->countryCodes);

@@ -190,7 +190,11 @@ class ilAssQuestionSkillAssignmentList
         }
     }
 
-    public function getAssignmentsByQuestionId($questionId)
+    /**
+     * @param $questionId
+     * @return array of ilAssQuestionSkillAssignment
+     */
+    public function getAssignmentsByQuestionId($questionId) : array
     {
         if (!isset($this->assignments[$questionId])) {
             return array();

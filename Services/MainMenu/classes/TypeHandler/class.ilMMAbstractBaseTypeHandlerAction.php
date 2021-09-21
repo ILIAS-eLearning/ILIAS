@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\DI\Container;
 
 /**
  * Class ilMMAbstractBaseTypeHandlerAction
@@ -52,8 +53,12 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     public function getAdditionalFieldsForSubForm(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification) : array
     {
         global $DIC;
+        /**
+         * @var $DIC Container
+         */
 
         $url = $DIC->ui()->factory()->input()->field()->text($this->getFieldTranslation())
+                   ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(BaseTypeRenderer::getURIConverter()))
                    ->withAdditionalTransformation($DIC->refinery()->custom()->constraint(BaseTypeRenderer::getURIChecker(), $DIC->language()->txt('err_uri_not_valid')))
                    ->withRequired(true)
                    ->withByline($this->getFieldInfoTranslation());

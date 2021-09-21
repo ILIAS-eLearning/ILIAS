@@ -146,30 +146,23 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         // render apply and reset buttons
-        $apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "");
-
-        if (!$component->isActivated()) {
-            $apply = $apply->withUnavailableAction();
-            $reset = $f->button()->bulky($f->symbol()->glyph()->reset(), $this->txt("reset"), "")
-            ->withUnavailableAction();
-        } else {
-            $apply = $apply->withOnLoadCode(function ($id) {
+        $apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "")
+            ->withOnLoadCode(function ($id) {
                 $code = "$('#$id').on('click', function(event) {
-							il.UI.filter.onCmd(event, '$id', 'apply');
-							return false; // stop event propagation
-					});
-					$('#$id').closest('.il-filter').find(':text').on('keypress', function(ev) {
-						if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined' && ev.keyCode == 13) {
-							il.UI.filter.onCmd(event, '$id', 'apply');
-							return false; // stop event propagation
-						}
-					});
-					";
+                        il.UI.filter.onCmd(event, '$id', 'apply');
+                        return false; // stop event propagation
+                });
+                $('#$id').closest('.il-filter').find(':text').on('keypress', function(ev) {
+                    if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined' && ev.keyCode == 13) {
+                        il.UI.filter.onCmd(event, '$id', 'apply');
+                        return false; // stop event propagation
+                    }
+                });
+                ";
                 return $code;
             });
+        $reset = $f->button()->bulky($f->symbol()->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
 
-            $reset = $f->button()->bulky($f->symbol()->glyph()->reset(), $this->txt("reset"), $component->getResetAction());
-        }
         $tpl->setVariable("APPLY", $default_renderer->render($apply));
         $tpl->setVariable("RESET", $default_renderer->render($reset));
     }
@@ -190,20 +183,34 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ACTION", $component->getToggleOnAction());
         $tpl->parseCurrentBlock();
 
+        $tpl->setCurrentBlock("action");
+        $tpl->setVariable("ACTION_NAME", "toggleOff");
+        $tpl->setVariable("ACTION", $component->getToggleOffAction());
+        $tpl->parseCurrentBlock();
+
         $signal_generator = new SignalGenerator();
         $toggle_on_signal = $signal_generator->create();
         $toggle_on_action = $component->getToggleOnAction();
+        $toggle_off_signal = $signal_generator->create();
+        $toggle_off_action = $component->getToggleOffAction();
         /**
          * @var $toggle Toggle
          */
-        $toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
-            ->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
-                $code = "$(document).on('{$toggle_on_signal}',function(event) {
-							il.UI.filter.onCmd(event, '$id', 'toggleOn');
-							return false; // stop event propagation
-				});";
-                return $code;
-            });
+        $toggle = $f->button()->toggle("", $toggle_on_signal, $toggle_off_signal, $component->isActivated());
+        $toggle = $toggle->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
+            $code = "$(document).on('{$toggle_on_signal}',function(event) {
+                        il.UI.filter.onCmd(event, '$id', 'toggleOn');
+                        return false; // stop event propagation
+            });";
+            return $code;
+        });
+        $toggle = $toggle->withAdditionalOnLoadCode(function ($id) use ($toggle_off_signal, $toggle_off_action) {
+            $code = "$(document).on('{$toggle_off_signal}',function(event) {
+                        il.UI.filter.onCmd(event, '$id', 'toggleOff');
+                        return false; // stop event propagation
+            });";
+            return $code;
+        });
 
         $tpl->setVariable("TOGGLE", $default_renderer->render($toggle));
     }
@@ -231,19 +238,18 @@ class Renderer extends AbstractComponentRenderer
         // render inputs
         $input_group = $component->getInputGroup();
         if ($component->isActivated()) {
-            for ($i = 1; $i <= count($component->getInputs()); $i++) {
-                $tpl->setCurrentBlock("active_inputs");
-                $tpl->setVariable("ID", $i);
-                $tpl->parseCurrentBlock();
-            }
-            if (count($component->getInputs()) > 0) {
-                $tpl->setCurrentBlock("active_inputs_section");
-                $tpl->parseCurrentBlock();
-            }
             $tpl->touchBlock("enabled");
         } else {
             $tpl->touchBlock("disabled");
-            $input_group = $input_group->withDisabled(true);
+        }
+        for ($i = 1; $i <= count($component->getInputs()); $i++) {
+            $tpl->setCurrentBlock("active_inputs");
+            $tpl->setVariable("ID_INPUT_ACTIVE", $i);
+            $tpl->parseCurrentBlock();
+        }
+        if (count($component->getInputs()) > 0) {
+            $tpl->setCurrentBlock("active_inputs_section");
+            $tpl->parseCurrentBlock();
         }
 
         $input_group = $input_group->withOnUpdate($component->getUpdateSignal());

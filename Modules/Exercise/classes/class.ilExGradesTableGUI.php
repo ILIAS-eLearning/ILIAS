@@ -1,51 +1,47 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise\Assignment\Mandatory;
 
 /**
-* Exercise participant table
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesExercise
-*/
+ * Exercise participant table
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilExGradesTableGUI extends ilTable2GUI
 {
+    protected InternalService $service;
+    protected Mandatory\RandomAssignmentsManager $random_ass_manager;
+    protected ?ilObjExercise $exc;
+    protected int $exc_id;
+    protected ilExerciseMembers $mem_obj;
     /**
-     * @var ilExerciseInternalService
+     * @var ilExAssignment[]
      */
-    protected $service;
+    protected array $ass_data;
 
     /**
-     * @var ilExcRandomAssignmentManager
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    protected $random_ass_manager;
-
-    /**
-     * @var ilObjExercise|null
-     */
-    protected $exc;
-
-    /**
-     * @var int
-     */
-    protected $exc_id;
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilExerciseInternalService $service, $a_mem_obj)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        InternalService $service,
+        ilExerciseMembers $a_mem_obj
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $request = $DIC->exercise()->internal()->request();
+        $request = $DIC->exercise()->internal()->gui()->request();
         
         $this->exc = $request->getRequestedExercise();
         $this->service = $service;
-        $this->random_ass_manager = $service->getRandomAssignmentManager($this->exc);
+        $this->random_ass_manager = $service->domain()->assignment()->randomAssignments($this->exc);
 
         $this->exc_id = $this->exc->getId();
         
@@ -115,27 +111,20 @@ class ilExGradesTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * Check whether field is numeric
-     */
-    public function numericOrdering($a_f)
+    public function numericOrdering($a_field) : bool
     {
-        if (in_array($a_f, array("order_val"))) {
+        if (in_array($a_field, array("order_val"))) {
             return true;
         }
         return false;
     }
     
-    
-    /**
-    * Fill table row
-    */
-    protected function fillRow($d)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $user_id = $d["user_id"];
+        $user_id = $a_set["user_id"];
         
         foreach ($this->ass_data as $ass) {
             $member_status = new ilExAssignmentMemberStatus($ass->getId(), $user_id);
@@ -198,7 +187,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         // name
         $this->tpl->setVariable(
             "TXT_NAME",
-            $d["lastname"] . ", " . $d["firstname"] . " [" . $d["login"] . "]"
+            $a_set["lastname"] . ", " . $a_set["firstname"] . " [" . $a_set["login"] . "]"
         );
         $this->tpl->setVariable("VAL_ID", $user_id);
         

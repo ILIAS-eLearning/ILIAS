@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
@@ -34,25 +34,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected $access;
     /** @var ilSetting */
     protected $settings;
-    /** @var ilTabsGUI */
-    protected $tabs;
     /** @var ilObjUser */
     protected $user;
-    /** @var ilObjectService */
-    protected $obj_service;
-    /** @var ilNavigationHistory */
-    protected $navHistory;
-    /** @var ilErrorHandling */
-    protected $error;
-    /** @var Container */
-    protected $dic;
-    /** @var bool|string */
-    protected $infoScreenEnabled = false;
-    /** @var PageMetricsService */
-    private $pageMetricsService;
-
-    /** @var ilHelp */
-    protected $help;
+    private ilTabsGUI $tabs;
+    private ilObjectService $obj_service;
+    private ilNavigationHistory $navHistory;
+    private ilErrorHandling $error;
+    private Container $dic;
+    private bool $infoScreenEnabled = false;
+    private PageMetricsService $pageMetricsService;
+    private ilHelpGUI $help;
 
     /**
      * @inheritdoc
@@ -80,7 +71,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->lng->loadLanguageModule('content');
 
         if ($this->object instanceof ilObjContentPage) {
-            $this->infoScreenEnabled = ilContainer::_lookupContainerSetting(
+            $this->infoScreenEnabled = (bool) ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                 true
@@ -103,23 +94,23 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $targetAttributes = explode('_', $target);
         $refId = (int) $targetAttributes[0];
 
-        if ((int) $refId <= 0) {
+        if ($refId <= 0) {
             $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
         }
 
         if ($DIC->access()->checkAccess('read', '', $refId)) {
             $DIC->ctrl()->setTargetScript('ilias.php');
-            $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
+            $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
             if (isset($DIC->http()->request()->getQueryParams()['gotolp'])) {
-                $DIC->ctrl()->setParameterByClass(__CLASS__, 'gotolp', 1);
+                $DIC->ctrl()->setParameterByClass(self::class, 'gotolp', 1);
             }
-            $DIC->ctrl()->setParameterByClass(__CLASS__, 'ref_id', $refId);
+            $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $refId);
             $DIC->ctrl()->redirectByClass([
-                'ilRepositoryGUI',
-                __CLASS__,
+                ilRepositoryGUI::class,
+                self::class,
             ], self::UI_CMD_VIEW);
-        } elseif ($DIC->access()->checkAccess("visible", "", $target)) {
-            ilObjectGUI::_gotoRepositoryNode($target, "infoScreen");
+        } elseif ($DIC->access()->checkAccess('visible', '', $target)) {
+            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
@@ -127,9 +118,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             ), true);
 
             $DIC->ctrl()->setTargetScript('ilias.php');
-            $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
-            $DIC->ctrl()->setParameterByClass('ilRepositoryGUI', 'ref_id', ROOT_FOLDER_ID);
-            $DIC->ctrl()->redirectByClass('ilRepositoryGUI');
+            $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
+            $DIC->ctrl()->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
+            $DIC->ctrl()->redirectByClass(ilRepositoryGUI::class);
         }
 
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
@@ -162,7 +153,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs->addTab(
                 self::UI_TAB_ID_INFO,
                 $this->lng->txt('info_short'),
-                $this->ctrl->getLinkTargetByClass('ilinfoscreengui', 'showSummary')
+                $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, 'showSummary')
             );
         }
 
@@ -178,7 +169,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs->addTab(
                 self::UI_TAB_ID_LP,
                 $this->lng->txt('learning_progress'),
-                $this->ctrl->getLinkTargetByClass('illearningprogressgui')
+                $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class)
             );
         }
 
@@ -186,7 +177,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs->addTab(
                 self::UI_TAB_ID_EXPORT,
                 $this->lng->txt('export'),
-                $this->ctrl->getLinkTargetByClass('ilexportgui')
+                $this->ctrl->getLinkTargetByClass(ilExportGUI::class)
             );
         }
 
@@ -194,7 +185,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->tabs->addTab(
                 self::UI_TAB_ID_PERMISSIONS,
                 $this->lng->txt('perm_settings'),
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm')
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
             );
         }
     }
@@ -212,12 +203,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         $this->addToNavigationHistory();
 
-        if (strtolower($nextClass) !== 'ilobjstylesheetgui') {
+        if (strtolower($nextClass) !== strtolower(ilObjStyleSheetGUI::class)) {
             $this->renderHeaderActions();
         }
 
         switch (strtolower($nextClass)) {
-            case 'ilobjecttranslationgui':
+            case strtolower(ilObjectTranslationGUI::class):
                 $this->checkPermission('write');
 
                 $this->prepareOutput();
@@ -228,7 +219,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($transgui);
                 break;
 
-            case 'ilobjstylesheetgui':
+            case strtolower(ilObjStyleSheetGUI::class):
                 $this->checkPermission('write');
 
                 $this->setLocator();
@@ -241,7 +232,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     false
                 );
                 $style_gui->omitLocator();
-                if ($cmd === 'create' || $_GET['new_type'] === 'sty') {
+                if ($cmd === 'create' || ($this->request->getQueryParams()['new_type'] ?? '') === 'sty') {
                     $style_gui->setCreationMode();
                 }
 
@@ -254,18 +245,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
                 if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
                     $styleId = $ret;
-                    $this->object->setStyleSheetId($styleId);
+                    $this->object->setStyleSheetId((int) $styleId);
                     $this->object->update();
                     $this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
                 }
                 break;
 
-            case 'ilcontentpagepagegui':
+            case strtolower(ilContentPagePageGUI::class):
                 if (in_array(strtolower($cmd), array_map('strtolower', [
                     self::UI_CMD_COPAGE_DOWNLOAD_FILE,
                     self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
                     self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
-                ]))
+                ]), true)
                 ) {
                     if (!$this->checkPermissionBool('read')) {
                         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -303,12 +294,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 });
 
                 $pageContent = $forwarder->forward();
-                if (strlen($pageContent) > 0) {
+                if ($pageContent !== '') {
                     $this->tpl->setContent($pageContent);
                 }
                 break;
 
-            case 'ilinfoscreengui':
+            case strtolower(ilInfoScreenGUI::class):
                 if (!$this->infoScreenEnabled) {
                     return null;
                 }
@@ -317,11 +308,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->infoScreenForward();
                 break;
 
-            case 'ilcommonactiondispatchergui':
+            case strtolower(ilCommonActionDispatcherGUI::class):
                 $this->ctrl->forwardCommand(ilCommonActionDispatcherGUI::getInstanceFromAjaxCall());
                 break;
 
-            case 'ilpermissiongui':
+            case strtolower(ilPermissionGUI::class):
                 $this->checkPermission('edit_permission');
 
                 $this->prepareOutput();
@@ -330,7 +321,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand(new ilPermissionGUI($this));
                 break;
 
-            case 'illearningprogressgui':
+            case strtolower(ilLearningProgressGUI::class):
                 if (!ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
@@ -339,7 +330,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs->activateTab(self::UI_TAB_ID_LP);
 
                 $this->ctrl->forwardCommand(new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
                     isset(
                         $this->request->getQueryParams()['user_id']) &&
@@ -351,7 +342,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ));
                 break;
 
-            case 'ilexportgui':
+            case strtolower(ilExportGUI::class):
                 $this->checkPermission('write');
 
                 $this->prepareOutput();
@@ -362,7 +353,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjectcustomiconconfigurationgui':
+            case strtolower(ilObjectCustomIconConfigurationGUI::class):
                 if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
@@ -376,7 +367,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            case 'ilobjectcopygui':
+            case strtolower(ilObjectCopyGUI::class):
                 $this->tpl->loadStandardTemplate();
 
                 $gui = new ilObjectCopyGUI($this);
@@ -386,13 +377,14 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             default:
+                $settingsCommands = array_map('strtolower', [self::UI_CMD_EDIT, self::UI_CMD_UPDATE]);
                 switch (true) {
-                    case in_array(strtolower($cmd), array_map('strtolower', [self::UI_CMD_EDIT, self::UI_CMD_UPDATE])):
+                    case in_array(strtolower($cmd), $settingsCommands, true):
                         $this->setSettingsSubTabs(self::UI_TAB_ID_SETTINGS);
                         break;
                 }
 
-                if (in_array(strtolower($cmd), array_map('strtolower', ['addToDesk', 'removeFromDesk']))) {
+                if (in_array(strtolower($cmd), array_map('strtolower', ['addToDesk', 'removeFromDesk']), true)) {
                     $this->ctrl->setCmd($cmd . 'Object');
                 }
 
@@ -416,10 +408,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function renderHeaderActions() : void
     {
-        if (!$this->getCreationMode()) {
-            if ($this->checkPermissionBool('read')) {
-                $this->addHeaderAction();
-            }
+        if (!$this->getCreationMode() && $this->checkPermissionBool('read')) {
+            $this->addHeaderAction();
         }
     }
 
@@ -498,10 +488,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     *
-     * @throws ilCtrlException
-     */
     public function infoScreen() : void
     {
         $this->ctrl->setCmd('showSummary');
@@ -511,11 +497,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     }
 
 
-    /**
-     * Shows the content of the object
-     * @throws ilException
-     * @throws ilObjectException
-     */
     public function view()
     {
         $this->checkPermission('read');
@@ -688,8 +669,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     {
         $form = new ilPropertyFormGUI();
 
-        $fixedStyle = $this->settings->get('fixed_content_style_id');
-        $defaultStyle = $this->settings->get('default_content_style_id');
+        $fixedStyle = (int) $this->settings->get('fixed_content_style_id');
+        $defaultStyle = (int) $this->settings->get('default_content_style_id');
         $styleId = $this->object->getStyleSheetId();
 
         if ($fixedStyle > 0) {
@@ -702,7 +683,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
-                (int) $_GET['ref_id']
+                (int) ($this->request->getQueryParams()['ref_id'] ?? 0)
             );
 
             if ($defaultStyle > 0) {
@@ -767,10 +748,10 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 ilObjStyleSheet::_lookupStandard(
                     $this->object->getStyleSheetId()
                 ) ||
-                $this->object->getStyleSheetId() == 0
+                $this->object->getStyleSheetId() === 0
             )
         ) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST['style_id']));
+            $this->object->setStyleSheetId(ilUtil::stripSlashes($this->request->getParsedBody()['style_id'] ?? 0));
             $this->object->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         }

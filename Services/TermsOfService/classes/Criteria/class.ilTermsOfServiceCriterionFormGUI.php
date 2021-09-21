@@ -9,40 +9,15 @@ use ILIAS\Data\Factory;
  */
 class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilTermsOfServiceDocument */
-    protected $document;
+    protected ilTermsOfServiceDocument $document;
+    protected ilTermsOfServiceDocumentCriterionAssignment $assignment;
+    protected string $formAction;
+    protected ilObjUser $actor;
+    protected string $saveCommand;
+    protected string $cancelCommand;
+    protected string $translatedError = '';
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
-    /** @var ilTermsOfServiceDocumentCriterionAssignment */
-    protected $assignment;
-
-    /** @var string */
-    protected $formAction;
-
-    /** @var ilObjUser */
-    protected $actor;
-
-    /** @var string */
-    protected $saveCommand;
-
-    /** @var string */
-    protected $cancelCommand;
-
-    /** @var string */
-    protected $translatedError = '';
-
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
-    /**
-     * ilTermsOfServiceCriterionFormGUI constructor.
-     * @param ilTermsOfServiceDocument                      $document
-     * @param ilTermsOfServiceDocumentCriterionAssignment   $assignment
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser                                     $actor
-     * @param string                                        $formAction
-     * @param string                                        $saveCommand
-     * @param string                                        $cancelCommand
-     */
     public function __construct(
         ilTermsOfServiceDocument $document,
         ilTermsOfServiceDocumentCriterionAssignment $assignment,
@@ -65,17 +40,11 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    /**
-     * @param bool $status
-     */
     public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
 
-    /**
-     *
-     */
     protected function initForm() : void
     {
         if ($this->assignment->getId() > 0) {
@@ -97,7 +66,7 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $first = true;
         foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
             /** @var ilTermsOfServiceCriterionType $criterion */
-            if (!$this->assignment->getId() && $first) {
+            if ($first && !$this->assignment->getId()) {
                 $criteriaSelection->setValue($criterion->getTypeIdent());
             }
             $first = false;
@@ -118,26 +87,16 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedError() : bool
     {
-        return strlen($this->translatedError) > 0;
+        return $this->translatedError !== '';
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedError() : string
     {
         return $this->translatedError;
     }
 
-    /**
-     * @return bool
-     * @throws ilTermsOfServiceDuplicateCriterionAssignmentException
-     */
     public function saveObject() : bool
     {
         if (!$this->fillObject()) {
@@ -171,9 +130,6 @@ class ilTermsOfServiceCriterionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
     protected function fillObject() : bool
     {
         if (!$this->checkInput()) {

@@ -73,7 +73,7 @@ substantially in the general condition of the component and the proposed maintai
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 * **Badges**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html); from v.9 [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [Thomas.schroeder](https://docu.ilias.de/goto_docu_usr_38330.html)
@@ -222,6 +222,12 @@ substantially in the general condition of the component and the proposed maintai
 	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
 
+* **Favourites**
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
 * **File**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
@@ -346,7 +352,7 @@ substantially in the general condition of the component and the proposed maintai
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
+	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID), [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html) (Shibboleth), Alexander Grundkötter, Qualitus (SAML)
 
 * **LTI**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
@@ -364,7 +370,7 @@ substantially in the general condition of the component and the proposed maintai
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: [nadia](https://docu.ilias.de/goto_docu_usr_14206.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: Till Lennart Vogt/Test-Team OWL
 
 * **MainMenu**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
@@ -437,6 +443,18 @@ substantially in the general condition of the component and the proposed maintai
 	* 2nd Maintainer: N.A.
 	* Testcases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
+
+* **PDF**
+	* 1st Maintainer: [gvollbach](https://docu.ilias.de/goto_docu_usr_25234.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+
+* **Personal and Shared Resources**
+	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [scarlino](https://docu.ilias.de/goto_docu_usr_56074.html)
 
 * **Personal Profile**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
@@ -576,6 +594,12 @@ substantially in the general condition of the component and the proposed maintai
 	* Testcases: Tested separately in each module that supports taxonomies
 	* Tester: Tested separately in each module that supports taxonomies
 
+* **Terms of Services**
+	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
+	* 2nd Maintainer: N.A.
+	* Testcases: Stefania Akgül (CaT)
+	* Tester: Heinz Winter (CaT)
+
 * **Test & Assessment**
 	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
@@ -594,7 +618,7 @@ substantially in the general condition of the component and the proposed maintai
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [elena](https://docu.ilias.de/goto_docu_usr_49160.html)
 
-* **VirusScanner**
+* **Virus Scanner**
 	* 1st Maintainer: [rschenk](https://docu.ilias.de/goto_docu_usr_18065.html)
 	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
@@ -639,8 +663,8 @@ substantially in the general condition of the component and the proposed maintai
 * **Wiki**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [abaulig1](https://docu.ilias.de/goto_docu_usr_44386.html)
-	* Tester: [abaulig1](https://docu.ilias.de/goto_docu_usr_44386.html)
+	* Testcases: N.N., Uni Köln
+	* Tester: N.N., Uni Köln
 
 * **Workflow Engine**
 	* 1st Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)

@@ -7,24 +7,14 @@
  */
 class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDocumentEvaluation
 {
-    /** @var ilTermsOfServiceDocumentCriteriaEvaluation */
-    protected $evaluation;
-    /** @var ilObjUser */
-    protected $user;
+    protected ilTermsOfServiceDocumentCriteriaEvaluation $evaluation;
+    protected ilObjUser $user;
     /** @var array<int, ilTermsOfServiceDocument[]> */
-    protected $matchingDocumentsByUser = [];
+    protected array $matchingDocumentsByUser = [];
     /** @var ilTermsOfServiceSignableDocument[] */
-    protected $possibleDocuments = [];
-    /** @var ilLogger */
-    protected $log;
+    protected array $possibleDocuments = [];
+    protected ilLogger $log;
 
-    /**
-     * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
-     * @param ilTermsOfServiceDocumentCriteriaEvaluation $evaluation
-     * @param ilObjUser                                  $user
-     * @param ilLogger                                   $log
-     * @param ilTermsOfServiceSignableDocument[]         $possibleDocuments
-     */
     public function __construct(
         ilTermsOfServiceDocumentCriteriaEvaluation $evaluation,
         ilObjUser $user,
@@ -37,9 +27,6 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         $this->possibleDocuments = $possibleDocuments;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
     {
         $clone = clone $this;
@@ -54,8 +41,8 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
      */
     protected function getMatchingDocuments() : array
     {
-        if (!array_key_exists((int) $this->user->getId(), $this->matchingDocumentsByUser)) {
-            $this->matchingDocumentsByUser[(int) $this->user->getId()] = [];
+        if (!array_key_exists($this->user->getId(), $this->matchingDocumentsByUser)) {
+            $this->matchingDocumentsByUser[$this->user->getId()] = [];
 
             $this->log->debug(sprintf(
                 'Evaluating document for user "%s" (id: %s) ...',
@@ -65,30 +52,24 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
 
             foreach ($this->possibleDocuments as $document) {
                 if ($this->evaluateDocument($document)) {
-                    $this->matchingDocumentsByUser[(int) $this->user->getId()][] = $document;
+                    $this->matchingDocumentsByUser[$this->user->getId()][] = $document;
                 }
             }
 
             $this->log->debug(sprintf(
                 '%s matching document(s) found',
-                count($this->matchingDocumentsByUser[(int) $this->user->getId()])
+                count($this->matchingDocumentsByUser[$this->user->getId()])
             ));
         }
 
-        return $this->matchingDocumentsByUser[(int) $this->user->getId()];
+        return $this->matchingDocumentsByUser[$this->user->getId()];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function evaluateDocument(ilTermsOfServiceSignableDocument $document) : bool
     {
         return $this->evaluation->evaluate($document);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function document() : ilTermsOfServiceSignableDocument
     {
         $matchingDocuments = $this->getMatchingDocuments();
@@ -103,9 +84,6 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
         ));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasDocument() : bool
     {
         return count($this->getMatchingDocuments()) > 0;

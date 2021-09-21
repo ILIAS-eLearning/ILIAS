@@ -12,21 +12,13 @@ use ilContentPagePage;
  */
 final class PageUpdatedEvent
 {
-    /** @var ilContentPagePage */
-    private $page;
+    private ilContentPagePage $page;
 
-    /**
-     * PageUpdatedEvent constructor.
-     * @param ilContentPagePage $page
-     */
     public function __construct(ilContentPagePage $page)
     {
         $this->page = $page;
     }
 
-    /**
-     * @return ilContentPagePage
-     */
     public function page() : ilContentPagePage
     {
         return $this->page;

@@ -19,12 +19,12 @@ class ilLuceneIndexer extends ilCronJob
      */
     protected $timeout = 60;
     
-    public function getId()
+    public function getId() : string
     {
         return "src_lucene_indexer";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -33,7 +33,7 @@ class ilLuceneIndexer extends ilCronJob
         return $lng->txt("cron_lucene_index");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -42,27 +42,27 @@ class ilLuceneIndexer extends ilCronJob
         return $lng->txt("cron_lucene_index_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 

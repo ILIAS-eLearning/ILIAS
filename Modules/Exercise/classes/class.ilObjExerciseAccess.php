@@ -1,21 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExerciseAccess
-*
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesExercise
-*/
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
 {
     
     /**
      * Get possible conditions operators
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         return array(
             ilConditionHandler::OPERATOR_PASSED,
@@ -26,30 +22,27 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     
     /**
      * check condition
-     * @param type $a_exc_id
-     * @param type $a_operator
-     * @param type $a_value
-     * @param type $a_usr_id
-     * @return boolean
+     * @param int $a_trigger_obj_id
+     * @param string $a_operator
+     * @param string $a_value
+     * @param int $a_usr_id
+     * @return bool
      */
-    public static function checkCondition($a_exc_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                if (ilExerciseMembers::_lookupStatus($a_exc_id, $a_usr_id) == "passed") {
+                if (ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == "passed") {
                     return true;
-                } else {
-                    return false;
                 }
-                break;
-                
+                return false;
+
             case ilConditionHandler::OPERATOR_FAILED:
-                return ilExerciseMembers::_lookupStatus($a_exc_id, $a_usr_id) == 'failed';
+                return ilExerciseMembers::_lookupStatus($a_trigger_obj_id, $a_usr_id) == 'failed';
 
             default:
                 return true;
         }
-        return true;
     }
     
 
@@ -65,20 +58,22 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array("permission" => "read", "cmd" => "showOverview", "lang_var" => "show",
                 "default" => true),
             array("permission" => "write", "cmd" => "listAssignments", "lang_var" => "edit_assignments"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings")
         );
-        
-        return $commands;
     }
-    
-    public static function _lookupRemainingWorkingTimeString($a_obj_id)
-    {
+
+    /**
+     * @throws ilDateTimeException
+     */
+    public static function _lookupRemainingWorkingTimeString(
+        int $a_obj_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -128,7 +123,7 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
     /**
     * check whether goto script will succeed
     */
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         global $DIC;
 
@@ -152,25 +147,8 @@ class ilObjExerciseAccess extends ilObjectAccess implements ilConditionHandling
      *
      * @return bool
      */
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
-        global $ilAccess;
-
         return true;
-
-        // to do: check the path, extract the IDs from the path
-        // determine the object ID of the corresponding exercise
-        // get all ref IDs of the exercise from the object id and check if use
-        // has read access to any of these ref ids (if yes, return true)
-
-        preg_match("/\\/poll_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-
-        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
-            if ($ilAccess->checkAccess('read', '', $ref_id)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

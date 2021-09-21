@@ -13,12 +13,15 @@ class ilForumNotification
 {
     protected static $node_data_cache = array();
     
+    protected static $forced_events_cache = [];
+    
     private $notification_id;
     private $user_id;
     private $forum_id;
     private $thread_id;
     private $admin_force;
     private $user_toggle;
+    private $interested_events = 0;
     
     private $ref_id;
     private $db;
@@ -75,6 +78,14 @@ class ilForumNotification
         return $this->thread_id;
     }
     
+    public function setInterestedEvents($interested_events)
+    {
+        $this->interested_events = $interested_events;
+    }
+    public function getInterestedEvents()
+    {
+        return $this->interested_events;
+    }
     
     public function setAdminForce($a_admin_force)
     {
@@ -84,7 +95,6 @@ class ilForumNotification
     {
         return $this->admin_force;
     }
-    
     
     public function setUserToggle($a_user_toggle)
     {
@@ -380,11 +390,12 @@ class ilForumNotification
             '
 			UPDATE frm_notification
 			SET admin_force_noti = %s,
-				user_toggle_noti = %s
+				user_toggle_noti = %s,
+			    interested_events = %s
 				WHERE user_id = %s
 				AND frm_id = %s',
-            array('integer','integer','integer','integer'),
-            array($this->getAdminForce(), $this->getUserToggle(), $this->getUserId(), $this->getForumId())
+            array('integer','integer', 'integer','integer','integer'),
+            array($this->getAdminForce(), $this->getUserToggle(), $this->getInterestedEvents(),$this->getUserId(), $this->getForumId())
         );
     }
 
@@ -505,8 +516,87 @@ class ilForumNotification
             $this->setAdminForce($row['admin_force_noti']);
             $this->setUserToggle($row['user_toggle_noti']);
             $this->setUserIdNoti($row['user_id_noti']);
+            $this->setInterestedEvents($row['interested_events']);
 
             $this->insertAdminForce();
         }
+    }
+    
+    public function updateInterestedEvents()
+    {
+        $this->db->manipulateF(
+            'UPDATE frm_notification
+			SET interested_events = %s
+				WHERE user_id = %s
+				AND frm_id = %s',
+            array('integer', 'integer', 'integer'),
+            array($this->getInterestedEvents(), $this->getUserId(), $this->getForumId())
+        );
+    }
+    
+    /**
+     * @return int|mixed
+     */
+    public function readInterestedEvents()
+    {
+        $interested_events = 0;
+        $this->db->setLimit(1);
+        $res = $this->db->queryF(
+            'SELECT interested_events
+            FROM frm_notification
+            WHERE user_id = %s
+            AND frm_id = %s',
+            array('integer', 'integer'),
+            array($this->getUserId(), $this->getForumId())
+        );
+        
+        while ($row = $this->db->fetchAssoc($res)) {
+            $interested_events = $row['interested_events'];
+        }
+        
+        return $interested_events;
+    }
+    
+    /**
+     * @return array
+     */
+    public function readAllForcedEvents()
+    {
+        $res = $this->db->queryF(
+            '
+        SELECT * FROM frm_notification
+        WHERE admin_force_noti = %s
+        AND frm_id = %s',
+            array('integer', 'integer'),
+            array(1, $this->forum_id)
+        );
+        
+        while ($row = $this->db->fetchAssoc($res)) {
+            $tmpObj = new self($this->ref_id);
+            $tmpObj->setNotificationId($row['notification_id']);
+            $tmpObj->setUserId($row['user_id']);
+            $tmpObj->setForumId($row['frm_id']);
+            $tmpObj->setAdminForce($row['admin_force_noti']);
+            $tmpObj->setUserToggle($row['user_toggle_noti']);
+            $tmpObj->setInterestedEvents($row['interested_events']);
+            
+            self::$forced_events_cache[$row['user_id']] = $tmpObj;
+            unset($tmpObj);
+        }
+        
+        return self::$forced_events_cache;
+    }
+    
+    /**
+     * @param $user_id
+     * @return mixed
+     */
+    public function getForcedEventsObjectByUserId($user_id)
+    {
+        if (!isset(self::$forced_events_cache[$user_id])) {
+            $this->readAllForcedEvents();
+        }
+        
+        return self::$forced_events_cache[$user_id];
     }
 }

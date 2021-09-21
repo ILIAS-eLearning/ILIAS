@@ -39,7 +39,7 @@ class ilAuthStatus
      * Get status instance
      * @return \ilAuthStatus
      */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         if (self::$instance) {
             return self::$instance;

@@ -33,12 +33,12 @@ class ilSurveyCronNotification extends ilCronJob
         }
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "survey_notification";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         $lng = $this->lng;
         
@@ -46,7 +46,7 @@ class ilSurveyCronNotification extends ilCronJob
         return $lng->txt("survey_reminder_cron");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         $lng = $this->lng;
         
@@ -54,27 +54,27 @@ class ilSurveyCronNotification extends ilCronJob
         return $lng->txt("survey_reminder_cron_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $tree;
 

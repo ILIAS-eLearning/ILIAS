@@ -56,7 +56,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return boolean True, if the single choice question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && ($this->author)
@@ -72,7 +72,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * Saves a the object to the database
     *
     */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -142,7 +142,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param object $db A pear DB object
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -200,11 +200,11 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Duplicates the object
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -316,7 +316,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $maxpoints = 0.0;
         foreach ($this->errordata as $object) {
@@ -375,7 +375,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -403,19 +403,21 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         }
 
         return true;
     }
 
-    public function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    public function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         if (strlen($_POST["qst_" . $this->getId()])) {
             $selection = explode(',', $_POST["qst_{$this->getId()}"]);
@@ -431,7 +433,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return integer The question type of the question
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assErrorText";
     }
@@ -460,7 +462,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -469,7 +471,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -502,7 +504,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML($item, $questionpool_id, $tst_id, $tst_object, $question_counter, $import_mapping) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assErrorTextImport.php";
         $import = new assErrorTextImport($this);
@@ -515,7 +517,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return string The QTI xml representation of the question
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assErrorTextExport.php";
         $export = new assErrorTextExport($this);
@@ -1099,7 +1101,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();

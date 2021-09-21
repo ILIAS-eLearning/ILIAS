@@ -59,7 +59,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\Section):
                 return $this->renderSection($component, $default_renderer);
 
+
             case ($component instanceof F\Group):
+            case ($component instanceof F\Link):
                 return $default_renderer->render($component->getInputs());
 
             case ($component instanceof F\Text):
@@ -97,6 +99,9 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
+
+            case ($component instanceof F\Url):
+                return $this->renderUrlField($component, $default_renderer);
 
             default:
                 throw new \LogicException("Cannot render '" . get_class($component) . "'");
@@ -297,7 +302,7 @@ class Renderer extends AbstractComponentRenderer
 
         $configuration = $component->getConfiguration();
         $value = $component->getValue();
-        
+
         if ($value) {
             $value = array_map(
                 function ($v) {
@@ -370,7 +375,7 @@ class Renderer extends AbstractComponentRenderer
         //disable first option if required.
         $tpl->setCurrentBlock("options");
         if (!$value) {
-            $tpl->setVariable("SELECTED", "selected");
+            $tpl->setVariable("SELECTED", 'selected="selected"');
         }
         if ($component->isRequired()) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
@@ -383,7 +388,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
             if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", "selected");
+                $tpl->setVariable("SELECTED", 'selected="selected"');
             }
             $tpl->setVariable("VALUE", $option_key);
             $tpl->setVariable("VALUE_STR", $option_value);
@@ -846,7 +851,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
-        
+
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
 
@@ -930,7 +935,8 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\MultiSelect::class,
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
-            Component\Input\Field\File::class
+            Component\Input\Field\File::class,
+            Component\Input\Field\Url::class
         ];
     }
 }

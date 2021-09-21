@@ -1,13 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * @author Daniel Weise <daniel.weise@concepts-and-training.de>
- */
 class ilLearningSequenceMembershipMailNotification extends ilMailNotification
 {
-    // v Notifications affect members & co. v
+    // Notifications affect members & co.
     const TYPE_ADMISSION_MEMBER = 20;
     const TYPE_DISMISS_MEMBER = 21;
     const TYPE_ACCEPTED_SUBSCRIPTION_MEMBER = 22;
@@ -19,7 +16,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
     const TYPE_SUBSCRIBE_MEMBER = 28;
     const TYPE_WAITING_LIST_MEMBER = 29;
 
-    // v Notifications affect admins v
+    // Notifications affect admins
     const TYPE_NOTIFICATION_REGISTRATION = 30;
     const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
     const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
@@ -28,18 +25,15 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
      * Notifications which are not affected by "mail_grp_member_notification"
      * setting because they addresses admins
      */
-    protected $permanent_enabled_notifications = array(
+    protected array $permanent_enabled_notifications = [
         self::TYPE_NOTIFICATION_REGISTRATION,
         self::TYPE_NOTIFICATION_REGISTRATION_REQUEST,
         self::TYPE_NOTIFICATION_UNSUBSCRIBE
-    );
+    ];
 
-    private $force_sending_mail = false;
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected ilLogger $logger;
+    protected ilSetting $settings;
+    private bool $force_sending_mail = false;
 
     public function __construct(ilLogger $logger, ilSetting $settings)
     {
@@ -49,14 +43,14 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
         $this->settings = $settings;
     }
 
-    public function forceSendingMail(bool $status)
+    public function forceSendingMail(bool $status) : void
     {
         $this->force_sending_mail = $status;
     }
 
     public function send() : bool
     {
-        if (!$this->isNotificationTypeEnabled($this->getType())) {
+        if (!$this->isNotificationTypeEnabled((int) $this->getType())) {
             $this->logger->info('Membership mail disabled globally.');
             return false;
         }
@@ -189,7 +183,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         $this->getLanguageText(
                             'lso_mail_notification_unsub_bod2'
-                    )
+                        )
                     );
                     $this->appendBody("\n\n");
                     $this->appendBody($this->createPermanentLink(
@@ -200,7 +194,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                     $this->appendBody(
                         $this->getLanguageText(
                             'lso_notification_explanation_admin'
-                    )
+                        )
                     );
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
@@ -223,7 +217,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                         sprintf(
                             $this->getLanguageText('grp_mail_subscribe_member_bod'),
                             $this->getObjectTitle()
-                    )
+                        )
                     );
                     $this->appendBody("\n\n");
                     $this->appendBody(
@@ -406,6 +400,6 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
             $this->force_sending_mail ||
             $this->settings->get('mail_lso_member_notification', true) ||
             in_array($type, $this->permanent_enabled_notifications)
-            );
+        );
     }
 }

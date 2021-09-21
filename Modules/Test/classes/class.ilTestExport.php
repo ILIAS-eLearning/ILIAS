@@ -729,7 +729,7 @@ abstract class ilTestExport
                 if (is_object($userdata) && is_array($userdata->getQuestions($pass))) {
                     foreach ($userdata->getQuestions($pass) as $question) {
                         require_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-                        $question = assQuestion::_instanciateQuestion($question["id"]);
+                        $question = assQuestion::instantiateQuestion($question["id"]);
                         if (is_object($question)) {
                             $row = $question->setExportDetailsXLS($worksheet, $row, $active_id, $pass);
                         }

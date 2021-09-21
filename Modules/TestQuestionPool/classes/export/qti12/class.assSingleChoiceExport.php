@@ -90,7 +90,6 @@ class assSingleChoiceExport extends assQuestionExport
         // add material with question text to presentation
         $this->object->addQTIMaterial($a_xml_writer, $this->object->getQuestion());
         // add answers to presentation
-        $attrs = array();
         $attrs = array(
             "ident" => "MCSR",
             "rcardinality" => "Single"
@@ -126,7 +125,7 @@ class assSingleChoiceExport extends assQuestionExport
         $answers = &$this->object->getAnswers();
         $akeys = array_keys($answers);
         if ($this->object->getShuffle() && $a_shuffle) {
-            $akeys = $this->object->pcArrayShuffle($akeys);
+            $akeys = shuffle($akeys);
         }
         // add answers
         foreach ($akeys as $index) {
@@ -189,7 +188,6 @@ class assSingleChoiceExport extends assQuestionExport
             $a_xml_writer->xmlStartTag("respcondition", $attrs);
             // qti conditionvar
             $a_xml_writer->xmlStartTag("conditionvar");
-            $attrs = array();
             $attrs = array(
                 "respident" => "MCSR"
             );

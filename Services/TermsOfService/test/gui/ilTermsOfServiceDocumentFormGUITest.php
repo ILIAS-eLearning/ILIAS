@@ -14,9 +14,6 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testDocumentFormIsProperlyBuiltForNewDocuments() : void
     {
         $this->initLangMock();
@@ -116,9 +113,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForNewDocumentsCanBeSavedForValidInput() : void
     {
         $this->initLangMock();
@@ -131,7 +125,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $document
-            ->expects($this->any())
             ->method('fetchAllCriterionAssignments');
 
         $purifier = $this
@@ -200,7 +193,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $fu
-            ->expects($this->any())
             ->method('hasUploads')
             ->willReturn(true);
 
@@ -250,6 +242,7 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
                     ]
                 ];
             });
+        $documentConnector->method('affectedRows')->willReturn(1);
 
         $criterionConnector
             ->expects($this->once())
@@ -340,9 +333,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testDocumentFormIsProperlyBuiltForExistingDocuments() : void
     {
         $this->initLangMock();
@@ -354,7 +344,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $document
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(1);
 
@@ -394,9 +383,6 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testFormForExistingDocumentsCanBeSavedForValidInput() : void
     {
         $this->initLangMock();
@@ -447,13 +433,13 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $fu
-            ->expects($this->any())
             ->method('hasUploads')
             ->willReturn(false);
 
         $this->setGlobalVariable('upload', $fu);
 
         $documentConnector = $this->getMockBuilder(arConnector::class)->getMock();
+        $documentConnector->method('affectedRows')->willReturn(0);
 
         arConnectorMap::register(new ilTermsOfServiceDocument(), $documentConnector);
         arConnectorMap::register($document, $documentConnector);
@@ -495,15 +481,11 @@ class ilTermsOfServiceDocumentFormGUITest extends ilTermsOfServiceBaseTest
         );
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testUploadIssuesAreHandledWhenDocumentFormIsSaved() : void
     {
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 

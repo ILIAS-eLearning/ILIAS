@@ -37,81 +37,42 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
 
     const ID = 'prg_restart_assignments_temporal_progress';
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('prg_restart_assignments_temporal_progress_title');
     }
     
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('prg_restart_assignments_temporal_progress_desc');
     }
-    /**
-     * Get id
-     *
-     * @return string
-     */
-    public function getId()
+
+    public function getId() : string
     {
         return self::ID;
     }
     
-    /**
-     * Is to be activated on "installation"
-     *
-     * @return boolean
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    /**
-     * Can the schedule be configured?
-     *
-     * @return boolean
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
     
-    /**
-     * Get schedule type
-     *
-     * @return int
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_DAYS;
     }
     
-    /**
-     * Get schedule value
-     *
-     * @return int|array
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
-        
-    /**
-     * Run job
-     *
-     * @return ilCronJobResult
-     */
-    public function run()
+
+    public function run() : ilCronJobResult
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_OK);

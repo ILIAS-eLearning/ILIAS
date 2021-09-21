@@ -513,7 +513,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Returns true, if the question is complete for use
      * @return boolean True, if the single choice question is complete for use, otherwise false
      */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (($this->title) and ($this->author) and ($this->question) and ($this->getMaximumPoints() > 0)) {
             return true;
@@ -526,7 +526,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Saves a assFormulaQuestion object to a database
      * @access public
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -626,7 +626,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Loads a assFormulaQuestion object from a database
      * @param integer $question_id A unique key which defines the question in the database
      */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -716,11 +716,11 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Duplicates an assFormulaQuestion
      * @access public
      */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -834,7 +834,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Returns the maximum points, a learner can reach answering the question
      * @see $points
      */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         $points = 0;
         foreach ($this->results as $result) {
@@ -856,7 +856,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if (is_null($pass)) {
             $pass = $this->getSolutionMaxPass($active_id);
         }
-        $solutions = &$this->getSolutionValues($active_id, $pass, $authorizedSolution);
+        $solutions = $this->getSolutionValues($active_id, $pass, $authorizedSolution);
         $user_solution = array();
         foreach ($solutions as $idx => $solution_value) {
             if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
@@ -930,7 +930,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * @access public
      * @see    $answers
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1003,12 +1003,14 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         }
 
@@ -1022,7 +1024,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * @param 	int 		$pass
      * @return 	array		['authorized' => bool, 'intermediate' => bool]
      */
-    public function lookupForExistingSolutions($activeId, $pass)
+    public function lookupForExistingSolutions(int $activeId, int $pass) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1071,7 +1073,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * @param 	int 		$pass
      * @return int
      */
-    public function removeExistingSolutions($activeId, $pass)
+    public function removeExistingSolutions(int $activeId, int $pass) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1092,7 +1094,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     }
     // fau.
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
         $userSolution = $previewSession->getParticipantsSolution();
         
@@ -1113,7 +1115,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Returns the question type of the question
      * @return string The question type of the question
      */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assFormulaQuestion";
     }
@@ -1141,7 +1143,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * @param integer $question_id The question id which should be deleted in the answers table
      * @access public
      */
-    public function deleteAnswers($question_id)
+    public function deleteAnswers($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1181,7 +1183,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
      * Collects all text in the question which could contain media objects
      * which were created with the Rich Text Editor
      */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -1190,7 +1192,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -1295,7 +1297,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return $user_solution;
     }
     
-    public function setId($id = -1)
+    public function setId($id = -1) : void
     {
         parent::setId($id);
         $this->unitrepository->setConsumerId($this->getId());
@@ -1348,7 +1350,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return $solutionSubmit;
     }
     
-    public function validateSolutionSubmit()
+    public function validateSolutionSubmit() : bool
     {
         foreach ($this->getSolutionSubmit() as $key => $value) {
             if (preg_match("/^result_(\\\$r\\d+)$/", $key)) {

@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
+/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
-/**
- * Class ilObjLearningSequenceListGUI
- */
 class ilObjLearningSequenceListGUI extends ilObjectListGUI
 {
     public function __construct()
@@ -42,8 +40,11 @@ class ilObjLearningSequenceListGUI extends ilObjectListGUI
         $props = parent::getProperties();
 
         if (ilObjLearningSequenceAccess::isOffline($this->ref_id)) {
-            $props[] = array("alert" => true, "property" => $this->lng->txt("status"),
-                "value" => $this->lng->txt("offline"));
+            $props[] = [
+                "alert" => true,
+                "property" => $this->lng->txt("status"),
+                "value" => $this->lng->txt("offline")
+            ];
         }
 
         return $props;

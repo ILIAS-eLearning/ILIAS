@@ -91,7 +91,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     *
     * @return boolean True, if the multiple choice question is complete for use, otherwise false
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && $this->author
@@ -108,7 +108,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      *
      * @param string $original_id
      */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -123,7 +123,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @param integer $question_id A unique key which defines the text question in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -185,11 +185,11 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -351,7 +351,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         if (in_array($this->getKeywordRelation(), self::getScoringModesWithPointsByQuestion())) {
             return parent::getPoints();
@@ -611,7 +611,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -638,12 +638,14 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
             }
         }
         
@@ -717,17 +719,13 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function createRandomSolution($test_id, $user_id)
-    {
-    }
-
     /**
     * Returns the question type of the question
     *
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assTextQuestion";
     }
@@ -784,7 +782,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         return parent::getRTETextWithMediaObjects();
     }
@@ -792,7 +790,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -822,7 +820,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
     * Returns a JSON representation of the question
     */
-    public function toJSON()
+    public function toJSON() : string
     {
         include_once("./Services/RTE/classes/class.ilRTE.php");
         $result = array();
@@ -1029,7 +1027,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $pass
      * @return boolean $answered
      */
-    public function isAnswered($active_id, $pass = null)
+    public function isAnswered(int $active_id, int $pass) : bool
     {
         $numExistingSolutionRecords = assQuestion::getNumExistingSolutionRecords($active_id, $pass, $this->getId());
 
@@ -1046,7 +1044,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @param integer $questionId
      * @return boolean $obligationPossible
      */
-    public static function isObligationPossible($questionId)
+    public static function isObligationPossible(int $questionId) : bool
     {
         return true;
     }

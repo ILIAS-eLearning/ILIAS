@@ -84,12 +84,12 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         );
     }
 
-    public function getId()
+    public function getId() : string
     {
         return 'finish_unfinished_passes';
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -97,7 +97,7 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $lng->txt("finish_unfinished_passes");
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -105,32 +105,32 @@ class ilCronFinishUnfinishedTestPasses extends ilCronJob
         return $lng->txt("finish_unfinished_passes_desc");
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-
-    public function getDefaultScheduleValue()
+    
+    public function getDefaultScheduleValue() : int
     {
-        return;
+        return 1;
     }
 
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->log->info('start inf cronjob...');
 

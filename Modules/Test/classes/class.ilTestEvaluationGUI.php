@@ -566,7 +566,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
     public function exportFileUploadsForAllParticipants()
     {
         require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-        $question_object = assQuestion::_instanciateQuestion($_GET["qid"]);
+        $question_object = assQuestion::instantiateQuestion($_GET["qid"]);
         if ($question_object instanceof ilObjFileHandlingQuestionType) {
             $question_object->deliverFileUploadZIPFile(
                 $this->ref_id,
@@ -604,7 +604,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         
         $eval = &$this->object->getCompleteEvaluationData();
         $data = array();
-        $foundParticipants = &$eval->getParticipants();
+        $foundParticipants = $eval->getParticipants();
         if (count($foundParticipants)) {
             $ilToolbar->setFormName('form_output_eval');
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this, 'exportAggregatedResults'));
@@ -691,7 +691,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             foreach ($foundParticipants as $userdata) {
                 for ($i = 0; $i <= $userdata->getLastPass(); $i++) {
                     if (is_object($userdata->getPass($i))) {
-                        $question = &$userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($i)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                             $reached += $question["reached"];
@@ -1330,6 +1330,13 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
         $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
+        $data = &$this->object->getCompleteEvaluationData();
+		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+		$tpl->setCurrentBlock('total_score');
+		$tpl->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
+		$tpl->setVariable("TOTAL_RESULT",$result);
+        $tpl->parseCurrentBlock();
+        
         if ($this->object->canShowSolutionPrintview()) {
             $list_of_answers = $this->getPassListOfAnswers(
                 $result_array,
@@ -1580,7 +1587,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             );
             
             $signature = $this->getResultsSignature();
-            $user_id = &$this->object->_getUserIdFromActiveId($active_id);
+            $user_id = $this->object->_getUserIdFromActiveId($active_id);
             $showAllAnswers = true;
             if ($this->object->isExecutable($testSession, $user_id)) {
                 $showAllAnswers = false;
@@ -1656,7 +1663,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $color_class = array("tblrow1", "tblrow2");
         $counter = 0;
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_eval_single_answers.html", "Modules/Test");
-        $foundParticipants = &$data->getParticipants();
+        $foundParticipants = $data->getParticipants();
         if (count($foundParticipants) == 0) {
             ilUtil::sendInfo($this->lng->txt("tst_no_evaluation_data"));
             return;
@@ -1669,7 +1676,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 foreach ($foundParticipants as $userdata) {
                     $pass = $userdata->getScoredPass();
                     if (is_object($userdata->getPass($pass))) {
-                        $question = &$userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
+                        $question = $userdata->getPass($pass)->getAnsweredQuestionByQuestionId($question_id);
                         if (is_array($question)) {
                             $answered++;
                         }
@@ -1678,7 +1685,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                 $counter++;
                 $this->ctrl->setParameter($this, "qid", $question_id);
                 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-                $question_object = assQuestion::_instanciateQuestion($question_id);
+                $question_object = assQuestion::instantiateQuestion($question_id);
                 $download = "";
                 if ($question_object instanceof ilObjFileHandlingQuestionType) {
                     if ($question_object->hasFileUploads($this->object->getTestId())) {

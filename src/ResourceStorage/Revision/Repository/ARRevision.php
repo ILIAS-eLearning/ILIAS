@@ -14,7 +14,7 @@ class ARRevision extends ActiveRecord
     /**
      * @inheritDoc
      */
-    public function getConnectorContainerName()
+    public function getConnectorContainerName() : string
     {
         return 'il_resource_revision';
     }

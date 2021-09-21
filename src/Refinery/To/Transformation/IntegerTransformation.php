@@ -5,29 +5,54 @@
 namespace ILIAS\Refinery\To\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\ProblemBuilder;
+use UnexpectedValueException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class IntegerTransformation implements Transformation
+class IntegerTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    use ProblemBuilder;
 
     /**
      * @inheritdoc
      */
     public function transform($from)
     {
-        if (false === is_int($from)) {
-            throw new ConstraintViolationException(
-                'The value MUST be of type integer',
-                'not_integer'
-            );
-        }
+        $this->check($from);
         return (int) $from;
+    }
+
+    public function getError()
+    {
+        return 'The value MUST be of type integer.';
+    }
+
+    public function check($value)
+    {
+        if (!$this->accepts($value)) {
+            throw new UnexpectedValueException($this->getErrorMessage($value));
+        }
+
+        return null;
+    }
+
+    public function accepts($value) : bool
+    {
+        return is_int($value);
+    }
+
+    public function problemWith($value) : ?string
+    {
+        if (!$this->accepts($value)) {
+            return $this->getErrorMessage($value);
+        }
+
+        return null;
     }
 }

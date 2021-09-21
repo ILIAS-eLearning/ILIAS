@@ -1,73 +1,55 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDBPdoFieldDefinition
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilDBPdoFieldDefinition
 {
-    const DEFAULT_DECIMAL_PLACES = 2;
-    const DEFAULT_TEXT_LENGTH = 4000;
-    const DEFINITION_COLUMN_NAME = "/^[a-z]+[_a-z0-9]*$/";
-    const DEFINITION_TABLE_NAME = "/^[a-z]+[_a-z0-9]*$/";
-    const INDEX_FORMAT = '%s_idx';
-    const SEQUENCE_COLUMNS_NAME = 'sequence';
-    const SEQUENCE_FORMAT = '%s_seq';
-    const T_BLOB = 'blob';
-    const T_CLOB = 'clob';
-    const T_DATE = 'date';
-    const T_DATETIME = 'datetime';
-    const T_FLOAT = 'float';
-    const T_INTEGER = 'integer';
-    const T_TEXT = 'text';
-    const T_TIME = 'time';
-    const T_TIMESTAMP = 'timestamp';
-    /**
-     * @var ilDBPdoFieldDefinition
-     */
-    protected static $instance;
-    /**
-     * @var array
-     */
-    public $allowed_attributes_old = array(
-        self::T_TEXT => array( 'length', 'notnull', 'default', 'fixed' ),
-        self::T_INTEGER => array( 'length', 'notnull', 'default', 'unsigned' ),
-        self::T_FLOAT => array( 'notnull', 'default' ),
-        self::T_DATE => array( 'notnull', 'default' ),
-        self::T_TIME => array( 'notnull', 'default' ),
-        self::T_TIMESTAMP => array( 'notnull', 'default' ),
-        self::T_CLOB => array( 'notnull', 'default' ),
-        self::T_BLOB => array( 'notnull', 'default' ),
-    );
-    /**
-     * @var array
-     */
-    public $allowed_attributes = array(
-        "text" => array( "length", "notnull", "default", "fixed" ),
-        "integer" => array( "length", "notnull", "default", "unsigned" ),
-        "float" => array( "notnull", "default" ),
-        "date" => array( "notnull", "default" ),
-        "time" => array( "notnull", "default" ),
-        "timestamp" => array( "notnull", "default" ),
-        "clob" => array( "length", "notnull", "default" ),
-        "blob" => array( "length", "notnull", "default" ),
-    );
-    /**
-     * @var ilDBInterface
-     */
-    protected $db_instance;
-    /**
-     * @var array
-     */
-    protected $max_length = array(
-        self::T_INTEGER => array( 1, 2, 3, 4, 8 ),
+    public array $lobs;
+    public const DEFAULT_DECIMAL_PLACES = 2;
+    public const DEFAULT_TEXT_LENGTH = 4000;
+    public const DEFINITION_COLUMN_NAME = "/^[a-z]+[_a-z0-9]*$/";
+    public const DEFINITION_TABLE_NAME = "/^[a-z]+[_a-z0-9]*$/";
+    public const INDEX_FORMAT = '%s_idx';
+    public const SEQUENCE_COLUMNS_NAME = 'sequence';
+    public const SEQUENCE_FORMAT = '%s_seq';
+    public const T_BLOB = 'blob';
+    public const T_CLOB = 'clob';
+    public const T_DATE = 'date';
+    public const T_DATETIME = 'datetime';
+    public const T_FLOAT = 'float';
+    public const T_INTEGER = 'integer';
+    public const T_TEXT = 'text';
+    public const T_TIME = 'time';
+    public const T_TIMESTAMP = 'timestamp';
+    protected static \ilDBPdoFieldDefinition $instance;
+    public array $allowed_attributes_old = [
+        self::T_TEXT => ['length', 'notnull', 'default', 'fixed'],
+        self::T_INTEGER => ['length', 'notnull', 'default', 'unsigned'],
+        self::T_FLOAT => ['notnull', 'default'],
+        self::T_DATE => ['notnull', 'default'],
+        self::T_TIME => ['notnull', 'default'],
+        self::T_TIMESTAMP => ['notnull', 'default'],
+        self::T_CLOB => ['notnull', 'default'],
+        self::T_BLOB => ['notnull', 'default'],
+    ];
+    public array $allowed_attributes = [
+        "text" => ["length", "notnull", "default", "fixed"],
+        "integer" => ["length", "notnull", "default", "unsigned"],
+        "float" => ["notnull", "default"],
+        "date" => ["notnull", "default"],
+        "time" => ["notnull", "default"],
+        "timestamp" => ["notnull", "default"],
+        "clob" => ["length", "notnull", "default"],
+        "blob" => ["length", "notnull", "default"],
+    ];
+    protected \ilDBInterface $db_instance;
+    protected array $max_length = [
+        self::T_INTEGER => [1, 2, 3, 4, 8],
         self::T_TEXT => 4000,
-    );
-    /**
-     * @var array
-     */
-    protected $available_types = array(
+    ];
+    protected array $available_types = [
         self::T_TEXT,
         self::T_INTEGER,
         self::T_FLOAT,
@@ -76,11 +58,8 @@ abstract class ilDBPdoFieldDefinition
         self::T_TIMESTAMP,
         self::T_CLOB,
         self::T_BLOB,
-    );
-    /**
-     * @var array
-     */
-    protected $reserved_mysql = array(
+    ];
+    protected array $reserved_mysql = [
         "ACCESSIBLE",
         "ACCOUNT",
         "ACTION",
@@ -706,11 +685,8 @@ abstract class ilDBPdoFieldDefinition
         "YEAR",
         "YEAR_MONTH",
         "ZEROFILL",
-    );
-    /**
-     * @var array
-     */
-    protected $reserved_postgres = array(
+    ];
+    protected array $reserved_postgres = array(
         "ALL",
         "ANALYSE",
         "ANALYZE",
@@ -810,37 +786,26 @@ abstract class ilDBPdoFieldDefinition
     /**
      * @var
      */
-    protected $query_utils;
-
+    protected ?\ilMySQLQueryUtils $query_utils = null;
 
     /**
      * ilDBPdoFieldDefinition constructor.
-     *
-     * @param \ilDBInterface $ilDBInterface
      */
     public function __construct(\ilDBInterface $ilDBInterface)
     {
         $this->db_instance = $ilDBInterface;
     }
 
-
-    /**
-     * @return \ilMySQLQueryUtils
-     */
-    protected function getQueryUtils()
+    protected function getQueryUtils() : \ilMySQLQueryUtils
     {
-        if (!$this->query_utils) {
+        if ($this->query_utils === null) {
             $this->query_utils = new ilMySQLQueryUtils($this->db_instance);
         }
 
         return $this->query_utils;
     }
 
-
-    /**
-     * @var array
-     */
-    protected $valid_default_values = array(
+    protected array $valid_default_values = [
         'text' => '',
         'boolean' => true,
         'integer' => 0,
@@ -851,15 +816,12 @@ abstract class ilDBPdoFieldDefinition
         'date' => '1970-01-01',
         'clob' => '',
         'blob' => '',
-    );
-
+    ];
 
     /**
-     * @param $table_name
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function checkTableName($table_name)
+    public function checkTableName(string $table_name) : bool
     {
         if (!preg_match(self::DEFINITION_TABLE_NAME, $table_name)) {
             throw new ilDatabaseException('Table name must only contain _a-z0-9 and must start with a-z.');
@@ -869,7 +831,7 @@ abstract class ilDBPdoFieldDefinition
             throw new ilDatabaseException("Invalid table name '" . $table_name . "' (Reserved Word).");
         }
 
-        if (strtolower(substr($table_name, 0, 4)) == "sys_") {
+        if (stripos($table_name, "sys_") === 0) {
             throw new ilDatabaseException("Invalid table name '" . $table_name . "'. Name must not start with 'sys_'.");
         }
 
@@ -880,79 +842,66 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
-    /**
-     * @param $table_name
-     * @return bool
-     */
-    public function isReserved($table_name)
+    public function isReserved(string $table_name) : bool
     {
         return false;
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getAllReserved()
+    public function getAllReserved() : array
     {
         return array_merge($this->getReservedMysql(), $this->getReservedPostgres());
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getReservedMysql()
+    public function getReservedMysql() : array
     {
         return $this->reserved_mysql;
     }
 
-
     /**
-     * @param array $reserved_mysql
+     * @param string[] $reserved_mysql
      */
-    public function setReservedMysql($reserved_mysql)
+    public function setReservedMysql(array $reserved_mysql) : void
     {
         $this->reserved_mysql = $reserved_mysql;
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getReservedPostgres()
+    public function getReservedPostgres() : array
     {
         return $this->reserved_postgres;
     }
 
-
     /**
-     * @param array $reserved_postgres
+     * @param string[] $reserved_postgres
      */
-    public function setReservedPostgres($reserved_postgres)
+    public function setReservedPostgres(array $reserved_postgres) : void
     {
         $this->reserved_postgres = $reserved_postgres;
     }
 
-
     /**
-     * @param $column_name
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function checkColumnName($column_name)
+    public function checkColumnName(string $column_name) : bool
     {
         if (!preg_match("/^[a-z]+[_a-z0-9]*$/", $column_name)) {
             throw new ilDatabaseException("Invalid column name '" . $column_name
-                                          . "'. Column name must only contain _a-z0-9 and must start with a-z.");
+                . "'. Column name must only contain _a-z0-9 and must start with a-z.");
         }
 
         if ($this->isReserved($column_name)) {
             throw new ilDatabaseException("Invalid column name '" . $column_name . "' (Reserved Word).");
         }
 
-        if (strtolower(substr($column_name, 0, 4)) == "sys_") {
+        if (stripos($column_name, "sys_") === 0) {
             throw new ilDatabaseException("Invalid column name '" . $column_name . "'. Name must not start with 'sys_'.");
         }
 
@@ -963,13 +912,10 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
     /**
-     * @param $a_name
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function checkIndexName($a_name)
+    public function checkIndexName(string $a_name) : bool
     {
         if (!preg_match("/^[a-z]+[_a-z0-9]*$/", $a_name)) {
             throw new ilDatabaseException("Invalid column name '" . $a_name . "'. Column name must only contain _a-z0-9 and must start with a-z.");
@@ -986,35 +932,30 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
     /**
-     * @param $a_def
-     * @return bool
      * @throws \ilDatabaseException
      */
-    public function checkColumnDefinition($a_def)
+    public function checkColumnDefinition(array $a_def) : bool
     {
         // check valid type
-        if (!in_array($a_def["type"], $this->getAvailableTypes())) {
+        if (!in_array($a_def["type"], $this->getAvailableTypes(), true)) {
             switch ($a_def["type"]) {
                 case "boolean":
                     throw new ilDatabaseException("Invalid column type '" . $a_def["type"] . "'. Use integer(1) instead.");
-                    break;
 
                 case "decimal":
                     throw new ilDatabaseException("Invalid column type '" . $a_def["type"] . "'. Use float or integer instead.");
-                    break;
 
                 default:
                     throw new ilDatabaseException("Invalid column type '" . $a_def["type"] . "'. Allowed types are: "
-                                                  . implode(', ', $this->getAvailableTypes()));
+                        . implode(', ', $this->getAvailableTypes()));
             }
         }
 
         // check used attributes
         $allowed_attributes = $this->getAllowedAttributes();
-        foreach ($a_def as $k => $v) {
-            if ($k != "type" && !in_array($k, $allowed_attributes[$a_def["type"]])) {
+        foreach (array_keys($a_def) as $k) {
+            if ($k !== "type" && !in_array($k, $allowed_attributes[$a_def["type"]], true)) {
                 throw new ilDatabaseException("Attribute '" . $k . "' is not allowed for column type '" . $a_def["type"] . "'.");
             }
         }
@@ -1023,18 +964,16 @@ abstract class ilDBPdoFieldDefinition
         $max_length = $this->getMaxLength();
         switch ($a_def["type"]) {
             case self::T_TEXT:
-                if (!isset($a_def["length"]) || $a_def["length"] < 1 || $a_def["length"] > $max_length[self::T_TEXT]) {
-                    if (isset($a_def["length"])) {
-                        throw new ilDatabaseException("Invalid length '" . $a_def["length"] . "' for type text." . " Length must be >=1 and <= "
-                                                      . $max_length[self::T_TEXT] . ".");
-                    }
+                if ((!isset($a_def["length"]) || $a_def["length"] < 1 || $a_def["length"] > $max_length[self::T_TEXT]) && isset($a_def["length"])) {
+                    throw new ilDatabaseException("Invalid length '" . $a_def["length"] . "' for type text." . " Length must be >=1 and <= "
+                        . $max_length[self::T_TEXT] . ".");
                 }
                 break;
 
             case self::T_INTEGER:
-                if (isset($a_def["length"]) && !in_array($a_def["length"], $max_length[self::T_INTEGER])) {
+                if (isset($a_def["length"]) && !in_array((int) $a_def["length"], $max_length[self::T_INTEGER], true)) {
                     throw new ilDatabaseException("Invalid length '" . $a_def["length"] . "' for type integer." . " Length must be "
-                                                      . implode(', ', $max_length[self::T_INTEGER]) . " (bytes).");
+                        . implode(', ', $max_length[self::T_INTEGER]) . " (bytes).");
                 }
                 if ($a_def["unsigned"] ?? null) {
                     throw new ilDatabaseException("Unsigned attribut must not be true for type integer.");
@@ -1045,85 +984,68 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
-    /**
-     * @param $attribute
-     * @param $type
-     * @return bool
-     */
-    public function isAllowedAttribute($attribute, $type)
+    public function isAllowedAttribute(string $attribute, string $type) : bool
     {
-        return in_array($attribute, $this->allowed_attributes[$type]);
+        return in_array($attribute, $this->allowed_attributes[$type], true);
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getAvailableTypes()
+    public function getAvailableTypes() : array
     {
         return $this->available_types;
     }
 
-
     /**
-     * @param array $available_types
+     * @param string[] $available_types
      */
-    public function setAvailableTypes($available_types)
+    public function setAvailableTypes(array $available_types) : void
     {
         $this->available_types = $available_types;
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getAllowedAttributes()
+    public function getAllowedAttributes() : array
     {
         return $this->allowed_attributes;
     }
 
-
     /**
-     * @param array $allowed_attributes
+     * @param string[] $allowed_attributes
      */
-    public function setAllowedAttributes($allowed_attributes)
+    public function setAllowedAttributes(array $allowed_attributes) : void
     {
         $this->allowed_attributes = $allowed_attributes;
     }
 
-
     /**
-     * @return array
+     * @return array[string]int
      */
-    public function getMaxLength()
+    public function getMaxLength() : array
     {
         return $this->max_length;
     }
 
-
     /**
-     * @param array $max_length
+     * @param int[] $max_length
      */
-    public function setMaxLength($max_length)
+    public function setMaxLength(array $max_length) : void
     {
         $this->max_length = $max_length;
     }
 
-
-    /**
-     * @return \ilDBPdo
-     */
-    protected function getDBInstance()
+    protected function getDBInstance() : \ilDBInterface
     {
         return $this->db_instance;
     }
 
-
     /**
-     * @return array
+     * @return string[]
      */
-    public function getValidTypes()
+    public function getValidTypes() : array
     {
         $types = $this->valid_default_values;
         $db = $this->getDBInstance();
@@ -1133,8 +1055,9 @@ abstract class ilDBPdoFieldDefinition
                 if (array_key_exists($mapped_type, $types)) {
                     $types[$type] = $types[$mapped_type];
                 } elseif (!empty($db->options['datatype_map_callback'][$type])) {
-                    $parameter = array( 'type' => $type, 'mapped_type' => $mapped_type );
-                    $default = call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+                    $parameter = array('type' => $type, 'mapped_type' => $mapped_type);
+                    $default = call_user_func_array($db->options['datatype_map_callback'][$type],
+                        array(&$db, __FUNCTION__, $parameter));
                     $types[$type] = $default;
                 }
             }
@@ -1143,172 +1066,6 @@ abstract class ilDBPdoFieldDefinition
         return $types;
     }
 
-
-    /**
-     * @param $types
-     * @return array|\ilDBInterface
-     * @throws \ilDatabaseException
-     */
-    protected function checkResultTypes($types)
-    {
-        $types = is_array($types) ? $types : array( $types );
-        foreach ($types as $key => $type) {
-            if (!isset($this->valid_default_values[$type])) {
-                $db = $this->getDBInstance();
-                if (empty($db->options['datatype_map'][$type])) {
-                    throw new ilDatabaseException($type . ' for ' . $key . ' is not a supported column type');
-                }
-            }
-        }
-
-        return $types;
-    }
-
-
-    /**
-     * @param $value
-     * @param $type
-     * @param bool $rtrim
-     * @return bool|float|int|resource|string
-     * @throws \ilDatabaseException
-     */
-    protected function baseConvertResult($value, $type, $rtrim = true)
-    {
-        throw new ilDatabaseException("deprecated");
-        switch ($type) {
-            case 'text':
-                if ($rtrim) {
-                    $value = rtrim($value);
-                }
-
-                return $value;
-            case 'integer':
-                return intval($value);
-            case 'boolean':
-                return !empty($value);
-            case 'decimal':
-                return $value;
-            case 'float':
-                return doubleval($value);
-            case 'date':
-                return $value;
-            case 'time':
-                return $value;
-            case 'timestamp':
-                return $value;
-            case 'clob':
-            case 'blob':
-                $this->lobs[] = array(
-                    'buffer' => null,
-                    'position' => 0,
-                    'lob_index' => null,
-                    'endOfLOB' => false,
-                    'resource' => $value,
-                    'value' => null,
-                    'loaded' => false,
-                );
-                end($this->lobs);
-                $lob_index = key($this->lobs);
-                $this->lobs[$lob_index]['lob_index'] = $lob_index;
-
-                return fopen('MDB2LOB://' . $lob_index . '@' . $this->db_index, 'r+');
-        }
-
-        throw new ilDatabaseException('attempt to convert result value to an unknown type :' . $type);
-    }
-
-
-    /**
-     * @param $value
-     * @param $type
-     * @param bool $rtrim
-     * @return bool|float|int|mixed|null|resource|string
-     * @throws \ilDatabaseException
-     */
-    public function convertResult($value, $type, $rtrim = true)
-    {
-        throw new ilDatabaseException("deprecated");
-        if (is_null($value)) {
-            return null;
-        }
-        $db = $this->getDBInstance();
-
-        if (!empty($db->options['datatype_map'][$type])) {
-            $type = $db->options['datatype_map'][$type];
-            if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array( 'type' => $type, 'value' => $value, 'rtrim' => $rtrim );
-
-                return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
-            }
-        }
-
-        return $this->baseConvertResult($value, $type, $rtrim);
-    }
-
-
-    /**
-     * @param $types
-     * @param $row
-     * @param bool $rtrim
-     * @return bool|float|int|mixed|null|resource|string
-     */
-    public function convertResultRow($types, $row, $rtrim = true)
-    {
-        throw new ilDatabaseException("deprecated");
-        $types = $this->sortResultFieldTypes(array_keys($row), $types);
-        foreach ($row as $key => $value) {
-            if (empty($types[$key])) {
-                continue;
-            }
-            $value = $this->convertResult($row[$key], $types[$key], $rtrim);
-
-            $row[$key] = $value;
-        }
-
-        return $row;
-    }
-
-    // }}}
-    // {{{ _sortResultFieldTypes()
-
-    /**
-     * @param $columns
-     * @param $types
-     * @return array
-     */
-    protected function sortResultFieldTypes($columns, $types)
-    {
-        $n_cols = count($columns);
-        $n_types = count($types);
-        if ($n_cols > $n_types) {
-            for ($i = $n_cols - $n_types; $i >= 0; $i--) {
-                $types[] = null;
-            }
-        }
-        $sorted_types = array();
-        foreach ($columns as $col) {
-            $sorted_types[$col] = null;
-        }
-        foreach ($types as $name => $type) {
-            if (array_key_exists($name, $sorted_types)) {
-                $sorted_types[$name] = $type;
-                unset($types[$name]);
-            }
-        }
-        // if there are left types in the array, fill the null values of the
-        // sorted array with them, in order.
-        if (count($types)) {
-            reset($types);
-            foreach (array_keys($sorted_types) as $k) {
-                if (is_null($sorted_types[$k])) {
-                    $sorted_types[$k] = current($types);
-                    next($types);
-                }
-            }
-        }
-
-        return $sorted_types;
-    }
 
 
     /**
@@ -1325,9 +1082,10 @@ abstract class ilDBPdoFieldDefinition
         if (!empty($db->options['datatype_map'][$type])) {
             $type = $db->options['datatype_map'][$type];
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array( 'type' => $type, 'name' => $name, 'field' => $field );
+                $parameter = array('type' => $type, 'name' => $name, 'field' => $field);
 
-                return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+                return call_user_func_array($db->options['datatype_map_callback'][$type],
+                    array(&$db, __FUNCTION__, $parameter));
             }
             $field['type'] = $type;
         }
@@ -1339,28 +1097,27 @@ abstract class ilDBPdoFieldDefinition
         return $this->{"get{$type}Declaration"}($name, $field);
     }
 
-
     /**
      * @param $field
      * @return \ilDBInterface|string
      */
-    public function getTypeDeclaration($field)
+    public function getTypeDeclaration($field) : string
     {
         $db = $this->getDBInstance();
 
         switch ($field['type']) {
             case 'text':
-                $length = !empty($field['length']) ? $field['length'] : $db->options['default_text_field_length'];
-                $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
+                $length = empty($field['length']) ? $db->options['default_text_field_length'] : $field['length'];
+                $fixed = empty($field['fixed']) ? false : $field['fixed'];
+                if ($fixed) {
+                    return $length ? 'CHAR(' . $length . ')' : 'CHAR(' . $db->options['default_text_field_length'] . ')';
+                }
 
-                return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . $db->options['default_text_field_length']
-                                                                     . ')') : ($length ? 'VARCHAR(' . $length . ')' : 'TEXT');
+                return $length ? 'VARCHAR(' . $length . ')' : 'TEXT';
             case 'clob':
-                return 'TEXT';
             case 'blob':
                 return 'TEXT';
             case 'integer':
-                return 'INT';
             case 'boolean':
                 return 'INT';
             case 'date':
@@ -1370,7 +1127,6 @@ abstract class ilDBPdoFieldDefinition
             case 'timestamp':
                 return 'CHAR (' . strlen('YYYY-MM-DD HH:MM:SS') . ')';
             case 'float':
-                return 'TEXT';
             case 'decimal':
                 return 'TEXT';
         }
@@ -1378,13 +1134,12 @@ abstract class ilDBPdoFieldDefinition
         return '';
     }
 
-
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getInternalDeclaration($name, $field)
+    protected function getInternalDeclaration($name, $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -1394,13 +1149,13 @@ abstract class ilDBPdoFieldDefinition
         return $name . ' ' . $this->getTypeDeclaration($field) . $declaration_options;
     }
 
-
     /**
      * @param $field
      * @return \ilDBPdo|string
      * @throws \ilDatabaseException
+     * @noinspection NotOptimalIfConditionsInspection
      */
-    protected function getDeclarationOptions($field)
+    protected function getDeclarationOptions($field) : string
     {
         $charset = empty($field['charset']) ? '' : ' ' . $this->getCharsetFieldDeclaration($field['charset']);
 
@@ -1417,7 +1172,7 @@ abstract class ilDBPdoFieldDefinition
                 }
                 if ($field['default'] === ''
                     && isset($db->options["portability"])
-                    && ($db->options['portability'] & 32)
+                    && ($db->options['portability']&32)
                 ) {
                     $field['default'] = ' ';
                 }
@@ -1439,26 +1194,21 @@ abstract class ilDBPdoFieldDefinition
         return $charset . $default . $notnull . $collation;
     }
 
-
     /**
      * @param $charset
-     * @return string
      */
-    protected function getCharsetFieldDeclaration($charset)
+    protected function getCharsetFieldDeclaration($charset) : string
     {
         return '';
     }
-
 
     /**
      * @param $collation
-     * @return string
      */
-    protected function getCollationFieldDeclaration($collation)
+    protected function getCollationFieldDeclaration($collation) : string
     {
         return '';
     }
-
 
     /**
      * @param $name
@@ -1466,17 +1216,10 @@ abstract class ilDBPdoFieldDefinition
      * @return \ilDBInterface|\ilDBPdo|mixed
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field)
+    protected function getIntegerDeclaration($name, $field) : string
     {
-        if (!empty($field['unsigned'])) {
-            $db = $this->getDBInstance();
-
-            $db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
-        }
-
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
@@ -1484,18 +1227,17 @@ abstract class ilDBPdoFieldDefinition
      * @return \ilDBInterface|mixed
      * @throws \ilDatabaseException
      */
-    protected function getTextDeclaration($name, $field)
+    protected function getTextDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBPdo|string
      */
-    protected function getCLOBDeclaration($name, $field)
+    protected function getCLOBDeclaration($name, $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -1505,13 +1247,12 @@ abstract class ilDBPdoFieldDefinition
         return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
     }
 
-
     /**
      * @param $name
      * @param $field
      * @return \ilDBPdo|string
      */
-    protected function getBLOBDeclaration($name, $field)
+    protected function getBLOBDeclaration($name, $field) : string
     {
         $db = $this->getDBInstance();
 
@@ -1521,72 +1262,65 @@ abstract class ilDBPdoFieldDefinition
         return $name . ' ' . $this->getTypeDeclaration($field) . $notnull;
     }
 
+    /**
+     * @param $name
+     * @param $field
+     * @return \ilDBInterface|string
+     */
+    protected function getBooleanDeclaration($name, $field) : string
+    {
+        return $this->getInternalDeclaration($name, $field);
+    }
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getBooleanDeclaration($name, $field)
+    protected function getDateDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getDateDeclaration($name, $field)
+    protected function getTimestampDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getTimestampDeclaration($name, $field)
+    protected function getTimeDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getTimeDeclaration($name, $field)
+    protected function getFloatDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
 
     /**
      * @param $name
      * @param $field
      * @return \ilDBInterface|string
      */
-    protected function getFloatDeclaration($name, $field)
+    protected function getDecimalDeclaration($name, $field) : string
     {
         return $this->getInternalDeclaration($name, $field);
     }
-
-
-    /**
-     * @param $name
-     * @param $field
-     * @return \ilDBInterface|string
-     */
-    protected function getDecimalDeclaration($name, $field)
-    {
-        return $this->getInternalDeclaration($name, $field);
-    }
-
 
     /**
      * @param $current
@@ -1596,16 +1330,16 @@ abstract class ilDBPdoFieldDefinition
      */
     public function compareDefinition($current, $previous)
     {
-        $type = !empty($current['type']) ? $current['type'] : null;
+        $type = empty($current['type']) ? null : $current['type'];
 
         if (!method_exists($this, "compare{$type}Definition")) {
             $db = $this->getDBInstance();
 
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array( 'current' => $current, 'previous' => $previous );
-                $change = call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+                $parameter = array('current' => $current, 'previous' => $previous);
 
-                return $change;
+                return call_user_func_array($db->options['datatype_map_callback'][$type],
+                    array(&$db, __FUNCTION__, $parameter));
             }
 
             throw new ilDatabaseException('type "' . $current['type'] . '" is not yet supported');
@@ -1621,14 +1355,17 @@ abstract class ilDBPdoFieldDefinition
             $change['type'] = true;
         }
 
-        $previous_notnull = !empty($previous['notnull']) ? $previous['notnull'] : false;
-        $notnull = !empty($current['notnull']) ? $current['notnull'] : false;
-        if ($previous_notnull != $notnull) {
+        $previous_notnull = empty($previous['notnull']) ? false : $previous['notnull'];
+        $notnull = empty($current['notnull']) ? false : $current['notnull'];
+        if ($previous_notnull !== $notnull) {
             $change['notnull'] = true;
         }
 
-        $previous_default = array_key_exists('default', $previous) ? $previous['default'] : ($previous_notnull ? '' : null);
-        $default = array_key_exists('default', $current) ? $current['default'] : ($notnull ? '' : null);
+        $alt = $previous_notnull ? '' : null;
+        $previous_default = array_key_exists('default',
+            $previous) ? $previous['default'] : $alt;
+        $alt = $notnull ? '' : null;
+        $default = array_key_exists('default', $current) ? $current['default'] : $alt;
         if ($previous_default !== $default) {
             $change['default'] = true;
         }
@@ -1636,22 +1373,21 @@ abstract class ilDBPdoFieldDefinition
         return $change;
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return array<string, bool>
      */
-    protected function compareIntegerDefinition($current, $previous)
+    protected function compareIntegerDefinition($current, $previous) : array
     {
         $change = array();
-        $previous_unsigned = !empty($previous['unsigned']) ? $previous['unsigned'] : false;
-        $unsigned = !empty($current['unsigned']) ? $current['unsigned'] : false;
+        $previous_unsigned = empty($previous['unsigned']) ? false : $previous['unsigned'];
+        $unsigned = empty($current['unsigned']) ? false : $current['unsigned'];
         if ($previous_unsigned != $unsigned) {
             $change['unsigned'] = true;
         }
-        $previous_autoincrement = !empty($previous['autoincrement']) ? $previous['autoincrement'] : false;
-        $autoincrement = !empty($current['autoincrement']) ? $current['autoincrement'] : false;
+        $previous_autoincrement = empty($previous['autoincrement']) ? false : $previous['autoincrement'];
+        $autoincrement = empty($current['autoincrement']) ? false : $current['autoincrement'];
         if ($previous_autoincrement != $autoincrement) {
             $change['autoincrement'] = true;
         }
@@ -1659,22 +1395,21 @@ abstract class ilDBPdoFieldDefinition
         return $change;
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return array<string, bool>
      */
-    protected function compareTextDefinition($current, $previous)
+    protected function compareTextDefinition($current, $previous) : array
     {
         $change = array();
-        $previous_length = !empty($previous['length']) ? $previous['length'] : 0;
-        $length = !empty($current['length']) ? $current['length'] : 0;
+        $previous_length = empty($previous['length']) ? 0 : $previous['length'];
+        $length = empty($current['length']) ? 0 : $current['length'];
         if ($previous_length != $length) {
             $change['length'] = true;
         }
-        $previous_fixed = !empty($previous['fixed']) ? $previous['fixed'] : 0;
-        $fixed = !empty($current['fixed']) ? $current['fixed'] : 0;
+        $previous_fixed = empty($previous['fixed']) ? 0 : $previous['fixed'];
+        $fixed = empty($current['fixed']) ? 0 : $current['fixed'];
         if ($previous_fixed != $fixed) {
             $change['fixed'] = true;
         }
@@ -1682,190 +1417,114 @@ abstract class ilDBPdoFieldDefinition
         return $change;
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return array<string, bool>
      */
-    protected function compareCLOBDefinition($current, $previous)
+    protected function compareCLOBDefinition($current, $previous) : array
     {
         return $this->compareTextDefinition($current, $previous);
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return array<string, bool>
      */
-    protected function compareBLOBDefinition($current, $previous)
+    protected function compareBLOBDefinition($current, $previous) : array
     {
         return $this->compareTextDefinition($current, $previous);
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareDateDefinition($current, $previous)
+    protected function compareDateDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareTimeDefinition($current, $previous)
+    protected function compareTimeDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareTimestampDefinition($current, $previous)
+    protected function compareTimestampDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareBooleanDefinition($current, $previous)
+    protected function compareBooleanDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareFloatDefinition($current, $previous)
+    protected function compareFloatDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
      * @param $current
      * @param $previous
-     * @return array
+     * @return mixed[]
      */
-    protected function compareDecimalDefinition($current, $previous)
+    protected function compareDecimalDefinition($current, $previous) : array
     {
         return array();
     }
 
-
     /**
-     * @param $value
+     * @param      $value
      * @param null $type
-     * @param bool $quote
-     * @param bool $escape_wildcards
      * @return \ilDBPdo|mixed|string
      * @throws \ilDatabaseException
      */
-    public function quote($value, $type = null, $quote = true, $escape_wildcards = false)
+    public function quote($value, $type = null, bool $quote = true, bool $escape_wildcards = false) : string
     {
         $db = $this->getDBInstance();
 
         return $db->quote($value, $type);
-
-        if (is_null($value)
-            || ($value === '' && $db->options['portability'])
-        ) {
-            if (!$quote) {
-                return null;
-            }
-
-            return 'NULL';
-        }
-
-        if (is_null($type)) {
-            switch (gettype($value)) {
-                case 'integer':
-                    $type = 'integer';
-                    break;
-                case 'double':
-                    // todo: default to decimal as float is quite unusual
-                    // $type = 'float';
-                    $type = 'decimal';
-                    break;
-                case 'boolean':
-                    $type = 'boolean';
-                    break;
-                case 'array':
-                    $value = serialize($value);
-                    // no break
-                case 'object':
-                    $type = 'text';
-                    break;
-                default:
-                    if (preg_match('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/', $value)) {
-                        $type = 'timestamp';
-                    } elseif (preg_match('/^\d{2}:\d{2}$/', $value)) {
-                        $type = 'time';
-                    } elseif (preg_match('/^\d{4}-\d{2}-\d{2}$/', $value)) {
-                        $type = 'date';
-                    } else {
-                        $type = 'text';
-                    }
-                    break;
-            }
-        } elseif (!empty($db->options['datatype_map'][$type])) {
-            $type = $db->options['datatype_map'][$type];
-            if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array( 'type' => $type, 'value' => $value, 'quote' => $quote, 'escape_wildcards' => $escape_wildcards );
-
-                return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
-            }
-        }
-
-        if (!method_exists($this, "quote{$type}")) {
-            throw new ilDatabaseException('type not defined: ' . $type);
-        }
-        $value = $this->{"quote{$type}"}($value, $quote, $escape_wildcards);
-        if ($quote && $escape_wildcards && $db->string_quoting['escape_pattern']
-            && $db->string_quoting['escape'] !== $db->string_quoting['escape_pattern']
-        ) {
-            $value .= $this->patternEscapeString();
-        }
-
-        return $value;
     }
-
 
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return int
      */
-    protected function quoteInteger($value, $quote, $escape_wildcards)
+    protected function quoteInteger($value, $quote, $escape_wildcards) : int
     {
         return (int) $value;
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteText($value, $quote, $escape_wildcards)
     {
@@ -1879,7 +1538,6 @@ abstract class ilDBPdoFieldDefinition
 
         return "'" . $value . "'";
     }
-
 
     /**
      * @param $value
@@ -1913,12 +1571,11 @@ abstract class ilDBPdoFieldDefinition
         return $value;
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteLOB($value, $quote, $escape_wildcards)
     {
@@ -1927,114 +1584,81 @@ abstract class ilDBPdoFieldDefinition
         return $this->quoteText($value, $quote, $escape_wildcards);
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteCLOB($value, $quote, $escape_wildcards)
     {
         return $this->quoteLOB($value, $quote, $escape_wildcards);
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteBLOB($value, $quote, $escape_wildcards)
     {
         return $this->quoteLOB($value, $quote, $escape_wildcards);
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return int
      */
-    protected function quoteBoolean($value, $quote, $escape_wildcards)
+    protected function quoteBoolean($value, $quote, $escape_wildcards) : int
     {
         return ($value ? 1 : 0);
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return string|mixed
      */
     protected function quoteDate($value, $quote, $escape_wildcards)
     {
         if ($value === 'CURRENT_DATE') {
-            $db = $this->getDBInstance();
-
             return 'CURRENT_DATE';
         }
 
         return $this->quoteText($value, $quote, $escape_wildcards);
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteTimestamp($value, $quote, $escape_wildcards)
     {
         throw new ilDatabaseException("deprecated");
-        if ($value === 'CURRENT_TIMESTAMP') {
-            $db = $this->getDBInstance();
-
-            if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
-                return $db->function->now('timestamp');
-            }
-
-            return 'CURRENT_TIMESTAMP';
-        }
-
-        return $this->quoteText($value, $quote, $escape_wildcards);
     }
-
 
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return \ilDBPdo|string
+     * @return mixed|string
      */
     protected function quoteTime($value, $quote, $escape_wildcards)
     {
         throw new ilDatabaseException("deprecated");
-        if ($value === 'CURRENT_TIME') {
-            $db = $this->getDBInstance();
-
-            if (isset($db->function) && is_a($db->function, 'MDB2_Driver_Function_Common')) {
-                return $db->function->now('time');
-            }
-
-            return 'CURRENT_TIME';
-        }
-
-        return $this->quoteText($value, $quote, $escape_wildcards);
     }
-
 
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
-     * @return string
      */
-    protected function quoteFloat($value, $quote, $escape_wildcards)
+    protected function quoteFloat($value, $quote, $escape_wildcards) : ?string
     {
         if (preg_match('/^(.*)e([-+])(\d+)$/i', $value, $matches)) {
             $decimal = $this->quoteDecimal($matches[1], $quote, $escape_wildcards);
@@ -2048,38 +1672,34 @@ abstract class ilDBPdoFieldDefinition
         return $value;
     }
 
-
     /**
      * @param $value
      * @param $quote
      * @param $escape_wildcards
      * @return mixed|string
      */
-    protected function quoteDecimal($value, $quote, $escape_wildcards)
+    protected function quoteDecimal($value, $quote, $escape_wildcards) : ?string
     {
         $value = (string) $value;
         $value = preg_replace('/[^\d\.,\-+eE]/', '', $value);
-        if (preg_match('/[^.0-9]/', $value)) {
-            if (strpos($value, ',')) {
-                // 1000,00
-                if (!strpos($value, '.')) {
-                    // convert the last "," to a "."
-                    $value = strrev(str_replace(',', '.', strrev($value)));
+        if (preg_match('/[^.0-9]/', $value) && strpos($value, ',')) {
+            // 1000,00
+            if (!strpos($value, '.')) {
+                // convert the last "," to a "."
+                $value = strrev(str_replace(',', '.', strrev($value)));
                 // 1.000,00
-                } elseif (strpos($value, '.') && strpos($value, '.') < strpos($value, ',')) {
-                    $value = str_replace('.', '', $value);
-                    // convert the last "," to a "."
-                    $value = strrev(str_replace(',', '.', strrev($value)));
+            } elseif (strpos($value, '.') && strpos($value, '.') < strpos($value, ',')) {
+                $value = str_replace('.', '', $value);
+                // convert the last "," to a "."
+                $value = strrev(str_replace(',', '.', strrev($value)));
                 // 1,000.00
-                } else {
-                    $value = str_replace(',', '', $value);
-                }
+            } else {
+                $value = str_replace(',', '', $value);
             }
         }
 
         return $value;
     }
-
 
     /**
      * @param $lob
@@ -2087,14 +1707,12 @@ abstract class ilDBPdoFieldDefinition
      * @return bool|\ilDBPdo
      * @throws \ilDatabaseException
      */
-    public function writeLOBToFile($lob, $file)
+    public function writeLOBToFile($lob, $file) : bool
     {
         $db = $this->getDBInstance();
 
-        if (preg_match('/^(\w+:\/\/)(.*)$/', $file, $match)) {
-            if ($match[1] == 'file://') {
-                $file = $match[2];
-            }
+        if (preg_match('/^(\w+:\/\/)(.*)$/', $file, $match) && $match[1] == 'file://') {
+            $file = $match[2];
         }
 
         $fp = @fopen($file, 'wb');
@@ -2112,12 +1730,10 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
     /**
      * @param $lob
-     * @return bool
      */
-    protected function retrieveLOB(&$lob)
+    protected function retrieveLOB(&$lob) : bool
     {
         if (is_null($lob['value'])) {
             $lob['value'] = $lob['resource'];
@@ -2127,17 +1743,14 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
     /**
      * @param $lob
      * @param $length
-     * @return string
      */
-    protected function readLOB($lob, $length)
+    protected function readLOB($lob, $length) : string
     {
         return substr($lob['value'], $lob['position'], $length);
     }
-
 
     /**
      * @param $lob
@@ -2148,12 +1761,10 @@ abstract class ilDBPdoFieldDefinition
         return $lob['endOfLOB'];
     }
 
-
     /**
      * @param $lob
-     * @return bool
      */
-    public function destroyLOB($lob)
+    public function destroyLOB($lob) : bool
     {
         $lob_data = stream_get_meta_data($lob);
         $lob_index = $lob_data['wrapper_data']->lob_index;
@@ -2166,25 +1777,21 @@ abstract class ilDBPdoFieldDefinition
         return true;
     }
 
-
     /**
      * @param $lob
-     * @return bool
      */
-    protected function destroyLOBInternal(&$lob)
+    protected function destroyLOBInternal(&$lob) : bool
     {
         return true;
     }
 
-
     /**
      * @param $array
-     * @param bool $type
-     * @return string
      * @throws \ilDatabaseException
      */
-    public function implodeArray($array, $type = false)
+    public function implodeArray($array, bool $type = false) : string
     {
+        $return = [];
         if (!is_array($array) || empty($array)) {
             return 'NULL';
         }
@@ -2199,15 +1806,14 @@ abstract class ilDBPdoFieldDefinition
         return implode(', ', $return);
     }
 
-
     /**
-     * @param $pattern
+     * @param      $pattern
      * @param null $operator
      * @param null $field
      * @return \ilDBPdo|string
      * @throws \ilDatabaseException
      */
-    public function matchPattern($pattern, $operator = null, $field = null)
+    public function matchPattern($pattern, $operator = null, $field = null) : string
     {
         $db = $this->getDBInstance();
 
@@ -2221,7 +1827,7 @@ abstract class ilDBPdoFieldDefinition
                         throw new ilDatabaseException('case insensitive LIKE matching requires passing the field name');
                     }
                     $db->loadModule('Function', null, true);
-                    $match = $db->function->lower($field) . ' LIKE ';
+                    $match = $db->lower($field) . ' LIKE ';
                     break;
                 // case sensitive
                 case 'LIKE':
@@ -2233,7 +1839,7 @@ abstract class ilDBPdoFieldDefinition
         }
         $match .= "'";
         foreach ($pattern as $key => $value) {
-            if ($key % 2) {
+            if ($key % 2 !== 0) {
                 $match .= $value;
             } else {
                 if ($operator === 'ILIKE') {
@@ -2249,15 +1855,10 @@ abstract class ilDBPdoFieldDefinition
         return $match;
     }
 
-
-    /**
-     * @return string
-     */
-    public function patternEscapeString()
+    public function patternEscapeString() : string
     {
         return '';
     }
-
 
     /**
      * @param $field
@@ -2268,12 +1869,11 @@ abstract class ilDBPdoFieldDefinition
         $db = $this->getDBInstance();
         $db_type = strtok($field['type'], '(), ');
         if (!empty($db->options['nativetype_map_callback'][$db_type])) {
-            return call_user_func_array($db->options['nativetype_map_callback'][$db_type], array( $db, $field ));
+            return call_user_func_array($db->options['nativetype_map_callback'][$db_type], array($db, $field));
         }
 
         return $this->mapNativeDatatypeInternal($field);
     }
-
 
     /**
      * @param $field
@@ -2281,7 +1881,6 @@ abstract class ilDBPdoFieldDefinition
      * @throws \ilDatabaseException
      */
     abstract protected function mapNativeDatatypeInternal($field);
-
 
     /**
      * @param $type
@@ -2294,9 +1893,10 @@ abstract class ilDBPdoFieldDefinition
         if (!empty($db->options['datatype_map'][$type])) {
             $type = $db->options['datatype_map'][$type];
             if (!empty($db->options['datatype_map_callback'][$type])) {
-                $parameter = array( 'type' => $type );
+                $parameter = array('type' => $type);
 
-                return call_user_func_array($db->options['datatype_map_callback'][$type], array( &$db, __FUNCTION__, $parameter ));
+                return call_user_func_array($db->options['datatype_map_callback'][$type],
+                    array(&$db, __FUNCTION__, $parameter));
             }
         }
 

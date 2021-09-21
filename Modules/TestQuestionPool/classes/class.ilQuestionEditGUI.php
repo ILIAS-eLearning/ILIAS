@@ -164,7 +164,7 @@ class ilQuestionEditGUI
                 }
 
                 //$q_gui->setQuestionTabs();
-                $count = $q_gui->object->isInUse();
+                $count = $q_gui->object->usageNumber();
                 if ($count > 0) {
                     global $DIC;
                     $rbacsystem = $DIC['rbacsystem'];

@@ -78,7 +78,7 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
     /**
      * @inheritdoc
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -86,7 +86,7 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
     /**
      * @inheritdoc
      */
-    public function create()
+    public function create() : void
     {
         $this->setAssignedTs(time());
 

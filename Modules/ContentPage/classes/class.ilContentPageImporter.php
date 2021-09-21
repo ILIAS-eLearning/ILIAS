@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
@@ -10,13 +10,11 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
  */
 class ilContentPageImporter extends ilXmlImporter implements ilContentPageObjectConstants
 {
-    /** @var ilContentPageDataSet */
-    protected $ds;
-    /** @var PageMetricsService */
-    private $pageMetricsService;
+    protected ilContentPageDataSet $ds;
+    private PageMetricsService $pageMetricsService;
 
     /**
-     *
+     * @inheritdoc
      */
     public function init()
     {

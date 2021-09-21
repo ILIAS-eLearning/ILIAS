@@ -7,10 +7,6 @@
  */
 class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
-     */
     public function testHistoryProviderCanBeCreatedByFactory() : void
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
@@ -23,10 +19,6 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $this->assertInstanceOf(ilTermsOfServiceTableDataProvider::class, $provider);
     }
 
-    /**
-     * @throws ReflectionException
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     */
     public function testListCanBeRetrieved() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -41,7 +33,7 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
             ->expects($this->exactly(2))
             ->method('query')
             ->with($this->stringContains('SELECT'))
-            ->will($this->returnValue($result));
+            ->willReturn($result);
 
         $database
             ->expects($this->exactly(4))
@@ -49,7 +41,6 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
             ->will($this->onConsecutiveCalls(['phpunit'], ['phpunit'], [], ['cnt' => 2]));
 
         $database
-            ->expects($this->any())
             ->method('like')
             ->with(
                 $this->isType('string'),
@@ -58,7 +49,6 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
             )->will($this->returnArgument(2));
 
         $database
-            ->expects($this->any())
             ->method('quote')
             ->with($this->anything(), $this->isType('string'))
             ->will($this->returnArgument(0));
@@ -85,8 +75,6 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
 
     /**
      * @doesNotPerformAssertions
-     * @throws ilTermsOfServiceMissingDatabaseAdapterException
-     * @throws ReflectionException
      */
     public function testRetrievingListThrowsExceptionsWhenInvalidArgumentsArePassed() : void
     {

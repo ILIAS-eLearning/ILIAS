@@ -91,7 +91,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * @inheritdoc
      */
-    public static function returnDbTableName()
+    public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
@@ -133,7 +133,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * @inheritdoc
      */
-    public function buildFromArray(array $array)
+    public function buildFromArray(array $array): \ActiveRecord
     {
         $document = parent::buildFromArray($array);
 
@@ -145,7 +145,7 @@ class ilAccessibilityDocument extends ActiveRecord implements ilAccessibilitySig
     /**
      * @inheritdoc
      */
-    public function create()
+    public function create() : void
     {
         $this->setCreationTs(time());
 

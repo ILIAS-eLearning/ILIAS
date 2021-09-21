@@ -59,6 +59,8 @@ class ilLPObjSettings
     
     const LP_MODE_COURSE_REFERENCE = 32;
 
+    public const LP_MODE_CONTRIBUTION_TO_DISCUSSION = 33;
+
     protected static $map = array(
         
         self::LP_MODE_DEACTIVATED => array('ilLPStatus',
@@ -157,7 +159,13 @@ class ilLPObjSettings
             'ilLPStatusCourseReference',
             'trac_mode_course_reference',
             'trac_mode_course_reference_info'
-        ]
+        ],
+
+        self::LP_MODE_CONTRIBUTION_TO_DISCUSSION => [
+            ilLPStatusContributionToDiscussion::class,
+            'trac_mode_contribution_to_discussion',
+            'trac_mode_contribution_to_discussion_info'
+        ],
     );
 
     /**

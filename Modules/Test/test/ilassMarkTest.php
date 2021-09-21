@@ -5,16 +5,13 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Unit tests for ASS_Mark
- *
- * @author Maximilian Becker <mbecker@databay.de>
- *
+ * @author  Maximilian Becker <mbecker@databay.de>
  * @version $Id$
- *
  * @ingroup ModulesTest
  */
 class ilassMarkTest extends TestCase
 {
-    /** @var $backupGlobals bool  */
+    /** @var $backupGlobals bool */
     protected $backupGlobals = false;
 
     /** @var  $ass_mark ASS_Mark */
@@ -52,7 +49,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on shortName failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -72,7 +69,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on passed failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -92,7 +89,7 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on officialName failed, in/out not matching."
-            );
+        );
     }
 
     /**
@@ -112,18 +109,16 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Get/Set on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**
      * Set test on member minimumLevel using accessor method with a high
      * level.
-     *
      * Tested method should accept double according to docblock
      * at getMinimumLevel(). Confusingly, setMinimumLevel states that it
      * accepts strings as param, which can be considered an oversight of
      * the author.
-     *
      * @todo Enhance documentation of class.assMark.php::setMinimumLevel();
      * @todo Enhance documentation of class.assMark.php::getMinimumLevel();
      */
@@ -141,13 +136,12 @@ class ilassMarkTest extends TestCase
             $actual,
             $expected,
             "Set low on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**
      * Set test on member minimumLevel using accessor methods with a very
      * low level.
-     *
      * @see testSetMinimumLevel_High()
      */
     public function testSetMinimumLevel_Low()
@@ -155,27 +149,26 @@ class ilassMarkTest extends TestCase
         // Arrange
         $expected = 1E-14;
         $this->ass_mark->setMinimumLevel($expected);
-            
+
         // Act
         $actual = $this->ass_mark->getMinimumLevel();
-            
+
         // Assert
         $this->assertEquals(
             $actual,
             $expected,
             "Set low on minimumLevel failed, in/out not matching."
-            );
+        );
     }
 
     /**
      * Set test on member minimumLevel using accessor methods with a too
      * low level.
-     *
      * @see testSetMinimumLevel_High()
      */
     public function testSetMinimumLevel_TooLow()
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         // Arrange
         $expected = -1;

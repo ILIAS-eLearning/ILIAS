@@ -57,7 +57,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return boolean True, if the single choice question is complete for use, otherwise false
     * @access public
     */
-    public function isComplete()
+    public function isComplete() : bool
     {
         if (strlen($this->title)
             && ($this->author)
@@ -75,7 +75,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     *
     * @access public
     */
-    public function saveToDb($original_id = "")
+    public function saveToDb($original_id = "") : void
     {
         $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
@@ -137,7 +137,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @param integer $question_id A unique key which defines the multiple choice test in the database
     * @access public
     */
-    public function loadFromDb($question_id)
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -202,11 +202,11 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     *
     * @access public
     */
-    public function duplicate($for_test = true, $title = "", $author = "", $owner = "", $testObjId = null)
+    public function duplicate(bool $for_test = true, string $title = "", string $author = "", string $owner = "", $testObjId = null) : int
     {
         if ($this->id <= 0) {
             // The question has not been saved. It cannot be duplicated
-            return;
+            return -1;
         }
         // duplicate the question in database
         $this_id = $this->getId();
@@ -323,12 +323,9 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     }
 
     /**
-    * Duplicate the flash applet
-    *
-    * @access public
-    * @see $points
-    */
-    protected function duplicateApplet($question_id, $objectId = null)
+
+     */
+    protected function duplicateApplet(int $question_id, $objectId = null) : void
     {
         $flashpath = $this->getFlashPath();
         $flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
@@ -372,7 +369,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @access public
     * @see $points
     */
-    public function getMaximumPoints()
+    public function getMaximumPoints() : float
     {
         return $this->points;
     }
@@ -484,7 +481,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * @param integer $pass Test pass
      * @return boolean $status
      */
-    public function saveWorkingData($active_id, $pass = null, $authorized = true)
+    public function saveWorkingData($active_id, $pass = null, $authorized = true) : bool
     {
         // nothing to save!
 
@@ -495,11 +492,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return true;
     }
 
-    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession)
+    protected function savePreviewData(ilAssQuestionPreviewSession $previewSession) : void
     {
-        // nothing to save!
-
-        return true;
     }
 
     /**
@@ -510,7 +504,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType()
+    public function getQuestionType() : string
     {
         return "assFlashQuestion";
     }
@@ -547,7 +541,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @param integer $question_id The question id which should be deleted in the answers table
     * @access public
     */
-    public function deleteAnswers($question_id)
+    public function deleteAnswers($question_id) : void
     {
     }
 
@@ -555,7 +549,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * Collects all text in the question which could contain media objects
     * which were created with the Rich Text Editor
     */
-    public function getRTETextWithMediaObjects()
+    public function getRTETextWithMediaObjects() : string
     {
         $text = parent::getRTETextWithMediaObjects();
         return $text;
@@ -564,7 +558,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     /**
      * {@inheritdoc}
      */
-    public function setExportDetailsXLS($worksheet, $startrow, $active_id, $pass)
+    public function setExportDetailsXLS(ilAssExcelFormatHelper $worksheet, int $startrow, int $active_id, int $pass) : int
     {
         parent::setExportDetailsXLS($worksheet, $startrow, $active_id, $pass);
 
@@ -584,7 +578,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, &$questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML($item, int $questionpool_id,  int $tst_id, $tst_object, int $question_counter,  array $import_mapping) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assFlashQuestionImport.php";
         $import = new assFlashQuestionImport($this);
@@ -598,7 +592,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @return string The QTI xml representation of the question
     * @access public
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         include_once "./Modules/TestQuestionPool/classes/export/qti12/class.assFlashQuestionExport.php";
         $export = new assFlashQuestionExport($this);
@@ -681,8 +675,8 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     {
         return $this->parameters;
     }
-    
-    public function isAutosaveable()
+
+    public function isAutosaveable() : bool
     {
         return false;
     }
@@ -746,7 +740,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()
+    public function buildTestPresentationConfig()  : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

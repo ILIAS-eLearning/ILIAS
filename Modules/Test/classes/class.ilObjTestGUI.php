@@ -2300,7 +2300,7 @@ class ilObjTestGUI extends ilObjectGUI
         $table_gui = new ilTestHistoryTableGUI($this, 'history');
         $table_gui->setTestObject($this->object);
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
-        $log = &ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
+        $log = ilObjAssessmentFolder::_getLog(0, time(), $this->object->getId(), true);
         $table_gui->setData($log);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
@@ -3308,10 +3308,10 @@ class ilObjTestGUI extends ilObjectGUI
         $result = $this->copyQuestionsToPool($_REQUEST['q_id'], $qplId);
 
         foreach ($result->ids as $oldId => $newId) {
-            $questionInstance = assQuestion::_instanciateQuestion($oldId);
+            $questionInstance = assQuestion::instantiateQuestion($oldId);
 
             if (assQuestion::originalQuestionExists($questionInstance->getOriginalId())) {
-                $oldOriginal = assQuestion::_instanciateQuestion($questionInstance->getOriginalId());
+                $oldOriginal = assQuestion::instantiateQuestion($questionInstance->getOriginalId());
                 $oldOriginal->delete($oldOriginal->getId());
             }
 
@@ -3786,7 +3786,7 @@ class ilObjTestGUI extends ilObjectGUI
 
         foreach ($ids as $id) {
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            $question = assQuestion::_instanciateQuestionGUI($id);
+            $question = assQuestion::instantiateQuestionGUI($id);
             if ($question) {
                 $title = $question->object->getTitle();
                 $i = 2;
@@ -3800,7 +3800,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 $new_id = $question->object->duplicate(false, $title);
 
-                $clone = assQuestion::_instanciateQuestionGUI($new_id);
+                $clone = assQuestion::instantiateQuestionGUI($new_id);
                 $clone->object->setObjId($this->object->getId());
                 $clone->object->saveToDb();
 

@@ -7,19 +7,10 @@
  */
 class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfServiceDocumentCriteriaEvaluation
 {
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-    /** @var ilObjUser */
-    protected $user;
-    /** @var ilLogger */
-    protected $log;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
+    protected ilObjUser $user;
+    protected ilLogger $log;
 
-    /**
-     * ilTermsOfServiceDocumentLogicalAndCriteriaEvaluation constructor.
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilObjUser $user
-     * @param ilLogger $log
-     */
     public function __construct(
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilObjUser $user,
@@ -30,9 +21,6 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         $this->log = $log;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation
     {
         $clone = clone $this;
@@ -41,9 +29,6 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilTermsOfServiceSignableDocument $document) : bool
     {
         $this->log->debug(sprintf(

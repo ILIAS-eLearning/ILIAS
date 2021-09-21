@@ -798,7 +798,7 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
                 
             $this->saveResult = $questionGUI->object->persistWorkingState(
                 $activeId,
-                $pass = null,
+                ilObjTest::_getPass($activeId),
                 $this->object->areObligationsEnabled(),
                 $authorized
             );

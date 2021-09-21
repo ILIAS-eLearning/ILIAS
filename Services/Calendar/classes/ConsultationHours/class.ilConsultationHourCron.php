@@ -10,12 +10,12 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilConsultationHourCron extends ilCronJob
 {
-    public function getId()
+    public function getId() : string
     {
         return "cal_consultation";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -25,7 +25,7 @@ class ilConsultationHourCron extends ilCronJob
         return $lng->txt("cal_ch_cron_reminder");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -35,32 +35,32 @@ class ilConsultationHourCron extends ilCronJob
         return $lng->txt("cal_ch_cron_reminder_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
-    {
-        return false;
-    }
-    
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasCustomSettings()
+    public function hasFlexibleSchedule() : bool
+    {
+        return false;
+    }
+    
+    public function hasCustomSettings() : bool
     {
         return true;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -109,7 +109,7 @@ class ilConsultationHourCron extends ilCronJob
         return $result;
     }
     
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
 
@@ -127,7 +127,7 @@ class ilConsultationHourCron extends ilCronJob
         $a_form->addItem($consultation_days);
     }
     
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         global $DIC;
 

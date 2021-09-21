@@ -181,7 +181,7 @@ class Container extends \Pimple\Container
     /**
      * @return \ILIAS\HTTP\Services
      */
-    public function http(): \ILIAS\HTTP\Services
+    public function http() : \ILIAS\HTTP\Services
     {
         return $this['http'];
     }
@@ -274,12 +274,9 @@ class Container extends \Pimple\Container
         return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
     }
 
-    /**
-     * @return \ilExerciseFactory
-     */
-    public function exercise()
+    public function exercise() : \ILIAS\Exercise\Service
     {
-        return new \ilExerciseFactory();
+        return new \ILIAS\Exercise\Service();
     }
 
     /**

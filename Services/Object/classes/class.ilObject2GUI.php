@@ -89,9 +89,9 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->requested_ref_id = (int) ($this->request->getQueryParams()['ref_id'] ?? 0);
 
         $new_type = '';
-        if(isset($this->request->getQueryParams()['new_type'])) {
+        if (isset($this->request->getQueryParams()['new_type'])) {
             $new_type = $this->request->getQueryParams()['new_type'];
-        } else if(isset($this->request->getParsedBody()['new_type'])) {
+        } elseif (isset($this->request->getParsedBody()['new_type'])) {
             $new_type = $this->request->getParsedBody()['new_type'];
         }
 
@@ -898,7 +898,6 @@ abstract class ilObject2GUI extends ilObjectGUI
         
         $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $a_append);
         $plink->setIncludePermanentLinkText(false);
-        $plink->setAlignCenter($a_center);
         return $plink->getHTML();
     }
 
