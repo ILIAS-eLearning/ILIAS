@@ -648,14 +648,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 '',
                 $subtab == 'showThreads' ? true : false
             );
-            $this->tabs->addSubTabTarget(
-                'sorting_header',
-                $this->ctrl->getLinkTarget($this, 'sortThreads'),
-                'sortThreads',
-                get_class($this),
-                '',
-                $subtab == 'sortThreads' ? true : false
-            );
+    
+            if ($this->object->getNumStickyThreads() > 1) {
+                $this->tabs->addSubTabTarget(
+                    'sticky_threads_sorting',
+                    $this->ctrl->getLinkTarget($this, 'sortThreads'),
+                    'sortThreads',
+                    '',
+                    $subtab == 'sortThreads' ? true : false
+                );
+            }
         }
     }
 
