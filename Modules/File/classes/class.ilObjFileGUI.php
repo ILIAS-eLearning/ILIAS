@@ -9,6 +9,7 @@ use ILIAS\UI\Component\Input\Container\Form\Standard as UIComponentForm;
  * GUI class for file objects.
  * @author       Sascha Hofmann <shofmann@databay.de>
  * @author       Stefan Born <stefan.born@phzh.ch>
+ * @author       Thibeau Fuhrer <thf@studer-raimann.ch>
  * @version      $Id$
  * @ilCtrl_Calls ilObjFileGUI: ilObjectMetaDataGUI, ilInfoScreenGUI, ilPermissionGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjFileGUI: ilExportGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI, ilCommonActionDispatcherGUI
@@ -350,6 +351,8 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function initMultiUploadForm() : UIComponentForm
     {
+        // @TODO: probably move hardcoded input keys to constants.
+
         return $this->ui->factory()->input()->container()->form()->standard(
             $this->ctrl->getLinkTargetByClass(self::class, self::CMD_UPLOAD_FILES),
             [

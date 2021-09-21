@@ -13,7 +13,6 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
-use ilTemplate;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 /**

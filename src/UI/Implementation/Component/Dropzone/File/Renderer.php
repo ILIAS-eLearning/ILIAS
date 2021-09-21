@@ -69,6 +69,8 @@ class Renderer extends AbstractComponentRenderer
      */
     private function renderWrapper(\ILIAS\UI\Component\Dropzone\File\Wrapper $dropzone, \ILIAS\UI\Renderer $default_renderer) : string
     {
+        // method is not introduced by interface to avoid exploitation
+        // by other developers. The method does exist though.
         $dropzone_form = $dropzone->getForm();
 
         $dropzone_modal = $this->getUIFactory()->modal()->roundtrip(
@@ -111,6 +113,8 @@ class Renderer extends AbstractComponentRenderer
      */
     private function renderStandard(\ILIAS\UI\Component\Dropzone\File\Standard $dropzone, \ILIAS\UI\Renderer $default_renderer)
     {
+        // @TODO: implement the same as wrapper with fixed default values.
+
         return '';
     }
 }
