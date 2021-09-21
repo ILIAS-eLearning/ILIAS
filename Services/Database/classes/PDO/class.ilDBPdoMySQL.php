@@ -7,7 +7,15 @@
  */
 abstract class ilDBPdoMySQL extends ilDBPdo
 {
-    const SQL_MODE = "IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION";
+    protected $modes = [
+        'STRICT_TRANS_TABLES',
+        'STRICT_ALL_TABLES',
+        'IGNORE_SPACE',
+        'NO_ZERO_IN_DATE',
+        'NO_ZERO_DATE',
+        'ERROR_FOR_DIVISION_BY_ZERO',
+        'NO_ENGINE_SUBSTITUTION',
+    ];
 
     public function supportsTransactions() : bool
     {
@@ -23,7 +31,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
 
     protected function initSQLMode() : void
     {
-        $this->pdo->exec("SET SESSION sql_mode = '" . self::SQL_MODE . "';");
+        $this->pdo->exec("SET SESSION sql_mode = '" . implode(",", $this->modes) . "';");
     }
 
     public function supportsEngineMigration() : bool
