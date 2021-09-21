@@ -49,7 +49,11 @@ class ilAppEventHandler
     protected array $listener; // [array]
     protected ilLogger $logger;
     protected ilComponentDataDB $component_data_db;
-    
+    protected ilComponentFactory $component_factory;
+
+    /**
+    * Constructor
+    */
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
@@ -57,6 +61,7 @@ class ilAppEventHandler
 
         $this->db = $DIC->database();
         $this->component_data_db = $DIC["component.db"];
+        $this->component_factory = $DIC["component.factory"];
         $this->initListeners();
 
         $this->logger = \ilLoggerFactory::getLogger('evnt');
@@ -141,14 +146,7 @@ class ilAppEventHandler
                         if ($pl->getName() !== $name || !$pl->isActive()) {
                             continue;
                         }
-
-                        $plugin = ilPluginAdmin::getPluginObject(
-                            $pl->getComponent()->getType(),
-                            $pl->getComponent()->getName(),
-                            $pl->getPluginSlot()->getId(),
-                            $pl->getName()
-                        );
-
+                        $plugin = $this->component_factory->getPlugin($pl->getId());
                         $plugin->handleEvent($a_component, $a_event, $a_parameter);
                     }
                 } else {
@@ -166,14 +164,7 @@ class ilAppEventHandler
         $this->logger->debug("Finished event listener handling, started event propagation for event hook plugins ...");
 
         // get all event hook plugins and forward the event to them
-        $plugins = $this->component_data_db->getPluginSlotById("evhk")->getActivePlugins();
-        foreach ($plugins as $pl) {
-            $plugin = ilPluginAdmin::getPluginObject(
-                "Services",
-                "EventHandling",
-                "evhk",
-                $pl->getName()
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("evhk") as $plugin) {
             $plugin->handleEvent($a_component, $a_event, $a_parameter);
         }
 

@@ -35,7 +35,7 @@ class ilStudyProgrammeType
     protected ilStudyProgrammeTypeRepository $type_repo;
     protected Filesystem $webdir;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
 
 
     public function __construct(
@@ -45,7 +45,7 @@ class ilStudyProgrammeType
         ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
         ilObjUser $user,
-        ilComponentDataDB $component_data_db
+        ilComponentFactory $component_factory
     ) {
         $this->id = $id;
         $this->type_repo = $type_repo;
@@ -53,7 +53,7 @@ class ilStudyProgrammeType
         $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->user = $user;
-        $this->component_data_db = $component_data_db;
+        $this->component_factory = $component_factory;
     }
 
     /**
@@ -466,17 +466,7 @@ class ilStudyProgrammeType
 
     protected function getActivePlugins() : array
     {
-        if ($this->active_plugins === null) {
-            $active_plugins = $this->component_data_db->getPluginSlotById('prgtypehk')->getActivePlugins();
-            $this->active_plugins = array();
-            foreach ($active_plugins as $pl) {
-                /** @var ilStudyProgrammeTypeHookPlugin $plugin */
-                $plugin = $this->plugin_admin->getPluginObject(IL_COMP_MODULE, 'StudyProgramme', 'prgtypehk', $pl->getName());
-                $this->active_plugins[] = $plugin;
-            }
-        }
-
-        return $this->active_plugins;
+        return $this->component_factory->getActivePluginsInSlot("prgtypehk");
     }
 
     public function changedTranslations() : array

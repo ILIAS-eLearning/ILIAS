@@ -121,7 +121,7 @@ class ilPageObjectGUI
     protected string $header = "";
     protected string $int_link_return = "";
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentFactory $component_factory;
 
     /**
      * @param string $a_parent_type type of parent object
@@ -150,7 +150,7 @@ class ilPageObjectGUI
         $this->help = $DIC["ilHelp"];
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_factory = $DIC["component.factory"];
 
         $this->request = $DIC
             ->copage()
@@ -733,14 +733,7 @@ class ilPageObjectGUI
     {
         $xml = "";
         if ($this->getOutputMode() == "edit") {
-            $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
-            foreach ($plugins as $pl) {
-                $plugin = $this->plugin_admin->getPluginObject(
-                    IL_COMP_SERVICE,
-                    "COPage",
-                    "pgcp",
-                    $pl->getName()
-                );
+            foreach ($this->component_factory->getActivePluginsInSlot("pgcp") as $plugin) {
                 if ($plugin->isValidParentType($this->getPageObject()->getParentType())) {
                     $xml .= '<ComponentPlugin Name="' . $plugin->getPluginName() .
                         '" InsertText="' . $plugin->txt(ilPageComponentPlugin::TXT_CMD_INSERT) . '" />';

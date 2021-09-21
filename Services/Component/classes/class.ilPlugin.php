@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
@@ -9,13 +25,15 @@ use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Data\Version;
 
 /**
- * Abstract Class ilPlugin
- *
+ * @author   Richard Klees <richard.klees@concepts-and-training.de>
  * @author   Alex Killing <alex.killing@gmx.de>
  * @author   Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilPlugin
 {
+    protected ilDBInterface $db;
+    protected ilComponentDataDBWrite $component_data_db;
+    protected string $id;
 
     /**
      * @var bool
@@ -30,17 +48,25 @@ abstract class ilPlugin
      */
     protected $message;
 
-    protected ilDBInterface $db;
-    protected ilComponentDataDBWrite $component_data_db;
 
-    public function __construct()
+    public function __construct(
+        \ilDBInterface $db,
+        \ilComponentDataDBWrite $component_data_db,
+        string $id
+    )
     {
-        global $DIC;
+        if (!$this->component_data_db->hasPluginId($id)) {
+            throw new \LogicException(
+                "You tried to instantiate a plugin with an inexisting id '$id'." .
+                "This is odd... Please use ilComponentFactory to instantiate plugins."
+            );
+        }
+
+        $this->db = $db;
+        $this->component_data_db = $component_data_db;
+        $this->id = $id;
 
         $this->provider_collection = new PluginProviderCollection();
-        $this->db = $DIC["ilDB"];
-        $this->component_data_db = $DIC["component.db"];
-
 
         // Fix for authentication plugins
         $this->loadLanguageModule();
@@ -662,66 +688,6 @@ abstract class ilPlugin
     }
 
     /**
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     * @param string $a_pname
-     * @return ilPlugin
-     * @throws ilPluginException
-     */
-    public static function getPluginObject(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : ilPlugin
-    {
-        global $DIC;
-        $component_data_db = $DIC["component.db"];
-
-        $slot_name = $component_data_db->getPluginSlotById($a_slot_id)->getName();
-        if (!$component_data_db->getComponentByTypeAndName($a_ctype, $a_cname)) {
-            return null;
-        }
-
-        $file = "./Customizing/global/plugins/" . $a_ctype . "/" .
-            $a_cname . "/" . $slot_name . "/" .
-            $a_pname . "/classes/class.il" . $a_pname . "Plugin.php";
-
-        if (is_file($file)) {
-            include_once($file);
-            $class = "il" . $a_pname . "Plugin";
-            $plugin = new $class();
-
-            return $plugin;
-        }
-        throw new ilPluginException("File : " . $file . " . does not Exist for plugin: " . $a_pname . " Check if your 
-            plugin is still marked as active in the DB Table 'il_plugin' but not installed anymore.");
-    }
-
-    /**
-     * Only very little classes seem to care about this:
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php
-     *
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     *
-     * @return array
-     */
-    public static function getActivePluginIdsForSlot(string $a_ctype, string $a_cname, string $a_slot_id) : array
-    {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $component_data_db = $DIC["component.db"];
-
-        $plugins = array();
-        foreach ($component_data_db->getComponentByTypeAndName($a_ctype, $a_name)->getPluginSlotById($a_slot_id)->getPlugins() as $plugin) {
-            if ($ilPluginAdmin->isActive($a_ctype, $a_cname, $a_slot_id, $plugin->getName())) {
-                $plugins[] = $plugin->getId();
-            }
-        }
-
-        return $plugins;
-    }
-
-
-    /**
      * Only very little classes seem to care about this:
      *     - Services/Repository/classes/class.ilObjectPluginGUI.php
      *     - Services/Repository/classes/class.ilObjectPluginListGUI.php
@@ -768,27 +734,6 @@ abstract class ilPlugin
             return null;
         }
     }
-
-
-    /**
-     * Only very little classes seem to care about this:
-     *     - Services/Repository/classes/class.ilObjectPlugin.php
-     */
-    protected static function lookupTypeInformationsForId(string $id) : ?string
-    {
-        global $DIC;
-        try {
-            $plugin_info = $DIC["component.db"]->getPluginById($id);
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
-        return [
-            $plugin_info->getComponent()->getType(),
-            $plugin_info->getComponent()->getName(),
-            $plugin_info->getPluginSlot()->getId()
-        ];
-    }
-
 
     /**
      * @return AbstractStaticPluginMainMenuProvider

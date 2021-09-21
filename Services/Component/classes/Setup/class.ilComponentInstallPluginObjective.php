@@ -53,7 +53,8 @@ class ilComponentInstallPluginObjective implements Setup\Objective
             new \ilIniFilesPopulatedObjective(),
             new \ilDatabaseUpdatedObjective(),
             new \ilComponentPluginAdminInitObjective(),
-            new \ilComponentDatabaseExistsObjective()
+            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentFactoryExistsObjective()
         ];
     }
 
@@ -63,29 +64,24 @@ class ilComponentInstallPluginObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
-        $plugin = $component_data_db->getPluginByName($this->plugin_name);
+        $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
+        $info = $component_data_db->getPluginByName($this->plugin_name);
 
-        if (!$plugin->supportsCLISetup()) {
+        if (!$info->supportsCLISetup()) {
             throw new \RuntimeException(
                 "Plugin $this->plugin_name does not support command line setup."
             );
         }
 
-        if ($plugin->isInstalled()) {
+        if ($info->isInstalled()) {
             throw new \RuntimeException(
                 "Plugin $this->plugin_name is already installed."
             );
         }
 
         $ORIG_DIC = $this->initEnvironment($environment);
-        $component = $plugin->getComponent();
-        $slot = $plugin->getPluginSlot();
-        ilPlugin::getPluginObject(
-            $component->getType(),
-            $component->getName(),
-            $slot->getId(),
-            $plugin->getName()
-        )->install();
+        $plugin = $component_data_db->getPlugin($info->getId());
+        $plugin->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
         return $environment;

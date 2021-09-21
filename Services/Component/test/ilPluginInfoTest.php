@@ -232,6 +232,14 @@ class ilPluginInfoTest extends TestCase
         );
     }
 
+    public function testGetClassName()
+    {
+        $this->assertEquals(
+            "ilPlugin1Plugin",
+            $this->plugin->getClassName()
+        );
+    }
+
     /**
      * @dataProvider isActivationPossibleTruthTable
      */

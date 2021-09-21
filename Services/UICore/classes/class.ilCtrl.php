@@ -689,14 +689,7 @@ class ilCtrl implements ilCtrlInterface
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
 
-        // abort if no parent has set a return target yet.
-        if (null === $target_url) {
-            throw new ilCtrlException("ilCtrl was not yet provided with a return-target for class '$class_name'");
-        }
-        $component_data_db = null;
-        if (isset($DIC["component.db"])) {
-            $component_data_db = $DIC["component.db"];
-        }
+        $component_factory = $DIC["component.factory"] ?? null;
 
         // append redirect source to target url.
         $target_url = $this->appendParameterString(

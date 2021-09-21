@@ -40,8 +40,7 @@ class ilTestSignatureGUI
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        $component_data_db = $DIC["component.db"];
+        $component_factory = $DIC["component.factory"];
         
         $this->lng = $lng;
         $this->ilCtrl = $ilCtrl;
@@ -50,9 +49,8 @@ class ilTestSignatureGUI
         $this->ilTestOutputGUI = $testOutputGUI;
         $this->test = $this->ilTestOutputGUI->object;
 
-        $plugins = $component_data_db->getPluginSlotById('tsig')->getActivePlugins();
-        $pl = current($plugins);
-        $this->plugin = ilPluginAdmin::getPluginObject(IL_COMP_MODULE, 'Test', 'tsig', $pl->getName());
+        $plugins = $component_factory->getActivePluginsInSlot("tsig");
+        $this->plugin = current($plugins);
         $this->plugin->setGUIObject($this);
     }
 

@@ -8,19 +8,14 @@ require_once('./Services/AuthShibboleth/interfaces/interface.ilShibbolethAuthent
  */
 class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
 {
-
     /**
-     * @var ilPluginAdmin
+     * @var ilComponentFactory
      */
-    protected $plugin_admin;
+    protected $component_factory;
     /**
      * @var ilLog
      */
     protected $log;
-    /**
-     * @var array
-     */
-    protected static $active_plugins = array();
     /**
      * @var ilShibbolethPluginWrapper
      */
@@ -30,13 +25,9 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
     protected function __construct()
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $ilLog = $DIC['ilLog'];
         $this->log = $ilLog;
-        $this->plugin_admin = $ilPluginAdmin;
-        if (self::$active_plugins == null) {
-            self::$active_plugins = $DIC["component.db"]->getPluginSlotById('shibhk')->getActivePlugins();
-        }
+        $this->component_factory = $DIC["component.factory"];
     }
 
 
@@ -58,15 +49,7 @@ class ilShibbolethPluginWrapper implements ilShibbolethAuthenticationPluginInt
      */
     protected function getPluginObjects()
     {
-        $plugin_objs = array();
-        foreach (self::$active_plugins as $plugin) {
-            $plugin_obj = $this->plugin_admin->getPluginObject(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk', $plugin->getName());
-            if ($plugin_obj instanceof ilShibbolethAuthenticationPlugin) {
-                $plugin_objs[] = $plugin_obj;
-            }
-        }
-
-        return $plugin_objs;
+        return $this->component_factory->getActivePluginsInSlot('shibhk');
     }
 
 

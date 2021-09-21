@@ -30,26 +30,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
         $this->showTree();
     }
 
-
-    /**
-     * Get plugin object
-     *
-     * @return ilOrgUnitExtensionPlugin plugin object
-     * @throws ilPluginException
-     */
-    protected function getPlugin() : ilPlugin
-    {
-        if (!$this->plugin) {
-            $this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
-            if (!$this->plugin instanceof ilOrgUnitExtensionPlugin) {
-                throw new ilPluginException("ilObjectPluginGUI: Could not instantiate plugin object for type " . $this->getType() . ".");
-            }
-        }
-
-        return $this->plugin;
-    }
-
-
     /**
      * @return bool
      */
@@ -57,7 +37,6 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     {
         return false;
     }
-
 
     /**
      * @return string
