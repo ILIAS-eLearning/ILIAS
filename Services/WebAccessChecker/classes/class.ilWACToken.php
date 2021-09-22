@@ -75,8 +75,8 @@ class ilWACToken
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $this->setIp($_SERVER['REMOTE_ADDR']);
         }
-        $this->setTimestamp($timestamp ? $timestamp : time());
-        $ttl = $ttl ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds();
+        $this->setTimestamp($timestamp !== 0 ? $timestamp : time());
+        $ttl = $ttl !== 0 ? $ttl : ilWACSignedPath::getTokenMaxLifetimeInSeconds();
         $this->setTTL($ttl); //  since we do not know the type at this poit we choose the shorter duration for security reasons
         $this->generateToken();
         $this->setId($this->getPath());
