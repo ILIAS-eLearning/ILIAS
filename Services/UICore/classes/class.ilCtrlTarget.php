@@ -6,269 +6,130 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlTarget
+final class ilCtrlTarget implements ilCtrlTargetInterface
 {
     /**
-     * @var string separator for CID traces.
+     * @var string command name which must be provided in $_GET when
+     *             a POST request should be processed.
      */
-    public const CID_TRACE_SEPARATOR = ':';
+    private const CMD_POST = 'post';
 
     /**
-     * Holds the current CSRF token.
+     * Holds a token generated for the current user.
      *
-     * @var string|null
+     * @var ilCtrlTokenInterface
      */
-    private ?string $token;
+    private ilCtrlTokenInterface $token;
 
     /**
-     * Holds the current baseclass.
+     * Holds the currently read control structure.
      *
-     * @var string|null
+     * @var ilCtrlStructureInterface
      */
-    private ?string $base_class;
+    private ilCtrlStructureInterface $structure;
 
     /**
-     * Holds the current command class.
+     * Holds the trace from baseclass to command-class of the
+     * current target.
      *
-     * @var string|null
+     * @var ilCtrlTraceInterface
      */
-    private ?string $cmd_class;
+    private ilCtrlTraceInterface $trace;
 
     /**
-     * Holds the current CID trace.
+     * Holds the target-script of the current target.
      *
-     * @var string|null
+     * @var string
      */
-    private ?string $cid_trace;
+    private string $target_script = 'ilias.php';
 
     /**
-     * Holds the current command.
+     * Holds whether the target is asynchronous or not.
      *
-     * @var string|null
+     * If the target is asynchronous, an async flag will be appended
+     * for controllers to recognize them.
+     *
+     * @var bool
      */
-    private ?string $cmd;
+    private bool $is_async = false;
 
     /**
-     * @var ilCtrlTarget|null
+     * Holds whether the target is used for XML content or not.
+     *
+     * If the target is used for XML content, certain characters
+     * will be escaped during link generations.
+     *
+     * @var bool
      */
-    private ?self $nested_target = null;
+    private bool $is_xml = false;
 
     /**
-     * ilCtrlTarget constructor.
-     * @param string|null $token
-     * @param string|null $base_class
-     * @param string|null $cmd_class
-     * @param string|null $cid_trace
-     * @param string|null $cmd
+     * Holds the baseclass of the current target.
+     *
+     * @var string
      */
-    public function __construct(
-        ?string $token = null,
-        ?string $base_class = null,
-        ?string $cmd_class = null,
-        ?string $cid_trace = null,
-        ?string $cmd = null
-    ) {
-        $this->token = $token;
-        $this->base_class = $base_class;
-        $this->cmd_class = $cmd_class;
-        $this->cid_trace = $cid_trace;
-        $this->cmd = $cmd;
+    private string $base_class;
+
+    /**
+     * Holds the executing class of the current target.
+     *
+     * @var string
+     */
+    private string $cmd_class;
+
+    /**
+     * Holds the command of the current target.
+     *
+     * @var string
+     */
+    private string $cmd;
+
+    /**
+     * Holds the anchor of the current target.
+     *
+     * @var string
+     */
+    private string $anchor;
+
+    /**
+     * @param ilCtrlTokenInterface     $token
+     * @param ilCtrlStructureInterface $structure
+     * @param string                   $base_class
+     */
+    public function __construct(ilCtrlTokenInterface $token, ilCtrlStructureInterface $structure, string $base_class)
+    {
+        $this->token      = $token;
+        $this->structure  = $structure;
+        $this->base_class = strtolower($base_class);
+
+        $this->trace = new ilCtrlTrace(
+            $this->structure,
+            $this->base_class
+        );
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
-    public function getToken() : ?string
+    public function setTargetScript(string $target_script) : ilCtrlTargetInterface
     {
-        return $this->token;
-    }
-
-    /**
-     * @param string|null $token
-     * @return ilCtrlTarget
-     */
-    public function setToken(?string $token) : ilCtrlTarget
-    {
-        $this->token = $token;
+        $this->target_script = $target_script;
         return $this;
     }
 
     /**
-     * @return string|null
+     * @inheritDoc
      */
-    public function getBaseClass() : ?string
+    public function setCmdClass(string $class_name) : ilCtrlTarget
     {
-        return $this->base_class;
-    }
-
-    /**
-     * @param string $base_class
-     * @return ilCtrlTarget
-     */
-    public function setBaseClass(string $base_class) : ilCtrlTarget
-    {
-        $this->base_class = $base_class;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCmdClass() : ?string
-    {
-        return $this->cmd_class;
-    }
-
-    /**
-     * @param string $cmd_class
-     * @return ilCtrlTarget
-     */
-    public function setCmdClass(string $cmd_class) : ilCtrlTarget
-    {
-        $this->cmd_class = $cmd_class;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getCidTrace() : ?string
-    {
-        return $this->cid_trace;
-    }
-
-    /**
-     * Returns the current CID from trace (the last appended).
-     *
-     * @return string|null
-     */
-    public function getCurrentCid() : ?string
-    {
-        if (null === $this->cid_trace) {
-            return null;
-        }
-
-        $pieces = explode(self::CID_TRACE_SEPARATOR, $this->cid_trace);
-        $key    = (count($pieces) - 1);
-
-        return $pieces[$key];
-    }
-
-    /**
-     * Returns the current CID from a given trace (the last appended).
-     *
-     * @param string $cid_trace
-     * @return string|null
-     */
-    public function getCurrentCidFrom(string $cid_trace) : ?string
-    {
-        $pieces = explode(self::CID_TRACE_SEPARATOR, $cid_trace);
-        $key    = (count($pieces) - 1);
-
-        return $pieces[$key];
-    }
-
-    /**
-     * Returns all CIDs of the current trace in the given direction.
-     *
-     * Note that this method will yield NULL if the current trace
-     * was not yet set.
-     *
-     * @param int $sort
-     * @return Generator
-     */
-    public function getCidPieces(int $sort = SORT_ASC) : Generator
-    {
-        $pieces = explode(self::CID_TRACE_SEPARATOR, $this->cid_trace);
-
-        if (SORT_ASC === $sort) {
-            foreach ($pieces as $cid) {
-                yield $cid;
-            }
-        } else {
-            for ($i = count($pieces) - 1; 0 <= $i; $i--) {
-                yield $pieces[$i];
-            }
-        }
-    }
-
-    /**
-     * Returns all individual paths for each cid position for the
-     * given direction.
-     *
-     * For example, trace 'cid1:cid2:cid3' it would return:
-     *      array(
-     *          'cid1',
-     *          'cid1:cid2',
-     *          'cid1:cid2:cid3',
-     *          ...
-     *      );
-     *
-     * @param int $sort
-     * @return array|null
-     */
-    public function getCidPaths(int $sort = SORT_ASC) : ?array
-    {
-        if (null === $this->cid_trace) {
-            return null;
-        }
-
-        $paths = [];
-        $pieces = explode(self::CID_TRACE_SEPARATOR, $this->cid_trace);
-        foreach ($pieces as $index => $cid) {
-            if (0 === $index) {
-                $paths[] = $cid;
-            } else {
-                $paths[] = $paths[$index - 1] . self::CID_TRACE_SEPARATOR . $cid;
-            }
-        }
-
-        // yeah, yeah, that could've been done smoother ofc.
-        if (SORT_DESC === $sort) {
-            rsort($paths);
-        }
-
-        return $paths;
-    }
-
-    /**
-     * @param string $cid_trace
-     * @return ilCtrlTarget
-     */
-    public function setCidTrace(string $cid_trace) : ilCtrlTarget
-    {
-        $this->cid_trace = $cid_trace;
-        return $this;
-    }
-
-    /**
-     * Appends a CID to the current trace.
-     *
-     * @param string $cid
-     * @return $this
-     */
-    public function appendCid(string $cid) : ilCtrlTarget
-    {
-        if (null === $this->cid_trace) {
-            $this->cid_trace = $cid;
-        } else {
-            $this->cid_trace .= self::CID_TRACE_SEPARATOR . $cid;
-        }
+        $this->cmd_class = strtolower($class_name);
+        $this->trace->appendClass($this->cmd_class);
 
         return $this;
     }
 
     /**
-     * @return string|null
-     */
-    public function getCmd() : ?string
-    {
-        return $this->cmd;
-    }
-
-    /**
-     * @param string $cmd
-     * @return ilCtrlTarget
+     * @inheritDoc
      */
     public function setCmd(string $cmd) : ilCtrlTarget
     {
@@ -277,20 +138,169 @@ final class ilCtrlTarget
     }
 
     /**
-     * @param ilCtrlTarget|null $target
-     * @return $this
+     * @inheritDoc
      */
-    public function setNestedTarget(?self $target) : ilCtrlTarget
+    public function setAnchor(string $anchor) : ilCtrlTargetInterface
     {
-        $this->nested_target = $target;
+        $this->anchor = $anchor;
         return $this;
     }
 
     /**
-     * @return ilCtrlTarget|null
+     * @inheritDoc
      */
-    public function getNestedTarget() : ?ilCtrlTarget
+    public function setAsync(bool $is_async) : ilCtrlTargetInterface
     {
-        return $this->nested_target;
+        $this->is_async = $is_async;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setXml(bool $is_xml) : ilCtrlTargetInterface
+    {
+        $this->is_xml = $is_xml;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLinkTarget() : ?string
+    {
+        return $this->getTargetURL();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFormAction() : ?string
+    {
+        return $this->getTargetURL($this->cmd);
+    }
+
+    /**
+     * @param string|null $post_cmd
+     * @return string|null
+     */
+    private function getTargetURL(string $post_cmd = null) : ?string
+    {
+        // abort if no valid trace is found to the current
+        // command class.
+        if (!$this->trace->isValid()) {
+            return null;
+        }
+
+        // initialize the target URL and append it with the
+        // current baseclass.
+        $target_url = $this->appendParameterString(
+            $this->target_script,
+            self::PARAM_BASE_CLASS,
+            $this->base_class
+        );
+
+        // if a command class exists, it must be appended with
+        // the according trace.
+        if (null !== $this->cmd_class) {
+            $target_url = $this->appendParameterString($target_url, self::PARAM_TRACE, $this->trace);
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_CLASS, $this->cmd_class);
+        }
+
+        // if no post command is provided, the current command
+        // can be used if it has been set.
+        if (null === $post_cmd && null !== $this->cmd) {
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD, $this->cmd);
+        }
+
+        // if a post command is provided, the command must be set
+        // to CMD_POST and the current command has to be appended
+        // as a fallback.
+        if (null !== $post_cmd) {
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD, self::CMD_POST);
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_FALLBACK, $post_cmd);
+        }
+
+        // append all existing parameters of each class known by trace.
+        foreach ($this->trace->getCidPieces() as $cid) {
+            $parameters = $this->structure->getParametersByClass(
+                $this->structure->getClassNameByCid($cid)
+            );
+
+            if (!empty($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $target_url = $this->appendParameterString($target_url, $key, $value);
+                }
+            }
+        }
+
+        if (!$this->isSafe()) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CSRF_TOKEN,
+                $this->token->get()
+            );
+        }
+
+        if ($this->is_async) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD_MODE,
+                self::CMD_MODE_ASYNC
+            );
+        }
+
+        if (null !== $this->anchor) {
+            $target_url .= "#$this->anchor";
+        }
+
+        return $target_url;
+    }
+
+    /**
+     * Appends a parameter => value pair to the given URL.
+     *
+     * @param string $url
+     * @param string $parameter_name
+     * @param mixed  $value
+     * @return string
+     */
+    private function appendParameterString(string $url, string $parameter_name, mixed $value) : string
+    {
+        if (null !== $value) {
+            // determine the ampersand according to whether
+            // the target is used for XML content or not.
+            $amp = ($this->is_xml) ? "&amp;" : "&";
+
+            // append the given parameter => value pair to the
+            // url - use question-mark the first time.
+            $url = (is_int(strpos($url, '?'))) ?
+                $url . $amp. $parameter_name . '=' . $value :
+                $url . '?' . $parameter_name . '=' . $value
+            ;
+        }
+
+        return $url;
+    }
+
+    /**
+     * Returns whether the current target can be safely executed
+     * or not.
+     *
+     * @return bool
+     */
+    private function isSafe() : bool
+    {
+        $class_name = (null !== $this->cmd_class) ?
+            $this->structure->getQualifiedClassName($this->cmd_class) :
+            $this->structure->getQualifiedClassName($this->base_class)
+        ;
+
+        $class_obj  = new $class_name();
+        if ($class_obj instanceof ilCtrlSecurityInterface) {
+            return in_array($this->cmd, $class_obj->getSafeCommands(), true);
+        }
+
+        return false;
     }
 }

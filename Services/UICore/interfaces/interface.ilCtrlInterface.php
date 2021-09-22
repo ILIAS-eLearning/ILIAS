@@ -7,22 +7,9 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * instance is available through $DIC->ctrl() or $ilCtrl.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
- * @author Alex Killing <alex.killing@gmx.de>
  */
 interface ilCtrlInterface
 {
-    /**
-     * $_GET request parameter names, used throughout ilCtrl.
-     */
-    public const PARAM_CSRF_TOKEN      = 'csrf_token';
-    public const PARAM_REDIRECT        = 'redirectSource';
-    public const PARAM_CMD_FALLBACK    = 'fallbackCmd';
-    public const PARAM_BASE_CLASS      = 'baseClass';
-    public const PARAM_CMD_CLASS       = 'cmdClass';
-    public const PARAM_CMD_MODE        = 'cmdMode';
-    public const PARAM_CMD_TRACE       = 'cmdNode';
-    public const PARAM_CMD             = 'cmd';
-
     /**
      * different modes used for UI plugins (or in dev-mode).
      */
@@ -204,11 +191,12 @@ interface ilCtrlInterface
     /**
      * Returns all parameters that have been saved or set for a given GUI class.
      *
-     * @param string $a_class
+     * @param string      $a_class
+     * @param string|null $a_cmd
      * @return array
      * @throws ilCtrlException if the given class cannot be found.
      */
-    public function getParameterArrayByClass(string $a_class) : array;
+    public function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array;
 
     /**
      * Removes all currently set or saved parameters for the given GUI object.

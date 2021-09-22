@@ -16,18 +16,6 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 final class ilCtrl implements ilCtrlInterface
 {
     /**
-     * @var string command name which must be provided in $_GET when
-     *             a POST request should be processed.
-     */
-    public const CMD_POST = 'post';
-
-    /**
-     * @var string regex for the validation of $_GET parameter names.
-     *             (allows A-Z, a-z, 0-9, '_' and '-'.)
-     */
-    private const PARAM_NAME_REGEX = '/^[A-Za-z0-9_-]*$/';
-
-    /**
      * @var ilPluginAdmin
      */
     private ilPluginAdmin $plugin_service;
@@ -58,57 +46,25 @@ final class ilCtrl implements ilCtrlInterface
     private Refinery $refinery;
 
     /**
-     * Holds the current context information. e.g. obj_id, obj_type etc.
+     * Holds the currently read control structure.
      *
-     * @var ilCtrlContext
+     * @var ilCtrlStructureInterface
      */
-    private ilCtrlContext $context;
+    private ilCtrlStructureInterface $structure;
 
     /**
      * Holds the current link target information.
      *
      * @var ilCtrlTarget
      */
-    private ilCtrlTarget $target;
+    private ilCtrlTargetInterface $target;
 
     /**
-     * Holds the cached CID's mapped to their according structure information.
+     * Holds the current context information. e.g. obj_id, obj_type etc.
      *
-     * @var array<string, string[]>
+     * @var ilCtrlContext
      */
-    private static array $mapped_structure = [];
-
-    /**
-     * Holds the read control structure from the php artifact.
-     *
-     * @var array<string, string[]>
-     */
-    private array $structure;
-
-    /**
-     * Holds the saved parameters of each class.
-     *
-     * @see ilCtrl::saveParameterByClass(), ilCtrl::saveParameter()
-     *
-     * @var array<string, array>
-     */
-    private array $saved_parameters = [];
-
-    /**
-     * Holds the set parameters of each class.
-     *
-     * @see ilCtrl::setParameterByClass(), ilCtrl::setParameter()
-     *
-     * @var array<string, array>
-     */
-    private array $parameters = [];
-
-    /**
-     * Holds the base-script for link targets, usually isn't changed.
-     *
-     * @var string
-     */
-    private string $target_script = 'ilias.php';
+    private ilCtrlContext $context;
 
     /**
      * @TODO: this seems to be used as workaround when getLinkTarget()
@@ -127,15 +83,11 @@ final class ilCtrl implements ilCtrlInterface
 
     /**
      * ilCtrl constructor
-     *
-     * @throws ilCtrlException if the structure cannot be required.
      */
     public function __construct()
     {
         global $DIC;
 
-        $this->target       = new ilCtrlTarget();
-        $this->context      = new ilCtrlContext();
         $this->http_service = $DIC->http();
         $this->get_request  = $DIC->http()->wrapper()->query();
         $this->post_request = $DIC->http()->wrapper()->post();
@@ -152,7 +104,10 @@ final class ilCtrl implements ilCtrlInterface
             $this->plugin_service = $DIC['ilPluginAdmin'];
         }
 
-        $this->initStructureOrAbort();
+        $this->token        = new ilCtrlToken($this->database, $DIC->user());
+        $this->structure    = new ilCtrlStructure($this->get_request, $this->refinery);
+        $this->target       = new ilCtrlTarget($this->token, $this->structure, "");
+        $this->context      = new ilCtrlContext();
     }
 
     /**
@@ -161,10 +116,11 @@ final class ilCtrl implements ilCtrlInterface
     public function callBaseClass() : void
     {
         $base_class = $this->getBaseClass();
-        $class_info = $this->getStructureInfoByName($base_class);
-        $class_name = $this->getClassName($class_info);
+        if (null === $base_class) {
+            throw new ilCtrlException("Cannot determine current baseclass, ilCtrl::initBaseClass() has to be called fisrt.");
+        }
 
-        $this->determineCidTrace($class_name);
+        $class_name = $this->structure->getQualifiedClassName($base_class);
         $this->forwardCommand(new $class_name());
     }
 
@@ -174,13 +130,14 @@ final class ilCtrl implements ilCtrlInterface
     public function initBaseClass(string $a_base_class) : void
     {
         // reset the current target.
-        $this->target = new ilCtrlTarget();
-        $this->target->setBaseClass($a_base_class);
+        $this->target = new ilCtrlTarget(
+            $this->token,
+            $this->structure,
+            $a_base_class
+        );
 
         // reset other currently stored information.
-        $this->saved_parameters = [];
         $this->return_classes = [];
-        $this->parameters = [];
         $this->stacktrace = [];
     }
 
@@ -189,12 +146,12 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function forwardCommand(object $a_gui_object) : mixed
     {
-        $class_name = strtolower(get_class($a_gui_object));
-        $this->determineCidTrace($class_name);
-
         if (!method_exists($a_gui_object, 'executeCommand')) {
             throw new ilCtrlException(get_class($a_gui_object) . " doesn't implement executeCommand().");
         }
+
+        $class_name = $this->getClassNameOfObject($a_gui_object);
+        $this->target->setCmdClass($class_name);
 
         $this->populateCall(
             $class_name,
@@ -210,12 +167,12 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getHTML(object $a_gui_object, array $a_parameters = null) : string
     {
-        $class_name = strtolower(get_class($a_gui_object));
-        $this->determineCidTrace($class_name);
-
         if (!method_exists($a_gui_object, 'getHTML')) {
             throw new ilCtrlException( get_class($a_gui_object) . " doesn't implement getHTML().");
         }
+
+        $class_name = $this->getClassNameOfObject($a_gui_object);
+        $this->target->setCmdClass($class_name);
 
         $this->populateCall(
             $class_name,
@@ -267,9 +224,9 @@ final class ilCtrl implements ilCtrlInterface
                     self::PARAM_CMD_FALLBACK,
                     $this->refinery->to()->string()
                 );
-            } else {
-                $command = $fallback_command;
             }
+
+            $command = $fallback_command;
         }
 
         // if no command was found, check if a custom command has been
@@ -301,7 +258,7 @@ final class ilCtrl implements ilCtrlInterface
             );
         }
 
-        return $this->target->getCmdClass();
+        return $this->target->getCmdClass() ?? '';
     }
 
     /**
@@ -428,15 +385,7 @@ final class ilCtrl implements ilCtrlInterface
             $this->determineCidTrace($class_name);
         }
 
-        // initialize the parameters array with default information,
-        // that every request should contain.
-        $parameters = [
-            self::PARAM_BASE_CLASS  => $this->getBaseClass(),
-            self::PARAM_CMD_TRACE   => $this->target->getCidTrace(),
-            self::PARAM_CMD_CLASS   => $class_name,
-            self::PARAM_CMD         => $a_cmd ?? $this->getCmd(),
-        ];
-
+        $parameters = [];
         foreach ($this->target->getCidPieces() as $cid) {
             $current_info  = $this->getStructureInfoByCid($cid);
             $current_class = $this->getClassName($current_info);
@@ -540,8 +489,43 @@ final class ilCtrl implements ilCtrlInterface
             $has_xml_style = false;
         }
 
-        $target_url = $this->getUrlParameterStringByClass($a_class, $has_xml_style);
-        $target_url = $this->appendRequestTokenParameterString($target_url, $has_xml_style);
+        if (is_array($a_class)) {
+            $this->target->setCidTrace(null);
+            foreach ($a_class as $class_name) {
+                $class_name = strtolower($class_name);
+                $class_info = $this->getStructureInfoByName($class_name);
+                $class_cid  = $this->getClassCid($class_info);
+
+                $this->target->appendCid($class_cid);
+                if (!$this->validateCidTrace($this->target->getCidTrace())) {
+                    throw new ilCtrlException("CID Trace '{$this->target->getCidTrace()}' is not valid. Fix any missing ilCtrl-call statements.");
+                }
+            }
+        } else {
+            $this->determineCidTrace(strtolower($a_class));
+        }
+
+        $target_url = $this->getTargetScript();
+        foreach ($this->target->getCidPieces() as $cid) {
+            $parameters = $this->getParameterArrayByClass(
+                $this->getClassName(
+                    $this->getStructureInfoByCid($cid)
+                )
+            );
+
+            if (!empty($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $this->appendUrlParameterString($target_url, $key, $value, $has_xml_style);
+                }
+            }
+        }
+
+        $this->appendRequestTokenParameterString($target_url, $has_xml_style);
+
+        // append baseclass, cidtrace, cmdclass and cmd.
+        if () {
+
+        }
 
         if ($is_async) {
             $this->appendUrlParameterString(
@@ -954,7 +938,7 @@ final class ilCtrl implements ilCtrlInterface
     {
         $class_name = strtolower($a_class);
 
-        $script = $this->getUrlParameterStringByClass($class_name);
+        $script = $this->getUrlParameterStringByClass($class_name, $a_cmd);
 
         $this->return_classes[$class_name] = $script;
     }
@@ -1099,201 +1083,24 @@ final class ilCtrl implements ilCtrlInterface
     //
 
     /**
-     * Helper function to initialize the structure array.
-     *
-     * @throws ilCtrlException if the artifact path cannot be required.
-     */
-    private function initStructureOrAbort() : void
-    {
-        try {
-            /** @noinspection PhpIncludeInspection */
-            $this->structure = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
-        } catch (Throwable $exception) {
-            throw new ilCtrlException("Could not require structure artifact: " . $exception->getMessage());
-        }
-    }
-
-    /**
      * Returns the classname of the current request's baseclass.
      *
-     * @return string
-     * @throws ilCtrlException if ilCtrl was not initialized correctly.
+     * @return string|null
      */
-    private function getBaseClass() : string
+    private function getBaseClass() : ?string
     {
         if ($this->get_request->has(self::PARAM_BASE_CLASS)) {
-            $base_class = $this->get_request->retrieve(
-                self::PARAM_BASE_CLASS,
-                $this->refinery->to()->string()
+            $base_class = strtolower(
+                $this->get_request->retrieve(
+                    self::PARAM_BASE_CLASS,
+                    $this->refinery->to()->string()
+                )
             );
 
-            return strtolower($base_class);
-        }
-
-        if (null === $this->target->getBaseClass()) {
-            throw new ilCtrlException("ilCtrl was not yet initialized with a baseclass. Call " . self::class . "::initBaseClass() first.");
+            $this->target->setBaseClass($base_class);
         }
 
         return $this->target->getBaseClass();
-    }
-
-    /**
-     * Returns a CID trace for a given target class (name).
-     *
-     * A CID trace is returned, if a relation between the previously called
-     * classes and the provided one are found.
-     *
-     * @param string $target_class
-     * @return string|null
-     * @throws ilCtrlException if the trace cannot be found.
-     */
-    private function determineCidTrace(string $target_class) : ?string
-    {
-        // retrieve information of target class.
-        $target_class = strtolower($target_class);
-        $target_info  = $this->getStructureInfoByName($target_class);
-        $target_cid   = $this->getClassCid($target_info);
-
-        // the target is used as trace, if either
-        //      (a) there's no trace yet, or
-        //      (b) the target is already the current cid of trace
-        if (null === $this->target->getCidTrace() || $target_cid === $this->target->getCurrentCid()) {
-            // set the target cid as current trace if option (a) was true.
-            $this->target->setCidTrace($target_cid);
-            return $target_cid;
-        }
-
-        foreach ($this->target->getCidPieces(SORT_DESC) as $index => $cid) {
-            // retrieve info from current iteration's class.
-            $current_info  = $this->getStructureInfoByCid($cid);
-            $current_class = strtolower($this->getClassName($current_info));
-
-            // now we check if the target class is a direct child of the
-            // previous class. This relation is true, if either
-            //      (a) the previous class contains the target class within
-            //          it's called classes, or
-            //      (b) the previous class is contained in the target classes
-            //          called-by classes.
-            if (in_array($target_class, $this->getCalledClasses($current_info), true) ||
-                in_array($current_class, $this->getCalledByClasses($target_info), true)
-            ) {
-                // all cid paths in descending order are retrieved, so the
-                // current iterations trace can be used to append the target
-                // cid, which is then returned.
-                $target_paths = $this->target->getCidPaths(SORT_DESC);
-                $this->target
-                    ->setCidTrace($target_paths[$index])
-                    ->appendCid($target_cid)
-                ;
-
-                return $this->target->getCidTrace();
-            }
-        }
-
-        throw new ilCtrlException("Cannot find trace to target class '$target_class'.");
-    }
-
-    /**
-     * Returns the stored structure information for the given classname.
-     *
-     * @param string $class_name
-     * @return array<string, string>
-     * @throws ilCtrlException if the information cannot be found.
-     */
-    private function getStructureInfoByName(string $class_name) : array
-    {
-        // lowercase the $class_name in case the developer forgot.
-        $class_name = strtolower($class_name);
-
-        if (!isset($this->structure[$class_name])) {
-            throw new ilCtrlException("ilCtrl cannot find class information of '$class_name' in artifact. Try `composer du` to re-read the structure.");
-        }
-
-        return $this->structure[$class_name];
-    }
-
-    /**
-     * Returns the information stored in the artifact for the given CID.
-     *
-     * @param string $cid
-     * @return array<string, string>
-     * @throws ilCtrlException if the information cannot be found.
-     */
-    private function getStructureInfoByCid(string $cid) : array
-    {
-        // check the already mapped for an existing entry.
-        if (isset(self::$mapped_structure[$cid])) {
-            return self::$mapped_structure[$cid];
-        }
-
-        // search for the cid within the structure.
-        foreach ($this->structure as $class_info) {
-            foreach ($class_info as $key => $value) {
-                if (ilCtrlStructureReader::KEY_CID === $key && $cid === $value) {
-                    // store a mapped structure entry for the result.
-                    self::$mapped_structure[$cid] = $class_info;
-
-                    return $class_info;
-                }
-            }
-        }
-
-        throw new ilCtrlException("ilCtrl cannot find class information of '$cid' in artifact. Try `composer du` to re-read the structure.");
-    }
-
-    /**
-     * Helper function to fetch CID of passed class information.
-     *
-     * @param array $class_info
-     * @return string
-     */
-    private function getClassCid(array $class_info) : string
-    {
-        return $class_info[ilCtrlStructureReader::KEY_CID];
-    }
-
-    /**
-     * Helper function to fetch classname of passed class information.
-     *
-     * @param array $class_info
-     * @return string
-     */
-    private function getClassName(array $class_info) : string
-    {
-        return $class_info[ilCtrlStructureReader::KEY_CLASS_NAME];
-    }
-
-    /**
-     * Helper function to fetch class path of passed class information.
-     *
-     * @param array $class_info
-     * @return string
-     */
-    private function getClassPath(array $class_info) : string
-    {
-        return $class_info[ilCtrlStructureReader::KEY_CLASS_PATH];
-    }
-
-    /**
-     * Helper function to fetch called classes of passed class information.
-     *
-     * @param array $class_info
-     * @return array
-     */
-    private function getCalledClasses(array $class_info) : array
-    {
-        return $class_info[ilCtrlStructureReader::KEY_CALLS] ?? [];
-    }
-
-    /**
-     * Helper function to fetch called-by classes of passed class information.
-     *
-     * @param array $class_info
-     * @return array
-     */
-    private function getCalledByClasses(array $class_info) : array
-    {
-        return $class_info[ilCtrlStructureReader::KEY_CALLED_BY] ?? [];
     }
 
     /**
@@ -1404,21 +1211,22 @@ final class ilCtrl implements ilCtrlInterface
      * Returns all saved or set parameters as a query string.
      *
      * @param array|string $a_class
+     * @param string|null  $cmd
      * @param bool         $xml_style
      * @return string
      * @throws ilCtrlException if a provided class was not found.
      */
-    private function getUrlParameterStringByClass(array|string $a_class, bool $xml_style = false) : string
+    private function getUrlParameterStringByClass(array|string $a_class, string $cmd = null, bool $xml_style = false) : string
     {
         $query_string = $this->getTargetScript();
 
         if (is_array($a_class)) {
             $parameters = [];
             foreach ($a_class as $class_name) {
-                array_merge_recursive($parameters, $this->getParameterArrayByClass($class_name));
+                array_merge_recursive($parameters, $this->getParameterArrayByClass($class_name, $cmd));
             }
         } else {
-            $parameters = $this->getParameterArrayByClass($a_class);
+            $parameters = $this->getParameterArrayByClass($a_class, $cmd);
         }
 
         foreach ($parameters as $key => $value) {
@@ -1453,5 +1261,16 @@ final class ilCtrl implements ilCtrlInterface
             $url . $amp . $parameter_name . "=" . $parameter_value :
             $url . "?" . $parameter_name . "=" . $parameter_value
         ;
+    }
+
+    /**
+     * Returns the lower-cased class name of the given object.
+     *
+     * @param object $a_object
+     * @return string
+     */
+    private function getClassNameOfObject(object $a_object) : string
+    {
+        return strtolower(get_class($a_object));
     }
 }

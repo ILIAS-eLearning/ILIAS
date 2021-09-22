@@ -16,15 +16,6 @@ require_once "./libs/composer/vendor/autoload.php";
 final class ilCtrlStructureReader
 {
     /**
-     * array key constants that are used for certain information.
-     */
-    public const KEY_CLASS_PATH = 'absolute_path';
-    public const KEY_CLASS_NAME = 'class_name';
-    public const KEY_CALLED_BY  = 'called_by';
-    public const KEY_CALLS      = 'calls';
-    public const KEY_CID        = 'cid';
-
-    /**
      * regex patterns used to read the call structure.
      * they're also known as horcruxes or dark magic, don't touch them!
      */
@@ -86,11 +77,11 @@ final class ilCtrlStructureReader
                                 }
                             }
                             $classes[strtolower($class)] = [
-                                self::KEY_CID => $this->generateCid($x),
-                                self::KEY_CALLS => $calls,
-                                self::KEY_CALLED_BY => $called,
-                                self::KEY_CLASS_NAME => $class,
-                                self::KEY_CLASS_PATH => $this->getRelativeClassPath($class_path),
+                                ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
+                                ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $calls,
+                                ilCtrlStructureInterface::KEY_CALLING_CLASSES => $called,
+                                ilCtrlStructureInterface::KEY_CLASS_NAME      => $class,
+                                ilCtrlStructureInterface::KEY_CLASS_PATH      => $this->getRelativeClassPath($class_path),
                             ];
 
                             $x++;
@@ -108,13 +99,13 @@ final class ilCtrlStructureReader
             foreach ($called_bys as $called_by) {
                 if (!isset($classes[$class])) {
                     $classes[strtolower($class)] = [
-                        self::KEY_CID => $this->generateCid($x),
-                        self::KEY_CALLED_BY => [],
-                        self::KEY_CLASS_NAME => $class
+                        ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
+                        ilCtrlStructureInterface::KEY_CALLING_CLASSES => [],
+                        ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $class
                     ];
                 }
 
-                $classes[strtolower($class)][self::KEY_CALLED_BY][] = strtolower($called_by);
+                $classes[strtolower($class)][ilCtrlStructureInterface::KEY_CALLING_CLASSES][] = strtolower($called_by);
             }
         }
 
