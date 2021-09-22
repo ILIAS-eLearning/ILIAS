@@ -244,6 +244,7 @@ auth#:#auth_oidc_role_mapping_table#:#Assignment of ILIAS Roles to OpenID Connec
 auth#:#auth_oidc_update_role_info#:#Use only when logging in for the first time (automatic synchronization)
 content#:#cont_lpe_openid_connect_login#:#OpenID Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
