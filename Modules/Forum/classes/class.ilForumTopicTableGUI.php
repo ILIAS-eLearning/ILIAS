@@ -371,7 +371,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return $this;
     }
 
-    public function getOverviewSetting() : string
+    public function getOverviewSetting() : int
     {
         return $this->overview_setting;
     }

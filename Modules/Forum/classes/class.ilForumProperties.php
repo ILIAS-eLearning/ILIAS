@@ -34,7 +34,7 @@ class ilForumProperties
      * Global notification-type setting (CRS/GRP)
      * possible values: 'all_users', 'per_user', null (default)
      */
-    private $notification_type = null;
+    private string $notification_type = 'default';
 
     /**
      * Activation of (CRS/GRP) forum notification by mod/admin
@@ -173,11 +173,12 @@ class ilForumProperties
         }
     }
 
-    public function update()
+    public function update() : void
     {
         if ($this->obj_id) {
             if (!$this->exists) {
-                return $this->insert();
+                $this->insert();
+                return;
             }
 
             $this->db->update(
@@ -399,7 +400,7 @@ class ilForumProperties
         }
     }
 
-    public function getNotificationType()
+    public function getNotificationType() : string
     {
         return $this->notification_type;
     }

@@ -27,8 +27,6 @@ class ilForum
 
     private string $className = "ilForum";
 
-    private string $orderField;
-
     private string $mdb2Query = '';
     private array $mdb2DataValue = [];
     private array $mdb2DataType = [];
@@ -91,23 +89,6 @@ class ilForum
     public function getForumRefId() : int
     {
         return $this->ref_id;
-    }
-
-    /**
-     * set database field for sorting results
-     */
-    private function setOrderField(string $orderField)
-    {
-        if ($orderField == "") {
-            die($this->className . "::setOrderField(): No orderField given.");
-        } else {
-            $this->orderField = $orderField;
-        }
-    }
-
-    public function getOrderField() : string
-    {
-        return $this->orderField;
     }
 
     public function setDbTable(string $dbTable)
@@ -1458,10 +1439,11 @@ class ilForum
             array('0', $tree_id)
         );
 
-        if($row = $this->db->fetchObject($res)) {
+        if ($row = $this->db->fetchObject($res)) {
             return $this->fetchPostNodeData($row);
+        } else {
+            return [];
         }
-        else return [];
     }
 
     /**
@@ -1480,10 +1462,11 @@ class ilForum
             array($post_id)
         );
 
-        if($row = $this->db->fetchObject($res)) {
+        if ($row = $this->db->fetchObject($res)) {
             return $this->fetchPostNodeData($row);
+        } else {
+            return [];
         }
-        else return [];
     }
 
     /**
@@ -1537,7 +1520,7 @@ class ilForum
     /**
      * delete node and the whole subtree under this node
      * @param array    node_data of a node
-     * @return    array    ID's of deleted posts
+     * @return array    ID's of deleted posts
      */
     public function deletePostTree($a_node) : array
     {

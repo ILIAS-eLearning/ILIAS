@@ -646,7 +646,7 @@ class ilObjForum extends ilObject
         }
     }
 
-    public function initDefaultRoles() : array
+    public function initDefaultRoles() : ilObjRole|array
     {
         $role = ilObjRole::createDefaultRole(
             'il_frm_moderator_' . $this->getRefId(),
