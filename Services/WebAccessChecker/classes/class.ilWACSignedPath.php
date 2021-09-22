@@ -1,7 +1,6 @@
 <?php
 // declare(strict_types=1);
 
-use ILIAS\HTTP\Cookies\Cookie;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\GlobalHttpState;
@@ -115,31 +114,30 @@ class ilWACSignedPath
      */
     public function isFolderSigned()
     {
-        $cookieJar = $this->httpService->cookieJar();
+        $jar = $this->httpService->cookieJar();
+        $cookies = $jar->getAll();
 
         $this->setType(PathType::FOLDER);
-        $plain_token = $this->buildTokenInstance();
+        $timestamp = time();
+        $plain_token = $this->buildTokenInstance($timestamp, self::getCookieMaxLifetimeInSeconds());
         $name = $plain_token->getHashedId();
 
-        $tokenCookie = $cookieJar->get($name);
-        $timestampCookie = $cookieJar->get($name . self::TS_SUFFIX);
-        $ttlCookie = $cookieJar->get($name . self::TTL_SUFFIX);
+        // Token
+        $default_token = '';
+        $token_cookie_value = $this->httpService->request()->getCookieParams()[$name] ?? $default_token;
+        // Timestamp
+        $default_timestamp = 0;
+        $timestamp_cookie_value = $this->httpService->request()->getCookieParams()[$name . self::TS_SUFFIX] ?? $default_timestamp;
+        $timestamp_cookie_value = intval($timestamp_cookie_value);
+        // TTL
+        $default_ttl = 0;
+        $ttl_cookie_value = $this->httpService->request()->getCookieParams()[$name . self::TTL_SUFFIX] ?? $default_ttl;
+        $ttl_cookie_value = intval($ttl_cookie_value);
 
-        $defaultToken = '';
-        $tokenCookieValue = is_null($tokenCookie) ? $defaultToken : (is_a($tokenCookie->getValue(), Cookie::class) ? $tokenCookie->getValue() : $defaultToken);
-
-        $defaultTimestamp = 0;
-        $timestampCookieValue = is_null($timestampCookie) ? $defaultTimestamp : (is_a($timestampCookie->getValue(), Cookie::class) ? $timestampCookie->getValue() : $defaultTimestamp);
-        $timestampCookieValue = intval($timestampCookieValue);
-
-        $defaultTtl = 0;
-        $ttlCookieValue = is_null($ttlCookie) ? $defaultTtl : (is_a($ttlCookie->getValue(), Cookie::class) ? $ttlCookie->getValue() : $defaultTtl);
-        $ttlCookieValue = intval($ttlCookieValue);
-
-        $this->getPathObject()->setToken($tokenCookieValue);
-        $this->getPathObject()->setTimestamp($timestampCookieValue);
-        $this->getPathObject()->setTTL($ttlCookieValue);
-        $this->buildAndSetTokenInstance();
+        $this->getPathObject()->setToken($token_cookie_value);
+        $this->getPathObject()->setTimestamp($timestamp_cookie_value);
+        $this->getPathObject()->setTTL($ttl_cookie_value);
+        $this->buildAndSetTokenInstance($timestamp, self::getCookieMaxLifetimeInSeconds());
 
         return $this->getPathObject()->hasToken();
     }
@@ -165,22 +163,43 @@ class ilWACSignedPath
     protected function saveFolderToken()
     {
         $cookie_lifetime = self::getCookieMaxLifetimeInSeconds();
-        //$str = 'save folder token for folder: ' . $this->getPathObject()->getDirName() . ', valid for ' . $cookie_lifetime . 's';
         $id = $this->getTokenInstance()->getHashedId();
-        $expire = time() + $cookie_lifetime;
+        $expire = time() + $cookie_lifetime + 3600;
+        $secure = true;
+        $domain = null;
+        $http_only = true;
+        $path = '/';
 
-        $tokenCookie = $this->cookieFactory->create($id, $this->getTokenInstance()->getToken())->withExpires(time()
-                                                                                                             + 24
-                                                                                                               * 3600)->withPath('/')->withSecure(false)->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $tokenCookie = $this->cookieFactory->create($id, $this->getTokenInstance()->getToken())
+                                           ->withExpires($expire)
+                                           ->withPath($path)
+                                           ->withSecure($secure)
+                                           ->withDomain($domain)
+                                           ->withHttpOnly($http_only);
 
-        $timestampCookie = $this->cookieFactory->create($id
-                                                        . self::TS_SUFFIX, time())->withExpires($expire)->withPath('/')->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $timestampCookie = $this->cookieFactory->create($id . self::TS_SUFFIX, time())
+                                               ->withExpires($expire)
+                                               ->withPath($path)
+                                               ->withDomain($domain)
+                                               ->withSecure($secure)
+                                               ->withHttpOnly($http_only);
 
-        $ttlCookie = $this->cookieFactory->create($id
-                                                  . self::TTL_SUFFIX, self::getCookieMaxLifetimeInSeconds())->withExpires($expire)->withPath('/')->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $ttlCookie = $this->cookieFactory->create($id . self::TTL_SUFFIX, $cookie_lifetime)
+                                         ->withExpires($expire)
+                                         ->withPath($path)
+                                         ->withDomain($domain)
+                                         ->withSecure($secure)
+                                         ->withHttpOnly($http_only);
 
-        $cookieJar = $this->httpService->cookieJar();
-        $response = $cookieJar->with($tokenCookie)->with($timestampCookie)->with($ttlCookie)->renderIntoResponseHeader($this->httpService->response());
+        $response = $this->httpService->cookieJar()->with($tokenCookie)
+                        ->with($timestampCookie)
+                        ->with($ttlCookie)
+                        ->renderIntoResponseHeader($this->httpService->response());
+
+        // FIX: currently the cookies are never stored
+        foreach ($this->httpService->cookieJar()->getAll() as $cookie) {
+           setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpires(), $cookie->getPath(), $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttpOnly());
+        }
 
         $this->httpService->saveResponse($response);
     }
