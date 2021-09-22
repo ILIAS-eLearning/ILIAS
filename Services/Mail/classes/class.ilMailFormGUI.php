@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -26,8 +26,8 @@ class ilMailFormGUI
     private int $requestMailObjId = 0;
     private ?array $requestAttachments = null;
     private string $requestMailSubject = "";
-    protected ?ilMailTemplateService $templateService;
-    private ?ilMailBodyPurifier $purifier;
+    protected ilMailTemplateService $templateService;
+    private ilMailBodyPurifier $purifier;
 
     /**
      * ilMailFormGUI constructor.
@@ -770,7 +770,6 @@ class ilMailFormGUI
 
         $result = [];
 
-        require_once 'Services/Utilities/classes/class.ilStr.php';
         if (ilStr::strLen($search) < 3) {
             echo json_encode($result);
             exit;

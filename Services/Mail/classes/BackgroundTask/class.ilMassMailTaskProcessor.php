@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -11,11 +11,11 @@ use ILIAS\DI\Container;
  */
 class ilMassMailTaskProcessor
 {
-    private ?TaskManager $taskManager;
-    private ?TaskFactory $taskFactory;
-    private ?ilLanguage $language;
-    private ?ilLogger $logger;
-    private ?ilMailValueObjectJsonService $objectJsonService;
+    private TaskManager $taskManager;
+    private TaskFactory $taskFactory;
+    private ilLanguage $language;
+    private ilLogger $logger;
+    private ilMailValueObjectJsonService $objectJsonService;
     private string $anonymousUserId;
 
     /**

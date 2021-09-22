@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 use OrgUnit\User\ilOrgUnitUser;
@@ -13,10 +13,10 @@ use OrgUnit\User\ilOrgUnitUser;
 abstract class ilMailTemplateContext
 {
     protected ?ilLanguage $language = null;
-    protected ?ilMailEnvironmentHelper $envHelper;
-    protected ?ilMailLanguageHelper $languageHelper;
-    protected ?ilMailUserHelper $userHelper;
-    protected ?OrgUnitUserService $orgUnitUserService;
+    protected ilMailEnvironmentHelper $envHelper;
+    protected ilMailLanguageHelper $languageHelper;
+    protected ilMailUserHelper $userHelper;
+    protected OrgUnitUserService $orgUnitUserService;
 
     /**
      * ilMailTemplateContext constructor.

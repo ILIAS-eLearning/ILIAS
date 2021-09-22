@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -9,7 +9,6 @@
 * @version $Id$Id: class.ilFileDataImportMail.php,v 1.1 2004/03/31 13:42:19 smeyer Exp $
 *
 */
-require_once("./Services/FileSystem/classes/class.ilFileDataImport.php");
                 
 class ilFileDataImportMail extends ilFileDataImport
 {

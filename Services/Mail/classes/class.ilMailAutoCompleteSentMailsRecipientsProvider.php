@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Mail/classes/class.ilMailAutoCompleteRecipientProvider.php';
-require_once 'Services/Utilities/classes/class.ilStr.php';
 
 /**
  * Class ilMailAutoCompleteSentMailsRecipientsProvider

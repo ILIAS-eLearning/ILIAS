@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -270,7 +270,6 @@ class ilAccountMail
         $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
 
         // send the mail
-        include_once 'Services/Mail/classes/class.ilMimeMail.php';
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());
         $mmail->Subject($mail_subject, true);
@@ -371,7 +370,6 @@ class ilAccountMail
                         
                     // this looks complicated, but we may have no initilised $lng object here
                     // if mail is send during user creation in authentication
-                    include_once("./Services/Language/classes/class.ilLanguage.php");
                     $a_string = str_replace(
                         "[TARGET_TYPE]",
                         ilLanguage::_lookupEntry($a_lang, "common", "obj_" . $tarr[0]),

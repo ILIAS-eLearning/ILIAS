@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -11,14 +11,14 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailOptionsGUI
 {
-    private ?ilGlobalTemplateInterface $tpl;
-    private ?ilCtrl $ctrl;
-    private ?ilLanguage $lng;
-    private ?ilSetting $settings;
-    private ?ilObjUser $user;
-    private ?ilFormatMail $umail;
-    private ?ilMailbox $mbox;
-    protected ?ServerRequestInterface $request;
+    private ilGlobalTemplateInterface $tpl;
+    private ilCtrl $ctrl;
+    private ilLanguage $lng;
+    private ilSetting $settings;
+    private ilObjUser $user;
+    private ilFormatMail $umail;
+    private ilMailbox $mbox;
+    protected ServerRequestInterface $request;
     protected ilMailOptionsFormGUI $form;
 
     /**
@@ -36,45 +36,45 @@ class ilMailOptionsGUI
     ) {
         global $DIC;
 
+        if (null === $tpl) {
+            $tpl = $DIC->ui()->mainTemplate();
+        }
         $this->tpl = $tpl;
-        if (null === $this->tpl) {
-            $this->tpl = $DIC->ui()->mainTemplate();
-        }
 
+        if (null === $ctrl) {
+            $ctrl = $DIC->ctrl();
+        }
         $this->ctrl = $ctrl;
-        if (null === $this->ctrl) {
-            $this->ctrl = $DIC->ctrl();
-        }
 
+        if (null === $setting) {
+            $setting = $DIC->settings();
+        }
         $this->settings = $setting;
-        if (null === $this->settings) {
-            $this->settings = $DIC->settings();
-        }
 
+        if (null === $lng) {
+            $lng = $DIC->language();
+        }
         $this->lng = $lng;
-        if (null === $this->lng) {
-            $this->lng = $DIC->language();
-        }
 
+        if (null === $user) {
+            $user = $DIC->user();
+        }
         $this->user = $user;
-        if (null === $this->user) {
-            $this->user = $DIC->user();
-        }
 
+        if (null === $request) {
+            $request = $DIC->http()->request();
+        }
         $this->request = $request;
-        if (null === $this->request) {
-            $this->request = $DIC->http()->request();
-        }
 
+        if (null === $mail) {
+            $mail = new ilFormatMail($this->user->getId());
+        }
         $this->umail = $mail;
-        if (null === $this->umail) {
-            $this->umail = new ilFormatMail($this->user->getId());
-        }
 
-        $this->mbox = $malBox;
-        if (null === $this->mbox) {
-            $this->mbox = new ilMailbox($this->user->getId());
+        if (null === $malBox) {
+            $malBox = new ilMailbox($this->user->getId());
         }
+        $this->mbox = $malBox;
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');

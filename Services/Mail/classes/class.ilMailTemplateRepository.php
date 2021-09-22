@@ -1,17 +1,13 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailTemplateRepository
  */
 class ilMailTemplateRepository
 {
-    protected ?ilDBInterface $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilMailTemplateRepository constructor.
-     * @param ilDBInterface|null $db
-     */
     public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;

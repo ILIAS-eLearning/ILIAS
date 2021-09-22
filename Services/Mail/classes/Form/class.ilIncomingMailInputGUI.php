@@ -1,9 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Mail/classes/class.ilMailOptions.php';
-require_once 'Services/Form/classes/class.ilRadioGroupInputGUI.php';
-require_once 'Services/Form/classes/class.ilRadioOption.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilIncomingMailInputGUI

@@ -1,11 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Mail/classes/class.ilMailNotification.php';
-include_once './Services/Mail/classes/class.ilMailOptions.php';
-
-include_once 'Services/Mail/classes/class.ilMimeMail.php';
-include_once 'Services/Mail/classes/class.ilMail.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilRoleMailboxSearch
@@ -9,8 +9,8 @@
  */
 class ilRoleMailboxSearch
 {
-    protected ?ilMailRfc822AddressParserFactory $parserFactory;
-    protected ?ilDBInterface $db;
+    protected ilMailRfc822AddressParserFactory $parserFactory;
+    protected ilDBInterface $db;
 
     /**
      * ilRoleMailboxSearch constructor.

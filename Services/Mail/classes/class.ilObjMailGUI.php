@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -208,8 +208,7 @@ class ilObjMailGUI extends ilObjectGUI
         $cb->setValue(1);
         $cb->setDisabled(!$this->isEditingAllowed());
         $form->addItem($cb);
-        
-        include_once 'Services/Mail/classes/Form/class.ilIncomingMailInputGUI.php';
+
         $incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type');
         $incoming_mail_gui->setDisabled(!$this->isEditingAllowed());
         $this->ctrl->setParameterByClass(ilObjUserFolderGUI::class, 'ref_id', USER_FOLDER_ID);

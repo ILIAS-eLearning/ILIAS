@@ -1,10 +1,7 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
-
-include_once 'Services/Block/classes/class.ilBlockGUI.php';
-include_once 'Services/Mail/classes/class.ilMailUserCache.php';
 
 /**
  * BlockGUI class for Personal Desktop Mail block
@@ -53,10 +50,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setting = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->httpRequest = $DIC->http()->request();
-
-        include_once 'Services/User/classes/class.ilObjUser.php';
-        include_once 'Services/Mail/classes/class.ilMailbox.php';
-        include_once 'Services/Mail/classes/class.ilMail.php';
 
         parent::__construct();
 
@@ -122,7 +115,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
      */
     protected function getMails() : void
     {
-        require_once 'Services/Mail/classes/class.ilObjMail.php';
 
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
@@ -199,7 +191,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
      */
     protected function showMail() : string
     {
-        include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
         $mail_gui = new ilPDMailGUI();
 
         $content_block = new ilDashboardContentBlockGUI();

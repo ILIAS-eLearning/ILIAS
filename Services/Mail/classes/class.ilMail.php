@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 
@@ -12,11 +12,11 @@ class ilMail
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
 
-    protected ?ilLanguage $lng;
-    protected ?ilDBInterface $db;
-    protected ?ilFileDataMail $mfile;
-    protected ?ilMailOptions $mail_options;
-    protected ?ilMailbox $mailbox;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+    protected ilFileDataMail $mfile;
+    protected ilMailOptions $mail_options;
+    protected ilMailbox $mailbox;
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
@@ -27,12 +27,12 @@ class ilMail
     protected ?int $mail_obj_ref_id;
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
-    private ?ilAppEventHandler $eventHandler;
-    private ?ilMailAddressTypeFactory $mailAddressTypeFactory;
-    private ?ilMailRfc822AddressParserFactory $mailAddressParserFactory;
+    private ilAppEventHandler $eventHandler;
+    private ilMailAddressTypeFactory $mailAddressTypeFactory;
+    private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
     protected $contextId;
     protected array $contextParameters = [];
-    protected ?ilLogger $logger;
+    protected ilLogger $logger;
     /**
      * @var ilMailOptions[]
      */
@@ -43,7 +43,7 @@ class ilMail
     protected array $userInstancesByIdMap = [];
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
-    protected ?ilMailMimeSenderFactory $senderFactory;
+    protected ilMailMimeSenderFactory $senderFactory;
 
     
     public function __construct(

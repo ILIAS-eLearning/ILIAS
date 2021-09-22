@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilMailCronOrphanedMailsDeletionProcessor
@@ -124,7 +122,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
             $this->deleteAttachments();
 
             $this->deleteMails();
-            require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 'Deleted mail_ids: %s',
                 implode(', ', $this->collector->getMailIdsToDelete())

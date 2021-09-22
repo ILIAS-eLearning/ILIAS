@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjMailAccess
@@ -23,7 +21,6 @@ class ilObjMailAccess extends ilObjectAccess
      */
     public function _lookupDiskUsageOfUser(int $user_id) : array
     {
-        require_once "./Services/Mail/classes/class.ilFileDataMail.php";
         return ilFileDataMail::_lookupDiskUsageOfUser($user_id);
     }
 
@@ -32,7 +29,6 @@ class ilObjMailAccess extends ilObjectAccess
      */
     public static function _checkGoto($a_target) : bool
     {
-        require_once 'Services/Mail/classes/class.ilMail.php';
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
         if ($GLOBALS['DIC']['rbacsystem']->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             return true;

@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilRoleMailboxAddress
@@ -11,9 +11,9 @@ class ilRoleMailboxAddress
 {
     protected int $roleId;
     protected bool $localize = true;
-    protected ?ilMailRfc822AddressParserFactory $parserFactory;
-    protected ?ilDBInterface $db;
-    protected ?ilLanguage $lng;
+    protected ilMailRfc822AddressParserFactory $parserFactory;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
     /**
      * ilRoleMailboxAddress constructor.

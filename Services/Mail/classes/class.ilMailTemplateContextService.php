@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailTemplateContextService
@@ -68,7 +68,6 @@ class ilMailTemplateContextService
         $contexts = self::getTemplateContexts($a_id);
         $first_context = current($contexts);
         if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
-            require_once 'Services/Mail/exceptions/class.ilMailException.php';
             throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
         }
         return $first_context;
@@ -125,19 +124,17 @@ class ilMailTemplateContextService
         }
         $class_file = $a_path . 'class.' . $a_class . '.php';
 
-        if (is_file($class_file)) {
-            require_once $class_file;
-            if (class_exists($a_class)) {
-                if ($isCreationContext) {
-                    $reflClass = new ReflectionClass($a_class);
-                    $context = $reflClass->newInstanceWithoutConstructor();
-                } else {
-                    $context = new $a_class();
-                }
 
-                if (($context instanceof ilMailTemplateContext) && $context->getId() === $a_id) {
-                    return $context;
-                }
+        if (file_exists($class_file) && class_exists($a_class)) {
+            if ($isCreationContext) {
+                $reflClass = new ReflectionClass($a_class);
+                $context = $reflClass->newInstanceWithoutConstructor();
+            } else {
+                $context = new $a_class();
+            }
+
+            if (($context instanceof ilMailTemplateContext) && $context->getId() === $a_id) {
+                return $context;
             }
         }
         return null;

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\Services;
 use ILIAS\UI\Factory;
@@ -15,17 +15,17 @@ use ILIAS\UI\Renderer;
 class ilMailTemplateGUI
 {
     protected ilPropertyFormGUI $form;
-    protected ?ilGlobalTemplateInterface $tpl;
-    protected ?ilCtrl $ctrl;
-    protected ?ilLanguage $lng;
-    protected ?ilToolbarGUI $toolbar;
-    protected ?ilRbacSystem $rbacsystem;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilRbacSystem $rbacsystem;
     protected ilObject $parentObject;
-    protected ?ilErrorHandling $error;
-    protected ?ilMailTemplateService $service;
-    protected ?Services $http;
-    protected ?Factory $uiFactory;
-    protected ?Renderer $uiRenderer;
+    protected ilErrorHandling $error;
+    protected ilMailTemplateService $service;
+    protected Services $http;
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
 
     /**
      * ilMailTemplateGUI constructor.

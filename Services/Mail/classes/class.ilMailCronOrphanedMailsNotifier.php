@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ilMailCronOrphanedMailNotifier
@@ -58,7 +58,6 @@ class ilMailCronOrphanedMailsNotifier
     
     private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
-        include_once './Services/Mail/classes/class.ilMailCronOrphanedMailsNotification.php';
         $mail = new ilMailCronOrphanedMailsNotification();
 
         $mail->setRecipients([$collection_obj->getUserId()]);

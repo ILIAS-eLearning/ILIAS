@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -33,7 +33,6 @@ class ilMailLuceneSearcher
         }
 
         try {
-            include_once 'Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
             $xml = ilRpcClientFactory::factory('RPCSearchHandler')->searchMail(
                 CLIENT_ID . '_' . $this->settings->get('inst_id', 0),
                 $user_id,
@@ -41,12 +40,10 @@ class ilMailLuceneSearcher
                 $mail_folder_id
             );
         } catch (Exception $e) {
-            require_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
             ilLoggerFactory::getLogger('mail')->critical($e->getMessage());
             throw $e;
         }
 
-        include_once 'Services/Mail/classes/class.ilMailSearchLuceneResultParser.php';
         $parser = new ilMailSearchLuceneResultParser($this->result, $xml);
         $parser->parse();
     }

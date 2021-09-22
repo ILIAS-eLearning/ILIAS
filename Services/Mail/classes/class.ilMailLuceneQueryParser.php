@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>

@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
 *
 * @author Michael Jansen <mjansen@databay.de>

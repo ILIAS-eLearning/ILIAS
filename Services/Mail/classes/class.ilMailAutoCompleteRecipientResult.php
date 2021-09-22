@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 /**
  * Class ilMailAutoCompleteRecipientResult

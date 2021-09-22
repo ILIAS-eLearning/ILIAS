@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailOptions
@@ -29,7 +29,7 @@ class ilMailOptions
     protected bool $isCronJobNotificationEnabled = false;
     protected int $incomingType = self::INCOMING_LOCAL;
     protected int $emailAddressMode = self::FIRST_EMAIL;
-    private ?ilMailTransportSettings $mailTransportSettings;
+    private ilMailTransportSettings $mailTransportSettings;
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 

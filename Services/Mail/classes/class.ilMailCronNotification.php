@@ -1,10 +1,8 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
-
-include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
  * Mail notifications
@@ -77,7 +75,6 @@ class ilMailCronNotification extends ilCronJob
 
     public function run() : ilCronJobResult
     {
-        require_once 'Services/Mail/classes/class.ilMailSummaryNotification.php';
         $msn = new ilMailSummaryNotification();
         $msn->send();
 

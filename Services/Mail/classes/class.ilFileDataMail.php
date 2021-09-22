@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -12,8 +12,6 @@
 
 use ILIAS\Filesystem\Filesystem;
 
-require_once("./Services/FileSystem/classes/class.ilFileData.php");
-require_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
 /**
  * Class ilFileDataMail
@@ -368,7 +366,6 @@ class ilFileDataMail extends ilFileData
     {
         static $fsstorage_cache = [];
 
-        include_once 'Services/Mail/classes/class.ilFSStorageMail.php';
         $fsstorage_cache[$a_mail_id][$a_usr_id] = new ilFSStorageMail($a_mail_id, $a_usr_id);
         
         return $fsstorage_cache[$a_mail_id][$a_usr_id];

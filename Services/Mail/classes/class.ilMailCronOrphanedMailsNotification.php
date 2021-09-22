@@ -1,8 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Mail/classes/class.ilMimeMailNotification.php';
-include_once './Services/Mail/classes/class.ilMimeMail.php';
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailCronOrphanedMailsNotification

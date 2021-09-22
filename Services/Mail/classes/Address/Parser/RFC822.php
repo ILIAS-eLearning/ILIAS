@@ -6,7 +6,7 @@
  *
  * LICENSE:
  *
- * Copyright (c) 2001-2017, Chuck Hagenbuch & Richard Heyes
+ * Copyright (c) 2001-2021, Chuck Hagenbuch & Richard Heyes
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@
  * @package     Mail
  * @author      Richard Heyes <richard@phpguru.org>
  * @author      Chuck Hagenbuch <chuck@horde.org
- * @copyright   2001-2017 Richard Heyes
+ * @copyright   2001-2021 Richard Heyes
  * @license     http://opensource.org/licenses/BSD-3-Clause New BSD License
  * @version     CVS: $Id$
  * @link        http://pear.php.net/package/Mail/

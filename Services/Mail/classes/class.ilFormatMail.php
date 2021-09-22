@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class UserMail
@@ -10,7 +10,6 @@
 * @version $Id$
 *
 */
-include_once "Services/Mail/classes/class.ilMail.php";
 
 class ilFormatMail extends ilMail
 {
@@ -97,8 +96,6 @@ class ilFormatMail extends ilMail
         if (empty($this->mail_data)) {
             return false;
         }
-
-        require_once './Services/User/classes/class.ilObjUser.php';
 
         $user = new ilObjUser($this->mail_data["sender_id"]);
         return $this->mail_data["rcp_to"] = $user->getLogin();
