@@ -3,7 +3,6 @@
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
@@ -36,6 +35,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     {
         // TODO: Migrate this to refinery-methods once possible.
         return $this->refinery->custom()->transformation(function ($data) {
+            $data["password"] = $data["password"] ?? null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
                 $data["type"] ?? "innodb",
