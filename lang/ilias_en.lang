@@ -112,6 +112,7 @@ auth#:#auth_oidc_role_mapping_table#:#Assignment of ILIAS Roles to OpenId Connec
 auth#:#auth_oidc_update_role_info#:#Only Apply at first Login (Automatic Synchronisation)
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
