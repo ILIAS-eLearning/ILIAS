@@ -49,7 +49,7 @@ class ilMemberViewGUI
             $ilTabs->addNonTabbedLink(
                 "members_view",
                 $lng->txt('mem_view_activate'),
-                $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset")
+                $ilCtrl->getLinkTargetByClass("ilrepositorygui", "")
             );
             $ilCtrl->clearParametersByClass("ilrepositorygui");
             return true;

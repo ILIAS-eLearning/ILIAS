@@ -60,7 +60,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
     
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.table_row_new_item_group.html", "Services/Repository");
+        $this->setRowTemplate("tpl.table_row_new_item_group.html", "Services/Repository/Administration");
         $this->setLimit(10000);
         
         $this->setExternalSorting(true);
@@ -104,7 +104,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         
         if ($this->has_write) {
-            $this->tpl->setVariable("VAR_MULTI", "grp_id[]");
+            $this->tpl->setVariable("VAR_MULTI", "grp_ids[]");
             $this->tpl->setVariable("VAL_MULTI", $a_set["id"]);
         }
         

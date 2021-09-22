@@ -318,35 +318,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         if (parent::prepareOutput($a_show_subobjects)) {    // return false in admin mode
             if ($this->getCreationMode() != true && $a_show_subobjects) {
-                // This method is called directly from ilContainerGUI::renderObject
-                #$this->showPossibleSubObjects();
-                $this->showTreeFlatIcon();
-
-                // Member view
                 ilMemberViewGUI::showMemberViewSwitch($this->object->getRefId());
             }
         }
-    }
-
-    public function showTreeFlatIcon() : void
-    {
-        $tpl = $this->tpl;
-
-        // dont show icon, if role (permission gui->rolegui) is edited
-        if (isset($_GET["obj_id"]) && $_GET["obj_id"] != "") {
-            return;
-        }
-        // hide for member view
-        if (ilMemberViewSettings::getInstance()->isActive()) {
-            return;
-        }
-
-        $mode = ($_SESSION["il_rep_mode"] == "flat")
-            ? "tree"
-            : "flat";
-        $link = "ilias.php?baseClass=ilRepositoryGUI&amp;cmd=frameset&amp;set_mode=" . $mode . "&amp;ref_id=" . $this->object->getRefId(
-            );
-        $tpl->setTreeFlatIcon($link, $mode);
     }
 
     public function setTitleAndDescription()
@@ -861,7 +835,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // back to upper context
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("obj_cat"),
-            $this->ctrl->getLinkTarget($this, "frameset"),
+            $this->ctrl->getLinkTarget($this, ""),
             ilFrameTargetInfo::_getFrame("MainContent")
         );
 
@@ -2810,7 +2784,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function initManualSortingOptionForm(
         ilContainerSortingSettings $settings,
-        ilSubEnabledFormPropertyGUI $element,
+        ilRadioOption $element,
         string $a_prefix,
         array $a_sorting_settings
     ) {

@@ -334,7 +334,7 @@ class ilRepositoryExplorer extends ilExplorer
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "1");
         $tpl->setVariable(
             "LINK_TARGET",
-            $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset")
+            $ilCtrl->getLinkTargetByClass("ilrepositorygui", "")
         );
         $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
         $tpl->setVariable("TARGET", " target=\"_top\"");

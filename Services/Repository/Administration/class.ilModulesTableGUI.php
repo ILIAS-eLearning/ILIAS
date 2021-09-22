@@ -60,7 +60,10 @@ class ilModulesTableGUI extends ilTable2GUI
     
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-        $this->setRowTemplate("tpl.table_row_module.html", "Services/Repository");
+        $this->setRowTemplate(
+            "tpl.table_row_module.html",
+            "Services/Repository/Administration"
+        );
         $this->setLimit(10000);
         $this->setExternalSorting(true);
                 

@@ -1011,7 +1011,7 @@ class ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $ilCtrl->redirectByClass("ilrepositorygui", "frameset");
+        $ilCtrl->redirectByClass("ilrepositorygui", "");
     }
 
     /**
@@ -2060,7 +2060,7 @@ class ilObjectGUI
      * @param
      * @return
      */
-    public static function _gotoRepositoryNode($a_ref_id, $a_cmd = "frameset")
+    public static function _gotoRepositoryNode($a_ref_id, $a_cmd = "")
     {
         global $DIC;
 

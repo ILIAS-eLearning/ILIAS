@@ -25,11 +25,12 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected ilSetting $folder_settings;
 
     public function __construct(
-        array $a_data,
+        ?array $a_data,
         int $a_id,
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->error = $DIC["ilErr"];
@@ -45,6 +46,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->type = 'reps';
         $this->lng->loadLanguageModule('rep');
         $this->lng->loadLanguageModule('cmps');
+
+        $this->request = $DIC
+            ->repository()
+            ->internal()
+            ->gui()
+            ->administration()
+            ->request();
     }
     
     public function executeCommand() : void
@@ -324,48 +332,83 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $ilSetting->set("default_repository_view", $_POST["default_rep_view"]);
-                        
-            $ilSetting->set("repository_tree_pres", $_POST["tree_pres"]);
-            if ($_POST["tree_pres"] == "") {
-                $_POST["rep_tree_limit_grp_crs"] = "";
+            $ilSetting->set(
+                "default_repository_view",
+                $form->getInput("default_rep_view")
+            );
+            $ilSetting->set(
+                "repository_tree_pres",
+                $form->getInput("tree_pres")
+            );
+            $rep_tree_limit_grp_crs = $form->getInput("rep_tree_limit_grp_crs");
+            if ($form->getInput("tree_pres") == "") {
+                $rep_tree_limit_grp_crs = "";
             }
-            if ($_POST["rep_tree_limit_grp_crs"] && !$ilSetting->get("rep_tree_limit_grp_crs")) {
-                $_POST["rep_tree_synchronize"] = true;
-            } elseif (!$_POST["rep_tree_synchronize"] && $ilSetting->get("rep_tree_synchronize")) {
-                $_POST["rep_tree_limit_grp_crs"] = false;
-            }
-            $ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
+            $ilSetting->set(
+                "rep_tree_limit_grp_crs",
+                $rep_tree_limit_grp_crs
+            );
 
-            $ilSetting->set("rep_export_limitation", $_POST["rep_export_limitation"]);
-            $ilSetting->set("rep_export_limit_number", $_POST["rep_export_limit_number"]);
-
-            // $ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
-            // $ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);
-            
-            $ilSetting->set("enable_trash", $_POST["enable_trash"]);
-
-
-            $ilSetting->set("rep_breadcr_crs_overwrite", (int) $_POST["rep_breadcr_crs_overwrite"]);
-            $ilSetting->set("rep_breadcr_crs", (int) $_POST["rep_breadcr_crs"]);
-            $ilSetting->set("rep_breadcr_crs_default", (int) $_POST["rep_breadcr_crs_default"]);
-
-
-            $ilSetting->set("rep_shorten_description", $form->getInput('rep_shorten_description'));
-            $ilSetting->set("rep_shorten_description_length", (int) $form->getInput('rep_shorten_description_length'));
-            $ilSetting->set('item_cmd_asynch', (int) $_POST['item_cmd_asynch']);
-            $ilSetting->set('comments_tagging_in_lists', (int) $_POST['comments_tagging_in_lists']);
-            $ilSetting->set('comments_tagging_in_lists_tags', (int) $_POST['comments_tagging_in_lists_tags']);
+            $ilSetting->set(
+                "rep_export_limitation",
+                $form->getInput("rep_export_limitation")
+            );
+            $ilSetting->set(
+                "rep_export_limit_number",
+                $form->getInput("rep_export_limit_number")
+            );
+            $ilSetting->set(
+                "enable_trash",
+                $form->getInput("enable_trash")
+            );
+            $ilSetting->set(
+                "rep_breadcr_crs_overwrite",
+                (int) $form->getInput("rep_breadcr_crs_overwrite")
+            );
+            $ilSetting->set(
+                "rep_breadcr_crs",
+                (int) $form->getInput("rep_breadcr_crs")
+            );
+            $ilSetting->set(
+                "rep_breadcr_crs_default",
+                (int) $form->getInput("rep_breadcr_crs_default")
+            );
+            $ilSetting->set(
+                "rep_shorten_description",
+                $form->getInput('rep_shorten_description')
+            );
+            $ilSetting->set(
+                "rep_shorten_description_length",
+                (int) $form->getInput('rep_shorten_description_length')
+            );
+            $ilSetting->set(
+                'item_cmd_asynch',
+                (int) $form->getInput('item_cmd_asynch')
+            );
+            $ilSetting->set(
+                'comments_tagging_in_lists',
+                (int) $form->getInput('comments_tagging_in_lists')
+            );
+            $ilSetting->set(
+                'comments_tagging_in_lists_tags',
+                $form->getInput('comments_tagging_in_lists_tags')
+            );
 
             // repository tree limit of children
-            $limit_number = ($_POST['rep_tree_limit'] && $_POST['rep_tree_limit_number'] > 0)
-                ? (int) $_POST['rep_tree_limit_number']
+            $limit_number = ($form->getInput('rep_tree_limit') &&
+                $form->getInput('rep_tree_limit_number') > 0)
+                ? (int) $form->getInput('rep_tree_limit_number')
                 : 0;
             $ilSetting->set('rep_tree_limit_number', $limit_number);
 
-            $this->folder_settings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
-            $this->folder_settings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
-
+            $this->folder_settings->set(
+                "enable_download_folder",
+                $form->getInput("enable_download_folder") == 1
+            );
+            $this->folder_settings->set(
+                "enable_multi_download",
+                $form->getInput("enable_multi_download") == 1
+            );
             if ($form->getInput('change_event_tracking')) {
                 ilChangeEvent::_activate();
             } else {
@@ -470,9 +513,12 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
-        if (!is_array($_POST["obj_grp"]) ||
-            !is_array($_POST["obj_pos"]) ||
+
+        $item_groups = $this->request->getNewItemGroups();
+        $item_positions = $this->request->getNewItemPositions();
+
+        if (count($item_groups) == 0 ||
+            count($item_positions) == 0 ||
             !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "listModules");
         }
@@ -483,12 +529,16 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         }
         
         $type_pos_map = array();
-        foreach ($_POST["obj_pos"] as $obj_type => $pos) {
-            $grp_id = (int) $_POST["obj_grp"][$obj_type];
+        $item_enablings = $this->request->getNewItemEnablings();
+        foreach ($item_positions as $obj_type => $pos) {
+            $grp_id = ($item_groups[$obj_type] ?? 0);
             $type_pos_map[$grp_id][$obj_type] = $pos;
             
             // enable creation?
-            $ilSetting->set("obj_dis_creation_" . $obj_type, !(int) $_POST["obj_enbl_creation"][$obj_type]);
+            $ilSetting->set(
+                "obj_dis_creation_" . $obj_type,
+                !($item_enablings[$obj_type] ?? false)
+            );
         }
         
         foreach ($type_pos_map as $grp_id => $obj_types) {
@@ -613,7 +663,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function editNewItemGroup(ilPropertyFormGUI $a_form = null) : void
     {
-        $grp_id = (int) $_GET["grp_id"];
+        $grp_id = $this->request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
@@ -628,7 +678,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function updateNewItemGroup() : void
     {
-        $grp_id = (int) $_GET["grp_id"];
+        $grp_id = $this->request->getNewItemGroupId();
         if (!$grp_id) {
             $this->ctrl->redirect($this, "listNewItemGroups");
         }
@@ -663,9 +713,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     protected function saveNewItemGroupOrder() : void
     {
         $ilSetting = $this->settings;
-        
-        if (is_array($_POST["grp_order"])) {
-            ilObjRepositorySettings::updateNewItemGroupOrder($_POST["grp_order"]);
+
+        $group_order = $this->request->getNewItemGroupOrder();
+        if (count($group_order) > 0) {
+            ilObjRepositorySettings::updateNewItemGroupOrder($group_order);
                                     
             $grp_pos_map = array();
             foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
@@ -693,7 +744,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function confirmDeleteNewItemGroup() : void
     {
-        if (!is_array($_POST["grp_id"])) {
+        $group_ids = $this->request->getNewItemGroupIds();
+        if (count($group_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"));
             $this->listNewItemGroups();
             return;
@@ -710,8 +762,8 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         
         $groups = ilObjRepositorySettings::getNewItemGroups();
 
-        foreach ($_POST["grp_id"] as $grp_id) {
-            $cgui->addItem("grp_id[]", $grp_id, $groups[$grp_id]["title"]);
+        foreach ($group_ids as $grp_id) {
+            $cgui->addItem("grp_ids[]", $grp_id, $groups[$grp_id]["title"]);
         }
         
         $this->tpl->setContent($cgui->getHTML());
@@ -719,12 +771,13 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
     
     protected function deleteNewItemGroup() : void
     {
-        if (!is_array($_POST["grp_id"])) {
+        $group_ids = $this->request->getNewItemGroupIds();
+        if (count($group_ids) == 0) {
             $this->listNewItemGroups();
             return;
         }
         
-        foreach ($_POST["grp_id"] as $grp_id) {
+        foreach ($group_ids as $grp_id) {
             ilObjRepositorySettings::deleteNewItemGroup($grp_id);
         }
         
