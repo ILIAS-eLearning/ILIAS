@@ -9,6 +9,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_btn_engaged = 'engaged'
 			,_cls_entries = 'il-maincontrols-metabar'
 			,_cls_slates = 'il-metabar-slates'
+			,_cls_slate = 'il-maincontrols-slate'
 			,_cls_more_btn = 'il-metabar-more-button'
 			,_cls_more_slate = 'il-metabar-more-slate'
 			,_cls_single_slate = false //class of one single slate, will be set on registerSignals
@@ -39,7 +40,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			});
 
 			//close metabar when user clicks anywhere
-			$('.il-maincontrols-metabar').on('click', function(event) {
+			$('.'+_cls_entries).on('click', function(event) {
 				propagation_stopped = true;
 
 			});
@@ -47,6 +48,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(propagation_stopped) {
 					propagation_stopped = false
 				} else {
+					onClickDisengageAll();
+				}
+			});
+
+			//close metabar slate when focus moves out
+			$('.'+_cls_slates+' > .'+_cls_slate).on('focusout', function(event) {
+				let next_focus_target = event.relatedTarget;
+				let current_slate = event.currentTarget;
+				if(!$.contains(current_slate,next_focus_target)) {
 					onClickDisengageAll();
 				}
 			});
