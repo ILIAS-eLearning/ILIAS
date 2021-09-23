@@ -164,6 +164,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
+            ->withSupportsAsynchronousLoading(true)
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(70)
