@@ -8,17 +8,17 @@ class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCas
 {
     public function testDelete()
     {
-        $deleteAction = $this->getMockBuilder('ilCertificateDeleteAction')
+        $deleteAction = $this->getMockBuilder(ilCertificateDeleteAction::class)
             ->getMock();
 
         $deleteAction
             ->expects($this->once())
             ->method('delete');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
-        $object = $this->getMockBuilder('ilObjTest')
+        $object = $this->getMockBuilder(ilObjTest::class)
             ->disableOriginalConstructor()
             ->getMock();
 

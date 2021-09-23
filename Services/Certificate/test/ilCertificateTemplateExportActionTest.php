@@ -8,9 +8,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 {
     public function testExport()
     {
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepository->method('fetchCurrentlyActiveCertificate')
             ->willReturn(new ilCertificateTemplate(
@@ -27,7 +25,7 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
                 50
             ));
 
-        $filesystem = $this->getMockBuilder('ILIAS\Filesystem\Filesystem')
+        $filesystem = $this->getMockBuilder(ILIAS\Filesystem\Filesystem::class)
             ->getMock();
 
         $filesystem
@@ -46,13 +44,13 @@ class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
             ->expects($this->once())
             ->method('put');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('lookupType')
             ->willReturn('crs');
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper

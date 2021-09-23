@@ -8,27 +8,25 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 {
     public function testGetTitle()
     {
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -37,7 +35,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('SomeTitle');
 
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -73,27 +71,25 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testGetDescription()
     {
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -102,14 +98,14 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('SomeDescription');
 
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $dic->method('language')
             ->willReturn($languageMock);
 
-        $configValues = array('lng');
+        $configValues = ['lng'];
 
         $dic->expects($this->any())
             ->method('offsetGet')
@@ -138,35 +134,33 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testGetId()
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -188,15 +182,15 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userMock = $this->getMockBuilder('ilObjUser')
+        $userMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -224,35 +218,33 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testActivation()
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -274,15 +266,15 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userMock = $this->getMockBuilder('ilObjUser')
+        $userMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -310,35 +302,33 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testFlexibleActivation()
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -360,15 +350,15 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userMock = $this->getMockBuilder('ilObjUser')
+        $userMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -396,35 +386,33 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testGetDefaultScheduleType()
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -446,15 +434,15 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userMock = $this->getMockBuilder('ilObjUser')
+        $userMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -482,35 +470,33 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testGetDefaultScheduleValue()
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $queueRepository = $this->getMockBuilder('ilCertificateQueueRepository')
+        $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
+
+        $userRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $valueReplacement = $this->getMockBuilder(ilCertificateValueReplacement::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $valueReplacement = $this->getMockBuilder('ilCertificateValueReplacement')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dic = $this->getMockBuilder('\ILIAS\DI\Container')
+        $dic = $this->getMockBuilder(\ILIAS\DI\Container::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -532,15 +518,15 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $dic['lng'] = $languageMock;
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userMock = $this->getMockBuilder('ilObjUser')
+        $userMock = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 

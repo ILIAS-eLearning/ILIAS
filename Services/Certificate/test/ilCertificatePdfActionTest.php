@@ -8,11 +8,11 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 {
     public function testCreatePdfWillCreatedAndIsDownloadable()
     {
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
+        $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate'])
             ->getMock();
@@ -20,10 +20,10 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $pdfGenerator->method('generateCurrentActiveCertificate')
             ->willReturn('Something');
 
-        $ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
-        $errorHandler = $this->getMockBuilder('ilErrorHandling')
+        $errorHandler = $this->getMockBuilder(ilErrorHandling::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -42,11 +42,11 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
     public function testPdfDownloadAction()
     {
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
+        $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
             ->getMock();
@@ -57,7 +57,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $pdfGenerator->method('generateFileName')
             ->willReturn('some_file_name.pdf');
 
-        $ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $ilUtilHelper->method('deliverData')
@@ -67,7 +67,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
                 'application/pdf'
             );
 
-        $errorHandler = $this->getMockBuilder('ilErrorHandling')
+        $errorHandler = $this->getMockBuilder(ilErrorHandling::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -85,11 +85,11 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 
     public function testDownloadResultsInExceptionBecauseTheServerIsNotActive()
     {
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $pdfGenerator = $this->getMockBuilder('ilPdfGenerator')
+        $pdfGenerator = $this->getMockBuilder(ilPdfGenerator::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['generateCurrentActiveCertificate', 'generateFileName'])
             ->getMock();
@@ -100,7 +100,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $pdfGenerator->method('generateFileName')
             ->willReturn('some_file_name.pdf');
 
-        $ilUtilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $ilUtilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $ilUtilHelper->method('deliverData')
@@ -112,7 +112,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         ->willThrowException(new ilRpcClientException(''));
 
 
-        $errorHandler = $this->getMockBuilder('ilErrorHandling')
+        $errorHandler = $this->getMockBuilder(ilErrorHandling::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['raiseError'])
             ->getMock();

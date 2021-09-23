@@ -8,21 +8,21 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testA()
     {
-        $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $language->method('txt')
             ->willReturn('Some Translation');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
-        $testObject = $this->getMockBuilder('ilObjTest')
+        $testObject = $this->getMockBuilder(ilObjTest::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -69,28 +69,28 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($testObject);
 
-        $testObjectHelper = $this->getMockBuilder('ilCertificateTestObjectHelper')
+        $testObjectHelper = $this->getMockBuilder(ilCertificateTestObjectHelper::class)
             ->getMock();
 
-        $userObjectHelper = $this->getMockBuilder('ilCertificateUserObjectHelper')
+        $userObjectHelper = $this->getMockBuilder(ilCertificateUserObjectHelper::class)
             ->getMock();
 
         $userObjectHelper->method('lookupFields')
             ->willReturn(array('usr_id' => 10));
 
-        $lpStatusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
+        $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
         $lpStatusHelper->method('lookupStatusChanged')
             ->willReturn('2018-01-12');
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
             ->willReturn('Formatted Output');
 
-        $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
+        $dateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
             ->getMock();
 
         $dateHelper->method('formatDate')
@@ -128,7 +128,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
 
     public function testGetPlaceholderValuesForPreview()
     {
-        $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
+        $defaultPlaceholderValues = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -140,36 +140,36 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
                 )
             );
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $language->method('txt')
             ->willReturn('Something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('SomeTitle');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('getInstanceByObjId')
             ->willReturn($objectMock);
 
-        $testObjectHelper = $this->getMockBuilder('ilCertificateTestObjectHelper')
+        $testObjectHelper = $this->getMockBuilder(ilCertificateTestObjectHelper::class)
             ->getMock();
 
-        $userObjectHelper = $this->getMockBuilder('ilCertificateUserObjectHelper')
+        $userObjectHelper = $this->getMockBuilder(ilCertificateUserObjectHelper::class)
             ->getMock();
 
-        $lpStatusHelper = $this->getMockBuilder('ilCertificateLPStatusHelper')
+        $lpStatusHelper = $this->getMockBuilder(ilCertificateLPStatusHelper::class)
             ->getMock();
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper->method('prepareFormOutput')
@@ -177,7 +177,7 @@ class ilTestPlaceholderValuesTest extends ilCertificateBaseTestCase
                 return $input;
             });
 
-        $dateHelper = $this->getMockBuilder('ilCertificateDateHelper')
+        $dateHelper = $this->getMockBuilder(ilCertificateDateHelper::class)
             ->getMock();
 
         $placeholdervalues = new ilTestPlaceholderValues(
