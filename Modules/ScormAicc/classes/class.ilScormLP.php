@@ -13,6 +13,11 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilScormLP extends ilObjectLP
 {
+    /**
+     * @var null | bool
+     */
+    protected $precondition_cache = null;
+
     public static function getDefaultModes($a_lp_active)
     {
         return array(
@@ -61,12 +66,6 @@ class ilScormLP extends ilObjectLP
         }
     }
 
-    /**
-     * AK, 14Sep2018: This looks strange, the mode is auto-activated if this object is used
-     * as a precondition trigger? This is not implemented for any other object type.
-     *
-     * @return int
-     */
     public function getCurrentMode()
     {
         if ($this->checkSCORMPreconditions()) {
@@ -75,13 +74,21 @@ class ilScormLP extends ilObjectLP
         return parent::getCurrentMode();
     }
     
+    /**
+     * @return bool
+     * @throws ilDatabaseException
+     */
     protected function checkSCORMPreconditions()
     {
-        include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
-        if (count(ilConditionHandler::_getPersistedConditionsOfTrigger('sahs', $this->obj_id))) {
-            return true;
+        if (!is_null($this->precondition_cache)) {
+            return $this->precondition_cache;
         }
-        return false;
+
+        $this->precondition_cache =
+            ilConditionHandler::getNumberOfConditionsOfTrigger('sahs', $this->obj_id) > 0 ?
+                true :
+                false;
+        return $this->precondition_cache;
     }
     
     protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)
