@@ -42,8 +42,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                                $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
                                return $isUser && $isEnabled;
                            })
-                           ->withTitle($this->dic->language()->txt('chat'))
-                           ->withSupportsAsynchronousLoading(true)
+                           ->withTitle($this->dic->language()->txt('obj_chtr'))
                            ->withSymbol($icon)
                            ->withContentWrapper(function () {
                                $provider = new OnScreenChatNotificationProvider(
