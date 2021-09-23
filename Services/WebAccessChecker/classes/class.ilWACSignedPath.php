@@ -43,7 +43,7 @@ class ilWACSignedPath
     /**
      * @var int
      */
-    protected static $token_max_lifetime_in_seconds = 3;
+    protected static $token_max_lifetime_in_seconds = 20;
     /**
      * @var int
      */
