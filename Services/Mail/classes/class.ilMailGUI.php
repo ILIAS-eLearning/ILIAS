@@ -22,9 +22,7 @@ class ilMailGUI
     public ilMail $umail;
     public ilMailBox $mbox;
 
-    /**
-     * ilMailGUI constructor.
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -259,9 +257,7 @@ class ilMailGUI
         }
     }
 
-    /**
-     * Toggle explorer tree node
-     */
+
     protected function toggleExplorerNodeState() : void
     {
         $exp = new ilMailExplorer($this, $this->user->getId());

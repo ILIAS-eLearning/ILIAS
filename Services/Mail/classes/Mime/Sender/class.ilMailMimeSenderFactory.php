@@ -8,14 +8,10 @@
 class ilMailMimeSenderFactory
 {
     protected ilSetting $settings;
-
     /** @var ilMailMimeSender[] */
     protected array $senders = [];
     protected int $anonymousUsrId = 0;
 
-    /**
-     * ilMailMimeSenderFactory constructor.
-     */
     public function __construct(ilSetting $settings, int $anonymousUsrId = null)
     {
         $this->settings = $settings;
@@ -25,13 +21,11 @@ class ilMailMimeSenderFactory
         $this->anonymousUsrId = $anonymousUsrId;
     }
 
-    
     protected function isSystemMail(int $usrId) : bool
     {
         return $usrId === $this->anonymousUsrId;
     }
 
-    
     public function getSenderByUsrId(int $usrId) : ilMailMimeSender
     {
         if (array_key_exists($usrId, $this->senders)) {
@@ -49,19 +43,16 @@ class ilMailMimeSenderFactory
         return $sender;
     }
 
-    
     public function system() : ilMailMimeSenderSystem
     {
         return new ilMailMimeSenderSystem($this->settings);
     }
 
-    
     public function user(int $usrId) : ilMailMimeSenderUser
     {
         return new ilMailMimeSenderUserById($this->settings, $usrId);
     }
 
-    
     public function userByEmailAddress(string $emailAddress) : ilMailMimeSenderUser
     {
         return new ilMailMimeSenderUserByEmailAddress($this->settings, $emailAddress);

@@ -4,7 +4,6 @@
 
 use Psr\Http\Message\ServerRequestInterface;
 
-
 /**
  * Delete orphaned mails
  *

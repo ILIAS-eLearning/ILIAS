@@ -27,9 +27,7 @@ class ilMailTemplateGUI
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
 
-    /**
-     * ilMailTemplateGUI constructor.
-     */
+
     public function __construct(
         ilObject $parentObject,
         ilGlobalTemplateInterface $tpl = null,

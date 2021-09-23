@@ -14,19 +14,16 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public static $block_type = 'pdmail';
     private ServerRequestInterface $httpRequest;
     private int $requestMailObjId = 0;
-
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
-
     /**
-     * @var \ilObjUser
+     * @var ilObjUser
      */
     protected $user;
-
     /**
-     * @var \ilCtrl
+     * @var ilCtrl
      */
     protected $ctrl;
     protected ilRbacSystem $rbacsystem;
@@ -37,9 +34,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     protected array $mails = [];
     protected int $inbox;
 
-    /**
-     * Constructor
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -74,9 +69,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return false;
     }
 
-    /**
-     * Get Screen Mode for current command.
-     */
+
     public static function getScreenMode() : string
     {
         global $DIC;
@@ -87,9 +80,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return IL_SCREEN_SIDE;
     }
 
-    /**
-     * execute command
-     */
+
     public function executeCommand() : string
     {
         $cmd = $this->ctrl->getCmd('getHTML');
@@ -110,12 +101,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
-    /**
-     * Get Mails
-     */
+
     protected function getMails() : void
     {
-
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
         $this->inbox = $mbox->getInboxFolder();
@@ -128,9 +116,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         );
     }
 
-    /**
-     * Fill data section
-     */
+
     public function fillDataSection() : void
     {
         $this->getMails();
@@ -145,9 +131,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
     }
 
-    /**
-     * get flat list for personal desktop
-     */
+
     public function fillRow($a_set) : void
     {
         $user = ilMailUserCache::getUserObjectById($a_set['sender_id']);
@@ -178,17 +162,13 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameters($this);
     }
 
-    /**
-     * Get overview.
-     */
+
     protected function getOverview() : string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
     }
 
-    /**
-     * show mail
-     */
+
     protected function showMail() : string
     {
         $mail_gui = new ilPDMailGUI();
@@ -217,9 +197,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return $content_block->getHTML();
     }
 
-    /**
-     * delete mail
-     */
+
     public function deleteMail() : void
     {
         $this->lng->loadLanguageModule('mail');
@@ -232,9 +210,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
 
         if ($umail->moveMailsToFolder([(int) $this->httpRequest->getQueryParams()['mail_id']], $mbox->getTrashFolder())) {
-            \ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
+            ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
         } else {
-            \ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
+            ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
         }
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }

@@ -105,9 +105,6 @@ class ilMailCronOrphanedMailsNotificationCollector
         $this->collection[$collection_obj->getUserId()] = $collection_obj;
     }
 
-    /**
-     * @param $user_id
-     */
     private function existsCollectionObjForUserId(int $user_id) : bool
     {
         if (isset($this->collection[$user_id])) {

@@ -18,9 +18,6 @@ class ilMassMailTaskProcessor
     private ilMailValueObjectJsonService $objectJsonService;
     private string $anonymousUserId;
 
-    /**
-     * @param TaskManager $taskManager
-     */
     public function __construct(
         TaskManager $taskManager = null,
         TaskFactory $taskFactory = null,
@@ -132,15 +129,12 @@ class ilMassMailTaskProcessor
         $this->taskManager->run($bucket);
     }
 
-    /**
-     * @param $remainingObjects
-     */
     private function createInteraction(
         int $userId,
         string $contextId,
         array $contextParameters,
         $remainingObjects
-    ) : \ILIAS\BackgroundTasks\Task {
+    ) : ILIAS\BackgroundTasks\Task {
         $jsonString = $this->objectJsonService->convertToJson($remainingObjects);
 
         $task = $this->taskFactory->createTask(\ilMassMailDeliveryJob::class, [
@@ -157,7 +151,7 @@ class ilMassMailTaskProcessor
         $parameters = [$task, $userId];
 
         $interaction = $this->taskFactory->createTask(
-            \ilMailDeliveryJobUserInteraction::class,
+            ilMailDeliveryJobUserInteraction::class,
             $parameters
         );
 

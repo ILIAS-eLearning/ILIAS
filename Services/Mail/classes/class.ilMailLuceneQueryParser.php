@@ -31,10 +31,8 @@ class ilMailLuceneQueryParser extends ilLuceneQueryParser
         }
     }
 
-    /**
-     * @param array $fields
-     */
-    public function setFields($fields) : void
+
+    public function setFields(array $fields) : void
     {
         $this->fields = $fields;
     }

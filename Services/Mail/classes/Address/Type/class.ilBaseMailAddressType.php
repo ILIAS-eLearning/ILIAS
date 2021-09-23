@@ -10,13 +10,9 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
     protected ilMailAddressTypeHelper $typeHelper;
     protected ilMailAddress $address;
     protected ilLogger $logger;
-
     /** @var ilMailError[] */
     private array $errors = [];
 
-    /**
-     * ilBaseMailAddressType constructor.
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
@@ -27,9 +23,6 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         $this->logger = $logger;
     }
 
-    /**
-     * @param $senderId int
-     */
     abstract protected function isValid(int $senderId) : bool;
 
     /**

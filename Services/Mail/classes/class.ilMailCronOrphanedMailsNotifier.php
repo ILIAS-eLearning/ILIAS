@@ -12,9 +12,7 @@ class ilMailCronOrphanedMailsNotifier
     protected int $threshold = 0;
     protected int $mail_notify_orphaned = 0;
 
-    /**
-     * ilMailCronOrphanedMailsNotifier constructor.
-     */
+
     public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, int $threshold, int $mail_notify_orphaned)
     {
         global $DIC;

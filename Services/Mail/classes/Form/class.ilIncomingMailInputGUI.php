@@ -10,15 +10,11 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     protected bool $freeOptionChoice = true;
     protected bool $optionsInitialized = false;
 
-    /**
-     * ilIncomingMailInputGUI constructor.
-     */
     public function __construct(string $title = '', string $post_var = '', bool $freeOptionChoice = true)
     {
         parent::__construct($title, $post_var);
         $this->setFreeOptionChoice($freeOptionChoice);
     }
-
     
     protected function initializeOptions() : void
     {

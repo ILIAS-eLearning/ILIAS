@@ -20,14 +20,6 @@ class ilMailBoxQuery
     public static array $filter = [];
     public static array $filtered_ids = [];
 
-    /**
-     * _getMailBoxListData
-     *
-     * @access	public
-     * @static
-     * @return	array	Array of mails
-     *
-     */
     public static function _getMailBoxListData() : array
     {
         global $DIC;
@@ -74,14 +66,14 @@ class ilMailBoxQuery
 
             if (null !== self::$filter['period']['start']) {
                 $dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
+                    (new DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
                     'timestamp'
                 );
             }
 
             if (null !== self::$filter['period']['end']) {
                 $dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
+                    (new DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
                     'timestamp'
                 );
             }

@@ -14,34 +14,24 @@
 abstract class ilMailNotification
 {
     public const SUBJECT_TITLE_LENGTH = 60;
-    
     protected int $type;
     protected int $sender;
-    
     protected ilMail $mail;
     protected string $subject = '';
     protected string $body = '';
-
     protected array $attachments = [];
-    
     protected ilLanguage $language;
     protected array $lang_modules = [];
-    
     protected array $recipients = [];
-    
     protected int $ref_id;
     protected int $obj_id;
     protected string $obj_type;
-    
     protected array $additional_info = [];
-    
     protected bool $is_in_wsp;
     protected ilWorkspaceTree $wsp_tree;
     protected ilWorkspaceAccessHandler $wsp_access_handler;
 
-    /**
-     * @param bool|false $a_is_personal_workspace
-     */
+
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
@@ -57,43 +47,31 @@ abstract class ilMailNotification
         }
     }
     
-    /**
-     * Set notification type
-     */
+
     public function setType(int $a_type) : void
     {
         $this->type = $a_type;
     }
     
-    /**
-     * Get notification type
-     * @return
-     */
+
     public function getType() : int
     {
         return $this->type;
     }
     
-    /**
-     * Set sender of mail
-     */
+
     public function setSender(int $a_usr_id) : void
     {
         $this->sender = $a_usr_id;
     }
-    
-    /**
-     * get sender of mail
-     * @return
-     */
+
+
     public function getSender() : int
     {
         return $this->sender;
     }
-    
-    /**
-     * @return string body
-     */
+
+
     protected function setSubject(string $a_subject) : string
     {
         return $this->subject = $a_subject;
@@ -111,10 +89,7 @@ abstract class ilMailNotification
         $this->body = $a_body;
     }
     
-    /**
-     * Append body text
-     * @return string body
-     */
+
     protected function appendBody(string $a_body) : string
     {
         return $this->body .= $a_body;
@@ -132,50 +107,37 @@ abstract class ilMailNotification
         $this->recipients = $a_rcp;
     }
     
-    /**
-     * get array of recipients
-     */
+
     public function getRecipients() : array
     {
         return $this->recipients;
     }
 
-    /**
-     * Set attachments
-     */
+
     public function setAttachments(array $a_att) : void
     {
         $this->attachments = $a_att;
     }
 
-    /**
-     * Get attachments
-     */
+
     public function getAttachments() : array
     {
         return $this->attachments;
     }
         
-    /**
-     * Set lang modules
-     */
+
     public function setLangModules(array $a_modules) : void
     {
         $this->lang_modules = $a_modules;
     }
         
-    /**
-     * Init language
-     */
+
     protected function initLanguage(int $a_usr_id) : void
     {
         $this->language = $this->getUserLanguage($a_usr_id);
     }
     
-    /**
-     * Get user language
-     *
-     */
+
     public function getUserLanguage(int $a_usr_id) : ilLanguage
     {
         $language = ilLanguageFactory::_getLanguageOfUser($a_usr_id);
@@ -190,9 +152,7 @@ abstract class ilMailNotification
         return $language;
     }
 
-    /**
-     * Init language by ISO2 code
-     */
+
     protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         $this->language = ilLanguageFactory::_getLanguage($a_code);
@@ -256,18 +216,13 @@ abstract class ilMailNotification
         $this->obj_type = ilObject::_lookupType($this->obj_id);
     }
     
-    /**
-     * Get object type
-     * @return
-     */
+
     public function getObjType() : string
     {
         return $this->obj_type;
     }
 
-    /**
-     * Additional information for creating notification mails
-     */
+
     public function setAdditionalInformation(array $a_info) : void
     {
         $this->additional_info = $a_info;
@@ -279,9 +234,7 @@ abstract class ilMailNotification
         return $this->additional_info;
     }
 
-    /**
-     * @param bool|false $a_shorten
-     */
+
     protected function getObjectTitle(bool $a_shorten = false) : string
     {
         if (!$this->getObjId()) {
@@ -294,9 +247,7 @@ abstract class ilMailNotification
         return $txt;
     }
 
-    /**
-     * @param bool|true $a_parse_recipients
-     */
+
     public function sendMail(array $a_rcp, $a_parse_recipients = true) : void
     {
         $recipients = [];
@@ -335,12 +286,9 @@ abstract class ilMailNotification
         return is_object($this->mail) ? $this->mail : $this->initMail();
     }
 
-    /**
-     * @return string
-     */
+
     protected function createPermanentLink(array $a_params = [], string $a_append = '') : ?string
     {
-        
         if ($this->getRefId()) {
             if (!$this->is_in_wsp) {
                 return ilLink::_getLink($this->ref_id, $this->getObjType(), $a_params, $a_append);
@@ -362,10 +310,7 @@ abstract class ilMailNotification
             ($name['lastname'] ? $name['lastname'] . ' ' : '');
     }
         
-    /**
-     * Check if ref id is accessible for user
-     *
-     */
+
     protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = "read") : bool
     {
         global $DIC;
@@ -387,9 +332,7 @@ abstract class ilMailNotification
         return true;
     }
     
-    /**
-     * Get (ascii) block border
-     */
+
     public function getBlockBorder() : string
     {
         return "----------------------------------------\n";

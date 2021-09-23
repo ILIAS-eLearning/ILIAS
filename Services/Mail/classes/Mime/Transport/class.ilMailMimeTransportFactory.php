@@ -7,9 +7,6 @@ class ilMailMimeTransportFactory
     protected ilSetting $settings;
     private ilAppEventHandler $eventHandler;
 
-    /**
-     * ilMailMimeTransportFactory constructor.
-     */
     public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
     {
         $this->settings = $settings;

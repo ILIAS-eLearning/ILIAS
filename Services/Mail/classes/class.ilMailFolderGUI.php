@@ -27,9 +27,7 @@ class ilMailFolderGUI
     private ServerRequestInterface $httpRequest;
     private int $currentFolderId = 0;
 
-    /**
-     * ilMailFolderGUI constructor.
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -132,9 +130,7 @@ class ilMailFolderGUI
         }
     }
 
-    /**
-     * Called if the deletion of all messages in trash was confirmed by the acting user
-     */
+
     protected function performEmptyTrash() : void
     {
         $this->umail->deleteMailsOfFolder($this->currentFolderId);
@@ -144,9 +140,7 @@ class ilMailFolderGUI
         $this->ctrl->redirect($this, 'showFolder');
     }
 
-    /**
-     * Called if the deletion of messages in trash should be confirmed by the acting user
-     */
+
     protected function confirmEmptyTrash() : void
     {
         if ($this->umail->countMailsOfFolder($this->currentFolderId)) {
@@ -196,9 +190,7 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
     }
 
-    /**
-     * Shows current folder. Current Folder is determined by $this->httpRequest->getQueryParams()["mobj_id"]
-     */
+
     protected function showFolder(bool $oneConfirmationDialogueRendered = false) : void
     {
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail.html', 'Services/Mail');
@@ -273,10 +265,8 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     * @param bool $a_show_confirm
-     */
-    protected function deleteSubFolder($a_show_confirm = true) : void
+
+    protected function deleteSubFolder(bool $a_show_confirm = true) : void
     {
         if ($a_show_confirm) {
             $confirmationGui = new ilConfirmationGUI();
@@ -333,9 +323,7 @@ class ilMailFolderGUI
         return $form;
     }
 
-    /**
-     * Called if a folder is created by the action user
-     */
+
     protected function performAddSubFolder() : void
     {
         $form = $this->getSubFolderForm();
@@ -357,9 +345,7 @@ class ilMailFolderGUI
         $this->addSubFolder($form);
     }
 
-    /**
-     * Called if the acting user wants to create a folder
-     */
+
     protected function addSubFolder(ilPropertyFormGUI $form = null) : void
     {
         if (null === $form) {
@@ -371,9 +357,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     * Called if the folder title is renamed by the acting user
-     */
+
     protected function performRenameSubFolder() : void
     {
         $form = $this->getSubFolderForm('edit');
@@ -400,9 +384,7 @@ class ilMailFolderGUI
         $this->renameSubFolder($form);
     }
 
-    /**
-     * Called if the acting user wants to rename a folder
-     */
+
     protected function renameSubFolder(ilPropertyFormGUI $form = null) : void
     {
         if (null === $form) {
@@ -435,9 +417,7 @@ class ilMailFolderGUI
         return array_filter(array_map('intval', $mailIds));
     }
 
-    /**
-     * Called if multiple messages should be marked as read in the list view
-     */
+
     protected function markMailsRead() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -451,9 +431,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    /**
-     * Called if multiple messages should be marked as un-read in the list view
-     */
+
     protected function markMailsUnread() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -467,9 +445,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    /**
-     * Called if a single message should be be moved in the detail view
-     */
+
     protected function moveSingleMail() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -499,9 +475,7 @@ class ilMailFolderGUI
         }
     }
 
-    /**
-     * Called if a single message or multiple messages should be be moved in the list view
-     */
+
     protected function moveMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -522,9 +496,7 @@ class ilMailFolderGUI
         }
     }
 
-    /**
-     * Called if a single message or multiple messages should be deleted
-     */
+
     protected function deleteMails() : void
     {
         $trashFolderId = $this->mbox->getTrashFolder();
@@ -548,9 +520,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    /**
-     * Called if the final deletion of selected messages was confirmed by the acting user
-     */
+
     protected function confirmDeleteMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -570,9 +540,7 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    /**
-     * Detail view of a mail
-     */
+
     protected function showMail() : void
     {
         if ((int) ilSession::get('mail_id') > 0) {
@@ -822,9 +790,7 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    /**
-     * Print mail
-     */
+
     protected function printMail() : void
     {
         $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');

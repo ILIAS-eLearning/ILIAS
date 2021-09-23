@@ -21,9 +21,7 @@ class ilMailOptionsGUI
     protected ServerRequestInterface $request;
     protected ilMailOptionsFormGUI $form;
 
-    /**
-     * ilMailOptionsGUI constructor.
-     */
+
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
         ilCtrl $ctrl = null,
@@ -120,10 +118,7 @@ class ilMailOptionsGUI
         );
     }
 
-    /**
-     * Called if the user pushes the submit button of the mail options form.
-     * Passes the post data to the mail options model instance to store them.
-     */
+
     protected function saveOptions() : void
     {
         $this->tpl->setTitle($this->lng->txt('mail'));
@@ -137,10 +132,7 @@ class ilMailOptionsGUI
         $this->showOptions($form);
     }
 
-    /**
-     * Called to display the mail options form
-     * @param $form ilMailOptionsFormGUI|null
-     */
+
     protected function showOptions(ilMailOptionsFormGUI $form = null) : void
     {
         if (null === $form) {

@@ -13,8 +13,6 @@
 class ilObjMail extends ilObject
 {
     /**
-    * Constructor
-    * @access	public
     * @param	int	reference_id or object_id
     * @param	bool	treat the id as reference_id (true) or object_id (false)
     */

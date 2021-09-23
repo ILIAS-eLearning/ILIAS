@@ -18,9 +18,7 @@ abstract class ilMailTemplateContext
     protected ilMailUserHelper $userHelper;
     protected OrgUnitUserService $orgUnitUserService;
 
-    /**
-     * ilMailTemplateContext constructor.
-     */
+
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
         ilMailEnvironmentHelper $envHelper = null,
@@ -54,19 +52,13 @@ abstract class ilMailTemplateContext
         return $this->language ?: $this->languageHelper->getCurrentLanguage();
     }
 
-    /**
-     * Returns a unique (in the context of mail template contexts) id
-     */
+
     abstract public function getId() : string;
 
-    /**
-     * Returns a translated title (depending on the current language) which is displayed in the user interface
-     */
+
     abstract public function getTitle() : string;
 
-    /**
-     * Returns a translated description (depending on the current language) which is displayed in the user interface
-     */
+
     abstract public function getDescription() : string;
 
     
@@ -109,9 +101,7 @@ abstract class ilMailTemplateContext
         ];
     }
 
-    /**
-     * Return an array of placeholders
-     */
+
     final public function getPlaceholders() : array
     {
         $placeholders = $this->getGenericPlaceholders();
@@ -120,9 +110,7 @@ abstract class ilMailTemplateContext
         return $placeholders + $specific;
     }
 
-    /**
-     * Return an array of placeholders
-     */
+
     abstract public function getSpecificPlaceholders() : array;
 
     
@@ -133,12 +121,7 @@ abstract class ilMailTemplateContext
         bool $html_markup = false
     ) : string;
 
-    /**
-     * @param string $placeholder_id The unique (in the context of your class) placeholder id
-     * @param array $context_parameters The context parameters given by the mail system (array of key/value pairs)
-     * @param ilObjUser|null $recipient The recipient for this mail
-     * @param bool $html_markup A flag whether or not the return value may contain HTML markup
-     */
+
     public function resolvePlaceholder(
         string $placeholder_id,
         array $context_parameters,

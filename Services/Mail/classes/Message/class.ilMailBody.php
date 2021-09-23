@@ -11,7 +11,6 @@ class ilMailBody
      */
     private $bodyContent;
 
-    
     public function __construct(string $content, ilMailBodyPurifier $purifier)
     {
         $this->bodyContent = $purifier->purify($content);

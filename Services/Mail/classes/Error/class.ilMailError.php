@@ -10,9 +10,6 @@ class ilMailError
     protected string $languageVariable = '';
     protected array $placeHolderValues = [];
 
-    /**
-     * ilMailError constructor.
-     */
     public function __construct(string $languageVariable, array $placeHolderValues = [])
     {
         $this->languageVariable = $languageVariable;

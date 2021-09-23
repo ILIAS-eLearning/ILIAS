@@ -16,7 +16,6 @@ class ilRoleMailboxAddress
     protected ilLanguage $lng;
 
     /**
-     * ilRoleMailboxAddress constructor.
      * @param bool $localize A boolean flag whether mailbox addresses should be localized
      */
     public function __construct(
@@ -167,7 +166,7 @@ class ilRoleMailboxAddress
         // If the role title is one of the ILIAS reserved role titles,
         //     we can use a shorthand version of it for the local part
         //     of the mailbox address.
-        if (str_starts_with($role_title, 'il_') && $domain !== null) {
+        if (strpos($role_title, 'il_') === 0 && $domain !== null) {
             $unambiguous_role_title = $role_title;
 
             $pos = strpos($role_title, '_', 3) + 1;
@@ -238,7 +237,7 @@ class ilRoleMailboxAddress
             $local_part . '@' . $domain;
 
         if ($this->localize) {
-            if (str_starts_with($role_title, 'il_')) {
+            if (strpos($role_title, 'il_') === 0) {
                 $phrase = $this->lng->txt(substr($role_title, 0, strrpos($role_title, '_')));
             } else {
                 $phrase = $role_title;

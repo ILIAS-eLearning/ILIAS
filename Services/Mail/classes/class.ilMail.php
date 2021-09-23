@@ -11,7 +11,6 @@ class ilMail
 {
     public const ILIAS_HOST = 'ilias';
     public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
-
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilFileDataMail $mfile;
@@ -123,9 +122,6 @@ class ilMail
         $this->setSaveInSentbox(false);
     }
 
-    /**
-     * @return ilMail
-     */
     public function withContextId(string $contextId) : self
     {
         $clone = clone $this;
@@ -175,9 +171,6 @@ class ilMail
         return $this->save_in_sentbox;
     }
 
-    /**
-     * Read and set the mail object ref id (administration node)
-     */
     protected function readMailObjectReferenceId() : void
     {
         $this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
@@ -192,7 +185,6 @@ class ilMail
     /**
      * Prepends the full name of each ILIAS login name (if user has a public profile) found
      * in the passed string and brackets the ILIAS login name afterwards.
-     * @param string $recipients A string containing to, cc or bcc recipients
      */
     public function formatNamesForOutput(string $recipients) : string
     {
@@ -272,8 +264,6 @@ class ilMail
     }
 
     /**
-     * @param int $a_folder_id The id of the folder
-     * @param array $filter An optional filter array
      * @return string[]
      */
     public function getMailsOfFolder(int $a_folder_id, array $filter = []) : array
@@ -429,7 +419,6 @@ class ilMail
 
     /**
      * @param string[]|null $row
-     * @return string[]|null
      */
     protected function fetchMailData(?array $row) : ?array
     {
@@ -450,10 +439,22 @@ class ilMail
             $row['tpl_ctx_params'] = [];
         }
 
+        if (isset($row['mail_id'])) {
+            $row['mail_id'] = (int) $row['mail_id'];
+        }
+        if (isset($row['user_id'])) {
+            $row['user_id'] = (int) $row['user_id'];
+        }
+        if (isset($row['folder_id'])) {
+            $row['folder_id'] = (int) $row['folder_id'];
+        }
+        if (isset($row['sender_id'])) {
+            $row['sender_id'] = (int) $row['sender_id'];
+        }
+
         return $row;
     }
 
-    
     public function getNewDraftId(int $usrId, int $folderId) : int
     {
         $nextId = $this->db->nextId($this->table_mail);
@@ -913,7 +914,7 @@ class ilMail
     }
 
     /**
-     * @return   ilMailError[] An array of errors determined on validation
+     * @return   ilMailError[]
      */
     protected function checkMail(string $to, string $cc, string $bcc, string $subject) : array
     {
@@ -933,8 +934,7 @@ class ilMail
     }
 
     /**
-     * Check if recipients are valid
-     * @return ilMailError[] An array of errors determined on validation
+     * @return ilMailError[]
      * @throws ilMailException
      */
     protected function checkRecipients(string $recipients) : array
@@ -961,7 +961,6 @@ class ilMail
     }
 
     /**
-     * save post data in table
      * @param string[]|null $a_attachments
      */
     public function savePostData(
@@ -1023,7 +1022,6 @@ class ilMail
         return true;
     }
 
-    
     public function getSavedData() : ?array
     {
         $res = $this->db->queryF(
@@ -1149,10 +1147,10 @@ class ilMail
 
     /**
      * This method is used to finally send internal messages and external emails
-     * To use the mail system as a consumer, please use \ilMail::enqueue
+     * To use the mail system as a consumer, please use ilMail::enqueue
      * @param string[] $attachments
      * @return ilMailError[]
-     * @see \ilMail::enqueue()
+     * @see ilMail::enqueue()
      * @internal
      */
     public function sendMail(
@@ -1230,7 +1228,7 @@ class ilMail
     }
 
     /**
-     * @return ilMailError[] An array of errors determined on validation
+     * @return ilMailError[]
      */
     public function validateRecipients(string $to, string $cc, string $bcc) : array
     {
@@ -1251,9 +1249,7 @@ class ilMail
     }
 
     /**
-     * Stores a message in the sent bod of the current user
      * @param string[] $attachment
-     * @return int mail id
      */
     protected function saveInSentbox(
         array $attachment,
@@ -1278,11 +1274,8 @@ class ilMail
         );
     }
 
-    /**
-     * @param string $subject
-     * @param string $message
-     */
-    private function sendMimeMail(string $to, string $cc, string $bcc, $subject, $message, array $attachments) : void
+
+    private function sendMimeMail(string $to, string $cc, string $bcc, string $subject, string $message, array $attachments) : void
     {
         $mailer = new ilMimeMail();
         $mailer->From($this->senderFactory->getSenderByUsrId($this->user_id));
@@ -1311,7 +1304,7 @@ class ilMail
     }
 
     /**
-     * @param string[] $attachments An array of attachments
+     * @param string[] $attachments
      */
     public function saveAttachments(array $attachments) : void
     {
@@ -1329,7 +1322,7 @@ class ilMail
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
      * Returns an array with recipient ilMailAddress instances
-     * @return ilMailAddress[] An array with objects of type ilMailAddress
+     * @return ilMailAddress[]
      */
     protected function parseAddresses(string $addresses) : array
     {
@@ -1355,10 +1348,7 @@ class ilMail
         return $parsedAddresses;
     }
 
-    /**
-     * @param bool $onlyExternalAddresses
-     */
-    protected function getCountRecipient(string $recipients, $onlyExternalAddresses = true) : int
+    protected function getCountRecipient(string $recipients, bool $onlyExternalAddresses = true) : int
     {
         $addresses = new ilMailAddressListImpl($this->parseAddresses($recipients));
         if ($onlyExternalAddresses) {
@@ -1372,9 +1362,6 @@ class ilMail
         return count($addresses->value());
     }
 
-    /**
-     * @param $bccRecipients
-     */
     protected function getCountRecipients(
         string $toRecipients,
         string $ccRecipients,
@@ -1404,11 +1391,6 @@ class ilMail
         return implode(',', $emailRecipients);
     }
 
-    /**
-     * Get auto generated info string
-     * @param ilLanguage $lang
-     * @return string;
-     */
     public static function _getAutoGeneratedMessageString(ilLanguage $lang = null) : string
     {
         global $DIC;
@@ -1448,9 +1430,7 @@ class ilMail
         return $this;
     }
 
-    /**
-     * @return string The installation mail signature
-     */
+
     public static function _getInstallationSignature() : string
     {
         global $DIC;
@@ -1478,11 +1458,7 @@ class ilMail
         return $signature;
     }
 
-    /**
-     * @param int $a_usr_id
-     * @param     $a_language ilLanguage|null
-     */
-    public static function getSalutation($a_usr_id, ilLanguage $a_language = null) : string
+    public static function getSalutation(int $a_usr_id, ?ilLanguage $a_language = null) : string
     {
         global $DIC;
 
@@ -1516,7 +1492,6 @@ class ilMail
 
     /**
      * @param ilObjUser[] $userInstanceByIdMap
-     * @internal
      */
     public function setUserInstanceById(array $userInstanceByIdMap) : void
     {
@@ -1535,7 +1510,6 @@ class ilMail
 
     /**
      * @param ilMailOptions[] $mailOptionsByUsrIdMap
-     * @internal
      */
     public function setMailOptionsByUserIdMap(array $mailOptionsByUsrIdMap) : void
     {

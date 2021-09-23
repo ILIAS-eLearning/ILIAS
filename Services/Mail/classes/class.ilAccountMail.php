@@ -15,24 +15,15 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilAccountMail
 {
     private ServerRequestInterface $httpRequest;
-    /**
-    * user password
-    * @var	string	user password (plain text)
-    * @access	private
-    */
     public string $u_password = "";
 
     /**
     * user object (instance of ilObjUser)
     * @var	object
-    * @access	private
     */
     public $user = "";
-
     /**
-    * repository item target (e.g. "crs_123"
-    * @var	string	target
-    * @access	private
+    * repository item target (e.g. "crs_123")
     */
     public string $target = "";
     private bool $lang_variables_as_fallback = false;
@@ -41,15 +32,20 @@ class ilAccountMail
      */
     private array $attachments = [];
     private bool $attachConfiguredFiles = false;
-
-    /** @var array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null} */
+    /** @var array{
+     *  lang: string,
+     *  subject: string|null,
+     *  body: string|null,
+     *  salf_m: string|null
+     *  sal_f: string|null,
+     *  sal_g: string|null,
+     *  type: string,
+     *  att_file:
+     *  string|null
+     * }
+     */
     private array $amail = [];
 
-
-    /**
-    * constructor
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
@@ -78,23 +74,11 @@ class ilAccountMail
         $this->attachConfiguredFiles = $attachConfiguredFiles;
     }
 
-    /**
-    * set user password
-    *
-    * @access	public
-    * @param	string	$a_pwd		users password as plain text
-    */
     public function setUserPassword(string $a_pwd) : void
     {
         $this->u_password = $a_pwd;
     }
 
-    /**
-    * get user password
-    *
-    * @access	public
-    * @return	string		users password as plain text
-    */
     public function getUserPassword() : string
     {
         return $this->u_password;
@@ -104,7 +88,6 @@ class ilAccountMail
     * Set user. The user object should provide email, language
     * login, gender, first and last name
     *
-    * @access	public
     * @param	object	$a_user		user object
     */
     public function setUser(&$a_user) : void
@@ -121,9 +104,6 @@ class ilAccountMail
     }
 
     /**
-    * get user object
-    *
-    * @access	public
     * @return	object		user object
     */
     public function &getUser() : object
@@ -132,9 +112,6 @@ class ilAccountMail
     }
 
     /**
-    * get target
-    *
-    * @access	public
     * @return	string		repository item target
     */
     public function getTarget() : string
@@ -182,9 +159,6 @@ class ilAccountMail
         return $this->amail[$a_lang];
     }
 
-    /***
-     * @param $mailData
-     */
     private function addAttachments($mailData) : void
     {
         if ($this->shouldAttachConfiguredFiles() && isset($mailData['att_file'])) {
@@ -207,8 +181,7 @@ class ilAccountMail
     * It first tries to read the mail body, subject and sender address from posted named formular fields.
     * If no field values found the defaults are used.
     * Placehoders will be replaced by the appropriate data.
-    * @access	public
-    * @param object ilUser
+     *
     */
     public function send() : bool
     {

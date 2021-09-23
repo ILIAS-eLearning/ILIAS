@@ -13,7 +13,6 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
     protected array $users_stack = [];
     
     /**
-     * "Current" implementation of iterator interface
      * @return array{login: string, firstname: string, lastname:string}
      */
     public function current() : array
@@ -37,9 +36,6 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         return [];
     }
 
-    /**
-     * "Key" implementation of iterator interface
-     */
     public function key() : string
     {
         if (is_array($this->data)) {
@@ -76,12 +72,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         }
         return is_array($this->data) || count($this->users_stack) > 0;
     }
-    
-    
 
-    /**
-     * "Rewind "implementation of iterator interface
-     */
     public function rewind() : void
     {
         if ($this->res) {

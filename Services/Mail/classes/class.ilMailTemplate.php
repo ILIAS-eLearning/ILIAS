@@ -15,9 +15,7 @@ class ilMailTemplate
     protected string $message = '';
     protected bool $isDefault = false;
 
-    /**
-     * @param array $data
-     */
+
     public function __construct(array $data = null)
     {
         if (is_array($data)) {

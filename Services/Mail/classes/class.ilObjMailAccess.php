@@ -14,7 +14,6 @@ class ilObjMailAccess extends ilObjectAccess
     /**
      * Returns the number of attachments and the number of bytes used on the
      * harddisk for mail attachments, by the user with the specified user id.
-     * @param int user id.
      * @return array('count'=>integer,'size'=>integer),...)
      *                            // an associative array with the disk
      *                            // usage in bytes for each object type
@@ -24,9 +23,7 @@ class ilObjMailAccess extends ilObjectAccess
         return ilFileDataMail::_lookupDiskUsageOfUser($user_id);
     }
 
-    /**
-     * check whether goto script will succeed
-     */
+
     public static function _checkGoto($a_target) : bool
     {
         $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());

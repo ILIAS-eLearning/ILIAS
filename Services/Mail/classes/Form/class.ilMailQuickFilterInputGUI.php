@@ -8,7 +8,6 @@
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    
     public function checkInput() : bool
     {
         global $DIC;

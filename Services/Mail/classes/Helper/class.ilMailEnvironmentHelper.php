@@ -8,12 +8,10 @@
  */
 class ilMailEnvironmentHelper
 {
-    
     public function getHttpPath() : string
     {
-        return \ilUtil::_getHttpPath();
+        return ilUtil::_getHttpPath();
     }
-
     
     public function getClientId() : string
     {

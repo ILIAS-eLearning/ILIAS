@@ -14,9 +14,7 @@ class ilMailCronOrphanedMailsFolderObject
      */
     protected array $orphaned_mail_objects = [];
 
-    /**
-     * @param $folder_id
-     */
+
     public function __construct(int $folder_id)
     {
         $this->setFolderId($folder_id);

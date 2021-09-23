@@ -10,10 +10,6 @@ class ilMailCronOrphanedMailsFolderMailObject
     protected int $mail_id = 0;
     protected string $mail_subject = '';
 
-    /**
-     * @param $mail_id
-     * @param $mail_subject
-     */
     public function __construct(int $mail_id, string $mail_subject)
     {
         $this->setMailId($mail_id);

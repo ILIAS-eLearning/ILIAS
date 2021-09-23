@@ -17,9 +17,7 @@ class ilPDMailGUI
     protected ilLanguage $lng;
     protected ilObjUser $user;
 
-    /**
-     * ilPDMailGUI constructor.
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -31,9 +29,7 @@ class ilPDMailGUI
         $this->httpRequest = $DIC->http()->request();
     }
 
-    /**
-     * Get Mail HTML for Personal Desktop Mail Display
-     */
+
     public function getPDMailHTML(int $a_mail_id, int $a_mobj_id) : string
     {
         $this->lng->loadLanguageModule('mail');

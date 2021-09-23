@@ -48,9 +48,7 @@ class ilMimeMail
     protected ilSetting $settings;
     protected ilMailMimeSubjectBuilder $subjectBuilder;
 
-    /**
-     * ilMimeMail constructor.
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -101,7 +99,6 @@ class ilMimeMail
     }
 
     /**
-     * Set the mail recipient
      * @param string|string[] To email address, accept both a single address or an array of addresses
      */
     public function To($to) : void
@@ -114,7 +111,6 @@ class ilMimeMail
     }
 
     /**
-     * Set the cc mail recipient
      * @param string|string[] CC email address, accept both a single address or an array of addresses
      */
     public function Cc($cc) : void
@@ -127,7 +123,6 @@ class ilMimeMail
     }
 
     /**
-     * Set the bcc mail recipient
      * @param string|string[] BCC email address, accept both a single address or an array of addresses
      */
     public function Bcc($bcc) : void
@@ -184,7 +179,6 @@ class ilMimeMail
     }
 
     /**
-     * Attach a file to the mail
      * @param string $filename Path of the file to attach
      * @param string $file_type MIME-type of the file. default to 'application/x-unknown-content-type'
      * @param string $disposition Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
@@ -231,16 +225,14 @@ class ilMimeMail
     }
 
     /**
-     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
+     * @return array{path: string, cid: string, name: string}[]
      */
     public function getImages() : array
     {
         return array_values($this->images);
     }
 
-    /**
-     * Build the relevant email data
-     */
+
     protected function build() : void
     {
         global $DIC;
@@ -268,7 +260,7 @@ class ilMimeMail
         if (strip_tags($this->body, '<b><u><i><a>') === $this->body) {
             // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
             $this->finalBodyAlt = strip_tags($this->body);
-            $this->body = \ilUtil::makeClickable(nl2br($this->body));
+            $this->body = ilUtil::makeClickable(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
             $this->finalBodyAlt = strip_tags(str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body));
@@ -322,10 +314,6 @@ class ilMimeMail
         }
     }
 
-    /**
-     * @param $transport ilMailMimeTransport|null
-     * @return bool A boolean flag whether the transport might be successful
-     */
     public function Send(ilMailMimeTransport $transport = null) : bool
     {
         if (!($transport instanceof ilMailMimeTransport)) {

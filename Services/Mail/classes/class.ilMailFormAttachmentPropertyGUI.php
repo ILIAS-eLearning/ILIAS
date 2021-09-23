@@ -17,16 +17,12 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
      * @var string[]
      */
     public array $items = [];
-
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
-    
-    /**
-     * Form Element for showing Mail Attachments
-     * @param	string	Buttonlabel (e.g. edit or add)
-     */
+
+
     public function __construct(string $buttonLabel)
     {
         global $DIC;
@@ -36,12 +32,8 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
         $this->buttonLabel = $buttonLabel;
         parent::__construct($this->lng->txt('attachments'));
     }
-    
-    /**
-     * Add Attachment Item to list
-     * @param	string	Label for item including additional information
-     *			like Filesize.
-     */
+
+
     public function addItem(string $label) : void
     {
         $this->items[] = $label;

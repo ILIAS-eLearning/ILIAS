@@ -9,9 +9,6 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 {
     protected ilRbacSystem $rbacsystem;
 
-    /**
-     * ilMailMailingListAddressType constructor.
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,

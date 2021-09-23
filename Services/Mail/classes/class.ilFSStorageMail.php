@@ -6,20 +6,11 @@
 * @author Michael Jansen <mjansen@databay.de>
 * @version $Id$
 *
-*
-* @ingroup ServicesMail
 */
 class ilFSStorageMail extends ilFileSystemStorage
 {
     private int $usr_id = 0;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int object id of container (e.g file_id or mob_id)
-     *
-     */
+
     public function __construct(int $a_container_id, int $a_usr_id)
     {
         $this->usr_id = $a_usr_id;
@@ -28,24 +19,12 @@ class ilFSStorageMail extends ilFileSystemStorage
     
         $this->appendToPath('_' . $this->usr_id);
     }
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
+
     protected function getPathPostfix() : string
     {
         return 'mail';
     }
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
+
     protected function getPathPrefix() : string
     {
         return 'mail';

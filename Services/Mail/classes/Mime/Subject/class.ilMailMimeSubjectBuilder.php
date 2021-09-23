@@ -10,9 +10,6 @@ class ilMailMimeSubjectBuilder
     private ilSetting $settings;
     private string $defaultPrefix;
 
-    /**
-     * ilMailMimeSubjectBuilder constructor.
-     */
     public function __construct(ilSetting $settings, string $defaultPrefix)
     {
         $this->settings = $settings;

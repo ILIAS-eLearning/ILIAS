@@ -32,12 +32,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
     private ?Renderer $uiRenderer;
     private ?array $column_definition = null;
 
-    /**
-     * Constructor
-     * @param ilMailFolderGUI $a_parent_obj Pass an instance of ilObjectGUI
-     * @param int $a_current_folder_id Id of the current mail box folder
-     * @param string $a_parent_cmd Command for the parent class
-     */
     public function __construct(
         ilMailFolderGUI $a_parent_obj,
         int $a_current_folder_id,
@@ -248,8 +242,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * Call this before using getHTML()
-     * @return ilMailFolderTableGUI
      * @throws Exception
      */
     final public function prepareHTML() : self
@@ -281,9 +273,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
+     * @return bool|ilMailFolderTableGUI
      */
     public function isDraftFolder(bool $a_bool = null)
     {
@@ -297,9 +287,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
+     * @return bool|ilMailFolderTableGUI
      */
     public function isSentFolder(bool $a_bool = null)
     {
@@ -313,9 +301,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
+     * @return bool|ilMailFolderTableGUI
      */
     public function isTrashFolder(bool $a_bool = null)
     {
@@ -328,9 +314,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * @return ilMailFolderTableGUI
-     */
     private function initCommandButtons() : self
     {
         if ($this->_folderNode['m_type'] === 'trash' && $this->getNumberOfMails() > 0) {
@@ -340,10 +323,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * @param $actions
-     * @return ilMailFolderTableGUI
-     */
     private function initMultiCommands(array $actions) : self
     {
         foreach ($actions as $key => $action) {
@@ -368,9 +347,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * @return ilMailFolderTableGUI
-     */
+
     public function setSelectedItems(array $a_selected_items) : self
     {
         $this->_selectedItems = $a_selected_items;
@@ -405,7 +382,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return $this
      * @throws Exception
      */
     protected function fetchTableData() : self
@@ -600,7 +576,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return ilMailFolderTableGUI
      * @throws ilTemplateException
      */
     protected function setTitleData(string $folderLabel, int $mailCount, int $unreadCount, string $imgFolder) : self
@@ -617,9 +592,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function setNumberOfMails(int $a_number_of_mails) : self
     {
         $this->_number_of_mails = $a_number_of_mails;

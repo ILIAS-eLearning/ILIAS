@@ -10,7 +10,7 @@ use ILIAS\UI\Renderer;
  */
 class ilMailTemplateTableGUI extends ilTable2GUI
 {
-    /** @var \ilMailTemplateContext[] */
+    /** @var ilMailTemplateContext[] */
     protected array $contexts = [];
     protected bool $readOnly = false;
     protected Factory $uiFactory;
@@ -50,14 +50,14 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.mail_template_row.html', 'Services/Mail');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-        $this->contexts = \ilMailTemplateContextService::getTemplateContexts();
+        $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
     
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
-            return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
+            return ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
         }
 
         if ('lang' === $column) {

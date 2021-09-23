@@ -11,13 +11,11 @@ class ilMailValueObject
     private string $recipientsBCC;
     private string $subject;
     private string $body;
-
     /** @var string[] */
     private array $attachments;
     private bool $usePlaceholders;
     private bool $saveInSentBox;
     private string $from;
-
     /**
      * @param string[] $attachments
      */

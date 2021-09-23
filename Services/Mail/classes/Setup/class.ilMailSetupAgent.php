@@ -23,7 +23,7 @@ class ilMailSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        throw new \LogicException("Agent has no config.");
+        throw new LogicException("Agent has no config.");
     }
 
     /**

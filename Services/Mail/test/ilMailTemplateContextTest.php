@@ -11,7 +11,6 @@ use OrgUnit\User\ilOrgUnitUser;
  */
 class ilMailTemplateContextTest extends ilMailBaseTest
 {
-    
     public function getAnonymousTemplateContext(
         OrgUnitUserService $orgUnitUserService,
         ilMailEnvironmentHelper $envHelper,

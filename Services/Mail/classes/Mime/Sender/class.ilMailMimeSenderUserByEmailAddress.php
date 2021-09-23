@@ -7,9 +7,6 @@
  */
 class ilMailMimeSenderUserByEmailAddress extends ilMailMimeSenderUser
 {
-    /**
-     * ilMailMimeSenderUserByEmailAddress constructor.
-     */
     public function __construct(ilSetting $settings, string $emailAddress)
     {
         $user = new ilObjUser();

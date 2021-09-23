@@ -9,9 +9,6 @@ class ilMailAddressTypeHelperImpl implements ilMailAddressTypeHelper
 {
     protected string $installationHost = '';
 
-    /**
-     * ilMailAddressTypeHelperImpl constructor.
-     */
     public function __construct(string $installationHost)
     {
         $this->installationHost = $installationHost;

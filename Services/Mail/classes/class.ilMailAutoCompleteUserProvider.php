@@ -7,15 +7,11 @@
  */
 class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 {
-    
     public function __construct(string $quoted_term, string $term)
     {
         parent::__construct($quoted_term, $term);
     }
 
-    /**
-     * "Valid" implementation of iterator interface
-     */
     public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
@@ -24,7 +20,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
     }
 
     /**
-     * "Current" implementation of iterator interface
      * @return array{login: string, firstname: string, lastname:string}
      */
     public function current() : array
@@ -36,17 +31,11 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         ];
     }
 
-    /**
-     * "Key" implementation of iterator interface
-     */
     public function key() : string
     {
         return $this->data['login'];
     }
 
-    /**
-     * "Rewind "implementation of iterator interface
-     */
     public function rewind() : void
     {
         if ($this->res) {
@@ -117,9 +106,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return 'usr_data ';
     }
 
-    /**
-     * @param string
-     */
     protected function getWherePart(string $search_query) : string
     {
         $outer_conditions = [];
@@ -176,16 +162,13 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return 'login ASC';
     }
 
-    /**
-     * @param $a_str
-     */
+
     protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
     {
         return $this->db->like($field, 'text', $a_str . '%');
     }
 
     /**
-     * Get searchable fields
      * @return string[]
      */
     protected function getFields() : array

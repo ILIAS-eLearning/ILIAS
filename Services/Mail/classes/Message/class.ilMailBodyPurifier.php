@@ -6,13 +6,12 @@
  */
 class ilMailBodyPurifier
 {
-    
     public function purify(string $content) : string
     {
-        $sanitizedContent = \ilUtil::stripSlashes($content);
+        $sanitizedContent = ilUtil::stripSlashes($content);
 
         if ($sanitizedContent !== $content) {
-            $sanitizedContent = \ilUtil::stripSlashes(str_replace('<', '< ', $content));
+            $sanitizedContent = ilUtil::stripSlashes(str_replace('<', '< ', $content));
         }
         $sanitizedContent = str_replace("\r", '', $sanitizedContent);
 

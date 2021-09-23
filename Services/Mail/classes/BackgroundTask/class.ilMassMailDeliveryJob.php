@@ -13,12 +13,9 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMassMailDeliveryJob extends AbstractJob
 {
-    private \ILIAS\DI\Container $dic;
+    private ILIAS\DI\Container $dic;
     private ilMailValueObjectJsonService $mailJsonService;
 
-    /**
-     * ilMassMailDeliveryJob constructor.
-     */
     public function __construct()
     {
         global $DIC;

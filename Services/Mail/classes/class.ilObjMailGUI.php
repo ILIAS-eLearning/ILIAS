@@ -12,26 +12,19 @@ class ilObjMailGUI extends ilObjectGUI
 {
     public const SETTINGS_SUB_TAB_ID_GENERAL = 1;
     public const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
-
     public const PASSWORD_PLACE_HOLDER = '***********************';
     private ServerRequestInterface $httpRequest;
-
     protected ilTabsGUI $tabs;
-
     /**
      * @var ilRbacSystem
      */
     protected $rbacsystem;
-
     /**
      * @var ilSetting
      */
     protected $settings;
 
-    /**
-     * ilObjMailGUI constructor.
-     *
-     */
+
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
@@ -196,7 +189,7 @@ class ilObjMailGUI extends ilObjectGUI
     }
 
     
-    protected function getGeneralSettingsForm() : \ilPropertyFormGUI
+    protected function getGeneralSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -351,10 +344,8 @@ class ilObjMailGUI extends ilObjectGUI
         $this->sendTestMail();
     }
 
-    /**
-     * @param bool $isManualMail
-     */
-    protected function sendTestMail($isManualMail = false) : void
+
+    protected function sendTestMail(bool $isManualMail = false) : void
     {
         if (!$this->isViewAllowed()) {
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
@@ -392,10 +383,8 @@ class ilObjMailGUI extends ilObjectGUI
         $this->showExternalSettingsFormObject();
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function getExternalSettingsForm() : \ilPropertyFormGUI
+
+    protected function getExternalSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -641,10 +630,8 @@ class ilObjMailGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'showExternalSettingsForm');
     }
 
-    /**
-     * @param string $a_target
-     */
-    public static function _goto($a_target) : void
+
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
 

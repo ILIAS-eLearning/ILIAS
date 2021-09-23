@@ -8,7 +8,6 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    
     public function addressProvider() : array
     {
         return [

@@ -8,23 +8,17 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
     /** @var ilLanguage */
     protected $lng;
-
     /** @var ilSetting */
     protected $settings;
-
     /** @var ilObjUser */
     protected $user;
-
     /** @var ilCtrl */
     protected $ctrl;
-
     protected object $parentGui;
     protected string $positiveCmd = '';
     protected ilMailOptions $options;
 
     /**
-     * ilMailOptionsFormGUI constructor.
-     * @param $parentGui
      * @throws InvalidArgumentException
      */
     public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)

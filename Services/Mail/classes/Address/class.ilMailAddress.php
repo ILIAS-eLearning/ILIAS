@@ -10,9 +10,6 @@ class ilMailAddress
     protected string $mailbox = '';
     protected string $host = '';
 
-    /**
-     * ilMailAddress constructor.
-     */
     public function __construct(string $mailbox, string $host)
     {
         $this->mailbox = $mailbox;

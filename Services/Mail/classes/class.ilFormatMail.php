@@ -2,10 +2,6 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class UserMail
-* this class handles user mails
-*
-*
 * @author	Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
@@ -13,23 +9,11 @@
 
 class ilFormatMail extends ilMail
 {
-
-    /**
-    * Constructor
-    * setup an mail object
-    * @param int user_id
-    * @access	public
-    */
     public function __construct(int $a_user_id)
     {
         parent::__construct($a_user_id);
     }
 
-    /**
-    * format a reply message
-    * @access	public
-    * @return string
-    */
     public function formatReplyMessage()
     {
         if (empty($this->mail_data)) {
@@ -44,11 +28,6 @@ class ilFormatMail extends ilMail
         return $this->mail_data["m_message"] = implode(chr(10), $bodylines);
     }
 
-    /**
-    * format a reply subject
-    * @access	public
-    * @return string
-    */
     public function formatReplySubject()
     {
         if (empty($this->mail_data)) {
@@ -56,10 +35,7 @@ class ilFormatMail extends ilMail
         }
         return $this->mail_data["m_subject"] = "RE: " . $this->mail_data["m_subject"];
     }
-    
-    /**
-    * get reply recipients for cc
-    */
+
     public function formatReplyRecipientsForCC() : string
     {
         global $DIC;
@@ -86,11 +62,7 @@ class ilFormatMail extends ilMail
 
         return ($this->mail_data['rcp_cc'] = implode(', ', $newCC));
     }
-    
-    /**
-    * get reply recipient
-    * @return string
-    */
+
     public function formatReplyRecipient()
     {
         if (empty($this->mail_data)) {
@@ -100,10 +72,7 @@ class ilFormatMail extends ilMail
         $user = new ilObjUser($this->mail_data["sender_id"]);
         return $this->mail_data["rcp_to"] = $user->getLogin();
     }
-    /**
-    * format a forward subject
-    * @return string
-    */
+
     public function formatForwardSubject()
     {
         if (empty($this->mail_data)) {
@@ -113,9 +82,7 @@ class ilFormatMail extends ilMail
     }
 
     /**
-    * append search result to recipient
-    * @param string[] names to append
-    * @param string rcp type ('to','cc','bc')
+    * @param string[] $a_names names to append
     */
     public function appendSearchResult(array $a_names, string $a_type) : array
     {
@@ -159,7 +126,7 @@ class ilFormatMail extends ilMail
 
         $lines = explode(chr(10), $message);
         foreach ($lines as $i => $iValue) {
-            if (!str_starts_with($iValue, '>')) {
+            if (strpos($iValue, '>') !== 0) {
                 $formatted[] = wordwrap($iValue, $linebreak, chr(10));
             } else {
                 $formatted[] = $iValue;
@@ -187,4 +154,4 @@ class ilFormatMail extends ilMail
 
         return $message;
     }
-} // END class.ilFormatMail
+}

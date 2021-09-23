@@ -49,7 +49,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function interaction(array $input, \ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, \ILIAS\BackgroundTasks\Bucket $bucket) : array
+    public function interaction(array $input, ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option, ILIAS\BackgroundTasks\Bucket $bucket) : array
     {
         return $input;
     }

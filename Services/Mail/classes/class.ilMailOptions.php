@@ -12,13 +12,10 @@ class ilMailOptions
     public const INCOMING_LOCAL = 0;
     public const INCOMING_EMAIL = 1;
     public const INCOMING_BOTH = 2;
-
     public const FIRST_EMAIL = 3;
     public const SECOND_EMAIL = 4;
     public const BOTH_EMAIL = 5;
-
     public const DEFAULT_LINE_BREAK = 60;
-
     protected ILIAS $ilias;
     protected ilDBInterface $db;
     protected int $usrId = 0;

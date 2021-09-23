@@ -9,9 +9,6 @@ class ilMailMimeSenderSystem implements ilMailMimeSender
 {
     protected ilSetting $settings;
 
-    /**
-     * ilMailMimeSenderSystem constructor.
-     */
     public function __construct(ilSetting $settings)
     {
         $this->settings = $settings;

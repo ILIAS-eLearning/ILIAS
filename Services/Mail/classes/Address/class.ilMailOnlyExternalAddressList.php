@@ -9,12 +9,10 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
 {
     protected ilMailAddressList $origin;
     protected string $installationHost;
-
     /** @var callable */
     protected $getUsrIdByLoginCallable;
 
     /**
-     * ilMailOnlyExternalAddressList constructor.
      * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument and returns an integer >= 0
      */
     public function __construct(
@@ -45,7 +43,7 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
                 return false;
             }
 
-            if (str_starts_with($address->getMailbox(), '#')) {
+            if (strpos($address->getMailbox(), '#') === 0) {
                 return false;
             }
 

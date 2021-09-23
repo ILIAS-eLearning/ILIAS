@@ -9,9 +9,6 @@ class ilMailTransportSettings
 {
     private ilMailOptions $mailOptions;
 
-    /**
-     * ilMailTransportSettings constructor.
-     */
     public function __construct(ilMailOptions $mailOptions)
     {
         $this->mailOptions = $mailOptions;

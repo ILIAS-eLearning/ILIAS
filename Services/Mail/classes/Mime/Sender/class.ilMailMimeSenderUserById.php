@@ -10,9 +10,6 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
     /** @var ilObjUser[] */
     protected static array $userInstances = [];
 
-    /**
-     * ilMailMimeSenderUserById constructor.
-     */
     public function __construct(ilSetting $settings, int $usrId)
     {
         if (!array_key_exists($usrId, self::$userInstances)) {

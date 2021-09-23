@@ -13,9 +13,6 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
     protected ilSetting $settings;
     private ilAppEventHandler $eventHandler;
 
-    /**
-     * ilMailMimeTransportBase constructor.
-     */
     public function __construct(ilSetting $settings, ilAppEventHandler $eventHandler)
     {
         $this->settings = $settings;

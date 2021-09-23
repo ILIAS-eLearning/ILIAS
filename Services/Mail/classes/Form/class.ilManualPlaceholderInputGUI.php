@@ -14,15 +14,11 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected string $instructionText = '';
     protected string $adviseText = '';
     protected ilGlobalTemplateInterface $tpl;
-
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
 
-    /**
-     * ilManualPlaceholderInputGUI constructor.
-     */
     public function __construct(string $dependencyElementId)
     {
         global $DIC;
@@ -43,9 +39,6 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->rerenderUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getRerenderTriggerElementName() : ?string
     {
         return $this->rerenderTriggerElementName;
@@ -89,9 +82,6 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         $this->placeholders[$placeholder]['title'] = $title;
     }
 
-    /**
-     * @param $a_tpl
-     */
     public function insert(ilTemplate $a_tpl) : void
     {
         $html = $this->render();
@@ -135,20 +125,11 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         return $subtpl->get();
     }
 
-    /**
-     * Set value by array
-     *
-     * @param	array	$a_values	value array
-     */
     public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
-    /**
-     * Set Value.
-     *
-     * @param	string	$a_value	Value
-     */
+
     public function setValue(string $a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {

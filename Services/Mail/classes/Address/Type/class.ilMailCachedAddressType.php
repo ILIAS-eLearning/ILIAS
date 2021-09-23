@@ -8,16 +8,11 @@ class ilMailCachedAddressType implements ilMailAddressType
 {
     /** @var array[] */
     protected static array $usrIdsByAddressCache = [];
-
     /** @var bool[] */
     protected static array $isValidCache = [];
-
     protected ilMailAddressType $inner;
     protected bool $useCache = true;
 
-    /**
-     * ilMailCachedRoleAddressType constructor.
-     */
     public function __construct(ilMailAddressType $inner, bool $useCache)
     {
         $this->inner = $inner;

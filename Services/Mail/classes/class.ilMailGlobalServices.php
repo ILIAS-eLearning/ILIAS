@@ -11,44 +11,11 @@
  */
 class ilMailGlobalServices
 {
-    /**
-     *
-     * Cache array key for mail object reference id
-     *
-     * @var    int
-     *
-     */
     public const CACHE_TYPE_REF_ID = 0;
-
-    /**
-     *
-     * Cache array key for number of new mails
-     *
-     * @var    int
-     *
-     */
     public const CACHE_TYPE_NEW_MAILS = 1;
-
-    /**
-     *
-     * Cache array
-     *
-     * @var        array
-     * @access    protected
-     * @static
-     *
-     */
     protected static $global_mail_services_cache = [];
 
-    /**
-     *
-     * Determines the reference id of the mail object and stores this information in a local cache variable
-     *
-     * @access    public
-     * @return    int    The reference id of the mail object
-     * @static
-     *
-     */
+
     public static function getMailObjectRefId() : int
     {
         global $DIC;
@@ -81,16 +48,7 @@ class ilMailGlobalServices
         return (int) self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
     }
 
-    /**
-     *
-     * Determines the number of new mails for the passed user id and stores this information in a local cache variable
-     *
-     * @access    public
-     * @param $usr_id
-     * @return int The number on unread mails (system messages + inbox mails) for the passed user id
-     * @static
-     *
-     */
+
     public static function getNewMailsData(int $usr_id, int $leftInterval = 0) : array
     {
         global $DIC;

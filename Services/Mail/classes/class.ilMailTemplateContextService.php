@@ -60,10 +60,9 @@ class ilMailTemplateContextService
     }
 
     /**
-     * @return ilMailTemplateContext
      * @throws ilMailException
      */
-    public static function getTemplateContextById(string $a_id) : \ilMailTemplateContext
+    public static function getTemplateContextById(string $a_id) : ilMailTemplateContext
     {
         $contexts = self::getTemplateContexts($a_id);
         $first_context = current($contexts);

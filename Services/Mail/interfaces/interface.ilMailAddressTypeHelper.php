@@ -7,7 +7,6 @@
  */
 interface ilMailAddressTypeHelper
 {
-    
     public function doesGroupNameExists(string $name) : bool;
 
     

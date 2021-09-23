@@ -15,11 +15,9 @@ class ilMailAttachmentGUI
     private ilToolbarGUI $toolbar;
     private ilFormatMail $umail;
     private ilFileDataMail $mfile;
-    private \Psr\Http\Message\ServerRequestInterface $request;
+    private Psr\Http\Message\ServerRequestInterface $request;
 
-    /**
-     * ilMailAttachmentGUI constructor.
-     */
+
     public function __construct()
     {
         global $DIC;

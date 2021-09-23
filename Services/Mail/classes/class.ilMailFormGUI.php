@@ -29,9 +29,7 @@ class ilMailFormGUI
     protected ilMailTemplateService $templateService;
     private ilMailBodyPurifier $purifier;
 
-    /**
-     * ilMailFormGUI constructor.
-     */
+
     public function __construct(
         ilMailTemplateService $templateService = null,
         ilMailBodyPurifier $bodyPurifier = null
@@ -399,9 +397,7 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    /**
-     * Called asynchronously when changing the template
-     */
+
     protected function getTemplateDataById() : void
     {
         if (!isset($this->httpRequest->getQueryParams()['template_id'])) {

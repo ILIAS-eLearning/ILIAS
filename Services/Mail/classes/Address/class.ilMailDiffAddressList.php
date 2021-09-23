@@ -10,9 +10,6 @@ class ilMailDiffAddressList implements ilMailAddressList
     protected ilMailAddressList $left;
     protected ilMailAddressList $right;
 
-    /**
-     * ilMailDiffAddressList constructor.
-     */
     public function __construct(ilMailAddressList $left, ilMailAddressList $right)
     {
         $this->left = $left;

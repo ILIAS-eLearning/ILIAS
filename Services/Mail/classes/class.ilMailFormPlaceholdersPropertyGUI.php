@@ -13,13 +13,11 @@
 class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 {
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
 
-    /**
-     * ilMailFormPlaceholdersPropertyGUI constructor.
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -29,9 +27,7 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
         parent::__construct();
     }
 
-    /**
-     * @param $a_tpl
-     */
+
     public function insert(ilTemplate $a_tpl) : void
     {
         $subtpl = new ilTemplate("tpl.mail_new_placeholders.html", false, false, "Services/Mail");

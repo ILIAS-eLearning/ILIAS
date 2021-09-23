@@ -9,27 +9,10 @@
  */
 class ilMailFormCall
 {
-    
     public const SESSION_KEY = 'mail_transport';
-
-    /**
-     * HTTP-GET parameter for the referer url
-     */
     public const REFERER_KEY = 'r';
-
-    /**
-     * Session parameter for the hash
-     */
     public const SIGNATURE_KEY = 'sig';
-
-    /**
-     * Session parameter for the context
-     */
     public const CONTEXT_PREFIX = 'ctx';
-
-    /**
-     * Session parameter for the context
-     */
     public const CONTEXT_KEY = 'ctx_template';
 
     /**
@@ -139,9 +122,7 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    /**
-     * @return string signature
-     */
+
     public static function getSignature() : string
     {
         $sig = '';
@@ -212,9 +193,7 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-    /**
-     * @return array context parameters
-     */
+
     public static function getContextParameters() : array
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -225,9 +204,7 @@ class ilMailFormCall
         return [];
     }
 
-    /**
-     * @return array
-     */
+
     public static function setContextParameters(array $parameters) : void
     {
         $session = ilSession::get(self::SESSION_KEY);

@@ -7,7 +7,6 @@
  */
 interface ilMailMimeSender
 {
-    
     public function hasReplyToAddress() : bool;
 
     

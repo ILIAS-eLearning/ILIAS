@@ -26,9 +26,6 @@ class ilMailbox
     protected string $table_mail_obj_data;
     protected string $table_tree;
 
-    /**
-     * ilMailbox constructor.
-     */
     public function __construct(int $a_user_id = 0)
     {
         global $DIC;
@@ -204,9 +201,6 @@ class ilMailbox
         return true;
     }
 
-    /**
-     * @param $name
-     */
     protected function folderNameExists(string $name) : bool
     {
         $res = $this->db->queryF(

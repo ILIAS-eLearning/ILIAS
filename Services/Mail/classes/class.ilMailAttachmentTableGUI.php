@@ -9,14 +9,10 @@
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
     /**
-     * @var \ilCtrl
+     * @var ilCtrl
      */
     protected $ctrl;
 
-    /**
-     * @param $a_parent_obj
-     * @param $a_parent_cmd
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         global $DIC;
@@ -75,9 +71,6 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         return $a_field === 'filesize' || $a_field === 'filecreatedate';
     }
 
-    /**
-     * @return string
-     */
     protected function formatValue(string $column, string $value) : ?string
     {
         switch ($column) {

@@ -9,9 +9,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 {
     private ilMailingLists $lists;
 
-    /**
-     * ilMailMailingListAddressType constructor.
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,

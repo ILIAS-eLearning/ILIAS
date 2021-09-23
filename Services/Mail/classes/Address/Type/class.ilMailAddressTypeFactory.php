@@ -68,7 +68,7 @@ class ilMailAddressTypeFactory
     public function getByPrefix(ilMailAddress $address, bool $cached = true) : ilMailAddressType
     {
         switch (true) {
-            case !str_starts_with($address->getMailbox(), '#') && !str_starts_with($address->getMailbox(), '"#'):
+            case strpos($address->getMailbox(), '#') !== 0 && strpos($address->getMailbox(), '"#') !== 0:
                 $addressType = new ilMailLoginOrEmailAddressAddressType(
                     $this->typeHelper,
                     $address,
@@ -77,7 +77,7 @@ class ilMailAddressTypeFactory
                 );
                 break;
 
-            case str_starts_with($address->getMailbox(), '#il_ml_'):
+            case strpos($address->getMailbox(), '#il_ml_') === 0:
                 $addressType = new ilMailMailingListAddressType(
                     $this->typeHelper,
                     $address,

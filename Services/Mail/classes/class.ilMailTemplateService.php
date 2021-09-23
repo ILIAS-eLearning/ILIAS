@@ -10,11 +10,8 @@ class ilMailTemplateService
 {
     protected ilMailTemplateRepository $repository;
 
-    /**
-     * ilMailTemplateService constructor.
-     * @param ilMailTemplateRepository $repository
-     */
-    public function __construct(\ilMailTemplateRepository $repository)
+
+    public function __construct(ilMailTemplateRepository $repository)
     {
         $this->repository = $repository;
     }
@@ -26,8 +23,8 @@ class ilMailTemplateService
         string $subject,
         string $message,
         string $language
-    ) : \ilMailTemplate {
-        $template = new \ilMailTemplate();
+    ) : ilMailTemplate {
+        $template = new ilMailTemplate();
         $template->setContext($contextId);
         $template->setTitle($title);
         $template->setSubject($subject);
@@ -60,13 +57,13 @@ class ilMailTemplateService
     }
 
     
-    public function loadTemplateForId(int $templateId) : \ilMailTemplate
+    public function loadTemplateForId(int $templateId) : ilMailTemplate
     {
         return $this->repository->findById($templateId);
     }
 
     /**
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function loadTemplatesForContextId(string $contextId) : array
     {

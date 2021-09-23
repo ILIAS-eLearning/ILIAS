@@ -6,6 +6,10 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilMailGlobalServices;
+use DateTimeImmutable;
+use ilDateTime;
+use ilDatePresentation;
 
 /**
  * Class MailNotificationProvider
@@ -30,14 +34,14 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $hasInternalMailAccess = $this->dic->rbac()->system()->checkAccess(
             'internal_mail',
-            \ilMailGlobalServices::getMailObjectRefId()
+            ilMailGlobalServices::getMailObjectRefId()
         );
         if (!$hasInternalMailAccess) {
             return [];
         }
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
-        $newMailData = \ilMailGlobalServices::getNewMailsData(
+        $newMailData = ilMailGlobalServices::getNewMailsData(
             $this->dic->user()->getId(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
@@ -84,10 +88,10 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             ->withDescription($body);
 
         try {
-            $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
+            $dateTime = DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
             $notificationItem = $notificationItem->withProperties([
-                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
-                    new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
+                $this->dic->language()->txt('nc_mail_prop_time') => ilDatePresentation::formatDate(
+                    new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 ),
             ]);
         } catch (\Throwable $e) {

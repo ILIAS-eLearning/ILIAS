@@ -11,7 +11,6 @@ class ilMailAddressListImpl implements ilMailAddressList
     protected array $addresses = [];
 
     /**
-     * ilMailAddressListImpl constructor.
      * @param ilMailAddress[] $addresses
      */
     public function __construct(array $addresses)

@@ -14,21 +14,14 @@ class ilFileDataImportMail extends ilFileDataImport
 {
     /**
     * path of exercise directory
-    * @var string path
-    * @access private
     */
     public string $mail_path;
-
     public array $files;
     public string $xml_file;
     
 
     /**
-    * Constructor
-    * call base constructors
     * checks if directory is writable and sets the optional obj_id
-    * @param int obj_id
-    * @access	public
     */
     public function __construct()
     {
@@ -52,10 +45,6 @@ class ilFileDataImportMail extends ilFileDataImport
         return $this->xml_file;
     }
 
-    /**
-    * store uploaded file in filesystem
-    * @param array HTTP_POST_FILES
-    */
     public function storeUploadedFile(array $a_http_post_file) : bool
     {
         // TODO:
@@ -108,11 +97,6 @@ class ilFileDataImportMail extends ilFileDataImport
         return false;
     }
 
-    /**
-    * get exercise path
-    * @access	public
-    * @return string path
-    */
     public function getPath() : string
     {
         return $this->mail_path;
@@ -153,11 +137,6 @@ class ilFileDataImportMail extends ilFileDataImport
         return true;
     }
 
-    /**
-    * check if directory is writable
-    * overwritten method from base class
-    * @access	private
-    */
     public function __checkReadWrite() : bool
     {
         if (is_writable($this->mail_path) && is_readable($this->mail_path)) {

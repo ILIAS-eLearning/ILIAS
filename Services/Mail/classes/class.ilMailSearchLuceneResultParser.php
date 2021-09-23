@@ -24,10 +24,8 @@ class ilMailSearchLuceneResultParser
         return $this->xml;
     }
 
-    /**
-     * @return ilMailSearchResult
-     */
-    public function getResult() : \ilMailSearchResult
+
+    public function getResult() : ilMailSearchResult
     {
         return $this->result;
     }

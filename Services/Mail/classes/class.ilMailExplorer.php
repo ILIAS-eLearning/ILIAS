@@ -16,11 +16,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     private ilMailGUI $parentObject;
     protected int $currentFolderId = 0;
 
-    /**
-     * ilMailExplorer constructor.
-     * @param $parentObject
-     * @param $userId
-     */
+
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         $this->parentObject = $parentObject;

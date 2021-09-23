@@ -4,7 +4,7 @@
 
 class ilMailTemplateContextDefinitionProcessor implements ilComponentDefinitionProcessor
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected ?string $component;
     protected bool $in_mailtemplates = false;
     /**

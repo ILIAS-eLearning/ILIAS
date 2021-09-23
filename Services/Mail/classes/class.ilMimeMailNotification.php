@@ -21,10 +21,7 @@ abstract class ilMimeMailNotification extends ilMailNotification
         $this->mime_mail->Send();
     }
 
-    /**
-     * @return ilMimeMail
-     */
-    protected function initMimeMail() : \ilMimeMail
+    protected function initMimeMail() : ilMimeMail
     {
         /** @var ilMailMimeSenderFactory $senderFactory */
         $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
@@ -54,7 +51,6 @@ abstract class ilMimeMailNotification extends ilMailNotification
      */
     protected function handleCurrentRecipient(string $rcp) : void
     {
-        
         if (is_numeric($rcp)) {
             /**
              * @var $rcp ilObjUser
@@ -79,10 +75,8 @@ abstract class ilMimeMailNotification extends ilMailNotification
         }
     }
 
-    /**
-     * @return ilMimeMailNotification
-     */
-    public function setCurrentRecipient(string $current_recipient) : \ilMimeMailNotification
+
+    public function setCurrentRecipient(string $current_recipient) : ilMimeMailNotification
     {
         $this->current_recipient = $current_recipient;
         return $this;
@@ -94,19 +88,15 @@ abstract class ilMimeMailNotification extends ilMailNotification
         return $this->current_recipient;
     }
 
-    /**
-     * @return ilMimeMailNotification
-     */
-    public function setMimeMail(ilMimeMail $mime_mail) : \ilMimeMailNotification
+
+    public function setMimeMail(ilMimeMail $mime_mail) : ilMimeMailNotification
     {
         $this->mime_mail = $mime_mail;
         return $this;
     }
 
-    /**
-     * @return ilMimeMail
-     */
-    public function getMimeMail() : \ilMimeMail
+
+    public function getMimeMail() : ilMimeMail
     {
         return $this->mime_mail;
     }

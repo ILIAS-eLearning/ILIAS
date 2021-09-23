@@ -6,6 +6,5 @@
  */
 interface ilMailMimeTransport
 {
-    
     public function send(ilMimeMail $mail) : bool;
 }

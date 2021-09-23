@@ -27,9 +27,6 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
         $this->user_id = $DIC->user()->getId();
     }
 
-    /**
-     * "Valid" implementation of iterator interface
-     */
     public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);
@@ -37,17 +34,10 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
         return is_array($this->data);
     }
 
-    /**
-     * "Next" implementation of iterator interface
-     */
     public function next() : void
     {
     }
 
-    /**
-     * Destructor
-     * Free the result
-     */
     public function __destruct()
     {
         if ($this->res) {

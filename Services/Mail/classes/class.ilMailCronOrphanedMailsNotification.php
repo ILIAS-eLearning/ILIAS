@@ -15,10 +15,7 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         parent::__construct($a_is_personal_workspace);
     }
 
-    /**
-     * @param string $a_code
-     */
-    protected function initLanguageByIso2Code($a_code = '') : void
+    protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');

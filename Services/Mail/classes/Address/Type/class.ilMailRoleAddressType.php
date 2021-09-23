@@ -11,9 +11,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
     protected ilRbacReview $rbacreview;
     protected ilRoleMailboxSearch $roleMailboxSearch;
 
-    /**
-     * ilMailRoleAddressType constructor.
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,

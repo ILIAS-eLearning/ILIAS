@@ -19,7 +19,7 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function getAll() : array
     {
@@ -27,7 +27,7 @@ class ilMailTemplateRepository
 
         $res = $this->db->query('SELECT * FROM mail_man_tpl');
         while ($row = $this->db->fetchAssoc($res)) {
-            $template = new \ilMailTemplate($row);
+            $template = new ilMailTemplate($row);
             $templates[] = $template;
         }
 
@@ -35,9 +35,9 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @throws \OutOfBoundsException
+     * @throws OutOfBoundsException
      */
-    public function findById(int $templateId) : \ilMailTemplate
+    public function findById(int $templateId) : ilMailTemplate
     {
         $res = $this->db->queryF(
             'SELECT * FROM mail_man_tpl WHERE tpl_id  = %s',
@@ -47,14 +47,14 @@ class ilMailTemplateRepository
 
         if (1 === $this->db->numRows($res)) {
             $row = $this->db->fetchAssoc($res);
-            return new \ilMailTemplate($row);
+            return new ilMailTemplate($row);
         }
 
-        throw new \OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
+        throw new OutOfBoundsException(sprintf("Could not find template by id: %s", $templateId));
     }
 
     /**
-     * @return \ilMailTemplate[]
+     * @return ilMailTemplate[]
      */
     public function findByContextId(string $contextId) : array
     {
