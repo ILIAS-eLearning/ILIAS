@@ -415,6 +415,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         require_once 'Services/Form/classes/class.ilRepositorySelectorInputGUI.php';
         $ri = new ilRepositorySelectorInputGUI($this->lng->txt('repository'), 'repository_root_node');
         $ri->setHeaderMessage($this->lng->txt('question_browse_area_info'));
+        $ri->setClickableTypes(array('qpl'));
         $this->addFilterItem($ri);
         $ri->readFromSession();
         $this->filter['repository_root_node'] = $ri->getValue();
