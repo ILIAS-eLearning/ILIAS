@@ -36,6 +36,14 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
+    public function minimize()
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function tag($label, $action)
     {
         return new Tag($label, $action);
