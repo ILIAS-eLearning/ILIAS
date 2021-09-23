@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Button\Close;
+namespace ILIAS\UI\examples\Button\Minimize;
 
 /**
  * Note that this example is rather artificial, since the minimize button is only used in other components
