@@ -1,6 +1,5 @@
 <?php namespace ILIAS\Administration;
 
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -30,6 +29,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
+        $logged_in = $access_helper->isUserLoggedIn();
+        if (!$logged_in()) {
+            return [];
+        }
 
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
