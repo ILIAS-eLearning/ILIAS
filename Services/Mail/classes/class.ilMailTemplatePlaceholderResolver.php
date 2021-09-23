@@ -36,8 +36,14 @@ class ilMailTemplatePlaceholderResolver
             if ($result !== '') {
                 $message = str_replace('[' . $ph_definition['placeholder'] . ']', $result, $message);
 
-                if (array_key_exists('supportsCondition', $ph_definition) && $ph_definition['supportsCondition']) {
-                    $message = preg_replace('/' . $startTag . '(.*?)' . $endTag . '/imsU', '$1', $message);
+                if (array_key_exists('supportsCondition', $ph_definition) &&
+                    $ph_definition['supportsCondition']
+                ) {
+                    $message = preg_replace(
+                        '/' . $startTag . '(.*?)' . $endTag . '/imsU',
+                        '$1',
+                        $message
+                    );
                 }
             } else {
                 $message = preg_replace(
@@ -45,10 +51,20 @@ class ilMailTemplatePlaceholderResolver
                     ' ',
                     $message
                 );
-                $message = preg_replace('/\[' . $ph_definition['placeholder'] . '\]/ims', '', $message);
+                $message = preg_replace(
+                    '/\[' . $ph_definition['placeholder'] . '\]/ims',
+                    '',
+                    $message
+                );
 
-                if (array_key_exists('supportsCondition', $ph_definition) && $ph_definition['supportsCondition']) {
-                    $message = preg_replace('/' . $startTag . '.*?' . $endTag . '/imsU', '', $message);
+                if (array_key_exists('supportsCondition', $ph_definition) &&
+                    $ph_definition['supportsCondition']
+                ) {
+                    $message = preg_replace(
+                        '/' . $startTag . '.*?' . $endTag . '/imsU',
+                        '',
+                        $message
+                    );
                 }
             }
         }

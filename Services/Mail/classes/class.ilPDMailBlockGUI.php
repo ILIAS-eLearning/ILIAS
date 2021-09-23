@@ -142,7 +142,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
         } elseif (!$user) {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+            $this->tpl->setVariable(
+                'PUBLIC_NAME_LONG',
+                $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+            );
 
             $this->tpl->setCurrentBlock('image_container');
             $this->tpl->touchBlock('image_container');
@@ -153,9 +156,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
         }
 
-        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($a_set['send_time'], IL_CAL_DATE)));
+        $this->tpl->setVariable(
+            'NEW_MAIL_DATE',
+            ilDatePresentation::formatDate(new ilDate($a_set['send_time'], IL_CAL_DATE))
+        );
 
-        $this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($a_set['m_subject'], ENT_NOQUOTES, 'UTF-8'));
+        $this->tpl->setVariable(
+            'NEW_MAIL_SUBJ',
+            htmlentities($a_set['m_subject'], ENT_NOQUOTES, 'UTF-8')
+        );
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
         $this->ctrl->setParameter($this, 'mail_id', $a_set['mail_id']);
         $this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
@@ -182,17 +191,22 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=reply",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id="
+            . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=reply",
             $this->lng->txt("reply")
         );
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id=" . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=read",
+            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id="
+            . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=read",
             $this->lng->txt("inbox")
         );
 
         $this->ctrl->setParameter($this, 'mail_id', (int) $this->httpRequest->getQueryParams()['mail_id']);
-        $content_block->addBlockCommand($this->ctrl->getLinkTarget($this, 'deleteMail'), $this->lng->txt('delete'));
+        $content_block->addBlockCommand(
+            $this->ctrl->getLinkTarget($this, 'deleteMail'),
+            $this->lng->txt('delete')
+        );
 
         return $content_block->getHTML();
     }
@@ -205,11 +219,17 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
 
-        if (!isset($this->httpRequest->getQueryParams()['mobj_id']) || !$this->httpRequest->getQueryParams()['mobj_id']) {
+        if (!isset($this->httpRequest->getQueryParams()['mobj_id']) ||
+            !$this->httpRequest->getQueryParams()['mobj_id']
+        ) {
             $this->requestMailObjId = $mbox->getInboxFolder();
         }
 
-        if ($umail->moveMailsToFolder([(int) $this->httpRequest->getQueryParams()['mail_id']], $mbox->getTrashFolder())) {
+        if ($umail->moveMailsToFolder(
+            [
+            (int) $this->httpRequest->getQueryParams()['mail_id']],
+            $mbox->getTrashFolder()
+        )) {
             ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);
         } else {
             ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);

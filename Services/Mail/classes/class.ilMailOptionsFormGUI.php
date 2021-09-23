@@ -53,7 +53,11 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->setFormAction($this->ctrl->getFormAction($this->parentGui, $this->positiveCmd));
 
         if ($this->settings->get('usr_settings_hide_mail_incoming_mail') !== '1') {
-            $incoming_mail_gui = new ilIncomingMailInputGUI($this->lng->txt('mail_incoming'), 'incoming_type', false);
+            $incoming_mail_gui = new ilIncomingMailInputGUI(
+                $this->lng->txt('mail_incoming'),
+                'incoming_type',
+                false
+            );
             $this->addItem($incoming_mail_gui);
         }
 
@@ -71,7 +75,10 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->addItem($ta);
 
         if ($this->settings->get('mail_notification')) {
-            $cb = new ilCheckboxInputGUI($this->lng->txt('cron_mail_notification'), 'cronjob_notification');
+            $cb = new ilCheckboxInputGUI(
+                $this->lng->txt('cron_mail_notification'),
+                'cronjob_notification'
+            );
             $cb->setInfo($this->lng->txt('mail_cronjob_notification_info'));
             $cb->setValue(1);
             $this->addItem($cb);

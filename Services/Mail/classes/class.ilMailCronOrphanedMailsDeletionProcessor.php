@@ -30,7 +30,12 @@ class ilMailCronOrphanedMailsDeletionProcessor
         $res = $this->db->query('
 				SELECT path, COUNT(mail_id) cnt_mail_ids
 				FROM mail_attachment 
-				WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer') . '
+				WHERE ' . $this->db->in(
+            'mail_id',
+            $this->collector->getMailIdsToDelete(),
+            false,
+            'integer'
+        ) . '
 				GROUP BY path');
         
         while ($row = $this->db->fetchAssoc($res)) {
@@ -76,7 +81,8 @@ class ilMailCronOrphanedMailsDeletionProcessor
                         ));
                     } else {
                         ilLoggerFactory::getLogger('mail')->info(sprintf(
-                            'Attachment file (%s) for mail_id could not be deleted due to missing file system permissions: %s',
+                            'Attachment file (%s) for mail_id could not be deleted' .
+                            ' due to missing file system permissions: %s',
                             $path_name,
                             $mail_id
                         ));
@@ -93,20 +99,29 @@ class ilMailCronOrphanedMailsDeletionProcessor
             }
         }
 
-        $this->db->manipulate('DELETE FROM mail_attachment WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+        $this->db->manipulate(
+            'DELETE FROM mail_attachment WHERE ' .
+            $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+        );
     }
     
     
     private function deleteMails() : void
     {
-        $this->db->manipulate('DELETE FROM mail WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+        $this->db->manipulate(
+            'DELETE FROM mail WHERE ' .
+            $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+        );
     }
     
 
     private function deleteMarkedAsNotified() : void
     {
         if ((int) $this->settings->get('mail_notify_orphaned') >= 1) {
-            $this->db->manipulate('DELETE FROM mail_cron_orphaned WHERE ' . $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer'));
+            $this->db->manipulate(
+                'DELETE FROM mail_cron_orphaned WHERE ' .
+                $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
+            );
         } else {
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
         }

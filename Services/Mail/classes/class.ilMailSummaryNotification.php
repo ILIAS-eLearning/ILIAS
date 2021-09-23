@@ -70,9 +70,17 @@ class ilMailSummaryNotification extends ilMailNotification
             $this->setBody(ilMail::getSalutation($user_id, $user_lang));
             $this->appendBody("\n\n");
             if (count($mail_data) === 1) {
-                $this->appendBody(sprintf($user_lang->txt('mail_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
+                $this->appendBody(sprintf(
+                    $user_lang->txt('mail_at_the_ilias_installation'),
+                    count($mail_data),
+                    ilUtil::_getHttpPath()
+                ));
             } else {
-                $this->appendBody(sprintf($user_lang->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
+                $this->appendBody(sprintf(
+                    $user_lang->txt('mails_at_the_ilias_installation'),
+                    count($mail_data),
+                    ilUtil::_getHttpPath()
+                ));
             }
             $this->appendBody("\n\n");
             

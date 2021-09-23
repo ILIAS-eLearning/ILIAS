@@ -25,7 +25,12 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
     {
         $html = parent::render($a_mode);
 
-        $tpl = new ilTemplate('tpl.prop_template_select_container.html', true, true, 'Services/Mail');
+        $tpl = new ilTemplate(
+            'tpl.prop_template_select_container.html',
+            true,
+            true,
+            'Services/Mail'
+        );
         $tpl->setVariable('CONTENT', $html);
         $tpl->setVariable('FIELDS', json_encode($this->fields));
         $tpl->setVariable('URL', $this->url);

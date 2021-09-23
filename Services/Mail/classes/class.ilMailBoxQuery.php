@@ -57,7 +57,9 @@ class ilMailBoxQuery
             $filter_qry .= ' AND m_status = ' . $DIC->database()->quote('unread', 'text') . ' ';
         }
 
-        if (isset(self::$filter['mail_filter_only_with_attachments']) && self::$filter['mail_filter_only_with_attachments']) {
+        if (isset(self::$filter['mail_filter_only_with_attachments']) &&
+            self::$filter['mail_filter_only_with_attachments']
+        ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
         }
 
@@ -66,14 +68,20 @@ class ilMailBoxQuery
 
             if (null !== self::$filter['period']['start']) {
                 $dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
-                    (new DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
+                    (new DateTimeImmutable(
+                        '@' . self::$filter['period']['start']
+                    )
+                    )->format('Y-m-d 00:00:00'),
                     'timestamp'
                 );
             }
 
             if (null !== self::$filter['period']['end']) {
                 $dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
-                    (new DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
+                    (new DateTimeImmutable(
+                        '@' . self::$filter['period']['end']
+                    )
+                    )->format('Y-m-d 23:59:59'),
                     'timestamp'
                 );
             }
@@ -87,25 +95,37 @@ class ilMailBoxQuery
         $queryCount = 'SELECT COUNT(mail_id) cnt FROM mail '
                     . 'LEFT JOIN usr_data ON usr_id = sender_id '
                     . 'WHERE user_id = %s '
-                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+                    . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                     . 'AND folder_id = %s '
                     . $filter_qry;
 
         if (self::$filtered_ids) {
-            $queryCount .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $queryCount .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $queryCount .= ' UNION ALL '
                     . 'SELECT COUNT(mail_id) cnt FROM mail '
                     . 'LEFT JOIN usr_data ON usr_id = sender_id '
                     . 'WHERE user_id = %s '
-                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+                    . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+                    . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                     . 'AND folder_id = %s '
                     . $filter_qry . ' '
                     . 'AND m_status = %s';
 
         if (self::$filtered_ids) {
-            $queryCount .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $queryCount .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $res = $DIC->database()->queryF(
@@ -142,13 +162,19 @@ class ilMailBoxQuery
         // item query
         $query = 'SELECT mail.*' . $sortColumn . ' ' . $firstnameSelection . ' FROM mail '
                . 'LEFT JOIN usr_data ON usr_id = sender_id '
-               . 'AND ((sender_id > 0 AND sender_id IS NOT NULL AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
+               . 'AND ((sender_id > 0 AND sender_id IS NOT NULL '
+               . 'AND usr_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL)) '
                . 'WHERE user_id = %s '
                . $filter_qry . ' '
                . 'AND folder_id = %s';
 
         if (self::$filtered_ids) {
-            $query .= ' AND ' . $DIC->database()->in('mail_id', self::$filtered_ids, false, 'integer') . ' ';
+            $query .= ' AND ' . $DIC->database()->in(
+                'mail_id',
+                self::$filtered_ids,
+                false,
+                'integer'
+            ) . ' ';
         }
 
         $orderDirection = 'ASC';

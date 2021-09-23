@@ -86,7 +86,10 @@ class ilMailCronNotification extends ilCronJob
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $this->init();
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cron_mail_notification_message"), "mail_notification_message");
+        $cb = new ilCheckboxInputGUI(
+            $this->lng->txt("cron_mail_notification_message"),
+            "mail_notification_message"
+        );
         $cb->setInfo($this->lng->txt("cron_mail_notification_message_info"));
         $cb->setChecked($this->settings->get("mail_notification_message"));
         $a_form->addItem($cb);
@@ -95,7 +98,10 @@ class ilMailCronNotification extends ilCronJob
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
-        $this->settings->set('mail_notification_message', $this->httpRequest->getParsedBody()['mail_notification_message'] ? 1 : 0);
+        $this->settings->set(
+            'mail_notification_message',
+            $this->httpRequest->getParsedBody()['mail_notification_message'] ? 1 : 0
+        );
         return true;
     }
 

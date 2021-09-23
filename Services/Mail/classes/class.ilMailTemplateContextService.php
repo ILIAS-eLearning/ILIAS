@@ -18,7 +18,8 @@ class ilMailTemplateContextService
         }
 
         $persisted_templates = [];
-        $query = 'SELECT id FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote($a_component, 'text');
+        $query = 'SELECT id FROM mail_tpl_ctx WHERE component = '
+            . $DIC->database()->quote($a_component, 'text');
         $set = $DIC->database()->query($query);
         while ($row = $DIC->database()->fetchAssoc($set)) {
             $persisted_templates[] = $row['id'];
@@ -37,10 +38,13 @@ class ilMailTemplateContextService
                     }
                 }
             } else {
-                $DIC->database()->manipulate('DELETE FROM mail_tpl_ctx WHERE component = ' . $DIC->database()->quote(
-                    $a_component,
-                    'text'
-                ));
+                $DIC->database()->manipulate(
+                    'DELETE FROM mail_tpl_ctx WHERE component = '
+                    . $DIC->database()->quote(
+                        $a_component,
+                        'text'
+                    )
+                );
             }
         }
     }

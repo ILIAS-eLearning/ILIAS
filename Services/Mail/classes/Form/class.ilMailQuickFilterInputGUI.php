@@ -33,7 +33,12 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
     {
         global $DIC;
 
-        $tpl = new ilTemplate("tpl.prop_mail_quick_filter_input.html", true, true, "Services/Mail");
+        $tpl = new ilTemplate(
+            "tpl.prop_mail_quick_filter_input.html",
+            true,
+            true,
+            "Services/Mail"
+        );
         if ($this->getValue() !== '') {
             $tpl->setCurrentBlock("prop_text_propval");
             $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
@@ -103,7 +108,10 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             // block-inline hack, see: http://blog.mozilla.com/webdev/2009/02/20/cross-browser-inline-block/
             // -moz-inline-stack for FF2
             // zoom 1; *display:inline for IE6 & 7
-            $tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
+            $tpl->setVariable(
+                "STYLE_PAR",
+                'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;'
+            );
         } else {
             $tpl->setVariable("STYLE_PAR");
         }

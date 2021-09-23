@@ -143,7 +143,10 @@ class ilFileDataImportMail extends ilFileDataImport
             return true;
         }
 
-        $this->ilias->raiseError("Mail import directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
+        $this->ilias->raiseError(
+            "Mail import directory is not readable/writable by webserver",
+            $this->ilias->error_obj->FATAL
+        );
         return false;
     }
 

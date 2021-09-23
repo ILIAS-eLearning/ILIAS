@@ -93,7 +93,11 @@ class ilMailFormCall
 
         if (isset($queryParameters[self::REFERER_KEY])) {
             $session[self::REFERER_KEY] = base64_decode(rawurldecode($queryParameters[self::REFERER_KEY]));
-            $session[self::SIGNATURE_KEY] = base64_decode(rawurldecode($queryParameters[self::SIGNATURE_KEY] ?? ''));
+            $session[self::SIGNATURE_KEY] = base64_decode(
+                rawurldecode(
+                    $queryParameters[self::SIGNATURE_KEY] ?? ''
+                )
+            );
 
             $contextParameters = [];
             foreach ($queryParameters as $key => $value) {

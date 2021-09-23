@@ -51,7 +51,12 @@ class ilMailErrorFormatter
             return '';
         }
 
-        $tpl = new ilTemplate('tpl.mail_new_submission_errors.html', true, true, 'Services/Mail');
+        $tpl = new ilTemplate(
+            'tpl.mail_new_submission_errors.html',
+            true,
+            true,
+            'Services/Mail'
+        );
         if (1 === count($errorsToDisplay)) {
             $tpl->setCurrentBlock('single_error');
             $tpl->setVariable('SINGLE_ERROR', current($errorsToDisplay));

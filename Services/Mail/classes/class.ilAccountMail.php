@@ -308,28 +308,54 @@ class ilAccountMail
         // (no) password sections
         if ($this->getUserPassword() === "") {
             // #12232
-            $a_string = preg_replace("/\[IF_PASSWORD\].*\[\/IF_PASSWORD\]/imsU", "", $a_string);
-            $a_string = preg_replace("/\[IF_NO_PASSWORD\](.*)\[\/IF_NO_PASSWORD\]/imsU", "$1", $a_string);
+            $a_string = preg_replace(
+                "/\[IF_PASSWORD\].*\[\/IF_PASSWORD\]/imsU",
+                "",
+                $a_string
+            );
+            $a_string = preg_replace(
+                "/\[IF_NO_PASSWORD\](.*)\[\/IF_NO_PASSWORD\]/imsU",
+                "$1",
+                $a_string
+            );
         } else {
-            $a_string = preg_replace("/\[IF_NO_PASSWORD\].*\[\/IF_NO_PASSWORD\]/imsU", "", $a_string);
-            $a_string = preg_replace("/\[IF_PASSWORD\](.*)\[\/IF_PASSWORD\]/imsU", "$1", $a_string);
+            $a_string = preg_replace(
+                "/\[IF_NO_PASSWORD\].*\[\/IF_NO_PASSWORD\]/imsU",
+                "",
+                $a_string
+            );
+            $a_string = preg_replace(
+                "/\[IF_PASSWORD\](.*)\[\/IF_PASSWORD\]/imsU",
+                "$1",
+                $a_string
+            );
         }
                 
         // #13346
         if (!$a_user->getTimeLimitUnlimited()) {
             // #6098
-            $a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "$1", $a_string);
+            $a_string = preg_replace(
+                "/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU",
+                "$1",
+                $a_string
+            );
             $timelimit_from = new ilDateTime($a_user->getTimeLimitFrom(), IL_CAL_UNIX);
             $timelimit_until = new ilDateTime($a_user->getTimeLimitUntil(), IL_CAL_UNIX);
             $timelimit = ilDatePresentation::formatPeriod($timelimit_from, $timelimit_until);
             $a_string = str_replace("[TIMELIMIT]", $timelimit, $a_string);
         } else {
-            $a_string = preg_replace("/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU", "", $a_string);
+            $a_string = preg_replace(
+                "/\[IF_TIMELIMIT\](.*)\[\/IF_TIMELIMIT\]/imsU",
+                "",
+                $a_string
+            );
         }
         
         // target
         $tar = false;
-        if (isset($this->httpRequest->getQueryParams()['target']) && $this->httpRequest->getQueryParams()['target'] !== "") {
+        if (isset($this->httpRequest->getQueryParams()['target']) &&
+            $this->httpRequest->getQueryParams()['target'] !== ""
+        ) {
             $tarr = explode("_", $this->httpRequest->getQueryParams()["target"]);
             if ($tree->isInTree($tarr[1])) {
                 $obj_id = ilObject::_lookupObjId($tarr[1]);
@@ -337,7 +363,14 @@ class ilAccountMail
                 if ($type == $tarr[0]) {
                     $a_string = str_replace(
                         ["[TARGET_TITLE]", "[TARGET]"],
-                        [ilObject::_lookupTitle($obj_id), ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID . "&target=" . $this->httpRequest->getQueryParams()["target"]],
+                        [
+                            ilObject::_lookupTitle($obj_id),
+                            ILIAS_HTTP_PATH .
+                            "/goto.php?client_id=" .
+                            CLIENT_ID .
+                            "&target=" .
+                            $this->httpRequest->getQueryParams()["target"]
+                        ],
                         $a_string
                     );
                         

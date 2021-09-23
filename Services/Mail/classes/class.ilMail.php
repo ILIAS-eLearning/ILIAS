@@ -275,7 +275,8 @@ class ilMail
             "FROM $this->table_mail " .
             "LEFT JOIN object_data ON obj_id = sender_id " .
             "WHERE user_id = %s AND folder_id = %s " .
-            "AND ((sender_id > 0 AND sender_id IS NOT NULL AND obj_id IS NOT NULL) OR (sender_id = 0 OR sender_id IS NULL))";
+            "AND ((sender_id > 0 AND sender_id IS NOT NULL AND obj_id IS NOT NULL) " .
+            "OR (sender_id = 0 OR sender_id IS NULL))";
 
         if (isset($filter['status']) && $filter['status'] !== '') {
             $query .= ' AND m_status = ' . $this->db->quote($filter['status'], 'text');
@@ -862,7 +863,8 @@ class ilMail
                         $sep = ',';
                     }
 
-                    $recipientsLineLength = ilStr::strLen($remainingAddresses) + ilStr::strLen($sep . $emailAddress);
+                    $recipientsLineLength = ilStr::strLen($remainingAddresses) +
+                        ilStr::strLen($sep . $emailAddress);
                     if ($recipientsLineLength >= $this->maxRecipientCharacterLength) {
                         $this->sendMimeMail(
                             '',
@@ -953,7 +955,9 @@ class ilMail
         } catch (ilException $e) {
             $colonPosition = strpos($e->getMessage(), ':');
             throw new ilMailException(
-                ($colonPosition === false) ? $e->getMessage() : substr($e->getMessage(), $colonPosition + 2)
+                ($colonPosition === false) ?
+                    $e->getMessage() :
+                    substr($e->getMessage(), $colonPosition + 2)
             );
         }
 
@@ -1197,7 +1201,9 @@ class ilMail
                 $externalMailRecipientsBcc,
                 $subject,
                 $this->formatLinebreakMessage(
-                    $usePlaceholders ? $this->replacePlaceholders($message, 0, false) : $message
+                    $usePlaceholders ?
+                        $this->replacePlaceholders($message, 0, false) :
+                        $message
                 ),
                 $attachments
             );
@@ -1275,12 +1281,22 @@ class ilMail
     }
 
 
-    private function sendMimeMail(string $to, string $cc, string $bcc, string $subject, string $message, array $attachments) : void
-    {
+    private function sendMimeMail(
+        string $to,
+        string $cc,
+        string $bcc,
+        string $subject,
+        string $message,
+        array $attachments
+    ) : void {
         $mailer = new ilMimeMail();
         $mailer->From($this->senderFactory->getSenderByUsrId($this->user_id));
         $mailer->To($to);
-        $mailer->Subject($subject, true, (string) ($this->contextParameters[self::PROP_CONTEXT_SUBJECT_PREFIX] ?? ''));
+        $mailer->Subject(
+            $subject,
+            true,
+            (string) ($this->contextParameters[self::PROP_CONTEXT_SUBJECT_PREFIX] ?? '')
+        );
         $mailer->Body($message);
 
         if ($cc) {
@@ -1443,7 +1459,11 @@ class ilMail
             $clientUrl .= '/login.php?client_id=' . CLIENT_ID; // #18051
         }
 
-        $signature = str_ireplace('[CLIENT_NAME]', $DIC['ilClientIniFile']->readVariable('client', 'name'), $signature);
+        $signature = str_ireplace(
+            '[CLIENT_NAME]',
+            $DIC['ilClientIniFile']->readVariable('client', 'name'),
+            $signature
+        );
         $signature = str_ireplace(
             '[CLIENT_DESC]',
             $DIC['ilClientIniFile']->readVariable('client', 'description'),

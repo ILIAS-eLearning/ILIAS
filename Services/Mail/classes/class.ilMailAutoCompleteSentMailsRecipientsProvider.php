@@ -60,7 +60,10 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
                 strpos($this->data['login'], ';')
             )
         ) {
-            $parts = array_filter(array_map('trim', preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))));
+            $parts = array_filter(array_map(
+                'trim',
+                preg_split("/[ ]*[;,][ ]*/", trim($this->data['login']))
+            ));
             foreach ($parts as $part) {
                 if (ilStr::strPos(ilStr::strToLower($part), ilStr::strToLower($this->term)) !== false) {
                     $this->users_stack[] = $part;

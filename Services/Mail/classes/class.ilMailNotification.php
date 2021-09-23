@@ -319,12 +319,25 @@ abstract class ilMailNotification
         
         if (!$this->is_in_wsp) {
             if (trim($a_permission) &&
-                !$DIC->access()->checkAccessOfUser($a_user_id, $a_permission, "", $a_ref_id, $this->getObjType())) {
+                !$DIC->access()->checkAccessOfUser(
+                    $a_user_id,
+                    $a_permission,
+                    "",
+                    $a_ref_id,
+                    $this->getObjType()
+                )) {
                 return false;
             }
         } elseif (
             trim($a_permission) &&
-            !$this->wsp_access_handler->checkAccessOfUser($this->wsp_tree, $a_user_id, $a_permission, "", $a_ref_id, $this->getObjType())
+            !$this->wsp_access_handler->checkAccessOfUser(
+                $this->wsp_tree,
+                $a_user_id,
+                $a_permission,
+                "",
+                $a_ref_id,
+                $this->getObjType()
+            )
         ) {
             return false;
         }

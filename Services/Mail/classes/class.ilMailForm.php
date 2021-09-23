@@ -19,7 +19,9 @@ class ilMailForm
         global $DIC;
         $this->httpRequest = $DIC->http()->request();
         $mode = ilMailAutoCompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES;
-        if (isset($this->httpRequest->getQueryParams()['fetchall']) && $this->httpRequest->getQueryParams()['fetchall']) {
+        if (isset($this->httpRequest->getQueryParams()['fetchall']) &&
+            $this->httpRequest->getQueryParams()['fetchall']
+        ) {
             $mode = ilMailAutoCompleteRecipientResult::MODE_FETCH_ALL;
         }
 

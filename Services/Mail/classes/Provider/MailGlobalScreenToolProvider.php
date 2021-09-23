@@ -22,8 +22,9 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     /**
      * @inheritDoc
      */
-    public function getToolsForContextStack(ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
-    {
+    public function getToolsForContextStack(
+        ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
+    ) : array {
         $identification = function ($id) : ILIAS\GlobalScreen\Identification\IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);
         };
@@ -31,7 +32,9 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
-        if ($additional_data->exists(self::SHOW_MAIL_FOLDERS_TOOL) && $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true) {
+        if ($additional_data->exists(self::SHOW_MAIL_FOLDERS_TOOL) &&
+            $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true
+        ) {
             $title = $this->dic->language()->txt('mail_folders');
             $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title)->withIsOutlined(true);
 

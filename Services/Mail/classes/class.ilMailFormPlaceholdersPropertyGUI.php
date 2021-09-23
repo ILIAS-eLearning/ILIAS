@@ -30,9 +30,17 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 
     public function insert(ilTemplate $a_tpl) : void
     {
-        $subtpl = new ilTemplate("tpl.mail_new_placeholders.html", false, false, "Services/Mail");
+        $subtpl = new ilTemplate(
+            "tpl.mail_new_placeholders.html",
+            false,
+            false,
+            "Services/Mail"
+        );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
-        $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', sprintf($this->lng->txt('placeholders_advise'), '<br />'));
+        $subtpl->setVariable(
+            'TXT_PLACEHOLDERS_ADVISE',
+            sprintf($this->lng->txt('placeholders_advise'), '<br />')
+        );
         $subtpl->setVariable('TXT_MAIL_SALUTATION', $this->lng->txt('mail_nacc_salutation'));
         $subtpl->setVariable('TXT_FIRST_NAME', $this->lng->txt('firstname'));
         $subtpl->setVariable('TXT_LAST_NAME', $this->lng->txt('lastname'));

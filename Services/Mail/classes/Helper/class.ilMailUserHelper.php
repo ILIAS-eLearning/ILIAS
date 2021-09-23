@@ -13,6 +13,14 @@ class ilMailUserHelper
      */
     public function getUsernameMapForIds(array $usrIds) : array
     {
-        return ilUserUtil::getNamePresentation($usrIds, false, false, '', true, true, false);
+        return ilUserUtil::getNamePresentation(
+            $usrIds,
+            false,
+            false,
+            '',
+            true,
+            true,
+            false
+        );
     }
 }

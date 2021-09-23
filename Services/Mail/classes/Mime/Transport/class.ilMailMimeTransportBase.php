@@ -124,8 +124,10 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             $mail->getFrom()->getEnvelopFromAddress()
         ));
 
-        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Alternative Body: %s", $this->getMailer()->AltBody));
-        ilLoggerFactory::getLogger('mail')->debug(sprintf("Mail Body: %s", $this->getMailer()->Body));
+        ilLoggerFactory::getLogger('mail')
+                       ->debug(sprintf("Mail Alternative Body: %s", $this->getMailer()->AltBody));
+        ilLoggerFactory::getLogger('mail')
+                       ->debug(sprintf("Mail Body: %s", $this->getMailer()->Body));
 
         $this->getMailer()->CharSet = 'utf-8';
 

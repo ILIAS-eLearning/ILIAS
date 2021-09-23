@@ -52,7 +52,8 @@ class ilPDMailGUI
                 $tpl->setCurrentBlock('a_row');
                 $tpl->setVariable(
                     'HREF_DOWNLOAD',
-                    'ilias.php?baseClass=ilMailGUI&amp;type=deliverFile&amp;mail_id=' . $this->httpRequest->getQueryParams()['mail_id'] .
+                    'ilias.php?baseClass=ilMailGUI&amp;type=deliverFile&amp;mail_id='
+                    . $this->httpRequest->getQueryParams()['mail_id'] .
                         '&amp;filename=' . md5($file)
                 );
                 $tpl->setVariable('FILE_NAME', $file);
@@ -78,7 +79,10 @@ class ilPDMailGUI
 
             $tpl->setVariable('PUBLIC_NAME', $sender->getPublicName());
         } elseif (!$sender) {
-            $tpl->setVariable('PUBLIC_NAME', $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+            $tpl->setVariable(
+                'PUBLIC_NAME',
+                $mail_data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'
+            );
         } else {
             $tpl->setCurrentBlock('pers_image');
             $tpl->setVariable('IMG_SENDER', ilUtil::getImagePath('HeaderIconAvatar.svg'));
@@ -101,11 +105,17 @@ class ilPDMailGUI
         $tpl->setVariable('SUBJECT', htmlspecialchars($mail_data['m_subject']));
 
         $tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
-        $tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($mail_data['send_time'], IL_CAL_DATETIME)));
+        $tpl->setVariable(
+            'DATE',
+            ilDatePresentation::formatDate(new ilDateTime($mail_data['send_time'], IL_CAL_DATETIME))
+        );
 
         $tpl->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
         // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-        $tpl->setVariable('MAIL_MESSAGE', nl2br(ilUtil::makeClickable(htmlspecialchars(ilUtil::securePlainString($mail_data['m_message'])))));
+        $tpl->setVariable(
+            'MAIL_MESSAGE',
+            nl2br(ilUtil::makeClickable(htmlspecialchars(ilUtil::securePlainString($mail_data['m_message']))))
+        );
 
         return $tpl->get();
     }

@@ -11,7 +11,9 @@ class ilMailMimeTransportNull implements ilMailMimeTransport
      */
     public function send(ilMimeMail $mail) : bool
     {
-        ilLoggerFactory::getLogger('mail')->debug('Suppressed delegation of external email delivery according to global setting.');
+        ilLoggerFactory::getLogger('mail')->debug(
+            'Suppressed delegation of external email delivery according to global setting.'
+        );
 
         return true;
     }

@@ -37,7 +37,11 @@ class ilMailGUI
 
         $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
-        if (!$DIC->rbac()->system()->checkAccess('internal_mail', $this->umail->getMailObjectReferenceId())) {
+        if (!$DIC->rbac()->system()->checkAccess(
+            'internal_mail',
+            $this->umail->getMailObjectReferenceId()
+        )
+        ) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
 
@@ -49,7 +53,9 @@ class ilMailGUI
                            ->context()
                            ->current();
 
-        $additionalDataExists = $toolContext->getAdditionalData()->exists(MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL);
+        $additionalDataExists = $toolContext->getAdditionalData()->exists(
+            MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL
+        );
         if (false === $additionalDataExists) {
             $toolContext->addAdditionalData(MailGlobalScreenToolProvider::SHOW_MAIL_FOLDERS_TOOL, true);
         }
@@ -188,7 +194,11 @@ class ilMailGUI
                 'mail_id',
                 $mailId
             );
-            $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->setParameterByClass(
+                ilMailFolderGUI::class,
+                'mobj_id',
+                $this->currentFolderId
+            );
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'showMail');
         } elseif ('add_subfolder' === $type) {
             $this->ctrl->redirectByClass($targetClass, 'addSubFolder');
@@ -224,12 +234,22 @@ class ilMailGUI
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
         $this->ctrl->setParameterByClass(ilContactGUI::class, 'mobj_id', $this->currentFolderId);
-        $DIC->tabs()->addTarget('mail_addressbook', $this->ctrl->getLinkTargetByClass(ilContactGUI::class));
+        $DIC->tabs()->addTarget(
+            'mail_addressbook',
+            $this->ctrl->getLinkTargetByClass(ilContactGUI::class)
+        );
         $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
         if ($DIC->settings()->get('show_mail_settings')) {
-            $this->ctrl->setParameterByClass(ilMailOptionsGUI::class, 'mobj_id', $this->currentFolderId);
-            $DIC->tabs()->addTarget('options', $this->ctrl->getLinkTargetByClass(ilMailOptionsGUI::class));
+            $this->ctrl->setParameterByClass(
+                ilMailOptionsGUI::class,
+                'mobj_id',
+                $this->currentFolderId
+            );
+            $DIC->tabs()->addTarget(
+                'options',
+                $this->ctrl->getLinkTargetByClass(ilMailOptionsGUI::class)
+            );
             $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
         }
 

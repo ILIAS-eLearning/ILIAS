@@ -13,8 +13,11 @@ class ilMailCronOrphanedMailsNotifier
     protected int $mail_notify_orphaned = 0;
 
 
-    public function __construct(ilMailCronOrphanedMailsNotificationCollector $collector, int $threshold, int $mail_notify_orphaned)
-    {
+    public function __construct(
+        ilMailCronOrphanedMailsNotificationCollector $collector,
+        int $threshold,
+        int $mail_notify_orphaned
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -34,7 +37,14 @@ class ilMailCronOrphanedMailsNotifier
         }
 
         $ts_delete = strtotime("+ " . $notify_days_before . " days");
-        $ts_for_deletion = mktime(0, 0, 0, date('m', $ts_delete), date('d', $ts_delete), date('Y', $ts_delete));
+        $ts_for_deletion = mktime(
+            0,
+            0,
+            0,
+            date('m', $ts_delete),
+            date('d', $ts_delete),
+            date('Y', $ts_delete)
+        );
 
         foreach ($collection_obj->getFolderObjects() as $folder_obj) {
             $folder_id = $folder_obj->getFolderId();

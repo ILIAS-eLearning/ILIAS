@@ -140,7 +140,10 @@ class ilRoleMailboxSearch
                     "AND otree.tree = 1 " .
                     "AND rfa.assign = 'y' " .
                     "AND rdat.title LIKE " .
-                    $this->db->quote('%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%', 'text');
+                    $this->db->quote(
+                        '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
+                        'text'
+                    );
             }
             $res = $this->db->query($query);
 

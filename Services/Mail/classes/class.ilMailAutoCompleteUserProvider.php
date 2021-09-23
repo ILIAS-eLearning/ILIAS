@@ -61,17 +61,20 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $fields = [
             'login',
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN firstname ELSE '' END) firstname",
+                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "THEN firstname ELSE '' END) firstname",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) THEN lastname ELSE '' END) lastname",
+                "(CASE WHEN (profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "THEN lastname ELSE '' END) lastname",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text')
             ),
             sprintf(
-                "(CASE WHEN ((profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) AND pubemail.value = %s) THEN email ELSE '' END) email",
+                "(CASE WHEN ((profpref.value = %s OR profpref.value = %s OR profpref.value IS NULL) " .
+                "AND pubemail.value = %s) THEN email ELSE '' END) email",
                 $this->db->quote('y', 'text'),
                 $this->db->quote('g', 'text'),
                 $this->db->quote('y', 'text')
@@ -117,7 +120,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             $field_condition = $this->getQueryConditionByFieldAndValue($field, $search_query);
 
             if ('email' === $field) {
-                // If privacy should be respected, the profile setting of every user concerning the email address has to be
+                // If privacy should be respected,
+                // the profile setting of every user concerning the email address has to be
                 // respected (in every user context, no matter if the user is 'logged in' or 'anonymous').
                 $email_query = [];
                 $email_query[] = $field_condition;
@@ -128,7 +132,8 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             }
         }
 
-        // If the current user context ist 'logged in' and privacy should be respected, all fields >>>except the login<<<
+        // If the current user context ist 'logged in' and privacy should be respected,
+        // all fields >>>except the login<<<
         // should only be searchable if the users' profile is published (y oder g)
         // In 'anonymous' context we do not need this additional conditions,
         // because we checked the privacy setting in the condition above: profile = 'g'
@@ -146,7 +151,12 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $field_conditions[] = $this->getQueryConditionByFieldAndValue('login', $search_query);
 
         if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
-            $outer_conditions[] = $this->db->in('time_limit_owner', ilUserFilter::getInstance()->getFolderIds(), false, 'integer');
+            $outer_conditions[] = $this->db->in(
+                'time_limit_owner',
+                ilUserFilter::getInstance()->getFolderIds(),
+                false,
+                'integer'
+            );
         }
 
         if ($field_conditions) {

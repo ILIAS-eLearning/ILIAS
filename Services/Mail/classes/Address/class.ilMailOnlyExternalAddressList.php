@@ -13,7 +13,8 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
     protected $getUsrIdByLoginCallable;
 
     /**
-     * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument and returns an integer >= 0
+     * @param callable $getUsrIdByLoginCallable A callable which accepts a string as argument
+     *                                          and returns an integer >= 0
      */
     public function __construct(
         ilMailAddressList $origin,

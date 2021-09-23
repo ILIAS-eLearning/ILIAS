@@ -2,12 +2,12 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- * Class for global mail information (e.g. in main menu). This class should only contain methods for fetching data which is necessary in global parts of ILIAS, e.g. the main menu.
- * We should keep this class as small as possible. Maybe we duplicate some code which already exists in class ilMail, but we need an efficient class.
- *
+ * Class for global mail information (e.g. in main menu).
+ * This class should only contain methods for fetching data which is necessary in global parts of ILIAS,
+ * e.g. the main menu.
+ * We should keep this class as small as possible.
+ * Maybe we duplicate some code which already exists in class ilMail, but we need an efficient class.
  * @author    Michael Jansen <mjansen@databay.de>
- *
  */
 class ilMailGlobalServices
 {
@@ -25,7 +25,8 @@ class ilMailGlobalServices
             return (int) self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
         }
 
-        // mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
+        // mail settings id is set by a constant in ilias.ini.
+        // Keep the select for some time until everyone has updated his ilias.ini
         if (!MAIL_SETTINGS_ID) {
             $res = $DIC->database()->queryF(
                 '
@@ -71,7 +72,8 @@ class ilMailGlobalServices
             WHERE folder_id = %s AND user_id = %s AND m_status = %s
         ';
         if ($leftInterval > 0) {
-            $query .= ' AND send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+            $query .= ' AND send_time > '
+                . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(
@@ -91,7 +93,8 @@ class ilMailGlobalServices
             WHERE m.user_id = %s
 	 		AND m.m_status = %s';
         if ($leftInterval > 0) {
-            $query .= ' AND m.send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+            $query .= ' AND m.send_time > '
+                . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(

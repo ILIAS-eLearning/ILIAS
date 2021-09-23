@@ -169,7 +169,9 @@ abstract class ilMailTemplateContext
                 break;
 
             case 'ilias_url' === $placeholder_id:
-                $resolved = $this->envHelper->getHttpPath() . '/login.php?client_id=' . $this->envHelper->getClientId();
+                $resolved = $this->envHelper->getHttpPath()
+                    . '/login.php?client_id='
+                    . $this->envHelper->getClientId();
                 break;
 
             case 'client_name' === $placeholder_id:

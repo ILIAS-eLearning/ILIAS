@@ -53,14 +53,18 @@ class ilMailAttachmentGUI
     {
         $files = [];
 
-        // Important: Do not check for uploaded files here, otherwise it is no more possible to remove files (please ignore bug reports like 10137)
+        // Important: Do not check for uploaded files here,
+        // otherwise it is no more possible to remove files (please ignore bug reports like 10137)
 
         $sizeOfSelectedFiles = 0;
         $filesOfRequest = (array) ($this->request->getParsedBody()['filename'] ?? []);
         foreach ($filesOfRequest as $file) {
             if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
                 $files[] = urldecode($file);
-                $sizeOfSelectedFiles += filesize($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)));
+                $sizeOfSelectedFiles += filesize(
+                    $this->mfile->getMailPath() . '/' .
+                    basename($this->user->getId() . '_' . urldecode($file))
+                );
             }
         }
 
@@ -68,7 +72,10 @@ class ilMailAttachmentGUI
             null !== $this->mfile->getAttachmentsTotalSizeLimit() &&
             $files && $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
         ) {
-            ilUtil::sendFailure($this->lng->txt('mail_max_size_attachments_total_error') . ' ' . ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit()));
+            ilUtil::sendFailure(
+                $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
+                ilUtil::formatSize($this->mfile->getAttachmentsTotalSizeLimit())
+            );
             $this->showAttachments();
             return;
         }
@@ -168,10 +175,15 @@ class ilMailAttachmentGUI
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($this->request->getUploadedFiles()['userfile']);
                 ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-            } elseif ($form->getItemByPostVar('userfile')->getAlert() !== $this->lng->txt("form_msg_file_size_exceeds")) {
+            } elseif ($form->getItemByPostVar('userfile')->getAlert() !==
+                $this->lng->txt("form_msg_file_size_exceeds")
+            ) {
                 ilUtil::sendFailure($form->getItemByPostVar('userfile')->getAlert());
             } else {
-                ilUtil::sendFailure($this->lng->txt('mail_maxsize_attachment_error') . ' ' . ilUtil::formatSize($this->mfile->getUploadLimit()));
+                ilUtil::sendFailure(
+                    $this->lng->txt('mail_maxsize_attachment_error') . ' ' .
+                    ilUtil::formatSize($this->mfile->getUploadLimit())
+                );
             }
         } else {
             ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));

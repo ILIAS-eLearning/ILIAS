@@ -150,7 +150,12 @@ class ilFormatMail extends ilMail
     public function prependSignature() : string
     {
         $message = (string) ($this->mail_data['m_message'] ?? '');
-        $message = $this->mail_options->getSignature() . chr(13) . chr(10) . chr(13) . chr(10) . $message;
+        $message = $this->mail_options->getSignature() .
+            chr(13) .
+            chr(10) .
+            chr(13) .
+            chr(10) .
+            $message;
 
         return $message;
     }

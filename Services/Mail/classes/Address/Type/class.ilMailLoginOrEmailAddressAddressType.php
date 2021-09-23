@@ -38,11 +38,16 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 
         if (
             $usrId &&
-            !$this->rbacsystem->checkAccessOfUser($usrId, 'internal_mail', $this->typeHelper->getGlobalMailSystemId())
+            !$this->rbacsystem->checkAccessOfUser(
+                $usrId,
+                'internal_mail',
+                $this->typeHelper->getGlobalMailSystemId()
+            )
         ) {
             if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
                 $this->logger->debug(sprintf(
-                    "Address '%s' not valid. Found id %s, but user can't use mail system and wants to receive emails only internally.",
+                    "Address '%s' not valid. Found id %s, " .
+                    "but user can't use mail system and wants to receive emails only internally.",
                     $this->address->getMailbox(),
                     $usrId
                 ));

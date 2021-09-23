@@ -57,10 +57,22 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         /**
          * We need to encode this because of filenames with the following format: "anystring".txt (with ")
          */
-        $this->tpl->setVariable('VAL_CHECKBOX', ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename'])));
-        $this->tpl->setVariable('VAL_FILENAME', $this->formatValue('filename', $a_set['filename']));
-        $this->tpl->setVariable('VAL_FILESIZE', $this->formatValue('filesize', (string) $a_set['filesize']));
-        $this->tpl->setVariable('VAL_FILECREATEDATE', $this->formatValue('filecreatedate', (string) $a_set['filecreatedate']));
+        $this->tpl->setVariable(
+            'VAL_CHECKBOX',
+            ilUtil::formCheckbox($a_set['checked'], 'filename[]', urlencode($a_set['filename']))
+        );
+        $this->tpl->setVariable(
+            'VAL_FILENAME',
+            $this->formatValue('filename', $a_set['filename'])
+        );
+        $this->tpl->setVariable(
+            'VAL_FILESIZE',
+            $this->formatValue('filesize', (string) $a_set['filesize'])
+        );
+        $this->tpl->setVariable(
+            'VAL_FILECREATEDATE',
+            $this->formatValue('filecreatedate', (string) $a_set['filecreatedate'])
+        );
     }
 
     /**

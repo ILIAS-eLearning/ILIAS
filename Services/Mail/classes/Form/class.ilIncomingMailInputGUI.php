@@ -95,13 +95,22 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
     {
         global $DIC;
         
-        $incomingLocal = new ilRadioOption($DIC->language()->txt('mail_incoming_local'), ilMailOptions::INCOMING_LOCAL);
+        $incomingLocal = new ilRadioOption(
+            $DIC->language()->txt('mail_incoming_local'),
+            ilMailOptions::INCOMING_LOCAL
+        );
         $incomingLocal->setDisabled($this->getDisabled());
 
-        $incomingExternal = new ilRadioOption($DIC->language()->txt('mail_incoming_smtp'), ilMailOptions::INCOMING_EMAIL);
+        $incomingExternal = new ilRadioOption(
+            $DIC->language()->txt('mail_incoming_smtp'),
+            ilMailOptions::INCOMING_EMAIL
+        );
         $incomingExternal->setDisabled($this->getDisabled());
 
-        $incomingBoth = new ilRadioOption($DIC->language()->txt('mail_incoming_both'), ilMailOptions::INCOMING_BOTH);
+        $incomingBoth = new ilRadioOption(
+            $DIC->language()->txt('mail_incoming_both'),
+            ilMailOptions::INCOMING_BOTH
+        );
         $incomingBoth->setDisabled($this->getDisabled());
 
         $this->addOption($incomingLocal);
@@ -111,22 +120,40 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         $incomingExternalAddressChoice = new ilRadioGroupInputGUI('', 'mail_address_option');
         $incomingExternalAddressChoice->setDisabled($this->getDisabled());
 
-        $sub_mail_opt1 = new ilRadioOption($DIC->language()->txt('mail_first_email'), ilMailOptions::FIRST_EMAIL);
+        $sub_mail_opt1 = new ilRadioOption(
+            $DIC->language()->txt('mail_first_email'),
+            ilMailOptions::FIRST_EMAIL
+        );
         $sub_mail_opt1->setDisabled($this->getDisabled());
 
-        $sub_mail_opt2 = new ilRadioOption($DIC->language()->txt('mail_second_email'), ilMailOptions::SECOND_EMAIL);
+        $sub_mail_opt2 = new ilRadioOption(
+            $DIC->language()->txt('mail_second_email'),
+            ilMailOptions::SECOND_EMAIL
+        );
         $sub_mail_opt2->setDisabled($this->getDisabled());
-        $sub_mail_opt3 = new ilRadioOption($DIC->language()->txt('mail_both_email'), ilMailOptions::BOTH_EMAIL);
+        $sub_mail_opt3 = new ilRadioOption(
+            $DIC->language()->txt('mail_both_email'),
+            ilMailOptions::BOTH_EMAIL
+        );
         $sub_mail_opt3->setDisabled($this->getDisabled());
 
         $incomingBothAddressChoice = new ilRadioGroupInputGUI('', 'mail_address_option_both');
         $incomingBothAddressChoice->setDisabled($this->getDisabled());
-        $sub_both_opt1 = new ilRadioOption($DIC->language()->txt('mail_first_email'), ilMailOptions::FIRST_EMAIL);
+        $sub_both_opt1 = new ilRadioOption(
+            $DIC->language()->txt('mail_first_email'),
+            ilMailOptions::FIRST_EMAIL
+        );
         $sub_both_opt1->setDisabled($this->getDisabled());
 
-        $sub_both_opt2 = new ilRadioOption($DIC->language()->txt('mail_second_email'), ilMailOptions::SECOND_EMAIL);
+        $sub_both_opt2 = new ilRadioOption(
+            $DIC->language()->txt('mail_second_email'),
+            ilMailOptions::SECOND_EMAIL
+        );
         $sub_both_opt2->setDisabled($this->getDisabled());
-        $sub_both_opt3 = new ilRadioOption($DIC->language()->txt('mail_both_email'), ilMailOptions::BOTH_EMAIL);
+        $sub_both_opt3 = new ilRadioOption(
+            $DIC->language()->txt('mail_both_email'),
+            ilMailOptions::BOTH_EMAIL
+        );
         $sub_both_opt3->setDisabled($this->getDisabled());
         $email_info = [];
         if (!$this->isFreeOptionChoice()) {
@@ -137,7 +164,9 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $this->setDisabled(true);
             }
 
-            if ($DIC->user()->getEmail() === '' || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
+            if ($DIC->user()->getEmail() === '' ||
+                $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1'
+            ) {
                 $sub_mail_opt1->setDisabled(true);
                 $sub_mail_opt1->setInfo($DIC->language()->txt('first_email_missing_info'));
                 $sub_mail_opt3->setDisabled(true);
@@ -150,7 +179,9 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
                 $email_info[] = $DIC->user()->getEmail();
             }
 
-            if ($DIC->user()->getSecondEmail() === '' || $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
+            if ($DIC->user()->getSecondEmail() === '' ||
+                $DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1'
+            ) {
                 $sub_mail_opt2->setDisabled(true);
                 $sub_mail_opt2->setInfo($DIC->language()->txt('second_email_missing_info'));
                 $sub_mail_opt3->setDisabled(true);

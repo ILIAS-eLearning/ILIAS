@@ -80,7 +80,8 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return array{path: string, filename: string} An array containing the 'path' and the 'filename' for the passed MD5 hash
+     * @return array{path: string, filename: string}
+     *      An array containing the 'path' and the 'filename' for the passed MD5 hash
      * @throws OutOfBoundsException
      */
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId) : array
@@ -163,7 +164,11 @@ class ilFileDataMail extends ilFileData
             return true;
         }
 
-        $this->ilias->raiseError("Mail directory is not readable/writable by webserver: " . $this->mail_path, $this->ilias->error_obj->FATAL);
+        $this->ilias->raiseError(
+            "Mail directory is not readable/writable by webserver: " .
+            $this->mail_path,
+            $this->ilias->error_obj->FATAL
+        );
         return false;
     }
 
@@ -285,7 +290,8 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * Resolves a path for a passed filename in regards of a user's mail attachment pool, meaning attachments not being sent
+     * Resolves a path for a passed filename in regards of a user's mail attachment pool,
+     * meaning attachments not being sent
      */
     public function getAbsoluteAttachmentPoolPathByFilename(string $fileName) : string
     {
@@ -370,7 +376,10 @@ class ilFileDataMail extends ilFileData
     {
         global $ilDB;
         // IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
-        $res = $ilDB->query('SELECT path FROM mail_attachment WHERE mail_id = ' . $ilDB->quote($a_mail_id, 'integer'));
+        $res = $ilDB->query(
+            'SELECT path FROM mail_attachment WHERE mail_id = ' .
+            $ilDB->quote($a_mail_id, 'integer')
+        );
 
         $path = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -379,7 +388,8 @@ class ilFileDataMail extends ilFileData
 
         if ($path !== '') {
             $res = $ilDB->query(
-                'SELECT COUNT(mail_id) count_mail_id FROM mail_attachment WHERE path = ' . $ilDB->quote($path, 'text')
+                'SELECT COUNT(mail_id) count_mail_id FROM mail_attachment WHERE path = ' .
+                $ilDB->quote($path, 'text')
             ) ;
 
             $cnt_mail_id = 0;
@@ -422,8 +432,18 @@ class ilFileDataMail extends ilFileData
         //convert from short-string representation to "real" bytes
         $multiplier_a = ["K" => 1024, "M" => 1024 * 1024, "G" => 1024 * 1024 * 1024];
 
-        $umf_parts = preg_split("/(\d+)([K|G|M])/", $umf, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-        $pms_parts = preg_split("/(\d+)([K|G|M])/", $pms, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $umf_parts = preg_split(
+            "/(\d+)([K|G|M])/",
+            $umf,
+            -1,
+            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+        );
+        $pms_parts = preg_split(
+            "/(\d+)([K|G|M])/",
+            $pms,
+            -1,
+            PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY
+        );
 
         if (count($umf_parts) === 2) {
             $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
@@ -561,8 +581,12 @@ class ilFileDataMail extends ilFileData
      * @throws ilException
      * @throws ilFileUtilsException
      */
-    public function deliverAttachmentsAsZip(string $basename, int $mailId, array $files = [], bool $isDraft = false) : void
-    {
+    public function deliverAttachmentsAsZip(
+        string $basename,
+        int $mailId,
+        array $files = [],
+        bool $isDraft = false
+    ) : void {
         $path = '';
         if (!$isDraft) {
             $path = $this->getAttachmentPathByMailId($mailId);

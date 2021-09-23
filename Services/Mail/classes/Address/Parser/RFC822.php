@@ -143,16 +143,20 @@ class Mail_RFC822
     /**
      * Sets up the object. The address must either be set here or when
      * calling parseAddressList(). One or the other.
-     *
      * @param string  $address         The address(es) to validate.
      * @param string  $default_domain  Default domain/host etc. If not supplied, will be set to localhost.
      * @param bool $nest_groups     Whether to return the structure with groups nested for easier viewing.
-     * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
-     *
-     * @return object Mail_RFC822 A new Mail_RFC822 object.
+     * @param bool $validate Whether to validate atoms.
+     *                       Turn this off if you need to run addresses through before encoding the personal names,
+     *                       for instance.
      */
-    public function __construct($address = null, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
-    {
+    public function __construct(
+        $address = null,
+        $default_domain = null,
+        $nest_groups = null,
+        $validate = null,
+        $limit = null
+    ) {
         if (isset($address)) {
             $this->address = $address;
         }
@@ -173,16 +177,21 @@ class Mail_RFC822
     /**
      * Starts the whole process. The address must either be set here
      * or when creating the object. One or the other.
-     *
      * @param string  $address         The address(es) to validate.
      * @param string  $default_domain  Default domain/host etc.
      * @param bool $nest_groups     Whether to return the structure with groups nested for easier viewing.
-     * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
-     *
+     * @param bool $validate Whether to validate atoms.
+     *                       Turn this off if you need to run addresses through before encoding the personal names,
+     *                       for instance.
      * @return array A structured array of addresses.
      */
-    public function parseAddressList($address = null, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
-    {
+    public function parseAddressList(
+        $address = null,
+        $default_domain = null,
+        $nest_groups = null,
+        $validate = null,
+        $limit = null
+    ) : array {
         if (!isset($this) || !isset($this->mailRFC822)) {
             $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
             return $obj->parseAddressList();
@@ -671,7 +680,8 @@ class Mail_RFC822
             $phrase = trim($name);
             $route_addr = trim(substr($mailbox, strlen($name . '<'), -1));
 
-            if ($this->_validatePhrase($phrase) === false || ($route_addr = $this->_validateRouteAddr($route_addr)) === false) {
+            if ($this->_validatePhrase($phrase) === false ||
+                ($route_addr = $this->_validateRouteAddr($route_addr)) === false) {
                 return false;
             }
 
@@ -846,7 +856,8 @@ class Mail_RFC822
      */
     protected function _validateDliteral($dliteral)
     {
-        return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) && ((!isset($matches[1])) || $matches[1] != '\\');
+        return !preg_match('/(.)[][\x0D\\\\]/', $dliteral, $matches) &&
+            ((!isset($matches[1])) || $matches[1] != '\\');
     }
 
     /**
@@ -975,7 +986,10 @@ class Mail_RFC822
      */
     public function isValidInetAddress($data, $strict = false)
     {
-        $regex = $strict ? '/^([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i' : '/^([*+!.&#$|\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i';
+        $regex =
+            $strict ?
+                '/^([.0-9a-z_+-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i' :
+                '/^([*+!.&#$|\'\\%\/0-9a-z^_`{}=?~:-]+)@(([0-9a-z-]+\.)+[0-9a-z]{2,})$/i';
         if (preg_match($regex, trim($data), $matches)) {
             return [$matches[1], $matches[2]];
         } else {

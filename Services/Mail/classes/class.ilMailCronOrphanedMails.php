@@ -106,18 +106,26 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         $a_form->addItem($threshold);
         
-        $mail_folder = new ilCheckboxInputGUI($this->lng->txt('only_inbox_trash'), 'mail_only_inbox_trash');
+        $mail_folder = new ilCheckboxInputGUI(
+            $this->lng->txt('only_inbox_trash'),
+            'mail_only_inbox_trash'
+        );
         $mail_folder->setInfo($this->lng->txt('only_inbox_trash_info'));
         $mail_folder->setChecked($this->settings->get('mail_only_inbox_trash'));
         $a_form->addItem($mail_folder);
         
-        $notification = new ilNumberInputGUI($this->lng->txt('mail_notify_orphaned'), 'mail_notify_orphaned');
+        $notification = new ilNumberInputGUI(
+            $this->lng->txt('mail_notify_orphaned'),
+            'mail_notify_orphaned'
+        );
         $notification->setInfo($this->lng->txt('mail_notify_orphaned_info'));
         $notification->allowDecimals(false);
         $notification->setSuffix($this->lng->txt('days'));
         $notification->setMinValue(0);
         
-        $mail_threshold = isset($this->httpRequest->getParsedBody()['mail_threshold']) ? (int) $this->httpRequest->getParsedBody()['mail_threshold'] : $this->settings->get('mail_threshold');
+        $mail_threshold = isset($this->httpRequest->getParsedBody()['mail_threshold']) ?
+            (int) $this->httpRequest->getParsedBody()['mail_threshold'] :
+            $this->settings->get('mail_threshold');
         $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
         $notification->setValue($this->settings->get('mail_notify_orphaned'));
@@ -136,7 +144,8 @@ class ilMailCronOrphanedMails extends ilCronJob
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
 
             ilLoggerFactory::getLogger('mail')->info(sprintf(
-                "Deleted all scheduled mail deletions because a reminder should't be sent (login: %s|usr_id: %s) anymore!",
+                "Deleted all scheduled mail deletions " .
+                "because a reminder should't be sent (login: %s|usr_id: %s) anymore!",
                 $this->user->getLogin(),
                 $this->user->getId()
             ));

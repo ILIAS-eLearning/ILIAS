@@ -82,7 +82,12 @@ class ilMassMailTaskProcessor
         }
 
         if ($mailsPerTask <= 0) {
-            throw new ilException(sprintf('The mails per task MUST be a positive integer, "%s" given', $mailsPerTask));
+            throw new ilException(
+                sprintf(
+                    'The mails per task MUST be a positive integer, "%s" given',
+                    $mailsPerTask
+                )
+            );
         }
 
         foreach ($mailValueObjects as $mailValueObject) {

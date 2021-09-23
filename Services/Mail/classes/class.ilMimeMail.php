@@ -181,7 +181,8 @@ class ilMimeMail
     /**
      * @param string $filename Path of the file to attach
      * @param string $file_type MIME-type of the file. default to 'application/x-unknown-content-type'
-     * @param string $disposition Instruct the Mailclient to display the file if possible ("inline") or always as a link ("attachment") possible values are "inline", "attachment"
+     * @param string $disposition Instruct the Mailclient to display the file if possible ("inline")
+     *                            or always as a link ("attachment") possible values are "inline", "attachment"
      * @param string|null $display_name Filename to use in email (if different from source file)
      */
     public function Attach(
@@ -258,7 +259,9 @@ class ilMimeMail
         }
 
         if (strip_tags($this->body, '<b><u><i><a>') === $this->body) {
-            // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
+            // Let's assume(!) that there is no HTML
+            // (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this),
+            // so convert "\n" to "<br>"
             $this->finalBodyAlt = strip_tags($this->body);
             $this->body = ilUtil::makeClickable(nl2br($this->body));
         } else {
@@ -302,7 +305,10 @@ class ilMimeMail
             $this->images = [];
         }
 
-        foreach (new RegexIterator(new DirectoryIterator($directory), '/\.(jpg|jpeg|gif|svg|png)$/i') as $file) {
+        foreach (new RegexIterator(
+            new DirectoryIterator($directory),
+            '/\.(jpg|jpeg|gif|svg|png)$/i'
+        ) as $file) {
             /** @var $file SplFileInfo */
             $cid = 'img/' . $file->getFilename();
 

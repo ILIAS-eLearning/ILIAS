@@ -96,7 +96,12 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
      */
     public function render(bool $ajax = false)
     {
-        $subtpl = new ilTemplate("tpl.mail_manual_placeholders.html", true, true, "Services/Mail");
+        $subtpl = new ilTemplate(
+            "tpl.mail_manual_placeholders.html",
+            true,
+            true,
+            "Services/Mail"
+        );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
         if ($this->getAdviseText()) {
             $subtpl->setVariable('TXT_PLACEHOLDERS_ADVISE', $this->getAdviseText());

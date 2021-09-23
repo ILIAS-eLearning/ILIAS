@@ -42,7 +42,9 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
+                ->withNonAvailableReason(
+                    $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
+                )
                 ->withAvailableCallable(
                     static function () use ($dic) : bool {
                         return ($dic->user()->getId() !== ANONYMOUS_USER_ID);

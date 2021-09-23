@@ -150,7 +150,8 @@ class ilMailbox
     {
         $rootFolderId = $this->db->nextId($this->table_mail_obj_data);
         $this->db->manipulateF(
-            'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
+            'INSERT INTO ' . $this->table_mail_obj_data .
+            ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
             ['integer', 'integer', 'text', 'text'],
             [$rootFolderId, $this->usrId, 'a_root', 'root']
         );
@@ -159,7 +160,8 @@ class ilMailbox
         foreach ($this->defaultFolders as $key => $folder) {
             $last_id = $this->db->nextId($this->table_mail_obj_data);
             $this->db->manipulateF(
-                'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
+                'INSERT INTO ' . $this->table_mail_obj_data .
+                ' (obj_id, user_id, title, m_type) VALUES(%s, %s, %s, %s)',
                 ['integer', 'integer', 'text', 'text'],
                 [$last_id, $this->usrId, $key, $folder]
             );
@@ -176,7 +178,8 @@ class ilMailbox
 
         $nextId = $this->db->nextId($this->table_mail_obj_data);
         $this->db->manipulateF(
-            'INSERT INTO ' . $this->table_mail_obj_data . ' (obj_id, user_id, title, m_type) VALUES(%s,%s,%s,%s)',
+            'INSERT INTO ' . $this->table_mail_obj_data .
+            ' (obj_id, user_id, title, m_type) VALUES(%s,%s,%s,%s)',
             ['integer', 'integer', 'text', 'text'],
             [$nextId, $this->usrId, $name, 'user_folder']
         );
@@ -370,7 +373,8 @@ class ilMailbox
             [$this->usrId]
         );
 
-        // Delete the user's files from filesystem: This has to be done before deleting the database entries in table 'mail'
+        // Delete the user's files from filesystem:
+        // This has to be done before deleting the database entries in table 'mail'
         $fdm = new ilFileDataMail($this->usrId);
         $fdm->onUserDelete();
 
