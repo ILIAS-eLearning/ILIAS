@@ -4,7 +4,7 @@ This documentation comes with no guarantee of completeness or correctness. Pleas
 
 ## Data being stored
 
-- Each **news entry** stores the **user ID** of the original **creator**, a **creation timestamp**, the **user ID** of the last **updater** and a **timestamp of the last update**. _Reason_: This data is presented to other users to identify the author of a news and the date/time of the creation / last update. This is being regarded as important information for learners (e.g. to be able to list news only after a specific date) and for collaboration in general (being able to adress authors of news).
+- Each **news entry** stores the **user ID** of the account that originally created the news entry along with a **creation timestamp**, the **user ID** of the account that last updated the news entry  along with the **timestamp of the last update**. These are not neccessarily the same and could be different accounts.  _Reason_: This data is required to be able to list news only after a specific date or to be able to adress authors of news for collaboration or reference.
 - For **each user** and **each news entry**, ILIAS stores, whether the **news has been presented ("is read")** to the user or not. No timestamp is included in this data. _Reason_: Unread news entries should be visually distinguishable from read entries.
 
 
