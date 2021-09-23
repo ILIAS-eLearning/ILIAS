@@ -503,6 +503,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $form->addItem($hidden_points);
         }
 
+        $tmp_tpl->setVariable('TINYMCE_ACTIVE', ilObjAdvancedEditing::_getRichTextEditor());
         $text_area = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
         $feedback_text = '';
         if (array_key_exists('feedback', $feedback)) {
