@@ -142,14 +142,13 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
             return false;
         }
         $input_title = (string) ilUtil::stripSlashes($this->getInput(self::F_TITLE));
-        // bugfix mantis 0026160
-        $file_name = $this->file->getFileName();
-        if (strlen(trim($input_title)) == 0) {
-            $input_title = $file_name;
-        } else {
-            $input_title = $this->file->checkFileExtension($file_name, $input_title);
+        // bugfix mantis 0026160 && 0030391
+        $uploaded_suffix = pathinfo($result->getName(), PATHINFO_EXTENSION);
+        if (strlen(trim($input_title)) === 0) {
+            // $input_title = $this->file->getFileName();
+            $input_title = ilUtil::stripSlashes($result->getName());
         }
-
+        $input_title = pathinfo($input_title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
 
         switch ($this->save_mode) {
             case self::MODE_ADD:
