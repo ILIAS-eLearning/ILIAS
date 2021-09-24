@@ -18,6 +18,18 @@ interface ilCtrlInterface
     public const CMD_MODE_ASYNC   = 'asynch';
 
     /**
+     * Initializes ilCtrl with a new baseclass.
+     *
+     * Note that this means, the URL information will be removed
+     * and only the given baseclass is appended for future link
+     * target generations from this point on.
+     *
+     * @param string $a_base_class
+     * @throws ilCtrlException if the baseclass is unknown.
+     */
+    public function initBaseClass(string $a_base_class) : void;
+
+    /**
      * Calls the currently provided baseclass.
      *
      * This method cannot be called until either:
@@ -30,17 +42,6 @@ interface ilCtrlInterface
      *                         the @see ilCtrlStructureReader.
      */
     public function callBaseClass() : void;
-
-    /**
-     * Initializes ilCtrl with a new baseclass.
-     *
-     * Note that this means, the URL information will be removed
-     * and only the given baseclass is appended for future link
-     * target generations from this point on.
-     *
-     * @param string $a_base_class
-     */
-    public function initBaseClass(string $a_base_class) : void;
 
     /**
      * Forwards the request by invoking executeCommand() on the
@@ -78,22 +79,17 @@ interface ilCtrlInterface
      * prohibited in the future, a handler allows to still take advantage
      * of that.
      *
-     * @param string                    $fallback_command
-     * @param array                     $safe_commands
+     * @param string|null               $fallback_command
      * @param ilCtrlCommandHandler|null $handler
      * @return string
      */
-    public function getCmd(
-        string $fallback_command = '',
-        array $safe_commands = [],
-        ilCtrlCommandHandler $handler = null
-    ) : string;
+    public function getCmd(string $fallback_command = null, ilCtrlCommandHandler $handler = null) : string;
 
     /**
      * Sets the current command.
      *
      * @depracated this method should not be used anymore, as all commands
-     *             should be passed by $_GET or $_POST parameters.
+     *             should be passed as $_GET or $_POST parameters.
      *
      * @param string $a_cmd
      */
@@ -120,10 +116,10 @@ interface ilCtrlInterface
      * Returns the classname of the next class in the control flow.
      *
      * @param object|string|null $a_gui_class
-     * @return string|false
+     * @return string|null
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function getNextClass(object|string $a_gui_class = null) : string|false;
+    public function getNextClass(object|string $a_gui_class = null) : ?string;
 
     /**
      * Sets parameters for the given object.
@@ -328,11 +324,11 @@ interface ilCtrlInterface
     ) : void;
 
     /**
-     * Redirects to the given URL.
+     * Redirects to the given target URL.
      *
-     * @param string $a_url
+     * @param string $target_url
      */
-    public function redirectToURL(string $a_url) : void;
+    public function redirectToURL(string $target_url) : void;
 
     /**
      * Sets the current ilCtrl context. A context consist of an obj-id and -type
@@ -423,42 +419,7 @@ interface ilCtrlInterface
     public function setTargetScript(string $a_target_script) : void;
 
     /**
-     * Returns the current ilCtrl target script.
-     *
-     * @return string
-     */
-    public function getTargetScript() : string;
-
-    /**
-     * Returns the given URL appended with a CSRF token.
-     *
-     * @param string $a_url
-     * @param bool   $xml_style
-     * @return string
-     */
-    public function appendRequestTokenParameterString(string $a_url, bool $xml_style = false) : string;
-
-    /**
-     * Returns a new or stored unique CSRF token.
-     *
-     * @return string
-     */
-    public function getRequestToken() : string;
-
-    /**
-     * Validates a CSRF token from the given (POST or GET) request.
-     *
-     * @param RequestWrapper $request
-     * @return bool
-     * @throws ilDateTimeException
-     * @throws ilException
-     */
-    public function verifyToken(RequestWrapper $request) : bool;
-
-    /**
      * Returns whether the current request is an asynchronous one.
-     *
-     * @TODO: rename to isAsync() one day.
      *
      * @return bool
      */
@@ -530,9 +491,9 @@ interface ilCtrlInterface
     /**
      * Returns the current redirect source.
      *
-     * @return string
+     * @return string|null
      */
-    public function getRedirectSource() : string;
+    public function getRedirectSource() : ?string;
 
     /**
      * Inserts an ilCtrl call record into the database.
@@ -550,7 +511,7 @@ interface ilCtrlInterface
     public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix) : void;
 
     /**
-     * Check if current path contains a certain gui class
+     * Check if current CID trace contains a certain gui class.
      *
      * @param string $gui_class
      * @return bool
@@ -559,10 +520,9 @@ interface ilCtrlInterface
     public function checkCurrentPathForClass(string $gui_class) : bool;
 
     /**
-     * Get current class path as array of class file names
+     * Get current class path as array of class file names.
      *
      * @return array
-     * @throws ilCtrlException
      */
     public function getCurrentClassPath() : array;
 }

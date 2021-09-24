@@ -30,6 +30,13 @@ interface ilCtrlTargetInterface
     public const CMD_MODE_HTML    = 'getHtml';
 
     /**
+     * Returns the baseclass the target was initialized with.
+     *
+     * @return string
+     */
+    public function getBaseClass() : string;
+
+    /**
      * Sets the target- or base-script the target should aim at.
      *
      * @param string $target_script
@@ -38,12 +45,37 @@ interface ilCtrlTargetInterface
     public function setTargetScript(string $target_script) : ilCtrlTargetInterface;
 
     /**
+     * Returns the target script the target should aim at.
+     *
+     * @return string
+     */
+    public function getTargetScript() : string;
+
+    /**
      * Appends a command class to the current target.
      *
      * @param string $class_name
      * @return ilCtrlTargetInterface
      */
-    public function setCmdClass(string $class_name) : ilCtrlTargetInterface;
+    public function appendCmdClass(string $class_name) : ilCtrlTargetInterface;
+
+    /**
+     * Appends multiple command classes to the current target.
+     *
+     * Note that the class array MUST contain the whole trace inc.
+     * the baseclass.
+     *
+     * @param array $classes
+     * @return ilCtrlTargetInterface
+     */
+    public function appendCmdClassArray(array $classes) : ilCtrlTargetInterface;
+
+    /**
+     * Returns the current command class.
+     *
+     * @return string
+     */
+    public function getCurrentCmdClass() : string;
 
     /**
      * Sets the command the current command class should execute.
@@ -54,16 +86,14 @@ interface ilCtrlTargetInterface
     public function setCmd(string $cmd) : ilCtrlTargetInterface;
 
     /**
-     * Sets the current targets anchor (to a position on the page).
+     * Returns the command which the target should be executing.
      *
-     * @param string $anchor
-     * @return ilCtrlTargetInterface
+     * @return string|null
      */
-    public function setAnchor(string $anchor) : ilCtrlTargetInterface;
+    public function getCmd() : ?string;
 
     /**
-     * Sets whether the target link should be appended with an
-     * async-flag.
+     * Sets whether the current target is executed asynchronously or not.
      *
      * @param bool $is_async
      * @return ilCtrlTargetInterface
@@ -71,26 +101,52 @@ interface ilCtrlTargetInterface
     public function setAsync(bool $is_async) : ilCtrlTargetInterface;
 
     /**
-     * Sets whether the target link should be generated with escaped
-     * special characters (for xml files).
+     * Sets whether appended link parameters should be escaped or not.
      *
-     * @param bool $is_xml
+     * @param bool $is_escaped
      * @return ilCtrlTargetInterface
      */
-    public function setXml(bool $is_xml) : ilCtrlTargetInterface;
+    public function setEscaped(bool $is_escaped) : ilCtrlTargetInterface;
 
     /**
-     * Returns an URL generated from the current target's information.
+     * Sets whether the current target is considered safe or not.
      *
-     * @return string|null
+     * @param bool $is_secured
+     * @return ilCtrlTargetInterface
      */
-    public function getLinkTarget() : ?string;
+    public function setSecure(bool $is_secured) : ilCtrlTargetInterface;
 
     /**
-     * Returns an URL for form actions generated from the current target's
-     * information.
+     * Appends an anchor to the target URL.
      *
+     * @param string $anchor
+     * @return ilCtrlTargetInterface
+     */
+    public function setAnchor(string $anchor) : ilCtrlTargetInterface;
+
+    /**
+     * Sets the current targets parameters (as key => value pairs).
+     *
+     * This method can be called multiple times, duplicate keys will
+     * be overwritten.
+     *
+     * @param array $parameters
+     * @return ilCtrlTargetInterface
+     */
+    public function setParameters(array $parameters) : ilCtrlTargetInterface;
+
+    /**
+     * Returns the URL with information currently set.
+     *
+     * @param bool $is_post
      * @return string|null
      */
-    public function getFormAction() : ?string;
+    public function getTargetUrl(bool $is_post = false) : ?string;
+
+    /**
+     * Returns the trace of the current target.
+     *
+     * @return ilCtrlTraceInterface
+     */
+    public function getTrace() : ilCtrlTraceInterface;
 }

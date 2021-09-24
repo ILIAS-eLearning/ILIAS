@@ -1,11 +1,10 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\HTTP\Services as HttpServices;
-use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -13,101 +12,103 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  *
  * @author Thibeau Fuhrer <thf@studer.raimann.ch>
  */
-final class ilCtrl implements ilCtrlInterface
+class ilCtrl implements ilCtrlInterface
 {
     /**
-     * @var ilPluginAdmin
+     * Holds an instance of the HTTP service.
+     *
+     * @var HttpService
      */
-    private ilPluginAdmin $plugin_service;
+    private HttpService $http;
 
     /**
-     * @var HttpServices
-     */
-    private HttpServices $http_service;
-
-    /**
-     * @var RequestWrapper
-     */
-    private RequestWrapper $get_request;
-
-    /**
-     * @var RequestWrapper
-     */
-    private RequestWrapper $post_request;
-
-    /**
-     * @var ilDBInterface
-     */
-    private ilDBInterface $database;
-
-    /**
+     * Holds an instance of the refinery factory.
+     *
      * @var Refinery
      */
     private Refinery $refinery;
 
     /**
-     * Holds the currently read control structure.
+     * Holds an instance of the current user-session's token.
+     *
+     * @var ilCtrlToken
+     */
+    private ilCtrlToken $token;
+
+    /**
+     * Holds an instance of the currently read control structure.
      *
      * @var ilCtrlStructureInterface
      */
     private ilCtrlStructureInterface $structure;
 
     /**
-     * Holds the current link target information.
+     * Holds an instance of the current link target.
      *
-     * @var ilCtrlTarget
+     * @var ilCtrlTargetInterface
      */
     private ilCtrlTargetInterface $target;
 
     /**
-     * Holds the current context information. e.g. obj_id, obj_type etc.
+     * Holds the current context information.
      *
      * @var ilCtrlContext
      */
     private ilCtrlContext $context;
 
     /**
-     * @TODO: this seems to be used as workaround when getLinkTarget()
-     *        should be used instead. Deprecate?
+     * Holds a history of calls made with the current ilCtrl instance.
      *
-     * @var array<string, string>
+     * @var array<int, string[]>
      */
-    private array $return_classes = [];
+    private array $stacktrace;
 
     /**
-     * Holds the stacktrace of each call made with this ilCtrl instance.
+     * Holds an instance of the object that is currently processed.
      *
-     * @var array<int, string>
+     * @var object
      */
-    private array $stacktrace = [];
+    private object $exec_object;
 
     /**
-     * ilCtrl constructor
+     * Constructor
+     *
+     * @throws ilCtrlException if the artifact cannot be included.
      */
     public function __construct()
     {
         global $DIC;
 
-        $this->http_service = $DIC->http();
-        $this->get_request  = $DIC->http()->wrapper()->query();
-        $this->post_request = $DIC->http()->wrapper()->post();
-        $this->database     = $DIC->database();
+        $this->stacktrace = [];
+        $this->http       = $DIC->http();
+        $this->context    = new ilCtrlContext();
+        $this->structure  = new ilCtrlStructure($DIC->database());
+        // $this->token      = new ilCtrlToken($DIC->database(), $DIC->user());
+        $this->refinery   = new Refinery(new DataFactory(), $DIC->language());
+    }
 
-        // $DIC->refinery() is not initialized at this point.
-        $this->refinery = new Refinery(
-            new DataFactory(),
-            $DIC->language()
-        );
-
-        // cannot be accessed via $DIC->aMethod().
-        if (isset($DIC['ilPluginAdmin'])) {
-            $this->plugin_service = $DIC['ilPluginAdmin'];
+    /**
+     * @inheritDoc
+     */
+    public function initBaseClass(string $a_base_class) : void
+    {
+        // abort if the given baseclass has no entry in
+        // module_class or service_class table.
+        if (!$this->structure->isBaseClass($a_base_class)) {
+            throw new ilCtrlException("Class '$a_base_class' is an unknown baseclass.");
         }
 
-        $this->token        = new ilCtrlToken($this->database, $DIC->user());
-        $this->structure    = new ilCtrlStructure($this->get_request, $this->refinery);
-        $this->target       = new ilCtrlTarget($this->token, $this->structure, "");
-        $this->context      = new ilCtrlContext();
+        // reset stacktrace and context because ilCtrl is
+        // initialized with a new baseclass.
+        $this->stacktrace = [];
+        $this->context = new ilCtrlContext();
+
+        // initialize a new target for the given baseclass.
+        $this->target = new ilCtrlTarget(
+            $this->structure,
+            $this->token,
+            $a_base_class
+        );
     }
 
     /**
@@ -117,28 +118,11 @@ final class ilCtrl implements ilCtrlInterface
     {
         $base_class = $this->getBaseClass();
         if (null === $base_class) {
-            throw new ilCtrlException("Cannot determine current baseclass, ilCtrl::initBaseClass() has to be called fisrt.");
+            throw new ilCtrlException("ilCtrl cannot determine current baseclass.");
         }
 
-        $class_name = $this->structure->getQualifiedClassName($base_class);
-        $this->forwardCommand(new $class_name());
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function initBaseClass(string $a_base_class) : void
-    {
-        // reset the current target.
-        $this->target = new ilCtrlTarget(
-            $this->token,
-            $this->structure,
-            $a_base_class
-        );
-
-        // reset other currently stored information.
-        $this->return_classes = [];
-        $this->stacktrace = [];
+        $obj_name = $this->structure->getObjectNameByClass($base_class);
+        $this->forwardCommand(new $obj_name());
     }
 
     /**
@@ -146,18 +130,22 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function forwardCommand(object $a_gui_object) : mixed
     {
+        $class_name = get_class($a_gui_object);
         if (!method_exists($a_gui_object, 'executeCommand')) {
-            throw new ilCtrlException(get_class($a_gui_object) . " doesn't implement executeCommand().");
+            throw new ilCtrlException("$class_name doesn't implement executeCommand().");
         }
 
-        $class_name = $this->getClassNameOfObject($a_gui_object);
-        $this->target->setCmdClass($class_name);
+        // initialize target if ilCtrl was not called
+        // properly.
+        if (null === $this->target) {
+            $this->initBaseClass($class_name);
+        } else {
+            $this->target->appendCmdClass($class_name);
+        }
 
-        $this->populateCall(
-            $class_name,
-            $this->getCmd() ?? '',
-            self::CMD_MODE_PROCESS
-        );
+        $this->exec_object = $a_gui_object;
+
+        $this->populateCall($this->target);
 
         return $a_gui_object->executeCommand();
     }
@@ -167,18 +155,22 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getHTML(object $a_gui_object, array $a_parameters = null) : string
     {
+        $class_name = get_class($a_gui_object);
         if (!method_exists($a_gui_object, 'getHTML')) {
-            throw new ilCtrlException( get_class($a_gui_object) . " doesn't implement getHTML().");
+            throw new ilCtrlException("$class_name doesn't implement getHTML().");
         }
 
-        $class_name = $this->getClassNameOfObject($a_gui_object);
-        $this->target->setCmdClass($class_name);
+        // initialize target if ilCtrl was not called
+        // properly.
+        if (null === $this->target) {
+            $this->initBaseClass($class_name);
+        } else {
+            $this->target->appendCmdClass($class_name);
+        }
 
-        $this->populateCall(
-            $class_name,
-            $this->getCmd(),
-            self::CMD_MODE_HTML
-        );
+        $this->exec_object = $a_gui_object;
+
+        $this->populateCall($this->target);
 
         return (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
@@ -189,53 +181,42 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCmd(
-        string $fallback_command = '',
-        array $safe_commands = [],
-        ilCtrlCommandHandler $handler = null
-    ) : string {
-        $get_command  = $this->getQueryCmd();
-        $post_command = $this->getPostCmd();
+    public function getCmd(string $fallback_command = null, ilCtrlCommandHandler $handler = null) : string
+    {
+        // retrieve $_GET and $_POST parameters.
+        $post_command = $this->getPostParam(ilCtrlTarget::PARAM_CMD);
+        $get_command  = $this->getQueryParam(ilCtrlTarget::PARAM_CMD);
 
-        // all commands which are not $safe_commands MUST pass the
-        // CSRF token validation in order to be returned.
-        // @TODO: implement token validation
-
-        // if the command 'post' is retrieved via $_GET, the post
-        // command must be used.
-        $command = (self::CMD_POST === $get_command) ?
+        // if the $_GET command is 'post', the post command
+        // has to be used.
+        $command = (ilCtrlTarget::CMD_POST === $get_command) ?
             $post_command : $get_command
         ;
 
-        // apply temporarily added handlers in case some exceptional
-        // command manipulation needs to happen.
-        if (null !== $handler) {
-            $command = $handler->handle(
-                $get_command,
-                $this->getPostCmdArray()
-            );
-        }
+        // if no command was found, check the current target
+        // for one.
+        $command = $command ?? $this->target->getCmd();
 
-        // in case of GET command 'post' and no found command, the
-        // GET fallback command is returned if possible.
-        if (self::CMD_POST === $get_command && null === $command) {
-            if ($this->get_request->has(self::PARAM_CMD_FALLBACK)) {
-                return $this->get_request->retrieve(
-                    self::PARAM_CMD_FALLBACK,
-                    $this->refinery->to()->string()
-                );
+        if (null !== $command) {
+            // if the executing object implements ilCtrl security,
+            // the command is returned if it's a safe one.
+            if ($this->isCmdSecure($this->getCmdClass(), $command)) {
+                return $command;
             }
 
-            $command = $fallback_command;
+            // the CSRF token could either be in $_POST or $_GET.
+            $token = $this->getQueryParam(ilCtrlTarget::PARAM_CSRF_TOKEN) ??
+                $this->getPostParam(ilCtrlTarget::PARAM_CSRF_TOKEN)
+            ;
+
+            // if the command is considered unsafe, the CSRF token
+            // has to bee valid to retrieve the command.
+            if (null !== $token && $this->token->verifyWith($token)) {
+                return $command;
+            }
         }
 
-        // if no command was found, check if a custom command has been
-        // set with setCmd() before fallback is returned.
-        if (null === $command && null !== $this->target->getCmd()) {
-            return $this->target->getCmd();
-        }
-
-        return $command;
+        return $fallback_command;
     }
 
     /**
@@ -251,14 +232,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getCmdClass() : ?string
     {
-        if ($this->get_request->has(self::PARAM_CMD_CLASS)) {
-            return $this->get_request->retrieve(
-                self::PARAM_CMD_CLASS,
-                $this->refinery->to()->string()
-            );
-        }
-
-        return $this->target->getCmdClass() ?? '';
+        return $this->target->getCurrentCmdClass();
     }
 
     /**
@@ -266,56 +240,30 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setCmdClass(object|string $a_cmd_class) : void
     {
-        $a_cmd_class = (is_object($a_cmd_class)) ?
-            strtolower(get_class($a_cmd_class)) :
-            strtolower($a_cmd_class)
-        ;
-
-        $this->target->setCmdClass($a_cmd_class);
+        $this->target->appendCmdClass($this->getClassByObject($a_cmd_class));
     }
 
     /**
      * @inheritDoc
      */
-    public function getNextClass(object|string $a_gui_class = null) : string|false
+    public function getNextClass(object|string $a_gui_class = null) : ?string
     {
-        if (null !== $this->target->getNestedTarget()) {
-            $cid_trace = $this->target->getNestedTarget()->getCidTrace();
-        } else {
-            $cid_trace = $this->target->getCidTrace();
+        if (null === $a_gui_class) {
+            return $this->target->getCurrentCmdClass();
         }
 
-        if (null !== $a_gui_class) {
-            // abort if an invalid argument was supplied.
-            if (!is_object($a_gui_class) && !is_string($a_gui_class)) {
-                return false;
-            }
+        $class_name = $this->getClassByObject($a_gui_class);
+        $pieces = $this->target->getTrace()->getAllCidPieces();
+        $size = count($pieces) - 1;
 
-            $a_gui_class = (is_object($a_gui_class)) ?
-                strtolower(get_class($a_gui_class)) :
-                strtolower($a_gui_class)
-            ;
-
-            $gui_cid = $this->getStructureInfoByName($a_gui_class);
-            if ($this->target->getCurrentCid() === $gui_cid) {
-
+        foreach ($pieces as $index => $cid) {
+            $current_name = $this->structure->getClassNameByCid($cid);
+            if ($class_name === $current_name && ($index + 1) <= $size) {
+                return $this->structure->getClassNameByCid($pieces[$index + 1]);
             }
         }
 
-        if ($this->get_request->has(self::PARAM_CMD_TRACE)) {
-            $cid_trace = $this->get_request->retrieve(
-                self::PARAM_CMD_TRACE,
-                $this->refinery->to()->string()
-            );
-
-            $current_cid = $this->target->getCurrentCidFrom($cid_trace);
-            if (null !== $current_cid) {
-                $class_info = $this->getStructureInfoByCid($cid_trace);
-                return $this->getClassName($class_info);
-            }
-        }
-
-        return false;
+        return null;
     }
 
     /**
@@ -323,7 +271,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function saveParameter(object $a_gui_obj, array|string $a_parameter) : void
     {
-        $this->saveParameterByClass(get_class($a_gui_obj), $a_parameter);
+        $this->saveParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter);
     }
 
     /**
@@ -331,17 +279,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function saveParameterByClass(string $a_class, array|string $a_parameter) : void
     {
-        if (!is_array($a_parameter)) {
-            $a_parameter = [$a_parameter];
-        }
-
-        foreach ($a_parameter as $parameter_name) {
-            if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
-                throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
-            }
-
-            $this->saved_parameters[strtolower($a_class)][] = $parameter_name;
-        }
+        $this->structure->saveParameterByClass($a_class, $a_parameter);
     }
 
     /**
@@ -349,7 +287,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setParameter(object $a_gui_obj, string $a_parameter, mixed $a_value) : void
     {
-        $this->setParameterByClass(get_class($a_gui_obj), $a_parameter, $a_value);
+        $this->setParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter, $a_value);
     }
 
     /**
@@ -357,11 +295,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setParameterByClass(string $a_class, string $a_parameter, mixed $a_value) : void
     {
-        if (!preg_match(self::PARAM_NAME_REGEX, $a_parameter)) {
-            throw new ilCtrlException("Cannot save parameter '$a_parameter', as it contains invalid characters.");
-        }
-
-        $this->parameters[strtolower($a_class)][$a_parameter] = $a_value;
+        $this->structure->setParameterByClass($a_class, $a_parameter, $a_value);
     }
 
     /**
@@ -369,7 +303,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getParameterArray(object $a_gui_obj) : array
     {
-        return $this->getParameterArrayByClass(get_class($a_gui_obj));
+        return $this->getParameterArrayByClass($this->getClassByObject($a_gui_obj));
     }
 
     /**
@@ -377,39 +311,18 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array
     {
-        $class_name = strtolower($a_class);
-        $class_info = $this->getStructureInfoByName($class_name);
-        $class_cid  = $this->getClassCid($class_info);
+        $parameters = [];
 
-        if ($class_cid !== $this->target->getCurrentCid()) {
-            $this->determineCidTrace($class_name);
+        $permanent_parameters = $this->structure->getSavedParametersByClass($a_class);
+        if (null !== $permanent_parameters) {
+            foreach ($permanent_parameters as $parameter) {
+                $parameters[$parameter] = $this->getQueryParam($parameter);
+            }
         }
 
-        $parameters = [];
-        foreach ($this->target->getCidPieces() as $cid) {
-            $current_info  = $this->getStructureInfoByCid($cid);
-            $current_class = $this->getClassName($current_info);
-
-            // if the current class has saved parameters, they need to
-            // be fetched from the current request.
-            if (isset($this->saved_parameters[$current_class])) {
-                foreach ($this->saved_parameters[$current_class] as $key => $value) {
-                    if ($this->get_request->has($key)) {
-                        $parameters[$key] = $this->get_request->retrieve(
-                            $key,
-                            $this->refinery->to()->string()
-                        );
-                    } else {
-                        $parameters[$key] = null;
-                    }
-                }
-            }
-
-            if (isset($this->parameters[$current_class])) {
-                foreach ($this->parameters[$current_class] as $key => $value) {
-                    $parameters[$key] = $value;
-                }
-            }
+        $temporary_parameters = $this->structure->getParametersByClass($a_class);
+        if (null !== $temporary_parameters) {
+            $parameters = array_merge_recursive($parameters, $temporary_parameters);
         }
 
         return $parameters;
@@ -420,7 +333,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function clearParameters(object $a_gui_obj) : void
     {
-        $this->clearParametersByClass(get_class($a_gui_obj));
+        $this->clearParametersByClass($this->getClassByObject($a_gui_obj));
     }
 
     /**
@@ -428,15 +341,8 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function clearParametersByClass(string $a_class) : void
     {
-        $class_name = strtolower($a_class);
-
-        if (isset($this->saved_parameters[$class_name])) {
-            unset($this->saved_parameters[$class_name]);
-        }
-
-        if (isset($this->parameters[$class_name])) {
-            unset($this->parameters[$class_name]);
-        }
+        $this->structure->removeSavedParametersByClass($a_class);
+        $this->structure->removeParametersByClass($a_class);
     }
 
     /**
@@ -444,15 +350,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function clearParameterByClass(string $a_class, string $a_parameter) : void
     {
-        $class_name = strtolower($a_class);
-
-        if (isset($this->saved_parameters[$class_name][$a_parameter])) {
-            unset($this->saved_parameters[$class_name][$a_parameter]);
-        }
-
-        if (isset($this->parameters[$class_name][$a_parameter])) {
-            unset($this->parameters[$class_name][$a_parameter]);
-        }
+        $this->structure->removeSingleParameterByClass($a_class, $a_parameter);
     }
 
     /**
@@ -466,7 +364,7 @@ final class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getLinkTargetByClass(
-            get_class($a_gui_obj),
+            $this->getClassByObject($a_gui_obj),
             $a_cmd,
             $a_anchor,
             $is_async,
@@ -484,62 +382,13 @@ final class ilCtrl implements ilCtrlInterface
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
-        // force xml style to be disabled for async requests
-        if ($is_async) {
-            $has_xml_style = false;
-        }
-
-        if (is_array($a_class)) {
-            $this->target->setCidTrace(null);
-            foreach ($a_class as $class_name) {
-                $class_name = strtolower($class_name);
-                $class_info = $this->getStructureInfoByName($class_name);
-                $class_cid  = $this->getClassCid($class_info);
-
-                $this->target->appendCid($class_cid);
-                if (!$this->validateCidTrace($this->target->getCidTrace())) {
-                    throw new ilCtrlException("CID Trace '{$this->target->getCidTrace()}' is not valid. Fix any missing ilCtrl-call statements.");
-                }
-            }
-        } else {
-            $this->determineCidTrace(strtolower($a_class));
-        }
-
-        $target_url = $this->getTargetScript();
-        foreach ($this->target->getCidPieces() as $cid) {
-            $parameters = $this->getParameterArrayByClass(
-                $this->getClassName(
-                    $this->getStructureInfoByCid($cid)
-                )
-            );
-
-            if (!empty($parameters)) {
-                foreach ($parameters as $key => $value) {
-                    $this->appendUrlParameterString($target_url, $key, $value, $has_xml_style);
-                }
-            }
-        }
-
-        $this->appendRequestTokenParameterString($target_url, $has_xml_style);
-
-        // append baseclass, cidtrace, cmdclass and cmd.
-        if () {
-
-        }
-
-        if ($is_async) {
-            $this->appendUrlParameterString(
-                $target_url,
-                self::PARAM_CMD_MODE,
-                self::CMD_MODE_ASYNC
-            );
-        }
-
-        if ('' !== $a_anchor) {
-            $target_url .= "#$a_anchor";
-        }
-
-        return $target_url;
+        return $this->getTargetUrl(
+            $a_class,
+            $a_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style
+        ) ?? '';
     }
 
     /**
@@ -553,7 +402,7 @@ final class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getFormActionByClass(
-            get_class($a_gui_obj),
+            $this->getClassByObject($a_gui_obj),
             $a_fallback_cmd,
             $a_anchor,
             $is_async,
@@ -571,28 +420,14 @@ final class ilCtrl implements ilCtrlInterface
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
-        $form_action = $this->getLinkTargetByClass(
+        return $this->getTargetUrl(
             $a_class,
-            self::CMD_POST,
-            '',
+            $a_fallback_cmd,
+            $a_anchor,
             $is_async,
-            $has_xml_style
-        );
-
-        if ('' !== $a_fallback_cmd) {
-            $this->appendUrlParameterString(
-                $form_action,
-                self::PARAM_CMD_FALLBACK,
-                $a_fallback_cmd,
-                $has_xml_style
-            );
-        }
-
-        if ('' !== $a_anchor) {
-            $form_action .= "#$a_anchor";
-        }
-
-        return $form_action;
+            $has_xml_style,
+            true
+        ) ?? '';
     }
 
     /**
@@ -604,13 +439,11 @@ final class ilCtrl implements ilCtrlInterface
         string $a_anchor = "",
         bool $is_async = false
     ) : void {
-        $this->redirectToURL(
-            $this->getLinkTargetByClass(
-                get_class($a_gui_obj),
-                $a_cmd,
-                $a_anchor,
-                $is_async
-            )
+        $this->redirectByClass(
+            $this->getClassByObject($a_gui_obj),
+            $a_cmd,
+            $a_anchor,
+            $is_async
         );
     }
 
@@ -618,7 +451,7 @@ final class ilCtrl implements ilCtrlInterface
      * @inheritDoc
      */
     public function redirectByClass(
-        $a_class,
+        array|string $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false
@@ -636,76 +469,67 @@ final class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function redirectToURL(string $a_url) : void
+    public function redirectToURL(string $target_url) : void
     {
-        if (!is_int(strpos($a_url, '://'))) {
-            if (defined('ILIAS_HTTP_PATH') && 0 !== strpos($a_url, '/')) {
-                if (is_int(strpos($_SERVER['PHP_SELF'], '/setup/'))) {
-                    $a_url = 'setup/' . $a_url;
-                }
-
-                $a_url = ILIAS_HTTP_PATH . '/' . $a_url;
-            }
+        // prepend the ILIAS HTTP path if it wasn't already.
+        if (defined("ILIAS_HTTP_PATH") &&
+            !is_int(strpos($target_url, "://")) &&
+            !str_starts_with($target_url, "/")
+        ) {
+            $target_url = ILIAS_HTTP_PATH . "/" . $target_url;
         }
 
-        if (null !== $this->plugin_service) {
-            $plugin_names = ilPluginAdmin::getActivePluginsForSlot(
-                IL_COMP_SERVICE,
-                'UIComponent',
-                'uihk'
-            );
+        // this line can be dropped after discussion with TB or JF,
+        // it keeps the functionality of UI plugin hooks alive.
+        $target_url = $this->modifyUrlWithPluginsHooks($target_url);
 
-            if (!empty($plugin_names)) {
-                foreach ($plugin_names as $plugin) {
-                    $plugin = ilPluginAdmin::getPluginObject(
-                        IL_COMP_SERVICE,
-                        'UIComponent',
-                        'uihk',
-                        $plugin
-                    );
-
-                    /**
-                     * @var $plugin ilUserInterfaceHookPlugin
-                     *
-                     * @TODO: THIS IS LEGACY CODE! Methods are deprecated an should not
-                     *        be used anymore. There is no other implementation yet,
-                     *        therefore it stays for now.
-                     */
-                    $gui_object = $plugin->getUIClassInstance();
-                    $resp = $gui_object->getHTML("Services/Utilities", "redirect", array( "html" => $a_url ));
-                    if ($resp["mode"] != ilUIHookPluginGUI::KEEP) {
-                        $a_url = $gui_object->modifyHTML($a_url, $resp);
-                    }
-                }
+        // there's an exceptional case for asynchronous file uploads
+        // where a json response is delivered.
+        if ('application/json' === $this->http->request()->getHeaderLine('Accept')) {
+            try {
+                $body = Streams::ofString(
+                    json_encode(
+                        [
+                            'redirect_url' => $target_url,
+                            'success' => true,
+                            'message' => 'called redirect after asynchronous file-upload request.',
+                        ],
+                        JSON_THROW_ON_ERROR
+                    )
+                );
+            } catch (Throwable $exception) {
+                $body = Streams::ofString($exception->getMessage());
             }
+
+            $response = $this->http->response()->withBody($body);
+        } else {
+            $response = $this->http->response()->withAddedHeader('Location', $target_url);
         }
 
-        // Manually trigger to write and close the session. This has the advantage that if an exception is thrown
-        // during the writing of the session (ILIAS writes the session into the database by default) we get an exception
-        // if the session_write_close() is triggered by exit() then the exception will be dismissed but the session
-        // is never written, which is a nightmare to develop with.
+        $this->http->saveResponse($response);
+
+        // manually trigger session_write_close() due to exceptions stored
+        // in the ILIAS database, otherwise this method is called by exit()
+        // which leads to the exceptions not being written to the database.
         session_write_close();
 
-        if ('application/json' === $this->http_service->request()->getHeaderLine('Accept')) {
-            $stream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
-                'success' => true,
-                'message' => 'Called redirect after async fileupload request',
-                "redirect_url" => $a_url,
-            ]));
-
-            $this->http_service->saveResponse(
-                $this->http_service->response()->withBody($stream)
+        try {
+            $this->http->sendResponse();
+        } catch (ResponseSendingException) {
+            header("Location: $target_url");
+            echo json_encode(
+                $response->getBody()->getContents(),
+                JSON_THROW_ON_ERROR
             );
-        } else {
-            $this->http_service->saveResponse(
-                $this->http_service->response()->withHeader(
-                    'Location',
-                    $a_url
-                )
-            );
+        } catch (Throwable $exception) {
+            echo "
+                {
+                    success: false,
+                    message: {$exception->getMessage()}
+                }
+            ";
         }
 
-        $this->http_service->sendResponse();
         exit;
     }
 
@@ -770,8 +594,12 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function lookupClassPath(string $a_class) : string
     {
-        $class_info = $this->getStructureInfoByName($a_class);
-        return $this->getClassPath($class_info);
+        $path = $this->structure->getClassPathByName($a_class);
+        if (null === $path) {
+            throw new ilCtrlException("Class '$a_class' cannot be found in the control structure.");
+        }
+
+        return $path;
     }
 
     /**
@@ -779,11 +607,9 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getClassForClasspath(string $a_class_path) : string
     {
-        $path  = pathinfo($a_class_path);
-        $file  = $path["basename"];
-        $class = substr($file, 6, strlen($file) - 10);
+        $path_info = pathinfo($a_class_path);
 
-        return $class;
+        return substr($path_info['basename'], 6, -4);
     }
 
     /**
@@ -791,119 +617,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setTargetScript(string $a_target_script) : void
     {
-        $this->target_script = $a_target_script;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getTargetScript() : string
-    {
-        return $this->target_script;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function verifyToken(RequestWrapper $request) : bool
-    {
-        global $DIC;
-
-        if (!$request->has(self::PARAM_CSRF_TOKEN)) {
-            return false;
-        }
-
-        $stored_token  = $this->getRequestToken();
-        $current_token = $request->retrieve(
-            self::PARAM_CSRF_TOKEN,
-            $this->refinery->to()->string()
-        );
-
-        if ($current_token === $stored_token) {
-            $datetime = new ilDateTime(time(), IL_CAL_UNIX);
-            $datetime->increment(IL_CAL_DAY, -1);
-            $datetime->increment(IL_CAL_HOUR, -12);
-
-            // according to bug #13551 the current token must not be removed
-            // immediately from the database. Therefore only old(er) ones are
-            // removed right now.
-            $this->database->manipulateF(
-                "DELETE FROM il_request_token WHERE user_id = %s AND session_id = %s AND stamp < %s;",
-                ['integer', 'text', 'timestamp'],
-                [$DIC->user()->getId(), session_id(), $datetime->get(IL_CAL_TIMESTAMP)]
-            );
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function appendRequestTokenParameterString(string $a_url, bool $xml_style = false) : string
-    {
-        $this->appendUrlParameterString(
-            $a_url,
-            self::PARAM_CSRF_TOKEN,
-            $this->getRequestToken(),
-            $xml_style
-        );
-
-        return $a_url;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRequestToken() : string
-    {
-        global $DIC;
-        static $token;
-
-        if (isset($token)) {
-            return $token;
-        }
-
-        $user_id = $DIC->user()->getId();
-        if (0 < $user_id && ANONYMOUS_USER_ID !== $user_id) {
-            $token_result = $this->database->fetchAssoc(
-                $this->database->queryF(
-                    "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s;",
-                    ['integer', 'text'],
-                    [$user_id, session_id()]
-                )
-            );
-
-            if (isset($token_result['token'])) {
-                $token = $token_result['token'];
-                return $token;
-            }
-
-            $random = new ilRandom();
-            $token  = md5(uniqid($random->int(), true));
-
-            $this->database->manipulateF(
-                "INSERT INTO il_request_token (user_id, token, stamp, session_id) VALUES (%s, %s, %s, %s);",
-                [
-                    'integer',
-                    'text',
-                    'timestamp',
-                    'text',
-                ],
-                [
-                    $user_id,
-                    $token,
-                    $this->database->now(),
-                    session_id(),
-                ]
-            );
-
-            $this->maybeDeleteOldTokens($random);
-        }
-
-        return '';
+        $this->target->setTargetScript($a_target_script);
     }
 
     /**
@@ -911,16 +625,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function isAsynch() : bool
     {
-        if ($this->get_request->has(self::PARAM_CMD_MODE)) {
-            $mode = $this->get_request->retrieve(
-                self::PARAM_CMD_MODE,
-                $this->refinery->to()->string()
-            );
-
-            return (self::CMD_MODE_ASYNC === $mode);
-        }
-
-        return false;
+        return (ilCtrlTarget::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlTarget::PARAM_CMD_MODE));
     }
 
     /**
@@ -928,7 +633,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setReturn(object $a_gui_obj, string $a_cmd) : void
     {
-        $this->setReturnByClass(get_class($a_gui_obj), $a_cmd);
+        // TODO: Implement setReturn() method.
     }
 
     /**
@@ -936,11 +641,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setReturnByClass(string $a_class, string $a_cmd) : void
     {
-        $class_name = strtolower($a_class);
-
-        $script = $this->getUrlParameterStringByClass($class_name, $a_cmd);
-
-        $this->return_classes[$class_name] = $script;
+        // TODO: Implement setReturnByClass() method.
     }
 
     /**
@@ -948,49 +649,23 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void
     {
-        $class_name = strtolower(get_class($a_gui_obj));
-        $target_url = $this->getReturnClass($class_name);
-
-        if (!$target_url) {
-            throw new ilException("Cannot return from " . get_class($a_gui_obj) . ". The parent class was not found.");
-        }
-
-        $this->appendUrlParameterString(
-            $target_url,
-            self::PARAM_REDIRECT,
-            $class_name
-        );
-
-        if ($this->get_request->has(self::PARAM_CMD_MODE)) {
-            $cmd_mode = $this->get_request->retrieve(
-                self::PARAM_CMD_MODE,
-                $this->refinery->to()->string()
-            );
-
-            $this->appendUrlParameterString(
-                $target_url,
-                self::PARAM_CMD_MODE,
-                $cmd_mode
-            );
-        }
-
-        $this->redirectToURL($target_url);
+        // TODO: Implement returnToParent() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function getParentReturn($a_gui_obj)
+    public function getParentReturn(object $a_gui_obj)
     {
-        return $this->getReturnClass($a_gui_obj);
+        // TODO: Implement getParentReturn() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function getParentReturnByClass($a_class)
+    public function getParentReturnByClass(string $a_class)
     {
-        return $this->getReturnClass($a_class);
+        // TODO: Implement getParentReturnByClass() method.
     }
 
     /**
@@ -998,37 +673,15 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getReturnClass($a_class)
     {
-        if (is_object($a_class)) {
-            $class_name = strtolower(get_class($a_class));
-        } else {
-            $class_name = strtolower($a_class);
-        }
-
-        $this->determineCidTrace($class_name);
-        foreach ($this->target->getCidPieces(SORT_DESC) as $cid) {
-            $class_info = $this->getStructureInfoByCid($cid);
-            $class_name_of_iteration = $this->getClassName($class_info);
-            if (isset($this->return_classes[$class_name_of_iteration])) {
-                return $this->return_classes[$class_name_of_iteration];
-            }
-        }
-
-        return false;
+        // TODO: Implement getReturnClass() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function getRedirectSource() : string
+    public function getRedirectSource() : ?string
     {
-        if ($this->get_request->has(self::PARAM_REDIRECT)) {
-            return $this->get_request->retrieve(
-                self::PARAM_REDIRECT,
-                $this->refinery->to()->string()
-            );
-        }
-
-        return '';
+        return $this->getQueryParam(ilCtrlTarget::PARAM_REDIRECT);
     }
 
     /**
@@ -1036,7 +689,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function insertCtrlCalls($a_parent, $a_child, string $a_comp_prefix) : void
     {
-        throw new ilCtrlException("Cannot execute " . __METHOD__ . ". Information is no longer stored in the database.");
+        throw new ilCtrlException(__METHOD__ . " is deprecated and must not be used.");
     }
 
     /**
@@ -1044,10 +697,235 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function checkCurrentPathForClass(string $gui_class) : bool
     {
-        $gui_class_name = strtolower($gui_class);
-        foreach ($this->getCidsFromTrace($this->cid_trace) as $cid) {
-            $class_info = $this->getStructureInfoByCid($cid);
-            if ($gui_class_name === $this->getClassName($class_info)) {
+        $class_cid = $this->structure->getClassCidByName($gui_class);
+        if (null === $class_cid) {
+            return false;
+        }
+
+        return str_contains(
+            $this->target->getTrace()->getCidTrace(),
+            $class_cid
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCurrentClassPath() : array
+    {
+        if (!$this->target->getTrace()->isValid()) {
+            return [];
+        }
+
+        $class_path = [];
+        foreach ($this->target->getTrace()->getCidPieces() as $cid) {
+            $class_path[] = $this->structure->getObjectNameByCid($cid);
+        }
+
+        return $class_path;
+    }
+
+    /**
+     * Returns the baseclass of the current ilCtrl instance.
+     *
+     * This method prioritises a baseclass passed by $_GET over
+     * the baseclass ilCtrl was initialized with.
+     *
+     * @return string|null
+     * @throws ilCtrlException if the baseclass is unknown.
+     */
+    private function getBaseClass() : ?string
+    {
+        // target information will never be found in $_POST,
+        // therefore only query-params are fetched.
+        $base_class = $this->getQueryParam(ilCtrlTarget::PARAM_BASE_CLASS);
+
+        // if a baseclass was retrieved from $_GET ilCtrl is
+        // initialized with it.
+        if (null !== $base_class) {
+            $this->initBaseClass($base_class);
+        }
+
+        return $this->target->getBaseClass();
+    }
+
+    /**
+     * Returns a parameter with the given name from the current GET
+     * request.
+     *
+     * @param string $parameter_name
+     * @return string|null
+     */
+    private function getQueryParam(string $parameter_name) : ?string
+    {
+        if ($this->http->wrapper()->query()->has($parameter_name)) {
+            return $this->http->wrapper()->query()->retrieve(
+                $parameter_name,
+                $this->refinery->to()->string()
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a parameter with the given name from the current POST
+     * request.
+     *
+     * @param string $parameter_name
+     * @return string|null
+     */
+    private function getPostParam(string $parameter_name) : ?string
+    {
+        if ($this->http->wrapper()->post()->has($parameter_name)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $parameter_name,
+                $this->refinery->to()->string()
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * Helper function that returns a target URL string.
+     *
+     * @param array|string $a_class
+     * @param string       $a_cmd
+     * @param string       $a_anchor
+     * @param bool         $is_async
+     * @param bool         $has_xml_style
+     * @param bool         $is_post
+     * @return string|null
+     * @throws ilCtrlException
+     */
+    private function getTargetUrl(
+        array|string $a_class,
+        string $a_cmd = "",
+        string $a_anchor = "",
+        bool $is_async = false,
+        bool $has_xml_style = false,
+        bool $is_post = false
+    ) : ?string {
+        if (empty($a_class)) {
+            throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
+        }
+
+        $is_class_path = is_array($a_class);
+
+        if (null === $this->target) {
+            $base_class = ($is_class_path) ? $a_class[0] : $a_class;
+            $target = new ilCtrlTarget(
+                $this->structure,
+                $this->token,
+                $base_class
+            );
+        } else {
+            $target = $this->target;
+        }
+
+        if ($is_class_path) {
+            $target->appendCmdClassArray($a_class);
+        } else {
+            $$target->appendCmdClass($a_class);
+        }
+
+        if (!$target->getTrace()->isValid()) {
+            throw new ilCtrlException("ilCtrl cannot determine a trace to the provided command class.");
+        }
+
+        foreach ($target->getTrace()->getCidPieces() as $cid) {
+            $target->setParameters(
+                $this->getParameterArrayByClass(
+                    $this->structure->getClassNameByCid($cid)
+                )
+            );
+        }
+
+        $target
+            ->setCmd($a_cmd)
+            ->setAsync($is_async)
+            ->setEscaped($has_xml_style)
+            ->setAnchor($a_anchor)
+            ->setSecure(
+                $this->isCmdSecure(
+                    $this->target->getCurrentCmdClass(),
+                    $a_cmd
+                )
+            )
+        ;
+
+        return $target->getTargetUrl($is_post);
+    }
+
+    /**
+     * This helper function wraps the deprecated UI functionality that
+     * modifies a URL target and "hacks into" existing HTML.
+     *
+     * (Tbh I don't really get that mechanism, but it stays for now.)
+     *
+     * @param string $target_url
+     * @return string
+     */
+    private function modifyUrlWithPluginsHooks(string $target_url) : string
+    {
+        $ui_plugins = ilPluginAdmin::getActivePluginsForSlot('Services', 'UIComponent', 'uihk');
+        if (!empty($ui_plugins)) {
+            foreach ($ui_plugins as $plugin_name) {
+                /** @var $plugin_instance ilUserInterfaceHookPlugin */
+                $plugin_instance = ilPluginAdmin::getPluginObject(
+                    'Services', 'UIComponent', 'uihk', $plugin_name
+                );
+
+                $html = $plugin_instance
+                    ->getUIClassInstance()
+                    ->getHTML(
+                        'Services/Utilities',
+                        'redirect',
+                        ["html" => $target_url]
+                    )
+                ;
+
+                if (ilUIHookPluginGUI::KEEP === $html['mode']) {
+                    $target_url = $plugin_instance
+                        ->getUIClassInstance()
+                        ->modifyHTML(
+                            $target_url,
+                            $html
+                        )
+                    ;
+                }
+            }
+        }
+
+        return $target_url;
+    }
+
+    /**
+     * Returns whether a given command is considered safe or not.
+     *
+     * @param string $cmd_class
+     * @param string $cmd
+     * @return bool
+     */
+    private function isCmdSecure(string $cmd_class, string $cmd) : bool
+    {
+        // it kinda sucks that we have to use $DIC here.
+        global $DIC;
+
+
+
+        $obj_name = $this->structure->getObjectNameByClass($cmd_class);
+        if (is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
+            if (null !== $this->exec_object) {
+                $obj = ($obj_name !== get_class($this->exec_object)) ?
+                    new $obj_name() : $this->exec_object
+                ;
+            } else {
+                $obj = new $obj_name();
+            }
+
+            if (in_array($cmd, $obj->getSafeCommands(), true)) {
                 return true;
             }
         }
@@ -1056,221 +934,25 @@ final class ilCtrl implements ilCtrlInterface
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getCurrentClassPath() : array
-    {
-        if (null === $this->cid_trace && $this->get_request->has(self::PARAM_BASE_CLASS)) {
-            return [
-                $this->get_request->retrieve(
-                    self::PARAM_BASE_CLASS,
-                    $this->refinery->to()->string()
-                )
-            ];
-        }
-
-        $classes = [];
-        foreach ((explode(self::CID_TRACE_SEPARATOR, $this->cid_trace)) as $cid) {
-            $class_info = $this->getStructureInfoByCid($cid);
-            $classes[]  = $this->getClassName($class_info);
-        }
-
-        return $classes;
-    }
-
-    //
-    // BEGIN PRIVATE METHODS
-    //
-
-    /**
-     * Returns the classname of the current request's baseclass.
+     * Populates a call to the given target in the stacktrace of
+     * this ilCtrl instance.
      *
-     * @return string|null
+     * @param ilCtrlTarget $target
      */
-    private function getBaseClass() : ?string
+    private function populateCall(ilCtrlTarget $target) : void
     {
-        if ($this->get_request->has(self::PARAM_BASE_CLASS)) {
-            $base_class = strtolower(
-                $this->get_request->retrieve(
-                    self::PARAM_BASE_CLASS,
-                    $this->refinery->to()->string()
-                )
-            );
-
-            $this->target->setBaseClass($base_class);
-        }
-
-        return $this->target->getBaseClass();
+        $this->stacktrace[] = $target;
     }
 
     /**
-     * Populates a call by making a stacktrace entry for the given information.
+     * Helper function that returns the class name of a mixed
+     * (object or string) parameter.
      *
-     * @param string      $class_name
-     * @param string      $cmd
-     * @param string|null $mode
-     */
-    private function populateCall(string $class_name, string $cmd, string $mode = null) : void
-    {
-        $this->stacktrace[] = [
-            'class' => $class_name,
-            'cmd'   => $cmd,
-            'mode'  => $mode,
-        ];
-    }
-
-    /**
-     * Helper function to retrieve current GET command.
-     *
-     * @return string|null
-     */
-    private function getQueryCmd() : ?string
-    {
-        if ($this->get_request->has(self::PARAM_CMD)) {
-            $get_command = $this->get_request->retrieve(
-                self::PARAM_CMD,
-                $this->refinery->to()->string()
-            );
-        }
-
-        return $get_command ?? null;
-    }
-
-    /**
-     * Helper function to retrieve current POST command.
-     *
-     * @return string|null
-     */
-    private function getPostCmd() : ?string
-    {
-        if ($this->post_request->has(self::PARAM_CMD)) {
-            $post_command = $this->post_request->retrieve(
-                self::PARAM_CMD,
-                $this->refinery->custom()->transformation(
-                    static function ($command) {
-                        if (is_array($command)) {
-                            return array_key_first($command);
-                        }
-
-                        return $command;
-                    }
-                )
-            );
-        }
-
-        return $post_command ?? null;
-    }
-
-    /**
-     * Helper function to retrieve current POST commands.
-     *
-     * @return array|null
-     */
-    private function getPostCmdArray() : ?array
-    {
-        if ($this->post_request->has(self::PARAM_CMD)) {
-            $post_commands = $this->post_request->retrieve(
-                self::PARAM_CMD,
-                $this->refinery->custom()->transformation(
-                    static function ($command) {
-                        if (is_array($command)) {
-                            return (array) $command;
-                        }
-
-                        return null;
-                    }
-                )
-            );
-        }
-
-        return $post_commands ?? null;
-    }
-
-    /**
-     * Removes old or unnecessary tokens from the database if the answer to
-     * life, the universe and everything is generated.
-     *
-     * @param ilRandom $random
-     */
-    private function maybeDeleteOldTokens(ilRandom $random) : void
-    {
-        if (42 === $random->int(1, 200)) {
-            $datetime = new ilDateTime(time(), IL_CAL_UNIX);
-            $datetime->increment(IL_CAL_DAY, -1);
-            $datetime->increment(IL_CAL_HOUR, -12);
-
-            $this->database->manipulateF(
-                "DELETE FROM il_request_token WHERE stamp < %s;",
-                ['timestamp'],
-                [$datetime->get(IL_CAL_TIMESTAMP)]
-            );
-        }
-    }
-
-    /**
-     * Returns all saved or set parameters as a query string.
-     *
-     * @param array|string $a_class
-     * @param string|null  $cmd
-     * @param bool         $xml_style
-     * @return string
-     * @throws ilCtrlException if a provided class was not found.
-     */
-    private function getUrlParameterStringByClass(array|string $a_class, string $cmd = null, bool $xml_style = false) : string
-    {
-        $query_string = $this->getTargetScript();
-
-        if (is_array($a_class)) {
-            $parameters = [];
-            foreach ($a_class as $class_name) {
-                array_merge_recursive($parameters, $this->getParameterArrayByClass($class_name, $cmd));
-            }
-        } else {
-            $parameters = $this->getParameterArrayByClass($a_class, $cmd);
-        }
-
-        foreach ($parameters as $key => $value) {
-            if ('' !== (string) $value) {
-                $this->appendUrlParameterString(
-                    $query_string,
-                    $key,
-                    $value,
-                    $xml_style
-                );
-            }
-        }
-
-        return $query_string;
-    }
-
-    /**
-     * Appends a parameter name and value to an existing URL string.
-     *
-     * This method was imported from @see ilUtil::appendUrlParameterString().
-     *
-     * @param string $url
-     * @param string $parameter_name
-     * @param mixed  $parameter_value
-     * @param bool   $xml_style
-     */
-    private function appendUrlParameterString(string &$url, string $parameter_name, mixed $parameter_value, bool $xml_style = false) : void
-    {
-        $amp = ($xml_style) ? "&amp;" : "&";
-
-        $url = (is_int(strpos($url, "?"))) ?
-            $url . $amp . $parameter_name . "=" . $parameter_value :
-            $url . "?" . $parameter_name . "=" . $parameter_value
-        ;
-    }
-
-    /**
-     * Returns the lower-cased class name of the given object.
-     *
-     * @param object $a_object
+     * @param object|string $object
      * @return string
      */
-    private function getClassNameOfObject(object $a_object) : string
+    private function getClassByObject(object|string $object) : string
     {
-        return strtolower(get_class($a_object));
+        return (is_object($object)) ? get_class($object) : $object;
     }
 }

@@ -5,15 +5,21 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * Classes implementing this interface are used to determine
- * whether commands for this class can be executed safely
- * without CSRF validation.
+ * This interface can be implemented by GUI classes in order
+ * to provide ilCtrl with security information about it.
  */
 interface ilCtrlSecurityInterface
 {
     /**
-     * Returns all commands of a class that can be executed
-     * without CSRF validation.
+     * This method should return a list of commands (strings)
+     * which are considered "safe" commands.
+     *
+     * Safe in this scenario means, that no CSRF validation is
+     * needed for the command to be executed.
+     *
+     * Any other commands calling the GUI class implementing this
+     * interface are considered unsafe and need to check-pass a
+     * CSRF validation.
      *
      * @return string[]
      */

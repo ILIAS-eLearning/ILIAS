@@ -12,21 +12,7 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      * @var string command name which must be provided in $_GET when
      *             a POST request should be processed.
      */
-    private const CMD_POST = 'post';
-
-    /**
-     * Holds a token generated for the current user.
-     *
-     * @var ilCtrlTokenInterface
-     */
-    private ilCtrlTokenInterface $token;
-
-    /**
-     * Holds the currently read control structure.
-     *
-     * @var ilCtrlStructureInterface
-     */
-    private ilCtrlStructureInterface $structure;
+    public const CMD_POST = 'post';
 
     /**
      * Holds the trace from baseclass to command-class of the
@@ -37,31 +23,58 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     private ilCtrlTraceInterface $trace;
 
     /**
-     * Holds the target-script of the current target.
+     * Holds a token generated for the current user session that
+     * is used for unsecure link targets.
+     *
+     * @var ilCtrlTokenInterface
+     */
+    private ilCtrlTokenInterface $token;
+
+    /**
+     * Holds the current target's parameters.
+     *
+     * @var array<string, mixed>
+     */
+    private array $parameters;
+
+    /**
+     * Holds the current target's site anchor.
      *
      * @var string
      */
-    private string $target_script = 'ilias.php';
+    private string $anchor;
 
     /**
-     * Holds whether the target is asynchronous or not.
-     *
-     * If the target is asynchronous, an async flag will be appended
-     * for controllers to recognize them.
+     * Holds whether the current target is asynchronous or not.
+     * Depending on this, an async flag may be appended to the
+     * target URL.
      *
      * @var bool
      */
     private bool $is_async = false;
 
     /**
-     * Holds whether the target is used for XML content or not.
-     *
-     * If the target is used for XML content, certain characters
-     * will be escaped during link generations.
+     * Holds whether the current target should append further
+     * link parameters escaped or not.
      *
      * @var bool
      */
-    private bool $is_xml = false;
+    private bool $is_escaped = false;
+
+    /**
+     * Holds whether the current target is considered safe or not.
+     * Depending on this, an ilCtrl token is appended to the request.
+     *
+     * @var bool
+     */
+    private bool $is_secured = false;
+
+    /**
+     * Holds the target-script of the current target.
+     *
+     * @var string
+     */
+    private string $target_script = 'ilias.php';
 
     /**
      * Holds the baseclass of the current target.
@@ -85,27 +98,28 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     private string $cmd;
 
     /**
-     * Holds the anchor of the current target.
+     * Constructor
      *
-     * @var string
-     */
-    private string $anchor;
-
-    /**
-     * @param ilCtrlTokenInterface     $token
      * @param ilCtrlStructureInterface $structure
+     * @param ilCtrlTokenInterface     $token
      * @param string                   $base_class
      */
-    public function __construct(ilCtrlTokenInterface $token, ilCtrlStructureInterface $structure, string $base_class)
+    public function __construct(ilCtrlStructureInterface $structure, ilCtrlTokenInterface $token, string $base_class)
     {
-        $this->token      = $token;
-        $this->structure  = $structure;
         $this->base_class = strtolower($base_class);
-
+        $this->token = $token;
         $this->trace = new ilCtrlTrace(
-            $this->structure,
-            $this->base_class
+            $structure,
+            $base_class
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBaseClass() : string
+    {
+        return $this->base_class;
     }
 
     /**
@@ -113,6 +127,8 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      */
     public function setTargetScript(string $target_script) : ilCtrlTargetInterface
     {
+        // no empty check as there may be an edge case
+        // somewhere I don't know about.
         $this->target_script = $target_script;
         return $this;
     }
@@ -120,12 +136,59 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     /**
      * @inheritDoc
      */
-    public function setCmdClass(string $class_name) : ilCtrlTarget
+    public function getTargetScript() : string
     {
-        $this->cmd_class = strtolower($class_name);
-        $this->trace->appendClass($this->cmd_class);
+        return $this->target_script;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function appendCmdClass(string $class_name) : ilCtrlTarget
+    {
+        if (!empty($class_name)) {
+            $cmd_class = strtolower($class_name);
+
+            // only append command class if it's not the
+            // current baseclass.
+            if ($this->base_class !== $cmd_class) {
+                $this->trace->appendByClass($cmd_class);
+                $this->cmd_class = $cmd_class;
+            }
+        }
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function appendCmdClassArray(array $classes) : ilCtrlTargetInterface
+    {
+        // if only one class is delivered we can to assume
+        // the wrong method is called.
+        if (1 === count($classes)) {
+            $this->appendCmdClass($classes[0]);
+        }
+
+        // if there are more than one class we can assume a
+        // (maybe) valid class path is provided that can be
+        // used to replace the current trace.
+        if (1 < count($classes)) {
+            $this->trace->replaceByClassPath($classes);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCurrentCmdClass() : string
+    {
+        // if no command class is provided, the baseclass
+        // is the current command class.
+        return $this->cmd_class ?? $this->base_class;
     }
 
     /**
@@ -133,17 +196,19 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      */
     public function setCmd(string $cmd) : ilCtrlTarget
     {
-        $this->cmd = $cmd;
+        if (!empty($cmd)) {
+            $this->cmd = $cmd;
+        }
+
         return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function setAnchor(string $anchor) : ilCtrlTargetInterface
+    public function getCmd() : ?string
     {
-        $this->anchor = $anchor;
-        return $this;
+        return $this->cmd ?? null;
     }
 
     /**
@@ -158,36 +223,57 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     /**
      * @inheritDoc
      */
-    public function setXml(bool $is_xml) : ilCtrlTargetInterface
+    public function setEscaped(bool $is_escaped) : ilCtrlTargetInterface
     {
-        $this->is_xml = $is_xml;
+        $this->is_escaped = $is_escaped;
         return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function getLinkTarget() : ?string
+    public function setSecure(bool $is_secured) : ilCtrlTargetInterface
     {
-        return $this->getTargetURL();
+        $this->is_secured = $is_secured;
+        return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function getFormAction() : ?string
+    public function setParameters(array $parameters) : ilCtrlTargetInterface
     {
-        return $this->getTargetURL($this->cmd);
+        if (!empty($parameters)) {
+            if (null === $this->parameters) {
+                $this->parameters = $parameters;
+            } else {
+                $this->parameters = array_merge_recursive($this->parameters, $parameters);
+            }
+        }
+
+        return $this;
     }
 
     /**
-     * @param string|null $post_cmd
-     * @return string|null
+     * @inheritDoc
      */
-    private function getTargetURL(string $post_cmd = null) : ?string
+    public function setAnchor(string $anchor) : ilCtrlTargetInterface
     {
-        // abort if no valid trace is found to the current
-        // command class.
+        if (!empty($anchor)) {
+            // append hashtag if none was provided.
+            $this->anchor = (!is_int(strpos($anchor, '#'))) ?
+                '#' . $anchor : $anchor
+            ;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTargetUrl(bool $is_post = false) : ?string
+    {
         if (!$this->trace->isValid()) {
             return null;
         }
@@ -209,56 +295,46 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
 
         // if no post command is provided, the current command
         // can be used if it has been set.
-        if (null === $post_cmd && null !== $this->cmd) {
+        if (!$is_post && null !== $this->cmd) {
             $target_url = $this->appendParameterString($target_url, self::PARAM_CMD, $this->cmd);
         }
 
         // if a post command is provided, the command must be set
         // to CMD_POST and the current command has to be appended
         // as a fallback.
-        if (null !== $post_cmd) {
+        if ($is_post && null !== $this->cmd) {
             $target_url = $this->appendParameterString($target_url, self::PARAM_CMD, self::CMD_POST);
-            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_FALLBACK, $post_cmd);
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_FALLBACK, $this->cmd);
         }
 
-        // append all existing parameters of each class known by trace.
-        foreach ($this->trace->getCidPieces() as $cid) {
-            $parameters = $this->structure->getParametersByClass(
-                $this->structure->getClassNameByCid($cid)
-            );
-
-            if (!empty($parameters)) {
-                foreach ($parameters as $key => $value) {
-                    $target_url = $this->appendParameterString($target_url, $key, $value);
-                }
+        if (null !== $this->parameters) {
+            foreach ($this->parameters as $key => $value) {
+                $target_url = $this->appendParameterString($target_url, $key, $value);
             }
         }
-
-        if (!$this->isSafe()) {
-            $target_url = $this->appendParameterString(
-                $target_url,
-                self::PARAM_CSRF_TOKEN,
-                $this->token->get()
-            );
+        if (null !== $this->token && !$this->is_secured) {
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CSRF_TOKEN, $this->token->getToken());
         }
-
         if ($this->is_async) {
-            $target_url = $this->appendParameterString(
-                $target_url,
-                self::PARAM_CMD_MODE,
-                self::CMD_MODE_ASYNC
-            );
+            $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_MODE, self::CMD_MODE_ASYNC);
         }
-
         if (null !== $this->anchor) {
-            $target_url .= "#$this->anchor";
+            $target_url .= $this->anchor;
         }
 
         return $target_url;
     }
 
     /**
-     * Appends a parameter => value pair to the given URL.
+     * @inheritDoc
+     */
+    public function getTrace() : ilCtrlTraceInterface
+    {
+        return $this->trace;
+    }
+
+    /**
+     * Appends a query parameter to the given URL and returns it.
      *
      * @param string $url
      * @param string $parameter_name
@@ -268,15 +344,9 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     private function appendParameterString(string $url, string $parameter_name, mixed $value) : string
     {
         if (null !== $value) {
-            // determine the ampersand according to whether
-            // the target is used for XML content or not.
-            $amp = ($this->is_xml) ? "&amp;" : "&";
-
-            // append the given parameter => value pair to the
-            // url - use question-mark the first time.
-            $url = (is_int(strpos($url, '?'))) ?
-                $url . $amp. $parameter_name . '=' . $value :
-                $url . '?' . $parameter_name . '=' . $value
+            $url .= (is_int(strpos($url, '?'))) ?
+                $this->getAmpersand() . $parameter_name . '=' . $value :
+                '?' . $parameter_name . '=' . $value
             ;
         }
 
@@ -284,23 +354,13 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     }
 
     /**
-     * Returns whether the current target can be safely executed
-     * or not.
+     * Helper function that returns the correct ampersand
+     * (according to whether it should be escaped or not).
      *
-     * @return bool
+     * @return string
      */
-    private function isSafe() : bool
+    private function getAmpersand() : string
     {
-        $class_name = (null !== $this->cmd_class) ?
-            $this->structure->getQualifiedClassName($this->cmd_class) :
-            $this->structure->getQualifiedClassName($this->base_class)
-        ;
-
-        $class_obj  = new $class_name();
-        if ($class_obj instanceof ilCtrlSecurityInterface) {
-            return in_array($this->cmd, $class_obj->getSafeCommands(), true);
-        }
-
-        return false;
+        return ($this->is_escaped) ? "&amp;" : "&";
     }
 }

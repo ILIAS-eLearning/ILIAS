@@ -1,8 +1,5 @@
 <?php
 
-use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\HTTP\Wrapper\RequestWrapper;
-
 /**
  * Class ilCtrlStructure
  *
@@ -17,18 +14,11 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private const PARAM_NAME_REGEX = '/^[A-Za-z0-9_-]*$/';
 
     /**
-     * Holds the current HTTP request.
+     * Holds an instance of the database access layer.
      *
-     * @var RequestWrapper
+     * @var ilDBInterface
      */
-    private RequestWrapper $request;
-
-    /**
-     * Holds a Refinery Factory instance.
-     *
-     * @var Refinery
-     */
-    private Refinery $refinery;
+    private ilDBInterface $database;
 
     /**
      * Holds parameter => value pairs mapped to the corresponding
@@ -54,6 +44,20 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private array $structure;
 
     /**
+     * Holds a list of all baseclasses from services.
+     *
+     * @var string[]
+     */
+    private array $services;
+
+    /**
+     * Holds a list of all baseclasses from modules.
+     *
+     * @var string[]
+     */
+    private array $modules;
+
+    /**
      * Holds the control structure mapped by other identifiers than
      * the classname (primarily CID).
      *
@@ -64,10 +68,9 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Constructor
      *
-     * @param Refinery $refinery
-     * @throws ilCtrlException if the control structure cannot be included.
+     * @throws ilCtrlException if the artifact cannot be included.
      */
-    public function __construct(RequestWrapper $request, Refinery $refinery)
+    public function __construct(ilDBInterface $database)
     {
         try {
             $this->structure = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
@@ -75,14 +78,29 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
             throw new ilCtrlException("Could not include structure from artifact: " . $exception->getMessage());
         }
 
-        $this->request  = $request;
-        $this->refinery = $refinery;
+        $this->database = $database;
+        $this->services = $this->fetchServices();
+        $this->modules  = $this->fetchModules();
+    }
+
+    /**
+     * @TODO: move implementation to artifact as well.
+     *
+     * @inheritDoc
+     */
+    public function isBaseClass(string $class_name) : bool
+    {
+        $class_name = $this->lowercase($class_name);
+        return
+            in_array($class_name, $this->modules, true) ||
+            in_array($class_name, $this->services, true)
+        ;
     }
 
     /**
      * @inheritDoc
      */
-    public function getQualifiedClassName(string $class_name) : string
+    public function getObjectNameByClass(string $class_name) : string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_NAME, $class_name);
     }
@@ -90,9 +108,17 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
+    public function getObjectNameByCid(string $cid) : string
+    {
+        return $this->getValueForKeyByCid(self::KEY_CLASS_NAME, $cid);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getClassNameByCid(string $cid) : ?string
     {
-        return strtolower(
+        return $this->lowercase(
             $this->getValueForKeyByCid(
                 self::KEY_CLASS_NAME,
                 $cid
@@ -106,6 +132,22 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     public function getClassCidByName(string $class_name) : ?string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_CID, $class_name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getClassPathByName(string $class_name) : ?string
+    {
+        return $this->getValueForKeyByName(self::KEY_CLASS_PATH, $class_name);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getClassPathByCid(string $cid) : ?string
+    {
+        return $this->getValueForKeyByCid(self::KEY_CLASS_PATH, $cid);
     }
 
     /**
@@ -143,55 +185,78 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function saveParameterForClass(string $class_name, string $parameter_name) : void
+    public function saveParameterByClass(string $class_name, string $parameter_name) : void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
         }
 
-        $this->permanent_parameters[strtolower($class_name)][] = $parameter_name;
+        $this->permanent_parameters[$this->lowercase($class_name)][] = $parameter_name;
     }
 
     /**
      * @inheritDoc
      */
-    public function setParameterForClass(string $class_name, string $parameter_name, mixed $value) : void
+    public function removeSavedParametersByClass(string $class_name) : void
+    {
+        $class_name = $this->lowercase($class_name);
+        if (isset($this->permanent_parameters[$class_name])) {
+            unset($this->permanent_parameters[$class_name]);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSavedParametersByClass(string $class_name) : ?array
+    {
+        return $this->permanent_parameters[$this->lowercase($class_name)] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setParameterByClass(string $class_name, string $parameter_name, mixed $value) : void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot set parameter '$parameter_name', as it contains invalid characters.");
         }
 
-        $this->temporary_parameters[strtolower($class_name)][$parameter_name] = $value;
+        $this->temporary_parameters[$this->lowercase($class_name)][$parameter_name] = $value;
     }
 
     /**
      * @inheritDoc
      */
-    public function getParametersByClass(string $class_name) : array
+    public function removeParametersByClass(string $class_name) : void
     {
-        $class_name = strtolower($class_name);
-        $parameters = [];
-
-        if (isset($this->permanent_parameters[$class_name])) {
-            foreach ($this->permanent_parameters[$class_name] as $key => $value) {
-                if ($this->request->has($key)) {
-                    $parameters[$key] = $this->request->retrieve(
-                        $key,
-                        $this->refinery->to()->string()
-                    );
-                } else {
-                    $parameters[$key] = null;
-                }
-            }
-        }
-
+        $class_name = $this->lowercase($class_name);
         if (isset($this->temporary_parameters[$class_name])) {
-            foreach ($this->temporary_parameters[$class_name] as $key => $value) {
-                $parameters[$key] = $value;
-            }
+            unset($this->temporary_parameters[$class_name]);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getParametersByClass(string $class_name) : ?array
+    {
+        return $this->temporary_parameters[$this->lowercase($class_name)] ?? null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeSingleParameterByClass(string $class_name, string $parameter_name) : void
+    {
+        $class_name = $this->lowercase($class_name);
+        if (isset($this->permanent_parameters[$class_name][$parameter_name])) {
+            unset($this->permanent_parameters[$class_name][$parameter_name]);
         }
 
-        return $parameters;
+        if (isset($this->temporary_parameters[$class_name][$parameter_name])) {
+            unset($this->temporary_parameters[$class_name][$parameter_name]);
+        }
     }
 
     /**
@@ -230,10 +295,60 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     private function getValueForKeyByName(string $identifier_key, string $class_name) : array|string|null
     {
+        $class_name = $this->lowercase($class_name);
         if (isset($this->structure[$class_name])) {
             return $this->structure[$class_name][$identifier_key];
         }
 
         return null;
+    }
+
+    /**
+     * Returns all (lowercase) classes of services.
+     *
+     * @return string[]
+     */
+    private function fetchServices() : array
+    {
+        $services    = [];
+        $service_set = $this->database->query(
+            "SELECT LOWER(class) AS class_name FROM service_class;"
+        );
+
+        while ($record = $service_set->fetchAssoc()) {
+            $services[] = $record['class_name'];
+        }
+
+        return (!empty($services)) ? $services : [];
+    }
+
+    /**
+     * Returns all (lowercase) classes of services.
+     *
+     * @return string[]
+     */
+    private function fetchModules() : array
+    {
+        $modules    = [];
+        $module_set = $this->database->query(
+            "SELECT LOWER(class) AS class_name FROM service_class;"
+        );
+
+        while ($record = $module_set->fetchAssoc()) {
+            $modules[] = $record['class_name'];
+        }
+
+        return (!empty($modules)) ? $modules : [];
+    }
+
+    /**
+     * Helper function to lowercase strings.
+     *
+     * @param string $string
+     * @return string
+     */
+    private function lowercase(string $string) : string
+    {
+        return strtolower($string);
     }
 }
