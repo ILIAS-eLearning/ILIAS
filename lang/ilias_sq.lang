@@ -14246,7 +14246,6 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new varia
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 common#:#obj_copa#:#Content Page###10 11 2018 new variable
 common#:#objs_copa#:#Content Pages###10 11 2018 new variable
 rbac#:#copa_visible#:#Content Page is visible###10 11 2018 new variable
@@ -15703,8 +15702,6 @@ cmix#:#conf_lrs_secret#:#Secret / Password###07 02 2020 new variable
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret###07 02 2020 new variable
 cmix#:#conf_own_window#:#Own Window###07 02 2020 new variable
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###07 02 2020 new variable
-cmix#:#conf_any_window#:#Any Window###07 02 2020 new variable
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###07 02 2020 new variable
 cmix#:#conf_launch_mode#:#Launch Mode###07 02 2020 new variable
 cmix#:#conf_launch_mode_normal#:#Normal###07 02 2020 new variable
 cmix#:#conf_launch_mode_browse#:#Browse###07 02 2020 new variable
@@ -15867,8 +15864,6 @@ orgu#:#org_op_view_individual_plan#:#View Individual Plan###07 02 2020 new varia
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan###07 02 2020 new variable
 prg#:#prg_formatted_period#:#%d days###07 02 2020 new variable
 prg#:#deadline_information#:#Information regarding processing period###07 02 2020 new variable
-prg#:#dealine_period_info#:#Days to process after assignment###07 02 2020 new variable
-prg#:#dealine_date_info#:#Deadline date###07 02 2020 new variable
 prg#:#vq_information#:#Information regarding validity of achived qualification###07 02 2020 new variable
 prg#:#vq_period_info#:#Days until qualification will expire after achivement###07 02 2020 new variable
 prg#:#vq_date_info#:#Qualification expires at fixed date###07 02 2020 new variable
@@ -16561,3 +16556,62 @@ content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplic
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###28 05 2021 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###28 05 2021 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###24 09 2021 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###24 09 2021 new variable
+common#:#msg_no_files_selected#:#No files selected###24 09 2021 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###24 09 2021 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###24 09 2021 new variable
+cmix#:#conf_new_window#:#New Window###24 09 2021 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###24 09 2021 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###24 09 2021 new variable
+cmix#:#type_generic#:#xAPI Standard Object###24 09 2021 new variable
+prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.###24 09 2021 new variable
+file#:#resource_id#:#Resource ID###24 09 2021 new variable
+file#:#storage_id#:#Storage ID###24 09 2021 new variable
+file#:#versionname#:#Title###24 09 2021 new variable
+file#:#version_uploaded#:#Version uploaded###24 09 2021 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###24 09 2021 new variable
+common#:#il_lti_learner#:#LTI Learner###24 09 2021 new variable
+common#:#il_lti_instructor#:#LTI Instructor###24 09 2021 new variable
+rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
+common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
+common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
+prg#:#msg_mark_relevant#:#%s users successfully marked relevant###24 09 2021 new variable
+prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:###24 09 2021 new variable
+prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant###24 09 2021 new variable
+prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:###24 09 2021 new variable
+prg#:#msg_mark_accredited#:#%s users successfully marked accredited###24 09 2021 new variable
+prg#:#msg_mark_accredited_failed#:#Not marked accredited:###24 09 2021 new variable
+prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###24 09 2021 new variable
+prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###24 09 2021 new variable
+prg#:#msg_update_from_settings#:#Updated %s users from settings:###24 09 2021 new variable
+prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###24 09 2021 new variable
+prg#:#msg_change_deadline_date#:#Updated deadline for %s users.###24 09 2021 new variable
+prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:###24 09 2021 new variable
+prg#:#msg_change_expire_date#:#Updated expire date for %s users.###24 09 2021 new variable
+prg#:#msg_change_expire_date_failed#:#Expire date not updated for:###24 09 2021 new variable
+prg#:#status_transition_not_allowed#:#Status change not allowed###24 09 2021 new variable
+prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant###24 09 2021 new variable
+prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited###24 09 2021 new variable
+prg#:#status_changed#:#Updated status###24 09 2021 new variable
+prg#:#validity_updated#:#Updated validity###24 09 2021 new variable
+prg#:#deadline_updated#:#Updated deadline###24 09 2021 new variable
+prg#:#updated_from_settings#:#Updated from settings###24 09 2021 new variable
+prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###24 09 2021 new variable
+prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###24 09 2021 new variable
+prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.###24 09 2021 new variable
+prg#:#msg_impossible_target_status#:#Impossible target status###24 09 2021 new variable
+prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###24 09 2021 new variable
+prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.###24 09 2021 new variable
+prg#:#assignments#:#Assignments###24 09 2021 new variable
+prg#:#mail_assignments#:#Mail to assigned Users###24 09 2021 new variable
+prg#:#manage_assignments#:#Manage Assignments###24 09 2021 new variable
+prg#:#prg_manage_members_short#:#Manage Assignments###24 09 2021 new variable
+prg#:#will_not_modify_relevant_progress#:#already relevant###24 09 2021 new variable
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful###24 09 2021 new variable
+prg#:#status_unchanged#:#Status unchanged###24 09 2021 new variable
+content#:#cont_media#:#Images/Media###24 09 2021 new variable
+content#:#cont_sur_block_format#:#Surrounding Section###24 09 2021 new variable
+ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
+ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
+forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###24 09 2021 new variable
