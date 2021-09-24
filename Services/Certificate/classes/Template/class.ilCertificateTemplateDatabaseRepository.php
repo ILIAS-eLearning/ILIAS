@@ -285,43 +285,34 @@ WHERE id = ' . $this->database->quote($previousCertificate->getId(), 'integer');
             'START - Fetch all active course certificate templates with disabled learning progress: "%s"'
         );
         
-        $conditonTypes = ['text', 'integer', 'text', 'text'];
-        $conditonValues = [
-            'crs',
-            1,
-            '',
-            $this->database->concat(
-                [
-                    [$this->database->quote('cert_subitems_', 'text'), 'text'],
-                    ['od.obj_id', 'text']
-                ],
-                false
-            )
-        ];
-        
         $joinLpSettings = '';
         $whereLpSettings = '';
         if ($isGlobalLpEnabled) {
             $joinLpSettings = 'LEFT JOIN ut_lp_settings uls ON uls.obj_id = od.obj_id';
-            $whereLpSettings = 'AND (uls.u_mode IS NULL OR uls.u_mode = %s)';
-            $conditonTypes[] = 'integer';
-            $conditonValues[] = ilLPObjSettings::LP_MODE_DEACTIVATED;
+            $whereLpSettings = sprintf(
+                'AND (uls.u_mode IS NULL OR uls.u_mode = %s)',
+                $this->database->quote(ilLPObjSettings::LP_MODE_DEACTIVATED, 'integer')
+            );
         }
 
-        $sql = '
+        $sql = "
             SELECT il_cert_template.*
             FROM il_cert_template
             INNER JOIN object_data od ON od.obj_id = il_cert_template.obj_id
-            INNER JOIN settings ON settings.module = %s AND settings.keyword = %s
-            ' . $joinLpSettings . '
+            INNER JOIN settings ON settings.module = %s AND settings.keyword = {$this->database->concat(
+            [
+                [$this->database->quote('cert_subitems_', 'text'), 'text'],
+                ['od.obj_id', 'text']
+            ],
+            false
+        )} $joinLpSettings
             WHERE il_cert_template.obj_type = %s
             AND il_cert_template.currently_active = %s
-            ' . $whereLpSettings . '
-        ';
+            " . $whereLpSettings;
         $query = $this->database->queryF(
             $sql,
-            $conditonTypes,
-            $conditonValues
+            ['text', 'text', 'integer'],
+            ['crs', 'crs', 1]
         );
 
         $result = [];
