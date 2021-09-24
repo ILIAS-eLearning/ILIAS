@@ -222,13 +222,28 @@ class ilWebAccessChecker
     protected function checkPublicSection()
     {
         global $DIC;
-        $not_on_login_page = $this->isRequestNotFromLoginPage();
+        $on_login_page = !$this->isRequestNotFromLoginPage();
         $is_anonymous = ((int) $DIC->user()->getId() === (int) ANONYMOUS_USER_ID);
         $is_null_user = ($DIC->user()->getId() === 0);
         $pub_section_activated = (bool) $DIC['ilSetting']->get('pub_section');
         $isset = isset($DIC['ilSetting']);
         $instanceof = $DIC['ilSetting'] instanceof ilSetting;
-        if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || ($is_null_user && $not_on_login_page)))) {
+
+        if (!$isset || !$instanceof) {
+            throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
+        }
+
+        if ($on_login_page && ($is_null_user || $is_anonymous)) {
+            // Request is initiated from login page
+            return;
+        }
+
+        if ($pub_section_activated && ($is_null_user || $is_anonymous)) {
+            // Request is initiated from an enabled public area
+            return;
+        }
+
+        if ($is_anonymous || $is_null_user) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
         }
     }
