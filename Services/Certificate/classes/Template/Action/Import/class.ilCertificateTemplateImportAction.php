@@ -49,7 +49,7 @@ class ilCertificateTemplateImportAction
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($database, $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 

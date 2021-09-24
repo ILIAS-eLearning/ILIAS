@@ -8,7 +8,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 {
     public function testCertificatesAreActiveAndJavaServerIsActive()
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -16,7 +16,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->with('active')
             ->willReturn(true);
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -32,7 +32,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive()
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -40,7 +40,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->with('active')
             ->willReturn(false);
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -58,7 +58,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 
     public function testValidationReturnFalseBecauseJavaServerIsInactive()
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,7 +66,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
             ->with('active')
             ->willReturn(true);
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -87,7 +87,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->importAction = $importAction;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($database, $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 

@@ -133,7 +133,7 @@ class ilCertificateGUI
         $this->settingsFormFactory = $settingsFormFactory;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($DIC->database(), $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $logger);
         }
         $this->templateRepository = $templateRepository;
 

@@ -33,7 +33,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
         $this->logger = $logger;
         $this->certificateQueueRepository = new ilCertificateQueueRepository($this->db, $this->logger);
         $this->certificateClassMap = new ilCertificateTypeClassMap();
-        $this->templateRepository = new ilCertificateTemplateRepository($this->db, $this->logger);
+        $this->templateRepository = new ilCertificateTemplateDatabaseRepository($this->db, $this->logger);
         $this->userCertificateRepository = new ilUserCertificateRepository($this->db, $this->logger);
     }
 
@@ -131,11 +131,11 @@ class ilCertificateAppEventListener implements ilAppEventListener
 
     private function handleLPUpdate() : void
     {
-        $status = $this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+        $status = (int) ($this->parameters['status'] ?? ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM);
 
         $settings = new ilSetting('certificate');
 
-        if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+        if ($status === ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             $objectId = $this->parameters['obj_id'] ?? 0;
             $userId = $this->parameters['usr_id'] ?? 0;
 
@@ -196,10 +196,12 @@ class ilCertificateAppEventListener implements ilAppEventListener
                 'Triggering certificate evaluation of possible depending course objects ...'
             );
 
+            $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation(
+                new ilCachedCertificateTemplateRepository(
+                    $this->templateRepository
+                )
+            );
             foreach (ilObject::_getAllReferences($objectId) as $refId) {
-                $templateRepository = new ilCertificateTemplateRepository($this->db, $this->logger);
-                $progressEvaluation = new ilCertificateCourseLearningProgressEvaluation($templateRepository);
-
                 $templatesOfCompletedCourses = $progressEvaluation->evaluate($refId, $userId);
                 if (0 === count($templatesOfCompletedCourses)) {
                     $this->logger->info(sprintf(

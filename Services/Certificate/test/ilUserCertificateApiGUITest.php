@@ -13,17 +13,17 @@ class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
      */
     public function testCreationOfGuiClass() : void
     {
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $request = $this->getMockBuilder(ServerRequestInterface::class)->getMock();
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 

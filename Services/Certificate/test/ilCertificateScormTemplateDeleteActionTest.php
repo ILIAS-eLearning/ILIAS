@@ -8,7 +8,7 @@ class ilCertificateScormTemplateDeleteActionTest extends ilCertificateBaseTestCa
 {
     public function testDeleteScormTemplateAndSettings()
     {
-        $deleteMock = $this->getMockBuilder('ilCertificateTemplateDeleteAction')
+        $deleteMock = $this->getMockBuilder(ilCertificateTemplateDeleteAction::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['delete'])
             ->getMock();
@@ -16,7 +16,7 @@ class ilCertificateScormTemplateDeleteActionTest extends ilCertificateBaseTestCa
         $deleteMock->expects($this->once())
             ->method('delete');
 
-        $settingMock = $this->getMockBuilder('ilSetting')
+        $settingMock = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 

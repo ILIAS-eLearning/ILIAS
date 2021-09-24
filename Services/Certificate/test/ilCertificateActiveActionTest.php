@@ -8,7 +8,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 {
     public function testCertificateIsActive()
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $databaseMock->expects($this->atLeastOnce())
@@ -26,7 +26,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 
     public function testCertificateIsNotActive()
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
 

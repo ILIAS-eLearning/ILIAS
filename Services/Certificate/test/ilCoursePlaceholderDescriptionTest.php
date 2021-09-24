@@ -7,19 +7,19 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
     public function testPlaceholderGetHtmlDescription()
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $templateMock = $this->getMockBuilder('ilTemplate')
+        $templateMock = $this->getMockBuilder(ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $templateMock->method('get')
             ->willReturn('');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -29,7 +29,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
 
-        $customUserPlaceholderObject = $this->getMockBuilder("ilObjectCustomUserFieldsPlaceholderDescription")
+        $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
                                             ->disableOriginalConstructor()
                                             ->getMock();
 
@@ -51,7 +51,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
     public function testPlaceholderDescriptions()
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt'])
             ->getMock();
@@ -60,7 +60,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                      ->method('txt')
                      ->willReturn('Something translated');
 
-        $defaultPlaceholder = $this->getMockBuilder('ilDefaultPlaceholderDescription')
+        $defaultPlaceholder = $this->getMockBuilder(ilDefaultPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -72,7 +72,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 )
             );
 
-        $customUserPlaceholderObject = $this->getMockBuilder('ilObjectCustomUserFieldsPlaceholderDescription')
+        $customUserPlaceholderObject = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
