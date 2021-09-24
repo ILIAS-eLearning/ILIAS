@@ -22,8 +22,6 @@
 
 package de.ilias.services.lucene.index.file.path;
 
-import org.apache.log4j.Logger;
-
 import de.ilias.services.object.ObjectDefinitionException;
 
 /**
@@ -33,9 +31,7 @@ import de.ilias.services.object.ObjectDefinitionException;
  * @version $Id$
  */
 public class PathCreatorFactory {
-	
-	private static Logger logger = Logger.getLogger(PathCreator.class);
-	
+
 	public static PathCreator factory(String name) throws ObjectDefinitionException {
 		
 		if(name.equalsIgnoreCase("FileObjectPathCreator")) {

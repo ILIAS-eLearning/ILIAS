@@ -26,7 +26,8 @@ import de.ilias.services.lucene.index.IndexDirectoryFactory;
 import java.io.IOException;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.search.IndexSearcher;
 
 import de.ilias.services.lucene.index.IndexHolder;
@@ -48,7 +49,7 @@ public class SearchHolder {
 
 	public static int SEARCH_LIMIT = 100;
 	
-	protected static Logger logger = Logger.getLogger(IndexHolder.class);
+	protected static Logger logger = LogManager.getLogger(IndexHolder.class);
 	
 	private static HashMap<String, SearchHolder> instances = new HashMap<String, SearchHolder>();
 	

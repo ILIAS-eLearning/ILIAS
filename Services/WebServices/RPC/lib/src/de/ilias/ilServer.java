@@ -27,9 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Collections;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -56,7 +54,7 @@ public class ilServer {
 	private String[] arguments;
 	private String command;
 	
-	private static final Logger logger = Logger.getLogger(ilServer.class);
+	private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(ilServer.class);
 	
 	/**
 	 * @param args
@@ -72,12 +70,6 @@ public class ilServer {
 	public static void main(String[] args) {
 		
 		ilServer server = null;
-		
-		BasicConfigurator.configure();
-		logger.setLevel(Level.INFO);
-		
-		Logger root = Logger.getLogger("org");
-		root.setLevel(Level.OFF);
 		
 		server = new ilServer(args);
 		server.handleRequest();

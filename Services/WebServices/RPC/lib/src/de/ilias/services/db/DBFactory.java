@@ -29,8 +29,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -45,7 +45,7 @@ import de.ilias.services.settings.ServerSettings;
  */
 public class DBFactory {
 
-	private static Logger logger = Logger.getLogger(DBFactory.class);
+	private static Logger logger = LogManager.getLogger(DBFactory.class);
 	
 	private static String MARIA_DB_CONNECTOR = "jdbc:mariadb://";
 	
@@ -143,12 +143,12 @@ public class DBFactory {
 		
 		if(ps.get().containsKey(query)) {
 			
-			logger.debug("Reusing prepared statement: " + query);
+			logger.trace("Reusing prepared statement: " + query);
 			return ps.get().get(query);
 		}
 		
 		// Create new Prepared statement
-		logger.debug("Creating new prepared statement: " + query);
+		logger.trace("Creating new prepared statement: " + query);
 		ps.get().put(query, DBFactory.factory().prepareStatement(query));
 		return ps.get().get(query);
 	}

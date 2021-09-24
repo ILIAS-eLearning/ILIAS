@@ -26,9 +26,9 @@ import de.ilias.services.lucene.settings.LuceneSettings;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
@@ -47,7 +47,7 @@ import org.apache.lucene.index.IndexWriterConfig;
  */
 public class IndexHolder {
 	
-	protected static Logger logger = Logger.getLogger(IndexHolder.class);
+	private static Logger logger = LogManager.getLogger(IndexHolder.class);
 	
 	public static final int MAX_NUM_SEGMENTS = 100;
 	

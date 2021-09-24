@@ -29,7 +29,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.settings.LuceneSettings;
@@ -38,7 +39,6 @@ import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import java.util.logging.Level;
 
 
 /**
@@ -49,7 +49,7 @@ import java.util.logging.Level;
  */
 public class CommandQueue {
 
-	protected Logger logger = Logger.getLogger(CommandQueue.class);
+	protected Logger logger = LogManager.getLogger(CommandQueue.class);
 	
 	private Connection db = null;
 	private Vector<CommandQueueElement> elements = new Vector<CommandQueueElement>();

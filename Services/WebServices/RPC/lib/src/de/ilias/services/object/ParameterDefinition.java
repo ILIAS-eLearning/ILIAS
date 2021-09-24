@@ -26,7 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
@@ -45,7 +46,7 @@ public class ParameterDefinition {
 	public static final int TYPE_INT = 1;
 	public static final int TYPE_STRING = 2;
 
-	protected Logger logger = Logger.getLogger(ParameterDefinition.class);
+	protected Logger logger = LogManager.getLogger(ParameterDefinition.class);
 	
 	private int format;
 	private int type;
@@ -154,12 +155,12 @@ public class ParameterDefinition {
 
 		switch(getType()) {
 		case TYPE_INT:
-			logger.debug("ID: " + getParameterValue(el,parentResult));
+			logger.trace("ID: " + getParameterValue(el,parentResult));
 			pst.setInt(index,getParameterValue(el,parentResult));
 			break;
 			
 		case TYPE_STRING:
-			logger.debug("ID: " + getParameterValue(el, parentResult));
+			logger.trace("ID: " + getParameterValue(el, parentResult));
 			pst.setString(index, getParameterString(el,parentResult));
 			break;
 		
@@ -179,9 +180,9 @@ public class ParameterDefinition {
 		// Check for parent result (e.g. pg,st)
 		if(parentResult != null) {
 
-			logger.debug("Trying to read parameter from parent result set...");
+			logger.trace("Trying to read parameter from parent result set...");
 			try {
-				logger.debug(parentResult.getInt(getValue()));
+				logger.trace(parentResult.getInt(getValue()));
 				return parentResult.getInt(getValue());
 			}
 			catch(SQLException e) {
@@ -192,17 +193,17 @@ public class ParameterDefinition {
 		}
 
 		if(getValue().equals("objId")) {
-			logger.debug(el.getObjId());
+			logger.trace(el.getObjId());
 			return el.getObjId();
 		}
 		
 		if(getValue().equals("metaObjId")) {
-			logger.debug(el.getObjId());
+			logger.trace(el.getObjId());
 			return el.getObjId();
 		}
 		
 		if(getValue().equals("metaRbacId")) {
-			logger.debug(el.getObjId());
+			logger.trace(el.getObjId());
 			return el.getObjId();
 		}
 		
@@ -231,12 +232,12 @@ public class ParameterDefinition {
 		}
 
 		if(getValue().equals("objType")) {
-			logger.debug(el.getObjType());
+			logger.trace(el.getObjType());
 			return el.getObjType();
 		}
 		
 		if(getValue().equals("metaType")) {
-			logger.debug(el.getObjType());
+			logger.trace(el.getObjType());
 			return el.getObjType();
 		}
 		return "";

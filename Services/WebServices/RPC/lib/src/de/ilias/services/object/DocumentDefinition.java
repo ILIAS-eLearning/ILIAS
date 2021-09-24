@@ -28,7 +28,8 @@ import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -44,7 +45,7 @@ import de.ilias.services.lucene.index.IndexHolder;
  */
 public class DocumentDefinition implements DocumentHandler {
 
-	protected Logger logger = Logger.getLogger(DocumentDefinition.class);
+	protected Logger logger = LogManager.getLogger(DocumentDefinition.class);
 
 	private String type;
 	private Vector<DataSource> dataSource = new Vector<DataSource>();

@@ -24,7 +24,8 @@ package de.ilias.services.rpc;
 
 import java.net.InetAddress;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.server.PropertyHandlerMapping;
 import org.apache.xmlrpc.server.XmlRpcServer;
@@ -46,7 +47,7 @@ import de.ilias.services.transformation.RPCTransformationHandler;
 public class RPCServer {
 	
 	private static RPCServer instance = null;
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
 
 	private WebServer server;
 	private InetAddress host = null;

@@ -27,10 +27,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.RollingFileAppender;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Stores general server settings like rpc host and port, global log file and
@@ -41,7 +39,7 @@ import org.apache.log4j.RollingFileAppender;
  */
 public class ServerSettings {
 
-	private static Logger logger = Logger.getLogger(ServerSettings.class);
+	private static Logger logger = LogManager.getLogger(ServerSettings.class);
 	private static ServerSettings instance = null;
 
 	public static final long DEFAULT_MAX_FILE_SIZE = 500 * 1024 * 1024;
@@ -54,7 +52,6 @@ public class ServerSettings {
 
 	private File indexPath;
 	private File logFile;
-	private Level logLevel;
 	private int numThreads = 1;
 	private double RAMSize = 500;
 	private int indexMaxFileSizeMB = 500;
@@ -199,22 +196,6 @@ public class ServerSettings {
 			throw new ConfigurationException("Cannot write to log file: " + logFile);
 		}
 	}
-	
-
-	/**
-	 * @return the logLevel
-	 */
-	public Level getLogLevel() {
-		return logLevel;
-	}
-
-	/**
-	 * @param logLevel the logLevel to set
-	 */
-	public void setLogLevel(String logLevel) {
-
-		this.logLevel = Level.toLevel(logLevel.trim(),Level.INFO);
-	}
 
 	/**
 	 * Get tns admin directory
@@ -253,36 +234,6 @@ public class ServerSettings {
 		}
 	}
 	
-	/**
-	 * @throws ConfigurationException 
-	 * 
-	 */
-	public void initLogger() throws ConfigurationException {
-
-		Logger logger = Logger.getRootLogger();
-        logger.setLevel(Level.INFO);
-
-        try {
-            RollingFileAppender file_appender = new RollingFileAppender(
-                    new PatternLayout("%d{ISO8601} %-5p %t (%F:%L) - %m%n"),
-                    this.logFile.getAbsolutePath());
-            
-            // TODO: increase max file size
-            file_appender.setMaxFileSize("100MB");
-            logger.removeAllAppenders();
-            logger.addAppender(file_appender);
-            logger.setLevel(this.getLogLevel());
-            
-            logger.info("Started loggin to: " + getLogFile().getAbsolutePath());
-            logger.info("Using log level " + getLogLevel());
-        } 
-        catch (IOException e) {
-        	logger.fatal("Error appending log file.");
-            throw new ConfigurationException(e);
-        }
-
-	}
-
 	/**
 	 * @param purgeString
 	 */

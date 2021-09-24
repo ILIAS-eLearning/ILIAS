@@ -22,7 +22,8 @@
 
 package de.ilias.services.lucene.search.highlight;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom.Element;
 
 import de.ilias.services.lucene.search.ResultExport;
@@ -36,7 +37,7 @@ import de.ilias.services.xml.XMLUtils;
  */
 public class HighlightField implements ResultExport {
 
-	protected static Logger logger = Logger.getLogger(HighlightField.class);
+	protected static Logger logger = LogManager.getLogger(HighlightField.class);
 	
 	private String name;
 	private String highlight;

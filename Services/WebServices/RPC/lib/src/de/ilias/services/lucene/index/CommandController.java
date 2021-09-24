@@ -26,9 +26,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Vector;
-import java.util.logging.Level;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.LockObtainFailedException;
@@ -70,7 +70,7 @@ public class CommandController {
 	
 	private static final int MAX_ELEMENTS = 100;
 
-	protected static Logger logger = Logger.getLogger(CommandController.class);
+	protected static Logger logger = LogManager.getLogger(CommandController.class);
 	
 	private Vector<Integer> finished = new Vector<Integer>();
 	private CommandQueue queue;
@@ -294,16 +294,16 @@ public class CommandController {
 
 		} 
 		catch (ConfigurationException e) {
-			logger.error("Cannot refresh index reader: " + e);
+			logger.error("Cannot refresh index reader: " + e, e);
 		}
 		catch (CorruptIndexException e) {
-			logger.fatal("Index Corrupted. Aborting!" + e);
+			logger.fatal("Index Corrupted. Aborting!" + e, e);
 		} 
 		catch (IOException e) {
-			logger.fatal("Index Corrupted. Aborting!" + e);
+			logger.fatal("Index Corrupted. Aborting!" + e, e);
 		} 
 		catch (SQLException e) {
-			logger.error("Cannot update search_command_queue: " + e);
+			logger.error("Cannot update search_command_queue: " + e, e);
 		}
 		return false;
 	}

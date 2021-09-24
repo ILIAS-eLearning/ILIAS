@@ -29,7 +29,8 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.settings.LocalSettings;
@@ -45,7 +46,7 @@ public class LuceneSettings {
 	public static final int OPERATOR_AND = 1;
 	public static final int OPERATOR_OR = 2;
 	
-	protected static Logger logger = Logger.getLogger(LuceneSettings.class);
+	protected static Logger logger = LogManager.getLogger(LuceneSettings.class);
 	private static HashMap<String, LuceneSettings> instances = new HashMap<String, LuceneSettings>();
 	
 	

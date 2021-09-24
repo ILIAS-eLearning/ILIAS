@@ -26,9 +26,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -43,7 +43,7 @@ import org.w3c.tidy.Tidy;
  */
 public class JTidyHTMLHandler implements FileHandler {
 
-	protected Logger logger = Logger.getLogger(JTidyHTMLHandler.class);
+	protected Logger logger = LogManager.getLogger(JTidyHTMLHandler.class);
 
 	private Tidy tidy;
 

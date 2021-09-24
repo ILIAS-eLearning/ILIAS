@@ -26,7 +26,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -63,7 +64,7 @@ public class HitHighlighter {
 	private static String HIGHLIGHT_BEGIN_TAG = "<span class=\"ilSearchHighlight\">";
 	private static String HIGHLIGHT_END_TAG = "</span>";
 	
-	protected static Logger logger = Logger.getLogger(HitHighlighter.class);
+	protected static Logger logger = LogManager.getLogger(HitHighlighter.class);
 	
 	private IndexSearcher searcher;
 	private Query query;
