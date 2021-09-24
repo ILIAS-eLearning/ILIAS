@@ -13,9 +13,9 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
     private const CID_TRACE_SEPARATOR = ':';
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $cid_trace;
+    private ?string $cid_trace;
 
     /**
      * @var ilCtrlStructure
@@ -57,8 +57,15 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
     {
         if (!empty($classes)) {
             $this->cid_trace = '';
-            foreach ($classes as $class) {
+            $last_key = array_key_last($classes);
+            foreach ($classes as $index => $class) {
                 $this->cid_trace .= $this->structure->getClassCidByName($class);
+
+                // only append the trace separator if it's not
+                // the last iteration.
+                if ($last_key !== $index) {
+                    $this->cid_trace .= self::CID_TRACE_SEPARATOR;
+                }
             }
         }
     }
@@ -145,10 +152,24 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
      */
     public function isValid() : bool
     {
+        if (null === $this->cid_trace) {
+            return false;
+        }
+
         $cid_pieces = explode(self::CID_TRACE_SEPARATOR, $this->cid_trace);
         $cid_count  = count($cid_pieces);
+
+        if (1 === $cid_count) {
+            $base_class = $this->structure->getClassNameByCid($cid_pieces[0]);
+            if (null === $base_class) {
+                return false;
+            }
+
+            return $this->structure->isBaseClass($base_class);
+        }
+
         foreach ($cid_pieces as $index => $cid) {
-            if (($index + 1) <= $cid_count) {
+            if (($index + 1) < $cid_count) {
                 $current_class = $this->structure->getClassNameByCid($cid);
                 $next_class    = $this->structure->getClassNameByCid($cid_pieces[$index + 1]);
 
@@ -186,11 +207,16 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
             //      (a) there's no trace yet,
             //      (b) the target is already the current cid of trace, or
             //      (c) the target class is a known baseclass.
-            case null === $this->cid_trace:
+            case !isset($this->cid_trace):
             case $target_cid === $this->cid_trace:
-            case $target_cid === $this->getCurrentCid():
             case $this->structure->isBaseClass($target_class):
                 return $target_cid;
+
+            // if the target cid is already the current cid
+            // nothing has to be changed, so the current trace
+            // is returned.
+            case $target_cid === $this->getCurrentCid():
+                return $this->cid_trace;
         }
 
         // check every class stored in trace for a relation

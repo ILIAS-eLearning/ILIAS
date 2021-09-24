@@ -1119,6 +1119,14 @@ class ilInitialisation
             self::initFileUploadService($GLOBALS["DIC"]);
             self::initSession();
 
+            if (ilContext::hasUser()) {
+                self::initUser();
+
+                if (ilContext::supportsPersistentSessions()) {
+                    self::resumeUserSession();
+                }
+            }
+
             // init after Auth otherwise breaks CAS
             self::includePhp5Compliance();
 
@@ -1149,10 +1157,6 @@ class ilInitialisation
             $auth_session->init();
             return $auth_session;
         };
-
-        if (ilContext::hasUser() && ilContext::supportsPersistentSessions()) {
-            self::resumeUserSession();
-        }
     }
 
 
@@ -1300,10 +1304,6 @@ class ilInitialisation
         $tree = new ilTree(ROOT_FOLDER_ID);
         self::initGlobal("tree", $tree);
         unset($tree);
-
-        if (ilContext::hasUser()) {
-            self::initUser();
-        }
 
         self::initGlobal(
             "ilCtrl",

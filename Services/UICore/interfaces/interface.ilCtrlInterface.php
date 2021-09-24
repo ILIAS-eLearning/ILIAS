@@ -80,10 +80,9 @@ interface ilCtrlInterface
      * of that.
      *
      * @param string|null               $fallback_command
-     * @param ilCtrlCommandHandler|null $handler
-     * @return string
+     * @return string|null
      */
-    public function getCmd(string $fallback_command = null, ilCtrlCommandHandler $handler = null) : string;
+    public function getCmd(string $fallback_command = null) : ?string;
 
     /**
      * Sets the current command.

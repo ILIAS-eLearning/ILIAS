@@ -26,23 +26,31 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      * Holds a token generated for the current user session that
      * is used for unsecure link targets.
      *
-     * @var ilCtrlTokenInterface
+     * @var ilCtrlTokenInterface|null
      */
-    private ilCtrlTokenInterface $token;
+    private ?ilCtrlTokenInterface $token = null;
 
     /**
      * Holds the current target's parameters.
      *
-     * @var array<string, mixed>
+     * @var array<string, mixed>|null
      */
-    private array $parameters;
+    private ?array $parameters = null;
 
     /**
      * Holds the current target's site anchor.
      *
-     * @var string
+     * @var string|null
      */
-    private string $anchor;
+    private ?string $anchor = null;
+
+
+    /**
+     * Holds the command of the current target.
+     *
+     * @var string|null
+     */
+    private ?string $cmd = null;
 
     /**
      * Holds whether the current target is asynchronous or not.
@@ -62,19 +70,18 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     private bool $is_escaped = false;
 
     /**
-     * Holds whether the current target is considered safe or not.
-     * Depending on this, an ilCtrl token is appended to the request.
-     *
-     * @var bool
-     */
-    private bool $is_secured = false;
-
-    /**
      * Holds the target-script of the current target.
      *
      * @var string
      */
     private string $target_script = 'ilias.php';
+
+    /**
+     * Holds the executing class of the current target.
+     *
+     * @var string|null
+     */
+    private ?string $cmd_class = null;
 
     /**
      * Holds the baseclass of the current target.
@@ -84,30 +91,14 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     private string $base_class;
 
     /**
-     * Holds the executing class of the current target.
-     *
-     * @var string
-     */
-    private string $cmd_class;
-
-    /**
-     * Holds the command of the current target.
-     *
-     * @var string
-     */
-    private string $cmd;
-
-    /**
      * Constructor
      *
      * @param ilCtrlStructureInterface $structure
-     * @param ilCtrlTokenInterface     $token
      * @param string                   $base_class
      */
-    public function __construct(ilCtrlStructureInterface $structure, ilCtrlTokenInterface $token, string $base_class)
+    public function __construct(ilCtrlStructureInterface $structure, string $base_class)
     {
         $this->base_class = strtolower($base_class);
-        $this->token = $token;
         $this->trace = new ilCtrlTrace(
             $structure,
             $base_class
@@ -232,9 +223,9 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
     /**
      * @inheritDoc
      */
-    public function setSecure(bool $is_secured) : ilCtrlTargetInterface
+    public function setToken(ilCtrlTokenInterface $token) : ilCtrlTargetInterface
     {
-        $this->is_secured = $is_secured;
+        $this->token = $token;
         return $this;
     }
 
@@ -289,7 +280,7 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
         // if a command class exists, it must be appended with
         // the according trace.
         if (null !== $this->cmd_class) {
-            $target_url = $this->appendParameterString($target_url, self::PARAM_TRACE, $this->trace);
+            $target_url = $this->appendParameterString($target_url, self::PARAM_TRACE, $this->trace->getCidTrace());
             $target_url = $this->appendParameterString($target_url, self::PARAM_CMD_CLASS, $this->cmd_class);
         }
 
@@ -312,7 +303,7 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
                 $target_url = $this->appendParameterString($target_url, $key, $value);
             }
         }
-        if (null !== $this->token && !$this->is_secured) {
+        if (null !== $this->token) {
             $target_url = $this->appendParameterString($target_url, self::PARAM_CSRF_TOKEN, $this->token->getToken());
         }
         if ($this->is_async) {
@@ -343,7 +334,7 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      */
     private function appendParameterString(string $url, string $parameter_name, mixed $value) : string
     {
-        if (null !== $value) {
+        if (null !== $value && !is_array($value)) {
             $url .= (is_int(strpos($url, '?'))) ?
                 $this->getAmpersand() . $parameter_name . '=' . $value :
                 '?' . $parameter_name . '=' . $value

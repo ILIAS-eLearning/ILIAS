@@ -29,13 +29,6 @@ class ilCtrl implements ilCtrlInterface
     private Refinery $refinery;
 
     /**
-     * Holds an instance of the current user-session's token.
-     *
-     * @var ilCtrlToken
-     */
-    private ilCtrlToken $token;
-
-    /**
      * Holds an instance of the currently read control structure.
      *
      * @var ilCtrlStructureInterface
@@ -83,7 +76,6 @@ class ilCtrl implements ilCtrlInterface
         $this->http       = $DIC->http();
         $this->context    = new ilCtrlContext();
         $this->structure  = new ilCtrlStructure($DIC->database());
-        // $this->token      = new ilCtrlToken($DIC->database(), $DIC->user());
         $this->refinery   = new Refinery(new DataFactory(), $DIC->language());
     }
 
@@ -106,7 +98,6 @@ class ilCtrl implements ilCtrlInterface
         // initialize a new target for the given baseclass.
         $this->target = new ilCtrlTarget(
             $this->structure,
-            $this->token,
             $a_base_class
         );
     }
@@ -181,7 +172,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getCmd(string $fallback_command = null, ilCtrlCommandHandler $handler = null) : string
+    public function getCmd(string $fallback_command = null) : ?string
     {
         // retrieve $_GET and $_POST parameters.
         $post_command = $this->getPostParam(ilCtrlTarget::PARAM_CMD);
@@ -190,7 +181,8 @@ class ilCtrl implements ilCtrlInterface
         // if the $_GET command is 'post', the post command
         // has to be used.
         $command = (ilCtrlTarget::CMD_POST === $get_command) ?
-            $post_command : $get_command
+            $this->getQueryParam(ilCtrlTarget::PARAM_CMD_FALLBACK) :
+            $get_command
         ;
 
         // if no command was found, check the current target
@@ -198,11 +190,19 @@ class ilCtrl implements ilCtrlInterface
         $command = $command ?? $this->target->getCmd();
 
         if (null !== $command) {
+            return $command;
+
             // if the executing object implements ilCtrl security,
             // the command is returned if it's a safe one.
             if ($this->isCmdSecure($this->getCmdClass(), $command)) {
                 return $command;
             }
+
+            global $DIC;
+            $stored_token = new ilCtrlToken(
+                $DIC->database(),
+                $DIC->user()
+            );
 
             // the CSRF token could either be in $_POST or $_GET.
             $token = $this->getQueryParam(ilCtrlTarget::PARAM_CSRF_TOKEN) ??
@@ -211,7 +211,7 @@ class ilCtrl implements ilCtrlInterface
 
             // if the command is considered unsafe, the CSRF token
             // has to bee valid to retrieve the command.
-            if (null !== $token && $this->token->verifyWith($token)) {
+            if (null !== $token && $stored_token->verifyWith($token)) {
                 return $command;
             }
         }
@@ -279,7 +279,15 @@ class ilCtrl implements ilCtrlInterface
      */
     public function saveParameterByClass(string $a_class, array|string $a_parameter) : void
     {
-        $this->structure->saveParameterByClass($a_class, $a_parameter);
+        if (!empty($a_parameter)) {
+            if (is_array($a_parameter)) {
+                foreach ($a_parameter as $parameter) {
+                    $this->structure->saveParameterByClass($a_class, $parameter);
+                }
+            } else {
+                $this->structure->saveParameterByClass($a_class, $a_parameter);
+            }
+        }
     }
 
     /**
@@ -817,7 +825,6 @@ class ilCtrl implements ilCtrlInterface
             $base_class = ($is_class_path) ? $a_class[0] : $a_class;
             $target = new ilCtrlTarget(
                 $this->structure,
-                $this->token,
                 $base_class
             );
         } else {
@@ -827,16 +834,19 @@ class ilCtrl implements ilCtrlInterface
         if ($is_class_path) {
             $target->appendCmdClassArray($a_class);
         } else {
-            $$target->appendCmdClass($a_class);
+            $target->appendCmdClass($a_class);
         }
 
         if (!$target->getTrace()->isValid()) {
             throw new ilCtrlException("ilCtrl cannot determine a trace to the provided command class.");
         }
 
+        // once $target->getTrace()->isValid() is called no
+        // further structure checks are needed.
         foreach ($target->getTrace()->getCidPieces() as $cid) {
             $target->setParameters(
                 $this->getParameterArrayByClass(
+                    // so this call doesn't need a null check.
                     $this->structure->getClassNameByCid($cid)
                 )
             );
@@ -847,13 +857,18 @@ class ilCtrl implements ilCtrlInterface
             ->setAsync($is_async)
             ->setEscaped($has_xml_style)
             ->setAnchor($a_anchor)
-            ->setSecure(
-                $this->isCmdSecure(
-                    $this->target->getCurrentCmdClass(),
-                    $a_cmd
-                )
-            )
         ;
+
+        if ($this->isCmdSecure($target->getCurrentCmdClass(), $a_cmd)) {
+            global $DIC;
+
+            $target->setToken(
+                new ilCtrlToken(
+                    $DIC->database(),
+                    $DIC->user()
+                )
+            );
+        }
 
         return $target->getTargetUrl($is_post);
     }
@@ -910,11 +925,6 @@ class ilCtrl implements ilCtrlInterface
      */
     private function isCmdSecure(string $cmd_class, string $cmd) : bool
     {
-        // it kinda sucks that we have to use $DIC here.
-        global $DIC;
-
-
-
         $obj_name = $this->structure->getObjectNameByClass($cmd_class);
         if (is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
             if (null !== $this->exec_object) {

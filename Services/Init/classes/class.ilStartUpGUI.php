@@ -14,7 +14,7 @@ use ILIAS\UICore\PageContentProvider;
 *
 * @ingroup ServicesInit
 */
-class ilStartUpGUI
+class ilStartUpGUI implements ilCtrlSecurityInterface
 {
     const ACCOUNT_MIGRATION_MIGRATE = 1;
     const ACCOUNT_MIGRATION_NEW = 2;
@@ -90,12 +90,24 @@ class ilStartUpGUI
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getSafeCommands() : array
+    {
+        return [
+            'processIndexPHP',
+            'showLoginPage',
+            'showLoginPageOrStartupPage',
+        ];
+    }
+
+    /**
      * execute command
      * @see register.php
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd("processIndexPHP", array('processIndexPHP','showLoginPage'));
+        $cmd = $this->ctrl->getCmd("processIndexPHP");
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
@@ -114,7 +126,7 @@ class ilStartUpGUI
                 if (method_exists($this, $cmd)) {
                     return $this->$cmd();
                 }
-    }
+        }
     }
 
     /**

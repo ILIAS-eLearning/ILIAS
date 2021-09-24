@@ -109,12 +109,12 @@ interface ilCtrlTargetInterface
     public function setEscaped(bool $is_escaped) : ilCtrlTargetInterface;
 
     /**
-     * Sets whether the current target is considered safe or not.
+     * Sets the current targets ilCtrl token.
      *
-     * @param bool $is_secured
+     * @param ilCtrlTokenInterface $token
      * @return ilCtrlTargetInterface
      */
-    public function setSecure(bool $is_secured) : ilCtrlTargetInterface;
+    public function setToken(ilCtrlTokenInterface $token) : ilCtrlTargetInterface;
 
     /**
      * Appends an anchor to the target URL.

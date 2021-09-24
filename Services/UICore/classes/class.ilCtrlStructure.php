@@ -118,12 +118,16 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getClassNameByCid(string $cid) : ?string
     {
-        return $this->lowercase(
-            $this->getValueForKeyByCid(
-                self::KEY_CLASS_NAME,
-                $cid
-            )
+        $class_name = $this->getValueForKeyByCid(
+            self::KEY_CLASS_NAME,
+            $cid
         );
+
+        if (null === $class_name) {
+            $x = 1;
+        }
+
+        return (null !== $class_name) ? $this->lowercase($class_name) : null;
     }
 
     /**
@@ -163,7 +167,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getCalledClassesByName(string $class_name) : array
     {
-        $this->getValueForKeyByName(self::KEY_CALLED_CLASSES, $class_name) ?? [];
+        return $this->getValueForKeyByName(self::KEY_CALLED_CLASSES, $class_name) ?? [];
     }
 
     /**
@@ -269,16 +273,14 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     private function getValueForKeyByCid(string $identifier_key, string $cid) : array|string|null
     {
-        if (isset(self::$mapped_structure[$cid])) {
+        if (isset(self::$mapped_structure[$cid][$identifier_key])) {
             return self::$mapped_structure[$cid][$identifier_key];
         }
 
         foreach ($this->structure as $class_info) {
-            foreach ($class_info as $key => $value) {
-                if ($identifier_key === $key && $cid === $value) {
-                    self::$mapped_structure[$cid] = $class_info;
-                    return $value;
-                }
+            if (isset($class_info[$identifier_key]) && $class_info[self::KEY_CLASS_CID] === $cid) {
+                self::$mapped_structure[$cid] = $class_info;
+                return $class_info[$identifier_key];
             }
         }
 
@@ -331,7 +333,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     {
         $modules    = [];
         $module_set = $this->database->query(
-            "SELECT LOWER(class) AS class_name FROM service_class;"
+            "SELECT LOWER(class) AS class_name FROM module_class;"
         );
 
         while ($record = $module_set->fetchAssoc()) {
