@@ -9096,7 +9096,7 @@ file#:#file_suffix_default_white_info#:#Список допустимых рас
 file#:#file_suffix_overall_white#:#Действующий «белый» список расширений
 file#:#file_suffix_overall_white_info#:#Это окончательный список допустимых расширений файлов.
 file#:#file_uploaded_by#:#Загрузил
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Загруженный файл содержит опасное или неизвестное расширение файла. Расширение файла будет изменено на .sec при каждом скачивании.
+file#:#file_upload_info_file_with_critical_extension#:#Загруженный файл содержит опасное или неизвестное расширение файла. Расширение файла будет изменено на .sec при каждом скачивании.
 file#:#general_upload_error_occured#:#Во время загрузки произошла неожиданная ошибка.
 file#:#generate_sanitize_report#:#Отчет о недоступных файлах
 file#:#personal_resources_disk_quota#:#Включить дисковую квоту для персональных ресурсов

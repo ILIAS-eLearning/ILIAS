@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#アクセスキー
@@ -70,7 +70,7 @@ acc#:#acc_tree_off#:#ツリー表示しない
 acc#:#acc_tree_on#:#ツリー表示する
 adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
 adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
-adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point 
+adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point
 adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
 adm#:#adm_support_contacts#:#テクニカルサポート
@@ -5331,7 +5331,7 @@ common#:#session_config#:#セッション設定
 common#:#session_config_maintenance_disabled#:#クライアントによるメンテナンスを禁止する
 common#:#session_mail_subject_deletion#:# セッション "%s"からユーザ "%s"の登録解除
 common#:#session_mail_subject_entered#:#セッション "%s"内ユーザ"%s" の参加
-common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録 
+common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録
 common#:#session_max_count#:#Maxアクティブセッション
 common#:#session_max_count_info#:#同時に確立可能な最大セッション数を定義します。"0"の場合この機能はOFFとなります。
 common#:#session_max_idle#:#Maxセッションアイドル(分単位)
@@ -9128,7 +9128,7 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
+file#:#file_upload_info_file_with_critical_extension#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
 file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
@@ -10088,7 +10088,7 @@ lti#:#conf_user_name_info#:#ユーザ名の送信は通常不要です。
 lti#:#conf_user_name_lastname#:#タイトルと姓
 lti#:#conf_user_name_lastname_info#:#ミスター、Ms/Mrs. (特に指定のない限り)、姓を送る
 lti#:#conf_user_name_none#:#だれもいない
-lti#:#conf_user_name_none_info#:#名前に代えて'-'を送る 
+lti#:#conf_user_name_none_info#:#名前に代えて'-'を送る
 lti#:#consumers#:#Consumer
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#field_provider_xml#:#XML-ファイル
@@ -10198,7 +10198,7 @@ lti#:#lti_consumer_set_active#:#Consumerを有効にしました
 lti#:#lti_consumer_set_inactive#:#Consumerを解除しました
 lti#:#lti_consumer_updated#:#Consumerを更新しました
 lti#:#lti_consuming_tab#:#LTI ConsumerとしてのILIAS
-lti#:#lti_copy#:#ConsumerをCopy 
+lti#:#lti_copy#:#ConsumerをCopy
 lti#:#lti_create_consumer#:#Consumerを作成
 lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割を作成
 lti#:#lti_cron_title#:#LTI Outcome Service
@@ -14343,7 +14343,7 @@ style#:#sty_add_color#:#カラーを追加
 style#:#sty_add_content_style#:#コンテンツスタイルを追加
 style#:#sty_add_image#:#イメージを追加
 style#:#sty_add_media_query#:#メディアクエリーを追加
-style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)" 
+style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)"
 style#:#sty_add_pgl#:#ページレイアウトを追加
 style#:#sty_add_template#:#テンプレートを追加
 style#:#sty_added_characteristic#:#スタイルクラスを追加しました。
@@ -15400,7 +15400,7 @@ sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成�
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
 sysc#:#sysc_tree_structure_failures#:#ツリー構造(親-関係)内の不良数:
 tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
-tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択 
+tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択
 tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?

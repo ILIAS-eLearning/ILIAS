@@ -5430,7 +5430,7 @@ exc#:#exc_msg_failed_mandatory#:#Nem sikerült legalább egy kötelező feladat.
 exc#:#exc_msg_min_number_ass#:#Legalább %s feladatot kell megoldania a beadandó feladat teljesítéséhez.
 exc#:#exc_msg_missed_minimum_number#:#Nem oldotta meg a minimális számú feladatot.
 exc#:#exc_msg_new_feedback_file_uploaded#:#'%s' beadandó feladathoz új visszajelzésfájl
-exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához. 
+exc#:#exc_msg_new_feedback_file_uploaded2#:#ezúton tájékoztatjuk, hogy új visszajelzésfájlt töltöttek fel az Ön megoldásához.
 exc#:#exc_msg_participants_removed#:#A résztvevőket eltávolítottuk a beadandó feladatból.
 exc#:#exc_msg_public_submission#:#Összes megoldást publikáltuk a határidő után.
 exc#:#exc_msg_saved_grades#:#Az értékeléseket és a megjegyzéseket mentettük.
@@ -6007,7 +6007,7 @@ mail#:#mail_select_group#:#Legalább egy csoportot válasszon!
 mail#:#mail_select_one_entry#:#Ki kell választania egy bejegyzést
 mail#:#mail_select_one_file#:#Ki kell választania egy fájlt
 mail#:#mail_settings_incoming_type_see_also#:#További lehetőséget a felhasználókhoz beérkező leveleinek módosítására <a href="%s">itt</a> talál.
-mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet. 
+mail#:#mail_subject_prefix_info#:#Az automatikusan generált kimenő e-mailek tárgya elé kerülő szöveg, ami segíti, hogy a felhasználók szűrhessék az üzenetet.
 mail#:#mail_subject_prefix#:#Levél tárgya
 mail#:#mail_sure_delete_entry#:#Biztos, hogy törli az alábbi névjegy(ek)et?
 mail#:#mail_sure_delete_file#:#Biztos, hogy törli a kiválasztott fájlokat?
@@ -6932,8 +6932,8 @@ rbac#:#mds_visible#:#A felhasználó láthatja a Rendszerbeállítások » Metaa
 rbac#:#mds_write#:#AA felhasználó módosíthatja a Rendszerbeállítások » Metaadat beállításait
 rbac#:#msg_no_roles_of_type#:#Nincsenek elérhetők szerepek a kiválasztott szűrőbeállítással.
 rbac#:#mme_visible#:#A felhasználó láthatja a Rendszerbeállítások » Főmenü menüpontot
-rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz 
-rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait 
+rbac#:#mme_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Főmenü beállításaihoz
+rbac#:#mme_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü beállításait
 rbac#:#mme_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Főmenü jogosultsági beállításait
 rbac#:#dshs_edit_permission#:#A felhasználó módosíthatja a Rendszerbeállítások » Műszerfal jogosultsági beállításait
 rbac#:#dshs_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbeállítások » Műszerfal beállításaihoz
@@ -8419,7 +8419,7 @@ rbac#:#edit_permission#:#Jogosultságok módosítása
 rbac#:#edit_event#:#Naptár módosítása
 book#:#book_set_cancel#:#Foglalás törlése
 book#:#reservation_deleted#:#A foglalást sikeresen törölte
-book#:#X_reservations_of#:#%s foglalás / 
+book#:#X_reservations_of#:#%s foglalás /
 book#:#book_set_delete#:#Törlése
 rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
@@ -13357,7 +13357,7 @@ awrn#:#awrn_incl_offline#:#Online és offline
 adm#:#adm_support_contacts#:#Technikai segítségnyújtók
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
 adm#:#adm_support_contacts_info#:#A támogatási kapcsolatok - ami vesszővel elválasztott felhasználói fiókok felsorolása - a 'Ki van online?'-eszköz láblécébe kerülnek (ha az be van kapcsolva).
-adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása 
+adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása
 adm#:#adm_acc_ctrl_cpt_desc#:#Ha be van kapcsolva, a Hozzáférés-vezérlés koncepciója link jelenik meg a lálécben.
 adm#:#adm_accessibility_contacts#:#A kapcsolat hozzáférési pontja
 adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez, láblécben lévő link. Felhasználónevek vesszővel elválasztott felsorolása.
@@ -14756,7 +14756,7 @@ file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések
 file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
 file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
 file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
+file#:#file_upload_info_file_with_critical_extension#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
 common#:#settings_presentation_header#:#Megjelenítés
 common#:#obj_copa#:#Tartalomlap
 common#:#objs_copa#:#Tartalomlapok
@@ -16184,7 +16184,7 @@ awrn#:#user_awrn_hide#:#Állapotom elrejtése
 awrn#:#user_awrn_show#:#Állapotom megjelenítése
 awrn#:#awrn_user_show#:#ILIAS-fiókom megjelenítése a 'Ki van online?' eszközben
 common#:#objs_prgr#:#Linkelés Képzési programra
-rbac#:#prgr_copy#:#A felhasználó másolhatja a Képzési programra mutató linket 
+rbac#:#prgr_copy#:#A felhasználó másolhatja a Képzési programra mutató linket
 rbac#:#prgr_delete#:#A felhasználó mozgathatja, illetve törölheti a Képzési programra mutató linket
 rbac#:#prgr_edit_permission#:#A felhasználó módosíthatja a jogosultási beállításokat
 rbac#:#prgr_visible#:#A képzési programra mutató linkek láthatók és használhatóak

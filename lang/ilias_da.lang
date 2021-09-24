@@ -14288,7 +14288,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new varia
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 common#:#obj_copa#:#Content Page###10 11 2018 new variable
 common#:#objs_copa#:#Content Pages###10 11 2018 new variable
 rbac#:#copa_visible#:#Content Page is visible###10 11 2018 new variable

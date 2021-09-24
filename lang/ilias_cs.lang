@@ -8518,7 +8518,7 @@ file#:#file_suffix_default_white#:#Výchozí seznam povolených přípon
 file#:#file_suffix_default_white_info#:#Výchozí seznam přípustných přípon souborů.
 file#:#file_suffix_overall_white#:#Úplný seznam povolených přípon
 file#:#file_suffix_overall_white_info#:#Výsledný úplný seznam přípustných přípon souborů.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Nahrál
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#replace_file_info#:#Všechny dřívější verze souboru budou smazány.

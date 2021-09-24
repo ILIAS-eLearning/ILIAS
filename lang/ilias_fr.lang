@@ -1874,7 +1874,7 @@ auth#:#auth_info_migrate#:#Si vous avez déjà  un compte ILIAS, saisir nom d'ut
 auth#:#auth_ldap_server_ds#:#Serveur LDAP
 auth#:#auth_login_editor#:#Editeur de la page de connexion
 auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
@@ -1897,7 +1897,7 @@ auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. 
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_provider#:#Provider-Url
@@ -8518,7 +8518,7 @@ file#:#file_suffix_default_white#:#Liste blanche de suffixes par défaut
 file#:#file_suffix_default_white_info#:#Liste par défaut des suffixes de fichier acceptés.
 file#:#file_suffix_overall_white#:#Liste blanche globale de suffixes
 file#:#file_suffix_overall_white_info#:#Liste globale résultante des suffixes de fichiers acceptés.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Déposé par
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#replace_file_info#:#Toutes les versions du fichier seront supprimées.

@@ -3131,7 +3131,7 @@ common#:#bookmark_new#:#Nova pasta de favoritos
 common#:#bookmark_target#:#Alvo
 common#:#bookmarks#:#Favoritos
 common#:#bookmarks_of#:#Favoritos de
-common#:#breadcrumb_navigation#:#Navegação Breadcrumb 
+common#:#breadcrumb_navigation#:#Navegação Breadcrumb
 common#:#btn_add#:#Adicionar
 common#:#btn_back#:#Voltar
 common#:#btn_next#:#Continuar
@@ -5161,7 +5161,7 @@ common#:#user_import_failed#:#Importação de utilizador falhou.
 common#:#user_imported#:#Importação do usuário concluída.
 common#:#user_imported_with_warnings#:#Importação de utilizador completa com avisos.
 common#:#user_language#:#Idioma do Usuário
-common#:#user_new_account_mail#:#Mail para nova conta 
+common#:#user_new_account_mail#:#Mail para nova conta
 common#:#user_new_account_mail_desc#:#Este e-mail é enviado automaticamente para usuários que se registraram automaticamente ou para aqueles que foram registrados por um administrador com a configuração ativada "Enviar e-mail para informar o usuário sobre alterações".
 common#:#user_not_found#:#Utilizador não encontrado
 common#:#user_not_found_to_delete#:#Não foi possível encontrar um utilizador para apagar.
@@ -8515,7 +8515,7 @@ file#:#file_suffix_default_white#:#Lista segura de sufixos predefinidos
 file#:#file_suffix_default_white_info#:#Lista padrão de sufixos de ficheiros aceites.
 file#:#file_suffix_overall_white#:#Lista segura de sufixos geral
 file#:#file_suffix_overall_white_info#:#Lista geral resultante de sufixos de ficheiros aceites.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Carregado por
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#replace_file_info#:#Conjuntos de dados incluídos

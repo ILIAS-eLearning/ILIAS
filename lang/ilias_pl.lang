@@ -9098,7 +9098,7 @@ file#:#file_suffix_default_white#:#Końcówki plików: Lista pozytywna (lista wy
 file#:#file_suffix_default_white_info#:#Wstępnie skonfigurowana lista wyjściowa z zatwierdzonymi końcówkami plików.
 file#:#file_suffix_overall_white#:#Efektywna lista pozytywna
 file#:#file_suffix_overall_white_info#:#To jest ostateczna lista zatwierdzonych końcówek plików.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Przesłany plik zawiera krytyczne lub nieznane zakończenie. Przy każdym pobieraniu końcówka pliku zostanie zmieniona na .sec.
+file#:#file_upload_info_file_with_critical_extension#:#Przesłany plik zawiera krytyczne lub nieznane zakończenie. Przy każdym pobieraniu końcówka pliku zostanie zmieniona na .sec.
 file#:#file_uploaded_by#:#Wysłane przez
 file#:#general_upload_error_occured#:#Podczas przesyłania wystąpił nieoczekiwany błąd.
 file#:#generate_sanitize_report#:#Zgłoś niedostępne pliki
