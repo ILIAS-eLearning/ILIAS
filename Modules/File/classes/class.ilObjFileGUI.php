@@ -263,7 +263,6 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             } else {
                 $delegate = new ilObjFileSingleFileDelegate();
-
             }
             $response = $delegate->handle(
                 (int) $this->parent_id,
@@ -271,6 +270,14 @@ class ilObjFileGUI extends ilObject2GUI
                 $result,
                 $this
             );
+
+            $suffixes = array_unique($delegate->getUploadedSuffixes());
+            if (count(array_diff($suffixes, ilFileUtils::getValidExtensions())) > 0) {
+                ilUtil::sendInfo(
+                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                    true
+                );
+            }
             $response->send();
         }
 

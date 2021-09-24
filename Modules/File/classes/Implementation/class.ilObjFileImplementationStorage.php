@@ -147,7 +147,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      */
     public function getFileExtension()
     {
-        throw new NotImplementedException();
+        return $this->resource->getCurrentRevision()->getInformation()->getSuffix();
     }
 
     /**
