@@ -23337,6 +23337,9 @@ $ilDB->createTable("il_resource", $fields);
 $pk_fields = array("identification");
 $ilDB->addPrimaryKey("il_resource", $pk_fields);
 
+$in_fields = array("storage_id");
+$ilDB->addIndex("il_resource", $in_fields, "i1", false);
+
 
 //
 // il_resource_info
@@ -23392,6 +23395,9 @@ $ilDB->createTable("il_resource_info", $fields);
 $pk_fields = array("internal");
 $ilDB->addPrimaryKey("il_resource_info", $pk_fields);
 
+$in_fields = array("identification");
+$ilDB->addIndex("il_resource_info", $in_fields, "i1", false);
+
 
 //
 // il_resource_revision
@@ -23442,6 +23448,9 @@ $ilDB->createTable("il_resource_revision", $fields);
 $pk_fields = array("internal");
 $ilDB->addPrimaryKey("il_resource_revision", $pk_fields);
 
+$in_fields = array("identification");
+$ilDB->addIndex("il_resource_revision", $in_fields, "i1", false);
+
 
 //
 // il_resource_stakeh
@@ -23477,6 +23486,12 @@ $ilDB->createTable("il_resource_stakeh", $fields);
 
 $pk_fields = array("internal");
 $ilDB->addPrimaryKey("il_resource_stakeh", $pk_fields);
+
+$in_fields = array("identification");
+$ilDB->addIndex("il_resource_stakeh", $in_fields, "i1", false);
+
+$in_fields = array("stakeholder_id");
+$ilDB->addIndex("il_resource_stakeh", $in_fields, "i2", false);
 
 
 //
@@ -32604,7 +32619,18 @@ $fields = array (
 		,"unsigned" => false
 		,"type" => "integer"
 	)
-	,"risky_to_fail_mail_send" => array (
+	,"sent_mail_risky_to_fail" => array (
+		"notnull" => false
+		,"type" => "timestamp"
+	)
+	,"individual" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"sent_mail_expires" => array (
 		"notnull" => false
 		,"type" => "timestamp"
 	)
@@ -48625,7 +48651,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '48')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '53')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));

@@ -1,8 +1,8 @@
--- MySQL dump 10.18  Distrib 10.3.27-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.19  Distrib 10.3.29-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.3.27-MariaDB-0+deb10u1
+-- Server version	10.3.29-MariaDB-0+deb10u1
 
 --
 -- Table structure for table `acc_access_key`
@@ -10406,7 +10406,8 @@ INSERT INTO `il_request_token` VALUES (6,'e94abe3044958d2cf4bebff6e68f6a52','201
 CREATE TABLE `il_resource` (
   `identification` varchar(250) NOT NULL,
   `storage_id` varchar(8) DEFAULT NULL,
-  PRIMARY KEY (`identification`)
+  PRIMARY KEY (`identification`),
+  KEY `i1_idx` (`storage_id`)
 ) ;
 
 --
@@ -10426,7 +10427,8 @@ CREATE TABLE `il_resource_info` (
   `mime_type` varchar(250) DEFAULT NULL,
   `size` bigint(20) DEFAULT NULL,
   `creation_date` bigint(20) DEFAULT 0,
-  PRIMARY KEY (`internal`)
+  PRIMARY KEY (`internal`),
+  KEY `i1_idx` (`identification`)
 ) ;
 
 --
@@ -10445,7 +10447,8 @@ CREATE TABLE `il_resource_revision` (
   `version_number` bigint(20) DEFAULT NULL,
   `owner_id` bigint(20) DEFAULT 0,
   `title` varchar(255) DEFAULT '-',
-  PRIMARY KEY (`internal`)
+  PRIMARY KEY (`internal`),
+  KEY `i1_idx` (`identification`)
 ) ;
 
 --
@@ -10462,7 +10465,9 @@ CREATE TABLE `il_resource_stakeh` (
   `identification` varchar(255) DEFAULT NULL,
   `stakeholder_id` varchar(255) DEFAULT NULL,
   `stakeholder_class` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`internal`)
+  PRIMARY KEY (`internal`),
+  KEY `i1_idx` (`identification`),
+  KEY `i2_idx` (`stakeholder_id`)
 ) ;
 
 --
@@ -14356,7 +14361,9 @@ CREATE TABLE `prg_usr_progress` (
   `completion_date` datetime DEFAULT NULL,
   `vq_date` datetime DEFAULT NULL,
   `invalidated` tinyint(4) DEFAULT NULL,
-  `risky_to_fail_mail_send` datetime DEFAULT NULL,
+  `sent_mail_risky_to_fail` datetime DEFAULT NULL,
+  `individual` tinyint(4) NOT NULL DEFAULT 0,
+  `sent_mail_expires` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `con_idx` (`assignment_id`,`prg_id`,`usr_id`)
 ) ;
@@ -20369,7 +20376,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','48');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','53');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 
 --
@@ -24978,4 +24985,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2021-06-25 17:06:20
+-- Dump completed on 2021-09-24 16:22:39
