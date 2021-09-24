@@ -113,6 +113,7 @@ auth#:#auth_oidc_update_role_info#:#Only Apply at first Login (Automatic Synchro
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
+common#:#msg_no_files_selected#:#No files selected
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
