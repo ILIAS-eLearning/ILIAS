@@ -470,9 +470,24 @@ class ilWebAccessChecker
      */
     protected function isRequestNotFromLoginPage()
     {
-        $referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+        $referrer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
         $not_on_login_page = (strpos($referrer, 'login.php') === false
                               && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
+
+        if ($not_on_login_page && $referrer !== '') {
+            // In some scenarios (observed for content styles on login page, the HTTP_REFERER does not contain a PHP script
+            $referrer_url_parts = parse_url($referrer);
+            $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+            if (
+                $ilias_url_parts['host'] === $referrer_url_parts['host'] &&
+                (
+                    !isset($referrer_url_parts['path']) ||
+                    strpos($referrer_url_parts['path'], '.php') === false
+                )
+            ) {
+                $not_on_login_page = false;
+            }
+        }
 
         return $not_on_login_page;
     }
