@@ -16529,6 +16529,7 @@ file#:#file_copy#:#Datei kopieren
 file#:#file_new_version#:#Neue Version anlegen
 file#:#file_new_version_info#:#Eine neue Dateiversion anlegen. Alte Versionen bleiben erhalten.
 file#:#file_uploaded_by#:#Version hochgeladen von
+file#:#versionname#:#Titel
 file#:#version_uploaded#:#Version hochgeladen am
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 common#:#page_count#:#Anzahl Seiten
