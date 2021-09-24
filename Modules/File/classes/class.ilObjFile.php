@@ -459,6 +459,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $new_object->setResourceId($new_resource_identification->serialize());
             $new_object->initImplementation();
             $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+            $new_object->setTitle($this->getTitle()); // see https://mantis.ilias.de/view.php?id=31375
+            $new_object->update();
         } else {
             // migrate
             global $DIC;
