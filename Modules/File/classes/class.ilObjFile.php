@@ -135,7 +135,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true) : void
     {
         $this->setTitle($r->getTitle());
-        $this->setFileName($r->getTitle());
+        $this->setFileName($r->getInformation()->getTitle());
         $this->setVersion($r->getVersionNumber());
         $this->setMaxVersion($r->getVersionNumber());
         $this->setFileSize($r->getInformation()->getSize());
