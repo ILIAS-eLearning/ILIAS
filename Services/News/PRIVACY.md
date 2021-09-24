@@ -12,7 +12,7 @@ This documentation comes with no guarantee of completeness or correctness. Pleas
 
 ## Data presentation
 - ILIAS presents news listings in **various contexts of the repository**, e.g. courses, groups, wikis or forums. This information is usually shown to all users having **Read** permission in this context. 
-- Users having **Edit Settings** permission in a context are usually able to edit manual news. Automatic created news (e.g. for new uploaded files) cannot be edited.
+- Accounts having **Edit Settings** permission in a context are usually able to create and update news. News are automatically created e.g. when a new file is uploaded. These automatically created news cannot be updated. 
 - Additionally news are presented in an **personal context in an aggregated form** for users. All news of their favourite repository objects are presented in these views. However only news are presented, that are also accessible in the repository contexts directly (meaning read permission to the context is needed).
 - Optionally news can be **configured** as being readable to the **public as an open RSS webfeed**. These feeds include all public news entries of a context and are accessible via an URL without any authentication.
 

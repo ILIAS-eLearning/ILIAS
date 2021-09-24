@@ -15,5 +15,5 @@ interface ilObjUploadDelegateInterface
         ilObjFileGUI $gui
     ) : ilObjFileUploadResponse;
 
-//    public function getObjectId() : int;
+    public function getUploadedSuffixes() : array;
 }
