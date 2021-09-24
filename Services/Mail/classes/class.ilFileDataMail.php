@@ -195,7 +195,7 @@ class ilFileDataMail extends ilFileData
     {
         $path = $this->getMailPath() . '/' . $this->getAttachmentPathByMailId($a_mail_id) . '/' . $a_filename;
 
-        if (file_exists($path) && is_readable($path)) {
+        if (is_readable($path)) {
             return $path;
         }
 
@@ -348,7 +348,7 @@ class ilFileDataMail extends ilFileData
     */
     public function rotateFiles($a_path)
     {
-        if (file_exists($a_path)) {
+        if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
             return \ilFileUtils::rename($a_path, $a_path . '.old');
         }
@@ -379,7 +379,7 @@ class ilFileDataMail extends ilFileData
      */
     public function unlinkFile($a_filename) : bool
     {
-        if (file_exists($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
+        if (is_file($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
             return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
         }
 
@@ -461,7 +461,7 @@ class ilFileDataMail extends ilFileData
     {
         if ($a_files) {
             foreach ($a_files as $file) {
-                if (!file_exists($this->mail_path . '/' . $this->user_id . '_' . $file)) {
+                if (!is_file($this->mail_path . '/' . $this->user_id . '_' . $file)) {
                     return false;
                 }
             }
