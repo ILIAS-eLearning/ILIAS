@@ -15010,7 +15010,7 @@ wsp#:#wsp_type_wfld#:#Папка
 common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###20 03 2019 new variable
 rbac#:#lso_read_learning_progress#:#User can view learning progress of other users###20 03 2019 new variable
 style#:#style#:#Style###20 03 2019 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###20 03 2019 new variable
 rbac#:#lso_lp_other_users#:#User can view learning progress of other users###20 03 2019 new variable
 lso#:#lso_start_item#:#Start###20 03 2019 new variable
 lso#:#finished#:#Finished###20 03 2019 new variable

@@ -8556,7 +8556,7 @@ file#:#file_suffix_default_white#:#Elenco elementi consentiti suffisso predefini
 file#:#file_suffix_default_white_info#:#Elenco predefinito di suffissi di file accettati.
 file#:#file_suffix_overall_white#:#Elenco elementi consentiti suffisso complessivo
 file#:#file_suffix_overall_white_info#:#Risultante elenco complessivo dei suffissi di file accettati.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Il file caricato contiene un terminatore critico o sconosciuto. L'estensione di file verra' cambiata in .sec per ogni download.																																																					   
+file#:#file_upload_info_file_with_critical_extension#:#Il file caricato contiene un terminatore critico o sconosciuto. L'estensione di file verra' cambiata in .sec per ogni download.
 file#:#file_uploaded_by#:#Caricato da
 file#:#generate_sanitize_report#:#Segnala file inaccessibili															 
 file#:#personal_workspace_disk_quota#:#Quota disco rigido per spazio di lavoro personale

@@ -1030,7 +1030,7 @@ class ilObjFileGUI extends ilObject2GUI
             foreach ($DIC->upload()->getResults() as $result) {
                 if (!ilFileUtils::hasValidExtension($result->getName())) {
                     ilUtil::sendInfo(
-                        $this->lng->txt('file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading'),
+                        $this->lng->txt('file_upload_info_file_with_critical_extension'),
                         true
                     );
                 }

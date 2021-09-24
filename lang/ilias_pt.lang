@@ -8563,7 +8563,7 @@ file#:#file_suffix_default_white#:#Lista segura de sufixos predefinidos
 file#:#file_suffix_default_white_info#:#Lista padrão de sufixos de ficheiros aceites.
 file#:#file_suffix_overall_white#:#Lista segura de sufixos geral
 file#:#file_suffix_overall_white_info#:#Lista geral resultante de sufixos de ficheiros aceites.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Carregado por
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#personal_workspace_disk_quota#:#Cota de disco rígido para espaço de trabalho pessoal

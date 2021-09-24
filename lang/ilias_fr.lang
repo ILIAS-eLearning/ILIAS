@@ -8575,7 +8575,7 @@ file#:#file_suffix_default_white#:#Liste des suffixes autorisés par défaut
 file#:#file_suffix_default_white_info#:#Liste par défaut des suffixes de fichier acceptés.
 file#:#file_suffix_overall_white#:#Liste globale des suffixes autorisés
 file#:#file_suffix_overall_white_info#:#Liste globale résultante des suffixes de fichiers acceptés.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Le fichier téléversé contient une extension de fichier critique ou inconnue. La fin du fichier sera changée en .sec à chaque téléchargement.
+file#:#file_upload_info_file_with_critical_extension#:#Le fichier téléversé contient une extension de fichier critique ou inconnue. La fin du fichier sera changée en .sec à chaque téléchargement.
 file#:#file_uploaded_by#:#Téléversé par
 file#:#generate_sanitize_report#:#Rapport sur les fichiers inaccessibles
 file#:#personal_workspace_disk_quota#:#Quota de disque pour l'espace personnel

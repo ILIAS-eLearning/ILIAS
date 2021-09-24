@@ -14464,7 +14464,7 @@ file#:#file_suffix_custom_white#:#Lista blanca personalizada de sufijos
 file#:#file_suffix_custom_white_info#:#Estos suficos serán añadidos a la lista blanca por defecto.
 file#:#file_suffix_overall_white#:#Lista blanca final de sufijos.
 file#:#file_suffix_overall_white_info#:#Lista final de sufijos de ficheros aceptados.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#El fichero enviado contiene una extensión insegura o desconocida. La extensión se cambiará a .sec para todas las descargas.
+file#:#file_upload_info_file_with_critical_extension#:#El fichero enviado contiene una extensión insegura o desconocida. La extensión se cambiará a .sec para todas las descargas.
 common#:#obj_copa#:#Página de Contenido
 common#:#objs_copa#:#Páginas de Contenido
 rbac#:#copa_visible#:#Página de Contenido es visible
