@@ -2390,6 +2390,7 @@ common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file

@@ -889,7 +889,7 @@ class ilObjFile extends ilObject2
             return true;
         }
 
-        throw new FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
+        throw new FileNotFoundException($this->lng->txt('file_not_found_sec'));
     }
 
 

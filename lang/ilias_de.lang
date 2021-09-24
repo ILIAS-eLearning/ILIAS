@@ -3649,6 +3649,7 @@ common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_no_valid_file_type#:#Dieser Dateityp ist nicht erlaubt.
 common#:#file_not_found#:#Datei nicht gefunden
+common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 common#:#file_rollback#:#Zur aktuellen Version machen
