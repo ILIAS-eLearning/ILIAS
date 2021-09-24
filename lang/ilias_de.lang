@@ -153,14 +153,14 @@ meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
 meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
-meta#:#meta_copyright_show_usages#:#Show usages
-meta#:#meta_copyright_sub_items#:#Sub Items
-meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_copyright_show_usages#:#Zeige Nutzung
+meta#:#meta_copyright_sub_items#:#Unterelemente
+meta#:#meta_copyright_outdated#:#Veraltet / nicht mehr genutzt
+meta#:#meta_copyright_in_use#:#Wird genutzt
+meta#:#meta_copyright_usage#:#Nutzung
 meta#:#meta_copyright_status#:#Status
-meta#:#meta_save_order#:#Save Order
-meta#:#meta_order#:#Order
+meta#:#meta_save_order#:#Reihenfolge speichern
+meta#:#meta_order#:#Reihenfolge
 meta#:#meta_copyright_change_warning_title#:#Änderung der Copyright-Einstellungen
 meta#:#meta_copyright_change_info#:#Sie wollen die Lizenz für dieses Objekt ändern. Dies sollte nur in Übereinstimmung mit dem Inhaber des Urheberrechts erfolgen. Bitte fahren Sie nur fort, wenn die neue Lizenz nicht restriktiver ist als die zuvor verwendete.
 survey#:#svy_export_pdf#:#Export PDF
@@ -467,7 +467,7 @@ administration#:#apache_autocreate#:#Automatische Kontenerstellung aktivieren
 administration#:#apache_default_role#:#Standardrolle für neue Benutzer
 administration#:#apache_enable_auth#:#Apache-Authentifizierung aktivieren
 administration#:#apache_enable_ldap#:#LDAP für Apache Authentifizierung aktivieren
-administration#:#apache_enable_local#:#Lokale Benutzerzuordnung für Apache Authentifizierung aktiviern
+administration#:#apache_enable_local#:#Lokale Benutzerzuordnung für Apache Authentifizierung aktivieren
 administration#:#apache_ldap_hint_ldap_must_be_configured#:#LDAP muss in der Administration konfiguriert sein
 administration#:#apache_settings#:#Apache-Authentifizierung konfigurieren
 administration#:#apache_settings_changed_success#:#Konfiguration gespeichert
