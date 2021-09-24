@@ -35,6 +35,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.apache.xmlrpc.client.XmlRpcCommonsTransportFactory;
 
+import de.ilias.services.lucene.index.IndexHolder;
 import de.ilias.services.rpc.RPCServer;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -281,6 +282,20 @@ public class ilServer {
 			
 			client = initRpcClient();
 			client.execute("RPCAdministration.start",Collections.EMPTY_LIST);
+			Thread shutdownListener = new Thread(){
+			  public void run(){
+
+			    logger.info("Received stop signal");
+
+			    // Closing all index writers
+			    IndexHolder.closeAllWriters();
+			    rpc.shutdown();
+
+			    // Set server status inactive
+			    ilServerStatus.setActive(false);
+			  }
+			};
+			Runtime.getRuntime().addShutdownHook(shutdownListener);
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
