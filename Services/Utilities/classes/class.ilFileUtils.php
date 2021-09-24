@@ -553,14 +553,17 @@ class ilFileUtils
             $fileadmin_ref_id = (int) reset(ilObject2::_getAllReferences($id));
         }
         if ($DIC->rbac()->system()->checkAccess('upload_blacklisted_files', $fileadmin_ref_id)) {
-            return array();
+            return [];
         }
 
-        $blocked = array();
+        $blocked = [];
         foreach (explode(",", $setting->get("suffix_custom_expl_black")) as $blocked_suffix) {
             $blocked[] = trim(strtolower($blocked_suffix));
         }
-
+        $blocked = array_filter($blocked, function($item){
+            return $item !== '';
+        });
+        
         return $blocked;
     }
 
