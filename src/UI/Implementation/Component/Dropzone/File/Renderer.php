@@ -173,6 +173,7 @@ class Renderer extends AbstractComponentRenderer
                     'identifier' => $dropzone->getParametername(),
                     'typeError' => $this->txt('msg_wrong_filetypes') . " " . implode(", ", $dropzone->getAllowedFileTypes()),
                     'tooManyItemsError' => $this->txt('msg_to_many_files') . ' ' . $dropzone->getMaxFiles(),
+                    'noFilesError' => $this->txt('msg_no_files_selected'),
                 ]
             );
             $reflect = new \ReflectionClass($dropzone);
