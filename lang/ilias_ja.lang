@@ -9319,7 +9319,7 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
+file#:#file_upload_info_file_with_critical_extension#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
 file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
