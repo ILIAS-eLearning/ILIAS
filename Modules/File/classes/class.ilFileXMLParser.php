@@ -13,6 +13,9 @@
  * @extends ilSaxParser
  */
 
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+use ILIAS\Data\DataSize;
+
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 include_once 'Modules/File/classes/class.ilFileException.php';
 include_once 'Services/Utilities/classes/class.ilFileUtils.php';
@@ -334,12 +337,19 @@ class ilFileXMLParser extends ilSaxParser
                     }
                 }
 
-                //$this->content = $content;
-                // see #17211
-
                 if ($this->version == $this->file->getVersion()) {
-                    if (is_file($this->tmpFilename)) {
-                        $this->file->setFileSize(filesize($this->tmpFilename)); // strlen($this->content));
+                    global $DIC;
+                    $rel = LegacyPathHelper::createRelativePath($this->tmpFilename);
+                    if ($DIC->filesystem()->temp()->has($rel)) {
+                        $this->file->setFileSize($DIC->filesystem()->temp()->getSize($rel, DataSize::Byte)->getSize());
+                    } else {
+                        $array = $DIC->filesystem()->temp()->listContents(dirname($rel));
+                        $first_file = reset($array);
+
+                        if ($first_file instanceof \ILIAS\Filesystem\DTO\Metadata) {
+                            $this->file->setFileSize($DIC->filesystem()->temp()->getSize($first_file->getPath(),
+                                DataSize::Byte)->getSize());
+                        }
                     }
 
                     // if no file type is given => lookup mime type
