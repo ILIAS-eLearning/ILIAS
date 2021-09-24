@@ -1,10 +1,5 @@
 <?php declare(strict_types=1);
 
-/**
- * @author  Niels Theen <ntheen@databay.de>
- * Repository that allows interaction with the database
- * in the context of certificate templates.
- */
 interface ilCertificateTemplateRepository
 {
     public function save(ilCertificateTemplate $certificateTemplate) : void;

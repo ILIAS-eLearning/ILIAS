@@ -1,9 +1,14 @@
 <?php declare(strict_types=1);
 
+/**
+ * A certicate template repository which caches results of query commands
+ * List of cached results (other queries are not cached yet):
+ *  - fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress
+ */
 class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepository
 {
-    /** @var ilCertificateTemplate[]|null */
-    protected static ?array $crs_certificates_without_lp;
+    /** @var array<int, ilCertificateTemplate[]> */
+    protected static array $crs_certificates_without_lp = [];
 
     private ilCertificateTemplateRepository $wrapped;
 
@@ -60,11 +65,15 @@ class ilCachedCertificateTemplateRepository implements ilCertificateTemplateRepo
     public function fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
         bool $isGlobalLpEnabled
     ) : array {
-        if (null === self::$crs_certificates_without_lp) {
-            self::$crs_certificates_without_lp = $this->wrapped
-                ->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress($isGlobalLpEnabled);
+        $cache_key = (int) $isGlobalLpEnabled;
+        
+        if (!array_key_exists($cache_key, self::$crs_certificates_without_lp)) {
+            self::$crs_certificates_without_lp[$cache_key] =
+                $this->wrapped->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
+                    $isGlobalLpEnabled
+                );
         }
-        return self::$crs_certificates_without_lp;
+        return self::$crs_certificates_without_lp[$cache_key];
     }
 
     public function fetchFirstCreatedTemplate(int $objId) : ilCertificateTemplate
