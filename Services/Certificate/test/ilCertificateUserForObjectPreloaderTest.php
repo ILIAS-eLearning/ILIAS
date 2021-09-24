@@ -8,14 +8,14 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
 {
     public function testUsersWithCertifcatesWillBePreoloaded()
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
             ->willReturn(array(1, 2, 3));
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -33,14 +33,14 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
 
     public function testUserWithCertificateIsNotPreloaded()
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
             ->willReturn(array(1, 2, 3));
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -58,14 +58,14 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
 
     public function testUserIsNoProloaded()
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $userCertificateRepository->method('fetchUserIdsWithCertificateForObject')
             ->willReturn(array(1, 2, 3));
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -83,7 +83,7 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
 
     public function testWontPreloadBecauseCertificatesAreCurrentlyInActive()
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -91,7 +91,7 @@ class ilCertificateUserForObjectPreloaderTest extends ilCertificateBaseTestCase
             ->expects($this->never())
             ->method('fetchUserIdsWithCertificateForObject');
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 

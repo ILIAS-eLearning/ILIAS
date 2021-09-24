@@ -23,7 +23,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
     private ilPageFormats $pageFormats;
     private ilFormFieldParser $formFieldParser;
     private ilCertificateTemplateImportAction $importAction;
-    private ilCertificateTemplateRepository $templateRepository;
+    private ilCertificateTemplateDatabaseRepository $templateRepository;
     private string $certificatePath;
     private bool $hasAdditionalElements;
     private ilCertificateBackgroundImageFileService $backGroundImageFileService;
@@ -43,7 +43,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         ?ilFormFieldParser $formFieldParser = null,
         ?ilCertificateTemplateImportAction $importAction = null,
         ?ilLogger $logger = null,
-        ?ilCertificateTemplateRepository $templateRepository = null,
+        ?ilCertificateTemplateDatabaseRepository $templateRepository = null,
         ?Filesystem $filesystem = null,
         ?ilCertificateBackgroundImageFileService $backgroundImageFileService = null
     ) {
@@ -87,7 +87,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->importAction = $importAction;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($database, $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 

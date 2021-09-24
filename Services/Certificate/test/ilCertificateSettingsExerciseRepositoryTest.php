@@ -8,35 +8,35 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 {
     public function testCreate()
     {
-        $formMock = $this->getMockBuilder('ilPropertyFormGUI')
+        $formMock = $this->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,7 +57,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             $settingsFormFactory
         );
 
-        $guiMock = $this->getMockBuilder('ilCertificateGUI')
+        $guiMock = $this->getMockBuilder(ilCertificateGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,7 +71,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
      */
     public function testSave()
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -79,27 +79,27 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -120,7 +120,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
     public function testFormFieldData()
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -128,27 +128,27 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 

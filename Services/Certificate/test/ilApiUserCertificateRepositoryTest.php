@@ -23,15 +23,15 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function setUp() : void
     {
-        $this->database = $this->getMockBuilder('ilDBInterface')
+        $this->database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->controller = $this->getMockBuilder('ilCtrl')
+        $this->controller = $this->getMockBuilder(ilCtrl::class)
                                ->disableOriginalConstructor()
                                ->getMock();
 
-        $this->logger = $this->getMockBuilder('ilLogger')
+        $this->logger = $this->getMockBuilder(ilLogger::class)
                          ->disableOriginalConstructor()
                          ->getMock();
     }

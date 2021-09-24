@@ -82,7 +82,7 @@ class ilCertificateCron extends ilCronJob
         }
 
         if (null === $this->templateRepository) {
-            $this->templateRepository = new ilCertificateTemplateRepository($database, $this->logger);
+            $this->templateRepository = new ilCertificateTemplateDatabaseRepository($database, $this->logger);
         }
 
         if (null === $this->userRepository) {

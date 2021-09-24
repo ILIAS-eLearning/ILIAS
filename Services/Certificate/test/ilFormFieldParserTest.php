@@ -8,7 +8,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
     public function testA4()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $content = '';
@@ -33,7 +33,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testCustomPageWidth()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess
@@ -62,7 +62,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testA5()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess
@@ -91,7 +91,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testA5Landscape()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess
@@ -120,7 +120,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testA4Landscape()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess
@@ -149,7 +149,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testLetterLandscape()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess
@@ -178,7 +178,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
 
     public function testLetter()
     {
-        $xlstProcess = $this->getMockBuilder('ilCertificateXlstProcess')
+        $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
 
         $xlstProcess

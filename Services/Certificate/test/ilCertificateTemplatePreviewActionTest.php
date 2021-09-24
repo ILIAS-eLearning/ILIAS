@@ -8,9 +8,7 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
     public function testA()
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $placeholderValuesObject = $this->getMockBuilder(ilCertificatePlaceholderValues::class)
             ->disableOriginalConstructor()

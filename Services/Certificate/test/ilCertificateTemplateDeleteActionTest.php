@@ -8,9 +8,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
     public function testDeleteTemplateAndUseOldThumbnail()
     {
-        $templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepositoryMock
             ->method('deleteTemplate')
@@ -31,14 +29,14 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'samples/background.jpg'
             ));
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper
             ->expects($this->once())
             ->method('convertImage');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('lookUpType')
@@ -57,9 +55,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 
     public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate()
     {
-        $templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepositoryMock
             ->method('deleteTemplate')
@@ -79,14 +75,14 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 true
             ));
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper
             ->expects($this->once())
             ->method('convertImage');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('lookUpType')
