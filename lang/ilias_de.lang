@@ -175,6 +175,7 @@ survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der fol
 content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
+common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
