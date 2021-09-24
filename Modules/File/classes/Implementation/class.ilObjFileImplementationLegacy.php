@@ -134,9 +134,8 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $data = ilObjFileImplementationLegacy::parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
-
+        global $DIC;
         if ($this->file_storage->fileExists($file)) {
-            global $DIC;
             $ilClientIniFile = $DIC['ilClientIniFile'];
             /**
              * @var $ilClientIniFile ilIniFile
@@ -167,7 +166,7 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $ilFileDelivery->deliver();
         }
 
-        throw new FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
+        throw new FileNotFoundException($DIC->language()->txt('file_not_found_sec'));
     }
 
     /**
