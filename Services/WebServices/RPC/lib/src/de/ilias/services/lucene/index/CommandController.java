@@ -41,38 +41,20 @@ import de.ilias.services.object.ObjectDefinitions;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import org.apache.lucene.index.IndexWriter;
 
 /**
  * Handles command queue events
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
  * @version $Id$
  */
 public class CommandController {
-
-	private static ThreadLocal<CommandController> instance = new ThreadLocal<CommandController>() {
-		
-		/**
-		 *  Init value 
-		 */
-		protected CommandController initialValue() {
-			
-			try {
-				return new CommandController();
-			}
-			catch(Throwable t) {
-				logger.error(t);
-			}
-			return null;
-		}
-	};
 	
 	private static final int MAX_ELEMENTS = 100;
 
 	protected static Logger logger = LogManager.getLogger(CommandController.class);
 	
-	private Vector<Integer> finished = new Vector<Integer>();
 	private CommandQueue queue;
 	private ObjectDefinitions objDefinitions;
 	private IndexHolder holder;
@@ -137,23 +119,8 @@ public class CommandController {
 			logger.error(t);
 		}
 		return null;
-		//return instance.get();
 	}
 	
-	/**
-	 * @param finished the finished to set
-	 */
-	public void setFinished(Vector<Integer> finished) {
-		this.finished = finished;
-	}
-
-	/**
-	 * @return the finished
-	 */
-	public Vector<Integer> getFinished() {
-		return finished;
-	}
-
 	
 	/**
 	 * Init command queue for new index
@@ -191,8 +158,7 @@ public class CommandController {
 	public void start() {
 		
 		CommandQueueElement currentElement = null;
-		
-		int elementCounter = 0;
+		Vector<Integer> finished = new Vector<Integer>();
 		try {
 			while((currentElement = queue.nextElement()) != null) {
 			
@@ -242,18 +208,18 @@ public class CommandController {
 					// only delete it
 					deleteDocument(currentElement);
 				}
-				getFinished().add(currentElement.getObjId());
+				finished.add(currentElement.getObjId());
 				
 				// Update command queue if MAX ELEMENTS is reached.
-				if(++elementCounter > MAX_ELEMENTS) { 
-					
-					synchronized(this) {
-						queue.setFinished(this.getFinished());
-						this.setFinished(new Vector<Integer>());
-						elementCounter = 0;
-					}
+				if(finished.size() > MAX_ELEMENTS) {
+				  logger.debug("Finished queue is full, setting elements finished");
+				  queue.setFinished(finished);
+				  finished.clear();
+				  logger.debug("Finished queue cleared");
 				}
 			}
+			queue.setFinished(finished);
+			finished.clear();
 		}
 		catch (SQLException e) {
 			logger.error(e);
@@ -278,18 +244,12 @@ public class CommandController {
 			logger.info("Writer forcing merge...");
 			holder.getWriter().forceMerge(IndexHolder.MAX_NUM_SEGMENTS);
 			logger.info("Writer forced merge");
-			
-			// Finally update status in search_command_queue
-			queue.setFinished(getFinished());
-			
 			LuceneSettings.writeLastIndexTime();
 			
 			// Refresh index reader
 			SearchHolder.getInstance().getSearcher().getIndexReader().close();
 			SearchHolder.getInstance().init();
-			
-			// Set object ids finished
-			//queue.setFinished(finished);
+
 			return true;
 
 		} 

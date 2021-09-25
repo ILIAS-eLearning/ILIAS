@@ -27,6 +27,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
@@ -45,15 +46,17 @@ import de.ilias.services.settings.LocalSettings;
  * @todo make this class thread safe 
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
  * @version $Id$
  */
 public class CommandQueue {
 
 	protected Logger logger = LogManager.getLogger(CommandQueue.class);
 	
-	private Connection db = null;
-	private Vector<CommandQueueElement> elements = new Vector<CommandQueueElement>();
-	private int currentIndex = 0;
+	private Connection db;
+	private Vector<CommandQueueElement> elements;
+	private Iterator<CommandQueueElement> elementsIter;
+
 	
 	/**
 	 * @throws SQLException 
@@ -62,6 +65,7 @@ public class CommandQueue {
 	public CommandQueue() throws SQLException {
 
 		db = DBFactory.factory();
+		elements = new Vector<CommandQueueElement>();
 	}
 	
 	
@@ -72,7 +76,7 @@ public class CommandQueue {
 	 */
 	public void setFinished(CommandQueueElement el) throws SQLException, IllegalArgumentException {
 		
-		if(getElements().removeElement(el) == false) {
+		if(elements.removeElement(el) == false) {
 			throw new IllegalArgumentException("Cannot find element!");
 		}
 		
@@ -97,18 +101,16 @@ public class CommandQueue {
 	 * @throws SQLException
 	 */
 	public void setFinished(Vector<Integer> objIds) throws SQLException {
-		
-		if(objIds.size() == 0) {
-			return;
+	  if(objIds.size() > 0) {
+	    PreparedStatement psta = DBFactory.getPreparedStatement(
+	            "UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?"
+	            );
+	    for(Integer i : objIds) {
+	      psta.setInt(1,i);
+	      psta.addBatch();
+	    }
+	    psta.executeBatch();
 		}
-		PreparedStatement psta = DBFactory.getPreparedStatement(
-				"UPDATE search_command_queue SET finished = 1 WHERE obj_id = ?"
-		);
-		for(int i = 0; i < objIds.size(); i++) {
-			psta.setInt(1,objIds.get(i));
-			psta.addBatch();
-		}
-		psta.executeBatch();
 	}
 
 
@@ -133,7 +135,7 @@ public class CommandQueue {
 				new java.sql.Timestamp(LuceneSettings.getInstance().getLastIndexTime().getTime()));
 		ResultSet res = pst.executeQuery();
 		
-		int counter = 0;
+		int waitingUpdates = elements.size();
 		while(res.next()) {
 			
 			CommandQueueElement element = new CommandQueueElement();
@@ -146,15 +148,17 @@ public class CommandQueue {
 			element.setCommand(DBFactory.getString(res, "command"));
 			element.setFinished(false);
 			
-			getElements().add(element);
-			counter++;
+			elements.add(element);
 		}
 		try {
 			res.close();
 		} catch (SQLException e) {
 			logger.warn(e);
 		}
-		logger.info("Found " + counter + " new update events!");
+		//reset the iterator
+		elementsIter = elements.iterator();
+
+		logger.info("Found " + (elements.size() - waitingUpdates) + " new update events!");
 	}
 	
 	
@@ -187,7 +191,7 @@ public class CommandQueue {
 				element.setCommand("reset");
 				element.setFinished(false);
 
-				getElements().add(element);
+				elements.add(element);
 				counter++;
 			}
 			try {
@@ -197,6 +201,8 @@ public class CommandQueue {
 				throw e;
 			}
 		}
+		//reset the iterator
+		elementsIter = elements.iterator();
 		logger.info("Found " + counter + " new update events!");
 	}
 	
@@ -357,28 +363,18 @@ public class CommandQueue {
 		}
 	}
 	
-	
 	/**
-	 * Thread safe 
+
 	 * @return
 	 */
-	public synchronized CommandQueueElement nextElement() {
-		
-		try {
-			return elements.get(currentIndex++);
-		}
-		catch(IndexOutOfBoundsException e) {
-			return null;
-		}
-	}
-
-
-	/**
-	 * Not thread save
-	 * @return the elements
-	 */
-	public synchronized Vector<CommandQueueElement> getElements() {
-		return elements;
+	public CommandQueueElement nextElement() {
+	  synchronized(elementsIter) {
+	    if (elementsIter.hasNext()) {
+	      return elementsIter.next();
+	    } else {
+	      return null;
+	    }
+	  }
 	}
 	
 	/**
