@@ -5,6 +5,10 @@
          cacheResultFile="../../.phpunit.result.cache"
          verbose="true"
          colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         failOnRisky="true"
+         failOnWarning="true"
         >
     <testsuites>
         <testsuite name="unit">
