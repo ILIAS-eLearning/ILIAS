@@ -216,6 +216,7 @@ public class IniFileParser {
 			while((c = reader.read())!=-1){
 				builder.append((char)c);
 		    }
+			reader.close();
 			output = builder.toString();
 			output = output.replaceFirst("<\\?php /\\*","");
 			output = output.replaceFirst("\\*/ \\?>","");
