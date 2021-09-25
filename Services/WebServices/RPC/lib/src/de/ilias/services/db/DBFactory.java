@@ -35,7 +35,6 @@ import org.apache.logging.log4j.Logger;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import de.ilias.services.settings.ServerSettings;
 
 /**
  * A thread local singleton for db connections
@@ -65,7 +64,6 @@ public class DBFactory {
 		protected Connection initialValue() {
 			try {
 				ClientSettings client = ClientSettings.getInstance(LocalSettings.getClientKey());
-				ServerSettings server = ServerSettings.getInstance();
 				
 				logger.info("+++++++++++++++++++++++++++++++++++++++++++ New Thread local " + LocalSettings.getClientKey());
 
@@ -284,23 +282,7 @@ public class DBFactory {
 	 * @throws SQLException
 	 */
 	public static String getInt(ResultSet res, String name) throws SQLException {
-
 		return String.valueOf(res.getInt(name));
 	}
 	
-	/**
-	 * get db type
-	 * @return
-	 */
-	public static String getDbType() {
-		
-		try {
-			return ClientSettings.getInstance(LocalSettings.getClientKey()).getDbType();
-		}
-		catch (ConfigurationException e) {
-			// shouldn't happen here
-			logger.error(e);
-		}
-		return "";
-	}
 }
