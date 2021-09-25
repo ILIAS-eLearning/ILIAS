@@ -63,14 +63,6 @@ public class ExerciseAssignmentPathCreator implements PathCreator {
 		} 
 	}
 
-	/**
-	 * 
-	 */
-	public File buildFile(CommandQueueElement el) throws PathCreatorException {
-
-		return buildFile(el, null);
-	}
-
 	@Override
 	public String getExtension(CommandQueueElement el, ResultSet res) {
 		return "";

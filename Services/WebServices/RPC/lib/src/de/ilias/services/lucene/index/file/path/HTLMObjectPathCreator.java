@@ -71,13 +71,7 @@ public class HTLMObjectPathCreator implements PathCreator {
 			throw new PathCreatorException(e);	
 		}
 	}
-	/**
-	 * @see de.ilias.services.lucene.index.file.path.PathCreator#buildFile(de.ilias.services.lucene.index.CommandQueueElement)
-	 */
-	public File buildFile(CommandQueueElement el) throws PathCreatorException {
 
-		return buildFile(el, null);
-	}
 
 	@Override
 	public String getExtension(CommandQueueElement el, ResultSet res) {

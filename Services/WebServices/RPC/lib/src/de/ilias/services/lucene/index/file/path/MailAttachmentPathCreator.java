@@ -59,19 +59,6 @@ public class MailAttachmentPathCreator implements PathCreator {
 
 	}
 
-	/**
-	 * not used 
-	 * @todo check and throw exception
-	 * @param el
-	 * @return
-	 * @throws PathCreatorException 
-	 */
-	public File buildFile(CommandQueueElement el) throws PathCreatorException {
-		
-		return this.buildFile(el, null);
-		
-	}
-
 	@Override
 	public String getExtension(CommandQueueElement el, ResultSet res) {
 		return "";

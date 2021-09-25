@@ -135,14 +135,6 @@ public class FileObjectPathCreator implements PathCreator {
 		} 
 	}
 
-	/**
-	 * @see de.ilias.services.lucene.index.file.path.PathCreator#buildPath(de.ilias.services.lucene.index.CommandQueueElement)
-	 */
-	public File buildFile(CommandQueueElement el) throws PathCreatorException {
-
-		return buildFile(el, null);
-	}
-
 	@Override
 	public String getExtension(CommandQueueElement el, ResultSet res) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

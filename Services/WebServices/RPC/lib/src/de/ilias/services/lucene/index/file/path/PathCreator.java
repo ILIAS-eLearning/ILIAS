@@ -49,15 +49,6 @@ public interface PathCreator {
 	 * @throws PathCreatorException
 	 */
 	public File buildFile(CommandQueueElement el, ResultSet res) throws PathCreatorException;
-
-	/**
-	 * Build absolute file path
-	 * @param el
-	 * @return
-	 * @throws PathCreatorException
-	 */
-	public File buildFile(CommandQueueElement el) throws PathCreatorException;
-	
 	
 	/**
 	 * 
