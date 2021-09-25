@@ -165,7 +165,8 @@ public class DBFactory {
 				ps.get().get(query).close();
 			}
 		}
-		catch (Throwable t) {
+		catch (SQLException e) {
+		  logger.warn("Cannot close prepared statement: " + query, e);
 		}
 		finally {
 			ps.get().remove(query);
@@ -192,14 +193,8 @@ public class DBFactory {
 					logger.warn("Cannot close prepared statement: " + pst.toString());
 					logger.warn(e);
 				}
-				catch (Throwable t) {
-					logger.warn(t);
-				}
 			}
 			
-		}
-		catch (Throwable t) {
-			logger.warn(t);
 		}
 		finally {
 			
