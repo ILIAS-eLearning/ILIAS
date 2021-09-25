@@ -144,7 +144,7 @@ public class ObjectDefinitionReader {
 					public boolean accept(File path) {
 						
 						if(path.isDirectory()) {
-							if(!path.getName().equals(".svn")) {
+							if(!path.getName().equals(".git")) {
 								//logger.debug("Found new directory: " + path.getAbsolutePath());
 								return true;
 							}
