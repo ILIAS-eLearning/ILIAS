@@ -91,13 +91,13 @@ class ilObjCertificateSettings extends ilObject
     public function deleteBackgroundImage() : bool
     {
         $result = true;
-        if (file_exists($this->getDefaultBackgroundImageThumbPath())) {
+        if (is_file($this->getDefaultBackgroundImageThumbPath())) {
             $result &= unlink($this->getDefaultBackgroundImageThumbPath());
         }
-        if (file_exists($this->getDefaultBackgroundImagePath())) {
+        if (is_file($this->getDefaultBackgroundImagePath())) {
             $result &= unlink($this->getDefaultBackgroundImagePath());
         }
-        if (file_exists($this->getDefaultBackgroundImageTempfilePath())) {
+        if (is_file($this->getDefaultBackgroundImageTempfilePath())) {
             $result &= unlink($this->getDefaultBackgroundImageTempfilePath());
         }
         return $result;
@@ -126,7 +126,7 @@ class ilObjCertificateSettings extends ilObject
     public function hasBackgroundImage() : bool
     {
         $filePath = $this->getDefaultBackgroundImagePath();
-        if (file_exists($filePath) && filesize($filePath) > 0) {
+        if (is_file($filePath) && filesize($filePath) > 0) {
             return true;
         }
 
