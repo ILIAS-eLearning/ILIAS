@@ -76,8 +76,6 @@ public class IniFileParser {
 						serverSettings.setPort(purgeString(section.get("Port")));
 					if(section.containsKey("IndexPath"))
 						serverSettings.setIndexPath(purgeString(section.get("IndexPath")));
-					if(section.containsKey("LogFile"))
-						serverSettings.setLogFile(purgeString(section.get("LogFile")));
 					if(section.containsKey("NumThreads"))
 						serverSettings.setThreadNumber(purgeString(section.get("NumThreads")));
 					if(section.containsKey("RAMBufferSize"))

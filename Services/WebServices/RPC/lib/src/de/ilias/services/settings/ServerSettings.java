@@ -46,11 +46,8 @@ public class ServerSettings {
 	private InetAddress host;
 	private String hostString;
 	private int port;
-	
-	private String tnsAdmin = "";
 
 	private File indexPath;
-	private File logFile;
 	private int numThreads = 1;
 	private double RAMSize = 500;
 	private int indexMaxFileSizeMB = 500;
@@ -78,26 +75,6 @@ public class ServerSettings {
 			instance = new ServerSettings();
 		}
 		return instance;
-	}
-	
-	/**
-	 * Get TNS admin directory
-	 */
-	public String lookupTnsAdmin() {
-		
-		if(getTnsAdmin().length() > 0) {
-			return getTnsAdmin();
-		}
-		try {
-		
-			if(System.getenv("TNS_ADMIN").length() > 0) 
-				return System.getenv("TNS_ADMIN");
-		}
-		catch(SecurityException e) {
-			logger.error("Cannot access environment variable TNS_ADMIN due to security manager limitations: " + e);
-			throw e;
-		}
-		return "";
 	}
 	
 	public String getServerUrl() {
@@ -161,56 +138,6 @@ public class ServerSettings {
 	 */
 	public File getIndexPath() {
 		return indexPath;
-	}
-	
-	/**
-	 * @return the logFile
-	 */
-	public File getLogFile() {
-		return logFile;
-	}
-
-	/**
-	 * @param logFile the logFile to set
-	 * @throws ConfigurationException 
-	 * @throws IOException , ConfigurationException
-	 */
-	public void setLogFile(String logFile) throws ConfigurationException, IOException {
-
-		this.logFile = new File(logFile);
-		if(!this.logFile.isAbsolute()) {
-			logger.error("Absolute path to logfile required: " + logFile);
-			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
-		}
-		if(this.logFile.isDirectory()) {
-			logger.error("Absolute path to logfile required. Directory name given: " + logFile);
-			throw new ConfigurationException("Absolute path to logfile required: " + logFile);
-		}
-		if(this.logFile.createNewFile()) {
-			//System.out.println("Created new log file: " + this.logFile.getAbsolutePath());
-		}
-		else {
-			//System.out.println("Using existing log file: " + this.logFile.getAbsolutePath());
-		}
-		if(!this.logFile.canWrite()) {
-			throw new ConfigurationException("Cannot write to log file: " + logFile);
-		}
-	}
-
-	/**
-	 * Get tns admin directory
-	 * @return
-	 */
-	public String getTnsAdmin() {
-		return tnsAdmin;
-	}
-
-	/**
-	 * Set tns admin directory
-	 * @param tnsAdmin
-	 */
-	public void setTnsAdmin(String tnsAdmin) {
-		this.tnsAdmin = tnsAdmin;
 	}
 
 	
