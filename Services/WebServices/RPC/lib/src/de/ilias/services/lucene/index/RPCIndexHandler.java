@@ -22,10 +22,6 @@
 
 package de.ilias.services.lucene.index;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
@@ -33,11 +29,9 @@ import org.apache.logging.log4j.Logger;
 
 import de.ilias.ilServerStatus;
 import de.ilias.services.db.DBFactory;
-import de.ilias.services.object.ObjectDefinitionException;
 import de.ilias.services.object.ObjectDefinitionParser;
 import de.ilias.services.object.ObjectDefinitionReader;
 import de.ilias.services.settings.ClientSettings;
-import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
 

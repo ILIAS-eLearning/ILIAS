@@ -33,9 +33,7 @@ import org.apache.xmlrpc.server.XmlRpcServerConfigImpl;
 import org.apache.xmlrpc.webserver.WebServer;
 
 import de.ilias.services.lucene.index.RPCIndexHandler;
-import de.ilias.services.lucene.search.RPCSearchHandler;
 import de.ilias.services.settings.ConfigurationException;
-import de.ilias.services.transformation.RPCTransformationHandler;
 
 
 /**

@@ -25,33 +25,31 @@ package de.ilias.services.lucene.search;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser.Operator;
 import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.TopScoreDocCollector;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 import de.ilias.services.lucene.index.FieldInfo;
 import de.ilias.services.lucene.index.FieldInfoUser;
 import de.ilias.services.lucene.search.highlight.HitHighlighter;
+import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-
-import de.ilias.services.lucene.settings.*;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
-import org.apache.lucene.queryparser.classic.ParseException;
-import org.apache.lucene.queryparser.classic.QueryParser.Operator;
-import org.apache.lucene.search.TopScoreDocCollector;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 /**
  * 

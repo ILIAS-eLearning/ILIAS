@@ -22,7 +22,6 @@
 
 package de.ilias.services.lucene.index.transform;
 
-import java.io.InputStream;
 import java.util.regex.Pattern;
 
 /**

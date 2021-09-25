@@ -26,8 +26,6 @@ package de.ilias.services.lucene.index;
 import java.io.IOException;
 import java.sql.ResultSet;
 
-import org.apache.lucene.document.Document;
-
 /**
  * 
  *
